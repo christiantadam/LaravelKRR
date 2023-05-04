@@ -1412,5 +1412,3 @@ no_spSelect.addEventListener("keypress", function (event) {
 //         });
 // });
 // console.log(kodeStPrim);
-
-//wih 1000 dong

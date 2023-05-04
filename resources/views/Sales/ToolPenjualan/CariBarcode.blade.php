@@ -60,7 +60,7 @@
                                     <div>
                                         <input type="checkbox" id="checkbox_idType" name="checkbox_idType">
                                         <input type="text" name="id_typeText" id="id_typeText" class="input">
-                                        <select name="id_typeSelect" id="id_typeSelect" style="display: none">
+                                        <select name="id_typeSelect" id="id_typeSelect" style="display: none" class="input">
                                             <option disabled selected>-- Pilih Id Type --</option>
                                         </select>
                                     </div>
