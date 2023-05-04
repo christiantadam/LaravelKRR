@@ -1,0 +1,44 @@
+.cetak-dopdf-container {
+    width: 100%;
+    display: flex;
+    /* overflow: auto; */
+    /* min-height: 100vh; */
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.cetak-dopdf-container01 {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.cetak-dopdf-container02 {
+    flex: 0 0 auto;
+    width: 98%;
+    /* display: flex; */
+    align-items: flex-start;
+    gap: 3%;
+    border-collapse: collapse !important;
+}
+.cetak-dopdf-container03{
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+.cetak-dopdf-container04{
+    flex: 0 0 auto;
+    display: flex;
+    width: 45%;
+    margin-left: 2%;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.cetak-dopdf-container05{
+    margin-left: 1%;
+    width: 98%;
+    border: 1px solid black;
+}

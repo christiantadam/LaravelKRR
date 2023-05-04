@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Expeditor - Laravel KRR</title>
+    <meta property="og:title" content="Expeditor - Laravel KRR" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="public/playground_assets/krr.png"
+      type="icon/png"
+      sizes="32x32"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      data-tag="font"
+    />
+    <!--This is the head section-->
+    <!-- <style> ... </style> -->
+    <style data-section-id="dropdown">
+      [data-thq="thq-dropdown"]:hover > [data-thq="thq-dropdown-list"] {
+          display: flex;
+        }
+
+        [data-thq="thq-dropdown"]:hover > div [data-thq="thq-dropdown-arrow"] {
+          transform: rotate(90deg);
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <link href="./expeditor.css" rel="stylesheet" />
+
+      <div class="expeditor-container">
+        <form class="expeditor-form">
+          <div class="expeditor-container01">
+            <div class="expeditor-container02">
+              <div class="expeditor-container03">
+                <span>Nama Expeditor</span>
+              </div>
+              <div class="expeditor-container04">
+                <span>
+                  <span>Kode Expeditor</span>
+                  <br />
+                </span>
+              </div>
+              <div class="expeditor-container05">
+                <span>
+                  <span>Contact Person</span>
+                  <br />
+                </span>
+              </div>
+              <div class="expeditor-container06">
+                <span>
+                  <span>Alamat Kantor</span>
+                  <br />
+                </span>
+              </div>
+              <div class="expeditor-container07"><span>Kota</span></div>
+              <div class="expeditor-container08">
+                <span>
+                  <span>Provinsi</span>
+                  <br />
+                </span>
+              </div>
+              <div class="expeditor-container09"><span>Negara</span></div>
+            </div>
+            <div class="expeditor-container10">
+              <div class="expeditor-container11">
+                <input
+                  type="text"
+                  placeholder="Nama Expeditor"
+                  class="expeditor-textinput input"
+                />
+                <button class="button">...</button>
+              </div>
+              <div class="expeditor-container12">
+                <input
+                  type="text"
+                  placeholder="Kode Expeditor"
+                  class="expeditor-textinput01 input"
+                />
+              </div>
+              <div class="expeditor-container13">
+                <input
+                  type="text"
+                  placeholder="Contact Person"
+                  class="expeditor-textinput02 input"
+                />
+              </div>
+              <div class="expeditor-container14">
+                <div class="expeditor-container15">
+                  <input
+                    type="text"
+                    placeholder="Alamat Kantor"
+                    class="expeditor-textinput03 input"
+                  />
+                </div>
+                <div class="expeditor-container16">
+                  <span class="expeditor-text15">
+                    <span>Kode Pos</span>
+                    <br />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Kode Pos"
+                    class="expeditor-textinput04 input"
+                  />
+                </div>
+              </div>
+              <div class="expeditor-container17">
+                <input
+                  type="text"
+                  placeholder="Kota"
+                  class="expeditor-textinput05 input"
+                />
+              </div>
+              <div class="expeditor-container18">
+                <input
+                  type="text"
+                  placeholder="Provinsi"
+                  class="expeditor-textinput06 input"
+                />
+              </div>
+              <div class="expeditor-container19">
+                <input
+                  type="text"
+                  placeholder="Negara"
+                  class="expeditor-textinput07 input"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="expeditor-container20"></div>
+          <div class="expeditor-container21">
+            <div class="expeditor-container22">
+              <div class="expeditor-container23"><span>No. Telpon 1</span></div>
+              <div class="expeditor-container24"><span>No. Telpon 2</span></div>
+              <div class="expeditor-container25"><span>No. Telex</span></div>
+              <div class="expeditor-container26"><span>No. Fax 1</span></div>
+              <div class="expeditor-container27"><span>No. Fax 2</span></div>
+              <div class="expeditor-container28"><span>No. HP 1</span></div>
+              <div class="expeditor-container29"><span>No. Hp 2</span></div>
+              <div class="expeditor-container30">
+                <span>
+                  <span>Email</span>
+                  <br />
+                </span>
+              </div>
+            </div>
+            <div class="expeditor-container31">
+              <div class="expeditor-container32">
+                <input
+                  type="text"
+                  placeholder="No. Telpon 1"
+                  class="expeditor-textinput08 input"
+                />
+              </div>
+              <div class="expeditor-container33">
+                <input
+                  type="text"
+                  placeholder="No. Telpon 2"
+                  class="expeditor-textinput09 input"
+                />
+              </div>
+              <div class="expeditor-container34">
+                <input
+                  type="text"
+                  placeholder="No. Telex"
+                  class="expeditor-textinput10 input"
+                />
+              </div>
+              <div class="expeditor-container35">
+                <input
+                  type="text"
+                  placeholder="No. Fax 1"
+                  class="expeditor-textinput11 input"
+                />
+              </div>
+              <div class="expeditor-container36">
+                <input
+                  type="text"
+                  placeholder="No. Fax 2"
+                  class="expeditor-textinput12 input"
+                />
+              </div>
+              <div class="expeditor-container37">
+                <input
+                  type="text"
+                  placeholder="No. HP 1"
+                  class="expeditor-textinput13 input"
+                />
+              </div>
+              <div class="expeditor-container38">
+                <input
+                  type="text"
+                  placeholder="No. HP 2"
+                  class="expeditor-textinput14 input"
+                />
+              </div>
+              <div class="expeditor-container39">
+                <input
+                  type="text"
+                  placeholder="Email"
+                  class="expeditor-textinput15 input"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="expeditor-container40">
+            <button class="button">ISI</button>
+            <button class="button">KOREKSI</button>
+            <button class="button">HAPUS</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script
+      data-section-id="navbar"
+      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
+    ></script>
+  </body>
+</html>

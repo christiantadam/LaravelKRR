@@ -1,0 +1,89 @@
+.acs-div-filter {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter1 {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter2 {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-container {
+    width: auto;
+    height: auto;
+    min-height: 700px;
+    padding-bottom: 10px;
+    border: 2px;
+    border-style: solid;
+    background-color: white;
+}
+.acs-image {
+    width: 100%; /*perbandingan 1:7 untuk width dan height*/
+    aspect-ratio: 7/1;
+}
+table tr td,
+table tr td:first-child {
+    border: none !important;
+}
+
+.acs-table-border {
+    border-right: solid 1px #212529 !important;
+    border-bottom: solid 1px #212529 !important;
+}
+
+#nomor_barangKolom {
+    border-left: solid 1px #212529 !important;
+    border-bottom: solid 1px #212529 !important;
+    border-right: solid 1px #212529 !important;
+}
+
+@media print {
+    .header,
+    .page-header-space{
+        height: 150px;
+    }
+    .acs-div-form {
+        display: none;
+    }
+    .acs-div-container,
+    .acs-div-container * {
+        font-family: "Times New Roman Semi Bold", sans-serif;
+        visibility: visible;
+        border: none;
+    }
+    .acs-div-container {
+        width: auto;
+    }
+    .cetak-sppdf-container07 {
+        font-size: 15px;
+        font-weight: 600;
+    }
+    #div_cetakDO {
+        margin-top: 10px;
+        width: 100%;
+        page-break-before: avoid;
+    }
+    .header {
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: #f2f2f2;
+        position: fixed;
+    }
+    .cetak-dopdf-container03 {
+        page-break-inside: avoid;
+        min-height: 150px;
+    }
+}
+
+.page-break {
+    page-break-before: always;
+}

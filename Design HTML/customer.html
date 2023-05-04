@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Customer - Laravel KRR</title>
+    <meta property="og:title" content="Customer - Laravel KRR" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="public/playground_assets/krr.png"
+      type="icon/png"
+      sizes="32x32"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      data-tag="font"
+    />
+    <!--This is the head section-->
+    <!-- <style> ... </style> -->
+    <style data-section-id="dropdown">
+      [data-thq="thq-dropdown"]:hover > [data-thq="thq-dropdown-list"] {
+          display: flex;
+        }
+
+        [data-thq="thq-dropdown"]:hover > div [data-thq="thq-dropdown-arrow"] {
+          transform: rotate(90deg);
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <link href="./customer.css" rel="stylesheet" />
+
+      <div class="customer-container">
+        <div class="customer-container01">
+          <form class="customer-form">
+            <div class="customer-container02">
+              <div class="customer-container03">
+                <div class="customer-container04">
+                  <div class="customer-container05">
+                    <span class="customer-text">Jenis Customer</span>
+                  </div>
+                  <div class="customer-container06">
+                    <span class="customer-text01">Nama Customer</span>
+                  </div>
+                  <div class="customer-container07">
+                    <span class="customer-text02">Initial Customer</span>
+                  </div>
+                  <div class="customer-container08">
+                    <span class="customer-text03">
+                      <span>Contact Person</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container09">
+                    <span class="customer-text06">Limit Pembelian</span>
+                  </div>
+                  <div class="customer-container10">
+                    <span class="customer-text07">
+                      <span>Alamat Kantor</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container11">
+                    <span class="customer-text10">Kota</span>
+                  </div>
+                  <div class="customer-container12">
+                    <span class="customer-text11">
+                      <span>Provinsi</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container13">
+                    <span class="customer-text14">
+                      <span>Negara</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container14">
+                    <span class="customer-text17">Kode Pos</span>
+                  </div>
+                </div>
+                <div class="customer-container15">
+                  <div class="customer-container16">
+                    <div class="customer-container17">
+                      <input
+                        type="text"
+                        placeholder="Jenis Customer"
+                        class="customer-textinput input"
+                      />
+                      <button type="button" class="customer-button button">
+                        ...
+                      </button>
+                    </div>
+                    <div class="customer-container18">
+                      <input
+                        type="text"
+                        placeholder="ID"
+                        class="customer-textinput01 input"
+                      />
+                      <button type="button" class="customer-button1 button">
+                        <span>
+                          <span>All</span>
+                          <span>Customer</span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="customer-container19">
+                    <input
+                      type="text"
+                      placeholder="Nama Customer"
+                      class="customer-textinput02 input"
+                    />
+                    <button class="customer-button2 button">...</button>
+                  </div>
+                  <div class="customer-container20">
+                    <input
+                      type="text"
+                      placeholder="Initial Customer"
+                      class="customer-textinput03 input"
+                    />
+                  </div>
+                  <div class="customer-container21">
+                    <input
+                      type="text"
+                      placeholder="Contact Person"
+                      class="customer-textinput04 input"
+                    />
+                  </div>
+                  <div class="customer-container22">
+                    <input
+                      type="text"
+                      placeholder="Limit Pembelian"
+                      class="customer-textinput05 input"
+                    />
+                  </div>
+                  <div class="customer-container23">
+                    <input
+                      type="text"
+                      placeholder="Alamat Kantor"
+                      class="customer-textinput06 input"
+                    />
+                  </div>
+                  <div class="customer-container24">
+                    <input
+                      type="text"
+                      placeholder="Kota"
+                      class="customer-textinput07 input"
+                    />
+                  </div>
+                  <div class="customer-container25">
+                    <input
+                      type="text"
+                      placeholder="Provinsi"
+                      class="customer-textinput08 input"
+                    />
+                  </div>
+                  <div class="customer-container26">
+                    <input
+                      type="text"
+                      placeholder="Negara"
+                      class="customer-textinput09 input"
+                    />
+                  </div>
+                  <div class="customer-container27">
+                    <input
+                      type="text"
+                      placeholder="Kode Pos"
+                      class="customer-textinput10 input"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="customer-container28">
+                <div class="customer-container29">
+                  <div class="customer-container30">
+                    <span class="customer-text21">
+                      <span>No. Telpon 1</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container31">
+                    <span class="customer-text24">
+                      <span>No. Telpon 2</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container32">
+                    <span class="customer-text27">
+                      <span>No. Telex</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container33">
+                    <span class="customer-text30">
+                      <span>No. Fax 1</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container34">
+                    <span class="customer-text33">
+                      <span>No. Fax 2</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container35">
+                    <span class="customer-text36">
+                      <span>No. HP 1</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container36">
+                    <span class="customer-text39">
+                      <span>No. HP 2</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container37">
+                    <span class="customer-text42">
+                      <span>Email</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container38">
+                    <span class="customer-text45">
+                      <span>Alamat Kirim</span>
+                      <br />
+                    </span>
+                  </div>
+                  <div class="customer-container39">
+                    <span class="customer-text48">
+                      <span>Kota Kirim</span>
+                      <br />
+                    </span>
+                  </div>
+                </div>
+                <div class="customer-container40">
+                  <div class="customer-container41">
+                    <input
+                      type="text"
+                      placeholder="Nomor Telpon 1"
+                      class="customer-textinput11 input"
+                    />
+                  </div>
+                  <div class="customer-container42">
+                    <input
+                      type="text"
+                      placeholder="Nomor Telpon 2"
+                      class="customer-textinput12 input"
+                    />
+                  </div>
+                  <div class="customer-container43">
+                    <input
+                      type="text"
+                      placeholder="Nomor Telex"
+                      class="customer-textinput13 input"
+                    />
+                  </div>
+                  <div class="customer-container44">
+                    <input
+                      type="text"
+                      placeholder="Nomor Fax 1"
+                      class="customer-textinput14 input"
+                    />
+                  </div>
+                  <div class="customer-container45">
+                    <input
+                      type="text"
+                      placeholder="Nomor Fax 2"
+                      class="customer-textinput15 input"
+                    />
+                  </div>
+                  <div class="customer-container46">
+                    <input
+                      type="text"
+                      placeholder="Nomor HP 1"
+                      class="customer-textinput16 input"
+                    />
+                  </div>
+                  <div class="customer-container47">
+                    <input
+                      type="text"
+                      placeholder="Nomor HP 2"
+                      class="customer-textinput17 input"
+                    />
+                  </div>
+                  <div class="customer-container48">
+                    <input
+                      type="text"
+                      placeholder="Email"
+                      class="customer-textinput18 input"
+                    />
+                  </div>
+                  <div class="customer-container49">
+                    <textarea
+                      placeholder="Alamat Kirim"
+                      class="customer-textarea textarea"
+                    ></textarea>
+                  </div>
+                  <div class="customer-container50">
+                    <input
+                      type="text"
+                      placeholder="Kota Kirim"
+                      class="customer-textinput19 input"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="customer-container51">
+              <div class="customer-container52">
+                <div class="customer-container53">
+                  <span class="customer-text51">No. NPWP</span>
+                </div>
+                <div class="customer-container54">
+                  <span class="customer-text52">Nama di NPWP</span>
+                </div>
+                <div class="customer-container55">
+                  <span>Alamat di NPWP</span>
+                </div>
+              </div>
+              <div class="customer-container56">
+                <div class="customer-container57">
+                  <input
+                    type="text"
+                    placeholder="Nomor NPWP"
+                    class="customer-textinput20 input"
+                  />
+                </div>
+                <div class="customer-container58">
+                  <input
+                    type="text"
+                    placeholder="Nama sesuai di NPWP"
+                    class="customer-textinput21 input"
+                  />
+                </div>
+                <div class="customer-container59">
+                  <input
+                    type="text"
+                    placeholder="Alamat sesuai di NPWP"
+                    class="customer-textinput22 input"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="customer-container60">
+              <button class="customer-button3 button">ISI</button>
+              <button class="customer-button4 button">KOREKSI</button>
+              <button class="customer-button5 button">HAPUS</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script
+      data-section-id="navbar"
+      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+.acs-div-filter {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter1 {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter2 {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter3 {
+    display: flex;
+    width: 300px;
+    flex-direction: row;
+    margin: 4px 0;
+    gap: 3px;
+}
+.acs-div-container {
+    width: 900px;
+    height: 700px;
+    border: 2px;
+    border-style: solid;
+    background-color: white;
+}
+table tr td,
+table tr td:first-child {
+    border: none !important;
+}
+
+.acs-table-border {
+    border-right: solid 1px #212529 !important;
+    border-bottom: solid 1px #212529 !important;
+}
+
+#nomor_barangKolom {
+    border-left: solid 1px #212529 !important;
+    border-bottom: solid 1px #212529 !important;
+    border-right: solid 1px #212529 !important;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+        /* margin-left: 5px; */
+    }
+    .acs-div-container,
+    .acs-div-container * {
+        font-family: 'Times New Roman Semi Bold', sans-serif;
+        visibility: visible;
+        border: none;
+    }
+    .acs-div-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    .cetak-sppdf-container07{
+        font-size: 15px;
+        font-weight: 600;
+    }
+}

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pasca-Kirim - Laravel KRR</title>
+    <meta property="og:title" content="Pasca-Kirim - Laravel KRR" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="public/playground_assets/krr.png"
+      type="icon/png"
+      sizes="32x32"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      data-tag="font"
+    />
+    <!--This is the head section-->
+    <!-- <style> ... </style> -->
+    <style data-section-id="dropdown">
+      [data-thq="thq-dropdown"]:hover > [data-thq="thq-dropdown-list"] {
+          display: flex;
+        }
+
+        [data-thq="thq-dropdown"]:hover > div [data-thq="thq-dropdown-arrow"] {
+          transform: rotate(90deg);
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <link href="./pasca-kirim.css" rel="stylesheet" />
+
+      <div class="pasca-kirim-container">
+        <form class="pasca-kirim-form">
+          <div class="pasca-kirim-container01">
+            <span>Jenis Pasca</span>
+            <div class="pasca-kirim-container02">
+              <input type="radio" name="jenis_pasca" value="Pengembalian" />
+              <span>Pengembalian Barang</span>
+            </div>
+            <div class="pasca-kirim-container03">
+              <input type="radio" name="jenis_pasca" value="Kurang/Lebih" />
+              <span>Kelebihan / Kekurangan Barang</span>
+            </div>
+          </div>
+          <div class="pasca-kirim-container04">
+            <span>Customer</span>
+            <select id="customer" name="customer" class="pasca-kirim-select">
+              <option>--Pilih Customer--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="pasca-kirim-container05">
+            <span>Surat Pesanan</span>
+            <select
+              id="surat_pesanan"
+              name="surat_pesanan"
+              class="pasca-kirim-select1"
+            >
+              <option>--Pilih Surat Pesanan--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+            <span>Surat Jalan</span>
+            <input
+              type="text"
+              id="surat_jalan"
+              name="surat_jalan"
+              placeholder="Surat Jalan"
+              class="pasca-kirim-textinput input"
+            />
+          </div>
+          <div class="pasca-kirim-container06">
+            <span>Item</span>
+            <select
+              id="surat_pesanan"
+              name="surat_pesanan"
+              class="pasca-kirim-select2"
+            >
+              <option>--Pilih Barang--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="pasca-kirim-container07">
+            <div class="pasca-kirim-container08">
+              <div class="pasca-kirim-container09">
+                <div class="pasca-kirim-container10">
+                  <span>Qty Primer</span>
+                  <input
+                    type="text"
+                    id="qty_primerPengiriman"
+                    name="qty_primerPengiriman"
+                    placeholder="Qty Primer"
+                    class="pasca-kirim-textinput01 input"
+                  />
+                </div>
+                <div class="pasca-kirim-container11">
+                  <span>Qty Sekunder</span>
+                  <input
+                    type="text"
+                    id="qty_sekunderPengiriman"
+                    name="qty_sekunderPengiriman"
+                    placeholder="Qty Sekunder"
+                    class="pasca-kirim-textinput02 input"
+                  />
+                </div>
+                <div class="pasca-kirim-container12">
+                  <span>Qty Tritier</span>
+                  <input
+                    type="text"
+                    id="qty_tritierPengiriman"
+                    name="qty_tritierPengiriman"
+                    placeholder="Qty Tritier"
+                    class="pasca-kirim-textinput03 input"
+                  />
+                </div>
+                <div class="pasca-kirim-container13">
+                  <span>Qty Konversi</span>
+                  <input
+                    type="text"
+                    id="qty_konversiPengiriman"
+                    name="qty_konversiPengiriman"
+                    placeholder="Qty Konversi"
+                    class="pasca-kirim-textinput04 input"
+                  />
+                </div>
+              </div>
+              <div class="pasca-kirim-container14">
+                <div class="pasca-kirim-container15">
+                  <span>Qty Primer</span>
+                  <input
+                    type="text"
+                    id="qty_primerRetur"
+                    name="qty_primerRetur"
+                    placeholder="Qty Primer"
+                    class="pasca-kirim-textinput05 input"
+                  />
+                </div>
+                <div class="pasca-kirim-container16">
+                  <span>Qty Sekunder</span>
+                  <input
+                    type="text"
+                    id="qty_sekunderRetur"
+                    name="qty_sekunderRetur"
+                    placeholder="Qty Sekunder"
+                    class="pasca-kirim-textinput06 input"
+                  />
+                </div>
+                <div class="pasca-kirim-container17">
+                  <span>Qty Tritier</span>
+                  <input
+                    type="text"
+                    id="qty_tritierRetur"
+                    name="qty_tritierRetur"
+                    placeholder="Qty Tritier"
+                    class="pasca-kirim-textinput07 input"
+                  />
+                </div>
+                <div class="pasca-kirim-container18">
+                  <span>Qty Konversi</span>
+                  <input
+                    type="text"
+                    id="qty_konversiRetur"
+                    name="qty_konversiRetur"
+                    placeholder="Qty Konversi"
+                    class="pasca-kirim-textinput08 input"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="pasca-kirim-container19">
+              <div class="pasca-kirim-container20">
+                <span>Tanggal Diterima</span>
+                <input
+                  type="date"
+                  id="tanggal_diterima"
+                  name="tanggal_diterima"
+                  class="pasca-kirim-textinput09 input"
+                />
+              </div>
+              <div class="pasca-kirim-container21">
+                <span>BTTB</span>
+                <input
+                  type="text"
+                  id="bttb"
+                  name="bttb"
+                  placeholder="BTTB"
+                  class="pasca-kirim-textinput10 input"
+                />
+              </div>
+              <div class="pasca-kirim-container22">
+                <span>Qty Primer</span>
+                <input
+                  type="text"
+                  id="qty_primerDiterimaCustomer"
+                  name="qty_primerDiterimaCustomer"
+                  placeholder="Qty Primer"
+                  class="pasca-kirim-textinput11 input"
+                />
+              </div>
+              <div class="pasca-kirim-container23">
+                <span>Qty Sekunder</span>
+                <input
+                  type="text"
+                  id="qty_sekunderDiterimaCustomer"
+                  name="qty_sekunderDiterimaCustomer"
+                  placeholder="Qty Sekunder"
+                  class="pasca-kirim-textinput12 input"
+                />
+              </div>
+              <div class="pasca-kirim-container24">
+                <span>Qty Tritier</span>
+                <input
+                  type="text"
+                  id="qty_tritierDiterimaCustomer"
+                  name="qty_tritierDiterimaCustomer"
+                  placeholder="Qty Tritier"
+                  class="pasca-kirim-textinput13 input"
+                />
+              </div>
+              <div class="pasca-kirim-container25">
+                <span>Qty Konversi</span>
+                <input
+                  type="text"
+                  id="qty_konversiDiterimaCustomer"
+                  name="qty_konversi"
+                  placeholder="Qty Konversi"
+                  class="pasca-kirim-textinput14 input"
+                />
+              </div>
+              <div class="pasca-kirim-container26">
+                <span>Penerima</span>
+                <input
+                  type="text"
+                  id="penerima"
+                  name="penerima"
+                  placeholder="Penerima"
+                  class="pasca-kirim-textinput15 input"
+                />
+              </div>
+              <div class="pasca-kirim-container27">
+                <span>Alasan Kembali</span>
+                <input
+                  type="text"
+                  id="alasan_kembali"
+                  name="alasan_kembali"
+                  placeholder="Alasan Kembali"
+                  class="pasca-kirim-textinput16 input"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script
+      data-section-id="navbar"
+      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
+    ></script>
+  </body>
+</html>

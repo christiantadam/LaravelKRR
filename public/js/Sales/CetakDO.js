@@ -1,0 +1,152 @@
+let cetak_belumACC = document.getElementById("cetak_belumACC");
+let cetak_sudahACC = document.getElementById("cetak_sudahACC");
+let tanggal_do = document.getElementById("tanggal_do");
+let nomor_referensi = document.getElementById("nomor_referensi");
+let print_button = document.getElementById("print_button");
+let export_pdf = document.getElementById("export_pdf");
+let contoh_print = document.getElementById("contoh_print");
+let contoh_printDiv = document.getElementById("contoh_printDiv");
+let body_deliveryOrderBelumACC = document.getElementById(
+    "body_deliveryOrderBelumACC"
+);
+let body_deliveryOrderSudahACC = document.getElementById(
+    "body_deliveryOrderSudahACC"
+);
+let nama_customerKolom = document.getElementById("nama_customerKolom");
+let tanggal_kirimKolom = document.getElementById("tanggal_kirimKolom");
+let nomor_referensiKolom = document.getElementById("nomor_referensiKolom");
+let count_do = document.getElementById("count_do");
+let div_cetakDO = document.getElementById("div_cetakDO");
+
+//#region Load Form
+
+tanggal_do.valueAsDate = new Date();
+cetak_belumACC.checked = true;
+contoh_print.style.display = "none";
+contoh_printDiv.style.display = "none";
+export_pdf.style.display = "none";
+print_pdf.style.display = "none";
+
+//#endregion
+
+//#region Add event listener
+
+print_button.addEventListener("click", function (event) {
+    event.preventDefault();
+    if (nomor_referensi.value == "") {
+        alert("Isi kolom nomor referensi terlebih dahulu!");
+        nomor_referensi.focus();
+    } else {
+        export_pdf.style.display = "inline-block";
+        print_pdf.style.display = "inline-block";
+        contoh_printDiv.style.display = "block";
+        contoh_print.style.display = "inline-block";
+
+        if (cetak_belumACC.checked == true) {
+            fetch("/dobelumacc/" + tanggal_do.value)
+                .then((response) => response.json())
+                .then((options) => {
+                    body_deliveryOrderSudahACC.style.display = "none";
+                    body_deliveryOrderBelumACC.style.display = "block";
+                    console.log(options);
+                    options.forEach((option) => {});
+                });
+        } else if (cetak_sudahACC.checked == true) {
+            fetch("/dosudahacc/" + tanggal_do.value)
+                .then((response) => response.json())
+                .then((options) => {
+                    // body_deliveryOrderBelumACC.style.display = "none";
+                    // body_deliveryOrderSudahACC.style.display = "block";
+                    nomor_referensiKolom.innerHTML = nomor_referensi.value;
+                    const date = new Date(tanggal_do.value);
+                    const formattedDate = date.toLocaleDateString("en-US", {
+                        month: "2-digit",
+                        day: "2-digit",
+                        year: "numeric",
+                    });
+                    tanggal_kirimKolom.innerHTML = formattedDate;
+                    // count_do.innerHTML = options.count();
+                    console.log(options);
+                    options.forEach((option) => {
+                        console.log(option);
+                        const body_deliveryOrderSudahACC = document.createElement("div");
+                        body_deliveryOrderSudahACC.classList.add("cetak-dopdf-container05");
+                        // body_deliveryOrderSudahACC.classList.add("body-cetak");
+                        body_deliveryOrderSudahACC.innerHTML = `
+                        <div class="cetak-dopdf-container03">
+                            <table style="text-align: start;width:45%">
+                                <tr>
+                                    <td>Pelanggan: </td>
+                                    <td id="nama_customerKolom">${option.NamaCust}</td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat Kirim: </td>
+                                    <td id="alamat_kirimKolom">${option.AlamatKirim}</td>
+                                </tr>
+                                <tr>
+                                    <td>No. SP: </td>
+                                    <td id="no_spKolom">${option.IDSuratPesanan}</td>
+                                </tr>
+                                <tr>
+                                    <td>No. PO: </td>
+                                    <td id="no_poKolom">${option.NO_PO}</td>
+                                </tr>
+                                <tr>
+                                    <td>Keterangan: </td>
+                                    <td id="keterangan_kolom">${option.Keterangan}</td>
+                                </tr>
+                            </table>
+                            <div class="cetak-dopdf-container04">
+                                <table>
+                                    <tr>
+                                        <td style="vertical-align: top;">Spesifikasi:&nbsp;</td>
+                                        <td style="max-width: 200px"><span id="nama_kelompokKolom">Ukuran: ${option.NamaKelompok}</span> <br> <span
+                                                id="nama_barangKolom">${option.NamaBarang}</span></td>
+                                        <td></td>
+                                        <td style="vertical-align: top">Corak</td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td style="vertical-align: top">Jumlah:&nbsp;</td>
+                                        <td>Min: </td>
+                                        <td id="min_kirimKolom">${option.MinKirimDO}</td>
+                                        <td>Max:&nbsp;</td>
+                                        <td id="max_kirimKolom">${option.MaxKirimDO}</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Satuan: &nbsp;</td>
+                                        <td id="satuan_jualKolom">${option.SatuanJual}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        `;
+                        div_cetakDO.appendChild(body_deliveryOrderSudahACC);
+                    });
+                });
+        } else {
+            alert("Pilih status DO sudah ACC atau belum ACC dulu!");
+            cetak_belumACC.focus();
+        }
+    }
+});
+
+nomor_referensi.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        event.preventDefault();
+        if (nomor_referensi.value == "") {
+            alert("Isi kolom nomor referensi terlebih dahulu!");
+            nomor_referensi.focus();
+        } else {
+            print_button.focus();
+        }
+    }
+});
+
+//#endregion
+
+//#region function mantap-mantap
+
+//#endregion

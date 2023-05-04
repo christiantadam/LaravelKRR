@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Billing - Laravel KRR</title>
+    <meta property="og:title" content="Billing - Laravel KRR" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="public/playground_assets/krr.png"
+      type="icon/png"
+      sizes="32x32"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      data-tag="font"
+    />
+    <!--This is the head section-->
+    <!-- <style> ... </style> -->
+    <style data-section-id="dropdown">
+      [data-thq="thq-dropdown"]:hover > [data-thq="thq-dropdown-list"] {
+          display: flex;
+        }
+
+        [data-thq="thq-dropdown"]:hover > div [data-thq="thq-dropdown-arrow"] {
+          transform: rotate(90deg);
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <link href="./billing.css" rel="stylesheet" />
+
+      <div class="billing-container">
+        <form class="billing-form">
+          <div class="billing-container01">
+            <div class="billing-container02">
+              <div class="billing-container03"><span>Nama Billing</span></div>
+              <div class="billing-container04">
+                <span>
+                  <span>Kode Billing</span>
+                  <br />
+                </span>
+              </div>
+              <div class="billing-container05">
+                <span>
+                  <span>Contact Person</span>
+                  <br />
+                </span>
+              </div>
+              <div class="billing-container06">
+                <span>
+                  <span>Alamat Kantor</span>
+                  <br />
+                </span>
+              </div>
+              <div class="billing-container07"><span>Kota</span></div>
+              <div class="billing-container08">
+                <span>
+                  <span>Provinsi</span>
+                  <br />
+                </span>
+              </div>
+              <div class="billing-container09"><span>Negara</span></div>
+            </div>
+            <div class="billing-container10">
+              <div class="billing-container11">
+                <input
+                  type="text"
+                  placeholder="Nama Billing"
+                  class="billing-textinput input"
+                />
+                <button class="button">...</button>
+              </div>
+              <div class="billing-container12">
+                <input
+                  type="text"
+                  placeholder="Kode Billing"
+                  class="billing-textinput01 input"
+                />
+              </div>
+              <div class="billing-container13">
+                <input
+                  type="text"
+                  placeholder="Contact Person"
+                  class="billing-textinput02 input"
+                />
+              </div>
+              <div class="billing-container14">
+                <div class="billing-container15">
+                  <input
+                    type="text"
+                    placeholder="Alamat Kantor"
+                    class="billing-textinput03 input"
+                  />
+                </div>
+                <div class="billing-container16">
+                  <span class="billing-text15">
+                    <span>Kode Pos</span>
+                    <br />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Kode Pos"
+                    class="billing-textinput04 input"
+                  />
+                </div>
+              </div>
+              <div class="billing-container17">
+                <input
+                  type="text"
+                  placeholder="Kota"
+                  class="billing-textinput05 input"
+                />
+              </div>
+              <div class="billing-container18">
+                <input
+                  type="text"
+                  placeholder="Provinsi"
+                  class="billing-textinput06 input"
+                />
+              </div>
+              <div class="billing-container19">
+                <input
+                  type="text"
+                  placeholder="Negara"
+                  class="billing-textinput07 input"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="billing-container20"></div>
+          <div class="billing-container21">
+            <div class="billing-container22">
+              <div class="billing-container23"><span>No. Telpon 1</span></div>
+              <div class="billing-container24"><span>No. Telpon 2</span></div>
+              <div class="billing-container25"><span>No. Telex</span></div>
+              <div class="billing-container26"><span>No. Fax 1</span></div>
+              <div class="billing-container27"><span>No. Fax 2</span></div>
+              <div class="billing-container28"><span>No. HP 1</span></div>
+              <div class="billing-container29"><span>No. Hp 2</span></div>
+              <div class="billing-container30">
+                <span>
+                  <span>Email</span>
+                  <br />
+                </span>
+              </div>
+            </div>
+            <div class="billing-container31">
+              <div class="billing-container32">
+                <input
+                  type="text"
+                  placeholder="No. Telpon 1"
+                  class="billing-textinput08 input"
+                />
+              </div>
+              <div class="billing-container33">
+                <input
+                  type="text"
+                  placeholder="No. Telpon 2"
+                  class="billing-textinput09 input"
+                />
+              </div>
+              <div class="billing-container34">
+                <input
+                  type="text"
+                  placeholder="No. Telex"
+                  class="billing-textinput10 input"
+                />
+              </div>
+              <div class="billing-container35">
+                <input
+                  type="text"
+                  placeholder="No. Fax 1"
+                  class="billing-textinput11 input"
+                />
+              </div>
+              <div class="billing-container36">
+                <input
+                  type="text"
+                  placeholder="No. Fax 2"
+                  class="billing-textinput12 input"
+                />
+              </div>
+              <div class="billing-container37">
+                <input
+                  type="text"
+                  placeholder="No. HP 1"
+                  class="billing-textinput13 input"
+                />
+              </div>
+              <div class="billing-container38">
+                <input
+                  type="text"
+                  placeholder="No. HP 2"
+                  class="billing-textinput14 input"
+                />
+              </div>
+              <div class="billing-container39">
+                <input
+                  type="text"
+                  placeholder="Email"
+                  class="billing-textinput15 input"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="billing-container40">
+            <button class="button">ISI</button>
+            <button class="button">KOREKSI</button>
+            <button class="button">HAPUS</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script
+      data-section-id="navbar"
+      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
+    ></script>
+  </body>
+</html>

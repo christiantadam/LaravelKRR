@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Permohonan-SP - Laravel KRR</title>
+    <meta property="og:title" content="Permohonan-SP - Laravel KRR" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="public/playground_assets/krr.png"
+      type="icon/png"
+      sizes="32x32"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      data-tag="font"
+    />
+    <!--This is the head section-->
+    <!-- <style> ... </style> -->
+    <style data-section-id="dropdown">
+      [data-thq="thq-dropdown"]:hover > [data-thq="thq-dropdown-list"] {
+          display: flex;
+        }
+
+        [data-thq="thq-dropdown"]:hover > div [data-thq="thq-dropdown-arrow"] {
+          transform: rotate(90deg);
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <link href="./permohonan-sp.css" rel="stylesheet" />
+
+      <div class="permohonan-sp-container">
+        <form class="permohonan-sp-form">
+          <div class="permohonan-sp-container01">
+            <div class="permohonan-sp-container02">
+              <span class="permohonan-sp-text">Tgl Pesan</span>
+              <span class="permohonan-sp-text01">No SP</span>
+              <span class="permohonan-sp-text02">Customer</span>
+              <span class="permohonan-sp-text03">No. PO</span>
+              <span class="permohonan-sp-text04">Tgl. PO</span>
+              <span class="permohonan-sp-text05">No. PI</span>
+            </div>
+            <div class="permohonan-sp-container03">
+              <div class="permohonan-sp-container04">
+                <input
+                  type="date"
+                  placeholder="placeholder"
+                  class="permohonan-sp-textinput input"
+                />
+                <input
+                  type="text"
+                  placeholder="Jenis SP"
+                  class="permohonan-sp-textinput01 input"
+                />
+                <button class="permohonan-sp-button button">...</button>
+              </div>
+              <div class="permohonan-sp-container05">
+                <input
+                  type="text"
+                  placeholder="No SP"
+                  class="permohonan-sp-textinput02 input"
+                />
+                <button class="permohonan-sp-button01 button">
+                  Lihat data
+                </button>
+              </div>
+              <div class="permohonan-sp-container06">
+                <input
+                  type="text"
+                  placeholder="Nama Customer"
+                  class="permohonan-sp-textinput03 input"
+                />
+                <button class="permohonan-sp-button02 button">...</button>
+              </div>
+              <div class="permohonan-sp-container07">
+                <input
+                  type="text"
+                  placeholder="Nomor PO"
+                  class="permohonan-sp-textinput04 input"
+                />
+              </div>
+              <div class="permohonan-sp-container08">
+                <input
+                  type="date"
+                  placeholder="placeholder"
+                  class="permohonan-sp-textinput05 input"
+                />
+              </div>
+              <div class="permohonan-sp-container09">
+                <input
+                  type="text"
+                  placeholder="Nomor PI"
+                  class="permohonan-sp-textinput06 input"
+                />
+              </div>
+            </div>
+            <div class="permohonan-sp-container10">
+              <span class="permohonan-sp-text06">Sales</span>
+              <span class="permohonan-sp-text07">Mata Uang</span>
+              <span class="permohonan-sp-text08">Jns Bayar</span>
+              <span class="permohonan-sp-text09">Syarat Bayar</span>
+              <span class="permohonan-sp-text10">Keterangan</span>
+            </div>
+            <div class="permohonan-sp-container11">
+              <div class="permohonan-sp-container12">
+                <input
+                  type="text"
+                  placeholder="Nama Sales"
+                  class="permohonan-sp-textinput07 input"
+                />
+                <button class="permohonan-sp-button03 button">...</button>
+              </div>
+              <div class="permohonan-sp-container13">
+                <input
+                  type="text"
+                  placeholder="Mata Uang"
+                  class="permohonan-sp-textinput08 input"
+                />
+              </div>
+              <div class="permohonan-sp-container14">
+                <input
+                  type="text"
+                  placeholder="Jenis Bayar"
+                  class="permohonan-sp-textinput09 input"
+                />
+                <button class="permohonan-sp-button04 button">...</button>
+              </div>
+              <div class="permohonan-sp-container15">
+                <input type="text" class="permohonan-sp-textinput10 input" />
+                <span class="permohonan-sp-text11">
+                  <span>Hari</span>
+                  <br />
+                </span>
+                <span class="permohonan-sp-text14">
+                  <span>Faktur PJK:</span>
+                  <br />
+                </span>
+                <input type="radio" class="permohonan-sp-radiobutton" />
+                <span class="permohonan-sp-text17">
+                  <span>Biasa</span>
+                  <br />
+                </span>
+                <input type="radio" class="permohonan-sp-radiobutton1" />
+                <span class="permohonan-sp-text20">
+                  <span>Sederhana</span>
+                  <br />
+                </span>
+              </div>
+              <div class="permohonan-sp-container16">
+                <input
+                  type="text"
+                  placeholder="Keterangan"
+                  class="permohonan-sp-textinput11 input"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="permohonan-sp-container17">
+            <ul class="list">
+              <li class="list-item"><span>Ini adalah</span></li>
+              <li class="list-item"><span>LIST VIEW</span></li>
+              <li class="list-item"><span>Untuk List barang</span></li>
+            </ul>
+          </div>
+          <div class="permohonan-sp-container18">
+            <div class="permohonan-sp-container19">
+              <span>Jenis Brg</span>
+              <span>Kat. Utama</span>
+              <span>Kategori</span>
+              <span>Sub Kategori</span>
+              <span>Nama Brg</span>
+              <span>Kode Brg</span>
+            </div>
+            <div class="permohonan-sp-container20">
+              <div class="permohonan-sp-container21">
+                <input
+                  type="text"
+                  placeholder="Jenis Barang"
+                  class="permohonan-sp-textinput12 input"
+                />
+                <button class="permohonan-sp-button05 button">...</button>
+              </div>
+              <div class="permohonan-sp-container22">
+                <input
+                  type="text"
+                  placeholder="Kategori Utama"
+                  class="permohonan-sp-textinput13 input"
+                />
+                <button class="permohonan-sp-button06 button">...</button>
+              </div>
+              <div class="permohonan-sp-container23">
+                <input
+                  type="text"
+                  placeholder="Kategori"
+                  class="permohonan-sp-textinput14 input"
+                />
+                <button class="permohonan-sp-button07 button">...</button>
+              </div>
+              <div class="permohonan-sp-container24">
+                <input
+                  type="text"
+                  placeholder="Sub Kategori"
+                  class="permohonan-sp-textinput15 input"
+                />
+                <button class="permohonan-sp-button08 button">...</button>
+              </div>
+              <div class="permohonan-sp-container25">
+                <input
+                  type="text"
+                  placeholder="Nama Barang"
+                  class="permohonan-sp-textinput16 input"
+                />
+                <button class="permohonan-sp-button09 button">...</button>
+              </div>
+              <div class="permohonan-sp-container26">
+                <input
+                  type="text"
+                  placeholder="Kode Barang"
+                  class="permohonan-sp-textinput17 input"
+                />
+              </div>
+            </div>
+            <div class="permohonan-sp-container27">
+              <span>Qty Pesan</span>
+              <span>Harga Satuan</span>
+              <span>P P N</span>
+            </div>
+            <div class="permohonan-sp-container28">
+              <div class="permohonan-sp-container29">
+                <input
+                  type="text"
+                  placeholder="Qty Pesan"
+                  class="permohonan-sp-textinput18 input"
+                />
+              </div>
+              <div class="permohonan-sp-container30">
+                <input
+                  type="text"
+                  placeholder="Harga Satuan"
+                  class="permohonan-sp-textinput19 input"
+                />
+              </div>
+              <div class="permohonan-sp-container31">
+                <input
+                  type="text"
+                  placeholder="P P N"
+                  class="permohonan-sp-textinput20 input"
+                />
+              </div>
+            </div>
+            <div class="permohonan-sp-container32">
+              <span>Satuan Jual</span>
+              <span>Sat Gudang</span>
+              <span>Rencana Kirim</span>
+            </div>
+            <div class="permohonan-sp-container33">
+              <div class="permohonan-sp-container34">
+                <input
+                  type="text"
+                  placeholder="Satuan Jual"
+                  class="permohonan-sp-textinput21 input"
+                />
+                <button class="permohonan-sp-button10 button">...</button>
+              </div>
+              <div class="permohonan-sp-container35">
+                <input
+                  type="text"
+                  placeholder="P"
+                  class="permohonan-sp-textinput22 input"
+                />
+                <input
+                  type="text"
+                  placeholder="S"
+                  class="permohonan-sp-textinput23 input"
+                />
+                <input
+                  type="text"
+                  placeholder="T"
+                  class="permohonan-sp-textinput24 input"
+                />
+              </div>
+              <div class="permohonan-sp-container36">
+                <input
+                  type="text"
+                  placeholder="Rencana Kirim"
+                  class="permohonan-sp-textinput25 input"
+                />
+              </div>
+            </div>
+            <div class="permohonan-sp-container37">
+              <button class="permohonan-sp-button11 button">Add</button>
+              <button class="permohonan-sp-button12 button">Update</button>
+              <button class="permohonan-sp-button13 button">Delete</button>
+            </div>
+          </div>
+          <span>
+            <span>Berat Standart (KGM) - Index Harga</span>
+            <br />
+          </span>
+          <div class="permohonan-sp-container38">
+            <div class="permohonan-sp-container39">
+              <span>Berat Karung:</span>
+              <span>Berat Inner:</span>
+              <span>Berat Lami:</span>
+              <span>Berat Kertas:</span>
+              <span class="permohonan-sp-text45">BS Total:</span>
+            </div>
+            <div class="permohonan-sp-container40">
+              <div class="permohonan-sp-container41">
+                <input
+                  type="text"
+                  placeholder="Berat Karung"
+                  class="permohonan-sp-textinput26 input"
+                />
+              </div>
+              <div class="permohonan-sp-container42">
+                <input
+                  type="text"
+                  placeholder="Berat Inner"
+                  class="permohonan-sp-textinput27 input"
+                />
+              </div>
+              <div class="permohonan-sp-container43">
+                <input
+                  type="text"
+                  placeholder="Berat Lami"
+                  class="permohonan-sp-textinput28 input"
+                />
+              </div>
+              <div class="permohonan-sp-container44">
+                <input
+                  type="text"
+                  placeholder="Berat Kertas"
+                  class="permohonan-sp-textinput29 input"
+                />
+              </div>
+              <div class="permohonan-sp-container45">
+                <input
+                  type="text"
+                  placeholder="BS Total"
+                  class="permohonan-sp-textinput30 input"
+                />
+              </div>
+            </div>
+            <div class="permohonan-sp-container46">
+              <span>X</span>
+              <span>X</span>
+              <span>X</span>
+              <span>X</span>
+            </div>
+            <div class="permohonan-sp-container47">
+              <span>Index Karung</span>
+              <span>Index Inner</span>
+              <span>Index Lami</span>
+              <span>Index Kertas</span>
+            </div>
+            <div class="permohonan-sp-container48">
+              <div class="permohonan-sp-container49">
+                <input
+                  type="text"
+                  placeholder="Index Karung"
+                  class="permohonan-sp-textinput31 input"
+                />
+              </div>
+              <div class="permohonan-sp-container50">
+                <input
+                  type="text"
+                  placeholder="Index Inner"
+                  class="permohonan-sp-textinput32 input"
+                />
+              </div>
+              <div class="permohonan-sp-container51">
+                <input
+                  type="text"
+                  placeholder="Index Lami"
+                  class="permohonan-sp-textinput33 input"
+                />
+              </div>
+              <div class="permohonan-sp-container52">
+                <input
+                  type="text"
+                  placeholder="Index Kertas"
+                  class="permohonan-sp-textinput34 input"
+                />
+              </div>
+            </div>
+            <div class="permohonan-sp-container53">
+              <span>=</span>
+              <span>=</span>
+              <span>=</span>
+              <span>=</span>
+              <span class="permohonan-sp-text58">Biaya Lain2:</span>
+              <span class="permohonan-sp-text59">Total Cost:</span>
+            </div>
+            <div class="permohonan-sp-container54">
+              <div class="permohonan-sp-container55">
+                <input
+                  type="text"
+                  placeholder="Berat Index Karung"
+                  class="permohonan-sp-textinput35 input"
+                />
+              </div>
+              <div class="permohonan-sp-container56">
+                <input
+                  type="text"
+                  placeholder="Berat Index Inner"
+                  class="permohonan-sp-textinput36 input"
+                />
+              </div>
+              <div class="permohonan-sp-container57">
+                <input
+                  type="text"
+                  placeholder="Berat Index Lami"
+                  class="permohonan-sp-textinput37 input"
+                />
+              </div>
+              <div class="permohonan-sp-container58">
+                <input
+                  type="text"
+                  placeholder="Berat Index Kertas"
+                  class="permohonan-sp-textinput38 input"
+                />
+              </div>
+              <div class="permohonan-sp-container59">
+                <input
+                  type="text"
+                  placeholder="Biaya Lain2"
+                  class="permohonan-sp-textinput39 input"
+                />
+              </div>
+              <div class="permohonan-sp-container60">
+                <input
+                  type="text"
+                  placeholder="Total Cost"
+                  class="permohonan-sp-textinput40 input"
+                />
+              </div>
+            </div>
+            <div class="permohonan-sp-container61">
+              <button class="permohonan-sp-button14 button">Isi</button>
+              <button class="permohonan-sp-button15 button">
+                Copy SP Lokal
+              </button>
+              <button class="permohonan-sp-button16 button">Koreksi</button>
+              <button class="permohonan-sp-button17 button">Hapus</button>
+            </div>
+          </div>
+          <span>
+            <span>Berat Standart (MTR)</span>
+            <br />
+          </span>
+          <div class="permohonan-sp-container62">
+            <div class="permohonan-sp-container63">
+              <span>Berat Karung:</span>
+              <span>Berat Inner:</span>
+              <span>Berat Lami:</span>
+              <span>Berat Kertas:</span>
+              <span class="permohonan-sp-text67">BS Total:</span>
+            </div>
+            <div class="permohonan-sp-container64">
+              <div class="permohonan-sp-container65">
+                <input
+                  type="text"
+                  placeholder="Berat Karung"
+                  class="permohonan-sp-textinput41 input"
+                />
+              </div>
+              <div class="permohonan-sp-container66">
+                <input
+                  type="text"
+                  placeholder="Berat Inner"
+                  class="permohonan-sp-textinput42 input"
+                />
+              </div>
+              <div class="permohonan-sp-container67">
+                <input
+                  type="text"
+                  placeholder="Berat Lami"
+                  class="permohonan-sp-textinput43 input"
+                />
+              </div>
+              <div class="permohonan-sp-container68">
+                <input
+                  type="text"
+                  placeholder="Berat Kertas"
+                  class="permohonan-sp-textinput44 input"
+                />
+              </div>
+              <div class="permohonan-sp-container69">
+                <input
+                  type="text"
+                  placeholder="BS Total"
+                  class="permohonan-sp-textinput45 input"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script
+      data-section-id="navbar"
+      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
+    ></script>
+  </body>
+</html>

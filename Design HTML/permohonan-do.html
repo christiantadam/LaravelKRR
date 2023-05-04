@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Permohonan-DO - Laravel KRR</title>
+    <meta property="og:title" content="Permohonan-DO - Laravel KRR" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: var(--dl-color-gray-black);
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="shortcut icon"
+      href="public/playground_assets/krr.png"
+      type="icon/png"
+      sizes="32x32"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      data-tag="font"
+    />
+    <!--This is the head section-->
+    <!-- <style> ... </style> -->
+    <style data-section-id="dropdown">
+      [data-thq="thq-dropdown"]:hover > [data-thq="thq-dropdown-list"] {
+          display: flex;
+        }
+
+        [data-thq="thq-dropdown"]:hover > div [data-thq="thq-dropdown-arrow"] {
+          transform: rotate(90deg);
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <link href="./permohonan-do.css" rel="stylesheet" />
+
+      <div class="permohonan-do-container">
+        <form class="permohonan-do-form">
+          <div class="permohonan-do-container01">
+            <span class="permohonan-do-text">Tgl DO</span>
+            <input
+              type="date"
+              id="tgl_do"
+              name="tgl_do"
+              placeholder="placeholder"
+              class="permohonan-do-textinput input"
+            />
+            <span class="permohonan-do-text01">Nomor DO</span>
+            <select id="nomor_do" name="nomor_do" class="permohonan-do-select">
+              <option>--Pilih Nomor Delivery Order--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="permohonan-do-container02">
+            <span class="permohonan-do-text02">Customer</span>
+            <select id="customer" name="customer" class="permohonan-do-select1">
+              <option>-- Pilih Customer --</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="permohonan-do-container03">
+            <span class="permohonan-do-text03">No SP</span>
+            <select id="nomor_sp" name="nomor_sp" class="permohonan-do-select2">
+              <option>--Pilih Nomor Surat Pesanan--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="permohonan-do-container04">
+            <span class="permohonan-do-text04">ID Pesanan</span>
+            <select
+              id="id_pesanan"
+              name="id_pesanan"
+              class="permohonan-do-select3"
+            >
+              <option>--Pilih ID Pesanan--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="permohonan-do-container05">
+            <span class="permohonan-do-text05">Kode Barang</span>
+            <input
+              type="text"
+              id="kode_barang"
+              name="kode_barang"
+              placeholder="Kode Barang"
+              class="permohonan-do-input input"
+            />
+            <span class="permohonan-do-text06">ID Type Barang</span>
+            <input
+              type="text"
+              id="id_typeBarang"
+              name="id_typeBarang"
+              placeholder="ID Type Barang"
+              class="permohonan-do-textinput01 input"
+            />
+          </div>
+          <div class="permohonan-do-container06">
+            <span class="permohonan-do-text07">Uraian</span>
+            <textarea
+              id="uraian"
+              name="uraian"
+              placeholder="Uraian"
+              class="permohonan-do-textarea textarea"
+            ></textarea>
+          </div>
+          <div class="permohonan-do-container07">
+            <span class="permohonan-do-text08">Kel. Utama</span>
+            <select
+              id="kelompok_utama"
+              name="kelompok_utama"
+              class="permohonan-do-select4"
+            >
+              <option>--Pilih Kelompok Utama--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="permohonan-do-container08">
+            <span class="permohonan-do-text09">Kelompok</span>
+            <select id="kelompok" name="kelompok" class="permohonan-do-select5">
+              <option selected="">--Pilih Kelompok--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="permohonan-do-container09">
+            <span class="permohonan-do-text10">Sub. Kel.</span>
+            <select
+              id="sub_kelompok"
+              name="sub_kelompok"
+              class="permohonan-do-select6"
+            >
+              <option>--Pilih Sub Kelompok--</option>
+              <option value="Option 2">Option 2</option>
+              <option value="Option 3">Option 3</option>
+            </select>
+          </div>
+          <div class="permohonan-do-container10">
+            <div class="permohonan-do-container11">
+              <div class="permohonan-do-container12">
+                <span class="permohonan-do-text11">Qty Primer</span>
+                <input
+                  type="text"
+                  id="qty_primer"
+                  name="qty_primer"
+                  placeholder="Qty Primer"
+                  class="permohonan-do-textinput02 input"
+                />
+                <span class="permohonan-do-text12">Qty Order</span>
+                <input
+                  type="text"
+                  id="qty_order"
+                  name="qty_order"
+                  placeholder="Qty Order"
+                  class="permohonan-do-textinput03 input"
+                />
+              </div>
+              <div class="permohonan-do-container13">
+                <span class="permohonan-do-text13">Qty Sekunder</span>
+                <input
+                  type="text"
+                  id="qty_sekunder"
+                  name="qty_sekunder"
+                  placeholder="Qty Sekunder"
+                  class="permohonan-do-textinput04 input"
+                />
+                <span class="permohonan-do-text14">Qty Kirim</span>
+                <input
+                  type="text"
+                  id="qty_kirim"
+                  name="qty_kirim"
+                  placeholder="Qty Kirim"
+                  class="permohonan-do-textinput05 input"
+                />
+              </div>
+              <div class="permohonan-do-container14">
+                <span class="permohonan-do-text15">Max Kirim</span>
+                <input
+                  type="text"
+                  id="max_kirim"
+                  name="max_kirim"
+                  placeholder="Max Kirim"
+                  class="permohonan-do-textinput06 input"
+                />
+              </div>
+              <div class="permohonan-do-container15">
+                <span class="permohonan-do-text16">Min Kirim</span>
+                <input
+                  type="text"
+                  id="min_kirim"
+                  name="min_kirim"
+                  placeholder="Min Kirim"
+                  class="permohonan-do-textinput07 input"
+                />
+              </div>
+            </div>
+            <div class="permohonan-do-container16">
+              <div class="permohonan-do-container17">
+                <span class="permohonan-do-text17">Qty Primer</span>
+                <input
+                  type="text"
+                  id="qty_primerGudang"
+                  name="qty_primerGudang"
+                  placeholder="Qty Primer Gudang"
+                  class="permohonan-do-textinput08 input"
+                />
+                <input
+                  type="text"
+                  placeholder="Satuan Primer"
+                  class="permohonan-do-textinput09 input"
+                />
+              </div>
+              <div class="permohonan-do-container18">
+                <span class="permohonan-do-text18">Qty Sekunder</span>
+                <input
+                  type="text"
+                  placeholder="Qty Sekunder Gudang"
+                  class="permohonan-do-textinput10 input"
+                />
+                <input
+                  type="text"
+                  placeholder="Satuan Sekunder"
+                  class="permohonan-do-textinput11 input"
+                />
+              </div>
+              <div class="permohonan-do-container19">
+                <span class="permohonan-do-text19">Qty Tritier</span>
+                <input
+                  type="text"
+                  id="qty_tritierGudang"
+                  name="qty_tritierGudang"
+                  placeholder="Qty Tritier Gudang"
+                  class="permohonan-do-textinput12 input"
+                />
+                <input
+                  type="text"
+                  placeholder="Satuan Tritier"
+                  class="permohonan-do-textinput13 input"
+                />
+              </div>
+              <div class="permohonan-do-container20">
+                <span class="permohonan-do-text20">Divisi</span>
+                <input
+                  type="text"
+                  id="divisi"
+                  name="divisi"
+                  placeholder="Divisi"
+                  class="permohonan-do-textinput14 input"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="permohonan-do-container21">
+            <span class="permohonan-do-text21">
+              <span>Alamat Kirim</span>
+              <br />
+              <br />
+            </span>
+            <textarea
+              id="alamat_kirim"
+              name="alamat_kirim"
+              placeholder="Alamat Kirim"
+              class="permohonan-do-textarea1 textarea"
+            ></textarea>
+          </div>
+          <div class="permohonan-do-container22">
+            <span class="permohonan-do-text25">
+              <span>Kota Kirim</span>
+              <br />
+              <br />
+            </span>
+            <input
+              type="text"
+              id="kota_kirim"
+              name="kota_kirim"
+              placeholder="Kota Kirim"
+              class="permohonan-do-input1 input"
+            />
+          </div>
+          <div class="permohonan-do-container23">
+            <div class="permohonan-do-container24">
+              <span class="permohonan-do-text29">
+                <span>Vessel</span>
+                <br />
+              </span>
+              <input
+                type="text"
+                id="vessel"
+                name="vessel"
+                placeholder="Vessel"
+                class="permohonan-do-input2 input"
+              />
+            </div>
+            <div class="permohonan-do-container25">
+              <span class="permohonan-do-text32">
+                <span>ETD</span>
+                <br />
+              </span>
+              <input
+                type="date"
+                id="etd"
+                name="etd"
+                placeholder="placeholder"
+                class="permohonan-do-textinput15 input"
+              />
+            </div>
+            <div class="permohonan-do-container26">
+              <span class="permohonan-do-text35">
+                <span>CC</span>
+                <br />
+              </span>
+              <input
+                type="date"
+                id="cc"
+                name="cc"
+                placeholder="placeholder"
+                class="permohonan-do-textinput16 input"
+              />
+            </div>
+          </div>
+          <button class="permohonan-do-button button">Submit</button>
+        </form>
+      </div>
+    </div>
+    <script
+      data-section-id="navbar"
+      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
+    ></script>
+  </body>
+</html>
