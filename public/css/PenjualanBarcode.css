@@ -14,10 +14,13 @@
 .acs-div-filter {
     display: flex;
     gap: 3px;
-
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
+}
+.acs-div-filter button {
+    width: 100%;
+    aspect-ratio: 4.5/1;
 }
 .acs-div-filter1 {
     display: flex;
@@ -49,10 +52,11 @@
 }
 .acs-div-filter1 button {
     width: 50%;
+    aspect-ratio: 2/1;
 }
 .acs-div-filter2 {
     display: flex;
-    width: 300px;
+    width: 100%;
     flex-direction: row;
     margin: 4px 0;
 }

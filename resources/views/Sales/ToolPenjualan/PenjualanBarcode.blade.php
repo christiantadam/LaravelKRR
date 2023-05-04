@@ -33,11 +33,11 @@
                         </div>
                         <div class="acs-div-form1">
                             <div class="acs-div-filter2">
-                                <div class="acs-div-filter3">
+                                <div class="acs-div-filter3" style="width: 40%">
                                     <label for="tanggal_dataPenjualan">Tanggal</label>
                                     <input type="date" name="tanggal_dataPenjualan" id="tanggal_dataPenjualan" class="input">
                                 </div>
-                                <div class="acs-div-filter1">
+                                <div class="acs-div-filter1" style="display: flex; justify-content: flex-end;flex-direction: row;width: 80%;margin-right: 10%">
                                     <label for="tanggal_dataPenjualan">Jumlah data:</label>&nbsp;
                                     <span id="jumlah_data">Jumlah</span>
                                 </div>
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                             <div>
-                                <textarea name="" id="" cols="100" rows="10"></textarea>
+                                <textarea name="" id="" cols="100" rows="10">AREA TABLE</textarea>
                             </div>
                         </div>
                     </div>

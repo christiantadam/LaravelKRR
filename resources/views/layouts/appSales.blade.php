@@ -199,13 +199,13 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
-                                            href="#">Scan Barcode</a></li>
+                                            href="{{ url('ScanBarcode') }}">Scan Barcode</a></li>
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
-                                            href="#">Barcode Jual</a></li>
+                                            href="{{ url('BarcodeJual') }}">Barcode Jual</a></li>
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
-                                            href="#">Acc Penjualan</a></li>
+                                            href="{{ url('AccPenjualan') }}">Acc Penjualan</a></li>
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
-                                            href="#">Acc Penjualan Cloth</a></li>
+                                            href="{{ url('AccPenjualanCloth') }}">Acc Penjualan Cloth</a></li>
                                 </ul>
                             </div>
                             {{-- <div class="dropdown">

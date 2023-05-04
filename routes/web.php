@@ -176,6 +176,15 @@ Route::group(['middleware' => ['auth']], function () {
 
     #endregion
 
+    #region Penjualan
+
+    Route::resource('ScanBarcode', App\Http\Controllers\Sales\Penjualan\ScanBarcodeController::class);
+    Route::resource('BarcodeJual', App\Http\Controllers\Sales\Penjualan\BarcodeJualController::class);
+    Route::resource('AccPenjualan', App\Http\Controllers\Sales\Penjualan\AccPenjualanController::class);
+    Route::resource('AccPenjualanCloth', App\Http\Controllers\Sales\Penjualan\AccPenjualanClothController::class);
+
+    #endregion
+
     #region EDP
     Route::get('/EDP', 'App\Http\Controllers\HomeController@EDP');
 

@@ -1,0 +1,73 @@
+.acs-div-form {
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+    margin: 10px;
+}
+.acs-div-form1 {
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    width: 100%;
+    margin: 10px;
+}
+.acs-div-filter {
+    display: flex;
+    gap: 3px;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter button {
+    width: 100%;
+    aspect-ratio: 4.5/1;
+}
+.acs-div-filter1 {
+    display: flex;
+    gap: 1%;
+    width: 300px;
+    flex-direction: row;
+    margin: 4px 0;
+}
+.acs-div-filter10 {
+    display: flex;
+    gap: 1%;
+    width: 100%;
+    flex-direction: row;
+    margin: 4px 0;
+}
+.acs-div-filter11 {
+    display: flex;
+    gap: 1%;
+    width: 35%;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter12 {
+    display: flex;
+    gap: 1%;
+    width: 50%;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter2 {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    margin: 4px 0;
+}
+.acs-div-filter3 {
+    display: flex;
+    flex-direction: column;
+    margin: 4px 0;
+    width: 100%;
+}
+.acs-div-form2 {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3%;
+}
+.acs-div-filter4 {
+    margin: 10px;
+}
