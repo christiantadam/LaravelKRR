@@ -15,6 +15,17 @@ class CariBarcodeController extends Controller
         return view('Sales.ToolPenjualan.CariBarcode');
     }
 
+    public function getIdTypeDispresiasi($kodeBarang)
+    {
+        $data = db::connection('ConnInventory')->select('select id_type_tujuan, count(noindeks) from dispresiasi where kode_barang = '.$kodeBarang.' group by id_type_tujuan having count(noindeks) > 0');
+        return response()->json($data);
+    }
+
+    public function getIdTypeTmpGudang($kodeBarang)
+    {
+        $data = db::connection('ConnInventory')->select('select idtype, count(noindeks) from tmp_gudang where kode_barang = '.$kodeBarang.' and aktif = \'Y\' and typetransaksi = \'09\' group by idtype having count(noindeks) > 0');
+        return response()->json($data);
+    }
     //Show the form for creating a new resource.
     public function create()
     {

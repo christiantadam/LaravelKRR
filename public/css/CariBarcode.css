@@ -11,8 +11,11 @@
 }
 .acs-div-form2{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 3%;
+    width: fit-content;
+    border: 1px solid grey;
+    padding: 5px;
 }
 .acs-div-form3{
     display: flex;
@@ -35,8 +38,12 @@
     flex: 1;
     flex-direction: column;
 }
+.acs-div-form6 button{
+    width: 10%;
+    aspect-ratio: 2/1;
+}
 .acs-div-form7{
-    display: none;
+    visibility: hidden;
     flex: 1;
     flex-direction: column;
 }

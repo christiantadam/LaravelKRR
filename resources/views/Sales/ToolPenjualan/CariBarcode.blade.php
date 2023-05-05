@@ -34,54 +34,58 @@
                                     <input type="text" name="kode_barang" id="kode_barang" class="input">
                                 </div>
                             </div>
-                            <div class="acs-div-form6">
-                                <button class="btn btn-primary acs-btn-form" id="button_proses">Proses</button>
-                                <button class="btn btn-success acs-btn-form" id="button_tampilkanPilihan">Tampilkan
-                                    Pilihan</button>
+                            <div class="acs-div-form2">
+                                <legend>Pilihan</legend>
+                                <div style="display: flex; flex-direction: row">
+                                    <div class="acs-div-form3">
+                                        <div class="acs-div-filter1">
+                                            <label for="tanggal_cariBarcode">Tanggal:</label>
+                                            <div>
+                                                <input type="checkbox" id="checkbox_Tanggal" name="checkbox_Tanggal">
+                                                <input type="date" name="tanggal_cariBarcode" id="tanggal_cariBarcode"
+                                                    class="input">
+                                            </div>
+                                        </div>
+                                        <div class="acs-div-filter2">
+                                            <label for="id_type">Id Type:</label>
+                                            <div>
+                                                <input type="checkbox" id="checkbox_idType" name="checkbox_idType">
+                                                {{-- <input type="text" name="id_typeText" id="id_typeText" class="input"> --}}
+                                                <select name="id_typeSelect" id="id_typeSelect" style=""
+                                                    class="input">
+                                                    <option disabled selected>-- Pilih Id Type --</option>
+                                                </select>
+                                                {{-- <button class="btn btn-primary" id="switch_idType">↺</button> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="acs-div-form4">
+                                        <div class="acs-div-filter3">
+                                            <label for="lembar">Lembar</label>
+                                            <div>
+                                                <input type="checkbox" id="checkbox_lembar" name="checkbox_lembar">
+                                                <input type="text" name="lembar" id="lembar" class="input">
+                                            </div>
+                                        </div>
+                                        <div class="acs-div-filter4">
+                                            <label for="Kg">Kg</label>
+                                            <div>
+                                                <input type="checkbox" id="checkbox_Kg" name="checkbox_Kg">
+                                                <input type="text" name="Kg" id="Kg" class="input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="acs-div-form7" id="jumlah_dataKolom">
                                 <label for="jumlah_data">Jumlah data: </label>
                                 <span id="jumlah_data">0</span>
                             </div>
                         </div>
-                        <hr>
-                        <div class="acs-div-form2">
-                            <div class="acs-div-form3">
-                                <div class="acs-div-filter1">
-                                    <label for="tanggal_cariBarcode">Tanggal:</label>
-                                    <div>
-                                        <input type="checkbox" id="checkbox_Tanggal" name="checkbox_Tanggal">
-                                        <input type="date" name="tanggal_cariBarcode" id="tanggal_cariBarcode"
-                                            class="input">
-                                    </div>
-                                </div>
-                                <div class="acs-div-filter2">
-                                    <label for="id_type">Id Type:</label>
-                                    <div>
-                                        <input type="checkbox" id="checkbox_idType" name="checkbox_idType">
-                                        <input type="text" name="id_typeText" id="id_typeText" class="input">
-                                        <select name="id_typeSelect" id="id_typeSelect" style="display: none" class="input">
-                                            <option disabled selected>-- Pilih Id Type --</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="acs-div-form4">
-                                <div class="acs-div-filter3">
-                                    <label for="lembar">Lembar</label>
-                                    <div>
-                                        <input type="checkbox" id="checkbox_lembar" name="checkbox_lembar">
-                                        <input type="text" name="lembar" id="lembar" class="input">
-                                    </div>
-                                </div>
-                                <div class="acs-div-filter4">
-                                    <label for="Kg">Kg</label>
-                                    <div>
-                                        <input type="checkbox" id="checkbox_Kg" name="checkbox_Kg">
-                                        <input type="text" name="Kg" id="Kg" class="input">
-                                    </div>
-                                </div>
-                            </div>
+                        <br>
+
+                        <div class="acs-div-form6">
+                            <button class="btn btn-primary acs-btn-form" id="button_proses">Proses</button>
                         </div>
                     </div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0 acs-table-barcode" id="div_tableBarcode">
