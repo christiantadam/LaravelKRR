@@ -31,7 +31,10 @@
                                 </div>
                                 <div class="acs-div-filter">
                                     <label for="kode_barang">KodeBarang:</label>
-                                    <input type="text" name="kode_barang" id="kode_barang" class="input">
+                                    <div style="display: flex; flex-direction: row; align-items: center; gap: 3%">
+                                        <input type="text" name="kode_barang" id="kode_barang" class="input">
+                                        <span>Tekan Enter</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="acs-div-form2">
@@ -50,12 +53,16 @@
                                             <label for="id_type">Id Type:</label>
                                             <div>
                                                 <input type="checkbox" id="checkbox_idType" name="checkbox_idType">
-                                                {{-- <input type="text" name="id_typeText" id="id_typeText" class="input"> --}}
-                                                <select name="id_typeSelect" id="id_typeSelect" style=""
-                                                    class="input">
+                                                <input type="text" name="id_typeText" id="id_typeText" class="input"
+                                                    list="id_type" style="display: none">
+                                                <select name="id_typeSelect" id="id_typeSelect" class="input"
+                                                    style="display: inline-block">
                                                     <option disabled selected>-- Pilih Id Type --</option>
                                                 </select>
-                                                {{-- <button class="btn btn-primary" id="switch_idType">↺</button> --}}
+                                                <button class="btn btn-primary" id="switch_idType">↺</button>
+                                                <datalist id="id_type">
+                                                    <option value="Tolong Isi Kode Barang untuk melihat daftar Id Type">
+                                                </datalist>
                                             </div>
                                         </div>
                                     </div>
@@ -88,6 +95,8 @@
                             <button class="btn btn-primary acs-btn-form" id="button_proses">Proses</button>
                         </div>
                     </div>
+                    <meta charset="UTF-8">
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0 acs-table-barcode" id="div_tableBarcode">
                         <table id="table_Barcode" class="table table-bordered table-striped" style="width:100%">
                             <thead class="thead-dark">
