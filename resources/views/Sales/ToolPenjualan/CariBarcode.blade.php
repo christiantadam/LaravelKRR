@@ -20,7 +20,6 @@
                         <div class="acs-div-form1">
                             <div class="acs-div-form5">
                                 <div class="acs-div-filter5">
-                                    {{-- <label for="tempat_barcode">Tabel:</label> --}}
                                     Tabel:
                                     <div>
                                         <input type="radio" name="group_cariBarcode" id="tempat_dispresiasi"> Dispresiasi

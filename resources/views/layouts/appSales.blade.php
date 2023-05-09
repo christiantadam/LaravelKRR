@@ -201,7 +201,7 @@
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
                                             href="{{ url('ScanBarcode') }}">Scan Barcode</a></li>
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
-                                            href="{{ url('BarcodeJual') }}">Barcode Jual</a></li>
+                                            href="{{ url('ScanBarcode') }}">Barcode Jual</a></li>
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
                                             href="{{ url('AccPenjualan') }}">Acc Penjualan</a></li>
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"

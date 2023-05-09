@@ -1,15 +1,15 @@
-.acs-table-barcode{
+.acs-table-barcode {
     display: none;
 }
-.acs-div-form{
+.acs-div-form {
     margin: 10px;
 }
-.acs-div-form1{
+.acs-div-form1 {
     display: flex;
     flex-direction: row;
     gap: 1%;
 }
-.acs-div-form2{
+.acs-div-form2 {
     display: flex;
     flex-direction: column;
     gap: 3%;
@@ -17,72 +17,72 @@
     border: 1px solid grey;
     padding: 5px;
 }
-.acs-div-form3{
+.acs-div-form3 {
     display: flex;
     flex: 1;
     flex-direction: column;
 }
-.acs-div-form4{
+.acs-div-form4 {
     display: flex;
     flex: 1;
     flex-direction: column;
 }
-.acs-div-form5{
+.acs-div-form5 {
     display: flex;
     flex: 1;
     flex-direction: column;
 }
-.acs-div-form6{
+.acs-div-form6 {
     padding: 1%;
     display: flex;
     flex: 1;
     flex-direction: column;
 }
-.acs-div-form6 button{
+.acs-div-form6 button {
     width: 10%;
     aspect-ratio: 2/1;
 }
-.acs-div-form7{
+.acs-div-form7 {
     visibility: hidden;
     flex: 1;
     flex-direction: column;
 }
-.acs-div-filter{
+.acs-div-filter {
     display: flex;
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
 }
-.acs-btn-form{
+.acs-btn-form {
     margin: 3px;
     width: 30%;
     height: 35%;
 }
-.acs-div-filter1{
+.acs-div-filter1 {
     display: flex;
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
 }
-.acs-div-filter2{
+.acs-div-filter2 {
     display: flex;
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
 }
-.acs-div-filter3{
+.acs-div-filter3 {
     display: flex;
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
 }
-.acs-div-filter4{
+.acs-div-filter4 {
     display: flex;
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
 }
-.acs-div-filter5{
+.acs-div-filter5 {
     display: flex;
     gap: 10px;
     width: 300px;

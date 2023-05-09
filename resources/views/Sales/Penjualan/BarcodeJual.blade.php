@@ -20,7 +20,7 @@
                         <div class="acs-div-form3">
                             <div class="acs-div-filter1">
                                 <label for="tanggal">Tanggal</label>
-                                <input type="text" name="tanggal" id="tanggal" class="input">
+                                <input type="date" name="tanggal" id="tanggal" class="input">
                             </div>
                             <button class="btn btn-primary acs-btn-form">Lihat Data</button>
                         </div>

@@ -170,14 +170,12 @@ button_proses.addEventListener("click", function () {
                 table.clear();
                 table.rows.add(rows);
                 table.draw();
-                // data.forEach((item) => {
-                //     const table = $("#table_Barcode").DataTable();
-                //     table.clear();
-                //     table.rows.add(data);
-                //     table.draw();
-
-                //     // tbody.appendChild(tr);
-                // });
+                $("#table_Barcode tbody").on("click", "tr", function () {
+                    const table = $("#table_Barcode").DataTable();
+                    $(this).toggleClass("selected");
+                    var selectedRows = table.rows(".selected").data().toArray();
+                    console.log(selectedRows);
+                });
                 jumlah_data.innerHTML = data.length;
             })
             .catch((error) => console.error(error));

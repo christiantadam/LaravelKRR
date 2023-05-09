@@ -12,7 +12,13 @@ class ScanBarcodeController extends Controller
     //Display a listing of the resource.
     public function index()
     {
-        return view('Sales.Penjualan.ScanBarcode');
+        // dd(date('Y-m-d'));
+        $date = '2023-04-19'; //date('Y-m-d');
+        $jumlah = db::connection('ConnInventory')->select('exec SP_1273_INV_jumlah_tmpgudang @Tanggal = ?', [$date]);
+        // dd($jumlah);
+        $data_kodeBarang = db::connection('ConnInventory')->select('exec SP_1273_INV_REKAP_YANG_DITEMBAK_DENI @Tanggal = ?', [$date]);
+        // dd($data_kodeBarang);
+        return view('Sales.Penjualan.ScanBarcode', compact('jumlah', 'data_kodeBarang'));
     }
 
     //Show the form for creating a new resource.
