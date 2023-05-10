@@ -30,28 +30,27 @@
                     </div>
                 @elseif (Session::has('error'))
                     <div class="alert alert-danger">
-                        <ul>
-                            @foreach (Session::get('error') as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                        {{ Session::get('error') }}
                     </div>
                 @endif
                 <div class="card">
                     <div class="card-header">Scan Barcode / Barcode Jual</div>
                     <div class="acs-div-form2">
-                        <div class="acs-div-form3">
-                            <div class="acs-div-filter1">
-                                <label for="kode_barcode">Kode Barcode</label>
-                                <input type="text" name="kode_barcode" id="kode_barcode" class="input"> Tekan Enter
-                                untuk Scan Barcode!
+                        <form action="{{ url('ScanBarcode') }}" method="POST" id="form_scanBarcode">
+                            {{ csrf_field() }}
+                            <div class="acs-div-form3">
+                                <div class="acs-div-filter1">
+                                    <label for="kode_barcode">Kode Barcode</label>
+                                    <input type="text" name="kode_barcode" id="kode_barcode" class="input"> Tekan Enter
+                                    untuk Scan Barcode! 58-000086070
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <br>
                         <div class="acs-div-form4">
                             <div class="acs-div-filter3">
                                 <input type="date" name="tanggal_input" id="tanggal_input" class="input">
-                                <button class="btn btn-primary acs-btn-form">Lihat Data</button>
+                                <button class="btn btn-primary acs-btn-form" id="lihat_data">Lihat Data</button>
                             </div>
                             <div class="acs-div-filter2">
                                 <label for="jumlah">Jumlah data Barcode: {{ $jumlah[0]->total }}</label>

@@ -21,6 +21,11 @@ class ScanBarcodeController extends Controller
         return view('Sales.Penjualan.ScanBarcode', compact('jumlah', 'data_kodeBarang'));
     }
 
+    public function getInputBarcode($kodeBarang, $nomorindeks)
+    {
+
+    }
+
     //Show the form for creating a new resource.
     public function create()
     {
@@ -30,7 +35,22 @@ class ScanBarcodeController extends Controller
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
-
+        $indeks = $request->nomor_indeks;
+        $kodeBarang = $request->kode_barang;
+        $data = db::connection('ConnInventory')->select('exec SP_1273_INV_cek_tmpgudang @indeks = ?, @kdbrg = ?', [$indeks, $kodeBarang]);
+        $status = db::connection('ConnInventory')->select('SP_1273_INV_cek_status_tmpgudang @indeks = ?, @kdbrg = ?', [$indeks, $kodeBarang]);
+        if ($status[0]->Status == null) {
+            $status = "3";
+        }
+        if (empty($data)) {
+            if ($status != "3") {
+                return redirect()->back()->with('error', 'Barang Belum Diterima Gudang!');
+            }
+            db::connection('ConnInventory')->statement('exec SP_1273_INV_insert_tmpgudang @indeks = ?, @kdbrg = ?', [$indeks, $kodeBarang]);
+            return redirect()->back()->with('success', 'Barcode Berhasil Diproses!');
+        } else {
+            return redirect()->back()->with('success', 'Barang Sudah Masuk!');
+        }
     }
 
     //Display the specified resource.

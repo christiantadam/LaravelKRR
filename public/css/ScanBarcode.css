@@ -69,3 +69,9 @@
 .acs-table-barcode{
     display: block;
 }
+tr.selected {
+    background-color: yellow;
+}
+tr {
+    cursor: pointer;
+}
