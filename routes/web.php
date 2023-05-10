@@ -184,7 +184,7 @@ Route::group(['middleware' => ['auth']], function () {
     #region Penjualan
 
     Route::resource('ScanBarcode', App\Http\Controllers\Sales\Penjualan\ScanBarcodeController::class);
-    // Route::get('/scanBarcodeInputBarcode/{kodeBarang}/{nomorindeks}', 'App\Http\Controllers\Sales\Penjualan\ScanBarcodeController@getInputBarcode');
+    Route::get('/scanBarcodeLihatData/{date}', 'App\Http\Controllers\Sales\Penjualan\ScanBarcodeController@scanBarcodeLihatData');
     Route::resource('BarcodeJual', App\Http\Controllers\Sales\Penjualan\BarcodeJualController::class);
     Route::resource('AccPenjualan', App\Http\Controllers\Sales\Penjualan\AccPenjualanController::class);
     Route::resource('AccPenjualanCloth', App\Http\Controllers\Sales\Penjualan\AccPenjualanClothController::class);

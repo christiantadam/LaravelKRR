@@ -10,8 +10,9 @@ let selectedRows = [];
 //#region Load Form
 
 div_tableBarcodeDetail.style.display = "none";
-tanggal_input.valueAsDate = new Date(2023, 3, 20);
+tanggal_input.valueAsDate = new Date();
 kode_barcode.focus();
+// div_tableBarcodeData.style.display = "none";
 
 $(document).ready(function () {
     $("#table_dataBarcode").DataTable();
@@ -97,7 +98,7 @@ lihat_data.addEventListener("click", function (event) {
         alert("Isi tanggal terlebih dahulu!");
         tanggal_input.focus();
     } else {
-        fetch("/scanBarcodeLihatData/" + kodeBarang + "/" + nomorindeks)
+        fetch("/scanBarcodeLihatData/" + tanggal_input.value)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
