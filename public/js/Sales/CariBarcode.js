@@ -146,7 +146,7 @@ button_proses.addEventListener("click", function () {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 const tbody = document.querySelector("#table_Barcode tbody");
 
                 const rows = data.map((item) => {

@@ -16,7 +16,7 @@ class ScanBarcodeController extends Controller
         $date = date('Y-m-d');
         $jumlah = db::connection('ConnInventory')->select('exec SP_1273_INV_jumlah_tmpgudang @Tanggal = ?', [$date]);
         $data_kodeBarang = db::connection('ConnInventory')->select('exec SP_1273_INV_REKAP_YANG_DITEMBAK_DENI @Tanggal = ?', [$date]);
-        // dd($jumlah);
+        // dd($date);
         return view('Sales.Penjualan.ScanBarcode', compact('jumlah', 'data_kodeBarang'));
     }
 
@@ -25,6 +25,12 @@ class ScanBarcodeController extends Controller
         $jumlah = db::connection('ConnInventory')->select('exec SP_1273_INV_jumlah_tmpgudang @Tanggal = ?', [$date]);
         $data_kodeBarang = db::connection('ConnInventory')->select('exec SP_1273_INV_REKAP_YANG_DITEMBAK_DENI @Tanggal = ?', [$date]);
         $data = [$jumlah, $data_kodeBarang];
+        return response()->json($data);
+    }
+
+    public function scanBarcodeDetailData($idType, $kodeBarang, $tglMutasi)
+    {
+        $data = db::connection('ConnInventory')->select('exec SP_1273_INV_PERMINTAAN_DENI @IdType = ?, @kode_barang = ?, @Tanggal = ?', [$idType, $kodeBarang, $tglMutasi]);
         return response()->json($data);
     }
 

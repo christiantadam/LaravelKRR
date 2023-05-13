@@ -68,6 +68,8 @@
 }
 .acs-table-barcode{
     display: block;
+    margin: 3%;
+    border: 1px solid black;
 }
 tr.selected {
     background-color: yellow;

@@ -51,10 +51,40 @@
     flex-direction: column;
 }
 .acs-btn-form{
-    margin: 10px;
-    width: 40%;
-    aspect-ratio: 8/3;
+    /* margin: 10px; */
+    width: 300px;
+    aspect-ratio: 12/3;
+}
+.acs-btn-form5{
+    display: block;
+    align-self: center;
 }
 .acs-table-barcode{
     display: block;
+}
+tr.selected {
+    background-color: yellow !important;
+}
+tr {
+    cursor: pointer;
+}
+#modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#modalContent {
+  background-color: white;
+  padding: 20px;
+}
+
+#closeModalButton {
+  margin-top: 10px;
 }

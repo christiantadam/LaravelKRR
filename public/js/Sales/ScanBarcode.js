@@ -46,12 +46,42 @@ $("#table_dataBarcode tbody").on("click", "tr", function () {
     const table = $("#table_dataBarcode").DataTable();
     table.$("tr.selected").removeClass("selected");
     $(this).addClass("selected");
-    selectedRows = table.rows(".selected").data().toArray();
+    const selectedRowData = table.rows(".selected").data().toArray()[0];
+    const idType = selectedRowData.IdType;
+    const kodeBarang = selectedRowData.Kode_barang;
+    const tglMutasi = selectedRowData.Tgl_mutasi;
 
-    fetch("/scanBarcodeDetailData/" + kodeBarang + "/" + nomorindeks)
+    fetch(
+        "/scanBarcodeDetailData/" + idType + "/" + kodeBarang + "/" + tglMutasi
+    )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            // console.log(data);
+            div_tableBarcodeDetail.style.display = "block";
+
+            let table = $("#table_detailBarcode").DataTable();
+            table.destroy();
+
+            table = $("#table_detailBarcode").DataTable({
+                data: data,
+                columns: [
+                    { data: null },
+                    { data: "NoIndeks" },
+                    { data: "KodeBarang" },
+                    { data: "NamaType" },
+                ],
+                columnDefs: [
+                    {
+                        searchable: false,
+                        orderable: false,
+                        targets: 0,
+                        render: function (data, type, row, meta) {
+                            return meta.row + 1;
+                        },
+                    },
+                ],
+            });
+            table.draw();
         });
 });
 
@@ -102,6 +132,33 @@ lihat_data.addEventListener("click", function (event) {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
+                jumlah.innerHTML = "Jumlah data Barcode: " + data[0][0].total;
+                let table = $("#table_dataBarcode").DataTable();
+                table.destroy();
+
+                table = $("#table_dataBarcode").DataTable({
+                    data: data[1],
+                    columns: [
+                        { data: null },
+                        { data: "NamaType" },
+                        { data: "IdType" },
+                        { data: "Kode_barang" },
+                        { data: "Qty_Primer" },
+                        { data: "Qty_Sekunder" },
+                        { data: "Qty" },
+                        { data: "Tgl_mutasi" },
+                    ],
+                    columnDefs: [
+                        {
+                            searchable: false,
+                            orderable: false,
+                            targets: 0,
+                            render: function (data, type, row, meta) {
+                                return meta.row + 1;
+                            },
+                        },
+                    ],
+                });
             });
     }
 });

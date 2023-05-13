@@ -42,7 +42,8 @@
                                 <div class="acs-div-filter1">
                                     <label for="kode_barcode">Kode Barcode</label>
                                     <input type="text" name="kode_barcode" id="kode_barcode" class="input"> Tekan Enter
-                                    untuk Scan Barcode! {{--Untuk data uji coba 114-000067047 58-000086070--}}
+                                    untuk Scan Barcode!
+                                    {{-- <label for="">Untuk data uji coba 114-000067047</label>Untuk data uji coba 114-000067047 58-000086070 --}}
                                 </div>
                             </div>
                         </form>
@@ -55,8 +56,9 @@
                         </div>
                     </div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0 acs-table-barcode" id="div_tableBarcodeData">
+                        <legend>Data Barcode</legend>
                         <div class="acs-div-filter2">
-                            <label for="jumlah">Jumlah data Barcode: {{ $jumlah[0]->total }}</label>
+                            <label for="jumlah" id="jumlah">Jumlah data Barcode: {{ $jumlah[0]->total }}</label>
                             {{-- <span id="jumlah">{{ $jumlah[0]->total }}</span> --}}
                         </div>
                         <table id="table_dataBarcode" class="table table-bordered table-striped" style="width:100%">
@@ -78,6 +80,7 @@
                         </table>
                     </div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0 acs-table-barcode" id="div_tableBarcodeDetail">
+                        <legend>Detail Data Barcode</legend>
                         <table id="table_detailBarcode" class="table table-bordered table-striped" style="width:100%">
                             <thead class="thead-dark">
                                 <tr>
