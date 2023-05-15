@@ -237,6 +237,7 @@ pilihSemuaButton.addEventListener("click", function () {
     const checkboxes = document.querySelectorAll(
         "#table_AccBarcodePenjualan tbody input[type='checkbox']"
     );
+    console.log(checkboxes);
     const dataTable = $("#table_AccBarcodePenjualan").DataTable();
     checkboxes.forEach(function (checkbox) {
         checkbox.checked = true;
@@ -278,6 +279,7 @@ pilihSemuaButton.addEventListener("click", function () {
     });
     closeModal();
     prosesButton.focus();
+    console.log(checkboxes);
 });
 
 hapusButton.addEventListener("click", function () {
@@ -286,9 +288,141 @@ hapusButton.addEventListener("click", function () {
     );
     if (selectedCheckboxes.length > 0) {
         submitForm();
+    } else {
+        alert("Belum ada barcode yang dipilih");
     }
-    else{
-        alert('Belum ada barcode yang dipilih');
+});
+
+prosesButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    const selectedCheckboxes = $(
+        "#table_AccBarcodePenjualan tbody input[type='checkbox']:checked"
+    );
+    const dataTable = $("#table_AccBarcodePenjualan").DataTable();
+    const selectedRowData = [];
+    let noindeks = [];
+
+    selectedCheckboxes.each(function () {
+        const row = $(this).closest("tr");
+        const rowData = dataTable.row(row).data();
+        selectedRowData.push(rowData);
+        // console.log(selectedRowData);
+    });
+
+    for (let i = 0; i < selectedRowData.length; i++) {
+        noindeks = selectedRowData[i][1];
+
+        let noindeksInput = document.createElement("input");
+        noindeksInput.type = "hidden";
+        noindeksInput.name = "noindeks[]";
+        noindeksInput.value = noindeks;
+        form_accJualBarcode.appendChild(noindeksInput);
+    }
+
+    let kodebarang = selectedRowData[0][2];
+
+    if (selectedCheckboxes.length < 0) {
+        alert("Tolong pilih barcode dulu!");
+        return; // Exit the function if a checked checkbox is not found
+    }
+    if (saldo_primerDikeluarkanSatuan.value == max_doSatuan.value) {
+        if (
+            parseFloat(saldo_primerDikeluarkan.value) <
+                parseFloat(min_do.value) ||
+            parseFloat(saldo_primerDikeluarkan.value) > parseFloat(max_do.value)
+        ) {
+            alert(
+                "Jumlah Primer Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !"
+            );
+            return;
+        }
+    } else if (saldo_sekunderDikeluarkanSatuan.value == max_doSatuan.value) {
+        if (
+            parseFloat(saldo_sekunderDikeluarkan.value) <
+                parseFloat(min_do.value) ||
+            parseFloat(saldo_sekunderDikeluarkan.value) >
+                parseFloat(max_do.value)
+        ) {
+            alert(
+                "Jumlah Sekunder Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !"
+            );
+            return;
+        }
+    } else if (saldo_tritierDikeluarkanSatuan.value == max_doSatuan.value) {
+        if (
+            parseFloat(saldo_tritierDikeluarkan.value) <
+                parseFloat(min_do.value) ||
+            parseFloat(saldo_tritierDikeluarkan.value) >
+                parseFloat(max_do.value)
+        ) {
+            alert(
+                "Jumlah Tritier Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !"
+            );
+            return;
+        }
+    }
+
+    if (
+        saldo_primerDikeluarkanSatuan.value !== max_doSatuan.value &&
+        saldo_sekunderDikeluarkanSatuan.value !== max_doSatuan.value &&
+        saldo_tritierDikeluarkanSatuan.value !== max_doSatuan.value
+    ) {
+        if (parseInt(jumlah_konversi.value) <= 0) {
+            alert("Jumlah Konversi Harus Lebih Besar '0' !");
+            return;
+        } else if (
+            parseFloat(jumlah_konversi.value) < parseFloat(min_do.value) ||
+            parseFloat(jumlah_konversi.value) > parseFloat(max_do.value)
+        ) {
+            alert(
+                "Jumlah Konversi Yang Dikeluarkan Kurang dari MinDo atau Melebihi MaxDO !"
+            );
+            return;
+        }
+    }
+
+    /*if (
+        saldo_primerDikeluarkan.value > saldo_primer.value ||
+        saldo_sekunderDikeluarkan.value > saldo_sekunder.value ||
+        saldo_tritierDikeluarkan.value > saldo_tritier.value
+    ) {
+        alert("Jumlah Barang Di Gudang Tidak Mencukupi");
+        return;
+    }*/
+
+    if (
+        (saldo_primerDikeluarkanSatuan.value !== "NULL" &&
+            parseInt(saldo_primerDikeluarkan.value) > 0) ||
+        (saldo_primerDikeluarkanSatuan.value == "NULL" &&
+            parseInt(saldo_primerDikeluarkan.value) == 0)
+    ) {
+        if (
+            (saldo_sekunderDikeluarkanSatuan.value !== "NULL" &&
+                parseInt(saldo_sekunderDikeluarkan.value) > 0) ||
+            (saldo_sekunderDikeluarkanSatuan.value == "NULL" &&
+                parseInt(saldo_sekunderDikeluarkan.value) == 0)
+        ) {
+            if (
+                (saldo_tritierDikeluarkanSatuan.value !== "NULL" &&
+                    parseInt(saldo_tritierDikeluarkan.value) > 0) ||
+                (saldo_tritierDikeluarkanSatuan.value == "NULL" &&
+                    parseInt(saldo_tritierDikeluarkan.value) == 0)
+            ) {
+                let kodebarangInput = document.createElement("input");
+                kodebarangInput.type = "hidden";
+                kodebarangInput.name = "kodebarang";
+                kodebarangInput.value = kodebarang;
+                form_accJualBarcode.appendChild(kodebarangInput);
+
+                let jumlahdicentangInput = document.createElement("input");
+                jumlahdicentangInput.type = "hidden";
+                jumlahdicentangInput.name = "jumlahDicentang";
+                jumlahdicentangInput.value = selectedCheckboxes.length;
+                form_accJualBarcode.appendChild(jumlahdicentangInput);
+
+                form_accJualBarcode.submit();
+            }
+        }
     }
 });
 
@@ -321,7 +455,9 @@ function submitForm() {
     }
     let kodebarang = selectedRowData[0][2];
 
-    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
 
     // Create a form element dynamically
     let form = document.createElement("form");
@@ -342,9 +478,9 @@ function submitForm() {
     form.appendChild(noindeksInput);
 
     // Create CSRF token input field
-    let csrfInput = document.createElement('input');
-    csrfInput.type = 'hidden';
-    csrfInput.name = '_token';
+    let csrfInput = document.createElement("input");
+    csrfInput.type = "hidden";
+    csrfInput.name = "_token";
     csrfInput.value = csrfToken;
     form.appendChild(csrfInput);
 

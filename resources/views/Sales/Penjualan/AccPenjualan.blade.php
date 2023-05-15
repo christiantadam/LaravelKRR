@@ -37,7 +37,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <form class="acs-div-form" id="form_accJualBarcode">
+                    <form class="acs-div-form" method="POST" action="{{ url('AccPenjualan') }}" id="form_accJualBarcode">
+                        {{ csrf_field() }}
                         <div class="acs-div-form2">
                             <div class="acs-div-form3">
                                 <div class="acs-div-filter1">
