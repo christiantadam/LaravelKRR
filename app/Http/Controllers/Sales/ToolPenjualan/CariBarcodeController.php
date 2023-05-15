@@ -65,6 +65,7 @@ class CariBarcodeController extends Controller
         $data = db::connection('ConnInventory')->select($query);
         return response()->json($data);
     }
+
     //Show the form for creating a new resource.
     public function create()
     {

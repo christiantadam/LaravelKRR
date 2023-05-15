@@ -43,7 +43,7 @@
                                     <label for="kode_barcode">Kode Barcode</label>
                                     <input type="text" name="kode_barcode" id="kode_barcode" class="input"> Tekan Enter
                                     untuk Scan Barcode!
-                                    {{-- <label for="">Untuk data uji coba 114-000067047</label>Untuk data uji coba 114-000067047 58-000086070 --}}
+                                    {{-- <label for="">Untuk data uji coba 114-000067047</label> --}}
                                 </div>
                             </div>
                         </form>

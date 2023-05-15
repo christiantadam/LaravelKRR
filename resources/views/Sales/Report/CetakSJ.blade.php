@@ -8,16 +8,16 @@
                 <div class="acs-div-form">
                     <div style="gap: 10px; display: flex">
                         <div>
-                            <input type="radio" name="group_suratJalan" id="surat_jalanPPN"> SJ PPN
+                            <input type="radio" name="group_suratJalan" id="surat_jalanPPN" value="ppn"> SJ PPN
                         </div>
                         <div>
-                            <input type="radio" name="group_suratJalan" id="surat_jalanNonPPN"> SJ Non PPN
+                            <input type="radio" name="group_suratJalan" id="surat_jalanNonPPN" value="non-ppn"> SJ Non PPN
                         </div>
                         <div>
-                            <input type="radio" name="group_suratJalan" id="surat_jalanAfalan"> SJ Afalan
+                            <input type="radio" name="group_suratJalan" id="surat_jalanAfalan" value="afalan"> SJ Afalan
                         </div>
                         <div>
-                            <input type="radio" name="group_suratJalan" id="surat_jalanExport"> SJ Export
+                            <input type="radio" name="group_suratJalan" id="surat_jalanExport" value="export"> SJ Export
                         </div>
                     </div>
                     <div class="acs-div-filter">
@@ -25,12 +25,21 @@
                         <input type="date" name="tanggal_sj" id="tanggal_sj" class="input">
                     </div>
                     <div class="acs-div-filter1">
-                        <label for="no_sp">Nomor SP:</label>
-                        <input type="text" name="" id="no_sp" class="input">
+                        <label for="no_sj">Nomor SJ:</label>
+                        <div>
+                            <input type="text" name="no_sjText" id="no_sjText" style="width: 80%;display: inline;"
+                                class="input">
+                            <select name="no_sjSelect" id="no_sjSelect" style="width: 80%;display: none" class="input">
+                                <option disabled selected>-- Pilih Nomor Surat Jalan --</option>
+                                <option value="abc">def</option>
+                                <option value="ghi">jkl</option>
+                            </select>
+                            <button class="btn btn-primary" id="no_sjButton" style="width: 15%" id="no">...</button>
+                        </div>
                     </div>
                     <div class="acs-div-filter1">
-                        <label for="no_sj">Nomor SJ:</label>
-                        <input type="text" name="" id="no_sj" class="input">
+                        <label for="no_sp">Nomor SP:</label>
+                        <input type="text" name="no_sp" id="no_sp" class="input">
                     </div>
                     {{-- <div class="acs-div-filter2">
                         <label for="jenis_sp">Jenis SP:</label>
@@ -51,13 +60,15 @@
                     <div class="cetak-sjpdf-container1">
                         <div class="cetak-sjpdf-container2">
                             <p id="alamat_kirimKolom">Kepada Yth. <br>
-                            TOCHU SILIKA INDONESIA <br> Kawasan Industri Mitrakarawang Jl.Mitra Selatan III Blok G-10, Parungmulya Ciampel - Karawang Jawa Barat 41361. Up:Bp.Nico. Telp.0264-440820</p>
+                                TOCHU SILIKA INDONESIA <br> Kawasan Industri Mitrakarawang Jl.Mitra Selatan III Blok G-10,
+                                Parungmulya Ciampel - Karawang Jawa Barat 41361. Up:Bp.Nico. Telp.0264-440820</p>
                         </div>
                         <table class="cetak-sjpdf-container3">
                             <tr>
                                 <td style="border: none !important">Tanggal</td>
                                 <td style="border: none !important">:</td>
-                                <td style="border: none !important; font-weight: bold" id="tanggal_kirimKolom">12-April-2023</td>
+                                <td style="border: none !important; font-weight: bold" id="tanggal_kirimKolom">12-April-2023
+                                </td>
                             </tr>
                             <tr>
                                 <td style="border: none !important">Truk Nopol</td>
@@ -78,8 +89,10 @@
                             <th>JUMLAH</th>
                         </tr>
                         <tr>
-                            <td id="nama_barangKolom" style="border-right: none !important; border-bottom: none !important">TSI-006-KR11/070.0X070.0X055.0/10X12/1591/GD REV.01</td>
-                            <td id="satuan_barangKolom" style="border-right: none !important; border-bottom: none !important">PALET</td>
+                            <td id="nama_barangKolom" style="border-right: none !important; border-bottom: none !important">
+                                TSI-006-KR11/070.0X070.0X055.0/10X12/1591/GD REV.01</td>
+                            <td id="satuan_barangKolom"
+                                style="border-right: none !important; border-bottom: none !important">PALET</td>
                             <td id="jumlah_barangKolom" style="border-bottom: none !important">5</td>
                         </tr>
                         <tr>
@@ -90,12 +103,15 @@
                         <tr>
                             <td style="border-right: none !important">NO PO: 015/TSI-MTR/02/2023</td>
                             <td style="border-right: none !important"></td>
-                            <td ></td>
+                            <td></td>
                         </tr>
                     </table>
                     <div class="cetak-sjpdf-container4">
                         <h4>Syarat Penyerahan: </h4>
-                        <p id="keterangan_kolom">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consectetur purus in massa fermentum faucibus. Praesent tristique ante ac lectus euismod, in mattis lorem bibendum. Nulla gravida arcu ac purus dignissim, non rutrum odio luctus. Integer nec turpis mauris.</p>
+                        <p id="keterangan_kolom">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                            consectetur purus in massa fermentum faucibus. Praesent tristique ante ac lectus euismod, in
+                            mattis lorem bibendum. Nulla gravida arcu ac purus dignissim, non rutrum odio luctus. Integer
+                            nec turpis mauris.</p>
                     </div>
                     <div class="cetak-sjpdf-container5">
                         <div class="cetak-sjpdf-container6">
@@ -136,14 +152,15 @@
                         </div>
                         <div class="cetak-sjpdf-container7">
                             <p style="text-align: center; font-weight: bold">TANDA TERIMA <br>
-                            BARANG TERSEBUT TELAH KAMI TERIMA DALAM KEADAAN CUKUP DAN BAIK</P>
+                                BARANG TERSEBUT TELAH KAMI TERIMA DALAM KEADAAN CUKUP DAN BAIK</P>
                             <br>
                             <br>
                             <br>
                             <br>
                             <br>
                             <fieldset style="border: 1px solid black;"></fieldset>
-                            <p><span style="font-weight: bold">Note:</span><br>Apabila barang belum terbayar maka barang yang terkirim merupakan barang titipan</p>
+                            <p><span style="font-weight: bold">Note:</span><br>Apabila barang belum terbayar maka barang
+                                yang terkirim merupakan barang titipan</p>
                         </div>
                     </div>
                 </div>

@@ -131,7 +131,7 @@ lihat_data.addEventListener("click", function (event) {
         fetch("/scanBarcodeLihatData/" + tanggal_input.value)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 jumlah.innerHTML = "Jumlah data Barcode: " + data[0][0].total;
                 let table = $("#table_dataBarcode").DataTable();
                 table.destroy();

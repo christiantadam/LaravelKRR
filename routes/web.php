@@ -161,6 +161,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/print/deliveryorder/{nodo}', 'App\Http\Controllers\Sales\Cetak\CetakDOController@printDeliveryOrder');
     Route::get('/options/suratjalan/{tanggal}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@getSuratJalan');
     // Route::get('/print/suratjalan/{nosj}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@printSuratJalan');
+    Route::POST('/suratjalanppn/action', 'App\Http\Controllers\Sales\ToolPenjualan\CariBarcodeController@getSuratJalanPPN');
     #endregion
 
     #region Tool Penjualan

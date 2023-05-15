@@ -11,7 +11,7 @@
             <form class="permohonan-do-form" id="form_deliveryOrder" method="POST" action="{{ url('DeliveryOrder') }}">
                 {{ csrf_field() }}
                 <legend>Delivery Order</legend>
-                {!! Form::hidden('id_pesanan', null, ['id' => 'id_pesanan_hidden']) !!}
+                <input type="hidden" name="id_pesanan" id="id_pesanan_hidden" value="">
                 <div id="div_deliveryOrder" class="permohonan-do-form">
                     <div class="permohonan-do-container01">
                         <span class="permohonan-do-text">Tgl DO</span>

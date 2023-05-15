@@ -18,6 +18,13 @@ class CetakSJController extends Controller
         return view('Sales.Report.CetakSJ');
     }
 
+    public function getSuratJalanPPN(Request $request)
+    {
+        // $data = db::connection('ConnInventory')->select('select * from VW_PRG_1486_SLS_CETAK_SJ where tglkirim = ? and IDPengiriman = ?',[$request->TanggalSJ, $request->NomorSJ]);
+        $data = db::connection('ConnInventory')->select('select * from VW_PRG_1486_SLS_CETAK_SJ');
+        return response()->json($data);
+    }
+
     //Show the form for creating a new resource.
     public function create()
     {
