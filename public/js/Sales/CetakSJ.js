@@ -12,6 +12,18 @@ let surat_jalanNonPPN = document.getElementById("surat_jalanNonPPN");
 let surat_jalanAfalan = document.getElementById("surat_jalanAfalan");
 let surat_jalanExport = document.getElementById("surat_jalanExport");
 let no_spKolom = document.getElementById("no_spKolom");
+let alamat_kolom = document.getElementById("alamat_kolom");
+let tanggal_kirimKolom = document.getElementById("tanggal_kirimKolom");
+let truk_nopolKolom = document.getElementById("truk_nopolKolom");
+let nama_barangKolom = document.getElementById("nama_barangKolom");
+let satuan_barangPrimerKolom = document.getElementById("satuan_barangPrimerKolom");
+let jumlah_barangPrimerKolom = document.getElementById("jumlah_barangPrimerKolom");
+let satuan_barangSekunderKolom = document.getElementById("satuan_barangSekunderKolom");
+let jumlah_barangSekunderKolom = document.getElementById("jumlah_barangSekunderKolom");
+let no_poKolom = document.getElementById("no_poKolom");
+let alamat_kirimKolom = document.getElementById("alamat_kirimKolom");
+let nama_customerKolom = document.getElementById("nama_customerKolom");
+let nomor_sjKolom = document.getElementById("nomor_sjKolom");
 
 //#region Load Form
 
@@ -20,68 +32,96 @@ surat_jalanPPN.checked = true;
 contoh_print.style.display = "none";
 contoh_printDiv.style.display = "none";
 // console.log(tanggal_sj.value);
+
 //#endregion
 
 //#region Event Listener
 
 print_button.addEventListener("click", function () {
+    if (no_sjText.value == "" && no_sp.value == "") {
+        alert("Kolom Nomor SJ dan Nomor SP tidak boleh kosong!");
+        return;
+    }
     if (surat_jalanPPN.checked == true) {
-        const form = new FormData();
-        const csrfToken = document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute("content");
-        form.append("_token", csrfToken);
-        form.append("NomorSJ", no_sjText.value);
-        form.append("TanggalSJ", tanggal_sj.value);
-
-        fetch("/suratjalanppn/action", {
-            method: "POST",
-            body: form,
-        })
+        fetch("/cetakSuratJalanPPN/" + tanggal_sj.value + "/" + no_sjText.value)
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
+                no_poKolom.innerHTML = "";
+                no_spKolom.innerHTML = no_sp.value;
+                nomor_sjKolom.innerHTML = no_sjText.value;
+                nama_barangKolom.innerHTML =data[0].NamaType;
+                tanggal_kirimKolom.innerHTML = tanggal_sj.value;
+                truk_nopolKolom.innerHTML = data[0].TrukNopol;
+                no_spKolom.innerHTML = data[0].SuratPesanan;
+                alamat_kolom.innerHTML = data[0].Alamat;
+                satuan_barangPrimerKolom.innerHTML = data[0].satPrimer.trim();
+                jumlah_barangPrimerKolom.innerHTML = data[0].QtyPrimer;
+                satuan_barangSekunderKolom.innerHTML = data[0].satSekunder.trim();
+                jumlah_barangSekunderKolom.innerHTML = data[0].QtySekunder;
+                if (data[0].NO_PO !== null) {
+                    no_poKolom.innerHTML = "PO: " + data[0].NO_PO;
+                }
+                nama_customerKolom.innerHTML = data[0].NamaCust
+                alamat_kirimKolom.innerHTML = "Dikirim ke: <br>"+data[0].AlamatKirim;
                 contoh_print.style.display = "block";
                 contoh_printDiv.style.display = "block";
-                console.log(data);
-                no_spKolom.innerHTML = no_sp.value;
             });
     } else if (surat_jalanNonPPN.checked == true) {
         //coming soon
         alert("Hanya SJ PPN yang dapat dipilih");
         surat_jalanPPN.checked = true;
-        contoh_print.style.display = "none";
-        contoh_printDiv.style.display = "none";
+        return;
     } else if (surat_jalanAfalan.checked == true) {
         //coming soon
         alert("Hanya SJ PPN yang dapat dipilih");
         surat_jalanPPN.checked = true;
-        contoh_print.style.display = "none";
-        contoh_printDiv.style.display = "none";
+        return;
     } else if (surat_jalanExport.checked == true) {
         //coming soon
         alert("Hanya SJ PPN yang dapat dipilih");
         surat_jalanPPN.checked = true;
-        contoh_print.style.display = "none";
-        contoh_printDiv.style.display = "none";
+        return;
     }
 });
 
-no_sjButton.addEventListener("click",function(){
+no_sjButton.addEventListener("click", function () {
     if (no_sjText.style.display == "inline") {
-        no_sjText.style.display = "none";
-        no_sjSelect.style.display = "inline";
-        no_sjSelect.focus();
-    }
-    else if(no_sjText.style.display == "none"){
+        fetch("/optionsCetakSuratJalan/" + tanggal_sj.value)
+            .then((response) => response.json())
+            .then((datas) => {
+                no_sjSelect.innerHTML =
+                    "<option disabled selected value>-- Pilih Nomor Surat Jalan --</option>";
+
+                datas.forEach((data) => {
+                    let optionTag = document.createElement("option");
+                    optionTag.value = data.IDSuratPesanan;
+                    optionTag.text =
+                        data.NamaJnsSuratJalan + " | " + data.IDPengiriman;
+                    no_sjSelect.appendChild(optionTag);
+                });
+
+                no_sjText.style.display = "none";
+                no_sjSelect.style.display = "inline";
+                no_sjSelect.focus();
+            });
+    } else if (no_sjText.style.display == "none") {
         no_sjText.style.display = "inline";
         no_sjSelect.style.display = "none";
         no_sjText.focus();
     }
-
 });
 
-no_sjSelect.addEventListener("change", function(){
-    // console.log(no_sjSelect.options[no_sjSelect.selectedIndex].text);
-    no_sjText.value = no_sjSelect.options[no_sjSelect.selectedIndex].text;;
+no_sjSelect.addEventListener("change", function () {
+    no_sjText.value =
+        no_sjSelect.options[no_sjSelect.selectedIndex].text.split(" | ")[1];
+    no_sp.value = no_sjSelect.value;
+});
+
+tanggal_sj.addEventListener("change", function () {
+    if (no_sjText.style.display == "none") {
+        no_sjText.style.display = "inline";
+        no_sjSelect.style.display = "none";
+    }
 });
 //#endregion

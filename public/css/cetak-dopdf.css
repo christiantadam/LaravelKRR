@@ -18,7 +18,7 @@
 .cetak-dopdf-container02 {
     flex: 0 0 auto;
     width: 98%;
-    /* display: flex; */
+    margin: 5px;
     align-items: flex-start;
     gap: 3%;
     border-collapse: collapse !important;

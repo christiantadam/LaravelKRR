@@ -21,6 +21,7 @@
 
                     <body>
                         <div class="cetak-dopdf-container">
+                            {{-- masih error --}}
                             <table class="cetak-dopdf-container02 header">
                                 <tbody>
                                     <tr style="border: 1px solid black !important">
@@ -78,7 +79,8 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <div id="div_cetakDO"></div>
+                                            <div id="div_cetakDOSudahACC"></div>
+                                            <div id="div_cetakDOBelumACC"></div>
                                         </td>
                                     </tr>
                                 </tbody>

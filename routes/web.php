@@ -159,9 +159,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/dosudahacc/{tanggal}', 'App\Http\Controllers\Sales\Cetak\CetakDOController@getDeliveryOrderSudahACC');
     Route::get('/dobelumacc/{tanggal}', 'App\Http\Controllers\Sales\Cetak\CetakDOController@getDeliveryOrderBelumACC');
     // Route::get('/print/deliveryorder/{nodo}', 'App\Http\Controllers\Sales\Cetak\CetakDOController@printDeliveryOrder');
-    Route::get('/options/suratjalan/{tanggal}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@getSuratJalan');
+    Route::get('/optionsCetakSuratJalan/{tanggal}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@getSuratJalan');
     // Route::get('/print/suratjalan/{nosj}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@printSuratJalan');
-    Route::POST('/suratjalanppn/action', 'App\Http\Controllers\Sales\ToolPenjualan\CariBarcodeController@getSuratJalanPPN');
+    Route::get('/cetakSuratJalanPPN/{tanggal}/{nosj}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@getSuratJalanPPN');
     #endregion
 
     #region Tool Penjualan

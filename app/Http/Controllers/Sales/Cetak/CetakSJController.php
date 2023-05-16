@@ -18,10 +18,15 @@ class CetakSJController extends Controller
         return view('Sales.Report.CetakSJ');
     }
 
-    public function getSuratJalanPPN(Request $request)
+    public function getSuratJalan($tanggal)
+    {
+        $data = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_CETAK_SJ @TglKirim = ?, @XKode = ?', [$tanggal, 1]);
+        return response()->json($data);
+    }
+    public function getSuratJalanPPN($tanggal, $nosj)
     {
         // $data = db::connection('ConnInventory')->select('select * from VW_PRG_1486_SLS_CETAK_SJ where tglkirim = ? and IDPengiriman = ?',[$request->TanggalSJ, $request->NomorSJ]);
-        $data = db::connection('ConnInventory')->select('select * from VW_PRG_1486_SLS_CETAK_SJ');
+        $data = db::connection('ConnSales')->select('select * from VW_PRG_1486_SLS_CETAK_SJ where tglkirim = ? and IDPengiriman = ?', [$tanggal, $nosj]);
         return response()->json($data);
     }
 

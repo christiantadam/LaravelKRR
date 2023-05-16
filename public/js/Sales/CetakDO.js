@@ -16,7 +16,8 @@ let nama_customerKolom = document.getElementById("nama_customerKolom");
 let tanggal_kirimKolom = document.getElementById("tanggal_kirimKolom");
 let nomor_referensiKolom = document.getElementById("nomor_referensiKolom");
 let count_do = document.getElementById("count_do");
-let div_cetakDO = document.getElementById("div_cetakDO");
+let div_cetakDOSudahACC = document.getElementById("div_cetakDOSudahACC");
+let div_cetakDOBelumACC = document.getElementById("div_cetakDOBelumACC");
 
 //#region Load Form
 
@@ -46,18 +47,9 @@ print_button.addEventListener("click", function (event) {
             fetch("/dobelumacc/" + tanggal_do.value)
                 .then((response) => response.json())
                 .then((options) => {
-                    body_deliveryOrderSudahACC.style.display = "none";
-                    body_deliveryOrderBelumACC.style.display = "block";
-                    console.log(options);
-                    options.forEach((option) => {});
-                });
-        } else if (cetak_sudahACC.checked == true) {
-            fetch("/dosudahacc/" + tanggal_do.value)
-                .then((response) => response.json())
-                .then((options) => {
-                    // body_deliveryOrderBelumACC.style.display = "none";
-                    // body_deliveryOrderSudahACC.style.display = "block";
                     nomor_referensiKolom.innerHTML = nomor_referensi.value;
+                    div_cetakDOSudahACC.innerHTML = "";
+                    div_cetakDOBelumACC.innerHTML = "";
                     const date = new Date(tanggal_do.value);
                     const formattedDate = date.toLocaleDateString("en-US", {
                         month: "2-digit",
@@ -65,43 +57,66 @@ print_button.addEventListener("click", function (event) {
                         year: "numeric",
                     });
                     tanggal_kirimKolom.innerHTML = formattedDate;
-                    // count_do.innerHTML = options.count();
                     console.log(options);
-                    options.forEach((option) => {
+                    options.forEach((option, index) => {
                         console.log(option);
-                        const body_deliveryOrderSudahACC = document.createElement("div");
-                        body_deliveryOrderSudahACC.classList.add("cetak-dopdf-container05");
-                        // body_deliveryOrderSudahACC.classList.add("body-cetak");
-                        body_deliveryOrderSudahACC.innerHTML = `
+                        const body_deliveryOrderBelumACC =
+                            document.createElement("div");
+                            body_deliveryOrderBelumACC.classList.add(
+                            "cetak-dopdf-container05"
+                        );
+
+                        body_deliveryOrderBelumACC.innerHTML = `
                         <div class="cetak-dopdf-container03">
-                            <table style="text-align: start;width:45%">
-                                <tr>
-                                    <td>Pelanggan: </td>
-                                    <td id="nama_customerKolom">${option.NamaCust}</td>
-                                </tr>
-                                <tr>
-                                    <td>Alamat Kirim: </td>
-                                    <td id="alamat_kirimKolom">${option.AlamatKirim}</td>
-                                </tr>
-                                <tr>
-                                    <td>No. SP: </td>
-                                    <td id="no_spKolom">${option.IDSuratPesanan}</td>
-                                </tr>
-                                <tr>
-                                    <td>No. PO: </td>
-                                    <td id="no_poKolom">${option.NO_PO}</td>
-                                </tr>
-                                <tr>
-                                    <td>Keterangan: </td>
-                                    <td id="keterangan_kolom">${option.Keterangan}</td>
-                                </tr>
-                            </table>
+                            <div style=width:45%>
+                                <table style="text-align: start">
+                                    <tr>
+                                        <td>Pelanggan: </td>
+                                        <td id="nama_customerKolom">${
+                                            option.NamaCust
+                                        }</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Kirim: </td>
+                                        <td id="alamat_kirimKolom">${
+                                            option.AlamatKirim
+                                        }</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No. SP: </td>
+                                        <td id="no_spKolom">${
+                                            option.IDSuratPesanan
+                                        }</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No. PO: </td>
+                                        <td id="no_poKolom">${option.NO_PO}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Kantor: </td>
+                                        <td id="keterangan_kolom">${
+                                            option.AlamatKirim
+                                        }</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Kirim DO: </td>
+                                        <td id="keterangan_kolom">${
+                                            option.AlamatKirimDO
+                                        }</td>
+                                    </tr>
+                                </table>
+                                <div style=height:100%>${index + 1}</div>
+                            </div>
                             <div class="cetak-dopdf-container04">
                                 <table>
                                     <tr>
                                         <td style="vertical-align: top;">Spesifikasi:&nbsp;</td>
-                                        <td style="max-width: 200px"><span id="nama_kelompokKolom">Ukuran: ${option.NamaKelompok}</span> <br> <span
-                                                id="nama_barangKolom">${option.NamaBarang}</span></td>
+                                        <td style="max-width: 200px"><span id="nama_kelompokKolom">Ukuran: ${
+                                            option.NamaKelompok
+                                        }</span> <br> <span
+                                                id="nama_barangKolom">${
+                                                    option.NamaBarang
+                                                }</span></td>
                                         <td></td>
                                         <td style="vertical-align: top">Corak</td>
                                     </tr>
@@ -110,20 +125,129 @@ print_button.addEventListener("click", function (event) {
                                     <tr>
                                         <td style="vertical-align: top">Jumlah:&nbsp;</td>
                                         <td>Min: </td>
-                                        <td id="min_kirimKolom">${option.MinKirimDO}</td>
+                                        <td id="min_kirimKolom">${
+                                            option.MinKirimDO
+                                        }</td>
                                         <td>Max:&nbsp;</td>
-                                        <td id="max_kirimKolom">${option.MaxKirimDO}</td>
+                                        <td id="max_kirimKolom">${
+                                            option.MaxKirimDO
+                                        }</td>
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <td>Satuan: &nbsp;</td>
-                                        <td id="satuan_jualKolom">${option.SatuanJual}</td>
+                                        <td id="satuan_jualKolom">${
+                                            option.SatuanJual
+                                        }</td>
                                     </tr>
                                 </table>
                             </div>
                         </div>
                         `;
-                        div_cetakDO.appendChild(body_deliveryOrderSudahACC);
+                        div_cetakDOBelumACC.appendChild(
+                            body_deliveryOrderBelumACC
+                        );
+                    });
+                });
+        } else if (cetak_sudahACC.checked == true) {
+            fetch("/dosudahacc/" + tanggal_do.value)
+                .then((response) => response.json())
+                .then((options) => {
+                    nomor_referensiKolom.innerHTML = nomor_referensi.value;
+                    div_cetakDOSudahACC.innerHTML = "";
+                    div_cetakDOBelumACC.innerHTML = "";
+                    const date = new Date(tanggal_do.value);
+                    const formattedDate = date.toLocaleDateString("en-US", {
+                        month: "2-digit",
+                        day: "2-digit",
+                        year: "numeric",
+                    });
+                    tanggal_kirimKolom.innerHTML = formattedDate;
+                    // count_do.innerHTML = options.count();
+                    // console.log(options);
+                    options.forEach((option, index) => {
+                        console.log(option);
+                        const body_deliveryOrderSudahACC =
+                            document.createElement("div");
+                        body_deliveryOrderSudahACC.classList.add(
+                            "cetak-dopdf-container05"
+                        );
+                        // body_deliveryOrderSudahACC.classList.add("body-cetak");
+                        body_deliveryOrderSudahACC.innerHTML = `
+                        <div class="cetak-dopdf-container03">
+                            <div style=width:45%>
+                                <table style="text-align: start">
+                                    <tr>
+                                        <td>Pelanggan: </td>
+                                        <td id="nama_customerKolom">${
+                                            option.NamaCust
+                                        }</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Kirim: </td>
+                                        <td id="alamat_kirimKolom">${
+                                            option.AlamatKirim
+                                        }</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No. SP: </td>
+                                        <td id="no_spKolom">${
+                                            option.IDSuratPesanan
+                                        }</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No. PO: </td>
+                                        <td id="no_poKolom">${option.NO_PO}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Keterangan: </td>
+                                        <td id="keterangan_kolom">${
+                                            option.Keterangan
+                                        }</td>
+                                    </tr>
+                                </table>
+                                <div style=height:100%>${index + 1}</div>
+                            </div>
+                            <div class="cetak-dopdf-container04">
+                                <table>
+                                    <tr>
+                                        <td style="vertical-align: top;">Spesifikasi:&nbsp;</td>
+                                        <td style="max-width: 200px"><span id="nama_kelompokKolom">Ukuran: ${
+                                            option.NamaKelompok
+                                        }</span> <br> <span
+                                                id="nama_barangKolom">${
+                                                    option.NamaBarang
+                                                }</span></td>
+                                        <td></td>
+                                        <td style="vertical-align: top">Corak</td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <td style="vertical-align: top">Jumlah:&nbsp;</td>
+                                        <td>Min: </td>
+                                        <td id="min_kirimKolom">${
+                                            option.MinKirimDO
+                                        }</td>
+                                        <td>Max:&nbsp;</td>
+                                        <td id="max_kirimKolom">${
+                                            option.MaxKirimDO
+                                        }</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Satuan: &nbsp;</td>
+                                        <td id="satuan_jualKolom">${
+                                            option.SatuanJual
+                                        }</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        `;
+                        div_cetakDOSudahACC.appendChild(
+                            body_deliveryOrderSudahACC
+                        );
                     });
                 });
         } else {
@@ -144,6 +268,7 @@ nomor_referensi.addEventListener("keypress", function (event) {
         }
     }
 });
+
 
 //#endregion
 

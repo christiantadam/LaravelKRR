@@ -33,12 +33,17 @@
     width: 98%;
     margin-left: 1%;
     display: flex;
+    gap: 3px;
 }
 .cetak-sjpdf-container2{
     border: 1px solid black;
     flex: 1;
     height: 100px;
     font-size: smaller;
+}
+.cetak-sjpdf-container2 p{
+    margin-bottom: 0;
+    margin-left: 5px;
 }
 .cetak-sjpdf-container3{
     flex: 1;
@@ -48,6 +53,10 @@
     width: 98%;
     margin-top: 1%;
     margin-left: 1%;
+}
+.cetak-sjpdf-container4 p {
+    margin-bottom: 0;
+    margin-left: 5px;
 }
 .cetak-sjpdf-container5{
     width: 98%;

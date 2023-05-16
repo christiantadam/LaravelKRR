@@ -46,16 +46,17 @@ table tr td:first-child {
 }
 
 @media print {
-    .header,
-    .page-header-space{
-        height: 150px;
+    .page-header-space {
+        height: 180px;
     }
     .acs-div-form {
         display: none;
     }
     .acs-div-container,
     .acs-div-container * {
-        font-family: "Times New Roman Semi Bold", sans-serif;
+        /* font-family: "Times New Roman Semi Bold", sans-serif; */
+        font-family: "Times New Roman", Times, serif;
+        font-weight: 450;
         visibility: visible;
         border: none;
     }
@@ -67,10 +68,11 @@ table tr td:first-child {
         font-weight: 600;
     }
     #div_cetakDO {
-        margin-top: 10px;
+        /* margin-top: 10px; */
         width: 100%;
         page-break-before: avoid;
     }
+
     .header {
         top: 0;
         left: 0;

@@ -31,15 +31,13 @@
                                 class="input">
                             <select name="no_sjSelect" id="no_sjSelect" style="width: 80%;display: none" class="input">
                                 <option disabled selected>-- Pilih Nomor Surat Jalan --</option>
-                                <option value="abc">def</option>
-                                <option value="ghi">jkl</option>
                             </select>
                             <button class="btn btn-primary" id="no_sjButton" style="width: 15%" id="no">...</button>
                         </div>
                     </div>
                     <div class="acs-div-filter1">
                         <label for="no_sp">Nomor SP:</label>
-                        <input type="text" name="no_sp" id="no_sp" class="input">
+                        <input type="text" name="no_sp" id="no_sp" class="input" readonly>
                     </div>
                     {{-- <div class="acs-div-filter2">
                         <label for="jenis_sp">Jenis SP:</label>
@@ -59,11 +57,17 @@
                     </div>
                     <div class="cetak-sjpdf-container1">
                         <div class="cetak-sjpdf-container2">
-                            <p id="alamat_kirimKolom">Kepada Yth. <br>
-                                TOCHU SILIKA INDONESIA <br> Kawasan Industri Mitrakarawang Jl.Mitra Selatan III Blok G-10,
+                            <p style="font-weight: bold">Kepada Yth.</p>
+                            <p id="nama_customerKolom" style="font-weight: bold"></p>
+                            <p id="alamat_kolom"> Kawasan Industri Mitrakarawang Jl.Mitra Selatan III Blok G-10,
                                 Parungmulya Ciampel - Karawang Jawa Barat 41361. Up:Bp.Nico. Telp.0264-440820</p>
                         </div>
                         <table class="cetak-sjpdf-container3">
+                            <tr>
+                                <td style="border: none !important">Nomor SJ</td>
+                                <td style="border: none !important">:</td>
+                                <td style="border: none !important;font-weight: bold" id="nomor_sjKolom"></td>
+                            </tr>
                             <tr>
                                 <td style="border: none !important">Tanggal</td>
                                 <td style="border: none !important">:</td>
@@ -90,25 +94,26 @@
                         </tr>
                         <tr>
                             <td id="nama_barangKolom" style="border-right: none !important; border-bottom: none !important">
-                                TSI-006-KR11/070.0X070.0X055.0/10X12/1591/GD REV.01</td>
-                            <td id="satuan_barangKolom"
+                                Diisi NamaType</td>
+                            <td id="satuan_barangSekunderKolom"
                                 style="border-right: none !important; border-bottom: none !important">PALET</td>
-                            <td id="jumlah_barangKolom" style="border-bottom: none !important">5</td>
+                            <td id="jumlah_barangSekunderKolom" style="border-bottom: none !important">5</td>
                         </tr>
                         <tr>
                             <td style="border-right: none !important; border-bottom: none !important"></td>
-                            <td style="border-right: none !important; border-bottom: none !important">LBR</td>
-                            <td style="border-bottom: none !important">1250</td>
+                            <td style="border-right: none !important; border-bottom: none !important"
+                                id="satuan_barangPrimerKolom">LBR</td>
+                            <td style="border-bottom: none !important" id="jumlah_barangPrimerKolom">1250</td>
                         </tr>
                         <tr>
-                            <td style="border-right: none !important">NO PO: 015/TSI-MTR/02/2023</td>
+                            <td style="border-right: none !important" id="no_poKolom"></td>
                             <td style="border-right: none !important"></td>
                             <td></td>
                         </tr>
                     </table>
                     <div class="cetak-sjpdf-container4">
                         <h4>Syarat Penyerahan: </h4>
-                        <p id="keterangan_kolom">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+                        <p id="alamat_kirimKolom">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
                             consectetur purus in massa fermentum faucibus. Praesent tristique ante ac lectus euismod, in
                             mattis lorem bibendum. Nulla gravida arcu ac purus dignissim, non rutrum odio luctus. Integer
                             nec turpis mauris.</p>
@@ -121,6 +126,7 @@
                             <br>
                             <br>
                             <br>
+                            <p>(SUNYATA ICHWAN)</p>
                             <fieldset style="border: 1px solid black;"></fieldset>
                             <table style="font-size: 10px;text-align: left">
                                 <tr>
@@ -153,6 +159,8 @@
                         <div class="cetak-sjpdf-container7">
                             <p style="text-align: center; font-weight: bold">TANDA TERIMA <br>
                                 BARANG TERSEBUT TELAH KAMI TERIMA DALAM KEADAAN CUKUP DAN BAIK</P>
+                            <br>
+                            <br>
                             <br>
                             <br>
                             <br>
