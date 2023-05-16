@@ -137,7 +137,7 @@
                                             <hr style="height:2px;">
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
                                                     tabindex="-1" href="{{ url('PascaKirim') }}">Pasca Kirim</a></li>
-                                            <hr style="height: 2px;">
+                                            {{-- <hr style="height: 2px;"> --}}
                                         </ul>
                                     </li>
 
@@ -164,8 +164,8 @@
                                             href=" {{ url('CetakDO') }}">Cetak DO</a></li>
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
                                             href=" {{ url('CetakSJ') }}">Cetak SJ</a></li>
-                                    <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
-                                            href="#">Cetak BonKas</a></li>
+                                    {{-- <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
+                                            href="#">Cetak BonKas</a></li> --}}
                                 </ul>
                             </div>
                             <div class="dropdown">

@@ -13,61 +13,54 @@
                     <div class="acs-div-filter1"> <label for="no_do">Nomor Referensi:</label> <input type="text"
                             name="nomor_referensi" id="nomor_referensi" class="input"> </div> <button id="print_button"
                         class="btn btn-info" style="font-color: white"><span>&#128462;</span>View Print</button> <button
-                        id="export_pdf" class="btn btn-primary"><span>&#11123;</span> Export PDF</button> <button
-                        id="print_pdf" class="btn btn-success"><span>&#128438;</span> Print Surat Pesanan</button>
+                        id="export_pdf" class="btn btn-primary"><span>&#11123;</span> Export PDF</button>
+                    <button id="print_pdf" class="btn btn-success"><span>&#128438;</span> Print Surat Pesanan</button>
                     <hr> <label for="contoh_print" id="contoh_print">Contoh print:</label>
                 </div>
                 <div class="acs-div-container" id="contoh_printDiv">
 
                     <body>
                         <div class="cetak-dopdf-container">
-                            {{-- masih error --}}
-                            <table class="cetak-dopdf-container02 header">
-                                <tbody>
-                                    <tr style="border: 1px solid black !important">
-                                        <td style="text-align: center; border-right: solid 1px black !important">
-                                            <h2 style="margin-bottom: 0px"> <span>PT. KERTA RAJASA RAYA</span> </h2>
-                                            <p style="margin-bottom: 0px"> <span>Woven Bag - Jumbo Bag
-                                                    Industrial</span>
-                                                <br />
-                                            <p style="margin-bottom: 0px"> <span>No. Dokumen:
-                                                    21-FM-03-02-01-01</span>
-                                                <br />
-                                        </td>
-                                        <td>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>No</td>
-                                                        <td>:</td>
-                                                        <td id="nomor_referensiKolom"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>DiBuat Oleh</td>
-                                                        <td>:</td>
-                                                        <td id="dibuat_olehKolom">Marketing</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="white-space: nowrap;">Tanggal Kirim</td>
-                                                        <td>:</td>
-                                                        <td id="tanggal_kirimKolom"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding-right: 10px">
-                                            <img src="{{ asset('images/CetakDO1.png') }}" alt="Example Image"
-                                                class="acs-image" style="margin-left: 5px">
-                                        </td>
-                                        <td>
-                                            <img src="{{ asset('images/CetakDO2.png') }}" alt="Example Image"
-                                                class="acs-image" style="margin-right: 5px">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="cetak-dopdf-container02 header">
+                                <div style="display:flex; flex-direction: row;gap:5px; width: 100%;border: 1px solid black !important;">
+                                    <div style="text-align: center; padding:5px;width: 50%">
+                                        <h2 style="margin-bottom: 0px"> <span>PT. KERTA RAJASA RAYA</span> </h2>
+                                        <p style="margin-bottom: 0px"> <span>Woven Bag - Jumbo Bag
+                                                Industrial</span>
+                                            <br />
+                                        <p style="margin-bottom: 0px"> <span>No. Dokumen:
+                                                21-FM-03-02-01-01</span>
+                                            <br />
+                                    </div>
+                                    <div style="display: flex; flex-direction: row; gap:5px;width: 50%;">
+                                        <div style="display: flex;flex-direction: column">
+                                            <div>No</div>
+                                            <div>DiBuat Oleh</div>
+                                            <div>Tanggal Kirim</div>
+                                        </div>
+                                        <div style="display: flex;flex-direction: column">
+                                            <div>:</div>
+                                            <div>:</div>
+                                            <div>:</div>
+                                        </div>
+                                        <div style="display: flex;flex-direction: column">
+                                            <div id="dibuat_olehKolom" style="white-space: nowrap;"></div>
+                                            <div id="nomor_referensiKolom"></div>
+                                            <div id="tanggal_kirimKolom"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;flex-direction: row; width:100%; gap:12px">
+                                    <div style="width:48%">
+                                        <img src="{{ asset('images/CetakDO1.png') }}" alt="Example Image" class="acs-image"
+                                            style="margin-left: 5px">
+                                    </div>
+                                    <div style="width:48%">
+                                        <img src="{{ asset('images/CetakDO2.png') }}" alt="Example Image" class="acs-image"
+                                            style="margin-right: 5px">
+                                    </div>
+                                </div>
+                            </div>
                             <table style="width: 98%">
                                 <thead>
                                     <tr>

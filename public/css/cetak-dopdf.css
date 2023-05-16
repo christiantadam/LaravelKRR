@@ -17,10 +17,12 @@
 }
 .cetak-dopdf-container02 {
     flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
     width: 98%;
     margin: 5px;
     align-items: flex-start;
-    gap: 3%;
+    gap: 5px;
     border-collapse: collapse !important;
 }
 .cetak-dopdf-container03{

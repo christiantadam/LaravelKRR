@@ -269,6 +269,10 @@ nomor_referensi.addEventListener("keypress", function (event) {
     }
 });
 
+print_pdf.addEventListener("click", function (event) {
+    event.preventDefault();
+    window.print();
+});
 
 //#endregion
 

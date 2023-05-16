@@ -45,6 +45,7 @@
                     </div> --}}
                     <button id="print_button" class="btn btn-primary">View Print</button>
                     <button id="export_pdf" class="btn btn-success">Export PDF</button>
+                    <button id="print_pdf" class="btn btn-success"><span>&#128438;</span> Print Surat Pesanan</button>
                     <hr>
                     <label for="contoh_print" id="contoh_print">Contoh print:</label>
                 </div>

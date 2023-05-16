@@ -47,7 +47,7 @@ table tr td:first-child {
 
 @media print {
     .page-header-space {
-        height: 180px;
+        height: 175px;
     }
     .acs-div-form {
         display: none;

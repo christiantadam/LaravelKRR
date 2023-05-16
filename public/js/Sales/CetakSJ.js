@@ -24,6 +24,7 @@ let no_poKolom = document.getElementById("no_poKolom");
 let alamat_kirimKolom = document.getElementById("alamat_kirimKolom");
 let nama_customerKolom = document.getElementById("nama_customerKolom");
 let nomor_sjKolom = document.getElementById("nomor_sjKolom");
+let print_pdf = document.getElementById("print_pdf");
 
 //#region Load Form
 
@@ -123,5 +124,10 @@ tanggal_sj.addEventListener("change", function () {
         no_sjText.style.display = "inline";
         no_sjSelect.style.display = "none";
     }
+});
+
+print_pdf.addEventListener("click", function (event) {
+    event.preventDefault();
+    window.print();
 });
 //#endregion
