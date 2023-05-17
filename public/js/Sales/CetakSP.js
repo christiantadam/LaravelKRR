@@ -127,7 +127,7 @@ print_button.addEventListener("click", function (event) {
                         "</b><br>" +
                         data[i].NamaType;
                     kode_barangKolom.innerHTML = data[i].KodeBarang;
-                    quantity_barangKolom.innerHTML = data[i].JmlOrder;
+                    quantity_barangKolom.innerHTML = data[i].JmlOrder + " " + data[i].Satuan;
                 }
                 jenis_bayarKolom.innerHTML = data[0].NamaPembayaran;
                 rencana_kirimKolom.innerHTML = formatDateToMMDDYYYY(

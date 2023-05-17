@@ -20,7 +20,7 @@ $(function () {
                 + data.data.KotaKirim + "</br><hr></br>No.NPWP: " + data.data.NPWP + "</br>Nama di NPWP: "
                 + data.data.NamaNPWP + "</br>Alamat di NPWP: " + data.data.AlamatNPWP
                 + "</br><hr></br>Tanggal data diinputkan: " + data.data.TimeInput;
-                console.log('yay');
+                // console.log('yay');
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");

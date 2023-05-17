@@ -551,7 +551,7 @@ kelompok_utama.addEventListener("change", function () {
     let selectedOption = this.options[this.selectedIndex];
     let text = selectedOption.text;
     let parts = text.split(" | ");
-    console.log(parts);
+    // console.log(parts);
     divisi.value = parts[2];
     kelompok.focus();
     fetch("/options/kelompok/" + kelompok_utama + "/" + kode_barang.value)

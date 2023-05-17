@@ -53,7 +53,7 @@ table tr td:first-child {
     }
     .acs-div-container,
     .acs-div-container * {
-        font-family: 'Times New Roman Semi Bold', sans-serif;
+        font-family: "Times New Roman", Times, serif;
         visibility: visible;
         border: none;
     }
@@ -65,6 +65,6 @@ table tr td:first-child {
     }
     .cetak-sppdf-container07{
         font-size: 15px;
-        font-weight: 600;
+        /* font-weight: 600; */
     }
 }

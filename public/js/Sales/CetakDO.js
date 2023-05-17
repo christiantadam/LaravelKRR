@@ -57,9 +57,9 @@ print_button.addEventListener("click", function (event) {
                         year: "numeric",
                     });
                     tanggal_kirimKolom.innerHTML = formattedDate;
-                    console.log(options);
+                    // console.log(options);
                     options.forEach((option, index) => {
-                        console.log(option);
+                        // console.log(option);
                         const body_deliveryOrderBelumACC =
                             document.createElement("div");
                             body_deliveryOrderBelumACC.classList.add(
@@ -166,7 +166,7 @@ print_button.addEventListener("click", function (event) {
                     // count_do.innerHTML = options.count();
                     // console.log(options);
                     options.forEach((option, index) => {
-                        console.log(option);
+                        // console.log(option);
                         const body_deliveryOrderSudahACC =
                             document.createElement("div");
                         body_deliveryOrderSudahACC.classList.add(

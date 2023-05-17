@@ -1016,11 +1016,11 @@ deleteButton.addEventListener("click", function (event) {
     const table = document.getElementById("list_view");
     const highlightedRow = table.querySelector("tr.highlighted");
     const input = highlightedRow.querySelectorAll("input");
-    console.log(input[29].value);
+    // console.log(input[29].value);
 
     if (highlightedRow) {
         if (input[29].value) {
-            console.log(input[29].value);
+            // console.log(input[29].value);
             fetch("/deletedetail/" + input[29].value)
             .then((response)=> response.json())
             .then((data) => {

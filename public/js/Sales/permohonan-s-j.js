@@ -172,7 +172,6 @@ id_kirimSelect.addEventListener("keypress", function (event) {
         event.preventDefault();
         jenis_pengiriman.focus();
     }
-    // console.log(id_kirimText.value)
 });
 
 jenis_pengiriman.addEventListener("keypress", function (event) {

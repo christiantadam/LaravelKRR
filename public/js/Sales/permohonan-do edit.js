@@ -213,7 +213,7 @@ fetch("/options/kelompokutama/" + kode_barang.value)
                 " | " +
                 option.ObjekDivisi;
             kelompok_utama.appendChild(optionTag);
-            console.log(kelompok_utama_edit.value);
+            // console.log(kelompok_utama_edit.value);
             // console.log(option.IDTYPEBARANG);
             if (option.IDTYPEBARANG === kelompok_utama_edit.value) {
                 kelompok_utama.value = option.IDTYPEBARANG;

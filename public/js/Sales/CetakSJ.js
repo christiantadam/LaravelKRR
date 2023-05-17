@@ -47,7 +47,7 @@ print_button.addEventListener("click", function () {
         fetch("/cetakSuratJalanPPN/" + tanggal_sj.value + "/" + no_sjText.value)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 no_poKolom.innerHTML = "";
                 no_spKolom.innerHTML = no_sp.value;
                 nomor_sjKolom.innerHTML = no_sjText.value;

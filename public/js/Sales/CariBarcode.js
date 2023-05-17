@@ -174,7 +174,7 @@ button_proses.addEventListener("click", function () {
                     const table = $("#table_Barcode").DataTable();
                     $(this).toggleClass("selected");
                     var selectedRows = table.rows(".selected").data().toArray();
-                    console.log(selectedRows);
+                    // console.log(selectedRows);
                 });
                 jumlah_data.innerHTML = data.length;
             })
@@ -209,7 +209,7 @@ kode_barang.addEventListener("keypress", function (event) {
             fetch("/cariBarcodeIdTypeDispresiasi/" + kode_barang.value)
                 .then((response) => response.json())
                 .then((options) => {
-                    console.log(options);
+                    // console.log(options);
                     id_typeSelect.innerHTML =
                         "<option disabled selected value>-- Pilih Id Type --</option>";
                     id_type.innerHTML = "";
@@ -228,7 +228,7 @@ kode_barang.addEventListener("keypress", function (event) {
             fetch("/cariBarcodeIdTypeTmpGudang/" + kode_barang.value)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
+                    // console.log(data);
                     id_typeSelect.innerHTML =
                         "<option disabled selected value>-- Pilih Id Type --</option>";
                     id_type.innerHTML = "";

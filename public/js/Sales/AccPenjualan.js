@@ -237,7 +237,7 @@ pilihSemuaButton.addEventListener("click", function () {
     const checkboxes = document.querySelectorAll(
         "#table_AccBarcodePenjualan tbody input[type='checkbox']"
     );
-    console.log(checkboxes);
+    // console.log(checkboxes);
     const dataTable = $("#table_AccBarcodePenjualan").DataTable();
     checkboxes.forEach(function (checkbox) {
         checkbox.checked = true;
@@ -279,7 +279,7 @@ pilihSemuaButton.addEventListener("click", function () {
     });
     closeModal();
     prosesButton.focus();
-    console.log(checkboxes);
+    // console.log(checkboxes);
 });
 
 hapusButton.addEventListener("click", function () {

@@ -192,7 +192,7 @@ surat_pesanan.addEventListener("change", function () {
     fetch("/options/barangpesanan/" + suratPesanan + "/" + surat_jalan.value)
         .then((response) => response.json())
         .then((options) => {
-            console.log(options);
+            // console.log(options);
             barang_pesanan.innerHTML =
                 "<option disabled selected>-- Pilih Barang --</option>";
             options.forEach((option) => {

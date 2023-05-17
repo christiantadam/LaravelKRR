@@ -1017,7 +1017,7 @@ no_sp.addEventListener("keypress", function (event) {
         fetch("/penyesuaian/" + no_sp.value)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 //isi header dulu
                 // Convert date string to Date object
                 let dataTgl_Pesan = new Date(data[0][0].Tgl_Pesan);
