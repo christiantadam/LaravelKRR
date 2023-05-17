@@ -124,7 +124,9 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $model = Customer::find($id);
-        $jnscust = JnsCust::get();
+        // $jnscust = JnsCust::get();
+        // dd($model);
+        $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
         return view('Sales.Master.Customer.edit', compact('model', 'jnscust'));
     }
 
