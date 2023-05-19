@@ -1,0 +1,27 @@
+.acs-form{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    gap: 5px;
+    padding: 10px;
+}
+.acs-div-container{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: 100%;
+    padding: 5px;
+}
+.acs-div-filter{
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter1{
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}

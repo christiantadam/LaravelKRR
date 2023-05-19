@@ -31,26 +31,20 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region Beli
     Route::get('Beli', 'App\Http\Controllers\HomeController@Beli');
-    #region Master
-    #region OrderPembelian
+    Route::resource('Supplier', App\Http\Controllers\Beli\SupplierController::class);
+    Route::resource('ListOrderPembelian', App\Http\Controllers\Beli\ListOrderPembelianController::class);
+    Route::resource('PreOrder', App\Http\Controllers\Beli\PreOrderController::class);
     Route::resource('OrderPembelian', App\Http\Controllers\Beli\OrderPembelianController::class);
-    #endregion
-    #region ListOrder
     Route::resource('ListOrder', App\Http\Controllers\Beli\ListOrderController::class);
     Route::get('/ListOrder/{id}/show', 'App\Http\Controllers\Beli\ListOrderController@show')->name('listorder.show');
     Route::get('/ListOrder/{divisi}/{tglAwal}/{tglAkhir}/{Me}/Filter', 'App\Http\Controllers\Beli\ListOrderController@Filter')->name('listorder.filter');
-    #endregion
-    #region Approve
     Route::resource('Approve', App\Http\Controllers\Beli\ApproveController::class);
     Route::get('/Approve/{id}/show', 'App\Http\Controllers\Beli\ApproveController@show')->name('approve.show');
     Route::post('/Approve/{id}/up', 'App\Http\Controllers\Beli\ApproveController@update')->name('approve.update');
-    #endregion
-    #region FinalApprove
     Route::resource('FinalApprove', App\Http\Controllers\Beli\FinalApproveController::class);
     Route::get('/FinalApprove/{id}/show', 'App\Http\Controllers\Beli\FinalApproveController@show')->name('finalapprove.show');
     Route::post('/FinalApprove/{id}/up', 'App\Http\Controllers\Beli\FinalApproveController@update')->name('finalapprove.update');
-    #endregion
-    #endregion
+
     #endregion
 
     #region User

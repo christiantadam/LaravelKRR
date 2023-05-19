@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Beli;
+namespace App\Http\Controllers\Beli\Transaksi;
 
 use Illuminate\Http\Request;
 use App\Models\Beli\TransBL;
@@ -38,7 +38,7 @@ class ListOrderController extends Controller
 
         $data = TransBL::select()->leftjoin('Y_BARANG','Y_BARANG.KD_BRG','YTRANSBL.Kd_brg')->leftjoin('YSATUAN','YSATUAN.No_satuan','YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER','STATUS_ORDER.KdStatus','YTRANSBL.StatusOrder')->where('YTRANSBL.Kd_div',$firstDivisi['Kd_div'])->where('YTRANSBL.Tgl_order','=',$date)->get();
 
-        return view('Beli.ListOrder.List',compact('data','dataDiv'));
+        return view('Beli.Transaksi.ListOrder.List',compact('data','dataDiv'));
     }
 
     public function show($id)

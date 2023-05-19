@@ -65,27 +65,95 @@
                     @guest
                     @else
                         <ul class="navbar-nav mr-auto RDZNavContenCenter">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                        style="margin: 10px">
-                                        Transaksi
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('OrderPembelian') }}">Order Pembelian</a></li>
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('Approve') }}">Approve</a></li>
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('FinalApprove') }}">Final Approve</a></li>
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('ListOrder') }}">List Order</a></li>
-                                    </ul>
-                                </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
+                                    Master
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('Supplier') }}">Supplier</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
+                                    Transaksi Beli
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('ListOrderPembelian') }}">List Order Pembelian</a></li>
+                                    <li><a class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
+                                            tabindex="-1">PO &raquo;</a>
+                                        <ul class="dropdown-menu dropdown-submenu">
+                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                                    tabindex="-1" href="{{ url('PreOrder/Create') }}">Create PO</a>
+                                            </li>
+                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                                    tabindex="-1" href="{{ url('PreOrder/Index') }}">List PO</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('DaftarOrder') }}">Daftar Order</a></li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('IsiSupplier') }}">Isi Supplier - Harga</a></li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('DaftarHarga') }}">Daftar Harga</a></li>
+                                    <li><a class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
+                                            tabindex="-1">BTTB &raquo;</a>
+                                        <ul class="dropdown-menu dropdown-submenu">
+                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                                    tabindex="-1" href="{{ url('BTTBBelumTransfer') }}">Daftar BTTB
+                                                    Belum Ditransfer </a>
+                                            </li>
+                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                                    tabindex="-1" href="{{ url('BTTBTerimaBarang') }}">BTTB/Terima
+                                                    Barang Datang</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('UserBeli') }}">User</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
+                                    Transaksi
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('OrderPembelian') }}">Order Pembelian</a></li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('Approve') }}">Approve</a></li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('FinalApprove') }}">Final Approve</a></li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('ListOrder') }}">List Order</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
+                                    Informasi
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('DaftarHarga') }}">Daftar Harga</a></li>
+                                </ul>
+                            </div>
                         </ul>
                     @endguest
                     <!-- Right Side Of Navbar -->

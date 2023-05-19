@@ -1,22 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Beli;
+namespace App\Http\Controllers\Beli\TransaksiBeli;
 
 use Illuminate\Http\Request;
-use App\Models\Beli\TransBL;
-use App\User;
-use App\UserDiv;
-use Auth;
-use Carbon\Carbon;
-use DB;
 use App\Http\Controllers\Controller;
 
-class OrderPembelianController extends Controller
+class BTTBTerimaBarangController extends Controller
 {
-    //Display a listing of the resource.
+    // Display a listing of the resource.
     public function index()
     {
-        // return view('Sales.ToolPenjualan.HapusCIR');
+        //
     }
 
     //Show the form for creating a new resource.
@@ -25,10 +19,10 @@ class OrderPembelianController extends Controller
         //
     }
 
-    // Store a newly created resource in storage.
+    //Store a newly created resource in storage.
     public function store(Request $request)
     {
-
+        //
     }
 
     //Display the specified resource.
@@ -44,9 +38,9 @@ class OrderPembelianController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update($id)
+    public function update(Request $request, $id)
     {
-
+        //
     }
 
     //Remove the specified resource from storage.

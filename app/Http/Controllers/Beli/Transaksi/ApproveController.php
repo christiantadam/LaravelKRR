@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Beli;
+namespace App\Http\Controllers\Beli\Transaksi;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +18,7 @@ class ApproveController extends Controller
         if($result>0)
         {
             $data = TransBL::select()->join('YUSER_ACC_DIR','YUSER_ACC_DIR.Kd_div','YTRANSBL.Kd_div')->leftjoin('Y_BARANG','Y_BARANG.KD_BRG','YTRANSBL.Kd_brg')->leftjoin('YUSER','YUSER.kd_user','YTRANSBL.Operator')->leftjoin('YSATUAN','YSATUAN.No_satuan','YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER','STATUS_ORDER.KdStatus','YTRANSBL.StatusOrder')->where('YUSER_ACC_DIR.Kd_user',strval(Auth::user()->kd_user))->where('StatusOrder','1')->get();
-            return view('Beli.Approve.List',compact('data'));
+            return view('Beli.Transaksi.Approve.List',compact('data'));
         }
         else
         {
