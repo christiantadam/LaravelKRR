@@ -186,10 +186,11 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                         const qtySekunder = parseFloat(
                                             rowData[4]
                                         );
-                                        const qtyPrimer = parseInt(rowData[3]);
+                                        const qtyPrimer = parseFloat(rowData[3]);
                                         tritier += qtyTritier;
                                         sekunder += qtySekunder;
                                         primer += qtyPrimer;
+                                        console.log(qtyPrimer);
                                     }
                                 });
 
@@ -258,7 +259,7 @@ pilihSemuaButton.addEventListener("click", function () {
             for (let i = 0; i < selectedRowData.length; i++) {
                 const qtyTritier = parseFloat(rowData[5]);
                 const qtySekunder = parseFloat(rowData[4]);
-                const qtyPrimer = parseInt(rowData[3]);
+                const qtyPrimer = parseFloat(rowData[3]);
                 tritier += qtyTritier;
                 sekunder += qtySekunder;
                 primer += qtyPrimer;
