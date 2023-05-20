@@ -10,7 +10,7 @@ class ListOrderPembelianController extends Controller
     // Display a listing of the resource.
     public function index()
     {
-        //
+        return view('Beli.TransaksiBeli.ListOrderPembelian');
     }
 
     //Show the form for creating a new resource.

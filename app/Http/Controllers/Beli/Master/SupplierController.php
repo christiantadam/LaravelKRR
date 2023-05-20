@@ -99,8 +99,8 @@ class SupplierController extends Controller
                 $mata_uang,
                 $jnSup
             ]);
-
         dd($request->all());
+        // return redirect()->back()->with('error', 'Tidak Bisa DiAcc !!!. Karena Ada Transaksi Penyesuaian yang Belum Diacc untuk Type' . $idtype);
     }
 
     //Display the specified resource.

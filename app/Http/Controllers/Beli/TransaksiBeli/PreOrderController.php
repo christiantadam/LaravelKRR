@@ -5,18 +5,18 @@ namespace App\Http\Controllers\Beli\TransaksiBeli;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PreOrder extends Controller
+class PreOrderController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
-        //
+        return view('Beli.TransaksiBeli.PreOrder.List');
     }
 
     //Show the form for creating a new resource.
     public function create()
     {
-        //
+        return view('Beli.TransaksiBeli.PreOrder.Create');
     }
 
     //Store a newly created resource in storage.

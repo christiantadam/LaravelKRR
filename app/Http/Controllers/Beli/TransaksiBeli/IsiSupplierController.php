@@ -10,7 +10,7 @@ class IsiSupplierController extends Controller
     // Display a listing of the resource.
     public function index()
     {
-        //
+        return view('Beli.TransaksiBeli.IsiSupplier');
     }
 
     //Show the form for creating a new resource.

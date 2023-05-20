@@ -1,6 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
-    <link href="{{ asset('css/DaftarHarga.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/ListPreOrder.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <div class="container-fluid">
@@ -16,12 +16,12 @@
                     </div>
                 @endif
                 <div class="card">
-                    <div class="card-header">Daftar Harga</div>
+                    <div class="card-header">List Pre Order</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
 
                     </div>
                 </div>
             </div>
         </div>
-        <script src="{{ asset('js/OrderPembelian/DaftarHarga.js') }}"></script>
+        <script src="{{ asset('js/OrderPembelian/ListPreOrder.js') }}"></script>
     @endsection
