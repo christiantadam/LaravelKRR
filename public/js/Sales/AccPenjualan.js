@@ -175,25 +175,10 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                     const row = $(this).closest("tr");
                                     const rowData = dataTable.row(row).data();
                                     selectedRowData.push(rowData);
-                                    for (
-                                        let i = 0;
-                                        i < selectedRowData.length;
-                                        i++
-                                    ) {
-                                        const qtyTritier = parseFloat(
-                                            rowData[5]
-                                        );
-                                        const qtySekunder = parseFloat(
-                                            rowData[4]
-                                        );
-                                        const qtyPrimer = parseFloat(rowData[3]);
-                                        tritier += qtyTritier;
-                                        sekunder += qtySekunder;
-                                        primer += qtyPrimer;
-                                        console.log(qtyPrimer);
-                                    }
+                                    primer += parseFloat(rowData[3]);
+                                    sekunder += parseFloat(rowData[4]);
+                                    tritier += parseFloat(rowData[5]);
                                 });
-
                                 saldo_primerDikeluarkan.value = primer;
                                 saldo_sekunderDikeluarkan.value = sekunder;
                                 saldo_tritierDikeluarkan.value = tritier;
@@ -255,15 +240,9 @@ pilihSemuaButton.addEventListener("click", function () {
             const row = $(this).closest("tr");
             const rowData = dataTable.row(row).data();
             selectedRowData.push(rowData);
-
-            for (let i = 0; i < selectedRowData.length; i++) {
-                const qtyTritier = parseFloat(rowData[5]);
-                const qtySekunder = parseFloat(rowData[4]);
-                const qtyPrimer = parseFloat(rowData[3]);
-                tritier += qtyTritier;
-                sekunder += qtySekunder;
-                primer += qtyPrimer;
-            }
+            primer += parseFloat(rowData[3]);
+            sekunder += parseFloat(rowData[4]);
+            tritier += parseFloat(rowData[5]);
         });
 
         saldo_primerDikeluarkan.value = primer;
