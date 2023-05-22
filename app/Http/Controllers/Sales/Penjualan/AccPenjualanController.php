@@ -40,7 +40,7 @@ class AccPenjualanController extends Controller
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
 
         $idtype = $request->id_type;
         $penyesuaian = db::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_transaksi @idtype = ?, @idtypetransaksi = ?', [$idtype, '06']);
@@ -128,7 +128,7 @@ class AccPenjualanController extends Controller
     //Remove the specified resource from storage.
     public function destroy($kodebarang, $noindeks)
     {
-        dd('masuk destroy');
+        // dd('masuk destroy');
         db::connection('ConnIventory')->statement('exec SP_1273_INV_Hapus_Barcode_Tmp_Gudang @kode_barang = ?, @item_number = ?', [$kodebarang, $noindeks]);
         return redirect()->back()->with('success', 'Kode Barang ' . $kodebarang . 'dengan Nomor Indeks ' . $noindeks . 'Sudah Dihapus!');
     }
