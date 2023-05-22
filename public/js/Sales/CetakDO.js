@@ -99,7 +99,7 @@ print_button.addEventListener("click", function (event) {
                                         }</td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat Kirim DO: </td>
+                                        <td>Keterangan: </td>
                                         <td id="keterangan_kolom">${
                                             option.AlamatKirimDO
                                         }</td>

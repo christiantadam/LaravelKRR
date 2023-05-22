@@ -51,14 +51,15 @@
                                     </div>
                                 </div>
                                 <div style="display: flex;flex-direction: row; width:100%; gap:12px">
-                                    <div style="width:48%">
+                                    <h1>SURAT PERINTAH PENGIRIMAN DIVISI PEMASARAN LOKAL / EKSPORT</h1>
+                                    {{-- <div style="width:48%">
                                         <img src="{{ asset('images/CetakDO1.png') }}" alt="Example Image" class="acs-image"
                                             style="margin-left: 5px">
                                     </div>
                                     <div style="width:48%">
                                         <img src="{{ asset('images/CetakDO2.png') }}" alt="Example Image" class="acs-image"
                                             style="margin-right: 5px">
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <table style="width: 98%">
