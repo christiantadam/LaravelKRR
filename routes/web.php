@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('Beli', 'App\Http\Controllers\HomeController@Beli');
     Route::resource('Supplier', App\Http\Controllers\Beli\Master\SupplierController::class);
+    Route::post('/Supplier/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@destroy')->name('supplier.destroy');
+    Route::get('/options/supplierselect/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@getSupplier');
     Route::resource('ListOrderPembelian', App\Http\Controllers\Beli\TransaksiBeli\ListOrderPembelianController::class);
     Route::resource('PreOrder', App\Http\Controllers\Beli\TransaksiBeli\PreOrderController::class);
     Route::resource('OrderPembelian', App\Http\Controllers\Beli\Transaksi\OrderPembelianController::class);

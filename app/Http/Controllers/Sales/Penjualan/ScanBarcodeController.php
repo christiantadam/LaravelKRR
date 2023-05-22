@@ -47,12 +47,12 @@ class ScanBarcodeController extends Controller
         $kodeBarang = $request->kode_barang;
         $data = db::connection('ConnInventory')->select('exec SP_1273_INV_cek_tmpgudang @indeks = ?, @kdbrg = ?', [$indeks, $kodeBarang]);
         $status = db::connection('ConnInventory')->select('SP_1273_INV_cek_status_tmpgudang @indeks = ?, @kdbrg = ?', [$indeks, $kodeBarang]);
-        // dd($data);
+        // dd($status[0]->Status);
         if (empty($status)) {
             $status = "3";
         }
         if (empty($data)) {
-            if ($status != "3") {
+            if ($status[0]->Status !== 3) {
                 return redirect()->back()->with('error', 'Barang Belum Diterima Gudang!');
             }
             db::connection('ConnInventory')->statement('exec SP_1273_INV_insert_tmpgudang @indeks = ?, @kdbrg = ?', [$indeks, $kodeBarang]);

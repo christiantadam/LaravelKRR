@@ -18,7 +18,11 @@
                 <div class="card">
                     <div class="card-header">Supplier</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-                        <form class="form" method="POST" enctype="multipart/form-data" action="{{ url('Supplier') }}">
+                        <div style="display: flex;flex-direction: row">
+
+                        </div>
+                        <form class="form" method="POST" enctype="multipart/form-data" action="{{ url('Supplier') }}"
+                            id="form_supplier">
                             {{ csrf_field() }}
                             <div class="acs-div-container">
                                 <div class="acs-div-filter">
@@ -34,6 +38,7 @@
                                             @endforeach
                                         </select>
                                         <input type="hidden" name="supplier_id" id="supplier_id">
+                                        <input type="hidden" name="kode" id="kode">
                                         <button id="swtich_supplier" class="btn btn-info"
                                             style="display: inline;">↺</button>
                                     </div>
@@ -122,9 +127,9 @@
                                 <select name="mata_uang" id="mata_uang" class="input">
                                     <option selected disabled>-- Pilih Mata Uang--</option>
                                     @foreach ($matauang as $data)
-                                                <option value="{{ $data->Id_MataUang }}">
-                                                    {{ $data->Nama_MataUang }}</option>
-                                            @endforeach
+                                        <option value="{{ $data->Id_MataUang }}">
+                                            {{ $data->Nama_MataUang }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </form>
