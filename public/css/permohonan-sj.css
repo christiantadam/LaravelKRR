@@ -8,6 +8,12 @@
 .highlighted {
     background-color: yellow;
 }
+.acs-div-filter1{
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
 .permohonan-sj-container {
     width: 100%;
     display: flex;
