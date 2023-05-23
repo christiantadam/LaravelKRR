@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
                 <div class="acs-div-form">
-                    <div> <input type="radio" name="group_cetak" id="cetak_belumACC"> Cetak Belum ACC (Lokal) <input
+                    <div style="display: none"> <input type="radio" name="group_cetak" id="cetak_belumACC"> Cetak Belum ACC (Lokal) <input
                             type="radio" name="group_cetak" id="cetak_sudahACC"> Cetak Sudah ACC (Lokal) </div>
                     <div class="acs-div-filter"> <label for="tanggal_do">Tanggal:</label> <input type="date"
                             name="tanggal_do" id="tanggal_do" class="input"> </div>
@@ -44,8 +44,8 @@
                                             <div>:</div>
                                         </div>
                                         <div style="display: flex;flex-direction: column">
-                                            <div id="dibuat_olehKolom" style="white-space: nowrap;"></div>
                                             <div id="nomor_referensiKolom"></div>
+                                            <div id="dibuat_olehKolom" style="white-space: nowrap;">Marketing</div>
                                             <div id="tanggal_kirimKolom"></div>
                                         </div>
                                     </div>

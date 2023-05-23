@@ -40,11 +40,11 @@ class AccPenjualanController extends Controller
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
 
         $idtype = $request->id_type;
         $penyesuaian = db::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_transaksi @idtype = ?, @idtypetransaksi = ?', [$idtype, '06']);
-
+        // dd($penyesuaian);
         if ($penyesuaian[0]->jumlah > 0) {
             return redirect()->back()->with('error', 'Tidak Bisa DiAcc !!!. Karena Ada Transaksi Penyesuaian yang Belum Diacc untuk Type' . $idtype);
         }

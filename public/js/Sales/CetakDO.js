@@ -68,7 +68,7 @@ print_button.addEventListener("click", function (event) {
 
                         body_deliveryOrderBelumACC.innerHTML = `
                         <div class="cetak-dopdf-container03">
-                            <div style=width:45%>
+                            <div style=width:100%>
                                 <table style="text-align: start">
                                     <tr>
                                         <td>Pelanggan: </td>
@@ -77,7 +77,7 @@ print_button.addEventListener("click", function (event) {
                                         }</td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat Kirim: </td>
+                                        <td style="white-space: nowrap;">Alamat Kirim: </td>
                                         <td id="alamat_kirimKolom">${
                                             option.AlamatKirim
                                         }</td>
@@ -93,7 +93,7 @@ print_button.addEventListener("click", function (event) {
                                         <td id="no_poKolom">${option.NO_PO}</td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat Kantor: </td>
+                                        <td style="white-space: nowrap;">Alamat Kantor: </td>
                                         <td id="keterangan_kolom">${
                                             option.AlamatKirim
                                         }</td>
@@ -105,7 +105,6 @@ print_button.addEventListener("click", function (event) {
                                         }</td>
                                     </tr>
                                 </table>
-                                <div style=height:100%>${index + 1}</div>
                             </div>
                             <div class="cetak-dopdf-container04">
                                 <table>
@@ -143,6 +142,7 @@ print_button.addEventListener("click", function (event) {
                                 </table>
                             </div>
                         </div>
+                        <div style=height:100%;text-align:right;margin-right:10px>${index + 1}</div>
                         `;
                         div_cetakDOBelumACC.appendChild(
                             body_deliveryOrderBelumACC
@@ -206,7 +206,7 @@ print_button.addEventListener("click", function (event) {
                                         }</td>
                                     </tr>
                                 </table>
-                                <div style=height:100%>${index + 1}</div>
+                                <div style=height:100%;text-align:right>${index + 1}</div>
                             </div>
                             <div class="cetak-dopdf-container04">
                                 <table>
