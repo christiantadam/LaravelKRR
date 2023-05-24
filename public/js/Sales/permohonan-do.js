@@ -42,6 +42,8 @@ let sub_kelompok = document.getElementById("sub_kelompok");
 let text_idTypeBarang = document.getElementById("text_idTypeBarang");
 let tgl_do = document.getElementById("tgl_do");
 let uraian = document.getElementById("uraian");
+let id_pesananDiv = document.getElementById("id_pesananDiv");
+let surat_pesananDiv = document.getElementById("surat_pesananDiv");
 
 //#endregion
 
@@ -231,7 +233,7 @@ nomor_spText.addEventListener("keypress", function (event) {
                     options.forEach((option) => {
                         let optionTag = document.createElement("option");
                         optionTag.value = option.IDPesanan;
-                        optionTag.text = option.IDPesanan + "-" + option.Uraian;
+                        optionTag.text = option.IDPesanan + " | " + option.Uraian;
                         id_pesananSelect.appendChild(optionTag);
                     });
                 });
@@ -730,9 +732,11 @@ listBarang_button.addEventListener("click", function (event) {
     if (id_pesananSelect.style.display == "block") {
         id_pesananSelect.style.display = "none";
         id_pesananText.style.display = "block";
+        id_pesananDiv.style.display = "none";
     } else if (id_pesananSelect.style.display == "none") {
         id_pesananSelect.style.display = "block";
         id_pesananText.style.display = "none";
+        id_pesananDiv.style.display = "flex";
     }
 });
 
@@ -742,9 +746,11 @@ listSP_button.addEventListener("click", function (event) {
     // nomor_spText.style.display = "none";
     if (nomor_spSelect.style.display == "block") {
         nomor_spSelect.style.display = "none";
+        surat_pesananDiv.style.display = "none";
         nomor_spText.style.display = "block";
     } else if (nomor_spSelect.style.display == "none") {
         nomor_spSelect.style.display = "block";
+        surat_pesananDiv.style.display = "flex";
         nomor_spText.style.display = "none";
     }
     // console.log(customer.value);

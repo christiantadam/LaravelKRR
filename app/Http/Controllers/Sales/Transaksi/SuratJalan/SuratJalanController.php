@@ -57,7 +57,7 @@ class SuratJalanController extends Controller
         $IdCust = $request->customer;
         $TrukNopol = $request->truk_nopol;
         $Tanggal = $request->tanggal;
-        $Biaya = $request->biaya;
+        $Biaya = $request->biaya ?? 0;
         $StatusBiaya = 'N';
         $Keterangan = $request->keterangan;
         $NoContainer = NULL;

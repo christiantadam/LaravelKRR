@@ -156,91 +156,91 @@ truk_nopol.addEventListener("change", function () {
 surat_pesanan.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        nomor_do.focus();
+        // nomor_do.focus();
     }
 });
 
 nomor_do.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        add_item.focus();
+        // add_item.focus();
     }
 });
 
 id_kirimSelect.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        jenis_pengiriman.focus();
+        // jenis_pengiriman.focus();
     }
 });
 
 jenis_pengiriman.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        surat_jalan.focus();
+        // surat_jalan.focus();
     }
 });
 
 tanggal.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        customer.focus();
+        // customer.focus();
     }
 });
 
 tanggal_actual.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        customer.focus();
+        // customer.focus();
     }
 });
 
 customer.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        keterangan.focus();
+        // keterangan.focus();
     }
 });
 
 expeditor.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        surat_pesanan.focus();
+        // surat_pesanan.focus();
     }
 });
 
 surat_jalan.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        tanggal.focus();
+        // tanggal.focus();
     }
 });
 
 tanggal_actual.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        expeditor.focus();
+        // expeditor.focus();
     }
 });
 
 keterangan.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        truk_nopol.focus();
+        // truk_nopol.focus();
     }
 });
 
 truk_nopol.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        biaya.focus();
+        // biaya.focus();
     }
 });
 
 biaya.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        tanggal_actual.focus();
+        // tanggal_actual.focus();
     }
 });
 
