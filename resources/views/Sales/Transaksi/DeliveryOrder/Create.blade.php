@@ -119,138 +119,91 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- <div class="permohonan-do-container06">
-                                        <span class="permohonan-do-text07">Uraian</span>
-                                        <input type="text" id="uraian" name="uraian" placeholder="Uraian"
-                                            class="permohonan-do-textarea textarea"></textarea>
-                                    </div>
-                                    <div class="permohonan-do-container07">
-                                        <span class="permohonan-do-text08">Kel. Utama</span>
-                                        <select id="kelompok_utama" name="kelompok_utama"
-                                            class="permohonan-do-select4 input">
-                                            <option disabled selected>--Pilih Kelompok Utama--</option>
-                                        </select>
-                                    </div>
-                                    <div class="permohonan-do-container08">
-                                        <span class="permohonan-do-text09">Kelompok</span>
-                                        <select id="kelompok" name="kelompok" class="permohonan-do-select5 input">
-                                            <option disabled selected>--Pilih Kelompok--</option>
-                                        </select>
-                                    </div>
-                                    <div class="permohonan-do-container09">
-                                        <span class="permohonan-do-text10">Sub. Kel.</span>
-                                        <select id="sub_kelompok" name="sub_kelompok"
-                                            class="permohonan-do-select6 input">
-                                            <option disabled selected>--Pilih Sub Kelompok--</option>
-                                        </select>
-                                    </div> --}}
-                                    <div class="permohonan-do-container10">
-                                        <div class="permohonan-do-container11">
-                                            <div class="permohonan-do-container12">
-                                                <span class="permohonan-do-text11">Qty Primer</span>
-                                                <input type="text" id="qty_primer" name="qty_primer"
-                                                    placeholder="Qty Primer" class="permohonan-do-textinput02 input" />
+                                    <div style="display: flex; flex-direction: row;gap: 100px">
+                                        <div>
+                                            <div class="acs-div-filter1">
+                                                <label for="qty_primer">Qty Primer</label>
+                                                <input type="text" name="qty_primer" id="qty_primer"
+                                                    placeholder="Qty Primer" class="input">
                                             </div>
-                                            <div class="permohonan-do-container13">
-                                                <span class="permohonan-do-text13">Qty Sekunder</span>
-                                                <input type="text" id="qty_sekunder" name="qty_sekunder"
-                                                    placeholder="Qty Sekunder" class="permohonan-do-textinput04 input" />
-                                                <span class="permohonan-do-text14">Qty Order</span>
-                                                <input type="text" id="qty_order" name="qty_order"
-                                                    placeholder="Qty Order" class="permohonan-do-textinput05 input" />
+                                            <div class="acs-div-filter1">
+                                                <label for="qty_sekunder">Qty Sekunder</label>
+                                                <input type="text" name="qty_sekunder" id="qty_sekunder"
+                                                    placeholder="Qty Sekunder" class="input">
                                             </div>
-                                            <div class="permohonan-do-container13">
-                                                <span class="permohonan-do-text13">Qty Tritier</span>
-                                                <input type="text" id="qty_tritier" name="qty_tritier"
-                                                    placeholder="Qty Tritier" class="input" style="margin-left: 40px" />
-                                                <span class="permohonan-do-text14">Qty Kirim</span>
-                                                <input type="text" id="qty_kirim" name="qty_kirim"
-                                                    placeholder="Qty Kirim" class="input" />
+                                            <div class="acs-div-filter1">
+                                                <label for="qty_tritier">Qty Tritier</label>
+                                                <input type="text" name="qty_tritier" id="qty_tritier"
+                                                    placeholder="Qty Tritier" class="input">
                                             </div>
-                                            <div class="permohonan-do-container14">
-                                                <span class="permohonan-do-text15">Max Kirim</span>
-                                                <input type="text" id="max_kirim" name="max_kirim"
-                                                    placeholder="Max Kirim" class="permohonan-do-textinput06 input" />
+                                            <div class="acs-div-filter1">
+                                                <label for="max_kirim">Max DO</label>
+                                                <input type="text" name="max_kirim" id="max_kirim" placeholder="Max DO"
+                                                    class="input">
                                             </div>
-                                            <div class="permohonan-do-container15">
-                                                <span class="permohonan-do-text16">Min Kirim</span>
-                                                <input type="text" id="min_kirim" name="min_kirim"
-                                                    placeholder="Min Kirim" class="permohonan-do-textinput07 input" />
+                                            <div class="acs-div-filter1">
+                                                <label for="min_kirim">Min DO</label>
+                                                <input type="text" name="min_kirim" id="min_kirim" placeholder="Min DO"
+                                                    class="input">
                                             </div>
                                         </div>
-                                        <div class="permohonan-do-container16">
-                                            <div class="permohonan-do-container17">
-                                                <span class="permohonan-do-text17">Qty Primer</span>
-                                                <input type="text" id="qty_primerGudang" name="qty_primerGudang"
-                                                    placeholder="Qty Primer Gudang"
-                                                    class="permohonan-do-textinput08 input" readonly />
-                                                <input type="text" placeholder="Satuan Primer" id="satuan_primer"
-                                                    class="permohonan-do-textinput09 input" />
+                                        <div>
+                                            <div class="acs-div-filter1">
+                                                <label for="qty_order">Qty Order</label>
+                                                <input type="text" name="qty_order" id="qty_order"
+                                                    placeholder="Qty Order" class="input">
                                             </div>
-                                            <div class="permohonan-do-container18">
-                                                <span class="permohonan-do-text18">Qty Sekunder</span>
-                                                <input type="text" placeholder="Qty Sekunder Gudang"
-                                                    id="qty_sekunderGudang" class="permohonan-do-textinput10 input"
-                                                    readonly />
-                                                <input type="text" placeholder="Satuan Sekunder" id="satuan_sekunder"
-                                                    class="permohonan-do-textinput11 input" />
+                                            <div class="acs-div-filter1">
+                                                <label for="qty_kirim">Qty Kirim</label>
+                                                <input type="text" name="qty_kirim" id="qty_kirim"
+                                                    placeholder="Qty Kirim" class="input">
                                             </div>
-                                            <div class="permohonan-do-container19">
-                                                <span class="permohonan-do-text19">Qty Tritier</span>
-                                                <input type="text" id="qty_tritierGudang" name="qty_tritierGudang"
-                                                    placeholder="Qty Tritier Gudang"
-                                                    class="permohonan-do-textinput12 input" readonly />
-                                                <input type="text" placeholder="Satuan Tritier" id="satuan_tritier"
-                                                    class="permohonan-do-textinput13 input" />
+                                        </div>
+                                        <div>
+                                            <div class="acs-div-filter1">
+                                                <label for="qty_order">Qty Primer</label>
+                                                <div class="acs-div-filter4">
+                                                    <input type="text" name="qty_primerGudang" id="qty_primerGudang"
+                                                        placeholder="Qty Primer Gudang" class="input">
+                                                    <input type="text" name="satuan_primer" id="satuan_primer"
+                                                        placeholder="Satuan Primer" class="input" style="width: 140px">
+                                                </div>
                                             </div>
-                                            <div class="permohonan-do-container20">
-                                                <span class="permohonan-do-text20">Divisi</span>
-                                                <input type="text" id="divisi" name="divisi" placeholder="Divisi"
-                                                    class="permohonan-do-textinput14 input" />
+                                            <div class="acs-div-filter1">
+                                                <label for="qty_order">Qty Sekunder</label>
+                                                <div class="acs-div-filter4">
+                                                    <input type="text" name="qty_sekunderGudang"
+                                                        id="qty_sekunderGudang" placeholder="Qty Primer Gudang"
+                                                        class="input">
+                                                    <input type="text" name="satuan_sekunder" id="satuan_sekunder"
+                                                        placeholder="Satuan Primer" class="input" style="width: 140px">
+                                                </div>
+                                            </div>
+                                            <div class="acs-div-filter1">
+                                                <label for="qty_order">Qty Tritier</label>
+                                                <div class="acs-div-filter4">
+                                                    <input type="text" name="qty_tritierGudang" id="qty_tritierGudang"
+                                                        placeholder="Qty Primer Gudang" class="input">
+                                                    <input type="text" name="satuan_tritier" id="satuan_tritier"
+                                                        placeholder="Satuan Primer" class="input" style="width: 140px">
+                                                </div>
+                                            </div>
+                                            <div class="acs-div-filter1">
+                                                <label for="divisi">Divisi</label>
+                                                <input type="text" name="divisi" id="divisi" placeholder="Divisi"
+                                                    class="input">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="permohonan-do-container21">
-                                        <span class="permohonan-do-text21">
-                                            <span>Alamat Kirim</span>
-                                            <br />
-                                            <br />
-                                        </span>
-                                        <textarea id="alamat_kirim" name="alamat_kirim" placeholder="Alamat Kirim" class="permohonan-do-textarea1 textarea"></textarea>
-                                    </div>
-                                    <div class="permohonan-do-container22">
-                                        <span class="permohonan-do-text25">
-                                            <span>Kota Kirim</span>
-                                            <br />
-                                            <br />
-                                        </span>
-                                        <input type="text" id="kota_kirim" name="kota_kirim" placeholder="Kota Kirim"
-                                            class="permohonan-do-input1 input" />
-                                    </div>
-                                    <div class="permohonan-do-container23" style="display: none">
-                                        <div class="permohonan-do-container24">
-                                            <span class="permohonan-do-text29">
-                                                <span>Vessel</span>
-                                                <br />
-                                            </span>
-                                            <input type="text" id="vessel" name="vessel" placeholder="Vessel"
-                                                class="permohonan-do-input2 input" />
+                                    <div>
+                                        <div class="acs-div-filter3">
+                                            <label for="alamat_kirim">Alamat Kirim</label>
+                                            <textarea type="text" name="alamat_kirim" id="alamat_kirim" placeholder="Alamat Kirim" class="input"></textarea>
                                         </div>
-                                        <div class="permohonan-do-container25">
-                                            <span class="permohonan-do-text32">
-                                                <span>ETD</span>
-                                                <br />
-                                            </span>
-                                            <input type="date" id="etd" name="etd"
-                                                placeholder="placeholder" class="permohonan-do-textinput15 input" />
-                                        </div>
-                                        <div class="permohonan-do-container26">
-                                            <span class="permohonan-do-text35">
-                                                <span>CC</span>
-                                                <br />
-                                            </span>
-                                            <input type="date" id="cc" name="cc"
-                                                placeholder="placeholder" class="permohonan-do-textinput16 input" />
+                                        <div class="acs-div-filter1">
+                                            <label for="kota_kirim">Kota Kirim</label>
+                                            <input type="text" name="kota_kirim" id="kota_kirim"
+                                                placeholder="Kota Kirim" class="input">
                                         </div>
                                     </div>
                                 </div>

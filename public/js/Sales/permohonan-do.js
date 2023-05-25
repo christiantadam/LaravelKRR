@@ -4,11 +4,11 @@
 let alamat_kirim = document.getElementById("alamat_kirim");
 let listBarang_button = document.getElementById("listBarang_button");
 let id_pesananText = document.getElementById("id_pesananText");
-let cc = document.getElementById("cc");
+// let cc = document.getElementById("cc");
 let customer = document.getElementById("customer");
 let div_deliveryOrder = document.getElementById("div_deliveryOrder");
 let divisi = document.getElementById("divisi");
-let etd = document.getElementById("etd");
+// let etd = document.getElementById("etd");
 let form_deliveryOrder = document.getElementById("form_deliveryOrder");
 let id_pesananSelect = document.getElementById("id_pesananSelect");
 // let id_pesanan_hidden = document.getElementById("id_pesanan_hidden");
@@ -179,8 +179,8 @@ alamat_kirim.addEventListener("keypress", function (event) {
 //#region load form
 
 isi_button.focus();
-etd.valueAsDate = new Date();
-cc.valueAsDate = new Date();
+// etd.valueAsDate = new Date();
+// cc.valueAsDate = new Date();
 tgl_do.valueAsDate = new Date();
 nomor_spSelect.style.display = "none";
 id_pesananSelect.style.display = "none";
@@ -233,7 +233,8 @@ nomor_spText.addEventListener("keypress", function (event) {
                     options.forEach((option) => {
                         let optionTag = document.createElement("option");
                         optionTag.value = option.IDPesanan;
-                        optionTag.text = option.IDPesanan + " | " + option.Uraian;
+                        optionTag.text =
+                            option.IDPesanan + " | " + option.Uraian;
                         id_pesananSelect.appendChild(optionTag);
                     });
                 });
@@ -742,8 +743,6 @@ listBarang_button.addEventListener("click", function (event) {
 
 listSP_button.addEventListener("click", function (event) {
     event.preventDefault();
-    // nomor_spSelect.style.display = "block";
-    // nomor_spText.style.display = "none";
     if (nomor_spSelect.style.display == "block") {
         nomor_spSelect.style.display = "none";
         surat_pesananDiv.style.display = "none";
@@ -758,8 +757,10 @@ listSP_button.addEventListener("click", function (event) {
 //#endregion
 
 function funcResetForm() {
-    etd.valueAsDate = new Date();
-    cc.valueAsDate = new Date();
+    surat_pesananDiv.style.display = "none";
+    id_pesananDiv.style.display = "none";
+    // etd.valueAsDate = new Date();
+    // cc.valueAsDate = new Date();
     tgl_do.valueAsDate = new Date();
     nomor_doSelect.selectedIndex = 0;
     nomor_doText.value = "";
