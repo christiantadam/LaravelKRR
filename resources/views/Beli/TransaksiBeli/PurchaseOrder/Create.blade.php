@@ -82,8 +82,7 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Supplier</th>
-                                        <th>Id_Div<br><label
-                                                style="font-size: 10px; margin-bottom: 0px;">(MM-DD-YYYY)</label></th>
+                                        <th>Id_Div</th>
                                         <th>User</th>
                                         <th>Status Beli</th>
                                         <th>Nomor Order</th>

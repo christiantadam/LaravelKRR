@@ -47,6 +47,36 @@ function LoadPermohonan(proses,stbeli){
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
+            const rows = data.map((item) => {
+                return [
+                    item.NM_SUP.trim(),
+                    item.Kd_div.trim(),
+                    item.NmUser.trim(),
+                    item.StBeli.trim(),
+                    item.No_trans.trim(),
+                    item.Kd_brg.trim(),
+                    item.NAMA_BRG.trim(),
+                    item.nama_sub_kategori.trim(),
+                    item.Qty.trim(),
+                    item.Nama_satuan.trim(),
+                    item.PriceUnit.trim(),
+                    item.PriceSub.trim(),
+                    item.PPN.trim(),
+                    item.PriceExt.trim(),
+                    item.Curr.trim(),
+                    item.Tgl_Dibutuhkan.trim(),
+                    item.keterangan.trim(),
+                    item.Ket_Internal.trim(),
+                    item.AppMan.trim(),
+                    item.AppPBL.trim(),
+                    item.AppDir.trim(),
+                ];
+            });
+
+            const table = $("#table_PurchaseOrder").DataTable();
+            table.clear();
+            table.rows.add(rows);
+            table.draw();
         });
     }
     else if(proses == 2){
