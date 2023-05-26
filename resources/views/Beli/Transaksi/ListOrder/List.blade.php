@@ -1,6 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
-@include('Beli/ListOrder/modalDetailListOrder')
+@include('Beli/Transaksi/ListOrder/modalDetailListOrder')
 <script src="{{ asset('js/OrderPembelian/ListOrder.js') }}"></script>
 <script>
     $(document).ready( function () {

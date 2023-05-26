@@ -79,20 +79,17 @@
                             <div class="dropdown">
                                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false" style="margin: 10px">
-                                    Transaksi Beli
+                                    Transaksi Beli (Admin Pembelian)
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('ListOrderPembelian') }}">List Order Pembelian</a></li>
                                     <li><a class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
                                             tabindex="-1">PO &raquo;</a>
                                         <ul class="dropdown-menu dropdown-submenu">
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
-                                                    tabindex="-1" href="{{ url('PreOrder/Create') }}">Create PO</a>
+                                                    tabindex="-1" href="{{ url('PurchaseOrder/create') }}">Create PO</a>
                                             </li>
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
-                                                    tabindex="-1" href="{{ url('PreOrder/Index') }}">List PO</a>
+                                                    tabindex="-1" href="{{ url('PurchaseOrder') }}">List PO</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -126,7 +123,7 @@
                             <div class="dropdown">
                                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false" style="margin: 10px">
-                                    Transaksi
+                                    Transaksi (User)
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li style="margin: 10px;"><a class="dropdown-item"

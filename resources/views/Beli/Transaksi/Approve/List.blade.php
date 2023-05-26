@@ -1,6 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
-@include('Beli/Approve/modalDetailApprove')
+@include('Beli/Transaksi/Approve/modalDetailApprove')
 <script src="{{ asset('js/OrderPembelian/Approve.js') }}"></script>
 <script>
     $(document).ready( function () {
