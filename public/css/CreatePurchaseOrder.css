@@ -62,3 +62,9 @@ input[type="radio"]{
 .radio-button{
     cursor: pointer;
 }
+tr.selected {
+    background-color: yellow;
+}
+td {
+    cursor: pointer;
+}
