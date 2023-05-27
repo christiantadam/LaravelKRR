@@ -40,7 +40,7 @@ class AccPenjualanController extends Controller
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
 
         $idtype = $request->id_type;
         $penyesuaian = db::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_transaksi @idtype = ?, @idtypetransaksi = ?', [$idtype, '06']);
@@ -58,25 +58,16 @@ class AccPenjualanController extends Controller
         $no_sp = $request->no_sp;
         $kodebarang = $request->kodebarang;
         $noindeks = $request->noindeks;
-        dd($noindeks);
+        // dd($noindeks);
 
         db::connection('ConnInventory')->statement('exec SP_1003_INV_PROSES_ACC_JUAL_BARCODE
-        @IDtransaksi = ?,
-        @IDPemberi = ?,
-        @JumlahKeluarPrimer = ?,
-        @JumlahKeluarSekunder = ?,
-        @JumlahKeluarTritier = ?,
-        @JumlahKonversi = ?,
-        @NoSP = ?',
-            [
-                $idtransaksi,
-                $user,
-                $saldo_primerDikeluarkan,
-                $saldo_sekunderDikeluarkan,
-                $saldo_tritierDikeluarkan,
-                $jumlah_konversi,
-                $no_sp,
-            ]
+        @IDtransaksi = ' . $idtransaksi . ',
+        @IDPemberi = ' . $user . ',
+        @JumlahKeluarPrimer = ' . $saldo_primerDikeluarkan . ',
+        @JumlahKeluarSekunder = ' . $saldo_sekunderDikeluarkan . ',
+        @JumlahKeluarTritier = ' . $saldo_tritierDikeluarkan . ',
+        @JumlahKonversi = ' . $jumlah_konversi . ',
+        @NoSP = ' . $no_sp
         );
 
         $counter = db::connection('ConnInventory')->select('exec SP_1003_BCD_Ambil_COUNTER_SALES');
@@ -85,27 +76,20 @@ class AccPenjualanController extends Controller
 
         for ($i = 0; $i < count($noindeks); $i++) {
             db::connection('ConnInventory')->statement('exec SP_1273_INV_Update_Penjualan
-            @kode_barang = ?,
-            @item_number = ?,
-            @XIdTransTmp = ?', [
-                    $kodebarang,
-                    $noindeks[$i],
-                    $idtransaksi
-                ]);
+            @kode_barang = ' . $kodebarang . ',
+            @item_number = ' . $noindeks[$i] . ',
+            @XIdTransTmp = ' . $idtransaksi);
         }
 
         db::connection('ConnInventory')->statement('exec SP_1273_INV_Update_Dispresiasi_Penjualan
-        @XIdTransTmp = ?,
-        @idtransaksi_inv = ?,
-        @idtype = ?,
-        @NoSP = ?', [
-                $idtransaksi,
-                trim($counter[0]->IdTransaksi_Inv_Bcd_Pjl),
-                $idtype,
-                $no_sp
-            ]);
+        @XIdTransTmp = ' . $idtransaksi . ',
+        @idtransaksi_inv = ' . trim($counter[0]->IdTransaksi_Inv_Bcd_Pjl) . ',
+        @idtype = ' . $idtype . ',
+        @NoSP = ' . $no_sp . ''
+        );
+
         $noindeksAll = implode(', ', $noindeks);
-        return redirect()->back()->with('success', 'Barcode Penjualan dengan Kode Barang' . $kodebarang . ' dan Nomor Indeks' . $noindeksAll . ' Sudah Disetujui !');
+        return redirect()->back()->with('success', 'Barcode Penjualan dengan Kode Barang ' . $kodebarang . ' dan Nomor Indeks ' . $noindeksAll . ' Sudah Disetujui !');
     }
 
     //Display the specified resource.

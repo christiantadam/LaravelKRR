@@ -77,6 +77,7 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
     fetch("/accPenjualanTampilData/" + IdTransaksi)
         .then((response) => response.json())
         .then((data) => {
+            console.log(data);
             divisi.value = data[0].NamaDivisi;
             objek.value = data[0].NamaObjek;
             kelompok_utama.value = data[0].NamaKelompokUtama;
