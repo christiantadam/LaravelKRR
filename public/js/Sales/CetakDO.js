@@ -59,12 +59,28 @@ print_button.addEventListener("click", function (event) {
                     tanggal_kirimKolom.innerHTML = formattedDate;
                     // console.log(options);
                     options.forEach((option, index) => {
-                        // console.log(option);
+                        console.log(option);
+                        let min_kirimSekunderValue = 0;
+                        let min_kirimPrimerValue = 0;
                         const body_deliveryOrderBelumACC =
                             document.createElement("div");
-                            body_deliveryOrderBelumACC.classList.add(
+                        body_deliveryOrderBelumACC.classList.add(
                             "cetak-dopdf-container05"
                         );
+                        if (
+                            option.SaldoTritier == 0 ||
+                            option.SaldoPrimer == 0
+                        ) {
+                            min_kirimSekunderValue = 0;
+                            min_kirimPrimerValue = 0;
+                        } else {
+                            min_kirimSekunderValue = (
+                                (option.SaldoTritier / option.SaldoSekunder) *
+                                option.MinKirimDO
+                            ).toFixed(3);
+                            min_kirimPrimerValue =
+                                option.SaldoSekunder / option.SaldoPrimer;
+                        }
 
                         body_deliveryOrderBelumACC.innerHTML = `
                         <div class="cetak-dopdf-container03">
@@ -126,23 +142,32 @@ print_button.addEventListener("click", function (event) {
                                         <td>Min: </td>
                                         <td id="min_kirimKolom">${
                                             option.MinKirimDO
-                                        }</td>
+                                        }&nbsp;</td>
+                                        <td>${option.SatuanJual}&nbsp;</td>
                                         <td>Max:&nbsp;</td>
                                         <td id="max_kirimKolom">${
                                             option.MaxKirimDO
                                         }</td>
+                                        <td>${option.SatuanJual}&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td>Satuan: &nbsp;</td>
-                                        <td id="satuan_jualKolom">${
-                                            option.SatuanJual
-                                        }</td>
+                                        <td></td>
+                                        <td id="min_kirimSekunderKolom">${min_kirimSekunderValue}&nbsp;</td>
+                                        <td>${option.SatuanTritier}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td id="min_kirimSekunderKolom">${min_kirimPrimerValue}&nbsp;</td>
+                                        <td>${option.SatuanPrimer}&nbsp;</td>
                                     </tr>
                                 </table>
                             </div>
+                            <span style="margin-right: 5px;align-self: end;">${
+                                index + 1
+                            }</span>
                         </div>
-                        <div style=height:100%;text-align:right;margin-right:10px>${index + 1}</div>
                         `;
                         div_cetakDOBelumACC.appendChild(
                             body_deliveryOrderBelumACC
@@ -206,7 +231,9 @@ print_button.addEventListener("click", function (event) {
                                         }</td>
                                     </tr>
                                 </table>
-                                <div style=height:100%;text-align:right>${index + 1}</div>
+                                <div style=height:100%;text-align:right>${
+                                    index + 1
+                                }</div>
                             </div>
                             <div class="cetak-dopdf-container04">
                                 <table>

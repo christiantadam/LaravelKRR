@@ -44,10 +44,24 @@ table tr td:first-child {
     border-bottom: solid 1px #212529 !important;
     border-right: solid 1px #212529 !important;
 }
+.hollow-font {
+    font-size: 44px;
+    font-weight: bold;
+    color: #000; /* Set the desired color for the stroke */
+    -webkit-text-stroke: 1px #000; /* Create a stroke of desired width and color */
+    -webkit-text-fill-color: transparent; /* Make the text transparent to create the hollow effect */
+}
 
 @media print {
     .page-header-space {
         height: 175px;
+    }
+    .hollow-font {
+        font-size: 30px;
+        font-weight: bold;
+        color: #000; /* Set the desired color for the stroke */
+        -webkit-text-stroke: 1px #000; /* Create a stroke of desired width and color */
+        -webkit-text-fill-color: transparent; /* Make the text transparent to create the hollow effect */
     }
     .acs-div-form {
         display: none;
@@ -83,6 +97,7 @@ table tr td:first-child {
     .cetak-dopdf-container03 {
         page-break-inside: avoid;
         min-height: 150px;
+        overflow: hidden;
     }
 }
 
