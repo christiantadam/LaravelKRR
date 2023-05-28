@@ -13,7 +13,6 @@ class DeliveryOrderController extends Controller
     //Display a listing of the resource.
     public function index()
     {
-        //
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_BLM_ACC1');
         // dd($data);
         return view('Sales.Transaksi.DeliveryOrder.Index', compact('data'));
@@ -75,7 +74,7 @@ class DeliveryOrderController extends Controller
     public function store(Request $request)
     {
         // $data = $request->all();
-        dd($request->all());
+        // dd($request->all());
         $MyType = 1;
         $Tanggal = $request->tgl_do;
         $IDPesanan = $request->id_pesanan;
@@ -141,7 +140,7 @@ class DeliveryOrderController extends Controller
     public function update($id, Request $request)
     {
         // $data = $request->all();
-        dd($request->all());
+        // dd($request->all());
         $MyType = 2;
         $Tanggal = $request->tgl_do;
         $IDPesanan = $request->id_pesanan;
@@ -189,7 +188,7 @@ class DeliveryOrderController extends Controller
     //Remove the specified resource from storage.
     public function destroy($id)
     {
-        dd("DELETE");
+        // dd("DELETE");
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_DO1 @MyType = ?, @IdDO = ? ', [3, $id]);
         // return redirect()->route('DeliveryOrder.index');
         return redirect()->back()->with('success', 'Delivery Order Sudah Dihapus!');

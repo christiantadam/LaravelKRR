@@ -23,7 +23,7 @@ $(function () {
             $("#Pemesan").show();
             document.getElementById("Pemesan").innerHTML="Pemesan: "+data.data.Pemesan;
           }
-          
+
           // USER ------------------------------------------------------------------------------------
           document.getElementById("User").innerHTML="User: "+data.data.User;
 
@@ -36,7 +36,7 @@ $(function () {
           {
             document.getElementById("Status").innerHTML="Status: Beli Sendiri";
           }
-          
+
           // TGL BUTUH -------------------------------------------------------------------------------------
           let date, month, year;
           date= ("0" + new Date(data.data.Tgl_Dibutuhkan).getDate()).slice(-2);
@@ -44,7 +44,7 @@ $(function () {
           year = new Date(data.data.Tgl_Dibutuhkan).getFullYear();
           format=month+"/"+date+"/"+year;
           document.getElementById("TglButuh").innerHTML="Tgl. Dibutuhkan: "+format;
-          
+
           // KET ORDER -------------------------------------------------------------------------------
           if(data.data.keterangan=='-'||data.data.Pemesan==null||data.data.Pemesan.length==0)
           {
@@ -83,14 +83,14 @@ $(function () {
             document.getElementById("PembelianTerakhir").innerHTML= "PembelianTerakhir: "+format4
             +"<br>Supplier: "+ data.dataBeliTerakhir[0].NM_SUP+"<br>Harga Unit: "+rupiah(data.dataBeliTerakhir[0].PriceUnit);
           }
-          console.log('yay');
+        //   console.log('yay');
         },
         error: function(xhr, status, error){
             var err = eval("(" + xhr.responseText + ")");
             alert(err.Message);
         }
     });
-    
+
     var $url=$(this).attr('href');
     $(".formDetail").attr('action',"");
     var action = $('.formDetail').attr('action');

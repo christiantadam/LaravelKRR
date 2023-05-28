@@ -60,7 +60,7 @@ $(function () {
             $("#KetInternalFinal").show()
             document.getElementById("KetInternalFinal").innerHTML="Ket. Internal: "+data.data.Ket_Internal;
           }
-          // SUPPLIER ------------------------------------------------------------------------------------------          
+          // SUPPLIER ------------------------------------------------------------------------------------------
           if(data.data.supplier==null||data.data.supplier.length==0)
           {
             $("#Kota").hide();
@@ -106,7 +106,7 @@ $(function () {
           let second3 = ("0" + new Date(data.data.Tgl_PBL_Acc).getSeconds()).slice(-2);
           let format3=month3+"/"+date3+"/"+year3+" "+hour3+":"+minute3+":"+second3;
           document.getElementById("Offered").innerHTML="Offered: "+format3+" BY:"+data.data.Offered;
-          
+
           // PEMBELIAN TERAKHIR -------------------------------------------------------------------------
           if(data.dataBeliTerakhir[0]==null)
           {
@@ -124,13 +124,13 @@ $(function () {
             document.getElementById("PembelianTerakhirFinal").innerHTML= "PembelianTerakhir: "+format4
             +"<br>Supplier: "+ data.dataBeliTerakhir[0].NM_SUP+"<br>Harga Unit: "+rupiah(data.dataBeliTerakhir[0].PriceUnit);
           }
-          console.log('yay');
+        //   console.log('yay');
         },
         error: function( data ){
-            console.log('error');
+            console.log(data);
         }
     });
-    
+
     var $url=$(this).attr('href');
     $(".formDetailFinal").attr('action',"");
     var action = $('.formDetailFinal').attr('action');

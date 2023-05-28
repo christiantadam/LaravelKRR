@@ -77,7 +77,7 @@ kode_barang.addEventListener("keypress", function (event) {
             fetch("/batalJualInputBarcode/" + kode_barang.value)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
+                    // console.log(data);
                     const tbody = document.querySelector(
                         "#table_Barcode tbody"
                     );

@@ -152,8 +152,8 @@ $(function () {
               document.getElementById("Total_ListOrder").innerHTML="Total: "+dolar(data.data.PriceExt)+"<text class='material-symbols-outlined' style='font-size:20px' id='iconHarga'>expand_more</text>";
             }
           }
-          
-        // -------------------------------------------------------------------------------------------------------------          
+
+        // -------------------------------------------------------------------------------------------------------------
           let date3 = ("0" + new Date(data.data.Tgl_PBL_Acc).getDate()).slice(-2);
           let month3 = ("0" + (new Date(data.data.Tgl_PBL_Acc).getMonth()+1)).slice(-2);
           let year3 = new Date(data.data.Tgl_PBL_Acc).getFullYear();
@@ -161,7 +161,7 @@ $(function () {
           let minute3 = ("0" + new Date(data.data.Tgl_PBL_Acc).getMinutes()).slice(-2);
           let second3 = ("0" + new Date(data.data.Tgl_PBL_Acc).getSeconds()).slice(-2);
           let format3=month3+"/"+date3+"/"+year3+" "+hour3+":"+minute3+":"+second3;
-          
+
           if(data.data.Offered==null||data.data.Offered.length==0)
           {
             $("#Offered_ListOrder").hide();
@@ -172,7 +172,7 @@ $(function () {
             document.getElementById("Offered_ListOrder").innerHTML="Offered: "+format3+" BY:"+data.data.Offered;
           }
           // ----------------------------------------------------------------------------------------------------------------
-          console.log('yay');
+        //   console.log('yay');
         },
         error: function(xhr, status, error){
             ;
@@ -196,7 +196,7 @@ $(function () {
     var ValTglAwal=document.getElementById("tglAwal").value;
     var ValTglAkhir=document.getElementById("tglAkhir").value;
     var ValMe=document.getElementById("Me").checked;
-    console.log(ValDivisi+'|'+ValTglAwal+'|'+ValTglAkhir+'|'+ValMe);
+    // console.log(ValDivisi+'|'+ValTglAwal+'|'+ValTglAkhir+'|'+ValMe);
 
     $.ajax({
         url: window.location.origin+"/ListOrder/"+ValDivisi+'/'+ValTglAwal+'/'+ValTglAkhir+'/'+ValMe+"/Filter",
@@ -205,7 +205,7 @@ $(function () {
         success: function( data ){
           var table = $('#table_ListOrder').DataTable();
           table.clear().draw();
-          console.log(data.data.length);
+        //   console.log(data.data.length);
           for(let i=0;i<data.data.length;i++)
           {
             table.row.add( [
@@ -217,10 +217,12 @@ $(function () {
                 data.data[i].Kd_div
             ] ).draw();
           }
-          console.log('yay');
+        //   console.log('yay');
         },
         error: function(xhr, status, error){
-            console.log('error');
+            console.log(xhr);
+            console.log(status);
+            console.log(error);
         }
     });
   });

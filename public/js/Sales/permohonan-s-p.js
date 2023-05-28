@@ -425,7 +425,7 @@ no_spText.addEventListener("keypress", function (event) {
         fetch("/editSP/" + no_spText.value)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data[1].length);
+                // console.log(data[1].length);
                 no_spText.readOnly = true;
                 tglPesan.readOnly = false;
                 jenisSp.disabled = false;
@@ -1193,7 +1193,7 @@ deleteButton.addEventListener("click", function (event) {
         const input = highlightedRow.querySelectorAll("input");
         if (highlightedRow) {
             if (input[7].value) {
-                console.log(input[7].value);
+                // console.log(input[7].value);
                 fetch("/deletedetail/" + input[7].value)
                     .then((response) => response.json())
                     .then((data) => {

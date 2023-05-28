@@ -59,7 +59,7 @@ print_button.addEventListener("click", function (event) {
                     tanggal_kirimKolom.innerHTML = formattedDate;
                     // console.log(options);
                     options.forEach((option, index) => {
-                        console.log(option);
+                        // console.log(option);
                         let min_kirimSekunderValue = 0;
                         let min_kirimPrimerValue = 0;
                         const body_deliveryOrderBelumACC =

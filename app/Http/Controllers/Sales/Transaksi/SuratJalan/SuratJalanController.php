@@ -158,7 +158,7 @@ class SuratJalanController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $Mytype = 1;
         $JnsIdPengiriman = $request->jenis_pengiriman;
         $IDPengiriman1 = $request->surat_jalan;

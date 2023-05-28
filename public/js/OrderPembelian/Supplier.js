@@ -45,7 +45,7 @@ supplier_select.addEventListener("change", function () {
     fetch("/options/supplierselect/" + supplier_id.value)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            // console.log(data);
 
             alamat1.value = data[0].ALAMAT1;
             alamat2.value = data[0].ALAMAT2;
