@@ -1,10 +1,10 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
-    <link href="{{ asset('css/CreatePurchaseOrder.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/CreateSPPB.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <script>
         $(document).ready(function() {
-            $('#table_PurchaseOrder').DataTable({
+            $('#table_SPPB').DataTable({
                 order: [
                     [1, 'desc']
                 ],
@@ -37,7 +37,7 @@
                     </div>
                 @endif
                 <div class="card">
-                    <div class="card-header">Daftar Order</div>
+                    <div class="card-header">Create Purchase Order</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="acs-form">
                             <div class="acs-form1">
@@ -120,5 +120,5 @@
                 </div>
             </div>
         </div>
-        <script src="{{ asset('js/OrderPembelian/CreatePurchaseOrder.js') }}"></script>
+        <script src="{{ asset('js/OrderPembelian/CreateSPPB.js') }}"></script>
     @endsection

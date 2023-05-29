@@ -66,6 +66,7 @@ class SuratJalanController extends Controller
         $IdDO = $request->barang0;
         $IDSuratPesanan = $request->barang3;
         $AccMgr = Auth::user()->NomorUser;
+        // dd($IdDO[0]);
         //save data header duluu
         db::connection('ConnSales')->statement(
             'exec SP_1486_SLS_MAINT_HEADERPENGIRIMAN @Mytype = ?,

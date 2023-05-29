@@ -43,6 +43,28 @@ class PurchaseOrderController extends Controller
         return response()->json($data);
     }
 
+    public function openFormCreateSPPB($noTrans)
+    {
+        dd($noTrans);
+        $getNoPO = db::connection('ConnPurchase')->select('exec SP_5409_MAINT_PO @kd = ?', [1]);
+
+        for ($i = 0; $i < count($noTrans); $i++) {
+            db::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
+            @kd = ?,
+            @noTrans = ?,
+            @noPO = ?,
+            @Operator = ?',
+                [
+                    2,
+                    $noTrans[$i],
+                    $getNoPO,
+                    Auth::user()->kd_user,
+                ]
+            );
+        }
+
+        return view('Beli.TransaksiBeli.PurchaseOrder.CreateSPPB');
+    }
     //Store a newly created resource in storage.
     public function store(Request $request)
     {

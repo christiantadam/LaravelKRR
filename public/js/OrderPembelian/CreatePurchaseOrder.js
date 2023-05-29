@@ -47,6 +47,26 @@ redisplay.addEventListener("click", function (event) {
 
 create_po.addEventListener("click", function (event) {
     event.preventDefault();
+    if (
+        confirm(
+            "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi. Yakin akan memproses order ini?"
+        )
+    ) {
+        let noTrans = [];
+        for (let index = 0; index < selectedRows.length; index++) {
+            noTrans.push(selectedRows[index][4]);
+        }
+
+        console.log(noTrans);
+
+        var url = '{{ route("openFormCreateSPPB", ":noTrans") }}';
+        url = url.replace(":noTrans", noTrans);
+
+        console.log(url);
+        // window.location.href = url;
+    } else {
+        return;
+    }
 });
 
 function LoadPermohonan(proses, stbeli) {
@@ -90,9 +110,14 @@ function LoadPermohonan(proses, stbeli) {
                 table.clear();
                 table.rows.add(rows);
                 table.draw();
+                $("#table_PurchaseOrder tbody").off(
+                    "click",
+                    "tr"
+                );
                 $("#table_PurchaseOrder tbody").on("click", "tr", function () {
                     $(this).toggleClass("selected");
                     selectedRows = table.rows(".selected").data().toArray();
+                    console.log(selectedRows);
                 });
                 $("#checkbox_centangSemuaBaris").on("click", function () {
                     var allRows = table.rows().nodes();
