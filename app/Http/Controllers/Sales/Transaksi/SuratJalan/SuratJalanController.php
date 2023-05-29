@@ -112,7 +112,7 @@ class SuratJalanController extends Controller
         //         $TglActual
         //     ]
         // );
-        dd($IDHeaderKirim, $IdDO, $IDSuratPesanan);
+        // dd($IDHeaderKirim, $IdDO, $IDSuratPesanan);
         //save data detail duluu
 
         for ($i = 0; $i < count($request->barang0); $i++) {
