@@ -10,7 +10,7 @@
                             type="radio" name="group_cetak" id="cetak_sudahACC"> Cetak Sudah ACC (Lokal) </div>
                     <div class="acs-div-filter"> <label for="tanggal_do">Tanggal:</label> <input type="date"
                             name="tanggal_do" id="tanggal_do" class="input"> </div>
-                    <div class="acs-div-filter1"> <label for="no_do">Nomor Referensi:</label> <input type="text"
+                    <div class="acs-div-filter1"> <label for="no_do">Hari:</label> <input type="text"
                             name="nomor_referensi" id="nomor_referensi" class="input"> </div> <button id="print_button"
                         class="btn btn-info" style="font-color: white"><span>&#128462;</span>View Print</button> <button
                         id="export_pdf" class="btn btn-primary"><span>&#11123;</span> Export PDF</button>
@@ -34,7 +34,7 @@
                                     </div>
                                     <div style="display: flex; flex-direction: row; gap:5px;width: 50%;">
                                         <div style="display: flex;flex-direction: column">
-                                            <div>No</div>
+                                            <div>Hari</div>
                                             <div>DiBuat Oleh</div>
                                             <div>Tanggal Kirim</div>
                                         </div>

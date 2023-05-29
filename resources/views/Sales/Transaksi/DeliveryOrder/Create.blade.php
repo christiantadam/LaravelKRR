@@ -197,10 +197,10 @@
                                     </div>
                                     <div>
                                         <div class="acs-div-filter3">
-                                            <label for="alamat_kirim">Alamat Kirim</label>
+                                            <label for="alamat_kirim">Keterangan</label>
                                             <textarea type="text" name="alamat_kirim" id="alamat_kirim" placeholder="Alamat Kirim" class="input"></textarea>
                                         </div>
-                                        <div class="acs-div-filter1">
+                                        <div class="acs-div-filter1" style="display: none">
                                             <label for="kota_kirim">Kota Kirim</label>
                                             <input type="text" name="kota_kirim" id="kota_kirim"
                                                 placeholder="Kota Kirim" class="input">

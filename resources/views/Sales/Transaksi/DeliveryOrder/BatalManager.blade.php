@@ -88,7 +88,7 @@
                 <p>Input keterangan pembatalan untuk semua DO yang akan dibatalkan</p>
                 <div class="modal-body">
                     <p>Keterangan Pembatalan:</p>
-                    <input type="text" name="value" id="modal-value" class="input" value="" style="width: 100%">
+                    <input type="text" name="value" id="modal-value" class="input" value="Stok Kosong" style="width: 100%">
                 </div>
                 <div class="text-center" style="margin-bottom: 20px">
                     <button type="button" class="btn btn-primary" id="modal-btnBatalDO"
