@@ -68,7 +68,7 @@ class SuratJalanController extends Controller
         $AccMgr = Auth::user()->NomorUser;
         // dd($IdDO[0]);
         //save data header duluu
-        $IDHeaderKirim = db::connection('ConnSales')->select(
+        db::connection('ConnSales')->statement(
             'exec SP_1486_SLS_MAINT_HEADERPENGIRIMAN @Mytype = ?,
         @JnsIdPengiriman = ?,
         @IDPengiriman = ?,
@@ -86,32 +86,12 @@ class SuratJalanController extends Controller
         );
 
         //kita cari Header kirim yang baru saja dibuat..
-        // $IDHeaderKirim = DB::connection('ConnSales')->select(
-        //     'Select IdHeaderKirim
-        //     from T_HeaderPengiriman
-        //     where JnsIdPengiriman = ? and
-        //     IDPengiriman = ? and
-        //     IDExpeditor = ? and
-        //     IDCust = ? and
-        //     TrukNopol = ? and
-        //     Tanggal = ? and
-        //     Biaya = ? and
-        //     StatusBiaya = ? and
-        //     Ket = ? and
-        //     TanggalActual = ?',
-        //     [
-        //         $JnsIdPengiriman,
-        //         $IDPengiriman,
-        //         $IDExpeditor,
-        //         $IdCust,
-        //         $TrukNopol,
-        //         $Tanggal,
-        //         $Biaya,
-        //         $StatusBiaya,
-        //         $Keterangan,
-        //         $TglActual
-        //     ]
-        // );
+        $IDHeaderKirim = DB::connection('ConnSales')->select(
+            'Select IdHeaderKirim
+            from T_HeaderPengiriman
+            where JnsIdPengiriman = ' . $JnsIdPengiriman . ' and
+            IDPengiriman = \'' . $IDPengiriman. '\''
+        );
         // dd($IDHeaderKirim, $IdDO, $IDSuratPesanan);
         //save data detail duluu
 
@@ -122,7 +102,7 @@ class SuratJalanController extends Controller
             @IdDO = ?,
             @IDSuratPesanan = ?,
             @AccMgr = ?',
-                [$Mytype, $IDHeaderKirim[0]->IdHeaderKirim , $IdDO[$i], $IDSuratPesanan[$i], $AccMgr],
+                [$Mytype, $IDHeaderKirim[0]->IdHeaderKirim, $IdDO[$i], $IDSuratPesanan[$i], $AccMgr],
             );
         }
         return redirect()->back()->with('success', 'Surat Jalan Sudah Dibuat!');
@@ -237,7 +217,7 @@ class SuratJalanController extends Controller
             @IdDO = ?,
             @IDSuratPesanan = ?,
             @AccMgr = ?',
-                [$Mytype, $IDHeaderKirim[0]->IdHeaderKirim , $IdDO[$i], $IDSuratPesanan[$i], $AccMgr],
+                [$Mytype, $IDHeaderKirim[0]->IdHeaderKirim, $IdDO[$i], $IDSuratPesanan[$i], $AccMgr],
             );
         }
         return redirect()->back()->with('success', 'Surat Jalan Sudah Dikoreksi!');
