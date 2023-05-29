@@ -45,8 +45,9 @@ table tr td:first-child {
     border-right: solid 1px #212529 !important;
 }
 .hollow-font {
-    font-size: 44px;
+    font-size: 40px;
     font-weight: bold;
+    text-align: center;
     color: #000; /* Set the desired color for the stroke */
     -webkit-text-stroke: 1px #000; /* Create a stroke of desired width and color */
     -webkit-text-fill-color: transparent; /* Make the text transparent to create the hollow effect */
@@ -57,11 +58,12 @@ table tr td:first-child {
         height: 175px;
     }
     .hollow-font {
-        font-size: 30px;
+        font-size: 27px;
         font-weight: bold;
         color: #000; /* Set the desired color for the stroke */
         -webkit-text-stroke: 1px #000; /* Create a stroke of desired width and color */
         -webkit-text-fill-color: transparent; /* Make the text transparent to create the hollow effect */
+        text-align: center;
     }
     .acs-div-form {
         display: none;
