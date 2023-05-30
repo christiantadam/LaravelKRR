@@ -114,7 +114,10 @@
                                 <input type="checkbox" name="checkbox_centangSemuaBaris"
                                     id="checkbox_centangSemuaBaris">Centang Semua
                             </div>
-                            <button class="btn btn-success" id="create_po">Create PO</button>
+
+                            <form action="{{ url('openFormCreateSPPB/create') }}" id="form_createSPPB" method="GET">
+                                <button class="btn btn-success" id="create_po">Create PO</button>
+                            </form>
                         </div>
                     </div>
                 </div>

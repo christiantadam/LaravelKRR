@@ -19,13 +19,13 @@ class CetakDOController extends Controller
 
     public function getDeliveryOrderSudahACC($tanggal)
     {
-        $list_do = DB::connection('ConnSales')->select('select * from VW_PRG_1486_SLS_DO_INV1 where JnsSuratPesanan <> \' SP EXPORT\' AND TglDO = ?',[$tanggal]);
+        $list_do = DB::connection('ConnSales')->select('SELECT * FROM VW_PRG_1486_SLS_DO_INV1 WHERE (JnsSuratPesanan = \'SP 1\') AND (TglDO = \'' . $tanggal . '\')');
         return response()->json($list_do);
     }
 
     public function getDeliveryOrderBelumACC($tanggal)
     {
-        $list_do = DB::connection('ConnSales')->select('select * from VW_PRG_1486_SLS_CETAK_DO_BLMACC1 where TglDO = ?',[$tanggal]);
+        $list_do = DB::connection('ConnSales')->select('SELECT * FROM VW_PRG_1486_SLS_CETAK_DO_BLMACC1 WHERE (TglDO = \'' . $tanggal . '\')');
         return response()->json($list_do);
     }
 

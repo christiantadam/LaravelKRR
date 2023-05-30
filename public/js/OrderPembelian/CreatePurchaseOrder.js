@@ -21,6 +21,7 @@ let checkbox_centangSemuaBaris = document.getElementById(
     "checkbox_centangSemuaBaris"
 );
 let create_po = document.getElementById("create_po");
+let form_createSPPB = document.getElementById("form_createSPPB");
 let proses = 0;
 let jnsBeli = 0;
 let selectedRows = [];
@@ -56,14 +57,13 @@ create_po.addEventListener("click", function (event) {
         for (let index = 0; index < selectedRows.length; index++) {
             noTrans.push(selectedRows[index][4]);
         }
+        let input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "noTrans";
+        input.value = noTrans;
+        form_createSPPB.appendChild(input);
 
-        console.log(noTrans);
-
-        var url = '{{ route("openFormCreateSPPB", ":noTrans") }}';
-        url = url.replace(":noTrans", noTrans);
-
-        console.log(url);
-        // window.location.href = url;
+        form_createSPPB.submit();
     } else {
         return;
     }
@@ -110,10 +110,7 @@ function LoadPermohonan(proses, stbeli) {
                 table.clear();
                 table.rows.add(rows);
                 table.draw();
-                $("#table_PurchaseOrder tbody").off(
-                    "click",
-                    "tr"
-                );
+                $("#table_PurchaseOrder tbody").off("click", "tr");
                 $("#table_PurchaseOrder tbody").on("click", "tr", function () {
                     $(this).toggleClass("selected");
                     selectedRows = table.rows(".selected").data().toArray();

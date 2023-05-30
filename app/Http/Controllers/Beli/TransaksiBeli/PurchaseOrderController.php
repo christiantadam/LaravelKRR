@@ -43,27 +43,35 @@ class PurchaseOrderController extends Controller
         return response()->json($data);
     }
 
-    public function openFormCreateSPPB($noTrans)
+    public function openFormCreateSPPB(Request $request)
     {
-        dd($noTrans);
-        $getNoPO = db::connection('ConnPurchase')->select('exec SP_5409_MAINT_PO @kd = ?', [1]);
+        $noTrans = explode(',', $request->noTrans);
+        // dd($noTrans);
+        $getNoPO = DB::connection('ConnPurchase')->select('DECLARE @NoPO NVARCHAR(20); EXEC SP_5409_MAINT_PO @kd = 1, @NoPO OUTPUT; SELECT @NoPO AS NoPO');
 
-        for ($i = 0; $i < count($noTrans); $i++) {
-            db::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
-            @kd = ?,
-            @noTrans = ?,
-            @noPO = ?,
-            @Operator = ?',
-                [
-                    2,
-                    $noTrans[$i],
-                    $getNoPO,
-                    Auth::user()->kd_user,
-                ]
-            );
-        }
+        $NoPO = $getNoPO[0]->NoPO;
 
-        return view('Beli.TransaksiBeli.PurchaseOrder.CreateSPPB');
+        dd($NoPO);
+        // for ($i = 0; $i < count($noTrans); $i++) {
+        //     db::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
+        //     @kd = ?,
+        //     @noTrans = ?,
+        //     @noPO = ?,
+        //     @Operator = ?',
+        //         [
+        //             2,
+        //             $noTrans[$i],
+        //             $getNoPO,
+        //             Auth::user()->kd_user,
+        //         ]
+        //     );
+        // }
+
+        $supplier = db::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd = ?', [1]);
+        $listPayment = db::connection('ConnPurchase')->select('exec SP_5409_LIST_PAYMENT');
+        $mataUang = db::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
+        $ppn = db::connection('ConnPurchase')->select('exec SP_5409_LIST_PPN');
+        return view('Beli.TransaksiBeli.PurchaseOrder.CreateSPPB', compact('supplier', 'listPayment', 'mataUang', 'ppn', 'getNoPO'));
     }
     //Store a newly created resource in storage.
     public function store(Request $request)
