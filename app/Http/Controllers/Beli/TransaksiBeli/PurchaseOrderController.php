@@ -47,31 +47,37 @@ class PurchaseOrderController extends Controller
     {
         $noTrans = explode(',', $request->noTrans);
         // dd($noTrans);
-        $getNoPO = DB::connection('ConnPurchase')->select('DECLARE @NoPO NVARCHAR(20); EXEC SP_5409_MAINT_PO @kd = 1, @NoPO OUTPUT; SELECT @NoPO AS NoPO');
+        // $getNoPO = DB::connection('ConnPurchase')->select('EXEC SP_5409_MAINT_PO @kd = 1');
+        $tahun = date('y', time());
+        $mValue = DB::connection('ConnPurchase')->select('SELECT NO_SPPB FROM YCounter');
+        // dd($mValue[0]->NO_SPPB);
+        $No_PO = '000000' . strval($mValue[0]->NO_SPPB);
+        $No_PO = 'PO-' . $tahun . substr($No_PO, -6);
 
-        $NoPO = $getNoPO[0]->NoPO;
+        DB::connection('ConnPurchase')->statement('update ycounter set NO_SPPB ='.$mValue[0]->NO_SPPB.'+ 1');
+        // dd($No_PO);
 
-        dd($NoPO);
-        // for ($i = 0; $i < count($noTrans); $i++) {
-        //     db::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
-        //     @kd = ?,
-        //     @noTrans = ?,
-        //     @noPO = ?,
-        //     @Operator = ?',
-        //         [
-        //             2,
-        //             $noTrans[$i],
-        //             $getNoPO,
-        //             Auth::user()->kd_user,
-        //         ]
-        //     );
-        // }
+
+        for ($i = 0; $i < count($noTrans); $i++) {
+            db::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
+            @kd = ?,
+            @noTrans = ?,
+            @noPO = ?,
+            @Operator = ?',
+                [
+                    2,
+                    $noTrans[$i],
+                    $No_PO,
+                    Auth::user()->kd_user,
+                ]
+            );
+        }
 
         $supplier = db::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd = ?', [1]);
         $listPayment = db::connection('ConnPurchase')->select('exec SP_5409_LIST_PAYMENT');
         $mataUang = db::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
         $ppn = db::connection('ConnPurchase')->select('exec SP_5409_LIST_PPN');
-        return view('Beli.TransaksiBeli.PurchaseOrder.CreateSPPB', compact('supplier', 'listPayment', 'mataUang', 'ppn', 'getNoPO'));
+        return view('Beli.TransaksiBeli.PurchaseOrder.CreateSPPB', compact('supplier', 'listPayment', 'mataUang', 'ppn', 'No_PO'));
     }
     //Store a newly created resource in storage.
     public function store(Request $request)

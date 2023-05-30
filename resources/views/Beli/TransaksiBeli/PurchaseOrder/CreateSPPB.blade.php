@@ -11,7 +11,6 @@
 
             });
 
-
             // var today = new Date();
             // var dd = String(today.getDate()).padStart(2, '0');
             // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -41,10 +40,10 @@
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="acs-form-row">
                             <div class="acs-form-column">
-                                <div class="acs-div-filter1">
+                                <div class="acs-div-filter1" style="margin-bottom: 12px">
                                     <label for="nomor_purchaseOrder">No. PO</label>
                                     <input type="text" name="nomor_purchaseOrder" id="nomor_purchaseOrder" class="input"
-                                        value="{{ $getNoPo }}">
+                                        value="{{ $No_PO }}">
                                 </div>
                                 <div class="acs-div-filter1">
                                     <label for="tanggal_purchaseOrder">Tanggal PO</label>
@@ -57,8 +56,11 @@
                                     <label for="supplier">Supplier</label>
                                     <div class="acs-div-filter2">
                                         <select class="input" name="supplier_select" id="supplier_select"
-                                            style="display: none">
+                                            style="display: none;max-width:200px">
                                             <option selected disabled>-- Pilih Supplier --</option>
+                                            @foreach ($supplier as $data)
+                                                <option value="{{ $data->NO_SUP }}">{{ $data->NM_SUP }}</option>
+                                            @endforeach
                                         </select>
                                         <input type="text" name="supplier_text" id="supplier_text" class="input">
                                         <button class="btn btn-info" id="supplier_button">↺ List Supplier</button>
@@ -76,8 +78,11 @@
                                     <div class="acs-div-filter2">
                                         <input type="text" name="payment_termText" id="payment_termText" class="input">
                                         <select class="input" name="payment_termSelect" id="payment_termSelect"
-                                            style="display: none">
+                                            style="display: none;max-width:200px">
                                             <option selected disabled>-- Choose Payment Term --</option>
+                                            @foreach ($listPayment as $data)
+                                                <option value="{{ $data->Kode }}">{{ $data->Pembayaran }}</option>
+                                            @endforeach
                                         </select>
                                         <button class="btn btn-info" id="payment_termButton">↺ List of Payment Term</button>
                                     </div>
@@ -87,8 +92,11 @@
                                     <div class="acs-div-filter2">
                                         <input type="text" name="mata_uangText" id="mata_uangText" class="input">
                                         <select class="input" name="mata_uangSelect" id="mata_uangSelect"
-                                            style="display: none;">
+                                            style="display: none;max-width:200px">
                                             <option selected disabled>-- Pilih Mata Uang --</option>
+                                            @foreach ($mataUang as $data)
+                                                <option value="{{ $data->Id_MataUang }}">{{ $data->Nama_MataUang }}</option>
+                                            @endforeach
                                         </select>
                                         <button class="btn btn-info" id="mata_uangButton">↺ List Mata Uang</button>
                                     </div>
@@ -231,7 +239,7 @@
                             </div>
                         </div>
                         <div class="acs-div-filter-custom1">
-                            <button class="btn btn-success acs-btn-table" id="post_poButton">POST PO</button>
+                            <button class="btn btn-success" id="post_poButton">POST PO</button>
                         </div>
                     </div>
                 </div>

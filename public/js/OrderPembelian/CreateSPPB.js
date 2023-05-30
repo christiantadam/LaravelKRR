@@ -51,13 +51,96 @@ tanggal_mohonKirim.valueAsDate = new Date();
 //#region Input Filter
 
 setInputFilter(
+    document.getElementById("qty_order"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("kurs"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("harga_unit"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("harga_total"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("harga_subTotal"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("ppn"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("persen_discount"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("jumlah_discount"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("idr_unit"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("idr_subTotal"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("idr_total"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
+    document.getElementById("kode_barang"),
+    function (value) {
+        return /^-?\d*$/.test(value);
+    },
+    "Harus diisi dengan angka!"
+);
+setInputFilter(
     document.getElementById("idr_ppn"),
     function (value) {
         return /^-?\d*$/.test(value);
     },
     "Harus diisi dengan angka!"
 );
-
 //#endregion
 
 //#region Event Listener
@@ -75,10 +158,24 @@ mata_uangButton.addEventListener("click", function (event) {
 
 payment_termButton.addEventListener("click", function (event) {
     event.preventDefault();
+    if (payment_termSelect.style.display == "none") {
+        payment_termSelect.style.display = "inline-block";
+        payment_termText.style.display = "none";
+    } else if (payment_termText.style.display == "none") {
+        payment_termText.style.display = "inline-block";
+        payment_termSelect.style.display = "none";
+    }
 });
 
 supplier_button.addEventListener("click", function (event) {
     event.preventDefault();
+    if (supplier_select.style.display == "none") {
+        supplier_select.style.display = "inline-block";
+        supplier_text.style.display = "none";
+    } else if (supplier_text.style.display == "none") {
+        supplier_text.style.display = "inline-block";
+        supplier_select.style.display = "none";
+    }
 });
 
 update_button.addEventListener("click", function (event) {

@@ -21,7 +21,7 @@
 }
 .acs-div-filter1{
     display: flex;
-    width: 300px;
+    width: 100%;
     flex-direction: column;
     margin: 4px 0;
 }
@@ -43,6 +43,10 @@
     width: 100%;
     text-align: center;
 }
+.acs-div-filter-custom1 button{
+    width: 300px;
+    aspect-ratio: 4/1;
+}
 .acs-div-filter2 #persen_discount{
     width: 50px;
 }
@@ -50,6 +54,6 @@
     width: 250px;
 }
 .acs-btn-table{
-    width: 300px;
+    width: 100%;
     aspect-ratio: 4/1;
 }
