@@ -128,9 +128,6 @@
                                 <ul class="dropdown-menu">
                                     <li style="margin: 10px;"><a class="dropdown-item"
                                             style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('OrderPembelian') }}">Order Pembelian</a></li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
                                             href="{{ url('Approve') }}">Approve</a></li>
                                     <li style="margin: 10px;"><a class="dropdown-item"
                                             style="color: black;font-size: 15px;display: block"

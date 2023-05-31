@@ -26,6 +26,7 @@ let proses = 0;
 let jnsBeli = 0;
 let selectedRows = [];
 
+
 redisplay.addEventListener("click", function (event) {
     event.preventDefault();
 
@@ -53,17 +54,30 @@ create_po.addEventListener("click", function (event) {
             "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi. Yakin akan memproses order ini?"
         )
     ) {
-        let noTrans = [];
-        for (let index = 0; index < selectedRows.length; index++) {
-            noTrans.push(selectedRows[index][4]);
+        let sameValues = true;
+        for (let i = 0; i < selectedRows.length; i++) {
+            if (
+                selectedRows[0][0] !== selectedRows[i][0] ||
+                selectedRows[0][1] !== selectedRows[i][1]
+            ) {
+                sameValues = false;
+                alert("Ada data supplier dan divisi yang tidak sama!");
+                return;
+            }
         }
-        let input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "noTrans";
-        input.value = noTrans;
-        form_createSPPB.appendChild(input);
+        if (sameValues == true) {
+            let noTrans = [];
+            for (let index = 0; index < selectedRows.length; index++) {
+                noTrans.push(selectedRows[index][4]);
+            }
+            let input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "noTrans";
+            input.value = noTrans;
+            form_createSPPB.appendChild(input);
 
-        form_createSPPB.submit();
+            form_createSPPB.submit();
+        }
     } else {
         return;
     }
@@ -127,12 +141,94 @@ function LoadPermohonan(proses, stbeli) {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
+                const rows = data.map((item) => {
+                    return [
+                        item.NM_SUP.trim(),
+                        item.Kd_div.trim(),
+                        item.NmUser.trim(),
+                        item.StBeli.trim(),
+                        item.No_trans.trim(),
+                        item.Kd_brg.trim(),
+                        item.NAMA_BRG.trim(),
+                        item.nama_sub_kategori.trim(),
+                        item.Qty.trim(),
+                        item.Nama_satuan.trim(),
+                        item.PriceUnit.trim(),
+                        item.PriceSub.trim(),
+                        item.PPN.trim(),
+                        item.PriceExt.trim(),
+                        item.Curr.trim(),
+                        item.Tgl_Dibutuhkan.trim(),
+                        item.keterangan.trim(),
+                        item.Ket_Internal.trim(),
+                        item.AppMan.trim(),
+                        item.AppPBL.trim(),
+                        item.AppDir.trim(),
+                    ];
+                });
+
+                const table = $("#table_PurchaseOrder").DataTable();
+                table.clear();
+                table.rows.add(rows);
+                table.draw();
+                $("#table_PurchaseOrder tbody").off("click", "tr");
+                $("#table_PurchaseOrder tbody").on("click", "tr", function () {
+                    $(this).toggleClass("selected");
+                    selectedRows = table.rows(".selected").data().toArray();
+                    console.log(selectedRows);
+                });
+                $("#checkbox_centangSemuaBaris").on("click", function () {
+                    var allRows = table.rows().nodes();
+                    $(allRows).toggleClass("selected");
+                    selectedRows = table.rows(".selected").data().toArray();
+                });
             });
     } else if (proses == 3) {
         fetch("/get/dataPermohonanOrder/" + filter_radioButtonOrderInput.value)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
+                const rows = data.map((item) => {
+                    return [
+                        item.NM_SUP.trim(),
+                        item.Kd_div.trim(),
+                        item.NmUser.trim(),
+                        item.StBeli.trim(),
+                        item.No_trans.trim(),
+                        item.Kd_brg.trim(),
+                        item.NAMA_BRG.trim(),
+                        item.nama_sub_kategori.trim(),
+                        item.Qty.trim(),
+                        item.Nama_satuan.trim(),
+                        item.PriceUnit.trim(),
+                        item.PriceSub.trim(),
+                        item.PPN.trim(),
+                        item.PriceExt.trim(),
+                        item.Curr.trim(),
+                        item.Tgl_Dibutuhkan.trim(),
+                        item.keterangan.trim(),
+                        item.Ket_Internal.trim(),
+                        item.AppMan.trim(),
+                        item.AppPBL.trim(),
+                        item.AppDir.trim(),
+                    ];
+                });
+
+                const table = $("#table_PurchaseOrder").DataTable();
+                table.clear();
+                table.rows.add(rows);
+                table.draw();
+                $("#table_PurchaseOrder tbody").off("click", "tr");
+                $("#table_PurchaseOrder tbody").on("click", "tr", function () {
+                    $(this).toggleClass("selected");
+                    selectedRows = table.rows(".selected").data().toArray();
+                    console.log(selectedRows);
+                });
+                $("#checkbox_centangSemuaBaris").on("click", function () {
+                    var allRows = table.rows().nodes();
+                    $(allRows).toggleClass("selected");
+                    selectedRows = table.rows(".selected").data().toArray();
+                });
             });
     }
 }

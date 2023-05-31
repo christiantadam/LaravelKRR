@@ -11,6 +11,36 @@
 
             });
 
+            // $('#table_CreatePurchaseOrder').DataTable({
+            //     order: [[0, 'desc']],
+            //     data: loadPermohonanData,
+            //     columns: [
+            //         {data: 'No_trans'},
+            //         {data: 'Kd_brg'},
+            //         {data: 'NAMA_BRG'},
+            //         {data: 'nama_sub_kategori'},
+            //         {data: 'KET'},
+            //         {data: 'Ket_Internal'},
+            //         {data: 'Qty'},
+            //         {data: 'Nama_satuan'},
+            //         {data: 'QtyCancel'},
+            //         {data: 'PriceUnit'},
+            //         {data: 'PriceSub'},
+            //         {data: 'PPN'},
+            //         {data: 'PriceExt'},
+            //         {data: 'Kurs'},
+            //         {data: 'PriceUnitIDR'},
+            //         {data: 'PriceSubIDR'},
+            //         {data: 'PriceUnitIDR_PPN'},
+            //         {data: 'PriceExtIDR'},
+            //         {data: 'IdPPN'},
+            //         {data: 'JumPPN'},
+            //         {data: 'Disc'},
+            //         {data: 'harga_disc'},
+            //         {data: 'DiscIDR'},
+
+            //     ]
+            // });
             // var today = new Date();
             // var dd = String(today.getDate()).padStart(2, '0');
             // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -22,6 +52,8 @@
             // document.getElementById("tglAwal").value=today1;
             // document.getElementById("tglAkhir").value=today1;
         });
+        let loadPermohonanData = {!! json_encode($loadPermohonan) !!};
+        let loadHeaderData = {!! json_encode($loadHeader) !!};
     </script>
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -65,7 +97,6 @@
                                         <input type="text" name="supplier_text" id="supplier_text" class="input">
                                         <button class="btn btn-info" id="supplier_button">↺ List Supplier</button>
                                     </div>
-
                                 </div>
                                 <div class="acs-div-filter1">
                                     <label for="tanggal_mohonKirim">Tanggal Mohon Kirim</label>
@@ -95,7 +126,8 @@
                                             style="display: none;max-width:200px">
                                             <option selected disabled>-- Pilih Mata Uang --</option>
                                             @foreach ($mataUang as $data)
-                                                <option value="{{ $data->Id_MataUang }}">{{ $data->Nama_MataUang }}</option>
+                                                <option value="{{ $data->Id_MataUang }}">{{ $data->Nama_MataUang }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <button class="btn btn-info" id="mata_uangButton">↺ List Mata Uang</button>
@@ -187,8 +219,22 @@
                                         </div>
                                         <div class="acs-div-filter1">
                                             <label for="ppn">PPN(%)</label>
-                                            <input type="text" name="ppn" id="ppn" class="input">
+                                            <div class="acs-div-filter2">
+                                                <select class="input" name="ppn_select" id="ppn_select"
+                                                    style="display: none;max-width:200px">
+                                                    <option selected disabled>-- Pilih PPN --</option>
+                                                    @foreach ($ppn as $data)
+                                                        <option value="{{ $data->IdPPN }}">{{ $data->JumPPN }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="text" name="ppn_text" id="ppn_text" class="input">
+                                                <button class="btn btn-info" id="ppn_button">↺ List PPN</button>
+                                            </div>
                                         </div>
+                                        {{-- <div class="acs-div-filter1">
+                                            <label for="ppn">PPN(%)</label>
+                                            <input type="text" name="ppn" id="ppn" class="input">
+                                        </div> --}}
                                         <div class="acs-div-filter1">
                                             <label for="harga_total">Harga Total</label>
                                             <input type="text" name="harga_total" id="harga_total" class="input">

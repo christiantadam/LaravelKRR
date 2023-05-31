@@ -25,7 +25,8 @@ let payment_termSelect = document.getElementById("payment_termSelect");
 let payment_termText = document.getElementById("payment_termText");
 let persen_discount = document.getElementById("persen_discount");
 let post_poButton = document.getElementById("post_poButton");
-let ppn = document.getElementById("ppn");
+let ppn_text = document.getElementById("ppn_text");
+let ppn_select = document.getElementById("ppn_select");
 let qty_delay = document.getElementById("qty_delay");
 let qty_order = document.getElementById("qty_order");
 let reject_button = document.getElementById("reject_button");
@@ -45,6 +46,44 @@ let update_button = document.getElementById("update_button");
 
 tanggal_purchaseOrder.valueAsDate = new Date();
 tanggal_mohonKirim.valueAsDate = new Date();
+console.log(loadPermohonanData);
+console.log(loadHeaderData);
+// let dataTable = $("#table_CreatePurchaseOrder").DataTable();
+
+$("#table_CreatePurchaseOrder").DataTable.destroy();
+// dataTable.clear();
+
+$("#table_CreatePurchaseOrder").DataTable({
+    order: [[0, "desc"]],
+    data: loadPermohonanData,
+    columns: [
+        { data: "No_trans" },
+        { data: "Kd_brg" },
+        { data: "NAMA_BRG" },
+        { data: "nama_sub_kategori" },
+        { data: "KET" },
+        { data: "Ket_Internal" },
+        { data: "Qty" },
+        { data: "Nama_satuan" },
+        { data: "QtyCancel" },
+        { data: "PriceUnit" },
+        { data: "PriceSub" },
+        { data: "PPN" },
+        { data: "PriceExt" },
+        { data: "Kurs" },
+        { data: "PriceUnitIDR" },
+        { data: "PriceSubIDR" },
+        { data: "PriceUnitIDR_PPN" },
+        { data: "PriceExtIDR" },
+        { data: "IdPPN" },
+        { data: "JumPPN" },
+        { data: "Disc" },
+        { data: "harga_disc" },
+        { data: "DiscIDR" },
+    ],
+});
+
+$("#table_CreatePurchaseOrder").DataTable.draw();
 
 //#endregion
 
@@ -86,7 +125,7 @@ setInputFilter(
     "Harus diisi dengan angka!"
 );
 setInputFilter(
-    document.getElementById("ppn"),
+    document.getElementById("ppn_text"),
     function (value) {
         return /^-?\d*$/.test(value);
     },
