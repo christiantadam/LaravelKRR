@@ -3,55 +3,6 @@
     <link href="{{ asset('css/CreateSPPB.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <script>
-        $(document).ready(function() {
-            $('#table_CreatePurchaseOrder').DataTable({
-                order: [
-                    [1, 'desc']
-                ],
-
-            });
-
-            // $('#table_CreatePurchaseOrder').DataTable({
-            //     order: [[0, 'desc']],
-            //     data: loadPermohonanData,
-            //     columns: [
-            //         {data: 'No_trans'},
-            //         {data: 'Kd_brg'},
-            //         {data: 'NAMA_BRG'},
-            //         {data: 'nama_sub_kategori'},
-            //         {data: 'KET'},
-            //         {data: 'Ket_Internal'},
-            //         {data: 'Qty'},
-            //         {data: 'Nama_satuan'},
-            //         {data: 'QtyCancel'},
-            //         {data: 'PriceUnit'},
-            //         {data: 'PriceSub'},
-            //         {data: 'PPN'},
-            //         {data: 'PriceExt'},
-            //         {data: 'Kurs'},
-            //         {data: 'PriceUnitIDR'},
-            //         {data: 'PriceSubIDR'},
-            //         {data: 'PriceUnitIDR_PPN'},
-            //         {data: 'PriceExtIDR'},
-            //         {data: 'IdPPN'},
-            //         {data: 'JumPPN'},
-            //         {data: 'Disc'},
-            //         {data: 'harga_disc'},
-            //         {data: 'DiscIDR'},
-
-            //     ]
-            // });
-            // var today = new Date();
-            // var dd = String(today.getDate()).padStart(2, '0');
-            // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            // var yyyy = today.getFullYear();
-
-            // // today1 = mm + '/' + dd + '/' + yyyy;
-            // today1 = yyyy + '-' + mm + '-' + dd;
-            // console.log(today1);
-            // document.getElementById("tglAwal").value=today1;
-            // document.getElementById("tglAkhir").value=today1;
-        });
         let loadPermohonanData = {!! json_encode($loadPermohonan) !!};
         let loadHeaderData = {!! json_encode($loadHeader) !!};
     </script>

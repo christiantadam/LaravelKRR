@@ -48,43 +48,82 @@ tanggal_purchaseOrder.valueAsDate = new Date();
 tanggal_mohonKirim.valueAsDate = new Date();
 console.log(loadPermohonanData);
 console.log(loadHeaderData);
-// let dataTable = $("#table_CreatePurchaseOrder").DataTable();
-
-$("#table_CreatePurchaseOrder").DataTable.destroy();
-// dataTable.clear();
-
 $("#table_CreatePurchaseOrder").DataTable({
-    order: [[0, "desc"]],
     data: loadPermohonanData,
     columns: [
-        { data: "No_trans" },
-        { data: "Kd_brg" },
-        { data: "NAMA_BRG" },
-        { data: "nama_sub_kategori" },
-        { data: "KET" },
-        { data: "Ket_Internal" },
-        { data: "Qty" },
-        { data: "Nama_satuan" },
-        { data: "QtyCancel" },
-        { data: "PriceUnit" },
-        { data: "PriceSub" },
-        { data: "PPN" },
-        { data: "PriceExt" },
-        { data: "Kurs" },
-        { data: "PriceUnitIDR" },
-        { data: "PriceSubIDR" },
-        { data: "PriceUnitIDR_PPN" },
-        { data: "PriceExtIDR" },
-        { data: "IdPPN" },
-        { data: "JumPPN" },
-        { data: "Disc" },
-        { data: "harga_disc" },
-        { data: "DiscIDR" },
+        {
+            data: "No_trans",
+        },
+        {
+            data: "Kd_brg",
+        },
+        {
+            data: "NAMA_BRG",
+        },
+        {
+            data: "nama_sub_kategori",
+        },
+        {
+            data: "KET",
+        },
+        {
+            data: "Ket_Internal",
+        },
+        {
+            data: "Qty",
+        },
+        {
+            data: "Nama_satuan",
+        },
+        {
+            data: "QtyCancel",
+        },
+        {
+            data: "PriceUnit",
+            render: function (data, type, row) {
+                // Ubah data PriceUnit menjadi format Rupiah
+                data.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+            },
+        },
+        {
+            data: "PriceSub",
+        },
+        {
+            data: "PPN",
+        },
+        {
+            data: "PriceExt",
+        },
+        {
+            data: "Kurs",
+        },
+        {
+            data: "PriceUnitIDR",
+        },
+        {
+            data: "PriceSubIDR",
+        },
+        {
+            data: "PriceUnitIDR_PPN",
+        },
+        {
+            data: "PriceExtIDR",
+        },
+        {
+            data: "Disc",
+        },
+        {
+            data: "harga_disc",
+        },
+        {
+            data: "DiscIDR",
+        },
     ],
 });
 
-$("#table_CreatePurchaseOrder").DataTable.draw();
-
+$("#table_AccPenjualan tbody").on("click", "tr", function () {
+    alert("hehe");
+});
 //#endregion
 
 //#region Input Filter
@@ -233,3 +272,7 @@ post_poButton.addEventListener("click", function (event) {
     event.preventDefault();
 });
 //#endregion
+
+//#region Function
+
+//#region
