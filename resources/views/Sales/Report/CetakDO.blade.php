@@ -60,7 +60,12 @@
                                     <div style="width:48%">
                                         <img src="{{ asset('images/CetakDO2.png') }}" alt="Example Image" class="acs-image"
                                             style="margin-right: 5px">
-                                    </div> --}}
+                                    </div> <tr>
+                                        <td style="vertical-align:top">Keterangan: </td>
+                                        <td style="text-align:justify" id="keterangan_kolom">${
+                                            option.AlamatKirimDO
+                                        }</td>
+                                    </tr>--}}
                                 </div>
                             </div>
                             <table style="width: 98%">

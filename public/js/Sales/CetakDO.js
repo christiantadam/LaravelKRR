@@ -81,7 +81,7 @@ print_button.addEventListener("click", function (event) {
                                         }</td>
                                     </tr>
                                     <tr>
-                                        <td style="white-space: nowrap;">Alamat Kirim: </td>
+                                        <td style="white-space: nowrap;vertical-align:top">Alamat Kirim: </td>
                                         <td id="alamat_kirimKolom">${
                                             option.AlamatKirim
                                         }</td>
@@ -97,18 +97,13 @@ print_button.addEventListener("click", function (event) {
                                         <td id="no_poKolom">${option.NO_PO}</td>
                                     </tr>
                                     <tr>
-                                        <td style="white-space: nowrap;">Alamat Kantor: </td>
+                                        <td style="white-space: nowrap;vertical-align:top">Alamat Kantor: </td>
                                         <td id="keterangan_kolom">${
                                             option.AlamatKirim
                                         }</td>
                                     </tr>
-                                    <tr>
-                                        <td>Keterangan: </td>
-                                        <td id="keterangan_kolom">${
-                                            option.AlamatKirimDO
-                                        }</td>
-                                    </tr>
                                 </table>
+
                             </div>
                             <div class="cetak-dopdf-container04">
                                 <table>
@@ -149,10 +144,18 @@ print_button.addEventListener("click", function (event) {
                                     </tr>
                                 </table>
                             </div>
-                            <span style="margin-right: 5px;align-self: end;">${
-                                index + 1
-                            }</span>
                         </div>
+                        <div style="display:flex; flex-direction:row;margin:3px;gap:5px">
+                                    <p>
+                                        Keterangan:
+                                    </p>
+                                    <p style="text-align:justify">
+                                        ${option.AlamatKirimDO}
+                                    </p>
+                        </div>
+                        <span style="margin-right: 5px;display:flex;flex-direction:row-reverse;">${
+                            index + 1
+                        }</span>
                         `;
                         div_cetakDOBelumACC.appendChild(
                             body_deliveryOrderBelumACC
@@ -199,7 +202,7 @@ print_button.addEventListener("click", function (event) {
                                         }</td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat Kirim: </td>
+                                        <td style="vertical-align:top;white-space: nowrap">Alamat Kirim: </td>
                                         <td id="alamat_kirimKolom">${
                                             option.AlamatKirim
                                         }</td>
