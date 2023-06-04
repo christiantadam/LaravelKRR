@@ -83,12 +83,12 @@
                                                 <label for="kode_barang">Kode Barang</label>
                                                 <div class="acs-div-filter2" style="gap: 12px">
                                                     <input type="text" name="kode_barang" id="kode_barang"
-                                                        placeholder="Kode Barang" class="input">
+                                                        placeholder="Kode Barang" class="input" readonly>
                                                     <div class="acs-div-filter1">
                                                         <span id="text_idTypeBarang" style="display: none">ID Type
                                                             Barang</span>
                                                         <input type="text" name="id_typeBarang" id="id_typeBarang"
-                                                            class="input" style="display: none">
+                                                            class="input" style="display: none" readonly>
                                                     </div>
                                                 </div>
                                             </div>

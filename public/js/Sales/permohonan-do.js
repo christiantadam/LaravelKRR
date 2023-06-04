@@ -144,15 +144,21 @@ setInputFilter(
 
 tgl_do.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
+        // console.log(proses);
         event.preventDefault();
-        if (proses == 0) {
+        if (proses == 1) {
             customer.focus();
         } else {
-            nomor_doText.focus();
+            listDO_button.focus();
         }
     }
 });
-
+// nomor_spText.addEventListener("keypress", function(event){
+//     if (event.key == "Enter") {
+//         event.preventDefault();
+//         listBarang_button.focus();
+//     }
+// });
 max_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -163,14 +169,39 @@ max_kirim.addEventListener("keypress", function (event) {
 min_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        alamat_kirim.focus();
+        if (proses == 1) {
+            qty_order.focus();
+        } else if (proses == 2) {
+            isi_button.focus();
+        }
     }
 });
 
 alamat_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        kota_kirim.focus();
+        isi_button.focus();
+    }
+});
+
+nomor_doSelect.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        event.preventDefault();
+        min_kirim.focus();
+    }
+});
+
+qty_order.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        event.preventDefault();
+        qty_kirim.focus();
+    }
+});
+
+qty_kirim.addEventListener("keypress", function(event){
+    if (event.key == "Enter") {
+        event.preventDefault();
+        alamat_kirim.focus();
     }
 });
 
@@ -223,6 +254,7 @@ nomor_spText.addEventListener("keypress", function (event) {
             );
             nomor_spSelect.style.display = "block";
             nomor_spText.style.display = "none";
+            nomor_spSelect.focus();
         } else {
             nomor_spSelect.value = selectedOption.value;
             fetch("/options/id_pesanan/" + selectedOption.value)
@@ -238,7 +270,7 @@ nomor_spText.addEventListener("keypress", function (event) {
                         id_pesananSelect.appendChild(optionTag);
                     });
                 });
-            id_pesananSelect.focus();
+            listBarang_button.focus();
         }
     }
 });
@@ -590,7 +622,7 @@ kelompok.addEventListener("change", function () {
 
 sub_kelompok.addEventListener("change", function () {
     let sub_kelompok = this.value;
-    qty_primer.focus();
+    max_kirim.focus();
     fetch("/options/saldo/" + sub_kelompok + "/" + kode_barang.value)
         .then((response) => response.json())
         .then((data) => {
@@ -666,7 +698,7 @@ edit_button.addEventListener("click", function (event) {
         listSP_button.disabled = false;
         listDO_button.disabled = false;
         listBarang_button.disabled = false;
-        nomor_doText.focus();
+        tgl_do.focus();
         fetch("/options/nomorDO/")
             .then((response) => response.json())
             .then((options) => {
@@ -699,7 +731,7 @@ hapus_button.addEventListener("click", function (event) {
         isi_button.innerHTML = "Proses";
         this.style.display = "none";
         listDO_button.disabled = false;
-        nomor_doText.focus();
+        tgl_do.focus();
         fetch("/options/nomorDO/")
             .then((response) => response.json())
             .then((options) => {
@@ -722,9 +754,11 @@ listDO_button.addEventListener("click", function (event) {
     if (nomor_doSelect.style.display == "block") {
         nomor_doSelect.style.display = "none";
         nomor_doText.style.display = "block";
+        nomor_doText.focus();
     } else if (nomor_doSelect.style.display == "none") {
         nomor_doSelect.style.display = "block";
         nomor_doText.style.display = "none";
+        nomor_doSelect.focus();
     }
 });
 
@@ -734,10 +768,12 @@ listBarang_button.addEventListener("click", function (event) {
         id_pesananSelect.style.display = "none";
         id_pesananText.style.display = "block";
         id_pesananDiv.style.display = "none";
+        id_pesananText.focus();
     } else if (id_pesananSelect.style.display == "none") {
         id_pesananSelect.style.display = "block";
         id_pesananText.style.display = "none";
         id_pesananDiv.style.display = "flex";
+        id_pesananSelect.focus();
     }
 });
 
