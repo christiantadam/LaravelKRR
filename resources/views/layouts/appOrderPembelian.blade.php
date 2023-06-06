@@ -82,6 +82,23 @@
                                     Transaksi Beli (Admin Pembelian)
                                 </a>
                                 <ul class="dropdown-menu">
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('ListOrderPembelian') }}">List Order Pembelian</a></li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block">Isi Supplier - Harga &raquo;</a>
+                                        <ul class="dropdown-menu dropdown-submenu">
+                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
+                                                    tabindex="-1" href="{{ url('IsiSupplier') }}">Beli Sendiri</a>
+                                            </li>
+                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
+                                                    tabindex="-1" href="{{ url('IsiSupplier') }}">Pengadaan Pembelian</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li style="margin: 10px;"><a class="dropdown-item"
+                                            style="color: black;font-size: 15px;display: block"
+                                            href="{{ url('FinalApprove') }}">Final Approve</a></li>
                                     <li><a class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
                                             tabindex="-1">PO &raquo;</a>
                                         <ul class="dropdown-menu dropdown-submenu">
@@ -93,23 +110,14 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('DaftarOrder') }}">Daftar Order</a></li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('IsiSupplier') }}">Isi Supplier - Harga</a></li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('DaftarHarga') }}">Daftar Harga</a></li>
                                     <li><a class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
                                             tabindex="-1">BTTB &raquo;</a>
                                         <ul class="dropdown-menu dropdown-submenu">
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
                                                     tabindex="-1" href="{{ url('BTTBBelumTransfer') }}">Daftar BTTB
                                                     Belum Ditransfer </a>
                                             </li>
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
                                                     tabindex="-1" href="{{ url('BTTBTerimaBarang') }}">BTTB/Terima
                                                     Barang Datang</a>
                                             </li>
