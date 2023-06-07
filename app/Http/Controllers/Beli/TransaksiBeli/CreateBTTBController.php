@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Beli\TransaksiBeli;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\Http\Controllers\Controller;
 
-class UserBeli extends Controller
+class CreateBTTBController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
-        //
+        return view('Beli.TransaksiBeli.CreateBTTB');
     }
 
     //Show the form for creating a new resource.

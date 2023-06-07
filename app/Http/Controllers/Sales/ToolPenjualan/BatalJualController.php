@@ -51,10 +51,9 @@ class BatalJualController extends Controller
         $nomor_indeks = $request->nomorIndeks;
         $nomor_indeksAll = implode(", ", $nomor_indeks);
         $kode_barang = $request->kodeBarang;
-        // dd($nomor_indeksAll);
-        for ($i = 0; $i < count($nomor_indeks) - 1; $i++) {
-            DB::connection('ConnInventory')
-                ->update('UPDATE Tmp_Gudang SET Aktif = \'N\' WHERE Aktif = \'Y\' AND typetransaksi = 09 AND IDDO IS NULL AND Kode_barang = ' . $kode_barang . ' AND NoIndeks IN(' . $nomor_indeksAll . ')');
+        // dd($nomor_indeks);
+        for ($i = 0; $i < count($nomor_indeks); $i++) {
+            DB::connection('ConnInventory')->statement('UPDATE Tmp_Gudang SET Aktif = \'N\' WHERE Aktif = \'Y\' AND typetransaksi = 09 AND IDDO IS NULL AND Kode_barang = \'' . $kode_barang . '\' AND NoIndeks = \'' . $nomor_indeks[$i] . '\'');
         }
         // dd('UPDATE Tmp_Gudang SET Aktif = \'N\' WHERE Aktif = \'Y\' AND typetransaksi = 09 AND IDDO IS NULL AND Kode_barang = ? AND NoIndeks IN(?)', [$kode_barang, $nomor_indeksAll]);
         return redirect()->back()->with('success', 'Kode Barang ' . $kode_barang . ' dengan Nomor Indeks ' . $nomor_indeksAll . ' Sudah Dibatalkan!');

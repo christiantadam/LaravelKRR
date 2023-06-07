@@ -86,20 +86,25 @@
                                             style="color: black;font-size: 15px;display: block"
                                             href="{{ url('ListOrderPembelian') }}">List Order Pembelian</a></li>
                                     <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block">Isi Supplier - Harga &raquo;</a>
+                                            style="color: black;font-size: 15px;display: block;cursor:default">Isi Supplier
+                                            - Harga
+                                            &raquo;</a>
                                         <ul class="dropdown-menu dropdown-submenu">
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
-                                                    tabindex="-1" href="{{ url('IsiSupplier') }}">Beli Sendiri</a>
+                                                    tabindex="-1" href="{{ url('IsiSupplierHarga', ['id' => 0]) }}">Beli
+                                                    Sendiri</a>
                                             </li>
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
-                                                    tabindex="-1" href="{{ url('IsiSupplier') }}">Pengadaan Pembelian</a>
+                                                    tabindex="-1" href="{{ url('IsiSupplierHarga', ['id' => 1]) }}">Pengadaan
+                                                    Pembelian</a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li style="margin: 10px;"><a class="dropdown-item"
                                             style="color: black;font-size: 15px;display: block"
                                             href="{{ url('FinalApprove') }}">Final Approve</a></li>
-                                    <li><a class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
+                                    <li style="margin: 10px;"><a
+                                            class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
                                             tabindex="-1">PO &raquo;</a>
                                         <ul class="dropdown-menu dropdown-submenu">
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
@@ -110,22 +115,21 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
+                                    <li style="margin: 10px;"><a
+                                            class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
                                             tabindex="-1">BTTB &raquo;</a>
                                         <ul class="dropdown-menu dropdown-submenu">
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
-                                                    tabindex="-1" href="{{ url('BTTBBelumTransfer') }}">Daftar BTTB
-                                                    Belum Ditransfer </a>
+                                                    tabindex="-1" href="{{ url('CreateBTTB') }}">Create BTTB</a>
                                             </li>
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
-                                                    tabindex="-1" href="{{ url('BTTBTerimaBarang') }}">BTTB/Terima
-                                                    Barang Datang</a>
+                                                    tabindex="-1" href="{{ url('ReturBTTB') }}">Retur BTTB</a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li style="margin: 10px;"><a class="dropdown-item"
                                             style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('UserBeli') }}">User</a></li>
+                                            href="{{ url('TransferBarang') }}">Transfer Barang</a></li>
                                 </ul>
                             </div>
                             <div class="dropdown">

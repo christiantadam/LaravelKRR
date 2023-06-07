@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Beli\TransaksiBeli;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class IsiSupplierController extends Controller
+class ListOrderPembelianController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
-        return view('Beli.TransaksiBeli.IsiSupplier');
+        return view('Beli.TransaksiBeli.ListOrderPembelian');
     }
 
     //Show the form for creating a new resource.

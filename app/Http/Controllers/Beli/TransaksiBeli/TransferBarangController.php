@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Beli\TransaksiBeli;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class BTTBTerimaBarangController extends Controller
+class TransferBarangController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
-        return view('Beli.TransaksiBeli.BTTBTerimaBarang');
+        return view('Beli.TransaksiBeli.TransferBarang');
     }
 
     //Show the form for creating a new resource.

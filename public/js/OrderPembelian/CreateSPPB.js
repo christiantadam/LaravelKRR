@@ -71,6 +71,11 @@ $("#table_CreatePurchaseOrder").DataTable({
         },
         {
             data: "Qty",
+            render: function (data) {
+                var stringValue = data.replace(".", "").replace(/\.?0*$/, ""); // Remove decimal point and trailing zeros
+                var intValue = parseInt(stringValue, 10);
+                return intValue;
+            },
         },
         {
             data: "Nama_satuan",
@@ -80,43 +85,96 @@ $("#table_CreatePurchaseOrder").DataTable({
         },
         {
             data: "PriceUnit",
-            render: function (data, type, row) {
-                // Ubah data PriceUnit menjadi format Rupiah
-                data.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+            render: function (data) {
+                var intValue = parseInt(data);
+                var formattedValue = intValue.toLocaleString();
+                return formattedValue;
             },
         },
         {
             data: "PriceSub",
+            render: function (data) {
+                var intValue = parseInt(data);
+                var formattedValue = intValue.toLocaleString();
+                return formattedValue;
+            },
         },
         {
             data: "PPN",
+            render: function (data) {
+                var stringValue = data.replace(".", "").replace(/\.?0*$/, ""); // Remove decimal point and trailing zeros
+                var intValue = parseInt(stringValue, 10);
+                return intValue;
+            },
         },
         {
             data: "PriceExt",
+            render: function (data) {
+                var intValue = parseInt(data);
+                var formattedValue = intValue.toLocaleString();
+                return formattedValue;
+            },
         },
         {
             data: "Kurs",
+            render: function (data) {
+                var intValue = parseInt(data);
+                return intValue;
+            },
         },
         {
             data: "PriceUnitIDR",
+            render: function (data) {
+                var intValue = parseInt(data);
+                var formattedValue = intValue.toLocaleString();
+                return formattedValue;
+            },
         },
         {
             data: "PriceSubIDR",
+            render: function (data) {
+                var intValue = parseInt(data);
+                var formattedValue = intValue.toLocaleString();
+                return formattedValue;
+            },
         },
         {
             data: "PriceUnitIDR_PPN",
+            render: function (data) {
+                var intValue = parseInt(data);
+                return intValue;
+            },
         },
         {
             data: "PriceExtIDR",
+            render: function (data) {
+                var intValue = parseInt(data);
+                var formattedValue = intValue.toLocaleString();
+                return formattedValue;
+            },
         },
         {
             data: "Disc",
+            render: function (data) {
+                var intValue = parseInt(data);
+                return intValue;
+            },
         },
         {
             data: "harga_disc",
+            render: function (data) {
+                var intValue = parseInt(data);
+                return intValue;
+            },
         },
         {
             data: "DiscIDR",
+            render: function (data) {
+                var intValue = parseInt(data);
+
+                // Return the formatted value
+                return intValue;
+            },
         },
     ],
 });

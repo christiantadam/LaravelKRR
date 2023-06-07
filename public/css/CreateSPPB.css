@@ -57,3 +57,6 @@
     width: 100%;
     aspect-ratio: 4/1;
 }
+.red-label {
+    color: red;
+  }
