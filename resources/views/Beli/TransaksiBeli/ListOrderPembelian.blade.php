@@ -21,7 +21,9 @@
                         <div class="acs-form">
                             <div class="acs-form1" style="width: 20%">
                                 <label for="divisi">Divisi</label>
-                                <select name="divisi" id="divisi" class="input"></select>
+                                <select name="divisi" id="divisi" class="input">
+                                    <option disabled selected>-- Pilih Divisi --</option>
+                                </select>
                             </div>
                             <div class="acs-form1" style="width: 50%">
                                 <label for="approve" style="white-space: nowrap">Tanggal dan Jam Approve</label>
@@ -36,7 +38,7 @@
                             <div class="acs-form1" style="width: 20%">
                                 <label for="status_beli">Status Beli</label>
                                 <div class="acs-filter1">
-                                    <input type="radio" name="radio_buttonStatusBeli" id="radio_buttonPengadaanPembelian">Pengadaan Pembelian
+                                    <input type="radio" name="radio_buttonStatusBeli" id="radio_buttonPengadaanPembelian" checked>Pengadaan Pembelian
                                     <input type="radio" name="radio_buttonStatusBeli" id="radio_buttonBeliSendiri">Beli Sendiri
                                 </div>
                             </div>
@@ -63,6 +65,12 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                        <div>
+                            <input type="checkbox" name="checkbox_centangSemua" id="checkbox_centangSemua"> Centang Semua
+                            <form action="">
+                                <button class="btn btn-success" id="button_print">Print</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,7 @@
                             name="tanggal_do" id="tanggal_do" class="input"> </div>
                     <div class="acs-div-filter1"> <label for="no_do">Hari:</label> <input type="text"
                             name="nomor_referensi" id="nomor_referensi" class="input"> </div> <button id="print_button"
-                        class="btn btn-info" style="font-color: white"><span>&#128462;</span>View Print</button> <button
+                        class="btn btn-info" style="font-color: white"><span>&#128462;</span> View Print</button> <button
                         id="export_pdf" class="btn btn-primary"><span>&#11123;</span> Export PDF</button>
                     <button id="print_pdf" class="btn btn-success"><span>&#128438;</span> Print Surat Pesanan</button>
                     <hr> <label for="contoh_print" id="contoh_print">Contoh print:</label>

@@ -6,7 +6,7 @@
 }
 .acs-div-filter1{
     display: flex;
-    width: 350px;
+    width: 70%;
     flex-direction: column;
     margin: 4px 0;
 }
@@ -18,8 +18,8 @@
 }
 .acs-div-filter3{
     display: flex;
-    width: 300px;
-    flex-direction: row;
+    width: 100%;
+    flex-direction: column;
     margin: 4px 0;
 }
 .acs-div-filter4{
@@ -27,6 +27,12 @@
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
+}
+.acs-input{
+    width: 70%;
+}
+.acs-input1{
+    width: 30%;
 }
 .acs-div-form{
     margin: 10px;

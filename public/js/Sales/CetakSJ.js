@@ -32,6 +32,8 @@ tanggal_sj.valueAsDate = new Date();
 surat_jalanPPN.checked = true;
 contoh_print.style.display = "none";
 contoh_printDiv.style.display = "none";
+export_pdf.style.display = "none";
+print_pdf.style.display = "none";
 // console.log(tanggal_sj.value);
 
 //#endregion
@@ -67,6 +69,8 @@ print_button.addEventListener("click", function () {
                 alamat_kirimKolom.innerHTML = "Dikirim ke: <br>"+data[0].AlamatKirim;
                 contoh_print.style.display = "block";
                 contoh_printDiv.style.display = "block";
+                export_pdf.style.display = "inline-block";
+                print_pdf.style.display = "inline-block";
             });
     } else if (surat_jalanNonPPN.checked == true) {
         //coming soon

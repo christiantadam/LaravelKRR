@@ -20,22 +20,24 @@
                 <div class="card">
                     <div class="card-header">Acc Penjualan</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0 acs-table-barcode" id="div_tableBarcode">
-                        <table id="table_AccPenjualan" class="table table-bordered table-striped" style="width:100%">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Id Transaksi</th>
-                                    <th>Id Type</th>
-                                    <th>Nama Type</th>
-                                    <th>Primer</th>
-                                    <th>Sekunder</th>
-                                    <th>Tritier</th>
-                                    <th>Kode Barang</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div style="overflow: auto">
+                            <table id="table_AccPenjualan" class="table table-bordered table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Id Transaksi</th>
+                                        <th>Id Type</th>
+                                        <th>Nama Type</th>
+                                        <th>Primer</th>
+                                        <th>Sekunder</th>
+                                        <th>Tritier</th>
+                                        <th>Kode Barang</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <form class="acs-div-form" method="POST" action="{{ url('AccPenjualan') }}" id="form_accJualBarcode">
                         {{ csrf_field() }}
@@ -124,20 +126,18 @@
                             </div>
                             <div class="acs-div-form3"
                                 style="border: 1px solid grey; margin:3%; padding:1%; width: fit-content">
-                                <div class="acs-div-filter1">
+                                <div class="acs-div-filter3">
                                     <label for="max_do">Max DO</label>
                                     <div style="display: flex; flex-direction: row; gap: 3%">
-                                        <input type="text" name="max_do" id="max_do" class="input" readonly>
-                                        <input type="text" name="max_doSatuan" id="max_doSatuan" class="input"
-                                            style="width: 25%" readonly>
+                                        <input type="text" name="max_do" id="max_do" class="input acs-input" readonly>
+                                        <input type="text" name="max_doSatuan" id="max_doSatuan" class="input acs-input1" readonly>
                                     </div>
                                 </div>
-                                <div class="acs-div-filter1">
+                                <div class="acs-div-filter3">
                                     <label for="min_do">Min DO</label>
                                     <div style="display: flex; flex-direction: row; gap: 3%">
-                                        <input type="text" name="min_do" id="min_do" class="input" readonly>
-                                        <input type="text" name="min_doSatuan" id="min_doSatuan" class="input"
-                                            style="width: 25%" readonly>
+                                        <input type="text" name="min_do" id="min_do" class="input acs-input" readonly>
+                                        <input type="text" name="min_doSatuan" id="min_doSatuan" class="input acs-input1" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -153,30 +153,27 @@
                                         <div style="display: flex; flex-direction: row; gap: 3%">
                                             <label for="saldo_primerDikeluarkan">Primer</label>
                                             <input type="text" name="saldo_primerDikeluarkan"
-                                                id="saldo_primerDikeluarkan" class="input" readonly>
+                                                id="saldo_primerDikeluarkan" class="input acs-input" readonly>
                                             <input type="text" name="saldo_primerDikeluarkanSatuan"
-                                                id="saldo_primerDikeluarkanSatuan" class="input" style="width: 80px"
-                                                readonly>
+                                                id="saldo_primerDikeluarkanSatuan" class="input acs-input1" readonly>
                                         </div>
                                     </div>
                                     <div class="acs-div-filter1">
-                                        <div style="display: flex; flex-direction: row; gap: 5px">
+                                        <div style="display: flex; flex-direction: row; gap: 3%">
                                             <label for="saldo_sekunderDikeluarkan">Sekunder</label>
                                             <input type="text" name="saldo_sekunderDikeluarkan"
-                                                id="saldo_sekunderDikeluarkan" class="input" readonly>
+                                                id="saldo_sekunderDikeluarkan" class="input acs-input" readonly>
                                             <input type="text" name="saldo_sekunderDikeluarkanSatuan"
-                                                id="saldo_sekunderDikeluarkanSatuan" class="input" style="width: 80px"
-                                                readonly>
+                                                id="saldo_sekunderDikeluarkanSatuan" class="input acs-input1" readonly>
                                         </div>
                                     </div>
                                     <div class="acs-div-filter1">
                                         <div style="display: flex; flex-direction: row; gap: 3%">
                                             <label for="saldo_tritierDikeluarkan">Tritier</label>
                                             <input type="text" name="saldo_tritierDikeluarkan"
-                                                id="saldo_tritierDikeluarkan" class="input" readonly>
+                                                id="saldo_tritierDikeluarkan" class="input acs-input" readonly>
                                             <input type="text" name="saldo_tritierDikeluarkanSatuan"
-                                                id="saldo_tritierDikeluarkanSatuan" class="input" style="width:80px"
-                                                readonly>
+                                                id="saldo_tritierDikeluarkanSatuan" class="input acs-input1" readonly>
                                         </div>
                                     </div>
                                 </div>

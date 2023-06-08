@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
                 <div class="acs-div-form">
-                    <div style="gap: 10px; display: flex">
+                    <div style="gap: 10px; display: flex;display: none">
                         <div>
                             <input type="radio" name="group_suratJalan" id="surat_jalanPPN" value="ppn"> SJ PPN
                         </div>
@@ -43,8 +43,8 @@
                         <label for="jenis_sp">Jenis SP:</label>
                         <input type="text" name="jenis_sp" id="jenis_sp" class="input">
                     </div> --}}
-                    <button id="print_button" class="btn btn-primary">View Print</button>
-                    <button id="export_pdf" class="btn btn-success">Export PDF</button>
+                    <button id="print_button" class="btn btn-info"><span>&#128462;</span> View Print</button>
+                    <button id="export_pdf" class="btn btn-primary"><span>&#11123;</span> Export PDF</button>
                     <button id="print_pdf" class="btn btn-success"><span>&#128438;</span> Print Surat Pesanan</button>
                     <hr>
                     <label for="contoh_print" id="contoh_print">Contoh print:</label>

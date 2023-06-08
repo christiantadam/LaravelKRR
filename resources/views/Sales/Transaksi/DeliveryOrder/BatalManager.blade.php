@@ -29,48 +29,50 @@
                 <div class="card">
                     <div class="card-header">Delivery Order Sudah ACC Manager</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-                        <table id="table_DO" class="table table-bordered table-striped SP_datatable" style="width:100%">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Nomor DO</th>
-                                    <th>Tanggal </th>
-                                    <th>ID Pesanan</th>
-                                    <th>No SP</th>
-                                    <th>Customer</th>
-                                    <th>ID Barang</th>
-                                    <th>Nama Barang</th>
-                                    <th>Primer</th>
-                                    <th>Sekunder</th>
-                                    <th>Tritier</th>
-                                    <th>ID Trans TMP</th>
-                                    {{-- <th>Action</th> --}}
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data as $item)
+                        <div style="padding:10px; overflow: auto;">
+                            <table id="table_DO" class="table table-bordered table-striped SP_datatable" style="width:100%">
+                                <thead class="thead-light">
                                     <tr>
-                                        <td class="RDZPaddingTable RDZCenterTable"><input type="checkbox" name="selected[]"
-                                                id="id_do" value="{{ $item->IDDO }}">{{ $item->IDDO }} </td>
-                                        <td class="RDZPaddingTable RDZCenterTable">
-                                            {{ date('m-d-Y', strtotime($item->tanggal)) }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->IDPesanan }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->IDSuratPesanan }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaCust }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->IDBarang }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaBarang }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtyPrimer }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtySekunder }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtyTritier }}</td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->IdtransTmp }}</td>
-                                        {{-- <td class="acs-td-button">
-                                            <button type="button" class="btn btn-sm btn-danger" id="buttonBatal"
-                                                onclick="openModal('{{ $item->IdtransTmp }}','{{ $item->IDDO }}')"><span>&#x1F5D1;</span>
-                                                Batalkan</button>
-                                        </td> --}}
+                                        <th>Nomor DO</th>
+                                        <th>Tanggal </th>
+                                        <th>ID Pesanan</th>
+                                        <th>No SP</th>
+                                        <th>Customer</th>
+                                        <th>ID Barang</th>
+                                        <th>Nama Barang</th>
+                                        <th>Primer</th>
+                                        <th>Sekunder</th>
+                                        <th>Tritier</th>
+                                        <th>ID Trans TMP</th>
+                                        {{-- <th>Action</th> --}}
+
                                     </tr>
-                                @endforeach
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $item)
+                                        <tr>
+                                            <td class="RDZPaddingTable RDZCenterTable"><input type="checkbox" name="selected[]"
+                                                    id="id_do" value="{{ $item->IDDO }}">{{ $item->IDDO }} </td>
+                                            <td class="RDZPaddingTable RDZCenterTable">
+                                                {{ date('m-d-Y', strtotime($item->tanggal)) }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->IDPesanan }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->IDSuratPesanan }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaCust }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->IDBarang }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaBarang }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtyPrimer }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtySekunder }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->QtyTritier }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->IdtransTmp }}</td>
+                                            {{-- <td class="acs-td-button">
+                                                <button type="button" class="btn btn-sm btn-danger" id="buttonBatal"
+                                                    onclick="openModal('{{ $item->IdtransTmp }}','{{ $item->IDDO }}')"><span>&#x1F5D1;</span>
+                                                    Batalkan</button>
+                                            </td> --}}
+                                        </tr>
+                                    @endforeach
+                            </table>
+                        </div>
                         <button type="button" class="btn btn-sm btn-danger" id="buttonBatal"
                             onclick="openModal('{{ $item->IdtransTmp }}','{{ $item->IDDO }}')"><span>&#x1F5D1;</span>
                             Batalkan</button>
