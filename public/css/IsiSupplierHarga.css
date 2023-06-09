@@ -59,7 +59,7 @@ input[type="radio"] {
 }
 .acs-div-filter {
     display: flex;
-    width: 300px;
+    width: 70%;
     flex-direction: column;
     margin: 4px 0;
 }

@@ -126,6 +126,71 @@
                                     <label for="qty_delay">Qty Delay</label>
                                     <input type="text" name="qty_delay" id="qty_delay" class="input" value="0">
                                 </div>
+                                <div class="acs-div-filter">
+                                    <label for="supplier">Supplier</label>
+                                    <select name="supplier" id="supplier_select">
+                                        <option selected disabled>-- Pilih Supplier --</option>
+                                    </select>
+                                </div>
+                                <div class="acs-div-filter">
+                                    <label for="mata_uang">Mata Uang</label>
+                                    <select name="mata_uang" id="mata_uangSelect">
+                                        <option selected disabled>-- Pilih Mata Uang --</option>
+                                    </select>
+                                </div>
+                                <div class="acs-div-filter">
+                                    <label for="kurs">Kurs</label>
+                                    <input type="text" name="kurs" id="kurs" class="input" value="1">
+                                </div>
+                                <div class="acs-form">
+                                    <div class="acs-form1">
+                                        <div class="acs-div-filter">
+                                            <label for="harga_unit">Harga Unit</label>
+                                            <input type="text" name="harga_unit" id="harga_unit" class="input">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="harga_subTotal">Harga SubTotal</label>
+                                            <input type="text" name="harga_subTotal" id="harga_subTotal" class="input">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="harga_subTotal">Harga SubTotal</label>
+                                            <input type="text" name="harga_subTotal" id="harga_subTotal" class="input">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="ppn">PPN (%)</label>
+                                            <select name="ppn" id="ppn_select">
+                                                <option disabled selected>-- Pilih PPN --</option>
+                                            </select>
+                                            <input type="text" name="harga_ppn" id="harga_ppn" class="input">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="harga_total">Harga Total</label>
+                                            <input type="text" name="harga_total" id="harga_total" class="input">
+                                        </div>
+                                    </div>
+                                    <div class="acs-form1">
+                                        <div class="acs-div-filter">
+                                            <label for="idr_unit">IDR Unit</label>
+                                            <input type="text" name="idr_unit" id="idr_unit" class="input">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="idr_subTotal">IDR SubTotal</label>
+                                            <input type="text" name="idr_subTotal" id="idr_subTotal" class="input">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="idr_ppn">IDR PPN</label>
+                                            <input type="text" name="idr_ppn" id="idr_ppn" class="input">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="idr_total">IDR Total</label>
+                                            <input type="text" name="idr_total" id="idr_total" class="input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="acs-div-filter">
+                                    <label for="alasan_reject">Alasan Reject</label>
+                                    <input type="text" name="alasan_reject" id="alasan_reject" class="input">
+                                </div>
                             </div>
                             <div class="acs-form6">
                                 <button class="btn btn-success">Approve</button>
