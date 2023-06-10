@@ -686,7 +686,7 @@ namaBarang.addEventListener("change", function () {
     fetch("/satuan/" + namaBarang)
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data[0]);
+            console.log(data[0]);
             satuanPrimer.value =
                 data[0].SatPrimer.trim() +
                 " (Primer)               -" +
@@ -759,7 +759,7 @@ function funcBeratStandard(kategoriUtama, namaBarang) {
                 totalCost.value = 0;
             });
     } else {
-        beratStandard.style.display = "none";
+        div_beratStandard.style.display = "none";
     }
 }
 

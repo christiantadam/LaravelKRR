@@ -113,30 +113,22 @@
                                                 <span>Sederhana</span> <br />
                                             </span>
                                         </div>
-                                        <div class="permohonan-s-p-container16"> <input type="text" id="keterangan"
-                                                name="keterangan" placeholder="Keterangan"
-                                                class="permohonan-s-p-textinput11 input" /> </div>
+                                        <div class="permohonan-s-p-container16">
+                                            <textarea class="input" name="keterangan" id="keterangan" cols="60" rows="3" placeholder="Keterangan"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="permohonan-s-p-container17" id="div_tabelSuratPesanan">
-                                    {{-- <ul class="list">
-                        <li class="list-item"><span>Ini adalah</span></li>
-                        <li class="list-item"><span>LIST VIEW</span></li>
-                        <li class="list-item"><span>Untuk List barang</span></li>
-                    </ul> --}}
                                     <table class="permohonan-s-p-table" id="list_view" name="list_view">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th>Nama Barang</th>
                                                 <th>Kode Barang</th>
-                                                <th>Jns SP</th>
+                                                <th>Harga Satuan</th>
                                                 <th>Jumlah</th>
                                                 <th>Satuan</th>
-                                                <th>Harga Satuan</th>
                                                 <th>Rencana Kirim</th>
-                                                <th>IDPesanan</th>
                                                 <th>PPN</th>
-                                                {{-- <th>Index</th> --}}
                                                 <th>B.Karung</th>
                                                 <th>In.Karung</th>
                                                 <th>Bi.Karung</th>
@@ -157,6 +149,8 @@
                                                 <th>B.LamiMTR</th>
                                                 <th>B.KertasMTR</th>
                                                 <th>BS.TotalMTR</th>
+                                                <th>Jns SP</th>
+                                                <th>IDPesanan</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -174,31 +168,31 @@
                                                     <option value="{{ $data->IDJnsBrg }}">{{ $data->NamaJnsBrg }}
                                                     </option>
                                                 @endforeach
-                                            </select> {{-- <input type="text" placeholder="Jenis Barang" class="permohonan-s-p-textinput12 input" name="jenis_brg" id="jenis_brg" list="data_jenisbarang" /> <button class="permohonan-s-p-button05 button">...</button> <datalist id="data_jenisbarang"> @foreach ($jenis_brg as $data) <option value="{{ $data->IDJnsBrg }} - {{ $data->NamaJnsBrg }}"></option> @endforeach </datalist> --}} </div>
-                                        <div class="permohonan-s-p-container22"> {{-- <input type="text" placeholder="Kategori Utama" class="permohonan-s-p-textinput13 input" name="kategori_utama" id="kategori_utama" list="data_kategoriutama" /> <button class="permohonan-s-p-button06 button">...</button> <datalist id="data_kategoriutama"> @foreach ($kategori_utama as $data) <option value="{{ $data->no_kat_utama }} - {{ $data->nama_kat_utama }}"></option> @endforeach </datalist> --}} <select
-                                                name="kategori_utama" id="kategori_utama" class="form-control">
+                                            </select>
+                                        </div>
+                                        <div class="permohonan-s-p-container22">
+                                            <select name="kategori_utama" id="kategori_utama" class="form-control">
                                                 <option disabled selected value>-- Pilih Kategori Utama --</option>
                                                 @foreach ($kategori_utama as $data)
                                                     <option value="{{ $data->no_kat_utama }}">{{ $data->nama_kat_utama }}
                                                     </option>
                                                 @endforeach
-                                            </select> </div>
-                                        <div class="permohonan-s-p-container23"> {{-- <input type="text" placeholder="Kategori" class="permohonan-s-p-textinput14 input" /> --}}
-                                            {{-- <button class="permohonan-s-p-button07 button">...</button> --}} <select name="kategori" id="kategori"
-                                                class="form-control"></select> {{-- <datalist id="data_kategori"></datalist> --}}
+                                            </select>
                                         </div>
-                                        <div class="permohonan-s-p-container24"> {{-- <input type="text" placeholder="Sub Kategori" class="permohonan-s-p-textinput15 input" /> --}} <select
-                                                name="sub_kategori" id="sub_kategori" class="form-control"></select>
-                                            {{-- <button class="permohonan-s-p-button08 button">...</button> --}}
-                                            {{-- <datalist id="data_subkategori"></datalist> --}} </div>
-                                        <div class="permohonan-s-p-container25"> {{-- <input type="text" placeholder="Nama Barang" class="permohonan-s-p-textinput16 input" /> --}} <select
-                                                name="nama_barang" id="nama_barang" class="form-control"></select>
-                                            {{-- <button class="permohonan-s-p-button09 button">...</button> --}}
-                                            {{-- <datalist id="data_namabarang"></datalist> --}} </div>
-                                        <div class="permohonan-s-p-container26"> <input type="text" id="kode_barang"
-                                                placeholder="Kode Barang" class="permohonan-s-p-textinput17 input"
-                                                value="" readonly /> <span id="enter_kodeBarang"
-                                                style="display: none">Tekan Enter</span> </div>
+                                        <div class="permohonan-s-p-container23">
+                                            <select name="kategori" id="kategori" class="form-control"></select>
+                                        </div>
+                                        <div class="permohonan-s-p-container24">
+                                            <select name="sub_kategori" id="sub_kategori" class="form-control"></select>
+                                        </div>
+                                        <div class="permohonan-s-p-container25">
+                                            <select name="nama_barang" id="nama_barang" class="form-control"></select>
+                                        </div>
+                                        <div class="permohonan-s-p-container26">
+                                            <input type="text" id="kode_barang" placeholder="Kode Barang"
+                                                class="permohonan-s-p-textinput17 input" readonly />
+                                            <span id="enter_kodeBarang" style="display: none">Tekan Enter</span>
+                                        </div>
                                     </div>
                                     <div class="permohonan-s-p-container27"> <span>Qty Pesan</span> <span>Harga
                                             Satuan</span> <span>P P
@@ -225,17 +219,20 @@
                                                     <option value="{{ $data->No_satuan }}">{{ $data->Nama_satuan }}
                                                     </option>
                                                 @endforeach
-                                            </select> {{-- <input type="text" placeholder="Satuan Jual" class="permohonan-s-p-textinput21 input" /> --}} {{-- <button class="permohonan-s-p-button10 button">...</button> --}} </div>
-                                        <div class="permohonan-s-p-container35"> <input type="text"
-                                                placeholder="Satuan Primer" class="permohonan-s-p-textinput22 input"
-                                                id="satuan_primer" readonly /> <input type="text"
-                                                placeholder="Satuan Sekunder" class="permohonan-s-p-textinput23 input"
-                                                id="satuan_sekunder" readonly /> <input type="text"
-                                                placeholder="Satuan Tritier" class="permohonan-s-p-textinput24 input"
-                                                id="satuan_tritier" readonly /> </div>
-                                        <div class="permohonan-s-p-container36"> <input type="date"
-                                                placeholder="Rencana Kirim" class="permohonan-s-p-textinput25 input"
-                                                id="rencana_kirim" /> </div>
+                                            </select>
+                                        </div>
+                                        <div class="permohonan-s-p-container35">
+                                            <input type="text" placeholder="Satuan Primer"
+                                                class="permohonan-s-p-textinput22 input" id="satuan_primer" readonly />
+                                            <input type="text" placeholder="Satuan Sekunder"
+                                                class="permohonan-s-p-textinput23 input" id="satuan_sekunder" readonly />
+                                            <input type="text" placeholder="Satuan Tritier"
+                                                class="permohonan-s-p-textinput24 input" id="satuan_tritier" readonly />
+                                        </div>
+                                        <div class="permohonan-s-p-container36">
+                                            <input type="date" placeholder="Rencana Kirim"
+                                                class="permohonan-s-p-textinput25 input" id="rencana_kirim" />
+                                        </div>
                                     </div>
                                     <div class="permohonan-s-p-container37">
                                         <button class="permohonan-s-p-button11 button" id="add_button">Add</button>
@@ -243,7 +240,7 @@
                                         <button class="permohonan-s-p-button13 button" id="delete_button">Delete</button>
                                     </div>
                                 </div>
-                                <div id="berat_standard"> <span> <span>Berat Standart (KGM) - Index Harga</span> <br />
+                                <div id="div_beratStandard"> <span> <span>Berat Standart (KGM) - Index Harga</span> <br />
                                     </span>
                                     <div class="permohonan-s-p-container38">
                                         <div class="permohonan-s-p-container39"> <span>Berat Karung:</span> <span>Berat
@@ -369,5 +366,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{{ asset('js/Sales/permohonan-s-p.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/Sales/permohonan-sp.js') }}"></script>
 @endsection

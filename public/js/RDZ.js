@@ -111,6 +111,7 @@ function ChangeValue(input, dropdown, value) {
     console.log("yay");
 }
 
+//Penjelasan setinputfilter function: https://jsfiddle.net/KarmaProd/tgn9d1uL/4/
 function setInputFilter(textbox, inputFilter, errMsg) {
     [
         "input",

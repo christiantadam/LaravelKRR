@@ -44,7 +44,9 @@
     font-weight: bold;
     text-align: left;
 }
-
+.permohonan-s-p-table tr{
+    cursor: pointer;
+}
 .permohonan-s-p-table tr:nth-child(even) {
     /* background-color: #f2f2f2; */
 }
@@ -158,7 +160,7 @@
     align-items: flex-start;
 }
 .permohonan-s-p-textinput04 {
-    width: 20%;
+    width: 50%;
     height: 100%;
 }
 .permohonan-s-p-container08 {
@@ -182,7 +184,7 @@
     align-items: flex-start;
 }
 .permohonan-s-p-textinput06 {
-    width: 85%;
+    width: 50%;
     height: 100%;
 }
 .permohonan-s-p-container10 {
@@ -327,7 +329,7 @@
 .permohonan-s-p-container17 {
     flex: 0 0 auto;
     width: 100%;
-    height: 150px;
+    height: 100%;
     display: flex;
     align-items: flex-start;
     overflow-x: auto;

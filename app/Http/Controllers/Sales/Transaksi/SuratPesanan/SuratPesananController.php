@@ -289,13 +289,6 @@ class SuratPesananController extends Controller
     //Show the form for editing the specified resource.
     public function edit($id)
     {
-        // $jenis_sp = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
-        // $list_customer = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER');
-        // $list_sales = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_SALES');
-        // $jenis_bayar = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
-        // $jenis_brg = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_JNSBRG');
-        // $kategori_utama = DB::connection('sqlsrv')->select('exec SP_1273_PRG_KATEGORI_UTAMA');
-        // $list_satuan = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_SATUAN');
         $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC @IDSURATPESANAN = ?, @Kode = ?', [$id, 1]);
         $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DETAIL_SP @IDSURATPESANAN = ?, @Kode = ?', [$id, 5]);
 

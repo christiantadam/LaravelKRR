@@ -524,6 +524,7 @@ nomor_doSelect.addEventListener("change", function () {
 
 id_pesananSelect.addEventListener("change", function () {
     id_pesananText.value = this.value;
+    id_pesananDiv.style.display = "none";
     id_pesananSelect.style.display = "none";
     id_pesananText.style.display = "block";
     let selectedOption = this.options[this.selectedIndex];
@@ -626,6 +627,7 @@ sub_kelompok.addEventListener("change", function () {
     fetch("/options/saldo/" + sub_kelompok + "/" + kode_barang.value)
         .then((response) => response.json())
         .then((data) => {
+            console.log(data);
             text_idTypeBarang.style.display = "block";
             id_typeBarang.style.display = "block";
             id_typeBarang.readOnly = true;
