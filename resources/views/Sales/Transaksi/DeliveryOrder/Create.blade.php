@@ -151,12 +151,12 @@
                                             <div class="acs-div-filter1">
                                                 <label for="qty_order">Qty Order</label>
                                                 <input type="text" name="qty_order" id="qty_order"
-                                                    placeholder="Qty Order" class="input">
+                                                    placeholder="Qty Order" class="input" value="0">
                                             </div>
                                             <div class="acs-div-filter1">
                                                 <label for="qty_kirim">Qty Kirim</label>
                                                 <input type="text" name="qty_kirim" id="qty_kirim"
-                                                    placeholder="Qty Kirim" class="input">
+                                                    placeholder="Qty Kirim" class="input" value="0">
                                             </div>
                                         </div>
                                         <div>

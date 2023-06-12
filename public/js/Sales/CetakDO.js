@@ -59,7 +59,7 @@ print_button.addEventListener("click", function (event) {
                     tanggal_kirimKolom.innerHTML = formattedDate;
                     console.log(options);
                     options.forEach((option, index) => {
-                        // console.log(option);
+                        console.log(option);
                         let min_kirimSekunderValue = 0;
                         const body_deliveryOrderBelumACC =
                             document.createElement("div");
@@ -141,6 +141,10 @@ print_button.addEventListener("click", function (event) {
                                         <td></td>
                                         <td id="min_kirimSekunderKolom">${min_kirimSekunderValue}&nbsp;</td>
                                         <td>${option.SatuanTritier}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap">Jenis Customer:&nbsp;</td>
+                                        <td>${option.JnsCust}</td>
                                     </tr>
                                 </table>
                             </div>

@@ -71,7 +71,7 @@ class SuratPesananController extends Controller
         // $detail_pesanan = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_DETAIL_SP @Kode = ?,
         //                                                     @IDSURATPESANAN = ?', [5, $id]);
         $jenis_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
-        $list_customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?',[1]);
+        $list_customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
         // dd($list_customer);
         $list_sales = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALES');
         $jenis_bayar = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
@@ -125,7 +125,7 @@ class SuratPesananController extends Controller
     public function getBeratStandard($kode_barang)
     {
         // dd($kode_barang);
-        $data = DB::connection('ConnPurchase')->select('exec SP_1273_SLS_CEK_BERAT_STANDART @KodeBarang = ?', [$kode_barang]);
+        $data = DB::connection('ConnPurchase')->select('exec SP_1273_SLS_CEK_BERAT_STANDART @kd = ?, @KodeBarang = ?', [1, $kode_barang]);
         // dd($data);
         return response()->json($data);
     }
@@ -139,18 +139,24 @@ class SuratPesananController extends Controller
 
     public function getDisplayBarang($kode_barang)
     {
-        // dd($kode_barang);
         $data = DB::connection('ConnPurchase')->select('exec SP_1273_PRG_DETAIL_BARANG @KodeBarang = ?', [$kode_barang]);
 
         return response()->json($data);
     }
+
+    public function getSaldoInventory($kode_barang){
+        $data = db::connection('ConnInventory')->select('exec SP_1003_INV_LIST_TYPE @KodeBarang = ?, @Kode = ?',[$kode_barang,10]);
+
+        return response()->json($data);
+    }
+
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
         //SP_5409_SLS_MAINT_HEADERPESANAN
         //SP_1486_SLS_MAINT_DETAILPESANAN1
-        // $data = $request->all();
-        // dd($data);
+        $data = $request->all();
+        dd($data);
         $UraianPesanan = null;
         $Lunas = null;
         $user = Auth::user()->NomorUser;
@@ -467,7 +473,7 @@ class SuratPesananController extends Controller
         return redirect()->route('SuratPesanan.index'); //->with(['success' => 'Data berhasil dihapus!']);
     }
 
-// public function accdirektur($id)
+    // public function accdirektur($id)
 // {
 //     DB::connection('ConnPurchase2')->statement('exec SP_1486_SLS_ACC_SURATPESANAN @AccManager = ?, @IdSuratPesanan = ?', [Auth::user()->NomorUser, $id]);
 //     return redirect()->route('SuratPesanan.index');

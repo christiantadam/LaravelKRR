@@ -1011,9 +1011,9 @@ function funcDisplayDataBrg(kodeBarangParameter) {
                 }
             }
             //disable dulu karena ndak ada isi optionnya hehe
-            kategori.disabled = true;
-            subKategori.disabled = true;
-            namaBarang.disabled = true;
+            // kategori.disabled = true;
+            // subKategori.disabled = true;
+            // namaBarang.disabled = true;
             //ngisi optionnya hehe
             optionTagKategori.value = data[0].IdKelompok;
             optionTagKategori.text = data[0].NamaKelompok;

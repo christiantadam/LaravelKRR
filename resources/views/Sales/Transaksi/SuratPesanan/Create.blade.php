@@ -240,6 +240,26 @@
                                         <button class="permohonan-s-p-button13 button" id="delete_button">Delete</button>
                                     </div>
                                 </div>
+                                <div id="div_saldoInventory">
+                                    <span>Saldo Inventory</span>
+                                    <table id="table_saldoInventory" class="permohonan-s-p-table" style="cursor: default">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Divisi</th>
+                                                <th>Saldo Tritier</th>
+                                                <th>Sat. Tritier</th>
+                                                <th>Saldo Sekunder</th>
+                                                <th>Sat. Sekunder</th>
+                                                <th>Saldo Primer</th>
+                                                <th>Sat. Primer</th>
+                                                <th>Objek</th>
+                                                <th>Kel. Utama</th>
+                                                <th>Kelompok</th>
+                                                <th>Sub Kelompok</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                                 <div id="div_beratStandard"> <span> <span>Berat Standart (KGM) - Index Harga</span> <br />
                                     </span>
                                     <div class="permohonan-s-p-container38">
@@ -318,7 +338,7 @@
                                                     id="total_cost" readonly /> </div>
                                         </div>
                                     </div>
-                                    <div id="berat_standardMeter" style="display: none"> <span> <span>Berat Standard
+                                    <div id="div_beratStandardMeter" style="display: none"> <span> <span>Berat Standard
                                                 (MTR)</span> <br />
                                         </span>
                                         <div class="permohonan-s-p-container62">

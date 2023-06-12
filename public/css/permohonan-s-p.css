@@ -8,6 +8,16 @@
 .button:hover {
     cursor: pointer;
 }
+#div_saldoInventory{
+    align-self: center;
+    width: 80%;
+    border: dotted 2px black;
+    overflow: auto;
+    padding: 5px;
+}
+#table_saldoInventory tr{
+    cursor: default;
+}
 .permohonan-s-p-container {
     width: 100%;
     display: flex;

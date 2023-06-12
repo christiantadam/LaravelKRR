@@ -49,46 +49,6 @@ let surat_pesananDiv = document.getElementById("surat_pesananDiv");
 
 //#region input filter
 
-function setInputFilter(textbox, inputFilter, errMsg) {
-    [
-        "input",
-        "keydown",
-        "keyup",
-        "mousedown",
-        "mouseup",
-        "select",
-        "contextmenu",
-        "drop",
-        "focusout",
-    ].forEach(function (event) {
-        textbox.addEventListener(event, function (e) {
-            if (inputFilter(this.value)) {
-                // Accepted value
-                if (["keydown", "mousedown", "focusout"].indexOf(e.type) >= 0) {
-                    this.classList.remove("input-error");
-                    this.setCustomValidity("");
-                }
-                this.oldValue = this.value;
-                this.oldSelectionStart = this.selectionStart;
-                this.oldSelectionEnd = this.selectionEnd;
-            } else if (this.hasOwnProperty("oldValue")) {
-                // Rejected value - restore the previous one
-                this.classList.add("input-error");
-                this.setCustomValidity(errMsg);
-                this.reportValidity();
-                this.value = this.oldValue;
-                this.setSelectionRange(
-                    this.oldSelectionStart,
-                    this.oldSelectionEnd
-                );
-            } else {
-                // Rejected value - nothing to restore
-                this.value = "";
-            }
-        });
-    });
-}
-
 setInputFilter(
     document.getElementById("qty_primer"),
     function (value) {
@@ -110,33 +70,33 @@ setInputFilter(
     },
     "Harus diisi dengan angka!"
 );
-setInputFilter(
-    document.getElementById("qty_order"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
+// setInputFilter(
+//     document.getElementById("qty_order"),
+//     function (value) {
+//         return /^-?\d*[.]?\d*$/.test(value);
+//     },
+//     "Must be a floating (real) number"
+// );
 setInputFilter(
     document.getElementById("qty_kirim"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("max_kirim"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("min_kirim"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 //#endregion
 
@@ -542,7 +502,7 @@ id_pesananSelect.addEventListener("change", function () {
         .then((response) => response.json())
         .then((data) => {
             // console.log(data);
-            document.getElementById("id_pesanan").disabled = true;
+            // document.getElementById("id_pesanan").disabled = true;
             kode_barang.readOnly = true;
             uraian.readOnly = true;
             qty_kirim.readOnly = true;
