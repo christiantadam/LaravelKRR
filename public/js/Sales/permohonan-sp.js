@@ -852,7 +852,7 @@ satuan_jual.addEventListener("change", function () {
     }
 });
 
-add_button.addEventListener("click", function(event){
+add_button.addEventListener("click", function (event) {
     event.preventDefault();
     if (kode_barang.value === "") {
         alert("Tidak ada barang yang dimasukan");
@@ -932,11 +932,82 @@ add_button.addEventListener("click", function(event){
     }
 });
 
-update_button.addEventListener("click", function(event){
+update_button.addEventListener("click", function (event) {
     event.preventDefault();
+    // Get the selected row
+    var selectedRow = $("#list_view tbody tr.selected");
+
+    // Find the cells within the selected row
+    var cells = selectedRow.find("td");
+
+    // Edit the desired cell(s)
+    // For example, let's edit the second cell (index 1)
+    var secondCell = cells.eq(1); // Get the second cell
+    secondCell.text("New Value"); // Set the new value
+
+    // You can repeat the above steps to edit other cells in the row
+
+    // Update the table display
+    $("#list_view").DataTable().draw();
+
+    const inputs = highlightedRow.querySelectorAll("input");
+    // console.log(highlightedRow.cells.length);
+    if (highlightedRow) {
+        // update data in selected row
+        inputs[3].value = parseInt(qtyPesan.value);
+        inputs[4].value = satuanJual.options[satuanJual.selectedIndex].text;
+        inputs[5].value = parseInt(hargaSatuan.value);
+        inputs[6].value = rencanaKirim.value;
+        inputs[9].value = parseFloat(beratKarung.value);
+        inputs[10].value = parseFloat(indexKarung.value);
+        inputs[11].value = parseFloat(beratIndexKarung.value);
+        inputs[12].value = parseFloat(beratInner.value);
+        inputs[13].value = parseFloat(indexInner.value);
+        inputs[14].value = parseFloat(beratIndexInner.value);
+        inputs[15].value = parseFloat(beratLami.value);
+        inputs[16].value = parseFloat(indexLami.value);
+        inputs[17].value = parseFloat(beratIndexLami.value);
+        inputs[18].value = parseFloat(beratKertas.value);
+        inputs[19].value = parseFloat(indexKertas.value);
+        inputs[20].value = parseFloat(beratIndexKertas.value);
+        inputs[21].value = parseInt(biayaLain.value);
+        inputs[22].value = parseFloat(beratStandardTotal.value);
+        inputs[23].value = parseInt(totalCost.value);
+        inputs[24].value = !isNaN(parseFloat(beratKarungMeter.value))
+            ? parseFloat(beratKarungMeter.value)
+            : 0;
+        inputs[25].value = !isNaN(parseFloat(beratInnerMeter.value))
+            ? parseFloat(beratInnerMeter.value)
+            : 0;
+        inputs[26].value = !isNaN(parseFloat(beratLamiMeter.value))
+            ? parseFloat(beratLamiMeter.value)
+            : 0;
+        inputs[27].value = !isNaN(parseFloat(beratKertasMeter.value))
+            ? parseFloat(beratKertasMeter.value)
+            : 0;
+        inputs[28].value = !isNaN(parseFloat(beratStandardTotalMeter.value))
+            ? parseFloat(beratStandardTotalMeter.value)
+            : 0;
+        // remove highlight from selected row
+        highlightedRow.classList.remove("highlighted");
+        // clear input fields
+        funcClearInputBarang();
+        jenisBarang.selectedIndex = 0;
+        kategoriUtama.selectedIndex = 0;
+        kategori.innerHTML = "";
+        kategori.disabled = false;
+        subKategori.innerHTML = "";
+        subKategori.disabled = false;
+        namaBarang.innerHTML = "";
+        namaBarang.disabled = false;
+        enterKodeBarang.style.display = "none";
+        qtyPesan.value = "";
+        hargaSatuan.value = "";
+        jenisBarang.focus();
+    }
 });
 
-delete_button.addEventListener("click", function(){
+delete_button.addEventListener("click", function () {
     event.preventDefault();
 });
 
@@ -1015,64 +1086,82 @@ function funcHeaderDisabled(bool) {
 }
 
 function funcInsertRow(array) {
-    // console.log(array);
-
+    let isDataInTable = false;
     const table = $("#list_view").DataTable();
-    table.clear();
-    table.row.add(array);
-    table.draw();
-    $("#list_view tbody").off("click", "tr");
-    $("#list_view tbody").on("click", "tr", function () {
-        $(this).toggleClass("selected");
-        selectedRows = table.rows(".selected").data().toArray();
-        // console.log(selectedRows);
-        qty_pesan.value = selectedRows[0][3];
-        harga_satuan.value = selectedRows[0][2];
-        ppn.value = selectedRows[0][6];
-        satuan_jual.selectedIndex = 0;
-        for (let i = 0; i < satuan_jual.length; i++) {
-            // console.log(satuanJual.selectedIndex);
-            satuan_jual.selectedIndex += 1;
-            if (
-                satuan_jual.options[satuan_jual.selectedIndex].text ===
-                selectedRows[0][4].trim()
-            ) {
-                break;
+    // console.log(table.rows.length);
+    if (table.data().length > 0) {
+        table.rows().every(function () {
+            const rowData = this.data();
+            const columnValue = rowData[1]; // Assuming you want to compare the second column
+
+            // Compare the column value with your desired value
+            if (columnValue === kode_barang.value) {
+                // Perform your desired action here
+                isDataInTable = true;
             }
-        }
-        jenis_brg.value = selectedRows[0][27];
-        rencana_kirim.value = selectedRows[0][5];
-        let optionNamaBarang = document.createElement("option");
-        optionNamaBarang.value = selectedRows[0][1];
-        optionNamaBarang.text = selectedRows[0][0];
-        nama_barang.appendChild(optionNamaBarang);
-        kode_barang.value = selectedRows[0][1];
-        berat_karung.readOnly = false;
-        berat_inner.readOnly = false;
-        berat_lami.readOnly = false;
-        berat_kertas.readOnly = false;
-        index_karung.readOnly = false;
-        index_inner.readOnly = false;
-        index_lami.readOnly = false;
-        index_kertas.readOnly = false;
-        biaya_lain.readOnly = false;
-        berat_karung.value = selectedRows[0][7];
-        index_karung.value = selectedRows[0][8];
-        berat_indexKarung.value = selectedRows[0][9];
-        berat_inner.value = selectedRows[0][10];
-        index_inner.value = selectedRows[0][11];
-        berat_indexInner.value = selectedRows[0][12];
-        berat_lami.value = selectedRows[0][13];
-        index_lami.value = selectedRows[0][14];
-        berat_indexLami.value = selectedRows[0][15];
-        berat_kertas.value = selectedRows[0][16];
-        index_kertas.value = selectedRows[0][17];
-        berat_indexKertas.value = selectedRows[0][18];
-        biaya_lain.value = selectedRows[0][19];
-        berat_standardTotal.value = selectedRows[0][20];
-        total_cost.value = selectedRows[0][21];
-        funcDisplayDataBrg(selectedRows[0][1]);
-    });
+        });
+    }
+    // table.clear();
+    if (isDataInTable) {
+        alert("Data barang sudah ada");
+        list_view.focus();
+    }
+    else{
+        table.row.add(array);
+        table.draw();
+        $("#list_view tbody").off("click", "tr");
+        $("#list_view tbody").on("click", "tr", function () {
+            $(this).toggleClass("selected");
+            selectedRows = table.rows(".selected").data().toArray();
+            // console.log(selectedRows);
+            qty_pesan.value = selectedRows[0][3];
+            harga_satuan.value = selectedRows[0][2];
+            ppn.value = selectedRows[0][6];
+            satuan_jual.selectedIndex = 0;
+            for (let i = 0; i < satuan_jual.length; i++) {
+                // console.log(satuanJual.selectedIndex);
+                satuan_jual.selectedIndex += 1;
+                if (
+                    satuan_jual.options[satuan_jual.selectedIndex].text ===
+                    selectedRows[0][4].trim()
+                ) {
+                    break;
+                }
+            }
+            jenis_brg.value = selectedRows[0][27];
+            rencana_kirim.value = selectedRows[0][5];
+            let optionNamaBarang = document.createElement("option");
+            optionNamaBarang.value = selectedRows[0][1];
+            optionNamaBarang.text = selectedRows[0][0];
+            nama_barang.appendChild(optionNamaBarang);
+            kode_barang.value = selectedRows[0][1];
+            berat_karung.readOnly = false;
+            berat_inner.readOnly = false;
+            berat_lami.readOnly = false;
+            berat_kertas.readOnly = false;
+            index_karung.readOnly = false;
+            index_inner.readOnly = false;
+            index_lami.readOnly = false;
+            index_kertas.readOnly = false;
+            biaya_lain.readOnly = false;
+            berat_karung.value = selectedRows[0][7];
+            index_karung.value = selectedRows[0][8];
+            berat_indexKarung.value = selectedRows[0][9];
+            berat_inner.value = selectedRows[0][10];
+            index_inner.value = selectedRows[0][11];
+            berat_indexInner.value = selectedRows[0][12];
+            berat_lami.value = selectedRows[0][13];
+            index_lami.value = selectedRows[0][14];
+            berat_indexLami.value = selectedRows[0][15];
+            berat_kertas.value = selectedRows[0][16];
+            index_kertas.value = selectedRows[0][17];
+            berat_indexKertas.value = selectedRows[0][18];
+            biaya_lain.value = selectedRows[0][19];
+            berat_standardTotal.value = selectedRows[0][20];
+            total_cost.value = selectedRows[0][21];
+            funcDisplayDataBrg(selectedRows[0][1]);
+        });
+    }
 }
 
 function funcDisplayDataBrg(kodeBarangParameter) {
@@ -1161,7 +1250,7 @@ function funcBeratStandard(namaBarang) {
         biaya_lain,
     ].forEach(function (element) {
         element.addEventListener("input", function () {
-            console.log(trigger == 0);
+            // console.log(trigger == 0);
             berat_indexKarung.value =
                 parseFloat(berat_karung.value) * parseFloat(index_karung.value);
             berat_indexInner.value =
