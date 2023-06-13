@@ -155,8 +155,8 @@ class SuratPesananController extends Controller
     {
         //SP_5409_SLS_MAINT_HEADERPESANAN
         //SP_1486_SLS_MAINT_DETAILPESANAN1
-        $data = $request->all();
-        dd($data);
+        // $data = $request->all();
+        // dd($data);
         $UraianPesanan = null;
         $Lunas = null;
         $user = Auth::user()->NomorUser;
@@ -166,7 +166,7 @@ class SuratPesananController extends Controller
         $no_po = $request->no_po;
         // $no_sp = $request->no_sp;
         $tgl_po = $request->tgl_po;
-        $no_pi = $request->no_pi;
+        $no_pi = $request->no_pi ?? "null";
         $list_sales = $request->list_sales;
         $mata_uang = $request->mata_uang;
         $jenis_bayar = $request->jenis_bayar;
@@ -175,33 +175,33 @@ class SuratPesananController extends Controller
         $keterangan = $request->keterangan ?? null;
         $barang0 = $request->barang0; //nama barang
         $KodeBarang = $request->barang1; //kode barang
-        $IdJnsBarang = $request->barang2; //jenis barang
-        $Qty = $request->barang3; //qty pesan
+        $IdJnsBarang = $request->barang27; //jenis barang
+        $Qty = $request->barang2; //qty pesan
         $Satuan = $request->barang4; //satuan
-        $HargaSatuan = $request->barang5; //harga satuan
-        $TglRencanaKirim = $request->barang6; //rencana kirim
-        $IdSuratPesanan = $request->barang7; //idsuratpesanan
-        $ppn = $request->barang8; //ppn
-        $bkarung = $request->barang9; //berat karung
-        $ikarung = $request->barang10; //index karung
-        $hkarung = $request->barang11; //berat index karung
-        $binner = $request->barang12; //berat inner
-        $iinner = $request->barang13; //index inner
-        $hinner = $request->barang14; //berat index inner
-        $blami = $request->barang15; //berat lami
-        $ilami = $request->barang16; //index lami
-        $hlami = $request->barang17; //berat index lami
-        $bkertas = $request->barang18; //berat kertas
-        $ikertas = $request->barang19; //index kertas
-        $hkertas = $request->barang20; //berat index kertas
-        $hlain = $request->barang21; //biaya lain2
-        $BeratStandart = $request->barang22; //berat standard total
-        $htotal = $request->barang23; //total cost
-        $bkarung2 = $request->barang24; //berat karung MTR
-        $binner2 = $request->barang25; //berat inner MTR
-        $blami2 = $request->barang26; //berat lami MTR
-        $bkertas2 = $request->barang27; //berat kertas MTR
-        $bs2 = $request->barang28; //berat standard total MTR
+        $HargaSatuan = $request->barang2; //harga satuan
+        $TglRencanaKirim = $request->barang5; //rencana kirim
+        $IdSuratPesanan = $request->barang28; //idsuratpesanan
+        $ppn = $request->barang6; //ppn
+        $bkarung = $request->barang7; //berat karung
+        $ikarung = $request->barang8; //index karung
+        $hkarung = $request->barang9; //berat index karung
+        $binner = $request->barang10; //berat inner
+        $iinner = $request->barang11; //index inner
+        $hinner = $request->barang12; //berat index inner
+        $blami = $request->barang13; //berat lami
+        $ilami = $request->barang14; //index lami
+        $hlami = $request->barang15; //berat index lami
+        $bkertas = $request->barang16; //berat kertas
+        $ikertas = $request->barang17; //index kertas
+        $hkertas = $request->barang18; //berat index kertas
+        $hlain = $request->barang19; //biaya lain2
+        $BeratStandart = $request->barang20; //berat standard total
+        $htotal = $request->barang21; //total cost
+        $bkarung2 = $request->barang22; //berat karung MTR
+        $binner2 = $request->barang23; //berat inner MTR
+        $blami2 = $request->barang24; //berat lami MTR
+        $bkertas2 = $request->barang25; //berat kertas MTR
+        $bs2 = $request->barang26; //berat standard total MTR
         $kode = 1;
 
         // dd($KodeBarang);
@@ -240,6 +240,7 @@ class SuratPesananController extends Controller
             [$jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $list_sales, $keterangan],
         );
         // dd($no_sp);
+        // dd($jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $list_sales, $keterangan);
         //kemudian beralih ke maintenance detail pesanan nich...
         for ($i = 0; $i < count($bkarung); $i++) {
             // dd(count($bkarung));
@@ -334,33 +335,33 @@ class SuratPesananController extends Controller
         $keterangan = $request->keterangan ?? null;
         $barang0 = $request->barang0; //nama barang
         $KodeBarang = $request->barang1; //kode barang
-        $IdJnsBarang = $request->barang2; //jenis barang
+        $IdJnsBarang = $request->barang27; //jenis barang
         $Qty = $request->barang3; //qty pesan
         $Satuan = $request->barang4; //satuan
-        $HargaSatuan = $request->barang5; //harga satuan
-        $TglRencanaKirim = $request->barang6; //rencana kirim
-        $id_pesanan = $request->barang7; //idsuratpesanan
-        $ppn = $request->barang8; //ppn
-        $bkarung = $request->barang9; //berat karung
-        $ikarung = $request->barang10; //index karung
-        $hkarung = $request->barang11; //berat index karung
-        $binner = $request->barang12; //berat inner
-        $iinner = $request->barang13; //index inner
-        $hinner = $request->barang14; //berat index inner
-        $blami = $request->barang15; //berat lami
-        $ilami = $request->barang16; //index lami
-        $hlami = $request->barang17; //berat index lami
-        $bkertas = $request->barang18; //berat kertas
-        $ikertas = $request->barang19; //index kertas
-        $hkertas = $request->barang20; //berat index kertas
-        $hlain = $request->barang21; //biaya lain2
-        $BeratStandart = $request->barang22; //berat standard total
-        $htotal = $request->barang23; //total cost
-        $bkarung2 = $request->barang24; //berat karung MTR
-        $binner2 = $request->barang25; //berat inner MTR
-        $blami2 = $request->barang26; //berat lami MTR
-        $bkertas2 = $request->barang27; //berat kertas MTR
-        $bs2 = $request->barang28; //berat standard total MTR
+        $HargaSatuan = $request->barang2; //harga satuan
+        $TglRencanaKirim = $request->barang5; //rencana kirim
+        $id_pesanan = $request->barang28; //idsuratpesanan
+        $ppn = $request->barang6; //ppn
+        $bkarung = $request->barang7; //berat karung
+        $ikarung = $request->barang8; //index karung
+        $hkarung = $request->barang9; //berat index karung
+        $binner = $request->barang10; //berat inner
+        $iinner = $request->barang11; //index inner
+        $hinner = $request->barang12; //berat index inner
+        $blami = $request->barang13; //berat lami
+        $ilami = $request->barang14; //index lami
+        $hlami = $request->barang15; //berat index lami
+        $bkertas = $request->barang16; //berat kertas
+        $ikertas = $request->barang17; //index kertas
+        $hkertas = $request->barang18; //berat index kertas
+        $hlain = $request->barang19; //biaya lain2
+        $BeratStandart = $request->barang20; //berat standard total
+        $htotal = $request->barang21; //total cost
+        $bkarung2 = $request->barang22; //berat karung MTR
+        $binner2 = $request->barang23; //berat inner MTR
+        $blami2 = $request->barang24; //berat lami MTR
+        $bkertas2 = $request->barang25; //berat kertas MTR
+        $bs2 = $request->barang26; //berat standard total MTR
         // $id_pesanan = $request->barang29; //id pesanan untuk di tabel detail pesanan
         $kode = 2;
         // dd($kode, $no_sp, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk);
@@ -469,8 +470,9 @@ class SuratPesananController extends Controller
     //Remove the specified resource from storage.
     public function destroy($id)
     {
+        // dd($id);
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_DEL_HEADER_DETAIL_PESANAN @IdSuratPesanan = ?', [$id]);
-        return redirect()->route('SuratPesanan.index'); //->with(['success' => 'Data berhasil dihapus!']);
+        return redirect()->back()->with('success', 'Surat Pesanan Sudah Dihapus!'); //->with(['success' => 'Data berhasil dihapus!']);
     }
 
     // public function accdirektur($id)

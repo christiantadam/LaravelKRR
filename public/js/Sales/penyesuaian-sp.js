@@ -17,25 +17,25 @@ let berat_standardTotal = document.getElementById("berat_standardTotal");
 let berat_standardTotalMeter = document.getElementById(
     "berat_standardTotalMeter"
 );
-
+let status_lunas = document.getElementById("status_lunas");
+let informasi_tambahan = document.getElementById("informasi_tambahan");
 let biaya_lain = document.getElementById("biaya_lain");
 let delete_button = document.getElementById("delete_button");
 let div_beratStandard = document.getElementById("div_beratStandard");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_headerSuratPesanan = document.getElementById("div_headerSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
-let edit_button = document.getElementById("edit_button");
+let batal_spButton = document.getElementById("batal_spButton");
 let enter_kodeBarang = document.getElementById("enter_kodeBarang");
 let faktur_pjkBiasa = document.getElementById("faktur_pjkBiasa");
 let faktur_pjkSederhana = document.getElementById("faktur_pjkSederhana");
 let form_suratPesanan = document.getElementById("form_suratPesanan");
-let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let index_inner = document.getElementById("index_inner");
 let index_karung = document.getElementById("index_karung");
 let index_kertas = document.getElementById("index_kertas");
 let index_lami = document.getElementById("index_lami");
-let isi_button = document.getElementById("isi_button");
+let koreksi_button = document.getElementById("koreksi_button");
 let jenis_bayar = document.getElementById("jenis_bayar");
 let jenis_brg = document.getElementById("jenis_brg");
 let jenis_sp = document.getElementById("jenis_sp");
@@ -50,7 +50,6 @@ let kodeStTri;
 let trigger = 0;
 let div_saldoInventory = document.getElementById("div_saldoInventory");
 let list_customer = document.getElementById("list_customer");
-let list_noSP = document.getElementById("list_noSP");
 let list_sales = document.getElementById("list_sales");
 let table_saldoInventory = $("#table_saldoInventory").DataTable();
 let list_view = $("#list_view").DataTable();
@@ -59,7 +58,6 @@ let mata_uang = document.getElementById("mata_uang");
 let nama_barang = document.getElementById("nama_barang");
 let no_pi = document.getElementById("no_pi");
 let no_po = document.getElementById("no_po");
-let no_spSelect = document.getElementById("no_spSelect");
 let no_spText = document.getElementById("no_spText");
 let ppn = document.getElementById("ppn");
 let proses = 0;
@@ -140,7 +138,7 @@ setInputFilter(
 tgl_pesan.valueAsDate = new Date();
 tgl_po.valueAsDate = new Date();
 rencana_kirim.valueAsDate = new Date();
-isi_button.focus();
+koreksi_button.focus();
 div_headerSuratPesanan.classList.toggle("disabled");
 div_tabelSuratPesanan.classList.toggle("disabled");
 div_detailSuratPesanan.classList.toggle("disabled");
@@ -372,25 +370,23 @@ jenis_bayar.addEventListener("keypress", function (event) {
 
 //#region Add Event Listener
 
-isi_button.addEventListener("click", function (event) {
+koreksi_button.addEventListener("click", function (event) {
     // console.log(proses);
     event.preventDefault();
 
     if (proses == 0) {
-        div_tabelSuratPesanan.classList.toggle("disabled");
-        div_detailSuratPesanan.classList.toggle("disabled");
-        div_beratStandard.classList.toggle("disabled");
-        div_saldoInventory.classList.toggle("disabled");
         div_headerSuratPesanan.classList.toggle("disabled");
-        // enableElements();
         proses = 1;
-        this.innerHTML = "Proses";
-        edit_button.innerHTML = "Batal";
-        hapus_button.style.display = "none";
+        batal_spButton.innerHTML = "Batal";
+        koreksi_button.innerHTML = "Proses";
         mata_uang.value = "IDR";
-        tgl_pesan.focus();
+
+        //harus isi Nomor SP dulu!
+        no_spText.focus();
+        no_spText.readOnly = false;
+        funcHeaderDisabled(true);
     } else if (proses == 1) {
-        //isi
+        //koreksi
         funcDatatablesIntoInput();
         form_suratPesanan.submit();
         div_tabelSuratPesanan.classList.toggle("disabled");
@@ -398,23 +394,19 @@ isi_button.addEventListener("click", function (event) {
         div_beratStandard.classList.toggle("disabled");
         div_saldoInventory.classList.toggle("disabled");
         div_headerSuratPesanan.classList.toggle("disabled");
+        list_view.clear();
         // disableElements();
         proses = 0;
         this.innerHTML = "Isi";
-        edit_button.innerHTML = "Koreksi";
-        hapus_button.style.display = "block";
+        batal_spButton.innerHTML = "Batal SP";
     } else if (proses == 2) {
-        //edit
+        //batal SP
         funcDatatablesIntoInput();
-        form_suratPesanan.action = "/SuratPesanan/" + no_spText.value + "/up";
+        form_suratPesanan.action = "/penyesuaiansp/batalsp/";
         form_suratPesanan.submit();
 
         funcClearHeaderPesanan();
         funcClearInputBarang();
-        // const table = document.getElementById("list_view");
-        // for (let i = 1; i < table.rows.length; i++) {
-        //     table.deleteRow(i);
-        // }
         list_view.clear();
         div_headerSuratPesanan.classList.toggle("disabled");
         div_tabelSuratPesanan.classList.toggle("disabled");
@@ -423,48 +415,28 @@ isi_button.addEventListener("click", function (event) {
         div_saldoInventory.classList.toggle("disabled");
         // disableElements();
         proses = 0;
-        edit_button.innerHTML = "Koreksi";
+        batal_spButton.innerHTML = "Batal SP";
         this.innerHTML = "Isi";
-        hapus_button.style.display = "block";
-    } else if (proses == 3) {
-        //delete
-        form_suratPesanan.action = "/SuratPesanan/" + no_spText.value;
-        form_suratPesanan.submit();
-        list_view.clear();
-        div_headerSuratPesanan.classList.toggle("disabled");
-        div_tabelSuratPesanan.classList.toggle("disabled");
-        div_detailSuratPesanan.classList.toggle("disabled");
-        div_beratStandard.classList.toggle("disabled");
-        div_saldoInventory.classList.toggle("disabled");
-        // disableElements();
-        proses = 0;
-        edit_button.innerHTML = "Koreksi";
-        this.innerHTML = "Isi";
-        hapus_button.style.display = "block";
     }
 });
 
-edit_button.addEventListener("click", function (event) {
+batal_spButton.addEventListener("click", function (event) {
     event.preventDefault();
     if (proses == 0) {
         // enableElements();
         div_headerSuratPesanan.classList.toggle("disabled");
         proses = 2;
         this.innerHTML = "Batal";
-        isi_button.innerHTML = "Proses";
-        hapus_button.style.display = "none";
+        koreksi_button.innerHTML = "Proses";
         mata_uang.value = "IDR";
-        list_noSP.disabled = false;
 
         //harus isi Nomor SP dulu!
         no_spText.focus();
         no_spText.readOnly = false;
         funcHeaderDisabled(true);
     } else {
-        no_spSelect.style.display = "none";
         no_spText.style.display = "block";
         no_spText.readOnly = true;
-        list_noSP.disabled = true;
         funcClearHeaderPesanan();
         funcClearInputBarang();
         funcHeaderDisabled(false);
@@ -480,30 +452,9 @@ edit_button.addEventListener("click", function (event) {
         div_saldoInventory.classList.add("disabled");
         // disableElements();
         proses = 0;
-        this.innerHTML = "Koreksi";
-        isi_button.innerHTML = "Isi";
-        hapus_button.style.display = "block";
+        this.innerHTML = "Batal SP";
+        koreksi_button.innerHTML = "Koreksi";
         jenis_brg.selectedIndex = 0;
-    }
-});
-
-hapus_button.addEventListener("click", function (event) {
-    event.preventDefault();
-    if (proses == 0) {
-        list_noSP.disabled = false;
-        div_headerSuratPesanan.classList.toggle("disabled");
-        div_tabelSuratPesanan.classList.toggle("disabled");
-        div_detailSuratPesanan.classList.toggle("disabled");
-        div_beratStandard.classList.toggle("disabled");
-        div_saldoInventory.classList.toggle("disabled");
-        no_spText.readOnly = false;
-        no_spText.focus();
-        funcHeaderDisabled(true);
-        // enableElements();
-        proses = 3;
-        isi_button.innerHTML = "Proses";
-        edit_button.innerHTML = "Batal";
-        this.style.display = "none";
     }
 });
 
@@ -714,41 +665,15 @@ kode_barang.addEventListener("keypress", function (event) {
     }
 });
 
-list_noSP.addEventListener("click", function (event) {
-    event.preventDefault();
-    no_spSelect.style.display = "block";
-    no_spSelect.focus();
-    no_spText.style.display = "none";
-});
-
-no_spSelect.addEventListener("change", function () {
-    console.log(this.selectedIndex);
-    if (this.selectedIndex !== 0) {
-        this.classList.add("input-error");
-        this.setCustomValidity("Tekan Enter!");
-        this.reportValidity();
-    }
-});
-
-no_spSelect.addEventListener("keypress", function (event) {
-    event.preventDefault();
-    if (this.selectedIndex !== 0) {
-        no_spText.value = this.value;
-        this.disabled = true;
-        const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
-        no_spText.dispatchEvent(enterEvent);
-    }
-});
-
 no_spText.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
         // console.log(no_spText.value);
         // alert('Kode barang dienter');
-        fetch("/editSP/" + no_spText.value)
+        fetch("/penyesuaian/" + no_spText.value)
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data[1].length);
+                console.log(data);
                 funcHeaderDisabled(false);
                 no_spText.readOnly = true;
 
@@ -801,12 +726,13 @@ no_spText.addEventListener("keypress", function (event) {
 
                 for (let i = 0; i < data[1].length; i++) {
                     const arraydata = [
-                        data[1][i].NamaBarang,
+                        data[1][i].namabarang,
                         data[1][i].IDBarang,
                         data[1][i].HargaSatuan,
                         parseInt(data[1][i].Qty),
                         data[1][i].Satuan,
                         data[1][i].TglRencanaKirim.substr(0, 10),
+                        data[1][i].Lunas,
                         data[1][i].PPN,
                         data[1][i].BERAT_KARUNG,
                         data[1][i].INDEX_KARUNG,
@@ -830,6 +756,7 @@ no_spText.addEventListener("keypress", function (event) {
                         data[1][i].BERAT_TOTAL3,
                         data[1][i].IDJnsBarang,
                         data[1][i].IDPesanan,
+                        data[1][i].Informasi,
                     ];
                     // Insert array into a new row
                     funcInsertRow(arraydata);
@@ -841,9 +768,6 @@ no_spText.addEventListener("keypress", function (event) {
         div_detailSuratPesanan.classList.toggle("disabled");
         div_beratStandard.classList.toggle("disabled");
         div_saldoInventory.classList.toggle("disabled");
-        if (proses == 3) {
-            isi_button.focus();
-        }
     }
 });
 
@@ -939,7 +863,7 @@ add_button.addEventListener("click", function (event) {
     if (confirmation) {
         jenis_brg.focus();
     } else {
-        isi_button.focus();
+        koreksi_button.focus();
     }
 });
 
@@ -1170,7 +1094,9 @@ function funcInsertRow(array) {
             // console.log(selectedRows);
             qty_pesan.value = selectedRows[0][3];
             harga_satuan.value = selectedRows[0][2];
-            ppn.value = selectedRows[0][6];
+            ppn.value = selectedRows[0][7];
+            status_lunas.value = selectedRows[0][6];
+            informasi_tambahan.value = selectedRows[0][30];
             satuan_jual.selectedIndex = 0;
             for (let i = 0; i < satuan_jual.length; i++) {
                 // console.log(satuanJual.selectedIndex);
@@ -1182,7 +1108,7 @@ function funcInsertRow(array) {
                     break;
                 }
             }
-            jenis_brg.value = selectedRows[0][27];
+            jenis_brg.value = selectedRows[0][28];
             rencana_kirim.value = selectedRows[0][5];
             let optionNamaBarang = document.createElement("option");
             optionNamaBarang.value = selectedRows[0][1];
@@ -1198,21 +1124,21 @@ function funcInsertRow(array) {
             index_lami.readOnly = false;
             index_kertas.readOnly = false;
             biaya_lain.readOnly = false;
-            berat_karung.value = selectedRows[0][7];
-            index_karung.value = selectedRows[0][8];
-            berat_indexKarung.value = selectedRows[0][9];
-            berat_inner.value = selectedRows[0][10];
-            index_inner.value = selectedRows[0][11];
-            berat_indexInner.value = selectedRows[0][12];
-            berat_lami.value = selectedRows[0][13];
-            index_lami.value = selectedRows[0][14];
-            berat_indexLami.value = selectedRows[0][15];
-            berat_kertas.value = selectedRows[0][16];
-            index_kertas.value = selectedRows[0][17];
-            berat_indexKertas.value = selectedRows[0][18];
-            biaya_lain.value = selectedRows[0][19];
-            berat_standardTotal.value = selectedRows[0][20];
-            total_cost.value = selectedRows[0][21];
+            berat_karung.value = selectedRows[0][8];
+            index_karung.value = selectedRows[0][9];
+            berat_indexKarung.value = selectedRows[0][10];
+            berat_inner.value = selectedRows[0][11];
+            index_inner.value = selectedRows[0][12];
+            berat_indexInner.value = selectedRows[0][13];
+            berat_lami.value = selectedRows[0][14];
+            index_lami.value = selectedRows[0][15];
+            berat_indexLami.value = selectedRows[0][16];
+            berat_kertas.value = selectedRows[0][17];
+            index_kertas.value = selectedRows[0][18];
+            berat_indexKertas.value = selectedRows[0][19];
+            biaya_lain.value = selectedRows[0][20];
+            berat_standardTotal.value = selectedRows[0][21];
+            total_cost.value = selectedRows[0][22];
             funcDisplayDataBrg(selectedRows[0][1]);
             funcTampilInv(selectedRows[0][1]);
         });
