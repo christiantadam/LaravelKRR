@@ -45,7 +45,7 @@
                                 <div class="cetak-sppdf-container02">
                                     <div class="cetak-sppdf-container03">
                                         <div class="cetak-sppdf-container04">
-                                            <h2 style="margin-bottom: 0px">
+                                            <h2 style="margin-bottom: 0px;font-size:28px">
                                                 <span>PT. KERTA RAJASA RAYA</span>
                                             </h2>
                                             <h3 style="margin-bottom: 0px">
@@ -53,7 +53,7 @@
                                                 <br />
                                             </h3>
                                             <hr style="border:1px solid black;margin-left: 3px;margin: 0px">
-                                            <h1 style="font-size: 28px;margin-bottom: 0px">
+                                            <h1 style="font-size: 24px;margin-bottom: 0px">
                                                 <span>S U R A T&nbsp; &nbsp;P E S A N A N</span>
                                                 <br />
                                             </h1>
@@ -94,13 +94,13 @@
                                                         <td id="nama_customerKolom"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="white-space: nowrap;">Alamat Langganan</td>
-                                                        <td>:</td>
+                                                        <td style="white-space: nowrap;vertical-align:top;">Alamat Langganan</td>
+                                                        <td style="vertical-align:top;">:</td>
                                                         <td id="alamat_kantorKolom"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Alamat Kirim</td>
-                                                        <td>:</td>
+                                                        <td style="vertical-align:top;">Alamat Kirim</td>
+                                                        <td style="vertical-align:top;">:</td>
                                                         <td id="alamat_kirimKolom"></td>
                                                     </tr>
                                                 </tbody>
@@ -109,20 +109,24 @@
                                     </div>
                                 </div>
                                 <div class="cetak-sppdf-container08">
-                                    <table style="width: 100%">
-                                        <tr>
-                                            <th>NO.</th>
-                                            <th>TYPE BARANG</th>
-                                            <th>KODE BARANG</th>
-                                            <th>QUANTITY</th>
-                                        </tr>
+                                    <table style="width: 100%" id="table_sp">
+                                        <thead>
+                                            <tr>
+                                                <th>NO.</th>
+                                                <th>TYPE BARANG</th>
+                                                <th>KODE BARANG</th>
+                                                <th>QUANTITY</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="acs-table-border">
+                                                <td id="nomor_barangKolom">d</td>
+                                                <td class="acs-table-border" id="nama_barangKolom">c</td>
+                                                <td class="acs-table-border" id="kode_barangKolom">b</td>
+                                                <td class="acs-table-border" id="quantity_barangKolom">a</td>
+                                            </tr>
+                                        </tbody>
                                         {{-- ini harus di-loop sesuai data pesanan --}}
-                                        <tr class="acs-table-border">
-                                            <td id="nomor_barangKolom">d</td>
-                                            <td class="acs-table-border" id="nama_barangKolom">c</td>
-                                            <td class="acs-table-border" id="kode_barangKolom">b</td>
-                                            <td class="acs-table-border" id="quantity_barangKolom">a</td>
-                                        </tr>
                                     </table>
                                 </div>
                                 <div class="cetak-sppdf-container09">

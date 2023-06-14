@@ -24,16 +24,20 @@ let keterangan_kolom = document.getElementById("keterangan_kolom");
 let nama_salesKolom = document.getElementById("nama_salesKolom");
 let lihat_sp = document.getElementById("lihat_sp");
 let print_pdf = document.getElementById("print_pdf");
-
+let table_sp = $("#table_sp").DataTable({searching: false,
+    paging: false,
+    info: false,
+    ordering: false});
 //#region Load Page
 
 tanggal_sp.focus();
 tanggal_sp.valueAsDate = new Date();
-contoh_printDiv.style.display = "none";
+// contoh_printDiv.style.display = "none";
 contoh_print.style.display = "none";
 export_pdf.style.display = "none";
 no_spSelect.style.display = "none";
 print_pdf.style.display = "none";
+
 
 //#endregion
 
@@ -110,16 +114,20 @@ print_button.addEventListener("click", function (event) {
         fetch("/viewprint/" + no_spText.value)
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
                 nomor_spSpan.innerHTML = "No. " + data[0].NO_SP;
                 no_poKolom.innerHTML = data[0].NO_PO;
                 let Tgl_PO = formatDateToMMDDYYYY(data[0].Tgl_PO);
                 let TGL_SP = formatDateToMMDDYYYY(data[0].TGL_SP);
+                let array_sp = [];
                 tgl_poKolom.innerHTML = Tgl_PO;
                 tgl_pesanKolom.innerHTML = TGL_SP;
                 nama_customerKolom.innerHTML = data[0].NamaCust;
                 alamat_kantorKolom.innerHTML = data[0].Alamat;
                 alamat_kirimKolom.innerHTML = data[0].AlamatKirim;
                 for (let i = 0; i < data.length; i++) {
+                    array_sp.push(i+1);
+
                     nomor_barangKolom.innerHTML = i + 1;
                     nama_barangKolom.innerHTML =
                         "<b>" +
@@ -129,6 +137,7 @@ print_button.addEventListener("click", function (event) {
                     kode_barangKolom.innerHTML = data[i].KodeBarang;
                     quantity_barangKolom.innerHTML = data[i].JmlOrder + " " + data[i].Satuan;
                 }
+                console.log(array_sp);
                 jenis_bayarKolom.innerHTML = data[0].NamaPembayaran;
                 rencana_kirimKolom.innerHTML = formatDateToMMDDYYYY(
                     data[0].TglRencanaKirim
@@ -138,6 +147,7 @@ print_button.addEventListener("click", function (event) {
                 nama_salesKolom.innerHTML = data[0].NamaSales;
             });
     }
+    table_sp.draw();
 });
 
 print_pdf.addEventListener("click", function (event) {

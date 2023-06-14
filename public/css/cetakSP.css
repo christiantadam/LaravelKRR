@@ -63,8 +63,20 @@ table tr td:first-child {
         top: 0;
         width: 100%;
     }
-    .cetak-sppdf-container07{
-        font-size: 15px;
+    #table_sp {
+        border-collapse: collapse !important;
+    }
+
+    #table_sp,
+    #table_sp th,
+    #table_sp td {
+        border: 1px solid black !important;
+    }
+    #table_sp td {
+        font-size: 18px;
+    }
+    .cetak-sppdf-container07 {
+        font-size: 18px;
         /* font-weight: 600; */
     }
 }
