@@ -137,13 +137,13 @@
                                                     placeholder="Qty Tritier" class="input">
                                             </div>
                                             <div class="acs-div-filter1">
-                                                <label for="max_kirim">Max DO</label>
-                                                <input type="text" name="max_kirim" id="max_kirim" placeholder="Max DO"
+                                                <label for="min_kirim">Min DO</label>
+                                                <input type="text" name="min_kirim" id="min_kirim" placeholder="Min DO"
                                                     class="input">
                                             </div>
                                             <div class="acs-div-filter1">
-                                                <label for="min_kirim">Min DO</label>
-                                                <input type="text" name="min_kirim" id="min_kirim" placeholder="Min DO"
+                                                <label for="max_kirim">Max DO</label>
+                                                <input type="text" name="max_kirim" id="max_kirim" placeholder="Max DO"
                                                     class="input">
                                             </div>
                                         </div>

@@ -65,7 +65,7 @@ let qty_pesan = document.getElementById("qty_pesan");
 let rencana_kirim = document.getElementById("rencana_kirim");
 let satuan_jual = document.getElementById("satuan_jual");
 let satuan_primer = document.getElementById("satuan_primer");
-let satuan_sekunder = document.getElementById("satuan_sekunder");
+var satuan_sekunder = document.getElementById("satuan_sekunder");
 let satuan_tritier = document.getElementById("satuan_tritier");
 let sub_kategori = document.getElementById("sub_kategori");
 let syarat_bayar = document.getElementById("syarat_bayar");
@@ -88,9 +88,9 @@ setInputFilter(
 setInputFilter(
     document.getElementById("harga_satuan"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("syarat_bayar"),
@@ -324,6 +324,34 @@ biaya_lain.addEventListener("keypress", function (event) {
     }
 });
 
+berat_karungMeter.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        berat_innerMeter.focus();
+    }
+});
+
+berat_innerMeter.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        berat_lamiMeter.focus();
+    }
+});
+
+berat_lamiMeter.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        berat_kertasMeter.focus();
+    }
+});
+
+berat_kertasMeter.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        add_button.focus();
+    }
+});
+
 tgl_pesan.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -440,10 +468,7 @@ batal_spButton.addEventListener("click", function (event) {
         funcClearHeaderPesanan();
         funcClearInputBarang();
         funcHeaderDisabled(false);
-        const table = document.getElementById("list_view");
-        for (let i = 1; i < table.rows.length; i++) {
-            table.deleteRow(i);
-        }
+        list_view.clear().draw();
         div_headerSuratPesanan.classList.toggle("disabled");
         // div_tabelSuratPesanan.classList.toggle("disabled");
         div_tabelSuratPesanan.classList.add("disabled");
@@ -454,7 +479,6 @@ batal_spButton.addEventListener("click", function (event) {
         proses = 0;
         this.innerHTML = "Batal SP";
         koreksi_button.innerHTML = "Koreksi";
-        jenis_brg.selectedIndex = 0;
     }
 });
 
@@ -598,7 +622,8 @@ nama_barang.addEventListener("change", function () {
     // console.log(kategoriUtama.value);
 
     //Jika kategori utama berasal dari KRR-Hasil Produksi, isi Berat Standard
-    funcBeratStandard(kategori_utama, namaBarang);
+    funcBeratStandard(namaBarang);
+    funcKolomBeratStandard();
 });
 
 kode_barang.addEventListener("keypress", function (event) {
@@ -659,6 +684,7 @@ kode_barang.addEventListener("keypress", function (event) {
                 satuan_sekunder.value = data[0].SatSekunder;
                 satuan_tritier.value = data[0].Nama_satuan;
                 funcBeratStandard(kode_barang.value);
+                funcKolomBeratStandard();
                 funcTampilInv(kode_barang.value);
             });
         qty_pesan.focus();
@@ -673,7 +699,7 @@ no_spText.addEventListener("keypress", function (event) {
         fetch("/penyesuaian/" + no_spText.value)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 funcHeaderDisabled(false);
                 no_spText.readOnly = true;
 
@@ -772,19 +798,7 @@ no_spText.addEventListener("keypress", function (event) {
 });
 
 satuan_jual.addEventListener("change", function () {
-    if (
-        satuan_jual.options[satuan_jual.selectedIndex].text !==
-        satuan_sekunder.value.trim()
-    ) {
-        div_beratStandardMeter.style.display = "block";
-        trigger = 1;
-    } else if (
-        satuan_jual.options[satuan_jual.selectedIndex].text ==
-        satuan_sekunder.value.trim()
-    ) {
-        div_beratStandardMeter.style.display = "none";
-        trigger = 0;
-    }
+    funcTampilBeratStandardKGM();
 });
 
 add_button.addEventListener("click", function (event) {
@@ -819,6 +833,7 @@ add_button.addEventListener("click", function (event) {
         parseInt(qty_pesan.value),
         satuan_jual.options[satuan_jual.selectedIndex].text,
         rencana_kirim.value,
+        status_lunas.value,
         ppn.value,
         parseFloat(berat_karung.value),
         parseFloat(index_karung.value),
@@ -842,6 +857,7 @@ add_button.addEventListener("click", function (event) {
         parseFloat(berat_standardTotalMeter.value),
         jenis_brg.value,
         "",
+        informasi_tambahan.value
     ];
     // Insert array into a new row
     funcInsertRow(arraydata);
@@ -880,37 +896,41 @@ update_button.addEventListener("click", function (event) {
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
         rowData[2] = parseInt(harga_satuan.value);
         rowData[5] = rencana_kirim.value;
-        rowData[7] = parseFloat(berat_karung.value);
-        rowData[8] = parseFloat(index_karung.value);
-        rowData[9] = parseFloat(berat_indexKarung.value);
-        rowData[10] = parseFloat(berat_inner.value);
-        rowData[11] = parseFloat(index_inner.value);
-        rowData[12] = parseFloat(berat_indexInner.value);
-        rowData[13] = parseFloat(berat_lami.value);
-        rowData[14] = parseFloat(index_lami.value);
-        rowData[15] = parseFloat(berat_indexLami.value);
-        rowData[16] = parseFloat(berat_kertas.value);
-        rowData[17] = parseFloat(index_kertas.value);
-        rowData[18] = parseFloat(berat_indexKertas.value);
-        rowData[19] = parseInt(biaya_lain.value);
-        rowData[20] = parseFloat(berat_standardTotal.value);
-        rowData[21] = parseInt(total_cost.value);
-        rowData[22] = !isNaN(parseFloat(berat_karungMeter.value))
+        rowData[6] = status_lunas.value;
+        rowData[8] = parseFloat(berat_karung.value);
+        rowData[9] = parseFloat(index_karung.value);
+        rowData[10] = parseFloat(berat_indexKarung.value);
+        rowData[11] = parseFloat(berat_inner.value);
+        rowData[12] = parseFloat(index_inner.value);
+        rowData[13] = parseFloat(berat_indexInner.value);
+        rowData[14] = parseFloat(berat_lami.value);
+        rowData[15] = parseFloat(index_lami.value);
+        rowData[16] = parseFloat(berat_indexLami.value);
+        rowData[17] = parseFloat(berat_kertas.value);
+        rowData[18] = parseFloat(index_kertas.value);
+        rowData[19] = parseFloat(berat_indexKertas.value);
+        rowData[20] = !isNaN(parseFloat(biaya_lain.value))
+            ? parseFloat(biaya_lain.value)
+            : 0;
+        rowData[21] = parseFloat(berat_standardTotal.value);
+        rowData[22] = parseInt(total_cost.value);
+        rowData[23] = !isNaN(parseFloat(berat_karungMeter.value))
             ? parseFloat(berat_karungMeter.value)
             : 0;
-        rowData[23] = !isNaN(parseFloat(berat_innerMeter.value))
+        rowData[24] = !isNaN(parseFloat(berat_innerMeter.value))
             ? parseFloat(berat_innerMeter.value)
             : 0;
-        rowData[24] = !isNaN(parseFloat(berat_lamiMeter.value))
+        rowData[25] = !isNaN(parseFloat(berat_lamiMeter.value))
             ? parseFloat(berat_lamiMeter.value)
             : 0;
-        rowData[25] = !isNaN(parseFloat(berat_kertasMeter.value))
+        rowData[26] = !isNaN(parseFloat(berat_kertasMeter.value))
             ? parseFloat(berat_kertasMeter.value)
             : 0;
-        rowData[26] = !isNaN(parseFloat(berat_standardTotalMeter.value))
+        rowData[27] = !isNaN(parseFloat(berat_standardTotalMeter.value))
             ? parseFloat(berat_standardTotalMeter.value)
             : 0;
-        rowData[27] = jenis_brg.value;
+        rowData[28] = jenis_brg.value;
+        rowData[30] = informasi_tambahan.value;
 
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
@@ -932,6 +952,8 @@ update_button.addEventListener("click", function (event) {
         jenis_brg.focus();
         // Update the table display
         $("#list_view").DataTable().draw();
+        div_beratStandardMeter.style.display = "none";
+        div_beratStandardMeter.disabled = false;
     }
 });
 
@@ -981,6 +1003,8 @@ delete_button.addEventListener("click", function (event) {
     qty_pesan.value = "";
     harga_satuan.value = "";
     jenis_brg.focus();
+    div_beratStandardMeter.style.display = "none";
+    div_beratStandardMeter.disabled = false;
 });
 
 //#endregion
@@ -1004,7 +1028,15 @@ function funcClearHeaderPesanan() {
 }
 
 function funcClearInputBarang() {
+    jenis_brg.selectedIndex = 0;
+    kategori_utama.selectedIndex = 0;
+    kategori.innerHTML = "";
+    sub_kategori.innerHTML = "";
+    nama_barang.innerHTML = "";
     satuan_jual.selectedIndex = 0;
+    qty_pesan.value = "";
+    harga_satuan.value = "";
+    rencana_kirim.valueAsDate = new Date();
     ppn.value = "";
     satuan_primer.value = "";
     satuan_sekunder.value = "";
@@ -1039,7 +1071,14 @@ function funcClearInputBarang() {
     biaya_lain.readOnly = true;
     total_cost.value = "";
     berat_standardTotal.value = "";
+    berat_innerMeter.value = "";
+    berat_karungMeter.value = "";
+    berat_kertasMeter.value = "";
+    berat_lamiMeter.value = "";
     table_saldoInventory.clear().draw();
+    status_lunas.value = "";
+    informasi_tambahan.value = "";
+    div_beratStandardMeter.style.display = "none";
 }
 
 function funcHeaderDisabled(bool) {
@@ -1091,7 +1130,7 @@ function funcInsertRow(array) {
             }
             $(this).toggleClass("selected");
             let selectedRows = table.rows(".selected").data().toArray();
-            // console.log(selectedRows);
+            console.log(selectedRows);
             qty_pesan.value = selectedRows[0][3];
             harga_satuan.value = selectedRows[0][2];
             ppn.value = selectedRows[0][7];
@@ -1139,8 +1178,14 @@ function funcInsertRow(array) {
             biaya_lain.value = selectedRows[0][20];
             berat_standardTotal.value = selectedRows[0][21];
             total_cost.value = selectedRows[0][22];
+            berat_karungMeter.value = selectedRows[0][23];
+            berat_innerMeter.value = selectedRows[0][24];
+            berat_lamiMeter.value = selectedRows[0][25];
+            berat_kertasMeter.value = selectedRows[0][26];
+            berat_standardTotalMeter.value = selectedRows[0][27];
             funcDisplayDataBrg(selectedRows[0][1]);
             funcTampilInv(selectedRows[0][1]);
+            funcKolomBeratStandard();
         });
     }
 }
@@ -1177,6 +1222,7 @@ function funcDisplayDataBrg(kodeBarangParameter) {
             satuan_primer.value = data[0].SatuanPrimer;
             satuan_sekunder.value = data[0].SatuanSekunder;
             satuan_tritier.value = data[0].SatuanTritier;
+            funcTampilBeratStandardKGM();
         });
 }
 
@@ -1219,6 +1265,9 @@ function funcBeratStandard(namaBarang) {
             berat_indexKertas.value = 0;
             total_cost.value = 0;
         });
+}
+
+function funcKolomBeratStandard() {
     [
         berat_karung,
         berat_inner,
@@ -1229,22 +1278,31 @@ function funcBeratStandard(namaBarang) {
         index_kertas,
         index_lami,
         biaya_lain,
+        berat_karungMeter,
+        berat_innerMeter,
+        berat_lamiMeter,
+        berat_kertasMeter,
     ].forEach(function (element) {
         element.addEventListener("input", function () {
             // console.log(trigger == 0);
             berat_indexKarung.value =
                 parseFloat(berat_karung.value) * parseFloat(index_karung.value);
+
             berat_indexInner.value =
                 parseFloat(berat_inner.value) * parseFloat(index_inner.value);
+
             berat_indexLami.value =
                 parseFloat(berat_lami.value) * parseFloat(index_lami.value);
+
             berat_indexKertas.value =
                 parseFloat(berat_kertas.value) * parseFloat(index_kertas.value);
+
             berat_standardTotal.value =
                 parseFloat(berat_karung.value) +
                 parseFloat(berat_inner.value) +
                 parseFloat(berat_lami.value) +
                 parseFloat(berat_kertas.value);
+
             total_cost.value =
                 parseFloat(biaya_lain.value) +
                 parseFloat(berat_indexKarung.value) +
@@ -1252,16 +1310,22 @@ function funcBeratStandard(namaBarang) {
                 parseFloat(berat_indexKertas.value) +
                 parseFloat(berat_indexLami.value);
 
+            berat_standardTotalMeter.value =
+                parseFloat(berat_karungMeter.value) +
+                parseFloat(berat_innerMeter.value) +
+                parseFloat(berat_lamiMeter.value) +
+                parseFloat(berat_kertasMeter.value);
+
             if (trigger == 0) {
                 berat_karungMeter.value = parseFloat(berat_karung.value);
                 berat_innerMeter.value = parseFloat(berat_inner.value);
                 berat_lamiMeter.value = parseFloat(berat_lami.value);
                 berat_kertasMeter.value = parseFloat(berat_kertas.value);
                 berat_standardTotalMeter.value =
-                    berat_karungMeter.value +
-                    berat_innerMeter.value +
-                    berat_lamiMeter.value +
-                    berat_kertasMeter.value;
+                    parseFloat(berat_karungMeter.value) +
+                    parseFloat(berat_innerMeter.value) +
+                    parseFloat(berat_lamiMeter.value) +
+                    parseFloat(berat_kertasMeter.value);
             }
         });
     });
@@ -1302,14 +1366,34 @@ function funcDatatablesIntoInput() {
     for (let i = 0; i < dataArray.length; i++) {
         let row = dataArray[i];
         for (let j = 0; j < dataArray[i].length; j++) {
-        let hiddenInput = document.createElement("input");
-        hiddenInput.type = "hidden";
-        hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
-        hiddenInput.multiple = true;
-        hiddenInput.value = row[j];
-        // Append the hidden input to the document body or any other element
-        form_suratPesanan.appendChild(hiddenInput);
+            let hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
+            hiddenInput.multiple = true;
+            hiddenInput.value = row[j];
+            // Append the hidden input to the document body or any other element
+            form_suratPesanan.appendChild(hiddenInput);
         }
     }
 }
+
+function funcTampilBeratStandardKGM() {
+    console.log(satuan_jual.options[satuan_jual.selectedIndex].text);
+    console.log(satuan_sekunder.value);
+
+    if (
+        satuan_jual.options[satuan_jual.selectedIndex].text !==
+        satuan_sekunder.value.trim()
+    ) {
+        div_beratStandardMeter.style.display = "block";
+        trigger = 1;
+    } else if (
+        satuan_jual.options[satuan_jual.selectedIndex].text ==
+        satuan_sekunder.value.trim()
+    ) {
+        div_beratStandardMeter.style.display = "none";
+        trigger = 0;
+    }
+}
+
 //#endregion

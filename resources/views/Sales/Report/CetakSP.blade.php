@@ -53,7 +53,7 @@
                                                 <br />
                                             </h3>
                                             <hr style="border:1px solid black;margin-left: 3px;margin: 0px">
-                                            <h1 style="font-size: 32px;margin-bottom: 0px">
+                                            <h1 style="font-size: 28px;margin-bottom: 0px">
                                                 <span>S U R A T&nbsp; &nbsp;P E S A N A N</span>
                                                 <br />
                                             </h1>

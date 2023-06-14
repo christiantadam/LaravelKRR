@@ -173,6 +173,10 @@
     width: 50%;
     height: 100%;
 }
+.permohonan-s-p-textinput46 {
+    width: 100%;
+    height: 100%;
+}
 .permohonan-s-p-container08 {
     gap: 1%;
     flex: 0 0 auto;
@@ -359,7 +363,6 @@
     height: 100%;
     display: flex;
     align-items: flex-start;
-    padding-top: 1%;
     padding-left: 1%;
     flex-direction: column;
 }
@@ -472,7 +475,6 @@
     height: 100%;
     display: flex;
     align-items: flex-start;
-    padding-top: 1%;
     padding-left: 1%;
     flex-direction: column;
 }
@@ -525,7 +527,6 @@
     height: 100%;
     display: flex;
     align-items: flex-start;
-    padding-top: 1%;
     padding-left: 1%;
     flex-direction: column;
 }

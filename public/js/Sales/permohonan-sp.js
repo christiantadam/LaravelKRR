@@ -200,10 +200,31 @@ faktur_pjkSederhana.addEventListener("keypress", function (event) {
     }
 });
 
-keterangan.addEventListener("keypress", function (event) {
+berat_karungMeter.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        jenis_brg.focus();
+        berat_innerMeter.focus();
+    }
+});
+
+berat_innerMeter.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        berat_lamiMeter.focus();
+    }
+});
+
+berat_lamiMeter.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        berat_kertasMeter.focus();
+    }
+});
+
+berat_kertasMeter.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        add_button.focus();
     }
 });
 
@@ -586,8 +607,9 @@ kategori.addEventListener("change", function () {
 sub_kategori.addEventListener("change", function () {
     // Code to retrieve options for the second select input based on the selected value of the first select input
     let subKategori = this.value; // Use the value of the first select input as the firstValue variable
-    namaBarang.focus();
-    fetch("/options/namaBarang/" + subKategori)
+    nama_barang.focus();
+    if (jenis_sp.options[jenis_sp.selectedIndex].text.trim() !== "SP EXPORT") {
+        fetch("/options/namaBarang/" + subKategori)
         .then((response) => response.json())
         .then((options) => {
             nama_barang.innerHTML =
@@ -599,6 +621,21 @@ sub_kategori.addEventListener("change", function () {
                 nama_barang.appendChild(optionTag);
             });
         });
+    }
+    else if (jenis_sp.options[jenis_sp.selectedIndex].text.trim() == "SP EXPORT"){
+        fetch("/options/namaBarangExport/" + subKategori)
+        .then((response) => response.json())
+        .then((options) => {
+            nama_barang.innerHTML =
+                "<option disabled selected value>-- Pilih Nama Barang --</option>";
+            options.forEach((option) => {
+                let optionTag = document.createElement("option");
+                optionTag.value = option.KD_BRG;
+                optionTag.text = option.NAMA_BRG;
+                nama_barang.appendChild(optionTag);
+            });
+        });
+    }
 });
 
 nama_barang.addEventListener("change", function () {
@@ -848,19 +885,7 @@ no_spText.addEventListener("keypress", function (event) {
 });
 
 satuan_jual.addEventListener("change", function () {
-    if (
-        satuan_jual.options[satuan_jual.selectedIndex].text !==
-        satuan_sekunder.value.trim()
-    ) {
-        div_beratStandardMeter.style.display = "block";
-        trigger = 1;
-    } else if (
-        satuan_jual.options[satuan_jual.selectedIndex].text ==
-        satuan_sekunder.value.trim()
-    ) {
-        div_beratStandardMeter.style.display = "none";
-        trigger = 0;
-    }
+    funcTampilBeratStandardKGM();
 });
 
 add_button.addEventListener("click", function (event) {
@@ -1008,6 +1033,8 @@ update_button.addEventListener("click", function (event) {
         jenis_brg.focus();
         // Update the table display
         $("#list_view").DataTable().draw();
+        div_beratStandardMeter.style.display = "none";
+        div_beratStandardMeter.disabled = false;
     }
 });
 
@@ -1057,6 +1084,8 @@ delete_button.addEventListener("click", function (event) {
     qty_pesan.value = "";
     harga_satuan.value = "";
     jenis_brg.focus();
+    div_beratStandardMeter.style.display = "none";
+    div_beratStandardMeter.disabled = false;
 });
 
 //#endregion
@@ -1080,7 +1109,15 @@ function funcClearHeaderPesanan() {
 }
 
 function funcClearInputBarang() {
+    jenis_brg.selectedIndex = 0;
+    kategori_utama.selectedIndex = 0;
+    kategori.innerHTML = "";
+    sub_kategori.innerHTML = "";
+    nama_barang.innerHTML = "";
     satuan_jual.selectedIndex = 0;
+    qty_pesan.value = "";
+    harga_satuan.value = "";
+    rencana_kirim.valueAsDate = new Date();
     ppn.value = "";
     satuan_primer.value = "";
     satuan_sekunder.value = "";
@@ -1115,7 +1152,12 @@ function funcClearInputBarang() {
     biaya_lain.readOnly = true;
     total_cost.value = "";
     berat_standardTotal.value = "";
+    berat_innerMeter.value = "";
+    berat_karungMeter.value = "";
+    berat_kertasMeter.value = "";
+    berat_lamiMeter.value = "";
     table_saldoInventory.clear().draw();
+    div_beratStandardMeter.style.display = "none";
 }
 
 function funcHeaderDisabled(bool) {
@@ -1215,6 +1257,7 @@ function funcInsertRow(array) {
             total_cost.value = selectedRows[0][21];
             funcDisplayDataBrg(selectedRows[0][1]);
             funcTampilInv(selectedRows[0][1]);
+            funcBeratStandard(nama_barang.value);
         });
     }
 }
@@ -1251,6 +1294,7 @@ function funcDisplayDataBrg(kodeBarangParameter) {
             satuan_primer.value = data[0].SatuanPrimer;
             satuan_sekunder.value = data[0].SatuanSekunder;
             satuan_tritier.value = data[0].SatuanTritier;
+            funcTampilBeratStandardKGM();
         });
 }
 
@@ -1332,10 +1376,10 @@ function funcBeratStandard(namaBarang) {
                 berat_lamiMeter.value = parseFloat(berat_lami.value);
                 berat_kertasMeter.value = parseFloat(berat_kertas.value);
                 berat_standardTotalMeter.value =
-                    berat_karungMeter.value +
-                    berat_innerMeter.value +
-                    berat_lamiMeter.value +
-                    berat_kertasMeter.value;
+                    parseFloat(berat_karungMeter.value) +
+                    parseFloat(berat_innerMeter.value) +
+                    parseFloat(berat_lamiMeter.value) +
+                    parseFloat(berat_kertasMeter.value);
             }
         });
     });
@@ -1376,14 +1420,31 @@ function funcDatatablesIntoInput() {
     for (let i = 0; i < dataArray.length; i++) {
         let row = dataArray[i];
         for (let j = 0; j < dataArray[i].length; j++) {
-        let hiddenInput = document.createElement("input");
-        hiddenInput.type = "hidden";
-        hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
-        hiddenInput.multiple = true;
-        hiddenInput.value = row[j];
-        // Append the hidden input to the document body or any other element
-        form_suratPesanan.appendChild(hiddenInput);
+            let hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
+            hiddenInput.multiple = true;
+            hiddenInput.value = row[j];
+            // Append the hidden input to the document body or any other element
+            form_suratPesanan.appendChild(hiddenInput);
         }
     }
 }
+
+function funcTampilBeratStandardKGM() {
+    if (
+        satuan_jual.options[satuan_jual.selectedIndex].text !==
+        satuan_sekunder.value.trim()
+    ) {
+        div_beratStandardMeter.style.display = "block";
+        trigger = 1;
+    } else if (
+        satuan_jual.options[satuan_jual.selectedIndex].text ==
+        satuan_sekunder.value.trim()
+    ) {
+        div_beratStandardMeter.style.display = "none";
+        trigger = 0;
+    }
+}
+
 //#endregion

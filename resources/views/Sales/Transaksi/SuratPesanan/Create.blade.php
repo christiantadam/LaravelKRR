@@ -65,7 +65,7 @@
                                                 @endforeach
                                             </select> {{-- <input type="text" name="list_customer" list="data_customer" id="list_customer" class="permohonan-s-p-textinput03 input" placeholder="Nama Customer" /> <datalist id="data_customer"> @foreach ($list_customer as $data) <option value="{{ $data->IDCust }} - {{ $data->NamaCust }}"></option> @endforeach </datalist> --}} {{-- <input type="text" placeholder="Nama Customer" class="permohonan-s-p-textinput03 input" /> <button class="permohonan-s-p-button02 button">...</button> --}} </div>
                                         <div class="permohonan-s-p-container07"> <input type="text"
-                                                placeholder="Nomor PO" class="permohonan-s-p-textinput04 input"
+                                                placeholder="Nomor PO" class="permohonan-s-p-textinput46 input"
                                                 id="no_po" name="no_po" /> </div>
                                         <div class="permohonan-s-p-container08"> <input type="date" id="tgl_po"
                                                 name="tgl_po" placeholder="placeholder"
