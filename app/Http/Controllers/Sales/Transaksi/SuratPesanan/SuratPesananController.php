@@ -152,8 +152,9 @@ class SuratPesananController extends Controller
         return response()->json($data);
     }
 
-    public function getSaldoInventory($kode_barang){
-        $data = db::connection('ConnInventory')->select('exec SP_1003_INV_LIST_TYPE @KodeBarang = ?, @Kode = ?',[$kode_barang,10]);
+    public function getSaldoInventory($kode_barang)
+    {
+        $data = db::connection('ConnInventory')->select('exec SP_1003_INV_LIST_TYPE @KodeBarang = ?, @Kode = ?', [$kode_barang, 10]);
 
         return response()->json($data);
     }
@@ -291,7 +292,7 @@ class SuratPesananController extends Controller
                 [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan Sudah Dibuat!');
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuat!');
         // echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
         // echo "<script type='text/javascript'>window.close();</script>";
     }
@@ -470,7 +471,7 @@ class SuratPesananController extends Controller
                 [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan Sudah Diubah!');
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Diubah!');
         // echo "<script type='text/javascript'>alert('Data Berhasil diubah') ;</script>";
         // echo "<script type='text/javascript'>window.close();</script>";
     }
@@ -480,7 +481,7 @@ class SuratPesananController extends Controller
     {
         // dd($id);
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_DEL_HEADER_DETAIL_PESANAN @IdSuratPesanan = ?', [$id]);
-        return redirect()->back()->with('success', 'Surat Pesanan Sudah Dihapus!'); //->with(['success' => 'Data berhasil dihapus!']);
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $id . ' Sudah Dihapus!'); //->with(['success' => 'Data berhasil dihapus!']);
     }
 
     // public function accdirektur($id)

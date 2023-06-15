@@ -123,7 +123,7 @@ max_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
         if (proses == 1) {
-            keterangan_kolom.focus();
+            alamat_kirim.focus();
         } else if (proses == 2) {
             isi_button.focus();
         }
@@ -583,7 +583,6 @@ kelompok.addEventListener("change", function () {
 
 sub_kelompok.addEventListener("change", function () {
     let sub_kelompok = this.value;
-    min_kirim.focus();
     fetch("/options/saldo/" + sub_kelompok + "/" + kode_barang.value)
         .then((response) => response.json())
         .then((data) => {
@@ -595,7 +594,7 @@ sub_kelompok.addEventListener("change", function () {
             qty_primerGudang.value = data[0].SaldoPrimer;
             qty_sekunderGudang.value = data[0].SaldoSekunder;
             qty_tritierGudang.value = data[0].SaldoTritier;
-            max_kirim.focus();
+            min_kirim.focus();
             qty_primer.value = 0;
             qty_sekunder.value = 0;
             qty_tritier.value = 0;

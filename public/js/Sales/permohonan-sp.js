@@ -436,7 +436,7 @@ isi_button.addEventListener("click", function (event) {
         // for (let i = 1; i < table.rows.length; i++) {
         //     table.deleteRow(i);
         // }
-        list_view.clear();
+        list_view.clear().draw();
         div_headerSuratPesanan.classList.toggle("disabled");
         div_tabelSuratPesanan.classList.toggle("disabled");
         div_detailSuratPesanan.classList.toggle("disabled");
@@ -451,7 +451,7 @@ isi_button.addEventListener("click", function (event) {
         //delete
         form_suratPesanan.action = "/SuratPesanan/" + no_spText.value;
         form_suratPesanan.submit();
-        list_view.clear();
+        list_view.clear().draw();
         div_headerSuratPesanan.classList.toggle("disabled");
         div_tabelSuratPesanan.classList.toggle("disabled");
         div_detailSuratPesanan.classList.toggle("disabled");
@@ -474,6 +474,7 @@ edit_button.addEventListener("click", function (event) {
         this.innerHTML = "Batal";
         isi_button.innerHTML = "Proses";
         hapus_button.style.display = "none";
+        no_spSelect.disabled = false;
         mata_uang.value = "IDR";
         list_noSP.disabled = false;
 
@@ -485,14 +486,11 @@ edit_button.addEventListener("click", function (event) {
         no_spSelect.style.display = "none";
         no_spText.style.display = "block";
         no_spText.readOnly = true;
-        list_noSP.disabled = true;
+        no_spSelect.disabled = true;
         funcClearHeaderPesanan();
         funcClearInputBarang();
         funcHeaderDisabled(false);
-        const table = document.getElementById("list_view");
-        for (let i = 1; i < table.rows.length; i++) {
-            table.deleteRow(i);
-        }
+        list_view.clear().draw();
         div_headerSuratPesanan.classList.toggle("disabled");
         // div_tabelSuratPesanan.classList.toggle("disabled");
         div_tabelSuratPesanan.classList.add("disabled");
@@ -511,7 +509,7 @@ edit_button.addEventListener("click", function (event) {
 hapus_button.addEventListener("click", function (event) {
     event.preventDefault();
     if (proses == 0) {
-        list_noSP.disabled = false;
+        no_spSelect.disabled = false;no_spSelect
         div_headerSuratPesanan.classList.toggle("disabled");
         div_tabelSuratPesanan.classList.toggle("disabled");
         div_detailSuratPesanan.classList.toggle("disabled");
@@ -684,7 +682,8 @@ nama_barang.addEventListener("change", function () {
     // console.log(kategoriUtama.value);
 
     //Jika kategori utama berasal dari KRR-Hasil Produksi, isi Berat Standard
-    funcBeratStandard(kategori_utama, namaBarang);
+    funcBeratStandard(namaBarang);
+    funcKolomBeratStandard();
 });
 
 kode_barang.addEventListener("keypress", function (event) {
@@ -745,6 +744,7 @@ kode_barang.addEventListener("keypress", function (event) {
                 satuan_sekunder.value = data[0].SatSekunder;
                 satuan_tritier.value = data[0].Nama_satuan;
                 funcBeratStandard(kode_barang.value);
+                funcKolomBeratStandard();
                 funcTampilInv(kode_barang.value);
             });
         qty_pesan.focus();
@@ -1096,6 +1096,7 @@ function funcClearHeaderPesanan() {
     tgl_pesan.valueAsDate = new Date();
     jenis_sp.selectedIndex = 0;
     no_spText.value = "";
+    no_spSelect.selectedIndex = 0;
     list_sales.selectedIndex = 0;
     list_customer.selectedIndex = 0;
     no_po.value = "";
@@ -1257,7 +1258,7 @@ function funcInsertRow(array) {
             total_cost.value = selectedRows[0][21];
             funcDisplayDataBrg(selectedRows[0][1]);
             funcTampilInv(selectedRows[0][1]);
-            funcBeratStandard(nama_barang.value);
+            funcKolomBeratStandard();
         });
     }
 }
@@ -1337,6 +1338,9 @@ function funcBeratStandard(namaBarang) {
             berat_indexKertas.value = 0;
             total_cost.value = 0;
         });
+}
+
+function funcKolomBeratStandard() {
     [
         berat_karung,
         berat_inner,
@@ -1347,28 +1351,43 @@ function funcBeratStandard(namaBarang) {
         index_kertas,
         index_lami,
         biaya_lain,
+        berat_karungMeter,
+        berat_innerMeter,
+        berat_lamiMeter,
+        berat_kertasMeter,
     ].forEach(function (element) {
         element.addEventListener("input", function () {
             // console.log(trigger == 0);
             berat_indexKarung.value =
                 parseFloat(berat_karung.value) * parseFloat(index_karung.value);
+
             berat_indexInner.value =
                 parseFloat(berat_inner.value) * parseFloat(index_inner.value);
+
             berat_indexLami.value =
                 parseFloat(berat_lami.value) * parseFloat(index_lami.value);
+
             berat_indexKertas.value =
                 parseFloat(berat_kertas.value) * parseFloat(index_kertas.value);
+
             berat_standardTotal.value =
                 parseFloat(berat_karung.value) +
                 parseFloat(berat_inner.value) +
                 parseFloat(berat_lami.value) +
                 parseFloat(berat_kertas.value);
+
             total_cost.value =
                 parseFloat(biaya_lain.value) +
                 parseFloat(berat_indexKarung.value) +
                 parseFloat(berat_indexInner.value) +
                 parseFloat(berat_indexKertas.value) +
                 parseFloat(berat_indexLami.value);
+
+            berat_standardTotalMeter.value =
+                parseFloat(berat_karungMeter.value) +
+                parseFloat(berat_innerMeter.value) +
+                parseFloat(berat_lamiMeter.value) +
+                parseFloat(berat_kertasMeter.value);
 
             if (trigger == 0) {
                 berat_karungMeter.value = parseFloat(berat_karung.value);

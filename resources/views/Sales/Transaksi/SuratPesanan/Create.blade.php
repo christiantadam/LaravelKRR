@@ -8,6 +8,10 @@
                     <div class="alert alert-success">
                         {{ Session::get('success') }}
                     </div>
+                @elseif (Session::has('error'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error') }}
+                    </div>
                 @endif
                 <div class="card">
                     <div class="card-header">Surat Pesanan</div>
@@ -240,107 +244,92 @@
                                         <button class="permohonan-s-p-button13 button" id="delete_button">Delete</button>
                                     </div>
                                 </div>
-                                <div id="div_saldoInventory">
-                                    <span>Saldo Inventory</span>
-                                    <table id="table_saldoInventory" class="permohonan-s-p-table" style="cursor: default">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th>Divisi</th>
-                                                <th>Saldo Tritier</th>
-                                                <th>Sat. Tritier</th>
-                                                <th>Saldo Sekunder</th>
-                                                <th>Sat. Sekunder</th>
-                                                <th>Saldo Primer</th>
-                                                <th>Sat. Primer</th>
-                                                <th>Objek</th>
-                                                <th>Kel. Utama</th>
-                                                <th>Kelompok</th>
-                                                <th>Sub Kelompok</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div id="div_beratStandard"> <span> <span>Berat Standart (KGM) - Index Harga</span> <br />
-                                    </span>
-                                    <div class="permohonan-s-p-container38">
-                                        <div class="permohonan-s-p-container39"> <span>Berat Karung:</span> <span>Berat
-                                                Inner:</span>
-                                            <span>Berat Lami:</span> <span>Berat Kertas:</span> <span
-                                                class="permohonan-s-p-text45">BS
-                                                Total:</span>
-                                        </div>
-                                        <div class="permohonan-s-p-container40">
-                                            <div class="permohonan-s-p-container41"> <input type="text"
-                                                    placeholder="Berat Karung" class="permohonan-s-p-textinput26 input"
-                                                    id="berat_karung" readonly /> </div>
-                                            <div class="permohonan-s-p-container42"> <input type="text"
-                                                    placeholder="Berat Inner" class="permohonan-s-p-textinput27 input"
-                                                    id="berat_inner" readonly /> </div>
-                                            <div class="permohonan-s-p-container43"> <input type="text"
-                                                    placeholder="Berat Lami" class="permohonan-s-p-textinput28 input"
-                                                    id="berat_lami" readonly /> </div>
-                                            <div class="permohonan-s-p-container44"> <input type="text"
-                                                    placeholder="Berat Kertas" class="permohonan-s-p-textinput29 input"
-                                                    id="berat_kertas" readonly /> </div>
-                                            <div class="permohonan-s-p-container45"> <input type="text"
-                                                    placeholder="BS Total" class="permohonan-s-p-textinput30 input"
-                                                    id="berat_standardTotal" readonly /> </div>
-                                        </div>
-                                        <div class="permohonan-s-p-container46"> <span>X</span> <span>X</span>
-                                            <span>X</span>
-                                            <span>X</span>
-                                        </div>
-                                        <div class="permohonan-s-p-container47"> <span>Index Karung</span> <span>Index
-                                                Inner</span>
-                                            <span>Index Lami</span> <span>Index Kertas</span>
-                                        </div>
-                                        <div class="permohonan-s-p-container48">
-                                            <div class="permohonan-s-p-container49"> <input type="text"
-                                                    placeholder="Index Karung" class="permohonan-s-p-textinput31 input"
-                                                    id="index_karung" readonly /> </div>
-                                            <div class="permohonan-s-p-container50"> <input type="text"
-                                                    placeholder="Index Inner" class="permohonan-s-p-textinput32 input"
-                                                    id="index_inner" readonly /> </div>
-                                            <div class="permohonan-s-p-container51"> <input type="text"
-                                                    placeholder="Index Lami" class="permohonan-s-p-textinput33 input"
-                                                    id="index_lami" readonly /> </div>
-                                            <div class="permohonan-s-p-container52"> <input type="text"
-                                                    placeholder="Index Kertas" class="permohonan-s-p-textinput34 input"
-                                                    id="index_kertas" readonly /> </div>
-                                        </div>
-                                        <div class="permohonan-s-p-container53"> <span>=</span> <span>=</span>
-                                            <span>=</span>
-                                            <span>=</span> <span class="permohonan-s-p-text58">Biaya Lain2:</span> <span
-                                                class="permohonan-s-p-text59">Total Cost:</span>
-                                        </div>
-                                        <div class="permohonan-s-p-container54">
-                                            <div class="permohonan-s-p-container55"> <input type="text"
-                                                    placeholder="Berat Index Karung"
-                                                    class="permohonan-s-p-textinput35 input" id="berat_indexKarung"
-                                                    readonly /> </div>
-                                            <div class="permohonan-s-p-container56"> <input type="text"
-                                                    placeholder="Berat Index Inner"
-                                                    class="permohonan-s-p-textinput36 input" id="berat_indexInner"
-                                                    readonly /> </div>
-                                            <div class="permohonan-s-p-container57"> <input type="text"
-                                                    placeholder="Berat Index Lami"
-                                                    class="permohonan-s-p-textinput37 input" id="berat_indexLami"
-                                                    readonly /> </div>
-                                            <div class="permohonan-s-p-container58"> <input type="text"
-                                                    placeholder="Berat Index Kertas"
-                                                    class="permohonan-s-p-textinput38 input" id="berat_indexKertas"
-                                                    readonly /> </div>
-                                            <div class="permohonan-s-p-container59"> <input type="text"
-                                                    placeholder="Biaya Lain2" class="permohonan-s-p-textinput39 input"
-                                                    id="biaya_lain" readonly /> </div>
-                                            <div class="permohonan-s-p-container60"> <input type="text"
-                                                    placeholder="Total Cost" class="permohonan-s-p-textinput40 input"
-                                                    id="total_cost" readonly /> </div>
+                                <div id="div_beratStandard" class="acs-div-beratStandard">
+                                    <div class="acs-div-beratStandard1">
+                                        <span>Berat Standart (KGM) - Index Harga</span>
+                                        <br>
+                                        <br>
+                                        <div class="permohonan-s-p-container38">
+                                            <div class="permohonan-s-p-container39"> <span>Berat Karung:</span> <span>Berat
+                                                    Inner:</span>
+                                                <span>Berat Lami:</span> <span>Berat Kertas:</span> <span
+                                                    class="permohonan-s-p-text45">BS
+                                                    Total:</span>
+                                            </div>
+                                            <div class="permohonan-s-p-container40">
+                                                <div class="permohonan-s-p-container41"> <input type="text"
+                                                        placeholder="Berat Karung" class="permohonan-s-p-textinput26 input"
+                                                        id="berat_karung" readonly /> </div>
+                                                <div class="permohonan-s-p-container42"> <input type="text"
+                                                        placeholder="Berat Inner" class="permohonan-s-p-textinput27 input"
+                                                        id="berat_inner" readonly /> </div>
+                                                <div class="permohonan-s-p-container43"> <input type="text"
+                                                        placeholder="Berat Lami" class="permohonan-s-p-textinput28 input"
+                                                        id="berat_lami" readonly /> </div>
+                                                <div class="permohonan-s-p-container44"> <input type="text"
+                                                        placeholder="Berat Kertas" class="permohonan-s-p-textinput29 input"
+                                                        id="berat_kertas" readonly /> </div>
+                                                <div class="permohonan-s-p-container45"> <input type="text"
+                                                        placeholder="BS Total" class="permohonan-s-p-textinput30 input"
+                                                        id="berat_standardTotal" readonly /> </div>
+                                            </div>
+                                            <div class="permohonan-s-p-container46"> <span>X</span> <span>X</span>
+                                                <span>X</span>
+                                                <span>X</span>
+                                            </div>
+                                            <div class="permohonan-s-p-container47"> <span>Index Karung</span> <span>Index
+                                                    Inner</span>
+                                                <span>Index Lami</span> <span>Index Kertas</span>
+                                            </div>
+                                            <div class="permohonan-s-p-container48">
+                                                <div class="permohonan-s-p-container49"> <input type="text"
+                                                        placeholder="Index Karung" class="permohonan-s-p-textinput31 input"
+                                                        id="index_karung" readonly /> </div>
+                                                <div class="permohonan-s-p-container50"> <input type="text"
+                                                        placeholder="Index Inner" class="permohonan-s-p-textinput32 input"
+                                                        id="index_inner" readonly /> </div>
+                                                <div class="permohonan-s-p-container51"> <input type="text"
+                                                        placeholder="Index Lami" class="permohonan-s-p-textinput33 input"
+                                                        id="index_lami" readonly /> </div>
+                                                <div class="permohonan-s-p-container52"> <input type="text"
+                                                        placeholder="Index Kertas" class="permohonan-s-p-textinput34 input"
+                                                        id="index_kertas" readonly /> </div>
+                                            </div>
+                                            <div class="permohonan-s-p-container53"> <span>=</span> <span>=</span>
+                                                <span>=</span>
+                                                <span>=</span> <span class="permohonan-s-p-text58">Biaya Lain2:</span> <span
+                                                    class="permohonan-s-p-text59">Total Cost:</span>
+                                            </div>
+                                            <div class="permohonan-s-p-container54">
+                                                <div class="permohonan-s-p-container55"> <input type="text"
+                                                        placeholder="Berat Index Karung"
+                                                        class="permohonan-s-p-textinput35 input" id="berat_indexKarung"
+                                                        readonly /> </div>
+                                                <div class="permohonan-s-p-container56"> <input type="text"
+                                                        placeholder="Berat Index Inner"
+                                                        class="permohonan-s-p-textinput36 input" id="berat_indexInner"
+                                                        readonly /> </div>
+                                                <div class="permohonan-s-p-container57"> <input type="text"
+                                                        placeholder="Berat Index Lami"
+                                                        class="permohonan-s-p-textinput37 input" id="berat_indexLami"
+                                                        readonly /> </div>
+                                                <div class="permohonan-s-p-container58"> <input type="text"
+                                                        placeholder="Berat Index Kertas"
+                                                        class="permohonan-s-p-textinput38 input" id="berat_indexKertas"
+                                                        readonly /> </div>
+                                                <div class="permohonan-s-p-container59"> <input type="text"
+                                                        placeholder="Biaya Lain2" class="permohonan-s-p-textinput39 input"
+                                                        id="biaya_lain" readonly /> </div>
+                                                <div class="permohonan-s-p-container60"> <input type="text"
+                                                        placeholder="Total Cost" class="permohonan-s-p-textinput40 input"
+                                                        id="total_cost" readonly /> </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div id="div_beratStandardMeter" style="display: none"> <span> <span>Berat Standard
-                                                (MTR)</span> <br />
-                                        </span>
+                                    <div id="div_beratStandardMeter" class="acs-div-beratStandard2">
+                                        <span>Berat Standard (MTR)</span>
+                                        <br>
+                                        <br>
                                         <div class="permohonan-s-p-container62">
                                             <div class="permohonan-s-p-container63"> <span>Berat Karung:</span> <span>Berat
                                                     Inner:</span>
@@ -370,7 +359,26 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div id="div_saldoInventory">
+                                    <span>Saldo Inventory</span>
+                                    <table id="table_saldoInventory" class="permohonan-s-p-table" style="cursor: default">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Divisi</th>
+                                                <th>Saldo Tritier</th>
+                                                <th>Sat. Tritier</th>
+                                                <th>Saldo Sekunder</th>
+                                                <th>Sat. Sekunder</th>
+                                                <th>Saldo Primer</th>
+                                                <th>Sat. Primer</th>
+                                                <th>Objek</th>
+                                                <th>Kel. Utama</th>
+                                                <th>Kelompok</th>
+                                                <th>Sub Kelompok</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                                 <div class="permohonan-s-p-container61">
                                     <button id="isi_button" class="permohonan-s-p-button14 button">
                                         <span>Isi</span></button>
