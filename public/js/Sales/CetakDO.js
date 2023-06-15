@@ -60,6 +60,11 @@ print_button.addEventListener("click", function (event) {
                     console.log(options);
                     options.forEach((option, index) => {
                         console.log(option);
+                        for (let prop in option) {
+                            if (option[prop] === null) {
+                                option[prop] = ""; // Change null value to an empty string
+                            }
+                        }
                         let min_kirimSekunderValue = 0;
                         const body_deliveryOrderBelumACC =
                             document.createElement("div");

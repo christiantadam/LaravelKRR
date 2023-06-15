@@ -122,18 +122,18 @@ tgl_do.addEventListener("keypress", function (event) {
 max_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        min_kirim.focus();
+        if (proses == 1) {
+            keterangan_kolom.focus();
+        } else if (proses == 2) {
+            isi_button.focus();
+        }
     }
 });
 
 min_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        if (proses == 1) {
-            qty_order.focus();
-        } else if (proses == 2) {
-            isi_button.focus();
-        }
+        max_kirim.focus();
     }
 });
 
@@ -583,7 +583,7 @@ kelompok.addEventListener("change", function () {
 
 sub_kelompok.addEventListener("change", function () {
     let sub_kelompok = this.value;
-    max_kirim.focus();
+    min_kirim.focus();
     fetch("/options/saldo/" + sub_kelompok + "/" + kode_barang.value)
         .then((response) => response.json())
         .then((data) => {

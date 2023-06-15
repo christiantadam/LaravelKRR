@@ -83,7 +83,7 @@ class DeliveryOrderController extends Controller
         $QtyTritier = $request->qty_tritier;
         $MaxKirim = $request->max_kirim;
         $MinKirim = $request->min_kirim;
-        $AlamatKirim = $request->alamat_kirim;
+        $AlamatKirim = $request->alamat_kirim ?? NULL;
         $KotaKirim = $request->kota_kirim;
         $IdType = $request->id_typeBarang;
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_DO1 @MyType = ?,

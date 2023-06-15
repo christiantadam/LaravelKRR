@@ -217,10 +217,5 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <div>Element 1</div>
-        <div>Element 2</div>
-        <div>Element 3</div>
-    </div>
     <script type="text/javascript" src="{{ asset('js/Sales/CetakSP.js') }}"></script>
 @endsection
