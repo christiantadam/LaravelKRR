@@ -283,7 +283,7 @@ class SuratPesananManagerController extends Controller
         // dd($do1[0]->{""}, $do2[0]->{""}, $formula);
         if ($do1[0]->{""} == 0 || $do2[0]->{""} == 0) {
             db::connection('ConnSales')->statement('UPDATE 	T_HEADERPESANAN
-                                                            SET deleted = \'' . trim(Auth::user()->NomorUser) . '\' +\' - \'+ \'' . $date . '\')
+                                                            SET deleted = \'' . trim(Auth::user()->NomorUser) . '\' +\' - \'+ \'' . $date . '\'
                                                             WHERE IdSuratPesanan = \'' . $request->no_spText . '\'');
             if (!empty($formula)) {
                 $pp = db::connection('ConnSales')->select('SELECT SUM(BahanPP) + SUM(AfalanPP)
