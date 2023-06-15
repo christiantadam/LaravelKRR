@@ -24,10 +24,12 @@ let keterangan_kolom = document.getElementById("keterangan_kolom");
 let nama_salesKolom = document.getElementById("nama_salesKolom");
 let lihat_sp = document.getElementById("lihat_sp");
 let print_pdf = document.getElementById("print_pdf");
-let table_sp = $("#table_sp").DataTable({searching: false,
+let table_sp = $("#table_sp").DataTable({
+    searching: false,
     paging: false,
     info: false,
-    ordering: false});
+    ordering: false,
+});
 //#region Load Page
 
 tanggal_sp.focus();
@@ -37,7 +39,6 @@ contoh_print.style.display = "none";
 export_pdf.style.display = "none";
 no_spSelect.style.display = "none";
 print_pdf.style.display = "none";
-
 
 //#endregion
 
@@ -125,19 +126,66 @@ print_button.addEventListener("click", function (event) {
                 nama_customerKolom.innerHTML = data[0].NamaCust;
                 alamat_kantorKolom.innerHTML = data[0].Alamat;
                 alamat_kirimKolom.innerHTML = data[0].AlamatKirim;
-                for (let i = 0; i < data.length; i++) {
-                    array_sp.push(i+1);
 
-                    nomor_barangKolom.innerHTML = i + 1;
-                    nama_barangKolom.innerHTML =
-                        "<b>" +
-                        data[i].JnsBarang +
-                        "</b><br>" +
-                        data[i].NamaType;
-                    kode_barangKolom.innerHTML = data[i].KodeBarang;
-                    quantity_barangKolom.innerHTML = data[i].JmlOrder + " " + data[i].Satuan;
+                table_sp.destroy();
+                // data.forEach(function (item, index) {
+                table_sp = $("#table_sp").DataTable({
+                    searching: false,
+                    paging: false,
+                    info: false,
+                    ordering: false,
+                    data: data,
+                    columns: [
+                        {
+                            data: null,
+                            render: function (data, type, row, meta) {
+                                return meta.row + 1;
+                            },
+                        },
+                        {
+                            data: "JnsBarang",
+                            render: function (data, type, row) {
+                                return "<b>" + data + "</b><br>" + row.NamaType;
+                            },
+                        },
+                        { data: "KodeBarang" },
+                        {
+                            data: null,
+                            render: function (data, type, row) {
+                                return row.JmlOrder + " " + row.Satuan;
+                            },
+                        },
+                    ],
+                    columnDefs: [
+                        { targets: 0, width: "3%" }, // Set the width of the first column to 10%
+                        { targets: 1, width: "67%" }, // Set the width of the second column to 60%
+                        { targets: 2, width: "15%" }, // Set the width of the third column to 15%
+                        { targets: 3, width: "15%" }, // Set the width of the fourth column to 15%
+                    ],
+                });
+                // });
+                // table_sp.draw();
+                for (let i = 0; i < data.length; i++) {
+                    // array_sp.push(
+                    //     i + 1,
+                    //     data[i].JnsBarang,
+                    //     "<b>" +
+                    //         data[i].JnsBarang +
+                    //         "</b><br>" +
+                    //         data[i].NamaType,
+                    //     data[i].JmlOrder + " " + data[i].Satuan
+                    // );
+                    // nomor_barangKolom.innerHTML = i + 1;
+                    // nama_barangKolom.innerHTML =
+                    //     "<b>" +
+                    //     data[i].JnsBarang +
+                    //     "</b><br>" +
+                    //     data[i].NamaType;
+                    // kode_barangKolom.innerHTML = data[i].KodeBarang;
+                    // quantity_barangKolom.innerHTML =
+                    //     data[i].JmlOrder + " " + data[i].Satuan;
                 }
-                console.log(array_sp);
+                // console.log(array_sp);
                 jenis_bayarKolom.innerHTML = data[0].NamaPembayaran;
                 rencana_kirimKolom.innerHTML = formatDateToMMDDYYYY(
                     data[0].TglRencanaKirim
@@ -152,6 +200,7 @@ print_button.addEventListener("click", function (event) {
 
 print_pdf.addEventListener("click", function (event) {
     event.preventDefault();
+    table_sp.draw();
     window.print();
 });
 

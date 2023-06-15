@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                                 <div class="cetak-sppdf-container08">
-                                    <table style="width: 100%" id="table_sp">
+                                    <table style="width: 100%;" id="table_sp">
                                         <thead>
                                             <tr>
                                                 <th>NO.</th>
@@ -119,12 +119,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="acs-table-border">
+                                            {{-- <tr class="acs-table-border">
                                                 <td id="nomor_barangKolom">d</td>
                                                 <td class="acs-table-border" id="nama_barangKolom">c</td>
                                                 <td class="acs-table-border" id="kode_barangKolom">b</td>
                                                 <td class="acs-table-border" id="quantity_barangKolom">a</td>
-                                            </tr>
+                                            </tr> --}}
                                         </tbody>
                                         {{-- ini harus di-loop sesuai data pesanan --}}
                                     </table>
