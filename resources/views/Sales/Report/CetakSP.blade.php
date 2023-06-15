@@ -94,7 +94,8 @@
                                                         <td id="nama_customerKolom"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="white-space: nowrap;vertical-align:top;">Alamat Langganan</td>
+                                                        <td style="white-space: nowrap;vertical-align:top;">Alamat Langganan
+                                                        </td>
                                                         <td style="vertical-align:top;">:</td>
                                                         <td id="alamat_kantorKolom"></td>
                                                     </tr>
@@ -114,7 +115,7 @@
                                             <tr>
                                                 <th>NO.</th>
                                                 <th>TYPE BARANG</th>
-                                                <th>KODE BARANG</th>
+                                                <th>KD. BARANG</th>
                                                 <th>QUANTITY</th>
                                             </tr>
                                         </thead>
@@ -184,34 +185,27 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td>
-                                                    1. Putih - Produksi <br>
-                                                    2. Merah - QC <br>
-                                                    3. Kuning - Adm. Piutang <br>
-                                                    4. Hijau - Arsip Pemasaran
+
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th style="border: none !important;text-align: center" id="nama_salesKolom">
+                                                <th style="border: none !important;text-align: center;text-decoration: underline;vertical-align:bottom;padding-bottom: 20px;"
+                                                    id="nama_salesKolom">
                                                     ADAM CHRISTIANTO</th>
                                                 <th style="border: none !important;text-align: center"></th>
+                                                <th style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                    ______________________</th>
                                                 <th style="border: none !important;text-align: center"></th>
+                                                <th style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                    _______________________</th>
                                                 <th style="border: none !important;text-align: center"></th>
+                                                <th style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                    _______________________</th>
                                                 <th style="border: none !important;text-align: center"></th>
-                                                <th style="border: none !important;text-align: center"></th>
-                                                <th style="border: none !important;text-align: center"></th>
-                                                <th style="border: none !important;text-align: center"></th>
-                                                <th style="border: none !important;text-align: center"></th>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-family: inter">_______________________</td>
-                                                <td>&nbsp; &nbsp;</td>
-                                                <td style="font-family: inter">_______________________</td>
-                                                <td>&nbsp; &nbsp;</td>
-                                                <td style="font-family: inter">_______________________</td>
-                                                <td>&nbsp; &nbsp;</td>
-                                                <td style="font-family: inter">_______________________</td>
-                                                <td>&nbsp; &nbsp;</td>
-                                                <td></td>
+                                                <td style="border: none !important;">1. Putih - Produksi <br>
+                                                    2. Merah - QC <br>
+                                                    3. Kuning - Adm. Piutang <br>
+                                                    4. Hijau - Arsip Pemasaran</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -222,6 +216,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="container">
+        <div>Element 1</div>
+        <div>Element 2</div>
+        <div>Element 3</div>
     </div>
     <script type="text/javascript" src="{{ asset('js/Sales/CetakSP.js') }}"></script>
 @endsection
