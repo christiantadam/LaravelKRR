@@ -292,7 +292,7 @@ class SuratPesananController extends Controller
                 [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuat!');
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp[0] . ' Sudah Dibuat!');
         // echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
         // echo "<script type='text/javascript'>window.close();</script>";
     }
