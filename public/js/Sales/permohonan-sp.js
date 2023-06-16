@@ -136,7 +136,34 @@ setInputFilter(
     },
     "Must be a floating (real) number"
 );
-
+setInputFilter(
+    document.getElementById("berat_karungMeter"),
+    function (value) {
+        return /^-?\d*[.]?\d*$/.test(value);
+    },
+    "Must be a floating (real) number"
+);
+setInputFilter(
+    document.getElementById("berat_innerMeter"),
+    function (value) {
+        return /^-?\d*[.]?\d*$/.test(value);
+    },
+    "Must be a floating (real) number"
+);
+setInputFilter(
+    document.getElementById("berat_lamiMeter"),
+    function (value) {
+        return /^-?\d*[.]?\d*$/.test(value);
+    },
+    "Must be a floating (real) number"
+);
+setInputFilter(
+    document.getElementById("berat_kertasMeter"),
+    function (value) {
+        return /^-?\d*[.]?\d*$/.test(value);
+    },
+    "Must be a floating (real) number"
+);
 tgl_pesan.valueAsDate = new Date();
 tgl_po.valueAsDate = new Date();
 rencana_kirim.valueAsDate = new Date();
@@ -203,6 +230,10 @@ faktur_pjkSederhana.addEventListener("keypress", function (event) {
 berat_karungMeter.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_innerMeter.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_innerMeter.selectionStart = 0;
+        });
         berat_innerMeter.focus();
     }
 });
@@ -210,6 +241,10 @@ berat_karungMeter.addEventListener("keypress", function (event) {
 berat_innerMeter.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_lamiMeter.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_lamiMeter.selectionStart = 0;
+        });
         berat_lamiMeter.focus();
     }
 });
@@ -217,6 +252,10 @@ berat_innerMeter.addEventListener("keypress", function (event) {
 berat_lamiMeter.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_kertasMeter.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_kertasMeter.selectionStart = 0;
+        });
         berat_kertasMeter.focus();
     }
 });
@@ -231,6 +270,10 @@ berat_kertasMeter.addEventListener("keypress", function (event) {
 qty_pesan.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        harga_satuan.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            harga_satuan.selectionStart = 0;
+        });
         harga_satuan.focus();
     }
 });
@@ -252,6 +295,10 @@ satuan_jual.addEventListener("keypress", function (event) {
 rencana_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_karung.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_karung.selectionStart = 0;
+        });
         berat_karung.focus();
     }
 });
@@ -259,6 +306,10 @@ rencana_kirim.addEventListener("keypress", function (event) {
 berat_karung.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_inner.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_inner.selectionStart = 0;
+        });
         berat_inner.focus();
     }
 });
@@ -266,6 +317,10 @@ berat_karung.addEventListener("keypress", function (event) {
 berat_inner.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_lami.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_lami.selectionStart = 0;
+        });
         berat_lami.focus();
     }
 });
@@ -273,6 +328,10 @@ berat_inner.addEventListener("keypress", function (event) {
 berat_lami.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_kertas.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_kertas.selectionStart = 0;
+        });
         berat_kertas.focus();
     }
 });
@@ -280,6 +339,10 @@ berat_lami.addEventListener("keypress", function (event) {
 berat_kertas.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        index_karung.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            index_karung.selectionStart = 0;
+        });
         index_karung.focus();
     }
 });
@@ -287,6 +350,10 @@ berat_kertas.addEventListener("keypress", function (event) {
 index_karung.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        index_inner.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            index_inner.selectionStart = 0;
+        });
         index_inner.focus();
     }
 });
@@ -294,6 +361,10 @@ index_karung.addEventListener("keypress", function (event) {
 index_inner.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        index_lami.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            index_lami.selectionStart = 0;
+        });
         index_lami.focus();
     }
 });
@@ -301,6 +372,10 @@ index_inner.addEventListener("keypress", function (event) {
 index_lami.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        index_kertas.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            index_kertas.selectionStart = 0;
+        });
         index_kertas.focus();
     }
 });
@@ -308,6 +383,10 @@ index_lami.addEventListener("keypress", function (event) {
 index_kertas.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        biaya_lain.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            biaya_lain.selectionStart = 0;
+        });
         biaya_lain.focus();
     }
 });
@@ -410,6 +489,7 @@ isi_button.addEventListener("click", function (event) {
         hapus_button.style.display = "none";
         mata_uang.value = "IDR";
         tgl_pesan.focus();
+        list_noSP.disabled = true;
     } else if (proses == 1) {
         //isi
         funcDatatablesIntoInput();
@@ -509,7 +589,8 @@ edit_button.addEventListener("click", function (event) {
 hapus_button.addEventListener("click", function (event) {
     event.preventDefault();
     if (proses == 0) {
-        no_spSelect.disabled = false;no_spSelect
+        no_spSelect.disabled = false;
+        list_noSP.disabled = false;
         div_headerSuratPesanan.classList.toggle("disabled");
         div_tabelSuratPesanan.classList.toggle("disabled");
         div_detailSuratPesanan.classList.toggle("disabled");
@@ -608,31 +689,32 @@ sub_kategori.addEventListener("change", function () {
     nama_barang.focus();
     if (jenis_sp.options[jenis_sp.selectedIndex].text.trim() !== "SP EXPORT") {
         fetch("/options/namaBarang/" + subKategori)
-        .then((response) => response.json())
-        .then((options) => {
-            nama_barang.innerHTML =
-                "<option disabled selected value>-- Pilih Nama Barang --</option>";
-            options.forEach((option) => {
-                let optionTag = document.createElement("option");
-                optionTag.value = option.KD_BRG;
-                optionTag.text = option.NAMA_BRG;
-                nama_barang.appendChild(optionTag);
+            .then((response) => response.json())
+            .then((options) => {
+                nama_barang.innerHTML =
+                    "<option disabled selected value>-- Pilih Nama Barang --</option>";
+                options.forEach((option) => {
+                    let optionTag = document.createElement("option");
+                    optionTag.value = option.KD_BRG;
+                    optionTag.text = option.NAMA_BRG;
+                    nama_barang.appendChild(optionTag);
+                });
             });
-        });
-    }
-    else if (jenis_sp.options[jenis_sp.selectedIndex].text.trim() == "SP EXPORT"){
+    } else if (
+        jenis_sp.options[jenis_sp.selectedIndex].text.trim() == "SP EXPORT"
+    ) {
         fetch("/options/namaBarangExport/" + subKategori)
-        .then((response) => response.json())
-        .then((options) => {
-            nama_barang.innerHTML =
-                "<option disabled selected value>-- Pilih Nama Barang --</option>";
-            options.forEach((option) => {
-                let optionTag = document.createElement("option");
-                optionTag.value = option.KD_BRG;
-                optionTag.text = option.NAMA_BRG;
-                nama_barang.appendChild(optionTag);
+            .then((response) => response.json())
+            .then((options) => {
+                nama_barang.innerHTML =
+                    "<option disabled selected value>-- Pilih Nama Barang --</option>";
+                options.forEach((option) => {
+                    let optionTag = document.createElement("option");
+                    optionTag.value = option.KD_BRG;
+                    optionTag.text = option.NAMA_BRG;
+                    nama_barang.appendChild(optionTag);
+                });
             });
-        });
     }
 });
 
@@ -640,6 +722,10 @@ nama_barang.addEventListener("change", function () {
     let namaBarang = this.value;
     kode_barang.value = namaBarang;
     qty_pesan.focus();
+    qty_pesan.addEventListener("focus", function (event) {
+        // Set the cursor position to the start of the value
+        qty_pesan.selectionStart = 0;
+    });
     ppn.value = "EXCLUDE";
     ppn.readOnly = true;
     document.getElementById("kode_barang").readOnly = true;
@@ -786,6 +872,16 @@ no_spText.addEventListener("keypress", function (event) {
             .then((response) => response.json())
             .then((data) => {
                 // console.log(data[1].length);
+                for (let key in data[0][0]) {
+                    if (
+                        (data[0][0].hasOwnProperty(key) &&
+                            data[0][0][key] === null) ||
+                        (data[0][0].hasOwnProperty(key) &&
+                            data[0][0][key] === "null")
+                    ) {
+                        data[0][0][key] = "";
+                    }
+                }
                 funcHeaderDisabled(false);
                 no_spText.readOnly = true;
 

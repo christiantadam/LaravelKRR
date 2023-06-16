@@ -175,7 +175,7 @@ class SuratPesananController extends Controller
         $no_po = $request->no_po;
         // $no_sp = $request->no_sp;
         $tgl_po = $request->tgl_po;
-        $no_pi = $request->no_pi ?? "null";
+        $no_pi = $request->no_pi ?? null;
         $list_sales = $request->list_sales;
         $mata_uang = $request->mata_uang;
         $jenis_bayar = $request->jenis_bayar;
@@ -248,7 +248,7 @@ class SuratPesananController extends Controller
                                                     Ket = ?',
             [$jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $list_sales, $keterangan],
         );
-        // dd($no_sp);
+        // dd($no_sp[0]);
         // dd($jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $list_sales, $keterangan);
         // kemudian beralih ke maintenance detail pesanan nich...
         for ($i = 0; $i < count($bkarung); $i++) {
@@ -292,7 +292,7 @@ class SuratPesananController extends Controller
                 [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp[0] . ' Sudah Dibuat!');
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp[0]->IDSuratPesanan . ' Sudah Dibuat!');
         // echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
         // echo "<script type='text/javascript'>window.close();</script>";
     }

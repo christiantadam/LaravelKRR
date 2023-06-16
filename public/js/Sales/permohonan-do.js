@@ -137,12 +137,12 @@ min_kirim.addEventListener("keypress", function (event) {
     }
 });
 
-alamat_kirim.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        isi_button.focus();
-    }
-});
+// alamat_kirim.addEventListener("keypress", function (event) {
+//     if (event.key === "Enter") {
+//         event.preventDefault();
+//         isi_button.focus();
+//     }
+// });
 
 nomor_doSelect.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {

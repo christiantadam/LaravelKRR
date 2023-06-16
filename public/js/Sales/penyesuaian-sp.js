@@ -699,10 +699,20 @@ no_spText.addEventListener("keypress", function (event) {
         fetch("/penyesuaian/" + no_spText.value)
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
                 funcHeaderDisabled(false);
                 no_spText.readOnly = true;
 
+                for (let key in data[0][0]) {
+                    if (
+                        (data[0][0].hasOwnProperty(key) &&
+                            data[0][0][key] === null) ||
+                        (data[0][0].hasOwnProperty(key) &&
+                            data[0][0][key] === "null")
+                    ) {
+                        data[0][0][key] = "";
+                    }
+                }
+                console.log(data[0][0]);
                 // console.log(data[0][0].Tgl_Pesan.substr(0, 10));
                 tgl_pesan.value = data[0][0].Tgl_Pesan.substr(0, 10);
                 const optionJenisSp = jenis_sp.options;
@@ -857,7 +867,7 @@ add_button.addEventListener("click", function (event) {
         parseFloat(berat_standardTotalMeter.value),
         jenis_brg.value,
         "",
-        informasi_tambahan.value
+        informasi_tambahan.value,
     ];
     // Insert array into a new row
     funcInsertRow(arraydata);
