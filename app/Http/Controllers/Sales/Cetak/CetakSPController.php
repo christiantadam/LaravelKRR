@@ -16,14 +16,14 @@ class CetakSPController extends Controller
         // dd(now()->format('Y-m-d'));
         $date = now()->format('Y-m-d');
         // $date = '2023-04-03';
-        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode = ?, @Tanggal = ?', [1, $date]);
+        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode = ?, @Tanggal = ?', [3, $date]);
         // dd($nosp);
         return view('Sales.Report.CetakSP', compact('nosp'));
     }
 
     public function getSuratPesananSelect($tanggal)
     {
-        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode =?, @Tanggal =?', [1,$tanggal]);
+        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode =?, @Tanggal =?', [3,$tanggal]);
         return response()->json($nosp);
     }
 
