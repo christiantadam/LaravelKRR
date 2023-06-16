@@ -185,7 +185,7 @@ class SuratPesananController extends Controller
         $barang0 = $request->barang0; //nama barang
         $KodeBarang = $request->barang1; //kode barang
         $IdJnsBarang = $request->barang27; //jenis barang
-        $Qty = $request->barang2; //qty pesan
+        $Qty = $request->barang3; //qty pesan
         $Satuan = $request->barang4; //satuan
         $HargaSatuan = $request->barang2; //harga satuan
         $TglRencanaKirim = $request->barang5; //rencana kirim
@@ -250,7 +250,7 @@ class SuratPesananController extends Controller
         );
         // dd($no_sp);
         // dd($jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $list_sales, $keterangan);
-        //kemudian beralih ke maintenance detail pesanan nich...
+        // kemudian beralih ke maintenance detail pesanan nich...
         for ($i = 0; $i < count($bkarung); $i++) {
             // dd(count($bkarung));
             DB::connection('ConnSales')->statement(
@@ -278,7 +278,7 @@ class SuratPesananController extends Controller
             @htotal = ?',
                 [$kode, $no_sp[0]->IDSuratPesanan, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
             );
-            //Simpan BS bukan Bullshit tapi Berat Standard
+            //Simpan BS Berat Standard
             // dd($KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user);
             DB::connection('ConnPurchase')->statement(
                 'exec SP_5409_SLS_UPDATE_BS
