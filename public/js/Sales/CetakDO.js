@@ -76,95 +76,97 @@ print_button.addEventListener("click", function (event) {
                         ).toFixed(3);
 
                         body_deliveryOrderBelumACC.innerHTML = `
-                        <div class="cetak-dopdf-container03">
-                            <div style=width:100%>
-                                <table style="text-align: start">
-                                    <tr>
-                                        <td>Pelanggan: </td>
-                                        <td id="nama_customerKolom">${
-                                            option.NamaCust
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="white-space: nowrap;vertical-align:top">Alamat Kirim: </td>
-                                        <td id="alamat_kirimKolom">${
-                                            option.AlamatKirim
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>No. SP: </td>
-                                        <td id="no_spKolom">${
-                                            option.IDSuratPesanan
-                                        }</td>
-                                    </tr>
-                                    <tr>
-                                        <td>No. PO: </td>
-                                        <td id="no_poKolom">${option.NO_PO}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="white-space: nowrap;vertical-align:top">Alamat Kantor: </td>
-                                        <td id="keterangan_kolom">${
-                                            option.AlamatKirim
-                                        }</td>
-                                    </tr>
-                                </table>
+                        <div class="acs-dopdf-container03">
+                            <div class="cetak-dopdf-container03">
+                                <div style=width:100%>
+                                    <table style="text-align: start">
+                                        <tr>
+                                            <td>Pelanggan: </td>
+                                            <td id="nama_customerKolom">${
+                                                option.NamaCust
+                                            }</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="white-space: nowrap;vertical-align:top">Alamat Kirim: </td>
+                                            <td id="alamat_kirimKolom">${
+                                                option.AlamatKirim
+                                            }</td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. SP: </td>
+                                            <td id="no_spKolom">${
+                                                option.IDSuratPesanan
+                                            }</td>
+                                        </tr>
+                                        <tr>
+                                            <td>No. PO: </td>
+                                            <td id="no_poKolom">${option.NO_PO}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="white-space: nowrap;vertical-align:top">Alamat Kantor: </td>
+                                            <td id="keterangan_kolom">${
+                                                option.AlamatKirim
+                                            }</td>
+                                        </tr>
+                                    </table>
 
+                                </div>
+                                <div class="cetak-dopdf-container04">
+                                    <table>
+                                        <tr>
+                                            <td style="vertical-align: top;">Spesifikasi:&nbsp;</td>
+                                            <td style="max-width: 200px"><span id="nama_kelompokKolom">Ukuran: ${
+                                                option.NamaKelompok
+                                            }</span> <br> <span
+                                                    id="nama_barangKolom">${
+                                                        option.NamaBarang
+                                                    }</span></td>
+                                            <td></td>
+                                            <td style="vertical-align: top">Corak</td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td style="vertical-align: top">Jumlah:&nbsp;</td>
+                                            <td>Min: </td>
+                                            <td id="min_kirimKolom">${
+                                                option.MinKirimDO
+                                            }&nbsp;</td>
+                                            <td>${option.SatuanJual.trim()}&nbsp;</td>
+                                            <td>Max:&nbsp;</td>
+                                            <td id="max_kirimKolom">${
+                                                option.MaxKirimDO
+                                            }</td>
+                                            <td>${option.SatuanJual.trim()}&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td id="min_kirimSekunderKolom">${min_kirimSekunderValue}&nbsp;</td>
+                                            <td>${option.SatuanTritier.trim()}&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="white-space: nowrap">Jenis Customer:&nbsp;</td>
+                                            <td>${option.JnsCust}</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="cetak-dopdf-container04">
-                                <table>
-                                    <tr>
-                                        <td style="vertical-align: top;">Spesifikasi:&nbsp;</td>
-                                        <td style="max-width: 200px"><span id="nama_kelompokKolom">Ukuran: ${
-                                            option.NamaKelompok
-                                        }</span> <br> <span
-                                                id="nama_barangKolom">${
-                                                    option.NamaBarang
-                                                }</span></td>
-                                        <td></td>
-                                        <td style="vertical-align: top">Corak</td>
-                                    </tr>
-                                </table>
-                                <table>
-                                    <tr>
-                                        <td style="vertical-align: top">Jumlah:&nbsp;</td>
-                                        <td>Min: </td>
-                                        <td id="min_kirimKolom">${
-                                            option.MinKirimDO
-                                        }&nbsp;</td>
-                                        <td>${option.SatuanJual}&nbsp;</td>
-                                        <td>Max:&nbsp;</td>
-                                        <td id="max_kirimKolom">${
-                                            option.MaxKirimDO
-                                        }</td>
-                                        <td>${option.SatuanJual}&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td id="min_kirimSekunderKolom">${min_kirimSekunderValue}&nbsp;</td>
-                                        <td>${option.SatuanTritier}&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="white-space: nowrap">Jenis Customer:&nbsp;</td>
-                                        <td>${option.JnsCust}</td>
-                                    </tr>
-                                </table>
-                            </div>
+                            <div style="display:flex; flex-direction:row;margin:3px;gap:5px">
+                                        <p>
+                                            Keterangan:
+                                        </p>
+                                        <p style="text-align:justify">
+                                            ${option.AlamatKirimDO}
+                                        </p>
+                                </div>
+                                <span style="margin-right: 5px;display:flex;justify-content:right;">${
+                                    index + 1
+                                }</span>
                         </div>
-                        <div style="display:flex; flex-direction:row;margin:3px;gap:5px">
-                                    <p>
-                                        Keterangan:
-                                    </p>
-                                    <p style="text-align:justify">
-                                        ${option.AlamatKirimDO}
-                                    </p>
-                        </div>
-                        <span style="margin-right: 5px;display:flex;flex-direction:row-reverse;">${
-                            index + 1
-                        }</span>
                         `;
                         div_cetakDOBelumACC.appendChild(
                             body_deliveryOrderBelumACC

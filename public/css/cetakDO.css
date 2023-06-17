@@ -55,7 +55,7 @@ table tr td:first-child {
 
 @media print {
     .page-header-space {
-        height: 140px;
+        height: 150px;
     }
     .hollow-font {
         font-size: 27px;
@@ -96,9 +96,9 @@ table tr td:first-child {
         background-color: #f2f2f2;
         position: fixed;
     }
-    .cetak-dopdf-container03 {
+    .acs-dopdf-container03{
         page-break-inside: avoid;
-        min-height: 150px;
+        /* min-height: 150px; */
         overflow: hidden;
     }
 }

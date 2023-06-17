@@ -31,6 +31,12 @@
     flex-direction: row;
     align-items: flex-start;
 }
+.acs-dopdf-container{
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction:column;
+    align-items: flex-start;
+}
 .cetak-dopdf-container04{
     flex: 0 0 auto;
     display: flex;
