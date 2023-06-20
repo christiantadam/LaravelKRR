@@ -229,6 +229,10 @@ satuan_jual.addEventListener("keypress", function (event) {
 rencana_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_karung.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_karung.selectionStart = 0;
+        });
         berat_karung.focus();
     }
 });
@@ -236,6 +240,10 @@ rencana_kirim.addEventListener("keypress", function (event) {
 berat_karung.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_inner.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_inner.selectionStart = 0;
+        });
         berat_inner.focus();
     }
 });
@@ -243,6 +251,10 @@ berat_karung.addEventListener("keypress", function (event) {
 berat_inner.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_lami.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_lami.selectionStart = 0;
+        });
         berat_lami.focus();
     }
 });
@@ -250,6 +262,10 @@ berat_inner.addEventListener("keypress", function (event) {
 berat_lami.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_kertas.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_kertas.selectionStart = 0;
+        });
         berat_kertas.focus();
     }
 });
@@ -257,6 +273,10 @@ berat_lami.addEventListener("keypress", function (event) {
 berat_kertas.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        index_karung.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            index_karung.selectionStart = 0;
+        });
         index_karung.focus();
     }
 });
@@ -264,6 +284,10 @@ berat_kertas.addEventListener("keypress", function (event) {
 index_karung.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        index_inner.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            index_inner.selectionStart = 0;
+        });
         index_inner.focus();
     }
 });
@@ -271,6 +295,10 @@ index_karung.addEventListener("keypress", function (event) {
 index_inner.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        index_lami.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            index_lami.selectionStart = 0;
+        });
         index_lami.focus();
     }
 });
@@ -278,6 +306,10 @@ index_inner.addEventListener("keypress", function (event) {
 index_lami.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        index_kertas.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            index_kertas.selectionStart = 0;
+        });
         index_kertas.focus();
     }
 });
@@ -285,6 +317,10 @@ index_lami.addEventListener("keypress", function (event) {
 index_kertas.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        biaya_lain.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            biaya_lain.selectionStart = 0;
+        });
         biaya_lain.focus();
     }
 });
@@ -313,6 +349,10 @@ berat_indexLami.addEventListener("keypress", function (event) {
 berat_indexKertas.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        biaya_lain.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            biaya_lain.selectionStart = 0;
+        });
         biaya_lain.focus();
     }
 });
@@ -327,6 +367,10 @@ biaya_lain.addEventListener("keypress", function (event) {
 berat_karungMeter.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_innerMeter.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_innerMeter.selectionStart = 0;
+        });
         berat_innerMeter.focus();
     }
 });
@@ -334,6 +378,10 @@ berat_karungMeter.addEventListener("keypress", function (event) {
 berat_innerMeter.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_lamiMeter.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_lamiMeter.selectionStart = 0;
+        });
         berat_lamiMeter.focus();
     }
 });
@@ -341,6 +389,10 @@ berat_innerMeter.addEventListener("keypress", function (event) {
 berat_lamiMeter.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        berat_kertasMeter.addEventListener("focus", function (event) {
+            // Set the cursor position to the start of the value
+            berat_kertasMeter.selectionStart = 0;
+        });
         berat_kertasMeter.focus();
     }
 });
