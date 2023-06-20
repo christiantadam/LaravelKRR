@@ -235,21 +235,40 @@ class SuratPesananController extends Controller
             [$kode, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk],
         );
         //kita cari nomor SP yang baru saja dibuat..
-        $no_sp = DB::connection('ConnSales')->select(
-            'Select IDSuratPesanan
-                                                    from T_HeaderPesanan
-                                                    where IDJnsSuratPesanan = ? and
-                                                    Tgl_Pesan = ? and
-                                                    IDCust = ? and
-                                                    NO_PO = ? and
-                                                    Tgl_PO = ? and
-                                                    NO_PI = ? and
-                                                    IDSales = ? and
-                                                    Ket = ?',
-            [$jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $list_sales, $keterangan],
-        );
-        // dd($no_sp[0]);
-        // dd($jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $list_sales, $keterangan);
+        // dd($no_pi == null);
+        if ($no_pi == null) {
+            $no_sp = DB::connection('ConnSales')->select(
+                'Select IDSuratPesanan
+                                                        from T_HeaderPesanan
+                                                        where IDJnsSuratPesanan = ? and
+                                                        Tgl_Pesan = ? and
+                                                        IDCust = ? and
+                                                        NO_PI IS NULL and
+                                                        NO_PO = ? and
+                                                        Tgl_PO = ? and
+                                                        IDSales = ? and
+                                                        Ket = ?',
+                [$jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $list_sales, $keterangan],
+            );
+        }
+        elseif ($no_pi !== null) {
+            $no_sp = DB::connection('ConnSales')->select(
+                'Select IDSuratPesanan
+                                                        from T_HeaderPesanan
+                                                        where IDJnsSuratPesanan = ? and
+                                                        Tgl_Pesan = ? and
+                                                        IDCust = ? and
+                                                        NO_PI = ? and
+                                                        NO_PO = ? and
+                                                        Tgl_PO = ? and
+                                                        IDSales = ? and
+                                                        Ket = ?',
+                [$jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan],
+            );
+        }
+
+        // dd($no_sp);
+        // dd($kode, $no_sp, $KodeBarang, $IdJnsBarang, $Qty, $Satuan, $HargaSatuan, 0.0, $UraianPesanan ?? null, $TglRencanaKirim, $Lunas ?? null, $ppn, $ikarung, $hkarung, $iinner, $hinner, $ilami, $hlami, $ikertas, $hkertas, $hlain, $htotal);
         // kemudian beralih ke maintenance detail pesanan nich...
         for ($i = 0; $i < count($bkarung); $i++) {
             // dd(count($bkarung));
