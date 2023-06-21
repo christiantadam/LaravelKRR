@@ -71,9 +71,14 @@ print_button.addEventListener("click", function (event) {
                         body_deliveryOrderBelumACC.classList.add(
                             "cetak-dopdf-container05"
                         );
-                        min_kirimSekunderValue = (
-                            option.BERAT_TOTAL * option.MinKirimDO
-                        ).toFixed(3);
+                        if (option.SatuanJual.trim() == "KGM") {
+                            min_kirimSekunderValue =
+                                option.MinKirimDO.toFixed(3);
+                        } else if (option.SatuanJual.trim() !== "KGM") {
+                            min_kirimSekunderValue = (
+                                option.BERAT_TOTAL * option.MinKirimDO
+                            ).toFixed(3);
+                        }
 
                         body_deliveryOrderBelumACC.innerHTML = `
                         <div class="acs-dopdf-container03">
@@ -100,7 +105,9 @@ print_button.addEventListener("click", function (event) {
                                         </tr>
                                         <tr>
                                             <td>No. PO: </td>
-                                            <td id="no_poKolom">${option.NO_PO}</td>
+                                            <td id="no_poKolom">${
+                                                option.NO_PO
+                                            }</td>
                                         </tr>
                                         <tr>
                                             <td style="white-space: nowrap;vertical-align:top">Alamat Kantor: </td>
