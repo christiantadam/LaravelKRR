@@ -90,9 +90,9 @@ setInputFilter(
 setInputFilter(
     document.getElementById("harga_satuan"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("syarat_bayar"),
