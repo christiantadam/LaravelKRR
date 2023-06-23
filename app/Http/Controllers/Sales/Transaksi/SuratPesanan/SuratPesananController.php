@@ -172,10 +172,10 @@ class SuratPesananController extends Controller
         $tgl_pesan = $request->tgl_pesan;
         $jenis_sp = $request->jenis_sp;
         $IdCust = $request->list_customer;
-        $no_po = $request->no_po;
+        $no_po = $request->no_po ?? "";
         // $no_sp = $request->no_sp;
         $tgl_po = $request->tgl_po;
-        $no_pi = $request->no_pi ?? null;
+        $no_pi = $request->no_pi ?? "";
         $list_sales = $request->list_sales;
         $mata_uang = $request->mata_uang;
         $jenis_bayar = $request->jenis_bayar;
@@ -236,22 +236,22 @@ class SuratPesananController extends Controller
         );
         //kita cari nomor SP yang baru saja dibuat..
         // dd($no_pi == null);
-        if ($no_pi == null) {
-            $no_sp = DB::connection('ConnSales')->select(
-                'Select IDSuratPesanan
-                                                        from T_HeaderPesanan
-                                                        where IDJnsSuratPesanan = ? and
-                                                        Tgl_Pesan = ? and
-                                                        IDCust = ? and
-                                                        NO_PI IS NULL and
-                                                        NO_PO = ? and
-                                                        Tgl_PO = ? and
-                                                        IDSales = ? and
-                                                        Ket = ?',
-                [$jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $list_sales, $keterangan],
-            );
-        }
-        elseif ($no_pi !== null) {
+        // if ($no_pi == null) {
+        //     $no_sp = DB::connection('ConnSales')->select(
+        //         'Select IDSuratPesanan
+        //                                                 from T_HeaderPesanan
+        //                                                 where IDJnsSuratPesanan = ? and
+        //                                                 Tgl_Pesan = ? and
+        //                                                 IDCust = ? and
+        //                                                 NO_PI IS NULL and
+        //                                                 NO_PO = ? and
+        //                                                 Tgl_PO = ? and
+        //                                                 IDSales = ? and
+        //                                                 Ket = ?',
+        //         [$jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $list_sales, $keterangan],
+        //     );
+        // }
+        // elseif ($no_pi !== null) {
             $no_sp = DB::connection('ConnSales')->select(
                 'Select IDSuratPesanan
                                                         from T_HeaderPesanan
@@ -265,7 +265,7 @@ class SuratPesananController extends Controller
                                                         Ket = ?',
                 [$jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan],
             );
-        }
+        // }
 
         // dd($no_sp);
         // dd($kode, $no_sp, $KodeBarang, $IdJnsBarang, $Qty, $Satuan, $HargaSatuan, 0.0, $UraianPesanan ?? null, $TglRencanaKirim, $Lunas ?? null, $ppn, $ikarung, $hkarung, $iinner, $hinner, $ilami, $hlami, $ikertas, $hkertas, $hlain, $htotal);
