@@ -191,7 +191,10 @@ print_button.addEventListener("click", function (event) {
                     data[0].TglRencanaKirim
                 );
                 syarat_bayarKolom.innerHTML = data[0].SyaratBayar + " Hari";
-                keterangan_kolom.innerHTML = data[0].Ket;
+                let ket = data[0].Ket; // Get the value of "Ket" from the array
+                let ketWithLineBreaks = ket.replace(/\r\n/g, " <br> "); // Replace '\r\n' with '<br>'
+
+                keterangan_kolom.innerHTML = ketWithLineBreaks;
                 nama_salesKolom.innerHTML = data[0].NamaSales;
             });
     }

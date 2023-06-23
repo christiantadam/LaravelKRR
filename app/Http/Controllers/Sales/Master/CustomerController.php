@@ -17,7 +17,7 @@ class CustomerController extends Controller
     {
         //get all customer from models
         $data = Customer::get()->where('IsActive', 1);
-        // dd($data);
+        // dd($data->all());
         //return data to view
         return view('Sales.Master.Customer.Index', compact('data'));
     }

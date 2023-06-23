@@ -143,13 +143,13 @@
                                             <td id="syarat_bayarKolom"></td>
                                         </tr>
                                         <tr>
-                                            <td style="white-space: nowrap;">Rencana Kirim</td>
-                                            <td>:</td>
-                                            <td id="rencana_kirimKolom"></td>
+                                            <td style="white-space: nowrap;vertical-align:top;">Rencana Kirim</td>
+                                            <td style="vertical-align:top;">:</td>
+                                            <td style="white-space: nowrap;vertical-align:top;" id="rencana_kirimKolom"></td>
                                             <td>&nbsp;</td>
                                             <td>&nbsp;</td>
-                                            <td>Keterangan</td>
-                                            <td>:</td>
+                                            <td style="vertical-align:top;">Keterangan</td>
+                                            <td style="vertical-align:top;">:</td>
                                             <td id="keterangan_kolom">
                                             </td>
                                         </tr>

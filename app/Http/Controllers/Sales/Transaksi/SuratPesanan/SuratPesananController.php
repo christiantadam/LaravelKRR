@@ -251,9 +251,9 @@ class SuratPesananController extends Controller
         //         [$jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $list_sales, $keterangan],
         //     );
         // }
-        // elseif ($no_pi !== null) {
-            $no_sp = DB::connection('ConnSales')->select(
-                'Select IDSuratPesanan
+        // elseif ($no_pi !== null ) {
+        $no_sp = DB::connection('ConnSales')->select(
+            'Select IDSuratPesanan
                                                         from T_HeaderPesanan
                                                         where IDJnsSuratPesanan = ? and
                                                         Tgl_Pesan = ? and
@@ -263,8 +263,8 @@ class SuratPesananController extends Controller
                                                         Tgl_PO = ? and
                                                         IDSales = ? and
                                                         Ket = ?',
-                [$jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan],
-            );
+            [$jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan],
+        );
         // }
 
         // dd($no_sp);
