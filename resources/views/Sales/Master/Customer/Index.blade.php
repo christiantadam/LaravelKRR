@@ -38,7 +38,7 @@
                                 <tr>
                                     <th>IdCustomer</th>
                                     <th>Nama Customer </th>
-                                    <th>Kota</th>
+                                    <th>Kota Kirim</th>
                                     <th>Negara</th>
                                     <th>Action</th>
                                 </tr>
@@ -49,7 +49,7 @@
                                         <td class="RDZPaddingTable RDZCenterTable"><a class="DetailCustomer"
                                                 data-id="{{ $item->IDCust }}">{{ $item['IDCust'] }}</a> </td>
                                         <td class="RDZPaddingTable RDZCenterTable">{{ $item['NamaCust'] . " (" . $item['AlamatKirim'] . ")"}} </td>
-                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item['Kota'] }}</td>
+                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item['KotaKirim'] }}</td>
                                         <td class="RDZPaddingTable RDZCenterTable">{{ $item['Negara'] }}</td>
                                         <td class="acs-td-button"><button class="btn btn-sm btn-primary"
                                                 onclick="openNewWindow('{{ url('Customer/' . $item->IDCust . '/edit') }}')"
