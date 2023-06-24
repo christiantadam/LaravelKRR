@@ -76,7 +76,8 @@ print_button.addEventListener("click", function (event) {
                                 option.MinKirimDO.toFixed(3);
                         } else if (option.SatuanJual.trim() !== "KGM") {
                             min_kirimSekunderValue = (
-                                option.BERAT_TOTAL * option.MinKirimDO
+                                (option.BERAT_TOTAL * option.MinKirimDO) /
+                                1000
                             ).toFixed(3);
                         }
 
