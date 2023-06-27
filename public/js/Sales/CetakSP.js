@@ -152,7 +152,7 @@ print_button.addEventListener("click", function (event) {
                         {
                             data: null,
                             render: function (data, type, row) {
-                                return row.JmlOrder + " " + row.Satuan;
+                                return formatangka(parseInt(row.JmlOrder)) + " " + row.Satuan;
                             },
                         },
                     ],
@@ -165,26 +165,6 @@ print_button.addEventListener("click", function (event) {
                 });
                 // });
                 // table_sp.draw();
-                for (let i = 0; i < data.length; i++) {
-                    // array_sp.push(
-                    //     i + 1,
-                    //     data[i].JnsBarang,
-                    //     "<b>" +
-                    //         data[i].JnsBarang +
-                    //         "</b><br>" +
-                    //         data[i].NamaType,
-                    //     data[i].JmlOrder + " " + data[i].Satuan
-                    // );
-                    // nomor_barangKolom.innerHTML = i + 1;
-                    // nama_barangKolom.innerHTML =
-                    //     "<b>" +
-                    //     data[i].JnsBarang +
-                    //     "</b><br>" +
-                    //     data[i].NamaType;
-                    // kode_barangKolom.innerHTML = data[i].KodeBarang;
-                    // quantity_barangKolom.innerHTML =
-                    //     data[i].JmlOrder + " " + data[i].Satuan;
-                }
                 // console.log(array_sp);
                 jenis_bayarKolom.innerHTML = data[0].NamaPembayaran;
                 rencana_kirimKolom.innerHTML = formatDateToMMDDYYYY(
@@ -224,5 +204,22 @@ function formatDateToMMDDYYYY(dateString) {
     var formatted_date = month + "-" + day + "-" + year;
     return formatted_date;
 }
+
+function formatangka(objek) {
+    console.log(objek);
+    a = objek.toString().replace(/[^\d]/g, "");
+    c = "";
+    panjang = a.length;
+    j = 0;
+    for (i = panjang; i > 0; i--) {
+      j = j + 1;
+      if (((j % 3) == 1) && (j != 1)) {
+        c = a.substr(i - 1, 1) + "." + c;
+      } else {
+        c = a.substr(i - 1, 1) + c;
+      }
+    }
+    return c;
+  }
 
 //#endregion

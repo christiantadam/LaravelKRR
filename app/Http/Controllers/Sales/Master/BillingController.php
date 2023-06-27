@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Sales\Billing;
 use App\Http\Controllers\Controller;
 use DB;
-
+use App\Http\Controllers\HakAksesController;
 
 class BillingController extends Controller
 {
@@ -16,15 +16,16 @@ class BillingController extends Controller
     public function index()
     {
         $data = Billing::get()->where('IsActive', 1);
-
-        return view('Sales.Master.Billing.Index', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster();
+        return view('Sales.Master.Billing.Index', compact('data', 'access'));
     }
 
     //Show the form for creating a new resource.
     public function create()
     {
         $model = new Billing;
-        return view('Sales.Master.Billing.Create', compact('model'));
+        $access = (new HakAksesController)->HakAksesFiturMaster();
+        return view('Sales.Master.Billing.Create', compact('model','access'));
     }
 
     //Store a newly created resource in storage.
@@ -91,15 +92,16 @@ class BillingController extends Controller
     public function show($id)
     {
         $data = Billing::select('*')->where('IDBill', $id)->first();
-
-        return compact('data');
+        $access = (new HakAksesController)->HakAksesFiturMaster();
+        return compact('data','access');
     }
 
     //Show the form for editing the specified resource.
     public function edit($id)
     {
         $model = Billing::find($id);
-        return view('Sales.Master.Billing.edit', compact('model'));
+        $access = (new HakAksesController)->HakAksesFiturMaster();
+        return view('Sales.Master.Billing.edit', compact('model','access'));
     }
 
     //Update the specified resource in storage.

@@ -68,7 +68,27 @@
                     <!-- Left Side Of Navbar -->
                     @guest
                     @else
-                        <ul class="navbar-nav mr-auto RDZNavContenCenter">
+                        @foreach ($access['AccessMenu'] as $menuItem)
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
+                                    {{ $menuItem->NamaMenu }}
+                                </a>
+                                {{-- <a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
+                                    href="#">{{ $menuItem->NamaMenu }}</a> --}}
+                                <ul class="dropdown-menu">
+                                    @foreach ($access['AccessFitur'] as $subMenuItem)
+                                        @if ($subMenuItem->Id_Menu == $menuItem->IdMenu)
+                                            <li>
+                                                <a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                                    tabindex="-1" href="{{ url($subMenuItem->NamaFitur) }}">{{ $subMenuItem->NamaFitur }}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endforeach
+                        {{-- <ul class="navbar-nav mr-auto RDZNavContenCenter">
                             <div class="dropdown">
                                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false" style="margin: 10px">
@@ -137,19 +157,8 @@
                                             <hr style="height:2px;">
                                             <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
                                                     tabindex="-1" href="{{ url('PascaKirim') }}">Pasca Kirim</a></li>
-                                            {{-- <hr style="height: 2px;"> --}}
                                         </ul>
                                     </li>
-
-                                    {{-- <li><a class="test"style="margin: 10px;color: black;font-size: 15px;display: block"
-                                            tabindex="-1" href="#">Retur &raquo;</a>
-                                        <ul class="dropdown-menu dropdown-submenu">
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
-                                                    tabindex="-1" href="#">Mohon Retur</a></li>
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
-                                                    tabindex="-1" href="#">ACC Retur</a></li>
-                                        </ul>
-                                    </li> --}}
                                 </ul>
                             </div>
                             <div class="dropdown">
@@ -164,8 +173,6 @@
                                             href=" {{ url('CetakDO') }}">Cetak DO</a></li>
                                     <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
                                             href=" {{ url('CetakSJ') }}">Cetak SJ</a></li>
-                                    {{-- <li><a style="margin: 10px;color: black;font-size: 15px;display: block" tabindex="-1"
-                                            href="#">Cetak BonKas</a></li> --}}
                                 </ul>
                             </div>
                             <div class="dropdown">
@@ -208,24 +215,7 @@
                                             href="{{ url('AccPenjualanCloth') }}">Acc Penjualan Cloth</a></li>
                                 </ul>
                             </div>
-                            {{-- <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                        style="margin: 10px">
-                                        Penjualan
-                                    </button>
-                                    <div class="btn-group dropright">
-                                        <button type="button" class="btn btn-secondary dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Dropright
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <li style="margin: 10px;"><a style="color: black;font-size: 15px;display: block"
-                                                    href="/sales">ACC Pengiriman</a></li>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                        </ul>
+                        </ul> --}}
                     @endguest
                     <!-- Right Side Of Navbar -->
 
@@ -252,8 +242,7 @@
                                     </form>
                                 </div>
                             </li> --}}
-                            <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;"
-                                class="NameWindows">
+                            <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
                                 <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label
                                         id="greeting1"></label>,
                                     {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}

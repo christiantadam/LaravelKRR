@@ -27,43 +27,37 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $AccessProgram=DB::connection('ConnEDP')->table('User_Fitur')->select('NamaProgram')->join('FiturMaster','Id_Fitur','IdFitur')->join('MenuMaster','Id_Menu','IdMenu')->join('ProgramMaster','Id_Program','IdProgram')->groupBy('NamaProgram')->where('Id_User',Auth::user()->IDUser)->get();
+        // $AccessProgram=DB::connection('ConnEDP')->table('User_Fitur')->select('NamaProgram')->join('FiturMaster','Id_Fitur','IdFitur')->join('ProgramMaster','Id_Program','IdProgram')->groupBy('NamaProgram')->where('Id_User',Auth::user()->IDUser)->get();
+        $AccessProgram = DB::connection('ConnEDP')->table('User_Fitur')->select('NamaProgram')->join('FiturMaster', 'Id_Fitur', 'IdFitur')->join('MenuMaster', 'Id_Menu', 'IdMenu')->join('ProgramMaster', 'Id_Program', 'IdProgram')->groupBy('NamaProgram')->where('Id_User', Auth::user()->IDUser)->get();
         //dd($AccessProgram);
-        return view('home',compact('AccessProgram'));
+        return view('home', compact('AccessProgram'));
     }
     public function Sales()
     {
         $result = (new HakAksesController)->HakAksesProgram('Sales');
-        if($result>0)
-        {
-            return view('layouts.appSales');
-        }
-        else
-        {
+        $access = (new HakAksesController)->HakAksesFiturMaster();
+        if ($result > 0) {
+            // dd($access['AccessMenu']);
+            return view('layouts.appSales', compact('access'));
+        } else {
             abort(404);
         }
     }
     public function Beli()
     {
         $result = (new HakAksesController)->HakAksesProgram('Beli');
-        if($result>0)
-        {
+        if ($result > 0) {
             return view('layouts.appOrderPembelian');
-        }
-        else
-        {
+        } else {
             abort(404);
         }
     }
     public function EDP()
     {
         $result = (new HakAksesController)->HakAksesProgram('EDP');
-        if($result>0)
-        {
+        if ($result > 0) {
             return view('layouts.appEDP');
-        }
-        else
-        {
+        } else {
             abort(404);
         }
     }
