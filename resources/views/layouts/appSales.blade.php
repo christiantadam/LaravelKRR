@@ -265,6 +265,30 @@
                 </div>
             </div>
         </nav>
+        {{-- <nav>
+            <ul class="navbar">
+              <li><a href="#">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropbtn">Services</a>
+                <div class="dropdown-content">
+                  <a href="#">Service 1</a>
+                  <a href="#">Service 2</a>
+                  <a href="#">Service 3</a>
+                </div>
+              </li>
+              <li><a href="#">About</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropbtn">Products</a>
+                <div class="dropdown-content">
+                  <a href="#">Product 1</a>
+                  <a href="#">Product 2</a>
+                  <a href="#">Product 3</a>
+                </div>
+              </li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </nav> --}}
+
 
         <main class="py-4">
             @yield('content')
@@ -280,5 +304,50 @@
         });
     </script>
 </body>
+{{-- <style>
+    .navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+  display: flex;
+}
 
+.navbar li {
+  float: left;
+}
+
+.navbar li a {
+  display: block;
+  color: #333;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar li a:hover {
+  background-color: #ddd;
+}
+
+/* Dropdown menu styles */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style> --}}
 </html>
