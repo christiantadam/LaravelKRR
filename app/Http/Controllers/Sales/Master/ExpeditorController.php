@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Sales\Expeditor;
 use DB;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HakAksesController;
 
 class ExpeditorController extends Controller
 {
@@ -16,9 +17,9 @@ class ExpeditorController extends Controller
     {
         //get all data active expeditor
         $data = Expeditor::get()->where('IsActive', 1);
-
+        $access = (new HakAksesController)->HakAksesFiturMaster();
         // return to view
-        return view('Sales.Master.Expeditor.Index', compact('data'));
+        return view('Sales.Master.Expeditor.Index', compact('data','access'));
     }
 
     //Show the form for creating a new resource.
@@ -104,7 +105,8 @@ class ExpeditorController extends Controller
     public function edit($id)
     {
         $model = Expeditor::find($id);
-        return view('Sales.Master.Expeditor.edit', compact('model'));
+        $access = (new HakAksesController)->HakAksesFiturMaster();
+        return view('Sales.Master.Expeditor.edit', compact('model','access'));
     }
 
     //Update the specified resource in storage.

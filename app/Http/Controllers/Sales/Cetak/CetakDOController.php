@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 use PDF;
 
@@ -14,7 +15,8 @@ class CetakDOController extends Controller
     //Display a listing of the resource.
     public function index()
     {
-        return view('Sales.Report.CetakDO');
+        $access = (new HakAksesController)->HakAksesFiturMaster();
+        return view('Sales.Report.CetakDO', compact('access'));
     }
 
     public function getDeliveryOrderSudahACC($tanggal)

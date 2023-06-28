@@ -356,6 +356,7 @@ table tr:last-child td:last-child {
 .dropdown-item:hover {
     cursor: pointer;
     user-select: none;
+    text-decoration: none;
 }
 
 .dropdown-menu li {
@@ -376,6 +377,7 @@ table tr:last-child td:last-child {
 
 .dropdown-menu > li:hover > .dropdown-submenu {
     display: block;
+    text-decoration: none;
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */

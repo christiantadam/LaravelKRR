@@ -7,6 +7,7 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Sales\Customer;
 use App\Models\JnsCust;
+use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
@@ -17,9 +18,10 @@ class CustomerController extends Controller
     {
         //get all customer from models
         $data = Customer::get()->where('IsActive', 1);
+        $access = (new HakAksesController)->HakAksesFiturMaster();
         // dd($data->all());
         //return data to view
-        return view('Sales.Master.Customer.Index', compact('data'));
+        return view('Sales.Master.Customer.Index', compact('data','access'));
     }
 
     // Show the form for creating a new resource.
@@ -27,8 +29,9 @@ class CustomerController extends Controller
     {
         $model = new Customer;
         $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
+        $access = (new HakAksesController)->HakAksesFiturMaster();
         // dd($jnscust);
-        return view('Sales.Master.Customer.Create', compact('model', 'jnscust'));
+        return view('Sales.Master.Customer.Create', compact('model', 'jnscust','access'));
     }
 
     // Store a newly created resource in storage.
@@ -127,7 +130,8 @@ class CustomerController extends Controller
         // $jnscust = JnsCust::get();
         // dd($model);
         $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
-        return view('Sales.Master.Customer.edit', compact('model', 'jnscust'));
+        $access = (new HakAksesController)->HakAksesFiturMaster();
+        return view('Sales.Master.Customer.edit', compact('model', 'jnscust','access'));
     }
 
     // Update the specified resource in storage.

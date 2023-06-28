@@ -38,6 +38,7 @@ class HomeController extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster();
         if ($result > 0) {
             // dd($access['AccessMenu']);
+            // dd($access);
             return view('layouts.appSales', compact('access'));
         } else {
             abort(404);
