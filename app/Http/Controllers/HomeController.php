@@ -35,7 +35,7 @@ class HomeController extends Controller
     public function Sales()
     {
         $result = (new HakAksesController)->HakAksesProgram('Sales');
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         if ($result > 0) {
             // dd($access['AccessMenu']);
             // dd($access);
@@ -47,8 +47,9 @@ class HomeController extends Controller
     public function Beli()
     {
         $result = (new HakAksesController)->HakAksesProgram('Beli');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         if ($result > 0) {
-            return view('layouts.appOrderPembelian');
+            return view('layouts.appOrderPembelian', compact('access'));
         } else {
             abort(404);
         }
