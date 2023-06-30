@@ -57,8 +57,9 @@ class HomeController extends Controller
     public function EDP()
     {
         $result = (new HakAksesController)->HakAksesProgram('EDP');
+        $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
         if ($result > 0) {
-            return view('layouts.appEDP');
+            return view('layouts.appEDP', compact('access'));
         } else {
             abort(404);
         }

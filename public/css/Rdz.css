@@ -367,7 +367,7 @@ table tr:last-child td:last-child {
     display: none;
     position: absolute;
     left: 100%;
-    top: -7px;
+    top: -10px;
 }
 
 .dropdown-menu .dropdown-submenu-left {
@@ -428,7 +428,10 @@ table tr:last-child td:last-child {
 .acs-home-textinput1 {
     align-self: flex-start;
 }
-
+#dropdownMenuButton:focus,
+#dropdownMenuButton:hover{
+    background-color: #f1f1f1;
+}
 /*CSS STYLE*/
 :root {
     --dl-color-gray-500: #595959;

@@ -24,7 +24,6 @@
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
 
-
     <script src="{{ asset('js/User.js') }}"></script>
 
     <!-- Fonts -->
@@ -92,12 +91,12 @@
                                         @php
                                             $printSecond = 1;
                                         @endphp
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="cursor: default;">
                                             <li>
-                                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                <a class="" type="button" id="dropdownMenuButton"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                    style="margin: 10px">
-                                                    {{ $secondMenuItem->NamaMenu }}
+                                                    style="margin: 10px;cursor: default;">
+                                                    {{ $secondMenuItem->NamaMenu }}  &raquo;
                                                 </a>
                                     @endif
                                     @if ($printSecond == 1)
@@ -105,7 +104,7 @@
                                             @foreach ($access['AccessFitur'] as $secondSubMenuItem)
                                                 @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
                                                     <li>
-                                                        <a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                                        <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
                                                             tabindex="-1"
                                                             href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
                                                         </a>
@@ -113,7 +112,7 @@
                                                 @endif
                                             @endforeach
                                         </ul>
-                                    </li>
+                                        </li>
                                     @endif
                                 @endforeach
                                 @if ($print == 1 && $printSecond == 0)
@@ -121,7 +120,7 @@
                                         @foreach ($access['AccessFitur'] as $subMenuItem)
                                             @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
                                                 <li>
-                                                    <a style="margin: 10px;color: black;font-size: 15px;display: block"
+                                                    <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
                                                         tabindex="-1"
                                                         href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
                                                     </a>
@@ -310,28 +309,41 @@
     </div>
     </nav>
     {{-- <nav>
-            <ul class="navbar">
-              <li><a href="#">Home</a></li>
-              <li class="dropdown">
+        <ul class="navbar">
+            <li><a href="#">Home</a></li>
+            <li class="dropdown">
                 <a href="#" class="dropbtn">Services</a>
                 <div class="dropdown-content">
-                  <a href="#">Service 1</a>
-                  <a href="#">Service 2</a>
-                  <a href="#">Service 3</a>
+                    <a href="#">Service 1</a>
+                    <a href="#">Service 2</a>
+                    <div class="dropdown-submenu">
+                        <a href="#">Service 3</a>
+                        <div class="dropdown-submenu-content">
+                            <a href="#">Subservice 1</a>
+                            <a href="#">Subservice 2</a>
+                        </div>
+                    </div>
                 </div>
-              </li>
-              <li><a href="#">About</a></li>
-              <li class="dropdown">
+            </li>
+            <li><a href="#">About</a></li>
+            <li class="dropdown">
                 <a href="#" class="dropbtn">Products</a>
                 <div class="dropdown-content">
-                  <a href="#">Product 1</a>
-                  <a href="#">Product 2</a>
-                  <a href="#">Product 3</a>
+                    <a href="#">Product 1</a>
+                    <a href="#">Product 2</a>
+                    <div class="dropdown-submenu">
+                        <a href="#">Product 3</a>
+                        <div class="dropdown-submenu-content">
+                            <a href="#">Subproduct 1</a>
+                            <a href="#">Subproduct 2</a>
+                        </div>
+                    </div>
                 </div>
-              </li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-          </nav> --}}
+            </li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav> --}}
+
 
 
     <main class="py-4">
@@ -349,50 +361,92 @@
     </script>
 </body>
 {{-- <style>
+    /* Navbar styles */
     .navbar {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background-color: #f1f1f1;
-  display: flex;
-}
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: #f1f1f1;
+        display: flex;
+    }
 
-.navbar li {
-  float: left;
-}
+    .navbar li {
+        float: left;
+    }
 
-.navbar li a {
-  display: block;
-  color: #333;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
+    .navbar li a {
+        display: block;
+        color: #333;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
 
-.navbar li a:hover {
-  background-color: #ddd;
-}
+    .navbar li a:hover {
+        background-color: #ddd;
+    }
 
-/* Dropdown menu styles */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
+    /* Dropdown menu styles */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
 
-.dropdown-content a {
-  color: #333;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
+    .dropdown-content a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
 
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Submenu styles */
+    .dropdown-submenu {
+        position: relative;
+    }
+
+    .dropdown-submenu .dropdown-submenu-content {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        min-width: 160px;
+        margin-top: -30px;
+        /* Adjust the vertical alignment */
+        z-index: 1;
+        /* Ensure the submenu appears above the parent menu */
+    }
+
+    .dropdown-submenu:hover>.dropdown-submenu-content {
+        display: block;
+    }
+
+    .dropdown-submenu .dropdown-submenu-content .dropdown-submenu-content {
+        top: 0;
+        left: 100%;
+        margin-top: -30px;
+        /* Adjust the vertical alignment */
+        margin-left: -160px;
+        /* Adjust the horizontal alignment */
+    }
+
+    /* Adjusted styles for submenu and sub-submenu items */
+    .dropdown-content>.dropdown-submenu .dropdown-submenu-content a {
+        padding-left: 30px;
+        /* Add indentation for submenus */
+    }
+
+    .dropdown-content>.dropdown-submenu .dropdown-submenu-content .dropdown-submenu-content a {
+        padding-left: 60px;
+        /* Increase indentation for sub-submenus */
+    }
 </style> --}}
 
 </html>

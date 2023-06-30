@@ -18,7 +18,7 @@ class CustomerController extends Controller
     {
         //get all customer from models
         $data = Customer::get()->where('IsActive', 1);
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($data->all());
         //return data to view
         return view('Sales.Master.Customer.Index', compact('data','access'));

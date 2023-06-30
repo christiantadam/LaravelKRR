@@ -88,12 +88,12 @@
                                         @php
                                             $printSecond = 1;
                                         @endphp
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu" style="cursor: default;">
                                             <li>
-                                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                <a class="" type="button" id="dropdownMenuButton"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                    style="margin: 10px">
-                                                    {{ $secondMenuItem->NamaMenu }}
+                                                    style="margin: 10px;cursor: default;">
+                                                    {{ $secondMenuItem->NamaMenu }} &raquo;
                                                 </a>
                                     @endif
                                     @if ($printSecond == 1)
@@ -101,8 +101,8 @@
                                             @foreach ($access['AccessFitur'] as $secondSubMenuItem)
                                                 @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
                                                     <li>
-                                                        <a style="margin: 10px;color: black;font-size: 15px;display: block"
-                                                            tabindex="-1"
+                                                        <a style="color: black;font-size: 15px;display: block"
+                                                            class="dropdown-item" tabindex="-1"
                                                             href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
                                                         </a>
                                                     </li>
@@ -117,8 +117,8 @@
                                         @foreach ($access['AccessFitur'] as $subMenuItem)
                                             @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
                                                 <li>
-                                                    <a style="margin: 10px;color: black;font-size: 15px;display: block"
-                                                        tabindex="-1"
+                                                    <a style="color: black;font-size: 15px;display: block"
+                                                        class="dropdown-item" tabindex="-1"
                                                         href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
                                                     </a>
                                                 </li>
