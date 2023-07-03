@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use App\Http\Controllers\HakAksesController;
 
 class CetakSPController extends Controller
 {
@@ -17,8 +18,9 @@ class CetakSPController extends Controller
         $date = now()->format('Y-m-d');
         // $date = '2023-04-03';
         $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode = ?, @Tanggal = ?', [3, $date]);
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($nosp);
-        return view('Sales.Report.CetakSP', compact('nosp'));
+        return view('Sales.Report.CetakSP', compact('nosp','access'));
     }
 
     public function getSuratPesananSelect($tanggal)

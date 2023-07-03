@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class SuratJalanController extends Controller
 {
@@ -13,8 +14,9 @@ class SuratJalanController extends Controller
     public function index()
     {
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_KIRIM_BLM_ACC');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($data);
-        return view('Sales.Transaksi.SuratJalan.Index', compact('data'));
+        return view('Sales.Transaksi.SuratJalan.Index', compact('data','access'));
     }
 
     //Show the form for creating a new resource.
@@ -23,8 +25,9 @@ class SuratJalanController extends Controller
         $jenisPengiriman = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JENIS_SJ');
         $customer = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_CUSTOMER_KIRIM');
         $expeditor = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_EXPEDITOR @Kode = ?', [1]);
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($customer);
-        return view('Sales.Transaksi.SuratJalan.Create', compact('jenisPengiriman', 'customer', 'expeditor'));
+        return view('Sales.Transaksi.SuratJalan.Create', compact('jenisPengiriman', 'customer', 'expeditor','access'));
     }
 
     public function getSuratPesanan($customer)

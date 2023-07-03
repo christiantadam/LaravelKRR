@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class ScanBarcodeController extends Controller
 {
@@ -17,7 +18,8 @@ class ScanBarcodeController extends Controller
         $jumlah = db::connection('ConnInventory')->select('exec SP_1273_INV_jumlah_tmpgudang @Tanggal = ?', [$date]);
         $data_kodeBarang = db::connection('ConnInventory')->select('exec SP_1273_INV_REKAP_YANG_DITEMBAK_DENI @Tanggal = ?', [$date]);
         // dd($date);
-        return view('Sales.Penjualan.ScanBarcode', compact('jumlah', 'data_kodeBarang'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Penjualan.ScanBarcode', compact('jumlah', 'data_kodeBarang','access'));
     }
 
     public function scanBarcodeLihatData($date)

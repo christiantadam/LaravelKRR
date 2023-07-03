@@ -29,7 +29,7 @@ class CustomerController extends Controller
     {
         $model = new Customer;
         $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($jnscust);
         return view('Sales.Master.Customer.Create', compact('model', 'jnscust','access'));
     }
@@ -130,7 +130,7 @@ class CustomerController extends Controller
         // $jnscust = JnsCust::get();
         // dd($model);
         $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Master.Customer.edit', compact('model', 'jnscust','access'));
     }
 

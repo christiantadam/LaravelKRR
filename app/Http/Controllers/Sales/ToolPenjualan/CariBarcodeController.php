@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class CariBarcodeController extends Controller
 {
     //Display a listing of the resource.
     public function index()
     {
-        return view('Sales.ToolPenjualan.CariBarcode');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.ToolPenjualan.CariBarcode', compact('access'));
     }
 
     public function getIdTypeDispresiasi($kodeBarang)

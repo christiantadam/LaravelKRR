@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class SuratPesananManagerController extends Controller
 {
@@ -15,7 +16,8 @@ class SuratPesananManagerController extends Controller
     {
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_HEADER_PESANAN_BLMACC @Kode = ?', [2]);
         // dd($data);
-        return view('Sales.Transaksi.SuratPesanan.AccManager', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Transaksi.SuratPesanan.AccManager', compact('data','access'));
     }
 
     //Show the form for creating a new resource.
@@ -86,8 +88,9 @@ class SuratPesananManagerController extends Controller
             $kategori_utama,
             $list_satuan
         ];
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($data_array);
-        return view('Sales.Transaksi.SuratPesanan.Penyesuaian', compact('jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan'));
+        return view('Sales.Transaksi.SuratPesanan.Penyesuaian', compact('access', 'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan'));
     }
 
     public function getPenyesuaianSP($suratPesanan)

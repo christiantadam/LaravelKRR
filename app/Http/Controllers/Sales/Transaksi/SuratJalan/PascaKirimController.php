@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class PascaKirimController extends Controller
 {
@@ -14,7 +15,8 @@ class PascaKirimController extends Controller
     {
         $customer = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
         // dd($customer);
-        return view('Sales.Transaksi.SuratJalan.PascaKirim', compact('customer'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Transaksi.SuratJalan.PascaKirim', compact('customer', 'access'));
     }
 
     public function getSuratPesanan($customer)

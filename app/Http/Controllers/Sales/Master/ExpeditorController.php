@@ -17,7 +17,7 @@ class ExpeditorController extends Controller
     {
         //get all data active expeditor
         $data = Expeditor::get()->where('IsActive', 1);
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // return to view
         return view('Sales.Master.Expeditor.Index', compact('data','access'));
     }
@@ -105,7 +105,7 @@ class ExpeditorController extends Controller
     public function edit($id)
     {
         $model = Expeditor::find($id);
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Master.Expeditor.edit', compact('model','access'));
     }
 

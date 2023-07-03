@@ -16,7 +16,7 @@ class BillingController extends Controller
     public function index()
     {
         $data = Billing::get()->where('IsActive', 1);
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Master.Billing.Index', compact('data', 'access'));
     }
 
@@ -24,7 +24,6 @@ class BillingController extends Controller
     public function create()
     {
         $model = new Billing;
-        $access = (new HakAksesController)->HakAksesFiturMaster();
         return view('Sales.Master.Billing.Create', compact('model','access'));
     }
 
@@ -92,7 +91,7 @@ class BillingController extends Controller
     public function show($id)
     {
         $data = Billing::select('*')->where('IDBill', $id)->first();
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return compact('data','access');
     }
 
@@ -100,7 +99,7 @@ class BillingController extends Controller
     public function edit($id)
     {
         $model = Billing::find($id);
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Master.Billing.edit', compact('model','access'));
     }
 

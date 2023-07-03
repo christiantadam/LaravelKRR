@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class AccPenjualanController extends Controller
 {
@@ -14,8 +15,9 @@ class AccPenjualanController extends Controller
     {
         $user = Auth::user()->NomorUser;
         $data = db::connection('ConnInventory')->select('exec SP_1273_INV_ListJual_TmpTransaksi @User = ?', [$user]);
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($data);
-        return view('Sales.Penjualan.AccPenjualan', compact('data'));
+        return view('Sales.Penjualan.AccPenjualan', compact('data','access'));
     }
 
     public function accPenjualanTampilData($idtransaksi)

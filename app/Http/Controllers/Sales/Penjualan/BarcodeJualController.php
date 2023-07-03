@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class BarcodeJualController extends Controller
 {
     //Display a listing of the resource.
     public function index()
     {
-        return view('Sales.Penjualan.BarcodeJual');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Penjualan.BarcodeJual',compact('access'));
     }
 
     //Show the form for creating a new resource.

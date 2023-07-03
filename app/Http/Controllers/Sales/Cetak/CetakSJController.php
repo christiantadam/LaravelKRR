@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use App\Http\Controllers\HakAksesController;
 
 class CetakSJController extends Controller
 {
@@ -15,7 +16,8 @@ class CetakSJController extends Controller
     {
         // $customer = db::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
         // dd($customer);
-        return view('Sales.Report.CetakSJ');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Report.CetakSJ',compact('access'));
     }
 
     public function getSuratJalan($tanggal)

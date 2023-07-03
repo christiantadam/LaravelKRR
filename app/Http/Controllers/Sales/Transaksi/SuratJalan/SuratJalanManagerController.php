@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class SuratJalanManagerController extends Controller
 {
@@ -13,8 +14,9 @@ class SuratJalanManagerController extends Controller
     public function index()
     {
         $data = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_HEADERKIRIM_BLMACC');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($LoadHeaderPengiriman);
-        return view('Sales.Transaksi.SuratJalan.AccPermohonan', compact('data'));
+        return view('Sales.Transaksi.SuratJalan.AccPermohonan', compact('data','access'));
     }
 
     //Show the form for creating a new resource.

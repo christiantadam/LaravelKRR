@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Redirector;
+use App\Http\Controllers\HakAksesController;
 
 class DeliveryOrderManagerController extends Controller
 {
@@ -15,7 +16,8 @@ class DeliveryOrderManagerController extends Controller
     {
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_ACC1');
         // dd($data);
-        return view('Sales.Transaksi.DeliveryOrder.AccManager', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Transaksi.DeliveryOrder.AccManager', compact('data','access'));
     }
 
     //Show the form for creating a new resource.
@@ -58,7 +60,8 @@ class DeliveryOrderManagerController extends Controller
     {
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_BATAL1');
         // dd($data);
-        return view('Sales.Transaksi.DeliveryOrder.BatalManager', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Transaksi.DeliveryOrder.BatalManager', compact('data', 'access'));
     }
     //Remove the specified resource from storage.
 

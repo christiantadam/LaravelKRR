@@ -7,15 +7,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Html\Facades\Form;
+use App\Http\Controllers\HakAksesController;
 
 class DeliveryOrderController extends Controller
 {
     //Display a listing of the resource.
     public function index()
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_BLM_ACC1');
         // dd($data);
-        return view('Sales.Transaksi.DeliveryOrder.Index', compact('data'));
+        return view('Sales.Transaksi.DeliveryOrder.Index', compact('data','access'));
     }
 
     // Show the form for creating a new resource.
@@ -23,8 +25,8 @@ class DeliveryOrderController extends Controller
     public function create()
     {
         $customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
-
-        return view('Sales.Transaksi.DeliveryOrder.Create', compact('customer'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Transaksi.DeliveryOrder.Create', compact('customer','access'));
     }
 
     public function getSuratPesanan($customer)

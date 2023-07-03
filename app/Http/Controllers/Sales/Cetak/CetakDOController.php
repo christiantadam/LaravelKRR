@@ -15,7 +15,7 @@ class CetakDOController extends Controller
     //Display a listing of the resource.
     public function index()
     {
-        $access = (new HakAksesController)->HakAksesFiturMaster();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Report.CetakDO', compact('access'));
     }
 

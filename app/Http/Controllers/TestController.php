@@ -11,8 +11,16 @@ class TestController extends Controller
 {
     public function index()
     {
-
-		User::where('NomorUser', '4250')
+        // 4250
+        // 2098
+        // 4160
+        // 4306
+        // 4188
+        // 4398
+        // 4397
+        // 4323
+        // 4389
+		User::where('NomorUser', '4389')
        ->update(['password' => Hash::make('Kerta1234')]);
 	  //return view('home');
 	    $test=Hash::make('Kerta1234');

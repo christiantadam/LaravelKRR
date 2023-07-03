@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\HakAksesController;
 
 class SuratPesananController extends Controller
 {
@@ -79,8 +80,9 @@ class SuratPesananController extends Controller
         $kategori_utama = DB::connection('ConnPurchase')->select('exec SP_1273_PRG_KATEGORI_UTAMA');
         $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
         $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($list_sp);
-        return view('Sales.Transaksi.SuratPesanan.Create', compact('jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
+        return view('Sales.Transaksi.SuratPesanan.Create', compact('access','jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
     }
 
     public function getKategori($kategoriUtama)
