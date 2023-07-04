@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\EDP\Cartridge;
 use App\User;
+use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\Controller;
 
 
@@ -18,7 +19,8 @@ class CartridgeController extends Controller
         $maxid= Cartridge::max('id')+1;
         $User = Cartridge::select('User')->groupBy('User')->get();
         $Type = Cartridge::select('Type')->groupBy('Type')->get();
-        return view('EDP.Master.Cartridge.List',compact('data','maxid','User','Type'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
+        return view('EDP.Master.Cartridge.List',compact('data','maxid','User','Type', 'access'));
     }
 
     public function store(Request $request)

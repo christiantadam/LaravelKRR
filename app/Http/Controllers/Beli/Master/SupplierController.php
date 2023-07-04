@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Beli\Master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use App\Http\Controllers\HakAksesController;
 
 class SupplierController extends Controller
 {
@@ -12,9 +13,10 @@ class SupplierController extends Controller
     public function index()
     {
         $supplier = db::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd = ?', [1]);
+        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         // dd($supplier);
         $matauang = db::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
-        return view('Beli.Master.Supplier', compact('supplier', 'matauang'));
+        return view('Beli.Master.Supplier', compact('supplier', 'matauang', 'access'));
     }
 
     public function getSupplier($id)

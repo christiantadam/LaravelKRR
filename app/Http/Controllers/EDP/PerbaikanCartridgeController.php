@@ -10,6 +10,7 @@ use App\Models\EDP\NotaPerbaikanCartridge;
 use App\Models\EDP\JenisPerbaikanCartridge;
 use App\User;
 use DB;
+use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\Controller;
 
 
@@ -19,7 +20,8 @@ class PerbaikanCartridgeController extends Controller
     {
         $CartridgeService = NotaPerbaikanCartridge::select()->get();
         $Cartridge = PerbaikanCartridge::select()->join("ListCartridge","ListCartridge.id","=","IdCartridge")->get();
-        return view('EDP.Perbaikan.Cartridge.List',compact('CartridgeService','Cartridge'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
+        return view('EDP.Perbaikan.Cartridge.List',compact('CartridgeService','Cartridge', 'access'));
     }
 
     public function store(Request $request)
@@ -61,8 +63,8 @@ class PerbaikanCartridgeController extends Controller
         $Cartridge = PerbaikanCartridge::select('ListCartridge.*','JenisPerbaikanCartridge.*','IdCartridge','IdPerbaikan')->join('ListCartridge','IdCartridge','ListCartridge.id')->join('JenisPerbaikanCartridge','IdPerbaikan','JenisPerbaikanCartridge.id')->where('IdNotaCartridge',$id)->get();
         $Nota = NotaPerbaikanCartridge::where('id',$id)->first();
         $Service = JenisPerbaikanCartridge::select()->get();
-
-        return view('EDP.Perbaikan.Cartridge.AddPerbaikan',compact('Nota','Service','id','Cartridge'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
+        return view('EDP.Perbaikan.Cartridge.AddPerbaikan',compact('Nota','Service','id','Cartridge','access'));
     }
 
     public function DetailRefill($id)

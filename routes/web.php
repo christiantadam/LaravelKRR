@@ -64,12 +64,6 @@ Route::group(['middleware' => ['auth']], function () {
         //belum bikin broooow
     #endregion
 
-    #region User
-    Route::resource('User', App\Http\Controllers\UserController::class);
-    Route::post('/User/{id}/up', 'App\Http\Controllers\UserController@update')->name('user.update');
-    Route::get('/User/{id}/EditAdmin', 'App\Http\Controllers\UserController@EditAdmin')->name('user.EditAdmin');
-    #endregion
-
     #region Sales Master
     Route::get('Sales', 'App\Http\Controllers\HomeController@Sales');
 
@@ -211,6 +205,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     #endregion
 
+    #region User
+    Route::resource('User', App\Http\Controllers\UserController::class);
+    Route::post('/User/{id}/up', 'App\Http\Controllers\UserController@update')->name('user.update');
+    Route::get('/User/{id}/EditAdmin', 'App\Http\Controllers\UserController@EditAdmin')->name('user.EditAdmin');
+    #endregion
+
     #region EDP
     Route::get('/EDP', 'App\Http\Controllers\HomeController@EDP');
 
@@ -235,6 +235,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/Jurnal/AddKategori', 'App\Http\Controllers\EDP\JurnalController@storeKategori');
     Route::post('/Jurnal/Kategori/{id}/up', 'App\Http\Controllers\EDP\JurnalController@updateKategori')->name('kategori.update');
     Route::get('/Jurnal/{tglAwal}/{tglAkhir}/Filter', 'App\Http\Controllers\EDP\JurnalController@Filter')->name('jurnal.filter');
+
+    Route::resource('MaintenanceHakAkses', App\Http\Controllers\EDP\MaintenanceHakAksesController::class);
     #endregion
 });
 

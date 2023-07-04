@@ -6,23 +6,24 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HakAksesController;
 
 class PurchaseOrderController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
-
-        return view('Beli.TransaksiBeli.PurchaseOrder.List');
-
+        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
+        return view('Beli.TransaksiBeli.PurchaseOrder.List', compact('access'));
     }
 
     //Show the form for creating a new resource.
     public function create()
     {
         $divisi = db::connection('ConnPurchase')->select('exec spSelect_UserDivisi_dotNet @kd = ?, @Operator = ?', [1, Auth::user()->kd_user]);
+        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         // dd($divisi);
-        return view('Beli.TransaksiBeli.PurchaseOrder.Create', compact('divisi'));
+        return view('Beli.TransaksiBeli.PurchaseOrder.Create', compact('divisi', 'access'));
     }
 
     public function getPermohonanDivisi($stBeli, $Kd_Div)
@@ -45,6 +46,7 @@ class PurchaseOrderController extends Controller
 
     public function openFormCreateSPPB(Request $request)
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         $noTrans = explode(',', $request->noTrans);
         $tahun = date('y', time());
         $mValue = DB::connection('ConnPurchase')->select('SELECT NO_SPPB FROM YCounter');
@@ -76,7 +78,7 @@ class PurchaseOrderController extends Controller
         $mataUang = db::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
         $ppn = db::connection('ConnPurchase')->select('exec SP_5409_LIST_PPN');
         // dd($loadHeader, $loadPermohonan);
-        return view('Beli.TransaksiBeli.PurchaseOrder.CreateSPPB', compact('supplier', 'listPayment', 'mataUang', 'ppn', 'No_PO', 'loadPermohonan', 'loadHeader'));
+        return view('Beli.TransaksiBeli.PurchaseOrder.CreateSPPB', compact('access', 'supplier', 'listPayment', 'mataUang', 'ppn', 'No_PO', 'loadPermohonan', 'loadHeader'));
     }
     //Store a newly created resource in storage.
     public function store(Request $request)

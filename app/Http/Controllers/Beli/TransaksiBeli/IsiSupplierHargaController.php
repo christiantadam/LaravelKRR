@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Beli\TransaksiBeli;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\HakAksesController;
 
 class IsiSupplierHargaController extends Controller
 {
@@ -28,7 +29,8 @@ class IsiSupplierHargaController extends Controller
     //Display the specified resource.
     public function show($id)
     {
-        return view('Beli.TransaksiBeli.IsiSupplierHarga', compact('id'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
+        return view('Beli.TransaksiBeli.IsiSupplierHarga', compact('id','access'));
     }
 
     //Show the form for editing the specified resource.

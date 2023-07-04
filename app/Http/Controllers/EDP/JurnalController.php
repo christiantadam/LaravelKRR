@@ -18,14 +18,14 @@ class JurnalController extends Controller
 {
      public function index()
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
         $result = (new HakAksesController)->HakAksesFitur('Jurnal');
         if($result==true)
         {
             $data = Jurnal::select()->join('UserMaster','Pelapor','IDUser')->join('Jurnal_Kategori','IdKategori','Id_Kategori')->join('Personil_EDP','Id_Personil','Id_PersonilJurnal')->where('KodeUser',Auth::user()->NomorUser)->get();
             $user = DB::connection('ConnEDP')->table('UserMaster')->get();
             $kategori = JurnalKategori::select()->get();
-
-            return view('EDP.Jurnal.List',compact('data','user','kategori'));
+            return view('EDP.Jurnal.List',compact('data','user','kategori','access'));
         }
         else
         {
@@ -38,7 +38,7 @@ class JurnalController extends Controller
                 $kategori = JurnalKategori::select()->get();
                 $kelompok = JurnalKelompok::select()->get();
                 $personil = PersonilEDP::select()->where('IsActive','true')->get();
-                return view('EDP.Jurnal.ListMaster',compact('data','user','kategori','kelompok','personil','dataKelompok'));
+                return view('EDP.Jurnal.ListMaster',compact('data','user','kategori','kelompok','personil','dataKelompok','access'));
             }
             else
             {
