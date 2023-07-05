@@ -152,7 +152,11 @@ print_button.addEventListener("click", function (event) {
                         {
                             data: null,
                             render: function (data, type, row) {
-                                return formatangka(parseInt(row.JmlOrder)) + " " + row.Satuan;
+                                return (
+                                    formatangka(parseInt(row.JmlOrder)) +
+                                    " " +
+                                    row.Satuan
+                                );
                             },
                         },
                     ],
@@ -170,10 +174,12 @@ print_button.addEventListener("click", function (event) {
                 rencana_kirimKolom.innerHTML = formatDateToMMDDYYYY(
                     data[0].TglRencanaKirim
                 );
+                let ketWithLineBreaks = "";
                 syarat_bayarKolom.innerHTML = data[0].SyaratBayar + " Hari";
                 let ket = data[0].Ket; // Get the value of "Ket" from the array
-                let ketWithLineBreaks = ket.replace(/\r\n/g, " <br> "); // Replace '\r\n' with '<br>'
-
+                if (ket !== null) {
+                    ketWithLineBreaks = ket.replace(/\r\n/g, " <br> "); // Replace '\r\n' with '<br>'
+                }
                 keterangan_kolom.innerHTML = ketWithLineBreaks;
                 nama_salesKolom.innerHTML = data[0].NamaSales;
             });
@@ -212,14 +218,14 @@ function formatangka(objek) {
     panjang = a.length;
     j = 0;
     for (i = panjang; i > 0; i--) {
-      j = j + 1;
-      if (((j % 3) == 1) && (j != 1)) {
-        c = a.substr(i - 1, 1) + "." + c;
-      } else {
-        c = a.substr(i - 1, 1) + c;
-      }
+        j = j + 1;
+        if (j % 3 == 1 && j != 1) {
+            c = a.substr(i - 1, 1) + "." + c;
+        } else {
+            c = a.substr(i - 1, 1) + c;
+        }
     }
     return c;
-  }
+}
 
 //#endregion

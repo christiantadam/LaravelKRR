@@ -181,7 +181,7 @@ class SuratPesananController extends Controller
         $list_sales = $request->list_sales;
         $mata_uang = $request->mata_uang;
         $jenis_bayar = $request->jenis_bayar;
-        $syarat_bayar = $request->syarat_bayar;
+        $syarat_bayar = $request->syarat_bayar ?? 0;
         $faktur_pjk = $request->faktur_pjk ?? null;
         $keterangan = $request->keterangan ?? null;
         $barang0 = $request->barang0; //nama barang
@@ -360,7 +360,7 @@ class SuratPesananController extends Controller
         $list_sales = $request->list_sales;
         $mata_uang = $request->mata_uang;
         $jenis_bayar = $request->jenis_bayar;
-        $syarat_bayar = $request->syarat_bayar;
+        $syarat_bayar = $request->syarat_bayar ?? 0;
         $faktur_pjk = $request->faktur_pjk ?? null;
         $keterangan = $request->keterangan ?? null;
         $barang0 = $request->barang0; //nama barang

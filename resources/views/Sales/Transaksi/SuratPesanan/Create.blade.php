@@ -105,7 +105,7 @@
                                             </select> {{-- <input type="text" placeholder="Jenis Bayar" class="permohonan-s-p-textinput09 input" name="jenis_bayar" id="jenis_bayar" list="data_jenisbayar" /> <datalist id="data_jenisbayar"> @foreach ($jenis_bayar as $data) <option value="{{ $data->IdPembayaran }} - {{ $data->NamaPembayaran }}"></option> @endforeach </datalist> <button class="permohonan-s-p-button04 button">...</button> --}} </div>
                                         <div class="permohonan-s-p-container15"> <input type="text"
                                                 class="permohonan-s-p-textinput10 input" id="syarat_bayar"
-                                                name="syarat_bayar" placeholder="0" /> <span
+                                                name="syarat_bayar" placeholder="" /> <span
                                                 class="permohonan-s-p-text11"> <span>Hari</span> <br /> </span>
                                             <span class="permohonan-s-p-text14"> <span>Faktur PJK:</span> <br /> </span>
                                             <input type="radio" class="permohonan-s-p-radiobutton" id="faktur_pjkBiasa"
