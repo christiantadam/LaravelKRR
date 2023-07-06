@@ -155,6 +155,7 @@ buttonProses.addEventListener("click", function (event) {
     form.appendChild(csrfInput);
     form.appendChild(input1);
     form.appendChild(input2);
+    form.appendChild(namaPegawaiText);
 
     // Append the form to the listFitur div in the HTML
     listFitur.appendChild(form);

@@ -32,9 +32,33 @@ class MaintenanceHakAksesController extends Controller
 
     function EditUserFitur(Request $request)
     {
-        dd($request->all());
+        // dd($request->all(), !empty($request->addedValues));
 
-        return redirect()->back()->with('success', 'Sudah Dihapus!');
+        if (!empty($request->deletedValues)) {
+            $deletedValues = json_decode($request->deletedValues);
+
+            DB::connection('ConnEDP')
+                ->table('User_Fitur')
+                ->leftJoin('UserMaster', 'User_fitur.Id_User', '=', 'UserMaster.IdUser')
+                ->where('UserMaster.NomorUser', $request->namaPegawaiText)
+                ->whereIn('User_fitur.Id_Fitur', $deletedValues)
+                ->delete();
+        }
+        if (!empty($request->addedValues)) {
+            $addedValues = json_decode($request->addedValues);
+            $iduser = DB::connection('ConnEDP')->table('UserMaster')->select('IDUser')->where('NomorUser', '=', $request->namaPegawaiText)->get();
+            // dd($addedValues[0], $iduser[0]->IDUser, $request->namaPegawaiText);
+            for ($i=0; $i < count($addedValues); $i++) {
+                DB::connection('ConnEDP')
+                ->table('User_Fitur')
+                ->insert([
+                    'Id_User' => $iduser[0]->IDUser,
+                    'Id_Fitur' => $addedValues[$i]
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Maintenance Berhasil!');
     }
 
     //Show the form for creating a new resource.
