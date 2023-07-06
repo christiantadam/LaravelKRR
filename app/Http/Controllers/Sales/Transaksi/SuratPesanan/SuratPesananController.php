@@ -345,7 +345,7 @@ class SuratPesananController extends Controller
     public function update(Request $request)
     {
         // $data = $request->all();
-        // dd($request->all());
+        dd($request->all());
 
         $UraianPesanan = null;
         $Lunas = null;
@@ -362,7 +362,7 @@ class SuratPesananController extends Controller
         $jenis_bayar = $request->jenis_bayar;
         $syarat_bayar = $request->syarat_bayar ?? 0;
         $faktur_pjk = $request->faktur_pjk ?? null;
-        $keterangan = $request->keterangan ?? null;
+        $keterangan = $request->keterangan ?? "";
         $barang0 = $request->barang0; //nama barang
         $KodeBarang = $request->barang1; //kode barang
         $IdJnsBarang = $request->barang27; //jenis barang
