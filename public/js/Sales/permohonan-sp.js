@@ -854,12 +854,14 @@ no_spSelect.addEventListener("change", function () {
 });
 
 no_spSelect.addEventListener("keypress", function (event) {
-    event.preventDefault();
-    if (this.selectedIndex !== 0) {
-        no_spText.value = this.value;
-        this.disabled = true;
-        const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
-        no_spText.dispatchEvent(enterEvent);
+    if (event.key == "Enter") {
+        event.preventDefault();
+        if (this.selectedIndex !== 0) {
+            no_spText.value = this.value;
+            this.disabled = true;
+            const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
+            no_spText.dispatchEvent(enterEvent);
+        }
     }
 });
 
@@ -1104,7 +1106,9 @@ update_button.addEventListener("click", function (event) {
         rowData[25] = !isNaN(formatangka(parseFloat(berat_kertasMeter.value)))
             ? parseFloat(berat_kertasMeter.value)
             : 0;
-        rowData[26] = !isNaN(formatangka(parseFloat(berat_standardTotalMeter.value)))
+        rowData[26] = !isNaN(
+            formatangka(parseFloat(berat_standardTotalMeter.value))
+        )
             ? parseFloat(berat_standardTotalMeter.value)
             : 0;
         rowData[27] = jenis_brg.value;
@@ -1307,8 +1311,10 @@ function funcInsertRow(array) {
             $(this).toggleClass("selected");
             let selectedRows = table.rows(".selected").data().toArray();
             // console.log(selectedRows);
-            qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ''));
-            harga_satuan.value = parseFloat(selectedRows[0][2].replace(/,/g, ''));
+            qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ""));
+            harga_satuan.value = parseFloat(
+                selectedRows[0][2].replace(/,/g, "")
+            );
             ppn.value = selectedRows[0][6];
             satuan_jual.selectedIndex = 0;
             for (let i = 0; i < satuan_jual.length; i++) {
@@ -1337,21 +1343,51 @@ function funcInsertRow(array) {
             index_lami.readOnly = false;
             index_kertas.readOnly = false;
             biaya_lain.readOnly = false;
-            berat_karung.value = parseFloat(selectedRows[0][7].replace(/,/g, ''));
-            index_karung.value = parseFloat(selectedRows[0][8].replace(/,/g, ''));
-            berat_indexKarung.value = parseFloat(selectedRows[0][9].replace(/,/g, ''));
-            berat_inner.value = parseFloat(selectedRows[0][10].replace(/,/g, ''));
-            index_inner.value = parseFloat(selectedRows[0][11].replace(/,/g, ''));
-            berat_indexInner.value = parseFloat(selectedRows[0][12].replace(/,/g, ''));
-            berat_lami.value = parseFloat(selectedRows[0][13].replace(/,/g, ''));
-            index_lami.value = parseFloat(selectedRows[0][14].replace(/,/g, ''));
-            berat_indexLami.value = parseFloat(selectedRows[0][15].replace(/,/g, ''));
-            berat_kertas.value = parseFloat(selectedRows[0][16].replace(/,/g, ''));
-            index_kertas.value = parseFloat(selectedRows[0][17].replace(/,/g, ''));
-            berat_indexKertas.value = parseFloat(selectedRows[0][18].replace(/,/g, ''));
-            biaya_lain.value = parseFloat(selectedRows[0][19].replace(/,/g, ''));
-            berat_standardTotal.value = parseFloat(selectedRows[0][20].replace(/,/g, ''));
-            total_cost.value = parseFloat(selectedRows[0][21].replace(/,/g, ''));
+            berat_karung.value = parseFloat(
+                selectedRows[0][7].replace(/,/g, "")
+            );
+            index_karung.value = parseFloat(
+                selectedRows[0][8].replace(/,/g, "")
+            );
+            berat_indexKarung.value = parseFloat(
+                selectedRows[0][9].replace(/,/g, "")
+            );
+            berat_inner.value = parseFloat(
+                selectedRows[0][10].replace(/,/g, "")
+            );
+            index_inner.value = parseFloat(
+                selectedRows[0][11].replace(/,/g, "")
+            );
+            berat_indexInner.value = parseFloat(
+                selectedRows[0][12].replace(/,/g, "")
+            );
+            berat_lami.value = parseFloat(
+                selectedRows[0][13].replace(/,/g, "")
+            );
+            index_lami.value = parseFloat(
+                selectedRows[0][14].replace(/,/g, "")
+            );
+            berat_indexLami.value = parseFloat(
+                selectedRows[0][15].replace(/,/g, "")
+            );
+            berat_kertas.value = parseFloat(
+                selectedRows[0][16].replace(/,/g, "")
+            );
+            index_kertas.value = parseFloat(
+                selectedRows[0][17].replace(/,/g, "")
+            );
+            berat_indexKertas.value = parseFloat(
+                selectedRows[0][18].replace(/,/g, "")
+            );
+            biaya_lain.value = parseFloat(
+                selectedRows[0][19].replace(/,/g, "")
+            );
+            berat_standardTotal.value = parseFloat(
+                selectedRows[0][20].replace(/,/g, "")
+            );
+            total_cost.value = parseFloat(
+                selectedRows[0][21].replace(/,/g, "")
+            );
             funcDisplayDataBrg(selectedRows[0][1]);
             funcTampilInv(selectedRows[0][1]);
             funcKolomBeratStandard();
@@ -1539,7 +1575,7 @@ function funcDatatablesIntoInput() {
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
             hiddenInput.multiple = true;
-            hiddenInput.value = row[j].replace(/,/g, '');;
+            hiddenInput.value = row[j].replace(/,/g, "");
             // Append the hidden input to the document body or any other element
             form_suratPesanan.appendChild(hiddenInput);
         }
@@ -1573,12 +1609,12 @@ function formatangka(objek) {
 
     // Check if the number has decimal places
     if (Number.isInteger(objek)) {
-      return objek.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return objek.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     } else {
-      let parts = objek.toFixed(3).split('.');
-      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return parts.join('.').replace(/\.?0+$/, '');
+        let parts = objek.toFixed(3).split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".").replace(/\.?0+$/, "");
     }
-  }
+}
 
 //#endregion

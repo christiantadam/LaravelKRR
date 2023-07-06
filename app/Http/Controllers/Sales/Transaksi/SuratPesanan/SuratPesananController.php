@@ -82,7 +82,7 @@ class SuratPesananController extends Controller
         $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($list_sp);
-        return view('Sales.Transaksi.SuratPesanan.Create', compact('access','jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
+        return view('Sales.Transaksi.SuratPesanan.Create', compact('access', 'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
     }
 
     public function getKategori($kategoriUtama)
@@ -215,8 +215,6 @@ class SuratPesananController extends Controller
         $bs2 = $request->barang26; //berat standard total MTR
         $kode = 1;
 
-        // dd($KodeBarang);
-
         //maintenance header dulu yaw..
         DB::connection('ConnSales')->statement(
             'exec SP_5409_SLS_MAINT_HEADERPESANAN
@@ -254,26 +252,39 @@ class SuratPesananController extends Controller
         //     );
         // }
         // elseif ($no_pi !== null ) {
-        $no_sp = DB::connection('ConnSales')->select(
-            'Select IDSuratPesanan
-                                                        from T_HeaderPesanan
-                                                        where IDJnsSuratPesanan = ? and
-                                                        Tgl_Pesan = ? and
-                                                        IDCust = ? and
-                                                        NO_PI = ? and
-                                                        NO_PO = ? and
-                                                        Tgl_PO = ? and
-                                                        IDSales = ? and
-                                                        Ket = ?',
-            [$jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan],
-        );
+        // dd($jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan);
+        $no_sp = DB::connection('ConnSales')->table('T_HeaderPesanan')
+        ->select('IDSuratPesanan')
+        ->where('IDJnsSuratPesanan', '=', $jenis_sp)
+        ->where('Tgl_Pesan', '=', $tgl_pesan)
+        ->where('IDCust', '=', $IdCust)
+        ->where('NO_PI', '=', $no_pi)
+        ->where('NO_PO', '=', $no_po)
+        ->where('Tgl_PO', '=', $tgl_po)
+        ->where('IDSales', '=', $list_sales)
+        ->where('Ket', '=', $keterangan)
+        ->get();
+
+        // $no_sp = DB::connection('ConnSales')->select(
+        //     'Select IDSuratPesanan
+        //                                                 from T_HeaderPesanan
+        //                                                 where IDJnsSuratPesanan = ? and
+        //                                                 Tgl_Pesan = ? and
+        //                                                 IDCust = ? and
+        //                                                 NO_PI = ? and
+        //                                                 NO_PO = ? and
+        //                                                 Tgl_PO = ? and
+        //                                                 IDSales = ? and
+        //                                                 Ket = ?',
+        //     [$jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan],
+        // );
         // }
 
         // dd($no_sp);
         // dd($kode, $no_sp, $KodeBarang, $IdJnsBarang, $Qty, $Satuan, $HargaSatuan, 0.0, $UraianPesanan ?? null, $TglRencanaKirim, $Lunas ?? null, $ppn, $ikarung, $hkarung, $iinner, $hinner, $ilami, $hlami, $ikertas, $hkertas, $hlain, $htotal);
+
         // kemudian beralih ke maintenance detail pesanan nich...
         for ($i = 0; $i < count($bkarung); $i++) {
-            // dd(count($bkarung));
             DB::connection('ConnSales')->statement(
                 'exec SP_1486_SLS_MAINT_DETAILPESANAN1 @Kode = ?,
             @IDSuratPesanan = ?,
