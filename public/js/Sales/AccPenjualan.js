@@ -52,7 +52,6 @@ let tgl_mohonDO = document.getElementById("tgl_mohonDO");
 //#endregion
 
 //#region Table
-
 $("#table_AccPenjualan").DataTable({
     data: data,
     columns: [
@@ -117,22 +116,25 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
             fetch("/accPenjualanTampilBarcode/" + IdType + "/" + KodeBarang)
                 .then((response) => response.json())
                 .then((data_barcode) => {
+                    console.log(data_barcode);
                     if (data_barcode.length === 0) {
                         alert("This barcode is empty.");
                     } else {
                         modalOverlay.style.display = "flex";
                         let data = [];
                         for (let i = 0; i < data_barcode.length; i++) {
-                            data.push([
-                                '<input type="checkbox">' + (i + 1),
-                                data_barcode[i].Expr3,
-                                data_barcode[i].Expr2,
-                                data_barcode[i].Qty_Primer,
-                                data_barcode[i].Qty_sekunder,
-                                data_barcode[i].Qty,
-                                data_barcode[i].Tgl_mutasi,
-                            ]);
+                            let rowData = {
+                                checkbox: '<input type="checkbox">' + (i + 1),
+                                expr3: data_barcode[i].Expr3,
+                                expr2: data_barcode[i].Expr2,
+                                Qty_Primer: data_barcode[i].Qty_Primer,
+                                Qty_sekunder: data_barcode[i].Qty_sekunder,
+                                Qty: data_barcode[i].Qty,
+                                Tgl_mutasi: data_barcode[i].Tgl_mutasi,
+                            };
+                            data.push(rowData);
                         }
+                        console.log(data);
                         const dataTable = $(
                             "#table_AccBarcodePenjualan"
                         ).DataTable(); // Store the DataTable instance
@@ -140,8 +142,20 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                         // Clear and destroy the existing DataTable
                         dataTable.clear().destroy();
 
-                        // Add the data rows
-                        dataTable.rows.add(data);
+                        // Populate DataTables with the formatted data
+                        let table = $("#table_AccBarcodePenjualan").DataTable({
+                            data: data,
+                            columns: [
+                                { data: "checkbox" },
+                                { data: "expr3" },
+                                { data: "expr2" },
+                                { data: "qtyPrimer" },
+                                { data: "qtySekunder" },
+                                { data: "qty" },
+                                { data: "tglMutasi" },
+                            ],
+                        });
+                        // dataTable.rows.add(data);
 
                         // Redraw the DataTable
                         dataTable.draw();
