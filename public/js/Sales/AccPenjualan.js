@@ -127,9 +127,13 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                 checkbox: '<input type="checkbox">' + (i + 1),
                                 expr3: data_barcode[i].Expr3,
                                 expr2: data_barcode[i].Expr2,
-                                Qty_Primer: data_barcode[i].Qty_Primer,
-                                Qty_sekunder: data_barcode[i].Qty_sekunder,
-                                Qty: data_barcode[i].Qty,
+                                Qty_Primer: parseFloat(
+                                    data_barcode[i].Qty_Primer
+                                ),
+                                Qty_sekunder: parseFloat(
+                                    data_barcode[i].Qty_sekunder
+                                ),
+                                Qty: parseFloat(data_barcode[i].Qty),
                                 Tgl_mutasi: data_barcode[i].Tgl_mutasi,
                             };
                             data.push(rowData);
@@ -149,54 +153,91 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                 { data: "checkbox" },
                                 { data: "expr3" },
                                 { data: "expr2" },
-                                { data: "qtyPrimer" },
-                                { data: "qtySekunder" },
-                                { data: "qty" },
-                                { data: "tglMutasi" },
+                                { data: "Qty_Primer" },
+                                { data: "Qty_sekunder" },
+                                { data: "Qty" },
+                                { data: "Tgl_mutasi" },
                             ],
                         });
                         // dataTable.rows.add(data);
 
                         // Redraw the DataTable
-                        dataTable.draw();
+                        table.draw();
 
                         $("#table_AccBarcodePenjualan tbody").off(
                             "click",
                             "tr"
                         );
-
+                        let tritier = 0;
+                        let sekunder = 0;
+                        let primer = 0;
                         $("#table_AccBarcodePenjualan tbody").on(
                             "click",
                             "tr",
                             function () {
-                                let tritier = 0;
-                                let sekunder = 0;
-                                let primer = 0;
+                                // const checkbox = $(this).find(
+                                //     "input[type='checkbox']"
+                                // );
+                                // checkbox.prop(
+                                //     "checked",
+                                //     !checkbox.prop("checked")
+                                // );
 
-                                const checkbox = $(this).find(
-                                    "input[type='checkbox']"
+                                // const selectedCheckboxes = $(
+                                //     "#table_AccBarcodePenjualan tbody input[type='checkbox']:checked"
+                                // );
+                                // const selectedRowData = [];
+
+                                // selectedCheckboxes.each(function () {
+                                //     const row = $(this).closest("tr");
+                                //     const rowData = dataTable.column(row).data();
+                                //     selectedRowData.push(rowData);
+                                //     primer += parseFloat(rowData[3]);
+                                //     sekunder += parseFloat(rowData[4]);
+                                //     tritier += parseFloat(rowData[5]);
+                                // });
+                                // saldo_primerDikeluarkan.value = primer;
+                                // saldo_sekunderDikeluarkan.value = sekunder;
+                                // saldo_tritierDikeluarkan.value = tritier;
+
+                                // if (
+                                //     saldo_sekunderSatuan.value == "MTR" &&
+                                //     max_doSatuan.value == "YARD"
+                                // ) {
+                                //     jumlah_konversi.value =
+                                //         (tritier / 915) * 1000;
+                                //     jumlah_konversi.readOnly = true;
+                                // }
+
+                                let checkbox = $(this)
+                                    .find("td:eq(0)")
+                                    .find('input[type="checkbox"]');
+
+                                // Check the checkbox
+                                checkbox.prop("checked", true);
+
+                                // Get the value of column 3
+                                let primerData = parseFloat(
+                                    table.cell(this, 3).data()
                                 );
-                                checkbox.prop(
-                                    "checked",
-                                    !checkbox.prop("checked")
+                                let sekunderData = parseFloat(
+                                    table.cell(this, 4).data()
+                                );
+                                let tritierData = parseFloat(
+                                    table.cell(this, 5).data()
                                 );
 
-                                const selectedCheckboxes = $(
-                                    "#table_AccBarcodePenjualan tbody input[type='checkbox']:checked"
-                                );
-                                const selectedRowData = [];
-
-                                selectedCheckboxes.each(function () {
-                                    const row = $(this).closest("tr");
-                                    const rowData = dataTable.row(row).data();
-                                    selectedRowData.push(rowData);
-                                    primer += parseFloat(rowData[3]);
-                                    sekunder += parseFloat(rowData[4]);
-                                    tritier += parseFloat(rowData[5]);
-                                });
-                                saldo_primerDikeluarkan.value = primer;
-                                saldo_sekunderDikeluarkan.value = sekunder;
-                                saldo_tritierDikeluarkan.value = tritier;
+                                console.log(tritierData);
+                                tritier = tritier + tritierData;
+                                sekunder += sekunderData;
+                                primer += primerData;
+                                console.log(tritier);
+                                saldo_primerDikeluarkan.value =
+                                    primer.toFixed(2);
+                                saldo_sekunderDikeluarkan.value =
+                                    sekunder.toFixed(2);
+                                saldo_tritierDikeluarkan.value =
+                                    tritier.toFixed(2);
 
                                 if (
                                     saldo_sekunderSatuan.value == "MTR" &&
@@ -206,6 +247,9 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                         (tritier / 915) * 1000;
                                     jumlah_konversi.readOnly = true;
                                 }
+
+                                // Log the value of column 3
+                                // console.log(column3Value);
                             }
                         );
                     }
@@ -240,38 +284,58 @@ pilihSemuaButton.addEventListener("click", function () {
     );
     // console.log(checkboxes);
     const dataTable = $("#table_AccBarcodePenjualan").DataTable();
-    checkboxes.forEach(function (checkbox) {
-        checkbox.checked = true;
+    const primerData = dataTable.column(3).data().toArray();
+    const sekunderData = dataTable.column(4).data().toArray();
+    const tritierData = dataTable.column(5).data().toArray();
+    const primerSum = primerData
+        .reduce((acc, value) => acc + parseFloat(value), 0)
+        .toFixed(2);
+    const sekunderSum = sekunderData
+        .reduce((acc, value) => acc + parseFloat(value), 0)
+        .toFixed(2);
+    const tritierSum = tritierData
+        .reduce((acc, value) => acc + parseFloat(value), 0)
+        .toFixed(2);
+    console.log(primerSum, sekunderSum, tritierSum);
+    // checkboxes.forEach(function (checkbox) {
+    //     checkbox.checked = true;
 
-        let tritier = 0;
-        let sekunder = 0;
-        let primer = 0;
-        const selectedCheckboxes = $(
-            "#table_AccBarcodePenjualan tbody input[type='checkbox']:checked"
-        );
-        const selectedRowData = [];
+    //     let tritier = 0;
+    //     let sekunder = 0;
+    //     let primer = 0;
+    //     const selectedCheckboxes = $(
+    //         "#table_AccBarcodePenjualan tbody input[type='checkbox']:checked"
+    //     );
+    //     const selectedRowData = [];
 
-        selectedCheckboxes.each(function () {
-            const row = $(this).closest("tr");
-            const rowData = dataTable.row(row).data();
-            selectedRowData.push(rowData);
-            primer += parseFloat(rowData[3]);
-            sekunder += parseFloat(rowData[4]);
-            tritier += parseFloat(rowData[5]);
-        });
+    //     selectedCheckboxes.each(function () {
+    //         const row = $(this).closest("tr");
+    //         const rowData = dataTable.row(row).data();
+    //         selectedRowData.push(rowData);
+    //         primer += parseFloat(rowData[3]);
+    //         sekunder += parseFloat(rowData[4]);
+    //         tritier += parseFloat(rowData[5]);
+    //     });
+    //     saldo_primerDikeluarkan.value = primer;
+    //     saldo_sekunderDikeluarkan.value = sekunder;
+    //     saldo_tritierDikeluarkan.value = tritier;
 
-        saldo_primerDikeluarkan.value = primer;
-        saldo_sekunderDikeluarkan.value = sekunder;
-        saldo_tritierDikeluarkan.value = tritier;
+    //     if (
+    //         saldo_sekunderSatuan.value == "MTR" &&
+    //         max_doSatuan.value == "YARD"
+    //     ) {
+    //         jumlah_konversi.value = (tritier / 915) * 1000;
+    //         jumlah_konversi.readOnly = true;
+    //     }
+    // });
+    saldo_primerDikeluarkan.value = primerSum;
+    saldo_sekunderDikeluarkan.value = sekunderSum;
+    saldo_tritierDikeluarkan.value = tritierSum;
 
-        if (
-            saldo_sekunderSatuan.value == "MTR" &&
-            max_doSatuan.value == "YARD"
-        ) {
-            jumlah_konversi.value = (tritier / 915) * 1000;
-            jumlah_konversi.readOnly = true;
-        }
-    });
+    if (saldo_sekunderSatuan.value == "MTR" && max_doSatuan.value == "YARD") {
+        jumlah_konversi.value = (tritier / 915) * 1000;
+        jumlah_konversi.readOnly = true;
+    }
     closeModal();
     prosesButton.focus();
     // console.log(checkboxes);
