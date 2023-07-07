@@ -72,15 +72,22 @@ print_button.addEventListener("click", function (event) {
                             "cetak-dopdf-container05"
                         );
                         if (option.SatuanJual.trim() == "KGM") {
-                            min_kirimSekunderValue =
-                                option.MinKirimDO.toFixed(3);
+                            if (typeof option.MinKirimDO === "number") {
+                                min_kirimSekunderValue =
+                                    option.MinKirimDO.toFixed(2);
+                            } else if (typeof option.MinKirimDO !== "number") {
+                                let minKirimDO = parseFloat(
+                                    option.MinKirimDO
+                                ).toFixed(2);
+                                min_kirimSekunderValue = minKirimDO;
+                            }
                         } else if (option.SatuanJual.trim() !== "KGM") {
                             min_kirimSekunderValue = (
                                 (option.BERAT_TOTAL * option.MinKirimDO) /
                                 1000
-                            ).toFixed(3);
+                            ).toFixed(2);
                         }
-
+                        const formattedText = option.AlamatKirimDO.replace(/\r\n/g, "<br>");
                         body_deliveryOrderBelumACC.innerHTML = `
                         <div class="acs-dopdf-container03">
                             <div class="cetak-dopdf-container03">
@@ -168,7 +175,7 @@ print_button.addEventListener("click", function (event) {
                                             Keterangan:
                                         </p>
                                         <p style="text-align:justify">
-                                            ${option.AlamatKirimDO}
+                                            ${formattedText}
                                         </p>
                                 </div>
                                 <span style="margin-right: 5px;display:flex;justify-content:right;">${
@@ -199,7 +206,7 @@ print_button.addEventListener("click", function (event) {
                     // count_do.innerHTML = options.count();
                     console.log(options);
                     options.forEach((option, index) => {
-                        // console.log(option);
+                        console.log(option);
                         let min_kirimSekunderValue = 0;
                         min_kirimSekunderValue = (
                             option.BERAT_TOTAL * option.MinKirimDO
