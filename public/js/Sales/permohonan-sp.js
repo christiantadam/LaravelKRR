@@ -1491,46 +1491,46 @@ function funcKolomBeratStandard() {
         element.addEventListener("input", function () {
             // console.log(trigger == 0);
             berat_indexKarung.value =
-                parseFloat(berat_karung.value) * parseFloat(index_karung.value);
+                (parseFloat(berat_karung.value) * parseFloat(index_karung.value)).toFixed(2);
 
             berat_indexInner.value =
-                parseFloat(berat_inner.value) * parseFloat(index_inner.value);
+                (parseFloat(berat_inner.value) * parseFloat(index_inner.value)).toFixed(2);
 
             berat_indexLami.value =
-                parseFloat(berat_lami.value) * parseFloat(index_lami.value);
+                (parseFloat(berat_lami.value) * parseFloat(index_lami.value)).toFixed(2);
 
             berat_indexKertas.value =
-                parseFloat(berat_kertas.value) * parseFloat(index_kertas.value);
+                (parseFloat(berat_kertas.value) * parseFloat(index_kertas.value)).toFixed(2);
 
             berat_standardTotal.value =
-                parseFloat(berat_karung.value) +
+                (parseFloat(berat_karung.value) +
                 parseFloat(berat_inner.value) +
                 parseFloat(berat_lami.value) +
-                parseFloat(berat_kertas.value);
+                parseFloat(berat_kertas.value)).toFixed(2);
 
             total_cost.value =
-                parseFloat(biaya_lain.value) +
+                (parseFloat(biaya_lain.value) +
                 parseFloat(berat_indexKarung.value) +
                 parseFloat(berat_indexInner.value) +
                 parseFloat(berat_indexKertas.value) +
-                parseFloat(berat_indexLami.value);
+                parseFloat(berat_indexLami.value)).toFixed(2);
 
             berat_standardTotalMeter.value =
-                parseFloat(berat_karungMeter.value) +
+                (parseFloat(berat_karungMeter.value) +
                 parseFloat(berat_innerMeter.value) +
                 parseFloat(berat_lamiMeter.value) +
-                parseFloat(berat_kertasMeter.value);
+                parseFloat(berat_kertasMeter.value)).toFixed(2);
 
             if (trigger == 0) {
-                berat_karungMeter.value = parseFloat(berat_karung.value);
-                berat_innerMeter.value = parseFloat(berat_inner.value);
-                berat_lamiMeter.value = parseFloat(berat_lami.value);
-                berat_kertasMeter.value = parseFloat(berat_kertas.value);
+                berat_karungMeter.value = parseFloat(berat_karung.value).toFixed(2);
+                berat_innerMeter.value = parseFloat(berat_inner.value).toFixed(2);
+                berat_lamiMeter.value = parseFloat(berat_lami.value).toFixed(2);
+                berat_kertasMeter.value = parseFloat(berat_kertas.value).toFixed(2);
                 berat_standardTotalMeter.value =
-                    parseFloat(berat_karungMeter.value) +
+                    (parseFloat(berat_karungMeter.value) +
                     parseFloat(berat_innerMeter.value) +
                     parseFloat(berat_lamiMeter.value) +
-                    parseFloat(berat_kertasMeter.value);
+                    parseFloat(berat_kertasMeter.value)).toFixed(2);
             }
         });
     });
