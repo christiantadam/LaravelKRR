@@ -31,46 +31,6 @@ let form_suratJalan = document.getElementById("form_suratJalan");
 //#endregion
 
 //#region input filter
-//Penjelasan setinputfilter function: https://jsfiddle.net/KarmaProd/tgn9d1uL/4/
-function setInputFilter(textbox, inputFilter, errMsg) {
-    [
-        "input",
-        "keydown",
-        "keyup",
-        "mousedown",
-        "mouseup",
-        "select",
-        "contextmenu",
-        "drop",
-        "focusout",
-    ].forEach(function (event) {
-        textbox.addEventListener(event, function (e) {
-            if (inputFilter(this.value)) {
-                // Accepted value
-                if (["keydown", "mousedown", "focusout"].indexOf(e.type) >= 0) {
-                    this.classList.remove("input-error");
-                    this.setCustomValidity("");
-                }
-                this.oldValue = this.value;
-                this.oldSelectionStart = this.selectionStart;
-                this.oldSelectionEnd = this.selectionEnd;
-            } else if (this.hasOwnProperty("oldValue")) {
-                // Rejected value - restore the previous one
-                this.classList.add("input-error");
-                this.setCustomValidity(errMsg);
-                this.reportValidity();
-                this.value = this.oldValue;
-                this.setSelectionRange(
-                    this.oldSelectionStart,
-                    this.oldSelectionEnd
-                );
-            } else {
-                // Rejected value - nothing to restore
-                this.value = "";
-            }
-        });
-    });
-}
 
 setInputFilter(
     document.getElementById("biaya"),
@@ -157,18 +117,84 @@ id_kirimSelect.addEventListener("keypress", function (event) {
             this.disabled = true;
             const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
             id_kirimText.dispatchEvent(enterEvent);
+            console.log(id_kirimText.value);
         }
     }
 });
 
-id_kirimText.addEventListener("Keypress", function(event){
+id_kirimText.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
+        console.log("masuk enter");
         event.preventDefault();
-        fetch("/editSJ/" + id_kirimText.value)
-        .then((response) => response.json())
-        .then((data) => {
+        fetch("/options/editSJ/" + id_kirimText.value)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                biaya.value = parseFloat(data[0][0].Biaya);
+                const optionjenis_pengiriman = jenis_pengiriman.options;
 
-        })
+                for (let i = 0; i < optionjenis_pengiriman.length; i++) {
+                    const option = optionjenis_pengiriman[i];
+                    if (option.value === data[0][0].JnsIdPengiriman) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+
+                surat_jalan.value = data[0][0].IDPengiriman;
+                tanggal.value = data[0][0].Tanggal.split(" ")[0];
+                keterangan.value = data[0][0].Ket;
+                customer.innerHTML = "<option> -- Pilih Customer -- </option>";
+                data[2].forEach((option) => {
+                    let optionTagValue = option.IdCust.split("-");
+                    // console.log(optionTagValue);
+                    let optionTag = document.createElement("option");
+                    optionTag.value = optionTagValue[0].trim();
+                    optionTag.text = option.NamaCust;
+                    customer.appendChild(optionTag);
+                });
+
+                let optionTag = document.createElement("option");
+                optionTag.value = data[0][0].IDCust;
+                optionTag.text = id_kirimSelect.options[
+                    id_kirimSelect.selectedIndex
+                ].textContent
+                    .split("-")[1]
+                    .trim();
+                customer.appendChild(optionTag);
+                const optioncustomer = customer.options;
+
+                for (let i = 0; i < optioncustomer.length; i++) {
+                    const option = optioncustomer[i];
+                    if (option.value === data[0][0].IDCust) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+
+                const optionexpeditor = expeditor.options;
+
+                for (let i = 0; i < optionexpeditor.length; i++) {
+                    const option = optionexpeditor[i];
+                    if (option.value === data[0][0].IDExpeditor) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+
+                truk_nopol.value = data[0][0].TrukNopol;
+                let arrayDetail = [];
+
+                for (let i = 0; i < data[1].length; i++) {
+                    arrayDetail.push(data[1][i].IDDO);
+                    arrayDetail.push(data[1][i].Uraian);
+                    arrayDetail.push(data[1][i].IDDetailKirim);
+                    arrayDetail.push(data[1][i].IDSuratPesanan);
+
+                }
+                console.log(arrayDetail);
+                funcInsertRow(arrayDetail);
+            });
     }
 });
 

@@ -16,7 +16,7 @@ class SuratJalanController extends Controller
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_KIRIM_BLM_ACC');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($data);
-        return view('Sales.Transaksi.SuratJalan.Index', compact('data','access'));
+        return view('Sales.Transaksi.SuratJalan.Index', compact('data', 'access'));
     }
 
     //Show the form for creating a new resource.
@@ -27,7 +27,7 @@ class SuratJalanController extends Controller
         $expeditor = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_EXPEDITOR @Kode = ?', [1]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($customer);
-        return view('Sales.Transaksi.SuratJalan.Create', compact('jenisPengiriman', 'customer', 'expeditor','access'));
+        return view('Sales.Transaksi.SuratJalan.Create', compact('jenisPengiriman', 'customer', 'expeditor', 'access'));
     }
 
     public function getSuratPesanan($customer)
@@ -47,8 +47,13 @@ class SuratJalanController extends Controller
         return response()->json($suratJalan);
     }
 
-    function getDetailSuratJalan($id){
-        $headerPengiriman = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_HEADER_PENGIRIMAN @IdPengiriman = ')
+    function getDetailSuratJalan($id)
+    {
+        $headerPengiriman = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_HEADER_PENGIRIMAN @IdPengiriman = ?', [$id]);
+        $detailPengiriman = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DETAIL_PENGIRIMAN @IDHeaderKirim = ?', [$headerPengiriman[0]->IdHeaderKirim]);
+        $customer = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_CUSTOMER_KIRIM');
+        $data = [$headerPengiriman, $detailPengiriman, $customer];
+        return response()->json($data);
     }
     // Store a newly created resource in storage.
     public function store(Request $request)
@@ -97,7 +102,7 @@ class SuratJalanController extends Controller
             'Select IdHeaderKirim
             from T_HeaderPengiriman
             where JnsIdPengiriman = ' . $JnsIdPengiriman . ' and
-            IDPengiriman = \'' . $IDPengiriman. '\''
+            IDPengiriman = \'' . $IDPengiriman . '\''
         );
         // dd($IDHeaderKirim, $IdDO, $IDSuratPesanan);
         //save data detail duluu
