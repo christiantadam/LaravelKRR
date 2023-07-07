@@ -92,7 +92,7 @@ div_suratJalan.classList.toggle("disabled");
 
 //#endregion
 
-//#region Input Select Change
+//#region Add event listener
 
 customer.addEventListener("change", function () {
     let customer = this.value;
@@ -141,9 +141,35 @@ nomor_do.addEventListener("change", function () {
 });
 
 id_kirimSelect.addEventListener("change", function (event) {
-    id_kirimText.value = this.value;
+    if (this.selectedIndex !== 0) {
+        this.classList.add("input-error");
+        this.setCustomValidity("Tekan Enter!");
+        this.reportValidity();
+    }
     // console.log(id_kirimText.value)
+});
 
+id_kirimSelect.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        event.preventDefault();
+        if (this.selectedIndex !== 0) {
+            id_kirimText.value = this.value;
+            this.disabled = true;
+            const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
+            id_kirimText.dispatchEvent(enterEvent);
+        }
+    }
+});
+
+id_kirimText.addEventListener("Keypress", function(event){
+    if (event.key == "Enter") {
+        event.preventDefault();
+        fetch("/editSJ/" + id_kirimText.value)
+        .then((response) => response.json())
+        .then((data) => {
+
+        })
+    }
 });
 
 truk_nopol.addEventListener("change", function () {
@@ -164,13 +190,6 @@ nomor_do.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
         // add_item.focus();
-    }
-});
-
-id_kirimSelect.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        // jenis_pengiriman.focus();
     }
 });
 

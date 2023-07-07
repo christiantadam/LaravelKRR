@@ -46,6 +46,10 @@ class SuratJalanController extends Controller
         $suratJalan = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_KIRIM_BLM_ACC');
         return response()->json($suratJalan);
     }
+
+    function getDetailSuratJalan($id){
+        $headerPengiriman = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_HEADER_PENGIRIMAN @IdPengiriman = ')
+    }
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
