@@ -1,5 +1,5 @@
 // get all element
-var rows = document.querySelectorAll("#table_PK tbody tr");
+var rows = document.querySelectorAll("#table_SJ tbody tr");
 let modalTitle = document.getElementById("modal-title");
 let button_submitSelected = document.getElementById("button_submitSelected");
 

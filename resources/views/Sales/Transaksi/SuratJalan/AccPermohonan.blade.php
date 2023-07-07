@@ -36,7 +36,7 @@
                             <tbody>
                                 @foreach ($data as $item)
                                     <tr class="acs-tr-hover">
-                                        <td class="RDZPaddingTable RDZCenterTable"><input type="checkbox" name="selected[]"
+                                        <td class="RDZPaddingTable RDZCenterTable" onclick="rowClickHandler('{{ $item->IdHeaderKirim }}')"><input type="checkbox" name="selected[]"
                                             id="id_headerKirim" value="{{ $item->IdHeaderKirim }}">{{ $item->IDPengiriman }} </td>
                                         <td class="RDZPaddingTable RDZCenterTable">
                                             {{ date('m-d-Y', strtotime($item->Tanggal)) }}</td>
