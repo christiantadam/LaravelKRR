@@ -356,7 +356,7 @@ class SuratPesananController extends Controller
     public function update(Request $request)
     {
         // $data = $request->all();
-        dd($request->all());
+        // dd($request->all());
 
         $UraianPesanan = null;
         $Lunas = null;
