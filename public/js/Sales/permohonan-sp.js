@@ -1437,7 +1437,7 @@ function funcBeratStandard(namaBarang) {
     fetch("/beratstandard/" + namaBarang)
         .then((response) => response.json())
         .then((data) => {
-            div_beratStandard.style.display = "block";
+            div_beratStandard.style.display = "flex";
             // console.log(data[0]);
             //ambil data dari database masuk ke input text
             berat_karung.value = data[0].BERAT_KARUNG3;
