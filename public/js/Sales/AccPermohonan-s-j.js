@@ -16,12 +16,7 @@ rows.forEach(function (row) {
 
 function showModal(row) {
     // get the data from the row
-    var IDPengiriman = row.cells[0].textContent;
-    var Tanggal = row.cells[1].textContent;
-    var NamaCust = row.cells[2].textContent;
-    var NamaExpeditor = row.cells[3].textContent;
-    var TrukNopol = row.cells[4].textContent;
-    var IdHeaderKirim = row.cells[5].textContent;
+    let IdHeaderKirim = row.cells[5].textContent;
 
     // populate the modal with the data
     // console.log(row);
