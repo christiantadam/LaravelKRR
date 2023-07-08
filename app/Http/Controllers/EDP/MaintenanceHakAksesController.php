@@ -37,25 +37,28 @@ class MaintenanceHakAksesController extends Controller
         if (!empty($request->deletedValues)) {
             $deletedValues = json_decode($request->deletedValues);
 
-            DB::connection('ConnEDP')
-                ->table('User_Fitur')
-                ->leftJoin('UserMaster', 'User_fitur.Id_User', '=', 'UserMaster.IdUser')
-                ->where('UserMaster.NomorUser', $request->namaPegawaiText)
-                ->whereIn('User_fitur.Id_Fitur', $deletedValues)
-                ->delete();
+            // DB::connection('ConnEDP')
+            //     ->table('User_Fitur')
+            //     ->leftJoin('UserMaster', 'User_fitur.Id_User', '=', 'UserMaster.IdUser')
+            //     ->where('UserMaster.NomorUser', $request->namaPegawaiText)
+            //     ->whereIn('User_fitur.Id_Fitur', $deletedValues)
+            //     ->delete();
+
+            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @DeletedValues = ?', [1, $request->namaPegawaiText, $deletedValues]);
         }
         if (!empty($request->addedValues)) {
             $addedValues = json_decode($request->addedValues);
-            $iduser = DB::connection('ConnEDP')->table('UserMaster')->select('IDUser')->where('NomorUser', '=', $request->namaPegawaiText)->get();
+            // $iduser = DB::connection('ConnEDP')->table('UserMaster')->select('IDUser')->where('NomorUser', '=', $request->namaPegawaiText)->get();
             // dd($addedValues[0], $iduser[0]->IDUser, $request->namaPegawaiText);
-            for ($i=0; $i < count($addedValues); $i++) {
-                DB::connection('ConnEDP')
-                ->table('User_Fitur')
-                ->insert([
-                    'Id_User' => $iduser[0]->IDUser,
-                    'Id_Fitur' => $addedValues[$i]
-                ]);
-            }
+
+            // DB::connection('ConnEDP')
+            //     ->table('User_Fitur')
+            //     ->insert([
+            //         'Id_User' => $iduser[0]->IDUser,
+            //         'Id_Fitur' => $addedValues
+            //     ]);
+            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @AddedValues = ?', [1, $request->namaPegawaiText, $addedValues]);
+
         }
 
         return redirect()->back()->with('success', 'Maintenance Berhasil!');

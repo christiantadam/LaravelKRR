@@ -5,7 +5,7 @@ let button_submitSelected = document.getElementById("button_submitSelected");
 
 // loop through each row and add a click event listener
 rows.forEach(function (row) {
-    var setujuiBtn = row.querySelector('button[type="submit"]');
+    // var setujuiBtn = row.querySelector('button[type="submit"]');
 
     // add a click event listener to the row to show the modal
     row.addEventListener("dblclick", function () {
