@@ -55,7 +55,7 @@ table tr td:first-child {
 
 @media print {
     .page-header-space {
-        height: 150px;
+        height: 160px;
     }
     .hollow-font {
         font-size: 27px;
@@ -72,7 +72,7 @@ table tr td:first-child {
     .acs-div-container * {
         /* font-family: "Times New Roman Semi Bold", sans-serif; */
         font-family: Arial, Helvetica, sans-serif;
-        font-weight: 450;
+        font-weight: 600;
         visibility: visible;
         border: none;
     }
@@ -95,13 +95,15 @@ table tr td:first-child {
         background-color: #f2f2f2;
         position: fixed;
     }
-    .acs-dopdf-container03{
+    .acs-dopdf-container03 {
         page-break-inside: avoid;
-        /* min-height: 150px; */
-        overflow: hidden;
+        font-size: 18px;
+    }
+    .acs-dopdf-container03 {
+        overflow-wrap: break-word;
     }
 }
 
 .page-break {
-    page-break-before: always;
+    page-break-after: always;
 }

@@ -22,7 +22,7 @@
                     <body>
                         <div class="cetak-dopdf-container">
                             <div class="cetak-dopdf-container02 header">
-                                <div style="display:flex; flex-direction: row;gap:5px; width: 100%;border: 1px solid black !important;">
+                                <div style="display:flex; flex-direction: row;gap:5px; width: 100%;border: 1px solid black !important;font-size: 18px;">
                                     <div style="text-align: center; padding:5px;width: 50%">
                                         <h2 style="margin-bottom: 0px"> <span>PT. KERTA RAJASA RAYA</span> </h2>
                                         <p style="margin-bottom: 0px"> <span>Woven Bag - Jumbo Bag

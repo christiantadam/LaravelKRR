@@ -87,7 +87,10 @@ print_button.addEventListener("click", function (event) {
                                 1000
                             ).toFixed(2);
                         }
-                        const formattedText = option.AlamatKirimDO.replace(/\r\n/g, "<br>");
+                        const formattedText = option.AlamatKirimDO.replace(
+                            /\r\n/g,
+                            "<br>"
+                        );
                         body_deliveryOrderBelumACC.innerHTML = `
                         <div class="acs-dopdf-container03">
                             <div class="cetak-dopdf-container03">
@@ -267,12 +270,15 @@ print_button.addEventListener("click", function (event) {
                                 </table>
                                 <table>
                                     <tr>
-                                        <td style="vertical-align: top">Jumlah:&nbsp;</td>
+                                        <td style="vertical-align: top;text-align: right">Jumlah:&nbsp;</td>
                                         <td>Min: </td>
                                         <td id="min_kirimKolom">${
                                             option.MinKirimDO
                                         }&nbsp;</td>
                                         <td>${option.SatuanJual}&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
                                         <td>Max:&nbsp;</td>
                                         <td id="max_kirimKolom">${
                                             option.MaxKirimDO
