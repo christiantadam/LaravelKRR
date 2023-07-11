@@ -764,7 +764,7 @@ no_spText.addEventListener("keypress", function (event) {
                         data[0][0][key] = "";
                     }
                 }
-                console.log(data[0][0]);
+                console.log(data);
                 // console.log(data[0][0].Tgl_Pesan.substr(0, 10));
                 tgl_pesan.value = data[0][0].Tgl_Pesan.substr(0, 10);
                 const optionJenisSp = jenis_sp.options;
@@ -822,26 +822,26 @@ no_spText.addEventListener("keypress", function (event) {
                         data[1][i].TglRencanaKirim.substr(0, 10),
                         data[1][i].Lunas,
                         data[1][i].PPN,
-                        data[1][i].BERAT_KARUNG,
+                        data[1][i].BERAT_KARUNG3,
                         data[1][i].INDEX_KARUNG,
                         data[1][i].HARGA_KARUNG,
-                        data[1][i].BERAT_INNER,
+                        data[1][i].BERAT_INNER3,
                         data[1][i].INDEX_INNER,
                         data[1][i].HARGA_INNER,
-                        data[1][i].BERAT_LAMI,
+                        data[1][i].BERAT_LAMI3,
                         data[1][i].INDEX_LAMI,
                         data[1][i].HARGA_LAMI,
-                        data[1][i].BERAT_CONDUCTIVE,
+                        data[1][i].BERAT_KERTAS3,
                         data[1][i].INDEX_KERTAS,
                         data[1][i].HARGA_KERTAS,
                         data[1][i].HARGA_LAIN2,
                         data[1][i].BERAT_TOTAL,
                         data[1][i].HARGA_TOTAL,
-                        data[1][i].BERAT_KARUNG3,
-                        data[1][i].BERAT_INNER3,
-                        data[1][i].BERAT_LAMI3,
-                        data[1][i].BERAT_KERTAS3,
-                        data[1][i].BERAT_TOTAL3,
+                        data[1][i].BERAT_KARUNG,
+                        data[1][i].BERAT_INNER,
+                        data[1][i].BERAT_LAMI,
+                        data[1][i].BERAT_CONDUCTIVE,
+                        data[1][i].BERAT_TOTAL,
                         data[1][i].IDJnsBarang,
                         data[1][i].IDPesanan,
                         data[1][i].Informasi,
