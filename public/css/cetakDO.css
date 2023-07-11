@@ -72,7 +72,7 @@ table tr td:first-child {
     .acs-div-container * {
         /* font-family: "Times New Roman Semi Bold", sans-serif; */
         font-family: Arial, Helvetica, sans-serif;
-        font-weight: 600;
+        font-weight: 500;
         visibility: visible;
         border: none;
     }
@@ -81,7 +81,6 @@ table tr td:first-child {
     }
     .cetak-sppdf-container07 {
         font-size: 15px;
-        font-weight: 600;
     }
     #div_cetakDO {
         /* margin-top: 10px; */
@@ -97,7 +96,7 @@ table tr td:first-child {
     }
     .acs-dopdf-container03 {
         page-break-inside: avoid;
-        font-size: 18px;
+        font-size: 20px;
     }
     .acs-dopdf-container03 {
         overflow-wrap: break-word;
