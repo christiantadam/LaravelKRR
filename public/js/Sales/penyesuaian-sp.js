@@ -841,7 +841,7 @@ no_spText.addEventListener("keypress", function (event) {
                         data[1][i].BERAT_INNER,
                         data[1][i].BERAT_LAMI,
                         data[1][i].BERAT_CONDUCTIVE,
-                        data[1][i].BERAT_TOTAL,
+                        data[1][i].BERAT_TOTAL3,
                         data[1][i].IDJnsBarang,
                         data[1][i].IDPesanan,
                         data[1][i].Informasi,
