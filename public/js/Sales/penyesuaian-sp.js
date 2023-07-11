@@ -973,24 +973,24 @@ update_button.addEventListener("click", function (event) {
         rowData[19] = parseFloat(berat_indexKertas.value);
         rowData[20] = !isNaN(parseFloat(biaya_lain.value))
             ? parseFloat(biaya_lain.value)
-            : 0;
+            : '0';
         rowData[21] = parseFloat(berat_standardTotal.value);
         rowData[22] = parseInt(total_cost.value);
         rowData[23] = !isNaN(parseFloat(berat_karungMeter.value))
             ? parseFloat(berat_karungMeter.value)
-            : 0;
+            : '0';
         rowData[24] = !isNaN(parseFloat(berat_innerMeter.value))
             ? parseFloat(berat_innerMeter.value)
-            : 0;
+            : '0';
         rowData[25] = !isNaN(parseFloat(berat_lamiMeter.value))
             ? parseFloat(berat_lamiMeter.value)
-            : 0;
+            : '0';
         rowData[26] = !isNaN(parseFloat(berat_kertasMeter.value))
             ? parseFloat(berat_kertasMeter.value)
-            : 0;
+            : '0';
         rowData[27] = !isNaN(parseFloat(berat_standardTotalMeter.value))
             ? parseFloat(berat_standardTotalMeter.value)
-            : 0;
+            : '0';
         rowData[28] = jenis_brg.value;
         rowData[30] = informasi_tambahan.value;
 
@@ -1300,13 +1300,13 @@ function funcBeratStandard(namaBarang) {
             berat_karung.value = data[0].BERAT_KARUNG3;
             berat_inner.value = data[0].BERAT_INNER3;
             berat_lami.value = data[0].BERAT_LAMI3;
-            berat_karungMeter.value = data[0].BERAT_KARUNG;
-            berat_innerMeter.value = data[0].BERAT_INNER;
-            berat_lamiMeter.value = data[0].BERAT_LAMI;
-            berat_kertasMeter.value = data[0].BERAT_CONDUCTIVE;
-            berat_standardTotalMeter.value = data[0].BERAT_TOTAL3;
+            berat_karungMeter.value = data[0].BERAT_KARUNG2;
+            berat_innerMeter.value = data[0].BERAT_INNER2;
+            berat_lamiMeter.value = data[0].BERAT_LAMI2;
+            berat_kertasMeter.value = data[0].BERAT_CONDUCTIVE2;
+            berat_standardTotalMeter.value = data[0].BERAT_TOTAL2;
             berat_kertas.value = data[0].BERAT_KERTAS3;
-            berat_standardTotal.value = data[0].BERAT_TOTAL;
+            berat_standardTotal.value = data[0].BERAT_TOTAL3;
             berat_karung.readOnly = false;
             berat_inner.readOnly = false;
             berat_lami.readOnly = false;
