@@ -1438,18 +1438,18 @@ function funcBeratStandard(namaBarang) {
         .then((response) => response.json())
         .then((data) => {
             div_beratStandard.style.display = "flex";
-            // console.log(data[0]);
+            console.log(data);
             //ambil data dari database masuk ke input text
             berat_karung.value = data[0].BERAT_KARUNG3;
             berat_inner.value = data[0].BERAT_INNER3;
             berat_lami.value = data[0].BERAT_LAMI3;
-            berat_karungMeter.value = data[0].BERAT_KARUNG;
-            berat_innerMeter.value = data[0].BERAT_INNER;
-            berat_lamiMeter.value = data[0].BERAT_LAMI;
-            berat_kertasMeter.value = data[0].BERAT_CONDUCTIVE;
-            berat_standardTotalMeter.value = data[0].BERAT_TOTAL3;
+            berat_karungMeter.value = data[0].BERAT_KARUNG2;
+            berat_innerMeter.value = data[0].BERAT_INNER2;
+            berat_lamiMeter.value = data[0].BERAT_LAMI2;
+            berat_kertasMeter.value = data[0].BERAT_CONDUCTIVE2;
+            berat_standardTotalMeter.value = data[0].BERAT_TOTAL2;
             berat_kertas.value = data[0].BERAT_KERTAS3;
-            berat_standardTotal.value = data[0].BERAT_TOTAL;
+            berat_standardTotal.value = data[0].BERAT_TOTAL3;
             berat_karung.readOnly = false;
             berat_inner.readOnly = false;
             berat_lami.readOnly = false;
