@@ -1096,21 +1096,21 @@ update_button.addEventListener("click", function (event) {
         rowData[21] = formatangka(parseFloat(total_cost.value));
         rowData[22] = !isNaN(formatangka(parseFloat(berat_karungMeter.value)))
             ? parseFloat(berat_karungMeter.value)
-            : 0;
+            : '0';
         rowData[23] = !isNaN(formatangka(parseFloat(berat_innerMeter.value)))
             ? parseFloat(berat_innerMeter.value)
-            : 0;
+            : '0';
         rowData[24] = !isNaN(formatangka(parseFloat(berat_lamiMeter.value)))
             ? parseFloat(berat_lamiMeter.value)
-            : 0;
+            : '0';
         rowData[25] = !isNaN(formatangka(parseFloat(berat_kertasMeter.value)))
             ? parseFloat(berat_kertasMeter.value)
-            : 0;
+            : '0';
         rowData[26] = !isNaN(
             formatangka(parseFloat(berat_standardTotalMeter.value))
         )
             ? parseFloat(berat_standardTotalMeter.value)
-            : 0;
+            : '0';
         rowData[27] = jenis_brg.value;
 
         // Update the data in the DataTable
