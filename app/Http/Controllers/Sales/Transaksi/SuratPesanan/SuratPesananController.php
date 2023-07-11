@@ -254,16 +254,16 @@ class SuratPesananController extends Controller
         // elseif ($no_pi !== null ) {
         // dd($jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan);
         $no_sp = DB::connection('ConnSales')->table('T_HeaderPesanan')
-        ->select('IDSuratPesanan')
-        ->where('IDJnsSuratPesanan', '=', $jenis_sp)
-        ->where('Tgl_Pesan', '=', $tgl_pesan)
-        ->where('IDCust', '=', $IdCust)
-        ->where('NO_PI', '=', $no_pi)
-        ->where('NO_PO', '=', $no_po)
-        ->where('Tgl_PO', '=', $tgl_po)
-        ->where('IDSales', '=', $list_sales)
-        ->where('Ket', '=', $keterangan)
-        ->get();
+            ->select('IDSuratPesanan')
+            ->where('IDJnsSuratPesanan', '=', $jenis_sp)
+            ->where('Tgl_Pesan', '=', $tgl_pesan)
+            ->where('IDCust', '=', $IdCust)
+            ->where('NO_PI', '=', $no_pi)
+            ->where('NO_PO', '=', $no_po)
+            ->where('Tgl_PO', '=', $tgl_po)
+            ->where('IDSales', '=', $list_sales)
+            ->where('Ket', '=', $keterangan)
+            ->get();
 
         // $no_sp = DB::connection('ConnSales')->select(
         //     'Select IDSuratPesanan
@@ -298,6 +298,7 @@ class SuratPesananController extends Controller
             @TglRencanaKirim = ?,
             @Lunas = ?,
             @PPN = ?,
+            @indek = ?,
             @ikarung = ?,
             @hkarung = ?,
             @iinner = ?,
@@ -308,7 +309,7 @@ class SuratPesananController extends Controller
             @hkertas = ?,
             @hlain = ?,
             @htotal = ?',
-                [$kode, $no_sp[0]->IDSuratPesanan, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
+                [$kode, $no_sp[0]->IDSuratPesanan, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
             );
             //Simpan BS Berat Standard
             // dd($KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user);
