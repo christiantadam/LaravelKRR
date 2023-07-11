@@ -315,11 +315,11 @@ class SuratPesananController extends Controller
             DB::connection('ConnPurchase')->statement(
                 'exec SP_5409_SLS_UPDATE_BS
             @KodeBarang = ?,
-            @bkarung2 = ?,
-            @binner2 = ?,
-            @blami2 = ?,
-            @bkertas2 = ?,
-            @bs2 = ?,
+            @bkarung = ?,
+            @binner = ?,
+            @blami = ?,
+            @bkertas = ?,
+            @BeratStandart= ?,
             @UserId = ?',
                 [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
             );
@@ -494,11 +494,11 @@ class SuratPesananController extends Controller
             DB::connection('ConnPurchase')->statement(
                 'exec SP_5409_SLS_UPDATE_BS
             @KodeBarang = ?,
-            @bkarung2 = ?,
-            @binner2 = ?,
-            @blami2 = ?,
-            @bkertas2 = ?,
-            @bs2 = ?,
+            @bkarung = ?,
+            @binner = ?,
+            @blami = ?,
+            @bkertas = ?,
+            @BeratStandart = ?,
             @UserId = ?',
                 [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
             );
