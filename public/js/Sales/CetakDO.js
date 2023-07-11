@@ -151,6 +151,9 @@ print_button.addEventListener("click", function (event) {
                                                 option.MinKirimDO
                                             }&nbsp;</td>
                                             <td>${option.SatuanJual.trim()}&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
                                             <td>Max:&nbsp;</td>
                                             <td id="max_kirimKolom">${
                                                 option.MaxKirimDO
@@ -158,9 +161,6 @@ print_button.addEventListener("click", function (event) {
                                             <td>${option.SatuanJual.trim()}&nbsp;</td>
                                         </tr>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td id="min_kirimSekunderKolom">${min_kirimSekunderValue}&nbsp;</td>
