@@ -36,6 +36,7 @@ class MaintenanceHakAksesController extends Controller
 
         if (!empty($request->deletedValues)) {
             $deletedValues = json_decode($request->deletedValues);
+            $detedValuesString = implode(', ', $deletedValues);
 
             // DB::connection('ConnEDP')
             //     ->table('User_Fitur')
@@ -44,20 +45,20 @@ class MaintenanceHakAksesController extends Controller
             //     ->whereIn('User_fitur.Id_Fitur', $deletedValues)
             //     ->delete();
 
-            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @DeletedValues = ?', [1, $request->namaPegawaiText, $deletedValues]);
+            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @DeletedValues = ?', [1, $request->namaPegawaiText, $detedValuesString]);
         }
         if (!empty($request->addedValues)) {
             $addedValues = json_decode($request->addedValues);
+            $addedValuesString = implode(', ', $addedValues);
             // $iduser = DB::connection('ConnEDP')->table('UserMaster')->select('IDUser')->where('NomorUser', '=', $request->namaPegawaiText)->get();
             // dd($addedValues[0], $iduser[0]->IDUser, $request->namaPegawaiText);
-
             // DB::connection('ConnEDP')
             //     ->table('User_Fitur')
             //     ->insert([
             //         'Id_User' => $iduser[0]->IDUser,
             //         'Id_Fitur' => $addedValues
             //     ]);
-            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @AddedValues = ?', [1, $request->namaPegawaiText, $addedValues]);
+            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @AddedValues = ?', [1, $request->namaPegawaiText, $addedValuesString]);
 
         }
 
