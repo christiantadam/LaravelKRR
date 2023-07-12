@@ -847,7 +847,6 @@ list_noSP.addEventListener("click", function (event) {
 no_spSelect.addEventListener("change", function () {
     // console.log(this.selectedIndex);
     if (this.selectedIndex !== 0) {
-        this.classList.add("input-error");
         this.setCustomValidity("Tekan Enter!");
         this.reportValidity();
     }

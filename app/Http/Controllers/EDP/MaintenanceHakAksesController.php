@@ -32,12 +32,12 @@ class MaintenanceHakAksesController extends Controller
 
     function EditUserFitur(Request $request)
     {
-        // dd($request->all(), !empty($request->addedValues));
+        // dd($request->all(), !empty($request->addedValues), $request->deletedValues !== "[]");
 
-        if (!empty($request->deletedValues)) {
+        if ($request->deletedValues !== "[]") {
             $deletedValues = json_decode($request->deletedValues);
             $detedValuesString = implode(', ', $deletedValues);
-
+            dd($detedValuesString);
             // DB::connection('ConnEDP')
             //     ->table('User_Fitur')
             //     ->leftJoin('UserMaster', 'User_fitur.Id_User', '=', 'UserMaster.IdUser')
@@ -47,9 +47,10 @@ class MaintenanceHakAksesController extends Controller
 
             DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @DeletedValues = ?', [1, $request->namaPegawaiText, $detedValuesString]);
         }
-        if (!empty($request->addedValues)) {
+        if ($request->addedValues !== "[]") {
             $addedValues = json_decode($request->addedValues);
             $addedValuesString = implode(', ', $addedValues);
+            // dd($addedValuesString, $request->namaPegawaiText);
             // $iduser = DB::connection('ConnEDP')->table('UserMaster')->select('IDUser')->where('NomorUser', '=', $request->namaPegawaiText)->get();
             // dd($addedValues[0], $iduser[0]->IDUser, $request->namaPegawaiText);
             // DB::connection('ConnEDP')
@@ -58,7 +59,7 @@ class MaintenanceHakAksesController extends Controller
             //         'Id_User' => $iduser[0]->IDUser,
             //         'Id_Fitur' => $addedValues
             //     ]);
-            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @AddedValues = ?', [1, $request->namaPegawaiText, $addedValuesString]);
+            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @AddedValues = ?', [2, $request->namaPegawaiText, $addedValuesString]);
 
         }
 
