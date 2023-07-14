@@ -82,11 +82,6 @@ table tr td:first-child {
     .cetak-sppdf-container07 {
         font-size: 15px;
     }
-    #div_cetakDO {
-        /* margin-top: 10px; */
-        width: 100%;
-        page-break-before: avoid;
-    }
     .header {
         top: 0;
         left: 0;
@@ -95,12 +90,16 @@ table tr td:first-child {
         position: fixed;
     }
     .acs-dopdf-container03 {
+        display: block;
+        min-height: 250px;
+        max-height: 900px;
+        overflow-y: hidden;
         page-break-inside: avoid;
         font-size: 16px;
         overflow-wrap: anywhere;
     }
 }
 
-.page-break {
+/* .page-break {
     page-break-after: always;
-}
+} */
