@@ -1005,7 +1005,7 @@ add_button.addEventListener("click", function (event) {
         alert("Quantity pesan harap diisi!");
         qty_pesan.focus();
         return;
-    } else if (harga_satuan.value <= 0) {
+    } else if (harga_satuan.value < 0 || harga_satuan.value == "") {
         alert("Harga satuan harap diisi");
         harga_satuan.focus();
         return;
