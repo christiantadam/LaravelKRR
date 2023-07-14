@@ -47,6 +47,7 @@ let saldo_tritierSatuan = document.getElementById("saldo_tritierSatuan");
 let sub_kelompok = document.getElementById("sub_kelompok");
 // let table_AccPenjualan = document.getElementById("table_AccPenjualan");
 let tgl_mohonDO = document.getElementById("tgl_mohonDO");
+let jumlahDicentang = 0;
 //#region Set Input Filter
 
 //#endregion
@@ -296,7 +297,28 @@ pilihSemuaButton.addEventListener("click", function () {
     const tritierSum = tritierData
         .reduce((acc, value) => acc + parseFloat(value), 0)
         .toFixed(2);
-    console.log(primerSum, sekunderSum, tritierSum);
+    console.log(primerSum, sekunderSum, tritierSum, dataTable.rows().count());
+    console.log(dataTable);
+
+    // Get a reference to the first column (index 0)
+    let firstColumn = dataTable.data().column(0).data();
+    console.log(firstColumn);
+
+    // Loop through each cell in the first column
+    firstColumn.each(function (data, index) {
+        // Modify the content of each cell
+        console.log(index);
+        let modifiedData = '<input type="checkbox" checked>' + (index + 1);
+
+        // Update the cell data
+        dataTable.cell(index, 0).data(modifiedData);
+        console.log(dataTable.cell(index, 0).data());
+    });
+
+    // Redraw the DataTable to reflect the changes
+    dataTable.draw();
+
+    jumlahDicentang = dataTable.rows().count();
     // checkboxes.forEach(function (checkbox) {
     //     checkbox.checked = true;
 
@@ -361,11 +383,12 @@ prosesButton.addEventListener("click", function (event) {
     const selectedRowData = [];
     let noindeks = [];
 
+    console.log(selectedCheckboxes);
     selectedCheckboxes.each(function () {
         const row = $(this).closest("tr");
         const rowData = dataTable.row(row).data();
         selectedRowData.push(rowData);
-        // console.log(selectedRowData);
+        console.log(selectedRowData);
     });
 
     for (let i = 0; i < selectedRowData.length; i++) {
@@ -479,7 +502,7 @@ prosesButton.addEventListener("click", function (event) {
                 jumlahdicentangInput.value = selectedCheckboxes.length;
                 form_accJualBarcode.appendChild(jumlahdicentangInput);
 
-                form_accJualBarcode.submit();
+                // form_accJualBarcode.submit();
             }
         }
     }

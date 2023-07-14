@@ -263,25 +263,9 @@ class SuratPesananController extends Controller
             ->where('Tgl_PO', '=', $tgl_po)
             ->where('IDSales', '=', $list_sales)
             ->where('Ket', '=', $keterangan)
-            ->get();
-
-        // $no_sp = DB::connection('ConnSales')->select(
-        //     'Select IDSuratPesanan
-        //                                                 from T_HeaderPesanan
-        //                                                 where IDJnsSuratPesanan = ? and
-        //                                                 Tgl_Pesan = ? and
-        //                                                 IDCust = ? and
-        //                                                 NO_PI = ? and
-        //                                                 NO_PO = ? and
-        //                                                 Tgl_PO = ? and
-        //                                                 IDSales = ? and
-        //                                                 Ket = ?',
-        //     [$jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan],
-        // );
-        // }
-
-        // dd($no_sp);
-        // dd($kode, $no_sp, $KodeBarang, $IdJnsBarang, $Qty, $Satuan, $HargaSatuan, 0.0, $UraianPesanan ?? null, $TglRencanaKirim, $Lunas ?? null, $ppn, $ikarung, $hkarung, $iinner, $hinner, $ilami, $hlami, $ikertas, $hkertas, $hlain, $htotal);
+            ->latest('IDSuratPesanan')
+            ->first();
+        // dd($no_sp->IDSuratPesanan);
 
         // kemudian beralih ke maintenance detail pesanan nich...
         for ($i = 0; $i < count($bkarung); $i++) {
@@ -309,7 +293,7 @@ class SuratPesananController extends Controller
             @hkertas = ?,
             @hlain = ?,
             @htotal = ?',
-                [$kode, $no_sp[0]->IDSuratPesanan, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
+                [$kode, $no_sp->IDSuratPesanan, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
             );
             //Simpan BS Berat Standard
             // dd($KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user);
@@ -325,7 +309,7 @@ class SuratPesananController extends Controller
                 [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp[0]->IDSuratPesanan . ' Sudah Dibuat!');
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp->IDSuratPesanan . ' Sudah Dibuat!');
         // echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
         // echo "<script type='text/javascript'>window.close();</script>";
     }

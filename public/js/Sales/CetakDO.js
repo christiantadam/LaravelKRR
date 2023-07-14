@@ -132,15 +132,19 @@ print_button.addEventListener("click", function (event) {
                                 <div class="cetak-dopdf-container04">
                                     <table>
                                         <tr>
-                                            <td style="vertical-align: top;">Spesifikasi:&nbsp;</td>
-                                            <td style="max-width: 200px"><span id="nama_kelompokKolom">Ukuran: ${
+                                            <td style="vertical-align: top;white-space: nowrap;">Spesifikasi:&nbsp;</td>
+                                            <td><span id="nama_kelompokKolom">Ukuran: ${
                                                 option.NamaKelompok
                                             }</span> <br> <span
                                                     id="nama_barangKolom">${
                                                         option.NamaBarang
                                                     }</span></td>
+                                        </tr>
+                                        <tr>
                                             <td></td>
-                                            <td style="vertical-align: top">Corak</td>
+                                            <td style="vertical-align: top;overflow-wrap: break-word;                                            ">Corak: ${
+                                                option.Corak
+                                            }</td>
                                         </tr>
                                     </table>
                                     <table>
@@ -174,7 +178,7 @@ print_button.addEventListener("click", function (event) {
                                 </div>
                             </div>
                             <div style="display:flex; flex-direction:row;margin:3px;gap:5px">
-                                        <p>
+                                        <p style="white-space: nowrap">
                                             Keterangan:
                                         </p>
                                         <p style="text-align:justify">

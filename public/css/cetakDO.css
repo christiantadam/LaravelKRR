@@ -71,7 +71,7 @@ table tr td:first-child {
     .acs-div-container,
     .acs-div-container * {
         /* font-family: "Times New Roman Semi Bold", sans-serif; */
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: Arial, Helvetica, serif;
         font-weight: 500;
         visibility: visible;
         border: none;
@@ -96,10 +96,8 @@ table tr td:first-child {
     }
     .acs-dopdf-container03 {
         page-break-inside: avoid;
-        font-size: 18px;
-    }
-    .acs-dopdf-container03 {
-        overflow-wrap: break-word;
+        font-size: 16px;
+        overflow-wrap: anywhere;
     }
 }
 
