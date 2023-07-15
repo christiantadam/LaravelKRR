@@ -176,46 +176,17 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                             "click",
                             "tr",
                             function () {
-                                // const checkbox = $(this).find(
-                                //     "input[type='checkbox']"
-                                // );
-                                // checkbox.prop(
-                                //     "checked",
-                                //     !checkbox.prop("checked")
-                                // );
-
-                                // const selectedCheckboxes = $(
-                                //     "#table_AccBarcodePenjualan tbody input[type='checkbox']:checked"
-                                // );
-                                // const selectedRowData = [];
-
-                                // selectedCheckboxes.each(function () {
-                                //     const row = $(this).closest("tr");
-                                //     const rowData = dataTable.column(row).data();
-                                //     selectedRowData.push(rowData);
-                                //     primer += parseFloat(rowData[3]);
-                                //     sekunder += parseFloat(rowData[4]);
-                                //     tritier += parseFloat(rowData[5]);
-                                // });
-                                // saldo_primerDikeluarkan.value = primer;
-                                // saldo_sekunderDikeluarkan.value = sekunder;
-                                // saldo_tritierDikeluarkan.value = tritier;
-
-                                // if (
-                                //     saldo_sekunderSatuan.value == "MTR" &&
-                                //     max_doSatuan.value == "YARD"
-                                // ) {
-                                //     jumlah_konversi.value =
-                                //         (tritier / 915) * 1000;
-                                //     jumlah_konversi.readOnly = true;
-                                // }
-
                                 let checkbox = $(this)
                                     .find("td:eq(0)")
                                     .find('input[type="checkbox"]');
 
                                 // Check the checkbox
                                 checkbox.prop("checked", true);
+
+                                let row = table.row(this);
+                                row.data().checkbox = checkbox.prop("checked")
+                                    ? '<input type="checkbox" checked>'
+                                    : '<input type="checkbox">'; // Update the checkbox HTML in the data object
 
                                 // Get the value of column 3
                                 let primerData = parseFloat(
@@ -318,38 +289,6 @@ pilihSemuaButton.addEventListener("click", function () {
     // Redraw the DataTable to reflect the changes
     dataTable.draw();
 
-    jumlahDicentang = dataTable.rows().count();
-    // checkboxes.forEach(function (checkbox) {
-    //     checkbox.checked = true;
-
-    //     let tritier = 0;
-    //     let sekunder = 0;
-    //     let primer = 0;
-    //     const selectedCheckboxes = $(
-    //         "#table_AccBarcodePenjualan tbody input[type='checkbox']:checked"
-    //     );
-    //     const selectedRowData = [];
-
-    //     selectedCheckboxes.each(function () {
-    //         const row = $(this).closest("tr");
-    //         const rowData = dataTable.row(row).data();
-    //         selectedRowData.push(rowData);
-    //         primer += parseFloat(rowData[3]);
-    //         sekunder += parseFloat(rowData[4]);
-    //         tritier += parseFloat(rowData[5]);
-    //     });
-    //     saldo_primerDikeluarkan.value = primer;
-    //     saldo_sekunderDikeluarkan.value = sekunder;
-    //     saldo_tritierDikeluarkan.value = tritier;
-
-    //     if (
-    //         saldo_sekunderSatuan.value == "MTR" &&
-    //         max_doSatuan.value == "YARD"
-    //     ) {
-    //         jumlah_konversi.value = (tritier / 915) * 1000;
-    //         jumlah_konversi.readOnly = true;
-    //     }
-    // });
     saldo_primerDikeluarkan.value = primerSum;
     saldo_sekunderDikeluarkan.value = sekunderSum;
     saldo_tritierDikeluarkan.value = tritierSum;
@@ -376,34 +315,27 @@ hapusButton.addEventListener("click", function () {
 
 prosesButton.addEventListener("click", function (event) {
     event.preventDefault();
-    const selectedCheckboxes = $(
-        "#table_AccBarcodePenjualan tbody input[type='checkbox']:checked"
-    );
-    const dataTable = $("#table_AccBarcodePenjualan").DataTable();
-    const selectedRowData = [];
-    let noindeks = [];
+    let table = $("#table_AccBarcodePenjualan").DataTable();
 
-    console.log(selectedCheckboxes);
-    selectedCheckboxes.each(function () {
-        const row = $(this).closest("tr");
-        const rowData = dataTable.row(row).data();
-        selectedRowData.push(rowData);
-        console.log(selectedRowData);
+    let selectedRowData = [];
+
+    table.rows().every(function () {
+        var rowData = this.data();
+        let checkbox = $(rowData.checkbox);
+
+        console.log(rowData);
+        if (checkbox.is(":checked")) {
+            selectedRowData.push(rowData);
+        }
     });
-
+    console.log(selectedRowData);
+    console.log(selectedRowData.length);
+    let kodebarang = selectedRowData[0].expr2;
+    let noindeks = [];
     for (let i = 0; i < selectedRowData.length; i++) {
-        noindeks = selectedRowData[i][1];
-
-        let noindeksInput = document.createElement("input");
-        noindeksInput.type = "hidden";
-        noindeksInput.name = "noindeks[]";
-        noindeksInput.value = noindeks;
-        form_accJualBarcode.appendChild(noindeksInput);
+        noindeks.push(selectedRowData[i].expr3);
     }
-
-    let kodebarang = selectedRowData[0][2];
-
-    if (selectedCheckboxes.length < 0) {
+    if (selectedRowData.length < 0) {
         alert("Tolong pilih barcode dulu!");
         return; // Exit the function if a checked checkbox is not found
     }
@@ -463,14 +395,14 @@ prosesButton.addEventListener("click", function (event) {
         }
     }
 
-    /*if (
+    if (
         saldo_primerDikeluarkan.value > saldo_primer.value ||
         saldo_sekunderDikeluarkan.value > saldo_sekunder.value ||
         saldo_tritierDikeluarkan.value > saldo_tritier.value
     ) {
         alert("Jumlah Barang Di Gudang Tidak Mencukupi");
         return;
-    }*/
+    }
 
     if (
         (saldo_primerDikeluarkanSatuan.value !== "NULL" &&
@@ -499,10 +431,16 @@ prosesButton.addEventListener("click", function (event) {
                 let jumlahdicentangInput = document.createElement("input");
                 jumlahdicentangInput.type = "hidden";
                 jumlahdicentangInput.name = "jumlahDicentang";
-                jumlahdicentangInput.value = selectedCheckboxes.length;
+                jumlahdicentangInput.value = selectedRowData.length;
                 form_accJualBarcode.appendChild(jumlahdicentangInput);
 
-                // form_accJualBarcode.submit();
+                let noindeksInput = document.createElement("input");
+                noindeksInput.type = "hidden";
+                noindeksInput.name = "noindeks";
+                noindeksInput.value = noindeks;
+                form_accJualBarcode.appendChild(noindeksInput);
+
+                form_accJualBarcode.submit();
             }
         }
     }
