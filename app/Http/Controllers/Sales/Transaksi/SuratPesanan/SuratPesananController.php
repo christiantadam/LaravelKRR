@@ -64,16 +64,10 @@ class SuratPesananController extends Controller
     // }
 
     //Show the form for creating a new resource.
-    public function create(Request $request)
+    public function create()
     {
-        //
-        // $header_pesanan = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC @Kode = ?,
-        //                                                     @IDSURATPESANAN = ?', [1, $id]);
-        // $detail_pesanan = DB::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_DETAIL_SP @Kode = ?,
-        //                                                     @IDSURATPESANAN = ?', [5, $id]);
         $jenis_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
         $list_customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
-        // dd($list_customer);
         $list_sales = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALES');
         $jenis_bayar = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
         $jenis_brg = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBRG');
@@ -310,6 +304,16 @@ class SuratPesananController extends Controller
             );
         }
         return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp->IDSuratPesanan . ' Sudah Dibuat!');
+        // echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
+        // echo "<script type='text/javascript'>window.close();</script>";
+    }
+    //Store a newly created resource in storage.
+    public function storeExport(Request $request)
+    {
+        //SP_5409_SLS_MAINT_HEADERPESANAN
+        //SP_1486_SLS_MAINT_DETAILPESANAN1
+        // $data = $request->all();
+        // dd($data);
         // echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
         // echo "<script type='text/javascript'>window.close();</script>";
     }

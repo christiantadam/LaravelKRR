@@ -19,6 +19,7 @@ let berat_standardTotalMeter = document.getElementById(
 );
 
 let biaya_lain = document.getElementById("biaya_lain");
+let checkbox_sample = document.getElementById("checkbox_sample");
 let delete_button = document.getElementById("delete_button");
 let div_beratStandard = document.getElementById("div_beratStandard");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
@@ -39,8 +40,8 @@ let isi_button = document.getElementById("isi_button");
 let jenis_bayar = document.getElementById("jenis_bayar");
 let jenis_brg = document.getElementById("jenis_brg");
 let jenis_sp = document.getElementById("jenis_sp");
-let kategori = document.getElementById("kategori");
-let kategori_utama = document.getElementById("kategori_utama");
+let kelompok = document.getElementById("kelompok");
+let kelompok_utama = document.getElementById("kelompok_utama");
 let keterangan = document.getElementById("keterangan");
 let kode_barang = document.getElementById("kode_barang");
 let kodeStJual;
@@ -69,7 +70,7 @@ let satuan_jual = document.getElementById("satuan_jual");
 let satuan_primer = document.getElementById("satuan_primer");
 let satuan_sekunder = document.getElementById("satuan_sekunder");
 let satuan_tritier = document.getElementById("satuan_tritier");
-let sub_kategori = document.getElementById("sub_kategori");
+let sub_kelompok = document.getElementById("sub_kelompok");
 let syarat_bayar = document.getElementById("syarat_bayar");
 let tgl_pesan = document.getElementById("tgl_pesan");
 let tgl_po = document.getElementById("tgl_po");
@@ -487,11 +488,20 @@ isi_button.addEventListener("click", function (event) {
         this.innerHTML = "Proses";
         edit_button.innerHTML = "Batal";
         hapus_button.style.display = "none";
-        mata_uang.value = "IDR";
+        mata_uang.value = "USD";
         tgl_pesan.focus();
         list_noSP.disabled = true;
     } else if (proses == 1) {
         //isi
+        let parts = list_customer.value.split('-');
+        let kdCust = parts[0].trim();
+        let IDCust = parts[1].trim();
+
+        if (jenis_sp.value == 1 && kdCust == "PXX" && faktur_pjkBiasa.checked == true) {
+            alert("Salah Pilih Jenis Pajak");
+            return;
+        }
+
         funcDatatablesIntoInput();
         form_suratPesanan.submit();
         div_tabelSuratPesanan.classList.toggle("disabled");
@@ -555,7 +565,7 @@ edit_button.addEventListener("click", function (event) {
         isi_button.innerHTML = "Proses";
         hapus_button.style.display = "none";
         no_spSelect.disabled = false;
-        mata_uang.value = "IDR";
+        mata_uang.value = "USD";
         list_noSP.disabled = false;
 
         //harus isi Nomor SP dulu!
@@ -608,7 +618,7 @@ hapus_button.addEventListener("click", function (event) {
 });
 
 jenis_brg.addEventListener("change", function () {
-    if (ppn.value === "EXCLUDE") {
+    if (ppn.value === "0") {
         return;
     }
     kode_barang.readOnly = false;
@@ -618,81 +628,79 @@ jenis_brg.addEventListener("change", function () {
     satuan_sekunder.value = "";
     satuan_tritier.value = "";
     satuan_jual.selectedIndex = "0";
-    kategori_utama.selectedIndex = "0";
-    kategori.innerHTML = "";
-    sub_kategori.innerHTML = "";
+    kelompok_utama.selectedIndex = "0";
+    kelompok.innerHTML = "";
+    sub_kelompok.innerHTML = "";
     nama_barang.innerHTML = "";
 });
 
-kategori_utama.addEventListener("change", function () {
+kelompok_utama.addEventListener("change", function () {
     // Code to retrieve options for the second select input based on the selected value of the first select input
-    let kategoriUtama = this.value; // Use the value of the first select input as the firstValue variable
+    let kelompokUtama = this.value; // Use the value of the first select input as the firstValue variable
     enter_kodeBarang.style.display = "none";
-    kategori.disabled = false;
-    sub_kategori.disabled = false;
+    kelompok.disabled = false;
+    sub_kelompok.disabled = false;
     nama_barang.disabled = false;
-    kategori.focus();
-    fetch("/options/kategori/" + kategoriUtama)
+    kelompok.focus();
+    fetch("/options/kelompok/" + kelompokUtama)
         .then((response) => response.json())
         .then((options) => {
-            console.log(options);
-            kategori.innerHTML =
-                "<option disabled selected value>-- Pilih Kategori --</option>";
+            kelompok.innerHTML =
+                "<option disabled selected value>-- Pilih Kelompok --</option>";
             options.forEach((option) => {
                 let optionTag = document.createElement("option");
-                optionTag.value = option.no_kategori;
-                optionTag.text = option.nama_kategori;
-                kategori.appendChild(optionTag);
+                optionTag.value = option.no_kelompok;
+                optionTag.text = option.nama_kelompok;
+                kelompok.appendChild(optionTag);
             });
-            sub_kategori.innerHTML =
-                "<option disabled selected value>-- Pilih Sub Kategori --</option>";
+            sub_kelompok.innerHTML =
+                "<option disabled selected value>-- Pilih Sub Kelompok --</option>";
             nama_barang.innerHTML =
                 "<option disabled selected value>-- Pilih Nama Barang --</option>";
             satuan_jual.disabled = false;
-            // fetch("/listsatuan/")
-            //     .then((response) => response.json())
-            //     .then((options) => {
-            //         satuan_jual.innerHTML =
-            //             "<option selected value>-- Pilih Satuan Jual --</option>";
-            //         options.forEach((option) => {
-            //             let optionTag = document.createElement("option");
-            //             optionTag.value = option.No_satuan;
-            //             optionTag.text = option.Nama_satuan;
-            //             satuan_jual.appendChild(optionTag);
-            //             satuan_jual.selectedIndex = 0;
-            //         });
-            //     });
-            // funcClearInputBarang();
+            fetch("/listsatuan/")
+                .then((response) => response.json())
+                .then((options) => {
+                    satuan_jual.innerHTML =
+                        "<option selected value>-- Pilih Satuan Jual --</option>";
+                    options.forEach((option) => {
+                        let optionTag = document.createElement("option");
+                        optionTag.value = option.No_satuan;
+                        optionTag.text = option.Nama_satuan;
+                        satuan_jual.appendChild(optionTag);
+                        satuan_jual.selectedIndex = 0;
+                    });
+                });
+            funcClearInputBarang();
         });
 });
 
-kategori.addEventListener("change", function () {
+kelompok.addEventListener("change", function () {
     // Code to retrieve options for the second select input based on the selected value of the first select input
-    let kategori = this.value; // Use the value of the first select input as the firstValue variable
-    sub_kategori.focus();
-    fetch("/options/subKategori/" + kategori)
+    let kelompok = this.value; // Use the value of the first select input as the firstValue variable
+    sub_kelompok.focus();
+    fetch("/options/subKelompok/" + kelompok)
         .then((response) => response.json())
         .then((options) => {
-            sub_kategori.innerHTML =
-                "<option disabled selected value>-- Pilih Sub Kategori --</option>";
+            sub_kelompok.innerHTML =
+                "<option disabled selected value>-- Pilih Sub Kelompok --</option>";
             options.forEach((option) => {
                 let optionTag = document.createElement("option");
-                optionTag.value = option.no_sub_kategori;
-                optionTag.text = option.nama_sub_kategori;
-                sub_kategori.appendChild(optionTag);
+                optionTag.value = option.no_sub_kelompok;
+                optionTag.text = option.nama_sub_kelompok;
+                sub_kelompok.appendChild(optionTag);
             });
         });
 });
 
-sub_kategori.addEventListener("change", function () {
+sub_kelompok.addEventListener("change", function () {
     // Code to retrieve options for the second select input based on the selected value of the first select input
-    let subKategori = this.value; // Use the value of the first select input as the firstValue variable
+    let subKelompok = this.value; // Use the value of the first select input as the firstValue variable
     nama_barang.focus();
     if (jenis_sp.options[jenis_sp.selectedIndex].text.trim() !== "SP EXPORT") {
-        fetch("/options/namaBarang/" + subKategori)
+        fetch("/options/namaBarang/" + subKelompok)
             .then((response) => response.json())
             .then((options) => {
-                console.log(options);
                 nama_barang.innerHTML =
                     "<option disabled selected value>-- Pilih Nama Barang --</option>";
                 options.forEach((option) => {
@@ -705,10 +713,9 @@ sub_kategori.addEventListener("change", function () {
     } else if (
         jenis_sp.options[jenis_sp.selectedIndex].text.trim() == "SP EXPORT"
     ) {
-        fetch("/options/namaBarangExport/" + subKategori)
+        fetch("/options/namaBarangExport/" + subKelompok)
             .then((response) => response.json())
             .then((options) => {
-                console.log(options);
                 nama_barang.innerHTML =
                     "<option disabled selected value>-- Pilih Nama Barang --</option>";
                 options.forEach((option) => {
@@ -729,7 +736,7 @@ nama_barang.addEventListener("change", function () {
         // Set the cursor position to the start of the value
         qty_pesan.selectionStart = 0;
     });
-    ppn.value = "EXCLUDE";
+    ppn.value = "0";
     ppn.readOnly = true;
     document.getElementById("kode_barang").readOnly = true;
 
@@ -768,9 +775,8 @@ nama_barang.addEventListener("change", function () {
             document.getElementById("satuan_sekunder").readOnly = true;
             document.getElementById("satuan_tritier").readOnly = true;
         });
-    // console.log(kategoriUtama.value);
 
-    //Jika kategori utama berasal dari KRR-Hasil Produksi, isi Berat Standard
+    //Jika kelompok utama berasal dari KRR-Hasil Produksi, isi Berat Standard
     funcBeratStandard(namaBarang);
     funcKolomBeratStandard();
 });
@@ -792,26 +798,26 @@ kode_barang.addEventListener("keypress", function (event) {
             .then((response) => response.json())
             .then((data) => {
                 // console.log(data[0]);
-                const optionKategoriUtama = kategori_utama.options;
-                for (let i = 0; i < optionKategoriUtama.length; i++) {
-                    const option = optionKategoriUtama[i];
+                const optionKelompokUtama = kelompok_utama.options;
+                for (let i = 0; i < optionKelompokUtama.length; i++) {
+                    const option = optionKelompokUtama[i];
                     if (option.value === data[0].no_kat_utama) {
                         option.selected = true;
                         break;
                     }
                 }
-                kategori.innerHTML = "";
-                sub_kategori.innerHTML = "";
+                kelompok.innerHTML = "";
+                sub_kelompok.innerHTML = "";
                 nama_barang.innerHTML = "";
-                //add option kategori sampai nama barang
-                let optionKategori = document.createElement("option");
-                optionKategori.value = data[0].no_kategori;
-                optionKategori.text = data[0].nama_kategori;
-                kategori.appendChild(optionKategori);
-                let optionSubKategori = document.createElement("option");
-                optionSubKategori.value = data[0].no_sub_kategori;
-                optionSubKategori.text = data[0].nama_sub_kategori;
-                sub_kategori.appendChild(optionSubKategori);
+                //add option kelompok sampai nama barang
+                let optionKelompok = document.createElement("option");
+                optionKelompok.value = data[0].no_kelompok;
+                optionkelompok.text = data[0].nama_kelompok;
+                kelompok.appendChild(optionKelompok);
+                let optionSubKelompok = document.createElement("option");
+                optionSubKelompok.value = data[0].no_sub_kelompok;
+                optionSubKelompok.text = data[0].nama_sub_kelompok;
+                sub_kelompok.appendChild(optionSubKelompok);
                 let optionNamaBarang = document.createElement("option");
                 optionNamaBarang.value = data[0].KodeBarang;
                 optionNamaBarang.text = data[0].NAMA_BRG;
@@ -826,7 +832,7 @@ kode_barang.addEventListener("keypress", function (event) {
                         break;
                     }
                 }
-                ppn.value = "EXCLUDE";
+                ppn.value = "0";
                 ppn.readOnly = true;
                 rencana_kirim.valueAsDate = new Date();
                 satuan_primer.value = data[0].SatPrimer;
@@ -1048,11 +1054,11 @@ add_button.addEventListener("click", function (event) {
     funcInsertRow(arraydata);
     funcClearInputBarang();
     jenis_brg.selectedIndex = 0;
-    kategori_utama.selectedIndex = 0;
-    kategori.innerHTML = "";
-    kategori.disabled = false;
-    sub_kategori.innerHTML = "";
-    sub_kategori.disabled = false;
+    kelompok_utama.selectedIndex = 0;
+    kelompok.innerHTML = "";
+    kelompok.disabled = false;
+    sub_kelompok.innerHTML = "";
+    sub_kelompok.disabled = false;
     nama_barang.innerHTML = "";
     nama_barang.disabled = false;
     enter_kodeBarang.style.display = "none";
@@ -1098,21 +1104,21 @@ update_button.addEventListener("click", function (event) {
         rowData[21] = formatangka(parseFloat(total_cost.value));
         rowData[22] = !isNaN(formatangka(parseFloat(berat_karungMeter.value)))
             ? parseFloat(berat_karungMeter.value)
-            : '0';
+            : "0";
         rowData[23] = !isNaN(formatangka(parseFloat(berat_innerMeter.value)))
             ? parseFloat(berat_innerMeter.value)
-            : '0';
+            : "0";
         rowData[24] = !isNaN(formatangka(parseFloat(berat_lamiMeter.value)))
             ? parseFloat(berat_lamiMeter.value)
-            : '0';
+            : "0";
         rowData[25] = !isNaN(formatangka(parseFloat(berat_kertasMeter.value)))
             ? parseFloat(berat_kertasMeter.value)
-            : '0';
+            : "0";
         rowData[26] = !isNaN(
             formatangka(parseFloat(berat_standardTotalMeter.value))
         )
             ? parseFloat(berat_standardTotalMeter.value)
-            : '0';
+            : "0";
         rowData[27] = jenis_brg.value;
 
         // Update the data in the DataTable
@@ -1122,11 +1128,11 @@ update_button.addEventListener("click", function (event) {
         // clear input fields
         funcClearInputBarang();
         jenis_brg.selectedIndex = 0;
-        kategori_utama.selectedIndex = 0;
-        kategori.innerHTML = "";
-        kategori.disabled = false;
-        sub_kategori.innerHTML = "";
-        sub_kategori.disabled = false;
+        kelompok_utama.selectedIndex = 0;
+        kelompok.innerHTML = "";
+        kelompok.disabled = false;
+        sub_kelompok.innerHTML = "";
+        sub_kelompok.disabled = false;
         nama_barang.innerHTML = "";
         nama_barang.disabled = false;
         enter_kodeBarang.style.display = "none";
@@ -1175,11 +1181,11 @@ delete_button.addEventListener("click", function (event) {
     }
     funcClearInputBarang();
     jenis_brg.selectedIndex = 0;
-    kategori_utama.selectedIndex = 0;
-    kategori.innerHTML = "";
-    kategori.disabled = false;
-    sub_kategori.innerHTML = "";
-    sub_kategori.disabled = false;
+    kelompok_utama.selectedIndex = 0;
+    kelompok.innerHTML = "";
+    kelompok.disabled = false;
+    sub_kelompok.innerHTML = "";
+    sub_kelompok.disabled = false;
     nama_barang.innerHTML = "";
     nama_barang.disabled = false;
     enter_kodeBarang.style.display = "none";
@@ -1204,7 +1210,7 @@ function funcClearHeaderPesanan() {
     no_po.value = "";
     tgl_po.valueAsDate = new Date();
     no_pi.value = "";
-    mata_uang.value = "";
+    mata_uang.selectedIndex = 0;
     jenis_bayar.selectedIndex = 0;
     syarat_bayar = "";
     faktur_pjkBiasa.checked = true;
@@ -1213,9 +1219,9 @@ function funcClearHeaderPesanan() {
 
 function funcClearInputBarang() {
     jenis_brg.selectedIndex = 0;
-    kategori_utama.selectedIndex = 0;
-    kategori.innerHTML = "";
-    sub_kategori.innerHTML = "";
+    kelompok_utama.selectedIndex = 0;
+    kelompok.innerHTML = "";
+    sub_kelompok.innerHTML = "";
     nama_barang.innerHTML = "";
     satuan_jual.selectedIndex = 0;
     qty_pesan.value = "";
@@ -1403,28 +1409,28 @@ function funcDisplayDataBrg(kodeBarangParameter) {
         .then((response) => response.json())
         .then((data) => {
             // console.log(data);
-            let optionTagKategori = document.createElement("option");
-            let optionTagSubKategori = document.createElement("option");
-            const optionKategoriUtama = kategori_utama.options;
+            let optionTagKelompok = document.createElement("option");
+            let optionTagSubKelompok = document.createElement("option");
+            const optionKelompokUtama = kelompok_utama.options;
 
-            for (let i = 0; i < optionKategoriUtama.length; i++) {
-                const option = optionKategoriUtama[i];
+            for (let i = 0; i < optionKelompokUtama.length; i++) {
+                const option = optionKelompokUtama[i];
                 if (option.value === data[0].IdKelompokUtama) {
                     option.selected = true;
                     break;
                 }
             }
             //disable dulu karena ndak ada isi optionnya hehe
-            // kategori.disabled = true;
-            // sub_kategori.disabled = true;
+            // kelompok.disabled = true;
+            // sub_kelompok.disabled = true;
             // nama_barang.disabled = true;
             //ngisi optionnya hehe
-            optionTagKategori.value = data[0].IdKelompok;
-            optionTagKategori.text = data[0].NamaKelompok;
-            optionTagSubKategori.value = data[0].IdCorak;
-            optionTagSubKategori.text = data[0].Corak;
-            kategori.appendChild(optionTagKategori);
-            sub_kategori.appendChild(optionTagSubKategori);
+            optionTagKelompok.value = data[0].IdKelompok;
+            optionTagKelompok.text = data[0].NamaKelompok;
+            optionTagSubKelompok.value = data[0].IdCorak;
+            optionTagSubKelompok.text = data[0].Corak;
+            kelompok.appendChild(optionTagKelompok);
+            sub_kelompok.appendChild(optionTagSubKelompok);
             //ngisi sisanya hehe
             satuan_primer.value = data[0].SatuanPrimer;
             satuan_sekunder.value = data[0].SatuanSekunder;
@@ -1434,7 +1440,7 @@ function funcDisplayDataBrg(kodeBarangParameter) {
 }
 
 function funcBeratStandard(namaBarang) {
-    // console.log("kategori utama: " + kategoriUtama.value);
+    // console.log("kelompok utama: " + kelompokUtama.value);
     // console.log('kode barang: ' + namaBarang);
     fetch("/beratstandard/" + namaBarang)
         .then((response) => response.json())
@@ -1492,47 +1498,61 @@ function funcKolomBeratStandard() {
     ].forEach(function (element) {
         element.addEventListener("input", function () {
             // console.log(trigger == 0);
-            berat_indexKarung.value =
-                (parseFloat(berat_karung.value) * parseFloat(index_karung.value)).toFixed(2);
+            berat_indexKarung.value = (
+                parseFloat(berat_karung.value) * parseFloat(index_karung.value)
+            ).toFixed(2);
 
-            berat_indexInner.value =
-                (parseFloat(berat_inner.value) * parseFloat(index_inner.value)).toFixed(2);
+            berat_indexInner.value = (
+                parseFloat(berat_inner.value) * parseFloat(index_inner.value)
+            ).toFixed(2);
 
-            berat_indexLami.value =
-                (parseFloat(berat_lami.value) * parseFloat(index_lami.value)).toFixed(2);
+            berat_indexLami.value = (
+                parseFloat(berat_lami.value) * parseFloat(index_lami.value)
+            ).toFixed(2);
 
-            berat_indexKertas.value =
-                (parseFloat(berat_kertas.value) * parseFloat(index_kertas.value)).toFixed(2);
+            berat_indexKertas.value = (
+                parseFloat(berat_kertas.value) * parseFloat(index_kertas.value)
+            ).toFixed(2);
 
-            berat_standardTotal.value =
-                (parseFloat(berat_karung.value) +
+            berat_standardTotal.value = (
+                parseFloat(berat_karung.value) +
                 parseFloat(berat_inner.value) +
                 parseFloat(berat_lami.value) +
-                parseFloat(berat_kertas.value)).toFixed(2);
+                parseFloat(berat_kertas.value)
+            ).toFixed(2);
 
-            total_cost.value =
-                (parseFloat(biaya_lain.value) +
+            total_cost.value = (
+                parseFloat(biaya_lain.value) +
                 parseFloat(berat_indexKarung.value) +
                 parseFloat(berat_indexInner.value) +
                 parseFloat(berat_indexKertas.value) +
-                parseFloat(berat_indexLami.value)).toFixed(2);
+                parseFloat(berat_indexLami.value)
+            ).toFixed(2);
 
-            berat_standardTotalMeter.value =
-                (parseFloat(berat_karungMeter.value) +
+            berat_standardTotalMeter.value = (
+                parseFloat(berat_karungMeter.value) +
                 parseFloat(berat_innerMeter.value) +
                 parseFloat(berat_lamiMeter.value) +
-                parseFloat(berat_kertasMeter.value)).toFixed(2);
+                parseFloat(berat_kertasMeter.value)
+            ).toFixed(2);
 
             if (trigger == 0) {
-                berat_karungMeter.value = parseFloat(berat_karung.value).toFixed(2);
-                berat_innerMeter.value = parseFloat(berat_inner.value).toFixed(2);
+                berat_karungMeter.value = parseFloat(
+                    berat_karung.value
+                ).toFixed(2);
+                berat_innerMeter.value = parseFloat(berat_inner.value).toFixed(
+                    2
+                );
                 berat_lamiMeter.value = parseFloat(berat_lami.value).toFixed(2);
-                berat_kertasMeter.value = parseFloat(berat_kertas.value).toFixed(2);
-                berat_standardTotalMeter.value =
-                    (parseFloat(berat_karungMeter.value) +
+                berat_kertasMeter.value = parseFloat(
+                    berat_kertas.value
+                ).toFixed(2);
+                berat_standardTotalMeter.value = (
+                    parseFloat(berat_karungMeter.value) +
                     parseFloat(berat_innerMeter.value) +
                     parseFloat(berat_lamiMeter.value) +
-                    parseFloat(berat_kertasMeter.value)).toFixed(2);
+                    parseFloat(berat_kertasMeter.value)
+                ).toFixed(2);
             }
         });
     });

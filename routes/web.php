@@ -120,6 +120,16 @@ Route::group(['middleware' => ['auth']], function () {
 
     #endregion
 
+    #region Surat Pesanan Ekspor
+
+    Route::resource('SuratPesananEkspor', App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController::class);
+    Route::get('/options/kelompok/{kelompokUtama}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@getKelompok');
+    Route::get('/options/subKelompok/{kelompok}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@getSubKelompok');
+    Route::get('/options/namaBarang/{subKelompok}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@getNamaBarang');
+    Route::get('/options/namaBarangExport/{subKelompok}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@getNamaBarangExport');
+
+    #endregion
+
     #region Delivery Order
 
     Route::resource('DeliveryOrder', App\Http\Controllers\Sales\Transaksi\DeliveryOrder\DeliveryOrderController::class);
@@ -161,6 +171,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('CetakSP', App\Http\Controllers\Sales\Cetak\CetakSPController::class);
     Route::resource('CetakDO', App\Http\Controllers\Sales\Cetak\CetakDOController::class);
     Route::resource('CetakSJ', App\Http\Controllers\Sales\Cetak\CetakSJController::class);
+    Route::resource('CetakSPEkspor', App\Http\Controllers\Sales\Cetak\CetakSPEksportController::class);
+    Route::resource('CetakPI', App\Http\Controllers\Sales\Cetak\CetakPIController::class);
     Route::get('/nosp/{tanggal}', 'App\Http\Controllers\Sales\Cetak\CetakSPController@getSuratPesananSelect');
     Route::get('/text/suratpesanan/{nosp}', 'App\Http\Controllers\Sales\Cetak\CetakSPController@getSuratPesananText');
     Route::get('/options/jenissp/{nosp}', 'App\Http\Controllers\Sales\Cetak\CetakSPController@getJenisSp');

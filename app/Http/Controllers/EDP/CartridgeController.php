@@ -13,14 +13,14 @@ use App\Http\Controllers\Controller;
 
 class CartridgeController extends Controller
 {
-     public function index()
+    public function index()
     {
         $data = Cartridge::select()->get();
-        $maxid= Cartridge::max('id')+1;
+        $maxid = Cartridge::max('id') + 1;
         $User = Cartridge::select('User')->groupBy('User')->get();
         $Type = Cartridge::select('Type')->groupBy('Type')->get();
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
-        return view('EDP.Master.Cartridge.List',compact('data','maxid','User','Type', 'access'));
+        return view('EDP.Master.Cartridge.List', compact('data', 'maxid', 'User', 'Type', 'access'));
     }
 
     public function store(Request $request)
@@ -28,10 +28,10 @@ class CartridgeController extends Controller
         $AddCartridge = new Cartridge([
             'User' => strtoupper($request->get('user')),
             'Type' => strtoupper($request->get('type')),
-          ]);
-          $AddCartridge->save();
+        ]);
+        $AddCartridge->save();
 
-          return Back();
+        return Back();
     }
     public function show($id)
     {
