@@ -307,16 +307,7 @@ class SuratPesananController extends Controller
         // echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
         // echo "<script type='text/javascript'>window.close();</script>";
     }
-    //Store a newly created resource in storage.
-    public function storeExport(Request $request)
-    {
-        //SP_5409_SLS_MAINT_HEADERPESANAN
-        //SP_1486_SLS_MAINT_DETAILPESANAN1
-        // $data = $request->all();
-        // dd($data);
-        // echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
-        // echo "<script type='text/javascript'>window.close();</script>";
-    }
+
     //Display the specified resource.
     public function show(SuratPesanan $suratPesanan)
     {

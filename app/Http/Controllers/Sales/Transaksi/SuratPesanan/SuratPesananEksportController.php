@@ -24,14 +24,33 @@ class SuratPesananEksportController extends Controller
         $list_sales = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALES');
         $jenis_bayar = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
         $jenis_brg = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBRG');
-        $kategori_utama = DB::connection('ConnPurchase')->select('exec SP_1273_PRG_KATEGORI_UTAMA');
+        $kelompok_utama = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPEBARANG');
         $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
         $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        // dd($list_customer);
-        return view('Sales.Transaksi.SuratPesanan.CreateEkspor', compact('access', 'mata_uang' ,'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
+        // dd($kelompok_utama);
+        return view('Sales.Transaksi.SuratPesanan.CreateEkspor', compact('access', 'mata_uang' ,'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kelompok_utama', 'list_satuan', 'list_sp'));
     }
-
+    public function getKelompok($kelompokUtama)
+    {
+        $secondOptions = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_KELOMPOK @idKelUt = ?', [$kelompokUtama]);
+        // Return the options as JSON data
+        return response()->json($secondOptions);
+    }
+    public function getSubKelompok($kelompok)
+    {
+        $thirdOptions = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_SUBKEL @idKel = ?', [$kelompok]);
+        // dd($thirdOptions);
+        // Return the options as JSON data
+        return response()->json($thirdOptions);
+    }
+    public function getNamaBarang($subKelompok)
+    {
+        // dd($subKategori);
+        $fourthOptions = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_BARANG @idCorak = ?', [$subKelompok]);
+        // dd($fourthOptions);
+        return response()->json($fourthOptions);
+    }
     public function store(Request $request)
     {
         $UraianPesanan = null;

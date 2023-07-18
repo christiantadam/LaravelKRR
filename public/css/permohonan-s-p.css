@@ -379,6 +379,16 @@
     padding-left: 1%;
     flex-direction: column;
 }
+.acs-permohonan-s-p-container19 {
+    gap: 25px;
+    flex: 0 0 auto;
+    width: 10%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 1%;
+    flex-direction: column;
+}
 .permohonan-s-p-container20 {
     gap: 12px;
     flex: 0 0 auto;

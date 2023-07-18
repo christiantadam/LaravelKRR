@@ -147,27 +147,18 @@
                                     </table>
                                 </div>
                                 <div class="permohonan-s-p-container18" id="div_detailSuratPesanan">
-                                    <div class="permohonan-s-p-container19"> <span>Jenis Brg</span> <span>Kel. Utama</span>
+                                    <div class="acs-permohonan-s-p-container19"> <span>Kel. Utama</span>
                                         <span>Kelompok</span> <span>Sub Kelompok</span> <span>Nama Brg</span> <span>Kode
-                                            Brg</span>
+                                            Brg</span><span>Jenis Brg</span>
                                     </div>
                                     <div class="permohonan-s-p-container20">
-                                        <div class="permohonan-s-p-container21"> <select name="jenis_brg" id="jenis_brg"
-                                                class="form-control">
-                                                <option disabled selected value>-- Pilih Jenis Barang --</option>
-                                                @foreach ($jenis_brg as $data)
-                                                    <option value="{{ $data->IDJnsBrg }}">{{ $data->NamaJnsBrg }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
                                         <div class="permohonan-s-p-container22">
                                             <select name="kelompok_utama" id="kelompok_utama" class="form-control">
                                                 <option disabled selected value>-- Pilih Kelompok Utama --</option>
-                                                {{-- @foreach ($kategori_utama as $data)
-                                                    <option value="{{ $data->no_kat_utama }}">{{ $data->nama_kat_utama }}
+                                                @foreach ($kelompok_utama as $data)
+                                                    <option value="{{ $data->IDTYPEBARANG }}">{{ $data->NAMATYPEBARANG }}
                                                     </option>
-                                                @endforeach --}}
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="permohonan-s-p-container23">
@@ -184,6 +175,15 @@
                                                 class="permohonan-s-p-textinput17 input" readonly />
                                             <span id="enter_kodeBarang" style="display: none">Tekan Enter</span>
                                         </div>
+                                        <div class="permohonan-s-p-container21"> <select name="jenis_brg" id="jenis_brg"
+                                                class="form-control">
+                                                <option disabled selected value>-- Pilih Jenis Barang --</option>
+                                                @foreach ($jenis_brg as $data)
+                                                    <option value="{{ $data->IDJnsBrg }}">{{ $data->NamaJnsBrg }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="permohonan-s-p-container27"> <span>Qty Pesan</span> <span>Harga
                                             Satuan</span> <span>P P
@@ -196,7 +196,7 @@
                                                 placeholder="Harga Satuan" class="permohonan-s-p-textinput19 input"
                                                 id="harga_satuan" /> </div>
                                         <div class="permohonan-s-p-container31">
-                                            <select name="ppn" id="ppn">
+                                            <select name="ppn" id="ppn" class="input">
                                                 <option selected disabled>-- Pilih P P N --</option>
                                                 <option value="0">0</option>
                                                 <option value="INCLUDE">INCLUDE</option>
@@ -236,7 +236,7 @@
                                         <button class="permohonan-s-p-button13 button" id="delete_button">Delete</button>
                                     </div>
                                 </div>
-                                <div id="div_beratStandard" class="acs-div-beratStandard">
+                                <div id="div_beratStandard" class="acs-div-beratStandard" style="display: none">
                                     <div class="acs-div-beratStandard1">
                                         <span>Berat Standart (KGM) - Index Harga</span>
                                         <br>
@@ -355,7 +355,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="div_saldoInventory">
+                                <div id="div_saldoInventory" style="display: none">
                                     <span>Saldo Inventory</span>
                                     <table id="table_saldoInventory" class="permohonan-s-p-table"
                                         style="cursor: default">
