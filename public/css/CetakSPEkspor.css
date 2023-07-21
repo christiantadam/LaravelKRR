@@ -1,0 +1,111 @@
+.acs-div-filter1 {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter2 {
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-container {
+    width: 900px;
+    height: 800px;
+    border: 2px;
+    border-style: solid;
+    background-color: white;
+}
+.cetak-sppdf-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.cetak-sppdf-container01 {
+    flex: 0 0 auto;
+    width: 96%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1%;
+}
+.cetak-sppdf-container02 {
+    flex: 0 0 auto;
+    width: 97%;
+    display: flex;
+    align-items: flex-start;
+    gap: 3%;
+}
+.cetak-sppdf-container03 {
+    flex: 0 0 auto;
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.cetak-sppdf-container04 {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 80%;
+    display: block;
+    text-align: justify;
+}
+.cetak-sppdf-container05 {
+    flex: 0 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    padding-left: var(--dl-space-space-halfunit);
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.cetak-sppdf-container06 {
+    flex: 0 0 auto;
+    width: 65%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.cetak-sppdf-container07 {
+    flex: 0 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    padding-left: var(--dl-space-space-halfunit);
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.cetak-sppdf-container08{
+    width: 100%;
+}
+.cetak-sppdf-container07 table,
+.cetak-sppdf-container05{
+    font-size: 17px;
+    padding: 0;
+}
+.cetak-sppdf-container05 span{
+    font-size: 14px;
+}
+#table_sp table tr td,
+#table_sp table tr td:first-child {
+    border: 1px solid black !important;
+}
+.cetak-sppdf-container05 table tr td,
+.cetak-sppdf-container05 table tr td:first-child {
+    border: none !important;
+}
+.cetak-sppdf-container07 table tr td,
+.cetak-sppdf-container07 table tr td:first-child {
+    border: none !important;
+}
+#table_sp th{
+    text-align: center;
+}

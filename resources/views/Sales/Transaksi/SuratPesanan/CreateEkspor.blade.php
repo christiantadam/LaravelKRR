@@ -84,7 +84,8 @@
                                             class="permohonan-s-p-text07">Mata Uang</span> <span
                                             class="permohonan-s-p-text08">Jns
                                             Bayar</span> <span class="permohonan-s-p-text09">Syarat Bayar</span> <span
-                                            class="permohonan-s-p-text10">Keterangan</span> </div>
+                                            class="permohonan-s-p-text10">Keterangan</span> <span class="permohonan-s-p-text12">Jenis Harga Barang
+                                            Export</span></div>
                                     <div class="permohonan-s-p-container11">
                                         <div class="permohonan-s-p-container12"> <select name="list_sales" id="list_sales"
                                                 class="form-control">
@@ -123,7 +124,15 @@
                                             </span>
                                         </div>
                                         <div class="permohonan-s-p-container16">
-                                            <textarea class="input" name="keterangan" id="keterangan" cols="60" rows="3" placeholder="Keterangan"></textarea>
+                                            <textarea class="input" name="keterangan" id="keterangan" cols="60" rows="2" placeholder="Keterangan"></textarea>
+                                        </div>
+                                        <div class="permohonan-s-p-container70">
+                                            <select class="form-control" name="jenis_hargaBarangExport" id="jenis_hargaBarangExport">
+                                                <option disabled selected>-- Pilih Jenis Harga --</option>
+                                                {{-- @foreach ($jenis_hargaBarangExport as $data)
+                                                    <option value="{{ $data->IdJenisHargaBarangExport }}">{{ $data->JenisHargaBarangExport }}</option>
+                                                @endforeach --}}
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -186,8 +195,7 @@
                                         </div>
                                     </div>
                                     <div class="permohonan-s-p-container27"> <span>Qty Pesan</span> <span>Harga
-                                            Satuan</span> <span>P P
-                                            N</span> </div>
+                                            Satuan</span> <span>P P N</span> <span>Uraian Pesanan</span> </div>
                                     <div class="permohonan-s-p-container28">
                                         <div class="permohonan-s-p-container29"> <input type="text"
                                                 placeholder="Qty Pesan" class="permohonan-s-p-textinput18 input"
@@ -202,6 +210,9 @@
                                                 <option value="INCLUDE">INCLUDE</option>
                                                 <option value="EXCLUDE">EXCLUDE</option>
                                             </select>
+                                        </div>
+                                        <div class="permohonan-s-p-container70">
+                                            <textarea name="uraian_pesanan" id="uraian_pesanan" cols="20" rows="5"></textarea>
                                         </div>
                                     </div>
                                     <div class="permohonan-s-p-container32"> <span>Satuan Jual</span> <span
