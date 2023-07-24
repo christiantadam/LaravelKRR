@@ -18,7 +18,10 @@ class SuratPesananEksportController extends Controller
 
     public function create()
     {
+        //ga dipake
         $jenis_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
+
+        //dipake
         $mata_uang = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_MATAUANG');
         $list_customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
         $list_sales = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALES');
@@ -28,7 +31,7 @@ class SuratPesananEksportController extends Controller
         $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
         $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        // dd($kelompok_utama);
+        // dd($list_customer);
         return view('Sales.Transaksi.SuratPesanan.CreateEkspor', compact('access', 'mata_uang' ,'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kelompok_utama', 'list_satuan', 'list_sp'));
     }
     public function getKelompok($kelompokUtama)
@@ -53,6 +56,7 @@ class SuratPesananEksportController extends Controller
     }
     public function store(Request $request)
     {
+        dd($request->all());
         $UraianPesanan = null;
         $Lunas = null;
         $user = Auth::user()->NomorUser;

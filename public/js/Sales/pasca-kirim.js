@@ -135,30 +135,30 @@ setInputFilter(
 setInputFilter(
     document.getElementById("qty_primerDiterimaCustomer"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("qty_sekunderDiterimaCustomer"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("qty_tritierDiterimaCustomer"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("qty_konversiDiterimaCustomer"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 
 //#endregion

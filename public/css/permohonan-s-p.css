@@ -645,6 +645,7 @@
     width: 75%;
     height: 100%;
     text-align: center;
+    white-space: nowrap;
     transition: background-color 0.3s ease;
 }
 
@@ -1133,4 +1134,81 @@
         position: absolute;
         flex-direction: row;
     }
+}
+
+/* EKSPOR */
+
+.toggle-group.disabled {
+    opacity: 0.5;
+    pointer-events: none; /* This prevents interactions with the disabled elements */
+}
+
+.acs-div-filter {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.acs-div-filter1 {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+.acs-div-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+    width: 95%;
+    padding: 1%;
+}
+.acs-div-container1 {
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    width: 30%;
+}
+.acs-div-container2 {
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    width: 40%;
+    align-items: center;
+}
+.acs-div-container2::before {
+    content: "Remarks";
+    position: relative;
+    top: -15px;
+    background-color: white;
+    font-weight: bold;
+}
+.acs-div-container3 {
+    display: flex;
+    flex-direction: row;
+    gap: 1%;
+    width: 100%;
+}
+.acs-div-container4 {
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+    width: 100%;
+    height: 100%;
+}
+.acs-div-container4 button {
+    width: 100%;
+    height: 40%;
+}
+.acs-div-container5 {
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+    width: 100%;
+    height: 100%;
+    align-items: start;
+}
+.acs-div-container5 button {
+    width: 100px;
+}
+.acs-div-container3 input {
+    width: 32%;
 }
