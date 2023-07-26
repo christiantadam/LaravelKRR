@@ -85,10 +85,10 @@ class AccPenjualanController extends Controller
         }
 
         db::connection('ConnInventory')->statement('exec SP_1273_INV_Update_Dispresiasi_Penjualan
-        @XIdTransTmp = ' . $idtransaksi . ',
-        @idtransaksi_inv = ' . trim($counter[0]->IdTransaksi_Inv_Bcd_Pjl) . ',
-        @idtype = ' . $idtype . ',
-        @NoSP = ' . $no_sp . ''
+        @XIdTransTmp = \'' . $idtransaksi . '\',
+        @idtransaksi_inv = \'' . trim($counter[0]->IdTransaksi_Inv_Bcd_Pjl) . '\',
+        @idtype = \'' . $idtype . '\',
+        @NoSP = \'' . $no_sp . '\''
         );
 
         $noindeksAll = implode(', ', $noindeks);

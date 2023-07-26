@@ -396,9 +396,9 @@ prosesButton.addEventListener("click", function (event) {
     }
 
     if (
-        saldo_primerDikeluarkan.value > saldo_primer.value ||
-        saldo_sekunderDikeluarkan.value > saldo_sekunder.value ||
-        saldo_tritierDikeluarkan.value > saldo_tritier.value
+        parseFloat(saldo_primerDikeluarkan.value) > parseFloat(saldo_primer.value) ||
+        parseFloat(saldo_sekunderDikeluarkan.value) > parseFloat(saldo_sekunder.value) ||
+        parseFloat(saldo_tritierDikeluarkan.value) > parseFloat(saldo_tritier.value)
     ) {
         alert("Jumlah Barang Di Gudang Tidak Mencukupi");
         return;

@@ -2,6 +2,7 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
+var cekSP;
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
@@ -11,12 +12,14 @@ let general_specification = document.getElementById("general_specification");
 let hapus_button = document.getElementById("hapus_button");
 let isi_button = document.getElementById("isi_button");
 let jenis_barang = document.getElementById("jenis_barang");
+let jenis_harga = document.getElementById("jenis_harga");
 let kelompok = document.getElementById("kelompok");
 let kelompok_utama = document.getElementById("kelompok_utama");
 let keterangan_barang = document.getElementById("keterangan_barang");
 let kode_barang = document.getElementById("kode_barang");
 let lihat_spButton = document.getElementById("lihat_spButton");
 let list_view = $("#list_view").DataTable();
+let mata_uang = document.getElementById("mata_uang");
 let nama_barang = document.getElementById("nama_barang");
 let no_pi = document.getElementById("no_pi");
 let no_po = document.getElementById("no_po");
@@ -29,6 +32,7 @@ let remarks_price = document.getElementById("remarks_price");
 let remarks_quantity = document.getElementById("remarks_quantity");
 let rencana_kirim = document.getElementById("rencana_kirim");
 let saldo_awal = document.getElementById("saldo_awal");
+let sales = document.getElementById("sales");
 let satuan_gudangPrimer = document.getElementById("satuan_gudangPrimer");
 let satuan_gudangSekunder = document.getElementById("satuan_gudangSekunder");
 let satuan_gudangTritier = document.getElementById("satuan_gudangTritier");
@@ -63,22 +67,33 @@ setInputFilter(
 
 //#region Add Event Listener
 
-isi_button.addEventListener("click", function (event) {
+isi_button.addEventListener("click", async function (event) {
     event.preventDefault();
     if (proses == 0) {
         enableInputs();
         hapus_button.innerHTML = "Batal";
         edit_button.style.display = "none";
         this.innerHTML = "Proses";
+        tgl_pesan.focus();
+        mata_uang.selectedIndex = 3;
+        ppn.selectedIndex = 1;
         proses = 1; //proses isi
     } else if (proses == 1) {
-        form_suratPesanan.submit();
+        let no_spData = no_spText.value.replace(/\//g, ".");
+        let cekSP = await cek_No_SP(no_spData); // Wait for the result of the async function
+        console.log(cekSP);
+        if (cekSP === 1) {
+            console.log('cek sp === 1');
+            // Perform the action for cekSP === 1
+        } else {
+            console.log('cek sp === 0');
+            // Perform the action for cekSP === 0
+        }
+        // form_suratPesanan.submit(); //Untuk Store
     } else if (proses == 2) {
-        disableInputs();
-        hapus_button.innerHTML = "Hapus";
+        form_suratPesanan.submit(); //Untuk Update
     } else if (proses == 3) {
-        disableInputs();
-        hapus_button.innerHTML = "Hapus";
+        form_suratPesanan.submit(); //Untuk Destroy
     }
 });
 
@@ -194,4 +209,19 @@ function enableInputs() {
     });
 }
 
+async function cek_No_SP(no_sp) {
+    try {
+        const response = await fetch("/cekNoSPEkspor/" + no_sp);
+        const data = await response.json();
+        console.log(data[0].Jumlah);
+        if (data[0].Jumlah >= 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        return -1; // Handle any error case appropriately
+    }
+}
 //#endregion

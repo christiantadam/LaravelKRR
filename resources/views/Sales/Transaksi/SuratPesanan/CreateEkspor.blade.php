@@ -50,15 +50,45 @@
                                             <input type="text" name="no_po" id="no_po" class="input"
                                                 onkeypress="enterToTab(event)">
                                         </div>
+                                        <div class="acs-div-filter">
+                                            <label for="jenis_harga">Jenis Harga Barang Eksport</label>
+                                            <select name="jenis_harga" id="jenis_harga" class="input"
+                                                onkeypress="enterToTab(event)">
+                                                <option selected disabled>-- Pilih Jenis Harga --</option>
+                                                @foreach ($jenis_harga as $data)
+                                                    <option value="{{ $data->IdJenisHargaBarang }}">{{ $data->JenisHargaBarang }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="mata_uang">Mata Uang</label>
+                                            <select name="mata_uang" id="mata_uang" class="input"
+                                                onkeypress="enterToTab(event)">
+                                                <option selected disabled>-- Pilih Mata Uang --</option>
+                                                @foreach ($mata_uang as $data)
+                                                    <option value="{{ $data->IDMataUang }}">{{ $data->MataUang }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="acs-div-container1">
                                         <div class="acs-div-filter">
                                             <label for="customer">Customer</label>
                                             <select name="customer" id="customer" class="input"
                                                 onkeypress="enterToTab(event)">
-                                                <option selected disabled>-- Pilih Customer--</option>
+                                                <option selected disabled>-- Pilih Customer --</option>
                                                 @foreach ($list_customer as $data)
                                                     <option value="{{ $data->IDCust }}">{{ $data->NamaCust }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="sales">Sales</label>
+                                            <select name="sales" id="sales" class="input"
+                                                onkeypress="enterToTab(event)">
+                                                <option selected disabled>-- Pilih Sales --</option>
+                                                @foreach ($list_sales as $data)
+                                                    <option value="{{ $data->IDSales }}">{{ $data->NamaSales }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -66,10 +96,10 @@
                                             <label for="billing">Billing</label>
                                             <select name="billing" id="billing" class="input"
                                                 onkeypress="enterToTab(event)">
-                                                <option selected disabled>-- Pilih Billing--</option>
-                                                {{-- @foreach ($list_customer as $data)
-                                                    <option value="{{ $data->IDCust }}">{{ $data->NamaCust }}</option>
-                                                @endforeach --}}
+                                                <option selected disabled>-- Pilih Billing --</option>
+                                                @foreach ($list_billing as $data)
+                                                    <option value="{{ $data->IDBill }}">{{ $data->NamaBill }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
@@ -79,21 +109,21 @@
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="payment_terms">Payment Terms (Proforma Invoice)</label>
-                                            <textarea name="payment_terms" id="payment_terms" cols="30" rows="1" class="input"></textarea>
+                                            <textarea name="payment_terms" id="payment_terms" cols="30" rows="4" class="input"></textarea>
                                         </div>
                                     </div>
                                     <div class="acs-div-container2">
                                         <div class="acs-div-filter">
                                             <label for="remarks_quantity">Quantity</label>
-                                            <textarea name="remarks_quantity" id="remarks_quantity" cols="30" rows="1" class="input"></textarea>
+                                            <textarea name="remarks_quantity" id="remarks_quantity" cols="30" rows="2" class="input"></textarea>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="remarks_packing">Packing</label>
-                                            <textarea name="remarks_packing" id="remarks_packing" cols="30" rows="1" class="input"></textarea>
+                                            <textarea name="remarks_packing" id="remarks_packing" cols="30" rows="2" class="input"></textarea>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="remarks_price">Price</label>
-                                            <textarea name="remarks_price" id="remarks_price" cols="30" rows="1" class="input"></textarea>
+                                            <textarea name="remarks_price" id="remarks_price" cols="30" rows="2" class="input"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -122,6 +152,9 @@
                                             <label for="kelompok_utama">Kelompok Utama</label>
                                             <select name="kelompok_utama" id="kelompok_utama" class="input">
                                                 <option selected disabled>-- Pilih Kelompok Utama --</option>
+                                                @foreach ($kelompok_utama as $data)
+                                                    <option value="{{ $data->IDTYPEBARANG }}">{{ $data->NAMATYPEBARANG }} </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
@@ -150,6 +183,9 @@
                                             <label for="jenis_barang">Jenis Barang</label>
                                             <select name="jenis_barang" id="jenis_barang" class="input">
                                                 <option selected disabled>-- Pilih Jenis Barang --</option>
+                                                @foreach ($jenis_brg as $data)
+                                                    <option value="{{ $data->IDJnsBrg }}">{{ $data->NamaJnsBrg }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -174,6 +210,9 @@
                                             <label for="ppn">Pajak Pertambahan Nilai</label>
                                             <select name="ppn" id="ppn" class="input">
                                                 <option selected disabled>-- Pilih PPN --</option>
+                                                <option value="0">0</option>
+                                                <option value="INCLUDE">INCLUDE</option>
+                                                <option value="EXCLUDE">EXCLUDE</option>
                                             </select>
                                         </div>
                                     </div>
@@ -182,6 +221,9 @@
                                             <label for="satuan_jual">Satuan Jual</label>
                                             <select name="satuan_jual" id="satuan_jual" class="input">
                                                 <option selected disabled>-- Pilih Satuan Jual --</option>
+                                                @foreach ($list_satuan as $data)
+                                                    <option value="{{ $data->No_satuan }}">{{ trim($data->Nama_satuan) }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
