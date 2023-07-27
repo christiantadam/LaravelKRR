@@ -19,11 +19,11 @@ class SuratPesananEksportController extends Controller
     public function create()
     {
         //ga dipake
-        $jenis_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
-        $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
-        $jenis_bayar = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
+        // $jenis_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
+        // $jenis_bayar = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
 
         //dipake
+        $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
         $mata_uang = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_MATAUANG');
         $jenis_harga = DB::connection('ConnSales')->table('T_JenisHargaBarangEksport')->select('*')->get();
         $list_billing = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_BILLING');
@@ -33,8 +33,8 @@ class SuratPesananEksportController extends Controller
         $kelompok_utama = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPEBARANG');
         $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        // dd($jenis_brg, $list_satuan);
-        return view('Sales.Transaksi.SuratPesanan.CreateEkspor', compact('access', 'mata_uang', 'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kelompok_utama', 'list_satuan', 'list_sp', 'jenis_harga', 'list_billing'));
+        // dd($kelompok_utama);
+        return view('Sales.Transaksi.SuratPesanan.CreateEkspor', compact('access', 'mata_uang', 'list_customer', 'list_sales', 'jenis_brg', 'kelompok_utama', 'list_satuan', 'list_sp', 'jenis_harga', 'list_billing'));
     }
     public function getKelompok($kelompokUtama)
     {
@@ -62,9 +62,14 @@ class SuratPesananEksportController extends Controller
         $cek_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_CEK_NO_SP @IdSuratPesanan = ?', [$no_spValue]);
         return response()->json($cek_sp);
     }
+    function isiSatuanInv($idtype)
+    {
+        $satuan = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPE @Kode = ?, @IdType = ?', [1, $idtype]);
+        return response()->json($satuan);
+    }
     public function store(Request $request)
     {
-        dd($request->all());
+        dd($request->all(), "Masuk Store");
         $UraianPesanan = null;
         $Lunas = null;
         $user = Auth::user()->NomorUser;
@@ -189,11 +194,11 @@ class SuratPesananEksportController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        dd("Masuk Update");
     }
 
     public function destroy($id)
     {
-        //
+        dd("Masuk Destroy");
     }
 }

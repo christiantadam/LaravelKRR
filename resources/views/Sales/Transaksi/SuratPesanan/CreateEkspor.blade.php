@@ -18,8 +18,9 @@
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="permohonan-s-p-container">
                             <form class="permohonan-s-p-form" id="form_suratPesanan" method="POST"
-                                action="{{ url('SuratPesanan') }}">
+                                action="{{ url('SuratPesananEkspor') }}">
                                 {{ csrf_field() }}
+                                <input type="hidden" name="_method" id="methodForm">
                                 <div class="acs-div-container toggle-group" id="div_headerSuratPesanan">
                                     <div class="acs-div-container1">
                                         <div class="acs-div-filter">
@@ -35,6 +36,9 @@
                                                 <select name="no_spSelect" id="no_spSelect" class="input"
                                                     style="width: 70%; display: none">
                                                     <option disabled selected>-- Pilih Nomor SP --</option>
+                                                    @foreach ($list_sp as $data)
+                                                    <option value="{{ $data->IDSuratPesanan }}">{{ $data->IDSuratPesanan }} | {{ $data->NamaCust }} </option>
+                                                @endforeach
                                                 </select>
                                                 <button id="lihat_spButton" class="button btn-info"
                                                     style="display: inline-block">Lihat SP</button>
@@ -56,7 +60,8 @@
                                                 onkeypress="enterToTab(event)">
                                                 <option selected disabled>-- Pilih Jenis Harga --</option>
                                                 @foreach ($jenis_harga as $data)
-                                                    <option value="{{ $data->IdJenisHargaBarang }}">{{ $data->JenisHargaBarang }}</option>
+                                                    <option value="{{ $data->IdJenisHargaBarang }}">
+                                                        {{ $data->JenisHargaBarang }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -129,19 +134,21 @@
                                 </div>
                                 <div class="permohonan-s-p-container17 toggle-group" id="div_tabelSuratPesanan">
                                     <table class="permohonan-s-p-table" id="list_view" name="list_view">
-                                        <thead class="thead-light">
+                                        <thead class="thead-light acs-thead">
                                             <tr>
                                                 <th>Nama Barang</th>
-                                                <th>Id Barang</th>
+                                                <th>Jenis Barang</th>
                                                 <th>Harga Satuan</th>
                                                 <th>Jumlah</th>
                                                 <th>Satuan</th>
+                                                <th>General Specification</th>
+                                                <th>Keterangan Barang</th>
+                                                <th>Size/Code</th>
                                                 <th>Rencana Kirim</th>
                                                 <th>PPN</th>
-                                                <th>Jns SP</th>
-                                                <th>Saldo Awal</th>
+                                                <th>ID Jns SP</th>
                                                 <th>Kode Barang</th>
-                                                <th>IDPesanan</th>
+                                                <th>Id Type</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -153,7 +160,8 @@
                                             <select name="kelompok_utama" id="kelompok_utama" class="input">
                                                 <option selected disabled>-- Pilih Kelompok Utama --</option>
                                                 @foreach ($kelompok_utama as $data)
-                                                    <option value="{{ $data->IDTYPEBARANG }}">{{ $data->NAMATYPEBARANG }} </option>
+                                                    <option value="{{ $data->IDTYPEBARANG }}">{{ $data->NAMATYPEBARANG }} | {{ $data->IDTYPEBARANG }} | {{ $data->ObjekDivisi }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -176,15 +184,18 @@
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="id_type">Id Type</label>
-                                            <input type="text" name="id_type" id="id_type" class="input" readonly>
+                                            <label for="kode_barang">Kode Barang</label>
+                                            <input type="text" name="kode_barang" id="kode_barang" class="input"
+                                                readonly>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="jenis_barang">Jenis Barang</label>
-                                            <select name="jenis_barang" id="jenis_barang" class="input">
+                                            <select name="jenis_barang" id="jenis_barang" class="input"
+                                                onkeypress="enterToTab(event)">
                                                 <option selected disabled>-- Pilih Jenis Barang --</option>
                                                 @foreach ($jenis_brg as $data)
-                                                    <option value="{{ $data->IDJnsBrg }}">{{ $data->NamaJnsBrg }}</option>
+                                                    <option value="{{ $data->IDJnsBrg }}">{{ $data->NamaJnsBrg }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -192,7 +203,13 @@
                                     <div class="acs-div-container1">
                                         <div class="acs-div-filter">
                                             <label for="qty_pesan">Quantity Pesan</label>
-                                            <input type="text" class="input" id="qty_pesan" name="qty_pesan" onkeypress="enterToTab(event)">
+                                            <input type="text" class="input" id="qty_pesan" name="qty_pesan"
+                                                onkeypress="enterToTab(event)">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="harga_satuan">Harga Murni</label>
+                                            <input type="text" class="input" id="harga_satuan" name="harga_satuan"
+                                                onkeypress="enterToTab(event)">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="general_specification">General Specification</label>
@@ -204,7 +221,8 @@
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="size_code">Size / Code</label>
-                                            <input type="text" class="input" id="size_code" name="size_code" onkeypress="enterToTab(event)">
+                                            <input type="text" class="input" id="size_code" name="size_code"
+                                                onkeypress="enterToTab(event)">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="ppn">Pajak Pertambahan Nilai</label>
@@ -222,7 +240,8 @@
                                             <select name="satuan_jual" id="satuan_jual" class="input">
                                                 <option selected disabled>-- Pilih Satuan Jual --</option>
                                                 @foreach ($list_satuan as $data)
-                                                    <option value="{{ $data->No_satuan }}">{{ trim($data->Nama_satuan) }}</option>
+                                                    <option value="{{ $data->No_satuan }}">{{ trim($data->Nama_satuan) }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -236,10 +255,6 @@
                                                 <input type="text" class="input" id="satuan_gudangTritier"
                                                     name="satuan_gudangTritier" readonly>
                                             </div>
-                                        </div>
-                                        <div class="acs-div-filter">
-                                            <label for="saldo_awal">Saldo Awal</label>
-                                            <input type="text" class="input" id="saldo_awal" name="saldo_awal" readonly>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="rencana_kirim">Rencana Kirim</label>
