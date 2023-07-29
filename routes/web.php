@@ -127,7 +127,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/options/spekspor/subKelompok/{kelompok}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@getSubKelompok');
     Route::get('/options/spekspor/namaBarang/{subKelompok}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@getNamaBarang');
     Route::get('/options/spekspor/isiSatuan/{idtype}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@isiSatuanInv');
-    Route::get('/cekNoSPEkspor/{no_sp}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@cekNoSP');
+    Route::get('/cekNoSPEkspor/{noSp}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@cekNoSP');
+    Route::get('/displaybarangekspor/{idtype}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@getDisplayBarangEkspor');
 
     #endregion
 

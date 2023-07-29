@@ -67,60 +67,79 @@ class SuratPesananEksportController extends Controller
         $satuan = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPE @Kode = ?, @IdType = ?', [1, $idtype]);
         return response()->json($satuan);
     }
+    function getDisplayBarangEkspor($idtype)
+    {
+        // $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DETAIL_SP @IDBarang = ?, @Kode = ?', [$idtype, 2]);
+        $data = DB::connection('ConnInventory')->table('VW_TYPE')->select('*')->where('IdType', '=', $idtype)->get();
+        return response()->json($data);
+    }
     public function store(Request $request)
     {
-        dd($request->all(), "Masuk Store");
-        $UraianPesanan = null;
-        $Lunas = null;
+        // dd($request->all(), "Masuk Store");
         $user = Auth::user()->NomorUser;
+        $jenis_sp = 3;
         $tgl_pesan = $request->tgl_pesan;
-        $jenis_sp = $request->jenis_sp;
-        $IdCust = $request->list_customer;
+        $no_sp = $request->no_spText;
         $no_po = $request->no_po ?? "";
-        $no_sp = $request->no_sp;
         $tgl_po = $request->tgl_po;
         $no_pi = $request->no_pi ?? "";
-        $list_sales = $request->list_sales;
+        $jenis_hargaBarang = $request->jenis_harga;
         $mata_uang = $request->mata_uang;
-        $jenis_bayar = $request->jenis_bayar;
-        $syarat_bayar = $request->syarat_bayar ?? 0;
-        $faktur_pjk = $request->faktur_pjk ?? null;
-        $keterangan = $request->keterangan ?? null;
-        $barang0 = $request->barang0; //nama barang
-        $KodeBarang = $request->barang1; //kode barang
-        $IdJnsBarang = $request->barang27; //jenis barang
-        $Qty = $request->barang3; //qty pesan
-        $Satuan = $request->barang4; //satuan
-        $HargaSatuan = $request->barang2; //harga satuan
-        $TglRencanaKirim = $request->barang5; //rencana kirim
-        $IdSuratPesanan = $request->barang28; //idsuratpesanan
-        $ppn = $request->barang6; //ppn
-        $bkarung = $request->barang7; //berat karung
-        $ikarung = $request->barang8; //index karung
-        $hkarung = $request->barang9; //berat index karung
-        $binner = $request->barang10; //berat inner
-        $iinner = $request->barang11; //index inner
-        $hinner = $request->barang12; //berat index inner
-        $blami = $request->barang13; //berat lami
-        $ilami = $request->barang14; //index lami
-        $hlami = $request->barang15; //berat index lami
-        $bkertas = $request->barang16; //berat kertas
-        $ikertas = $request->barang17; //index kertas
-        $hkertas = $request->barang18; //berat index kertas
-        $hlain = $request->barang19; //biaya lain2
-        $BeratStandart = $request->barang20; //berat standard total
-        $htotal = $request->barang21; //total cost
-        $bkarung2 = $request->barang22; //berat karung MTR
-        $binner2 = $request->barang23; //berat inner MTR
-        $blami2 = $request->barang24; //berat lami MTR
-        $bkertas2 = $request->barang25; //berat kertas MTR
-        $bs2 = $request->barang26; //berat standard total MTR
+        $id_customer = explode(" -", $request->customer);
+        $id_sales = $request->sales;
+        $id_billing = $request->billing;
+        $cargo_ready = $request->cargo_ready ?? "";
+        $payment_terms = $request->payment_terms ?? "";
+        $remarks_quantity = $request->remarks_quantity ?? "";
+        $remarks_packing = $request->remarks_packing ?? "";
+        $remarks_price = $request->remarks_price ?? "";
+        $keterangan =
+            $cargo_ready . " | " .
+            $payment_terms . " | " .
+            $remarks_quantity . " | " .
+            $remarks_packing . " | " .
+            $remarks_price;
+        $nama_barang = $request->barang0;
+        $nama_jenisPesanan = $request->barang1;
+        $qty_pesan = $request->barang2;
+        $harga_satuan = $request->barang3;
+        $satuan_jual = $request->barang4;
+        $general_specification = $request->barang5;
+        $keterangan_barang = $request->barang6;
+        $size_code = $request->barang7;
+        $rencana_kirim = $request->barang8;
+        $ppn = $request->barang9;
+        $id_jenisPesanan = $request->barang10;
+        $kode_barang = $request->barang11;
+        $id_type = $request->barang12;
+        $id_pesanan = $request->barang13;
+        // Combine the individual arrays into a single array
+        $combinedArray = [$general_specification, $keterangan_barang, $size_code];
+        $uraian_pesanan = [];
+
+        foreach ($combinedArray as $values) {
+            foreach ($values as $index => $value) {
+                if (!isset($uraian_pesanan[$index])) {
+                    $uraian_pesanan[$index] = '';
+                }
+                $uraian_pesanan[$index] .= ($uraian_pesanan[$index] === '' ? '' : ' | ') . $value;
+            }
+        }
+
+        $uraian_pesanan = array_values($uraian_pesanan); // Reindex the array to start from 0
+
+        // dd($rencana_kirim);
+        $Lunas = null;
+        $jenis_bayar = 2;
+        $syarat_bayar = 0;
+        $faktur_pjk = null;
         $kode = 1;
 
         //maintenance header dulu yaw..
         DB::connection('ConnSales')->statement(
-            'exec SP_5409_SLS_MAINT_HEADERPESANAN
+            'exec SP_1486_SLS_MAINT_HEADERPESANAN
         @Kode = ?,
+        @IdSuratPesanan = ?,
         @IdJnsSuratPesanan = ?,
         @Tgl_Pesan = ?,
         @IdCust = ?,
@@ -129,20 +148,23 @@ class SuratPesananEksportController extends Controller
         @No_PI = ?,
         @IdPembayaran = ?,
         @IdSales = ?,
+        @IdBill = ?,
         @IdMataUang = ?,
         @SyaratBayar = ?,
         @User_id = ?,
         @Ket = ?,
-        @JnsFakturPjk = ?',
-            [$kode, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk],
+        @JnsFakturPjk = ?,
+        @JenisHargaBarang = ?',
+            [$kode, $no_sp, 3, $tgl_pesan, $id_customer[1], $no_po, $tgl_po, $no_pi, $jenis_bayar, $id_sales, $id_billing, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk, $jenis_hargaBarang],
         );
 
         // kemudian beralih ke maintenance detail pesanan nich...
-        for ($i = 0; $i < count($bkarung); $i++) {
+        for ($i = 0; $i < count($kode_barang); $i++) {
             DB::connection('ConnSales')->statement(
-                'exec SP_1486_SLS_MAINT_DETAILPESANAN1 @Kode = ?,
+                'exec SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?,
             @IDSuratPesanan = ?,
             @KodeBarang = ?,
+            @IdBarang = ?,
             @IdJnsBarang = ?,
             @Qty = ?,
             @Satuan = ?,
@@ -152,34 +174,11 @@ class SuratPesananEksportController extends Controller
             @TglRencanaKirim = ?,
             @Lunas = ?,
             @PPN = ?,
-            @indek = ?,
-            @ikarung = ?,
-            @hkarung = ?,
-            @iinner = ?,
-            @hinner = ?,
-            @ilami = ?,
-            @hlami = ?,
-            @ikertas = ?,
-            @hkertas = ?,
-            @hlain = ?,
-            @htotal = ?',
-                [$kode, $no_sp, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
-            );
-            //Simpan BS Berat Standard
-            // dd($KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user);
-            DB::connection('ConnPurchase')->statement(
-                'exec SP_5409_SLS_UPDATE_BS
-            @KodeBarang = ?,
-            @bkarung = ?,
-            @binner = ?,
-            @blami = ?,
-            @bkertas = ?,
-            @BeratStandart= ?,
-            @UserId = ?',
-                [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
+            @indek = ?',
+                [$kode, $no_sp, $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas ?? null, $ppn[$i], 0.00],
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp->IDSuratPesanan . ' Sudah Dibuat!');
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuat!');
     }
 
     public function show($id)
@@ -189,7 +188,11 @@ class SuratPesananEksportController extends Controller
 
     public function edit($id)
     {
-        //
+        $no_spValue = str_replace('.', '/', $id);
+        $header_suratPesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
+        $detail_suratPesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DETAIL_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
+        $data = [$header_suratPesanan, $detail_suratPesanan];
+        return response()->json($data);
     }
 
     public function update(Request $request, $id)

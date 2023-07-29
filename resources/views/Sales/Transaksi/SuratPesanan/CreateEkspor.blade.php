@@ -55,6 +55,11 @@
                                                 onkeypress="enterToTab(event)">
                                         </div>
                                         <div class="acs-div-filter">
+                                            <label for="tgl_po">Tanggal Purchase Order</label>
+                                            <input type="date" name="tgl_po" id="tgl_po" class="input"
+                                                onkeypress="enterToTab(event)">
+                                        </div>
+                                        <div class="acs-div-filter">
                                             <label for="jenis_harga">Jenis Harga Barang Eksport</label>
                                             <select name="jenis_harga" id="jenis_harga" class="input"
                                                 onkeypress="enterToTab(event)">
@@ -149,6 +154,7 @@
                                                 <th>ID Jns SP</th>
                                                 <th>Kode Barang</th>
                                                 <th>Id Type</th>
+                                                <th>Id Pesanan</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -168,19 +174,19 @@
                                         <div class="acs-div-filter">
                                             <label for="kelompok">Kelompok</label>
                                             <select name="kelompok" id="kelompok" class="input">
-                                                <option selected disabled>-- Pilih Kelompok --</option>
+
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="sub_kelompok">Sub Kelompok</label>
                                             <select name="sub_kelompok" id="sub_kelompok" class="input">
-                                                <option selected disabled>-- Pilih Sub Kelompok --</option>
+
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="nama_barang">Nama Barang</label>
                                             <select name="nama_barang" id="nama_barang" class="input">
-                                                <option selected disabled>-- Pilih Nama Barang --</option>
+
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">

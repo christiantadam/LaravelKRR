@@ -44,6 +44,7 @@ let satuan_jual = document.getElementById("satuan_jual");
 let size_code = document.getElementById("size_code");
 let sub_kelompok = document.getElementById("sub_kelompok");
 let tgl_pesan = document.getElementById("tgl_pesan");
+let tgl_po = document.getElementById("tgl_po");
 let update_button = document.getElementById("update_button");
 let no_spSelect = document.getElementById("no_spSelect");
 //#endregion
@@ -52,6 +53,7 @@ let no_spSelect = document.getElementById("no_spSelect");
 
 rencana_kirim.valueAsDate = new Date();
 tgl_pesan.valueAsDate = new Date();
+tgl_po.valueAsDate = new Date();
 isi_button.focus();
 disableInputs();
 
@@ -85,12 +87,21 @@ isi_button.addEventListener("click", async function (event) {
         let no_spData = no_spText.value.replace(/\//g, ".");
         var cekSP = await cek_No_SP(no_spData); // Wait for the result of the async function
     }
+
     // console.log(checkInputs());
     if (checkInputs()) {
         return; //Pengecekan karakter "|" pada beberapa kolom isian untuk proses data
     }
+
+    if (list_view.length < 0) {
+        alert("Surat pesanan harus berisi barang yang dipesan!");
+        kelompok_utama.focus();
+        return;
+    }
     // console.log(checkInputs(inputIds));
+
     if (proses == 0) {
+        //proses isi
         enableInputs();
         hapus_button.innerHTML = "Batal";
         edit_button.style.display = "none";
@@ -98,7 +109,7 @@ isi_button.addEventListener("click", async function (event) {
         tgl_pesan.focus();
         mata_uang.selectedIndex = 3;
         ppn.selectedIndex = 1;
-        proses = 1; //proses isi
+        proses = 1;
     } else if (proses == 1) {
         // console.log(cekSP);
         if (cekSP >= 1) {
@@ -109,12 +120,14 @@ isi_button.addEventListener("click", async function (event) {
             no_spText.focus();
             return;
         } else {
-            form_suratPesanan.submit(); //Untuk Store// Perform the action for cekSP === 0
+            funcDatatablesIntoInput();
+            form_suratPesanan.submit(); //Untuk Store// Perform the action when cekSP === 0
         }
     } else if (proses == 2) {
         if (cekSP >= 1) {
             methodForm.value = "PUT";
             form_suratPesanan.action = "/SuratPesananEkspor/" + no_spData;
+
             form_suratPesanan.submit(); //Untuk Update
         } else {
             alert("NOMER SP TIDAK DITEMUKAN");
@@ -187,10 +200,56 @@ no_spSelect.addEventListener("keypress", function (event) {
 no_spText.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        fetch("/editSPEkspor/" + no_spText.value)
+        if (no_spText.value.trim() !== "") {
+            var no_spData = no_spText.value.replace(/\//g, ".");
+        }
+        fetch("/SuratPesananEkspor/" + no_spData + "/edit")
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
+                console.log(data);
+                no_po.value = data[0][0].NO_PO;
+                no_pi.value = data[0][0].NO_PI;
+                let keteranganSplit = data[0][0].Ket.split(" | ");
+                cargo_ready.value = keteranganSplit[0];
+                payment_terms.value = keteranganSplit[1];
+                remarks_quantity.value = keteranganSplit[2];
+                remarks_packing.value = keteranganSplit[3];
+                remarks_price.value = keteranganSplit[4];
+                mata_uang.selectedIndex = 0;
+                for (let i = 0; i < mata_uang.length - 1; i++) {
+                    mata_uang.selectedIndex += 1;
+                    if (mata_uang.value === data[0][0].IDMataUang) {
+                        break;
+                    }
+                }
+                customer.selectedIndex = 0;
+                for (let i = 0; i < customer.length - 1; i++) {
+                    customer.selectedIndex += 1;
+                    if (customer.value === data[0][0].IDCust) {
+                        break;
+                    }
+                }
+                sales.selectedIndex = 0;
+                for (let i = 0; i < sales.length - 1; i++) {
+                    sales.selectedIndex += 1;
+                    if (sales.value === data[0][0].IDSales) {
+                        break;
+                    }
+                }
+                billing.selectedIndex = 0;
+                for (let i = 0; i < billing.length - 1; i++) {
+                    billing.selectedIndex += 1;
+                    if (billing.value === data[0][0].IDBill) {
+                        break;
+                    }
+                }
+                jenis_harga.selectedIndex = 0;
+                for (let i = 0; i < jenis_harga.length - 1; i++) {
+                    jenis_harga.selectedIndex += 1;
+                    if (jenis_harga.value === data[0][0].JenisHargaBarang) {
+                        break;
+                    }
+                }
             });
         tgl_pesan.focus();
         if (proses == 3) {
@@ -235,13 +294,14 @@ add_button.addEventListener("click", function (event) {
         jenis_barang.value,
         kode_barang.value,
         nama_barang.value,
+        "",
     ];
     funcInsertRow(arraydata);
     clearDetailBarang();
     let confirmation = confirm("Apakah ingin menambah barang?");
 
     if (confirmation) {
-        jenis_barang.focus();
+        kelompok_utama.focus();
     } else {
         isi_button.focus();
     }
@@ -249,10 +309,72 @@ add_button.addEventListener("click", function (event) {
 
 update_button.addEventListener("click", function (event) {
     event.preventDefault();
+    let selectedRow = $("#list_view tbody tr.selected");
+
+    if (selectedRow.length > 0) {
+        let table = $("#list_view").DataTable();
+        let rowData = table.row(selectedRow).data();
+        console.log(rowData);
+        // Update the values in the rowData array
+        rowData[0] = nama_barang.options[nama_barang.selectedIndex].text;
+        rowData[1] = jenis_barang.options[jenis_barang.selectedIndex].text;
+        rowData[2] = formatangka(parseFloat(harga_satuan.value));
+        rowData[3] = formatangka(parseInt(qty_pesan.value));
+        rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
+        rowData[5] = general_specification.value;
+        rowData[6] = keterangan_barang.value;
+        rowData[7] = size_code.value;
+        rowData[8] = rencana_kirim.value;
+        rowData[9] = ppn.value;
+        rowData[10] = jenis_barang.value;
+        rowData[11] = kode_barang.value;
+        rowData[12] = nama_barang.value;
+
+        // Update the data in the DataTable
+        table.row(selectedRow).data(rowData).draw();
+        // remove highlight from selected row
+        selectedRow.toggleClass("selected");
+        // clear input fields
+        clearDetailBarang();
+        // Update the table display
+        $("#list_view").DataTable().draw();
+    }
 });
 
 delete_button.addEventListener("click", function (event) {
     event.preventDefault();
+    let selectedRow = $("#list_view tbody tr.selected");
+    console.log(selectedRow.find("td").eq(13).text() !== "");
+    let table = $("#list_view").DataTable();
+    if (proses == 1) {
+        if (selectedRow.length > 0) {
+            let rowIndex = table.row(selectedRow).index();
+
+            // Remove the selected row from the DataTable
+            table.row(selectedRow).remove().draw();
+            alert("Data sudah terhapus dari tabel!");
+        } else {
+            alert("Tidak ada data yang dihapus");
+        }
+    } else if (proses == 2) {
+        if (selectedRow.length > 0) {
+            if (selectedRow.find("td").eq(13).text() !== "") {
+                // console.log(input[7].value);
+                fetch("/deletedetail/" + selectedRow.find("td").eq(13).text())
+                    .then((response) => response.json())
+                    .then((data) => {
+                        alert(data);
+                    });
+                table.row(selectedRow).remove().draw();
+            } else {
+                table.row(selectedRow).remove().draw();
+            }
+            alert("Data sudah terhapus dari tabel!");
+        } else {
+            alert("Tidak ada data yang dihapus");
+        }
+    }
+    clearDetailBarang();
 });
 
 lihat_spButton.addEventListener("click", function (event) {
@@ -264,9 +386,11 @@ lihat_spButton.addEventListener("click", function (event) {
         if (no_spSelect.style.display == "inline-block") {
             no_spSelect.style.display = "none";
             no_spText.style.display = "inline-block";
+            no_spText.focus();
         } else if (no_spSelect.style.display == "none") {
             no_spSelect.style.display = "inline-block";
             no_spText.style.display = "none";
+            no_spSelect.focus();
         }
     }
 });
@@ -556,68 +680,81 @@ function funcInsertRow(array) {
             }
             $(this).toggleClass("selected");
             let selectedRows = table.rows(".selected").data().toArray();
-            console.log(selectedRows);
-            // qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ""));
-            // harga_satuan.value = parseFloat(
-            //     selectedRows[0][2].replace(/,/g, "")
-            // );
-            // ppn.value = selectedRows[0][6];
-            // satuan_jual.selectedIndex = 0;
-            // for (let i = 0; i < satuan_jual.length; i++) {
-            //     // console.log(satuanJual.selectedIndex);
-            //     satuan_jual.selectedIndex += 1;
-            //     if (
-            //         satuan_jual.options[satuan_jual.selectedIndex].text ===
-            //         selectedRows[0][4].trim()
-            //     ) {
-            //         break;
-            //     }
-            // }
-            // jenis_brg.value = selectedRows[0][27];
-            // rencana_kirim.value = selectedRows[0][5];
-            // let optionNamaBarang = document.createElement("option");
-            // optionNamaBarang.value = selectedRows[0][1];
-            // optionNamaBarang.text = selectedRows[0][0];
-            // nama_barang.appendChild(optionNamaBarang);
-            // kode_barang.value = selectedRows[0][1];
-            // funcDisplayDataBrg(selectedRows[0][1]);
+            // console.log(selectedRows);
+            general_specification.value = selectedRows[0][5];
+            keterangan_barang.value = selectedRows[0][6];
+            size_code.value = selectedRows[0][7];
+            qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ""));
+            harga_satuan.value = parseFloat(
+                selectedRows[0][2].replace(/,/g, "")
+            );
+            ppn.selectedIndex = 0;
+            for (let i = 0; i < ppn.length; i++) {
+                // console.log(satuanJual.selectedIndex);
+                ppn.selectedIndex += 1;
+                if (
+                    ppn.options[ppn.selectedIndex].text ===
+                    selectedRows[0][9].trim()
+                ) {
+                    break;
+                }
+            }
+            satuan_jual.selectedIndex = 0;
+            for (let i = 0; i < satuan_jual.length; i++) {
+                // console.log(satuanJual.selectedIndex);
+                satuan_jual.selectedIndex += 1;
+                if (
+                    satuan_jual.options[satuan_jual.selectedIndex].text ===
+                    selectedRows[0][4].trim()
+                ) {
+                    break;
+                }
+            }
+            jenis_barang.value = selectedRows[0][10];
+            rencana_kirim.value = selectedRows[0][8];
+            let optionNamaBarang = document.createElement("option");
+            optionNamaBarang.value = selectedRows[0][12];
+            optionNamaBarang.text = selectedRows[0][0];
+            nama_barang.appendChild(optionNamaBarang);
+            kode_barang.value = selectedRows[0][11];
+            funcDisplayDataBrg(selectedRows[0][12]);
             // funcTampilInv(selectedRows[0][1]);
         });
     }
 }
 
-function funcDisplayDataBrg(kodeBarangParameter) {
+function funcDisplayDataBrg(idtype) {
     // console.log(kodeBarangParameter);
-    fetch("/displaybarang/" + kodeBarangParameter)
+    fetch("/displaybarangekspor/" + idtype)
         .then((response) => response.json())
         .then((data) => {
             // console.log(data);
-            let optionTagKategori = document.createElement("option");
-            let optionTagSubKategori = document.createElement("option");
-            const optionKategoriUtama = kategori_utama.options;
+            let optionTagKelompok = document.createElement("option");
+            let optionTagSubKelompok = document.createElement("option");
+            const optionKelompokUtama = kelompok_utama.options;
 
-            for (let i = 0; i < optionKategoriUtama.length; i++) {
-                const option = optionKategoriUtama[i];
+            for (let i = 0; i < optionKelompokUtama.length; i++) {
+                const option = optionKelompokUtama[i];
                 if (option.value === data[0].IdKelompokUtama) {
                     option.selected = true;
                     break;
                 }
             }
-            //disable dulu karena ndak ada isi optionnya hehe
-            // kategori.disabled = true;
-            // sub_kategori.disabled = true;
+            //disable dulu karena ndak
+            // kelompok.disabled = true;
+            // sub_kelompok.disabled = true;
             // nama_barang.disabled = true;
             //ngisi optionnya hehe
-            optionTagKategori.value = data[0].IdKelompok;
-            optionTagKategori.text = data[0].NamaKelompok;
-            optionTagSubKategori.value = data[0].IdCorak;
-            optionTagSubKategori.text = data[0].Corak;
-            kategori.appendChild(optionTagKategori);
-            sub_kategori.appendChild(optionTagSubKategori);
+            optionTagKelompok.value = data[0].IdKelompok;
+            optionTagKelompok.text = data[0].NamaKelompok;
+            optionTagSubKelompok.value = data[0].IdSubkelompok;
+            optionTagSubKelompok.text = data[0].NamaSubKelompok;
+            kelompok.appendChild(optionTagKelompok);
+            sub_kelompok.appendChild(optionTagSubKelompok);
             //ngisi sisanya hehe
-            satuan_primer.value = data[0].SatuanPrimer;
-            satuan_sekunder.value = data[0].SatuanSekunder;
-            satuan_tritier.value = data[0].SatuanTritier;
+            satuan_gudangPrimer.value = data[0].satPrimer.trim();
+            satuan_gudangSekunder.value = data[0].satSekunder.trim();
+            satuan_gudangTritier.value = data[0].nama_satuan.trim();
         });
 }
 
@@ -636,9 +773,9 @@ function formatangka(objek) {
 
 function clearDetailBarang() {
     kelompok_utama.selectedIndex = 0;
-    kelompok.innerHTML = "<option disabled selected value>-- Pilih Kelompok --</option>";
-    sub_kelompok.innerHTML = "<option disabled selected value>-- Pilih Sub Kelompok --</option>";
-    nama_barang.innerHTML = "<option disabled selected value>-- Pilih Nama Barang --</option>";
+    kelompok.innerHTML = "";
+    sub_kelompok.innerHTML = "";
+    nama_barang.innerHTML = "";
     kode_barang.value = "";
     jenis_barang.selectedIndex = 0;
     qty_pesan.value = "";
@@ -652,6 +789,25 @@ function clearDetailBarang() {
     satuan_gudangSekunder.value = "";
     satuan_gudangTritier.value = "";
     rencana_kirim.valueAsDate = new Date();
+}
+
+function funcDatatablesIntoInput() {
+    let dataArray = [];
+    dataArray = list_view.data().toArray();
+    // console.log(dataArray);
+    // Create a hidden input element
+    for (let i = 0; i < dataArray.length; i++) {
+        let row = dataArray[i];
+        for (let j = 0; j < dataArray[i].length; j++) {
+            let hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
+            hiddenInput.multiple = true;
+            hiddenInput.value = row[j].replace(/,/g, "");
+            // Append the hidden input to the document body or any other element
+            form_suratPesanan.appendChild(hiddenInput);
+        }
+    }
 }
 
 //#endregion
