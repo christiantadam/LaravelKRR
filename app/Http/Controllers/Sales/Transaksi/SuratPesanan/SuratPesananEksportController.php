@@ -73,6 +73,10 @@ class SuratPesananEksportController extends Controller
         $data = DB::connection('ConnInventory')->table('VW_TYPE')->select('*')->where('IdType', '=', $idtype)->get();
         return response()->json($data);
     }
+    function deleteDetailBarangEksport($idPesanan){
+        DB::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?, @IDPesanan = ?', [3, $idPesanan]);
+        return response()->json("Id Pesanan ". $idPesanan ." sudah dihapus dari database!");
+    }
     public function store(Request $request)
     {
         // dd($request->all(), "Masuk Store");
@@ -197,11 +201,140 @@ class SuratPesananEksportController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd("Masuk Update");
+        // dd($request->all(), $id, "Masuk Update");
+        $no_spValue = str_replace('.', '/', $id);
+        $user = Auth::user()->NomorUser;
+        $jenis_sp = 3;
+        $tgl_pesan = $request->tgl_pesan;
+        $no_sp = $request->no_spText;
+        $no_po = $request->no_po ?? "";
+        $tgl_po = $request->tgl_po;
+        $no_pi = $request->no_pi ?? "";
+        $jenis_hargaBarang = $request->jenis_harga;
+        $mata_uang = $request->mata_uang;
+        $id_customer = explode(" -", $request->customer);
+        $id_sales = $request->sales;
+        $id_billing = $request->billing;
+        $cargo_ready = $request->cargo_ready ?? "";
+        $payment_terms = $request->payment_terms ?? "";
+        $remarks_quantity = $request->remarks_quantity ?? "";
+        $remarks_packing = $request->remarks_packing ?? "";
+        $remarks_price = $request->remarks_price ?? "";
+        $keterangan =
+            $cargo_ready . " | " .
+            $payment_terms . " | " .
+            $remarks_quantity . " | " .
+            $remarks_packing . " | " .
+            $remarks_price;
+        $nama_barang = $request->barang0;
+        $nama_jenisPesanan = $request->barang1;
+        $qty_pesan = $request->barang2;
+        $harga_satuan = $request->barang3;
+        $satuan_jual = $request->barang4;
+        $general_specification = $request->barang5;
+        $keterangan_barang = $request->barang6;
+        $size_code = $request->barang7;
+        $rencana_kirim = $request->barang8;
+        $ppn = $request->barang9;
+        $id_jenisPesanan = $request->barang10;
+        $kode_barang = $request->barang11;
+        $id_type = $request->barang12;
+        $id_pesanan = $request->barang13;
+        // Combine the individual arrays into a single array
+        $combinedArray = [$general_specification, $keterangan_barang, $size_code];
+        $uraian_pesanan = [];
+
+        foreach ($combinedArray as $values) {
+            foreach ($values as $index => $value) {
+                if (!isset($uraian_pesanan[$index])) {
+                    $uraian_pesanan[$index] = '';
+                }
+                $uraian_pesanan[$index] .= ($uraian_pesanan[$index] === '' ? '' : ' | ') . $value;
+            }
+        }
+
+        $uraian_pesanan = array_values($uraian_pesanan); // Reindex the array to start from 0
+
+        // dd($rencana_kirim);
+        $Lunas = null;
+        $jenis_bayar = 2;
+        $syarat_bayar = 0;
+        $faktur_pjk = null;
+        $kode = 2;
+
+        //maintenance header dulu yaw..
+        DB::connection('ConnSales')->statement(
+            'exec SP_1486_SLS_MAINT_HEADERPESANAN
+        @Kode = ?,
+        @IdSuratPesanan = ?,
+        @IdJnsSuratPesanan = ?,
+        @Tgl_Pesan = ?,
+        @IdCust = ?,
+        @No_PO = ?,
+        @Tgl_PO = ?,
+        @No_PI = ?,
+        @IdPembayaran = ?,
+        @IdSales = ?,
+        @IdBill = ?,
+        @IdMataUang = ?,
+        @SyaratBayar = ?,
+        @User_id = ?,
+        @Ket = ?,
+        @JnsFakturPjk = ?,
+        @JenisHargaBarang = ?',
+            [$kode, $no_sp, 3, $tgl_pesan, $id_customer[1], $no_po, $tgl_po, $no_pi, $jenis_bayar, $id_sales, $id_billing, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk, $jenis_hargaBarang],
+        );
+
+        // kemudian beralih ke maintenance detail pesanan nich...
+        for ($i = 0; $i < count($kode_barang); $i++) {
+            if (is_null($id_pesanan[$i])) {
+                DB::connection('ConnSales')->statement(
+                    'exec SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?,
+                @IDSuratPesanan = ?,
+                @KodeBarang = ?,
+                @IdBarang = ?,
+                @IdJnsBarang = ?,
+                @Qty = ?,
+                @Satuan = ?,
+                @HargaSatuan = ?,
+                @Discount = ?,
+                @UraianPesanan = ?,
+                @TglRencanaKirim = ?,
+                @Lunas = ?,
+                @PPN = ?,
+                @indek = ?',
+                    [1, $no_sp, $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas ?? null, $ppn[$i], 0.00],
+                );
+            } else {
+                DB::connection('ConnSales')->statement(
+                    'exec SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?,
+                @IDSuratPesanan = ?,
+                @IDPesanan = ?,
+                @KodeBarang = ?,
+                @IdBarang = ?,
+                @IdJnsBarang = ?,
+                @Qty = ?,
+                @Satuan = ?,
+                @HargaSatuan = ?,
+                @Discount = ?,
+                @UraianPesanan = ?,
+                @TglRencanaKirim = ?,
+                @Lunas = ?,
+                @PPN = ?,
+                @indek = ?',
+                    [$kode, $no_sp, $id_pesanan[$i], $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas ?? null, $ppn[$i], 0.00],
+                );
+            }
+
+        }
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Diubah!');
     }
 
     public function destroy($id)
     {
-        dd("Masuk Destroy");
+        // dd($id, "Masuk Destroy");
+        $no_spValue = str_replace('.', '/', $id);
+        DB::connection('ConnSales')->statement('exec SP_1486_SLS_DEL_HEADER_DETAIL_PESANAN @IdSuratPesanan = ?', [$no_spValue]);
+        return redirect()->back()->with('success', 'Surat Pesanan ' . $id . ' Sudah Dihapus!'); //->with(['success' => 'Data berhasil dihapus!']);
     }
 }

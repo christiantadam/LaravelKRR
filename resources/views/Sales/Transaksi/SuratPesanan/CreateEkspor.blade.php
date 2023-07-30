@@ -151,7 +151,7 @@
                                                 <th>Size/Code</th>
                                                 <th>Rencana Kirim</th>
                                                 <th>PPN</th>
-                                                <th>ID Jns SP</th>
+                                                <th>Id Jenis Barang</th>
                                                 <th>Kode Barang</th>
                                                 <th>Id Type</th>
                                                 <th>Id Pesanan</th>

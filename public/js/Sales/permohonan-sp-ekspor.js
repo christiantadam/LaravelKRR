@@ -125,9 +125,10 @@ isi_button.addEventListener("click", async function (event) {
         }
     } else if (proses == 2) {
         if (cekSP >= 1) {
+            let no_spData = no_spText.value.replace(/\//g, ".");
             methodForm.value = "PUT";
             form_suratPesanan.action = "/SuratPesananEkspor/" + no_spData;
-
+            funcDatatablesIntoInput();
             form_suratPesanan.submit(); //Untuk Update
         } else {
             alert("NOMER SP TIDAK DITEMUKAN");
@@ -136,6 +137,7 @@ isi_button.addEventListener("click", async function (event) {
         }
     } else if (proses == 3) {
         if (cekSP >= 1) {
+            let no_spData = no_spText.value.replace(/\//g, ".");
             methodForm.value = "DELETE";
             form_suratPesanan.action = "/SuratPesananEkspor/" + no_spData;
             form_suratPesanan.submit(); //Untuk Destroy
@@ -250,6 +252,29 @@ no_spText.addEventListener("keypress", function (event) {
                         break;
                     }
                 }
+                for (let i = 0; i < data[1].length; i++) {
+                    let uraianPesananArray =
+                        data[1][i].UraianPesanan.split(" | ");
+                    console.log(data[1][i].UraianPesanan.split(" | ")[0]);
+                    const arraydata = [
+                        data[1][i].NamaBarang,
+                        data[1][i].NamaJnsBrg,
+                        formatangka(parseFloat(data[1][i].HargaSatuan)),
+                        formatangka(parseFloat(data[1][i].Qty)),
+                        data[1][i].Satuan,
+                        data[1][i].UraianPesanan.split(" | ")[0],
+                        data[1][i].UraianPesanan.split(" | ")[1],
+                        data[1][i].UraianPesanan.split(" | ")[2],
+                        data[1][i].TglRencanaKirim.substr(0, 10),
+                        data[1][i].PPN,
+                        data[1][i].IDJnsBarang,
+                        data[1][i].KodeBarang,
+                        data[1][i].IDBarang,
+                        data[1][i].IDPesanan,
+                    ];
+                    // Insert array into a new row
+                    funcInsertRow(arraydata);
+                }
             });
         tgl_pesan.focus();
         if (proses == 3) {
@@ -360,16 +385,27 @@ delete_button.addEventListener("click", function (event) {
         if (selectedRow.length > 0) {
             if (selectedRow.find("td").eq(13).text() !== "") {
                 // console.log(input[7].value);
-                fetch("/deletedetail/" + selectedRow.find("td").eq(13).text())
-                    .then((response) => response.json())
-                    .then((data) => {
-                        alert(data);
-                    });
-                table.row(selectedRow).remove().draw();
+                let confirmation = confirm(
+                    "Anda yakin akan menghapus data ini dari server?"
+                );
+
+                if (confirmation) {
+                    fetch(
+                        "/deleteDetailBarangEksport/" +
+                            selectedRow.find("td").eq(13).text()
+                    )
+                        .then((response) => response.json())
+                        .then((data) => {
+                            alert(data);
+                        });
+                    table.row(selectedRow).remove().draw();
+                } else {
+                    return;
+                }
             } else {
                 table.row(selectedRow).remove().draw();
+                alert("Data sudah terhapus dari tabel!");
             }
-            alert("Data sudah terhapus dari tabel!");
         } else {
             alert("Tidak ada data yang dihapus");
         }
