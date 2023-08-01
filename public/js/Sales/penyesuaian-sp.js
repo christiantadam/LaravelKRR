@@ -891,7 +891,7 @@ add_button.addEventListener("click", function (event) {
     const arraydata = [
         nama_barang.options[nama_barang.selectedIndex].text,
         kode_barang.value,
-        parseInt(harga_satuan.value),
+        parseFloat(harga_satuan.value),
         parseInt(qty_pesan.value),
         satuan_jual.options[satuan_jual.selectedIndex].text,
         rencana_kirim.value,
@@ -956,7 +956,7 @@ update_button.addEventListener("click", function (event) {
         // Update the values in the rowData array
         rowData[3] = parseInt(qty_pesan.value);
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
-        rowData[2] = parseInt(harga_satuan.value);
+        rowData[2] = parseFloat(harga_satuan.value);
         rowData[5] = rencana_kirim.value;
         rowData[6] = status_lunas.value;
         rowData[8] = parseFloat(berat_karung.value);
