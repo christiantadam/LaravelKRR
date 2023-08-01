@@ -31,7 +31,7 @@
                                             class="form-control">
                                             @foreach ($jnscust as $data)
                                                 <option value="{{ $data->IDJnsCust }}"
-                                                    {{ $model->JnsCust = $data->IDJnsCust ? 'selected' : '' }}>
+                                                    {{ $model->JnsCust == $data->IDJnsCust ? 'selected' : '' }}>
                                                     {{ $data->IDJnsCust }} - {{ $data->NamaJnsCust }}</option>
                                                 {{-- <option value="{{ $data->IDJnsCust }}">
                                                     {{ $data->IDJnsCust . ' - ' . $data->NamaJnsCust }}</option> --}}

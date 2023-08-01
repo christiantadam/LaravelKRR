@@ -227,6 +227,7 @@
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="size_code">Size / Code</label>
+                                            <textarea name="" id="" cols="30" rows="10"></textarea>
                                             <input type="text" class="input" id="size_code" name="size_code"
                                                 onkeypress="enterToTab(event)">
                                         </div>

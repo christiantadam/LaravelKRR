@@ -127,8 +127,8 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $model = Customer::find($id);
-        // $jnscust = JnsCust::get();
-        // dd($model);
+        $jnscust = JnsCust::get();
+        // dd($model, $jnscust);
         $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Master.Customer.edit', compact('model', 'jnscust','access'));

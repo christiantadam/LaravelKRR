@@ -108,6 +108,7 @@ isi_button.addEventListener("click", async function (event) {
         this.innerHTML = "Proses";
         tgl_pesan.focus();
         mata_uang.selectedIndex = 3;
+        billing.selectedIndex = 10;
         ppn.selectedIndex = 1;
         proses = 1;
     } else if (proses == 1) {
@@ -202,85 +203,89 @@ no_spSelect.addEventListener("keypress", function (event) {
 no_spText.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        if (no_spText.value.trim() !== "") {
+        if (proses !== 1 && no_spText.value.trim() !== "") {
             var no_spData = no_spText.value.replace(/\//g, ".");
-        }
-        fetch("/SuratPesananEkspor/" + no_spData + "/edit")
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                no_po.value = data[0][0].NO_PO;
-                no_pi.value = data[0][0].NO_PI;
-                let keteranganSplit = data[0][0].Ket.split(" | ");
-                cargo_ready.value = keteranganSplit[0];
-                payment_terms.value = keteranganSplit[1];
-                remarks_quantity.value = keteranganSplit[2];
-                remarks_packing.value = keteranganSplit[3];
-                remarks_price.value = keteranganSplit[4];
-                mata_uang.selectedIndex = 0;
-                for (let i = 0; i < mata_uang.length - 1; i++) {
-                    mata_uang.selectedIndex += 1;
-                    if (mata_uang.value === data[0][0].IDMataUang) {
-                        break;
+            fetch("/SuratPesananEkspor/" + no_spData + "/edit")
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    no_po.value = data[0][0].NO_PO;
+                    no_pi.value = data[0][0].NO_PI;
+                    let keteranganSplit = data[0][0].Ket.split(" | ");
+                    cargo_ready.value = keteranganSplit[0];
+                    payment_terms.value = keteranganSplit[1];
+                    remarks_quantity.value = keteranganSplit[2];
+                    remarks_packing.value = keteranganSplit[3];
+                    remarks_price.value = keteranganSplit[4];
+                    mata_uang.selectedIndex = 0;
+                    for (let i = 0; i < mata_uang.length - 1; i++) {
+                        mata_uang.selectedIndex += 1;
+                        if (mata_uang.value === data[0][0].IDMataUang) {
+                            break;
+                        }
                     }
-                }
-                customer.selectedIndex = 0;
-                for (let i = 0; i < customer.length - 1; i++) {
-                    customer.selectedIndex += 1;
-                    if (customer.value === data[0][0].IDCust) {
-                        break;
+                    customer.selectedIndex = 0;
+                    for (let i = 0; i < customer.length - 1; i++) {
+                        customer.selectedIndex += 1;
+                        if (customer.value === data[0][0].IDCust) {
+                            break;
+                        }
                     }
-                }
-                sales.selectedIndex = 0;
-                for (let i = 0; i < sales.length - 1; i++) {
-                    sales.selectedIndex += 1;
-                    if (sales.value === data[0][0].IDSales) {
-                        break;
+                    sales.selectedIndex = 0;
+                    for (let i = 0; i < sales.length - 1; i++) {
+                        sales.selectedIndex += 1;
+                        if (sales.value === data[0][0].IDSales) {
+                            break;
+                        }
                     }
-                }
-                billing.selectedIndex = 0;
-                for (let i = 0; i < billing.length - 1; i++) {
-                    billing.selectedIndex += 1;
-                    if (billing.value === data[0][0].IDBill) {
-                        break;
+                    billing.selectedIndex = 0;
+                    for (let i = 0; i < billing.length - 1; i++) {
+                        billing.selectedIndex += 1;
+                        if (billing.value === data[0][0].IDBill) {
+                            break;
+                        }
                     }
-                }
-                jenis_harga.selectedIndex = 0;
-                for (let i = 0; i < jenis_harga.length - 1; i++) {
-                    jenis_harga.selectedIndex += 1;
-                    if (jenis_harga.value === data[0][0].JenisHargaBarang) {
-                        break;
+                    jenis_harga.selectedIndex = 0;
+                    for (let i = 0; i < jenis_harga.length - 1; i++) {
+                        jenis_harga.selectedIndex += 1;
+                        if (jenis_harga.value === data[0][0].JenisHargaBarang) {
+                            break;
+                        }
                     }
-                }
-                for (let i = 0; i < data[1].length; i++) {
-                    let uraianPesananArray =
-                        data[1][i].UraianPesanan.split(" | ");
-                    console.log(data[1][i].UraianPesanan.split(" | ")[0]);
-                    const arraydata = [
-                        data[1][i].NamaBarang,
-                        data[1][i].NamaJnsBrg,
-                        formatangka(parseFloat(data[1][i].HargaSatuan)),
-                        formatangka(parseFloat(data[1][i].Qty)),
-                        data[1][i].Satuan,
-                        data[1][i].UraianPesanan.split(" | ")[0],
-                        data[1][i].UraianPesanan.split(" | ")[1],
-                        data[1][i].UraianPesanan.split(" | ")[2],
-                        data[1][i].TglRencanaKirim.substr(0, 10),
-                        data[1][i].PPN,
-                        data[1][i].IDJnsBarang,
-                        data[1][i].KodeBarang,
-                        data[1][i].IDBarang,
-                        data[1][i].IDPesanan,
-                    ];
-                    // Insert array into a new row
-                    funcInsertRow(arraydata);
-                }
-            });
-        tgl_pesan.focus();
-        if (proses == 3) {
-            isi_button.focus();
+                    for (let i = 0; i < data[1].length; i++) {
+                        let uraianPesananArray =
+                            data[1][i].UraianPesanan.split(" | ");
+                        console.log(data[1][i].UraianPesanan.split(" | ")[0]);
+                        const arraydata = [
+                            data[1][i].NamaBarang,
+                            data[1][i].NamaJnsBrg,
+                            formatangka(parseFloat(data[1][i].HargaSatuan)),
+                            formatangka(parseFloat(data[1][i].Qty)),
+                            data[1][i].Satuan,
+                            data[1][i].UraianPesanan.split(" | ")[0],
+                            data[1][i].UraianPesanan.split(" | ")[1],
+                            data[1][i].UraianPesanan.split(" | ")[2],
+                            data[1][i].TglRencanaKirim.substr(0, 10),
+                            data[1][i].PPN,
+                            data[1][i].IDJnsBarang,
+                            data[1][i].KodeBarang,
+                            data[1][i].IDBarang,
+                            data[1][i].IDPesanan,
+                        ];
+                        // Insert array into a new row
+                        funcInsertRow(arraydata);
+                    }
+                });
+            tgl_pesan.focus();
+            if (proses == 3) {
+                isi_button.focus();
+            }
         }
     }
+});
+
+no_spText.addEventListener("keyup", function () {
+    no_pi.value = no_spText.value;
 });
 
 add_button.addEventListener("click", function (event) {
