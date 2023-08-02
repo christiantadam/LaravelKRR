@@ -11,11 +11,11 @@ class CetakSPEksportController extends Controller
 {
     public function index()
     {
-        $no_spValue = "039%2KRR%2PI%20623";
-        // $no_sp = str_replace('%2', '/', $no_spValue);
-        // dd($no_sp);
+        $date = now()->format('Y-m-d');
+        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode = ?, @Tanggal = ?', [3, $date]);
+        // dd($nosp);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Report.CetakSPEkspor', compact('access'));
+        return view('Sales.Report.CetakSPEkspor', compact('access', 'nosp'));
     }
     public function getSuratPesananSelect($tanggal)
     {
@@ -25,13 +25,13 @@ class CetakSPEksportController extends Controller
 
     public function getSuratPesananText($no_spValue)
     {
-        $no_sp = str_replace('!', '/', $no_spValue);
+        $no_sp = str_replace('.', '/', $no_spValue);
         $data = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode = ?, @IdSuratPesanan = ?', [2, $no_sp]);
         return response()->json($data);
     }
     public function getViewPrint($no_spValue)
     {
-        $no_sp = str_replace('!', '/', $no_spValue);
+        $no_sp = str_replace('.', '/', $no_spValue);
         $data = DB::connection('ConnSales')->table('VW_SLS_4384_CETAK_SP_EKSPORT_LARAVEL')->select('*')->where('NO_SP', '=', $no_sp)->get();
 
         // $data = db::connection('ConnSales')->select('Select * from VW_PRG_1486_SLS_CETAK_SP1 where NO_SP = ?', [$no_sp]);

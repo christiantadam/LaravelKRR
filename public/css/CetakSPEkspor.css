@@ -12,25 +12,21 @@
 }
 .acs-div-container {
     width: 900px;
-    height: 800px;
+    height: auto;
     border: 2px;
     border-style: solid;
     background-color: white;
 }
 .cetak-sppdf-container {
     width: 100%;
-    display: flex;
+    display: block;
     overflow: auto;
-    min-height: 100vh;
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: flex-start;
+    height: auto;
 }
 .cetak-sppdf-container01 {
-    flex: 0 0 auto;
     width: 96%;
     height: 100%;
-    display: flex;
+    display: block;
     align-items: flex-start;
     flex-direction: column;
     padding: 1%;
@@ -98,6 +94,9 @@
 #table_sp table tr td:first-child {
     border: 1px solid black !important;
 }
+#table_sp th{
+    text-align: center;
+}
 .cetak-sppdf-container05 table tr td,
 .cetak-sppdf-container05 table tr td:first-child {
     border: none !important;
@@ -106,6 +105,45 @@
 .cetak-sppdf-container07 table tr td:first-child {
     border: none !important;
 }
-#table_sp th{
+.cetak-sppdf-container09 {
+    width: 100%;
+    margin-top: 5px;
+}
+.cetak-sppdf-container09 table tr td,
+.cetak-sppdf-container09 table tr td:first-child {
+    border: none !important;
+    font-size: medium;
+    vertical-align: text-top;
+}
+.cetak-sppdf-container10{
+    width: 100%;
+    margin-top: 5px;
+}
+.cetak-sppdf-container-tanda-tangan{
+    width: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    height: 150px;
+    align-items: end;
+}
+.cetak-sppdf-tanda-tangan{
+    position: absolute;
+    min-width: 100px;
+}
+.signature {
+    border: 0;
+    border-bottom: 1px solid #000;
+    width: 100%;
+}
+.cetak-sppdf-tanda-tangan1{
+    position: absolute;
+    right: 0%;
     text-align: center;
+}
+.acs-garis-tt{
+    border: solid 0.1rem rgba(0, 0, 0, 0.5);
+}
+.kolom-nama-tt{
+    text-decoration: underline;
 }

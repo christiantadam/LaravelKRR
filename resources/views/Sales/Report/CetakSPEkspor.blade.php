@@ -17,11 +17,11 @@
                     <div>
                         <select name="no_spSelect" id="no_spSelect" class="input">
                             <option disabled selected value>-- Pilih Nomor SP --</option>
-                            {{-- @foreach ($nosp as $data)
+                            @foreach ($nosp as $data)
                                 <option value="{{ $data->IDSuratPesanan }}">{{ $data->IDSuratPesanan }} |
                                     {{ $data->NamaCust }}
                                 </option>
-                            @endforeach --}}
+                            @endforeach
                         </select>
                         <input type="text" name="no_spText" id="no_spText" class="input">
                     </div>
@@ -37,6 +37,7 @@
                 <hr>
                 <label for="contoh_print" id="contoh_print">Contoh Print:</label>
                 <div class="acs-div-container" id="contoh_printDiv" style="display: block">
+                    {{-- nanti kalau sudah selesai bakal dibuat display none --}}
 
                     <body>
                         <div class="cetak-sppdf-container">
@@ -59,7 +60,7 @@
                                                 <br />
                                             </h3>
                                             <h3>
-                                                <span id="nomor_spSpan">No. </span>
+                                                <span id="no_spKolom">No. </span>
                                                 <br />
                                             </h3>
                                         </div>
@@ -122,15 +123,101 @@
                                                 <th>QUANTITY</th>
                                                 <th>PRICE FOB <br>(USD)</th>
                                                 <th>AMOUNT <br>(USD)</th>
+                                                <th>ADDITIONAL INFORMATION</th>
                                             </tr>
                                         </thead>
                                     </table>
                                 </div>
                                 <div class="cetak-sppdf-container09">
-
+                                    <table id="table_keterangan">
+                                        <tr>
+                                            <td>Remarks</td>
+                                            <td>:&nbsp;</td>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td>1. Quantity</td>
+                                                        <td>:</td>
+                                                        <td id="remarks_quantityKolom"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2. Packing</td>
+                                                        <td>:</td>
+                                                        <td id="remarks_packingKolom"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3. Price</td>
+                                                        <td>:</td>
+                                                        <td id="remarks_priceKolom"></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Payment by</td>
+                                            <td>:</td>
+                                            <td>
+                                                <span id="payment_byKolom">As Follows:
+                                                    <br>Bank Central Asia
+                                                    <br>Galaxy Branch, Surabaya - Indonesia
+                                                </span>
+                                                <table>
+                                                    <tr>
+                                                        <td>A/C no</td>
+                                                        <td>:</td>
+                                                        <td>788-076-0399</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Beneficiary</td>
+                                                        <td>:</td>
+                                                        <td>PT. KERTA RAJASA RAYA</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>SWIFT CODE</td>
+                                                        <td>:</td>
+                                                        <td>CENAIDJA</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Country of Origin</td>
+                                            <td>:</td>
+                                            <td>INDONESIA</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Port of Loading</td>
+                                            <td>:</td>
+                                            <td>Tanjung Perak, Surabaya - Indonesia</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Destination Port</td>
+                                            <td>:</td>
+                                            <td id="destination_portKolom"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cargo Ready</td>
+                                            <td>:</td>
+                                            <td id="cargo_readyKolom"></td>
+                                        </tr>
+                                    </table>
                                 </div>
                                 <div class="cetak-sppdf-container10">
-
+                                    <span>If you accept with the above terms and conditions, please sign and fax by return.</span>
+                                    <br>
+                                    <span>Confirmed by:</span>
+                                    <div class="cetak-sppdf-container-tanda-tangan">
+                                        <div class="cetak-sppdf-tanda-tangan">
+                                            <input type="text" class="signature" readonly>
+                                            <br>
+                                            <span id="nama_perusahaanKolom">PT. KERTA RAJASA RAYA</span>
+                                        </div>
+                                        <div class="cetak-sppdf-tanda-tangan1">
+                                            <span id="nama_salesKolom" class="kolom-nama-tt">Mr. Rudy Santoso</span>
+                                            <br>
+                                            <span>PT. KERTA RAJASA RAYA</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
