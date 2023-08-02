@@ -954,6 +954,8 @@ update_button.addEventListener("click", function (event) {
         let rowData = table.row(selectedRow).data();
 
         // Update the values in the rowData array
+        rowData[0] = nama_barang.options[nama_barang.selectedIndex].text;
+        rowData[1] = kode_barang.value;
         rowData[3] = parseInt(qty_pesan.value);
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
         rowData[2] = parseFloat(harga_satuan.value);
@@ -973,24 +975,24 @@ update_button.addEventListener("click", function (event) {
         rowData[19] = parseFloat(berat_indexKertas.value);
         rowData[20] = !isNaN(parseFloat(biaya_lain.value))
             ? parseFloat(biaya_lain.value)
-            : '0';
+            : "0";
         rowData[21] = parseFloat(berat_standardTotal.value);
         rowData[22] = parseInt(total_cost.value);
         rowData[23] = !isNaN(parseFloat(berat_karungMeter.value))
             ? parseFloat(berat_karungMeter.value)
-            : '0';
+            : "0";
         rowData[24] = !isNaN(parseFloat(berat_innerMeter.value))
             ? parseFloat(berat_innerMeter.value)
-            : '0';
+            : "0";
         rowData[25] = !isNaN(parseFloat(berat_lamiMeter.value))
             ? parseFloat(berat_lamiMeter.value)
-            : '0';
+            : "0";
         rowData[26] = !isNaN(parseFloat(berat_kertasMeter.value))
             ? parseFloat(berat_kertasMeter.value)
-            : '0';
+            : "0";
         rowData[27] = !isNaN(parseFloat(berat_standardTotalMeter.value))
             ? parseFloat(berat_standardTotalMeter.value)
-            : '0';
+            : "0";
         rowData[28] = jenis_brg.value;
         rowData[30] = informasi_tambahan.value;
 
@@ -1216,6 +1218,7 @@ function funcInsertRow(array) {
             optionNamaBarang.text = selectedRows[0][0];
             nama_barang.appendChild(optionNamaBarang);
             kode_barang.value = selectedRows[0][1];
+            kode_barang.readOnly = false;
             berat_karung.readOnly = false;
             berat_inner.readOnly = false;
             berat_lami.readOnly = false;

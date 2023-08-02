@@ -1196,7 +1196,7 @@
 }
 .acs-div-container4 button {
     width: 100%;
-    height: 40%;
+    height: 20%;
 }
 .acs-div-container5 {
     display: flex;
@@ -1211,6 +1211,18 @@
 }
 .acs-div-container3 input {
     width: 32%;
+}
+.acs-div-container6 {
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    width: 50%;
+}
+.acs-div-container7 {
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    width: 20%;
 }
 .acs-thead{
     white-space: nowrap;

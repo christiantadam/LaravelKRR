@@ -32,9 +32,9 @@
                                             <label for="no_sp">Nomor Surat Pesanan </label>
                                             <div>
                                                 <input type="text" name="no_spText" id="no_spText" class="input"
-                                                    style="width: 70%"onkeypress="enterToTab(event)">
+                                                    style="width: 60%"onkeypress="enterToTab(event)">
                                                 <select name="no_spSelect" id="no_spSelect" class="input"
-                                                    style="width: 70%; display: none">
+                                                    style="width: 60%; display: none">
                                                     <option disabled selected>-- Pilih Nomor SP --</option>
                                                     @foreach ($list_sp as $data)
                                                     <option value="{{ $data->IDSuratPesanan }}">{{ $data->IDSuratPesanan }} | {{ $data->NamaCust }} </option>
@@ -160,7 +160,7 @@
                                     </table>
                                 </div>
                                 <div class="acs-div-container toggle-group" id="div_detailSuratPesanan">
-                                    <div class="acs-div-container1">
+                                    <div class="acs-div-container6">
                                         <div class="acs-div-filter">
                                             <label for="kelompok_utama">Kelompok Utama</label>
                                             <select name="kelompok_utama" id="kelompok_utama" class="input">
@@ -227,9 +227,7 @@
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="size_code">Size / Code</label>
-                                            <textarea name="" id="" cols="30" rows="10"></textarea>
-                                            <input type="text" class="input" id="size_code" name="size_code"
-                                                onkeypress="enterToTab(event)">
+                                            <textarea name="size_code" id="size_code" cols="10" rows="2" class="input"></textarea>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="ppn">Pajak Pertambahan Nilai</label>
@@ -241,7 +239,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="acs-div-container1">
+                                    <div class="acs-div-container7">
                                         <div class="acs-div-filter">
                                             <label for="satuan_jual">Satuan Jual</label>
                                             <select name="satuan_jual" id="satuan_jual" class="input">

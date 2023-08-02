@@ -1077,9 +1077,9 @@ update_button.addEventListener("click", function (event) {
         let rowData = table.row(selectedRow).data();
 
         // Update the values in the rowData array
+        rowData[2] = formatangka(parseFloat(harga_satuan.value));
         rowData[3] = formatangka(parseInt(qty_pesan.value));
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
-        rowData[2] = formatangka(parseFloat(harga_satuan.value));
         rowData[5] = rencana_kirim.value;
         rowData[7] = formatangka(parseFloat(berat_karung.value));
         rowData[8] = formatangka(parseFloat(index_karung.value));
