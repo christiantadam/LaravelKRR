@@ -73,9 +73,10 @@ class SuratPesananEksportController extends Controller
         $data = DB::connection('ConnInventory')->table('VW_TYPE')->select('*')->where('IdType', '=', $idtype)->get();
         return response()->json($data);
     }
-    function deleteDetailBarangEksport($idPesanan){
+    function deleteDetailBarangEksport($idPesanan)
+    {
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?, @IDPesanan = ?', [3, $idPesanan]);
-        return response()->json("Id Pesanan ". $idPesanan ." sudah dihapus dari database!");
+        return response()->json("Id Pesanan " . $idPesanan . " sudah dihapus dari database!");
     }
     public function store(Request $request)
     {
@@ -93,6 +94,7 @@ class SuratPesananEksportController extends Controller
         $id_sales = $request->sales;
         $id_billing = $request->billing;
         $cargo_ready = $request->cargo_ready ?? "";
+        $destination_port = $request->destination_port ?? "";
         $payment_terms = $request->payment_terms ?? "";
         $remarks_quantity = $request->remarks_quantity ?? "";
         $remarks_packing = $request->remarks_packing ?? "";
@@ -102,11 +104,12 @@ class SuratPesananEksportController extends Controller
             $payment_terms . " | " .
             $remarks_quantity . " | " .
             $remarks_packing . " | " .
-            $remarks_price;
+            $remarks_price . " | " .
+            $destination_port;
         $nama_barang = $request->barang0;
         $nama_jenisPesanan = $request->barang1;
-        $qty_pesan = $request->barang2;
-        $harga_satuan = $request->barang3;
+        $harga_satuan = $request->barang2;
+        $qty_pesan = $request->barang3;
         $satuan_jual = $request->barang4;
         $general_specification = $request->barang5;
         $keterangan_barang = $request->barang6;
@@ -216,6 +219,7 @@ class SuratPesananEksportController extends Controller
         $id_sales = $request->sales;
         $id_billing = $request->billing;
         $cargo_ready = $request->cargo_ready ?? "";
+        $destination_port = $request->destination_port ?? "";
         $payment_terms = $request->payment_terms ?? "";
         $remarks_quantity = $request->remarks_quantity ?? "";
         $remarks_packing = $request->remarks_packing ?? "";
@@ -225,11 +229,12 @@ class SuratPesananEksportController extends Controller
             $payment_terms . " | " .
             $remarks_quantity . " | " .
             $remarks_packing . " | " .
-            $remarks_price;
+            $remarks_price. " | " .
+            $destination_port;
         $nama_barang = $request->barang0;
         $nama_jenisPesanan = $request->barang1;
-        $qty_pesan = $request->barang2;
-        $harga_satuan = $request->barang3;
+        $harga_satuan = $request->barang2;
+        $qty_pesan = $request->barang3;
         $satuan_jual = $request->barang4;
         $general_specification = $request->barang5;
         $keterangan_barang = $request->barang6;

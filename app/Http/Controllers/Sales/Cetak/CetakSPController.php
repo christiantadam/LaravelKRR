@@ -20,12 +20,12 @@ class CetakSPController extends Controller
         $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode = ?, @Tanggal = ?', [3, $date]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($nosp);
-        return view('Sales.Report.CetakSP', compact('nosp', 'access'));
+        return view('Sales.Report.CetakSP', compact('nosp','access'));
     }
 
     public function getSuratPesananSelect($tanggal)
     {
-        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode =?, @Tanggal =?', [3, $tanggal]);
+        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode =?, @Tanggal =?', [3,$tanggal]);
         return response()->json($nosp);
     }
 
@@ -43,8 +43,7 @@ class CetakSPController extends Controller
 
     public function getViewPrint($nosp)
     {
-        $no_sp = str_replace('.', '/', $nosp);
-        $data = DB::connection('ConnSales')->table('VW_SLS_4384_CETAK_SP_EKSPORT_LARAVEL')->select('*')->where('NO_SP', '=', $no_sp)->get();
+        $data = db::connection('ConnSales')->select('Select * from VW_PRG_1486_SLS_CETAK_SP1 where NO_SP = ?', [$nosp]);
         return response()->json($data);
     }
 

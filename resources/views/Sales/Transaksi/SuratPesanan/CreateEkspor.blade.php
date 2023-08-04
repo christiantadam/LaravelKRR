@@ -118,6 +118,11 @@
                                                 onkeypress="enterToTab(event)">
                                         </div>
                                         <div class="acs-div-filter">
+                                            <label for="destination_port">Destination Port (Proforma Invoice)</label>
+                                            <input type="text" name="destination_port" id="destination_port" class="input"
+                                                onkeypress="enterToTab(event)">
+                                        </div>
+                                        <div class="acs-div-filter">
                                             <label for="payment_terms">Payment Terms (Proforma Invoice)</label>
                                             <textarea name="payment_terms" id="payment_terms" cols="30" rows="4" class="input"></textarea>
                                         </div>
@@ -125,15 +130,15 @@
                                     <div class="acs-div-container2">
                                         <div class="acs-div-filter">
                                             <label for="remarks_quantity">Quantity</label>
-                                            <textarea name="remarks_quantity" id="remarks_quantity" cols="30" rows="2" class="input"></textarea>
+                                            <textarea name="remarks_quantity" id="remarks_quantity" cols="30" rows="4" class="input"></textarea>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="remarks_packing">Packing</label>
-                                            <textarea name="remarks_packing" id="remarks_packing" cols="30" rows="2" class="input"></textarea>
+                                            <textarea name="remarks_packing" id="remarks_packing" cols="30" rows="4" class="input"></textarea>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="remarks_price">Price</label>
-                                            <textarea name="remarks_price" id="remarks_price" cols="30" rows="2" class="input"></textarea>
+                                            <textarea name="remarks_price" id="remarks_price" cols="30" rows="4" class="input"></textarea>
                                         </div>
                                     </div>
                                 </div>

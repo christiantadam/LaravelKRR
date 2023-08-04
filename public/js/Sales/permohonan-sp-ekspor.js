@@ -47,6 +47,8 @@ let tgl_pesan = document.getElementById("tgl_pesan");
 let tgl_po = document.getElementById("tgl_po");
 let update_button = document.getElementById("update_button");
 let no_spSelect = document.getElementById("no_spSelect");
+let destination_port = document.getElementById("destination_port");
+
 //#endregion
 
 //#region Load Form
@@ -212,11 +214,12 @@ no_spText.addEventListener("keypress", function (event) {
                     no_po.value = data[0][0].NO_PO;
                     no_pi.value = data[0][0].NO_PI;
                     let keteranganSplit = data[0][0].Ket.split(" | ");
-                    cargo_ready.value = keteranganSplit[0];
-                    payment_terms.value = keteranganSplit[1];
-                    remarks_quantity.value = keteranganSplit[2];
-                    remarks_packing.value = keteranganSplit[3];
-                    remarks_price.value = keteranganSplit[4];
+                    cargo_ready.value = keteranganSplit[0] ?? "";
+                    payment_terms.value = keteranganSplit[1] ?? "";
+                    remarks_quantity.value = keteranganSplit[2] ?? "";
+                    remarks_packing.value = keteranganSplit[3] ?? "";
+                    remarks_price.value = keteranganSplit[4] ?? "";
+                    destination_port.value = keteranganSplit[5] ?? "";
                     mata_uang.selectedIndex = 0;
                     for (let i = 0; i < mata_uang.length - 1; i++) {
                         mata_uang.selectedIndex += 1;
@@ -279,6 +282,9 @@ no_spText.addEventListener("keypress", function (event) {
             tgl_pesan.focus();
             if (proses == 3) {
                 isi_button.focus();
+            }
+            if (proses == 1) {
+                no_po.focus();
             }
         }
     }

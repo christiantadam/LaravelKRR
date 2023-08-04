@@ -92,12 +92,12 @@
                                             <tr>
                                                 <td>Buyer</td>
                                                 <td>:</td>
-                                                <td id="nama_perusahaanKolom">xxxxx</td>
+                                                <td id="nama_perusahaanKolom" contenteditable="true">xxxxx</td>
                                             </tr>
                                             <tr>
                                                 <td>Attn</td>
                                                 <td>:</td>
-                                                <td id="nama_customerKolom">xxxxxx</td>
+                                                <td id="nama_customerKolom" contenteditable="true">xxxxxx</td>
                                             </tr>
                                             <tr>
                                                 <td>Fax</td>

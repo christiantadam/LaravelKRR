@@ -197,10 +197,11 @@ print_button.addEventListener("click", function (event) {
                 }
                 if (data[0].Ket.includes(" | ")) {
                     let KeteranganArray = data[0].Ket.split(" | ");
-                    remarks_quantityKolom.innerHTML = KeteranganArray[2];
-                    remarks_packingKolom.innerHTML = KeteranganArray[3];
-                    remarks_priceKolom.innerHTML = KeteranganArray[4];
-                    payment_byKolom.innerHTML = KeteranganArray[1];
+                    remarks_quantityKolom.innerHTML = KeteranganArray[2] ?? "";
+                    remarks_packingKolom.innerHTML = KeteranganArray[3] ?? "";
+                    remarks_priceKolom.innerHTML = KeteranganArray[4] ?? "";
+                    payment_byKolom.innerHTML = KeteranganArray[1] ?? "";
+                    destination_portKolom.innerHTML = KeteranganArray[5] ?? "";
                     // console.log(KeteranganArray);
                 } else {
                     remarks_quantityKolom.innerHTML = "No Data";
@@ -208,11 +209,11 @@ print_button.addEventListener("click", function (event) {
                     remarks_priceKolom.innerHTML = "No Data";
                     payment_byKolom.innerHTML = "No Data";
                     cargo_readyKolom.innerHTML = "No Data";
+                    destination_portKolom.innerHTML = "No Data";
                 }
                 cargo_readyKolom.innerHTML = formatDateToMMDDYYYY(
                     data[0].TglRencanaKirim
                 );
-                destination_portKolom.innerHTML = data[0].AlamatKirim;
                 // nama_perusahaanKolom.innerHTML = data[0].NamaCust;
                 nama_salesKolom.value = "Mr. " + data[0].NamaSales;
             });
