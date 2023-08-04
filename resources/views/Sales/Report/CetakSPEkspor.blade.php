@@ -89,23 +89,23 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>Tanggal Pesanan</td>
-                                                        <td>:</td>
+                                                        <td>:&nbsp;</td>
                                                         <td id="tgl_pesanKolom"></td>
                                                     </tr>
                                                     <tr>
                                                         <td>Nama Langganan</td>
-                                                        <td>:</td>
+                                                        <td>:&nbsp;</td>
                                                         <td id="nama_customerKolom"></td>
                                                     </tr>
                                                     <tr>
                                                         <td style="white-space: nowrap;vertical-align:top;">Alamat Langganan
                                                         </td>
-                                                        <td style="vertical-align:top;">:</td>
+                                                        <td style="vertical-align:top;">:&nbsp;</td>
                                                         <td id="alamat_kantorKolom"></td>
                                                     </tr>
                                                     <tr>
                                                         <td style="vertical-align:top;">Destination</td>
-                                                        <td style="vertical-align:top;">:</td>
+                                                        <td style="vertical-align:top;">:&nbsp;</td>
                                                         <td id="destination_kolom"></td>
                                                     </tr>
                                                 </tbody>
@@ -121,8 +121,8 @@
                                                 <th>GENERAL SPECIFICATION</th>
                                                 <th>SIZE / CODE</th>
                                                 <th>QUANTITY</th>
-                                                <th>PRICE FOB <br>(USD)</th>
-                                                <th>AMOUNT <br>(USD)</th>
+                                                <th id="price_forKolom"></th>
+                                                <th id="price_amountKolom">AMOUNT <br>(USD)</th>
                                                 <th>ADDITIONAL INFORMATION</th>
                                             </tr>
                                         </thead>
@@ -137,17 +137,17 @@
                                                 <table>
                                                     <tr>
                                                         <td>1. Quantity</td>
-                                                        <td>:</td>
+                                                        <td>:&nbsp;</td>
                                                         <td id="remarks_quantityKolom"></td>
                                                     </tr>
                                                     <tr>
                                                         <td>2. Packing</td>
-                                                        <td>:</td>
+                                                        <td>:&nbsp;</td>
                                                         <td id="remarks_packingKolom"></td>
                                                     </tr>
                                                     <tr>
                                                         <td>3. Price</td>
-                                                        <td>:</td>
+                                                        <td>:&nbsp;</td>
                                                         <td id="remarks_priceKolom"></td>
                                                     </tr>
                                                 </table>
@@ -164,17 +164,17 @@
                                                 <table>
                                                     <tr>
                                                         <td>A/C no</td>
-                                                        <td>:</td>
+                                                        <td>:&nbsp;</td>
                                                         <td>788-076-0399</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Beneficiary</td>
-                                                        <td>:</td>
+                                                        <td>:&nbsp;</td>
                                                         <td>PT. KERTA RAJASA RAYA</td>
                                                     </tr>
                                                     <tr>
                                                         <td>SWIFT CODE</td>
-                                                        <td>:</td>
+                                                        <td>:&nbsp;</td>
                                                         <td>CENAIDJA</td>
                                                     </tr>
                                                 </table>
@@ -182,38 +182,39 @@
                                         </tr>
                                         <tr>
                                             <td>Country of Origin</td>
-                                            <td>:</td>
+                                            <td>:&nbsp;</td>
                                             <td>INDONESIA</td>
                                         </tr>
                                         <tr>
                                             <td>Port of Loading</td>
-                                            <td>:</td>
+                                            <td>:&nbsp;</td>
                                             <td>Tanjung Perak, Surabaya - Indonesia</td>
                                         </tr>
                                         <tr>
                                             <td>Destination Port</td>
-                                            <td>:</td>
+                                            <td>:&nbsp;</td>
                                             <td id="destination_portKolom"></td>
                                         </tr>
                                         <tr>
                                             <td>Cargo Ready</td>
-                                            <td>:</td>
+                                            <td>:&nbsp;</td>
                                             <td id="cargo_readyKolom"></td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="cetak-sppdf-container10">
-                                    <span>If you accept with the above terms and conditions, please sign and fax by return.</span>
+                                    {{-- <span>If you accept with the above terms and conditions, please sign and fax by return.</span>
                                     <br>
-                                    <span>Confirmed by:</span>
+                                    <span>Confirmed by:</span> --}}
                                     <div class="cetak-sppdf-container-tanda-tangan">
-                                        <div class="cetak-sppdf-tanda-tangan">
-                                            <input type="text" class="signature" readonly>
+                                        {{-- <div class="cetak-sppdf-tanda-tangan">
+                                            <input type="text" class="signature">
                                             <br>
                                             <span id="nama_perusahaanKolom">PT. KERTA RAJASA RAYA</span>
-                                        </div>
+                                        </div> --}}
                                         <div class="cetak-sppdf-tanda-tangan1">
-                                            <span id="nama_salesKolom" class="kolom-nama-tt">Mr. Rudy Santoso</span>
+                                            {{-- <span id="nama_salesKolom" class="kolom-nama-tt">Mr. Rudy Santoso</span> --}}
+                                            <input type="text" class="signature" id="nama_salesKolom" readonly>
                                             <br>
                                             <span>PT. KERTA RAJASA RAYA</span>
                                         </div>

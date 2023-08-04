@@ -12,7 +12,7 @@ class CetakSPEksportController extends Controller
     public function index()
     {
         $date = now()->format('Y-m-d');
-        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode = ?, @Tanggal = ?', [3, $date]);
+        $nosp = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_CETAK @Kode = ?, @Tanggal = ?', [4, $date]);
         // dd($nosp);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Report.CetakSPEkspor', compact('access', 'nosp'));

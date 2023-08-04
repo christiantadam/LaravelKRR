@@ -32,42 +32,37 @@
     padding: 1%;
 }
 .cetak-sppdf-container02 {
-    width: 97%;
+    width: 100%;
     display: flex;
     align-items: flex-start;
-    gap: 2%;
+    flex-direction: column;
 }
 .cetak-sppdf-container03 {
     flex: 0 0 auto;
-    width: 40%;
+    width: 100%;
     height: 100%;
     display: flex;
     align-items: flex-start;
-    flex-direction: column;
-}
-.cetak-sppdf-container04 {
-    flex: 0 0 auto;
-    width: 100%;
-    height: 80%;
-    display: block;
+    flex-direction: row;
     text-align: center;
 }
-.cetak-sppdf-container05 {
-    flex: 0 0 auto;
+.cetak-sppdf-container04 {
     width: 100%;
     display: flex;
-    align-items: flex-start;
-    padding-left: var(--dl-space-space-halfunit);
-    flex-direction: column;
-    justify-content: flex-start;
+    position: relative;
+    flex-direction: row;
+    height: 100px;
+    align-items: end;
+}
+.cetak-sppdf-container05 {
+    position: absolute;
+    min-width: 100px;
+    text-align: left;
 }
 .cetak-sppdf-container06 {
-    flex: 0 0 auto;
-    width: 65%;
-    height: 100%;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
+    position: absolute;
+    right: 0%;
+    text-align: left;
 }
 .cetak-sppdf-container07 {
     flex: 0 0 auto;
@@ -80,7 +75,7 @@
 }
 .cetak-sppdf-container08{
     width: 100%;
-    margin: 10px 0 10px 0;
+    margin: 0 0 10px 0;
 }
 .cetak-sppdf-container07 table,
 .cetak-sppdf-container05{
@@ -119,6 +114,20 @@
     font-size: medium;
     vertical-align: text-top;
 }
+.cetak-sppdf-container11 {
+    width: 100%;
+    font-size: small;
+}
+.cetak-sppdf-container11 table tr td,
+.cetak-sppdf-container11 table tr td:first-child {
+    border: none !important;
+    vertical-align: text-top;
+}
+.cetak-sppdf-container12 {
+    width: 100%;
+    text-align: right;
+    font-size: small;
+}
 .cetak-sppdf-container10{
     width: 100%;
     margin-top: 5px;
@@ -143,6 +152,10 @@
     width: 100%;
     text-decoration: underline;
 }
+.signature1 {
+    border: 0;
+    border-bottom: 1px solid #000;
+}
 .cetak-sppdf-tanda-tangan1{
     position: absolute;
     right: 0%;
@@ -153,6 +166,11 @@
 }
 .kolom-nama-tt{
     text-decoration: underline;
+}
+.cetak-header-pi{
+    text-align: center;
+    line-height: 0.8;
+    width: 100%;
 }
 @media print {
     body * {
