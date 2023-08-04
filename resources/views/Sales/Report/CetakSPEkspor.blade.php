@@ -18,7 +18,7 @@
                         <select name="no_spSelect" id="no_spSelect" class="input">
                             <option disabled selected value>-- Pilih Nomor SP --</option>
                             @foreach ($nosp as $data)
-                                <option value="{{ $data->IDSuratPesanan }}">{{ $data->IDSuratPesanan }} |
+                                <option value="{{ $data->NO_SP }}">{{ $data->NO_SP }} |
                                     {{ $data->NamaCust }}
                                 </option>
                             @endforeach
