@@ -1336,6 +1336,7 @@ function funcInsertRow(array) {
             optionNamaBarang.text = selectedRows[0][0];
             nama_barang.appendChild(optionNamaBarang);
             kode_barang.value = selectedRows[0][1];
+            kode_barang.readOnly = false;
             berat_karung.readOnly = false;
             berat_inner.readOnly = false;
             berat_lami.readOnly = false;
