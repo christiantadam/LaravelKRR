@@ -63,7 +63,7 @@ tanggal_sp.addEventListener("change", function () {
                 let optionTag = document.createElement("option");
                 optionTag.value = option.IDSuratPesanan;
                 optionTag.text =
-                    option.IDSuratPesanan + " | " + option.NamaCust;
+                    option.NO_SP + " | " + option.NamaCust;
                 no_spSelect.appendChild(optionTag);
             });
         });
