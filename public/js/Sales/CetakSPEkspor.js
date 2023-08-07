@@ -16,11 +16,9 @@ let table_sp = $("#table_sp").DataTable({
     columnDefs: [
         { targets: 0, width: "3%" }, // Set the width of the first column to 10%
         { targets: 1, width: "40%" }, // Set the width of the second column to 60%
-        { targets: 2, width: "15%" }, // Set the width of the third column to 15%
-        { targets: 3, width: "10%" }, // Set the width of the fourth column to 15%
+        { targets: 2, width: "34%" }, // Set the width of the third column to 15%
+        { targets: 3, width: "13%" }, // Set the width of the fourth column to 15%
         { targets: 4, width: "10%" }, // Set the width of the fourth column to 15%
-        { targets: 5, width: "10%" }, // Set the width of the fourth column to 15%
-        { targets: 6, width: "12%" }, // Set the width of the fourth column to 15%
     ],
 });
 let no_spKolom = document.getElementById("no_spKolom");
@@ -33,7 +31,7 @@ let destination_kolom = document.getElementById("destination_kolom");
 let remarks_quantityKolom = document.getElementById("remarks_quantityKolom");
 let remarks_packingKolom = document.getElementById("remarks_packingKolom");
 let remarks_priceKolom = document.getElementById("remarks_priceKolom");
-let payment_byKolom = document.getElementById("payment_byKolom");
+// let payment_byKolom = document.getElementById("payment_byKolom");
 let destination_portKolom = document.getElementById("destination_portKolom");
 let cargo_readyKolom = document.getElementById("cargo_readyKolom");
 let nama_perusahaanKolom = document.getElementById("nama_perusahaanKolom");
@@ -60,9 +58,8 @@ tanggal_sp.addEventListener("change", function () {
                 "<option disabled selected value>-- Pilih Nomor SP --</option>";
             options.forEach((option) => {
                 let optionTag = document.createElement("option");
-                optionTag.value = option.IDSuratPesanan;
-                optionTag.text =
-                    option.NO_SP + " | " + option.NamaCust;
+                optionTag.value = option.NO_SP;
+                optionTag.text = option.NO_SP + " | " + option.NamaCust;
                 no_spSelect.appendChild(optionTag);
             });
         });
@@ -145,21 +142,24 @@ print_button.addEventListener("click", function (event) {
                 tgl_pesanKolom.innerHTML = formatDateToMMDDYYYY(data[0].TGL_SP);
                 nama_customerKolom.innerHTML = data[0].NamaCust;
                 alamat_kantorKolom.innerHTML = data[0].Alamat;
-                destination_kolom.innerHTML = data[0].AlamatKirim;
-                price_forKolom.innerHTML =
-                    "PRICE " +
-                    data[0].JenisHargaBarang +
-                    "<br>(" +
-                    data[0].IDMataUang +
-                    ")";
-                price_amountKolom.innerHTML =
-                    "AMOUNT <br>" + "(" + data[0].IDMataUang + ")";
+                // price_forKolom.innerHTML =
+                //     "PRICE " +
+                //     data[0].JenisHargaBarang +
+                //     "<br>(" +
+                //     data[0].IDMataUang +
+                //     ")";
+                // price_amountKolom.innerHTML =
+                //     "AMOUNT <br>" + "(" + data[0].IDMataUang + ")";
                 table_sp.clear();
                 data.forEach((item, index) => {
                     // console.log(item);
-                    var amount =
-                        parseFloat(item.JmlOrder) *
-                        parseFloat(item.HargaSatuan);
+                    let satuanJmlOrder = "";
+                        if (item.Satuan == "LBR") {
+                            satuanJmlOrder = "PCS";
+                        }
+                        else{
+                            satuanJmlOrder = item.Satuan
+                        }
                     if (item.UraianPesanan.includes(" | ")) {
                         let UraianPesananArray = item.UraianPesanan.replace(
                             /\r\n/g,
@@ -171,11 +171,9 @@ print_button.addEventListener("click", function (event) {
                             .add([
                                 index + 1,
                                 UraianPesananArray[0],
-                                UraianPesananArray[2],
-                                formatangka(item.JmlOrder),
-                                formatangka(item.HargaSatuan),
-                                formatangka(amount.toFixed(2)),
-                                UraianPesananArray[1],
+                                UraianPesananArray[2] + "<br> <br>" + UraianPesananArray[1],
+                                formatangkainteger(parseInt(item.JmlOrder)) + " " + satuanJmlOrder,
+                                item.KodeBarang,
                             ])
                             .draw();
                     } else {
@@ -184,10 +182,8 @@ print_button.addEventListener("click", function (event) {
                                 index + 1,
                                 "No Data",
                                 "No Data",
-                                formatangka(item.JmlOrder),
-                                formatangka(item.HargaSatuan),
-                                formatangka(amount.toFixed(2)),
-                                "No Data",
+                                formatangkainteger(item.JmlOrder) + " " + satuanJmlOrder,
+                                item.KodeBarang,
                             ])
                             .draw();
                     }
@@ -200,16 +196,18 @@ print_button.addEventListener("click", function (event) {
                     remarks_quantityKolom.innerHTML = KeteranganArray[2] ?? "";
                     remarks_packingKolom.innerHTML = KeteranganArray[3] ?? "";
                     remarks_priceKolom.innerHTML = KeteranganArray[4] ?? "";
-                    payment_byKolom.innerHTML = KeteranganArray[1] ?? "";
+                    // payment_byKolom.innerHTML = KeteranganArray[1] ?? "";
                     destination_portKolom.innerHTML = KeteranganArray[5] ?? "";
+                    destination_kolom.innerHTML = KeteranganArray[5] ?? "";
                     // console.log(KeteranganArray);
                 } else {
                     remarks_quantityKolom.innerHTML = "No Data";
                     remarks_packingKolom.innerHTML = "No Data";
                     remarks_priceKolom.innerHTML = "No Data";
-                    payment_byKolom.innerHTML = "No Data";
+                    // payment_byKolom.innerHTML = "No Data";
                     cargo_readyKolom.innerHTML = "No Data";
                     destination_portKolom.innerHTML = "No Data";
+                    destination_kolom.innerHTML = "No Data";
                 }
                 cargo_readyKolom.innerHTML = formatDateToMMDDYYYY(
                     data[0].TglRencanaKirim
@@ -263,4 +261,20 @@ function formatangka(objek) {
     }
 
     return result;
+}
+function formatangkainteger(objek) {
+    console.log(objek);
+    a = objek.toString().replace(/[^\d]/g, "");
+    c = "";
+    panjang = a.length;
+    j = 0;
+    for (i = panjang; i > 0; i--) {
+        j = j + 1;
+        if (j % 3 == 1 && j != 1) {
+            c = a.substr(i - 1, 1) + "." + c;
+        } else {
+            c = a.substr(i - 1, 1) + c;
+        }
+    }
+    return c;
 }

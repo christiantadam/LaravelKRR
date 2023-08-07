@@ -121,9 +121,7 @@
                                                 <th>GENERAL SPECIFICATION</th>
                                                 <th>SIZE / CODE</th>
                                                 <th>QUANTITY</th>
-                                                <th id="price_forKolom"></th>
-                                                <th id="price_amountKolom">AMOUNT <br>(USD)</th>
-                                                <th>ADDITIONAL INFORMATION</th>
+                                                <th>KODE BARANG</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -154,33 +152,6 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Payment by</td>
-                                            <td>:</td>
-                                            <td>
-                                                <span id="payment_byKolom">As Follows:
-                                                    <br>Bank Central Asia
-                                                    <br>Galaxy Branch, Surabaya - Indonesia
-                                                </span>
-                                                <table>
-                                                    <tr>
-                                                        <td>A/C no</td>
-                                                        <td>:&nbsp;</td>
-                                                        <td>788-076-0399</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Beneficiary</td>
-                                                        <td>:&nbsp;</td>
-                                                        <td>PT. KERTA RAJASA RAYA</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>SWIFT CODE</td>
-                                                        <td>:&nbsp;</td>
-                                                        <td>CENAIDJA</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <td>Country of Origin</td>
                                             <td>:&nbsp;</td>
                                             <td>INDONESIA</td>
@@ -193,7 +164,7 @@
                                         <tr>
                                             <td>Destination Port</td>
                                             <td>:&nbsp;</td>
-                                            <td id="destination_portKolom"></td>
+                                            <td id="destination_portKolom" contenteditable="true"></td>
                                         </tr>
                                         <tr>
                                             <td>Cargo Ready</td>

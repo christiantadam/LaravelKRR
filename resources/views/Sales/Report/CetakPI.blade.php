@@ -106,7 +106,7 @@
                                             </tr>
                                         </table>
                                         <hr style="border: 1px solid black; width:100%;margin-top: 0;margin-bottom: 0">
-                                        <span contenteditable="true">We hereby confirmed your order of xxxxxx with specifications, terms, and
+                                        <span id="pernyataan_pesananKolom" contenteditable="true">We hereby confirmed your order of xxxxxx with specifications, terms, and
                                             conditions as mentioned
                                             below :</span>
                                     </div>
@@ -119,7 +119,7 @@
                                                 <th>QUANTITY</th>
                                                 <th id="price_forKolom">PRICE FOB <br>(USD)</th>
                                                 <th id="price_amountKolom">AMOUNT <br>(USD)</th>
-                                                <th>ADDITIONAL INFORMATION</th>
+                                                {{-- <th>ADDITIONAL INFORMATION</th> --}}
                                             </tr>
                                         </thead>
                                     </table>
@@ -196,6 +196,11 @@
                                             <td>:&nbsp;</td>
                                             <td id="cargo_readyKolom"></td>
                                         </tr>
+                                        <tr id="item_conditionKolom" style="display: none">
+                                            <td>Condition</td>
+                                            <td>:</td>
+                                            <td>Quantity and Amount ± 10%</td>
+                                        </tr>
                                     </table>
                                 </div>
                                 <div class="cetak-sppdf-container10">
@@ -204,10 +209,11 @@
                                     <br>
                                     <span>Confirmed by:</span>
                                     <div class="cetak-sppdf-container-tanda-tangan">
+                                        <span style="align-self: flex-start; width: 100%;text-align: end" id="tgl_pesanKolom">Sidoarjo, July 15, 2023</span>
                                         <div class="cetak-sppdf-tanda-tangan">
-                                            <input type="text" class="signature">
+                                            <input type="text" class="signature" id="ttd_namaContactPersonKolom">
                                             <br>
-                                            <span id="nama_perusahaanKolom">PT. KERTA RAJASA RAYA</span>
+                                            <span id="ttd_perusahaanKolom">PT. KERTA RAJASA RAYA</span>
                                         </div>
                                         <div class="cetak-sppdf-tanda-tangan1">
                                             {{-- <span id="nama_salesKolom" class="kolom-nama-tt">Mr. Rudy Santoso</span> --}}

@@ -16,11 +16,10 @@ let table_sp = $("#table_sp").DataTable({
     columnDefs: [
         { targets: 0, width: "3%" }, // Set the width of the first column to 10%
         { targets: 1, width: "40%" }, // Set the width of the second column to 60%
-        { targets: 2, width: "15%" }, // Set the width of the third column to 15%
+        { targets: 2, width: "27%" }, // Set the width of the third column to 15%
         { targets: 3, width: "10%" }, // Set the width of the fourth column to 15%
         { targets: 4, width: "10%" }, // Set the width of the fourth column to 15%
         { targets: 5, width: "10%" }, // Set the width of the fourth column to 15%
-        { targets: 6, width: "12%" }, // Set the width of the fourth column to 15%
     ],
 });
 let no_spKolom = document.getElementById("no_spKolom");
@@ -40,6 +39,13 @@ let nama_perusahaanKolom = document.getElementById("nama_perusahaanKolom");
 let nama_salesKolom = document.getElementById("nama_salesKolom");
 let price_forKolom = document.getElementById("price_forKolom");
 let price_amountKolom = document.getElementById("price_amountKolom");
+let fax_customerKolom = document.getElementById("fax_customerKolom");
+let pernyataan_pesananKolom = document.getElementById(
+    "pernyataan_pesananKolom"
+);
+let item_conditionKolom = document.getElementById("item_conditionKolom");
+let ttd_perusahaanKolom = document.getElementById("ttd_perusahaanKolom");
+let ttd_namaContactPersonKolom = document.getElementById("ttd_namaContactPersonKolom");
 
 //#region Load Form
 
@@ -61,9 +67,8 @@ tanggal_sp.addEventListener("change", function () {
                 "<option disabled selected value>-- Pilih Nomor SP --</option>";
             options.forEach((option) => {
                 let optionTag = document.createElement("option");
-                optionTag.value = option.IDSuratPesanan;
-                optionTag.text =
-                    option.NO_SP + " | " + option.NamaCust;
+                optionTag.value = option.NO_SP;
+                optionTag.text = option.NO_SP + " | " + option.NamaCust;
                 no_spSelect.appendChild(optionTag);
             });
         });
@@ -144,8 +149,9 @@ print_button.addEventListener("click", function (event) {
                 no_piKolom.innerHTML = data[0].NO_PI;
                 no_poKolom.innerHTML =
                     "Buyer Reference contract number: " + data[0].NO_PO;
-                tgl_pesanKolom.innerHTML = "Sidoarjo, " + convertDateFormat(data[0].TGL_SP);
-                nama_customerKolom.innerHTML = data[0].NamaCust;
+                tgl_pesanKolom.innerHTML =
+                    "Sidoarjo, " + convertDateFormat(data[0].TGL_SP);
+                nama_customerKolom.innerHTML = data[0].ContactPerson;
                 fax_customerKolom.innerHTML = data[0].NoFax1 ?? data[0].NoFax2;
                 // alamat_kantorKolom.innerHTML = data[0].Alamat;
                 // destination_kolom.innerHTML = data[0].AlamatKirim;
@@ -168,17 +174,44 @@ print_button.addEventListener("click", function (event) {
                             /\r\n/g,
                             " <br> "
                         ).split(" | ");
+                        // Find the index of "Product : " and add its length to get the start index of the desired string
+                        const startIndex =
+                            UraianPesananArray[0].indexOf("Product : ") +
+                            "- Product : ".length;
+
+                        // Find the index of the next "<br>" tag, which marks the end of the desired string
+                        const endIndex = UraianPesananArray[0].indexOf(
+                            "<br>",
+                            startIndex
+                        );
+
+                        // Extract the desired string using the start and end indices
+                        const desiredString = UraianPesananArray[0]
+                            .substr(startIndex, endIndex - startIndex)
+                            .trim();
+                        pernyataan_pesananKolom.innerHTML =
+                            "We hereby confirmed your order of " +
+                            desiredString +
+                            " with specifications, terms, and conditions as mentioned below :";
                         // console.log(item.UraianPesanan);
                         // console.log(UraianPesananArray);
+                        let satuanJmlOrder = "";
+                        if (item.Satuan == "LBR") {
+                            satuanJmlOrder = "PCS";
+                        }
+                        else{
+                            satuanJmlOrder = item.Satuan
+                        }
                         table_sp.row
                             .add([
                                 index + 1,
                                 UraianPesananArray[0],
-                                UraianPesananArray[2],
-                                formatangka(item.JmlOrder),
+                                UraianPesananArray[2] +
+                                    "<br>" +
+                                    UraianPesananArray[1],
+                                formatangka(item.JmlOrder) + satuanJmlOrder,
                                 formatangka(item.HargaSatuan),
                                 formatangka(amount.toFixed(2)),
-                                UraianPesananArray[1],
                             ])
                             .draw();
                     } else {
@@ -187,10 +220,9 @@ print_button.addEventListener("click", function (event) {
                                 index + 1,
                                 "No Data",
                                 "No Data",
-                                formatangka(item.JmlOrder),
+                                formatangka(item.JmlOrder) + satuanJmlOrder,
                                 formatangka(item.HargaSatuan),
                                 formatangka(amount.toFixed(2)),
-                                "No Data",
                             ])
                             .draw();
                     }
@@ -205,6 +237,7 @@ print_button.addEventListener("click", function (event) {
                     remarks_priceKolom.innerHTML = KeteranganArray[4];
                     payment_byKolom.innerHTML = KeteranganArray[1];
                     cargo_readyKolom.innerHTML = KeteranganArray[0];
+                    destination_portKolom.innerHTML = KeteranganArray[5];
                     // console.log(KeteranganArray);
                 } else {
                     remarks_quantityKolom.innerHTML = "No Data";
@@ -212,10 +245,16 @@ print_button.addEventListener("click", function (event) {
                     remarks_priceKolom.innerHTML = "No Data";
                     payment_byKolom.innerHTML = "No Data";
                     cargo_readyKolom.innerHTML = "No Data";
+                    destination_portKolom.innerHTML = "No Data";
                 }
-                destination_portKolom.innerHTML = data[0].AlamatKirim;
                 nama_perusahaanKolom.innerHTML = data[0].NamaCust;
+                let NamaCustomer = data[0].ContactPerson.substr(0, 19).toUpperCase();
+                ttd_perusahaanKolom.innerHTML = data[0].NamaCust;
+                ttd_namaContactPersonKolom.value = NamaCustomer
                 nama_salesKolom.value = "Mr. " + data[0].NamaSales;
+                if (data[0].IDJnsBrg == "BBE" || data[0].IDJnsBrg == "WBE") {
+                    item_conditionKolom.style.display = "table-row";
+                }
             });
     }
 });

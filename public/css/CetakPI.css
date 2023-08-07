@@ -73,23 +73,23 @@
     flex-direction: column;
     justify-content: flex-start;
 }
-.cetak-sppdf-container08{
+.cetak-sppdf-container08 {
     width: 100%;
     margin: 0 0 10px 0;
 }
 .cetak-sppdf-container07 table,
-.cetak-sppdf-container05{
+.cetak-sppdf-container05 {
     font-size: 17px;
     padding: 0;
 }
-.cetak-sppdf-container05 span{
+.cetak-sppdf-container05 span {
     font-size: 14px;
 }
 #table_sp table tr td,
 #table_sp table tr td:first-child {
     border: 1px solid black !important;
 }
-#table_sp th{
+#table_sp th {
     text-align: center;
 }
 .cetak-sppdf-container05 table tr td,
@@ -100,9 +100,14 @@
 .cetak-sppdf-container07 table tr td:first-child {
     border: none !important;
 }
-.cetak-sppdf-container08 table tr td{
+.cetak-sppdf-container08 table tr td {
     padding: 2px 4px;
     vertical-align: top;
+}
+.cetak-sppdf-container08 table tr td:nth-child(4),
+.cetak-sppdf-container08 table tr td:nth-child(5),
+.cetak-sppdf-container08 table tr td:nth-child(6) {
+    text-align: center;
 }
 .cetak-sppdf-container09 {
     width: 100%;
@@ -128,11 +133,11 @@
     text-align: right;
     font-size: small;
 }
-.cetak-sppdf-container10{
+.cetak-sppdf-container10 {
     width: 100%;
     margin-top: 5px;
 }
-.cetak-sppdf-container-tanda-tangan{
+.cetak-sppdf-container-tanda-tangan {
     width: 100%;
     display: flex;
     position: relative;
@@ -140,7 +145,7 @@
     height: 150px;
     align-items: end;
 }
-.cetak-sppdf-tanda-tangan{
+.cetak-sppdf-tanda-tangan {
     position: absolute;
     min-width: 100px;
     text-align: center;
@@ -156,18 +161,18 @@
     border: 0;
     border-bottom: 1px solid #000;
 }
-.cetak-sppdf-tanda-tangan1{
+.cetak-sppdf-tanda-tangan1 {
     position: absolute;
     right: 0%;
     text-align: center;
 }
-.acs-garis-tt{
+.acs-garis-tt {
     border: solid 0.1rem rgba(0, 0, 0, 0.5);
 }
-.kolom-nama-tt{
+.kolom-nama-tt {
     text-decoration: underline;
 }
-.cetak-header-pi{
+.cetak-header-pi {
     text-align: center;
     line-height: 0.8;
     width: 100%;
@@ -207,7 +212,7 @@
     }
     #table_sp td:first-child,
     #table_sp td:last-child,
-    #table_sp td:nth-child(3){
+    #table_sp td:nth-child(3) {
         text-align: center;
     }
     #table_sp td,
