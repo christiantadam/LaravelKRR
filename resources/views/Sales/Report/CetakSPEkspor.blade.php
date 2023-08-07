@@ -178,16 +178,32 @@
                                     <br>
                                     <span>Confirmed by:</span> --}}
                                     <div class="cetak-sppdf-container-tanda-tangan">
-                                        {{-- <div class="cetak-sppdf-tanda-tangan">
-                                            <input type="text" class="signature">
+                                        <div class="cetak-sppdf-tanda-tangan">
+                                            <span>Penerima Order</span>
                                             <br>
-                                            <span id="nama_perusahaanKolom">PT. KERTA RAJASA RAYA</span>
-                                        </div> --}}
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <input type="text" class="signature" id="nama_penerimaOrderKolom">
+                                        </div>
+                                        <div class="cetak-sppdf-tanda-tangan2">
+                                            <span style="white-space: nowrap">Sales Manager</span>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <span class="signature" id="sales_managerKolom"></span>
+                                        </div>
                                         <div class="cetak-sppdf-tanda-tangan1">
-                                            {{-- <span id="nama_salesKolom" class="kolom-nama-tt">Mr. Rudy Santoso</span> --}}
-                                            <input type="text" class="signature" id="nama_salesKolom" readonly>
+                                            <span>Pimpinan</span>
                                             <br>
-                                            <span>PT. KERTA RAJASA RAYA</span>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <span contenteditable="true" class="signature">Tjahyo Santoso</span>
                                         </div>
                                     </div>
                                 </div>

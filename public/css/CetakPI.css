@@ -195,10 +195,17 @@
         margin: 0;
         width: 100%;
     }
+    .cetak-sppdf-container02 img {
+        display: none;
+    }
+    .cetak-sppdf-container02 {
+        height: 5cm;
+        /* kalau mau ada header di setiap page harus setting
+        margin page di browser bukan menggunakan position: fixed; */
+    }
     #table_sp {
         border-collapse: collapse !important;
     }
-
     #table_sp,
     #table_sp th,
     #table_sp td {
@@ -221,5 +228,8 @@
     .cetak-sppdf-container07 table,
     .cetak-sppdf-container05 {
         font-size: 17px;
+    }
+    #table_sp td{
+        break-inside: avoid;
     }
 }

@@ -35,9 +35,11 @@ let remarks_priceKolom = document.getElementById("remarks_priceKolom");
 let destination_portKolom = document.getElementById("destination_portKolom");
 let cargo_readyKolom = document.getElementById("cargo_readyKolom");
 let nama_perusahaanKolom = document.getElementById("nama_perusahaanKolom");
-let nama_salesKolom = document.getElementById("nama_salesKolom");
+let nama_penerimaOrderKolom = document.getElementById("nama_penerimaOrderKolom");
 let price_forKolom = document.getElementById("price_forKolom");
 let price_amountKolom = document.getElementById("price_amountKolom");
+let sales_managerKolom = document.getElementById("sales_managerKolom");
+
 //#region Load Form
 
 tanggal_sp.focus();
@@ -142,14 +144,6 @@ print_button.addEventListener("click", function (event) {
                 tgl_pesanKolom.innerHTML = formatDateToMMDDYYYY(data[0].TGL_SP);
                 nama_customerKolom.innerHTML = data[0].NamaCust;
                 alamat_kantorKolom.innerHTML = data[0].Alamat;
-                // price_forKolom.innerHTML =
-                //     "PRICE " +
-                //     data[0].JenisHargaBarang +
-                //     "<br>(" +
-                //     data[0].IDMataUang +
-                //     ")";
-                // price_amountKolom.innerHTML =
-                //     "AMOUNT <br>" + "(" + data[0].IDMataUang + ")";
                 table_sp.clear();
                 data.forEach((item, index) => {
                     // console.log(item);
@@ -196,7 +190,6 @@ print_button.addEventListener("click", function (event) {
                     remarks_quantityKolom.innerHTML = KeteranganArray[2] ?? "";
                     remarks_packingKolom.innerHTML = KeteranganArray[3] ?? "";
                     remarks_priceKolom.innerHTML = KeteranganArray[4] ?? "";
-                    // payment_byKolom.innerHTML = KeteranganArray[1] ?? "";
                     destination_portKolom.innerHTML = KeteranganArray[5] ?? "";
                     destination_kolom.innerHTML = KeteranganArray[5] ?? "";
                     // console.log(KeteranganArray);
@@ -204,7 +197,6 @@ print_button.addEventListener("click", function (event) {
                     remarks_quantityKolom.innerHTML = "No Data";
                     remarks_packingKolom.innerHTML = "No Data";
                     remarks_priceKolom.innerHTML = "No Data";
-                    // payment_byKolom.innerHTML = "No Data";
                     cargo_readyKolom.innerHTML = "No Data";
                     destination_portKolom.innerHTML = "No Data";
                     destination_kolom.innerHTML = "No Data";
@@ -212,8 +204,8 @@ print_button.addEventListener("click", function (event) {
                 cargo_readyKolom.innerHTML = formatDateToMMDDYYYY(
                     data[0].TglRencanaKirim
                 );
-                // nama_perusahaanKolom.innerHTML = data[0].NamaCust;
-                nama_salesKolom.value = "Mr. " + data[0].NamaSales;
+                sales_managerKolom.innerHTML = data[0].Manager;
+                nama_penerimaOrderKolom.value = data[0].NamaSales;
             });
     }
 });

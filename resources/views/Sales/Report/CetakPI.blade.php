@@ -42,7 +42,8 @@
                         <div class="cetak-sppdf-container">
                             <div class="cetak-sppdf-container01">
                                 <div class="cetak-sppdf-container02">
-                                    <div class="cetak-sppdf-container03">
+                                    <img src="{{ asset('images/Header Cetak PI.jpg')}}" alt="" style="width: 100%">
+                                    {{-- <div class="cetak-sppdf-container03">
                                         <img src="{{ asset('/images/KRR.png') }}" alt="Logo KRR" style="position: absolute">
                                         <div style="width: 100%; text-align: center">
                                             <h1 style="font-weight: 900">PT. KERTA RAJASA RAYA</h1>
@@ -81,7 +82,7 @@
                                             </div>
                                             <hr style="border: 1px solid black; width:100%;margin-top: 0;margin-bottom: 0">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="cetak-sppdf-container08">
                                     <div class="cetak-sppdf-container11">
