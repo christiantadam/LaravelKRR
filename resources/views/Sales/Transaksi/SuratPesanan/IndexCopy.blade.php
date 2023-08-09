@@ -24,11 +24,28 @@
                         <table id="table_SP" class="table table-bordered table-striped SP_datatable" style="width:100%">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Nomor SP</th>
-                                    <th>Nama Customer</th>
-                                    <th>Action</th>
+                                    <th> {{-- <a href="{{ route('suratpesanan.index', [ 'sort' => 'IDSuratPesanan', 'order' => request('order', 'desc') == 'asc' ? 'desc' : 'asc', ]) }}"> --}} Nomor SP {{-- @if (request('sort') == 'IDSuratPesanan') @if (request('order') == 'asc') <span class="material-symbols-outlined">arrow_upward</span> @else <span class="material-symbols-outlined">arrow_downward</span> @endif @endif </a> --}} </th>
+                                    <th>Nama Customer </th> {{-- <th>Jenis SP</th> <th>Tanggal Pesan</th> --}} <th>Action</th>
                                 </tr>
-                            </thead>
+                            </thead> {{-- <tbody></tbody> --}} <tbody>
+                                @foreach ($data as $item)
+                                    <tr> {{-- <td class="RDZPaddingTable RDZCenterTable"><a class="DetailSP" data-id="{{ $item->IDPesanan }}">{{ $item->IDSuratPesanan }}</a> </td> --}} <td class="RDZPaddingTable RDZCenterTable"><a
+                                                class="DetailSP"
+                                                data-id="{{ $item->IDSuratPesanan }}">{{ $item->IDSuratPesanan }}</a> </td>
+                                        <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaCust }}</td>
+                                        {{-- <td class="RDZPaddingTable RDZCenterTable">{{ $item->JnsSuratPesanan }}</td> <td class="RDZPaddingTable RDZCenterTable">{{ $item->Tgl_Pesan }}</td> --}} <td class="acs-td-button"> <button
+                                                class="btn btn-sm btn-primary"
+                                                onclick="openNewWindow('{{ url('SuratPesanan/' . $item->IDSuratPesanan . '/edit') }}')"
+                                                href=""><span>&#x270E;</span> Koreksi</button> {{-- <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('suratpesanan.accmanager', $item->IDSuratPesanan) }}" method="POST" enctype="multipart/form-data"> {{ csrf_field() }} <button type="submit" class="btn btn-sm btn-success"><span>&#x2713;</span> Setujui</button> </form> --}}
+                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');"
+                                                action="{{ route('suratpesanan.destroy', $item->IDSuratPesanan) }}"
+                                                method="POST" enctype="multipart/form-data"> {{ csrf_field() }} <button
+                                                    type="submit" class="btn btn-sm btn-danger"><span>&#x1F5D1;</span>
+                                                    Hapus</button> </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                         </table> {{-- <div>{{ $data->links('pagination::bootstrap-5') }}</div> --}} {{-- ->appends($request->except('page')) --}}
                     </div>
                 </div>

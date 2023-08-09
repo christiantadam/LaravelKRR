@@ -15,41 +15,11 @@ use App\Http\Controllers\HakAksesController;
 class SuratPesananController extends Controller
 {
     //Display data SP dengan parameter Belum ACC manager, AKTIF dan Belum LUNAS.
-    public function index(Request $request)
+    public function index()
     {
-        // $search = $request->get('search');
-        // $sort = $request->get('sort');
-        // $order = $request->get('order') ?? 'desc';
-        // $per_page = $request->get('per_page', 100);
-        // $data = SuratPesanan::when($search, function ($query) use ($search) {
-        //     return $query->where('IDSuratPesanan', 'like', "%$search%")
-        //         ->orWhere('NamaCust', 'like', "%$search%")
-        //         ->orWhere('JnsSuratPesanan', 'like', "%$search%")
-        //         ->orWhere('Tgl_Pesan', 'like', "%$search%");
-        //     })->when($sort, function ($query) use ($sort, $order) {
-        //     return $query->orderBy($sort, 'desc');
-        //     })->paginate($per_page)->withQueryString();
-
-        // return view('Sales.Transaksi.SuratPesanan.Index', compact('data'));
-
-        // $data = DB::connection('sqlsrv2')->select('exec SP_4384_WEB_LIST_SP_AKTIF_BELUM_LUNAS');
-        // if ($request->ajax()) {
-        //     $data = SuratPesanan::select('IDSuratPesanan', 'NamaCust', 'JnsSuratPesanan', 'Tgl_Pesan')->get();
-        //     // return DataTables::of(DB::connection('sqlsrv2')->select('exec SP_4384_WEB_LIST_SP_AKTIF_BELUM_LUNAS'))->make(true);
-        //     // return DataTables::of(SuratPesanan::get())->make(true);
-        //     return Datatables::of($data)->addIndexColumn()
-        //         ->addColumn('action', function($row){
-        //             $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
-        //             return $btn;
-        //         })
-        //         ->rawColumns(['action'])
-        //         ->make(true);
-        // }
-        // return view('Sales.Transaksi.SuratPesanan.Index');
-
-        $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
-        // $data = DB::connection('sqlsrv')->select('exec SP_1273_PRG_BARANG @NoSubKategori = \'?\', @Eksport = \'?\'', ['0391','N']);
-        return view('Sales.Transaksi.SuratPesanan.Index', compact('data'));
+        $data = DB::connection('ConnSales')->table('T_HeaderPesanan')->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')->where('IDJnsSuratPesanan', '=', 1)->whereNull('Deleted')->orderBy('Tgl_Pesan', 'Desc')->get();
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Transaksi.SuratPesanan.Index', compact('data', 'access'));
     }
     // public function json(){
     //     $data = SuratPesanan::select('IDSuratPesanan', 'NamaCust', 'JnsSuratPesanan', 'Tgl_Pesan');
@@ -78,7 +48,6 @@ class SuratPesananController extends Controller
         // dd($list_sp);
         return view('Sales.Transaksi.SuratPesanan.Create', compact('access', 'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
     }
-
     public function getKategori($kategoriUtama)
     {
         $secondOptions = DB::connection('ConnPurchase')->select('exec SP_1273_PRG_KATEGORI @NoKatUtama = ?', [$kategoriUtama]);

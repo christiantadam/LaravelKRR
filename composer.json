@@ -13,7 +13,7 @@
         "laravel/tinker": "^2.7",
         "laravelcollective/html": "^6.4",
         "spatie/laravel-html": "^3.2",
-        "yajra/laravel-datatables-oracle": "^10.3"
+        "yajra/laravel-datatables-oracle": "^10.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
