@@ -118,6 +118,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/deletedetail/{id_pesanan}', 'App\http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@deleteDetailPesanan');
     // Route::post('/tambahmantap', 'App\http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@store');
     Route::post('/submit-form', [SuratPesananController::class, 'submitForm']);
+    Route::post('splokal', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@splokal')->name('splokal');
 
     #endregion
 
