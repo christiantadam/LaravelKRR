@@ -13,9 +13,97 @@ class SuratPesananEksportController extends Controller
 {
     public function index()
     {
-        //
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Transaksi.SuratPesanan.IndexEkspor', compact('access'));
     }
+    function spekspor(Request $request)
+    {
+        $columns = array(
+            0 => 'IDSuratPesanan',
+            1 => 'NamaCust',
+            2 => 'Tgl_Pesan'
+        );
 
+        $totalData = DB::connection('ConnSales')
+            ->table('T_HeaderPesanan')
+            ->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')
+            ->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')
+            ->where('IDJnsSuratPesanan', '=', 3)
+            ->whereNull('Deleted')
+            ->orderBy('Tgl_Pesan', 'Desc')
+            ->count();
+
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if (empty($request->input('search.value'))) {
+            $sp = DB::connection('ConnSales')
+                ->table('T_HeaderPesanan')
+                ->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')
+                ->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')
+                ->where('IDJnsSuratPesanan', '=', 3)
+                ->whereNull('Deleted')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+            // $posts = Post::offset($start)
+            //     ->limit($limit)
+            //     ->orderBy($order, $dir)
+            //     ->get();
+        } else {
+            $search = $request->input('search.value');
+            $sp = DB::connection('ConnSales')
+                ->table('T_HeaderPesanan')
+                ->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')
+                ->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')
+                ->where('IDJnsSuratPesanan', '=', 3)
+                ->whereNull('Deleted')
+                ->where('IDSuratPesanan', 'LIKE', "%{$search}%")
+                ->orWhere('Tgl_Pesan', 'LIKE', "%{$search}%")
+                ->orWhere('NamaCust', 'LIKE', "%{$search}%")
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+            $totalFiltered = DB::connection('ConnSales')
+                ->table('T_HeaderPesanan')
+                ->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')
+                ->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')
+                ->where('IDJnsSuratPesanan', '=', 3)
+                ->whereNull('Deleted')
+                ->where('IDSuratPesanan', 'LIKE', "%{$search}%")
+                ->orWhere('Tgl_Pesan', 'LIKE', "%{$search}%")
+                ->orWhere('NamaCust', 'LIKE', "%{$search}%")
+                ->count();
+        }
+
+        $data = array();
+        if (!empty($sp)) {
+            foreach ($sp as $datasp) {
+                $nestedData['IDSuratPesanan'] = $datasp->IDSuratPesanan;
+                $nestedData['NamaCust'] = $datasp->NamaCust;
+                $nestedData['Tgl_Pesan'] = $datasp->Tgl_Pesan;
+                ;
+                $data[] = $nestedData;
+
+            }
+        }
+
+        $json_data = array(
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+        // dd($sp);
+        echo json_encode($json_data);
+    }
     public function create()
     {
         //ga dipake
