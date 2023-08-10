@@ -17,13 +17,8 @@ class SuratPesananController extends Controller
     //Display data SP dengan parameter Belum ACC manager, AKTIF dan Belum LUNAS.
     public function index(Request $request)
     {
-        $data = DB::connection('ConnSales')->table('T_HeaderPesanan')->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')->where('IDJnsSuratPesanan', '=', 1)->whereNull('Deleted')->orderBy('Tgl_Pesan', 'Desc')->paginate(25);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        // dd($data->all());
-        if ($request->ajax()) {
-            return DB::connection('ConnSales')->table('T_HeaderPesanan')->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')->where('IDJnsSuratPesanan', '=', 1)->whereNull('Deleted')->orderBy('Tgl_Pesan', 'Desc')->get(); // Return 'haha' for XMLHttpRequest (AJAX) requests
-        }
-        return view('Sales.Transaksi.SuratPesanan.Index', compact('data', 'access'));
+        return view('Sales.Transaksi.SuratPesanan.Index', compact('access'));
     }
     function splokal(Request $request)
     {
