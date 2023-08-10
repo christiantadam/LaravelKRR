@@ -19,6 +19,7 @@
     <!-- <script src="https://code.jquery.com/jquery-3.1.0.js"></script> -->
     <!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
     <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>

@@ -16,10 +16,10 @@ let table_sp = $("#table_sp").DataTable({
     columnDefs: [
         { targets: 0, width: "3%" }, // Set the width of the first column to 10%
         { targets: 1, width: "40%" }, // Set the width of the second column to 60%
-        { targets: 2, width: "27%" }, // Set the width of the third column to 15%
-        { targets: 3, width: "10%" }, // Set the width of the fourth column to 15%
-        { targets: 4, width: "10%" }, // Set the width of the fourth column to 15%
-        { targets: 5, width: "10%" }, // Set the width of the fourth column to 15%
+        { targets: 2, width: "39%" }, // Set the width of the third column to 15%
+        { targets: 3, width: "6%" }, // Set the width of the fourth column to 15%
+        { targets: 4, width: "6%" }, // Set the width of the fourth column to 15%
+        { targets: 5, width: "6%" }, // Set the width of the fourth column to 15%
     ],
 });
 let no_spKolom = document.getElementById("no_spKolom");
@@ -45,7 +45,9 @@ let pernyataan_pesananKolom = document.getElementById(
 );
 let item_conditionKolom = document.getElementById("item_conditionKolom");
 let ttd_perusahaanKolom = document.getElementById("ttd_perusahaanKolom");
-let ttd_namaContactPersonKolom = document.getElementById("ttd_namaContactPersonKolom");
+let ttd_namaContactPersonKolom = document.getElementById(
+    "ttd_namaContactPersonKolom"
+);
 
 //#region Load Form
 
@@ -157,6 +159,7 @@ print_button.addEventListener("click", function (event) {
                 // destination_kolom.innerHTML = data[0].AlamatKirim;
                 price_forKolom.innerHTML =
                     "PRICE " +
+                    "<br>" +
                     data[0].JenisHargaBarang +
                     "<br>(" +
                     data[0].IDMataUang +
@@ -164,6 +167,9 @@ print_button.addEventListener("click", function (event) {
                 price_amountKolom.innerHTML =
                     "AMOUNT <br>" + "(" + data[0].IDMataUang + ")";
                 table_sp.clear();
+                var satuanJmlOrder = "";
+                var grandTotalBarang = 0;
+                var grandTotalHarga = 0;
                 data.forEach((item, index) => {
                     // console.log(item);
                     var amount =
@@ -195,38 +201,46 @@ print_button.addEventListener("click", function (event) {
                             " with specifications, terms, and conditions as mentioned below :";
                         // console.log(item.UraianPesanan);
                         // console.log(UraianPesananArray);
-                        let satuanJmlOrder = "";
+                        satuanJmlOrder = "";
+                        grandTotalBarang += parseInt(item.JmlOrder);
+                        grandTotalHarga += parseFloat(amount);
                         if (item.Satuan == "LBR") {
                             satuanJmlOrder = "PCS";
+                        } else {
+                            satuanJmlOrder = item.Satuan;
                         }
-                        else{
-                            satuanJmlOrder = item.Satuan
-                        }
-                        table_sp.row
-                            .add([
-                                index + 1,
-                                UraianPesananArray[0],
-                                UraianPesananArray[2] +
-                                    "<br>" +
-                                    UraianPesananArray[1],
-                                formatangka(item.JmlOrder) + satuanJmlOrder,
-                                formatangka(item.HargaSatuan),
-                                formatangka(amount.toFixed(2)),
-                            ])
-                            .draw();
+                        table_sp.row.add([
+                            index + 1,
+                            UraianPesananArray[0],
+                            UraianPesananArray[2] +
+                                "<br> <br>" +
+                                UraianPesananArray[1],
+                            formatangka(item.JmlOrder) + " " + satuanJmlOrder,
+                            formatangka(item.HargaSatuan),
+                            formatangka(amount.toFixed(2)),
+                        ]);
                     } else {
-                        table_sp.row
-                            .add([
-                                index + 1,
-                                "No Data",
-                                "No Data",
-                                formatangka(item.JmlOrder) + satuanJmlOrder,
-                                formatangka(item.HargaSatuan),
-                                formatangka(amount.toFixed(2)),
-                            ])
-                            .draw();
+                        table_sp.row.add([
+                            index + 1,
+                            "No Data",
+                            "No Data",
+                            formatangka(item.JmlOrder) + satuanJmlOrder,
+                            formatangka(item.HargaSatuan),
+                            formatangka(amount.toFixed(2)),
+                        ]);
                     }
                 });
+
+                table_sp.row
+                    .add([
+                        "",
+                        "",
+                        "Grandtotal",
+                        formatangka(grandTotalBarang) + " " + satuanJmlOrder,
+                        "",
+                        formatangka(grandTotalHarga),
+                    ])
+                    .draw();
                 if (data[0].Ket == null) {
                     data[0].Ket = "";
                 }
@@ -248,9 +262,12 @@ print_button.addEventListener("click", function (event) {
                     destination_portKolom.innerHTML = "No Data";
                 }
                 nama_perusahaanKolom.innerHTML = data[0].NamaCust;
-                let NamaCustomer = data[0].ContactPerson.substr(0, 19).toUpperCase();
+                // let NamaCustomer = data[0].ContactPerson.substr(
+                //     0,
+                //     19
+                // ).toUpperCase();
                 ttd_perusahaanKolom.innerHTML = data[0].NamaCust;
-                ttd_namaContactPersonKolom.value = NamaCustomer
+                // ttd_namaContactPersonKolom.value = NamaCustomer;
                 nama_salesKolom.value = "Mr. " + data[0].NamaSales;
                 if (data[0].IDJnsBrg == "BBE" || data[0].IDJnsBrg == "WBE") {
                     item_conditionKolom.style.display = "table-row";
@@ -312,7 +329,7 @@ function formatangka(objek) {
     for (let i = panjang; i > 0; i--) {
         // console.log(panjang, i);
         if ((panjang - i) % 3 === 0 && i !== panjang) {
-            formattedWholePart = formattedWholePart + ".";
+            formattedWholePart = formattedWholePart + ",";
         }
         formattedWholePart += wholePart.charAt(i - 1);
         // console.log(formattedWholePart);
@@ -320,8 +337,9 @@ function formatangka(objek) {
     // console.log(formattedWholePart);
     // Combine the formatted wholePart and the decimalPart
     let result = formattedWholePart.split("").reverse().join("");
-    if (decimalPart) {
-        result += "," + decimalPart;
+    console.log(decimalPart);
+    if (decimalPart !== "00") {
+        result += "." + decimalPart;
     }
 
     return result;

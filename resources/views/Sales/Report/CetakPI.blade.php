@@ -43,6 +43,7 @@
                             <div class="cetak-sppdf-container01">
                                 <div class="cetak-sppdf-container02">
                                     <img src="{{ asset('images/Header Cetak PI.jpg')}}" alt="" style="width: 100%">
+                                    <div class="header"></div>
                                     {{-- <div class="cetak-sppdf-container03">
                                         <img src="{{ asset('/images/KRR.png') }}" alt="Logo KRR" style="position: absolute">
                                         <div style="width: 100%; text-align: center">
@@ -180,7 +181,7 @@
                                         <tr>
                                             <td>Country of Origin</td>
                                             <td>:&nbsp;</td>
-                                            <td>INDONESIA</td>
+                                            <td>Indonesia</td>
                                         </tr>
                                         <tr>
                                             <td>Port of Loading</td>

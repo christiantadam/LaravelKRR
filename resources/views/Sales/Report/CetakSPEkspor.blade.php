@@ -154,7 +154,7 @@
                                         <tr>
                                             <td>Country of Origin</td>
                                             <td>:&nbsp;</td>
-                                            <td>INDONESIA</td>
+                                            <td>Indonesia</td>
                                         </tr>
                                         <tr>
                                             <td>Port of Loading</td>
@@ -194,7 +194,7 @@
                                             <br>
                                             <br>
                                             <br>
-                                            <span class="signature" id="sales_managerKolom"></span>
+                                            <span class="signature">Rudy Santoso</span>
                                         </div>
                                         <div class="cetak-sppdf-tanda-tangan1">
                                             <span>Pimpinan</span>

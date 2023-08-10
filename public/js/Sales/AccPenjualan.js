@@ -161,7 +161,7 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                             ],
                         });
                         // dataTable.rows.add(data);
-
+                        console.log(table.data());
                         // Redraw the DataTable
                         table.draw();
 
