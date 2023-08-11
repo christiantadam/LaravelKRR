@@ -159,6 +159,7 @@ print_button.addEventListener("click", function (event) {
                             /\r\n/g,
                             " <br> "
                         ).split(" | ");
+                        cargo_readyKolom.innerHTML = UraianPesananArray[3];
                         // console.log(item.UraianPesanan);
                         // console.log(UraianPesananArray);
                         table_sp.row
@@ -201,9 +202,6 @@ print_button.addEventListener("click", function (event) {
                     destination_portKolom.innerHTML = "No Data";
                     destination_kolom.innerHTML = "No Data";
                 }
-                cargo_readyKolom.innerHTML = formatDateToMMDDYYYY(
-                    data[0].TglRencanaKirim
-                );
                 sales_managerKolom.innerHTML = data[0].Manager;
                 nama_penerimaOrderKolom.value = data[0].NamaSales;
             });

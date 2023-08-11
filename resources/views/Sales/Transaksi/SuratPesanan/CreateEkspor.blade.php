@@ -114,8 +114,9 @@
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="cargo_ready">Cargo Ready (Proforma Invoice)</label>
-                                            <input type="text" name="cargo_ready" id="cargo_ready" class="input"
-                                                onkeypress="enterToTab(event)">
+                                            <textarea name="cargo_ready" id="cargo_ready" class="input" cols="30" rows="2"></textarea>
+                                            {{-- <input type="text" name="cargo_ready" id="cargo_ready" class="input"
+                                                onkeypress="enterToTab(event)"> --}}
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="destination_port">Destination Port (Proforma Invoice)</label>
@@ -160,6 +161,7 @@
                                                 <th>Kode Barang</th>
                                                 <th>Id Type</th>
                                                 <th>Id Pesanan</th>
+                                                <th>Rencana Kirim (Cargo Ready)</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -270,6 +272,10 @@
                                             <label for="rencana_kirim">Rencana Kirim</label>
                                             <input type="date" class="input" id="rencana_kirim"
                                                 name="rencana_kirim">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="cargo_readySuratPesanan">Rencana Kirim (Cargo Ready)</label>
+                                            <textarea name="cargo_readySuratPesanan" id="cargo_readySuratPesanan" class="input" cols="30" rows="3"></textarea>
                                         </div>
                                         <div class="acs-div-container4">
                                             <button class="btn-success btn" id="add_button">ADD</button>

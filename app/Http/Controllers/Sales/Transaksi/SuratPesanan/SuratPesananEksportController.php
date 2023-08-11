@@ -124,6 +124,7 @@ class SuratPesananEksportController extends Controller
         // dd($kelompok_utama);
         return view('Sales.Transaksi.SuratPesanan.CreateEkspor', compact('access', 'mata_uang', 'list_customer', 'list_sales', 'jenis_brg', 'kelompok_utama', 'list_satuan', 'list_sp', 'jenis_harga', 'list_billing'));
     }
+
     public function getKelompok($kelompokUtama)
     {
         $secondOptions = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_KELOMPOK @idKelUt = ?', [$kelompokUtama]);
@@ -208,8 +209,9 @@ class SuratPesananEksportController extends Controller
         $kode_barang = $request->barang11;
         $id_type = $request->barang12;
         $id_pesanan = $request->barang13;
+        $rencana_kirimCargoReady = $request->barang14;
         // Combine the individual arrays into a single array
-        $combinedArray = [$general_specification, $keterangan_barang, $size_code];
+        $combinedArray = [$general_specification, $keterangan_barang, $size_code, $rencana_kirimCargoReady];
         $uraian_pesanan = [];
 
         foreach ($combinedArray as $values) {
@@ -317,7 +319,7 @@ class SuratPesananEksportController extends Controller
             $payment_terms . " | " .
             $remarks_quantity . " | " .
             $remarks_packing . " | " .
-            $remarks_price. " | " .
+            $remarks_price . " | " .
             $destination_port;
         $nama_barang = $request->barang0;
         $nama_jenisPesanan = $request->barang1;
@@ -333,8 +335,9 @@ class SuratPesananEksportController extends Controller
         $kode_barang = $request->barang11;
         $id_type = $request->barang12;
         $id_pesanan = $request->barang13;
+        $rencana_kirimCargoReady = $request->barang14;
         // Combine the individual arrays into a single array
-        $combinedArray = [$general_specification, $keterangan_barang, $size_code];
+        $combinedArray = [$general_specification, $keterangan_barang, $size_code, $rencana_kirimCargoReady];
         $uraian_pesanan = [];
 
         foreach ($combinedArray as $values) {

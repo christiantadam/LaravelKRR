@@ -48,6 +48,9 @@ let tgl_po = document.getElementById("tgl_po");
 let update_button = document.getElementById("update_button");
 let no_spSelect = document.getElementById("no_spSelect");
 let destination_port = document.getElementById("destination_port");
+let cargo_readySuratPesanan = document.getElementById(
+    "cargo_readySuratPesanan"
+);
 
 //#endregion
 
@@ -56,6 +59,14 @@ let destination_port = document.getElementById("destination_port");
 rencana_kirim.valueAsDate = new Date();
 tgl_pesan.valueAsDate = new Date();
 tgl_po.valueAsDate = new Date();
+// Get the month, day, and year from the tgl_pesan
+let month = (rencana_kirim.valueAsDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0"); // Adding 1 because getMonth() is zero-based
+let day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
+let year = rencana_kirim.valueAsDate.getFullYear();
+let formattedDate = month + "-" + day + "-" + year;
+cargo_readySuratPesanan.value = formattedDate;
 isi_button.focus();
 disableInputs();
 
@@ -173,6 +184,9 @@ hapus_button.addEventListener("click", function (event) {
         proses = 3; //proses hapus
     } else {
         disableInputs();
+        clearDetailBarang();
+        clearHeader()
+        list_view.clear().draw();
         this.innerHTML = "Hapus";
         isi_button.innerHTML = "Isi";
         edit_button.style.display = "block";
@@ -211,6 +225,7 @@ no_spText.addEventListener("keypress", function (event) {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
+                    tgl_pesan.value = data[0][0].Tgl_Pesan.substr(0, 10);
                     no_po.value = data[0][0].NO_PO;
                     no_pi.value = data[0][0].NO_PI;
                     let keteranganSplit = data[0][0].Ket.split(" | ");
@@ -274,6 +289,7 @@ no_spText.addEventListener("keypress", function (event) {
                             data[1][i].KodeBarang,
                             data[1][i].IDBarang,
                             data[1][i].IDPesanan,
+                            data[1][i].UraianPesanan.split(" | ")[3],
                         ];
                         // Insert array into a new row
                         funcInsertRow(arraydata);
@@ -292,6 +308,17 @@ no_spText.addEventListener("keypress", function (event) {
 
 no_spText.addEventListener("keyup", function () {
     no_pi.value = no_spText.value;
+});
+
+rencana_kirim.addEventListener("change", function () {
+    // Get the month, day, and year from the tgl_pesan
+    month = (rencana_kirim.valueAsDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0"); // Adding 1 because getMonth() is zero-based
+    day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
+    year = rencana_kirim.valueAsDate.getFullYear();
+    formattedDate = month + "-" + day + "-" + year;
+    cargo_readySuratPesanan.value = formattedDate;
 });
 
 add_button.addEventListener("click", function (event) {
@@ -331,6 +358,7 @@ add_button.addEventListener("click", function (event) {
         kode_barang.value,
         nama_barang.value,
         "",
+        cargo_readySuratPesanan.value,
     ];
     funcInsertRow(arraydata);
     clearDetailBarang();
@@ -365,6 +393,7 @@ update_button.addEventListener("click", function (event) {
         rowData[10] = jenis_barang.value;
         rowData[11] = kode_barang.value;
         rowData[12] = nama_barang.value;
+        rowData[14] = cargo_readySuratPesanan.value;
 
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
@@ -765,6 +794,7 @@ function funcInsertRow(array) {
             nama_barang.appendChild(optionNamaBarang);
             kode_barang.value = selectedRows[0][11];
             funcDisplayDataBrg(selectedRows[0][12]);
+            cargo_readySuratPesanan.value = selectedRows[0][14];
             // funcTampilInv(selectedRows[0][1]);
         });
     }
@@ -836,6 +866,27 @@ function clearDetailBarang() {
     satuan_gudangSekunder.value = "";
     satuan_gudangTritier.value = "";
     rencana_kirim.valueAsDate = new Date();
+    cargo_readySuratPesanan.value = "";
+}
+
+function clearHeader() {
+    tgl_pesan.valueAsDate = new Date();
+    no_spSelect.selectedIndex = 0;
+    no_spText.value = "";
+    no_pi.value = "";
+    no_po.value = "";
+    tgl_po.valueAsDate = new Date();
+    jenis_harga.selectedIndex = 0;
+    mata_uang.selectedIndex = 0;
+    customer.selectedIndex = 0;
+    sales.selectedIndex = 0;
+    billing.selectedIndex = 0;
+    cargo_ready.value = "";
+    destination_port.value = "";
+    payment_terms.value = "";
+    remarks_quantity.value = "";
+    remarks_packing.value = "";
+    remarks_price.value = "";
 }
 
 function funcDatatablesIntoInput() {
