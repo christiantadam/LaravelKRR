@@ -22,16 +22,9 @@
                     },
                     {
                         "data": "Tgl_Pesan"
-                    }
+                    },
                 ]
             });
-            // dataArray.data.forEach(function(item) {
-            //     $('#table_SP').DataTable().row.add([
-            //         item.IDSuratPesanan,
-            //         item.NamaCust,
-            //         item.Tgl_Pesan.split(' ')[0]
-            //     ]).draw(false);
-            // });
         });
     </script>
     <link href="{{ asset('css/permohonan-s-p.css') }}" rel="stylesheet">
@@ -44,7 +37,7 @@
                     <div class="acs-btn-txt">Tambah SP</div>
                 </button>
                 <div class="card">
-                    <div class="card-header">Surat Pesanan</div>
+                    <div class="card-header">Surat Pesanan Sudah ACC Manager (In Progress)</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="mb-2">
                         </div>
@@ -76,6 +69,7 @@
                                 @endforeach --}}
                             </tbody>
                         </table>
+                        <button class="btn btn-info" onclick="openNewWindow('PenyesuaianSuratPesanan/A10830A/edit')">EDIT</button>
                         {{-- <div>{{ $data->links('pagination::bootstrap-5') }}</div> ->appends($request->except('page')) --}}
                     </div>
                 </div>

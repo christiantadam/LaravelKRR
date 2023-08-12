@@ -46,7 +46,7 @@ class PenyesuaianSuratPesananController extends Controller
     // Show the form for editing the specified resource.
     public function edit($id)
     {
-        //
+        dd('Masuk EDIT Penyesuaian Surat Pesanan');
     }
 
     //Update the specified resource in storage.

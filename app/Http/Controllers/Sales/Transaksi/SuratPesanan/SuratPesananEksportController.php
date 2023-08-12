@@ -88,7 +88,7 @@ class SuratPesananEksportController extends Controller
             foreach ($sp as $datasp) {
                 $nestedData['IDSuratPesanan'] = $datasp->IDSuratPesanan;
                 $nestedData['NamaCust'] = $datasp->NamaCust;
-                $nestedData['Tgl_Pesan'] = $datasp->Tgl_Pesan;
+                $nestedData['Tgl_Pesan'] = substr($datasp->Tgl_Pesan, 0, 10);
                 ;
                 $data[] = $nestedData;
 
