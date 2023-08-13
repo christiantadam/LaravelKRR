@@ -21,6 +21,9 @@
                     },
                     {
                         "data": "Tgl_Pesan"
+                    },
+                    {
+                        "data": "Actions"
                     }
                 ]
             });
@@ -46,10 +49,12 @@
                                     <th>Nomor SP</th>
                                     <th>Nama Customer</th>
                                     <th>Tanggal Pesan</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
+                    <button class="btn btn-info" onclick="openNewWindow('PenyesuaianSuratPesanan/A10830A/edit')">EDIT</button>
                 </div>
             </div>
         </div>

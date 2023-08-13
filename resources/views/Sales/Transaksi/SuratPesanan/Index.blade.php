@@ -23,6 +23,9 @@
                     {
                         "data": "Tgl_Pesan"
                     },
+                    {
+                        "data": "Actions"
+                    }
                 ]
             });
         });
@@ -47,6 +50,7 @@
                                     <th>Nomor SP</th>
                                     <th>Nama Customer</th>
                                     <th>Tanggal Pesan</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>

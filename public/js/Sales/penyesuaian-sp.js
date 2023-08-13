@@ -748,7 +748,13 @@ no_spText.addEventListener("keypress", function (event) {
         event.preventDefault();
         // console.log(no_spText.value);
         // alert('Kode barang dienter');
-        fetch("/penyesuaian/" + no_spText.value)
+        let no_spValue;
+        if (no_spText.value.includes("/")) {
+            no_spValue = no_spText.value.replace(/\//g, ".");
+        } else {
+            no_spValue = no_spText.value;
+        }
+        fetch("/penyesuaian/" + no_spValue)
             .then((response) => response.json())
             .then((data) => {
                 funcHeaderDisabled(false);
@@ -811,44 +817,84 @@ no_spText.addEventListener("keypress", function (event) {
                     faktur_pjkSederhana.checked = true;
                 }
                 keterangan.value = data[0][0].Ket;
-
-                for (let i = 0; i < data[1].length; i++) {
-                    const arraydata = [
-                        data[1][i].namabarang,
-                        data[1][i].IDBarang,
-                        data[1][i].HargaSatuan,
-                        parseInt(data[1][i].Qty),
-                        data[1][i].Satuan,
-                        data[1][i].TglRencanaKirim.substr(0, 10),
-                        data[1][i].Lunas,
-                        data[1][i].PPN,
-                        data[1][i].BERAT_KARUNG3,
-                        data[1][i].INDEX_KARUNG,
-                        data[1][i].HARGA_KARUNG,
-                        data[1][i].BERAT_INNER3,
-                        data[1][i].INDEX_INNER,
-                        data[1][i].HARGA_INNER,
-                        data[1][i].BERAT_LAMI3,
-                        data[1][i].INDEX_LAMI,
-                        data[1][i].HARGA_LAMI,
-                        data[1][i].BERAT_KERTAS3,
-                        data[1][i].INDEX_KERTAS,
-                        data[1][i].HARGA_KERTAS,
-                        data[1][i].HARGA_LAIN2,
-                        data[1][i].BERAT_TOTAL3,
-                        data[1][i].HARGA_TOTAL,
-                        data[1][i].BERAT_KARUNG,
-                        data[1][i].BERAT_INNER,
-                        data[1][i].BERAT_LAMI,
-                        data[1][i].BERAT_CONDUCTIVE,
-                        data[1][i].BERAT_TOTAL,
-                        data[1][i].IDJnsBarang,
-                        data[1][i].IDPesanan,
-                        data[1][i].Informasi,
-                    ];
-                    // Insert array into a new row
-                    funcInsertRow(arraydata);
+                if (no_spText.value.includes("/")) {
+                    for (let i = 0; i < data[1].length; i++) {
+                        const arraydata = [
+                            data[1][i].namabarang,
+                            data[1][i].IDBarang,
+                            data[1][i].HargaSatuan,
+                            parseInt(data[1][i].Qty),
+                            data[1][i].Satuan,
+                            data[1][i].TglRencanaKirim.substr(0, 10),
+                            data[1][i].Lunas,
+                            data[1][i].PPN,
+                            data[1][i].BERAT_KARUNG3,
+                            data[1][i].INDEX_KARUNG,
+                            data[1][i].HARGA_KARUNG,
+                            data[1][i].BERAT_INNER3,
+                            data[1][i].INDEX_INNER,
+                            data[1][i].HARGA_INNER,
+                            data[1][i].BERAT_LAMI3,
+                            data[1][i].INDEX_LAMI,
+                            data[1][i].HARGA_LAMI,
+                            data[1][i].BERAT_KERTAS3,
+                            data[1][i].INDEX_KERTAS,
+                            data[1][i].HARGA_KERTAS,
+                            data[1][i].HARGA_LAIN2,
+                            data[1][i].BERAT_TOTAL3,
+                            data[1][i].HARGA_TOTAL,
+                            data[1][i].BERAT_KARUNG,
+                            data[1][i].BERAT_INNER,
+                            data[1][i].BERAT_LAMI,
+                            data[1][i].BERAT_CONDUCTIVE,
+                            data[1][i].BERAT_TOTAL,
+                            data[1][i].IDJnsBarang,
+                            data[1][i].IDPesanan,
+                            data[1][i].Informasi,
+                        ];
+                        // Insert array into a new row
+                        funcInsertRow(arraydata);
+                    }
+                } else {
+                    for (let i = 0; i < data[1].length; i++) {
+                        const arraydata = [
+                            data[1][i].namabarang,
+                            data[1][i].KodeBarang,
+                            data[1][i].HargaSatuan,
+                            parseInt(data[1][i].Qty),
+                            data[1][i].Satuan,
+                            data[1][i].TglRencanaKirim.substr(0, 10),
+                            data[1][i].Lunas,
+                            data[1][i].PPN,
+                            data[1][i].BERAT_KARUNG3,
+                            data[1][i].INDEX_KARUNG,
+                            data[1][i].HARGA_KARUNG,
+                            data[1][i].BERAT_INNER3,
+                            data[1][i].INDEX_INNER,
+                            data[1][i].HARGA_INNER,
+                            data[1][i].BERAT_LAMI3,
+                            data[1][i].INDEX_LAMI,
+                            data[1][i].HARGA_LAMI,
+                            data[1][i].BERAT_KERTAS3,
+                            data[1][i].INDEX_KERTAS,
+                            data[1][i].HARGA_KERTAS,
+                            data[1][i].HARGA_LAIN2,
+                            data[1][i].BERAT_TOTAL3,
+                            data[1][i].HARGA_TOTAL,
+                            data[1][i].BERAT_KARUNG,
+                            data[1][i].BERAT_INNER,
+                            data[1][i].BERAT_LAMI,
+                            data[1][i].BERAT_CONDUCTIVE,
+                            data[1][i].BERAT_TOTAL,
+                            data[1][i].IDJnsBarang,
+                            data[1][i].IDPesanan,
+                            data[1][i].Informasi,
+                        ];
+                        // Insert array into a new row
+                        funcInsertRow(arraydata);
+                    }
                 }
+
             });
 
         tgl_pesan.focus();

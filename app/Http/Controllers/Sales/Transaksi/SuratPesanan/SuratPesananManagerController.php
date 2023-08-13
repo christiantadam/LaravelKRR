@@ -17,7 +17,7 @@ class SuratPesananManagerController extends Controller
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_HEADER_PESANAN_BLMACC @Kode = ?', [2]);
         // dd($data);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Transaksi.SuratPesanan.AccManager', compact('data','access'));
+        return view('Sales.Transaksi.SuratPesanan.AccManager', compact('data', 'access'));
     }
 
     //Show the form for creating a new resource.
@@ -95,10 +95,70 @@ class SuratPesananManagerController extends Controller
 
     public function getPenyesuaianSP($suratPesanan)
     {
-        $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$suratPesanan, 1]);
-        $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$suratPesanan, 2]);
-        $data_array = [$header_pesanan, $detail_pesanan];
-        return response()->json($data_array);
+        $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        if (strstr($suratPesanan, '.')) { //ekspor
+            $no_spValue = str_replace('.', '/', $suratPesanan);
+
+            $mata_uang = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_MATAUANG');
+            $jenis_harga = DB::connection('ConnSales')->table('T_JenisHargaBarangEksport')->select('*')->get();
+            $list_billing = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_BILLING');
+            $list_customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
+            $list_sales = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALES');
+            $jenis_brg = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBRG');
+            $kelompok_utama = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPEBARANG');
+            $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
+
+            $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
+            $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 3]);
+
+            return view(
+                'Sales.Transaksi.SuratPesanan.PenyesuaianEkspor',
+                compact(
+                    'access',
+                    'mata_uang',
+                    'list_customer',
+                    'list_sales',
+                    'jenis_brg',
+                    'kelompok_utama',
+                    'list_satuan',
+                    'list_sp',
+                    'jenis_harga',
+                    'list_billing',
+                    'header_pesanan',
+                    'detail_pesanan'
+                )
+            );
+        } else { //lokal
+            $no_spValue = $suratPesanan;
+
+            $jenis_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
+            $list_customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
+            $list_sales = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALES');
+            $jenis_bayar = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
+            $jenis_brg = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBRG');
+            $kategori_utama = DB::connection('ConnPurchase')->select('exec SP_1273_PRG_KATEGORI_UTAMA');
+            $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
+
+            $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
+            $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 2]);
+            return view(
+                'Sales.Transaksi.SuratPesanan.PenyesuaianLokal',
+                compact(
+                    'access',
+                    'jenis_sp',
+                    'list_customer',
+                    'list_sales',
+                    'jenis_bayar',
+                    'jenis_brg',
+                    'kategori_utama',
+                    'list_satuan',
+                    'list_sp',
+                    'header_pesanan',
+                    'detail_pesanan'
+                )
+            );
+        }
     }
 
     public function koreksiPenyesuaianSP(Request $request)

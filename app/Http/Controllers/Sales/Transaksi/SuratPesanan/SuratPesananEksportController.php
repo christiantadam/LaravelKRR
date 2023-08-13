@@ -29,6 +29,7 @@ class SuratPesananEksportController extends Controller
             ->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')
             ->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')
             ->where('IDJnsSuratPesanan', '=', 3)
+            ->whereNotNull('AccManager')
             ->whereNull('Deleted')
             ->orderBy('Tgl_Pesan', 'Desc')
             ->count();
@@ -46,6 +47,7 @@ class SuratPesananEksportController extends Controller
                 ->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')
                 ->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')
                 ->where('IDJnsSuratPesanan', '=', 3)
+                ->whereNotNull('AccManager')
                 ->whereNull('Deleted')
                 ->offset($start)
                 ->limit($limit)
@@ -62,6 +64,7 @@ class SuratPesananEksportController extends Controller
                 ->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')
                 ->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')
                 ->where('IDJnsSuratPesanan', '=', 3)
+                ->whereNotNull('AccManager')
                 ->whereNull('Deleted')
                 ->where('IDSuratPesanan', 'LIKE', "%{$search}%")
                 ->orWhere('Tgl_Pesan', 'LIKE', "%{$search}%")
@@ -76,6 +79,7 @@ class SuratPesananEksportController extends Controller
                 ->select('IDSuratPesanan', 'Tgl_Pesan', 'NamaCust')
                 ->leftJoin('T_Customer', 'T_HeaderPesanan.IDCust', '=', 'T_Customer.IDCust')
                 ->where('IDJnsSuratPesanan', '=', 3)
+                ->whereNotNull('AccManager')
                 ->whereNull('Deleted')
                 ->where('IDSuratPesanan', 'LIKE', "%{$search}%")
                 ->orWhere('Tgl_Pesan', 'LIKE', "%{$search}%")
@@ -89,9 +93,14 @@ class SuratPesananEksportController extends Controller
                 $nestedData['IDSuratPesanan'] = $datasp->IDSuratPesanan;
                 $nestedData['NamaCust'] = $datasp->NamaCust;
                 $nestedData['Tgl_Pesan'] = substr($datasp->Tgl_Pesan, 0, 10);
-                ;
-                $data[] = $nestedData;
+                if (strstr($datasp->IDSuratPesanan, '/')) {
+                    $no_spValue = str_replace('/', '.', $datasp->IDSuratPesanan);
+                } else {
+                    $no_spValue = $datasp->IDSuratPesanan;
+                }
+                $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">EDIT</button>";
 
+                $data[] = $nestedData;
             }
         }
 
@@ -275,6 +284,7 @@ class SuratPesananEksportController extends Controller
                 [$kode, $no_sp, $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas ?? null, $ppn[$i], 0.00],
             );
         }
+        DB::connection('ConnSales')->statement('exec SP_1486_SLS_ACC_SURATPESANAN @AccManager = ?, @IDSuratPesanan = ?', [$user, $no_sp]);
         return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuat!');
     }
 

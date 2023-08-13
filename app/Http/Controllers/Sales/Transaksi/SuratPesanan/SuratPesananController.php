@@ -94,15 +94,17 @@ class SuratPesananController extends Controller
         $data = array();
         if (!empty($sp)) {
             foreach ($sp as $datasp) {
-                // $show =  route('suratpesanan.show',$datasp->IDSuratPesanan);
-                // $edit =  route('suratpesanan.edit',$datasp->IDSuratPesanan);
                 $nestedData['IDSuratPesanan'] = $datasp->IDSuratPesanan;
                 $nestedData['NamaCust'] = $datasp->NamaCust;
                 $nestedData['Tgl_Pesan'] = substr($datasp->Tgl_Pesan, 0, 10);
-                // $nestedData['Actions'] = "&emsp;<a href='{$show}' title='SHOW' ><span class='glyphicon glyphicon-list'></span></a>
-                //                           &emsp;<a href='{$edit}' title='EDIT' ><span class='glyphicon glyphicon-edit'></span></a>";
-                $data[] = $nestedData;
+                if (strstr($datasp->IDSuratPesanan, '/')) {
+                    $no_spValue = str_replace('/', '.', $datasp->IDSuratPesanan);
+                } else {
+                    $no_spValue = $datasp->IDSuratPesanan;
+                }
+                $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">EDIT</button>";
 
+                $data[] = $nestedData;
             }
         }
 
