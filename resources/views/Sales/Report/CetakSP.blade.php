@@ -19,9 +19,10 @@
                         <select name="no_spSelect" id="no_spSelect" class="input">
                             <option disabled selected value>-- Pilih Nomor SP --</option>
                             @foreach ($nosp as $data)
-                                <option value="{{ $data->IDSuratPesanan }}">{{ $data->IDSuratPesanan }} |
-                                    {{ $data->NamaCust }}
-                                </option>
+                                @if ($data->IDSuratPesanan !== 'NO DATA')
+                                    <option value="{{ $data->IDSuratPesanan }}">{{ $data->IDSuratPesanan }} |
+                                        {{ $data->NamaCust }}</option>
+                                @endif
                             @endforeach
                         </select>
                         <input type="text" name="no_spText" id="no_spText" class="input">
@@ -145,7 +146,8 @@
                                         <tr>
                                             <td style="white-space: nowrap;vertical-align:top;">Rencana Kirim</td>
                                             <td style="vertical-align:top;">:</td>
-                                            <td style="white-space: nowrap;vertical-align:top;" id="rencana_kirimKolom"></td>
+                                            <td style="white-space: nowrap;vertical-align:top;" id="rencana_kirimKolom">
+                                            </td>
                                             <td>&nbsp;</td>
                                             <td>&nbsp;</td>
                                             <td style="vertical-align:top;">Keterangan</td>
@@ -193,13 +195,16 @@
                                                     id="nama_salesKolom">
                                                     ADAM CHRISTIANTO</th>
                                                 <th style="border: none !important;text-align: center"></th>
-                                                <th style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                <th
+                                                    style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
                                                     ______________________</th>
                                                 <th style="border: none !important;text-align: center"></th>
-                                                <th style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                <th
+                                                    style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
                                                     _______________________</th>
                                                 <th style="border: none !important;text-align: center"></th>
-                                                <th style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                <th
+                                                    style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
                                                     _______________________</th>
                                                 <th style="border: none !important;text-align: center"></th>
                                                 <td style="border: none !important;">1. Putih - Produksi <br>

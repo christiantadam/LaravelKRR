@@ -750,9 +750,9 @@ no_spText.addEventListener("keypress", function (event) {
         // alert('Kode barang dienter');
         let no_spValue;
         if (no_spText.value.includes("/")) {
-            no_spValue = no_spText.value.replace(/\//g, ".");
+            no_spValue = no_spText.value.replace(/\//g, ".") + '.lama.';
         } else {
-            no_spValue = no_spText.value;
+            no_spValue = no_spText.value + '.lama.';
         }
         fetch("/penyesuaian/" + no_spValue)
             .then((response) => response.json())
@@ -821,7 +821,7 @@ no_spText.addEventListener("keypress", function (event) {
                     for (let i = 0; i < data[1].length; i++) {
                         const arraydata = [
                             data[1][i].namabarang,
-                            data[1][i].IDBarang,
+                            data[1][i].KodeBarang,
                             data[1][i].HargaSatuan,
                             parseInt(data[1][i].Qty),
                             data[1][i].Satuan,
@@ -859,7 +859,7 @@ no_spText.addEventListener("keypress", function (event) {
                     for (let i = 0; i < data[1].length; i++) {
                         const arraydata = [
                             data[1][i].namabarang,
-                            data[1][i].KodeBarang,
+                            data[1][i].IDBarang,
                             data[1][i].HargaSatuan,
                             parseInt(data[1][i].Qty),
                             data[1][i].Satuan,

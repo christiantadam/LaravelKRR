@@ -95,6 +95,14 @@ class SuratPesananManagerController extends Controller
 
     public function getPenyesuaianSP($suratPesanan)
     {
+        if (strstr($suratPesanan, '.lama.')) {
+            $no_spValue = str_replace('.lama.', '', $suratPesanan);
+            $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
+            $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 2]);
+            $data_array = [$header_pesanan, $detail_pesanan];
+            return response()->json($data_array);
+        }
+
         $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         if (strstr($suratPesanan, '.')) { //ekspor
