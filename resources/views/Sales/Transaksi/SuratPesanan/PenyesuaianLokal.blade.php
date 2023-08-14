@@ -1,5 +1,41 @@
 @extends('layouts.appSales') @section('content')
     <script>
+        var detailPesananArray = @json($detail_pesanan);
+        // console.log(detailPesananArray);
+        for (var i = 0; i < detailPesananArray.length; i++) {
+            var item = [
+                detailPesananArray[i].namabarang,
+                detailPesananArray[i].IDBarang,
+                detailPesananArray[i].HargaSatuan,
+                detailPesananArray[i].Qty,
+                detailPesananArray[i].Satuan,
+                detailPesananArray[i].TglRencanaKirim.substr(0, 10),
+                detailPesananArray[i].PPN,
+                detailPesananArray[i].BERAT_KARUNG3,
+                detailPesananArray[i].INDEX_KARUNG,
+                detailPesananArray[i].HARGA_KARUNG,
+                detailPesananArray[i].BERAT_INNER3,
+                detailPesananArray[i].INDEX_INNER,
+                detailPesananArray[i].HARGA_INNER,
+                detailPesananArray[i].BERAT_LAMI3,
+                detailPesananArray[i].INDEX_LAMI,
+                detailPesananArray[i].HARGA_LAMI,
+                detailPesananArray[i].BERAT_KERTAS3,
+                detailPesananArray[i].INDEX_KERTAS,
+                detailPesananArray[i].HARGA_KERTAS,
+                detailPesananArray[i].HARGA_LAIN2,
+                detailPesananArray[i].BERAT_TOTAL3,
+                detailPesananArray[i].HARGA_TOTAL,
+                detailPesananArray[i].BERAT_KARUNG,
+                detailPesananArray[i].BERAT_INNER,
+                detailPesananArray[i].BERAT_LAMI,
+                detailPesananArray[i].BERAT_CONDUCTIVE,
+                detailPesananArray[i].BERAT_TOTAL,
+                detailPesananArray[i].IDJnsBarang,
+                detailPesananArray[i].IDPesanan,
+                detailPesananArray[i].Informasi,
+            ];
+        }
         $(document).ready(function() {
             // console.log(dataArray.data);
             $('#table_SP').DataTable({
@@ -56,7 +92,7 @@
                                             {{-- <input type="text" name="jenis_sp" list="data_jenis_sp" id="jenis_sp" placeholder="Jenis SP" class="permohonan-s-p-textinput01 input" /> <datalist id="data_jenis_sp"> @foreach ($jenis_sp as $data) <option value="{{ $data->IDJnsSuratPesanan }} - {{ $data->JnsSuratPesanan }}"></option> @endforeach </datalist> --}}
                                             <input type="text" placeholder="Nomor SP"
                                                 class="permohonan-s-p-textinput04 input" id="no_spText" name="no_spText"
-                                                value="{{ $header_pesanan[0]->IDSuratPesanan }}" />
+                                                value="{{ $header_pesanan[0]->IDSuratPesanan }}" readonly/>
                                             <select name="no_spSelect" id="no_spSelect" class="form-control"
                                                 style="display: none">
                                                 <option disabled selected value>-- Pilih Nomor SP --</option>
@@ -180,9 +216,10 @@
                                                 <th>BS.TotalMTR</th>
                                                 <th>Jns SP</th>
                                                 <th>IDPesanan</th>
+                                                <th>Informasi</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        {{-- <tbody>
                                             @foreach ($detail_pesanan as $detail)
                                                 <tr>
                                                     <td>{{ $detail->namabarang }}</td>
@@ -190,10 +227,34 @@
                                                     <td>{{ $detail->HargaSatuan }}</td>
                                                     <td>{{ $detail->Qty }}</td>
                                                     <td>{{ $detail->Satuan }}</td>
-                                                    <td>{{ date('Y-m-d', strtotime($detail->TglRencanaKirim))}}</td>
+                                                    <td>{{ date('Y-m-d', strtotime($detail->TglRencanaKirim)) }}</td>
+                                                    <td>{{ $detail->PPN }}</td>
+                                                    <td>{{ $detail->BERAT_KARUNG3 }}</td>
+                                                    <td>{{ $detail->INDEX_KARUNG }}</td>
+                                                    <td>{{ $detail->HARGA_KARUNG }}</td>
+                                                    <td>{{ $detail->BERAT_INNER3 }}</td>
+                                                    <td>{{ $detail->INDEX_INNER }}</td>
+                                                    <td>{{ $detail->HARGA_INNER }}</td>
+                                                    <td>{{ $detail->BERAT_LAMI3 }}</td>
+                                                    <td>{{ $detail->INDEX_LAMI }}</td>
+                                                    <td>{{ $detail->HARGA_LAMI }}</td>
+                                                    <td>{{ $detail->BERAT_KERTAS3 }}</td>
+                                                    <td>{{ $detail->INDEX_KERTAS }}</td>
+                                                    <td>{{ $detail->HARGA_KERTAS }}</td>
+                                                    <td>{{ $detail->HARGA_LAIN2 }}</td>
+                                                    <td>{{ $detail->BERAT_TOTAL3 }}</td>
+                                                    <td>{{ $detail->HARGA_TOTAL }}</td>
+                                                    <td>{{ $detail->BERAT_KARUNG }}</td>
+                                                    <td>{{ $detail->BERAT_INNER }}</td>
+                                                    <td>{{ $detail->BERAT_LAMI }}</td>
+                                                    <td>{{ $detail->BERAT_CONDUCTIVE }}</td>
+                                                    <td>{{ $detail->BERAT_TOTAL }}</td>
+                                                    <td>{{ $detail->IDJnsBarang }}</td>
+                                                    <td>{{ $detail->IDPesanan }}</td>
+                                                    <td>{{ $detail->Informasi }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody>
+                                        </tbody> --}}
                                     </table>
                                 </div>
                                 <div class="permohonan-s-p-container18" id="div_detailSuratPesanan">

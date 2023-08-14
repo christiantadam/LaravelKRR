@@ -173,6 +173,7 @@ isi_button.focus();
 // div_detailSuratPesanan.classList.toggle("disabled");
 // div_beratStandard.classList.toggle("disabled");
 // div_saldoInventory.classList.toggle("disabled");
+funcInsertRow(item);
 
 //#endregion
 
