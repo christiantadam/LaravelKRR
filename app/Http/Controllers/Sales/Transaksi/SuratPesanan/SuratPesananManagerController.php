@@ -119,7 +119,6 @@ class SuratPesananManagerController extends Controller
 
             $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
             $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 3]);
-
             return view(
                 'Sales.Transaksi.SuratPesanan.PenyesuaianEkspor',
                 compact(
@@ -150,6 +149,7 @@ class SuratPesananManagerController extends Controller
 
             $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
             $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 2]);
+            // dd($header_pesanan);
             return view(
                 'Sales.Transaksi.SuratPesanan.PenyesuaianLokal',
                 compact(

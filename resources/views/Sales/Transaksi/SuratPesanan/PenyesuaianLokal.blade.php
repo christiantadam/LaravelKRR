@@ -1,4 +1,12 @@
 @extends('layouts.appSales') @section('content')
+    <script>
+        $(document).ready(function() {
+            // console.log(dataArray.data);
+            $('#table_SP').DataTable({
+
+            });
+        });
+    </script>
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/permohonan-s-p.css') }}" rel="stylesheet">
     <div class="container-fluid">
@@ -32,12 +40,14 @@
                                     <div class="permohonan-s-p-container03">
                                         <div class="permohonan-s-p-container04"> <input type="date" id="tgl_pesan"
                                                 name="tgl_pesan" placeholder="placeholder"
-                                                class="permohonan-s-p-textinput input" />
+                                                class="permohonan-s-p-textinput input"
+                                                value="{{ date('Y-m-d', strtotime($header_pesanan[0]->Tgl_Pesan)) }}" />
                                             {{-- <div class="permohonan-s-p-textinput01"> </div> <input type="text" placeholder="Jenis SP" class="permohonan-s-p-textinput01 input" /> <button class="permohonan-s-p-button button">...</button> --}}
                                             <select name="jenis_sp" id="jenis_sp" class="form-control">
                                                 <option disabled selected value>-- Pilih Jenis SP --</option>
                                                 @foreach ($jenis_sp as $data)
-                                                    <option value="{{ $data->IDJnsSuratPesanan }}">
+                                                    <option value="{{ $data->IDJnsSuratPesanan }}"
+                                                        @if ($data->IDJnsSuratPesanan === $header_pesanan[0]->IDJnsSuratPesanan) selected @endif>
                                                         {{ $data->JnsSuratPesanan }}</option>
                                                 @endforeach
                                             </select>
@@ -46,12 +56,13 @@
                                             {{-- <input type="text" name="jenis_sp" list="data_jenis_sp" id="jenis_sp" placeholder="Jenis SP" class="permohonan-s-p-textinput01 input" /> <datalist id="data_jenis_sp"> @foreach ($jenis_sp as $data) <option value="{{ $data->IDJnsSuratPesanan }} - {{ $data->JnsSuratPesanan }}"></option> @endforeach </datalist> --}}
                                             <input type="text" placeholder="Nomor SP"
                                                 class="permohonan-s-p-textinput04 input" id="no_spText" name="no_spText"
-                                                readonly />
+                                                value="{{ $header_pesanan[0]->IDSuratPesanan }}" />
                                             <select name="no_spSelect" id="no_spSelect" class="form-control"
                                                 style="display: none">
                                                 <option disabled selected value>-- Pilih Nomor SP --</option>
                                                 @foreach ($list_sp as $data)
-                                                    <option value="{{ $data->IDSuratPesanan }}">{{ $data->IDSuratPesanan }}
+                                                    <option value="{{ $data->IDSuratPesanan }}">
+                                                        {{ $data->IDSuratPesanan }}
                                                         | {{ $data->NamaCust }}</option>
                                                 @endforeach
                                             </select>
@@ -65,18 +76,24 @@
                                                     @php
                                                         $companyName = trim(substr($data->IDCust, strpos($data->IDCust, '-') + 1));
                                                     @endphp
-                                                    <option value="{{ $companyName }}">{{ $data->NamaCust }}</option>
+                                                    <option value="{{ $companyName }}"
+                                                        @if ($companyName === $header_pesanan[0]->IDCust) selected @endif>
+                                                        {{ $data->NamaCust }}</option>
                                                 @endforeach
                                             </select> {{-- <input type="text" name="list_customer" list="data_customer" id="list_customer" class="permohonan-s-p-textinput03 input" placeholder="Nama Customer" /> <datalist id="data_customer"> @foreach ($list_customer as $data) <option value="{{ $data->IDCust }} - {{ $data->NamaCust }}"></option> @endforeach </datalist> --}} {{-- <input type="text" placeholder="Nama Customer" class="permohonan-s-p-textinput03 input" /> <button class="permohonan-s-p-button02 button">...</button> --}} </div>
                                         <div class="permohonan-s-p-container07"> <input type="text"
                                                 placeholder="Nomor PO" class="permohonan-s-p-textinput46 input"
-                                                id="no_po" name="no_po" /> </div>
+                                                id="no_po" name="no_po" value="{{ $header_pesanan[0]->NO_PO }}" />
+                                        </div>
                                         <div class="permohonan-s-p-container08"> <input type="date" id="tgl_po"
                                                 name="tgl_po" placeholder="placeholder"
-                                                class="permohonan-s-p-textinput05 input" /> </div>
+                                                class="permohonan-s-p-textinput05 input"
+                                                value="{{ date('Y-m-d', strtotime($header_pesanan[0]->Tgl_Pesan)) }}" />
+                                        </div>
                                         <div class="permohonan-s-p-container09"> <input type="text"
                                                 placeholder="Nomor PI" class="permohonan-s-p-textinput06 input"
-                                                id="no_pi" name="no_pi" /> </div>
+                                                id="no_pi" name="no_pi" value="{{ $header_pesanan[0]->NO_PI }}" />
+                                        </div>
                                     </div>
                                     <div class="permohonan-s-p-container10"> <span
                                             class="permohonan-s-p-text06">Sales</span> <span
@@ -89,36 +106,44 @@
                                                 class="form-control">
                                                 <option disabled selected value>-- Pilih Sales --</option>
                                                 @foreach ($list_sales as $data)
-                                                    <option value="{{ $data->IDSales }}">{{ $data->NamaSales }}</option>
+                                                    <option value="{{ $data->IDSales }}"
+                                                        @if ($data->IDSales === $header_pesanan[0]->IDSales) selected @endif>
+                                                        {{ $data->NamaSales }}</option>
                                                 @endforeach
                                             </select> {{-- <input type="text" placeholder="Nama Sales" class="permohonan-s-p-textinput07 input" name="list_sales" id="list_sales" list="data_sales" /> <datalist id="data_sales"> @foreach ($list_sales as $data) <option value="{{ $data->IDSales }} - {{ $data->NamaSales }}"></option> @endforeach </datalist> --}} {{-- <button class="permohonan-s-p-button03 button">...</button> --}} </div>
                                         <div class="permohonan-s-p-container13"> <input type="text"
                                                 placeholder="Mata Uang" class="permohonan-s-p-textinput08 input"
-                                                id="mata_uang" name="mata_uang" /> </div>
+                                                id="mata_uang" name="mata_uang"
+                                                value="{{ $header_pesanan[0]->IDMataUang }}" /> </div>
                                         <div class="permohonan-s-p-container14"> <select name="jenis_bayar" id="jenis_bayar"
                                                 class="form-control">
                                                 <option disabled selected value>-- Pilih Jenis Bayar --</option>
                                                 @foreach ($jenis_bayar as $data)
-                                                    <option value="{{ $data->IdPembayaran }}">{{ $data->NamaPembayaran }}
+                                                    <option value="{{ $data->IdPembayaran }}"
+                                                        @if ($data->IdPembayaran === $header_pesanan[0]->IDPembayaran) selected @endif>
+                                                        {{ $data->NamaPembayaran }}
                                                     </option>
                                                 @endforeach
                                             </select> {{-- <input type="text" placeholder="Jenis Bayar" class="permohonan-s-p-textinput09 input" name="jenis_bayar" id="jenis_bayar" list="data_jenisbayar" /> <datalist id="data_jenisbayar"> @foreach ($jenis_bayar as $data) <option value="{{ $data->IdPembayaran }} - {{ $data->NamaPembayaran }}"></option> @endforeach </datalist> <button class="permohonan-s-p-button04 button">...</button> --}} </div>
                                         <div class="permohonan-s-p-container15"> <input type="text"
                                                 class="permohonan-s-p-textinput10 input" id="syarat_bayar"
-                                                name="syarat_bayar" placeholder="" /> <span
+                                                name="syarat_bayar" placeholder=""
+                                                value="{{ $header_pesanan[0]->SyaratBayar }}" /> <span
                                                 class="permohonan-s-p-text11"> <span>Hari</span> <br /> </span>
                                             <span class="permohonan-s-p-text14"> <span>Faktur PJK:</span> <br /> </span>
                                             <input type="radio" class="permohonan-s-p-radiobutton" id="faktur_pjkBiasa"
-                                                name="faktur_pjk" value="0" required checked /> <span
+                                                name="faktur_pjk" value="0" required
+                                                @if ($header_pesanan[0]->JnsFakturPjk == 0) checked @endif /> <span
                                                 class="permohonan-s-p-text17"> <span>Biasa</span>
                                                 <br /> </span> <input type="radio" class="permohonan-s-p-radiobutton1"
-                                                id="faktur_pjkSederhana" name="faktur_pjk" value="1" /> <span
+                                                id="faktur_pjkSederhana" name="faktur_pjk" value="1"
+                                                @if ($header_pesanan[0]->JnsFakturPjk == 1) checked @endif /> <span
                                                 class="permohonan-s-p-text20">
                                                 <span>Sederhana</span> <br />
                                             </span>
                                         </div>
                                         <div class="permohonan-s-p-container16">
-                                            <textarea class="input" name="keterangan" id="keterangan" cols="60" rows="3" placeholder="Keterangan"></textarea>
+                                            <textarea class="input" name="keterangan" id="keterangan" cols="60" rows="3" placeholder="Keterangan">{{ $header_pesanan[0]->Ket }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -157,6 +182,18 @@
                                                 <th>IDPesanan</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            @foreach ($detail_pesanan as $detail)
+                                                <tr>
+                                                    <td>{{ $detail->namabarang }}</td>
+                                                    <td>{{ $detail->IDBarang }}</td>
+                                                    <td>{{ $detail->HargaSatuan }}</td>
+                                                    <td>{{ $detail->Qty }}</td>
+                                                    <td>{{ $detail->Satuan }}</td>
+                                                    <td>{{ date('Y-m-d', strtotime($detail->TglRencanaKirim))}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
                                     </table>
                                 </div>
                                 <div class="permohonan-s-p-container18" id="div_detailSuratPesanan">
@@ -258,8 +295,9 @@
                                             </div>
                                             <div class="permohonan-s-p-container40">
                                                 <div class="permohonan-s-p-container41"> <input type="text"
-                                                        placeholder="Berat Karung" class="permohonan-s-p-textinput26 input"
-                                                        id="berat_karung" readonly /> </div>
+                                                        placeholder="Berat Karung"
+                                                        class="permohonan-s-p-textinput26 input" id="berat_karung"
+                                                        readonly /> </div>
                                                 <div class="permohonan-s-p-container42"> <input type="text"
                                                         placeholder="Berat Inner" class="permohonan-s-p-textinput27 input"
                                                         id="berat_inner" readonly /> </div>
@@ -267,8 +305,9 @@
                                                         placeholder="Berat Lami" class="permohonan-s-p-textinput28 input"
                                                         id="berat_lami" readonly /> </div>
                                                 <div class="permohonan-s-p-container44"> <input type="text"
-                                                        placeholder="Berat Kertas" class="permohonan-s-p-textinput29 input"
-                                                        id="berat_kertas" readonly /> </div>
+                                                        placeholder="Berat Kertas"
+                                                        class="permohonan-s-p-textinput29 input" id="berat_kertas"
+                                                        readonly /> </div>
                                                 <div class="permohonan-s-p-container45"> <input type="text"
                                                         placeholder="BS Total" class="permohonan-s-p-textinput30 input"
                                                         id="berat_standardTotal" readonly /> </div>
@@ -283,8 +322,9 @@
                                             </div>
                                             <div class="permohonan-s-p-container48">
                                                 <div class="permohonan-s-p-container49"> <input type="text"
-                                                        placeholder="Index Karung" class="permohonan-s-p-textinput31 input"
-                                                        id="index_karung" readonly /> </div>
+                                                        placeholder="Index Karung"
+                                                        class="permohonan-s-p-textinput31 input" id="index_karung"
+                                                        readonly /> </div>
                                                 <div class="permohonan-s-p-container50"> <input type="text"
                                                         placeholder="Index Inner" class="permohonan-s-p-textinput32 input"
                                                         id="index_inner" readonly /> </div>
@@ -292,13 +332,14 @@
                                                         placeholder="Index Lami" class="permohonan-s-p-textinput33 input"
                                                         id="index_lami" readonly /> </div>
                                                 <div class="permohonan-s-p-container52"> <input type="text"
-                                                        placeholder="Index Kertas" class="permohonan-s-p-textinput34 input"
-                                                        id="index_kertas" readonly /> </div>
+                                                        placeholder="Index Kertas"
+                                                        class="permohonan-s-p-textinput34 input" id="index_kertas"
+                                                        readonly /> </div>
                                             </div>
                                             <div class="permohonan-s-p-container53"> <span>=</span> <span>=</span>
                                                 <span>=</span>
-                                                <span>=</span> <span class="permohonan-s-p-text58">Biaya Lain2:</span> <span
-                                                    class="permohonan-s-p-text59">Total Cost:</span>
+                                                <span>=</span> <span class="permohonan-s-p-text58">Biaya Lain2:</span>
+                                                <span class="permohonan-s-p-text59">Total Cost:</span>
                                             </div>
                                             <div class="permohonan-s-p-container54">
                                                 <div class="permohonan-s-p-container55"> <input type="text"
@@ -361,7 +402,8 @@
                                 </div>
                                 <div id="div_saldoInventory">
                                     <span>Saldo Inventory</span>
-                                    <table id="table_saldoInventory" class="permohonan-s-p-table" style="cursor: default">
+                                    <table id="table_saldoInventory" class="permohonan-s-p-table"
+                                        style="cursor: default">
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Divisi</th>
@@ -394,5 +436,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{{ asset('js/Sales/permohonan-sp.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/Sales/penyesuaian-sp-lokal.js') }}"></script>
 @endsection
