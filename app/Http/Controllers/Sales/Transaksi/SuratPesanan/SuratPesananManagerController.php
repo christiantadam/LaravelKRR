@@ -174,7 +174,6 @@ class SuratPesananManagerController extends Controller
     {
         // dd($request->all());
         $UraianPesanan = null;
-        $Lunas = $request->barang6 ?? null;
         $user = Auth::user()->NomorUser;
         $tgl_pesan = $request->tgl_pesan;
         $jenis_sp = $request->jenis_sp;
@@ -196,7 +195,7 @@ class SuratPesananManagerController extends Controller
         $Satuan = $request->barang4; //satuan
         $HargaSatuan = $request->barang2; //harga satuan
         $TglRencanaKirim = $request->barang5; //rencana kirim
-        // $statusLunas = $request->barang6; //status lunas
+        $Lunas = $request->barang6 ?? null;
         $ppn = $request->barang7; //ppn
         $bkarung = $request->barang8; //berat karung
         $ikarung = $request->barang9; //index karung

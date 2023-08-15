@@ -201,7 +201,7 @@
                                                 id="ppn" readonly /> </div>
                                         <div class="permohonan-s-p-container31"> <input type="text"
                                                 placeholder="Belum Lunas" class="permohonan-s-p-textinput20 input"
-                                                id="status_lunas" readonly /> </div>
+                                                id="status_lunas"/> </div>
                                         <div class="permohonan-s-p-container31"> <textarea name="informasi_tambahan" id="informasi_tambahan" cols="20" rows="2"></textarea>
                                              </div>
                                     </div>
