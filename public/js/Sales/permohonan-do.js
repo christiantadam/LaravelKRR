@@ -512,7 +512,7 @@ id_pesananSelect.addEventListener("change", function () {
     fetch("/options/barang/" + id_pesananText.value)
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
+            console.log(data);
             // document.getElementById("id_pesanan").disabled = true;
             kode_barang.readOnly = true;
             uraian.readOnly = true;
