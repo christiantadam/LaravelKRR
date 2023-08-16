@@ -216,8 +216,13 @@ nomor_spText.addEventListener("keypress", function (event) {
             nomor_spText.style.display = "none";
             nomor_spSelect.focus();
         } else {
+            if (selectedOption.value.includes("/")) {
+                no_spValue = selectedOption.value.replace(/\//g, ".");
+            } else {
+                no_spValue = selectedOption.value;
+            }
             nomor_spSelect.value = selectedOption.value;
-            fetch("/options/id_pesanan/" + selectedOption.value)
+            fetch("/options/id_pesanan/" + no_spValue)
                 .then((response) => response.json())
                 .then((options) => {
                     id_pesananSelect.innerHTML =
@@ -236,13 +241,19 @@ nomor_spText.addEventListener("keypress", function (event) {
 });
 
 nomor_spSelect.addEventListener("change", function () {
-    let nomor_spSelect = this.value;
-    nomor_spText.value = nomor_spSelect;
+    // let nomor_spSelect = this.value;
+    // nomor_spText.value = nomor_spSelect;
+    if (this.value.includes("/")) {
+        no_spValue = this.value.replace(/\//g, ".");
+    } else {
+        no_spValue = this.value;
+    }
     id_pesananText.value = "";
     id_pesananSelect.focus();
-    fetch("/options/id_pesanan/" + nomor_spSelect)
+    fetch("/options/id_pesanan/" + no_spValue)
         .then((response) => response.json())
         .then((options) => {
+            console.log(options);
             id_pesananSelect.innerHTML =
                 "<option disabled selected value>-- Pilih ID Pesanan --</option>";
             options.forEach((option) => {

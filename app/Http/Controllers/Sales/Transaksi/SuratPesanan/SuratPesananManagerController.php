@@ -95,6 +95,7 @@ class SuratPesananManagerController extends Controller
 
     public function getPenyesuaianSP($suratPesanan)
     {
+        // dd(Auth::user());
         if (strstr($suratPesanan, '.lama.')) {
             $no_spValue = str_replace('.lama.', '', $suratPesanan);
             $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);

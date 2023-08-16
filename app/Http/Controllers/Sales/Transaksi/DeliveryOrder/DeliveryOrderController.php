@@ -37,7 +37,12 @@ class DeliveryOrderController extends Controller
 
     public function getIdPesanan($nomor_sp)
     {
-        $idPesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_TYPE_DO1 @IDSuratPesanan = ?', [$nomor_sp]);
+        if (strstr($nomor_sp, '.')) {
+            $no_spValue = str_replace('.', '/', $nomor_sp);
+        } else {
+            $no_spValue = $nomor_sp;
+        }
+        $idPesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_TYPE_DO1 @IDSuratPesanan = ?', [$no_spValue]);
         return response()->json($idPesanan);
     }
 

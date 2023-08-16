@@ -325,16 +325,33 @@ class SuratPesananController extends Controller
             );
             //Simpan BS Berat Standard
             // dd($KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user);
+
             DB::connection('ConnPurchase')->statement(
                 'exec SP_5409_SLS_UPDATE_BS
-            @KodeBarang = ?,
-            @bkarung = ?,
-            @binner = ?,
-            @blami = ?,
-            @bkertas = ?,
-            @BeratStandart= ?,
-            @UserId = ?',
-                [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
+                KodeBarang = ?
+                bkarung = ?
+                binner = ?
+                blami = ?
+                bkertas = ?
+                BeratStandart = ?
+                bkarung2 = ?
+                binner2 = ?
+                blami2 = ?
+                bkertas2 = ?
+                bs2 = ?
+                UserId = ?',
+                [$KodeBarang[$i],
+                $bkarung[$i],
+                $binner[$i],
+                $blami[$i],
+                $bkertas[$i],
+                $BeratStandart[$i],
+                $bkarung[$i],
+                $binner[$i],
+                $blami[$i],
+                $bkertas[$i],
+                $BeratStandart[$i],
+                $user],
             );
         }
         return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp->IDSuratPesanan . ' Sudah Dibuat!');
