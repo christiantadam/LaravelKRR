@@ -163,15 +163,15 @@ isi_button.addEventListener("click", async function (event) {
     }
 });
 
-// edit_button.addEventListener("click", function (event) {
-//     event.preventDefault();
-//     enableInputs();
-//     hapus_button.innerHTML = "Batal";
-//     isi_button.innerHTML = "Proses";
-//     edit_button.style.display = "none";
-//     lihat_spButton.focus();
-//     proses = 2; //proses edit
-// });
+edit_button.addEventListener("click", function (event) {
+    event.preventDefault();
+    enableInputs();
+    hapus_button.innerHTML = "Batal";
+    isi_button.innerHTML = "Proses";
+    edit_button.style.display = "none";
+    lihat_spButton.focus();
+    proses = 2; //proses edit
+});
 
 hapus_button.addEventListener("click", function (event) {
     event.preventDefault();

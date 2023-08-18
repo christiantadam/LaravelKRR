@@ -287,8 +287,8 @@
                                 <div class="acs-div-container5">
                                     <button id="isi_button" class="btn-primary btn">
                                         <span>Isi</span></button>
-                                    {{-- <button id="edit_button" class="btn-primary btn">
-                                        <span>Koreksi</span></button> --}}
+                                    <button id="edit_button" class="btn-primary btn" style="display: none">
+                                        <span>Koreksi</span></button>
                                     <button id="hapus_button" class="btn-danger btn">
                                         <span>Hapus</span></button>
                                 </div>
