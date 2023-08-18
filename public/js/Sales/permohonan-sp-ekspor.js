@@ -245,7 +245,7 @@ no_spText.addEventListener("keypress", function (event) {
                     customer.selectedIndex = 0;
                     for (let i = 0; i < customer.length - 1; i++) {
                         customer.selectedIndex += 1;
-                        if (customer.value === data[0][0].IDCust) {
+                        if (customer.value.split(" -")[1] === data[0][0].IDCust) {
                             break;
                         }
                     }
