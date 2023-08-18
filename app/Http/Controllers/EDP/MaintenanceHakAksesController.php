@@ -32,20 +32,22 @@ class MaintenanceHakAksesController extends Controller
 
     function EditUserFitur(Request $request)
     {
-        // dd($request->all(), !empty($request->addedValues), $request->deletedValues !== "[]");
+        // dd($request->all(), count(json_decode($request->deletedValues)));
 
         if ($request->deletedValues !== "[]") {
             $deletedValues = json_decode($request->deletedValues);
+            // dd(count($deletedValues), $deletedValues[0]);
             $detedValuesString = implode(', ', $deletedValues);
-            dd($detedValuesString);
+            // dd($detedValuesString);
             // DB::connection('ConnEDP')
             //     ->table('User_Fitur')
             //     ->leftJoin('UserMaster', 'User_fitur.Id_User', '=', 'UserMaster.IdUser')
             //     ->where('UserMaster.NomorUser', $request->namaPegawaiText)
             //     ->whereIn('User_fitur.Id_Fitur', $deletedValues)
             //     ->delete();
-
-            DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @DeletedValues = ?', [1, $request->namaPegawaiText, $detedValuesString]);
+            for ($i=0; $i < count($deletedValues); $i++) {
+                DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @DeletedValues = ?', [1, $request->namaPegawaiText, $deletedValues[$i]]);
+            }
         }
         if ($request->addedValues !== "[]") {
             $addedValues = json_decode($request->addedValues);
