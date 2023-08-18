@@ -175,7 +175,7 @@
     border-left: none !important;
 }
 #table_sp tr:last-child td:nth-child(1),
-#table_sp tr:last-child td:nth-child(5){
+#table_sp tr:last-child td:nth-child(5) {
     border-right: none !important;
 }
 @media print {
@@ -196,20 +196,19 @@
         margin: 0;
         width: 100%;
     }
-    #table_sp {
-        border-collapse: collapse !important;
-    }
-
     #table_sp,
     #table_sp th,
     #table_sp td {
-        border: 1px solid black !important;
+        /* border: 1px solid black !important; */
         padding: 3px;
     }
     #table_sp th {
         font-size: 15px;
         white-space: nowrap;
         text-align: center;
+    }
+    .cetak-sppdf-container08{
+        width: 100%;
     }
     #table_sp td:first-child,
     #table_sp td:last-child,
@@ -228,5 +227,10 @@
     }
     #table_sp td {
         break-inside: avoid;
+    }
+    #table_sp tr:last-child td:nth-child(1),
+    #table_sp tr:last-child td:nth-child(2) {
+        border-bottom: none !important;
+        border-left: none !important;
     }
 }
