@@ -493,7 +493,7 @@ isi_button.addEventListener("click", function (event) {
     } else if (proses == 1) {
         //isi
         funcDatatablesIntoInput();
-        // form_suratPesanan.submit();
+        form_suratPesanan.submit();
         div_tabelSuratPesanan.classList.toggle("disabled");
         div_detailSuratPesanan.classList.toggle("disabled");
         div_beratStandard.classList.toggle("disabled");
@@ -507,8 +507,8 @@ isi_button.addEventListener("click", function (event) {
     } else if (proses == 2) {
         //edit
         funcDatatablesIntoInput();
-        // form_suratPesanan.action = "/SuratPesanan/" + no_spText.value + "/up";
-        // form_suratPesanan.submit();
+        form_suratPesanan.action = "/SuratPesanan/" + no_spText.value + "/up";
+        form_suratPesanan.submit();
 
         funcClearHeaderPesanan();
         funcClearInputBarang();
@@ -1117,7 +1117,7 @@ update_button.addEventListener("click", function (event) {
                 : "0"
         );
         rowData[26] = formatangka(
-            !isNaN(formatangka(parseFloat(berat_standardTotalMeter.value)))
+            !isNaN(parseFloat(berat_standardTotalMeter.value))
                 ? parseFloat(berat_standardTotalMeter.value)
                 : "0"
         );
