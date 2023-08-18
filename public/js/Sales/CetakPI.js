@@ -272,7 +272,7 @@ print_button.addEventListener("click", function (event) {
                 ttd_perusahaanKolom.innerHTML = data[0].NamaCust;
                 // ttd_namaContactPersonKolom.value = NamaCustomer;
                 nama_salesKolom.value = "Mr. " + data[0].NamaSales;
-                if (data[0].IDJnsBrg == "BBE" || data[0].IDJnsBrg == "WBE") {
+                if (data[0].IDJnsBrg == "BBE" || data[0].IDJnsBrg == "WBE" || data[0].IDJnsBrg == "WBN") {
                     item_conditionKolom.style.display = "table-row";
                 }
             });

@@ -35,10 +35,13 @@ let remarks_priceKolom = document.getElementById("remarks_priceKolom");
 let destination_portKolom = document.getElementById("destination_portKolom");
 let cargo_readyKolom = document.getElementById("cargo_readyKolom");
 let nama_perusahaanKolom = document.getElementById("nama_perusahaanKolom");
-let nama_penerimaOrderKolom = document.getElementById("nama_penerimaOrderKolom");
+let nama_penerimaOrderKolom = document.getElementById(
+    "nama_penerimaOrderKolom"
+);
 let price_forKolom = document.getElementById("price_forKolom");
 let price_amountKolom = document.getElementById("price_amountKolom");
 let sales_managerKolom = document.getElementById("sales_managerKolom");
+let item_conditionKolom = document.getElementById("item_conditionKolom");
 
 //#region Load Form
 
@@ -145,15 +148,18 @@ print_button.addEventListener("click", function (event) {
                 nama_customerKolom.innerHTML = data[0].NamaCust;
                 alamat_kantorKolom.innerHTML = data[0].Alamat;
                 table_sp.clear();
+                var grandTotalBarang = 0;
+                var grandTotalHarga = 0;
+                let satuanJmlOrder = "";
                 data.forEach((item, index) => {
                     // console.log(item);
-                    let satuanJmlOrder = "";
-                        if (item.Satuan == "LBR") {
-                            satuanJmlOrder = "PCS";
-                        }
-                        else{
-                            satuanJmlOrder = item.Satuan
-                        }
+                    satuanJmlOrder = "";
+                    grandTotalBarang += parseInt(item.JmlOrder);
+                    if (item.Satuan == "LBR") {
+                        satuanJmlOrder = "PCS";
+                    } else {
+                        satuanJmlOrder = item.Satuan;
+                    }
                     if (item.UraianPesanan.includes(" | ")) {
                         let UraianPesananArray = item.UraianPesanan.replace(
                             /\r\n/g,
@@ -162,27 +168,39 @@ print_button.addEventListener("click", function (event) {
                         cargo_readyKolom.innerHTML = UraianPesananArray[3];
                         // console.log(item.UraianPesanan);
                         // console.log(UraianPesananArray);
-                        table_sp.row
-                            .add([
-                                index + 1,
-                                UraianPesananArray[0],
-                                UraianPesananArray[2] + "<br> <br>" + UraianPesananArray[1],
-                                formatangkainteger(parseInt(item.JmlOrder)) + " " + satuanJmlOrder,
-                                item.KodeBarang,
-                            ])
-                            .draw();
+                        table_sp.row.add([
+                            index + 1,
+                            UraianPesananArray[0],
+                            UraianPesananArray[2] +
+                                "<br> <br>" +
+                                UraianPesananArray[1],
+                            formatangkainteger(parseInt(item.JmlOrder)) +
+                                " " +
+                                satuanJmlOrder,
+                            item.KodeBarang,
+                        ]).draw();
                     } else {
-                        table_sp.row
-                            .add([
-                                index + 1,
-                                "No Data",
-                                "No Data",
-                                formatangkainteger(item.JmlOrder) + " " + satuanJmlOrder,
-                                item.KodeBarang,
-                            ])
-                            .draw();
+                        table_sp.row.add([
+                            index + 1,
+                            "No Data",
+                            "No Data",
+                            formatangkainteger(item.JmlOrder) +
+                                " " +
+                                satuanJmlOrder,
+                            item.KodeBarang,
+                        ])
+                        .draw();
                     }
                 });
+                table_sp.row
+                    .add([
+                        "",
+                        "",
+                        "Grand Total",
+                        formatangkainteger(grandTotalBarang) + " " + satuanJmlOrder,
+                        "",
+                    ])
+                    .draw();
                 if (data[0].Ket == null) {
                     data[0].Ket = "";
                 }
@@ -202,8 +220,11 @@ print_button.addEventListener("click", function (event) {
                     destination_portKolom.innerHTML = "No Data";
                     destination_kolom.innerHTML = "No Data";
                 }
-                sales_managerKolom.innerHTML = data[0].Manager;
+                // sales_managerKolom.innerHTML = data[0].Manager;
                 nama_penerimaOrderKolom.value = data[0].NamaSales;
+                if (data[0].IDJnsBrg == "BBE" || data[0].IDJnsBrg == "WBE" || data[0].IDJnsBrg == "WBN") {
+                    item_conditionKolom.style.display = "table-row";
+                }
             });
     }
 });

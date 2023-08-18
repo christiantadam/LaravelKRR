@@ -162,6 +162,22 @@
 .kolom-nama-tt {
     text-decoration: underline;
 }
+#table_sp {
+    border-bottom: none !important;
+}
+#table_sp tr:last-child td:nth-child(1),
+#table_sp tr:last-child td:nth-child(2),
+#table_sp tr:last-child td:nth-child(5) {
+    border-bottom: none !important;
+}
+#table_sp tr:last-child td:nth-child(1),
+#table_sp tr:last-child td:nth-child(2) {
+    border-left: none !important;
+}
+#table_sp tr:last-child td:nth-child(1),
+#table_sp tr:last-child td:nth-child(5){
+    border-right: none !important;
+}
 @media print {
     body * {
         visibility: hidden;

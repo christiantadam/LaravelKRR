@@ -1135,7 +1135,7 @@ update_button.addEventListener("click", function (event) {
         jenis_brg.focus();
         // Update the table display
         $("#list_view").DataTable().draw();
-        div_beratStandardMeter.style.display = "none";
+        div_beratStandardMeter.style.visibility = 'hidden';
         div_beratStandardMeter.disabled = false;
     }
 });
@@ -1186,7 +1186,7 @@ delete_button.addEventListener("click", function (event) {
     qty_pesan.value = "";
     harga_satuan.value = "";
     jenis_brg.focus();
-    div_beratStandardMeter.style.display = "none";
+    div_beratStandardMeter.style.visibility = 'hidden';
     div_beratStandardMeter.disabled = false;
 });
 
@@ -1260,7 +1260,7 @@ function funcClearInputBarang() {
     berat_kertasMeter.value = "";
     berat_lamiMeter.value = "";
     table_saldoInventory.clear().draw();
-    div_beratStandardMeter.style.display = "none";
+    div_beratStandardMeter.style.visibility = 'hidden';
 }
 
 function funcHeaderDisabled(bool) {
@@ -1590,13 +1590,13 @@ function funcTampilBeratStandardKGM() {
         satuan_jual.options[satuan_jual.selectedIndex].text !==
         satuan_sekunder.value.trim()
     ) {
-        div_beratStandardMeter.style.display = "block";
+        div_beratStandardMeter.style.visibility = 'visible';
         trigger = 1;
     } else if (
         satuan_jual.options[satuan_jual.selectedIndex].text ==
         satuan_sekunder.value.trim()
     ) {
-        div_beratStandardMeter.style.display = "none";
+        div_beratStandardMeter.style.visibility = 'hidden';
         trigger = 0;
     }
 }

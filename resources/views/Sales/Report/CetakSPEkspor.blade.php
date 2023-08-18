@@ -171,6 +171,11 @@
                                             <td>:&nbsp;</td>
                                             <td id="cargo_readyKolom"></td>
                                         </tr>
+                                        <tr id="item_conditionKolom" style="display: none">
+                                            <td>Condition</td>
+                                            <td>:</td>
+                                            <td>Quantity and Amount ± 10%</td>
+                                        </tr>
                                     </table>
                                 </div>
                                 <div class="cetak-sppdf-container10">
