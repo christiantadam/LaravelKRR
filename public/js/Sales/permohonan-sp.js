@@ -1399,6 +1399,21 @@ function funcInsertRow(array) {
             total_cost.value = parseFloat(
                 selectedRows[0][21].replace(/,/g, "")
             );
+            berat_karungMeter.value = parseFloat(
+                selectedRows[0][22].replace(/,/g, "")
+            );
+            berat_innerMeter.value = parseFloat(
+                selectedRows[0][23].replace(/,/g, "")
+            );
+            berat_lamiMeter.value = parseFloat(
+                selectedRows[0][24].replace(/,/g, "")
+            );
+            berat_kertasMeter.value = parseFloat(
+                selectedRows[0][25].replace(/,/g, "")
+            );
+            berat_standardTotalMeter.value = parseFloat(
+                selectedRows[0][26].replace(/,/g, "")
+            );
             funcDisplayDataBrg(selectedRows[0][1]);
             funcTampilInv(selectedRows[0][1]);
             funcKolomBeratStandard();

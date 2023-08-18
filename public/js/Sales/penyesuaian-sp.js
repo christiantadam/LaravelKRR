@@ -750,16 +750,16 @@ no_spText.addEventListener("keypress", function (event) {
         // alert('Kode barang dienter');
         let no_spValue;
         if (no_spText.value.includes("/")) {
-            no_spValue = no_spText.value.replace(/\//g, ".") + '.lama.';
+            no_spValue = no_spText.value.replace(/\//g, ".") + ".lama.";
         } else {
-            no_spValue = no_spText.value + '.lama.';
+            no_spValue = no_spText.value + ".lama.";
         }
         fetch("/penyesuaian/" + no_spValue)
             .then((response) => response.json())
             .then((data) => {
                 funcHeaderDisabled(false);
                 no_spText.readOnly = true;
-                console.log(data);
+                // console.log(data);
                 for (let key in data[0][0]) {
                     if (
                         (data[0][0].hasOwnProperty(key) &&
@@ -818,6 +818,7 @@ no_spText.addEventListener("keypress", function (event) {
                 keterangan.value = data[0][0].Ket;
                 if (no_spText.value.includes("/")) {
                     for (let i = 0; i < data[1].length; i++) {
+                        // console.log("eksport");
                         const arraydata = [
                             data[1][i].namabarang,
                             data[1][i].KodeBarang,
@@ -856,35 +857,38 @@ no_spText.addEventListener("keypress", function (event) {
                     }
                 } else {
                     for (let i = 0; i < data[1].length; i++) {
+                        // console.log("lokal");
                         const arraydata = [
                             data[1][i].namabarang,
                             data[1][i].IDBarang,
-                            data[1][i].HargaSatuan,
-                            parseInt(data[1][i].Qty),
+                            formatangka(parseFloat(data[1][i].HargaSatuan)),
+                            formatangka(parseInt(data[1][i].Qty)),
                             data[1][i].Satuan,
                             data[1][i].TglRencanaKirim.substr(0, 10),
                             data[1][i].Lunas,
                             data[1][i].PPN,
-                            data[1][i].BERAT_KARUNG3,
-                            data[1][i].INDEX_KARUNG,
-                            data[1][i].HARGA_KARUNG,
-                            data[1][i].BERAT_INNER3,
-                            data[1][i].INDEX_INNER,
-                            data[1][i].HARGA_INNER,
-                            data[1][i].BERAT_LAMI3,
-                            data[1][i].INDEX_LAMI,
-                            data[1][i].HARGA_LAMI,
-                            data[1][i].BERAT_KERTAS3,
-                            data[1][i].INDEX_KERTAS,
-                            data[1][i].HARGA_KERTAS,
-                            data[1][i].HARGA_LAIN2,
-                            data[1][i].BERAT_TOTAL3,
-                            data[1][i].HARGA_TOTAL,
-                            data[1][i].BERAT_KARUNG,
-                            data[1][i].BERAT_INNER,
-                            data[1][i].BERAT_LAMI,
-                            data[1][i].BERAT_CONDUCTIVE,
-                            data[1][i].BERAT_TOTAL,
+                            formatangka(parseFloat(data[1][i].BERAT_KARUNG)),
+                            formatangka(parseFloat(data[1][i].INDEX_KARUNG)),
+                            formatangka(parseFloat(data[1][i].HARGA_KARUNG)),
+                            formatangka(parseFloat(data[1][i].BERAT_INNER)),
+                            formatangka(parseFloat(data[1][i].INDEX_INNER)),
+                            formatangka(parseFloat(data[1][i].HARGA_INNER)),
+                            formatangka(parseFloat(data[1][i].BERAT_LAMI)),
+                            formatangka(parseFloat(data[1][i].INDEX_LAMI)),
+                            formatangka(parseFloat(data[1][i].HARGA_LAMI)),
+                            formatangka(
+                                parseFloat(data[1][i].BERAT_CONDUCTIVE)
+                            ),
+                            formatangka(parseFloat(data[1][i].INDEX_KERTAS)),
+                            formatangka(parseFloat(data[1][i].HARGA_KERTAS)),
+                            formatangka(parseFloat(data[1][i].HARGA_LAIN2)),
+                            formatangka(parseFloat(data[1][i].BERAT_TOTAL)),
+                            formatangka(parseFloat(data[1][i].HARGA_TOTAL)),
+                            formatangka(parseFloat(data[1][i].BERAT_KARUNG3)),
+                            formatangka(parseFloat(data[1][i].BERAT_INNER3)),
+                            formatangka(parseFloat(data[1][i].BERAT_LAMI3)),
+                            formatangka(parseFloat(data[1][i].BERAT_KERTAS3)),
+                            formatangka(parseFloat(data[1][i].BERAT_TOTAL3)),
                             data[1][i].IDJnsBarang,
                             data[1][i].IDPesanan,
                             data[1][i].Informasi,
@@ -893,7 +897,6 @@ no_spText.addEventListener("keypress", function (event) {
                         funcInsertRow(arraydata);
                     }
                 }
-
             });
 
         tgl_pesan.focus();
@@ -936,32 +939,32 @@ add_button.addEventListener("click", function (event) {
     const arraydata = [
         nama_barang.options[nama_barang.selectedIndex].text,
         kode_barang.value,
-        parseFloat(harga_satuan.value),
-        parseInt(qty_pesan.value),
+        formatangka(parseFloat(harga_satuan.value)),
+        formatangka(parseInt(qty_pesan.value)),
         satuan_jual.options[satuan_jual.selectedIndex].text,
         rencana_kirim.value,
         status_lunas.value,
         ppn.value,
-        parseFloat(berat_karung.value),
-        parseFloat(index_karung.value),
-        parseFloat(berat_indexKarung.value),
-        parseFloat(berat_inner.value),
-        parseFloat(index_inner.value),
-        parseFloat(berat_indexInner.value),
-        parseFloat(berat_lami.value),
-        parseFloat(index_lami.value),
-        parseFloat(berat_indexLami.value),
-        parseFloat(berat_kertas.value),
-        parseFloat(index_kertas.value),
-        parseFloat(berat_indexKertas.value),
-        parseInt(biaya_lain.value),
-        parseFloat(berat_standardTotal.value),
-        parseInt(total_cost.value),
-        parseFloat(berat_karungMeter.value),
-        parseFloat(berat_innerMeter.value),
-        parseFloat(berat_lamiMeter.value),
-        parseFloat(berat_kertasMeter.value),
-        parseFloat(berat_standardTotalMeter.value),
+        formatangka(parseFloat(berat_karung.value)),
+        formatangka(parseFloat(index_karung.value)),
+        formatangka(parseFloat(berat_indexKarung.value)),
+        formatangka(parseFloat(berat_inner.value)),
+        formatangka(parseFloat(index_inner.value)),
+        formatangka(parseFloat(berat_indexInner.value)),
+        formatangka(parseFloat(berat_lami.value)),
+        formatangka(parseFloat(index_lami.value)),
+        formatangka(parseFloat(berat_indexLami.value)),
+        formatangka(parseFloat(berat_kertas.value)),
+        formatangka(parseFloat(index_kertas.value)),
+        formatangka(parseFloat(berat_indexKertas.value)),
+        formatangka(parseFloat(biaya_lain.value)),
+        formatangka(parseFloat(berat_standardTotal.value)),
+        formatangka(parseFloat(total_cost.value)),
+        formatangka(parseFloat(berat_karungMeter.value)),
+        formatangka(parseFloat(berat_innerMeter.value)),
+        formatangka(parseFloat(berat_lamiMeter.value)),
+        formatangka(parseFloat(berat_kertasMeter.value)),
+        formatangka(parseFloat(berat_standardTotalMeter.value)),
         jenis_brg.value,
         "",
         informasi_tambahan.value,
@@ -1001,43 +1004,55 @@ update_button.addEventListener("click", function (event) {
         // Update the values in the rowData array
         rowData[0] = nama_barang.options[nama_barang.selectedIndex].text;
         rowData[1] = kode_barang.value;
-        rowData[3] = parseInt(qty_pesan.value);
+        rowData[3] = formatangka(parseInt(qty_pesan.value));
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
-        rowData[2] = parseFloat(harga_satuan.value);
+        rowData[2] = formatangka(parseFloat(harga_satuan.value));
         rowData[5] = rencana_kirim.value;
         rowData[6] = status_lunas.value;
-        rowData[8] = parseFloat(berat_karung.value);
-        rowData[9] = parseFloat(index_karung.value);
-        rowData[10] = parseFloat(berat_indexKarung.value);
-        rowData[11] = parseFloat(berat_inner.value);
-        rowData[12] = parseFloat(index_inner.value);
-        rowData[13] = parseFloat(berat_indexInner.value);
-        rowData[14] = parseFloat(berat_lami.value);
-        rowData[15] = parseFloat(index_lami.value);
-        rowData[16] = parseFloat(berat_indexLami.value);
-        rowData[17] = parseFloat(berat_kertas.value);
-        rowData[18] = parseFloat(index_kertas.value);
-        rowData[19] = parseFloat(berat_indexKertas.value);
-        rowData[20] = !isNaN(parseFloat(biaya_lain.value))
-            ? parseFloat(biaya_lain.value)
-            : "0";
-        rowData[21] = parseFloat(berat_standardTotal.value);
-        rowData[22] = parseInt(total_cost.value);
-        rowData[23] = !isNaN(parseFloat(berat_karungMeter.value))
-            ? parseFloat(berat_karungMeter.value)
-            : "0";
-        rowData[24] = !isNaN(parseFloat(berat_innerMeter.value))
-            ? parseFloat(berat_innerMeter.value)
-            : "0";
-        rowData[25] = !isNaN(parseFloat(berat_lamiMeter.value))
-            ? parseFloat(berat_lamiMeter.value)
-            : "0";
-        rowData[26] = !isNaN(parseFloat(berat_kertasMeter.value))
-            ? parseFloat(berat_kertasMeter.value)
-            : "0";
-        rowData[27] = !isNaN(parseFloat(berat_standardTotalMeter.value))
-            ? parseFloat(berat_standardTotalMeter.value)
-            : "0";
+        rowData[8] = formatangka(parseFloat(berat_karung.value));
+        rowData[9] = formatangka(parseFloat(index_karung.value));
+        rowData[10] = formatangka(parseFloat(berat_indexKarung.value));
+        rowData[11] = formatangka(parseFloat(berat_inner.value));
+        rowData[12] = formatangka(parseFloat(index_inner.value));
+        rowData[13] = formatangka(parseFloat(berat_indexInner.value));
+        rowData[14] = formatangka(parseFloat(berat_lami.value));
+        rowData[15] = formatangka(parseFloat(index_lami.value));
+        rowData[16] = formatangka(parseFloat(berat_indexLami.value));
+        rowData[17] = formatangka(parseFloat(berat_kertas.value));
+        rowData[18] = formatangka(parseFloat(index_kertas.value));
+        rowData[19] = formatangka(parseFloat(berat_indexKertas.value));
+        rowData[20] = formatangka(
+            !isNaN(parseFloat(biaya_lain.value))
+                ? parseFloat(biaya_lain.value)
+                : "0"
+        );
+        rowData[21] = formatangka(parseFloat(berat_standardTotal.value));
+        rowData[22] = formatangka(parseFloat(total_cost.value));
+        rowData[23] = formatangka(
+            !isNaN(parseFloat(berat_karungMeter.value))
+                ? parseFloat(berat_karungMeter.value)
+                : "0"
+        );
+        rowData[24] = formatangka(
+            !isNaN(parseFloat(berat_innerMeter.value))
+                ? parseFloat(berat_innerMeter.value)
+                : "0"
+        );
+        rowData[25] = formatangka(
+            !isNaN(parseFloat(berat_lamiMeter.value))
+                ? parseFloat(berat_lamiMeter.value)
+                : "0"
+        );
+        rowData[26] = formatangka(
+            !isNaN(parseFloat(berat_kertasMeter.value))
+                ? parseFloat(berat_kertasMeter.value)
+                : "0"
+        );
+        rowData[27] = formatangka(
+            !isNaN(parseFloat(berat_standardTotalMeter.value))
+                ? parseFloat(berat_standardTotalMeter.value)
+                : "0"
+        );
         rowData[28] = jenis_brg.value;
         rowData[30] = informasi_tambahan.value;
 
@@ -1240,8 +1255,10 @@ function funcInsertRow(array) {
             $(this).toggleClass("selected");
             let selectedRows = table.rows(".selected").data().toArray();
             console.log(selectedRows);
-            qty_pesan.value = selectedRows[0][3];
-            harga_satuan.value = selectedRows[0][2];
+            qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ""));
+            harga_satuan.value = parseFloat(
+                selectedRows[0][2].replace(/,/g, "")
+            );
             ppn.value = selectedRows[0][7];
             status_lunas.value = selectedRows[0][6];
             informasi_tambahan.value = selectedRows[0][30];
@@ -1273,26 +1290,66 @@ function funcInsertRow(array) {
             index_lami.readOnly = false;
             index_kertas.readOnly = false;
             biaya_lain.readOnly = false;
-            berat_karung.value = selectedRows[0][8];
-            index_karung.value = selectedRows[0][9];
-            berat_indexKarung.value = selectedRows[0][10];
-            berat_inner.value = selectedRows[0][11];
-            index_inner.value = selectedRows[0][12];
-            berat_indexInner.value = selectedRows[0][13];
-            berat_lami.value = selectedRows[0][14];
-            index_lami.value = selectedRows[0][15];
-            berat_indexLami.value = selectedRows[0][16];
-            berat_kertas.value = selectedRows[0][17];
-            index_kertas.value = selectedRows[0][18];
-            berat_indexKertas.value = selectedRows[0][19];
-            biaya_lain.value = selectedRows[0][20];
-            berat_standardTotal.value = selectedRows[0][21];
-            total_cost.value = selectedRows[0][22];
-            berat_karungMeter.value = selectedRows[0][23];
-            berat_innerMeter.value = selectedRows[0][24];
-            berat_lamiMeter.value = selectedRows[0][25];
-            berat_kertasMeter.value = selectedRows[0][26];
-            berat_standardTotalMeter.value = selectedRows[0][27];
+            berat_karung.value = parseFloat(
+                selectedRows[0][8].replace(/,/g, "")
+            );
+            index_karung.value = parseFloat(
+                selectedRows[0][9].replace(/,/g, "")
+            );
+            berat_indexKarung.value = parseFloat(
+                selectedRows[0][10].replace(/,/g, "")
+            );
+            berat_inner.value = parseFloat(
+                selectedRows[0][11].replace(/,/g, "")
+            );
+            index_inner.value = parseFloat(
+                selectedRows[0][12].replace(/,/g, "")
+            );
+            berat_indexInner.value = parseFloat(
+                selectedRows[0][13].replace(/,/g, "")
+            );
+            berat_lami.value = parseFloat(
+                selectedRows[0][14].replace(/,/g, "")
+            );
+            index_lami.value = parseFloat(
+                selectedRows[0][15].replace(/,/g, "")
+            );
+            berat_indexLami.value = parseFloat(
+                selectedRows[0][16].replace(/,/g, "")
+            );
+            berat_kertas.value = parseFloat(
+                selectedRows[0][17].replace(/,/g, "")
+            );
+            index_kertas.value = parseFloat(
+                selectedRows[0][18].replace(/,/g, "")
+            );
+            berat_indexKertas.value = parseFloat(
+                selectedRows[0][19].replace(/,/g, "")
+            );
+            biaya_lain.value = parseFloat(
+                selectedRows[0][20].replace(/,/g, "")
+            );
+            berat_standardTotal.value = parseFloat(
+                selectedRows[0][21].replace(/,/g, "")
+            );
+            total_cost.value = parseFloat(
+                selectedRows[0][22].replace(/,/g, "")
+            );
+            berat_karungMeter.value = parseFloat(
+                selectedRows[0][23].replace(/,/g, "")
+            );
+            berat_innerMeter.value = parseFloat(
+                selectedRows[0][24].replace(/,/g, "")
+            );
+            berat_lamiMeter.value = parseFloat(
+                selectedRows[0][25].replace(/,/g, "")
+            );
+            berat_kertasMeter.value = parseFloat(
+                selectedRows[0][26].replace(/,/g, "")
+            );
+            berat_standardTotalMeter.value = parseFloat(
+                selectedRows[0][27].replace(/,/g, "")
+            );
             funcDisplayDataBrg(selectedRows[0][1]);
             funcTampilInv(selectedRows[0][1]);
             funcKolomBeratStandard();
@@ -1495,15 +1552,27 @@ function funcTampilBeratStandardKGM() {
         satuan_jual.options[satuan_jual.selectedIndex].text !==
         satuan_sekunder.value.trim()
     ) {
-        div_beratStandardMeter.style.display = "block";
+        div_beratStandardMeter.style.visibility = "visible";
         trigger = 1;
     } else if (
         satuan_jual.options[satuan_jual.selectedIndex].text ==
         satuan_sekunder.value.trim()
     ) {
-        div_beratStandardMeter.style.display = "none";
+        div_beratStandardMeter.style.visibility = "hidden";
         trigger = 0;
     }
 }
 
+function formatangka(objek) {
+    // console.log(objek); // Output the provided number for debugging purposes
+
+    // Check if the number has decimal places
+    if (Number.isInteger(objek)) {
+        return objek.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else {
+        let parts = objek.toFixed(3).split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".").replace(/\.?0+$/, "");
+    }
+}
 //#endregion
