@@ -262,6 +262,7 @@ class SuratPesananManagerController extends Controller
                 @TglRencanaKirim = ?,
                 @Lunas = ?,
                 @PPN = ?,
+                @indek = ?,
                 @ikarung = ?,
                 @hkarung = ?,
                 @iinner = ?,
@@ -285,6 +286,7 @@ class SuratPesananManagerController extends Controller
                         $TglRencanaKirim[$i],
                         $Lunas[$i] ?? null,
                         $ppn[$i],
+                        0.00,
                         $ikarung[$i],
                         $hkarung[$i],
                         $iinner[$i],
@@ -314,6 +316,7 @@ class SuratPesananManagerController extends Controller
                 @TglRencanaKirim = ?,
                 @Lunas = ?,
                 @PPN = ?,
+                @indek = ?,
                 @ikarung = ?,
                 @hkarung = ?,
                 @iinner = ?,
@@ -325,7 +328,7 @@ class SuratPesananManagerController extends Controller
                 @hlain = ?,
                 @htotal = ?,
                 @info = ?',
-                    [4, $id_pesanan[$i], $no_sp, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas[$i] ?? null, $ppn[$i], $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i], $informasiTambahan[$i]],
+                    [4, $id_pesanan[$i], $no_sp, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas[$i] ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i], $informasiTambahan[$i]],
                 );
             }
             // dd(count($bkarung));
@@ -499,6 +502,7 @@ class SuratPesananManagerController extends Controller
         @Lunas = ?,
         @Tawal = ?,
         @PPN = ?,
+        @indek = ?,
         @ikarung = ?,
         @hkarung = ?,
         @iinner = ?,
@@ -524,6 +528,7 @@ class SuratPesananManagerController extends Controller
                     $Lunas ?? null,
                     0,
                     $ppn[$i],
+                    0.0,
                     $ikarung[$i],
                     $hkarung[$i],
                     $iinner[$i],

@@ -458,6 +458,7 @@ class SuratPesananController extends Controller
                 @TglRencanaKirim = ?,
                 @Lunas = ?,
                 @PPN = ?,
+                @indek = ?,
                 @ikarung = ?,
                 @hkarung = ?,
                 @iinner = ?,
@@ -468,7 +469,7 @@ class SuratPesananController extends Controller
                 @hkertas = ?,
                 @hlain = ?,
                 @htotal = ?',
-                    [1, $no_sp, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
+                    [1, $no_sp, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i]],
                 );
             } else {
                 // dd($id_pesanan[$i]);
