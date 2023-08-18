@@ -493,7 +493,7 @@ isi_button.addEventListener("click", function (event) {
     } else if (proses == 1) {
         //isi
         funcDatatablesIntoInput();
-        form_suratPesanan.submit();
+        // form_suratPesanan.submit();
         div_tabelSuratPesanan.classList.toggle("disabled");
         div_detailSuratPesanan.classList.toggle("disabled");
         div_beratStandard.classList.toggle("disabled");
@@ -507,8 +507,8 @@ isi_button.addEventListener("click", function (event) {
     } else if (proses == 2) {
         //edit
         funcDatatablesIntoInput();
-        form_suratPesanan.action = "/SuratPesanan/" + no_spText.value + "/up";
-        form_suratPesanan.submit();
+        // form_suratPesanan.action = "/SuratPesanan/" + no_spText.value + "/up";
+        // form_suratPesanan.submit();
 
         funcClearHeaderPesanan();
         funcClearInputBarang();
@@ -875,7 +875,7 @@ no_spText.addEventListener("keypress", function (event) {
         fetch("/editSP/" + no_spText.value)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 for (let key in data[0][0]) {
                     if (
                         (data[0][0].hasOwnProperty(key) &&
@@ -1081,7 +1081,7 @@ update_button.addEventListener("click", function (event) {
         rowData[3] = formatangka(parseInt(qty_pesan.value));
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
         rowData[5] = rencana_kirim.value;
-        rowData[7] = formatangka(parseFloat(berat_karung.value));
+        rowData[7] = formatangka(parseFloat(berat_karung.value)).toString();
         rowData[8] = formatangka(parseFloat(index_karung.value));
         rowData[9] = formatangka(parseFloat(berat_indexKarung.value));
         rowData[10] = formatangka(parseFloat(berat_inner.value));
@@ -1096,23 +1096,31 @@ update_button.addEventListener("click", function (event) {
         rowData[19] = formatangka(parseFloat(biaya_lain.value));
         rowData[20] = formatangka(parseFloat(berat_standardTotal.value));
         rowData[21] = formatangka(parseFloat(total_cost.value));
-        rowData[22] = !isNaN(formatangka(parseFloat(berat_karungMeter.value)))
-            ? parseFloat(berat_karungMeter.value)
-            : '0';
-        rowData[23] = !isNaN(formatangka(parseFloat(berat_innerMeter.value)))
-            ? parseFloat(berat_innerMeter.value)
-            : '0';
-        rowData[24] = !isNaN(formatangka(parseFloat(berat_lamiMeter.value)))
-            ? parseFloat(berat_lamiMeter.value)
-            : '0';
-        rowData[25] = !isNaN(formatangka(parseFloat(berat_kertasMeter.value)))
-            ? parseFloat(berat_kertasMeter.value)
-            : '0';
-        rowData[26] = !isNaN(
-            formatangka(parseFloat(berat_standardTotalMeter.value))
-        )
-            ? parseFloat(berat_standardTotalMeter.value)
-            : '0';
+        rowData[22] = formatangka(
+            !isNaN(parseFloat(berat_karungMeter.value))
+                ? parseFloat(berat_karungMeter.value)
+                : "0"
+        );
+        rowData[23] = formatangka(
+            !isNaN(parseFloat(berat_innerMeter.value))
+                ? parseFloat(berat_innerMeter.value)
+                : "0"
+        );
+        rowData[24] = formatangka(
+            !isNaN(parseFloat(berat_lamiMeter.value))
+                ? parseFloat(berat_lamiMeter.value)
+                : "0"
+        );
+        rowData[25] = formatangka(
+            !isNaN(parseFloat(berat_kertasMeter.value))
+                ? parseFloat(berat_kertasMeter.value)
+                : "0"
+        );
+        rowData[26] = formatangka(
+            !isNaN(formatangka(parseFloat(berat_standardTotalMeter.value)))
+                ? parseFloat(berat_standardTotalMeter.value)
+                : "0"
+        );
         rowData[27] = jenis_brg.value;
 
         // Update the data in the DataTable
@@ -1135,7 +1143,7 @@ update_button.addEventListener("click", function (event) {
         jenis_brg.focus();
         // Update the table display
         $("#list_view").DataTable().draw();
-        div_beratStandardMeter.style.visibility = 'hidden';
+        div_beratStandardMeter.style.visibility = "hidden";
         div_beratStandardMeter.disabled = false;
     }
 });
@@ -1186,7 +1194,7 @@ delete_button.addEventListener("click", function (event) {
     qty_pesan.value = "";
     harga_satuan.value = "";
     jenis_brg.focus();
-    div_beratStandardMeter.style.visibility = 'hidden';
+    div_beratStandardMeter.style.visibility = "hidden";
     div_beratStandardMeter.disabled = false;
 });
 
@@ -1260,7 +1268,7 @@ function funcClearInputBarang() {
     berat_kertasMeter.value = "";
     berat_lamiMeter.value = "";
     table_saldoInventory.clear().draw();
-    div_beratStandardMeter.style.visibility = 'hidden';
+    div_beratStandardMeter.style.visibility = "hidden";
 }
 
 function funcHeaderDisabled(bool) {
@@ -1493,47 +1501,61 @@ function funcKolomBeratStandard() {
     ].forEach(function (element) {
         element.addEventListener("input", function () {
             // console.log(trigger == 0);
-            berat_indexKarung.value =
-                (parseFloat(berat_karung.value) * parseFloat(index_karung.value)).toFixed(2);
+            berat_indexKarung.value = (
+                parseFloat(berat_karung.value) * parseFloat(index_karung.value)
+            ).toFixed(2);
 
-            berat_indexInner.value =
-                (parseFloat(berat_inner.value) * parseFloat(index_inner.value)).toFixed(2);
+            berat_indexInner.value = (
+                parseFloat(berat_inner.value) * parseFloat(index_inner.value)
+            ).toFixed(2);
 
-            berat_indexLami.value =
-                (parseFloat(berat_lami.value) * parseFloat(index_lami.value)).toFixed(2);
+            berat_indexLami.value = (
+                parseFloat(berat_lami.value) * parseFloat(index_lami.value)
+            ).toFixed(2);
 
-            berat_indexKertas.value =
-                (parseFloat(berat_kertas.value) * parseFloat(index_kertas.value)).toFixed(2);
+            berat_indexKertas.value = (
+                parseFloat(berat_kertas.value) * parseFloat(index_kertas.value)
+            ).toFixed(2);
 
-            berat_standardTotal.value =
-                (parseFloat(berat_karung.value) +
+            berat_standardTotal.value = (
+                parseFloat(berat_karung.value) +
                 parseFloat(berat_inner.value) +
                 parseFloat(berat_lami.value) +
-                parseFloat(berat_kertas.value)).toFixed(2);
+                parseFloat(berat_kertas.value)
+            ).toFixed(2);
 
-            total_cost.value =
-                (parseFloat(biaya_lain.value) +
+            total_cost.value = (
+                parseFloat(biaya_lain.value) +
                 parseFloat(berat_indexKarung.value) +
                 parseFloat(berat_indexInner.value) +
                 parseFloat(berat_indexKertas.value) +
-                parseFloat(berat_indexLami.value)).toFixed(2);
+                parseFloat(berat_indexLami.value)
+            ).toFixed(2);
 
-            berat_standardTotalMeter.value =
-                (parseFloat(berat_karungMeter.value) +
+            berat_standardTotalMeter.value = (
+                parseFloat(berat_karungMeter.value) +
                 parseFloat(berat_innerMeter.value) +
                 parseFloat(berat_lamiMeter.value) +
-                parseFloat(berat_kertasMeter.value)).toFixed(2);
+                parseFloat(berat_kertasMeter.value)
+            ).toFixed(2);
 
             if (trigger == 0) {
-                berat_karungMeter.value = parseFloat(berat_karung.value).toFixed(2);
-                berat_innerMeter.value = parseFloat(berat_inner.value).toFixed(2);
+                berat_karungMeter.value = parseFloat(
+                    berat_karung.value
+                ).toFixed(2);
+                berat_innerMeter.value = parseFloat(berat_inner.value).toFixed(
+                    2
+                );
                 berat_lamiMeter.value = parseFloat(berat_lami.value).toFixed(2);
-                berat_kertasMeter.value = parseFloat(berat_kertas.value).toFixed(2);
-                berat_standardTotalMeter.value =
-                    (parseFloat(berat_karungMeter.value) +
+                berat_kertasMeter.value = parseFloat(
+                    berat_kertas.value
+                ).toFixed(2);
+                berat_standardTotalMeter.value = (
+                    parseFloat(berat_karungMeter.value) +
                     parseFloat(berat_innerMeter.value) +
                     parseFloat(berat_lamiMeter.value) +
-                    parseFloat(berat_kertasMeter.value)).toFixed(2);
+                    parseFloat(berat_kertasMeter.value)
+                ).toFixed(2);
             }
         });
     });
@@ -1569,11 +1591,12 @@ function funcTampilInv(kodeBarang) {
 function funcDatatablesIntoInput() {
     let dataArray = [];
     dataArray = list_view.data().toArray();
-    // console.log(dataArray);
+    console.log(dataArray);
     // Create a hidden input element
     for (let i = 0; i < dataArray.length; i++) {
         let row = dataArray[i];
         for (let j = 0; j < dataArray[i].length; j++) {
+            console.log(row[j]);
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
@@ -1590,13 +1613,13 @@ function funcTampilBeratStandardKGM() {
         satuan_jual.options[satuan_jual.selectedIndex].text !==
         satuan_sekunder.value.trim()
     ) {
-        div_beratStandardMeter.style.visibility = 'visible';
+        div_beratStandardMeter.style.visibility = "visible";
         trigger = 1;
     } else if (
         satuan_jual.options[satuan_jual.selectedIndex].text ==
         satuan_sekunder.value.trim()
     ) {
-        div_beratStandardMeter.style.visibility = 'hidden';
+        div_beratStandardMeter.style.visibility = "hidden";
         trigger = 0;
     }
 }
@@ -1608,7 +1631,7 @@ function funcTampilBeratStandardKGM() {
 //     return parts.join('.');
 //   }
 function formatangka(objek) {
-    console.log(objek); // Output the provided number for debugging purposes
+    // console.log(objek); // Output the provided number for debugging purposes
 
     // Check if the number has decimal places
     if (Number.isInteger(objek)) {

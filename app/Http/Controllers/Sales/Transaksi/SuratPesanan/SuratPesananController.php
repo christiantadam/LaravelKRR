@@ -328,32 +328,18 @@ class SuratPesananController extends Controller
 
             DB::connection('ConnPurchase')->statement(
                 'exec SP_5409_SLS_UPDATE_BS
-                KodeBarang = ?,
-                bkarung = ?,
-                binner = ?,
-                blami = ?,
-                bkertas = ?,
-                BeratStandart = ?,
-                bkarung2 = ?,
-                binner2 = ?,
-                blami2 = ?,
-                bkertas2 = ?,
-                bs2 = ?,
-                UserId = ?',
-                [
-                    $KodeBarang[$i],
-                    $bkarung[$i],
-                    $binner[$i],
-                    $blami[$i],
-                    $bkertas[$i],
-                    $BeratStandart[$i],
-                    $bkarung[$i],
-                    $binner[$i],
-                    $blami[$i],
-                    $bkertas[$i],
-                    $BeratStandart[$i],
-                    $user
-                ],
+                @KodeBarang = \'' . $KodeBarang[$i] . '\',
+                @bkarung = ' . $bkarung[$i] . ',
+                @binner = ' . $binner[$i] . ',
+                @blami = ' . $blami[$i] . ',
+                @bkertas = ' . $bkertas[$i] . ',
+                @BeratStandart = ' . $BeratStandart[$i] . ',
+                @bkarung2 = ' . $bkarung2[$i] . ',
+                @binner2 = ' . $binner2[$i] . ',
+                @blami2 = ' . $blami2[$i] . ',
+                @bkertas2 = ' . $bkertas[$i] . ',
+                @bs2 = ' . $BeratStandart[$i] . ',
+                @UserId = \'' . trim($user) . '\''
             );
         }
         return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp->IDSuratPesanan . ' Sudah Dibuat!');
@@ -519,18 +505,18 @@ class SuratPesananController extends Controller
 
             DB::connection('ConnPurchase')->statement(
                 'exec SP_5409_SLS_UPDATE_BS
-                KodeBarang = ?,
-                bkarung = ?,
-                binner = ?,
-                blami = ?,
-                bkertas = ?,
-                BeratStandart = ?,
-                bkarung2 = ?,
-                binner2 = ?,
-                blami2 = ?,
-                bkertas2 = ?,
-                bs2 = ?,
-                UserId = ?',
+                @KodeBarang = \'?\',
+                @bkarung = ?,
+                @binner = ?,
+                @blami = ?,
+                @bkertas = ?,
+                @BeratStandart = ?,
+                @bkarung2 = ?,
+                @binner2 = ?,
+                @blami2 = ?,
+                @bkertas2 = ?,
+                @bs2 = ?,
+                @UserId = \'?\'',
                 [
                     $KodeBarang[$i],
                     $bkarung[$i],

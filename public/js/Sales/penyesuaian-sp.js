@@ -759,7 +759,7 @@ no_spText.addEventListener("keypress", function (event) {
             .then((data) => {
                 funcHeaderDisabled(false);
                 no_spText.readOnly = true;
-
+                console.log(data);
                 for (let key in data[0][0]) {
                     if (
                         (data[0][0].hasOwnProperty(key) &&
@@ -770,7 +770,6 @@ no_spText.addEventListener("keypress", function (event) {
                         data[0][0][key] = "";
                     }
                 }
-                console.log(data);
                 // console.log(data[0][0].Tgl_Pesan.substr(0, 10));
                 tgl_pesan.value = data[0][0].Tgl_Pesan.substr(0, 10);
                 const optionJenisSp = jenis_sp.options;
