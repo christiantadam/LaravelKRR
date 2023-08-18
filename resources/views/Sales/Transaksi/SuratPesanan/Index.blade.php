@@ -73,7 +73,7 @@
                                 @endforeach --}}
                             </tbody>
                         </table>
-                        <button class="btn btn-info" onclick="openNewWindow('PenyesuaianSuratPesanan/A10830A/edit')">EDIT</button>
+                        {{-- <button class="btn btn-info" onclick="openNewWindow('PenyesuaianSuratPesanan/A10830A/edit')">EDIT</button> --}}
                         {{-- <div>{{ $data->links('pagination::bootstrap-5') }}</div> ->appends($request->except('page')) --}}
                     </div>
                 </div>

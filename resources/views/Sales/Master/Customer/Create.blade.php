@@ -49,8 +49,8 @@
                                 <div class="customer-container23"> <input type="text" name="Alamat" id="Alamat"
                                         placeholder="Alamat Kantor" class="customer-textinput06 input" /> </div>
                                 <div class="customer-container24"> <input type="text" name="Kota" id="Kota"
-                                        placeholder="Kota" class="customer-textinput07 input" /> </div>
-                                <div class="customer-container25"> <input type="text" name="Propinsi" id="Propinsi"
+                                        placeholder="" class="customer-textinput07 input" /> </div>
+                                <div class="customer-container25"> <input type="text" name="Province" id="Province"
                                         placeholder="Provinsi" class="customer-textinput08 input" /> </div>
                                 <div class="customer-container26"> <input type="text" name="Negara" id="Negara"
                                         placeholder="Negara" class="customer-textinput09 input" /> </div>

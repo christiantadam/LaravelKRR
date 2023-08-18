@@ -1,24 +1,55 @@
 @extends('layouts.appSales') @section('content')
-    @include('Sales/Master/Customer/DetailCustomer')
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> {{-- toaster --}}
+    {{-- @include('Sales/Master/Customer/DetailCustomer') --}}
+    {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
+    {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> toaster --}}
     <script>
+        // $(document).ready(function() {
+        //     $('#table_Customer').DataTable({
+        //         order: [
+        //             [0, 'desc']
+        //         ],
+        //     });
+        // });
         $(document).ready(function() {
+            // console.log(dataArray.data);
             $('#table_Customer').DataTable({
-                order: [
-                    [0, 'desc']
-                ],
+                processing: true,
+                serverSide: true,
+                "ajax": {
+                    "url": "{{ url('getallcustomer') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": {
+                        _token: "{{ csrf_token() }}"
+                    }
+                },
+                "columns": [{
+                        "data": "IDCustomer"
+                    },
+                    {
+                        "data": "NamaCustomer"
+                    },
+                    {
+                        "data": "Kota"
+                    },
+                    {
+                        "data": "Negara"
+                    },
+                    {
+                        "data": "Actions"
+                    }
+                ]
             });
         });
     </script>
-    <script>
+    {{-- <script>
         @if (session()->has('success'))
             toastr.success('{{ session('success') }}', 'BERHASIL!');
         @endif
-    </script>
+    </script> --}}
     <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/Sales/Customer.js') }}"></script>
+    {{-- <script src="{{ asset('js/Sales/Customer.js') }}"></script> --}}
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0"> {{-- button untuk munculin new window untuk create customer --}} <button
@@ -44,7 +75,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $item)
+                                {{-- @foreach ($data as $item)
                                     <tr>
                                         <td class="RDZPaddingTable RDZCenterTable"><a class="DetailCustomer"
                                                 data-id="{{ $item->IDCust }}">{{ $item['IDCust'] }}</a> </td>
@@ -61,8 +92,11 @@
                                             </form>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
+                            <form action="{{route('customer.destroy','1')}}">
+                            {{ csrf_field() }}
+                            </form>
                         </table>
                     </div>
                 </div>

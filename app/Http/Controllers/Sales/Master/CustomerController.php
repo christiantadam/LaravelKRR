@@ -17,11 +17,178 @@ class CustomerController extends Controller
     public function index()
     {
         //get all customer from models
-        $data = Customer::get()->where('IsActive', 1);
+        // $data = Customer::get()->where('IsActive', 1);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($data->all());
         //return data to view
-        return view('Sales.Master.Customer.Index', compact('data','access'));
+        return view('Sales.Master.Customer.Index', compact('access'));
+    }
+
+    // function getallcustomer(Request $request)
+    // {
+    //     if (!$request->isMethod('post')) {
+    //         // Handle invalid method, e.g., return an error response
+    //         return response()->json(['error' => 'Invalid request method'], 405);
+    //     }
+    //     $columns = array(
+    //         0 => 'IdCustomer',
+    //         1 => 'Nama Customer',
+    //         2 => 'Kota Kirim',
+    //         3 => 'Negara',
+    //         4 => 'Action',
+    //     );
+
+    //     $totalData = DB::connection('ConnSales')->table('T_Customer')
+    //         ->select(DB::raw("TOP 200 IDCust + ' - ' + JnsCust AS IDCustomer, NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer, Kota, Negara"))
+    //         ->where('IsActive', 1)
+    //         ->orderByDesc('IDCust')
+    //         ->count();
+
+    //     $totalFiltered = $totalData;
+
+    //     $limit = $request->input('length');
+    //     $start = $request->input('start');
+    //     $order = $columns[$request->input('order.0.column')];
+    //     $dir = $request->input('order.0.dir');
+
+    //     if (empty($request->input('search.value'))) {
+    //         $customer = DB::connection('ConnSales')->table('T_Customer')
+    //             ->select(DB::connection('ConnSales')->raw("TOP 200 IDCust + ' - ' + JnsCust AS IDCustomer, NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer, Kota, Negara"))
+    //             ->where('IsActive', 1)
+    //             ->orderByDesc('IDCust')
+    //             ->offset($start)
+    //             ->limit($limit)
+    //             ->orderBy($order, $dir)
+    //             ->get();
+    //     } else {
+    //         $search = $request->input('search.value');
+    //         $customer = DB::connection('ConnSales')->table('T_Customer')
+    //             ->select(DB::connection('ConnSales')->raw("TOP 200 IDCust + ' - ' + JnsCust AS IDCustomer, NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer, Kota, Negara"))
+    //             ->where('IsActive', 1)
+    //             ->orderByDesc('IDCust')
+    //             ->where('IDCustomer', 'LIKE', "%{$search}%")
+    //             ->orWhere('NamaCustomer', 'LIKE', "%{$search}%")
+    //             ->orWhere('Kota', 'LIKE', "%{$search}%")
+    //             ->orWhere('Negara', 'LIKE', "%{$search}%")
+    //             ->offset($start)
+    //             ->limit($limit)
+    //             ->orderBy($order, $dir)
+    //             ->get();
+
+    //         $totalFiltered = DB::connection('ConnSales')->table('T_Customer')
+    //             ->select(DB::connection('ConnSales')->raw("TOP 200 IDCust + ' - ' + JnsCust AS IDCustomer, NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer, Kota, Negara"))
+    //             ->where('IsActive', 1)
+    //             ->orderByDesc('IDCust')
+    //             ->where('IDCustomer', 'LIKE', "%{$search}%")
+    //             ->orWhere('NamaCustomer', 'LIKE', "%{$search}%")
+    //             ->orWhere('Kota', 'LIKE', "%{$search}%")
+    //             ->orWhere('Negara', 'LIKE', "%{$search}%")
+    //             ->count();
+    //     }
+
+    //     $data = array();
+    //     if (!empty($customer)) {
+    //         foreach ($customer as $datacustomer) {
+    //             $nestedData['IDCustomer'] = $datacustomer->IDCustomer;
+    //             $nestedData['NamaCustomer'] = $datacustomer->NamaCustomer;
+    //             $nestedData['Kota'] = $datacustomer->Kota;
+    //             $nestedData['Negara'] = $datacustomer->Negara;
+    //             $idcust = explode(' - ', $datacustomer->IDCustomer);
+    //             $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[1] . "/edit')\">&#x270E; EDIT</button>
+    //                                         <br> <button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[1] . "')\">&#x1F5D1; HAPUS</button>";
+
+    //             $data[] = $nestedData;
+    //         }
+    //     }
+
+    //     $json_data = array(
+    //         "draw" => intval($request->input('draw')),
+    //         "recordsTotal" => intval($totalData),
+    //         "recordsFiltered" => intval($totalFiltered),
+    //         "data" => $data
+    //     );
+    //     // dd($sp);
+    //     echo json_encode($json_data);
+    // }
+
+    function getallcustomer(Request $request)
+    {
+        if (!$request->isMethod('post')) {
+            // Handle invalid method, e.g., return an error response
+            return response()->json(['error' => 'Invalid request method'], 405);
+        }
+        $columns = array(
+            0 => 'IdCustomer',
+            1 => 'Nama Customer',
+            2 => 'Kota Kirim',
+            3 => 'Negara',
+            4 => 'Action',
+        );
+
+        $totalData = DB::connection('ConnSales')->table('T_Customer')
+            ->where('IsActive', 1)
+            ->count();
+
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $query = DB::connection('ConnSales')->table('T_Customer')
+            ->where('IsActive', 1)
+            ->orderByDesc('IDCust');
+
+        if (!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+            $query->where('IDCustomer', 'LIKE', "%{$search}%")
+                ->orWhere('NamaCustomer', 'LIKE', "%{$search}%")
+                ->orWhere('Kota', 'LIKE', "%{$search}%")
+                ->orWhere('Negara', 'LIKE', "%{$search}%");
+
+            $totalFiltered = $query->count();
+        }
+
+        $customer = $query->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $dir)
+            ->select(
+                DB::connection('ConnSales')->raw("IDCust + ' - ' + JnsCust AS IDCustomer"),
+                DB::connection('ConnSales')->raw("NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer"),
+                'Kota',
+                'Negara'
+            )
+            ->get();
+
+        $data = array();
+        if (!empty($customer)) {
+            foreach ($customer as $datacustomer) {
+                $nestedData['IDCustomer'] = $datacustomer->IDCustomer;
+                $nestedData['NamaCustomer'] = $datacustomer->NamaCustomer;
+                $nestedData['Kota'] = $datacustomer->Kota;
+                $nestedData['Negara'] = $datacustomer->Negara;
+                $idcust = explode(' - ', $datacustomer->IDCustomer);
+                $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; EDIT</button>
+                                        <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
+                                        action=\"http://127.0.0.1:8000/Customer/" . $idcust[0] . "\" method=\"POST\"
+                                        enctype=\"multipart/form-data\"> <button type=\"submit\"
+                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Hapus</button>
+                                            <input type=\"hidden\" name=\"_token\" value=\"hNRAxK9Vh7dkfzQnFqewQ1kbKRCYBd5UHtVGmEQm\">
+                                    </form>";
+
+                $data[] = $nestedData;
+            }
+        }
+
+        $json_data = array(
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+
+        return response()->json($json_data);
     }
 
     // Show the form for creating a new resource.
@@ -31,7 +198,7 @@ class CustomerController extends Controller
         $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($jnscust);
-        return view('Sales.Master.Customer.Create', compact('model', 'jnscust','access'));
+        return view('Sales.Master.Customer.Create', compact('model', 'jnscust', 'access'));
     }
 
     // Store a newly created resource in storage.
@@ -44,14 +211,14 @@ class CustomerController extends Controller
         $User = Auth::user()->NomorUser;
         $KodeCust = $request->KodeCust ?? NULL;
         $JnsCust = $request->JnsCust ?? NULL;
-        $NamaCust = $request->NaaCus;
+        $NamaCust = $request->NamaCust;
         $NPWP = $request->NPWP ?? NULL;
         $LimitBeli = $request->LimitBeli ?? 0;
         $ContactPerson = $request->ContactPerson ?? NULL;
         $AlamatKirim = $request->AlamatKirim ?? NULL;
         $Alamat = $request->Alamat ?? NULL;
         $Kota = $request->Kota ?? NULL;
-        $Propinsi = $request->Propinsi ?? NULL;
+        $Propinsi = $request->Province ?? NULL;
         $Negara = $request->Negara ?? NULL;
         $KodePos = $request->KodePos ?? NULL;
         $NoTelp1 = $request->NoTelp1 ?? NULL;
@@ -131,7 +298,7 @@ class CustomerController extends Controller
         // dd($model, $jnscust);
         $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Master.Customer.edit', compact('model', 'jnscust','access'));
+        return view('Sales.Master.Customer.edit', compact('model', 'jnscust', 'access'));
     }
 
     // Update the specified resource in storage.

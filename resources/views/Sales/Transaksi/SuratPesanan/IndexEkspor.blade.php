@@ -54,7 +54,7 @@
                             </thead>
                         </table>
                     </div>
-                    <button class="btn btn-info" onclick="openNewWindow('PenyesuaianSuratPesanan/A10830A/edit')">EDIT</button>
+                    {{-- <button class="btn btn-info" onclick="openNewWindow('PenyesuaianSuratPesanan/A10830A/edit')">EDIT</button> --}}
                 </div>
             </div>
         </div>

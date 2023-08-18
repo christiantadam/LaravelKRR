@@ -13,7 +13,7 @@ $(function () {
                 + data.data.NamaCust + "</br>Initial Customer: " + data.data.KodeCust  + "</br>Contact Person: "
                 + data.data.ContactPerson  + "</br>Limit Pembelian: " + data.data.LimitPembelian + "</br>Alamat: "
                 + data.data.Alamat + "</br>Kode Pos: " + data.data.KodePos + "</br>Kota: " + data.data.Kota
-                + "</br>Provinsi: " + data.data.Propinsi + "</br>Negara: " + data.data.Negara + "</br>No. Telpon 1: "
+                + "</br>Province: " + data.data.Province + "</br>Negara: " + data.data.Negara + "</br>No. Telpon 1: "
                 + data.data.NoTelp1 + "</br>No. Telpon 2: " + data.data.NoTelp2 + "</br>No Telex: " + data.data.NoTelex
                 + "</br>No. Fax 1: " + data.data.NoFax1 + "</br>No. Fax 2: " + data.data.NoFax2 + "</br>Email: "
                 + data.data.Email + "</br>Alamat Kirim: " + data.data.AlamatKirim + "</br>Kota Kirim: "
@@ -70,7 +70,7 @@ let ContactPerson = document.getElementById("ContactPerson");
 let LimitBeli = document.getElementById("LimitBeli");
 let Alamat = document.getElementById("Alamat");
 let Kota = document.getElementById("Kota");
-let Propinsi = document.getElementById("Propinsi");
+let Province = document.getElementById("Province");
 let Negara = document.getElementById("Negara");
 let KodePos = document.getElementById("KodePos");
 let NoTelp1 = document.getElementById("NoTelp1");
@@ -133,10 +133,10 @@ Alamat.addEventListener("keypress", function (event) {
 Kota.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        Propinsi.focus();
+        Province.focus();
     }
 });
-Propinsi.addEventListener("keypress", function (event) {
+Province.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
         Negara.focus();
