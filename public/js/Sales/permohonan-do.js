@@ -528,6 +528,7 @@ id_pesananSelect.addEventListener("change", function () {
             satuan_tritier.value = data[0].SatuanTritier;
         });
     // console.log(kode_barang.value);
+    console.log(kode_barang.value);
     fetch("/options/kelompokutama/" + kode_barang.value)
         .then((response) => response.json())
         .then((options) => {

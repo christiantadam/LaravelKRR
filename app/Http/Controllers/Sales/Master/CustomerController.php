@@ -9,6 +9,7 @@ use App\Models\Sales\Customer;
 use App\Models\JnsCust;
 use App\Http\Controllers\HakAksesController;
 use App\Http\Controllers\Controller;
+use Session;
 
 class CustomerController extends Controller
 {
@@ -169,14 +170,15 @@ class CustomerController extends Controller
                 $nestedData['Kota'] = $datacustomer->Kota;
                 $nestedData['Negara'] = $datacustomer->Negara;
                 $idcust = explode(' - ', $datacustomer->IDCustomer);
+                $csrfToken = Session::get('_token');
                 $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; EDIT</button>
                                         <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
                                         action=\"http://127.0.0.1:8000/Customer/" . $idcust[0] . "\" method=\"POST\"
                                         enctype=\"multipart/form-data\"> <button type=\"submit\"
                                             class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Hapus</button>
-                                            <input type=\"hidden\" name=\"_token\" value=\"hNRAxK9Vh7dkfzQnFqewQ1kbKRCYBd5UHtVGmEQm\">
+                                            <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
                                     </form>";
-
+                // $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; EDIT</button>";
                 $data[] = $nestedData;
             }
         }

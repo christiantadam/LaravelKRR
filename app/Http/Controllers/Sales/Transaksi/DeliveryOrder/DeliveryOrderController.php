@@ -54,7 +54,7 @@ class DeliveryOrderController extends Controller
     public function getKelompokUtama($kodeBarang)
     {
         // dd($kodeBarang);
-        $kelompokUtama = db::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPEBARANG1 @KodeBarang = ?', [$kodeBarang]);
+        $kelompokUtama = db::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPEBARANG1 @KodeBarang = ?, @Kode = ?', [$kodeBarang, 1]);
         return response()->json($kelompokUtama);
     }
     public function getKelompok($kelompokUtama, $kodeBarang)
