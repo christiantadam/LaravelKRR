@@ -1537,7 +1537,7 @@ function funcDatatablesIntoInput() {
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
             hiddenInput.multiple = true;
-            hiddenInput.value = row[j];
+            hiddenInput.value = row[j].replace(/,/g, "");
             // Append the hidden input to the document body or any other element
             form_suratPesanan.appendChild(hiddenInput);
         }

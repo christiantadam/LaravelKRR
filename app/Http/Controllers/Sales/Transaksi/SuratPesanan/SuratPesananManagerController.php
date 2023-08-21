@@ -244,7 +244,7 @@ class SuratPesananManagerController extends Controller
         @JnsFakturPjk = ?',
             [$kode, $no_sp, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk],
         );
-        // dd($no_sp);
+        // dd($id_pesanan);
         for ($i = 0; $i < count($id_pesanan); $i++) {
             // dd($id_pesanan);
             if (is_null($id_pesanan[$i])) {
@@ -300,7 +300,7 @@ class SuratPesananManagerController extends Controller
                     ],
                 );
             } else {
-                // dd($id_pesanan[$i]);
+                // dd($Lunas[$i]);
                 DB::connection('ConnSales')->statement(
                     'exec SP_1486_SLS_MAINT_DETAILPESANAN1
                 @Kode = ?,
@@ -328,7 +328,32 @@ class SuratPesananManagerController extends Controller
                 @hlain = ?,
                 @htotal = ?,
                 @info = ?',
-                    [4, $id_pesanan[$i], $no_sp, $KodeBarang[$i], $IdJnsBarang[$i], $Qty[$i], $Satuan[$i], $HargaSatuan[$i], 0.0, $UraianPesanan ?? null, $TglRencanaKirim[$i], $Lunas[$i] ?? null, $ppn[$i], 0.00, $ikarung[$i], $hkarung[$i], $iinner[$i], $hinner[$i], $ilami[$i], $hlami[$i], $ikertas[$i], $hkertas[$i], $hlain[$i], $htotal[$i], $informasiTambahan[$i]],
+                    [
+                        4,
+                        $id_pesanan[$i],
+                        $no_sp,
+                        $KodeBarang[$i],
+                        $IdJnsBarang[$i],
+                        $Qty[$i],
+                        $Satuan[$i],
+                        $HargaSatuan[$i],
+                        0.0,
+                        $UraianPesanan ?? null,
+                        $TglRencanaKirim[$i],
+                        $Lunas[$i] ?? null,
+                        $ppn[$i],
+                        0.00, $ikarung[$i],
+                        $hkarung[$i],
+                        $iinner[$i],
+                        $hinner[$i],
+                        $ilami[$i],
+                        $hlami[$i],
+                        $ikertas[$i],
+                        $hkertas[$i],
+                        $hlain[$i],
+                        $htotal[$i],
+                        $informasiTambahan[$i]
+                    ],
                 );
             }
             // dd(count($bkarung));
