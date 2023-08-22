@@ -53,11 +53,11 @@ let ttd_namaContactPersonKolom = document.getElementById(
 
 tanggal_sp.focus();
 tanggal_sp.valueAsDate = new Date();
-contoh_print.style.display = "none";
+// contoh_print.style.display = "none";
 export_pdf.style.display = "none";
 no_spSelect.style.display = "none";
 print_pdf.style.display = "none";
-contoh_printDiv.style.display = "none";
+// contoh_printDiv.style.display = "none";
 
 //#endregion
 
@@ -148,9 +148,9 @@ print_button.addEventListener("click", function (event) {
             .then((data) => {
                 console.log(data);
                 // no_spKolom.innerHTML = "No. " + data[0].NO_SP;
-                // no_piKolom.innerHTML = data[0].NO_PI;
-                // no_poKolom.innerHTML =
-                //     "Buyer Reference contract number: " + data[0].NO_PO;
+                no_piKolom.innerHTML = data[0].NO_PI;
+                no_poKolom.innerHTML =
+                    "Buyer Reference contract number: " + data[0].NO_PO;
                 tgl_pesanKolom.innerHTML =
                     "Sidoarjo, " + convertDateFormat(data[0].TGL_SP);
                 nama_customerKolom.innerHTML = data[0].ContactPerson;

@@ -36,7 +36,7 @@
                 <button id="print_pdf" class="btn btn-success"><span>&#128438;</span> Print Surat Pesanan</button>
                 <hr>
                 <label for="contoh_print" id="contoh_print">Contoh Print:</label>
-                <div class="acs-div-container" id="contoh_printDiv" style="display: none">
+                <div class="acs-div-container" id="contoh_printDiv">
 
                     <body>
                         <div class="cetak-sppdf-container">
@@ -86,6 +86,16 @@
                                     </div> --}}
                                 </div>
                                 <div class="cetak-sppdf-container08">
+                                    <div style="width:100%">
+                                        <div style="width: 100%; text-align: center;line-height: 1">
+                                            <span style="text-align: center;text-decoration: underline;font-size: 18px;font-weight: 600">PROFORMA INVOICE</span>
+                                            <br>
+                                            <span style="font-weight: 600" id="no_piKolom">111/coba/111</span>
+                                        </div>
+                                        <br>
+                                        <span id="no_poKolom">Buyer Reference contract number: </span>
+                                        <hr style="border: 1px solid black; width:100%;margin-top: 0;margin-bottom: 0">
+                                    </div>
                                     <div class="cetak-sppdf-container11">
                                         <div class="cetak-sppdf-container12">
                                             <span id="tgl_pesanKolom">Sidoarjo, July 15, 2023</span>
