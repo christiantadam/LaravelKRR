@@ -252,9 +252,7 @@ print_button.addEventListener("click", function (event) {
                     remarks_quantityKolom.innerHTML = KeteranganArray[2];
                     remarks_packingKolom.innerHTML = KeteranganArray[3];
                     remarks_priceKolom.innerHTML = KeteranganArray[4];
-                    payment_byKolom.innerHTML =
-                        "As Follows: <br>Bank Central Asia <br>Galaxy Branch, Surabaya - Indonesia" +
-                        KeteranganArray[1];
+                    payment_byKolom.innerHTML += "<br>" + KeteranganArray[1];
                     cargo_readyKolom.innerHTML = KeteranganArray[0];
                     destination_portKolom.innerHTML = KeteranganArray[5];
                     // console.log(KeteranganArray);
@@ -274,11 +272,7 @@ print_button.addEventListener("click", function (event) {
                 ttd_perusahaanKolom.innerHTML = data[0].NamaCust;
                 // ttd_namaContactPersonKolom.value = NamaCustomer;
                 nama_salesKolom.value = "Mr. " + data[0].NamaSales;
-                if (
-                    data[0].IDJnsBrg == "BBE" ||
-                    data[0].IDJnsBrg == "WBE" ||
-                    data[0].IDJnsBrg == "WBN"
-                ) {
+                if (data[0].IDJnsBrg == "BBE" || data[0].IDJnsBrg == "WBE" || data[0].IDJnsBrg == "WBN") {
                     item_conditionKolom.style.display = "table-row";
                 }
             });
