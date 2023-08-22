@@ -842,7 +842,7 @@ function formatangka(objek) {
     if (Number.isInteger(objek)) {
         return objek.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     } else {
-        let parts = objek.toFixed(3).split(".");
+        let parts = objek.toFixed(4).split(".");
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return parts.join(".").replace(/\.?0+$/, "");
     }

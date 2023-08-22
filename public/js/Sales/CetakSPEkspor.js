@@ -247,7 +247,7 @@ function formatDateToMMDDYYYY(dateString) {
 function formatangka(objek) {
     // Convert the input to a numerical value and then to a string
     // to handle cases where the input is a number or a string.
-    let a = Number(objek).toFixed(2).toString(); // Convert to a string with 2 decimal places
+    let a = Number(objek).toFixed(4).toString(); // Convert to a string with 2 decimal places
     // console.log(a);
     let parts = a.split("."); // Split the string into parts before and after the decimal point
     let wholePart = parts[0];
