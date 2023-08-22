@@ -252,7 +252,7 @@ print_button.addEventListener("click", function (event) {
                     remarks_quantityKolom.innerHTML = KeteranganArray[2];
                     remarks_packingKolom.innerHTML = KeteranganArray[3];
                     remarks_priceKolom.innerHTML = KeteranganArray[4];
-                    payment_byKolom.innerHTML += "<br>" + KeteranganArray[1];
+                    payment_byKolom.innerHTML = KeteranganArray[1] +" <br>Bank Central Asia <br>Galaxy Branch, Surabaya - Indonesia";
                     cargo_readyKolom.innerHTML = KeteranganArray[0];
                     destination_portKolom.innerHTML = KeteranganArray[5];
                     // console.log(KeteranganArray);

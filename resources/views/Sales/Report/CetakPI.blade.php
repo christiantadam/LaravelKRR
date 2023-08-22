@@ -155,10 +155,7 @@
                                             <td>Payment by</td>
                                             <td>:</td>
                                             <td>
-                                                <span id="payment_byKolom">As Follows:
-                                                    <br>Bank Central Asia
-                                                    <br>Galaxy Branch, Surabaya - Indonesia
-                                                </span>
+                                                <span id="payment_byKolom"></span>
                                                 <table>
                                                     <tr>
                                                         <td>A/C no</td>
