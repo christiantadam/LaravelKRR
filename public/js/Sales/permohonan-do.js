@@ -253,7 +253,7 @@ nomor_spSelect.addEventListener("change", function () {
     fetch("/options/id_pesanan/" + no_spValue)
         .then((response) => response.json())
         .then((options) => {
-            console.log(options);
+            console.log(options); //eksport harus ambil kode barang bukan ID Type
             id_pesananSelect.innerHTML =
                 "<option disabled selected value>-- Pilih ID Pesanan --</option>";
             options.forEach((option) => {
@@ -756,10 +756,12 @@ listSP_button.addEventListener("click", function (event) {
         nomor_spSelect.style.display = "none";
         surat_pesananDiv.style.display = "none";
         nomor_spText.style.display = "block";
+        nomor_spText.focus();
     } else if (nomor_spSelect.style.display == "none") {
         nomor_spSelect.style.display = "block";
         surat_pesananDiv.style.display = "flex";
         nomor_spText.style.display = "none";
+        nomor_spSelect.focus();
     }
     // console.log(customer.value);
 });

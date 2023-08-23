@@ -95,7 +95,7 @@ class SuratPesananManagerController extends Controller
 
     public function getPenyesuaianSP($suratPesanan)
     {
-        // dd(Auth::user());
+        // dd($suratPesanan);
         if (strstr($suratPesanan, '.lama.')) {
             $no_spValue = str_replace('.lama.', '', $suratPesanan);
             $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
@@ -117,10 +117,10 @@ class SuratPesananManagerController extends Controller
             $jenis_brg = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBRG');
             $kelompok_utama = DB::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPEBARANG');
             $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
-
+            $jenis_harga = DB::connection('ConnSales')->table('T_JenisHargaBarangEksport')->select('*')->get();
             $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
             $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 3]);
-            // dd($header_pesanan);
+            // dd($header_pesanan,$list_satuan, $jenis_harga, $detail_pesanan);
             return view(
                 'Sales.Transaksi.SuratPesanan.PenyesuaianEkspor',
                 compact(
@@ -135,7 +135,8 @@ class SuratPesananManagerController extends Controller
                     'jenis_harga',
                     'list_billing',
                     'header_pesanan',
-                    'detail_pesanan'
+                    'detail_pesanan',
+                    'jenis_harga'
                 )
             );
         } else { //lokal

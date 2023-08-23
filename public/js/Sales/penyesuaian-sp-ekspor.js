@@ -68,6 +68,7 @@ let year = rencana_kirim.valueAsDate.getFullYear();
 let formattedDate = month + "-" + day + "-" + year;
 cargo_readySuratPesanan.value = formattedDate;
 isi_button.focus();
+funcInsertRow(item);
 // disableInputs();
 
 //#endregion
@@ -103,6 +104,7 @@ isi_button.addEventListener("click", async function (event) {
 
     // console.log(checkInputs());
     if (checkInputs()) {
+        alert("Dilarang menggunakan \"|\"!")
         return; //Pengecekan karakter "|" pada beberapa kolom isian untuk proses data
     }
 
@@ -163,15 +165,22 @@ isi_button.addEventListener("click", async function (event) {
     }
 });
 
-// edit_button.addEventListener("click", function (event) {
-//     event.preventDefault();
-//     enableInputs();
-//     hapus_button.innerHTML = "Batal";
-//     isi_button.innerHTML = "Proses";
-//     edit_button.style.display = "none";
-//     lihat_spButton.focus();
-//     proses = 2; //proses edit
-// });
+edit_button.addEventListener("click", async function (event) {
+    event.preventDefault();
+    if (no_spText.value.trim() !== "") {
+        let no_spData = no_spText.value.replace(/\//g, ".");
+        var cekSP = await cek_No_SP(no_spData); // Wait for the result of the async function
+    }
+
+    // console.log(checkInputs());
+    if (checkInputs()) {
+        alert("Dilarang menggunakan \"|\"!")
+        return; //Pengecekan karakter "|" pada beberapa kolom isian untuk proses data
+    }
+
+    proses = 2; //proses edit
+    console.log(proses);
+});
 
 hapus_button.addEventListener("click", function (event) {
     event.preventDefault();
@@ -766,7 +775,6 @@ function funcInsertRow(array) {
             );
             ppn.selectedIndex = 0;
             for (let i = 0; i < ppn.length; i++) {
-                // console.log(satuanJual.selectedIndex);
                 ppn.selectedIndex += 1;
                 if (
                     ppn.options[ppn.selectedIndex].text ===

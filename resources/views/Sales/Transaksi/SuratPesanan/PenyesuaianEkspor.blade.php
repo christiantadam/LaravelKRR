@@ -5,35 +5,20 @@
         for (var i = 0; i < detailPesananArray.length; i++) {
             var item = [
                 detailPesananArray[i].namabarang,
-                detailPesananArray[i].IDBarang,
+                detailPesananArray[i].NamaJnsBrg,
                 detailPesananArray[i].HargaSatuan,
                 detailPesananArray[i].Qty,
                 detailPesananArray[i].Satuan,
+                detailPesananArray[i].generalSpecification ?? null,
+                detailPesananArray[i].keteranganBarang ?? null,
+                detailPesananArray[i].sizeCode ?? null,
                 detailPesananArray[i].TglRencanaKirim.substr(0, 10),
                 detailPesananArray[i].PPN,
-                detailPesananArray[i].BERAT_KARUNG3,
-                detailPesananArray[i].INDEX_KARUNG,
-                detailPesananArray[i].HARGA_KARUNG,
-                detailPesananArray[i].BERAT_INNER3,
-                detailPesananArray[i].INDEX_INNER,
-                detailPesananArray[i].HARGA_INNER,
-                detailPesananArray[i].BERAT_LAMI3,
-                detailPesananArray[i].INDEX_LAMI,
-                detailPesananArray[i].HARGA_LAMI,
-                detailPesananArray[i].BERAT_KERTAS3,
-                detailPesananArray[i].INDEX_KERTAS,
-                detailPesananArray[i].HARGA_KERTAS,
-                detailPesananArray[i].HARGA_LAIN2,
-                detailPesananArray[i].BERAT_TOTAL3,
-                detailPesananArray[i].HARGA_TOTAL,
-                detailPesananArray[i].BERAT_KARUNG,
-                detailPesananArray[i].BERAT_INNER,
-                detailPesananArray[i].BERAT_LAMI,
-                detailPesananArray[i].BERAT_CONDUCTIVE,
-                detailPesananArray[i].BERAT_TOTAL,
                 detailPesananArray[i].IDJnsBarang,
+                detailPesananArray[i].KodeBarang,
+                detailPesananArray[i].IDBarang,
                 detailPesananArray[i].IDPesanan,
-                detailPesananArray[i].Informasi,
+                detailPesananArray[i].cargoReady ?? null,
             ];
         }
         $(document).ready(function() {
@@ -77,7 +62,8 @@
                                             <label for="no_sp">Nomor Surat Pesanan </label>
                                             <div>
                                                 <input type="text" name="no_spText" id="no_spText" class="input"
-                                                    style="width: 60%"onkeypress="enterToTab(event)" readonly value="{{ $header_pesanan[0]->IDSuratPesanan}}">
+                                                    style="width: 60%"onkeypress="enterToTab(event)" readonly
+                                                    value="{{ $header_pesanan[0]->IDSuratPesanan }}">
                                                 <select name="no_spSelect" id="no_spSelect" class="input"
                                                     style="width: 60%; display: none">
                                                     <option disabled selected>-- Pilih Nomor SP --</option>
@@ -93,18 +79,18 @@
                                         <div class="acs-div-filter">
                                             <label for="no_pi">Nomor Proforma Invoice</label>
                                             <input type="text" name="no_pi" id="no_pi" class="input"
-                                                onkeypress="enterToTab(event)" value="{{$header_pesanan[0]->NO_PI}}">
+                                                onkeypress="enterToTab(event)" value="{{ $header_pesanan[0]->NO_PI }}">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="no_po">Nomor Purchase Order</label>
                                             <input type="text" name="no_po" id="no_po" class="input"
-                                                onkeypress="enterToTab(event)" value="{{$header_pesanan[0]->NO_PO}}">
+                                                onkeypress="enterToTab(event)" value="{{ $header_pesanan[0]->NO_PO }}">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="tgl_po">Tanggal Purchase Order</label>
                                             <input type="date" name="tgl_po" id="tgl_po" class="input"
-                                                onkeypress="enterToTab(event)" value="{{ date('Y-m-d', strtotime($header_pesanan[0]->Tgl_PO)) }}"
-                                                >
+                                                onkeypress="enterToTab(event)"
+                                                value="{{ date('Y-m-d', strtotime($header_pesanan[0]->Tgl_PO)) }}">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="jenis_harga">Jenis Harga Barang Eksport</label>
@@ -112,7 +98,8 @@
                                                 onkeypress="enterToTab(event)">
                                                 <option selected disabled>-- Pilih Jenis Harga --</option>
                                                 @foreach ($jenis_harga as $data)
-                                                    <option value="{{ $data->IdJenisHargaBarang }}" @if ($data->IdJenisHargaBarang === $header_pesanan[0]->JenisHargaBarang) selected @endif>
+                                                    <option value="{{ $data->IdJenisHargaBarang }}"
+                                                        @if ($data->IdJenisHargaBarang === $header_pesanan[0]->JenisHargaBarang) selected @endif>
                                                         {{ $data->JenisHargaBarang }}</option>
                                                 @endforeach
                                             </select>
@@ -123,7 +110,9 @@
                                                 onkeypress="enterToTab(event)">
                                                 <option selected disabled>-- Pilih Mata Uang --</option>
                                                 @foreach ($mata_uang as $data)
-                                                    <option value="{{ $data->IDMataUang }}" @if ($data->IDMataUang === $header_pesanan[0]->IDMataUang) selected @endif>{{ $data->MataUang }}</option>
+                                                    <option value="{{ $data->IDMataUang }}"
+                                                        @if ($data->IDMataUang === $header_pesanan[0]->IDMataUang) selected @endif>
+                                                        {{ $data->MataUang }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -333,11 +322,11 @@
                                     </div>
                                 </div>
                                 <div class="acs-div-container5">
-                                    <button id="isi_button" class="btn-primary btn">
+                                    <button id="edit_button" class="btn-primary btn">
+                                        <span>Submit</span></button>
+                                    <button id="isi_button" class="btn-primary btn" style="visibility: hidden">
                                         <span>Isi</span></button>
-                                    {{-- <button id="edit_button" class="btn-primary btn">
-                                        <span>Koreksi</span></button> --}}
-                                    <button id="hapus_button" class="btn-danger btn">
+                                    <button id="hapus_button" class="btn-danger btn" style="visibility: hidden">
                                         <span>Hapus</span></button>
                                 </div>
                             </form>

@@ -17,7 +17,7 @@ class DeliveryOrderController extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_BLM_ACC1');
         // dd($data);
-        return view('Sales.Transaksi.DeliveryOrder.Index', compact('data','access'));
+        return view('Sales.Transaksi.DeliveryOrder.Index', compact('data', 'access'));
     }
 
     // Show the form for creating a new resource.
@@ -26,7 +26,7 @@ class DeliveryOrderController extends Controller
     {
         $customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Transaksi.DeliveryOrder.Create', compact('customer','access'));
+        return view('Sales.Transaksi.DeliveryOrder.Create', compact('customer', 'access'));
     }
 
     public function getSuratPesanan($customer)
@@ -39,10 +39,11 @@ class DeliveryOrderController extends Controller
     {
         if (strstr($nomor_sp, '.')) {
             $no_spValue = str_replace('.', '/', $nomor_sp);
+            $idPesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_TYPE_DO1 @IDSuratPesanan = ?, @Kode = ?', [$no_spValue, 1]);
         } else {
             $no_spValue = $nomor_sp;
+            $idPesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_TYPE_DO1 @IDSuratPesanan = ?', [$no_spValue]);
         }
-        $idPesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_TYPE_DO1 @IDSuratPesanan = ?', [$no_spValue]);
         return response()->json($idPesanan);
     }
 
@@ -54,7 +55,7 @@ class DeliveryOrderController extends Controller
     public function getKelompokUtama($kodeBarang)
     {
         // dd($kodeBarang);
-        $kelompokUtama = db::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPEBARANG1 @KodeBarang = ?, @Kode = ?', [$kodeBarang, 1]);
+        $kelompokUtama = db::connection('ConnInventory')->select('exec SP_1486_SLS_LIST_TYPEBARANG1 @KodeBarang = ?', [$kodeBarang]);
         return response()->json($kelompokUtama);
     }
     public function getKelompok($kelompokUtama, $kodeBarang)

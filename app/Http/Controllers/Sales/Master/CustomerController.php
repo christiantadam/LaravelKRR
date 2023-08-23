@@ -138,13 +138,21 @@ class CustomerController extends Controller
         $dir = $request->input('order.0.dir');
 
         $query = DB::connection('ConnSales')->table('T_Customer')
-            ->where('IsActive', 1)
-            ->orderByDesc('IDCust');
+            ->select(
+                DB::connection('ConnSales')->table('T_Customer')->raw("IDCust + ' - ' + JnsCust AS IDCustomer"),
+                DB::connection('ConnSales')->table('T_Customer')->raw("NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer"),
+                'Kota',
+                'Negara'
+            )
+            // ->select('IDCust', 'Kota')
+            ->where('IsActive', 1);
 
         if (!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
-            $query->where('IDCustomer', 'LIKE', "%{$search}%")
-                ->orWhere('NamaCustomer', 'LIKE', "%{$search}%")
+            $query->where('IDCust', 'LIKE', "%{$search}%")
+                ->orWhere('JnsCust', 'LIKE', "%{$search}%")
+                ->orWhere('NamaCust', 'LIKE', "%{$search}%")
+                ->orWhere('AlamatKirim', 'LIKE', "%{$search}%")
                 ->orWhere('Kota', 'LIKE', "%{$search}%")
                 ->orWhere('Negara', 'LIKE', "%{$search}%");
 
@@ -154,12 +162,6 @@ class CustomerController extends Controller
         $customer = $query->offset($start)
             ->limit($limit)
             ->orderBy($order, $dir)
-            ->select(
-                DB::connection('ConnSales')->raw("IDCust + ' - ' + JnsCust AS IDCustomer"),
-                DB::connection('ConnSales')->raw("NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer"),
-                'Kota',
-                'Negara'
-            )
             ->get();
 
         $data = array();
