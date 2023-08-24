@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Session;
 use App\Http\Controllers\HakAksesController;
 
 
@@ -98,7 +99,14 @@ class SuratPesananEksportController extends Controller
                 } else {
                     $no_spValue = $datasp->IDSuratPesanan;
                 }
-                $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">EDIT</button>";
+                $csrfToken = Session::get('_token');
+                $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">&#x270E; EDIT</button>
+                <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
+                                        action=\"http://127.0.0.1:8000/batalSPEkspor/" . $no_spValue . "\" method=\"POST\"
+                                        enctype=\"multipart/form-data\"> <button type=\"submit\"
+                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Hapus</button>
+                                            <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+                                    </form>";
 
                 $data[] = $nestedData;
             }
@@ -448,14 +456,20 @@ class SuratPesananEksportController extends Controller
     {
         dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
         //SaveDataHeader SP_1486_SLS_MAINT_HEADERPESANAN
+        $no_spValue = str_replace('.', '/', $id);
         $kode = 2;
 
-        //SaveDataDetail
+        //SaveDataDetail SP_1486_SLS_MAINT_DETAILPESANAN
 
     }
 
     function batalSP($id)
     {
-        dd('Masuk Batal SP Ekspor', $id);
+        //SP_1486_SLS_MAINT_BATAL_SP
+        // dd('Masuk Batal SP Ekspor', $id);
+        $user = Auth::user()->NomorUser;
+        $no_spValue = str_replace('.', '/', $id);
+
+        DB::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_BATAL_SP @IDSuratPesanan = ?, @User_id = ?', [$no_spValue, $user]);
     }
 }

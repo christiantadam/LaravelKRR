@@ -8,6 +8,7 @@ let delete_button = document.getElementById("delete_button");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
+let form_suratPesanan = document.getElementById("form_suratPesanan");
 let general_specification = document.getElementById("general_specification");
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
@@ -168,21 +169,13 @@ isi_button.addEventListener("click", async function (event) {
     }
 });
 
-edit_button.addEventListener("click", async function (event) {
+edit_button.addEventListener("click", function (event) {
     event.preventDefault();
-    if (no_spText.value.trim() !== "") {
-        let no_spData = no_spText.value.replace(/\//g, ".");
-        var cekSP = await cek_No_SP(no_spData); // Wait for the result of the async function
-    }
-
-    // console.log(checkInputs());
     if (checkInputs()) {
-        alert('Dilarang menggunakan "|"!');
         return; //Pengecekan karakter "|" pada beberapa kolom isian untuk proses data
     }
-
-    proses = 2; //proses edit
-    console.log(proses,cekSP);
+    funcDatatablesIntoInput();
+    form_suratPesanan.submit();
 });
 
 hapus_button.addEventListener("click", function (event) {
@@ -406,6 +399,8 @@ update_button.addEventListener("click", function (event) {
         rowData[11] = kode_barang.value;
         rowData[12] = nama_barang.value;
         rowData[14] = cargo_readySuratPesanan.value;
+        rowData[15] = lunas.value;
+        rowData[16] = kode_hs.value;
 
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
@@ -880,6 +875,8 @@ function clearDetailBarang() {
     satuan_gudangTritier.value = "";
     rencana_kirim.valueAsDate = new Date();
     cargo_readySuratPesanan.value = "";
+    lunas.value = "";
+    kode_hs.value = "";
 }
 
 function clearHeader() {
@@ -909,7 +906,9 @@ function funcDatatablesIntoInput() {
     // Create a hidden input element
     for (let i = 0; i < dataArray.length; i++) {
         let row = dataArray[i];
+        console.log(row);
         for (let j = 0; j < dataArray[i].length; j++) {
+            console.log(row[j]);
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
