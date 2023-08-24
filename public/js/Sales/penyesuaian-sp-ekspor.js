@@ -51,6 +51,8 @@ let destination_port = document.getElementById("destination_port");
 let cargo_readySuratPesanan = document.getElementById(
     "cargo_readySuratPesanan"
 );
+let lunas = document.getElementById("lunas");
+let kode_hs = document.getElementById("kode_hs");
 
 //#endregion
 
@@ -67,7 +69,8 @@ let day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
 let year = rencana_kirim.valueAsDate.getFullYear();
 let formattedDate = month + "-" + day + "-" + year;
 cargo_readySuratPesanan.value = formattedDate;
-isi_button.focus();
+tgl_pesan.focus();
+lihat_spButton.style.display = "none";
 funcInsertRow(item);
 // disableInputs();
 
@@ -104,7 +107,7 @@ isi_button.addEventListener("click", async function (event) {
 
     // console.log(checkInputs());
     if (checkInputs()) {
-        alert("Dilarang menggunakan \"|\"!")
+        alert('Dilarang menggunakan "|"!');
         return; //Pengecekan karakter "|" pada beberapa kolom isian untuk proses data
     }
 
@@ -174,12 +177,12 @@ edit_button.addEventListener("click", async function (event) {
 
     // console.log(checkInputs());
     if (checkInputs()) {
-        alert("Dilarang menggunakan \"|\"!")
+        alert('Dilarang menggunakan "|"!');
         return; //Pengecekan karakter "|" pada beberapa kolom isian untuk proses data
     }
 
     proses = 2; //proses edit
-    console.log(proses);
+    console.log(proses,cekSP);
 });
 
 hapus_button.addEventListener("click", function (event) {
@@ -194,7 +197,7 @@ hapus_button.addEventListener("click", function (event) {
     } else {
         disableInputs();
         clearDetailBarang();
-        clearHeader()
+        clearHeader();
         list_view.clear().draw();
         this.innerHTML = "Hapus";
         isi_button.innerHTML = "Isi";
@@ -765,7 +768,7 @@ function funcInsertRow(array) {
             }
             $(this).toggleClass("selected");
             let selectedRows = table.rows(".selected").data().toArray();
-            // console.log(selectedRows);
+            console.log(selectedRows);
             general_specification.value = selectedRows[0][5];
             keterangan_barang.value = selectedRows[0][6];
             size_code.value = selectedRows[0][7];
@@ -803,6 +806,8 @@ function funcInsertRow(array) {
             kode_barang.value = selectedRows[0][11];
             funcDisplayDataBrg(selectedRows[0][12]);
             cargo_readySuratPesanan.value = selectedRows[0][14];
+            lunas.value = selectedRows[0][15];
+            kode_hs.value = selectedRows[0][16];
             // funcTampilInv(selectedRows[0][1]);
         });
     }

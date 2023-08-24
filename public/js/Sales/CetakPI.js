@@ -53,11 +53,11 @@ let ttd_namaContactPersonKolom = document.getElementById(
 
 tanggal_sp.focus();
 tanggal_sp.valueAsDate = new Date();
-// contoh_print.style.display = "none";
+contoh_print.style.display = "none";
 export_pdf.style.display = "none";
 no_spSelect.style.display = "none";
 print_pdf.style.display = "none";
-// contoh_printDiv.style.display = "none";
+contoh_printDiv.style.display = "none";
 
 //#endregion
 

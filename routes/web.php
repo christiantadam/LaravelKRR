@@ -134,6 +134,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/displaybarangekspor/{idtype}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@getDisplayBarangEkspor');
     Route::get('/deleteDetailBarangEksport/{idpesanan}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@deleteDetailBarangEksport');
     Route::post('spekspor', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@spekspor')->name('spekspor');
+    Route::post('penyesuaianEkspor/{noSp}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@penyesuaian')->name('penyesuaianEkspor');
+    Route::post('batalSPEkspor/{noSp}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananEksportController@batalSP')->name('batalSPEkspor');
 
     #endregion
 

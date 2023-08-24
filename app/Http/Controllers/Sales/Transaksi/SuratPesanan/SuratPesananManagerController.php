@@ -120,7 +120,7 @@ class SuratPesananManagerController extends Controller
             $jenis_harga = DB::connection('ConnSales')->table('T_JenisHargaBarangEksport')->select('*')->get();
             $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 1]);
             $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_spValue, 3]);
-            // dd($header_pesanan,$list_satuan, $jenis_harga, $detail_pesanan);
+            // dd($header_pesanan,$detail_pesanan);
             return view(
                 'Sales.Transaksi.SuratPesanan.PenyesuaianEkspor',
                 compact(

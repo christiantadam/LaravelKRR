@@ -443,4 +443,19 @@ class SuratPesananEksportController extends Controller
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_DEL_HEADER_DETAIL_PESANAN @IdSuratPesanan = ?', [$no_spValue]);
         return redirect()->back()->with('success', 'Surat Pesanan ' . $id . ' Sudah Dihapus!'); //->with(['success' => 'Data berhasil dihapus!']);
     }
+
+    function penyesuaian(Request $request, $id)
+    {
+        dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
+        //SaveDataHeader SP_1486_SLS_MAINT_HEADERPESANAN
+        $kode = 2;
+
+        //SaveDataDetail
+
+    }
+
+    function batalSP($id)
+    {
+        dd('Masuk Batal SP Ekspor', $id);
+    }
 }
