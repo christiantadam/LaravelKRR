@@ -454,22 +454,187 @@ class SuratPesananEksportController extends Controller
 
     function penyesuaian(Request $request, $id)
     {
-        dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
-        //SaveDataHeader SP_1486_SLS_MAINT_HEADERPESANAN
-        $no_spValue = str_replace('.', '/', $id);
+        // dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
         $kode = 2;
+        $no_spValue = str_replace('.', '/', $id);
+        $user = Auth::user()->NomorUser;
+        $jenis_sp = 3;
+        $tgl_pesan = $request->tgl_pesan;
+        $no_sp = $request->no_spText;
+        $no_po = $request->no_po ?? "";
+        $tgl_po = $request->tgl_po;
+        $no_pi = $request->no_pi ?? "";
+        $jenis_hargaBarang = $request->jenis_harga;
+        $mata_uang = $request->mata_uang;
+        $id_customer = explode(" -", $request->customer);
+        $id_sales = $request->sales;
+        $id_billing = $request->billing;
+        $cargo_ready = $request->cargo_ready ?? "";
+        $destination_port = $request->destination_port ?? "";
+        $payment_terms = $request->payment_terms ?? "";
+        $remarks_quantity = $request->remarks_quantity ?? "";
+        $remarks_packing = $request->remarks_packing ?? "";
+        $remarks_price = $request->remarks_price ?? "";
+        $keterangan =
+            $cargo_ready . " | " .
+            $payment_terms . " | " .
+            $remarks_quantity . " | " .
+            $remarks_packing . " | " .
+            $remarks_price . " | " .
+            $destination_port;
+        $nama_barang = $request->barang0;
+        $nama_jenisPesanan = $request->barang1;
+        $harga_satuan = $request->barang2;
+        $qty_pesan = $request->barang3;
+        $satuan_jual = $request->barang4;
+        $general_specification = $request->barang5;
+        $keterangan_barang = $request->barang6;
+        $size_code = $request->barang7;
+        $rencana_kirim = $request->barang8;
+        $ppn = $request->barang9;
+        $id_jenisPesanan = $request->barang10;
+        $kode_barang = $request->barang11;
+        $id_type = $request->barang12;
+        $id_pesanan = $request->barang13;
+        $rencana_kirimCargoReady = $request->barang14;
+        // Combine the individual arrays into a single array
+        $combinedArray = [$general_specification, $keterangan_barang, $size_code, $rencana_kirimCargoReady];
+        $uraian_pesanan = [];
 
-        //SaveDataDetail SP_1486_SLS_MAINT_DETAILPESANAN
+        foreach ($combinedArray as $values) {
+            foreach ($values as $index => $value) {
+                if (!isset($uraian_pesanan[$index])) {
+                    $uraian_pesanan[$index] = '';
+                }
+                $uraian_pesanan[$index] .= ($uraian_pesanan[$index] === '' ? '' : ' | ') . $value;
+            }
+        }
 
+        $uraian_pesanan = array_values($uraian_pesanan); // Reindex the array to start from 0
+
+        // dd($rencana_kirim);
+        $Lunas = null;
+        $jenis_bayar = 2;
+        $syarat_bayar = 0;
+        $faktur_pjk = null;
+
+
+        DB::connection('ConnSales')->statement(
+            'exec SP_1486_SLS_MAINT_HEADERPESANAN
+        @Kode = ?,
+        @IdSuratPesanan = ?,
+        @IdJnsSuratPesanan = ?,
+        @Tgl_Pesan = ?,
+        @IdCust = ?,
+        @No_PO = ?,
+        @Tgl_PO = ?,
+        @No_PI = ?,
+        @IdPembayaran = ?,
+        @IdSales = ?,
+        @IdBill = ?,
+        @IdMataUang = ?,
+        @SyaratBayar = ?,
+        @User_id = ?,
+        @Ket = ?,
+        @JnsFakturPjk = ?,
+        @JenisHargaBarang = ?',
+            [$kode, $no_sp, 3, $tgl_pesan, $id_customer[1], $no_po, $tgl_po, $no_pi, $jenis_bayar, $id_sales, $id_billing, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk, $jenis_hargaBarang],
+        );
+
+        // kemudian beralih ke maintenance detail pesanan nich...
+        for ($i = 0; $i < count($kode_barang); $i++) {
+            if (is_null($id_pesanan[$i])) {
+                DB::connection('ConnSales')->statement(
+                    'exec SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?,
+                @IDSuratPesanan = ?,
+                @KodeBarang = ?,
+                @IdBarang = ?,
+                @IdJnsBarang = ?,
+                @Qty = ?,
+                @Satuan = ?,
+                @HargaSatuan = ?,
+                @Discount = ?,
+                @UraianPesanan = ?,
+                @TglRencanaKirim = ?,
+                @Lunas = ?,
+                @PPN = ?,
+                @indek = ?',
+                    [1, $no_sp, $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas ?? null, $ppn[$i], 0.00],
+                );
+            } else {
+                DB::connection('ConnSales')->statement(
+                    'exec SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?,
+                @IDSuratPesanan = ?,
+                @IDPesanan = ?,
+                @KodeBarang = ?,
+                @IdBarang = ?,
+                @IdJnsBarang = ?,
+                @Qty = ?,
+                @Satuan = ?,
+                @HargaSatuan = ?,
+                @Discount = ?,
+                @UraianPesanan = ?,
+                @TglRencanaKirim = ?,
+                @Lunas = ?,
+                @PPN = ?,
+                @indek = ?',
+                    [$kode, $no_sp, $id_pesanan[$i], $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas ?? null, $ppn[$i], 0.00],
+                );
+            }
+        }
+        return redirect()->route('SuratPesananEkspor.index')->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Diubah!');
     }
 
     function batalSP($id)
     {
-        //SP_1486_SLS_MAINT_BATAL_SP
         // dd('Masuk Batal SP Ekspor', $id);
         $user = Auth::user()->NomorUser;
         $no_spValue = str_replace('.', '/', $id);
 
-        DB::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_BATAL_SP @IDSuratPesanan = ?, @User_id = ?', [$no_spValue, $user]);
+        $date = date('m/d/Y', strtotime('now'));
+        $do1 = db::connection('ConnSales')->select('SELECT COUNT(dbo.T_DeliveryOrder.IDDO)
+					                                FROM         dbo.T_DeliveryOrder INNER JOIN
+					                                                      dbo.T_DetailPesanan ON dbo.T_DeliveryOrder.IDPesanan = dbo.T_DetailPesanan.IDPesanan INNER JOIN
+					                                                      dbo.vw_prg_barang ON dbo.T_DetailPesanan.IDBarang = dbo.vw_prg_barang.IDBarang
+					                                WHERE     (dbo.T_DeliveryOrder.Dikeluarkan IS NOT NULL OR
+					                                                dbo.T_DeliveryOrder.Dikeluarkan IS NULL) AND (dbo.T_DetailPesanan.IDSuratPesanan = \'' . $no_spValue . '\')
+						                                    AND (dbo.T_DeliveryOrder.KetBatal IS NULL)');
+
+        $do2 = db::connection('ConnSales')->select('SELECT COUNT(T_DeliveryOrder.IDDO)
+                                                    FROM         T_DeliveryOrder INNER JOIN
+                                                                          T_DetailPesanan ON T_DeliveryOrder.IDPesanan = T_DetailPesanan.IDPesanan INNER JOIN
+                                                                          VW_PRG_BARANG ON T_DetailPesanan.IDBarang = VW_PRG_BARANG.KodeBarang AND T_DeliveryOrder.IdType = VW_PRG_BARANG.IDBarang
+                                                    WHERE     (T_DeliveryOrder.Dikeluarkan IS NOT NULL OR
+                              T_DeliveryOrder.Dikeluarkan IS NULL) AND (LEN(T_DetailPesanan.IDBarang) = \'9\') AND (T_DeliveryOrder.KetBatal IS NULL)  AND (dbo.T_DetailPesanan.IDSuratPesanan = \'' . $no_spValue . '\')');
+        $formula = db::connection('ConnSales')->select('SELECT COUNT(*)
+                                    FROM   T_FormulaSP_KITE
+                                    GROUP BY NoSP
+                                    HAVING (NoSP = \'' . $no_spValue . '\')');
+        // dd($do1[0]->{""}, $do2[0]->{""}, $formula);
+        if ($do1[0]->{""} == 0 || $do2[0]->{""} == 0) {
+            db::connection('ConnSales')->statement('UPDATE 	T_HEADERPESANAN
+                                                            SET deleted = \'' . trim(Auth::user()->NomorUser) . '\' +\' - \'+ \'' . $date . '\'
+                                                            WHERE IdSuratPesanan = \'' . $no_spValue . '\'');
+            if (!empty($formula)) {
+                $pp = db::connection('ConnSales')->select('SELECT SUM(BahanPP) + SUM(AfalanPP)
+                                                            FROM         T_FormulaSP_KITE
+                                                            WHERE     (NoSP = \'' . $no_spValue . '\')');
+                $pe = db::connection('ConnSales')->select('SELECT SUM(BahanPE) + SUM(AfalanPE)
+                                                            FROM         T_FormulaSP_KITE
+                                                            WHERE     (NoSP = \'' . $no_spValue . '\')');
+                $mb = db::connection('ConnSales')->select('SELECT SUM(BahanMB) + SUM(AfalanMB)
+                                                            FROM         T_FormulaSP_KITE
+                                                            WHERE     (NoSP = \'' . $no_spValue . '\')');
+                db::connection('ConnInventory')->statement('UPDATE SaldoKITE
+                                                            set SaldoPP = SaldoPP + ' . $pp . ',
+                                                                SaldoPE = SaldoPE + ' . $pe . ',
+                                                                SaldoMB = SaldoMB + ' . $mb . '');
+                db::connection('ConnInventory')->statement('DELETE FROM T_FormulaSP_KITE
+                                                            WHERE     (NoSP = \'' . $no_spValue . '\')');
+            }
+            return redirect()->back()->with('success', 'Surat Pesanan ' . $no_spValue . ' Sudah Dibatalkan!');
+        } else {
+            return redirect()->back()->with('error', 'Surat Pesanan ' . $no_spValue . 'Tidak Bisa Di Batalkan Karena Sudah Ada DO Yang Di ACC Maupun Permohonan DO!');
+        }
     }
 }

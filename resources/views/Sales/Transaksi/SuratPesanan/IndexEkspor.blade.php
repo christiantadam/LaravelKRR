@@ -34,6 +34,11 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
+                @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
                 <button class="acs-icon-btn acs-add-btn acs-float" onclick="openNewWindow('SuratPesananEkspor/create')">
                     <div class="acs-add-icon"></div>
                     <div class="acs-btn-txt">Tambah SP</div>
