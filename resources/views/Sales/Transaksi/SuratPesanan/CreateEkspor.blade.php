@@ -32,7 +32,7 @@
                                             <label for="no_sp">Nomor Surat Pesanan </label>
                                             <div>
                                                 <input type="text" name="no_spText" id="no_spText" class="input"
-                                                    style="width: 60%"onkeypress="enterToTab(event)">
+                                                    style="width: 100%"onkeypress="enterToTab(event)">
                                                 <select name="no_spSelect" id="no_spSelect" class="input"
                                                     style="width: 60%; display: none">
                                                     <option disabled selected>-- Pilih Nomor SP --</option>
@@ -152,7 +152,8 @@
                                                 <th>Harga Satuan</th>
                                                 <th>Jumlah</th>
                                                 <th>Satuan</th>
-                                                <th>General Specification</th>
+                                                <th>General Specification(PI)</th>
+                                                <th>General Specification(SP)</th>
                                                 <th>Keterangan Barang</th>
                                                 <th>Size/Code</th>
                                                 <th>Rencana Kirim</th>
@@ -225,8 +226,15 @@
                                                 onkeypress="enterToTab(event)">
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="general_specification">General Specification</label>
-                                            <textarea name="general_specification" id="general_specification" cols="10" rows="2" class="input"></textarea>
+                                            <label for="general_specificationProformaInvoice">General Specification(Proforma Invoice)</label>
+                                            <div class="acs-div-filter2">
+                                                <textarea name="general_specificationProformaInvoice" id="general_specificationProformaInvoice" cols="10" rows="2" class="input" style="width: 100% "></textarea>
+                                                <button class="btn-primary btn" id="general_specificationButton">Copy</button>
+                                            </div>
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="general_specificationSuratPesanan">General Specification (Surat Pesanan)</label>
+                                            <textarea name="general_specificationSuratPesanan" id="general_specificationSuratPesanan" cols="10" rows="2" class="input"></textarea>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="keterangan_barang">Keterangan Barang</label>
@@ -286,7 +294,7 @@
                                 </div>
                                 <div class="acs-div-container5">
                                     <button id="isi_button" class="btn-primary btn">
-                                        <span>Isi</span></button>
+                                        <span>Proses</span></button>
                                     <button id="edit_button" class="btn-primary btn">
                                         <span>Koreksi</span></button>
                                     <button id="hapus_button" class="btn-danger btn">

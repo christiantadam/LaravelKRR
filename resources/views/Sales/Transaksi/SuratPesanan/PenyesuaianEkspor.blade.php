@@ -12,13 +12,14 @@
                 detailPesananArray[i].UraianPesanan.split(" | ")[0] ?? "",
                 detailPesananArray[i].UraianPesanan.split(" | ")[1] ?? "",
                 detailPesananArray[i].UraianPesanan.split(" | ")[2] ?? "",
+                detailPesananArray[i].UraianPesanan.split(" | ")[3] ?? "",
                 detailPesananArray[i].TglRencanaKirim.substr(0, 10),
                 detailPesananArray[i].PPN,
                 detailPesananArray[i].IDJnsBarang,
                 detailPesananArray[i].KodeBarang,
                 detailPesananArray[i].IDBarang,
                 detailPesananArray[i].IDPesanan,
-                detailPesananArray[i].UraianPesanan.split(" | ")[3] ?? "",
+                detailPesananArray[i].UraianPesanan.split(" | ")[4] ?? "",
                 detailPesananArray[i].Lunas ?? "",
                 detailPesananArray[i].KodeHS ?? "",
             ];
@@ -196,7 +197,8 @@
                                                 <th>Harga Satuan</th>
                                                 <th>Jumlah</th>
                                                 <th>Satuan</th>
-                                                <th>General Specification</th>
+                                                <th>General Specification (PI)</th>
+                                                <th>General Specification (SP)</th>
                                                 <th>Keterangan Barang</th>
                                                 <th>Size/Code</th>
                                                 <th>Rencana Kirim</th>
@@ -278,8 +280,15 @@
                                                     name="harga_satuan" onkeypress="enterToTab(event)">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="general_specification">General Specification</label>
-                                                <textarea name="general_specification" id="general_specification" cols="10" rows="3" class="input"></textarea>
+                                                <label for="general_specificationProformaInvoice">General Specification(Proforma Invoice)</label>
+                                                <div class="acs-div-filter2">
+                                                    <textarea name="general_specificationProformaInvoice" id="general_specificationProformaInvoice" cols="10" rows="2" class="input" style="width: 100% "></textarea>
+                                                    <button class="btn-primary btn" id="general_specificationButton">Copy</button>
+                                                </div>
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="general_specificationSuratPesanan">General Specification (Surat Pesanan)</label>
+                                                <textarea name="general_specificationSuratPesanan" id="general_specificationSuratPesanan" cols="10" rows="2" class="input"></textarea>
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="keterangan_barang">Keterangan Barang</label>

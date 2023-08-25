@@ -165,15 +165,15 @@ print_button.addEventListener("click", function (event) {
                             /\r\n/g,
                             " <br> "
                         ).split(" | ");
-                        cargo_readyKolom.innerHTML = UraianPesananArray[3];
+                        cargo_readyKolom.innerHTML = UraianPesananArray[4];
                         // console.log(item.UraianPesanan);
                         // console.log(UraianPesananArray);
                         table_sp.row.add([
                             index + 1,
-                            UraianPesananArray[0],
-                            UraianPesananArray[2] +
+                            UraianPesananArray[1],
+                            UraianPesananArray[3] +
                                 "<br> <br>" +
-                                UraianPesananArray[1],
+                                UraianPesananArray[2],
                             formatangkainteger(parseInt(item.JmlOrder)) +
                                 " " +
                                 satuanJmlOrder,

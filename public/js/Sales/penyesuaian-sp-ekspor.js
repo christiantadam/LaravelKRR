@@ -2,14 +2,17 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
-var cekSP;
+let cargo_readySuratPesanan = document.getElementById("cargo_readySuratPesanan");
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
+let destination_port = document.getElementById("destination_port");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
 let form_suratPesanan = document.getElementById("form_suratPesanan");
-let general_specification = document.getElementById("general_specification");
+let general_specificationButton = document.getElementById("general_specificationButton");
+let general_specificationProformaInvoice = document.getElementById("general_specificationProformaInvoice");
+let general_specificationSuratPesanan = document.getElementById("general_specificationSuratPesanan");
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let isi_button = document.getElementById("isi_button");
@@ -19,14 +22,16 @@ let kelompok = document.getElementById("kelompok");
 let kelompok_utama = document.getElementById("kelompok_utama");
 let keterangan_barang = document.getElementById("keterangan_barang");
 let kode_barang = document.getElementById("kode_barang");
+let kode_hs = document.getElementById("kode_hs");
 let lihat_spButton = document.getElementById("lihat_spButton");
 let list_view = $("#list_view").DataTable();
-let table_listView = document.getElementById("list_view");
+let lunas = document.getElementById("lunas");
 let mata_uang = document.getElementById("mata_uang");
 let methodForm = document.getElementById("methodForm");
 let nama_barang = document.getElementById("nama_barang");
 let no_pi = document.getElementById("no_pi");
 let no_po = document.getElementById("no_po");
+let no_spSelect = document.getElementById("no_spSelect");
 let no_spText = document.getElementById("no_spText");
 let payment_terms = document.getElementById("payment_terms");
 let ppn = document.getElementById("ppn");
@@ -44,16 +49,11 @@ let satuan_gudangTritier = document.getElementById("satuan_gudangTritier");
 let satuan_jual = document.getElementById("satuan_jual");
 let size_code = document.getElementById("size_code");
 let sub_kelompok = document.getElementById("sub_kelompok");
+let table_listView = document.getElementById("list_view");
 let tgl_pesan = document.getElementById("tgl_pesan");
 let tgl_po = document.getElementById("tgl_po");
 let update_button = document.getElementById("update_button");
-let no_spSelect = document.getElementById("no_spSelect");
-let destination_port = document.getElementById("destination_port");
-let cargo_readySuratPesanan = document.getElementById(
-    "cargo_readySuratPesanan"
-);
-let lunas = document.getElementById("lunas");
-let kode_hs = document.getElementById("kode_hs");
+var cekSP;
 
 //#endregion
 
@@ -315,6 +315,11 @@ no_spText.addEventListener("keyup", function () {
     no_pi.value = no_spText.value;
 });
 
+general_specificationButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    general_specificationSuratPesanan.value = general_specificationProformaInvoice.value;
+});
+
 rencana_kirim.addEventListener("change", function () {
     // Get the month, day, and year from the tgl_pesan
     month = (rencana_kirim.valueAsDate.getMonth() + 1)
@@ -354,7 +359,7 @@ add_button.addEventListener("click", function (event) {
         formatangka(parseFloat(harga_satuan.value)),
         formatangka(parseInt(qty_pesan.value)),
         satuan_jual.options[satuan_jual.selectedIndex].text,
-        general_specification.value,
+        general_specificationProformaInvoice.value,
         keterangan_barang.value,
         size_code.value,
         rencana_kirim.value,
@@ -390,17 +395,18 @@ update_button.addEventListener("click", function (event) {
         rowData[2] = formatangka(parseFloat(harga_satuan.value));
         rowData[3] = formatangka(parseInt(qty_pesan.value));
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
-        rowData[5] = general_specification.value;
-        rowData[6] = keterangan_barang.value;
-        rowData[7] = size_code.value;
-        rowData[8] = rencana_kirim.value;
-        rowData[9] = ppn.value;
-        rowData[10] = jenis_barang.value;
-        rowData[11] = kode_barang.value;
-        rowData[12] = nama_barang.value;
-        rowData[14] = cargo_readySuratPesanan.value;
-        rowData[15] = lunas.value;
-        rowData[16] = kode_hs.value;
+        rowData[5] = general_specificationProformaInvoice.value;
+        rowData[6] = general_specificationSuratPesanan.value;
+        rowData[7] = keterangan_barang.value;
+        rowData[8] = size_code.value;
+        rowData[9] = rencana_kirim.value;
+        rowData[10] = ppn.value;
+        rowData[11] = jenis_barang.value;
+        rowData[12] = kode_barang.value;
+        rowData[13] = nama_barang.value;
+        rowData[15] = cargo_readySuratPesanan.value;
+        rowData[16] = lunas.value;
+        rowData[17] = kode_hs.value;
 
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
@@ -764,23 +770,10 @@ function funcInsertRow(array) {
             $(this).toggleClass("selected");
             let selectedRows = table.rows(".selected").data().toArray();
             console.log(selectedRows);
-            general_specification.value = selectedRows[0][5];
-            keterangan_barang.value = selectedRows[0][6];
-            size_code.value = selectedRows[0][7];
-            qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ""));
             harga_satuan.value = parseFloat(
                 selectedRows[0][2].replace(/,/g, "")
             );
-            ppn.selectedIndex = 0;
-            for (let i = 0; i < ppn.length; i++) {
-                ppn.selectedIndex += 1;
-                if (
-                    ppn.options[ppn.selectedIndex].text ===
-                    selectedRows[0][9].trim()
-                ) {
-                    break;
-                }
-            }
+            qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ""));
             satuan_jual.selectedIndex = 0;
             for (let i = 0; i < satuan_jual.length; i++) {
                 // console.log(satuanJual.selectedIndex);
@@ -792,17 +785,31 @@ function funcInsertRow(array) {
                     break;
                 }
             }
-            jenis_barang.value = selectedRows[0][10];
-            rencana_kirim.value = selectedRows[0][8];
+            general_specificationProformaInvoice.value = selectedRows[0][5];
+            general_specificationSuratPesanan.value = selectedRows[0][6];
+            keterangan_barang.value = selectedRows[0][7];
+            size_code.value = selectedRows[0][8];
+            rencana_kirim.value = selectedRows[0][9];
+            ppn.selectedIndex = 0;
+            for (let i = 0; i < ppn.length; i++) {
+                ppn.selectedIndex += 1;
+                if (
+                    ppn.options[ppn.selectedIndex].text ===
+                    selectedRows[0][10].trim()
+                ) {
+                    break;
+                }
+            }
+            jenis_barang.value = selectedRows[0][11];
             let optionNamaBarang = document.createElement("option");
-            optionNamaBarang.value = selectedRows[0][12];
+            optionNamaBarang.value = selectedRows[0][13];
             optionNamaBarang.text = selectedRows[0][0];
             nama_barang.appendChild(optionNamaBarang);
-            kode_barang.value = selectedRows[0][11];
-            funcDisplayDataBrg(selectedRows[0][12]);
-            cargo_readySuratPesanan.value = selectedRows[0][14];
-            lunas.value = selectedRows[0][15];
-            kode_hs.value = selectedRows[0][16];
+            kode_barang.value = selectedRows[0][12];
+            funcDisplayDataBrg(selectedRows[0][13]);
+            cargo_readySuratPesanan.value = selectedRows[0][15];
+            lunas.value = selectedRows[0][16];
+            kode_hs.value = selectedRows[0][17];
             // funcTampilInv(selectedRows[0][1]);
         });
     }
@@ -865,7 +872,8 @@ function clearDetailBarang() {
     jenis_barang.selectedIndex = 0;
     qty_pesan.value = "";
     harga_satuan.value = "";
-    general_specification.value = "";
+    general_specificationProformaInvoice.value = "";
+    general_specificationSuratPesanan.value = "";
     keterangan_barang.value = "";
     size_code.value = "";
     ppn.selectedIndex = 1;

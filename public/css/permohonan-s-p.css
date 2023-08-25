@@ -1154,6 +1154,12 @@
     flex-direction: column;
     align-items: center;
 }
+.acs-div-filter2 {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    gap: 1%;
+}
 .acs-div-container {
     display: flex;
     flex-direction: row;

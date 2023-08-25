@@ -171,7 +171,7 @@ print_button.addEventListener("click", function (event) {
                 var grandTotalBarang = 0;
                 var grandTotalHarga = 0;
                 data.forEach((item, index) => {
-                    // console.log(item);
+                    console.log(item);
                     var amount =
                         parseFloat(item.JmlOrder) *
                         parseFloat(item.HargaSatuan);
@@ -212,9 +212,9 @@ print_button.addEventListener("click", function (event) {
                         table_sp.row.add([
                             index + 1,
                             UraianPesananArray[0],
-                            UraianPesananArray[2] +
+                            UraianPesananArray[3] +
                                 "<br> <br>" +
-                                UraianPesananArray[1],
+                                UraianPesananArray[2],
                             formatangka(item.JmlOrder) + " " + satuanJmlOrder,
                             formatangka(item.HargaSatuan),
                             formatangka(amount.toFixed(4)),
