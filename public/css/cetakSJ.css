@@ -1,54 +1,123 @@
-.acs-div-filter{
+.acs-div-filter {
     display: flex;
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
 }
-.acs-div-filter1{
+.acs-div-filter1 {
     display: flex;
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
 }
-.acs-div-filter2{
+.acs-div-filter2 {
     display: flex;
     width: 300px;
     flex-direction: column;
     margin: 4px 0;
 }
-.acs-div-container{
+.acs-div-container {
     width: 17cm;
     height: 21cm;
     border: 2px;
     border-style: solid;
+    position: relative;
     background-color: white;
 }
-.cetak-sjpdf-container{
+
+.span-nomor_sjKolom,
+.span-tanggal_kirimKolom,
+.span-truk_nopolKolom,
+.span-no_spKolom,
+.span-alamat_kolom,
+.span-nama_barangKolom,
+.span-satuan_barangPrimerKolom,
+.span-jumlah_barangPrimerKolom,
+.span-satuan_barangSekunderKolom,
+.span-jumlah_barangSekunderKolom,
+.span-no_poKolom,
+.span-nama_customerKolom,
+.span-alamat_kirimKolom {
+    position: absolute;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: aqua;
+}
+/* letak kolom untuk print sj */
+.span-nomor_sjKolom {
+    top: 3.5cm;
+    left: 12.5cm;
+}
+.span-tanggal_kirimKolom{
+    top: 4.5cm;
+    left: 11cm;
+}
+.span-truk_nopolKolom{
+    left: 11cm;
+    top: 5.2cm;
+}
+.span-no_spKolom{
+    left: 10cm;
+    top: 5.9cm;
+}
+.span-alamat_kolom{
+    left: 1.5cm;
+    top: 5.2cm;
+    max-width: 5.8cm;
+    max-height: 2cm;
+}
+/* .span-nama_barangKolom{
+
+}
+.span-satuan_barangPrimerKolom{
+
+}
+.span-jumlah_barangPrimerKolom{
+
+}
+.span-satuan_barangSekunderKolom{
+
+}
+.span-jumlah_barangSekunderKolom{
+
+}
+.span-no_poKolom{
+
+} */
+.span-nama_customerKolom{
+    top: 4.5cm;
+    left: 1.5cm;
+}
+.span-alamat_kirimKolom{
+
+}
+
+.cetak-sjpdf-container {
     text-align: center;
     margin-left: 1%;
     margin-top: 1%;
     width: 98%;
 }
-.cetak-sjpdf-container1{
+.cetak-sjpdf-container1 {
     width: 98%;
     margin-left: 1%;
     display: flex;
     gap: 3px;
 }
-.cetak-sjpdf-container2{
+.cetak-sjpdf-container2 {
     border: 1px solid black;
     flex: 1;
     height: 100px;
     font-size: smaller;
 }
-.cetak-sjpdf-container2 p{
+.cetak-sjpdf-container2 p {
     margin-bottom: 0;
     margin-left: 5px;
 }
-.cetak-sjpdf-container3{
+.cetak-sjpdf-container3 {
     flex: 1;
 }
-.cetak-sjpdf-container4{
+.cetak-sjpdf-container4 {
     border: 1px solid black;
     width: 98%;
     margin-top: 1%;
@@ -58,33 +127,33 @@
     margin-bottom: 0;
     margin-left: 5px;
 }
-.cetak-sjpdf-container5{
+.cetak-sjpdf-container5 {
     width: 98%;
     margin-left: 1%;
     display: flex;
 }
-.cetak-sjpdf-container6{
+.cetak-sjpdf-container6 {
     flex: 1;
     text-align: center;
     padding: 5%;
     font-size: small;
 }
-.cetak-sjpdf-container7{
+.cetak-sjpdf-container7 {
     flex: 1;
     padding: 5%;
     font-size: smaller;
 }
-.cetak-sjpdf-tabel{
+.cetak-sjpdf-tabel {
     width: 98%;
     margin-top: 1%;
     margin-left: 1%;
 }
 
-@media print{
-    .acs-div-form{
+@media print {
+    .acs-div-form {
         display: none;
     }
-    .acs-div-container{
+    .acs-div-container {
         border: none;
     }
 }

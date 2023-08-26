@@ -30,8 +30,8 @@ let print_pdf = document.getElementById("print_pdf");
 
 tanggal_sj.valueAsDate = new Date();
 surat_jalanPPN.checked = true;
-contoh_print.style.display = "none";
-contoh_printDiv.style.display = "none";
+// contoh_print.style.display = "none";
+// contoh_printDiv.style.display = "none";
 export_pdf.style.display = "none";
 print_pdf.style.display = "none";
 // console.log(tanggal_sj.value);
@@ -52,9 +52,9 @@ print_button.addEventListener("click", function () {
                 // console.log(data);
                 no_poKolom.innerHTML = "";
                 no_spKolom.innerHTML = no_sp.value;
-                nomor_sjKolom.innerHTML = no_sjText.value;
+                nomor_sjKolom.innerHTML += no_sjText.value;
                 nama_barangKolom.innerHTML =data[0].NamaType;
-                tanggal_kirimKolom.innerHTML = tanggal_sj.value;
+                tanggal_kirimKolom.innerHTML = tanggal_sj.value; // masih salah format
                 truk_nopolKolom.innerHTML = data[0].TrukNopol;
                 no_spKolom.innerHTML = data[0].SuratPesanan;
                 alamat_kolom.innerHTML = data[0].Alamat;
