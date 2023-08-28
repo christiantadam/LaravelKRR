@@ -17,8 +17,8 @@
     margin: 4px 0;
 }
 .acs-div-container {
-    width: 17cm;
-    height: 21cm;
+    width: 21cm;
+    aspect-ratio: 17/21;
     border: 2px;
     border-style: solid;
     position: relative;
@@ -38,72 +38,79 @@
 .span-jumlah_barangSekunderKolom,
 .span-no_poKolom,
 .span-nama_customerKolom,
-.span-alamat_kirimKolom {
+.span-alamat_kirimKolom,
+.span-tanda_tanganKolom {
     position: absolute;
     padding: 5px;
     box-sizing: border-box;
     background-color: aqua;
+    font-size: 17px;
 }
 /* letak kolom untuk print sj */
 .span-nomor_sjKolom {
-    top: 3.5cm;
-    left: 1cm;
+    top: 2.5cm;
+    left: 0.2cm;
 }
 .span-tanggal_kirimKolom{
-    top: 4.5cm;
-    left: 11cm;
+    top: 4.2cm;
+    left: 13cm;
 }
 .span-truk_nopolKolom{
-    top: 5.2cm;
-    left: 11cm;
+    top: 5.1cm;
+    left: 13cm;
 }
 .span-no_spKolom{
     top: 5.9cm;
-    left: 10cm;
+    left: 12cm;
 }
 .span-alamat_kolom{
-    top: 5.2cm;
-    left: 1.5cm;
+    top: 4.7cm;
+    left: 0.7cm;
     max-width: 5.8cm;
     max-height: 2cm;
 }
 .span-nama_typeBarangKolom{
-    top: 8cm;
-    left: 1.5cm;
+    top: 8.2cm;
+    left: 0.7cm;
 }
 .span-nama_barangKolom{
-    top: 8.7cm;
-    left: 1.5cm;
+    top: 8.9cm;
+    left: 0.7cm;
+    max-width: 10cm;
 }
 .span-satuan_barangPrimerKolom{
-    top: 9.5cm;
-    left: 12.5cm;
+    top: 10.3cm;
+    left: 14.1cm;
 }
 .span-jumlah_barangPrimerKolom{
-    top: 9.5cm;
-    left: 14.5cm;
+    top: 10.3cm;
+    left: 16.1cm;
 }
 .span-satuan_barangSekunderKolom{
-    top: 8.7cm;
-    left: 12.5cm;
+    top: 8.9cm;
+    left: 14.1cm;
 }
 .span-jumlah_barangSekunderKolom{
-    top: 8.7cm;
-    left: 14.5cm;
+    top: 8.9cm;
+    left: 16.1cm;
 }
 .span-no_poKolom{
-    top: 10.2cm;
-    left: 1.5cm;
+    top: 13cm;
+    left: 0.7cm;
 }
 .span-nama_customerKolom{
-    top: 4.5cm;
-    left: 1.5cm;
+    top: 4cm;
+    left: 0.7cm;
 }
 .span-alamat_kirimKolom{
-    top: 13.6cm;
-    left: 1.5cm;
+    top: 16cm;
+    left: 0.7cm;
+    max-width: 15cm;
 }
-
+.span-tanda_tanganKolom{
+    top: 20cm;
+    left: 1.2cm;
+}
 .cetak-sjpdf-container {
     text-align: center;
     margin-left: 1%;
