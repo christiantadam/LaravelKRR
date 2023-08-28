@@ -730,7 +730,7 @@ nama_barang.addEventListener("change", function () {
         qty_pesan.selectionStart = 0;
     });
     ppn.value = "EXCLUDE";
-    ppn.readOnly = true;
+    // ppn.readOnly = true;
     document.getElementById("kode_barang").readOnly = true;
 
     //Isi Satuan INV
@@ -827,7 +827,7 @@ kode_barang.addEventListener("keypress", function (event) {
                     }
                 }
                 ppn.value = "EXCLUDE";
-                ppn.readOnly = true;
+                // ppn.readOnly = true;
                 rencana_kirim.valueAsDate = new Date();
                 satuan_primer.value = data[0].SatPrimer;
                 satuan_sekunder.value = data[0].SatSekunder;

@@ -210,7 +210,7 @@
                                                 id="harga_satuan" /> </div>
                                         <div class="permohonan-s-p-container31"> <input type="text"
                                                 placeholder="P P N" class="permohonan-s-p-textinput20 input"
-                                                id="ppn" readonly /> </div>
+                                                id="ppn"/> </div>
                                     </div>
                                     <div class="permohonan-s-p-container32"> <span>Satuan Jual</span> <span
                                             class="permohonan-s-p-span1">Sat Gudang</span> <span>Rencana Kirim</span>
