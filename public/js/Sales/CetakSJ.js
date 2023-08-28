@@ -23,6 +23,7 @@ let jumlah_barangSekunderKolom = document.getElementById("jumlah_barangSekunderK
 let no_poKolom = document.getElementById("no_poKolom");
 let alamat_kirimKolom = document.getElementById("alamat_kirimKolom");
 let nama_customerKolom = document.getElementById("nama_customerKolom");
+let nama_typeBarangKolom = document.getElementById("nama_typeBarangKolom");
 let nomor_sjKolom = document.getElementById("nomor_sjKolom");
 let print_pdf = document.getElementById("print_pdf");
 
@@ -49,10 +50,11 @@ print_button.addEventListener("click", function () {
         fetch("/cetakSuratJalanPPN/" + tanggal_sj.value + "/" + no_sjText.value)
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
+                console.log(data);
                 no_poKolom.innerHTML = "";
                 no_spKolom.innerHTML = no_sp.value;
-                nomor_sjKolom.innerHTML += no_sjText.value;
+                nomor_sjKolom.innerHTML = "sj: " + no_sjText.value;
+                nama_typeBarangKolom.innerHTML = data[0].NAMATYPEBARANG;
                 nama_barangKolom.innerHTML =data[0].NamaType;
                 tanggal_kirimKolom.innerHTML = tanggal_sj.value; // masih salah format
                 truk_nopolKolom.innerHTML = data[0].TrukNopol;

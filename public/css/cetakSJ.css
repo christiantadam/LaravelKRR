@@ -25,6 +25,7 @@
     background-color: white;
 }
 
+.span-nama_typeBarangKolom,
 .span-nomor_sjKolom,
 .span-tanggal_kirimKolom,
 .span-truk_nopolKolom,
@@ -46,50 +47,61 @@
 /* letak kolom untuk print sj */
 .span-nomor_sjKolom {
     top: 3.5cm;
-    left: 12.5cm;
+    left: 1cm;
 }
 .span-tanggal_kirimKolom{
     top: 4.5cm;
     left: 11cm;
 }
 .span-truk_nopolKolom{
-    left: 11cm;
     top: 5.2cm;
+    left: 11cm;
 }
 .span-no_spKolom{
-    left: 10cm;
     top: 5.9cm;
+    left: 10cm;
 }
 .span-alamat_kolom{
-    left: 1.5cm;
     top: 5.2cm;
+    left: 1.5cm;
     max-width: 5.8cm;
     max-height: 2cm;
 }
-/* .span-nama_barangKolom{
-
+.span-nama_typeBarangKolom{
+    top: 8cm;
+    left: 1.5cm;
+}
+.span-nama_barangKolom{
+    top: 8.7cm;
+    left: 1.5cm;
 }
 .span-satuan_barangPrimerKolom{
-
+    top: 9.5cm;
+    left: 12.5cm;
 }
 .span-jumlah_barangPrimerKolom{
-
+    top: 9.5cm;
+    left: 14.5cm;
 }
 .span-satuan_barangSekunderKolom{
-
+    top: 8.7cm;
+    left: 12.5cm;
 }
 .span-jumlah_barangSekunderKolom{
-
+    top: 8.7cm;
+    left: 14.5cm;
 }
 .span-no_poKolom{
-
-} */
+    top: 10.2cm;
+    left: 1.5cm;
+}
 .span-nama_customerKolom{
     top: 4.5cm;
     left: 1.5cm;
 }
 .span-alamat_kirimKolom{
-
+    top: 13.6cm;
+    left: 1.5cm;
 }
 
 .cetak-sjpdf-container {

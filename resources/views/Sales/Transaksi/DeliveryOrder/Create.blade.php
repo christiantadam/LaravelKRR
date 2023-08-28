@@ -164,7 +164,7 @@
                                                 <label for="qty_order">Qty Primer</label>
                                                 <div class="acs-div-filter4">
                                                     <input type="text" name="qty_primerGudang" id="qty_primerGudang"
-                                                        placeholder="Qty Primer Gudang" class="input">
+                                                        placeholder="Qty Primer Gudang" class="input" readonly>
                                                     <input type="text" name="satuan_primer" id="satuan_primer"
                                                         placeholder="Satuan Primer" class="input" style="width: 140px">
                                                 </div>
@@ -174,7 +174,7 @@
                                                 <div class="acs-div-filter4">
                                                     <input type="text" name="qty_sekunderGudang"
                                                         id="qty_sekunderGudang" placeholder="Qty Primer Gudang"
-                                                        class="input">
+                                                        class="input" readonly>
                                                     <input type="text" name="satuan_sekunder" id="satuan_sekunder"
                                                         placeholder="Satuan Primer" class="input" style="width: 140px">
                                                 </div>
@@ -183,7 +183,7 @@
                                                 <label for="qty_order">Qty Tritier</label>
                                                 <div class="acs-div-filter4">
                                                     <input type="text" name="qty_tritierGudang" id="qty_tritierGudang"
-                                                        placeholder="Qty Primer Gudang" class="input">
+                                                        placeholder="Qty Primer Gudang" class="input" readonly>
                                                     <input type="text" name="satuan_tritier" id="satuan_tritier"
                                                         placeholder="Satuan Primer" class="input" style="width: 140px">
                                                 </div>

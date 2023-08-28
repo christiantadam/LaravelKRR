@@ -56,6 +56,7 @@
                     <span id="no_spKolom" class="span-no_spKolom" contenteditable="true">34631</span>
                     <span id="alamat_kolom" class="span-alamat_kolom" contenteditable="true">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque non lectus sit amet sapien sollicitudin ultrices.</span>
                     <span id="nama_barangKolom" class="span-nama_barangKolom" contenteditable="true"></span>
+                    <span id="nama_typeBarangKolom" class="span-nama_typeBarangKolom" contenteditable="true"></span>
                     <span id="satuan_barangPrimerKolom" class="span-satuan_barangPrimerKolom" contenteditable="true"></span>
                     <span id="jumlah_barangPrimerKolom" class="span-jumlah_barangPrimerKolom" contenteditable="true"></span>
                     <span id="satuan_barangSekunderKolom" class="span-satuan_barangSekunderKolom" contenteditable="true"></span>
