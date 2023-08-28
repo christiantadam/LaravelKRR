@@ -39,7 +39,8 @@
 .span-no_poKolom,
 .span-nama_customerKolom,
 .span-alamat_kirimKolom,
-.span-tanda_tanganKolom {
+.span-tanda_tanganKolom,
+.span-keterangan_tambahanKolom {
     position: absolute;
     padding: 5px;
     box-sizing: border-box;
@@ -95,8 +96,12 @@
     top: 8.9cm;
     left: 16.3cm;
 }
+.span-keterangan_tambahanKolom{
+    top: 11.5cm;
+    left: 0.7cm;
+}
 .span-no_poKolom{
-    top: 13.5cm;
+    top: 10.5cm;
     left: 0.7cm;
 }
 .span-nama_customerKolom{

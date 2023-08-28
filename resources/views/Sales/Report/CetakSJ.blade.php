@@ -62,6 +62,7 @@
                     <span id="satuan_barangSekunderKolom" class="span-satuan_barangSekunderKolom" contenteditable="true"></span>
                     <span id="jumlah_barangSekunderKolom" class="span-jumlah_barangSekunderKolom" contenteditable="true"></span>
                     <span id="no_poKolom" class="span-no_poKolom" contenteditable="true"></span>
+                    <span id="keterangan_tambahanKolom" class="span-keterangan_tambahanKolom" contenteditable="true"></span>
                     <span id="nama_customerKolom" class="span-nama_customerKolom" contenteditable="true"></span>
                     <span id="alamat_kirimKolom" class="span-alamat_kirimKolom" contenteditable="true"></span>
                     <span id="tanda_tanganKolom" class="span-tanda_tanganKolom" contenteditable="true">(SUNYATA ICHWAN)</span>
