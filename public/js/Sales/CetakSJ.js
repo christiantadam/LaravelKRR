@@ -55,7 +55,7 @@ print_button.addEventListener("click", function () {
                 nomor_sjKolom.innerHTML = "sj: " + no_sjText.value;
                 nama_typeBarangKolom.innerHTML = data[0].NAMATYPEBARANG;
                 nama_barangKolom.innerHTML =data[0].NamaType;
-                tanggal_kirimKolom.innerHTML = tanggal_sj.value; // masih salah format
+                tanggal_kirimKolom.innerHTML = formatDate(tanggal_sj.value); // masih salah format
                 truk_nopolKolom.innerHTML = data[0].TrukNopol;
                 no_spKolom.innerHTML = data[0].SuratPesanan;
                 alamat_kolom.innerHTML = data[0].Alamat;
@@ -136,3 +136,18 @@ print_pdf.addEventListener("click", function (event) {
     window.print();
 });
 //#endregion
+
+function formatDate(inputDate) {
+    const months = [
+      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "October", "November", "December"
+    ];
+
+    const dateParts = inputDate.split("-");
+    const year = dateParts[0];
+    const month = parseInt(dateParts[1]);
+    const day = parseInt(dateParts[2]);
+
+    const formattedDate = `${day} ${months[month - 1]} ${year}`;
+    return formattedDate;
+  }
