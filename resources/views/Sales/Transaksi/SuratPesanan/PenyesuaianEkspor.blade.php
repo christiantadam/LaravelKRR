@@ -1,7 +1,8 @@
 @extends('layouts.appSales') @section('content')
     <script>
         var detailPesananArray = @json($detail_pesanan);
-        // console.log(detailPesananArray);
+        var itemsArray = [];
+        console.log(detailPesananArray.length);
         for (var i = 0; i < detailPesananArray.length; i++) {
             var item = [
                 detailPesananArray[i].namabarang,
@@ -23,11 +24,11 @@
                 detailPesananArray[i].Lunas ?? "",
                 detailPesananArray[i].KodeHS ?? "",
             ];
+            itemsArray.push(item);
         }
         $(document).ready(function() {
             // console.log(dataArray.data);
             $('#table_SP').DataTable({
-
             });
         });
     </script>

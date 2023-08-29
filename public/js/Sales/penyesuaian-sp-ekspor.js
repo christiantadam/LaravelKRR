@@ -2,7 +2,9 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
-let cargo_readySuratPesanan = document.getElementById("cargo_readySuratPesanan");
+let cargo_readySuratPesanan = document.getElementById(
+    "cargo_readySuratPesanan"
+);
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
 let destination_port = document.getElementById("destination_port");
@@ -10,9 +12,15 @@ let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
 let form_suratPesanan = document.getElementById("form_suratPesanan");
-let general_specificationButton = document.getElementById("general_specificationButton");
-let general_specificationProformaInvoice = document.getElementById("general_specificationProformaInvoice");
-let general_specificationSuratPesanan = document.getElementById("general_specificationSuratPesanan");
+let general_specificationButton = document.getElementById(
+    "general_specificationButton"
+);
+let general_specificationProformaInvoice = document.getElementById(
+    "general_specificationProformaInvoice"
+);
+let general_specificationSuratPesanan = document.getElementById(
+    "general_specificationSuratPesanan"
+);
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let isi_button = document.getElementById("isi_button");
@@ -72,7 +80,9 @@ let formattedDate = month + "-" + day + "-" + year;
 cargo_readySuratPesanan.value = formattedDate;
 tgl_pesan.focus();
 lihat_spButton.style.display = "none";
-funcInsertRow(item);
+for (let i = 0; i < itemsArray.length; i++) {
+    funcInsertRow(itemsArray[i]);
+}
 // disableInputs();
 
 //#endregion
@@ -317,7 +327,8 @@ no_spText.addEventListener("keyup", function () {
 
 general_specificationButton.addEventListener("click", function (event) {
     event.preventDefault();
-    general_specificationSuratPesanan.value = general_specificationProformaInvoice.value;
+    general_specificationSuratPesanan.value =
+        general_specificationProformaInvoice.value;
 });
 
 rencana_kirim.addEventListener("change", function () {
