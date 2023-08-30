@@ -905,17 +905,20 @@ function clearHeader() {
 
 function funcDatatablesIntoInput() {
     let dataArray = [];
+    let value = "";
     dataArray = list_view.data().toArray();
     // console.log(dataArray);
     // Create a hidden input element
     for (let i = 0; i < dataArray.length; i++) {
         let row = dataArray[i];
         for (let j = 0; j < dataArray[i].length; j++) {
+            value = "";
+            value = row[j].replace(/,/g, "").trim().replace(/\s+/g, ' ');
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
             hiddenInput.multiple = true;
-            hiddenInput.value = row[j].replace(/,/g, "");
+            hiddenInput.value = value;
             // Append the hidden input to the document body or any other element
             form_suratPesanan.appendChild(hiddenInput);
         }

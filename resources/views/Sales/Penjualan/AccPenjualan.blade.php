@@ -44,52 +44,50 @@
                         <div class="acs-div-form2">
                             <div class="acs-div-form3">
                                 <div class="acs-div-filter1">
-                                    <label for="divisi">Divisi</label>
-                                    <input type="text" name="divisi" id="divisi" class="input" readonly>
+                                    <span>Divisi</span>
+                                    <input type="text" name="divisi" id="divisi" class="" readonly>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="objek">Objek</label>
-                                    <input type="text" name="objek" id="objek" class="input" readonly>
+                                    <span>Objek</span>
+                                    <input type="text" name="objek" id="objek" class="" readonly>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="kelompok_utama">Kelompok Utama</label>
-                                    <input type="text" name="kelompok_utama" id="kelompok_utama" class="input" readonly>
+                                    <span>Kelompok Utama</span>
+                                    <input type="text" name="kelompok_utama" id="kelompok_utama" class="" readonly>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="kelompok">Kelompok</label>
-                                    <input type="text" name="kelompok" id="kelompok" class="input" readonly>
+                                    <span>Kelompok</span>
+                                    <input type="text" name="kelompok" id="kelompok" class="" readonly>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="sub_kelompok">Sub Kelompok</label>
-                                    <input type="text" name="sub_kelompok" id="sub_kelompok" class="input" readonly>
+                                    <span>Sub Kelompok</span>
+                                    <input type="text" name="sub_kelompok" id="sub_kelompok" readonly>
                                 </div>
                             </div>
-                            <div class="acs-div-form3" style="border: 1px solid grey; margin:3%; padding:1%">
+                            <div class="acs-div-form3" style="border: 1px solid grey;padding:1%">
                                 <legend>Saldo</legend>
                                 <div class="acs-div-filter1">
-                                    <label for="saldo_primer">Primer</label>
+                                    <span>Primer</span>
                                     <div style="display: flex; flex-direction: row; gap: 3%">
-                                        <input type="text" name="saldo_primer" id="saldo_primer" class="input" readonly>
+                                        <input type="text" name="saldo_primer" id="saldo_primer" readonly>
                                         <input type="text" name="saldo_primerSatuan" id="saldo_primerSatuan"
-                                            class="input" style="width: 25%" readonly>
+                                            style="width: 25%" readonly>
                                     </div>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="saldo_sekunder">Sekunder</label>
+                                    <span>Sekunder</span>
                                     <div style="display: flex; flex-direction: row; gap: 3%">
-                                        <input type="text" name="saldo_sekunder" id="saldo_sekunder" class="input"
-                                            readonly>
+                                        <input type="text" name="saldo_sekunder" id="saldo_sekunder" readonly>
                                         <input type="text" name="saldo_sekunderSatuan" id="saldo_sekunderSatuan"
-                                            class="input" style="width: 25%" readonly>
+                                            style="width: 25%" readonly>
                                     </div>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="saldo_tritier">Tritier</label>
+                                    <span>Tritier</span>
                                     <div style="display: flex; flex-direction: row; gap: 3%">
-                                        <input type="text" name="saldo_tritier" id="saldo_tritier" class="input"
-                                            readonly>
+                                        <input type="text" name="saldo_tritier" id="saldo_tritier" readonly>
                                         <input type="text" name="saldo_tritierSatuan" id="saldo_tritierSatuan"
-                                            class="input" style="width:25%" readonly>
+                                            style="width:25%" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -97,47 +95,50 @@
                         <div class="acs-div-form2">
                             <div class="acs-div-form3">
                                 <div class="acs-div-filter1">
-                                    <label for="divisi">Id Transaksi</label>
-                                    <input type="text" name="id_transaksi" id="id_transaksi" class="input" readonly>
+                                    <span>Id Transaksi</span>
+                                    <input type="text" name="id_transaksi" id="id_transaksi" readonly>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="id_type">Id Type</label>
-                                    <input type="text" name="id_type" id="id_type" class="input" readonly>
+                                    <span>Id Type</span>
+                                    <input type="text" name="id_type" id="id_type" readonly>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="nama_barang">Nama Barang</label>
-                                    <input type="text" name="nama_barang" id="nama_barang" class="input" readonly>
+                                    <span>Nama Barang</span>
+                                    <input type="text" name="nama_barang" id="nama_barang" readonly>
                                 </div>
                             </div>
                             <div class="acs-div-form3">
                                 <div class="acs-div-filter1">
-                                    <label for="nama_customer">Nama Customer</label>
-                                    <input type="text" name="nama_customer" id="nama_customer" class="input"
-                                        readonly>
+                                    <span>Nama Customer</span>
+                                    <input type="text" name="nama_customer" id="nama_customer" readonly>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="no_sp">No SP</label>
-                                    <input type="text" name="no_sp" id="no_sp" class="input" readonly>
+                                    <span>No SP</span>
+                                    <input type="text" name="no_sp" id="no_sp" readonly>
                                 </div>
                                 <div class="acs-div-filter1">
-                                    <label for="tgl_mohonDO">Tanggal Mohon DO</label>
-                                    <input type="date" name="tgl_mohonDO" id="tgl_mohonDO" class="input" readonly>
+                                    <span>Tanggal Mohon DO</span>
+                                    <input type="date" name="tgl_mohonDO" id="tgl_mohonDO" readonly>
                                 </div>
                             </div>
                             <div class="acs-div-form3"
-                                style="border: 1px solid grey; margin:3%; padding:1%; width: fit-content">
+                                style="border: 1px solid grey; margin-top:1%; padding:1%; width: fit-content">
                                 <div class="acs-div-filter3">
-                                    <label for="max_do">Max DO</label>
+                                    <span>Max DO</span>
                                     <div style="display: flex; flex-direction: row; gap: 3%">
-                                        <input type="text" name="max_do" id="max_do" class="input acs-input" readonly>
-                                        <input type="text" name="max_doSatuan" id="max_doSatuan" class="input acs-input1" readonly>
+                                        <input type="text" name="max_do" id="max_do"
+                                            class="acs-acc-penjualan-input" readonly>
+                                        <input type="text" name="max_doSatuan" id="max_doSatuan"
+                                            class="acs-acc-penjualan-input1" readonly>
                                     </div>
                                 </div>
                                 <div class="acs-div-filter3">
-                                    <label for="min_do">Min DO</label>
+                                    <span>Min DO</span>
                                     <div style="display: flex; flex-direction: row; gap: 3%">
-                                        <input type="text" name="min_do" id="min_do" class="input acs-input" readonly>
-                                        <input type="text" name="min_doSatuan" id="min_doSatuan" class="input acs-input1" readonly>
+                                        <input type="text" name="min_do" id="min_do"
+                                            class="acs-acc-penjualan-input" readonly>
+                                        <input type="text" name="min_doSatuan" id="min_doSatuan"
+                                            class=" acs-acc-penjualan-input1" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -153,35 +154,38 @@
                                         <div style="display: flex; flex-direction: row; gap: 3%">
                                             <label for="saldo_primerDikeluarkan">Primer</label>
                                             <input type="text" name="saldo_primerDikeluarkan"
-                                                id="saldo_primerDikeluarkan" class="input acs-input" readonly>
+                                                id="saldo_primerDikeluarkan" class="acs-acc-penjualan-input" readonly>
                                             <input type="text" name="saldo_primerDikeluarkanSatuan"
-                                                id="saldo_primerDikeluarkanSatuan" class="input acs-input1" readonly>
+                                                id="saldo_primerDikeluarkanSatuan" class="acs-acc-penjualan-input1"
+                                                readonly>
                                         </div>
                                     </div>
                                     <div class="acs-div-filter1">
                                         <div style="display: flex; flex-direction: row; gap: 3%">
                                             <label for="saldo_sekunderDikeluarkan">Sekunder</label>
                                             <input type="text" name="saldo_sekunderDikeluarkan"
-                                                id="saldo_sekunderDikeluarkan" class="input acs-input" readonly>
+                                                id="saldo_sekunderDikeluarkan" class="acs-acc-penjualan-input" readonly>
                                             <input type="text" name="saldo_sekunderDikeluarkanSatuan"
-                                                id="saldo_sekunderDikeluarkanSatuan" class="input acs-input1" readonly>
+                                                id="saldo_sekunderDikeluarkanSatuan" class="acs-acc-penjualan-input1"
+                                                readonly>
                                         </div>
                                     </div>
                                     <div class="acs-div-filter1">
                                         <div style="display: flex; flex-direction: row; gap: 3%">
                                             <label for="saldo_tritierDikeluarkan">Tritier</label>
                                             <input type="text" name="saldo_tritierDikeluarkan"
-                                                id="saldo_tritierDikeluarkan" class="input acs-input" readonly>
+                                                id="saldo_tritierDikeluarkan" class="acs-acc-penjualan-input" readonly>
                                             <input type="text" name="saldo_tritierDikeluarkanSatuan"
-                                                id="saldo_tritierDikeluarkanSatuan" class="input acs-input1" readonly>
+                                                id="saldo_tritierDikeluarkanSatuan" class="acs-acc-penjualan-input1"
+                                                readonly>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="acs-div-filter1">
-                            <label for="jumlah_konversi">Jumlah Konversi</label>
-                            <input type="text" name="jumlah_konversi" id="jumlah_konversi" class="input" readonly>
+                            <span>Jumlah Konversi</span>
+                            <input type="text" name="jumlah_konversi" id="jumlah_konversi" readonly>
                             {{-- <button id="tampilModal" class="btn btn-light">Tampil Modal</button> --}}
                         </div>
                         <div class="acs-btn-form5">

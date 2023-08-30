@@ -930,12 +930,15 @@ function funcDatatablesIntoInput() {
         for (let j = 0; j < dataArray[i].length; j++) {
             console.log(row[j]);
             value = "";
-            value = row[j].replace(/,/g, "").trim().replace(/\s+/g, ' ');
+            value = row[j]
+                .replace(/,/g, "")
+                .trim()
+                .replace(/[^\S\r\n]+/g, " ");
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
             hiddenInput.multiple = true;
-            hiddenInput.value = value
+            hiddenInput.value = value;
             // Append the hidden input to the document body or any other element
             form_suratPesanan.appendChild(hiddenInput);
         }

@@ -64,6 +64,8 @@ $("#table_AccPenjualan").DataTable({
         { data: "Tritier" },
         { data: "KodeBarang" },
     ],
+    lengthMenu: [25, 50, 100, 200, 300, 400, 500],
+    pageLength: 25,
 });
 $("#table_AccPenjualan tbody").on("click", "tr", function () {
     const table = $("#table_AccPenjualan").DataTable();
@@ -77,7 +79,7 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
     fetch("/accPenjualanTampilData/" + IdTransaksi)
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data);
+            console.log(data);
             divisi.value = data[0].NamaDivisi;
             objek.value = data[0].NamaObjek;
             kelompok_utama.value = data[0].NamaKelompokUtama;
@@ -159,6 +161,8 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                 { data: "Qty" },
                                 { data: "Tgl_mutasi" },
                             ],
+                            lengthMenu: [25, 50, 100, 200, 300, 400, 500],
+                            pageLength: 25,
                         });
                         // dataTable.rows.add(data);
                         console.log(table.data());
@@ -396,9 +400,12 @@ prosesButton.addEventListener("click", function (event) {
     }
 
     if (
-        parseFloat(saldo_primerDikeluarkan.value) > parseFloat(saldo_primer.value) ||
-        parseFloat(saldo_sekunderDikeluarkan.value) > parseFloat(saldo_sekunder.value) ||
-        parseFloat(saldo_tritierDikeluarkan.value) > parseFloat(saldo_tritier.value)
+        parseFloat(saldo_primerDikeluarkan.value) >
+            parseFloat(saldo_primer.value) ||
+        parseFloat(saldo_sekunderDikeluarkan.value) >
+            parseFloat(saldo_sekunder.value) ||
+        parseFloat(saldo_tritierDikeluarkan.value) >
+            parseFloat(saldo_tritier.value)
     ) {
         alert("Jumlah Barang Di Gudang Tidak Mencukupi");
         return;
