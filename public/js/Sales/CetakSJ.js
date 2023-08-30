@@ -58,6 +58,7 @@ print_button.addEventListener("click", function () {
                 tanggal_kirimKolom.innerHTML = formatDate(tanggal_sj.value); // masih salah format
                 truk_nopolKolom.innerHTML = data[0].TrukNopol;
                 no_spKolom.innerHTML = data[0].SuratPesanan;
+                keterangan_tambahanKolom.innerHTML = data[0].Ket;
                 alamat_kolom.innerHTML = data[0].Alamat;
                 satuan_barangPrimerKolom.innerHTML = data[0].satPrimer.trim();
                 jumlah_barangPrimerKolom.innerHTML = data[0].QtyPrimer;

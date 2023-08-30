@@ -868,7 +868,7 @@ function formatangka(objek) {
     if (Number.isInteger(objek)) {
         return objek.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     } else {
-        let parts = objek.toFixed(3).split(".");
+        let parts = objek.toFixed(4).split(".");
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return parts.join(".").replace(/\.?0+$/, "");
     }
@@ -920,6 +920,7 @@ function clearHeader() {
 
 function funcDatatablesIntoInput() {
     let dataArray = [];
+    let value = "";
     dataArray = list_view.data().toArray();
     // console.log(dataArray);
     // Create a hidden input element
@@ -928,11 +929,13 @@ function funcDatatablesIntoInput() {
         console.log(row);
         for (let j = 0; j < dataArray[i].length; j++) {
             console.log(row[j]);
+            value = "";
+            value = row[j].replace(/,/g, "").trim().replace(/\s+/g, ' ');
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
             hiddenInput.multiple = true;
-            hiddenInput.value = row[j].replace(/,/g, "");
+            hiddenInput.value = value
             // Append the hidden input to the document body or any other element
             form_suratPesanan.appendChild(hiddenInput);
         }
