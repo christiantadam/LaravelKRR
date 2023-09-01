@@ -52,23 +52,23 @@ let surat_pesananDiv = document.getElementById("surat_pesananDiv");
 setInputFilter(
     document.getElementById("qty_primer"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("qty_sekunder"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("qty_tritier"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 // setInputFilter(
 //     document.getElementById("qty_order"),
