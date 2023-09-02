@@ -23,13 +23,13 @@
                 detailPesananArray[i].UraianPesanan.split(" | ")[4] ?? "",
                 detailPesananArray[i].Lunas ?? "",
                 detailPesananArray[i].KodeHS ?? "",
+                detailPesananArray[i].TerKirim ?? "",
             ];
             itemsArray.push(item);
         }
         $(document).ready(function() {
             // console.log(dataArray.data);
-            $('#table_SP').DataTable({
-            });
+            $('#table_SP').DataTable({});
         });
     </script>
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -66,7 +66,7 @@
                                             <label for="no_sp">Nomor Surat Pesanan </label>
                                             <div>
                                                 <input type="text" name="no_spText" id="no_spText" class="input"
-                                                    style="width: 100%"onkeypress="enterToTab(event)" readonly
+                                                    style="width: 100%"onkeypress="enterToTab(event)"
                                                     value="{{ $header_pesanan[0]->IDSuratPesanan }}">
                                                 <select name="no_spSelect" id="no_spSelect" class="input"
                                                     style="width: 60%; display: none">
@@ -153,7 +153,8 @@
                                                 <option selected disabled>-- Pilih Billing --</option>
                                                 @foreach ($list_billing as $data)
                                                     <option value="{{ $data->IDBill }}"
-                                                        @if ($data->IDBill === $header_pesanan[0]->IDBill) selected @endif>{{ $data->NamaBill }}</option>
+                                                        @if ($data->IDBill === $header_pesanan[0]->IDBill) selected @endif>
+                                                        {{ $data->NamaBill }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -211,6 +212,7 @@
                                                 <th>Rencana Kirim (Cargo Ready)</th>
                                                 <th>Lunas</th>
                                                 <th>KodeHS</th>
+                                                <th>TerKirim</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -266,7 +268,8 @@
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="kode_hs">Kode HS</label>
-                                                <input type="text" name="kode_hs" id="kode_hs" class="input">
+                                                <input type="text" name="kode_hs" id="kode_hs" class="input"
+                                                    onkeypress="enterToTab(event)">
                                             </div>
                                         </div>
                                         <div class="acs-div-container1">
@@ -281,15 +284,20 @@
                                                     name="harga_satuan" onkeypress="enterToTab(event)">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="general_specificationProformaInvoice">General Specification(Proforma Invoice)</label>
+                                                <label for="general_specificationProformaInvoice">General
+                                                    Specification(Proforma Invoice)</label>
                                                 <div class="acs-div-filter2">
-                                                    <textarea name="general_specificationProformaInvoice" id="general_specificationProformaInvoice" cols="10" rows="2" class="input" style="width: 100% "></textarea>
-                                                    <button class="btn-primary btn" id="general_specificationButton">Copy</button>
+                                                    <textarea name="general_specificationProformaInvoice" id="general_specificationProformaInvoice" cols="10"
+                                                        rows="2" class="input" style="width: 100% "></textarea>
+                                                    <button class="btn-primary btn"
+                                                        id="general_specificationButton">Copy</button>
                                                 </div>
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="general_specificationSuratPesanan">General Specification (Surat Pesanan)</label>
-                                                <textarea name="general_specificationSuratPesanan" id="general_specificationSuratPesanan" cols="10" rows="2" class="input"></textarea>
+                                                <label for="general_specificationSuratPesanan">General Specification (Surat
+                                                    Pesanan)</label>
+                                                <textarea name="general_specificationSuratPesanan" id="general_specificationSuratPesanan" cols="10"
+                                                    rows="2" class="input"></textarea>
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="keterangan_barang">Keterangan Barang</label>
@@ -302,14 +310,18 @@
                                             <div class="acs-div-filter">
                                                 <label for="ppn">Pajak Pertambahan Nilai</label>
                                                 <select name="ppn" id="ppn" class="input">
-                                                    <option selected disabled>-- Pilih PPN --</option>
-                                                    <option value="0">0</option>
+                                                    <option disabled>-- Pilih PPN --</option>
+                                                    <option value="0" selected>0</option>
                                                     <option value="INCLUDE">INCLUDE</option>
                                                     <option value="EXCLUDE">EXCLUDE</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="acs-div-container7">
+                                            <div class="acs-div-filter">
+                                                <label for="terkirim">TerKirim</label>
+                                                <input type="text" name="terkirim" id="terkirim" class="input">
+                                            </div>
                                             <div class="acs-div-filter">
                                                 <label for="lunas">Status Lunas</label>
                                                 <input type="text" name="lunas" id="lunas" class="input">

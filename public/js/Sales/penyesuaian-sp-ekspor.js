@@ -58,6 +58,7 @@ let satuan_jual = document.getElementById("satuan_jual");
 let size_code = document.getElementById("size_code");
 let sub_kelompok = document.getElementById("sub_kelompok");
 let table_listView = document.getElementById("list_view");
+let terkirim = document.getElementById("terkirim");
 let tgl_pesan = document.getElementById("tgl_pesan");
 let tgl_po = document.getElementById("tgl_po");
 let update_button = document.getElementById("update_button");
@@ -364,6 +365,9 @@ add_button.addEventListener("click", function (event) {
         harga_satuan.focus();
         return;
     }
+    if (terkirim.value !== "") {
+        alert("Untuk order baru, kolom terkirim tidak bisa terisi");
+    }
     const arraydata = [
         nama_barang.options[nama_barang.selectedIndex].text,
         jenis_barang.options[jenis_barang.selectedIndex].text,
@@ -371,6 +375,7 @@ add_button.addEventListener("click", function (event) {
         formatangka(parseInt(qty_pesan.value)),
         satuan_jual.options[satuan_jual.selectedIndex].text,
         general_specificationProformaInvoice.value,
+        general_specificationSuratPesanan.value,
         keterangan_barang.value,
         size_code.value,
         rencana_kirim.value,
@@ -380,6 +385,7 @@ add_button.addEventListener("click", function (event) {
         nama_barang.value,
         "",
         cargo_readySuratPesanan.value,
+        ""
     ];
     funcInsertRow(arraydata);
     clearDetailBarang();
@@ -418,7 +424,7 @@ update_button.addEventListener("click", function (event) {
         rowData[15] = cargo_readySuratPesanan.value;
         rowData[16] = lunas.value;
         rowData[17] = kode_hs.value;
-
+        rowData[18] = terkirim.value;
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
         // remove highlight from selected row
@@ -821,6 +827,7 @@ function funcInsertRow(array) {
             cargo_readySuratPesanan.value = selectedRows[0][15];
             lunas.value = selectedRows[0][16];
             kode_hs.value = selectedRows[0][17];
+            terkirim.value = selectedRows[0][18];
             // funcTampilInv(selectedRows[0][1]);
         });
     }
@@ -896,6 +903,7 @@ function clearDetailBarang() {
     cargo_readySuratPesanan.value = "";
     lunas.value = "";
     kode_hs.value = "";
+    terkirim.value = "";
 }
 
 function clearHeader() {

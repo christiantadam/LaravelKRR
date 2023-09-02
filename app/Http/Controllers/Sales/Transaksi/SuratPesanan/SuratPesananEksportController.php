@@ -516,7 +516,7 @@ class SuratPesananEksportController extends Controller
         $uraian_pesanan = array_values($uraian_pesanan); // Reindex the array to start from 0
 
         // dd($uraian_pesanan);
-        $Lunas = null;
+        $Lunas = $request->barang16;
         $jenis_bayar = 2;
         $syarat_bayar = 0;
         $faktur_pjk = null;
@@ -581,7 +581,7 @@ class SuratPesananEksportController extends Controller
                 @Lunas = ?,
                 @PPN = ?,
                 @indek = ?',
-                    [$kode, $no_sp, $id_pesanan[$i], $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas ?? null, $ppn[$i], 0.00],
+                    [$kode, $no_sp, $id_pesanan[$i], $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas[$i] ?? null, $ppn[$i], 0.00],
                 );
             }
         }
