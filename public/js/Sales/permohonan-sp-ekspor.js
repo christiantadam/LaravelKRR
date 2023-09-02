@@ -872,6 +872,7 @@ function clearDetailBarang() {
     qty_pesan.value = "";
     harga_satuan.value = "";
     general_specificationProformaInvoice.value = "";
+    general_specificationSuratPesanan.value = "";
     keterangan_barang.value = "";
     size_code.value = "";
     ppn.selectedIndex = 1;
@@ -880,7 +881,14 @@ function clearDetailBarang() {
     satuan_gudangSekunder.value = "";
     satuan_gudangTritier.value = "";
     rencana_kirim.valueAsDate = new Date();
-    cargo_readySuratPesanan.value = "";
+
+    month = (rencana_kirim.valueAsDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0"); // Adding 1 because getMonth() is zero-based
+    day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
+    year = rencana_kirim.valueAsDate.getFullYear();
+    formattedDate = month + "-" + day + "-" + year;
+    cargo_readySuratPesanan.value = formattedDate;
 }
 
 function clearHeader() {

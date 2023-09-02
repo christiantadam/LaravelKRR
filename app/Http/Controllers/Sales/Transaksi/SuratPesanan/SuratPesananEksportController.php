@@ -562,7 +562,7 @@ class SuratPesananEksportController extends Controller
                 @Lunas = ?,
                 @PPN = ?,
                 @indek = ?',
-                    [1, $no_sp, $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas ?? null, $ppn[$i], 0.00],
+                    [1, $no_sp, $kode_barang[$i], $id_type[$i], $id_jenisPesanan[$i], $qty_pesan[$i], $satuan_jual[$i], $harga_satuan[$i], 0.0, $uraian_pesanan[$i], $rencana_kirim[$i], $Lunas[$i] ?? null, $ppn[$i], 0.00],
                 );
             } else {
                 DB::connection('ConnSales')->statement(
