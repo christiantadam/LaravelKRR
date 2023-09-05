@@ -822,8 +822,8 @@ no_spText.addEventListener("keypress", function (event) {
                         const arraydata = [
                             data[1][i].namabarang,
                             data[1][i].KodeBarang,
-                            data[1][i].HargaSatuan,
-                            parseInt(data[1][i].Qty),
+                            formatangka(data[1][i].HargaSatuan),
+                            formatangka(data[1][i].Qty),
                             data[1][i].Satuan,
                             data[1][i].TglRencanaKirim.substr(0, 10),
                             data[1][i].Lunas,
@@ -862,10 +862,10 @@ no_spText.addEventListener("keypress", function (event) {
                             data[1][i].namabarang,
                             data[1][i].IDBarang,
                             formatangka(parseFloat(data[1][i].HargaSatuan)),
-                            formatangka(parseInt(data[1][i].Qty)),
+                            formatangka(parseFloat(data[1][i].Qty)),
                             data[1][i].Satuan,
                             data[1][i].TglRencanaKirim.substr(0, 10),
-                            data[1][i].Lunas,
+                            data[1][i].Lunas ?? "",
                             data[1][i].PPN,
                             formatangka(parseFloat(data[1][i].BERAT_KARUNG3)),
                             formatangka(parseFloat(data[1][i].INDEX_KARUNG)),
@@ -891,7 +891,7 @@ no_spText.addEventListener("keypress", function (event) {
                             formatangka(parseFloat(data[1][i].BERAT_TOTAL)),
                             data[1][i].IDJnsBarang,
                             data[1][i].IDPesanan,
-                            data[1][i].Informasi,
+                            data[1][i].Informasi ?? "",
                         ];
                         // Insert array into a new row
                         funcInsertRow(arraydata);
@@ -1537,6 +1537,7 @@ function funcDatatablesIntoInput() {
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
             hiddenInput.multiple = true;
+            console.log(row, row[j]);
             hiddenInput.value = row[j].replace(/,/g, "");
             // Append the hidden input to the document body or any other element
             form_suratPesanan.appendChild(hiddenInput);
