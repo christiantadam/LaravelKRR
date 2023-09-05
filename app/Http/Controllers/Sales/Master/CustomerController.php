@@ -141,7 +141,7 @@ class CustomerController extends Controller
             ->select(
                 DB::connection('ConnSales')->table('T_Customer')->raw("IDCust + ' - ' + JnsCust AS IDCustomer"),
                 DB::connection('ConnSales')->table('T_Customer')->raw("NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer"),
-                'Kota',
+                'KotaKirim',
                 'Negara'
             )
             // ->select('IDCust', 'Kota')
@@ -153,7 +153,7 @@ class CustomerController extends Controller
                 ->orWhere('JnsCust', 'LIKE', "%{$search}%")
                 ->orWhere('NamaCust', 'LIKE', "%{$search}%")
                 ->orWhere('AlamatKirim', 'LIKE', "%{$search}%")
-                ->orWhere('Kota', 'LIKE', "%{$search}%")
+                ->orWhere('KotaKirim', 'LIKE', "%{$search}%")
                 ->orWhere('Negara', 'LIKE', "%{$search}%");
 
             $totalFiltered = $query->count();
@@ -169,7 +169,7 @@ class CustomerController extends Controller
             foreach ($customer as $datacustomer) {
                 $nestedData['IDCustomer'] = $datacustomer->IDCustomer;
                 $nestedData['NamaCustomer'] = $datacustomer->NamaCustomer;
-                $nestedData['Kota'] = $datacustomer->Kota;
+                $nestedData['KotaKirim'] = $datacustomer->KotaKirim;
                 $nestedData['Negara'] = $datacustomer->Negara;
                 $idcust = explode(' - ', $datacustomer->IDCustomer);
                 $csrfToken = Session::get('_token');

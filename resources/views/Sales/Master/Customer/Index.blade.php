@@ -19,7 +19,7 @@
                         "data": "NamaCustomer"
                     },
                     {
-                        "data": "Kota"
+                        "data": "KotaKirim"
                     },
                     {
                         "data": "Negara"
