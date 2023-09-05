@@ -230,7 +230,6 @@ print_button.addEventListener("click", function (event) {
                         ]);
                     }
                 });
-                table_sp.order([0, "asc"]).draw();
                 table_sp.row
                     .add([
                         "",

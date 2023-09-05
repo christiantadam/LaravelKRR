@@ -606,7 +606,7 @@ sub_kelompok.addEventListener("change", function () {
             qty_primerGudang.value = data[0].SaldoPrimer;
             qty_sekunderGudang.value = data[0].SaldoSekunder;
             qty_tritierGudang.value = data[0].SaldoTritier;
-            min_kirim.focus();
+            max_kirim.focus();
             qty_primer.value = 0;
             qty_sekunder.value = 0;
             qty_tritier.value = 0;
