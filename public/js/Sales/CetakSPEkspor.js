@@ -210,7 +210,10 @@ print_button.addEventListener("click", function (event) {
                     data[0].Ket = "";
                 }
                 if (data[0].Ket.includes(" | ")) {
-                    let KeteranganArray = data[0].Ket.split(" | ");
+                    let KeteranganArray = data[0].Ket.replace(
+                        /\r\n/g,
+                        " <br> "
+                    ).split(" | ");
                     remarks_quantityKolom.innerHTML = KeteranganArray[2] ?? "";
                     remarks_packingKolom.innerHTML = KeteranganArray[3] ?? "";
                     remarks_priceKolom.innerHTML = KeteranganArray[4] ?? "";

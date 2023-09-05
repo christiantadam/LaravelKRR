@@ -134,7 +134,7 @@
                                             <td>
                                                 <table>
                                                     <tr>
-                                                        <td>1. Quantity</td>
+                                                        <td style="white-space: nowrap">1. Quantity</td>
                                                         <td>:&nbsp;</td>
                                                         <td id="remarks_quantityKolom"></td>
                                                     </tr>
@@ -152,7 +152,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Country of Origin</td>
+                                            <td style="white-space: nowrap">Country of Origin</td>
                                             <td>:&nbsp;</td>
                                             <td>Indonesia</td>
                                         </tr>
