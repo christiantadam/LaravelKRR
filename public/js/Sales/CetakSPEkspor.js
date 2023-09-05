@@ -167,9 +167,9 @@ print_button.addEventListener("click", function (event) {
                         ).split(" | ");
                         cargo_readyKolom.innerHTML = UraianPesananArray[4];
                         // console.log(item.UraianPesanan);
-                        // console.log(UraianPesananArray);
+                        console.log(UraianPesananArray);
                         table_sp.row.add([
-                            index + 1,
+                            UraianPesananArray[5] ?? "",
                             UraianPesananArray[1],
                             UraianPesananArray[3] +
                                 "<br> <br>" +

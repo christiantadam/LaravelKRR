@@ -5,6 +5,7 @@
         console.log(detailPesananArray.length);
         for (var i = 0; i < detailPesananArray.length; i++) {
             var item = [
+                detailPesananArray[i].UraianPesanan.split(" | ")[5] ?? "",
                 detailPesananArray[i].namabarang,
                 detailPesananArray[i].NamaJnsBrg,
                 detailPesananArray[i].HargaSatuan,
@@ -194,6 +195,7 @@
                                     <table class="permohonan-s-p-table" id="list_view" name="list_view">
                                         <thead class="thead-light acs-thead">
                                             <tr>
+                                                <th>No.</th>
                                                 <th>Nama Barang</th>
                                                 <th>Jenis Barang</th>
                                                 <th>Harga Satuan</th>
@@ -271,6 +273,11 @@
                                                 <input type="text" name="kode_hs" id="kode_hs" class="input"
                                                     onkeypress="enterToTab(event)">
                                             </div>
+                                            <div class="acs-div-filter">
+                                                <label for="nomor_urutCetak">Nomor Urut Cetak</label>
+                                                <input type="text" name="nomor_urutCetak" id="nomor_urutCetak" class="input"
+                                                    onkeypress="enterToTab(event)">
+                                            </div>
                                         </div>
                                         <div class="acs-div-container1">
                                             <div class="acs-div-filter">
@@ -320,7 +327,7 @@
                                         <div class="acs-div-container7">
                                             <div class="acs-div-filter">
                                                 <label for="terkirim">TerKirim</label>
-                                                <input type="text" name="terkirim" id="terkirim" class="input">
+                                                <input type="text" name="terkirim" id="terkirim" class="input" readonly>
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="lunas">Status Lunas</label>
