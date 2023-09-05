@@ -32,7 +32,7 @@ class CetakSPEksportController extends Controller
     public function getViewPrint($no_spValue)
     {
         $no_sp = str_replace('.', '/', $no_spValue);
-        $data = DB::connection('ConnSales')->table('VW_SLS_4384_CETAK_SP_EKSPORT_LARAVEL')->select('*')->where('NO_SP', '=', $no_sp)->orderBy('IDPesanan', 'asc')->get();
+        $data = DB::connection('ConnSales')->table('VW_SLS_4384_CETAK_SP_EKSPORT_LARAVEL')->select('*')->where('NO_SP', '=', $no_sp)->get();
 
         // $data = db::connection('ConnSales')->select('Select * from VW_PRG_1486_SLS_CETAK_SP1 where NO_SP = ?', [$no_sp]);
         return response()->json($data);
