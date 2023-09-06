@@ -100,11 +100,11 @@ class SuratPesananEksportController extends Controller
                     $no_spValue = $datasp->IDSuratPesanan;
                 }
                 $csrfToken = Session::get('_token');
-                $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">&#x270E; EDIT</button>
+                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">&#x270E; Penyesuaian</button>
                 <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
                                         action=\"http://127.0.0.1:8000/batalSPEkspor/" . $no_spValue . "\" method=\"POST\"
                                         enctype=\"multipart/form-data\"> <button type=\"submit\"
-                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Hapus</button>
+                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Batal SP</button>
                                             <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
                                     </form>";
 

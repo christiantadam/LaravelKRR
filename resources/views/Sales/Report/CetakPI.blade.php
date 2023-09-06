@@ -218,7 +218,7 @@
                                     <br>
                                     <span>Confirmed by:</span>
                                     <div class="cetak-sppdf-container-tanda-tangan">
-                                        <span style="align-self: flex-start; width: 100%;text-align: end" id="tgl_pesanKolom">Sidoarjo, July 15, 2023</span>
+                                        <span style="align-self: flex-start; width: 100%;text-align: end" id="tgl_ttKolom">Sidoarjo, July 15, 2023</span>
                                         <div class="cetak-sppdf-tanda-tangan">
                                             <input type="text" class="signature" id="ttd_namaContactPersonKolom">
                                             <br>

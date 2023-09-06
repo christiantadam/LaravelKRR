@@ -48,6 +48,7 @@ let ttd_perusahaanKolom = document.getElementById("ttd_perusahaanKolom");
 let ttd_namaContactPersonKolom = document.getElementById(
     "ttd_namaContactPersonKolom"
 );
+let tgl_ttKolom = document.getElementById("tgl_ttKolom");
 
 //#region Load Form
 
@@ -152,6 +153,8 @@ print_button.addEventListener("click", function (event) {
                 no_poKolom.innerHTML =
                     "Buyer Reference contract number: " + data[0].NO_PO;
                 tgl_pesanKolom.innerHTML =
+                    "Sidoarjo, " + convertDateFormat(data[0].TGL_SP);
+                tgl_ttKolom.innerHTML =
                     "Sidoarjo, " + convertDateFormat(data[0].TGL_SP);
                 nama_customerKolom.innerHTML = data[0].ContactPerson;
                 fax_customerKolom.innerHTML = data[0].NoFax1 ?? data[0].NoFax2;
@@ -308,7 +311,7 @@ function convertDateFormat(inputDate) {
 
     const [datePart, timePart] = inputDate.split(" ");
     const [year, month, day] = datePart.split("-");
-    const formattedDate = `${months[Number(month) - 1]} ${day}, ${year}`;
+    const formattedDate = `${months[Number(month)]} ${day} ${year}`;
 
     return formattedDate;
 }

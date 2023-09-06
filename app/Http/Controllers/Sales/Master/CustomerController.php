@@ -25,93 +25,6 @@ class CustomerController extends Controller
         return view('Sales.Master.Customer.Index', compact('access'));
     }
 
-    // function getallcustomer(Request $request)
-    // {
-    //     if (!$request->isMethod('post')) {
-    //         // Handle invalid method, e.g., return an error response
-    //         return response()->json(['error' => 'Invalid request method'], 405);
-    //     }
-    //     $columns = array(
-    //         0 => 'IdCustomer',
-    //         1 => 'Nama Customer',
-    //         2 => 'Kota Kirim',
-    //         3 => 'Negara',
-    //         4 => 'Action',
-    //     );
-
-    //     $totalData = DB::connection('ConnSales')->table('T_Customer')
-    //         ->select(DB::raw("TOP 200 IDCust + ' - ' + JnsCust AS IDCustomer, NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer, Kota, Negara"))
-    //         ->where('IsActive', 1)
-    //         ->orderByDesc('IDCust')
-    //         ->count();
-
-    //     $totalFiltered = $totalData;
-
-    //     $limit = $request->input('length');
-    //     $start = $request->input('start');
-    //     $order = $columns[$request->input('order.0.column')];
-    //     $dir = $request->input('order.0.dir');
-
-    //     if (empty($request->input('search.value'))) {
-    //         $customer = DB::connection('ConnSales')->table('T_Customer')
-    //             ->select(DB::connection('ConnSales')->raw("TOP 200 IDCust + ' - ' + JnsCust AS IDCustomer, NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer, Kota, Negara"))
-    //             ->where('IsActive', 1)
-    //             ->orderByDesc('IDCust')
-    //             ->offset($start)
-    //             ->limit($limit)
-    //             ->orderBy($order, $dir)
-    //             ->get();
-    //     } else {
-    //         $search = $request->input('search.value');
-    //         $customer = DB::connection('ConnSales')->table('T_Customer')
-    //             ->select(DB::connection('ConnSales')->raw("TOP 200 IDCust + ' - ' + JnsCust AS IDCustomer, NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer, Kota, Negara"))
-    //             ->where('IsActive', 1)
-    //             ->orderByDesc('IDCust')
-    //             ->where('IDCustomer', 'LIKE', "%{$search}%")
-    //             ->orWhere('NamaCustomer', 'LIKE', "%{$search}%")
-    //             ->orWhere('Kota', 'LIKE', "%{$search}%")
-    //             ->orWhere('Negara', 'LIKE', "%{$search}%")
-    //             ->offset($start)
-    //             ->limit($limit)
-    //             ->orderBy($order, $dir)
-    //             ->get();
-
-    //         $totalFiltered = DB::connection('ConnSales')->table('T_Customer')
-    //             ->select(DB::connection('ConnSales')->raw("TOP 200 IDCust + ' - ' + JnsCust AS IDCustomer, NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer, Kota, Negara"))
-    //             ->where('IsActive', 1)
-    //             ->orderByDesc('IDCust')
-    //             ->where('IDCustomer', 'LIKE', "%{$search}%")
-    //             ->orWhere('NamaCustomer', 'LIKE', "%{$search}%")
-    //             ->orWhere('Kota', 'LIKE', "%{$search}%")
-    //             ->orWhere('Negara', 'LIKE', "%{$search}%")
-    //             ->count();
-    //     }
-
-    //     $data = array();
-    //     if (!empty($customer)) {
-    //         foreach ($customer as $datacustomer) {
-    //             $nestedData['IDCustomer'] = $datacustomer->IDCustomer;
-    //             $nestedData['NamaCustomer'] = $datacustomer->NamaCustomer;
-    //             $nestedData['Kota'] = $datacustomer->Kota;
-    //             $nestedData['Negara'] = $datacustomer->Negara;
-    //             $idcust = explode(' - ', $datacustomer->IDCustomer);
-    //             $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[1] . "/edit')\">&#x270E; EDIT</button>
-    //                                         <br> <button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[1] . "')\">&#x1F5D1; HAPUS</button>";
-
-    //             $data[] = $nestedData;
-    //         }
-    //     }
-
-    //     $json_data = array(
-    //         "draw" => intval($request->input('draw')),
-    //         "recordsTotal" => intval($totalData),
-    //         "recordsFiltered" => intval($totalFiltered),
-    //         "data" => $data
-    //     );
-    //     // dd($sp);
-    //     echo json_encode($json_data);
-    // }
-
     function getallcustomer(Request $request)
     {
         if (!$request->isMethod('post')) {
@@ -173,7 +86,7 @@ class CustomerController extends Controller
                 $nestedData['Negara'] = $datacustomer->Negara;
                 $idcust = explode(' - ', $datacustomer->IDCustomer);
                 $csrfToken = Session::get('_token');
-                $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; EDIT</button>
+                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; Edit</button>
                                         <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
                                         action=\"http://127.0.0.1:8000/Customer/" . $idcust[0] . "\" method=\"POST\"
                                         enctype=\"multipart/form-data\"> <button type=\"submit\"
@@ -313,7 +226,7 @@ class CustomerController extends Controller
             'NamaCust' => 'required',
         ]);
         $User = Auth::user()->NomorUser;
-        $JnsCust = $request->JnsCust ?? "NULL";
+        $JnsCust = $request->JnsCust ?? NULL;
         $NamaCust = $request->NamaCust;
         $NPWP = $request->NPWP ?? NULL;
         $LimitBeli = $request->LimitBeli ?? 0;
@@ -335,7 +248,7 @@ class CustomerController extends Controller
         $NamaNPWP = $request->NamaNPWP ?? NULL;
         $AlamatNPWP = $request->AlamatNPWP ?? NULL;
         $KotaKirim = $request->KotaKirim ?? " ";
-        //dd($request->all());
+        // dd($request->all());
 
         //kurang parameter di sql server tentang inisial cust
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_UDT_CUSTOMER @IdCust = ?,

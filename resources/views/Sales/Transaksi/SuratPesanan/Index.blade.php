@@ -34,8 +34,17 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0"> {{-- button untuk munculin create billing --}} <button
-                    class="acs-icon-btn acs-add-btn acs-float" onclick="openNewWindow('SuratPesanan/create')">
+            <div class="col-md-10 RDZMobilePaddingLR0"> {{-- button untuk munculin create billing --}}
+                @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        {{ Session::get('success') }}
+                    </div>
+                @elseif (Session::has('error'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error') }}
+                    </div>
+                @endif
+                <button class="acs-icon-btn acs-add-btn acs-float" onclick="openNewWindow('SuratPesanan/create')">
                     <div class="acs-add-icon"></div>
                     <div class="acs-btn-txt">Tambah SP</div>
                 </button>

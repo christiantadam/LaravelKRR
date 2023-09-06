@@ -28,7 +28,7 @@
                             <div class="customer-container15">
                                 <div class="customer-container16">
                                     <div class="customer-container17"> <select name="JnsCust" id="JnsCust"
-                                            class="form-control">
+                                            class="form-control" disabled>
                                             @foreach ($jnscust as $data)
                                                 <option value="{{ $data->IDJnsCust }}"
                                                     {{ $model->JnsCust == $data->IDJnsCust ? 'selected' : '' }}>

@@ -1,3 +1,58 @@
+label{
+    margin-bottom: 0;
+}
+.acs-div-btn{
+    margin-top: 5px;
+    text-align: end;
+}
+.input{
+    padding: 0.3rem 1rem;
+}
+.acs-div-filter{
+    display: flex;
+    width: 75%;
+    flex-direction: column;
+    margin-bottom: 4px;
+}
+.acs-div-filter1{
+    display: flex;
+    width: 300px;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter2{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    margin: 4px 0;
+    gap: 5px;
+}
+.acs-div-filter3{
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    margin: 4px 0;
+}
+.acs-div-filter4{
+    display: flex;
+    width: 80%;
+    gap: 3px;
+    flex-direction: row;
+    margin: 4px 0;
+}
+.acs-form{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    gap: 5px;
+}
+.acs-form1{
+    display: flex;
+    flex-direction: column;
+    width: 32%;
+    height: 100%;
+}
 .customer-container {
     width: 100%;
     display: flex;

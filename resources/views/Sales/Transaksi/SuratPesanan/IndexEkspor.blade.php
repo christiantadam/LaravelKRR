@@ -38,6 +38,10 @@
                     <div class="alert alert-success">
                         {{ Session::get('success') }}
                     </div>
+                @elseif (Session::has('error'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error') }}
+                    </div>
                 @endif
                 <button class="acs-icon-btn acs-add-btn acs-float" onclick="openNewWindow('SuratPesananEkspor/create')">
                     <div class="acs-add-icon"></div>

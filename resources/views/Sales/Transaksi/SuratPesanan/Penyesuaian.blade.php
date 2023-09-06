@@ -8,9 +8,13 @@
                     <div class="alert alert-success">
                         {{ Session::get('success') }}
                     </div>
+                @elseif (Session::has('error'))
+                    <div class="alert alert-danger">
+                        {{ Session::get('error') }}
+                    </div>
                 @endif
                 <div class="card">
-                    <div class="card-header">Penyesuaian Surat aaPesanan</div>
+                    <div class="card-header">Penyesuaian Surat Pesanan</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="permohonan-s-p-container">
                             <form class="permohonan-s-p-form" id="form_suratPesanan" method="POST"
@@ -19,7 +23,7 @@
                                 <div class="permohonan-s-p-container01" id="div_headerSuratPesanan">
                                     <div class="permohonan-s-p-container02"> <span class="permohonan-s-p-text">Tgl
                                             Pesan</span>
-                                            <span permohonan-s-p-text03>Nomor SP</span>
+                                        <span permohonan-s-p-text03>Nomor SP</span>
                                         <span class="permohonan-s-p-text02">Customer</span> <span
                                             class="permohonan-s-p-text03">No. PO</span>
                                         <span class="permohonan-s-p-text04">Tgl. PO</span> <span
@@ -188,7 +192,8 @@
                                         </div>
                                     </div>
                                     <div class="permohonan-s-p-container27"> <span>Qty Pesan</span> <span>Harga
-                                            Satuan</span> <span>P P N</span> <span>Status Lunas</span> <span>Informasi Tambahan</span></div>
+                                            Satuan</span> <span>P P N</span> <span>Status Lunas</span> <span>Informasi
+                                            Tambahan</span></div>
                                     <div class="permohonan-s-p-container28">
                                         <div class="permohonan-s-p-container29"> <input type="text"
                                                 placeholder="Qty Pesan" class="permohonan-s-p-textinput18 input"
@@ -201,9 +206,10 @@
                                                 id="ppn" readonly /> </div>
                                         <div class="permohonan-s-p-container31"> <input type="text"
                                                 placeholder="Belum Lunas" class="permohonan-s-p-textinput20 input"
-                                                id="status_lunas"/> </div>
-                                        <div class="permohonan-s-p-container31"> <textarea name="informasi_tambahan" id="informasi_tambahan" cols="20" rows="2"></textarea>
-                                             </div>
+                                                id="status_lunas" /> </div>
+                                        <div class="permohonan-s-p-container31">
+                                            <textarea name="informasi_tambahan" id="informasi_tambahan" cols="20" rows="2"></textarea>
+                                        </div>
                                     </div>
                                     <div class="permohonan-s-p-container32"> <span>Satuan Jual</span> <span
                                             class="permohonan-s-p-span1">Sat Gudang</span> <span>Rencana Kirim</span>
@@ -251,8 +257,9 @@
                                             </div>
                                             <div class="permohonan-s-p-container40">
                                                 <div class="permohonan-s-p-container41"> <input type="text"
-                                                        placeholder="Berat Karung" class="permohonan-s-p-textinput26 input"
-                                                        id="berat_karung" readonly /> </div>
+                                                        placeholder="Berat Karung"
+                                                        class="permohonan-s-p-textinput26 input" id="berat_karung"
+                                                        readonly /> </div>
                                                 <div class="permohonan-s-p-container42"> <input type="text"
                                                         placeholder="Berat Inner" class="permohonan-s-p-textinput27 input"
                                                         id="berat_inner" readonly /> </div>
@@ -260,8 +267,9 @@
                                                         placeholder="Berat Lami" class="permohonan-s-p-textinput28 input"
                                                         id="berat_lami" readonly /> </div>
                                                 <div class="permohonan-s-p-container44"> <input type="text"
-                                                        placeholder="Berat Kertas" class="permohonan-s-p-textinput29 input"
-                                                        id="berat_kertas" readonly /> </div>
+                                                        placeholder="Berat Kertas"
+                                                        class="permohonan-s-p-textinput29 input" id="berat_kertas"
+                                                        readonly /> </div>
                                                 <div class="permohonan-s-p-container45"> <input type="text"
                                                         placeholder="BS Total" class="permohonan-s-p-textinput30 input"
                                                         id="berat_standardTotal" readonly /> </div>
@@ -276,8 +284,9 @@
                                             </div>
                                             <div class="permohonan-s-p-container48">
                                                 <div class="permohonan-s-p-container49"> <input type="text"
-                                                        placeholder="Index Karung" class="permohonan-s-p-textinput31 input"
-                                                        id="index_karung" readonly /> </div>
+                                                        placeholder="Index Karung"
+                                                        class="permohonan-s-p-textinput31 input" id="index_karung"
+                                                        readonly /> </div>
                                                 <div class="permohonan-s-p-container50"> <input type="text"
                                                         placeholder="Index Inner" class="permohonan-s-p-textinput32 input"
                                                         id="index_inner" readonly /> </div>
@@ -285,13 +294,14 @@
                                                         placeholder="Index Lami" class="permohonan-s-p-textinput33 input"
                                                         id="index_lami" readonly /> </div>
                                                 <div class="permohonan-s-p-container52"> <input type="text"
-                                                        placeholder="Index Kertas" class="permohonan-s-p-textinput34 input"
-                                                        id="index_kertas" readonly /> </div>
+                                                        placeholder="Index Kertas"
+                                                        class="permohonan-s-p-textinput34 input" id="index_kertas"
+                                                        readonly /> </div>
                                             </div>
                                             <div class="permohonan-s-p-container53"> <span>=</span> <span>=</span>
                                                 <span>=</span>
-                                                <span>=</span> <span class="permohonan-s-p-text58">Biaya Lain2:</span> <span
-                                                    class="permohonan-s-p-text59">Total Cost:</span>
+                                                <span>=</span> <span class="permohonan-s-p-text58">Biaya Lain2:</span>
+                                                <span class="permohonan-s-p-text59">Total Cost:</span>
                                             </div>
                                             <div class="permohonan-s-p-container54">
                                                 <div class="permohonan-s-p-container55"> <input type="text"

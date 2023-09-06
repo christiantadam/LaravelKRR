@@ -385,16 +385,21 @@ class SuratPesananManagerController extends Controller
         //SP_5409_SLS_UPDATE_BS
     }
 
-    public function batalspPenyesuaianSP(Request $request)
+    public function batalspPenyesuaianSP(Request $request, $nosp)
     {
-        // dd($request->all());
+        // dd($request->all(), $nosp, $request->no_spText);
+
+        if ($request->no_spText !== null) {
+            $nosp = $request->no_spText;
+        }
+
         $date = date('m/d/Y', strtotime('now'));
         $do1 = db::connection('ConnSales')->select('SELECT COUNT(dbo.T_DeliveryOrder.IDDO)
 					                                FROM         dbo.T_DeliveryOrder INNER JOIN
 					                                                      dbo.T_DetailPesanan ON dbo.T_DeliveryOrder.IDPesanan = dbo.T_DetailPesanan.IDPesanan INNER JOIN
 					                                                      dbo.vw_prg_barang ON dbo.T_DetailPesanan.IDBarang = dbo.vw_prg_barang.IDBarang
 					                                WHERE     (dbo.T_DeliveryOrder.Dikeluarkan IS NOT NULL OR
-					                                                dbo.T_DeliveryOrder.Dikeluarkan IS NULL) AND (dbo.T_DetailPesanan.IDSuratPesanan = \'' . $request->no_spText . '\')
+					                                                dbo.T_DeliveryOrder.Dikeluarkan IS NULL) AND (dbo.T_DetailPesanan.IDSuratPesanan = \'' . $nosp . '\')
 						                                    AND (dbo.T_DeliveryOrder.KetBatal IS NULL)');
 
         $do2 = db::connection('ConnSales')->select('SELECT COUNT(T_DeliveryOrder.IDDO)
@@ -402,36 +407,36 @@ class SuratPesananManagerController extends Controller
                                                                           T_DetailPesanan ON T_DeliveryOrder.IDPesanan = T_DetailPesanan.IDPesanan INNER JOIN
                                                                           VW_PRG_BARANG ON T_DetailPesanan.IDBarang = VW_PRG_BARANG.KodeBarang AND T_DeliveryOrder.IdType = VW_PRG_BARANG.IDBarang
                                                     WHERE     (T_DeliveryOrder.Dikeluarkan IS NOT NULL OR
-                              T_DeliveryOrder.Dikeluarkan IS NULL) AND (LEN(T_DetailPesanan.IDBarang) = \'9\') AND (T_DeliveryOrder.KetBatal IS NULL)  AND (dbo.T_DetailPesanan.IDSuratPesanan = \'' . $request->no_spText . '\')');
+                              T_DeliveryOrder.Dikeluarkan IS NULL) AND (LEN(T_DetailPesanan.IDBarang) = \'9\') AND (T_DeliveryOrder.KetBatal IS NULL)  AND (dbo.T_DetailPesanan.IDSuratPesanan = \'' . $nosp . '\')');
         $formula = db::connection('ConnSales')->select('SELECT COUNT(*)
                                     FROM   T_FormulaSP_KITE
                                     GROUP BY NoSP
-                                    HAVING (NoSP = \'' . $request->no_spText . '\')');
+                                    HAVING (NoSP = \'' . $nosp . '\')');
         // dd($do1[0]->{""}, $do2[0]->{""}, $formula);
         if ($do1[0]->{""} == 0 || $do2[0]->{""} == 0) {
             db::connection('ConnSales')->statement('UPDATE 	T_HEADERPESANAN
                                                             SET deleted = \'' . trim(Auth::user()->NomorUser) . '\' +\' - \'+ \'' . $date . '\'
-                                                            WHERE IdSuratPesanan = \'' . $request->no_spText . '\'');
+                                                            WHERE IdSuratPesanan = \'' . $nosp . '\'');
             if (!empty($formula)) {
                 $pp = db::connection('ConnSales')->select('SELECT SUM(BahanPP) + SUM(AfalanPP)
                                                             FROM         T_FormulaSP_KITE
-                                                            WHERE     (NoSP = \'' . $request->no_spText . '\')');
+                                                            WHERE     (NoSP = \'' . $nosp . '\')');
                 $pe = db::connection('ConnSales')->select('SELECT SUM(BahanPE) + SUM(AfalanPE)
                                                             FROM         T_FormulaSP_KITE
-                                                            WHERE     (NoSP = \'' . $request->no_spText . '\')');
+                                                            WHERE     (NoSP = \'' . $nosp . '\')');
                 $mb = db::connection('ConnSales')->select('SELECT SUM(BahanMB) + SUM(AfalanMB)
                                                             FROM         T_FormulaSP_KITE
-                                                            WHERE     (NoSP = \'' . $request->no_spText . '\')');
+                                                            WHERE     (NoSP = \'' . $nosp . '\')');
                 db::connection('ConnInventory')->statement('UPDATE SaldoKITE
                                                             set SaldoPP = SaldoPP + ' . $pp . ',
                                                                 SaldoPE = SaldoPE + ' . $pe . ',
                                                                 SaldoMB = SaldoMB + ' . $mb . '');
                 db::connection('ConnInventory')->statement('DELETE FROM T_FormulaSP_KITE
-                                                            WHERE     (NoSP = \'' . $request->no_spText . '\')');
+                                                            WHERE     (NoSP = \'' . $nosp . '\')');
             }
-            return redirect()->back()->with('success', 'Surat Pesanan ' . $request->no_spText . ' Sudah Dibatalkan!');
+            return redirect()->back()->with('success', 'Surat Pesanan ' . $nosp . ' Sudah Dibatalkan!');
         } else {
-            return redirect()->back()->with('error', 'Tidak Bisa Di Batalkan Karena Sudah Ada DO Yang Di ACC Maupun Permohonan DO!');
+            return redirect()->back()->with('error', 'Surat Pesanan ' . $nosp . 'Tidak Bisa Di Batalkan Karena Sudah Ada DO Yang Di ACC Maupun Permohonan DO!');
         }
     }
     public function updatePenyesuaian(Request $request)

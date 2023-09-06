@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\HakAksesController;
+use Session;
 
 
 class SuratPesananController extends Controller
@@ -102,7 +103,14 @@ class SuratPesananController extends Controller
                 } else {
                     $no_spValue = $datasp->IDSuratPesanan;
                 }
-                $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">EDIT</button>";
+                $csrfToken = Session::get('_token');
+                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">&#x270E; Penyesuaian</button>
+                <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
+                                        action=\"http://127.0.0.1:8000/batalsplokal/" . $no_spValue . "\" method=\"POST\"
+                                        enctype=\"multipart/form-data\"> <button type=\"submit\"
+                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Batal SP</button>
+                                            <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+                                    </form>";
 
                 $data[] = $nestedData;
             }
