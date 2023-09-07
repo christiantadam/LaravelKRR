@@ -21,8 +21,8 @@
                                     <div class="acs-form">
                                         <div class="acs-form1">
                                             <div class="acs-div-filter">
-                                                <label for="customer">Jenis Customer</label>
-                                                <select name="customer" id="customer" class="input">
+                                                <label for="JnsCust">Jenis Customer</label>
+                                                <select name="JnsCust" id="JnsCust" class="input">
                                                     <option selected disabled>-- Pilih Jenis Customer--</option>
                                                     @foreach ($jnscust as $data)
                                                         <option value="{{ $data->IDJnsCust }}">
@@ -31,123 +31,117 @@
                                                 </select>
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="surat_pesanan">Nama Customer</label>
-                                                <input type="text" name="nomor_spText" id="nomor_spText" class="input"
+                                                <label for="NamaCust">Nama Customer</label>
+                                                <input type="text" name="NamaCust" id="NamaCust" class="input"
                                                     placeholder="Nama Customer">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="id_pesanan">Initial Customer</label>
-                                                <input type="text" name="id_pesananText" id="id_pesananText"
+                                                <label for="KodeCust">Initial Customer</label>
+                                                <input type="text" name="KodeCust" id="KodeCust"
                                                     class="input" placeholder="Initial Customer">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="kode_barang">Contact Person</label>
-                                                <input type="text" name="kode_barang" id="kode_barang"
-                                                    placeholder="Contact Person" class="input" readonly>
+                                                <label for="ContactPerson">Contact Person</label>
+                                                <input type="text" name="ContactPerson" id="ContactPerson"
+                                                    placeholder="Contact Person" class="input">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="kode_barang">Limit Pembelian</label>
-                                                <input type="text" name="kode_barang" id="kode_barang"
-                                                    placeholder="Limit Pembelian" class="input" readonly>
+                                                <label for="LimitBeli">Limit Pembelian</label>
+                                                <input type="text" name="LimitBeli" id="LimitBeli"
+                                                    placeholder="Limit Pembelian" class="input">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="kode_barang">Alamat Kantor</label>
-                                                <input type="text" name="kode_barang" id="kode_barang"
-                                                    placeholder="Alamat Kantor" class="input" readonly>
+                                                <label for="Alamat">Alamat Kantor</label>
+                                                <input type="text" name="Alamat" id="Alamat"
+                                                    placeholder="Alamat Kantor" class="input">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="kode_barang">Kota</label>
-                                                <input type="text" name="kode_barang" id="kode_barang"
-                                                    placeholder="Kota" class="input" readonly>
-                                            </div>
-                                            <div class="acs-div-filter">
-                                                <label for="kode_barang">Provinsi</label>
-                                                <input type="text" name="kode_barang" id="kode_barang"
-                                                    placeholder="Provinsi" class="input" readonly>
-                                            </div>
-                                            <div class="acs-div-filter">
-                                                <label for="kode_barang">Negara</label>
-                                                <input type="text" name="kode_barang" id="kode_barang"
-                                                    placeholder="Negara" class="input" readonly>
-                                            </div>
-                                            <div class="acs-div-filter">
-                                                <label for="kode_barang">Kode Pos</label>
-                                                <input type="text" name="kode_barang" id="kode_barang"
-                                                    placeholder="Kode Pos" class="input" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="acs-form1">
-                                            <div class="acs-div-filter3">
-                                                <label for="uraian">Provinsi</label>
-                                                <input type="text" name="uraian" id="uraian" placeholder="Uraian"
+                                                <label for="Kota">Kota</label>
+                                                <input type="text" name="Kota" id="Kota" placeholder="Kota"
                                                     class="input">
                                             </div>
-                                            <div class="acs-div-filter1">
-                                                <label for="kelompok_utama">Kelompok Utama</label>
-                                                <select name="kelompok_utama" id="kelompok_utama" class="input">
-                                                    <option disabled selected>--Pilih Kelompok Utama--</option>
-                                                </select>
+                                            <div class="acs-div-filter">
+                                                <label for="Province">Provinsi</label>
+                                                <input type="text" name="Province" id="Province"
+                                                    placeholder="Provinsi" class="input">
                                             </div>
-                                            <div class="acs-div-filter1">
-                                                <label for="kelompok">Kelompok</label>
-                                                <select name="kelompok" id="kelompok" class="input">
-                                                    <option disabled selected>--Pilih Kelompok--</option>
-                                                </select>
+                                            <div class="acs-div-filter">
+                                                <label for="Negara">Negara</label>
+                                                <input type="text" name="Negara" id="Negara"
+                                                    placeholder="Negara" class="input">
                                             </div>
-                                            <div class="acs-div-filter1">
-                                                <label for="sub_kelompok">Sub Kelompok</label>
-                                                <select name="sub_kelompok" id="sub_kelompok" class="input">
-                                                    <option disabled selected>--Pilih Sub Kelompok--</option>
-                                                </select>
+                                            <div class="acs-div-filter">
+                                                <label for="KodePos">Kode Pos</label>
+                                                <input type="text" name="KodePos" id="KodePos"
+                                                    placeholder="Kode Pos" class="input">
                                             </div>
                                         </div>
                                         <div class="acs-form1">
-                                            <div class="acs-div-filter1">
-                                                <label for="customer">Customer</label>
-                                                <select name="customer" id="customer" class="input">
-                                                    <option selected disabled>-- Pilih Customer--</option>
-                                                </select>
+                                            <div class="acs-div-filter">
+                                                <label for="NoTelp1">No Telpon 1</label>
+                                                <input type="text" name="NoTelp1" id="NoTelp1"
+                                                    placeholder="No Telpon 1" class="input">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="surat_pesanan">Surat Pesanan</label>
-                                                <div class="acs-div-filter2">
-                                                    <input type="text" name="nomor_spText" id="nomor_spText"
-                                                        class="input">
-                                                    <div class="acs-div-filter1" id="surat_pesananDiv"
-                                                        style="display: none">
-                                                        <select name="nomor_spSelect" id="nomor_spSelect"
-                                                            style="display: none" class="input">
-                                                            <option selected disabled>--Pilih Surat Pesanan--</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                                <label for="NoTelp2">No Telpon 2</label>
+                                                <input type="text" name="NoTelp2" id="NoTelp2"
+                                                    placeholder="No Telpon 2" class="input">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="id_pesanan">ID Pesanan</label>
-                                                <div class="acs-div-filter2">
-                                                    <input type="text" name="id_pesananText" id="id_pesananText"
-                                                        class="input">
-                                                    <div class="acs-div-filter1" id="id_pesananDiv"
-                                                        style="display: none">
-                                                        <select name="id_pesananSelect" id="id_pesananSelect"
-                                                            style="display: none" class="input">
-                                                            <option selected disabled>--Pilih ID Pesanan--</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                                <label for="NoTelex">No Telex</label>
+                                                <input type="text" name="NoTelex" id="NoTelex"
+                                                    placeholder="No Telex" class="input">
                                             </div>
-                                            <div class="acs-div-filter1">
-                                                <label for="kode_barang">Kode Barang</label>
-                                                <div class="acs-div-filter2">
-                                                    <input type="text" name="kode_barang" id="kode_barang"
-                                                        placeholder="Kode Barang" class="input" readonly>
-                                                    <div class="acs-div-filter1">
-                                                        <span id="text_idTypeBarang" style="display: none">ID Type
-                                                            Barang</span>
-                                                        <input type="text" name="id_typeBarang" id="id_typeBarang"
-                                                            class="input" style="display: none" readonly>
-                                                    </div>
-                                                </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoFax1">No Fax 1</label>
+                                                <input type="text" name="NoFax1" id="NoFax1"
+                                                    placeholder="No Fax 1" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoFax2">No Fax 2</label>
+                                                <input type="text" name="NoFax2" id="NoFax2"
+                                                    placeholder="No Fax 2" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoHp1">No. HP 1</label>
+                                                <input type="text" name="NoHp1" id="NoHp1"
+                                                    placeholder="No. HP 1" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoHp2">No. HP 2</label>
+                                                <input type="text" name="NoHp2" id="NoHp2"
+                                                    placeholder="No. HP 2" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="Email">Email</label>
+                                                <input type="text" name="Email" id="Email"
+                                                    placeholder="Email" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="AlamatKirim">Alamat Kirim</label>
+                                                <textarea name="Alamat Kirim" id="AlamatKirim" cols="30" rows="3"></textarea>
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="KotaKirim">Kota Kirim</label>
+                                                <input type="text" name="KotaKirim" id="KotaKirim"
+                                                    placeholder="Kota Kirim" class="input">
+                                            </div>
+                                        </div>
+                                        <div class="acs-form1">
+                                            <div class="acs-div-filter">
+                                                <label for="NPWP">No. NPWP</label>
+                                                <input type="text" name="NPWP" id="NPWP"
+                                                    placeholder="No. NPWP" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NamaNPWP">Nama di NPWP</label>
+                                                <input type="text" name="NamaNPWP" id="NamaNPWP"
+                                                    placeholder="Nama di NPWP" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="AlamatNPWP">Alamat di NPWP</label>
+                                                <input type="text" name="AlamatNPWP" id="AlamatNPWP"
+                                                    placeholder="Alamat di NPWP" class="input">
                                             </div>
                                         </div>
                                     </div>
@@ -157,6 +151,13 @@
                                         <span>Submit</span></button>
                                 </div>
                             </form>
+                            <div id="qr-code-uji-coba">
+                                <input id="text-content" type="text" value="https://kertarajasa.co.id/"
+                                    style="width:80%" /><br />
+                                <div id="qrcode" style="width:200px; height:200px; margin-top:15px;">
+                                </div>
+                                <span id="text-qr"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,4 +165,62 @@
         </div>
     </div>
     <script type="text/javascript" src="{{ asset('js/Sales/Customer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/qrcode.js') }}"></script>
+    <style>
+        #qr-code-uji-coba {
+            display: none;
+        }
+
+        @media print {
+            .permohonan-do-form {
+                display: none !important;
+            }
+
+            #text-content {
+                display: none;
+            }
+
+            #qrcode {
+                display: block !important;
+            }
+
+            #text-qr {
+                display: block;
+                font-size: 18px;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        function makeCode() {
+            var elText = document.getElementById("text-content");
+            var textqr = document.getElementById("text-qr");
+            if (!elText.value) {
+                alert("Input a text");
+                elText.focus();
+                return;
+            }
+            textqr.innerHTML = elText.value;
+            qrcode.makeCode(elText.value);
+        }
+
+        makeCode();
+
+        $("#text-content").
+        on("blur", function() {
+            makeCode();
+        }).
+        on("keydown", function(e) {
+            if (e.keyCode == 13) {
+                makeCode();
+            }
+        });
+    </script>
 @endsection

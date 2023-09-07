@@ -121,6 +121,7 @@ class CustomerController extends Controller
     // Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'KodeCust' => 'required',
             'NamaCust' => 'required',
@@ -132,7 +133,7 @@ class CustomerController extends Controller
         $NPWP = $request->NPWP ?? NULL;
         $LimitBeli = $request->LimitBeli ?? 0;
         $ContactPerson = $request->ContactPerson ?? NULL;
-        $AlamatKirim = $request->AlamatKirim ?? NULL;
+        $AlamatKirim = $request->Alamat_Kirim ?? NULL;
         $Alamat = $request->Alamat ?? NULL;
         $Kota = $request->Kota ?? NULL;
         $Propinsi = $request->Province ?? NULL;

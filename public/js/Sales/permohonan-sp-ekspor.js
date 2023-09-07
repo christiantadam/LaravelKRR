@@ -2,16 +2,24 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
-let cargo_readySuratPesanan = document.getElementById("cargo_readySuratPesanan");
+let cargo_readySuratPesanan = document.getElementById(
+    "cargo_readySuratPesanan"
+);
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
 let destination_port = document.getElementById("destination_port");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
-let general_specificationButton = document.getElementById("general_specificationButton");
-let general_specificationProformaInvoice = document.getElementById("general_specificationProformaInvoice");
-let general_specificationSuratPesanan = document.getElementById("general_specificationSuratPesanan");
+let general_specificationButton = document.getElementById(
+    "general_specificationButton"
+);
+let general_specificationProformaInvoice = document.getElementById(
+    "general_specificationProformaInvoice"
+);
+let general_specificationSuratPesanan = document.getElementById(
+    "general_specificationSuratPesanan"
+);
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let isi_button = document.getElementById("isi_button");
@@ -72,6 +80,9 @@ no_spText.focus();
 edit_button.style.display = "none";
 hapus_button.style.display = "none";
 lihat_spButton.style.display = "none";
+proses = 1;
+mata_uang.selectedIndex = 2;
+ppn.selectedIndex = 1;
 // disableInputs();
 
 //#endregion
@@ -113,6 +124,12 @@ isi_button.addEventListener("click", async function (event) {
     if (list_view.length < 0) {
         alert("Surat pesanan harus berisi barang yang dipesan!");
         kelompok_utama.focus();
+        return;
+    }
+
+    if (jenis_harga.selectedIndex == 0) {
+        alert("Jenis harga harus dipilih!")
+        jenis_harga.focus();
         return;
     }
     // console.log(checkInputs(inputIds));
@@ -318,7 +335,8 @@ no_spText.addEventListener("keyup", function () {
 
 general_specificationButton.addEventListener("click", function (event) {
     event.preventDefault();
-    general_specificationSuratPesanan.value = general_specificationProformaInvoice.value;
+    general_specificationSuratPesanan.value =
+        general_specificationProformaInvoice.value;
 });
 
 rencana_kirim.addEventListener("change", function () {
@@ -921,7 +939,7 @@ function funcDatatablesIntoInput() {
         let row = dataArray[i];
         for (let j = 0; j < dataArray[i].length; j++) {
             value = "";
-            value = row[j].replace(/,/g, "").trim().replace(/\s+/g, ' ');
+            value = row[j].replace(/,/g, "").trim().replace(/\s+/g, " ");
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
