@@ -17,7 +17,7 @@ class AccPenjualanController extends Controller
         $data = db::connection('ConnInventory')->select('exec SP_1273_INV_ListJual_TmpTransaksi @User = ?', [$user]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // dd($data, $user);
-        return view('Sales.Penjualan.AccPenjualan', compact('data','access'));
+        return view('Sales.Penjualan.AccPenjualan', compact('data', 'access'));
     }
 
     public function accPenjualanTampilData($idtransaksi)
@@ -69,7 +69,7 @@ class AccPenjualanController extends Controller
         @JumlahKeluarSekunder = ' . $saldo_sekunderDikeluarkan . ',
         @JumlahKeluarTritier = ' . $saldo_tritierDikeluarkan . ',
         @JumlahKonversi = ' . $jumlah_konversi . ',
-        @NoSP = ' . $no_sp
+        @NoSP = \'' . $no_sp . '\''
         );
 
         $counter = db::connection('ConnInventory')->select('exec SP_1003_BCD_Ambil_COUNTER_SALES');
@@ -80,7 +80,7 @@ class AccPenjualanController extends Controller
             db::connection('ConnInventory')->statement('exec SP_1273_INV_Update_Penjualan
             @kode_barang = \'' . $kodebarang . '\',
             @item_number = \'' . $noindeks[$i] . '\',
-            @XIdTransTmp = \'' . $idtransaksi.'\'');
+            @XIdTransTmp = \'' . $idtransaksi . '\'');
             // dd($noindeks[$i]);
         }
 

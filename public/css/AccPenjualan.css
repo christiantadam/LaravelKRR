@@ -8,7 +8,6 @@
     display: flex;
     width: 70%;
     flex-direction: column;
-    margin: 4px 0;
 }
 .acs-div-filter2 {
     display: flex;
@@ -49,6 +48,7 @@
 .acs-div-form3 {
     display: flex;
     flex: 1;
+    gap: 2%;
     width: 50%;
     flex-direction: column;
 }
@@ -58,7 +58,7 @@
     flex-direction: column;
 }
 .acs-btn-form {
-    /* margin: 10px; */
+    margin: 10px;
     width: 300px;
     aspect-ratio: 12/3;
 }
@@ -77,6 +77,9 @@ tr.selected {
 tr {
     cursor: pointer;
 }
+.nowrap{
+    white-space: nowrap;
+}
 #modalOverlay {
     position: fixed;
     overflow: auto;
@@ -93,8 +96,9 @@ tr {
 #modalContent {
     background-color: white;
     padding: 20px;
-    margin-top: 370px;
-    margin-bottom: 20px;
+    margin-bottom: 4%;
+    overflow-y: auto;
+    height: 70%;
 }
 
 #closeModalButton {

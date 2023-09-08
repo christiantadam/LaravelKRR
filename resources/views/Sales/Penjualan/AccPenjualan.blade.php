@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="card-header">Acc Penjualan</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0 acs-table-barcode" id="div_tableBarcode">
-                        <div style="overflow: auto">
+                        <div>
                             <table id="table_AccPenjualan" class="table table-bordered table-striped">
                                 <thead class="thead-dark">
                                     <tr>
@@ -64,7 +64,7 @@
                                     <input type="text" name="sub_kelompok" id="sub_kelompok" readonly>
                                 </div>
                             </div>
-                            <div class="acs-div-form3" style="border: 1px solid grey;padding:1%">
+                            <div class="acs-div-form3" style="border: 1px solid grey;padding:0% 1%">
                                 <legend>Saldo</legend>
                                 <div class="acs-div-filter1">
                                     <span>Primer</span>
@@ -195,8 +195,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- The modal overlay -->
+        <!-- The modal overlay -->
     <div id="modalOverlay">
         <!-- Modal content area -->
         <div id="modalContent">
@@ -226,5 +225,7 @@
             </div>
         </div>
     </div>
+    </div>
+
     <script type="text/javascript" src="{{ asset('js/Sales/AccPenjualan.js') }}"></script>
 @endsection

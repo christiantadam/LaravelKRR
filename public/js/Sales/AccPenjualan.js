@@ -5,6 +5,7 @@ let hapusButton = document.getElementById("hapusButton");
 let id_transaksi = document.getElementById("id_transaksi");
 let id_type = document.getElementById("id_type");
 let jumlah_konversi = document.getElementById("jumlah_konversi");
+let jumlahDicentang = 0;
 let kelompok = document.getElementById("kelompok");
 let kelompok_utama = document.getElementById("kelompok_utama");
 let max_do = document.getElementById("max_do");
@@ -45,9 +46,7 @@ let saldo_tritierDikeluarkanSatuan = document.getElementById(
 );
 let saldo_tritierSatuan = document.getElementById("saldo_tritierSatuan");
 let sub_kelompok = document.getElementById("sub_kelompok");
-// let table_AccPenjualan = document.getElementById("table_AccPenjualan");
 let tgl_mohonDO = document.getElementById("tgl_mohonDO");
-let jumlahDicentang = 0;
 //#region Set Input Filter
 
 //#endregion
@@ -159,10 +158,18 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                 { data: "Qty_Primer" },
                                 { data: "Qty_sekunder" },
                                 { data: "Qty" },
-                                { data: "Tgl_mutasi" },
+                                {
+                                    data: "Tgl_mutasi",
+                                    render: function (data) {
+                                        // Get the first 10 characters from the Tgl_mutasi column
+                                        return data.substring(0, 10);
+                                    },
+                                },
                             ],
-                            lengthMenu: [25, 50, 100, 200, 300, 400, 500],
-                            pageLength: 25,
+                            paging: false,
+                            columnDefs: [
+                                { targets: [0, 6], className: "nowrap" }, // Apply the "nowrap" class to the 7th (index 6) column (Tgl_mutasi)
+                            ],
                         });
                         // dataTable.rows.add(data);
                         console.log(table.data());
@@ -183,9 +190,9 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                 let checkbox = $(this)
                                     .find("td:eq(0)")
                                     .find('input[type="checkbox"]');
-
-                                // Check the checkbox
-                                checkbox.prop("checked", true);
+                                let isChecked = checkbox.prop("checked");
+                                // Toggle the checkbox state
+                                checkbox.prop("checked", !isChecked);
 
                                 let row = table.row(this);
                                 row.data().checkbox = checkbox.prop("checked")
@@ -204,9 +211,17 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                 );
 
                                 console.log(tritierData);
-                                tritier = tritier + tritierData;
-                                sekunder += sekunderData;
-                                primer += primerData;
+                                if (isChecked) {
+                                    primer -= primerData;
+                                    sekunder -= sekunderData;
+                                    tritier += tritierData;
+                                     // Subtract when unchecked
+                                } else {
+                                    primer += primerData;
+                                    sekunder += sekunderData;
+                                    tritier += tritierData;
+                                    // Add when checked
+                                }
                                 console.log(tritier);
                                 saldo_primerDikeluarkan.value =
                                     primer.toFixed(2);
