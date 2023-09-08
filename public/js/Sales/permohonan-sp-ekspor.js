@@ -2,24 +2,16 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
-let cargo_readySuratPesanan = document.getElementById(
-    "cargo_readySuratPesanan"
-);
+let cargo_readySuratPesanan = document.getElementById("cargo_readySuratPesanan");
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
 let destination_port = document.getElementById("destination_port");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
-let general_specificationButton = document.getElementById(
-    "general_specificationButton"
-);
-let general_specificationProformaInvoice = document.getElementById(
-    "general_specificationProformaInvoice"
-);
-let general_specificationSuratPesanan = document.getElementById(
-    "general_specificationSuratPesanan"
-);
+let general_specificationButton = document.getElementById("general_specificationButton");
+let general_specificationProformaInvoice = document.getElementById("general_specificationProformaInvoice");
+let general_specificationSuratPesanan = document.getElementById("general_specificationSuratPesanan");
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let isi_button = document.getElementById("isi_button");
@@ -39,6 +31,7 @@ let no_pi = document.getElementById("no_pi");
 let no_po = document.getElementById("no_po");
 let no_spSelect = document.getElementById("no_spSelect");
 let no_spText = document.getElementById("no_spText");
+let nomor_urutCetak = document.getElementById("nomor_urutCetak");
 let payment_terms = document.getElementById("payment_terms");
 let ppn = document.getElementById("ppn");
 let proses = 0;
@@ -83,6 +76,8 @@ lihat_spButton.style.display = "none";
 proses = 1;
 mata_uang.selectedIndex = 2;
 ppn.selectedIndex = 1;
+nomor_urutCetak.value = 1;
+
 // disableInputs();
 
 //#endregion
@@ -218,116 +213,116 @@ hapus_button.addEventListener("click", function (event) {
     }
 });
 
-no_spSelect.addEventListener("change", function () {
-    if (this.selectedIndex !== 0) {
-        this.setCustomValidity("Tekan Enter!");
-        this.reportValidity();
-    }
-});
+// no_spSelect.addEventListener("change", function () {
+//     if (this.selectedIndex !== 0) {
+//         this.setCustomValidity("Tekan Enter!");
+//         this.reportValidity();
+//     }
+// });
 
-no_spSelect.addEventListener("keypress", function (event) {
-    if (event.key == "Enter") {
-        event.preventDefault();
-        if (this.selectedIndex !== 0) {
-            no_spText.value = this.value;
-            this.disabled = true;
-            const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
-            no_spText.dispatchEvent(enterEvent);
-        }
-    }
-});
+// no_spSelect.addEventListener("keypress", function (event) {
+//     if (event.key == "Enter") {
+//         event.preventDefault();
+//         if (this.selectedIndex !== 0) {
+//             no_spText.value = this.value;
+//             this.disabled = true;
+//             const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
+//             no_spText.dispatchEvent(enterEvent);
+//         }
+//     }
+// });
 
-no_spText.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        if (proses !== 1 && no_spText.value.trim() !== "") {
-            var no_spData = no_spText.value.replace(/\//g, ".");
-            fetch("/SuratPesananEkspor/" + no_spData + "/edit")
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
-                    tgl_pesan.value = data[0][0].Tgl_Pesan.substr(0, 10);
-                    no_po.value = data[0][0].NO_PO;
-                    no_pi.value = data[0][0].NO_PI;
-                    let keteranganSplit = data[0][0].Ket.split(" | ");
-                    cargo_ready.value = keteranganSplit[0] ?? "";
-                    payment_terms.value = keteranganSplit[1] ?? "";
-                    remarks_quantity.value = keteranganSplit[2] ?? "";
-                    remarks_packing.value = keteranganSplit[3] ?? "";
-                    remarks_price.value = keteranganSplit[4] ?? "";
-                    destination_port.value = keteranganSplit[5] ?? "";
-                    mata_uang.selectedIndex = 0;
-                    for (let i = 0; i < mata_uang.length - 1; i++) {
-                        mata_uang.selectedIndex += 1;
-                        if (mata_uang.value === data[0][0].IDMataUang) {
-                            break;
-                        }
-                    }
-                    customer.selectedIndex = 0;
-                    for (let i = 0; i < customer.length - 1; i++) {
-                        customer.selectedIndex += 1;
-                        if (
-                            customer.value.split(" -")[1] === data[0][0].IDCust
-                        ) {
-                            break;
-                        }
-                    }
-                    sales.selectedIndex = 0;
-                    for (let i = 0; i < sales.length - 1; i++) {
-                        sales.selectedIndex += 1;
-                        if (sales.value === data[0][0].IDSales) {
-                            break;
-                        }
-                    }
-                    billing.selectedIndex = 0;
-                    for (let i = 0; i < billing.length - 1; i++) {
-                        billing.selectedIndex += 1;
-                        if (billing.value === data[0][0].IDBill) {
-                            break;
-                        }
-                    }
-                    jenis_harga.selectedIndex = 0;
-                    for (let i = 0; i < jenis_harga.length - 1; i++) {
-                        jenis_harga.selectedIndex += 1;
-                        if (jenis_harga.value === data[0][0].JenisHargaBarang) {
-                            break;
-                        }
-                    }
-                    for (let i = 0; i < data[1].length; i++) {
-                        let uraianPesananArray =
-                            data[1][i].UraianPesanan.split(" | ");
-                        console.log(data[1][i].UraianPesanan.split(" | ")[0]);
-                        const arraydata = [
-                            data[1][i].NamaBarang,
-                            data[1][i].NamaJnsBrg,
-                            formatangka(parseFloat(data[1][i].HargaSatuan)),
-                            formatangka(parseFloat(data[1][i].Qty)),
-                            data[1][i].Satuan,
-                            data[1][i].UraianPesanan.split(" | ")[0],
-                            data[1][i].UraianPesanan.split(" | ")[1],
-                            data[1][i].UraianPesanan.split(" | ")[2],
-                            data[1][i].TglRencanaKirim.substr(0, 10),
-                            data[1][i].PPN,
-                            data[1][i].IDJnsBarang,
-                            data[1][i].KodeBarang,
-                            data[1][i].IDBarang,
-                            data[1][i].IDPesanan,
-                            data[1][i].UraianPesanan.split(" | ")[3],
-                        ];
-                        // Insert array into a new row
-                        funcInsertRow(arraydata);
-                    }
-                });
-            tgl_pesan.focus();
-            if (proses == 3) {
-                isi_button.focus();
-            }
-            if (proses == 1) {
-                no_po.focus();
-            }
-        }
-    }
-});
+// no_spText.addEventListener("keypress", function (event) {
+//     if (event.key === "Enter") {
+//         event.preventDefault();
+//         if (proses !== 1 && no_spText.value.trim() !== "") {
+//             var no_spData = no_spText.value.replace(/\//g, ".");
+//             fetch("/SuratPesananEkspor/" + no_spData + "/edit")
+//                 .then((response) => response.json())
+//                 .then((data) => {
+//                     console.log(data);
+//                     tgl_pesan.value = data[0][0].Tgl_Pesan.substr(0, 10);
+//                     no_po.value = data[0][0].NO_PO;
+//                     no_pi.value = data[0][0].NO_PI;
+//                     let keteranganSplit = data[0][0].Ket.split(" | ");
+//                     cargo_ready.value = keteranganSplit[0] ?? "";
+//                     payment_terms.value = keteranganSplit[1] ?? "";
+//                     remarks_quantity.value = keteranganSplit[2] ?? "";
+//                     remarks_packing.value = keteranganSplit[3] ?? "";
+//                     remarks_price.value = keteranganSplit[4] ?? "";
+//                     destination_port.value = keteranganSplit[5] ?? "";
+//                     mata_uang.selectedIndex = 0;
+//                     for (let i = 0; i < mata_uang.length - 1; i++) {
+//                         mata_uang.selectedIndex += 1;
+//                         if (mata_uang.value === data[0][0].IDMataUang) {
+//                             break;
+//                         }
+//                     }
+//                     customer.selectedIndex = 0;
+//                     for (let i = 0; i < customer.length - 1; i++) {
+//                         customer.selectedIndex += 1;
+//                         if (
+//                             customer.value.split(" -")[1] === data[0][0].IDCust
+//                         ) {
+//                             break;
+//                         }
+//                     }
+//                     sales.selectedIndex = 0;
+//                     for (let i = 0; i < sales.length - 1; i++) {
+//                         sales.selectedIndex += 1;
+//                         if (sales.value === data[0][0].IDSales) {
+//                             break;
+//                         }
+//                     }
+//                     billing.selectedIndex = 0;
+//                     for (let i = 0; i < billing.length - 1; i++) {
+//                         billing.selectedIndex += 1;
+//                         if (billing.value === data[0][0].IDBill) {
+//                             break;
+//                         }
+//                     }
+//                     jenis_harga.selectedIndex = 0;
+//                     for (let i = 0; i < jenis_harga.length - 1; i++) {
+//                         jenis_harga.selectedIndex += 1;
+//                         if (jenis_harga.value === data[0][0].JenisHargaBarang) {
+//                             break;
+//                         }
+//                     }
+//                     for (let i = 0; i < data[1].length; i++) {
+//                         let uraianPesananArray =
+//                             data[1][i].UraianPesanan.split(" | ");
+//                         console.log(data[1][i].UraianPesanan.split(" | ")[0]);
+//                         const arraydata = [
+//                             data[1][i].NamaBarang,
+//                             data[1][i].NamaJnsBrg,
+//                             formatangka(parseFloat(data[1][i].HargaSatuan)),
+//                             formatangka(parseFloat(data[1][i].Qty)),
+//                             data[1][i].Satuan,
+//                             data[1][i].UraianPesanan.split(" | ")[0],
+//                             data[1][i].UraianPesanan.split(" | ")[1],
+//                             data[1][i].UraianPesanan.split(" | ")[2],
+//                             data[1][i].TglRencanaKirim.substr(0, 10),
+//                             data[1][i].PPN,
+//                             data[1][i].IDJnsBarang,
+//                             data[1][i].KodeBarang,
+//                             data[1][i].IDBarang,
+//                             data[1][i].IDPesanan,
+//                             data[1][i].UraianPesanan.split(" | ")[3],
+//                         ];
+//                         // Insert array into a new row
+//                         funcInsertRow(arraydata);
+//                     }
+//                 });
+//             tgl_pesan.focus();
+//             if (proses == 3) {
+//                 isi_button.focus();
+//             }
+//             if (proses == 1) {
+//                 no_po.focus();
+//             }
+//         }
+//     }
+// });
 
 no_spText.addEventListener("keyup", function () {
     no_pi.value = no_spText.value;
@@ -373,6 +368,7 @@ add_button.addEventListener("click", function (event) {
         return;
     }
     const arraydata = [
+        nomor_urutCetak.value,
         nama_barang.options[nama_barang.selectedIndex].text,
         jenis_barang.options[jenis_barang.selectedIndex].text,
         formatangka(parseFloat(harga_satuan.value)),
@@ -410,21 +406,22 @@ update_button.addEventListener("click", function (event) {
         let rowData = table.row(selectedRow).data();
         console.log(rowData);
         // Update the values in the rowData array
-        rowData[0] = nama_barang.options[nama_barang.selectedIndex].text;
-        rowData[1] = jenis_barang.options[jenis_barang.selectedIndex].text;
-        rowData[2] = formatangka(parseFloat(harga_satuan.value));
-        rowData[3] = formatangka(parseInt(qty_pesan.value));
-        rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
-        rowData[5] = general_specificationProformaInvoice.value;
-        rowData[6] = general_specificationSuratPesanan.value;
-        rowData[7] = keterangan_barang.value;
-        rowData[8] = size_code.value;
-        rowData[9] = rencana_kirim.value;
-        rowData[0] = ppn.value;
-        rowData[11] = jenis_barang.value;
-        rowData[12] = kode_barang.value;
-        rowData[13] = nama_barang.value;
-        rowData[15] = cargo_readySuratPesanan.value;
+        rowData[0] = nomor_urutCetak.value;
+        rowData[1] = nama_barang.options[nama_barang.selectedIndex].text;
+        rowData[2] = jenis_barang.options[jenis_barang.selectedIndex].text;
+        rowData[3] = formatangka(parseFloat(harga_satuan.value));
+        rowData[4] = formatangka(parseInt(qty_pesan.value));
+        rowData[5] = satuan_jual.options[satuan_jual.selectedIndex].text;
+        rowData[6] = general_specificationProformaInvoice.value;
+        rowData[7] = general_specificationSuratPesanan.value;
+        rowData[8] = keterangan_barang.value;
+        rowData[9] = size_code.value;
+        rowData[10] = rencana_kirim.value;
+        rowData[11] = ppn.value;
+        rowData[12] = jenis_barang.value;
+        rowData[13] = kode_barang.value;
+        rowData[14] = nama_barang.value;
+        rowData[16] = cargo_readySuratPesanan.value;
 
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
@@ -899,6 +896,7 @@ function clearDetailBarang() {
     satuan_gudangSekunder.value = "";
     satuan_gudangTritier.value = "";
     rencana_kirim.valueAsDate = new Date();
+    nomor_urutCetak.value = Math.max(...list_view.rows().column(0).data().toArray().map(Number)) + 1;
 
     month = (rencana_kirim.valueAsDate.getMonth() + 1)
         .toString()

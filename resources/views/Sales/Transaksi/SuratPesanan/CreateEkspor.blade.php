@@ -147,6 +147,7 @@
                                     <table class="permohonan-s-p-table" id="list_view" name="list_view">
                                         <thead class="thead-light acs-thead">
                                             <tr>
+                                                <th>No.</th>
                                                 <th>Nama Barang</th>
                                                 <th>Jenis Barang</th>
                                                 <th>Harga Satuan</th>
@@ -212,6 +213,11 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="nomor_urutCetak">Nomor Urut Cetak</label>
+                                            <input type="text" name="nomor_urutCetak" id="nomor_urutCetak" class="input"
+                                                onkeypress="enterToTab(event)">
                                         </div>
                                     </div>
                                     <div class="acs-div-container1">
