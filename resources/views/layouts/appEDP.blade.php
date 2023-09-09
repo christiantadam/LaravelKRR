@@ -19,7 +19,8 @@
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
-    <script src="https://kit.fontawesome.com/e9be4582cc.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/kitfontawesome.js') }}"></script>
+    {{-- <script src="https://kit.fontawesome.com/e9be4582cc.js" crossorigin="anonymous"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/User.js') }}"></script>
 
