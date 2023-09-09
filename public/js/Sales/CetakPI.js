@@ -311,7 +311,7 @@ function convertDateFormat(inputDate) {
 
     const [datePart, timePart] = inputDate.split(" ");
     const [year, month, day] = datePart.split("-");
-    const formattedDate = `${months[Number(month)]} ${day} ${year}`;
+    const formattedDate = `${months[Number(month) - 1]} ${day} ${year}`;
 
     return formattedDate;
 }

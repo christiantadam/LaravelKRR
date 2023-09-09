@@ -52,8 +52,9 @@
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="Alamat">Alamat Kantor</label>
-                                                <input type="text" name="Alamat" id="Alamat"
-                                                    placeholder="Alamat Kantor" class="input">
+                                                <textarea name="Alamat" id="Alamat" cols="30" rows="3" placeholder="Alamat Kantor"></textarea>
+                                                {{-- <input type="text" name="Alamat" id="Alamat"
+                                                    placeholder="Alamat Kantor" class="input"> --}}
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="Kota">Kota</label>
@@ -119,7 +120,7 @@
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="AlamatKirim">Alamat Kirim</label>
-                                                <textarea name="Alamat Kirim" id="AlamatKirim" cols="30" rows="3"></textarea>
+                                                <textarea name="AlamatKirim" id="AlamatKirim" cols="30" rows="3" placeholder="Alamat Kirim"></textarea>
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="KotaKirim">Kota Kirim</label>
