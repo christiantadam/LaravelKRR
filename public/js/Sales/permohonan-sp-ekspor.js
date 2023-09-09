@@ -937,7 +937,12 @@ function funcDatatablesIntoInput() {
         let row = dataArray[i];
         for (let j = 0; j < dataArray[i].length; j++) {
             value = "";
-            value = row[j].replace(/,/g, "").trim().replace(/\s+/g, " ");
+            if (j === 3 || j === 4) {
+                value = value.replace(/,/g, "").trim().replace(/\s+/g, " ");
+            }
+            else{
+                value = row[j].trim().replace(/\s+/g, " ");
+            }
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
             hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
