@@ -34,9 +34,8 @@
                                             <div class="acs-div-filter">
                                                 <label for="NamaCust">Nama Customer</label>
                                                 <input type="text" name="NamaCust" id="NamaCust" class="input"
-                                                    value="{{ $model->NamaCust }}
-                                                    placeholder="Nama
-                                                    Customer">
+                                                    value="{{ $model->NamaCust }}"
+                                                    placeholder="NamaCustomer">
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="KodeCust">Initial Customer</label>
