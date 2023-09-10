@@ -146,17 +146,24 @@ lihat_data.addEventListener("click", function (event) {
                         { data: "Qty_Primer" },
                         { data: "Qty_Sekunder" },
                         { data: "Qty" },
-                        { data: "Tgl_mutasi" },
+                        {
+                            data: "Tgl_mutasi",
+                            render: function (data) {
+                                // Get the first 10 characters from the Tgl_mutasi column
+                                return data.substring(0, 10);
+                            },
+                        },
                     ],
                     columnDefs: [
                         {
                             searchable: false,
                             orderable: false,
-                            targets: 0,
+                            targets: [0, 7],
                             render: function (data, type, row, meta) {
                                 return meta.row + 1;
-                            },
+                            }
                         },
+                        { targets: [7], className: "nowrap" }, // Apply the "nowrap" class to the 7th (index 6) column (Tgl_mutasi)
                     ],
                 });
             });

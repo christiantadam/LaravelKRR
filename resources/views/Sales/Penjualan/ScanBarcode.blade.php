@@ -41,8 +41,9 @@
                             <div class="acs-div-form3">
                                 <div class="acs-div-filter1">
                                     <label for="kode_barcode">Kode Barcode</label>
-                                    <input type="text" name="kode_barcode" id="kode_barcode" class="input"> Tekan Enter
+                                    <textarea class="input" name="kode_barcode" id="kode_barcode" cols="60" rows="1"></textarea>Tekan Enter
                                     untuk Scan Barcode!
+                                    {{-- <input type="text" name="kode_barcode" id="kode_barcode" class="input"> --}}
                                     {{-- <label for="">Untuk data uji coba 114-000067047</label> --}}
                                 </div>
                             </div>

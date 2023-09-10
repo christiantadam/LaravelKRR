@@ -3,9 +3,9 @@
     <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
     <div class="container-fluid">
         <div id="qr-code-uji-coba">
-            <input id="text-content" type="text"
+            <input class="input" id="text-content" type="text"
                 value="https://wa.me/+6289664290102" style="width:80%"><br>
-            <input type="text" name="text-content2" id="text-content2" placeholder="url_Encode"><br>
+            <input class="input" type="text" name="text-content2" id="text-content2" placeholder="url_Encode"><br>
             <div id="qrcode" style="width:200px; height:200px; margin-top:15px;">
             </div>
             <span id="text-qr"></span>
@@ -58,7 +58,7 @@
             console.log(event.key);
             if (event.key == "Enter") {
                 event.preventDefault();
-                elText2.value = encodeURIComponent(this.value);
+                // elText2.value = encodeURIComponent(this.value);
                 makeCode();
             }
         });
@@ -69,7 +69,7 @@
                 elText.focus();
                 return;
             }
-            textqr.innerHTML = elText.value + '?text=' + elText2.value;
+            textqr.innerHTML = elText.value + '?text=' + encodeURIComponent(elText2.value);
             qrcode.makeCode(textqr.innerHTML);
         }
 

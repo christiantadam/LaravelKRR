@@ -1,3 +1,6 @@
+.nowrap{
+    white-space: nowrap;
+}
 .acs-div-filter{
     display: flex;
     width: 300px;
