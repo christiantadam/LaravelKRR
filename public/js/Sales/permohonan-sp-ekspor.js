@@ -2,16 +2,24 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
-let cargo_readySuratPesanan = document.getElementById("cargo_readySuratPesanan");
+let cargo_readySuratPesanan = document.getElementById(
+    "cargo_readySuratPesanan"
+);
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
 let destination_port = document.getElementById("destination_port");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
-let general_specificationButton = document.getElementById("general_specificationButton");
-let general_specificationProformaInvoice = document.getElementById("general_specificationProformaInvoice");
-let general_specificationSuratPesanan = document.getElementById("general_specificationSuratPesanan");
+let general_specificationButton = document.getElementById(
+    "general_specificationButton"
+);
+let general_specificationProformaInvoice = document.getElementById(
+    "general_specificationProformaInvoice"
+);
+let general_specificationSuratPesanan = document.getElementById(
+    "general_specificationSuratPesanan"
+);
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let isi_button = document.getElementById("isi_button");
@@ -74,6 +82,7 @@ edit_button.style.display = "none";
 hapus_button.style.display = "none";
 lihat_spButton.style.display = "none";
 proses = 1;
+billing.selectedIndex = 10;
 mata_uang.selectedIndex = 2;
 ppn.selectedIndex = 1;
 nomor_urutCetak.value = 1;
@@ -123,7 +132,7 @@ isi_button.addEventListener("click", async function (event) {
     }
 
     if (jenis_harga.selectedIndex == 0) {
-        alert("Jenis harga harus dipilih!")
+        alert("Jenis harga harus dipilih!");
         jenis_harga.focus();
         return;
     }
@@ -581,7 +590,8 @@ sub_kelompok.addEventListener("keypress", function (event) {
                     data.forEach((option) => {
                         let optionTag = document.createElement("option");
                         optionTag.value = option.IDBarang;
-                        optionTag.text = option.NamaBarang;
+                        optionTag.text =
+                            option.KodeBarang + " | " + option.NamaBarang;
                         nama_barang.appendChild(optionTag);
                     });
                     nama_barang.focus();
@@ -896,7 +906,9 @@ function clearDetailBarang() {
     satuan_gudangSekunder.value = "";
     satuan_gudangTritier.value = "";
     rencana_kirim.valueAsDate = new Date();
-    nomor_urutCetak.value = Math.max(...list_view.rows().column(0).data().toArray().map(Number)) + 1;
+    nomor_urutCetak.value =
+        Math.max(...list_view.rows().column(0).data().toArray().map(Number)) +
+        1;
 
     month = (rencana_kirim.valueAsDate.getMonth() + 1)
         .toString()
@@ -939,8 +951,7 @@ function funcDatatablesIntoInput() {
             value = "";
             if (j === 3 || j === 4) {
                 value = value.replace(/,/g, "").trim().replace(/\s+/g, " ");
-            }
-            else{
+            } else {
                 value = row[j].trim().replace(/\s+/g, " ");
             }
             let hiddenInput = document.createElement("input");
