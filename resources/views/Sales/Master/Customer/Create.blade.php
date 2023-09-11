@@ -16,8 +16,7 @@
                             <form class="permohonan-do-form" method="POST" action="{{ url('Customer') }}"
                                 id="FormCustomer">
                                 {{ csrf_field() }}
-                                <input type="hidden" name="id_pesanan" id="id_pesanan_hidden" value="">
-                                <div id="div_deliveryOrder" class="permohonan-do-form">
+                                <div class="permohonan-do-form">
                                     <div class="acs-form">
                                         <div class="acs-form1">
                                             <div class="acs-div-filter">

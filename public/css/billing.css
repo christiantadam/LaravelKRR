@@ -1,3 +1,29 @@
+.acs-form{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    gap: 5px;
+}
+.acs-form1{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: 100%;
+}
+.acs-div-filter{
+    display: flex;
+    width: 75%;
+    flex-direction: column;
+    margin-bottom: 4px;
+}
+.acs-div-filter1{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
 .billing-container {
     width: 100%;
     display: flex;

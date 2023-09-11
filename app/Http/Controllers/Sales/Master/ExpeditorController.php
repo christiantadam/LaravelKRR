@@ -19,19 +19,21 @@ class ExpeditorController extends Controller
         $data = Expeditor::get()->where('IsActive', 1);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         // return to view
-        return view('Sales.Master.Expeditor.Index', compact('data','access'));
+        return view('Sales.Master.Expeditor.Index', compact('data', 'access'));
     }
 
     //Show the form for creating a new resource.
     public function create()
     {
         $model = new Expeditor;
-        return view('Sales.Master.Expeditor.Create', compact('model'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Master.Expeditor.Create', compact('model', 'access'));
     }
 
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'NamaExpeditor' => 'required',
         ]);
@@ -105,19 +107,22 @@ class ExpeditorController extends Controller
     public function edit($id)
     {
         $model = Expeditor::find($id);
+        // dd($model);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Master.Expeditor.edit', compact('model','access'));
+        return view('Sales.Master.Expeditor.edit', compact('model', 'access'));
     }
 
     //Update the specified resource in storage.
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $request->validate([
             'NamaExpeditor' => 'required',
         ]);
         $User = Auth::user()->NomorUser;
         $Kode = 2;
         $NamaExpeditor = $request->NamaExpeditor ?? NULL;
+        $IDExpeditor = $request->KodeExpeditor ?? NULL;
         $ContactPerson = $request->ContactPerson ?? NULL;
         $Alamat = $request->Alamat ?? NULL;
         $Kota = $request->Kota ?? NULL;
@@ -135,6 +140,7 @@ class ExpeditorController extends Controller
 
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_EXPEDITOR
             @Kode = ?,
+            @IDExpeditor = ?,
             @NamaExpeditor = ?,
             @ContactPerson = ?,
             @Alamat = ?,
@@ -152,6 +158,7 @@ class ExpeditorController extends Controller
             @Email = ?',
             [
                 $Kode,
+                $IDExpeditor,
                 $NamaExpeditor,
                 $ContactPerson,
                 $Alamat,

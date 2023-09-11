@@ -1,77 +1,112 @@
-@extends('layouts.app') @section('content')
-    <link href="{{ asset('css/billing.css') }}" rel="stylesheet">
+@extends('layouts.appSales') @section('content')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <div class="col-md-10 RDZMobilePaddingLR0">
-        <div class="billing-container">
-            <form class="billing-form" method="POST" action="{{ url('Billing') }}">
-                {{ csrf_field() }}
-                <div class="billing-container01">
-                    <div class="billing-container02">
-                        <div class="billing-container03"><span>Nama Billing</span></div>
-                        <div class="billing-container05"> <span> <span>Contact Person</span> <br /> </span> </div>
-                        <div class="billing-container06"> <span> <span>Alamat Kantor</span> <br /> </span> </div>
-                        <div class="billing-container07"><span>Kota</span></div>
-                        <div class="billing-container08"> <span> <span>Provinsi</span> <br /> </span> </div>
-                        <div class="billing-container09"><span>Negara</span></div>
+    <link href="{{ asset('css/billing.css') }}" rel="stylesheet">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10 RDZMobilePaddingLR0">
+                @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        {{ Session::get('success') }}
                     </div>
-                    <div class="billing-container10">
-                        <div class="billing-container11"> <input type="text" name="NamaBill" id="NamaBill" placeholder="Nama Billing"
-                                class="billing-textinput input" /> </div>
-                        <div class="billing-container13"> <input type="text" name="ContactPerson" id="ContactPerson"
-                                placeholder="Contact Person" class="billing-textinput02 input" /> </div>
-                        <div class="billing-container14">
-                            <div class="billing-container15"> <input type="text" name="Alamat" id="Alamat"
-                                    placeholder="Alamat Kantor" class="billing-textinput03 input" /> </div>
-                            <div class="billing-container16"> <span class="billing-text15"> <span>Kode Pos</span> <br />
-                                </span> <input type="text" name="KodePos" id="KodePos" placeholder="Kode Pos"
-                                    class="billing-textinput04 input" />
-                            </div>
+                @endif
+                <div class="card">
+                    <div class="card-header">Create Billing</div>
+                    <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                        <div>
+                            <form method="POST" action="{{ url('Billing') }}" id="">
+                                {{ csrf_field() }}
+                                <div class="permohonan-do-form">
+                                    <div class="acs-form">
+                                        <div class="acs-form1">
+                                            <div class="acs-div-filter">
+                                                <label for="NamaBill">Nama Billing</label>
+                                                <input type="text" name="NamaBill" id="NamaBill"
+                                                    placeholder="Nama Billing" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="ContactPerson">Contact Person</label>
+                                                <input type="text" name="ContactPerson" id="ContactPerson"
+                                                    placeholder="Contact Person" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="Alamat">Alamat Kantor</label>
+                                                <div class="acs-div-filter1">
+                                                    <input type="text" name="Alamat" id="Alamat"
+                                                        placeholder="Alamat Kantor" class="input" style="width: 65%;">
+                                                    <span>Kode Pos: </span>
+                                                    <input type="text" name="KodePos" id="KodePos"
+                                                        placeholder="Kode Pos" class="input" style="width: 20%;">
+                                                </div>
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="Kota">Kota</label>
+                                                <input type="text" name="Kota" id="Kota" placeholder="Kota"
+                                                    class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="Provinsi">Provinsi</label>
+                                                <input type="text" name="Provinsi" id="Provinsi" placeholder="Provinsi"
+                                                    class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="Negara">Negara</label>
+                                                <input type="text" name="Negara" id="Negara" placeholder="Negara"
+                                                    class="input">
+                                            </div>
+                                        </div>
+                                        <div class="acs-form1">
+                                            <div class="acs-div-filter">
+                                                <label for="NoTelp1">No. Telpon 1</label>
+                                                <input type="text" name="NoTelp1" id="NoTelp1"
+                                                    placeholder="No. Telpon 1" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoTelp2">No. Telpon 2</label>
+                                                <input type="text" name="NoTelp2" id="NoTelp2"
+                                                    placeholder="No. Telpon 2" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoTelex">No. Telex</label>
+                                                <input type="text" name="NoTelex" id="NoTelex" placeholder="No. Telex"
+                                                    class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoFax1">No. Fax 1</label>
+                                                <input type="text" name="NoFax1" id="NoFax1" placeholder="No. Fax 1"
+                                                    class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoFax2">No. Fax 2</label>
+                                                <input type="text" name="NoFax2" id="NoFax2"
+                                                    placeholder="No. Fax 2" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoHp1">No. HP 1</label>
+                                                <input type="text" name="NoHp1" id="NoHp1"
+                                                    placeholder="No. HP 1" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="NoHp2">No. HP 2</label>
+                                                <input type="text" name="NoHp2" id="NoHp2"
+                                                    placeholder="No. HP 2" class="input">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="Email">Email</label>
+                                                <input type="text" name="Email" id="Email" placeholder="Email"
+                                                    class="input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="acs-div-btn">
+                                    <button id="submit_btn" class="btn btn-primary">
+                                        <span>Submit</span></button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="billing-container17"> <input type="text" name="Kota" id="Kota" placeholder="Kota"
-                                class="billing-textinput05 input" /> </div>
-                        <div class="billing-container18"> <input type="text" name="Provinsi" id="Provinsi" placeholder="Provinsi"
-                                class="billing-textinput06 input" /> </div>
-                        <div class="billing-container19"> <input type="text" name="Negara" id="Negara" placeholder="Negara"
-                                class="billing-textinput07 input" /> </div>
                     </div>
                 </div>
-                <div>
-                    <hr style="border-top: 1px solid #000000">
-                </div>
-                <div class="billing-container21">
-                    <div class="billing-container22">
-                        <div class="billing-container23"><span>No. Telpon 1</span></div>
-                        <div class="billing-container24"><span>No. Telpon 2</span></div>
-                        <div class="billing-container25"><span>No. Telex</span></div>
-                        <div class="billing-container26"><span>No. Fax 1</span></div>
-                        <div class="billing-container27"><span>No. Fax 2</span></div>
-                        <div class="billing-container28"><span>No. HP 1</span></div>
-                        <div class="billing-container29"><span>No. Hp 2</span></div>
-                        <div class="billing-container30"> <span> <span>Email</span> <br /> </span> </div>
-                    </div>
-                    <div class="billing-container31">
-                        <div class="billing-container32"> <input type="text" name="NoTelp1" id="NoTelp1" placeholder="No. Telpon 1"
-                                class="billing-textinput08 input" /> </div>
-                        <div class="billing-container33"> <input type="text" name="NoTelp2" id="NoTelp2" placeholder="No. Telpon 2"
-                                class="billing-textinput09 input" /> </div>
-                        <div class="billing-container34"> <input type="text" name="NoTelex" id="NoTelex" placeholder="No. Telex"
-                                class="billing-textinput10 input" /> </div>
-                        <div class="billing-container35"> <input type="text" name="NoFax1" id="NoFax1" placeholder="No. Fax 1"
-                                class="billing-textinput11 input" /> </div>
-                        <div class="billing-container36"> <input type="text" name="NoFax2" id="NoFax2" placeholder="No. Fax 2"
-                                class="billing-textinput12 input" /> </div>
-                        <div class="billing-container37"> <input type="text" name="NoHp1" id="NoHp1" placeholder="No. HP 1"
-                                class="billing-textinput13 input" /> </div>
-                        <div class="billing-container38"> <input type="text" name="NoHp2" id="NoHp2" placeholder="No. HP 2"
-                                class="billing-textinput14 input" /> </div>
-                        <div class="billing-container39"> <input type="text" name="Email" id="Email" placeholder="Email"
-                                class="billing-textinput15 input" /> </div>
-                    </div>
-                </div>
-                <div class="billing-container40">
-                    <button type="submit" class="button">Submit</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="{{ asset('js/Sales/Billing.js') }}"></script>

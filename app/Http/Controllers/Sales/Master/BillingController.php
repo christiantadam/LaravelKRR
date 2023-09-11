@@ -24,7 +24,8 @@ class BillingController extends Controller
     public function create()
     {
         $model = new Billing;
-        return view('Sales.Master.Billing.Create', compact('model','access'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+        return view('Sales.Master.Billing.Create', compact('model', 'access'));
     }
 
     //Store a newly created resource in storage.
@@ -65,22 +66,22 @@ class BillingController extends Controller
         @NoHp2 = ?,
         @noTelex = ?,
         @email = ?', [
-                $NamaBill,
-                $ContactPerson,
-                $Alamat,
-                $Kota,
-                $Propinsi,
-                $Negara,
-                $KodePos,
-                $NoTelp1,
-                $NoTelp2,
-                $NoFax1,
-                $NoFax2,
-                $NoHp1,
-                $NoHp2,
-                $noTelex,
-                $email
-            ]);
+            $NamaBill,
+            $ContactPerson,
+            $Alamat,
+            $Kota,
+            $Propinsi,
+            $Negara,
+            $KodePos,
+            $NoTelp1,
+            $NoTelp2,
+            $NoFax1,
+            $NoFax2,
+            $NoHp1,
+            $NoHp2,
+            $noTelex,
+            $email
+        ]);
         echo "<script type='text/javascript'>alert('Data Berhasil disimpan') ;</script>";
         echo "<script type='text/javascript'>window.close() ;</script>";
         //echo "<script type='text/javascript'>alert('Data Berhasil di Simpan') ;</script>";
@@ -92,7 +93,7 @@ class BillingController extends Controller
     {
         $data = Billing::select('*')->where('IDBill', $id)->first();
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return compact('data','access');
+        return compact('data', 'access');
     }
 
     //Show the form for editing the specified resource.
@@ -100,7 +101,7 @@ class BillingController extends Controller
     {
         $model = Billing::find($id);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Master.Billing.edit', compact('model','access'));
+        return view('Sales.Master.Billing.edit', compact('model', 'access'));
     }
 
     //Update the specified resource in storage.
@@ -142,23 +143,23 @@ class BillingController extends Controller
         @NoHp2 = ?,
         @noTelex = ?,
         @email = ?', [
-                $id,
-                $NamaBill,
-                $ContactPerson,
-                $Alamat,
-                $Kota,
-                $Propinsi,
-                $Negara,
-                $KodePos,
-                $NoTelp1,
-                $NoTelp2,
-                $NoFax1,
-                $NoFax2,
-                $NoHp1,
-                $NoHp2,
-                $noTelex,
-                $email
-            ]);
+            $id,
+            $NamaBill,
+            $ContactPerson,
+            $Alamat,
+            $Kota,
+            $Propinsi,
+            $Negara,
+            $KodePos,
+            $NoTelp1,
+            $NoTelp2,
+            $NoFax1,
+            $NoFax2,
+            $NoHp1,
+            $NoHp2,
+            $noTelex,
+            $email
+        ]);
         echo "<script type='text/javascript'>alert('Data Berhasil diubah') ;</script>";
         echo "<script type='text/javascript'>window.close() ;</script>";
     }
@@ -169,6 +170,6 @@ class BillingController extends Controller
         DB::connection('ConnSales')->statement('exec SP_4384_SLS_MASTER @XKode = ?,
         @XIDBill = ?', [3, $id]);
         echo "<script type='text/javascript'>alert('Data Berhasil dihapus') ;</script>";
-        return redirect()->route('Billing.index');//->with(['success' => 'Data berhasil dihapus!']);
+        return redirect()->route('Billing.index'); //->with(['success' => 'Data berhasil dihapus!']);
     }
 }
