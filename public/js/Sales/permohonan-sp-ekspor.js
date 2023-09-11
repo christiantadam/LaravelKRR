@@ -83,8 +83,8 @@ edit_button.style.display = "none";
 hapus_button.style.display = "none";
 lihat_spButton.style.display = "none";
 proses = 1;
-mata_uang.selectedIndex = 3;
 billing.selectedIndex = 10;
+mata_uang.selectedIndex = 2;
 ppn.selectedIndex = 1;
 nomor_urutCetak.value = 1;
 
