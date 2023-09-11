@@ -186,7 +186,7 @@ class SuratPesananEksportController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->all(), "Masuk Store");
+        dd($request->all(), "Masuk Store");
         $user = Auth::user()->NomorUser;
         $jenis_sp = 3;
         $tgl_pesan = $request->tgl_pesan;
@@ -457,7 +457,7 @@ class SuratPesananEksportController extends Controller
 
     function penyesuaian(Request $request, $id)
     {
-        // dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
+        dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
         $kode = 2;
         $no_spValue = str_replace('.', '/', $id);
         $user = Auth::user()->NomorUser;

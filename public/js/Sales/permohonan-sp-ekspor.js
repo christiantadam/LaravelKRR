@@ -2,16 +2,24 @@
 
 let add_button = document.getElementById("add_button");
 let cargo_ready = document.getElementById("cargo_ready");
-let cargo_readySuratPesanan = document.getElementById("cargo_readySuratPesanan");
+let cargo_readySuratPesanan = document.getElementById(
+    "cargo_readySuratPesanan"
+);
 let customer = document.getElementById("customer");
 let delete_button = document.getElementById("delete_button");
 let destination_port = document.getElementById("destination_port");
 let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan");
 let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan");
 let edit_button = document.getElementById("edit_button");
-let general_specificationButton = document.getElementById("general_specificationButton");
-let general_specificationProformaInvoice = document.getElementById("general_specificationProformaInvoice");
-let general_specificationSuratPesanan = document.getElementById("general_specificationSuratPesanan");
+let general_specificationButton = document.getElementById(
+    "general_specificationButton"
+);
+let general_specificationProformaInvoice = document.getElementById(
+    "general_specificationProformaInvoice"
+);
+let general_specificationSuratPesanan = document.getElementById(
+    "general_specificationSuratPesanan"
+);
 let hapus_button = document.getElementById("hapus_button");
 let harga_satuan = document.getElementById("harga_satuan");
 let isi_button = document.getElementById("isi_button");
@@ -68,13 +76,15 @@ let month = (rencana_kirim.valueAsDate.getMonth() + 1)
 let day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
 let year = rencana_kirim.valueAsDate.getFullYear();
 let formattedDate = month + "-" + day + "-" + year;
-cargo_readySuratPesanan.value = formattedDate;
+console.log(rencana_kirim.valueAsDate);
+cargo_readySuratPesanan.value = formatDate(rencana_kirim.valueAsDate);
 no_spText.focus();
 edit_button.style.display = "none";
 hapus_button.style.display = "none";
 lihat_spButton.style.display = "none";
 proses = 1;
-mata_uang.selectedIndex = 2;
+mata_uang.selectedIndex = 3;
+billing.selectedIndex = 10;
 ppn.selectedIndex = 1;
 nomor_urutCetak.value = 1;
 
@@ -123,7 +133,7 @@ isi_button.addEventListener("click", async function (event) {
     }
 
     if (jenis_harga.selectedIndex == 0) {
-        alert("Jenis harga harus dipilih!")
+        alert("Jenis harga harus dipilih!");
         jenis_harga.focus();
         return;
     }
@@ -336,13 +346,13 @@ general_specificationButton.addEventListener("click", function (event) {
 
 rencana_kirim.addEventListener("change", function () {
     // Get the month, day, and year from the tgl_pesan
-    month = (rencana_kirim.valueAsDate.getMonth() + 1)
-        .toString()
-        .padStart(2, "0"); // Adding 1 because getMonth() is zero-based
-    day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
-    year = rencana_kirim.valueAsDate.getFullYear();
-    formattedDate = month + "-" + day + "-" + year;
-    cargo_readySuratPesanan.value = formattedDate;
+    // month = (rencana_kirim.valueAsDate.getMonth() + 1)
+    //     .toString()
+    //     .padStart(2, "0"); // Adding 1 because getMonth() is zero-based
+    // day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
+    // year = rencana_kirim.valueAsDate.getFullYear();
+    // formattedDate = month + "-" + day + "-" + year;
+    cargo_readySuratPesanan.value = formatDate(this.valueAsDate);
 });
 
 add_button.addEventListener("click", function (event) {
@@ -581,7 +591,8 @@ sub_kelompok.addEventListener("keypress", function (event) {
                     data.forEach((option) => {
                         let optionTag = document.createElement("option");
                         optionTag.value = option.IDBarang;
-                        optionTag.text = option.NamaBarang;
+                        optionTag.text =
+                            option.KodeBarang + " | " + option.NamaBarang;
                         nama_barang.appendChild(optionTag);
                     });
                     nama_barang.focus();
@@ -785,45 +796,46 @@ function funcInsertRow(array) {
             $(this).toggleClass("selected");
             let selectedRows = table.rows(".selected").data().toArray();
             // console.log(selectedRows);
+            nomor_urutCetak.value = selectedRows[0][0];
             harga_satuan.value = parseFloat(
-                selectedRows[0][2].replace(/,/g, "")
+                selectedRows[0][3].replace(/,/g, "")
             );
-            qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ""));
+            qty_pesan.value = parseInt(selectedRows[0][4].replace(/,/g, ""));
             satuan_jual.selectedIndex = 0;
             for (let i = 0; i < satuan_jual.length; i++) {
                 // console.log(satuanJual.selectedIndex);
                 satuan_jual.selectedIndex += 1;
                 if (
                     satuan_jual.options[satuan_jual.selectedIndex].text ===
-                    selectedRows[0][4].trim()
+                    selectedRows[0][5].trim()
                 ) {
                     break;
                 }
             }
-            general_specificationProformaInvoice.value = selectedRows[0][5];
-            general_specificationSuratPesanan.value = selectedRows[0][6];
-            keterangan_barang.value = selectedRows[0][7];
-            size_code.value = selectedRows[0][8];
-            rencana_kirim.value = selectedRows[0][9];
+            general_specificationProformaInvoice.value = selectedRows[0][6];
+            general_specificationSuratPesanan.value = selectedRows[0][7];
+            keterangan_barang.value = selectedRows[0][8];
+            size_code.value = selectedRows[0][9];
+            rencana_kirim.value = selectedRows[0][10];
             ppn.selectedIndex = 0;
             for (let i = 0; i < ppn.length; i++) {
                 // console.log(satuanJual.selectedIndex);
                 ppn.selectedIndex += 1;
                 if (
                     ppn.options[ppn.selectedIndex].text ===
-                    selectedRows[0][10].trim()
+                    selectedRows[0][11].trim()
                 ) {
                     break;
                 }
             }
-            jenis_barang.value = selectedRows[0][11];
+            jenis_barang.value = selectedRows[0][12];
             let optionNamaBarang = document.createElement("option");
-            optionNamaBarang.value = selectedRows[0][13];
-            optionNamaBarang.text = selectedRows[0][0];
+            optionNamaBarang.value = selectedRows[0][14];
+            optionNamaBarang.text = selectedRows[0][1];
             nama_barang.appendChild(optionNamaBarang);
-            kode_barang.value = selectedRows[0][12];
-            funcDisplayDataBrg(selectedRows[0][13]);
-            cargo_readySuratPesanan.value = selectedRows[0][15];
+            kode_barang.value = selectedRows[0][13];
+            funcDisplayDataBrg(selectedRows[0][14]);
+            cargo_readySuratPesanan.value = selectedRows[0][16];
             // funcTampilInv(selectedRows[0][1]);
         });
     }
@@ -896,15 +908,17 @@ function clearDetailBarang() {
     satuan_gudangSekunder.value = "";
     satuan_gudangTritier.value = "";
     rencana_kirim.valueAsDate = new Date();
-    nomor_urutCetak.value = Math.max(...list_view.rows().column(0).data().toArray().map(Number)) + 1;
+    nomor_urutCetak.value =
+        Math.max(...list_view.rows().column(0).data().toArray().map(Number)) +
+        1;
 
-    month = (rencana_kirim.valueAsDate.getMonth() + 1)
-        .toString()
-        .padStart(2, "0"); // Adding 1 because getMonth() is zero-based
-    day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
-    year = rencana_kirim.valueAsDate.getFullYear();
-    formattedDate = month + "-" + day + "-" + year;
-    cargo_readySuratPesanan.value = formattedDate;
+    // month = (rencana_kirim.valueAsDate.getMonth() + 1)
+    //     .toString()
+    //     .padStart(2, "0"); // Adding 1 because getMonth() is zero-based
+    // day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
+    // year = rencana_kirim.valueAsDate.getFullYear();
+    // formattedDate = month + "-" + day + "-" + year;
+    cargo_readySuratPesanan.value = formatDate(rencana_kirim.valueAsDate);
 }
 
 function clearHeader() {
@@ -938,9 +952,8 @@ function funcDatatablesIntoInput() {
         for (let j = 0; j < dataArray[i].length; j++) {
             value = "";
             if (j === 3 || j === 4) {
-                value = value.replace(/,/g, "").trim().replace(/\s+/g, " ");
-            }
-            else{
+                value = row[j].replace(/,/g, "").trim().replace(/\s+/g, " ");
+            } else {
                 value = row[j].trim().replace(/\s+/g, " ");
             }
             let hiddenInput = document.createElement("input");
@@ -952,6 +965,13 @@ function funcDatatablesIntoInput() {
             form_suratPesanan.appendChild(hiddenInput);
         }
     }
+}
+
+function formatDate(date) {
+    var day = date.getDate();
+    var month = date.toLocaleString("id-ID", { month: "long" });
+    var year = date.getFullYear();
+    return day + " " + month + " " + year;
 }
 
 //#endregion
