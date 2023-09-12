@@ -11,6 +11,7 @@
                 detailPesananArray[i].HargaSatuan,
                 detailPesananArray[i].Qty,
                 detailPesananArray[i].Satuan,
+                detailPesananArray[i].UraianPesanan.split(" | ")[6] ?? "",
                 detailPesananArray[i].UraianPesanan.split(" | ")[0] ?? "",
                 detailPesananArray[i].UraianPesanan.split(" | ")[1] ?? "",
                 detailPesananArray[i].UraianPesanan.split(" | ")[2] ?? "",
@@ -195,26 +196,27 @@
                                     <table class="permohonan-s-p-table" id="list_view" name="list_view">
                                         <thead class="thead-light acs-thead">
                                             <tr>
-                                                <th>No.</th>
-                                                <th>Nama Barang</th>
-                                                <th>Jenis Barang</th>
-                                                <th>Harga Satuan</th>
-                                                <th>Jumlah</th>
-                                                <th>Satuan</th>
-                                                <th>General Specification (PI)</th>
-                                                <th>General Specification (SP)</th>
-                                                <th>Keterangan Barang</th>
-                                                <th>Size/Code</th>
-                                                <th>Rencana Kirim</th>
-                                                <th>PPN</th>
-                                                <th>Id Jenis Barang</th>
-                                                <th>Kode Barang</th>
-                                                <th>Id Type</th>
-                                                <th>Id Pesanan</th>
-                                                <th>Rencana Kirim (Cargo Ready)</th>
-                                                <th>Lunas</th>
-                                                <th>KodeHS</th>
-                                                <th>TerKirim</th>
+                                                <th>No.</th>{{--0--}}
+                                                <th>Nama Barang</th>{{--1--}}
+                                                <th>Jenis Barang</th>{{--2--}}
+                                                <th>Harga Satuan</th>{{--3--}}
+                                                <th>Jumlah</th>{{--4--}}
+                                                <th>Satuan(PI)</th>{{--5--}}
+                                                <th>Satuan(SP)</th>{{--6--}}
+                                                <th>General Specification (PI)</th>{{--7--}}
+                                                <th>General Specification (SP)</th>{{--8--}}
+                                                <th>Keterangan Barang</th>{{--9--}}
+                                                <th>Size/Code</th>{{--10--}}
+                                                <th>Rencana Kirim</th>{{--11--}}
+                                                <th>PPN</th>{{--12--}}
+                                                <th>Id Jenis Barang</th>{{--13--}}
+                                                <th>Kode Barang</th>{{--14--}}
+                                                <th>Id Type</th>{{--15--}}
+                                                <th>Id Pesanan</th>{{--16--}}
+                                                <th>Rencana Kirim (Cargo Ready)</th>{{--17--}}
+                                                <th>Lunas</th>{{--18--}}
+                                                <th>KodeHS</th>{{--19--}}
+                                                <th>TerKirim</th>{{--20--}}
                                             </tr>
                                         </thead>
                                     </table>
@@ -334,14 +336,22 @@
                                                 <input type="text" name="lunas" id="lunas" class="input">
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="satuan_jual">Satuan Jual</label>
-                                                <select name="satuan_jual" id="satuan_jual" class="input">
-                                                    <option selected disabled>-- Pilih Satuan Jual --</option>
+                                                <label for="satuan_jualSP">Satuan Jual(Surat Pesanan)</label>
+                                                <select name="satuan_jualSP" id="satuan_jualSP" class="input">
+                                                    <option selected disabled>-- Pilih Satuan Jual(PI) --</option>
                                                     @foreach ($list_satuan as $data)
-                                                        <option value="{{ $data->No_satuan }}">
-                                                            {{ trim($data->Nama_satuan) }}
+                                                        <option value="{{ $data->No_satuan }}">{{ trim($data->Nama_satuan) }}
                                                         </option>
                                                     @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="satuan_jualPI">Satuan Jual (Proforma Invoice)</label>
+                                                <select name="satuan_jualPI" id="satuan_jualPI" class="input">
+                                                    <option selected disabled>-- Pilih Satuan Jual(SP)--</option>
+                                                    <option value="KGM">KGM</option>
+                                                    <option value="MTR">MTR</option>
+                                                    <option value="PCS">PCS</option>
                                                 </select>
                                             </div>
                                             <div class="acs-div-filter">

@@ -186,7 +186,7 @@ class SuratPesananEksportController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->all(), "Masuk Store");
+        // dd($request->all(), "Masuk Store");
         $user = Auth::user()->NomorUser;
         $jenis_sp = 3;
         $tgl_pesan = $request->tgl_pesan;
@@ -218,19 +218,20 @@ class SuratPesananEksportController extends Controller
         $harga_satuan = $request->barang3;
         $qty_pesan = $request->barang4;
         $satuan_jual = $request->barang5;
-        $general_specificationPI = $request->barang6;
-        $general_specificationSP = $request->barang7;
-        $keterangan_barang = $request->barang8;
-        $size_code = $request->barang9;
-        $rencana_kirim = $request->barang10;
-        $ppn = $request->barang11;
-        $id_jenisPesanan = $request->barang12;
-        $kode_barang = $request->barang13;
-        $id_type = $request->barang14;
-        $id_pesanan = $request->barang15;
-        $rencana_kirimCargoReady = $request->barang16;
+        $satuan_jualPI = $request->barang6;
+        $general_specificationPI = $request->barang7;
+        $general_specificationSP = $request->barang8;
+        $keterangan_barang = $request->barang9;
+        $size_code = $request->barang10;
+        $rencana_kirim = $request->barang11;
+        $ppn = $request->barang12;
+        $id_jenisPesanan = $request->barang13;
+        $kode_barang = $request->barang14;
+        $id_type = $request->barang15;
+        $id_pesanan = $request->barang16;
+        $rencana_kirimCargoReady = $request->barang17;
         // Combine the individual arrays into a single array
-        $combinedArray = [$general_specificationPI, $general_specificationSP, $keterangan_barang, $size_code, $rencana_kirimCargoReady, $nomor_urut];
+        $combinedArray = [$general_specificationPI, $general_specificationSP, $keterangan_barang, $size_code, $rencana_kirimCargoReady, $nomor_urut, $satuan_jualPI];
         $uraian_pesanan = [];
 
         foreach ($combinedArray as $values) {
@@ -457,7 +458,7 @@ class SuratPesananEksportController extends Controller
 
     function penyesuaian(Request $request, $id)
     {
-        dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
+        // dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
         $kode = 2;
         $no_spValue = str_replace('.', '/', $id);
         $user = Auth::user()->NomorUser;
@@ -491,19 +492,20 @@ class SuratPesananEksportController extends Controller
         $harga_satuan = $request->barang3;
         $qty_pesan = $request->barang4;
         $satuan_jual = $request->barang5;
-        $general_specificationPI = $request->barang6;
-        $general_specificationSP = $request->barang7;
-        $keterangan_barang = $request->barang8;
-        $size_code = $request->barang9;
-        $rencana_kirim = $request->barang10;
-        $ppn = $request->barang11;
-        $id_jenisPesanan = $request->barang12;
-        $kode_barang = $request->barang13;
-        $id_type = $request->barang14;
-        $id_pesanan = $request->barang15;
-        $rencana_kirimCargoReady = $request->barang16;
+        $satuan_jualPI = $request->barang6;
+        $general_specificationPI = $request->barang7;
+        $general_specificationSP = $request->barang8;
+        $keterangan_barang = $request->barang9;
+        $size_code = $request->barang10;
+        $rencana_kirim = $request->barang11;
+        $ppn = $request->barang12;
+        $id_jenisPesanan = $request->barang13;
+        $kode_barang = $request->barang14;
+        $id_type = $request->barang15;
+        $id_pesanan = $request->barang16;
+        $rencana_kirimCargoReady = $request->barang17;
         // Combine the individual arrays into a single array
-        $combinedArray = [$general_specificationPI, $general_specificationSP, $keterangan_barang, $size_code, $rencana_kirimCargoReady, $nomor_urut];
+        $combinedArray = [$general_specificationPI, $general_specificationSP, $keterangan_barang, $size_code, $rencana_kirimCargoReady, $nomor_urut, $satuan_jualPI];
         $uraian_pesanan = [];
 
         foreach ($combinedArray as $values) {
@@ -518,7 +520,7 @@ class SuratPesananEksportController extends Controller
         $uraian_pesanan = array_values($uraian_pesanan); // Reindex the array to start from 0
 
         // dd($uraian_pesanan);
-        $Lunas = $request->barang17;
+        $Lunas = $request->barang18;
         $jenis_bayar = 2;
         $syarat_bayar = 0;
         $faktur_pjk = null;
