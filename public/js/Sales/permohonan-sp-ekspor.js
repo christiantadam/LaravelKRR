@@ -449,8 +449,9 @@ update_button.addEventListener("click", function (event) {
 
 delete_button.addEventListener("click", function (event) {
     event.preventDefault();
+    proses = 1;//karena ini pasti create
     let selectedRow = $("#list_view tbody tr.selected");
-    // console.log(selectedRow.find("td").eq(14).text() !== "");
+    // console.log(selectedRow.find("td").eq(17).text() !== "");
     let table = $("#list_view").DataTable();
     if (proses == 1) {
         if (selectedRow.length > 0) {
@@ -464,7 +465,7 @@ delete_button.addEventListener("click", function (event) {
         }
     } else if (proses == 2) {
         if (selectedRow.length > 0) {
-            if (selectedRow.find("td").eq(14).text() !== "") {
+            if (selectedRow.find("td").eq(17).text() !== "") {
                 // console.log(input[7].value);
                 let confirmation = confirm(
                     "Anda yakin akan menghapus data ini dari server?"
@@ -473,7 +474,7 @@ delete_button.addEventListener("click", function (event) {
                 if (confirmation) {
                     fetch(
                         "/deleteDetailBarangEksport/" +
-                            selectedRow.find("td").eq(14).text()
+                            selectedRow.find("td").eq(17).text()
                     )
                         .then((response) => response.json())
                         .then((data) => {
