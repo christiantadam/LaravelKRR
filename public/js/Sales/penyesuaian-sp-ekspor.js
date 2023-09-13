@@ -55,12 +55,8 @@ let sales = document.getElementById("sales");
 let satuan_gudangPrimer = document.getElementById("satuan_gudangPrimer");
 let satuan_gudangSekunder = document.getElementById("satuan_gudangSekunder");
 let satuan_gudangTritier = document.getElementById("satuan_gudangTritier");
-let satuan_jualSP = document.getElementById(
-    "satuan_jualSP"
-);
-let satuan_jualPI = document.getElementById(
-    "satuan_jualPI"
-);
+let satuan_jualSP = document.getElementById("satuan_jualSP");
+let satuan_jualPI = document.getElementById("satuan_jualPI");
 let size_code = document.getElementById("size_code");
 let sub_kelompok = document.getElementById("sub_kelompok");
 let table_listView = document.getElementById("list_view");
@@ -391,11 +387,8 @@ add_button.addEventListener("click", function (event) {
         jenis_barang.options[jenis_barang.selectedIndex].text,
         formatangka(parseFloat(harga_satuan.value)),
         formatangka(parseInt(qty_pesan.value)),
-        satuan_jualSP.options[
-            satuan_jualSP.selectedIndex
-        ].text,
-        satuan_jualPI.options[satuan_jualPI.selectedIndex]
-            .text,
+        satuan_jualSP.options[satuan_jualSP.selectedIndex].text,
+        satuan_jualPI.options[satuan_jualPI.selectedIndex].text,
         general_specificationProformaInvoice.value,
         general_specificationSuratPesanan.value,
         keterangan_barang.value,
@@ -434,14 +427,8 @@ update_button.addEventListener("click", function (event) {
         rowData[2] = jenis_barang.options[jenis_barang.selectedIndex].text;
         rowData[3] = formatangka(parseFloat(harga_satuan.value));
         rowData[4] = formatangka(parseInt(qty_pesan.value));
-        rowData[5] =
-            satuan_jualSP.options[
-                satuan_jualSP.selectedIndex
-            ].text;
-        rowData[6] =
-            satuan_jualPI.options[
-                satuan_jualPI.selectedIndex
-            ].text;
+        rowData[5] = satuan_jualSP.options[satuan_jualSP.selectedIndex].text;
+        rowData[6] = satuan_jualPI.options[satuan_jualPI.selectedIndex].text;
         rowData[7] = general_specificationProformaInvoice.value;
         rowData[8] = general_specificationSuratPesanan.value;
         rowData[9] = keterangan_barang.value;
@@ -613,9 +600,9 @@ sub_kelompok.addEventListener("keypress", function (event) {
                         "<option disabled selected value>-- Pilih Nama Barang --</option>";
                     data.forEach((option) => {
                         let optionTag = document.createElement("option");
-                        optionTag.value =
-                            option.KodeBarang + " | " + option.IDBarang;
-                        optionTag.text = option.NamaBarang;
+                        optionTag.value = option.IDBarang;
+                        optionTag.text =
+                            option.KodeBarang + " | " + option.NamaBarang;
                         nama_barang.appendChild(optionTag);
                     });
                     nama_barang.focus();
@@ -763,31 +750,21 @@ function IsiSatuanInv(idtype) {
                 kelompok_utama.value == "0405" ||
                 kelompok_utama.value == "0700"
             ) {
-                for (
-                    let i = 0;
-                    i < satuan_jualSP.length - 1;
-                    i++
-                ) {
+                for (let i = 0; i < satuan_jualSP.length - 1; i++) {
                     satuan_jualSP.selectedIndex += 1;
                     if (
-                        satuan_jualSP.options[
-                            satuan_jualSP.selectedIndex
-                        ].text === satuan_gudangSekunder.value
+                        satuan_jualSP.options[satuan_jualSP.selectedIndex]
+                            .text === satuan_gudangSekunder.value
                     ) {
                         break;
                     }
                 }
             } else {
-                for (
-                    let i = 0;
-                    i < satuan_jualSP.length - 1;
-                    i++
-                ) {
+                for (let i = 0; i < satuan_jualSP.length - 1; i++) {
                     satuan_jualSP.selectedIndex += 1;
                     if (
-                        satuan_jualSP.options[
-                            satuan_jualSP.selectedIndex
-                        ].text === satuan_gudangPrimer.value
+                        satuan_jualSP.options[satuan_jualSP.selectedIndex]
+                            .text === satuan_gudangPrimer.value
                     ) {
                         break;
                     }
@@ -839,9 +816,8 @@ function funcInsertRow(array) {
                 // console.log(satuanJual.selectedIndex);
                 satuan_jualSP.selectedIndex += 1;
                 if (
-                    satuan_jualSP.options[
-                        satuan_jualSP.selectedIndex
-                    ].text === selectedRows[0][5].trim()
+                    satuan_jualSP.options[satuan_jualSP.selectedIndex].text ===
+                    selectedRows[0][5].trim()
                 ) {
                     break;
                 }
@@ -851,9 +827,8 @@ function funcInsertRow(array) {
             for (let i = 0; i < satuan_jualPI.length - 1; i++) {
                 satuan_jualPI.selectedIndex += 1;
                 if (
-                    satuan_jualPI.options[
-                        satuan_jualPI.selectedIndex
-                    ].text === selectedRows[0][6].trim()
+                    satuan_jualPI.options[satuan_jualPI.selectedIndex].text ===
+                    selectedRows[0][6].trim()
                 ) {
                     break;
                 }
@@ -1001,7 +976,7 @@ function funcDatatablesIntoInput() {
             if (j === 3 || j === 4) {
                 value = row[j].replace(/,/g, "").trim().replace(/\s+/g, " ");
             } else {
-                value = row[j].trim().replace(/[^\S\r\n]+/g, ' ');
+                value = row[j].trim().replace(/[^\S\r\n]+/g, " ");
             }
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
