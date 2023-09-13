@@ -1000,7 +1000,7 @@ function funcDatatablesIntoInput() {
             if (j === 3 || j === 4) {
                 value = row[j].replace(/,/g, "").trim().replace(/\s+/g, " ");
             } else {
-                value = row[j].trim().replace(/\s+/g, " ");
+                value = row[j].trim().replace(/[^\S\r\n]+/g, ' ');
             }
             let hiddenInput = document.createElement("input");
             hiddenInput.type = "hidden";
