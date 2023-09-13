@@ -28,6 +28,7 @@
                                         <th>Tanggal </th>
                                         <th>No SP</th>
                                         <th>Customer</th>
+                                        <th>Kode Barang</th>
                                         <th>Nama Barang</th>
                                         <th>Min DO</th>
                                         <th>Max DO</th>
@@ -54,6 +55,7 @@
                                                 {{ date('m-d-Y', strtotime($item->tanggal)) }}</td>
                                             <td class="RDZPaddingTable RDZCenterTable">{{ $item->IDSuratPesanan }}</td>
                                             <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaCust }}</td>
+                                            <td class="RDZPaddingTable RDZCenterTable">{{ $item->KodeBarang }}</td>
                                             <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaBarang }}</td>
                                             <td class="RDZPaddingTable RDZCenterTable">{{ $item->MinKirimDO }}</td>
                                             <td class="RDZPaddingTable RDZCenterTable">{{ $item->MaxKirimDO }}</td>
