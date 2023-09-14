@@ -458,9 +458,9 @@ class SuratPesananEksportController extends Controller
 
     function penyesuaian(Request $request, $id)
     {
-        // dd('Masuk Penyesuaian SP Ekspor', $id, $request->all());
         $kode = 2;
         $no_spValue = str_replace('.', '/', $id);
+        // dd('Masuk Penyesuaian SP Ekspor', $id, $request->all(), $no_spValue);
         $user = Auth::user()->NomorUser;
         $jenis_sp = 3;
         $tgl_pesan = $request->tgl_pesan;
@@ -530,6 +530,7 @@ class SuratPesananEksportController extends Controller
             'exec SP_1486_SLS_MAINT_HEADERPESANAN
         @Kode = ?,
         @IdSuratPesanan = ?,
+        @IdSuratPesananEdit = ?,
         @IdJnsSuratPesanan = ?,
         @Tgl_Pesan = ?,
         @IdCust = ?,
@@ -545,7 +546,7 @@ class SuratPesananEksportController extends Controller
         @Ket = ?,
         @JnsFakturPjk = ?,
         @JenisHargaBarang = ?',
-            [$kode, $no_sp, 3, $tgl_pesan, $id_customer[1], $no_po, $tgl_po, $no_pi, $jenis_bayar, $id_sales, $id_billing, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk, $jenis_hargaBarang],
+            [$kode, $no_spValue, $no_sp ,3, $tgl_pesan, $id_customer[1], $no_po, $tgl_po, $no_pi, $jenis_bayar, $id_sales, $id_billing, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk, $jenis_hargaBarang],
         );
 
         // kemudian beralih ke maintenance detail pesanan nich...

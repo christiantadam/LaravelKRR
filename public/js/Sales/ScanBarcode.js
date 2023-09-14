@@ -98,26 +98,30 @@ kode_barcode.addEventListener("keypress", function (event) {
             alert("Isi kode barcode lebih dulu!");
             kode_barcode.focus();
         } else {
-            const kode_barcodeParts = kode_barcode.value.split("-");
-            let kodeBarang = kode_barcodeParts[1].padStart(9, "0");
-            let nomorindeks9digit = kode_barcodeParts[0].padStart(9, "0");
-            let nomorIndeks = parseInt(nomorindeks9digit);
-            // console.log(kodeBarang);
-            // console.log(nomorIndeks);
+            // const kode_barcodeParts = kode_barcode.value.split("-");
+            // let kodeBarang = kode_barcodeParts[1].padStart(9, "0");
+            // let nomorindeks9digit = kode_barcodeParts[0].padStart(9, "0");
+            // let nomorIndeks = parseInt(nomorindeks9digit);
+            // // console.log(kodeBarang);
+            // // console.log(nomorIndeks);
 
-            let inputKodeBarang = document.createElement("input");
-            inputKodeBarang.type = "hidden";
-            inputKodeBarang.name = "kode_barang";
-            inputKodeBarang.value = kodeBarang;
+            // let inputKodeBarang = document.createElement("input");
+            // inputKodeBarang.type = "hidden";
+            // inputKodeBarang.name = "kode_barang";
+            // inputKodeBarang.value = kodeBarang;
 
-            let inputNomorIndeks = document.createElement("input");
-            inputNomorIndeks.type = "hidden";
-            inputNomorIndeks.name = "nomor_indeks";
-            inputNomorIndeks.value = nomorIndeks;
+            // let inputNomorIndeks = document.createElement("input");
+            // inputNomorIndeks.type = "hidden";
+            // inputNomorIndeks.name = "nomor_indeks";
+            // inputNomorIndeks.value = nomorIndeks;
 
-            form_scanBarcode.appendChild(inputKodeBarang);
-            form_scanBarcode.appendChild(inputNomorIndeks);
+            // form_scanBarcode.appendChild(inputKodeBarang);
+            // form_scanBarcode.appendChild(inputNomorIndeks);
+            // form_scanBarcode.submit();
+
+            this.value = this.value.replace(/\n/g, ', ');
             form_scanBarcode.submit();
+            // console.log(stringWithCommas);
         }
     }
 });
