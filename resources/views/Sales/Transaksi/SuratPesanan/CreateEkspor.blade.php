@@ -153,19 +153,18 @@
                                                 <th>Jenis Barang</th>{{--2--}}
                                                 <th>Harga Satuan</th>{{--3--}}
                                                 <th>Jumlah</th>{{--4--}}
-                                                <th>Satuan(PI)</th>{{--5--}}
-                                                <th>Satuan(SP)</th>{{--6--}}
-                                                <th>General Specification(PI)</th>{{--7--}}
-                                                <th>General Specification(SP)</th>{{--8--}}
-                                                <th>Keterangan Barang</th>{{--9--}}
-                                                <th>Size/Code</th>{{--10--}}
-                                                <th>Rencana Kirim</th>{{--11--}}
-                                                <th>PPN</th>{{--12--}}
-                                                <th>Id Jenis Barang</th>{{--13--}}
-                                                <th>Kode Barang</th>{{--14--}}
-                                                <th>Id Type</th>{{--15--}}
-                                                <th>Id Pesanan</th>{{--16--}}
-                                                <th>Rencana Kirim (Cargo Ready)</th>{{--17--}}
+                                                <th>Satuan</th>{{--5--}}
+                                                <th>General Specification(PI)</th>{{--6--}}
+                                                <th>General Specification(SP)</th>{{--7--}}
+                                                <th>Keterangan Barang</th>{{--8--}}
+                                                <th>Size/Code</th>{{--9--}}
+                                                <th>Rencana Kirim</th>{{--10--}}
+                                                <th>PPN</th>{{--11--}}
+                                                <th>Id Jenis Barang</th>{{--12--}}
+                                                <th>Kode Barang</th>{{--13--}}
+                                                <th>Id Type</th>{{--14--}}
+                                                <th>Id Pesanan</th>{{--15--}}
+                                                <th>Rencana Kirim (Cargo Ready)</th>{{--16--}}
                                             </tr>
                                         </thead>
                                     </table>
@@ -270,16 +269,16 @@
                                     </div>
                                     <div class="acs-div-container7">
                                         <div class="acs-div-filter">
-                                            <label for="satuan_jualSP">Satuan Jual(SuratPesanan)</label>
-                                            <select name="satuan_jualSP" id="satuan_jualSP" class="input">
-                                                <option selected disabled>-- Pilih Satuan Jual(PI) --</option>
+                                            <label for="satuan_jual">Satuan Jual</label>
+                                            <select name="satuan_jual" id="satuan_jual" class="input">
+                                                <option selected disabled>-- Pilih Satuan Jual --</option>
                                                 @foreach ($list_satuan as $data)
                                                     <option value="{{ $data->No_satuan }}">{{ trim($data->Nama_satuan) }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="acs-div-filter">
+                                        {{-- <div class="acs-div-filter">
                                             <label for="satuan_jualPI">Satuan Jual (Proforma Invoice)</label>
                                             <select name="satuan_jualPI" id="satuan_jualPI" class="input">
                                                 <option selected disabled>-- Pilih Satuan Jual(SP)--</option>
@@ -287,7 +286,7 @@
                                                 <option value="MTR">MTR</option>
                                                 <option value="PCS">PCS</option>
                                             </select>
-                                        </div>
+                                        </div> --}}
                                         <div class="acs-div-filter">
                                             <label for="satuan_gudang">Satuan Gudang</label>
                                             <div class="acs-div-container3">

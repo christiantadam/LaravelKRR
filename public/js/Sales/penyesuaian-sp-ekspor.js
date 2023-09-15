@@ -55,8 +55,8 @@ let sales = document.getElementById("sales");
 let satuan_gudangPrimer = document.getElementById("satuan_gudangPrimer");
 let satuan_gudangSekunder = document.getElementById("satuan_gudangSekunder");
 let satuan_gudangTritier = document.getElementById("satuan_gudangTritier");
-let satuan_jualSP = document.getElementById("satuan_jualSP");
-let satuan_jualPI = document.getElementById("satuan_jualPI");
+let satuan_jual = document.getElementById("satuan_jual");
+// let satuan_jualPI = document.getElementById("satuan_jualPI");
 let size_code = document.getElementById("size_code");
 let sub_kelompok = document.getElementById("sub_kelompok");
 let table_listView = document.getElementById("list_view");
@@ -387,8 +387,8 @@ add_button.addEventListener("click", function (event) {
         jenis_barang.options[jenis_barang.selectedIndex].text,
         formatangka(parseFloat(harga_satuan.value)),
         formatangka(parseInt(qty_pesan.value)),
-        satuan_jualSP.options[satuan_jualSP.selectedIndex].text,
-        satuan_jualPI.options[satuan_jualPI.selectedIndex].text,
+        satuan_jual.options[satuan_jual.selectedIndex].text,
+        // satuan_jualPI.options[satuan_jualPI.selectedIndex].text,
         general_specificationProformaInvoice.value,
         general_specificationSuratPesanan.value,
         keterangan_barang.value,
@@ -427,21 +427,21 @@ update_button.addEventListener("click", function (event) {
         rowData[2] = jenis_barang.options[jenis_barang.selectedIndex].text;
         rowData[3] = formatangka(parseFloat(harga_satuan.value));
         rowData[4] = formatangka(parseInt(qty_pesan.value));
-        rowData[5] = satuan_jualSP.options[satuan_jualSP.selectedIndex].text;
-        rowData[6] = satuan_jualPI.options[satuan_jualPI.selectedIndex].text;
-        rowData[7] = general_specificationProformaInvoice.value;
-        rowData[8] = general_specificationSuratPesanan.value;
-        rowData[9] = keterangan_barang.value;
-        rowData[10] = size_code.value;
-        rowData[11] = rencana_kirim.value;
-        rowData[12] = ppn.value;
-        rowData[13] = jenis_barang.value;
-        rowData[14] = kode_barang.value;
-        rowData[15] = nama_barang.value;
-        rowData[17] = cargo_readySuratPesanan.value;
-        rowData[18] = lunas.value;
-        rowData[19] = kode_hs.value;
-        rowData[20] = terkirim.value;
+        rowData[5] = satuan_jual.options[satuan_jual.selectedIndex].text;
+        // rowData[6] = satuan_jualPI.options[satuan_jualPI.selectedIndex].text;
+        rowData[6] = general_specificationProformaInvoice.value;
+        rowData[7] = general_specificationSuratPesanan.value;
+        rowData[8] = keterangan_barang.value;
+        rowData[9] = size_code.value;
+        rowData[10] = rencana_kirim.value;
+        rowData[11] = ppn.value;
+        rowData[12] = jenis_barang.value;
+        rowData[13] = kode_barang.value;
+        rowData[14] = nama_barang.value;
+        rowData[16] = cargo_readySuratPesanan.value;
+        rowData[17] = lunas.value;
+        rowData[18] = kode_hs.value;
+        rowData[19] = terkirim.value;
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
         // remove highlight from selected row
@@ -744,26 +744,26 @@ function IsiSatuanInv(idtype) {
             satuan_gudangPrimer.value = data[0].satPrimer.trim();
             satuan_gudangSekunder.value = data[0].satSekunder.trim();
             satuan_gudangTritier.value = data[0].nama_satuan.trim();
-            satuan_jualSP.selectedIndex = 0;
+            satuan_jual.selectedIndex = 0;
             if (
                 kelompok_utama.value == "0406" ||
                 kelompok_utama.value == "0405" ||
                 kelompok_utama.value == "0700"
             ) {
-                for (let i = 0; i < satuan_jualSP.length - 1; i++) {
-                    satuan_jualSP.selectedIndex += 1;
+                for (let i = 0; i < satuan_jual.length - 1; i++) {
+                    satuan_jual.selectedIndex += 1;
                     if (
-                        satuan_jualSP.options[satuan_jualSP.selectedIndex]
+                        satuan_jual.options[satuan_jual.selectedIndex]
                             .text === satuan_gudangSekunder.value
                     ) {
                         break;
                     }
                 }
             } else {
-                for (let i = 0; i < satuan_jualSP.length - 1; i++) {
-                    satuan_jualSP.selectedIndex += 1;
+                for (let i = 0; i < satuan_jual.length - 1; i++) {
+                    satuan_jual.selectedIndex += 1;
                     if (
-                        satuan_jualSP.options[satuan_jualSP.selectedIndex]
+                        satuan_jual.options[satuan_jual.selectedIndex]
                             .text === satuan_gudangPrimer.value
                     ) {
                         break;
@@ -811,54 +811,54 @@ function funcInsertRow(array) {
                 selectedRows[0][3].replace(/,/g, "")
             );
             qty_pesan.value = parseInt(selectedRows[0][4].replace(/,/g, ""));
-            satuan_jualSP.selectedIndex = 0;
-            for (let i = 0; i < satuan_jualSP.length - 1; i++) {
+            satuan_jual.selectedIndex = 0;
+            for (let i = 0; i < satuan_jual.length - 1; i++) {
                 // console.log(satuanJual.selectedIndex);
-                satuan_jualSP.selectedIndex += 1;
+                satuan_jual.selectedIndex += 1;
                 if (
-                    satuan_jualSP.options[satuan_jualSP.selectedIndex].text ===
+                    satuan_jual.options[satuan_jual.selectedIndex].text ===
                     selectedRows[0][5].trim()
                 ) {
                     break;
                 }
             }
-            satuan_jualPI.selectedIndex = 0;
-            console.log(satuan_jualPI.value);
-            for (let i = 0; i < satuan_jualPI.length - 1; i++) {
-                satuan_jualPI.selectedIndex += 1;
-                if (
-                    satuan_jualPI.options[satuan_jualPI.selectedIndex].text ===
-                    selectedRows[0][6].trim()
-                ) {
-                    break;
-                }
-            }
-            general_specificationProformaInvoice.value = selectedRows[0][7];
-            general_specificationSuratPesanan.value = selectedRows[0][8];
-            keterangan_barang.value = selectedRows[0][9];
-            size_code.value = selectedRows[0][10];
-            rencana_kirim.value = selectedRows[0][11];
+            // satuan_jualPI.selectedIndex = 0;
+            // console.log(satuan_jualPI.value);
+            // for (let i = 0; i < satuan_jualPI.length - 1; i++) {
+            //     satuan_jualPI.selectedIndex += 1;
+            //     if (
+            //         satuan_jualPI.options[satuan_jualPI.selectedIndex].text ===
+            //         selectedRows[0][6].trim()
+            //     ) {
+            //         break;
+            //     }
+            // }
+            general_specificationProformaInvoice.value = selectedRows[0][6];
+            general_specificationSuratPesanan.value = selectedRows[0][7];
+            keterangan_barang.value = selectedRows[0][8];
+            size_code.value = selectedRows[0][9];
+            rencana_kirim.value = selectedRows[0][10];
             ppn.selectedIndex = 0;
             for (let i = 0; i < ppn.length; i++) {
                 ppn.selectedIndex += 1;
                 if (
                     ppn.options[ppn.selectedIndex].text ===
-                    selectedRows[0][12].trim()
+                    selectedRows[0][11].trim()
                 ) {
                     break;
                 }
             }
-            jenis_barang.value = selectedRows[0][13];
+            jenis_barang.value = selectedRows[0][12];
             let optionNamaBarang = document.createElement("option");
-            optionNamaBarang.value = selectedRows[0][15];
+            optionNamaBarang.value = selectedRows[0][14];
             optionNamaBarang.text = selectedRows[0][1];
             nama_barang.appendChild(optionNamaBarang);
-            kode_barang.value = selectedRows[0][14];
-            funcDisplayDataBrg(selectedRows[0][15]);
-            cargo_readySuratPesanan.value = selectedRows[0][17];
-            lunas.value = selectedRows[0][18];
-            kode_hs.value = selectedRows[0][19];
-            terkirim.value = selectedRows[0][20];
+            kode_barang.value = selectedRows[0][13];
+            funcDisplayDataBrg(selectedRows[0][14]);
+            cargo_readySuratPesanan.value = selectedRows[0][16];
+            lunas.value = selectedRows[0][17];
+            kode_hs.value = selectedRows[0][18];
+            terkirim.value = selectedRows[0][19];
             // funcTampilInv(selectedRows[0][1]);
         });
     }
@@ -926,8 +926,8 @@ function clearDetailBarang() {
     keterangan_barang.value = "";
     size_code.value = "";
     ppn.selectedIndex = 1;
-    satuan_jualSP.selectedIndex = 0;
-    satuan_jualPI.selectedIndex = 0;
+    satuan_jual.selectedIndex = 0;
+    // satuan_jualPI.selectedIndex = 0;
     satuan_gudangPrimer.value = "";
     satuan_gudangSekunder.value = "";
     satuan_gudangTritier.value = "";
