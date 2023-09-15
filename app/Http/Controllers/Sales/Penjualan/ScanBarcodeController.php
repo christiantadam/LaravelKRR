@@ -47,40 +47,43 @@ class ScanBarcodeController extends Controller
     {
         $barcodeArray = explode(', ', $request->kode_barcode);
         // dd($request->all(), $barcodeArray);
-        $barcodeScanBerhasil = '';
-        $barcodeScanGagal = '';
-        $sudahPernahScan = '';
+        $barcodeScanBerhasil = [];
+        $barcodeScanGagal = [];
+        $sudahPernahScan = [];
         $returnAlert = '';
 
         for ($i = 0; $i < count($barcodeArray); $i++) {
             $kodeBarcode = explode('-', $barcodeArray[$i]);
             $data = db::connection('ConnInventory')->select('exec SP_1273_INV_cek_tmpgudang @indeks = ?, @kdbrg = ?', [$kodeBarcode[0], $kodeBarcode[1]]);
-            $status = db::connection('ConnInventory')->select('SP_1273_INV_cek_status_tmpgudang @indeks = ?, @kdbrg = ?', [$kodeBarcode[0], $kodeBarcode[1]]);
+            $status = db::connection('ConnInventory')->select('exec SP_1273_INV_cek_status_tmpgudang @indeks = ?, @kdbrg = ?', [$kodeBarcode[0], $kodeBarcode[1]]);
 
             if (empty($status)) {
                 $status = [(object) ["Status" => "3"]];
             }
-            dd($status[0]->Status);
+            // if ($i == 0) {
+            //     dd($i, $status[0]->Status, $data, empty($data));
+            // }
             if (empty($data)) {
                 if ($status[0]->Status !== "3") {
-                    $barcodeScanGagal .= $barcodeArray[$i] . ', ';
+                    array_push($barcodeScanGagal, $barcodeArray[$i]);
                     continue;
                 }
-                // db::connection('ConnInventory')->statement('exec SP_1273_INV_insert_tmpgudang @indeks = ?, @kdbrg = ?', [$kodeBarcode[0], $kodeBarcode[1]]);
-                $barcodeScanBerhasil .= $barcodeArray[$i] . ', ';
+                db::connection('ConnInventory')->statement('exec SP_1273_INV_insert_tmpgudang @indeks = ?, @kdbrg = ?', [$kodeBarcode[0], $kodeBarcode[1]]);
+                array_push($barcodeScanBerhasil, $barcodeArray[$i]);
             } else {
-                $sudahPernahScan .= $barcodeArray[$i] . ', ';
+                array_push($sudahPernahScan, $barcodeArray[$i]);
             }
         }
-        dd($barcodeScanBerhasil, $barcodeScanGagal, $sudahPernahScan);
+
+        // dd($barcodeScanBerhasil, $barcodeScanGagal, $sudahPernahScan);
         if (!empty($barcodeScanBerhasil)) {
-            $returnAlert .= 'Barcode yang berhasil discan: ' . $barcodeScanBerhasil;
+            $returnAlert .= "Barcode yang berhasil discan: " . implode(', ', $barcodeScanBerhasil) . "<br>";
         }
         if (!empty($barcodeScanGagal)) {
-            $returnAlert .= '\nBarcode yang gagal discan: ' . $barcodeScanGagal;
+            $returnAlert .= "Barcode yang gagal discan: " . implode(', ', $barcodeScanGagal) . "<br>";
         }
         if (!empty($sudahPernahScan)) {
-            $returnAlert .= '\nBarcode yang sudah discan: ' . $sudahPernahScan;
+            $returnAlert .= "Barcode yang sudah discan: " . implode(',', $sudahPernahScan);
         }
         return redirect()->back()->with('success', $returnAlert);
         // $indeks = $request->nomor_indeks;

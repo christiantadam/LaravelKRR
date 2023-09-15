@@ -25,8 +25,8 @@
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
                 @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        {{ Session::get('success') }}
+                    <div class="alert alert-info">
+                        {!! Session::get('success') !!}
                     </div>
                 @elseif (Session::has('error'))
                     <div class="alert alert-danger">
@@ -41,7 +41,7 @@
                             <div class="acs-div-form3">
                                 <div class="acs-div-filter1">
                                     <label for="kode_barcode">Kode Barcode</label>
-                                    <textarea class="input" name="kode_barcode" id="kode_barcode" cols="60" rows="1"></textarea>Tekan Enter
+                                    <textarea class="input" name="kode_barcode" id="kode_barcode" cols="60" rows="1" placeholder="Indeks-Kode Barang"></textarea>Tekan Enter
                                     untuk Scan Barcode!
                                     {{-- <input type="text" name="kode_barcode" id="kode_barcode" class="input"> --}}
                                     {{-- <label for="">Untuk data uji coba 114-000067047</label> --}}
