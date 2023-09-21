@@ -223,7 +223,7 @@
         top: 0;
         left: 0;
         background-color: aqua;
-        height: 6cm;
+        height: 5.8cm;
     }
     .cetak-sppdf-container08 {
         margin-top: 6cm;
@@ -243,10 +243,10 @@
     #table_sp th,
     #table_sp td {
         border: 1px solid black !important;
-        padding: 3px;
+        padding: 2px;
     }
     #table_sp th {
-        font-size: 17px;
+        font-size: 15px;
         white-space: nowrap;
         text-align: center;
     }

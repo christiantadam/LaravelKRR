@@ -157,7 +157,7 @@ print_button.addEventListener("click", function (event) {
                 tgl_ttKolom.innerHTML =
                     "Sidoarjo, " + convertDateFormat(data[0].TGL_SP);
                 nama_customerKolom.innerHTML = data[0].ContactPerson;
-                fax_customerKolom.innerHTML = data[0].NoFax1 ?? data[0].NoFax2;
+                fax_customerKolom.innerHTML = data[0].NoTelp1 ?? data[0].NoTelp2 ?? "";
                 // alamat_kantorKolom.innerHTML = data[0].Alamat;
                 // destination_kolom.innerHTML = data[0].AlamatKirim;
                 price_forKolom.innerHTML =

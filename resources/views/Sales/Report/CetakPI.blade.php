@@ -92,7 +92,6 @@
                                             <br>
                                             <span style="font-weight: 600" id="no_piKolom">111/coba/111</span>
                                         </div>
-                                        <br>
                                         <span id="no_poKolom">Buyer Reference contract number: </span>
                                         <hr style="border: 1px solid black; width:100%;margin-top: 0;margin-bottom: 0">
                                     </div>
@@ -112,7 +111,7 @@
                                                 <td id="nama_customerKolom" contenteditable="true">xxxxxx</td>
                                             </tr>
                                             <tr>
-                                                <td>Fax</td>
+                                                <td>Phone</td>
                                                 <td>:</td>
                                                 <td contenteditable="true" id="fax_customerKolom">xxxxxx</td>
                                             </tr>
