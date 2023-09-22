@@ -96,26 +96,28 @@
                                         <hr style="border: 1px solid black; width:100%;margin-top: 0;margin-bottom: 0">
                                     </div>
                                     <div class="cetak-sppdf-container11">
-                                        <div class="cetak-sppdf-container12">
-                                            <span id="tgl_pesanKolom">Sidoarjo, July 15, 2023</span>
+                                        <div class="cetak-sppdf-subcontainer1">
+                                            <table>
+                                                <tr>
+                                                    <td>Buyer</td>
+                                                    <td>:</td>
+                                                    <td id="nama_perusahaanKolom" contenteditable="true">xxxxx</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Attn</td>
+                                                    <td>:</td>
+                                                    <td id="nama_customerKolom" contenteditable="true">xxxxxx</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Phone</td>
+                                                    <td>:</td>
+                                                    <td contenteditable="true" id="fax_customerKolom">xxxxxx</td>
+                                                </tr>
+                                            </table>
+                                            <div class="cetak-sppdf-container12">
+                                                <span id="tgl_pesanKolom">Sidoarjo, July 15, 2023</span>
+                                            </div>
                                         </div>
-                                        <table>
-                                            <tr>
-                                                <td>Buyer</td>
-                                                <td>:</td>
-                                                <td id="nama_perusahaanKolom" contenteditable="true">xxxxx</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Attn</td>
-                                                <td>:</td>
-                                                <td id="nama_customerKolom" contenteditable="true">xxxxxx</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Phone</td>
-                                                <td>:</td>
-                                                <td contenteditable="true" id="fax_customerKolom">xxxxxx</td>
-                                            </tr>
-                                        </table>
                                         <hr style="border: 1px solid black; width:100%;margin-top: 0;margin-bottom: 0">
                                         <span id="pernyataan_pesananKolom" contenteditable="true">We hereby confirmed your order of xxxxxx with specifications, terms, and
                                             conditions as mentioned
