@@ -6,8 +6,9 @@
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
                 <div class="acs-div-form">
-                    <div style="display: none"> <input type="radio" name="group_cetak" id="cetak_belumACC"> Cetak Belum ACC (Lokal) <input
-                            type="radio" name="group_cetak" id="cetak_sudahACC"> Cetak Sudah ACC (Lokal) </div>
+                    <div style="display: none"> <input type="radio" name="group_cetak" id="cetak_belumACC"> Cetak Belum
+                        ACC (Lokal) <input type="radio" name="group_cetak" id="cetak_sudahACC"> Cetak Sudah ACC (Lokal)
+                    </div>
                     <div class="acs-div-filter"> <label for="tanggal_do">Tanggal:</label> <input type="date"
                             name="tanggal_do" id="tanggal_do" class="input"> </div>
                     <div class="acs-div-filter1"> <label for="no_do">Hari:</label> <input type="text"
@@ -18,78 +19,59 @@
                     <hr> <label for="contoh_print" id="contoh_print">Contoh print:</label>
                 </div>
                 <div class="acs-div-container" id="contoh_printDiv">
-
-                    <body>
-                        <div class="cetak-dopdf-container">
-                            <div class="cetak-dopdf-container02 header">
-                                <div style="display:flex; flex-direction: row;gap:5px; width: 100%;border: 1px solid black !important;font-size: 18px;">
-                                    <div style="text-align: center; padding:5px;width: 50%">
-                                        <h2 style="margin-bottom: 0px"> <span>PT. KERTA RAJASA RAYA</span> </h2>
-                                        <p style="margin-bottom: 0px"> <span>Woven Bag - Jumbo Bag
-                                                Industrial</span>
-                                            <br />
-                                        <p style="margin-bottom: 0px"> <span>No. Dokumen:
-                                                21-FM-03-02-01-01</span>
-                                            <br />
-                                    </div>
-                                    <div style="display: flex; flex-direction: row; gap:5px;width: 50%;">
-                                        <div style="display: flex;flex-direction: column">
-                                            <div>Hari</div>
-                                            <div>DiBuat Oleh</div>
-                                            <div>Tanggal Kirim</div>
-                                        </div>
-                                        <div style="display: flex;flex-direction: column">
-                                            <div>:</div>
-                                            <div>:</div>
-                                            <div>:</div>
-                                        </div>
-                                        <div style="display: flex;flex-direction: column">
-                                            <div id="nomor_referensiKolom"></div>
-                                            <div id="dibuat_olehKolom" style="white-space: nowrap;">Marketing</div>
-                                            <div id="tanggal_kirimKolom"></div>
-                                        </div>
-                                    </div>
+                    <div class="cetak-dopdf-container">
+                        <div class="cetak-dopdf-container02 header">
+                            <div
+                                style="display:flex; flex-direction: row;gap:5px; width: 100%;border: 1px solid black !important;font-size: 18px;">
+                                <div style="text-align: center; padding:5px;width: 50%">
+                                    <h2 style="margin-bottom: 0px"> <span>PT. KERTA RAJASA RAYA</span> </h2>
+                                    <p style="margin-bottom: 0px"> <span>Woven Bag - Jumbo Bag
+                                            Industrial</span>
+                                        <br />
+                                    <p style="margin-bottom: 0px"> <span>No. Dokumen:
+                                            21-FM-03-02-01-01</span>
+                                        <br />
                                 </div>
-                                <div style="display: flex;flex-direction: column; width:100%; gap:12px">
-                                    <span class="hollow-font">SURAT PERINTAH PENGIRIMAN DIVISI PEMASARAN LOKAL / EKSPORT</span>
-                                    {{-- <span class="hollow-font"></span> --}}
-                                    {{-- <div style="width:48%">
-                                        <img src="{{ asset('images/CetakDO1.png') }}" alt="Example Image" class="acs-image"
-                                            style="margin-left: 5px">
+                                <div style="display: flex; flex-direction: row; gap:5px;width: 50%;">
+                                    <div style="display: flex;flex-direction: column">
+                                        <div>Hari</div>
+                                        <div>DiBuat Oleh</div>
+                                        <div>Tanggal Kirim</div>
                                     </div>
-                                    <div style="width:48%">
-                                        <img src="{{ asset('images/CetakDO2.png') }}" alt="Example Image" class="acs-image"
-                                            style="margin-right: 5px">
-                                    </div> <tr>
-                                        <td style="vertical-align:top">Keterangan: </td>
-                                        <td style="text-align:justify" id="keterangan_kolom">${
-                                            option.AlamatKirimDO
-                                        }</td>
-                                    </tr>--}}
+                                    <div style="display: flex;flex-direction: column">
+                                        <div>:</div>
+                                        <div>:</div>
+                                        <div>:</div>
+                                    </div>
+                                    <div style="display: flex;flex-direction: column">
+                                        <div id="nomor_referensiKolom"></div>
+                                        <div id="dibuat_olehKolom" style="white-space: nowrap;">Marketing</div>
+                                        <div id="tanggal_kirimKolom"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <table style="width: 98%">
-                                <thead>
-                                    <tr>
-                                        <td>
-                                            <div class="page-header-space"></div>
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div id="div_cetakDOSudahACC"></div>
-                                            <div id="div_cetakDOBelumACC"></div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-
+                            <div style="display: flex;flex-direction: column; width:100%; gap:12px">
+                                <span class="hollow-font">SURAT PERINTAH PENGIRIMAN DIVISI PEMASARAN LOKAL / EKSPORT</span>
+                            </div>
                         </div>
-                    </body>
-
+                        <table style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <td>
+                                        <div class="page-header-space"></div>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div id="div_cetakDOSudahACC"></div>
+                                        <div id="div_cetakDOBelumACC"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

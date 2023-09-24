@@ -55,15 +55,16 @@ table tr td:first-child {
 
 @media print {
     .page-header-space {
-        height: 160px;
+        height: 170px;
     }
     .hollow-font {
-        font-size: 27px;
+        font-size: 22px;
         font-weight: bold;
         color: #000; /* Set the desired color for the stroke */
         -webkit-text-stroke: 1px #000; /* Create a stroke of desired width and color */
         -webkit-text-fill-color: transparent; /* Make the text transparent to create the hollow effect */
         text-align: center;
+        white-space: nowrap;
     }
     .acs-div-form {
         display: none;
@@ -83,11 +84,13 @@ table tr td:first-child {
         font-size: 15px;
     }
     .header {
-        top: 0;
+        /* top: 0;
         left: 0;
-        right: 0;
-        background-color: #f2f2f2;
+        right: 0; */
+        /* background-color: #f2f2f2; */
+        /* width: 100%; */
         position: fixed;
+        /* display: flex; */
     }
     .acs-dopdf-container03 {
         display: block;
