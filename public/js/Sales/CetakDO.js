@@ -24,7 +24,7 @@ let div_cetakDOBelumACC = document.getElementById("div_cetakDOBelumACC");
 tanggal_do.valueAsDate = new Date();
 cetak_belumACC.checked = true;
 contoh_print.style.display = "none";
-// contoh_printDiv.style.display = "none";
+contoh_printDiv.style.display = "none";
 export_pdf.style.display = "none";
 print_pdf.style.display = "none";
 
