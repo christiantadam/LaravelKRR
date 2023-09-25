@@ -246,7 +246,7 @@
                                 </div>
                                 <div id="div_beratStandard" class="acs-div-beratStandard">
                                     <div class="acs-div-beratStandard1">
-                                        <span>Berat Standart (KGM) - Index Harga</span>
+                                        <span>Berat Standart (Gram) - Index Harga</span>
                                         <br>
                                         <br>
                                         <div class="permohonan-s-p-container38">
