@@ -215,7 +215,7 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                                     primer -= primerData;
                                     sekunder -= sekunderData;
                                     tritier += tritierData;
-                                     // Subtract when unchecked
+                                    // Subtract when unchecked
                                 } else {
                                     primer += primerData;
                                     sekunder += sekunderData;
@@ -396,11 +396,14 @@ prosesButton.addEventListener("click", function (event) {
     }
 
     if (
-        saldo_primerDikeluarkanSatuan.value !== max_doSatuan.value &&
-        saldo_sekunderDikeluarkanSatuan.value !== max_doSatuan.value &&
-        saldo_tritierDikeluarkanSatuan.value !== max_doSatuan.value
+        saldo_primerDikeluarkanSatuan.value.trim() !==
+            max_doSatuan.value.trim() &&
+        saldo_sekunderDikeluarkanSatuan.value.trim() !==
+            max_doSatuan.value.trim() &&
+        saldo_tritierDikeluarkanSatuan.value.trim() !==
+            max_doSatuan.value.trim()
     ) {
-        if (parseInt(jumlah_konversi.value) <= 0) {
+        if (parseFloat(jumlah_konversi.value) === 0) {
             alert("Jumlah Konversi Harus Lebih Besar '0' !");
             return;
         } else if (
