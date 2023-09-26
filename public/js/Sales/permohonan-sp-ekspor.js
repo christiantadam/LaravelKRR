@@ -29,6 +29,7 @@ let jenis_harga = document.getElementById("jenis_harga");
 let kelompok = document.getElementById("kelompok");
 let kelompok_utama = document.getElementById("kelompok_utama");
 let keterangan_barang = document.getElementById("keterangan_barang");
+let ket_qty = document.getElementById("ket_qty");
 let kode_barang = document.getElementById("kode_barang");
 let lihat_spButton = document.getElementById("lihat_spButton");
 let list_view = $("#list_view").DataTable();
@@ -397,6 +398,7 @@ add_button.addEventListener("click", function (event) {
         nama_barang.value,
         "",
         cargo_readySuratPesanan.value,
+        ket_qty.value
     ];
     funcInsertRow(arraydata);
     clearDetailBarang();
@@ -435,6 +437,7 @@ update_button.addEventListener("click", function (event) {
         rowData[13] = kode_barang.value;
         rowData[14] = nama_barang.value;
         rowData[16] = cargo_readySuratPesanan.value;
+        rowData[17] = ket_qty.value;
 
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
@@ -713,6 +716,7 @@ function checkInputs() {
         "remarks_packing",
         "remarks_price",
         "remarks_quantity",
+        "ket_qty",
     ];
     inputIds.forEach((inputId) => {
         const inputValue = document.getElementById(inputId).value;
@@ -828,30 +832,31 @@ function funcInsertRow(array) {
             //         break;
             //     }
             // }
-            general_specificationProformaInvoice.value = selectedRows[0][7];
-            general_specificationSuratPesanan.value = selectedRows[0][8];
-            keterangan_barang.value = selectedRows[0][9];
-            size_code.value = selectedRows[0][10];
-            rencana_kirim.value = selectedRows[0][11];
+            general_specificationProformaInvoice.value = selectedRows[0][6];
+            general_specificationSuratPesanan.value = selectedRows[0][7];
+            keterangan_barang.value = selectedRows[0][8];
+            size_code.value = selectedRows[0][9];
+            rencana_kirim.value = selectedRows[0][10];
             ppn.selectedIndex = 0;
             for (let i = 0; i < ppn.length; i++) {
                 // console.log(satuanJual.selectedIndex);
                 ppn.selectedIndex += 1;
                 if (
                     ppn.options[ppn.selectedIndex].text ===
-                    selectedRows[0][12].trim()
+                    selectedRows[0][11].trim()
                 ) {
                     break;
                 }
             }
             jenis_barang.value = selectedRows[0][13];
             let optionNamaBarang = document.createElement("option");
-            optionNamaBarang.value = selectedRows[0][15];
+            optionNamaBarang.value = selectedRows[0][14];
             optionNamaBarang.text = selectedRows[0][1];
             nama_barang.appendChild(optionNamaBarang);
-            kode_barang.value = selectedRows[0][14];
-            funcDisplayDataBrg(selectedRows[0][15]);
-            cargo_readySuratPesanan.value = selectedRows[0][17];
+            kode_barang.value = selectedRows[0][13];
+            funcDisplayDataBrg(selectedRows[0][14]);
+            cargo_readySuratPesanan.value = selectedRows[0][16];
+            ket_qty.value = selectedRows[0][17];
             // funcTampilInv(selectedRows[0][1]);
         });
     }
@@ -929,13 +934,8 @@ function clearDetailBarang() {
         Math.max(...list_view.rows().column(0).data().toArray().map(Number)) +
         1;
 
-    // month = (rencana_kirim.valueAsDate.getMonth() + 1)
-    //     .toString()
-    //     .padStart(2, "0"); // Adding 1 because getMonth() is zero-based
-    // day = rencana_kirim.valueAsDate.getDate().toString().padStart(2, "0");
-    // year = rencana_kirim.valueAsDate.getFullYear();
-    // formattedDate = month + "-" + day + "-" + year;
     cargo_readySuratPesanan.value = formatDate(rencana_kirim.valueAsDate);
+    ket_qty.value = "";
 }
 
 function clearHeader() {

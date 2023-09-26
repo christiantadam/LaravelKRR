@@ -173,6 +173,7 @@ print_button.addEventListener("click", function (event) {
                 var satuanJmlOrder = "";
                 var grandTotalBarang = 0;
                 var grandTotalHarga = 0;
+                var ket_qty = "";
                 data.forEach((item, index) => {
                     console.log(item);
                     var amount =
@@ -193,7 +194,9 @@ print_button.addEventListener("click", function (event) {
                             "<br>",
                             startIndex
                         );
-
+                        if (UraianPesananArray.length > 6 && UraianPesananArray[6] !== "" ) {
+                            ket_qty = "(" + UraianPesananArray[6] +")"
+                        }
                         // Extract the desired string using the start and end indices
                         const desiredString = UraianPesananArray[0]
                             .substr(startIndex, endIndex - startIndex)
@@ -218,7 +221,7 @@ print_button.addEventListener("click", function (event) {
                             UraianPesananArray[3] +
                                 "<br> <br>" +
                                 UraianPesananArray[2],
-                            formatangka(item.JmlOrder) + " " + satuanJmlOrder,
+                            formatangka(item.JmlOrder) + " " + satuanJmlOrder + "<br>" + ket_qty,
                             formatangka(item.HargaSatuan),
                             formatangka(amount.toFixed(4)),
                         ]);

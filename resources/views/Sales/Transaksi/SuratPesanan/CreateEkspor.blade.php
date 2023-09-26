@@ -165,6 +165,7 @@
                                                 <th>Id Type</th>{{--14--}}
                                                 <th>Id Pesanan</th>{{--15--}}
                                                 <th>Rencana Kirim (Cargo Ready)</th>{{--16--}}
+                                                <th>Keterangan Quantity</th> {{--17--}}
                                             </tr>
                                         </thead>
                                     </table>
@@ -226,6 +227,11 @@
                                         <div class="acs-div-filter">
                                             <label for="qty_pesan">Quantity Pesan</label>
                                             <input type="text" class="input" id="qty_pesan" name="qty_pesan"
+                                                onkeypress="enterToTab(event)">
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="ket_qty">Keterangan Quantity</label>
+                                            <input type="text" class="input" id="ket_qty" name="ket_qty"
                                                 onkeypress="enterToTab(event)">
                                         </div>
                                         <div class="acs-div-filter">

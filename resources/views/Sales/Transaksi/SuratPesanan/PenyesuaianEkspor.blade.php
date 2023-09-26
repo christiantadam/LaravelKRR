@@ -26,6 +26,7 @@
                 detailPesananArray[i].Lunas ?? "",
                 detailPesananArray[i].KodeHS ?? "",
                 detailPesananArray[i].TerKirim ?? "",
+                detailPesananArray[i].UraianPesanan.split(" | ")[6] ?? "",
             ];
             itemsArray.push(item);
         }
@@ -216,6 +217,7 @@
                                                 <th>Lunas</th>{{--17--}}
                                                 <th>KodeHS</th>{{--18--}}
                                                 <th>TerKirim</th>{{--19--}}
+                                                <th>Keterangan Quantity</th> {{--20--}}
                                             </tr>
                                         </thead>
                                     </table>
@@ -284,6 +286,11 @@
                                             <div class="acs-div-filter">
                                                 <label for="qty_pesan">Quantity Pesan</label>
                                                 <input type="text" class="input" id="qty_pesan" name="qty_pesan"
+                                                    onkeypress="enterToTab(event)">
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="ket_qty">Keterangan Quantity</label>
+                                                <input type="text" class="input" id="ket_qty" name="ket_qty"
                                                     onkeypress="enterToTab(event)">
                                             </div>
                                             <div class="acs-div-filter">

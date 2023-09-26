@@ -29,6 +29,7 @@ let jenis_harga = document.getElementById("jenis_harga");
 let kelompok = document.getElementById("kelompok");
 let kelompok_utama = document.getElementById("kelompok_utama");
 let keterangan_barang = document.getElementById("keterangan_barang");
+let ket_qty = document.getElementById("ket_qty");
 let kode_barang = document.getElementById("kode_barang");
 let kode_hs = document.getElementById("kode_hs");
 let lihat_spButton = document.getElementById("lihat_spButton");
@@ -401,6 +402,7 @@ add_button.addEventListener("click", function (event) {
         "",
         cargo_readySuratPesanan.value,
         "",
+        ket_qty,
     ];
     funcInsertRow(arraydata);
     clearDetailBarang();
@@ -442,6 +444,7 @@ update_button.addEventListener("click", function (event) {
         rowData[17] = lunas.value;
         rowData[18] = kode_hs.value;
         rowData[19] = terkirim.value;
+        rowData[20] = ket_qty.value;
         // Update the data in the DataTable
         table.row(selectedRow).data(rowData).draw();
         // remove highlight from selected row
@@ -753,8 +756,8 @@ function IsiSatuanInv(idtype) {
                 for (let i = 0; i < satuan_jual.length - 1; i++) {
                     satuan_jual.selectedIndex += 1;
                     if (
-                        satuan_jual.options[satuan_jual.selectedIndex]
-                            .text === satuan_gudangSekunder.value
+                        satuan_jual.options[satuan_jual.selectedIndex].text ===
+                        satuan_gudangSekunder.value
                     ) {
                         break;
                     }
@@ -763,8 +766,8 @@ function IsiSatuanInv(idtype) {
                 for (let i = 0; i < satuan_jual.length - 1; i++) {
                     satuan_jual.selectedIndex += 1;
                     if (
-                        satuan_jual.options[satuan_jual.selectedIndex]
-                            .text === satuan_gudangPrimer.value
+                        satuan_jual.options[satuan_jual.selectedIndex].text ===
+                        satuan_gudangPrimer.value
                     ) {
                         break;
                     }
@@ -859,6 +862,7 @@ function funcInsertRow(array) {
             lunas.value = selectedRows[0][17];
             kode_hs.value = selectedRows[0][18];
             terkirim.value = selectedRows[0][19];
+            ket_qty.value = selectedRows[0][20];
             // funcTampilInv(selectedRows[0][1]);
         });
     }
@@ -939,6 +943,7 @@ function clearDetailBarang() {
     nomor_urutCetak.value =
         Math.max(...list_view.rows().column(0).data().toArray().map(Number)) +
         1;
+    ket_qty.value = "";
 }
 
 function clearHeader() {

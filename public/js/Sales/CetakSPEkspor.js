@@ -151,6 +151,7 @@ print_button.addEventListener("click", function (event) {
                 var grandTotalBarang = 0;
                 var grandTotalHarga = 0;
                 let satuanJmlOrder = "";
+                var ket_qty = "";
                 data.forEach((item, index) => {
                     // console.log(item);
                     satuanJmlOrder = "";
@@ -165,6 +166,9 @@ print_button.addEventListener("click", function (event) {
                             /\r\n/g,
                             " <br> "
                         ).split(" | ");
+                        if (UraianPesananArray.length > 6 && UraianPesananArray[6] !== "" ) {
+                            ket_qty = "(" + UraianPesananArray[6] +")"
+                        }
                         cargo_readyKolom.innerHTML = UraianPesananArray[4];
                         // console.log(item.UraianPesanan);
                         console.log(UraianPesananArray);
@@ -177,7 +181,7 @@ print_button.addEventListener("click", function (event) {
                                     UraianPesananArray[2],
                                 formatangkainteger(parseInt(item.JmlOrder)) +
                                     " " +
-                                    satuanJmlOrder,
+                                    satuanJmlOrder + "<br>" + ket_qty,
                                 item.KodeBarang,
                             ])
                             .draw();

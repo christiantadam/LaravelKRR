@@ -230,8 +230,9 @@ class SuratPesananEksportController extends Controller
         $id_type = $request->barang14;
         $id_pesanan = $request->barang15;
         $rencana_kirimCargoReady = $request->barang16;
+        $ket_qty = $request->barang17;
         // Combine the individual arrays into a single array
-        $combinedArray = [$general_specificationPI, $general_specificationSP, $keterangan_barang, $size_code, $rencana_kirimCargoReady, $nomor_urut];
+        $combinedArray = [$general_specificationPI, $general_specificationSP, $keterangan_barang, $size_code, $rencana_kirimCargoReady, $nomor_urut, $ket_qty];
         $uraian_pesanan = [];
 
         foreach ($combinedArray as $values) {
@@ -504,8 +505,9 @@ class SuratPesananEksportController extends Controller
         $id_type = $request->barang14;
         $id_pesanan = $request->barang15;
         $rencana_kirimCargoReady = $request->barang16;
+        $ket_qty = $request->barang17;
         // Combine the individual arrays into a single array
-        $combinedArray = [$general_specificationPI, $general_specificationSP, $keterangan_barang, $size_code, $rencana_kirimCargoReady, $nomor_urut];
+        $combinedArray = [$general_specificationPI, $general_specificationSP, $keterangan_barang, $size_code, $rencana_kirimCargoReady, $nomor_urut, $ket_qty];
         $uraian_pesanan = [];
 
         foreach ($combinedArray as $values) {
@@ -545,7 +547,7 @@ class SuratPesananEksportController extends Controller
         @Ket = ?,
         @JnsFakturPjk = ?,
         @JenisHargaBarang = ?',
-            [$kode, $no_spValue ,3, $tgl_pesan, $id_customer[1], $no_po, $tgl_po, $no_pi, $jenis_bayar, $id_sales, $id_billing, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk, $jenis_hargaBarang],
+            [$kode, $no_spValue, 3, $tgl_pesan, $id_customer[1], $no_po, $tgl_po, $no_pi, $jenis_bayar, $id_sales, $id_billing, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk, $jenis_hargaBarang],
         );
 
         // kemudian beralih ke maintenance detail pesanan nich...
