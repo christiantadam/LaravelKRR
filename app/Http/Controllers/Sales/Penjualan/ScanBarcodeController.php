@@ -68,7 +68,35 @@ class ScanBarcodeController extends Controller
                     array_push($barcodeScanGagal, $barcodeArray[$i]);
                     continue;
                 }
-                db::connection('ConnInventory')->statement('exec SP_1273_INV_insert_tmpgudang @indeks = ?, @kdbrg = ?', [$kodeBarcode[0], $kodeBarcode[1]]);
+                // dd($kodeBarcode[0], trim($kodeBarcode[1]));
+
+                // db::connection('ConnInventory')->statement('exec SP_1273_INV_insert_tmpgudang @indeks = ?, @kdbrg = \'?\'', [$kodeBarcode[0], trim($kodeBarcode[1])]);
+
+                $indeks = $kodeBarcode[0];
+                $kdbrg = trim($kodeBarcode[1]);
+
+                $result = DB::connection('ConnInventory')
+                    ->table('dispresiasi')
+                    ->select('Id_type_tujuan')
+                    ->where('NoIndeks', $indeks)
+                    ->where('Kode_barang', $kdbrg)
+                    ->first();
+
+                // $result now contains the value of Id_type_tujuan from the dispresiasi table
+                $idTypeTujuan = $result->Id_type_tujuan;
+                $tglMutasi = now()->format('Y-m-d');
+
+                DB::connection('ConnInventory')
+                    ->table('Tmp_Gudang')
+                    ->insert([
+                        'NoIndeks' => $indeks,
+                        'Kode_barang' => $kdbrg,
+                        'Tgl_mutasi' => $tglMutasi,
+                        'IdType' => $idTypeTujuan,
+                        'aktif' => 'Y',
+                        'TypeTransaksi' => '09'
+                    ]);
+
                 array_push($barcodeScanBerhasil, $barcodeArray[$i]);
             } else {
                 array_push($sudahPernahScan, $barcodeArray[$i]);
