@@ -402,7 +402,9 @@ add_button.addEventListener("click", function (event) {
         "",
         cargo_readySuratPesanan.value,
         "",
-        ket_qty,
+        kode_hs.value,
+        0,
+        ket_qty.value,
     ];
     funcInsertRow(arraydata);
     clearDetailBarang();
