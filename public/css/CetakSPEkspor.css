@@ -196,7 +196,17 @@
         margin: 0;
         width: 100%;
     }
-    #table_sp,
+    table {
+        border-collapse: collapse !important;
+        width: 100%;
+    }
+
+    th,
+    td {
+        border: 1px solid black !important; /* or your desired border style */
+        padding: 8px;
+        text-align: left;
+    }
     #table_sp th,
     #table_sp td {
         /* border: 1px solid black !important; */
@@ -205,9 +215,10 @@
     #table_sp th {
         font-size: 15px;
         white-space: nowrap;
+        /* border: 1px solid black !important; */
         text-align: center;
     }
-    .cetak-sppdf-container08{
+    .cetak-sppdf-container08 {
         width: 100%;
     }
     #table_sp td:first-child,
