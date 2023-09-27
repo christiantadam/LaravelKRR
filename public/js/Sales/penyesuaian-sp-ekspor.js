@@ -403,7 +403,7 @@ add_button.addEventListener("click", function (event) {
         cargo_readySuratPesanan.value,
         "",
         kode_hs.value,
-        0,
+        "0.00",
         ket_qty.value,
     ];
     funcInsertRow(arraydata);
@@ -476,7 +476,7 @@ delete_button.addEventListener("click", function (event) {
         }
     } else if (proses == 2) {
         if (selectedRow.length > 0) {
-            if (selectedRow.find("td").eq(16).text() !== "") {
+            if (selectedRow.find("td").eq(15).text() !== "") {
                 // console.log(input[7].value);
                 let confirmation = confirm(
                     "Anda yakin akan menghapus data ini dari server?"
@@ -485,7 +485,7 @@ delete_button.addEventListener("click", function (event) {
                 if (confirmation) {
                     fetch(
                         "/deleteDetailBarangEksport/" +
-                            selectedRow.find("td").eq(16).text()
+                            selectedRow.find("td").eq(15).text()
                     )
                         .then((response) => response.json())
                         .then((data) => {
@@ -779,6 +779,7 @@ function IsiSatuanInv(idtype) {
 }
 
 function funcInsertRow(array) {
+    console.log(array);
     let isDataInTable = false;
     const table = $("#list_view").DataTable();
     // console.log(table.rows.length);
