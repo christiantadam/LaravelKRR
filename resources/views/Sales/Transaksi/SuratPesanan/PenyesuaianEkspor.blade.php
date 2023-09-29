@@ -315,12 +315,12 @@
                                                     rows="2" class="input"></textarea>
                                             </div>
                                             <div class="acs-div-filter">
-                                                <label for="keterangan_barang">Keterangan Barang</label>
-                                                <textarea name="keterangan_barang" id="keterangan_barang" cols="10" rows="3" class="input"></textarea>
-                                            </div>
-                                            <div class="acs-div-filter">
                                                 <label for="size_code">Size / Code</label>
                                                 <textarea name="size_code" id="size_code" cols="10" rows="3" class="input"></textarea>
+                                            </div>
+                                            <div class="acs-div-filter">
+                                                <label for="keterangan_barang">Keterangan Barang</label>
+                                                <textarea name="keterangan_barang" id="keterangan_barang" cols="10" rows="3" class="input"></textarea>
                                             </div>
                                             <div class="acs-div-filter">
                                                 <label for="ppn">Pajak Pertambahan Nilai</label>
