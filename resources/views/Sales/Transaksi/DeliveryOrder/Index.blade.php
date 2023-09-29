@@ -1,4 +1,5 @@
 @extends('layouts.appSales') @section('content')
+@section('title', 'Delivery Order')
     <script>
         $(document).ready(function() {
             $('#table_DO').DataTable({

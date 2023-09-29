@@ -1,4 +1,5 @@
 @extends('layouts.appSales') @section('content')
+@section('title', 'Create Customer')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/customer.css') }}" rel="stylesheet">
     <div class="container-fluid">

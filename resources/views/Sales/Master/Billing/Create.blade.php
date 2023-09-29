@@ -1,4 +1,5 @@
 @extends('layouts.appSales') @section('content')
+@section('title', 'Create Billing')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/billing.css') }}" rel="stylesheet">
     <div class="container-fluid">

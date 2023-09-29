@@ -1,4 +1,5 @@
 @extends('layouts.appSales') @section('content')
+@section('title', 'Surat Pesanan Ekspor')
     <script>
         $(document).ready(function() {
             // console.log(dataArray.data);

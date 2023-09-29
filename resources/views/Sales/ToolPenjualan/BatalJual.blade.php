@@ -1,5 +1,6 @@
 @extends('layouts.appSales')
 @section('content')
+@section('title', 'Batal Jual')
     <script>
         $(document).ready(function() {
             $('#table_BatalJual').DataTable({

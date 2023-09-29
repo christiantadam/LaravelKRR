@@ -1,4 +1,5 @@
 @extends('layouts.appSales') @section('content')
+@section('title', 'Edit Expeditor')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/expeditor.css') }}" rel="stylesheet">
     <div class="container-fluid">

@@ -1,4 +1,5 @@
 @extends('layouts.appSales') @section('content')
+@section('title', 'Penyesuaian SP Ekspor')
     <script>
         var detailPesananArray = @json($detail_pesanan);
         var itemsArray = [];

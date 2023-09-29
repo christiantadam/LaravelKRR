@@ -151,3 +151,7 @@ function setInputFilter(textbox, inputFilter, errMsg) {
         });
     });
 }
+
+function updateTitle(menuName) {
+    document.getElementById('dynamicTitle').innerHTML = menuName;
+}

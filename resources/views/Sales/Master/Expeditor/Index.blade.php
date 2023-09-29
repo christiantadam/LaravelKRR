@@ -1,4 +1,5 @@
 @extends('layouts.appSales')
+@section('title', 'Expeditor')
 @section('content')
     @include('Sales.Master.Expeditor.DetailExpeditor')
     <script>

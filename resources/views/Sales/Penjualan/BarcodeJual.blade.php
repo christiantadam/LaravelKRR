@@ -1,5 +1,6 @@
 @extends('layouts.appSales')
 @section('content')
+@section('title', 'Barcode Jual')
     <script>
         $(document).ready(function() {
             $('#table_Barcode').DataTable({

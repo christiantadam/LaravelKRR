@@ -1,5 +1,6 @@
 @extends('layouts.appSales')
 @section('content')
+@section('title', 'Cetak SP Lokal')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/cetakSP.css') }}" rel="stylesheet">
     <link href="{{ asset('css/cetak-sppdf.css') }}" rel="stylesheet" />

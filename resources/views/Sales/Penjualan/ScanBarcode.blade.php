@@ -1,4 +1,5 @@
 @extends('layouts.appSales')
+@section('title', 'Scan Barcode')
 @section('content')
     <script>
         $(document).ready(function() {

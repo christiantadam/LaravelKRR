@@ -1,4 +1,5 @@
 @extends('layouts.appSales') @section('content')
+@section('title', 'Create SJ')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/permohonan-sj.css') }}" rel="stylesheet">
     <div class="container-fluid">

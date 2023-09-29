@@ -1,4 +1,5 @@
 @extends('layouts.appSales')
+@section('title', 'ACC Penjualan')
 @section('content')
     <script>
         let data = {!! json_encode($data) !!};
@@ -21,8 +22,8 @@
                     <div class="card-header">Acc Penjualan</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0 acs-table-barcode" id="div_tableBarcode">
                         <div>
-                            <table id="table_AccPenjualan" class="table table-bordered table-striped">
-                                <thead class="thead-dark">
+                            <table id="table_AccPenjualan" class="table hover">
+                                <thead class="">
                                     <tr>
                                         <th>Id Transaksi</th>
                                         <th>Id Type</th>

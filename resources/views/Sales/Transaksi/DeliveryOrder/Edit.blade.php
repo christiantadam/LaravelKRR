@@ -1,4 +1,5 @@
 @extends('layouts.app') @section('content')
+@section('title', 'Edit DO')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/permohonan-do.css') }}" rel="stylesheet">
     @php

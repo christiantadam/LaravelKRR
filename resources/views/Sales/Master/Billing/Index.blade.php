@@ -1,5 +1,6 @@
 @extends('layouts.appSales')
 @section('content')
+@section('title', 'Billing')
     @include('Sales.Master.Billing.DetailBilling')
     <script>
         $(document).ready(function() {

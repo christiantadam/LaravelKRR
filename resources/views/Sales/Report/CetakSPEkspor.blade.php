@@ -1,5 +1,6 @@
 @extends('layouts.appSales')
 @section('content')
+@section('title', 'Cetak SP Ekspor')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/cetakSPEkspor.css') }}" rel="stylesheet">
     <div class="container-fluid">
