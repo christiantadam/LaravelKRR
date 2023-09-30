@@ -67,11 +67,11 @@ class SuratJalanController extends Controller
         // dd($IDPengiriman);
         $IDExpeditor = $request->expeditor;
         $IdCust = $request->customer;
-        $TrukNopol = $request->truk_nopol;
+        $TrukNopol = $request->truk_nopol ?? "";
         $Tanggal = $request->tanggal;
         $Biaya = $request->biaya ?? 0;
         $StatusBiaya = 'N';
-        $Keterangan = $request->keterangan;
+        $Keterangan = $request->keterangan ?? "";
         $NoContainer = NULL;
         $NoSeal = NULL;
         $TglActual = $request->tanggal_actual;
@@ -151,19 +151,20 @@ class SuratJalanController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-        // dd($request->all());
-        $Mytype = 1;
+        // dd($request->all(), $request->barang3[0]);
+        $Mytype = 2;
+        $IdHeaderKirim = $request->id_kirimText;
         $JnsIdPengiriman = $request->jenis_pengiriman;
         $IDPengiriman1 = $request->surat_jalan;
         $IDPengiriman = str_pad($IDPengiriman1, 10, '0', STR_PAD_LEFT);
         // dd($IDPengiriman);
         $IDExpeditor = $request->expeditor;
         $IdCust = $request->customer;
-        $TrukNopol = $request->truk_nopol;
+        $TrukNopol = $request->truk_nopol ?? "";
         $Tanggal = $request->tanggal;
         $Biaya = $request->biaya;
         $StatusBiaya = 'N';
-        $Keterangan = $request->keterangan;
+        $Keterangan = $request->keterangan ?? "";
         $NoContainer = NULL;
         $NoSeal = NULL;
         $TglActual = $request->tanggal_actual;
@@ -171,40 +172,26 @@ class SuratJalanController extends Controller
         $IDSuratPesanan = $request->barang3;
         $AccMgr = Auth::user()->NomorUser;
         //save data header duluu
-        db::connection('ConnSales')->statement(
-            'exec SP_1486_SLS_MAINT_HEADERPENGIRIMAN @Mytype = ?,
-        @JnsIdPengiriman = ?,
-        @IDPengiriman = ?,
-        @IDExpeditor = ?,
-        @IdCust = ?,
-        @TrukNopol = ?,
-        @Tanggal = ?,
-        @Biaya = ?,
-        @StatusBiaya = ?,
-        @Keterangan = ?,
-        @NoContainer = ?,
-        @NoSeal = ?,
-        @TglActual = ?',
-            [$Mytype, $JnsIdPengiriman, $IDPengiriman, $IDExpeditor, $IdCust, $TrukNopol, $Tanggal, $Biaya, $StatusBiaya, $Keterangan, $NoContainer, $NoSeal, $TglActual],
-        );
 
-        //kita cari Header kirim yang baru saja dibuat..
-        $IDHeaderKirim = DB::connection('ConnSales')->select(
-            'Select IdHeaderKirim
-            from T_HeaderPengiriman
-            where JnsIdPengiriman = ? and
-            IDPengiriman = ? and
-            IDExpeditor = ? and
-            IDCust = ? and
-            TrukNopol = ? and
-            Tanggal = ? and
-            Biaya = ? and
-            StatusBiaya = ? and
-            Ket = ? and
-            NoContainer = ? and
-            NoSeal = ? and
-            TanggalActual = ?',
+        db::connection('ConnSales')->statement(
+            'exec SP_1486_SLS_MAINT_HEADERPENGIRIMAN
+            @Mytype = ?,
+            @IdHeaderKirim = ?,
+            @JnsIdPengiriman = ?,
+            @IDPengiriman = ?,
+            @IDExpeditor = ?,
+            @IdCust = ?,
+            @TrukNopol = ?,
+            @Tanggal = ?,
+            @Biaya = ?,
+            @StatusBiaya = ?,
+            @Keterangan = ?,
+            @NoContainer = ?,
+            @NoSeal = ?,
+            @TglActual = ?',
             [
+                $Mytype,
+                $IdHeaderKirim,
                 $JnsIdPengiriman,
                 $IDPengiriman,
                 $IDExpeditor,
@@ -217,22 +204,30 @@ class SuratJalanController extends Controller
                 $NoContainer,
                 $NoSeal,
                 $TglActual
-            ]
+            ],
         );
-        // dd($IDHeaderKirim);
+
         //save data detail duluu
 
         for ($i = 0; $i < count($request->barang0); $i++) {
-            db::connection('ConnSales')->statement(
-                'exec SP_1486_SLS_MAINT_DETAILPENGIRIMAN @Mytype = ?,
-            @IDHeaderKirim = ?,
-            @IdDO = ?,
-            @IDSuratPesanan = ?,
-            @AccMgr = ?',
-                [$Mytype, $IDHeaderKirim[0]->IdHeaderKirim, $IdDO[$i], $IDSuratPesanan[$i], $AccMgr],
-            );
+            if ($request->barang2[$i]) {
+                db::connection('ConnSales')->statement(
+                    'exec SP_1486_SLS_MAINT_DETAILPENGIRIMAN @Mytype = ?,
+                @IDHeaderKirim = ?,
+                @IdDO = ?,
+                @IDSuratPesanan = ?,
+                @AccMgr = ?',
+                    [
+                        $Mytype,
+                        $IdHeaderKirim,
+                        $IdDO[$i],
+                        $IDSuratPesanan[$i],
+                        $AccMgr
+                    ],
+                );
+            }
         }
-        return redirect()->back()->with('success', 'Surat Jalan Sudah Dikoreksi!');
+        return redirect()->back()->with('success', 'Surat Jalan ' . $IDPengiriman . ' Sudah Dikoreksi!');
     }
 
     //Remove the specified resource from storage.

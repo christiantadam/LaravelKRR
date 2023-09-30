@@ -124,9 +124,14 @@ id_kirimSelect.addEventListener("keypress", function (event) {
 
 id_kirimText.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
-        console.log("masuk enter");
+        // console.log("masuk enter");
+        let id_pengiriman = id_kirimSelect.options[
+            id_kirimSelect.selectedIndex
+        ].textContent
+            .split("-")[0]
+            .trim();
         event.preventDefault();
-        fetch("/options/editSJ/" + id_kirimText.value)
+        fetch("/options/editSJ/" + id_pengiriman)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
@@ -190,11 +195,11 @@ id_kirimText.addEventListener("keypress", function (event) {
                     arrayDetail.push(data[1][i].Uraian);
                     arrayDetail.push(data[1][i].IDDetailKirim);
                     arrayDetail.push(data[1][i].IDSuratPesanan);
-
                 }
                 console.log(arrayDetail);
                 funcInsertRow(arrayDetail);
             });
+        list_sjButton.disabled = true;
     }
 });
 
@@ -436,6 +441,7 @@ edit_button.addEventListener("click", function (event) {
         this.innerHTML = "Batal";
         hapus_button.style.display = "none";
         list_sjButton.disabled = false;
+        list_sjButton.focus();
     } else {
         proses = 0;
         isi_button.innerHTML = "Isi";
@@ -471,11 +477,12 @@ list_sjButton.addEventListener("click", function (event) {
                 "<option disabled selected value>-- Pilih Nomor Surat Jalan --</option>";
             options.forEach((option) => {
                 let optionTag = document.createElement("option");
-                optionTag.value = option.IDPengiriman;
+                optionTag.value = option.IdHeaderKirim;
                 optionTag.text = option.IDPengiriman + " - " + option.NamaCust;
                 id_kirimSelect.appendChild(optionTag);
             });
         });
+    id_kirimSelect.focus();
 });
 
 //#endregion
