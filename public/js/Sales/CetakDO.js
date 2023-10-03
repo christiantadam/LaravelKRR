@@ -123,7 +123,7 @@ print_button.addEventListener("click", function (event) {
                                         <tr>
                                             <td style="white-space: nowrap;vertical-align:top">Alamat Kantor: </td>
                                             <td id="keterangan_kolom">${
-                                                option.AlamatKirim
+                                                option.AlamatKantor ?? ""
                                             }</td>
                                         </tr>
                                     </table>
