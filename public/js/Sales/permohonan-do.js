@@ -122,18 +122,14 @@ tgl_do.addEventListener("keypress", function (event) {
 max_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        if (proses == 1) {
-            alamat_kirim.focus();
-        } else if (proses == 2) {
-            isi_button.focus();
-        }
+        min_kirim.focus();
     }
 });
 
 min_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        max_kirim.focus();
+        alamat_kirim.focus();
     }
 });
 
