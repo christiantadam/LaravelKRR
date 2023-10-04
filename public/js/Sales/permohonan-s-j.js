@@ -273,12 +273,12 @@ tanggal_actual.addEventListener("keypress", function (event) {
     }
 });
 
-keterangan.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        // truk_nopol.focus();
-    }
-});
+// keterangan.addEventListener("keypress", function (event) {
+//     if (event.key === "Enter") {
+//         event.preventDefault();
+//         // truk_nopol.focus();
+//     }
+// });
 
 truk_nopol.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
