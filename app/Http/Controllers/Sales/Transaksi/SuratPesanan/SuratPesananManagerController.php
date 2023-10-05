@@ -177,7 +177,6 @@ class SuratPesananManagerController extends Controller
 
     public function koreksiPenyesuaianSP(Request $request)
     {
-        // dd($request->all());
         $UraianPesanan = null;
         $user = Auth::user()->NomorUser;
         $tgl_pesan = $request->tgl_pesan;
@@ -228,6 +227,7 @@ class SuratPesananManagerController extends Controller
         // dd($kode, $no_sp, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk);
         // dd($BeratStandart, $bs2);
         //update header dulu yaa..
+        // dd($request->all(), $id_pesanan);
 
         DB::connection('ConnSales')->statement(
             'exec SP_5409_SLS_MAINT_HEADERPESANAN
@@ -376,7 +376,7 @@ class SuratPesananManagerController extends Controller
             @bkertas2 = ?,
             @bs2 = ?,
             @UserId = ?',
-                [$KodeBarang[$i], $bkarung2[$i], $binner2[$i], $blami2[$i], $bkertas2[$i], $bs2[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $user],
+                [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $bkarung2[$i], $binner2[$i], $blami2[$i], $bkertas2[$i], $bs2[$i], $user],
             );
         }
         return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Disesuaikan!');

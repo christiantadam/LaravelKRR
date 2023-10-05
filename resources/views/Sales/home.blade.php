@@ -1,6 +1,6 @@
 @extends('layouts.appSales')
 @section('content')
-@section('title', 'Home Sales')
+@section('title', 'HomeSales')
 
     <div class="container-fluid">
         <div class="row justify-content-center">
