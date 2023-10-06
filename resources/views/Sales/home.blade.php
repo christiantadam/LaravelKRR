@@ -1,7 +1,5 @@
 @extends('layouts.appSales')
 @section('content')
-@section('title', 'Home Sales')
-
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
