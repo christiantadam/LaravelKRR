@@ -50,7 +50,7 @@
                 <div class="acs-btn-txt">Tambah SP</div>
             </button>
             <div class="card">
-                <div class="card-header">Surat Pesanan Sudah ACC Manager (In Progress)</div>
+                <div class="card-header">Surat Pesanan Sudah ACC Manager</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div class="mb-2">
                     </div>
