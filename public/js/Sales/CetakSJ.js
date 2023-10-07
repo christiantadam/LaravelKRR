@@ -149,6 +149,6 @@ function formatDate(inputDate) {
     const month = parseInt(dateParts[1]);
     const day = parseInt(dateParts[2]);
 
-    const formattedDate = `${day} ${months[month - 1]} ${year}`;
+    const formattedDate = `${day}`+'-'+`${months[month - 1]}`+'-'+`${year}`;
     return formattedDate;
   }
