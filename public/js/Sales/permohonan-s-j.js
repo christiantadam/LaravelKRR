@@ -70,7 +70,12 @@ customer.addEventListener("change", function () {
         });
 });
 surat_pesanan.addEventListener("change", function () {
-    let surat_pesanan = this.value;
+    let surat_pesanan = "";
+    if (this.value.includes("/")) {
+        surat_pesanan = this.value.replace(/\//g, ".");
+    } else {
+        surat_pesanan = this.value;
+    }
     // console.log(surat_pesanan);
     fetch("/options/deliveryorder/" + surat_pesanan)
         .then((response) => response.json())

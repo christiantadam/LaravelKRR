@@ -38,7 +38,13 @@ class SuratJalanController extends Controller
 
     public function getDeliveryOrder($suratPesanan)
     {
-        $deliveryOrder = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_KIRIM @IdSP = ?', [$suratPesanan]);
+        if (strstr($suratPesanan, '.')) { //ekspor
+            $no_spValue = str_replace('.', '/', $suratPesanan);
+            $deliveryOrder = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_KIRIM @IdSP = ?', [$no_spValue]);
+        } else { //lokal
+            $no_spValue = $suratPesanan;
+            $deliveryOrder = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_KIRIM @IdSP = ?', [$no_spValue]);
+        }
         return response()->json($deliveryOrder);
     }
     public function getNomorSuratJalan(Request $request)
