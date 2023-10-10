@@ -386,7 +386,7 @@ function funcInsertRow(array) {
 }
 
 function funcClearDataInput() {
-    surat_pesanan.selectedIndex = 0;
+    // surat_pesanan.selectedIndex = 0;
     nomor_do.selectedIndex = 0;
     uraian.value = "";
 }
