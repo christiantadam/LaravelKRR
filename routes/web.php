@@ -199,7 +199,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/print/deliveryorder/{nodo}', 'App\Http\Controllers\Sales\Cetak\CetakDOController@printDeliveryOrder');
     Route::get('/optionsCetakSuratJalan/{tanggal}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@getSuratJalan');
     // Route::get('/print/suratjalan/{nosj}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@printSuratJalan');
-    Route::get('/cetakSuratJalanPPN/{tanggal}/{nosj}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@getSuratJalanPPN');
+    Route::get('/cetakSuratJalanPPN/{tanggal}/{nosj}/{jenissj}', 'App\Http\Controllers\Sales\Cetak\CetakSJController@getDataCetakSuratJalan');
     #endregion
 
     #region Tool Penjualan

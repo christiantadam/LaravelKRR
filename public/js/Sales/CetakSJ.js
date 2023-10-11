@@ -1,4 +1,7 @@
 let contoh_printDiv = document.getElementById("contoh_printDiv");
+let contoh_printSjEksportDiv = document.getElementById(
+    "contoh_printSjEksportDiv"
+);
 let print_button = document.getElementById("print_button");
 let export_pdf = document.getElementById("export_pdf");
 let tanggal_sj = document.getElementById("tanggal_sj");
@@ -16,10 +19,18 @@ let alamat_kolom = document.getElementById("alamat_kolom");
 let tanggal_kirimKolom = document.getElementById("tanggal_kirimKolom");
 let truk_nopolKolom = document.getElementById("truk_nopolKolom");
 let nama_barangKolom = document.getElementById("nama_barangKolom");
-let satuan_barangPrimerKolom = document.getElementById("satuan_barangPrimerKolom");
-let jumlah_barangPrimerKolom = document.getElementById("jumlah_barangPrimerKolom");
-let satuan_barangSekunderKolom = document.getElementById("satuan_barangSekunderKolom");
-let jumlah_barangSekunderKolom = document.getElementById("jumlah_barangSekunderKolom");
+let satuan_barangPrimerKolom = document.getElementById(
+    "satuan_barangPrimerKolom"
+);
+let jumlah_barangPrimerKolom = document.getElementById(
+    "jumlah_barangPrimerKolom"
+);
+let satuan_barangSekunderKolom = document.getElementById(
+    "satuan_barangSekunderKolom"
+);
+let jumlah_barangSekunderKolom = document.getElementById(
+    "jumlah_barangSekunderKolom"
+);
 let no_poKolom = document.getElementById("no_poKolom");
 let alamat_kirimKolom = document.getElementById("alamat_kirimKolom");
 let nama_customerKolom = document.getElementById("nama_customerKolom");
@@ -46,7 +57,13 @@ print_button.addEventListener("click", function () {
         return;
     }
     if (surat_jalanPPN.checked == true) {
-        fetch("/cetakSuratJalanPPN/" + tanggal_sj.value + "/" + no_sjText.value)
+        fetch(
+            "/cetakSuratJalanPPN/" +
+                tanggal_sj.value +
+                "/" +
+                no_sjText.value +
+                "/suratjalanppn"
+        )
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
@@ -54,7 +71,7 @@ print_button.addEventListener("click", function () {
                 no_spKolom.innerHTML = no_sp.value;
                 nomor_sjKolom.innerHTML = "sj: " + no_sjText.value;
                 nama_typeBarangKolom.innerHTML = data[0].NAMATYPEBARANG;
-                nama_barangKolom.innerHTML =data[0].NamaType;
+                nama_barangKolom.innerHTML = data[0].NamaType;
                 tanggal_kirimKolom.innerHTML = formatDate(tanggal_sj.value); // masih salah format
                 truk_nopolKolom.innerHTML = data[0].TrukNopol;
                 no_spKolom.innerHTML = data[0].SuratPesanan;
@@ -62,13 +79,15 @@ print_button.addEventListener("click", function () {
                 alamat_kolom.innerHTML = data[0].Alamat;
                 satuan_barangPrimerKolom.innerHTML = data[0].satPrimer.trim();
                 jumlah_barangPrimerKolom.innerHTML = data[0].QtyPrimer;
-                satuan_barangSekunderKolom.innerHTML = data[0].satSekunder.trim();
+                satuan_barangSekunderKolom.innerHTML =
+                    data[0].satSekunder.trim();
                 jumlah_barangSekunderKolom.innerHTML = data[0].QtySekunder;
                 if (data[0].NO_PO !== null) {
                     no_poKolom.innerHTML = "PO: " + data[0].NO_PO;
                 }
-                nama_customerKolom.innerHTML = data[0].NamaCust
-                alamat_kirimKolom.innerHTML = "Dikirim ke: <br>"+data[0].AlamatKirim;
+                nama_customerKolom.innerHTML = data[0].NamaCust;
+                alamat_kirimKolom.innerHTML =
+                    "Dikirim ke: <br>" + data[0].AlamatKirim;
                 contoh_print.style.display = "block";
                 contoh_printDiv.style.display = "block";
                 export_pdf.style.display = "inline-block";
@@ -76,19 +95,48 @@ print_button.addEventListener("click", function () {
             });
     } else if (surat_jalanNonPPN.checked == true) {
         //coming soon
-        alert("Hanya SJ PPN yang dapat dipilih");
+        alert("Hanya SJ PPN dan SJ Export yang dapat dipilih");
         surat_jalanPPN.checked = true;
         return;
     } else if (surat_jalanAfalan.checked == true) {
         //coming soon
-        alert("Hanya SJ PPN yang dapat dipilih");
+        alert("Hanya SJ PPN dan SJ Export yang dapat dipilih");
         surat_jalanPPN.checked = true;
         return;
     } else if (surat_jalanExport.checked == true) {
-        //coming soon
-        alert("Hanya SJ PPN yang dapat dipilih");
-        surat_jalanPPN.checked = true;
-        return;
+        if (
+            no_sjSelect.options[no_sjSelect.selectedIndex].text
+                .split(" | ")[0]
+                .includes("Export")
+        ) {
+            fetch(
+                "/cetakSuratJalanPPN/" +
+                    tanggal_sj.value +
+                    "/" +
+                    no_sjText.value +
+                    "/suratjalanexport"
+            )
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    contoh_printDiv.style.display = "none";
+
+                    nomor_sjExport.innerHTML = 'SJ No. : '+ no_sjText.value;
+
+                    contoh_print.style.display = "block";
+                    contoh_printSjEksportDiv.style.display = "block";
+                    export_pdf.style.display = "inline-block";
+                    print_pdf.style.display = "inline-block";
+                });
+        } else {
+            alert("SJ yang dipilih bukan SJ Export!");
+            no_sjSelect.focus();
+            contoh_print.style.display = "none";
+            contoh_printDiv.style.display = "none";
+            export_pdf.style.display = "none";
+            print_pdf.style.display = "none";
+            return;
+        }
     }
 });
 
@@ -140,8 +188,18 @@ print_pdf.addEventListener("click", function (event) {
 
 function formatDate(inputDate) {
     const months = [
-      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-      "Juli", "Agustus", "September", "October", "November", "December"
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "October",
+        "November",
+        "December",
     ];
 
     const dateParts = inputDate.split("-");
@@ -149,6 +207,7 @@ function formatDate(inputDate) {
     const month = parseInt(dateParts[1]);
     const day = parseInt(dateParts[2]);
 
-    const formattedDate = `${day}`+'-'+`${months[month - 1]}`+'-'+`${year}`;
+    const formattedDate =
+        `${day}` + "-" + `${months[month - 1]}` + "-" + `${year}`;
     return formattedDate;
-  }
+}

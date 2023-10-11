@@ -118,6 +118,16 @@
     top: 22cm;
     left: 1.2cm;
 }
+.acs-div-printsjekspor-header1{
+    text-align: center;
+}
+.acs-div-printsjekspor-header2{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    width: 100%;
+    margin: 5px;
+}
 .cetak-sjpdf-container {
     text-align: center;
     margin-left: 1%;

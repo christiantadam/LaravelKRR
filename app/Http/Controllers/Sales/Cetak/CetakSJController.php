@@ -17,7 +17,7 @@ class CetakSJController extends Controller
         // $customer = db::connection('sqlsrv2')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
         // dd($customer);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Report.CetakSJ',compact('access'));
+        return view('Sales.Report.CetakSJ', compact('access'));
     }
 
     public function getSuratJalan($tanggal)
@@ -25,11 +25,19 @@ class CetakSJController extends Controller
         $data = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_CETAK_SJ @TglKirim = ?, @XKode = ?', [$tanggal, 1]);
         return response()->json($data);
     }
-    public function getSuratJalanPPN($tanggal, $nosj)
+    public function getDataCetakSuratJalan($tanggal, $nosj, $jenissj)
     {
         // $data = db::connection('ConnInventory')->select('select * from VW_PRG_1486_SLS_CETAK_SJ where tglkirim = ? and IDPengiriman = ?',[$request->TanggalSJ, $request->NomorSJ]);
-        $data = db::connection('ConnSales')->select('select * from VW_PRG_1486_SLS_CETAK_SJ where tglkirim = ? and IDPengiriman = ?', [$tanggal, $nosj]);
-        return response()->json($data);
+        if ($jenissj == 'suratjalanppn') {
+            $data = db::connection('ConnSales')->select('select * from VW_PRG_1486_SLS_CETAK_SJ where tglkirim = ? and IDPengiriman = ?', [$tanggal, $nosj]);
+            return response()->json($data);
+        } elseif ($jenissj == 'suratjalanexport') {
+            $data = db::connection('ConnSales')->select('select * from VW_PRG_1486_SLS_CETAK_SJ where tglkirim = ? and IDPengiriman = ?', [$tanggal, $nosj]);
+            return response()->json($data);
+        } else {
+            //error handling untuk jenis sj selain suratjalanexport dan suratjalanppn
+            return response()->json('Jenis SJ ' . $jenissj . ' belum disetting');
+        }
     }
 
     //Show the form for creating a new resource.
