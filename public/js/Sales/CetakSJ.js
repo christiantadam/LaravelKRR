@@ -18,6 +18,22 @@ let no_spKolom = document.getElementById("no_spKolom");
 let alamat_kolom = document.getElementById("alamat_kolom");
 let tanggal_kirimKolom = document.getElementById("tanggal_kirimKolom");
 let truk_nopolKolom = document.getElementById("truk_nopolKolom");
+let table_barangEksport = $("#table_barangEksport").DataTable({
+    searching: false,
+    paging: false,
+    info: false,
+    ordering: false,
+});
+let nama_customerExportKolom = document.getElementById(
+    "nama_customerExportKolom"
+);
+let kota_exportKolom = document.getElementById("kota_exportKolom");
+let nama_expeditorExportKolom = document.getElementById(
+    "nama_expeditorExportKolom"
+);
+let truk_nopolExportKolom = document.getElementById("truk_nopolExportKolom");
+let tanggal_sjExportKolom = document.getElementById("tanggal_sjExportKolom");
+let nomor_spExportKolom = document.getElementById("nomor_spExportKolom");
 let nama_barangKolom = document.getElementById("nama_barangKolom");
 let satuan_barangPrimerKolom = document.getElementById(
     "satuan_barangPrimerKolom"
@@ -67,6 +83,7 @@ print_button.addEventListener("click", function () {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
+                contoh_printSjEksportDiv.style.width = "21cm";
                 no_poKolom.innerHTML = "";
                 no_spKolom.innerHTML = no_sp.value;
                 nomor_sjKolom.innerHTML = "sj: " + no_sjText.value;
@@ -75,7 +92,13 @@ print_button.addEventListener("click", function () {
                 tanggal_kirimKolom.innerHTML = formatDate(tanggal_sj.value); // masih salah format
                 truk_nopolKolom.innerHTML = data[0].TrukNopol;
                 no_spKolom.innerHTML = data[0].SuratPesanan;
-                keterangan_tambahanKolom.innerHTML = data[0].Ket;
+                if (data[0].Ket !== null) {
+                    var ketWithLineBreaks = data[0].Ket.replace(
+                        /\r\n/g,
+                        " <br> "
+                    ); // Replace '\r\n' with '<br>'
+                }
+                keterangan_tambahanKolom.innerHTML = ketWithLineBreaks;
                 alamat_kolom.innerHTML = data[0].Alamat;
                 satuan_barangPrimerKolom.innerHTML = data[0].satPrimer.trim();
                 jumlah_barangPrimerKolom.innerHTML = data[0].QtyPrimer;
@@ -119,10 +142,35 @@ print_button.addEventListener("click", function () {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
+                    contoh_printSjEksportDiv.style.width = "100%";
+                    table_barangEksport.clear();
                     contoh_printDiv.style.display = "none";
 
-                    nomor_sjExport.innerHTML = 'SJ No. : '+ no_sjText.value;
+                    nomor_sjExport.innerHTML = "SJ No. : " + no_sjText.value;
+                    tanggal_sjExportKolom.innerHTML = formatDateToCustomString(
+                        tanggal_sj.value
+                    );
 
+                    truk_nopolExportKolom.innerHTML = data[0].TrukNopol;
+                    nomor_spExportKolom.innerHTML = no_sp.value;
+                    nama_customerExportKolom.innerHTML = data[0].NamaCust;
+                    kota_exportKolom.innerHTML = data[0].Kota;
+                    nama_expeditorExportKolom.innerHTML = data[0].NamaExpeditor;
+
+                    data.forEach((item, index) => {
+                        const combinedData = `${index + 1} - ${
+                            item.NamaType
+                        } - ${item.QtyPrimer} - ${item.satPrimer}`;
+
+                        table_barangEksport.row
+                            .add([
+                                combinedData, // Combined Column
+                                item.Satuan, // Satuan
+                                item.QtySekunder, // QtySekunder
+                            ])
+                            .draw();
+                    });
+                    $("#table_barangEksport tbody tr td:first-child").addClass("first-column-width-90");
                     contoh_print.style.display = "block";
                     contoh_printSjEksportDiv.style.display = "block";
                     export_pdf.style.display = "inline-block";
@@ -210,4 +258,33 @@ function formatDate(inputDate) {
     const formattedDate =
         `${day}` + "-" + `${months[month - 1]}` + "-" + `${year}`;
     return formattedDate;
+}
+
+function formatDateToCustomString(dateString) {
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+        return "Invalid date";
+    }
+
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${day} / ${month} / ${year}`;
 }

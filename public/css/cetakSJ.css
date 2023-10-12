@@ -52,81 +52,106 @@
     top: 2cm;
     left: 0.2cm;
 }
-.span-tanggal_kirimKolom{
+.span-tanggal_kirimKolom {
     top: 4cm;
     left: 13.4cm;
 }
-.span-truk_nopolKolom{
+.span-truk_nopolKolom {
     top: 4.7cm;
     left: 13.4cm;
 }
-.span-no_spKolom{
+.span-no_spKolom {
     top: 5.9cm;
     left: 12cm;
 }
-.span-alamat_kolom{
+.span-alamat_kolom {
     top: 4.7cm;
     left: 0.7cm;
     max-width: 5.8cm;
     max-height: 2cm;
 }
-.span-nama_typeBarangKolom{
+.span-nama_typeBarangKolom {
     top: 8.4cm;
     left: 0.7cm;
 }
-.span-nama_barangKolom{
+.span-nama_barangKolom {
     top: 9.1cm;
     left: 0.7cm;
     max-width: 13cm;
     word-break: break-all;
 }
-.span-no_poKolom{
+.span-no_poKolom {
     top: 12cm;
     left: 0.7cm;
 }
-.span-keterangan_tambahanKolom{
+.span-keterangan_tambahanKolom {
     top: 12.7cm;
     left: 0.7cm;
     max-width: 13cm;
 }
-.span-satuan_barangPrimerKolom{
+.span-satuan_barangPrimerKolom {
     top: 10.3cm;
     left: 14.5cm;
 }
-.span-jumlah_barangPrimerKolom{
+.span-jumlah_barangPrimerKolom {
     top: 10.3cm;
     left: 16.5cm;
 }
-.span-satuan_barangSekunderKolom{
+.span-satuan_barangSekunderKolom {
     top: 8.9cm;
     left: 14.5cm;
 }
-.span-jumlah_barangSekunderKolom{
+.span-jumlah_barangSekunderKolom {
     top: 8.9cm;
     left: 16.5cm;
 }
-.span-nama_customerKolom{
+.span-nama_customerKolom {
     top: 4cm;
     left: 0.7cm;
 }
-.span-alamat_kirimKolom{
+.span-alamat_kirimKolom {
     top: 16cm;
     left: 0.7cm;
     max-width: 18cm;
 }
-.span-tanda_tanganKolom{
+.span-tanda_tanganKolom {
     top: 22cm;
     left: 1.2cm;
 }
-.acs-div-printsjekspor-header1{
+.acs-div-printsjekspor-header1 {
     text-align: center;
 }
-.acs-div-printsjekspor-header2{
+.acs-div-printsjekspor-header2 {
     display: flex;
     flex-direction: row;
-    gap: 5px;
+    gap: 2%;
     width: 100%;
     margin: 5px;
+}
+.acs-div-printsjekspor-header3 {
+    width: 45%;
+}
+.acs-div-printsjekspor-header4 {
+    width: 45%;
+}
+.acs-div-printsjekspor-subheader {
+    width: 100%;
+    border: 1px solid black;
+    padding-left: 5px;
+}
+.acs-div-printsjekspor-body {
+    padding: 5px;
+}
+#table_noBorder tr td {
+    border: none !important;
+}
+#table_barangEksport {
+    width: 100% !important;
+    border-top: 1px solid black;
+    border-bottom: none !important;
+}
+#table_barangEksport tr td {
+    /* border: none !important; */
 }
 .cetak-sjpdf-container {
     text-align: center;
@@ -184,6 +209,20 @@
     margin-top: 1%;
     margin-left: 1%;
 }
+table tr td {
+    border-right: 1px solid black !important;
+    border-bottom: 1px solid black !important;
+}
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 0rem !important;
+}
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 0rem !important;
+}
+.first-column-width-90 {
+    width: 90%;
+}
+
 
 @media print {
     .acs-div-form {

@@ -87,11 +87,63 @@
                     <div class="acs-div-printsjekspor-header2">
                         <div class="acs-div-printsjekspor-header3">
                             <h3 id="nomor_sjExport"></h3>
+                            <div class="acs-div-printsjekspor-subheader">
+                                <span>Kepada Yth.</span>
+                                <br>
+                                <span id="nama_customerExportKolom" contenteditable="true"></span>
+                                <br>
+                                <span id="kota_exportKolom" contenteditable="true"></span>
+                            </div>
+                            <table id="table_noBorder">
+                                <tr>
+                                    <td>EMKL</td>
+                                    <td>: </td>
+                                    <td id="nama_expeditorExportKolom" contenteditable="true"></td>
+                                </tr>
+                                <tr>
+                                    <td>No. Container</td>
+                                    <td>: </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>No. Seal</td>
+                                    <td>: </td>
+                                    <td></td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="acs-div-printsjekspor-header4"></div>
+                        <div class="acs-div-printsjekspor-header4">
+                            <table id="table_noBorder">
+                                <tr>
+                                    <td>Tanggal</td>
+                                    <td>: </td>
+                                    <td id="tanggal_sjExportKolom" contenteditable="true"></td>
+                                </tr>
+                                <tr>
+                                    <td>Truk No.</td>
+                                    <td>: </td>
+                                    <td id="truk_nopolExportKolom"></td>
+                                </tr>
+                                <tr>
+                                    <td>SP No.</td>
+                                    <td>: </td>
+                                    <td id="nomor_spExportKolom"></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="acs-div-printsjekspor-body"></div>
+                <div class="acs-div-printsjekspor-body">
+                    <table id="table_barangEksport">
+                        <thead>
+                            <tr>
+                                <td style="width: 80%">Uraian</td>
+                                <td>Satuan</td>
+                                <td>Banyaknya</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
                 <div class="acs-div-printsjekspor-footer"></div>
             </div>
         </div>
