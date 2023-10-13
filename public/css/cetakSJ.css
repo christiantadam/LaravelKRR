@@ -150,9 +150,6 @@
     border-top: 1px solid black;
     border-bottom: none !important;
 }
-#table_barangEksport tr td {
-    /* border: none !important; */
-}
 .cetak-sjpdf-container {
     text-align: center;
     margin-left: 1%;
@@ -219,16 +216,34 @@ table tr:last-child td:first-child {
 table tr:last-child td:last-child {
     border-bottom-right-radius: 0rem !important;
 }
-.first-column-width-90 {
+.second-column-width-90 {
     width: 90%;
 }
-
-
+#table_barangEksport thead tr td{
+    text-align: center;
+    font-weight: bold;
+}
+#nama_tandaTanganKolom{
+    text-align: center;
+    font-weight: bold;
+    margin-left: 30px;
+}
+#jenis_barangEksportKolom{
+    font-weight: bold;
+    text-decoration: underline;
+}
+.acs-div-printsjekspor-footer{
+    margin: 5px;
+    gap: 5px;
+}
 @media print {
     .acs-div-form {
         display: none;
     }
     .acs-div-container {
         border: none;
+    }
+    #table_barangEksport tbody tr td:nth-child(2) {
+        width: 90%;
     }
 }

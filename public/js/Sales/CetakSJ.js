@@ -53,6 +53,9 @@ let nama_customerKolom = document.getElementById("nama_customerKolom");
 let nama_typeBarangKolom = document.getElementById("nama_typeBarangKolom");
 let nomor_sjKolom = document.getElementById("nomor_sjKolom");
 let print_pdf = document.getElementById("print_pdf");
+let nomor_poEksportKolom = document.getElementById("nomor_poEksportKolom");
+let nama_tandaTanganKolom = document.getElementById("nama_tandaTanganKolom");
+let jenis_barangEksportKolom = document.getElementById("jenis_barangEksportKolom");
 
 //#region Load Form
 
@@ -157,20 +160,23 @@ print_button.addEventListener("click", function () {
                     kota_exportKolom.innerHTML = data[0].Kota;
                     nama_expeditorExportKolom.innerHTML = data[0].NamaExpeditor;
 
-                    data.forEach((item, index) => {
-                        const combinedData = `${index + 1} - ${
-                            item.NamaType
-                        } - ${item.QtyPrimer} - ${item.satPrimer}`;
-
-                        table_barangEksport.row
-                            .add([
-                                combinedData, // Combined Column
-                                item.Satuan, // Satuan
-                                item.QtySekunder, // QtySekunder
-                            ])
-                            .draw();
+                    jenis_barangEksportKolom.innerHTML = data[0].NAMATYPEBARANG;
+                    const rows = data.map((item, index) => {
+                        return [
+                            index + 1,
+                            item.NamaType, // Nama Type
+                            parseInt(item.QtySekunder) + " " +item.satSekunder.trim(), // Satuan
+                            parseInt(item.QtyPrimer) + " " + item.satPrimer.trim(), // QtySekunder
+                        ];
                     });
-                    $("#table_barangEksport tbody tr td:first-child").addClass("first-column-width-90");
+                    console.log(rows);
+                    table_barangEksport.rows.add(rows).draw();
+                    $("#table_barangEksport tbody tr td:nth-child(2)").addClass(
+                        "second-column-width-90"
+                    );
+
+                    nomor_poEksportKolom.innerHTML = "PO NO : "+ data[0].NO_PO;
+
                     contoh_print.style.display = "block";
                     contoh_printSjEksportDiv.style.display = "block";
                     export_pdf.style.display = "inline-block";

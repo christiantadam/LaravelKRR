@@ -103,12 +103,12 @@
                                 <tr>
                                     <td>No. Container</td>
                                     <td>: </td>
-                                    <td></td>
+                                    <td contenteditable="true"></td>
                                 </tr>
                                 <tr>
                                     <td>No. Seal</td>
                                     <td>: </td>
-                                    <td></td>
+                                    <td contenteditable="true"></td>
                                 </tr>
                             </table>
                         </div>
@@ -122,29 +122,44 @@
                                 <tr>
                                     <td>Truk No.</td>
                                     <td>: </td>
-                                    <td id="truk_nopolExportKolom"></td>
+                                    <td id="truk_nopolExportKolom" contenteditable="true"></td>
                                 </tr>
                                 <tr>
                                     <td>SP No.</td>
                                     <td>: </td>
-                                    <td id="nomor_spExportKolom"></td>
+                                    <td id="nomor_spExportKolom" contenteditable="true"></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                 </div>
                 <div class="acs-div-printsjekspor-body">
+                    <span id="jenis_barangEksportKolom"></span>
                     <table id="table_barangEksport">
                         <thead>
                             <tr>
-                                <td style="width: 80%">Uraian</td>
-                                <td>Satuan</td>
-                                <td>Banyaknya</td>
+                                <td>No.</td>
+                                <td style="width: 80%">Nama Barang</td>
+                                <td style="white-space: nowrap">Jumlah Primer</td>
+                                <td style="white-space: nowrap">Jumlah Sekunder</td>
                             </tr>
                         </thead>
                     </table>
                 </div>
-                <div class="acs-div-printsjekspor-footer"></div>
+                <div class="acs-div-printsjekspor-footer">
+                    <span id="nomor_poEksportKolom" contenteditable="true"></span>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <span id="nama_tandaTanganKolom" contenteditable="true">( SUNYATA ICHWAN )</span>
+                    <br>
+                    <br>
+                    <span>Lembar ke 2 = Untuk Adm. Kantor</span><br>
+                    <span>Lembar ke 3 = Untuk Satpam</span>
+                </div>
             </div>
         </div>
     </div>
