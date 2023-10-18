@@ -106,8 +106,16 @@ print_button.addEventListener("click", function () {
                 satuan_barangPrimerKolom.innerHTML = data[0].satPrimer.trim();
                 jumlah_barangPrimerKolom.innerHTML = data[0].QtyPrimer;
                 satuan_barangSekunderKolom.innerHTML =
-                    data[0].satSekunder.trim();
-                jumlah_barangSekunderKolom.innerHTML = data[0].QtySekunder;
+                    data[0].Satuan.trim();
+                if (data[0].Satuan.trim() == data[0].SatTRitier.trim()) {
+                    jumlah_barangSekunderKolom.innerHTML = data[0].QtyTritier;
+                }
+                else if(data[0].Satuan.trim() == data[0].satSekunder.trim()){
+                    jumlah_barangSekunderKolom.innerHTML = data[0].QtySekunder;
+                }
+                else if(data[0].Satuan.trim() == data[0].satPrimer.trim()){
+                    jumlah_barangSekunderKolom.innerHTML = data[0].QtyPrimer;
+                }
                 if (data[0].NO_PO !== null) {
                     no_poKolom.innerHTML = "PO: " + data[0].NO_PO;
                 }
