@@ -1077,7 +1077,21 @@ update_button.addEventListener("click", function (event) {
     if (selectedRow.length > 0) {
         let table = $("#list_view").DataTable();
         let rowData = table.row(selectedRow).data();
-
+        const berat_karungMeterformattedValue = formatangka(
+            parseFloat(berat_karungMeter.value)
+        );
+        const berat_innerMeterformattedValue = formatangka(
+            parseFloat(berat_innerMeter.value)
+        );
+        const berat_lamiMeterformattedValue = formatangka(
+            parseFloat(berat_lamiMeter.value)
+        );
+        const berat_kertasMeterformattedValue = formatangka(
+            parseFloat(berat_kertasMeter.value)
+        );
+        const berat_standardTotalMeterformattedValue = formatangka(
+            parseFloat(berat_standardTotalMeter.value)
+        );
         // Update the values in the rowData array
         rowData[2] = formatangka(parseFloat(harga_satuan.value));
         rowData[3] = formatangka(parseInt(qty_pesan.value));
@@ -1100,23 +1114,28 @@ update_button.addEventListener("click", function (event) {
         rowData[20] = formatangka(parseFloat(biaya_lain.value));
         rowData[21] = formatangka(parseFloat(berat_standardTotal.value));
         rowData[22] = formatangka(parseFloat(total_cost.value));
-        rowData[23] = !isNaN(formatangka(parseFloat(berat_karungMeter.value)))
-            ? formatangka(parseFloat(berat_karungMeter.value))
-            : "0";
-        rowData[24] = !isNaN(formatangka(parseFloat(berat_innerMeter.value)))
-            ? formatangka(parseFloat(berat_innerMeter.value))
-            : "0";
-        rowData[25] = !isNaN(formatangka(parseFloat(berat_lamiMeter.value)))
-            ? formatangka(parseFloat(berat_lamiMeter.value))
-            : "0";
-        rowData[26] = !isNaN(formatangka(parseFloat(berat_kertasMeter.value)))
-            ? formatangka(parseFloat(berat_kertasMeter.value))
-            : "0";
-        rowData[27] = !isNaN(
-            formatangka(parseFloat(berat_standardTotalMeter.value))
-        )
-            ? formatangka(parseFloat(berat_standardTotalMeter.value))
-            : "0";
+
+        rowData[23] =
+            parseInt(berat_karungMeterformattedValue.replace(/,/g, "")) > 0
+                ? berat_karungMeterformattedValue
+                : "0";
+        rowData[24] =
+            parseInt(berat_innerMeterformattedValue.replace(/,/g, "")) > 0
+                ? berat_innerMeterformattedValue
+                : "0";
+        rowData[25] =
+            parseInt(berat_lamiMeterformattedValue.replace(/,/g, "")) > 0
+                ? berat_lamiMeterformattedValue
+                : "0";
+        rowData[26] =
+            parseInt(berat_kertasMeterformattedValue.replace(/,/g, "")) > 0
+                ? berat_kertasMeterformattedValue
+                : "0";
+        rowData[27] =
+            parseInt(berat_standardTotalMeterformattedValue.replace(/,/g, "")) >
+            0
+                ? berat_standardTotalMeterformattedValue
+                : "0";
         rowData[28] = jenis_brg.value;
         rowData[30] = "";
 
@@ -1553,6 +1572,7 @@ function funcKolomBeratStandard() {
             ).toFixed(2);
 
             if (trigger == 0) {
+                console.log(parseFloat(berat_karung.value).toFixed(2));
                 berat_karungMeter.value = parseFloat(
                     berat_karung.value
                 ).toFixed(2);
@@ -1615,7 +1635,7 @@ function funcDatatablesIntoInput() {
             hiddenInput.multiple = true;
             // console.log(row[j]);
             // hiddenInput.value = row[j].replace(/,/g, "");
-            hiddenInput.value = (row[j] !== null) ? row[j].replace(/,/g, "") : "";
+            hiddenInput.value = row[j] !== null ? row[j].replace(/,/g, "") : "";
             // console.log(hiddenInput.value);
             // Append the hidden input to the document body or any other element
             form_suratPesanan.appendChild(hiddenInput);
@@ -1636,7 +1656,7 @@ function funcTampilBeratStandardKGM() {
         satuan_sekunder.value.trim()
     ) {
         div_beratStandardMeter.style.display = "none";
-        div_beratStandardMeter.style.visibility = "hidden";
+        div_beratStandardMeter.style.visibility = "invisible";
         trigger = 0;
     }
 }

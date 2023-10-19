@@ -177,6 +177,7 @@ class SuratPesananManagerController extends Controller
 
     public function koreksiPenyesuaianSP(Request $request)
     {
+        // dd($request->all());
         $UraianPesanan = null;
         $user = Auth::user()->NomorUser;
         $tgl_pesan = $request->tgl_pesan;
@@ -346,7 +347,8 @@ class SuratPesananManagerController extends Controller
                         $TglRencanaKirim[$i],
                         $Lunas[$i] ?? null,
                         $ppn[$i],
-                        0.00, $ikarung[$i],
+                        0.00,
+                        $ikarung[$i],
                         $hkarung[$i],
                         $iinner[$i],
                         $hinner[$i],
@@ -376,7 +378,20 @@ class SuratPesananManagerController extends Controller
             @bkertas2 = ?,
             @bs2 = ?,
             @UserId = ?',
-                [$KodeBarang[$i], $bkarung[$i], $binner[$i], $blami[$i], $bkertas[$i], $BeratStandart[$i], $bkarung2[$i], $binner2[$i], $blami2[$i], $bkertas2[$i], $bs2[$i], $user],
+                [
+                    $KodeBarang[$i],
+                    $bkarung[$i],
+                    $binner[$i],
+                    $blami[$i],
+                    $bkertas[$i],
+                    $BeratStandart[$i],
+                    $bkarung2[$i],
+                    $binner2[$i],
+                    $blami2[$i],
+                    $bkertas2[$i],
+                    $bs2[$i],
+                    $user
+                ],
             );
         }
         return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Disesuaikan!');
