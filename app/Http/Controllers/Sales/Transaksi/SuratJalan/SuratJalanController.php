@@ -241,6 +241,6 @@ class SuratJalanController extends Controller
     {
         // dd($id);
         db::connection('ConnSales')->statement('exec SP_1486_SLS_DEL_PENGIRIMAN @Mytype = ?, @IDHeaderKirim = ?', [1, $id]);
-        return redirect()->back()->with('success', 'Surat Jalan ' + $id + ' Sudah Dihapus!');
+        return redirect()->back()->with('success', 'Surat Jalan ' . $id . ' Sudah Dihapus!');
     }
 }

@@ -66,10 +66,6 @@
     margin-left: 1cm;
 }
 @media print {
-    body * {
-        visibility: hidden;
-        /* margin-left: 5px; */
-    }
     .acs-div-container,
     .acs-div-container * {
         font-family: Arial, Helvetica, sans-serif;
