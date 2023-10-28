@@ -276,6 +276,7 @@ print_button.addEventListener("click", function (event) {
                 //     0,
                 //     19
                 // ).toUpperCase();
+                ttd_namaContactPersonKolom.value = data[0].NamaCust;
                 ttd_perusahaanKolom.innerHTML = data[0].NamaCust;
                 // ttd_namaContactPersonKolom.value = NamaCustomer;
                 nama_salesKolom.value = "Mr. " + data[0].NamaSales;

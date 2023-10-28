@@ -128,11 +128,11 @@
     border: none !important;
     vertical-align: text-top;
 }
-.cetak-sppdf-subcontainer1{
+.cetak-sppdf-subcontainer1 {
     display: flex;
     flex-direction: row;
 }
-.cetak-sppdf-subcontainer1 table{
+.cetak-sppdf-subcontainer1 table {
     width: 65%;
 }
 .cetak-sppdf-container12 {
@@ -168,6 +168,11 @@
 .signature1 {
     border: 0;
     border-bottom: 1px solid #000;
+    color: transparent;
+    text-align: left;
+    width: 100%;
+    text-decoration: underline;
+    text-decoration-color: #000;
 }
 .cetak-sppdf-tanda-tangan1 {
     position: absolute;
