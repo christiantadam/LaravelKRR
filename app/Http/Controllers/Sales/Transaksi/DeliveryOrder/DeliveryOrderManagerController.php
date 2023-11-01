@@ -58,7 +58,7 @@ class DeliveryOrderManagerController extends Controller
 
     public function indexDestroy()
     {
-        $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_BATAL1');
+        $data = DB::connection('ConnSales')->select('exec SP_4384_SLS_LIST_DO_WEB');
         // dd($data);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Transaksi.DeliveryOrder.BatalManager', compact('data', 'access'));
