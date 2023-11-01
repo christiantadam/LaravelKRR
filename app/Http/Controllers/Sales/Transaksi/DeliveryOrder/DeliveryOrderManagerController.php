@@ -14,7 +14,7 @@ class DeliveryOrderManagerController extends Controller
     //Display a listing of the resource.
     public function index()
     {
-        $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_ACC1');
+        $data = DB::connection('ConnSales')->select('exec SP_4384_SLS_LIST_DO_ACC_WEB');
         // dd($data);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         return view('Sales.Transaksi.DeliveryOrder.AccManager', compact('data','access'));
