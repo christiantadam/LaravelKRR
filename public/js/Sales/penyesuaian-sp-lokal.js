@@ -76,6 +76,7 @@ let tgl_pesan = document.getElementById("tgl_pesan");
 let tgl_po = document.getElementById("tgl_po");
 let total_cost = document.getElementById("total_cost");
 let update_button = document.getElementById("update_button");
+let informasi_tambahan = document.getElementById("informasi_tambahan");
 
 //#endregion
 
@@ -1077,22 +1078,10 @@ update_button.addEventListener("click", function (event) {
     if (selectedRow.length > 0) {
         let table = $("#list_view").DataTable();
         let rowData = table.row(selectedRow).data();
-        const berat_karungMeterformattedValue = formatangka(
-            parseFloat(berat_karungMeter.value)
-        );
-        const berat_innerMeterformattedValue = formatangka(
-            parseFloat(berat_innerMeter.value)
-        );
-        const berat_lamiMeterformattedValue = formatangka(
-            parseFloat(berat_lamiMeter.value)
-        );
-        const berat_kertasMeterformattedValue = formatangka(
-            parseFloat(berat_kertasMeter.value)
-        );
-        const berat_standardTotalMeterformattedValue = formatangka(
-            parseFloat(berat_standardTotalMeter.value)
-        );
+
         // Update the values in the rowData array
+        rowData[0] = nama_barang.options[nama_barang.selectedIndex].text;
+        rowData[1] = kode_barang.value;
         rowData[2] = formatangka(parseFloat(harga_satuan.value));
         rowData[3] = formatangka(parseInt(qty_pesan.value));
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
@@ -1114,6 +1103,22 @@ update_button.addEventListener("click", function (event) {
         rowData[20] = formatangka(parseFloat(biaya_lain.value));
         rowData[21] = formatangka(parseFloat(berat_standardTotal.value));
         rowData[22] = formatangka(parseFloat(total_cost.value));
+
+        const berat_karungMeterformattedValue = formatangka(
+            parseFloat(berat_karungMeter.value)
+        );
+        const berat_innerMeterformattedValue = formatangka(
+            parseFloat(berat_innerMeter.value)
+        );
+        const berat_lamiMeterformattedValue = formatangka(
+            parseFloat(berat_lamiMeter.value)
+        );
+        const berat_kertasMeterformattedValue = formatangka(
+            parseFloat(berat_kertasMeter.value)
+        );
+        const berat_standardTotalMeterformattedValue = formatangka(
+            parseFloat(berat_standardTotalMeter.value)
+        );
 
         rowData[23] =
             parseInt(berat_karungMeterformattedValue.replace(/,/g, "")) > 0
@@ -1140,6 +1145,7 @@ update_button.addEventListener("click", function (event) {
         rowData[30] = "";
 
         // Update the data in the DataTable
+        console.log(rowData);
         table.row(selectedRow).data(rowData).draw();
         // remove highlight from selected row
         selectedRow.toggleClass("selected");
@@ -1343,6 +1349,7 @@ function funcInsertRow(array) {
             );
             lunas.value = selectedRows[0][6];
             ppn.value = selectedRows[0][7];
+            informasi_tambahan.value = selectedRows[0][30];
             satuan_jual.selectedIndex = 0;
             for (let i = 0; i < satuan_jual.length; i++) {
                 // console.log(satuanJual.selectedIndex);
@@ -1668,7 +1675,7 @@ function funcTampilBeratStandardKGM() {
 //     return parts.join('.');
 //   }
 function formatangka(objek) {
-    console.log(objek); // Output the provided number for debugging purposes
+    // console.log(objek); // Output the provided number for debugging purposes
 
     // Check if the number has decimal places
     if (Number.isInteger(objek)) {

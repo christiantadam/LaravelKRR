@@ -265,7 +265,8 @@
                                 </div>
                                 <div class="permohonan-s-p-container27"> <span>Qty Pesan</span> <span>Harga
                                         Satuan</span> <span>P P
-                                        N</span> <span>Status Lunas</span> </div>
+                                        N</span> <span>Status Lunas</span><span>Informasi
+                                        Tambahan</span> </div>
                                 <div class="permohonan-s-p-container28">
                                     <div class="permohonan-s-p-container29"> <input type="text"
                                             placeholder="Qty Pesan" class="permohonan-s-p-textinput18 input"
@@ -278,7 +279,10 @@
                                             id="ppn" readonly /> </div>
                                     <div class="permohonan-s-p-container31"> <input type="text"
                                             placeholder="Belum Lunas" class="permohonan-s-p-textinput20 input"
-                                            id="lunas"/> </div>
+                                            id="lunas" /> </div>
+                                    <div class="permohonan-s-p-container31">
+                                        <textarea name="informasi_tambahan" id="informasi_tambahan" cols="20" rows="2"></textarea>
+                                    </div>
                                 </div>
                                 <div class="permohonan-s-p-container32"> <span>Satuan Jual</span> <span
                                         class="permohonan-s-p-span1">Sat Gudang</span> <span>Rencana Kirim</span>
