@@ -270,6 +270,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/AllFitur/edit', 'App\Http\Controllers\EDP\MaintenanceHakAksesController@EditUserFitur');
 
     Route::resource('PerbaikanUjiCobaFitur', App\Http\Controllers\EDP\PerbaikanUjiCobaFiturController::class);
+
+    Route::resource('Computer', App\Http\Controllers\EDP\ComputerController::class);
+    Route::post('/Computer/{id}', 'App\Http\Controllers\EDP\ComputerController@destroy')->name('computer.destroy');
+
     #endregion
 });
 
