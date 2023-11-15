@@ -85,9 +85,9 @@ let informasi_tambahan = document.getElementById("informasi_tambahan");
 setInputFilter(
     document.getElementById("qty_pesan"),
     function (value) {
-        return /^-?\d*$/.test(value);
+        return /^-?\d*[.]?\d*$/.test(value);
     },
-    "Harus diisi dengan angka!"
+    "Must be a floating (real) number"
 );
 setInputFilter(
     document.getElementById("harga_satuan"),
@@ -1020,7 +1020,7 @@ add_button.addEventListener("click", function (event) {
         nama_barang.options[nama_barang.selectedIndex].text,
         kode_barang.value,
         formatangka(parseFloat(harga_satuan.value)),
-        formatangka(parseInt(qty_pesan.value)),
+        formatangka(parseFloat(qty_pesan.value)),
         satuan_jual.options[satuan_jual.selectedIndex].text,
         rencana_kirim.value,
         ppn.value,
@@ -1083,7 +1083,7 @@ update_button.addEventListener("click", function (event) {
         rowData[0] = nama_barang.options[nama_barang.selectedIndex].text;
         rowData[1] = kode_barang.value;
         rowData[2] = formatangka(parseFloat(harga_satuan.value));
-        rowData[3] = formatangka(parseInt(qty_pesan.value));
+        rowData[3] = formatangka(parseFloat(qty_pesan.value));
         rowData[4] = satuan_jual.options[satuan_jual.selectedIndex].text;
         rowData[5] = rencana_kirim.value;
         rowData[6] = lunas.value ?? "";
@@ -1343,7 +1343,7 @@ function funcInsertRow(array) {
             $(this).toggleClass("selected");
             let selectedRows = table.rows(".selected").data().toArray();
             // console.log(selectedRows);
-            qty_pesan.value = parseInt(selectedRows[0][3].replace(/,/g, ""));
+            qty_pesan.value = parseFloat(selectedRows[0][3].replace(/,/g, ""));
             harga_satuan.value = parseFloat(
                 selectedRows[0][2].replace(/,/g, "")
             );
