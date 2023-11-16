@@ -23,6 +23,7 @@ class SuratPesananController extends Controller
     //get data SP dengan parameter sudah ACC manager, AKTIF dan Belum LUNAS.
     function splokal(Request $request)
     {
+        // dd($request->all());
         $columns = array(
             0 => 'IDSuratPesanan',
             1 => 'NamaCust',

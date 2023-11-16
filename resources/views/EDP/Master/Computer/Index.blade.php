@@ -1,62 +1,145 @@
-@extends('layouts.appEDP')
-@section('content')
-    @include('User/modalEditUser')
-    @include('User/modalEditAdmin')
-    <script>
-        $(document).ready(function() {
-            $('#table_Computer').DataTable({});
-        });
-    </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Modal Page with Fade-in and Fade-out Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
 
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <button class="acs-icon-btn acs-add-btn acs-float" onclick="openNewWindow('Computer/create')">
-                    <div class="acs-add-icon"></div>
-                    <div class="acs-btn-txt">Tambah Computer</div>
-                </button>
-                @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        {{ Session::get('success') }}
-                    </div>
-                @endif
-                <div class="card">
-                    <div class="card-header">List Computer</div>
-                    <div id="DataCheckbox"></div>
-                    <div class="card-body RDZOverflow">
-                        <table id="table_Computer" class="table table-bordered table-striped" style="width:100%">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Kode PC</th>
-                                    <th>Nama User</th>
-                                    <th>IP Address</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data as $item)
-                                    <tr>
-                                        <td>{{ $item->Kode_Comp }}</td>
-                                        <td>{{ $item->Keterangan }}</td>
-                                        <td>{{ $item->IPAddress }}</td>
-                                        <td style="display: flex;"><button class="btn btn-sm btn-primary"
-                                                onclick="openNewWindow('{{ url('Computer/' . $item->Kode_Comp . '/edit') }}')"
-                                                href=""><span>&#x270E;</span>Edit</button>
-                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                action="{{ route('computer.destroy', $item->Kode_Comp) }}" method="POST"
-                                                enctype="multipart/form-data">
-                                                {{ csrf_field() }}
-                                                <button type="submit"
-                                                    class="btn btn-sm btn-danger"><span>&#x1F5D1;</span>Hapus</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #myModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeInOut 0.5s ease-in-out;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fefefe;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        @keyframes fadeInOut {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cool Modal Page with Fade-in and Fade-out Animation</h1>
+    </header>
+
+    <div class="container">
+        <p>This is a simple web page with a cool modal. Click the button below to open the modal:</p>
+        <button onclick="openModal()">Open Modal</button>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Modal Content</h2>
+            <p>This is some modal content. You can add any content you like here.</p>
         </div>
     </div>
-@endsection
+
+    <script>
+        function openModal() {
+            var modal = document.getElementById('myModal');
+            // Reset animation before applying fade-in
+            modal.style.animation = 'none';
+            void modal.offsetWidth; // Trigger reflow
+            modal.style.animation = 'fadeIn 0.5s ease-in-out';
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.animation = 'fadeOut 0.5s ease-in-out';
+            modal.addEventListener('animationend', function animationEndHandler() {
+                if (modal.style.display !== 'none') {
+                    modal.style.display = 'none';
+                    modal.style.animation = 'none';
+                    modal.removeEventListener('animationend', animationEndHandler);
+                }
+            });
+        }
+
+        // Close the modal if the user clicks outside the modal content
+        window.onclick = function (event) {
+            var modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>

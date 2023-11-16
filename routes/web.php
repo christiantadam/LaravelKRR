@@ -121,6 +121,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::post('/tambahmantap', 'App\http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@store');
     Route::post('/submit-form', [SuratPesananController::class, 'submitForm']);
     Route::post('splokal', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@splokal')->name('splokal');
+    // Route::any('splokal', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@splokal')->name('splokal');
 
     #endregion
 

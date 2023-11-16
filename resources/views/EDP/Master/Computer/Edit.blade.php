@@ -2,6 +2,11 @@
 @section('title', 'Add Computer')
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/computer.css') }}" rel="stylesheet">
+@php
+    $computer_encode = json_encode($computer);
+    $computer_array = json_decode($computer_encode, true);
+    // print($computer_array[0]->Kode_Comp);
+@endphp
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
@@ -11,7 +16,7 @@
                 </div>
             @endif
             <div class="card">
-                <div class="card-header">Add Computer</div>
+                <div class="card-header">Edit Computer</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div>
                         <form method="POST" action="{{ url('Computer') }}">
@@ -22,19 +27,22 @@
                                         <div class="acs-div-filter">
                                             <label for="NamaBill">Kode Computer</label>
                                             <input type="text" name="NamaBill" id="NamaBill"
-                                                placeholder="Nama Billing" class="input">
+                                                placeholder="Nama Billing" class="input"
+                                                value="{{ $computer_array[0]['Kode_Comp'] }}">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="ContactPerson">Nama User</label>
                                             <input type="text" name="ContactPerson" id="ContactPerson"
-                                                placeholder="Contact Person" class="input">
+                                                placeholder="Contact Person" class="input"
+                                                value="{{ $computer_array[0]['Keterangan'] }}">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="ipAddress">IP Address</label>
                                             <div class="acs-div-filter1">
                                                 <input type="text" name="ipAddress" id="ipAddress"
                                                     placeholder="IP Address" class="input" style="width: 65%;"
-                                                    oninput="validateIpAddress()">
+                                                    oninput="validateIpAddress()"
+                                                    value="{{ $computer_array[0]['IPAddress'] }}">
                                                 <div id="result"></div>
                                                 <div id="error"></div>
                                             </div>
@@ -156,4 +164,15 @@
     </div>
 </div>
 <script type="text/javascript" src="{{ asset('js/EDP/Computer.js') }}"></script>
+<script>
+    if (document.getElementById("ipAddress").value !== "") {
+        if (ValidateIPaddress(document.getElementById("ipAddress").value)) {
+            document.getElementById("result").innerHTML = "Format IP Address Valid";
+            document.getElementById("error").innerHTML = "";
+        } else {
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("error").innerHTML = "Format IP Address Invalid";
+        }
+    }
+</script>
 @endsection
