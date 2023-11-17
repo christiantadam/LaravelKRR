@@ -358,7 +358,7 @@ prosesButton.addEventListener("click", function (event) {
         alert("Tolong pilih barcode dulu!");
         return; // Exit the function if a checked checkbox is not found
     }
-    if (saldo_primerDikeluarkanSatuan.value == max_doSatuan.value) {
+    if (saldo_primerDikeluarkanSatuan.value.trim() == max_doSatuan.value.trim()) {
         if (
             parseFloat(saldo_primerDikeluarkan.value) <
                 parseFloat(min_do.value) ||
@@ -369,7 +369,7 @@ prosesButton.addEventListener("click", function (event) {
             );
             return;
         }
-    } else if (saldo_sekunderDikeluarkanSatuan.value == max_doSatuan.value) {
+    } else if (saldo_sekunderDikeluarkanSatuan.value.trim() == max_doSatuan.value.trim()) {
         if (
             parseFloat(saldo_sekunderDikeluarkan.value) <
                 parseFloat(min_do.value) ||
@@ -381,7 +381,7 @@ prosesButton.addEventListener("click", function (event) {
             );
             return;
         }
-    } else if (saldo_tritierDikeluarkanSatuan.value == max_doSatuan.value) {
+    } else if (saldo_tritierDikeluarkanSatuan.value.trim() == max_doSatuan.value.trim()) {
         if (
             parseFloat(saldo_tritierDikeluarkan.value) <
                 parseFloat(min_do.value) ||
@@ -465,7 +465,7 @@ prosesButton.addEventListener("click", function (event) {
                 noindeksInput.value = noindeks;
                 form_accJualBarcode.appendChild(noindeksInput);
 
-                form_accJualBarcode.submit();
+                // form_accJualBarcode.submit();
             }
         }
     }
