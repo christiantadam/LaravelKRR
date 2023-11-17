@@ -465,7 +465,7 @@ prosesButton.addEventListener("click", function (event) {
                 noindeksInput.value = noindeks;
                 form_accJualBarcode.appendChild(noindeksInput);
 
-                // form_accJualBarcode.submit();
+                form_accJualBarcode.submit();
             }
         }
     }
