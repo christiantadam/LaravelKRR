@@ -39,7 +39,7 @@ class ComputerController extends Controller
     {
         $dataKomputer = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [1, $id]);
         $dataKomponen = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [2, $id]);
-        $data = [$dataKomputer,$dataKomponen];
+        $data = [$dataKomputer, $dataKomponen];
         return response()->json($data);
     }
 
@@ -53,7 +53,16 @@ class ComputerController extends Controller
         $harddisk = DB::connection('ConnEDP')->table('Kapasitas_HardDisk')->select('*')->get();
         $vga = DB::connection('ConnEDP')->table('Kapasitas_VGA')->select('*')->get();
         $monitor = DB::connection('ConnEDP')->table('Ukuran_Monitor')->select('*')->get();
-        // dd('masuk edit', $id, $computer);
+        // dd(
+        //     'masuk edit',
+        //     $computer,
+        //     $processor,
+        //     $memory,
+        //     $typeos,
+        //     $harddisk,
+        //     $vga,
+        //     $monitor
+        // );
         return view('EDP.Master.Computer.Edit', compact('access', 'computer', 'processor', 'monitor', 'memory', 'harddisk', 'typeos', 'vga'));
     }
 

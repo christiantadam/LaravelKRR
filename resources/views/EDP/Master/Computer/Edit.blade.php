@@ -19,21 +19,22 @@
                 <div class="card-header">Edit Computer</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div>
-                        <form method="POST" action="{{ url('Computer') }}">
+                        <form method="POST" action="{{ url('Computer/'.$computer_array[0]['Kode_Comp']) }}">
                             {{ csrf_field() }}
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="permohonan-do-form">
                                 <div class="acs-form">
                                     <div class="acs-form1">
                                         <div class="acs-div-filter">
-                                            <label for="NamaBill">Kode Computer</label>
-                                            <input type="text" name="NamaBill" id="NamaBill"
-                                                placeholder="Nama Billing" class="input"
+                                            <label for="KodeComputer">Kode Computer</label>
+                                            <input type="text" name="KodeComputer" id="KodeComputer"
+                                                placeholder="Kode Computer" class="input"
                                                 value="{{ $computer_array[0]['Kode_Comp'] }}">
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="ContactPerson">Nama User</label>
-                                            <input type="text" name="ContactPerson" id="ContactPerson"
-                                                placeholder="Contact Person" class="input"
+                                            <label for="NamaUser">Nama User</label>
+                                            <input type="text" name="NamaUser" id="NamaUser"
+                                                placeholder="Nama User" class="input"
                                                 value="{{ $computer_array[0]['Keterangan'] }}">
                                         </div>
                                         <div class="acs-div-filter">
@@ -52,7 +53,8 @@
                                             <select name="Processor" id="Processor" class="input">
                                                 <option selected disabled>-- Pilih Jenis Processor--</option>
                                                 @foreach ($processor as $data)
-                                                    <option value="{{ $data->Id_Proc }}">
+                                                    <option value="{{ $data->Id_Proc }}"
+                                                        {{ $computer_array[0]['Id_Proc'] == $data->Id_Proc ? 'selected' : '' }}>
                                                         {{ $data->Id_Proc . ' - ' . $data->Processor }}</option>
                                                 @endforeach
                                             </select>
@@ -62,47 +64,52 @@
                                             <select name="Memory" id="Memory" class="input">
                                                 <option selected disabled>-- Pilih Jenis Memory--</option>
                                                 @foreach ($memory as $data)
-                                                    <option value="{{ $data->Id_Memory }}">
+                                                    <option value="{{ $data->Id_Memory }}"
+                                                        {{ $computer_array[0]['Id_Memory'] == $data->Id_Memory ? 'selected' : '' }}>
                                                         {{ $data->Id_Memory . ' - ' . $data->Kapasitas }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Negara">Hard Disk</label>
-                                            <select name="Memory" id="Memory" class="input">
-                                                <option selected disabled>-- Pilih Jenis Memory--</option>
+                                            <label for="HardDisk">Hard Disk</label>
+                                            <select name="HardDisk" id="HardDisk" class="input">
+                                                <option selected disabled>-- Pilih Jenis Hard Disk--</option>
                                                 @foreach ($harddisk as $data)
-                                                    <option value="{{ $data->Id_HDD }}">
+                                                    <option value="{{ $data->Id_HDD }}"
+                                                        {{ $computer_array[0]['Id_HD'] == $data->Id_HDD ? 'selected' : '' }}>
                                                         {{ $data->Id_HDD . ' - ' . $data->Kapasitas }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Negara">Operating System</label>
-                                            <select name="Memory" id="Memory" class="input">
-                                                <option selected disabled>-- Pilih Jenis Memory--</option>
+                                            <label for="OperatingSystem">Operating System</label>
+                                            <select name="OperatingSystem" id="OperatingSystem" class="input">
+                                                <option selected disabled>-- Pilih Jenis Operating System--</option>
                                                 @foreach ($typeos as $data)
-                                                    <option value="{{ $data->Is_OS }}">
+                                                    <option value="{{ $data->Is_OS }}"
+                                                        {{ $computer_array[0]['Id_OS'] == $data->Is_OS ? 'selected' : '' }}>
                                                         {{ $data->Is_OS . ' - ' . $data->Sistem_Operas }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Negara">Graphic Card</label>
-                                            <select name="Memory" id="Memory" class="input">
-                                                <option selected disabled>-- Pilih Jenis Memory--</option>
+                                            <label for="GraphicCard">Graphic Card</label>
+                                            <select name="GraphicCard" id="GraphicCard" class="input">
+                                                <option selected disabled>-- Pilih Jenis Graphic Card--</option>
                                                 @foreach ($vga as $data)
-                                                    <option value="{{ $data->Id_VGA }}">
+                                                    <option value="{{ $data->Id_VGA }}"
+                                                        {{ $computer_array[0]['Id_VGA'] == $data->Id_VGA ? 'selected' : '' }}>
                                                         {{ $data->Id_VGA . ' - ' . $data->Kapasitas_VGA }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Negara">Monitor</label>
-                                            <select name="Memory" id="Memory" class="input">
-                                                <option selected disabled>-- Pilih Jenis Memory--</option>
+                                            <label for="Monitor">Monitor</label>
+                                            <select name="Monitor" id="Monitor" class="input">
+                                                <option selected disabled>-- Pilih Jenis Monitor--</option>
                                                 @foreach ($monitor as $data)
-                                                    <option value="{{ $data->Id_Monitor }}">
+                                                    <option value="{{ $data->Id_Monitor }}"
+                                                        {{ $computer_array[0]['Id_Monitor'] == $data->Id_Monitor ? 'selected' : '' }}>
                                                         {{ $data->Id_Monitor . ' - ' . $data->Monitor_Size }}</option>
                                                 @endforeach
                                             </select>

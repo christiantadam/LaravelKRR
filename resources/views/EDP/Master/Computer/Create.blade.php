@@ -20,14 +20,14 @@
                                 <div class="acs-form">
                                     <div class="acs-form1">
                                         <div class="acs-div-filter">
-                                            <label for="NamaBill">Kode Computer</label>
-                                            <input type="text" name="NamaBill" id="NamaBill"
-                                                placeholder="Nama Billing" class="input">
+                                            <label for="KodeComputer">Kode Computer</label>
+                                            <input type="text" name="KodeComputer" id="KodeComputer"
+                                                placeholder="Kode Computer" class="input">
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="ContactPerson">Nama User</label>
-                                            <input type="text" name="ContactPerson" id="ContactPerson"
-                                                placeholder="Contact Person" class="input">
+                                            <label for="NamaUser">Nama User</label>
+                                            <input type="text" name="NamaUser" id="NamaUser"
+                                                placeholder="Nama User" class="input">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="ipAddress">IP Address</label>
@@ -60,9 +60,9 @@
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Negara">Hard Disk</label>
-                                            <select name="Memory" id="Memory" class="input">
-                                                <option selected disabled>-- Pilih Jenis Memory--</option>
+                                            <label for="HardDisk">Hard Disk</label>
+                                            <select name="HardDisk" id="HardDisk" class="input">
+                                                <option selected disabled>-- Pilih Jenis Hard Disk--</option>
                                                 @foreach ($harddisk as $data)
                                                     <option value="{{ $data->Id_HDD }}">
                                                         {{ $data->Id_HDD . ' - ' . $data->Kapasitas }}</option>
@@ -70,9 +70,9 @@
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Negara">Operating System</label>
-                                            <select name="Memory" id="Memory" class="input">
-                                                <option selected disabled>-- Pilih Jenis Memory--</option>
+                                            <label for="OperatingSystem">Operating System</label>
+                                            <select name="OperatingSystem" id="OperatingSystem" class="input">
+                                                <option selected disabled>-- Pilih Jenis Operating System--</option>
                                                 @foreach ($typeos as $data)
                                                     <option value="{{ $data->Is_OS }}">
                                                         {{ $data->Is_OS . ' - ' . $data->Sistem_Operas }}</option>
@@ -80,9 +80,9 @@
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Negara">Graphic Card</label>
-                                            <select name="Memory" id="Memory" class="input">
-                                                <option selected disabled>-- Pilih Jenis Memory--</option>
+                                            <label for="GraphicCard">Graphic Card</label>
+                                            <select name="GraphicCard" id="GraphicCard" class="input">
+                                                <option selected disabled>-- Pilih Jenis Graphic Card--</option>
                                                 @foreach ($vga as $data)
                                                     <option value="{{ $data->Id_VGA }}">
                                                         {{ $data->Id_VGA . ' - ' . $data->Kapasitas_VGA }}</option>
@@ -90,9 +90,9 @@
                                             </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Negara">Monitor</label>
-                                            <select name="Memory" id="Memory" class="input">
-                                                <option selected disabled>-- Pilih Jenis Memory--</option>
+                                            <label for="Monitor">Monitor</label>
+                                            <select name="Monitor" id="Monitor" class="input">
+                                                <option selected disabled>-- Pilih Jenis Monitor--</option>
                                                 @foreach ($monitor as $data)
                                                     <option value="{{ $data->Id_Monitor }}">
                                                         {{ $data->Id_Monitor . ' - ' . $data->Monitor_Size }}</option>
