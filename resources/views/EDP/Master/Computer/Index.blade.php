@@ -1,145 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cool Modal Page with Fade-in and Fade-out Animation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
+@extends('layouts.appEDP')
+@section('content')
+@section('title', 'Komputer')
+<script>
+    $(document).ready(function() {
+        var table = $('#table_Computer').DataTable({
+            "columns": [{
+                    "width": "20%"
+                }, // Kode Komputer
+                {
+                    "width": "30%"
+                }, // Nama User
+                {
+                    "width": "30%"
+                }, // IP Address
+                {
+                    "width": "20%"
+                } // Action
+            ]
+        });
 
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
+        // Handle row clicks
+        $('#table_Computer tbody').on('click', 'tr', function() {
+            // Get the data from the clicked row
+            var data = table.row(this).data();
 
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #myModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeInOut 0.5s ease-in-out;
-        }
-
-        .modal-content {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fefefe;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: black;
-        }
-
-        @keyframes fadeInOut {
-            from {
-                opacity: 0;
+            if ($(event.target).is('button')) {
+                return; // Do nothing if the click was on a button
             }
-            to {
-                opacity: 1;
-            }
-        }
+            // Update the modal content with the computer details
+            $('#modalComputerContent').html();
+            // Make an AJAX request to the Laravel back end
+            $.ajax({
+                url: '/Computer/' + data[0], // Replace with the actual route
+                method: 'GET',
+                success: function(response) {
+                    // Update the modal content with the response data
+                    // console.log(response);
+                    var KapasitasMemory = response[0][0].KapasitasMemory !== null ?
+                        response[0][0].KapasitasMemory : "-";
+                    var Processor = response[0][0].Processor !== null ? response[0][0]
+                        .Processor : "-";
+                    var KapasitasHardDisk = response[0][0].KapasitasHardDisk !== null ?
+                        response[0][0].KapasitasHardDisk : "-";
+                    var Sistem_Operas = response[0][0].Sistem_Operas !== null ? response[0][
+                        0
+                    ].Sistem_Operas : "-";
+                    var Monitor_Size = response[0][0].Monitor_Size !== null ? response[0][0]
+                        .Monitor_Size : "-";
+                    var Kapasitas_VGA = response[0][0].Kapasitas_VGA !== null ? response[0][
+                        0
+                    ].Kapasitas_VGA : "-";
+                    $('#modalComputerContent').html(
+                        '<p style=text-align:center><strong> Specification for ' +
+                        data[0] +
+                        '</strong> </p>' +
+                        // '<p><strong>User:</strong> ' + data[1] + '</p>' +
+                        '<p><strong>Processor:</strong> ' + Processor +
+                        '</p>' +
+                        '<p><strong>Hard Disk:</strong> ' + KapasitasHardDisk +
+                        '</p>' +
+                        '<p><strong>Memory:</strong> ' + KapasitasMemory +
+                        '</p>' +
+                        '<p><strong>Operating System:</strong> ' + Sistem_Operas +
+                        '</p>' +
+                        '<p><strong>Monitor Size:</strong> ' + Monitor_Size +
+                        '</p>' +
+                        '<p><strong>VGA Capacity:</strong> ' + Kapasitas_VGA +
+                        '</p>'
+                    );
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Cool Modal Page with Fade-in and Fade-out Animation</h1>
-    </header>
-
-    <div class="container">
-        <p>This is a simple web page with a cool modal. Click the button below to open the modal:</p>
-        <button onclick="openModal()">Open Modal</button>
-    </div>
-
-    <!-- The Modal -->
-    <div id="myModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Modal Content</h2>
-            <p>This is some modal content. You can add any content you like here.</p>
-        </div>
-    </div>
-
-    <script>
-        function openModal() {
-            var modal = document.getElementById('myModal');
-            // Reset animation before applying fade-in
-            modal.style.animation = 'none';
-            void modal.offsetWidth; // Trigger reflow
-            modal.style.animation = 'fadeIn 0.5s ease-in-out';
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            var modal = document.getElementById('myModal');
-            modal.style.animation = 'fadeOut 0.5s ease-in-out';
-            modal.addEventListener('animationend', function animationEndHandler() {
-                if (modal.style.display !== 'none') {
-                    modal.style.display = 'none';
-                    modal.style.animation = 'none';
-                    modal.removeEventListener('animationend', animationEndHandler);
+                    // Open the modal
+                    openModal();
+                },
+                error: function(error) {
+                    console.error('Error fetching data:', error);
                 }
             });
-        }
-
-        // Close the modal if the user clicks outside the modal content
-        window.onclick = function (event) {
-            var modal = document.getElementById('myModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-    </script>
-
-</body>
-</html>
+            // Open the modal
+            openModal();
+        });
+        $('#table_Computer tbody').on('click', 'button', function(event) {
+            event.stopPropagation(); // Stop the event from reaching the parent tr
+        });
+    });
+</script>
+<link href="{{ asset('css/billing.css') }}" rel="stylesheet">
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-10 RDZMobilePaddingLR0">
+            {{-- button untuk munculin create billing --}}
+            <button class="acs-icon-btn acs-add-btn acs-float" onclick="openNewWindow('Computer/create')">
+                <div class="acs-add-icon"></div>
+                <div class="acs-btn-txt">Tambah Komputer</div>
+            </button>
+            <div class="card">
+                {{-- @if (Auth::user()->status == 1) --}}
+                <div class="card-header">Komputer</div>
+                {{-- @else
+                        <div class="card-header">Home</div>
+                    @endif --}}
+                <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                    <table id="table_Computer" class="table" style="width:100%">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Kode Komputer</th>
+                                <th>Nama User </th>
+                                <th>IP Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $item)
+                                <tr class="clickable-row">
+                                    <td class="RDZPaddingTable RDZCenterTable">{{ $item->Kode_Comp }}</td>
+                                    <td class="RDZPaddingTable RDZCenterTable">{{ $item->Keterangan }}</td>
+                                    <td class="RDZPaddingTable RDZCenterTable">{{ $item->IPAddress }}</td>
+                                    <td class="acs-td-button"><button class="btn btn-sm btn-primary"
+                                            onclick="openNewWindow('{{ url('Computer/' . $item->Kode_Comp . '/edit') }}')"
+                                            href=""><span>&#x270E;</span>Edit</button>
+                                        <form onsubmit="return confirm('Apakah Anda Yakin ?');"
+                                            action="{{ route('computer.destroy', $item->Kode_Comp) }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+                                            <button type="submit"
+                                                class="btn btn-sm btn-danger"><span>&#x1F5D1;</span>Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@include('EDP.Master.Computer.DetailComputer')
+@endsection

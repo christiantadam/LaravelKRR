@@ -37,7 +37,10 @@ class ComputerController extends Controller
 
     public function show($id)
     {
-        //
+        $dataKomputer = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [1, $id]);
+        $dataKomponen = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [2, $id]);
+        $data = [$dataKomputer,$dataKomponen];
+        return response()->json($data);
     }
 
     public function edit($id)
