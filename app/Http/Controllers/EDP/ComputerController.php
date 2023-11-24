@@ -32,7 +32,32 @@ class ComputerController extends Controller
 
     public function store(Request $request)
     {
-        dd('Masuk Store', $request->all());
+        // dd('Masuk Store', $request->all());
+        DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceKomputer
+                                                @Kode = ?,
+                                                @KodeComp = ?,
+                                                @Keterangan = ?,
+	                                            @IPAddress = ?,
+	                                            @Id_Proc = ?,
+	                                            @Id_Memory = ?,
+	                                            @Id_HD = ?,
+	                                            @Id_OS = ?,
+	                                            @Id_VGA = ?,
+	                                            @Id_Monitor = ?',
+            [
+                3,
+                $request->KodeComputer,
+                $request->NamaUser,
+                $request->ipAddress,
+                $request->Processor,
+                $request->Memory,
+                $request->HardDisk,
+                $request->OperatingSystem,
+                $request->GraphicCard,
+                $request->Monitor,
+            ]
+        );
+        return redirect()->back()->with('success', 'Data Komputer ' . $request->KodeComputer . ' Sudah Ditambahkan!');
     }
 
     public function show($id)
@@ -68,7 +93,32 @@ class ComputerController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd('masuk update', $request->all());
+        // dd('masuk update', $request->all());
+        DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceKomputer
+                                                @Kode = ?,
+                                                @KodeComp = ?,
+                                                @Keterangan = ?,
+	                                            @IPAddress = ?,
+	                                            @Id_Proc = ?,
+	                                            @Id_Memory = ?,
+	                                            @Id_HD = ?,
+	                                            @Id_OS = ?,
+	                                            @Id_VGA = ?,
+	                                            @Id_Monitor = ?',
+            [
+                4,
+                $request->KodeComputer,
+                $request->NamaUser,
+                $request->ipAddress,
+                $request->Processor,
+                $request->Memory,
+                $request->HardDisk,
+                $request->OperatingSystem,
+                $request->GraphicCard,
+                $request->Monitor,
+            ]
+        );
+        return redirect()->back()->with('success', 'Data Komputer ' . $request->KodeComputer . ' Sudah Diperbarui!');
     }
 
     public function destroy($id)
