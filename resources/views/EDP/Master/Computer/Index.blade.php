@@ -70,21 +70,21 @@
                     );
 
                     // Open the modal
-                    openModal();
+                    openModal('modal Computer');
                 },
                 error: function(error) {
                     console.error('Error fetching data:', error);
                 }
             });
             // Open the modal
-            openModal();
+            openModal('modal Computer');
         });
         $('#table_Computer tbody').on('click', 'button', function(event) {
             event.stopPropagation(); // Stop the event from reaching the parent tr
         });
     });
 </script>
-<link href="{{ asset('css/billing.css') }}" rel="stylesheet">
+<link href="{{ asset('css/computer.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <div class="container-fluid">
     <div class="row justify-content-center">

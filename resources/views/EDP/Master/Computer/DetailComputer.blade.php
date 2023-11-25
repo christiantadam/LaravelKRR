@@ -1,27 +1,5 @@
     <style>
-        /* body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        } */
-
-        /* header {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        } */
-
-        /* .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        } */
-
-        #modalComputer {
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -42,10 +20,10 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.5s ease-in-out;
+            /* animation: fadeIn 0.5s ease-in-out 0.2s; */
         }
 
-        .acs-td-button{
+        .acs-td-button {
             display: flex;
             gap: 5px
         }
@@ -69,14 +47,13 @@
 
         #table_Computer tbody tr.clickable-row:hover {
             background-color: #f5f5f5 !important;
-            /* Use !important to override conflicting styles */
         }
 
-        #modalComputerContent{
+        #modalComputerContent {
             align-self: center
         }
 
-        @keyframes fadeInOut {
+        /* @keyframes fadeInOut {
             from {
                 opacity: 0;
             }
@@ -84,7 +61,7 @@
             to {
                 opacity: 1;
             }
-        }
+        } */
 
         @keyframes fadeIn {
             from {
@@ -108,26 +85,74 @@
     </style>
 
     <!-- The Modal -->
-    <div id="modalComputer">
+    <div id="modalComputer" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span class="close" onclick="closeModal('modalComputer')">&times;</span>
+            <div id="modalComputerContent">
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddProcessor" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalAddProcessor')">&times;</span>
+            <div id="modalComputerContent">
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddMemory" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalAddMemory')">&times;</span>
+            <div id="modalComputerContent">
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddHarddisk" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalAddHarddisk')">&times;</span>
+            <div id="modalComputerContent">
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddOperatingSystem" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalAddOperatingSystem')">&times;</span>
+            <div id="modalComputerContent">
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddGraphicCard" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalAddGraphicCard')">&times;</span>
+            <div id="modalComputerContent">
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddMonitor" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalAddMonitor')">&times;</span>
             <div id="modalComputerContent">
             </div>
         </div>
     </div>
 
     <script>
-        function openModal() {
-            var modal = document.getElementById('modalComputer');
-            // Reset animation before applying fade-in
-            modal.style.animation = 'none';
-            void modal.offsetWidth; // Trigger reflow
-            modal.style.animation = 'fadeIn 0.5s ease-in-out';
-            modal.style.display = 'block';
+        function openModal(value) {
+            var modalId = 'modal' + value.split(' ')[1];
+            var modal = document.getElementById(modalId);
+            $(modal).ready(function() {
+                $(modal).fadeIn(500);
+            })
+            event.stopPropagation();
         }
 
-        function closeModal() {
-            var modal = document.getElementById('modalComputer');
+        function closeModal(value) {
+            var modal = document.getElementById(value);
             modal.style.animation = 'fadeOut 0.5s ease-in-out';
             modal.addEventListener('animationend', function animationEndHandler() {
                 if (modal.style.display !== 'none') {
@@ -138,11 +163,27 @@
             });
         }
 
+        function closeAllModals() {
+            // Close all modals and overlay
+            // console.log(modal);
+            closeModal('modalComputer');
+            closeModal('modalAddProcessor');
+            closeModal('modalAddMemory');
+            closeModal('modalAddHarddisk');
+            closeModal('modalAddOperatingSystem');
+            closeModal('modalAddGraphicCard');
+            closeModal('modalAddMonitor');
+        }
+
         // Close the modal if the user clicks outside the modal content
         window.onclick = function(event) {
-            var modal = document.getElementById('modalComputer');
-            if (event.target == modal) {
-                closeModal();
+            var modals = document.getElementsByClassName('modal');
+            // Convert HTMLCollection to an array for easier manipulation
+            var modalsArray = Array.from(modals);
+            console.log(modalsArray);
+            // Check if the click is outside any of the modals
+            if (!modalsArray.some(modal => modal.contains(event.target)) && !event.target.classList.contains('modal')) {
+                closeAllModals();
             }
         }
     </script>

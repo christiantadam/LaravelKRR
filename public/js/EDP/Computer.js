@@ -4,11 +4,11 @@ function validateIpAddress() {
     var errorDiv = document.getElementById("error");
 
     if (ValidateIPaddress(ipAddressInput.value)) {
-        resultDiv.innerHTML = "Format IP Address Valid";
+        resultDiv.innerHTML = "Valid Format IP Address ";
         errorDiv.innerHTML = "";
     } else {
         resultDiv.innerHTML = "";
-        errorDiv.innerHTML = "Format IP Address Invalid";
+        errorDiv.innerHTML = "Invalid Format IP Address ";
     }
 }
 function ValidateIPaddress(ipaddress) {
