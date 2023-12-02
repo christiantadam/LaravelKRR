@@ -175,8 +175,10 @@ setInputFilter(
 // div_detailSuratPesanan.classList.toggle("disabled");
 // div_beratStandard.classList.toggle("disabled");
 // div_saldoInventory.classList.toggle("disabled");
-funcInsertRow(item);
-
+// console.log(item);
+if (item && Array.isArray(item) && item.length !== 0) {
+    funcInsertRow(item);
+}
 //#endregion
 
 //#region enter-enter
@@ -1023,6 +1025,7 @@ add_button.addEventListener("click", function (event) {
         formatangka(parseFloat(qty_pesan.value)),
         satuan_jual.options[satuan_jual.selectedIndex].text,
         rencana_kirim.value,
+        "",
         ppn.value,
         formatangka(parseFloat(berat_karung.value)),
         formatangka(parseFloat(index_karung.value)),
@@ -1046,6 +1049,7 @@ add_button.addEventListener("click", function (event) {
         formatangka(parseFloat(berat_standardTotalMeter.value)),
         jenis_brg.value,
         "",
+        informasi_tambahan.value,
     ];
     // Insert array into a new row
     funcInsertRow(arraydata);
@@ -1175,34 +1179,35 @@ delete_button.addEventListener("click", function (event) {
     let selectedRow = $("#list_view tbody tr.selected");
     console.log(selectedRow.find("td").eq(28).text() !== "");
     let table = $("#list_view").DataTable();
-    if (proses == 1) {
-        if (selectedRow.length > 0) {
-            let rowIndex = table.row(selectedRow).index();
+    // if (proses == 1) {
+    //     if (selectedRow.length > 0) {
+    //         let rowIndex = table.row(selectedRow).index();
 
-            // Remove the selected row from the DataTable
+    //         // Remove the selected row from the DataTable
+    //         table.row(selectedRow).remove().draw();
+    //         alert("Data sudah terhapus dari tabel!");
+    //     } else {
+    //         alert("Tidak ada data yang dihapus");
+    //     }
+    // } else if (proses == 2) {
+    if (selectedRow.length > 0) {
+        console.log(selectedRow.find("td").eq(29).text());
+        if (selectedRow.find("td").eq(28).text() !== "") {
+            // console.log(input[7].value);
+            fetch("/deletedetail/" + selectedRow.find("td").eq(29).text())
+                .then((response) => response.json())
+                .then((data) => {
+                    alert(data);
+                });
             table.row(selectedRow).remove().draw();
-            alert("Data sudah terhapus dari tabel!");
         } else {
-            alert("Tidak ada data yang dihapus");
+            table.row(selectedRow).remove().draw();
         }
-    } else if (proses == 2) {
-        if (selectedRow.length > 0) {
-            if (selectedRow.find("td").eq(28).text() !== "") {
-                // console.log(input[7].value);
-                fetch("/deletedetail/" + selectedRow.find("td").eq(28).text())
-                    .then((response) => response.json())
-                    .then((data) => {
-                        alert(data);
-                    });
-                table.row(selectedRow).remove().draw();
-            } else {
-                table.row(selectedRow).remove().draw();
-            }
-            alert("Data sudah terhapus dari tabel!");
-        } else {
-            alert("Tidak ada data yang dihapus");
-        }
+        alert("Data sudah terhapus dari tabel!");
+    } else {
+        alert("Tidak ada data yang dihapus");
     }
+    // }
     funcClearInputBarang();
     jenis_brg.selectedIndex = 0;
     kategori_utama.selectedIndex = 0;
