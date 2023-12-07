@@ -231,16 +231,6 @@
     .cetak-sppdf-container02 img {
         display: none;
     }
-    .cetak-sppdf-container02 {
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: aqua;
-        height: 5.8cm;
-    }
-    .cetak-sppdf-container08 {
-        margin-top: 6cm;
-    }
     /* .header{
         position: absolute;
         top: 0;
