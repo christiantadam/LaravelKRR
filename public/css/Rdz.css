@@ -652,7 +652,7 @@ table tr:last-child td:last-child {
 .acs-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     width: 200px;
-    height: 127px;
+    height: 180px;
     transition: all 300ms;
     border: rgb(250, 250, 250) 0.2em solid;
     border-radius: 8px;
@@ -661,6 +661,7 @@ table tr:last-child td:last-child {
     text-align: center;
     padding: 1%;
     display: inline;
+    overflow: hidden;
 }
 
 .acs-img-card {
@@ -680,8 +681,8 @@ table tr:last-child td:last-child {
 .acs-grid-container {
     margin: 2%;
     display: grid;
-    grid-template-columns: repeat(5, 3%);
-    grid-gap: 20%;
+    grid-template-columns: repeat(5, 20%);
+    grid-row-gap: 15%;
 }
 
 /* Add hover effects to cards */
