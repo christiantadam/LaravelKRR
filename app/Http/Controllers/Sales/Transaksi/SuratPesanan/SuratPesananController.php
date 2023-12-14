@@ -302,7 +302,7 @@ class SuratPesananController extends Controller
             ->where('Ket', '=', $keterangan)
             ->latest('IDSuratPesanan')
             ->first();
-        dd($no_sp->IDSuratPesanan);
+        // dd($no_sp->IDSuratPesanan);
 
         // kemudian beralih ke maintenance detail pesanan nich...
         for ($i = 0; $i < count($bkarung); $i++) {
