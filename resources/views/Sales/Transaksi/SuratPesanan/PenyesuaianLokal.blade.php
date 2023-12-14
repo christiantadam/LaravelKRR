@@ -126,7 +126,7 @@
                                     <div class="permohonan-s-p-container08"> <input type="date" id="tgl_po"
                                             name="tgl_po" placeholder="placeholder"
                                             class="permohonan-s-p-textinput05 input"
-                                            value="{{ date('Y-m-d', strtotime($header_pesanan[0]->Tgl_Pesan)) }}" />
+                                            value="{{ date('Y-m-d', strtotime($header_pesanan[0]->Tgl_PO)) }}" />
                                     </div>
                                     <div class="permohonan-s-p-container09"> <input type="text"
                                             placeholder="Nomor PI" class="permohonan-s-p-textinput06 input"

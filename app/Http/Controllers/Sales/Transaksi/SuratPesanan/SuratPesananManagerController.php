@@ -228,7 +228,7 @@ class SuratPesananManagerController extends Controller
         // dd($kode, $no_sp, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk);
         // dd($BeratStandart, $bs2);
         //update header dulu yaa..
-        // dd($request->all(), $id_pesanan);
+        // dd($request->all(), $id_pesanan, $no_sp, $tgl_pesan, $tgl_po);
 
         DB::connection('ConnSales')->statement(
             'exec SP_5409_SLS_MAINT_HEADERPESANAN
@@ -249,7 +249,7 @@ class SuratPesananManagerController extends Controller
         @JnsFakturPjk = ?',
             [$kode, $no_sp, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk],
         );
-        // dd($id_pesanan);
+        // dd($id_pesanan, $tgl_pesan, $tgl_po);
         for ($i = 0; $i < count($id_pesanan); $i++) {
             // dd($id_pesanan);
             if (is_null($id_pesanan[$i])) {
