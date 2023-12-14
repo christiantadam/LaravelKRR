@@ -488,6 +488,7 @@ isi_button.addEventListener("click", function (event) {
         edit_button.innerHTML = "Batal";
         hapus_button.style.display = "none";
         mata_uang.value = "IDR";
+        jenis_sp.selectedIndex = 1;
         tgl_pesan.focus();
         list_noSP.disabled = true;
     } else if (proses == 1) {
