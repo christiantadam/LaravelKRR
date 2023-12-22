@@ -204,8 +204,7 @@
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="kode_barang">Kode Barang</label>
-                                            <input type="text" name="kode_barang" id="kode_barang" class="input"
-                                                readonly>
+                                            <input type="text" name="kode_barang" id="kode_barang" class="input">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="jenis_barang">Jenis Barang</label>

@@ -634,6 +634,59 @@ nama_barang.addEventListener("keypress", function (event) {
     }
 });
 
+kode_barang.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        event.preventDefault();
+        if (this.value == "") {
+            this.setCustomValidity("Tidak boleh kosong!");
+            this.reportValidity();
+        } else {
+            let kodeBarang9digit;
+            kodeBarang9digit = document.getElementById("kode_barang");
+            // console.log(kodeBarang9digit.value);
+            // alert('Kode barang dienter');
+            if (kodeBarang9digit.value.length < 9) {
+                // alert("kode barang tidak sesuai");
+                kodeBarang9digit.value = kode_barang.value.padStart(9, "0");
+                // console.log(kodeBarang9digit.value);
+            }
+            kode_barang.value = kodeBarang9digit.value;
+            fetch("/options/spekspor/kodeBarang/" + this.value.trim())
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data, data.length);
+                    for (let i = 0; i < kelompok_utama.options.length; i++) {
+                        const option = kelompok_utama.options[i];
+                        if (option.value === data[0].IdKelompokUtama) {
+                            option.selected = true;
+                            break;
+                        }
+                    }
+                    kelompok.innerHTML = "";
+                    sub_kelompok.innerHTML = "";
+                    nama_barang.innerHTML = "";
+
+                    //add option kelompok sampai nama barang
+                    let optionKelompok = document.createElement("option");
+                    optionKelompok.value = data[0].IdKelompok;
+                    optionKelompok.text = data[0].NamaKelompok;
+                    kelompok.appendChild(optionKelompok);
+                    let optionSubKelompok = document.createElement("option");
+                    optionSubKelompok.value = data[0].IdSubkelompok;
+                    optionSubKelompok.text = data[0].NamaSubKelompok;
+                    sub_kelompok.appendChild(optionSubKelompok);
+                    let optionNamaBarang = document.createElement("option");
+                    optionNamaBarang.value = data[0].IdType;
+                    optionNamaBarang.text = data[0].NamaType;
+                    nama_barang.appendChild(optionNamaBarang);
+
+                    IsiSatuanInv(nama_barang.value);
+                    jenis_barang.focus();
+                });
+        }
+    }
+});
+
 jenis_barang.addEventListener("change", function () {
     if (this.selectedIndex !== 0) {
         this.setCustomValidity("Tekan Enter!");

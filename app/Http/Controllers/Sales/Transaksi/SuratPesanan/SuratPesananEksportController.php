@@ -155,6 +155,14 @@ class SuratPesananEksportController extends Controller
         // Return the options as JSON data
         return response()->json($thirdOptions);
     }
+    public function getKodeBarang($kodeBarang)
+    {
+        // dd($subKategori);
+        $fourthOptions = DB::connection('ConnSales')->select('exec SP_4384_SELECT_KODE_BARANG @XKodeBarang = ?', [$kodeBarang]);
+        // dd($fourthOptions);
+        return response()->json($fourthOptions);
+    }
+
     public function getNamaBarang($subKelompok)
     {
         // dd($subKategori);
