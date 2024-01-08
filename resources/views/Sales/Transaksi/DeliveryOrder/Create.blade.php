@@ -50,6 +50,10 @@
                                                 </select>
                                             </div>
                                             <div class="acs-div-filter">
+                                                <label for="alamat_kirimCustomer">Alamat Kirim</label>
+                                                <textarea name="alamat_kirimCustomer" id="alamat_kirimCustomer" cols="10" rows="1" class="input" readonly></textarea>
+                                            </div>
+                                            <div class="acs-div-filter">
                                                 <label for="surat_pesanan">Surat Pesanan</label>
                                                 <div class="acs-div-filter2">
                                                     <input type="text" name="nomor_spText" id="nomor_spText"

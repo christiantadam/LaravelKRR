@@ -2,6 +2,11 @@
     pointer-events: none;
     opacity: 0.5;
 }
+.keteranganCustomer{
+    text-align: justify;
+    margin-right: 60px;
+    cursor: text;
+}
 .acs-div-filter{
     display: flex;
     width: 75%;

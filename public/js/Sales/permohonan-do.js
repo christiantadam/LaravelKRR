@@ -15,6 +15,7 @@ let id_pesananSelect = document.getElementById("id_pesananSelect");
 let id_typeBarang = document.getElementById("id_typeBarang");
 let kelompok = document.getElementById("kelompok");
 let kelompok_utama = document.getElementById("kelompok_utama");
+let alamat_kirimCustomer = document.getElementById("alamat_kirimCustomer");
 let kode_barang = document.getElementById("kode_barang");
 let kota_kirim = document.getElementById("kota_kirim");
 let listDO_button = document.getElementById("listDO_button");
@@ -154,7 +155,7 @@ qty_order.addEventListener("keypress", function (event) {
     }
 });
 
-qty_kirim.addEventListener("keypress", function(event){
+qty_kirim.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         event.preventDefault();
         alamat_kirim.focus();
@@ -179,10 +180,21 @@ div_deliveryOrder.classList.toggle("disabled");
 
 customer.addEventListener("change", function () {
     let customer = this.value;
-    nomor_spText.focus();
     fetch("/options/nomorsp/" + customer)
         .then((response) => response.json())
         .then((options) => {
+            if (options.length < 1) {
+                alamat_kirimCustomer.value =
+                    "Tidak ada Surat Pesanan yang bisa diproses";
+                alamat_kirimCustomer.classList.add("text-danger");
+                alamat_kirimCustomer.classList.remove("text-success");
+            } else {
+                alamat_kirimCustomer.value = options[0].AlamatKirim;
+                alamat_kirimCustomer.classList.remove("text-danger");
+                alamat_kirimCustomer.classList.add("text-success");
+            }
+            alamat_kirimCustomer.focus();
+            nomor_spText.focus();
             nomor_spSelect.innerHTML =
                 "<option disabled selected value>-- Pilih Nomor Surat Pesanan --</option>";
             options.forEach((option) => {
@@ -194,6 +206,8 @@ customer.addEventListener("change", function () {
             });
         });
 });
+
+alamat_kirimCustomer.addEventListener("focus", autoResize, false);
 
 nomor_spText.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
@@ -815,4 +829,11 @@ function funcResetForm() {
     listBarang_button.disabled = true;
     nomor_doSpan.style.display = "block";
     nomor_doSelect.style.display = "none";
+}
+
+function autoResize() {
+    console.log(this.style.height);
+    this.style.height = "auto";
+    this.style.overflow = "hidden";
+    this.style.height = this.scrollHeight + "px";
 }

@@ -35,7 +35,7 @@
                 method: 'GET',
                 success: function(response) {
                     // Update the modal content with the response data
-                    // console.log(response);
+                    console.log(response);
                     var KapasitasMemory = response[0][0].KapasitasMemory !== null ?
                         response[0][0].KapasitasMemory : "-";
                     var Processor = response[0][0].Processor !== null ? response[0][0]
@@ -114,8 +114,8 @@
                             @foreach ($data as $item)
                                 <tr class="clickable-row">
                                     <td class="RDZPaddingTable RDZCenterTable">{{ $item->Kode_Comp }}</td>
-                                    <td class="RDZPaddingTable RDZCenterTable">{{ $item->Keterangan }}</td>
-                                    <td class="RDZPaddingTable RDZCenterTable">{{ $item->IPAddress }}</td>
+                                    <td class="RDZPaddingTable RDZCenterTable">{{ $item->NamaUser }}</td>
+                                    <td class="RDZPaddingTable RDZCenterTable">{{ $item->IPv4 }}</td>
                                     <td class="acs-td-button"><button class="btn btn-sm btn-primary"
                                             onclick="openNewWindow('{{ url('Computer/' . $item->Kode_Comp . '/edit') }}')"
                                             href=""><span>&#x270E;</span>Edit</button>

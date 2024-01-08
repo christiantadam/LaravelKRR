@@ -20,14 +20,10 @@ class ComputerController extends Controller
     public function create()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
-        $processor = DB::connection('ConnEDP')->table('Type_Processor')->select('*')->get();
-        $memory = DB::connection('ConnEDP')->table('Kapasitas_Memory')->select('*')->get();
         $typeos = DB::connection('ConnEDP')->table('Type_OS')->select('*')->get();
-        $harddisk = DB::connection('ConnEDP')->table('Kapasitas_HardDisk')->select('*')->get();
-        $vga = DB::connection('ConnEDP')->table('Kapasitas_VGA')->select('*')->get();
-        $monitor = DB::connection('ConnEDP')->table('Ukuran_Monitor')->select('*')->get();
+        $lokasi = DB::connection('ConnEDP')->table('Lokasi')->select('*')->get();
         // dd($processor, $monitor, $memory, $harddisk, $typeos, $vga);
-        return view('EDP.Master.Computer.Create', compact('access', 'processor', 'monitor', 'memory', 'harddisk', 'typeos', 'vga'));
+        return view('EDP.Master.Computer.Create', compact('access', 'lokasi', 'typeos'));
     }
 
     public function store(Request $request)
@@ -46,7 +42,7 @@ class ComputerController extends Controller
             @Id_VGA = ?,
             @Id_Monitor = ?',
                 [
-                    3,
+                    2,
                     $request->KodeComputer,
                     $request->NamaUser,
                     $request->ipAddress,
@@ -74,7 +70,7 @@ class ComputerController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
         $computer = DB::connection('ConnEDP')->table('Komputer')->select('*')->where('Kode_Comp', '=', $id)->get();
-        $processor = DB::connection('ConnEDP')->table('Type_Processor')->select('*')->get();
+        $lokasi = DB::connection('ConnEDP')->table('Lokasi')->select('*')->get();
         $memory = DB::connection('ConnEDP')->table('Kapasitas_Memory')->select('*')->get();
         $typeos = DB::connection('ConnEDP')->table('Type_OS')->select('*')->get();
         $harddisk = DB::connection('ConnEDP')->table('Kapasitas_HardDisk')->select('*')->get();
@@ -83,14 +79,9 @@ class ComputerController extends Controller
         // dd(
         //     'masuk edit',
         //     $computer,
-        //     $processor,
-        //     $memory,
-        //     $typeos,
-        //     $harddisk,
-        //     $vga,
-        //     $monitor
+        //     $typeos, $lokasi
         // );
-        return view('EDP.Master.Computer.Edit', compact('access', 'computer', 'processor', 'monitor', 'memory', 'harddisk', 'typeos', 'vga'));
+        return view('EDP.Master.Computer.Edit', compact('access', 'computer', 'lokasi', 'typeos'));
     }
 
     public function update(Request $request, $id)
@@ -108,7 +99,7 @@ class ComputerController extends Controller
 	                                            @Id_VGA = ?,
 	                                            @Id_Monitor = ?',
             [
-                4,
+                3,
                 $request->KodeComputer,
                 $request->NamaUser,
                 $request->ipAddress,

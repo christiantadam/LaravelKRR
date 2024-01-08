@@ -1,0 +1,403 @@
+.spn_enter {
+    display: flex;
+    margin-top: 5px;
+    color: blue;
+}
+
+.aligned-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 5px;
+    font-size: large;
+    text-align: end;
+}
+
+.row_hijau {
+    background-color: greenyellow !important;
+}
+
+.row_merah {
+    background-color: lightcoral !important;
+}
+
+@media screen and (max-width: 768px) {
+    .aligned-text {
+        justify-content: flex-start;
+    }
+}
+
+button:not(.btn-close) {
+    border-radius: 3px;
+    padding: 10px 30px;
+    min-width: 75px;
+    transition: 0.25s;
+}
+
+@media screen and (max-width: 1024px) {
+    button {
+        padding: 5px;
+    }
+}
+
+button:not(.btn):not(:disabled):hover {
+    background-color: grey;
+}
+
+.hidden {
+    display: none;
+}
+
+.unclickable {
+    pointer-events: none;
+    background-color: var(--bs-secondary-bg);
+}
+
+.form-check-input {
+    cursor: pointer;
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    text-decoration: none;
+    z-index: 999;
+    animation: glow 1.5s infinite;
+}
+
+@keyframes glow {
+    0%,
+    100% {
+        box-shadow: 0px 0px 10px black;
+    }
+    50% {
+        box-shadow: 0px 0px 20px black;
+    }
+}
+
+/*--------------------------------------------------------------
+# General (FIXED)
+--------------------------------------------------------------*/
+body {
+    background: #fff;
+    color: #444;
+    font-family: "Open Sans", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    transition: 0.5s;
+}
+
+a:hover,
+a:active,
+a:focus {
+    color: #51d8af !important;
+    outline: none;
+    text-decoration: none;
+}
+
+p {
+    padding: 0;
+    margin: 0 0 30px 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+/*--------------------------------------------------------------
+# Header (FIXED)
+--------------------------------------------------------------*/
+#header {
+    height: 80px;
+    transition: all 0.5s;
+    z-index: 997;
+    background: #fff;
+    box-shadow: 0px 6px 9px 0px rgba(0, 0, 0, 0.06);
+}
+
+#header #logo h1 {
+    font-size: 42px;
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+}
+
+#header #logo h1 a {
+    color: #0c2e8a;
+}
+
+#header #logo h1 a span {
+    color: #50d8af;
+}
+
+#header #logo img {
+    padding: 0;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    #header {
+        height: 60px;
+    }
+
+    #header #logo h1 {
+        font-size: 34px;
+    }
+
+    #header #logo img {
+        max-height: 40px;
+    }
+}
+
+.scrolled-offset {
+    margin-top: 100px;
+}
+
+/*--------------------------------------------------------------
+# Navigation Menu (FIXED)
+--------------------------------------------------------------*/
+.navbar {
+    padding: 0;
+}
+
+.navbar ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.navbar li {
+    position: relative;
+}
+
+.navbar a,
+.navbar a:focus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0 10px 30px;
+    font-family: "Raleway", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.navbar a i,
+.navbar a:focus i {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+}
+
+.navbar .active,
+.navbar .active:focus,
+.navbar li:hover > a {
+    color: #444;
+}
+
+a:hover {
+    color: #50d8af;
+}
+
+.navbar .dropdown ul {
+    display: block;
+    position: absolute;
+    left: 14px;
+    top: calc(100% + 30px);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    background: #fff;
+    box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+    transition: 0.3s;
+}
+
+.navbar .dropdown ul li {
+    min-width: 200px;
+}
+
+.navbar .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.navbar .dropdown ul a i {
+    font-size: 12px;
+}
+
+.navbar .dropdown ul a:hover,
+.navbar .dropdown ul .active:hover,
+.navbar .dropdown ul li:hover > a {
+    color: #444;
+}
+
+.navbar .dropdown:hover > ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+}
+
+.navbar .dropdown .dropdown ul {
+    top: 0;
+    left: calc(100% - 30px);
+    visibility: hidden;
+}
+
+.navbar .dropdown .dropdown:hover > ul {
+    opacity: 1;
+    top: 0;
+    left: 100%;
+    visibility: visible;
+}
+
+@media (max-width: 1366px) {
+    .navbar .dropdown .dropdown ul {
+        left: -90%;
+    }
+
+    .navbar .dropdown .dropdown:hover > ul {
+        left: -100%;
+    }
+}
+
+/*--------------------------------------------------------------
+# Landing Page (FIXED)
+--------------------------------------------------------------*/
+.container {
+    padding: 25px 0;
+}
+
+.box {
+    padding: 40px;
+    box-shadow: 10px 10px 15px rgba(73, 78, 92, 0.1);
+    background: #fff;
+    transition: 0.4s;
+    height: 100%;
+    cursor: pointer;
+}
+
+.box:hover {
+    box-shadow: 0px 0px 30px rgba(73, 78, 92, 0.15);
+    transform: translateY(-10px);
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    color: #50d8af;
+}
+
+.box .icon {
+    float: left;
+}
+
+.box .icon i {
+    color: #444;
+    font-size: 64px;
+    transition: 0.5s;
+    line-height: 0;
+    margin-top: 34px;
+}
+
+.box .icon i:before {
+    background: #0c2e8a;
+    background: linear-gradient(45deg, #50d8af 0%, #a3ebd5 100%);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.box h4 {
+    margin-left: 100px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.box h4 a {
+    color: #444;
+}
+
+.box p {
+    font-size: 14px;
+    margin-left: 100px;
+    margin-bottom: 0;
+    line-height: 24px;
+}
+
+@media (max-width: 767px) {
+    .box .box {
+        margin-bottom: 20px;
+    }
+
+    .box .icon {
+        float: none;
+        text-align: center;
+        padding-bottom: 15px;
+    }
+
+    .box h4,
+    .box p {
+        margin-left: 0;
+        text-align: center;
+    }
+}
+
+/* SUBMIT BUTTON UNTUK FORM KONVERSI KG */
+.spacing-button {
+    margin-right: 10px;
+}
+
+.spacing-button:last-child {
+    margin-right: 0;
+}
+
+.seperate {
+    margin-right: 100px;
+}
+
+/* Custom CSS WarehouseTerima */
+.warehouse a,
+.warehouse a:focus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px 10px 10px;
+    font-family: "Raleway", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+    white-space: nowrap;
+    transition: 0.3s;
+    border-left: black solid 1px;
+}
+
+.btn-scan-barcode {
+    height: 75px;
+    margin-left: 25px;
+}
+
+.btn-light {
+    border: 1px black solid;
+}

@@ -1,0 +1,22 @@
+.acs-empty-cell td{
+    color: brown !important;
+    /* background-color: black !important; */
+}
+.blue-color td {
+    color: blue !important;
+}
+.gray-color td {
+    color: gray;
+}
+.red-color td {
+    color: red;
+}
+.green-color td {
+    color: green;
+}
+.black-color td {
+    color: black;
+}
+.Fuchsia-color td {
+    color: Fuchsia;
+}

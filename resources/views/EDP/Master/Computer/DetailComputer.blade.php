@@ -165,7 +165,7 @@
 
         function closeAllModals() {
             // Close all modals and overlay
-            // console.log(modal);
+            console.log(modal);
             closeModal('modalComputer');
             closeModal('modalAddProcessor');
             closeModal('modalAddMemory');

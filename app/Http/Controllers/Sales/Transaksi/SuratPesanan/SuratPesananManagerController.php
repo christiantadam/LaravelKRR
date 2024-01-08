@@ -229,6 +229,30 @@ class SuratPesananManagerController extends Controller
         // dd($BeratStandart, $bs2);
         //update header dulu yaa..
         // dd($request->all(), $id_pesanan, $no_sp, $tgl_pesan, $tgl_po);
+        $adaDo = DB::connection('ConnSales')->table('T_DeliveryOrder')
+            ->where('idpesanan', $id_pesanan)
+            ->whereNull('ketBatal')
+            ->count();
+
+        $terkirim = DB::connection('ConnSales')->table('T_DetailPesanan')
+            ->where('idpesanan', $id_pesanan)
+            ->value('terkirim');
+
+        // $inv = DB::connection('ConnSales')->table('T_DetailPengiriman')
+        //     ->join('T_DeliveryOrder', 'T_DetailPengiriman.IDDO', '=', 'T_DeliveryOrder.IDDO')
+        //     ->join('T_DetailPesanan', 'T_DeliveryOrder.IDPesanan', '=', 'T_DetailPesanan.IDPesanan')
+        //     ->where('T_DetailPesanan.IDPesanan', $id_pesanan)
+        //     ->groupBy('T_DetailPengiriman.IdPenagihan')
+        //     ->havingRaw('COUNT(T_DetailPengiriman.IdPenagihan) IS NOT NULL')
+        //     ->count();
+        $inv = DB::connection('ConnSales')->table('T_DetailPengiriman')->select('T_DetailPengiriman.IdPenagihan')
+            ->join('T_DeliveryOrder', 'T_DetailPengiriman.IDDO', '=', 'T_DeliveryOrder.IDDO')
+            ->join('T_DetailPesanan', 'T_DeliveryOrder.IDPesanan', '=', 'T_DetailPesanan.IDPesanan')
+            ->where('T_DetailPesanan.IDPesanan', '=', $id_pesanan)
+            ->groupBy('T_DetailPengiriman.IdPenagihan')
+            ->havingRaw('COUNT(T_DetailPengiriman.IdPenagihan) IS NOT NULL')->get();
+        // ->count('IdPenagihan');
+
 
         DB::connection('ConnSales')->statement(
             'exec SP_5409_SLS_MAINT_HEADERPESANAN
@@ -249,119 +273,128 @@ class SuratPesananManagerController extends Controller
         @JnsFakturPjk = ?',
             [$kode, $no_sp, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk],
         );
-        // dd($id_pesanan, $tgl_pesan, $tgl_po);
+        // dd($inv, $adaDo, $terkirim, $id_pesanan, $adaDo == 0, $terkirim < 1, $inv->isEmpty(), $inv[0]->IdPenagihan);
         for ($i = 0; $i < count($id_pesanan); $i++) {
-            // dd($id_pesanan);
-            if (is_null($id_pesanan[$i])) {
-                // dd($id_pesanan[$i]);
-                DB::connection('ConnSales')->statement(
-                    'exec SP_1486_SLS_MAINT_DETAILPESANAN1 @Kode = ?,
-                @IDSuratPesanan = ?,
-                @KodeBarang = ?,
-                @IdJnsBarang = ?,
-                @Qty = ?,
-                @Satuan = ?,
-                @HargaSatuan = ?,
-                @Discount = ?,
-                @UraianPesanan = ?,
-                @TglRencanaKirim = ?,
-                @Lunas = ?,
-                @PPN = ?,
-                @indek = ?,
-                @ikarung = ?,
-                @hkarung = ?,
-                @iinner = ?,
-                @hinner = ?,
-                @ilami = ?,
-                @hlami = ?,
-                @ikertas = ?,
-                @hkertas = ?,
-                @hlain = ?,
-                @htotal = ?',
-                    [
-                        1,
-                        $no_sp,
-                        $KodeBarang[$i],
-                        $IdJnsBarang[$i],
-                        $Qty[$i],
-                        $Satuan[$i],
-                        $HargaSatuan[$i],
-                        0.0,
-                        $UraianPesanan ?? null,
-                        $TglRencanaKirim[$i],
-                        $Lunas[$i] ?? null,
-                        $ppn[$i],
-                        0.00,
-                        $ikarung[$i],
-                        $hkarung[$i],
-                        $iinner[$i],
-                        $hinner[$i],
-                        $ilami[$i],
-                        $hlami[$i],
-                        $ikertas[$i],
-                        $hkertas[$i],
-                        $hlain[$i],
-                        $htotal[$i]
-                    ],
-                );
+            // dd($inv->isEmpty(), $adaDo == 0 or $terkirim < 1);
+            if ($inv->isEmpty()) {
+                if ($adaDo == 0 or $terkirim < 1) {
+                    if (is_null($id_pesanan[$i])) {
+                        // dd($id_pesanan[$i]);
+                        DB::connection('ConnSales')->statement(
+                            'exec SP_1486_SLS_MAINT_DETAILPESANAN1 @Kode = ?,
+                        @IDSuratPesanan = ?,
+                        @KodeBarang = ?,
+                        @IdJnsBarang = ?,
+                        @Qty = ?,
+                        @Satuan = ?,
+                        @HargaSatuan = ?,
+                        @Discount = ?,
+                        @UraianPesanan = ?,
+                        @TglRencanaKirim = ?,
+                        @Lunas = ?,
+                        @PPN = ?,
+                        @indek = ?,
+                        @ikarung = ?,
+                        @hkarung = ?,
+                        @iinner = ?,
+                        @hinner = ?,
+                        @ilami = ?,
+                        @hlami = ?,
+                        @ikertas = ?,
+                        @hkertas = ?,
+                        @hlain = ?,
+                        @htotal = ?',
+                            [
+                                1,
+                                $no_sp,
+                                $KodeBarang[$i],
+                                $IdJnsBarang[$i],
+                                $Qty[$i],
+                                $Satuan[$i],
+                                $HargaSatuan[$i],
+                                0.0,
+                                $UraianPesanan ?? null,
+                                $TglRencanaKirim[$i],
+                                $Lunas[$i] ?? null,
+                                $ppn[$i],
+                                0.00,
+                                $ikarung[$i],
+                                $hkarung[$i],
+                                $iinner[$i],
+                                $hinner[$i],
+                                $ilami[$i],
+                                $hlami[$i],
+                                $ikertas[$i],
+                                $hkertas[$i],
+                                $hlain[$i],
+                                $htotal[$i]
+                            ],
+                        );
+                    } else {
+                        // dd($Lunas[$i]);
+                        DB::connection('ConnSales')->statement(
+                            'exec SP_1486_SLS_MAINT_DETAILPESANAN1
+                        @Kode = ?,
+                        @IDPesanan = ?,
+                        @IDSuratPesanan = ?,
+                        @KodeBarang = ?,
+                        @IdJnsBarang = ?,
+                        @Qty = ?,
+                        @Satuan = ?,
+                        @HargaSatuan = ?,
+                        @Discount = ?,
+                        @UraianPesanan = ?,
+                        @TglRencanaKirim = ?,
+                        @Lunas = ?,
+                        @PPN = ?,
+                        @indek = ?,
+                        @ikarung = ?,
+                        @hkarung = ?,
+                        @iinner = ?,
+                        @hinner = ?,
+                        @ilami = ?,
+                        @hlami = ?,
+                        @ikertas = ?,
+                        @hkertas = ?,
+                        @hlain = ?,
+                        @htotal = ?,
+                        @info = ?',
+                            [
+                                4,
+                                $id_pesanan[$i],
+                                $no_sp,
+                                $KodeBarang[$i],
+                                $IdJnsBarang[$i],
+                                $Qty[$i],
+                                $Satuan[$i],
+                                $HargaSatuan[$i],
+                                0.0,
+                                $UraianPesanan ?? null,
+                                $TglRencanaKirim[$i],
+                                $Lunas[$i] ?? null,
+                                $ppn[$i],
+                                0.00,
+                                $ikarung[$i],
+                                $hkarung[$i],
+                                $iinner[$i],
+                                $hinner[$i],
+                                $ilami[$i],
+                                $hlami[$i],
+                                $ikertas[$i],
+                                $hkertas[$i],
+                                $hlain[$i],
+                                $htotal[$i],
+                                $informasiTambahan[$i]
+                            ],
+                        );
+                    }
+                } else {
+                    return redirect()->back()->with('error', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuatkan DO!');
+                }
             } else {
-                // dd($Lunas[$i]);
-                DB::connection('ConnSales')->statement(
-                    'exec SP_1486_SLS_MAINT_DETAILPESANAN1
-                @Kode = ?,
-                @IDPesanan = ?,
-                @IDSuratPesanan = ?,
-                @KodeBarang = ?,
-                @IdJnsBarang = ?,
-                @Qty = ?,
-                @Satuan = ?,
-                @HargaSatuan = ?,
-                @Discount = ?,
-                @UraianPesanan = ?,
-                @TglRencanaKirim = ?,
-                @Lunas = ?,
-                @PPN = ?,
-                @indek = ?,
-                @ikarung = ?,
-                @hkarung = ?,
-                @iinner = ?,
-                @hinner = ?,
-                @ilami = ?,
-                @hlami = ?,
-                @ikertas = ?,
-                @hkertas = ?,
-                @hlain = ?,
-                @htotal = ?,
-                @info = ?',
-                    [
-                        4,
-                        $id_pesanan[$i],
-                        $no_sp,
-                        $KodeBarang[$i],
-                        $IdJnsBarang[$i],
-                        $Qty[$i],
-                        $Satuan[$i],
-                        $HargaSatuan[$i],
-                        0.0,
-                        $UraianPesanan ?? null,
-                        $TglRencanaKirim[$i],
-                        $Lunas[$i] ?? null,
-                        $ppn[$i],
-                        0.00,
-                        $ikarung[$i],
-                        $hkarung[$i],
-                        $iinner[$i],
-                        $hinner[$i],
-                        $ilami[$i],
-                        $hlami[$i],
-                        $ikertas[$i],
-                        $hkertas[$i],
-                        $hlain[$i],
-                        $htotal[$i],
-                        $informasiTambahan[$i]
-                    ],
-                );
+                return redirect()->back()->with('error', 'Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya!' . $inv[0]->IdPenagihan);
             }
+
             // dd(count($bkarung));
             //     //Simpan BS (Berat Standard)
             DB::connection('ConnPurchase')->statement(

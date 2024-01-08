@@ -1,3 +1,7 @@
+let PurchaseDate = document.getElementById("PurchaseDate");
+
+PurchaseDate.valueAsDate = new Date();
+
 function validateIpAddress() {
     var ipAddressInput = document.getElementById("ipAddress");
     var resultDiv = document.getElementById("result");

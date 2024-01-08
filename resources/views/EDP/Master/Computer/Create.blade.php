@@ -41,83 +41,44 @@
                                             </div>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Processor">Processor</label>
-                                            <div class="acs-div-filter2">
-                                                <select name="Processor" id="Processor" class="input">
-                                                    <option selected disabled>-- Pilih Jenis Processor--</option>
-                                                    @foreach ($processor as $data)
-                                                        <option value="{{ $data->Id_Proc }}">
-                                                            {{ $data->Id_Proc . ' - ' . $data->Processor }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="button" onclick="openModal('modal AddProcessor')" class="btn btn-primary">Add Processor</button>
-                                            </div>
+                                            <label for="Lokasi">Lokasi</label>
+                                            <select name="Lokasi" id="Lokasi" class="input">
+                                                <option selected disabled>-- Pilih Lokasi--</option>
+                                                @foreach ($lokasi as $data)
+                                                    <option value="{{ $data->Id_Lokasi }}">
+                                                        {{ $data->Id_Lokasi . ' - ' . $data->Lokasi }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Memory">Memory</label>
-                                            <div class="acs-div-filter2">
-                                                <select name="Memory" id="Memory" class="input">
-                                                    <option selected disabled>-- Pilih Jenis Memory--</option>
-                                                    @foreach ($memory as $data)
-                                                        <option value="{{ $data->Id_Memory }}">
-                                                            {{ $data->Id_Memory . ' - ' . $data->Kapasitas }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="button" onclick="openModal('modal AddMemory')" class="btn btn-primary">Add Memory</button>
-                                            </div>
-                                        </div>
-                                        <div class="acs-div-filter">
-                                            <label for="HardDisk">Hard Disk</label>
-                                            <div class="acs-div-filter2">
-                                                <select name="HardDisk" id="HardDisk" class="input">
-                                                    <option selected disabled>-- Pilih Jenis Hard Disk--</option>
-                                                    @foreach ($harddisk as $data)
-                                                        <option value="{{ $data->Id_HDD }}">
-                                                            {{ $data->Id_HDD . ' - ' . $data->Kapasitas }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="button" onclick="openModal('modal AddHardDisk')" class="btn btn-primary">Add Hard Disk</button>
-                                            </div>
+                                            <label for="Ruangan">Ruangan</label>
+                                            <input type="text" name="Ruangan" id="Ruangan" class="input">
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="OperatingSystem">Operating System</label>
-                                            <div class="acs-div-filter2">
-                                                <select name="OperatingSystem" id="OperatingSystem" class="input">
-                                                    <option selected disabled>-- Pilih Jenis Operating System--</option>
-                                                    @foreach ($typeos as $data)
-                                                        <option value="{{ $data->Is_OS }}">
-                                                            {{ $data->Is_OS . ' - ' . $data->Sistem_Operas }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="button" onclick="openModal('modal AddOperatingSystem')" class="btn btn-primary">Add Operating System</button>
+                                            <select name="Lokasi" id="Lokasi" class="input">
+                                                <option selected disabled>-- Pilih Type OS--</option>
+                                                @foreach ($typeos as $data)
+                                                    <option value="{{ $data->Is_OS }}">
+                                                        {{ $data->Sistem_Operas }}</option>
+                                                @endforeach
+                                            </select>
+                                            <button type="button" onclick="openModal('modal AddOperatingSystem')" class="btn btn-primary">Add Operating System</button>
+                                        </div>
+                                        <div class="acs-div-filter">
+                                            <label for="WindowsUpdate">Windows Update</label>
+                                            <div>
+                                                <input type="radio" name="WindowsUpdate" id="WindowsUpdateYes">Yes
+                                                <input type="radio" name="WindowsUpdate" id="WindowsUpdateNo">No
                                             </div>
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="GraphicCard">Graphic Card</label>
-                                            <div class="acs-div-filter2">
-                                                <select name="GraphicCard" id="GraphicCard" class="input">
-                                                    <option selected disabled>-- Pilih Jenis Graphic Card--</option>
-                                                    @foreach ($vga as $data)
-                                                        <option value="{{ $data->Id_VGA }}">
-                                                            {{ $data->Id_VGA . ' - ' . $data->Kapasitas_VGA }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="button" onclick="openModal('modal AddGraphicCard')" class="btn btn-primary">Add Graphic Card</button>
-                                            </div>
+                                            <label for="DeviceType">Device Type</label>
+                                            <input type="text" name="DeviceType" id="DeviceType" class="input">
                                         </div>
                                         <div class="acs-div-filter">
-                                            <label for="Monitor">Monitor</label>
-                                            <div class="acs-div-filter2">
-                                                <select name="Monitor" id="Monitor" class="input">
-                                                    <option selected disabled>-- Pilih Jenis Monitor--</option>
-                                                    @foreach ($monitor as $data)
-                                                        <option value="{{ $data->Id_Monitor }}">
-                                                            {{ $data->Id_Monitor . ' - ' . $data->Monitor_Size }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="button" onclick="openModal('modal AddMonitor')" class="btn btn-primary">Add Monitor</button>
-                                            </div>
+                                            <label for="PurchaseDate">Purchase Date</label>
+                                            <input type="date" name="PurchaseDate" id="PurchaseDate" class="input">
                                         </div>
                                     </div>
                                 </div>
