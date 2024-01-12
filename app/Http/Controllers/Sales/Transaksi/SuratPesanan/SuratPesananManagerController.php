@@ -389,10 +389,41 @@ class SuratPesananManagerController extends Controller
                         );
                     }
                 } else {
-                    return redirect()->back()->with('error', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuatkan DO!');
+                    for ($i = 0; $i < count($id_pesanan); $i++) {
+                        DB::connection('ConnSales')->table('T_DETAILPESANAN')->where('IDPesanan', $id_pesanan)
+                            ->update([
+                                'IdJnsBarang' => $IdJnsBarang[$i],
+                                'Qty' => $Qty[$i],
+                                'Satuan' => $Satuan[$i],
+                                'HargaSatuan' => $HargaSatuan[$i],
+                                'ppn' => $ppn[$i],
+                                'Discount' => 0.0,
+                                'UraianPesanan' => $UraianPesanan ?? null,
+                                'TglRencanaKirim' => $TglRencanaKirim[$i],
+                                'Lunas' => $Lunas[$i],
+                                'KodeBarang' => $KodeBarang[$i],
+                                'INDEX_KARUNG' => $ikarung[$i],
+                                'INDEX_INNER' => $iinner[$i],
+                                'INDEX_LAMI' => $ilami[$i],
+                                'INDEX_Kertas' => $ikertas[$i],
+                                'HARGA_KARUNG' => $hkarung[$i],
+                                'HARGA_INNER' => $hinner[$i],
+                                'HARGA_LAMI' => $hlami[$i],
+                                'HARGA_KERTAS' => $hkertas[$i],
+                                'HARGA_LAIN2' => $hlain[$i],
+                                'HARGA_TOTAL' => $htotal[$i],
+                                'Informasi' => $informasiTambahan[$i]
+                            ]);
+                    }
+                    return redirect()->back()->with('error', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuatkan DO, Tidak bisa mengubah kode barang');
                 }
             } else {
-                return redirect()->back()->with('error', 'Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya!' . $inv[0]->IdPenagihan);
+                // dd('Masuk sini', $Lunas);
+                for ($i = 0; $i < count($id_pesanan); $i++) {
+                    DB::connection('ConnSales')->table('T_DETAILPESANAN')->where('IDPesanan', $id_pesanan)
+                        ->update(['Lunas' => $Lunas[$i]]);
+                }
+                return redirect()->back()->with('error', 'Status Lunas sudah diproses. Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya: ' . $inv[0]->IdPenagihan);
             }
 
             // dd(count($bkarung));
