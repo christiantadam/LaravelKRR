@@ -49,7 +49,7 @@ class DeliveryOrderController extends Controller
 
     public function getBarang($idPesanan)
     {
-        $data = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALDO_TYPE_DO1 @IDPesanan = ?', [$idPesanan]);
+        $data = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALDO_TYPE_DO1 @IDPesanan = ?, @Kode = ?', [$idPesanan, 1]);
         return response()->json($data);
     }
     public function getKelompokUtama($kodeBarang)
