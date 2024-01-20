@@ -504,7 +504,6 @@ nomor_doSelect.addEventListener("change", function () {
 });
 
 id_pesananSelect.addEventListener("change", function () {
-    id_pesananText.value = this.value;
     id_pesananDiv.style.display = "none";
     id_pesananSelect.style.display = "none";
     id_pesananText.style.display = "block";
@@ -519,6 +518,11 @@ id_pesananSelect.addEventListener("change", function () {
     id_pesanan_hidden.value = parts[0];
     // console.log(parts[0]);
     kelompok_utama.focus();
+    if (nomor_spSelect.value.includes("/")) {
+        id_pesananText.value = this.value + ".Ekspor";
+    } else {
+        id_pesananText.value = this.value;
+    }
     fetch("/options/barang/" + id_pesananText.value)
         .then((response) => response.json())
         .then((data) => {
@@ -556,6 +560,7 @@ id_pesananSelect.addEventListener("change", function () {
                 kelompok_utama.appendChild(optionTag);
             });
         });
+    id_pesananText.value = this.value;
 });
 
 id_pesananText.addEventListener("keypress", function (event) {
