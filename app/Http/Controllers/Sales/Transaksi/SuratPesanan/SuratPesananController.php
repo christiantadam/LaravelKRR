@@ -38,7 +38,6 @@ class SuratPesananController extends Controller
             ->where('Aktive', '=', 'Y')
             ->whereNull('Deleted')
             ->whereNotNull('AccManager')
-            ->orderBy('Tgl_Pesan', 'Desc')
             ->count();
 
         $totalFiltered = $totalData;

@@ -20,6 +20,8 @@
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
 
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css')}}">
+    <script src="{{asset('js/sweetalert2.all.min.js')}}"></script>
 
     <script src="{{ asset('js/User.js') }}"></script>
 

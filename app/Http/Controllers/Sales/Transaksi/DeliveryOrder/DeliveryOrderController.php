@@ -83,6 +83,9 @@ class DeliveryOrderController extends Controller
         $data = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DO_BLM_ACC1');
         return response()->json($data);
     }
+    public function indexInputPEB(){
+        
+    }
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
