@@ -137,7 +137,7 @@ class SuratPesananController extends Controller
         $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
         $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        // dd($list_sp);
+        // dd($list_customer);
         return view('Sales.Transaksi.SuratPesanan.Create', compact('access', 'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
     }
     public function getKategori($kategoriUtama)

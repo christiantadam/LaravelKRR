@@ -90,8 +90,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="permohonan-s-p-container05" style="margin: 1%"> {{-- <input type="text" placeholder="No SP" class="permohonan-s-p-textinput02 input" /> <button class="permohonan-s-p-button01 button"> Lihat data </button> --}}
-                                        {{-- <input type="text" name="jenis_sp" list="data_jenis_sp" id="jenis_sp" placeholder="Jenis SP" class="permohonan-s-p-textinput01 input" /> <datalist id="data_jenis_sp"> @foreach ($jenis_sp as $data) <option value="{{ $data->IDJnsSuratPesanan }} - {{ $data->JnsSuratPesanan }}"></option> @endforeach </datalist> --}}
+                                    <div class="permohonan-s-p-container05" style="margin: 1%">
                                         <input type="text" placeholder="Nomor SP"
                                             class="permohonan-s-p-textinput04 input" id="no_spText" name="no_spText"
                                             value="{{ $header_pesanan[0]->IDSuratPesanan }}" readonly />
@@ -112,13 +111,13 @@
                                             <option disabled selected value>-- Pilih Customer --</option>
                                             @foreach ($list_customer as $data)
                                                 @php
-                                                    $companyName = trim(substr($data->IDCust, strpos($data->IDCust, '-') + 1));
+                                                    $parts = explode('-', trim($data->IDCust));
                                                 @endphp
-                                                <option value="{{ $companyName }}"
-                                                    @if ($companyName === $header_pesanan[0]->IDCust) selected @endif>
-                                                    {{ $data->NamaCust }}</option>
+                                                <option value="{{ trim($parts[1]) }}"
+                                                    @if (trim($parts[1]) === $header_pesanan[0]->IDCust) selected @endif>
+                                                    {{ $data->NamaCust }} | {{ trim($parts[0]) }}</option>
                                             @endforeach
-                                        </select> {{-- <input type="text" name="list_customer" list="data_customer" id="list_customer" class="permohonan-s-p-textinput03 input" placeholder="Nama Customer" /> <datalist id="data_customer"> @foreach ($list_customer as $data) <option value="{{ $data->IDCust }} - {{ $data->NamaCust }}"></option> @endforeach </datalist> --}} {{-- <input type="text" placeholder="Nama Customer" class="permohonan-s-p-textinput03 input" /> <button class="permohonan-s-p-button02 button">...</button> --}} </div>
+                                        </select></div>
                                     <div class="permohonan-s-p-container07"> <input type="text"
                                             placeholder="Nomor PO" class="permohonan-s-p-textinput46 input"
                                             id="no_po" name="no_po" value="{{ $header_pesanan[0]->NO_PO }}" />
