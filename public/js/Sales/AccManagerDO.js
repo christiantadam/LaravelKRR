@@ -18,22 +18,40 @@ button_submitSelected.addEventListener("click", function (event) {
     for (let i = 1; i < rows.length; i++) {
         let cells = rows[i].cells;
         let checkbox = cells[0].getElementsByTagName("input")[0]; // get the checkbox in the current row
-        // console.log(checkbox.value);
-        if (checkbox.checked) {
+        console.log(checkbox !== undefined, checkbox.checked);
+        if (checkbox !== undefined && checkbox.checked) {
             // check if the checkbox is checked
-            let nomorDO =
-                checkbox.value; // get the value of the "Nomor SP" column
+            let nomorDO = checkbox.value; // get the value of the "Nomor SP" column
             // console.log(nomorDO);
             let input = document.createElement("input"); // create a new input element
             input.type = "hidden"; // set the input type to 'hidden'
             input.name = "nomorDOs[]"; // set the input name to 'nomorSPs[]'
             input.value = nomorDO; // set the input value to the current nomorSP value
             form_submitSelected.appendChild(input); // append the input element to the form
-            // console.log(form_submitSelected);
+            console.log(form_submitSelected);
         }
+        // if (form_submitSelected == undefined) {
+
+        // }
+    }
+    console.log(form_submitSelected);
+
+    let hiddenInputs = form_submitSelected.querySelectorAll(
+        'input[type="hidden"][name="nomorDOs[]"]'
+    );
+    console.log(hiddenInputs.length);
+    if (hiddenInputs.length == 0) {
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Tidak ada DO yang dipilih",
+            showConfirmButton: false,
+            timer: 1000,
+        });
+    } else {
+        form_submitSelected.submit();
     }
 
     // append the form to the document and submit it
     // document.body.appendChild(form_submitSelected);
-    form_submitSelected.submit();
 });

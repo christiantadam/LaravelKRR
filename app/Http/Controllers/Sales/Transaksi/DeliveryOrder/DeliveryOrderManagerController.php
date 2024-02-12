@@ -17,7 +17,7 @@ class DeliveryOrderManagerController extends Controller
         $data = DB::connection('ConnSales')->select('exec SP_4384_SLS_LIST_DO_ACC_WEB');
         // dd($data);
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Transaksi.DeliveryOrder.AccManager', compact('data','access'));
+        return view('Sales.Transaksi.DeliveryOrder.AccManager', compact('data', 'access'));
     }
 
     //Show the form for creating a new resource.
@@ -53,7 +53,7 @@ class DeliveryOrderManagerController extends Controller
         for ($i = 0; $i < count($nomorDO); $i++) {
             DB::connection('ConnSales')->select('exec SP_1486_SLS_ACC_DO1 @IdManager = ?, @IdDO = ?', [$idManager, $nomorDO[$i]]);
         }
-        return redirect()->back()->with('success', 'Delivery Order yang Dipilih Sudah Disetujui!');
+        return redirect()->back()->with('success', 'Delivery Order dengan Nomor DO' . implode(", ", $nomorDO) . ' Sudah Disetujui!');
     }
 
     public function indexDestroy()
