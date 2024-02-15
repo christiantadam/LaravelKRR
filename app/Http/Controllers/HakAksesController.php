@@ -17,13 +17,22 @@ class HakAksesController extends Controller
     public function HakAksesProgram($Program)
     {
         // $AccessProgram=DB::connection('ConnEDP')->table('User_Fitur')->select('NamaProgram')->join('FiturMaster','Id_Fitur','IdFitur')->join('ProgramMaster','Id_Program','IdProgram')->where('Id_User',Auth::user()->IDUser)->where('NamaProgram',$Program)->count();
-        $AccessProgram = DB::connection('ConnEDP')->table('User_Fitur')->select('NamaProgram')->join('FiturMaster', 'Id_Fitur', 'IdFitur')->join('MenuMaster', 'Id_Menu', 'IdMenu')->join('ProgramMaster', 'Id_Program', 'IdProgram')->where('Id_User', Auth::user()->IDUser)->where('NamaProgram', $Program)->count();
+        $AccessProgram = DB::connection('ConnEDP')
+                        ->table('User_Fitur')
+                        ->select('NamaProgram')
+                        ->join('FiturMaster', 'Id_Fitur', 'IdFitur')
+                        ->join('MenuMaster', 'Id_Menu', 'IdMenu')
+                        ->join('ProgramMaster', 'Id_Program', 'IdProgram')
+                        ->where('Id_User', Auth::user()->IDUser)->where('NamaProgram', $Program)->count();
         return $AccessProgram;
         //return view('home',compact('AccessProgram'));
     }
     public function HakAksesFitur($Fitur)
     {
-        $AccessFitur = DB::connection('ConnEDP')->table('User_Fitur')->join('FiturMaster', 'Id_Fitur', 'IdFitur')->where('Id_User', Auth::user()->IDUser)->where('NamaFitur', $Fitur)->count();
+        $AccessFitur = DB::connection('ConnEDP')
+                        ->table('User_Fitur')
+                        ->join('FiturMaster', 'Id_Fitur', 'IdFitur')
+                        ->where('Id_User', Auth::user()->IDUser)->where('NamaFitur', $Fitur)->count();
         //dd($AccessProgram);
         return $AccessFitur;
         //return view('home',compact('AccessProgram'));
@@ -73,7 +82,14 @@ class HakAksesController extends Controller
             ->get();
 
 
-        $AccessFitur = DB::connection('ConnEDP')->table('User_Fitur')->select('IdFitur', 'NamaFitur', 'Id_Menu', 'Route')->join('FiturMaster', 'Id_Fitur', 'IdFitur')->join('MenuMaster', 'Id_Menu', 'IdMenu')->join('ProgramMaster', 'Id_Program', 'IdProgram')->groupBy('IdFitur', 'NamaFitur', 'Id_Menu', 'Route')->where('Id_User', Auth::user()->IDUser)->get();
+        $AccessFitur = DB::connection('ConnEDP')
+                        ->table('User_Fitur')
+                        ->select('IdFitur', 'NamaFitur', 'Id_Menu', 'Route')
+                        ->join('FiturMaster', 'Id_Fitur', 'IdFitur')
+                        ->join('MenuMaster', 'Id_Menu', 'IdMenu')
+                        ->join('ProgramMaster', 'Id_Program', 'IdProgram')
+                        ->groupBy('IdFitur', 'NamaFitur', 'Id_Menu', 'Route')
+                        ->where('Id_User', Auth::user()->IDUser)->get();
         $Access = [
             'AccessMenu' => $AccessMenu,
             'AccessFitur' => $AccessFitur
