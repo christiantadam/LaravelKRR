@@ -425,7 +425,7 @@ class SuratPesananManagerController extends Controller
                     DB::connection('ConnSales')->table('T_DETAILPESANAN')->where('IDPesanan', $id_pesanan)
                         ->update(['Lunas' => $Lunas[$i]]);
                 }
-                return redirect()->back()->with('error', 'Status Lunas sudah diproses. Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya: ' . $inv[0]->IdPenagihan);
+                return redirect()->back()->with('error', 'Status Lunas BISA diproses. Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya: ' . $inv[0]->IdPenagihan);
             }
 
             // dd(count($bkarung));
