@@ -277,7 +277,7 @@ class SuratPesananManagerController extends Controller
         for ($i = 0; $i < count($id_pesanan); $i++) {
             // dd($inv->isEmpty(), $adaDo == 0 or $terkirim < 1);
             // dd($inv);
-            if ($inv->isEmpty() || $inv[0]->IdPenagihan == null) {
+            if ($inv->isEmpty()) {
                 // dd('masuk atas',$inv);
                 if ($adaDo == 0 or $terkirim < 1) {
                     if (is_null($id_pesanan[$i])) {
