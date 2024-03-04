@@ -96,7 +96,7 @@
             </button>
             <div class="card">
                 {{-- @if (Auth::user()->status == 1) --}}
-                <div class="card-header">Komputer</div>
+                <div class="card-header">Komputer || ON PROGRESS, PERLU PERBAIKAN PADA CONTROLLER, JAVASCRIPT, DAN SP_4384_EDP_MaintenanceKomputer</div>
                 {{-- @else
                         <div class="card-header">Home</div>
                     @endif --}}

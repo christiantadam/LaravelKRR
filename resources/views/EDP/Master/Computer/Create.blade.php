@@ -56,14 +56,16 @@
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="OperatingSystem">Operating System</label>
-                                            <select name="Lokasi" id="Lokasi" class="input">
-                                                <option selected disabled>-- Pilih Type OS--</option>
-                                                @foreach ($typeos as $data)
-                                                    <option value="{{ $data->Is_OS }}">
-                                                        {{ $data->Sistem_Operas }}</option>
-                                                @endforeach
-                                            </select>
-                                            <button type="button" onclick="openModal('modal AddOperatingSystem')" class="btn btn-primary">Add Operating System</button>
+                                            <div>
+                                                <select name="TypeOS" id="TypeOS" class="input">
+                                                    <option selected disabled>-- Pilih Type OS--</option>
+                                                    @foreach ($typeos as $data)
+                                                        <option value="{{ $data->Is_OS }}">
+                                                            {{ $data->Sistem_Operas }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <button type="button" onclick="showModal()" class="btn btn-primary">Add New OS</button>
+                                            </div>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="WindowsUpdate">Windows Update</label>
@@ -95,5 +97,5 @@
     </div>
 </div>
 <script type="text/javascript" src="{{ asset('js/EDP/Computer.js') }}"></script>
-@include('EDP.Master.Computer.DetailComputer')
+{{-- @include('EDP.Master.Computer.DetailComputer') --}}
 @endsection

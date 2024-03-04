@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use DB;
+use Exception;
 
 class ComputerController extends Controller
 {
@@ -120,5 +121,26 @@ class ComputerController extends Controller
         DB::connection('ConnEDP')->table('Komputer')->where('Kode_Comp', '=', $id)->delete();
         // echo "<script type='text/javascript'>alert('Data Berhasil dihapus') ;</script>";
         return redirect('Computer')->with(['success' => 'Data ' . $id . ' berhasil dihapus!']);
+    }
+
+    function TambahOS(Request $request)
+    {
+        $os = $request->os;
+        // add new OS data to table
+        try {
+            DB::connection('ConnEDP')->table('Type_OS')->insert([
+                'Sistem_Operas' => $os
+            ]);
+            return response()->json('success');
+        }
+        //catch exception
+        catch (Exception $e) {
+            return response()->json('Message error: ' . $e->getMessage());
+        }
+    }
+
+    function FetchOperatingSystems(){
+        $typeos = DB::connection('ConnEDP')->table('Type_OS')->select('*')->get();
+        return response()->json($typeos);
     }
 }

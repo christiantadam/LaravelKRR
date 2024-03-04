@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="16x16">
-    <title style="font-size: 20px">{{ config('app.name', 'Laravel') }}</title>
+    <title style="font-size: 20px">@yield('title', 'Home EDP')</title>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
@@ -19,6 +19,8 @@
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/kitfontawesome.js') }}"></script>
     {{-- <script src="https://kit.fontawesome.com/e9be4582cc.js" crossorigin="anonymous"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
