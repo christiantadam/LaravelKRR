@@ -61,6 +61,10 @@ class ComputerController extends Controller
 
     public function show($id)
     {
+        if ($id == 'FetchOperatingSystems') {
+            $typeos = DB::connection('ConnEDP')->table('Type_OS')->select('*')->get();
+            return response()->json($typeos);
+        }
         $dataKomputer = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [1, $id]);
         $dataKomponen = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [2, $id]);
         $data = [$dataKomputer, $dataKomponen];
@@ -137,10 +141,5 @@ class ComputerController extends Controller
         catch (Exception $e) {
             return response()->json('Message error: ' . $e->getMessage());
         }
-    }
-
-    function FetchOperatingSystems(){
-        $typeos = DB::connection('ConnEDP')->table('Type_OS')->select('*')->get();
-        return response()->json($typeos);
     }
 }

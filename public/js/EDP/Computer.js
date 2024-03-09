@@ -96,6 +96,11 @@ function fetchNewDataAndReloadSelectInput(jenis) {
                 // Clear existing options
                 selectInput.innerHTML = "";
                 // Add new options
+                const defaultOption = document.createElement("option");
+                defaultOption.selected = true;
+                defaultOption.disabled = true;
+                defaultOption.textContent = "-- Pilih Type OS --";
+                selectInput.appendChild(defaultOption);
                 data.forEach((os) => {
                     const option = document.createElement("option");
                     option.value = os.Is_OS;
