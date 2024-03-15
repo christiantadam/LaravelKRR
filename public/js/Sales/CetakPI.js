@@ -283,7 +283,8 @@ print_button.addEventListener("click", function (event) {
                 if (
                     data[0].IDJnsBrg == "BBE" ||
                     data[0].IDJnsBrg == "WBE" ||
-                    data[0].IDJnsBrg == "WBN"
+                    data[0].IDJnsBrg == "WBN" ||
+                    data[0].IDJnsBrg == "BBN"
                 ) {
                     item_conditionKolom.style.display = "table-row";
                 }
