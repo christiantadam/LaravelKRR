@@ -16,6 +16,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.1.0.js"></script> -->
     <!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
@@ -122,9 +123,22 @@
                                 @endif
                             @endforeach
                             @if ($cekSubMenuPrint == 1)
+                                @foreach ($access['AccessFitur'] as $subMenuItem)
+                                    @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
+                                        <li>
+                                            <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
+                                                tabindex="-1"
+                                                href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
                     </ul>
                     @endif
-                    @if ($print == 1 && $printSecond == 0)
+                    {{-- @php
+                        echo "<script>console.log('Menu: " . $menuItem->NamaMenu . " ".$print." ".$printSecond." ".$cekSubMenuPrint."');</script>"; //untuk debugging, jangan dihapus
+                    @endphp --}}
+                    @if ($print == 1 && $printSecond == 0 && $cekSubMenuPrint == 0)
                         <ul class="dropdown-menu">
                             @foreach ($access['AccessFitur'] as $subMenuItem)
                                 @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)

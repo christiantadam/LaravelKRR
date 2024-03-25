@@ -71,6 +71,7 @@ namaProgram.addEventListener("keypress", function (event) {
 namaProgramText.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        console.log(namaProgramText.value,namaPegawaiText.value);
         fetch(
             "/AllFitur/" + namaProgramText.value + "/" + namaPegawaiText.value
         )

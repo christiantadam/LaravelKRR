@@ -22,6 +22,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css')}}">
     <script src="{{asset('js/sweetalert2.all.min.js')}}"></script>
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
 
     <script src="{{ asset('js/User.js') }}"></script>
 

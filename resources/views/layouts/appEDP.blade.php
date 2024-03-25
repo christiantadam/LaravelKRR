@@ -21,6 +21,7 @@
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/kitfontawesome.js') }}"></script>
     {{-- <script src="https://kit.fontawesome.com/e9be4582cc.js" crossorigin="anonymous"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
