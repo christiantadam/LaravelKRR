@@ -120,6 +120,9 @@
                                             {{-- <input type="text" name="cargo_ready" id="cargo_ready" class="input"
                                                 onkeypress="enterToTab(event)"> --}}
                                         </div>
+                                        <div>
+                                            <input type="checkbox" name="note_kirim" id="note_kirim" class="input" style="margin: 5px 5px 5px 0">Note Kirim
+                                        </div>
                                         <div class="acs-div-filter">
                                             <label for="destination_port">Destination Port (Proforma Invoice)</label>
                                             <input type="text" name="destination_port" id="destination_port"

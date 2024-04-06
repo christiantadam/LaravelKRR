@@ -216,6 +216,11 @@
                                         <td>:</td>
                                         <td>Quantity and Amount ± 10%</td>
                                     </tr>
+                                    <tr id="noteKolom" style="display: none">
+                                        <td>Note</td>
+                                        <td>:</td>
+                                        <td contenteditable="true">ETA is tentative. Shipping schedule might change during time depend on shipping company schedule.</td>
+                                    </tr>
                                 </table>
                             </div>
                             <div class="cetak-sppdf-container10">
@@ -229,7 +234,7 @@
                                     <div class="cetak-sppdf-tanda-tangan">
                                         <input type="text" class="signature1" id="ttd_namaContactPersonKolom">
                                         <br>
-                                        <span id="ttd_perusahaanKolom">PT. KERTA RAJASA RAYA</span>
+                                        <span id="ttd_perusahaanKolom" contenteditable="true">PT. KERTA RAJASA RAYA</span>
                                     </div>
                                     <div class="cetak-sppdf-tanda-tangan1">
                                         {{-- <span id="nama_salesKolom" class="kolom-nama-tt">Mr. Rudy Santoso</span> --}}

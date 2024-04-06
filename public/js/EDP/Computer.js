@@ -27,26 +27,30 @@ function ValidateIPaddress(ipaddress) {
     }
 }
 
-function showModal() {
+function showModal(typemodal) {
     let osValue;
     Swal.fire({
-        title: "Insert New Operating System",
+        title: (typemodal == 'AddNewOS') ? "Insert New Operating System" :
+               ((typemodal == 'AddNewLocation') ? "Insert New Location" : "Parameter \"typemodal\" Not Found!"),
         input: "text",
         inputAttributes: {
             autocapitalize: "off",
+            placeholder: (typemodal == 'AddNewOS') ? "" :
+            ((typemodal == 'AddNewLocation') ? "ID Lokasi - Nama Lokasi | Contoh: TPD - Tropodo" : "Parameter \"typemodal\" Not Found!")
         },
         showCancelButton: true,
         confirmButtonText: "Proses",
         showLoaderOnConfirm: true,
-        preConfirm: async (os) => {
+        preConfirm: async (input) => {
             try {
                 const form = new FormData();
                 const csrfToken = document
                     .querySelector('meta[name="csrf-token"]')
                     .getAttribute("content");
                 form.append("_token", csrfToken);
-                form.append("os", os);
-                const response = await fetch(`/Computer/TambahOS`, {
+                form.append("input", input);
+                form.append("typemodal", typemodal);
+                const response = await fetch(`/Computer/TambahSWAL`, {
                     method: "POST",
                     headers: {
                         _token: csrfToken,
@@ -57,7 +61,7 @@ function showModal() {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-                osValue = os;
+                inputValue = input;
                 return response.json();
             } catch (error) {
                 console.error("Error:", error); // Debugging: Log any errors

@@ -27,6 +27,7 @@ let no_piKolom = document.getElementById("no_piKolom");
 let no_poKolom = document.getElementById("no_poKolom");
 let tgl_pesanKolom = document.getElementById("tgl_pesanKolom");
 let nama_customerKolom = document.getElementById("nama_customerKolom");
+let noteKolom = document.getElementById("noteKolom");
 let alamat_kantorKolom = document.getElementById("alamat_kantorKolom");
 let destination_kolom = document.getElementById("destination_kolom");
 // let remarks_quantityKolom = document.getElementById("remarks_quantityKolom");
@@ -157,7 +158,8 @@ print_button.addEventListener("click", function (event) {
                 tgl_ttKolom.innerHTML =
                     "Sidoarjo, " + convertDateFormat(data[0].TGL_SP);
                 nama_customerKolom.innerHTML = data[0].ContactPerson;
-                fax_customerKolom.innerHTML = data[0].NoTelp1 ?? data[0].NoTelp2 ?? "";
+                fax_customerKolom.innerHTML =
+                    data[0].NoTelp1 ?? data[0].NoTelp2 ?? "";
                 // alamat_kantorKolom.innerHTML = data[0].Alamat;
                 // destination_kolom.innerHTML = data[0].AlamatKirim;
                 price_forKolom.innerHTML =
@@ -194,8 +196,11 @@ print_button.addEventListener("click", function (event) {
                             "<br>",
                             startIndex
                         );
-                        if (UraianPesananArray.length > 6 && UraianPesananArray[6] !== "" ) {
-                            ket_qty = "(" + UraianPesananArray[6] +")"
+                        if (
+                            UraianPesananArray.length > 6 &&
+                            UraianPesananArray[6] !== ""
+                        ) {
+                            ket_qty = "(" + UraianPesananArray[6] + ")";
                         }
                         // Extract the desired string using the start and end indices
                         const desiredString = UraianPesananArray[0]
@@ -221,7 +226,11 @@ print_button.addEventListener("click", function (event) {
                             UraianPesananArray[3] +
                                 "<br> <br>" +
                                 UraianPesananArray[2],
-                            formatangka(item.JmlOrder) + " " + satuanJmlOrder + "<br>" + ket_qty,
+                            formatangka(item.JmlOrder) +
+                                " " +
+                                satuanJmlOrder +
+                                "<br>" +
+                                ket_qty,
                             formatangka(item.HargaSatuan),
                             formatangka(amount.toFixed(4)),
                         ]);
@@ -250,7 +259,8 @@ print_button.addEventListener("click", function (event) {
                     data[0].Ket = "";
                 }
                 if (data[0].Ket.includes(" | ")) {
-                    let KeteranganArray = data[0].Ket.replace(
+                    let KeteranganArray = [];
+                    KeteranganArray = data[0].Ket.replace(
                         /\r\n/g,
                         " <br> "
                     ).split(" | ");
@@ -262,6 +272,9 @@ print_button.addEventListener("click", function (event) {
                         " <br>Bank Central Asia <br>Galaxy Branch, Surabaya - Indonesia";
                     cargo_readyKolom.innerHTML = KeteranganArray[0];
                     destination_portKolom.innerHTML = KeteranganArray[5];
+                    if (KeteranganArray[6] == 1) {
+                        noteKolom.style.display = "table-row";
+                    }
                     // console.log(KeteranganArray);
                 } else {
                     remarks_quantityKolom.innerHTML = "No Data";

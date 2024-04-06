@@ -21,66 +21,45 @@
 
         // Handle row clicks
         $('#table_Computer tbody').on('click', 'tr', function() {
-            // Get the data from the clicked row
-            var data = table.row(this).data();
-
-            if ($(event.target).is('button')) {
-                return; // Do nothing if the click was on a button
-            }
-            // Update the modal content with the computer details
-            $('#modalComputerContent').html();
-            // Make an AJAX request to the Laravel back end
+            var data = table.row(this).data(); // Get the data from the clicked row
+            var Lokasi;
+            var Ruang;
+            var purchase_date;
+            var Sistem_Operas;
+            var DateModified;
             $.ajax({
                 url: '/Computer/' + data[0], // Replace with the actual route
                 method: 'GET',
                 success: function(response) {
                     // Update the modal content with the response data
-                    console.log(response);
-                    var KapasitasMemory = response[0][0].KapasitasMemory !== null ?
-                        response[0][0].KapasitasMemory : "-";
-                    var Processor = response[0][0].Processor !== null ? response[0][0]
-                        .Processor : "-";
-                    var KapasitasHardDisk = response[0][0].KapasitasHardDisk !== null ?
-                        response[0][0].KapasitasHardDisk : "-";
-                    var Sistem_Operas = response[0][0].Sistem_Operas !== null ? response[0][
-                        0
-                    ].Sistem_Operas : "-";
-                    var Monitor_Size = response[0][0].Monitor_Size !== null ? response[0][0]
-                        .Monitor_Size : "-";
-                    var Kapasitas_VGA = response[0][0].Kapasitas_VGA !== null ? response[0][
-                        0
-                    ].Kapasitas_VGA : "-";
-                    $('#modalComputerContent').html(
-                        '<p style=text-align:center><strong> Specification for ' +
-                        data[0] +
-                        '</strong> </p>' +
-                        // '<p><strong>User:</strong> ' + data[1] + '</p>' +
-                        '<p><strong>Processor:</strong> ' + Processor +
-                        '</p>' +
-                        '<p><strong>Hard Disk:</strong> ' + KapasitasHardDisk +
-                        '</p>' +
-                        '<p><strong>Memory:</strong> ' + KapasitasMemory +
-                        '</p>' +
-                        '<p><strong>Operating System:</strong> ' + Sistem_Operas +
-                        '</p>' +
-                        '<p><strong>Monitor Size:</strong> ' + Monitor_Size +
-                        '</p>' +
-                        '<p><strong>VGA Capacity:</strong> ' + Kapasitas_VGA +
-                        '</p>'
-                    );
-
-                    // Open the modal
-                    openModal('modal Computer');
-                },
-                error: function(error) {
-                    console.error('Error fetching data:', error);
+                    Lokasi = response[0].Lokasi !== null ?
+                        response[0].Lokasi : "-";
+                    Ruang = response[0].Ruang !== null ? response[0]
+                        .Ruang : "-";
+                    purchase_date = response[0].purchase_date !== null ?
+                        response[0].purchase_date : "BELUM INPUT";
+                    Sistem_Operas = response[0].Sistem_Operas !== null ? response[0]
+                        .Sistem_Operas : "-";
+                    DateModified = response[0].DateModified !== null ? response[0]
+                        .DateModified : "-";
+                    Swal.fire({
+                        title: "Specification for " + data[0],
+                        allowOutsideClick: () => !Swal.isLoading(),
+                        html: '<p><strong>Operating System:</strong> ' +
+                            Sistem_Operas +
+                            '</p>' +
+                            '<p><strong>Lokasi:</strong> ' + Lokasi +
+                            '</p>' +
+                            '<p><strong>Ruang:</strong> ' + Ruang +
+                            '</p>' +
+                            '<p><strong>Tanggal Beli:</strong> ' + purchase_date +
+                            '</p>' +
+                            '<p><strong>Tanggal Pemutakhiran Data:</strong> ' +
+                            DateModified.substr(0, 10) +
+                            '</p>'
+                    })
                 }
-            });
-            // Open the modal
-            openModal('modal Computer');
-        });
-        $('#table_Computer tbody').on('click', 'button', function(event) {
-            event.stopPropagation(); // Stop the event from reaching the parent tr
+            })
         });
     });
 </script>
@@ -96,7 +75,8 @@
             </button>
             <div class="card">
                 {{-- @if (Auth::user()->status == 1) --}}
-                <div class="card-header">Komputer || ON PROGRESS, PERLU PERBAIKAN PADA CONTROLLER, JAVASCRIPT, DAN SP_4384_EDP_MaintenanceKomputer</div>
+                <div class="card-header">Komputer || ON PROGRESS, PERLU PERBAIKAN PADA CONTROLLER, JAVASCRIPT, DAN
+                    SP_4384_EDP_MaintenanceKomputer</div>
                 {{-- @else
                         <div class="card-header">Home</div>
                     @endif --}}

@@ -42,13 +42,17 @@
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="Lokasi">Lokasi</label>
-                                            <select name="Lokasi" id="Lokasi" class="input">
-                                                <option selected disabled>-- Pilih Lokasi--</option>
-                                                @foreach ($lokasi as $data)
-                                                    <option value="{{ $data->Id_Lokasi }}">
-                                                        {{ $data->Id_Lokasi . ' - ' . $data->Lokasi }}</option>
-                                                @endforeach
-                                            </select>
+                                            <div>
+                                                <select name="Lokasi" id="Lokasi" class="input">
+                                                    <option selected disabled>-- Pilih Lokasi--</option>
+                                                    @foreach ($lokasi as $data)
+                                                        <option value="{{ $data->Id_Lokasi }}">
+                                                            {{ $data->Id_Lokasi . ' - ' . $data->Lokasi }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <button type="button" onclick="showModal('AddNewLocation')"
+                                                    class="btn btn-primary">Add New Location</button>
+                                            </div>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="Ruangan">Ruangan</label>
@@ -64,13 +68,15 @@
                                                             {{ $data->Sistem_Operas }}</option>
                                                     @endforeach
                                                 </select>
-                                                <button type="button" onclick="showModal()" class="btn btn-primary">Add New OS</button>
+                                                <button type="button" onclick="showModal('AddNewOS')"
+                                                    class="btn btn-primary">Add New OS</button>
                                             </div>
                                         </div>
                                         <div class="acs-div-filter">
                                             <label for="WindowsUpdate">Windows Update</label>
                                             <div>
-                                                <input type="radio" name="WindowsUpdate" id="WindowsUpdateYes">Yes
+                                                <input type="radio" name="WindowsUpdate" id="WindowsUpdateYes"
+                                                    checked>Yes
                                                 <input type="radio" name="WindowsUpdate" id="WindowsUpdateNo">No
                                             </div>
                                         </div>

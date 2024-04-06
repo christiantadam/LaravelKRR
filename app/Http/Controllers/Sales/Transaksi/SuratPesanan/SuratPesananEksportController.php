@@ -196,6 +196,7 @@ class SuratPesananEksportController extends Controller
     {
         // dd($request->all(), "Masuk Store");
         $user = Auth::user()->NomorUser;
+        $noteKirim = ($request->note_kirim == null) ? 0 : 1;
         $jenis_sp = 3;
         $tgl_pesan = $request->tgl_pesan;
         $no_sp = $request->no_spText;
@@ -219,7 +220,8 @@ class SuratPesananEksportController extends Controller
             $remarks_quantity . " | " .
             $remarks_packing . " | " .
             $remarks_price . " | " .
-            $destination_port;
+            $destination_port . " | ".
+            $noteKirim;
         $nomor_urut = $request->barang0;
         $nama_barang = $request->barang1;
         $nama_jenisPesanan = $request->barang2;

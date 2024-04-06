@@ -285,7 +285,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('PerbaikanUjiCobaFitur', App\Http\Controllers\EDP\PerbaikanUjiCobaFiturController::class);
 
     Route::resource('Computer', App\Http\Controllers\EDP\ComputerController::class);
-    Route::post('/Computer/TambahOS', 'App\Http\Controllers\EDP\ComputerController@TambahOS')->name('computer.TambahOS');
+    Route::post('/Computer/TambahSWAL', 'App\Http\Controllers\EDP\ComputerController@TambahSWAL')->name('computer.TambahSWAL');
     Route::post('/Computer/{id}', 'App\Http\Controllers\EDP\ComputerController@destroy')->name('computer.destroy');
     // Route::get('/Computer/FetchOperatingSystems', 'App\Http\Controllers\EDP\ComputerController@FetchOperatingSystems')->name('computer.FetchOperatingSystems');
     #endregion

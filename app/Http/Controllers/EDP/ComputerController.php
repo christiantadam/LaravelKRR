@@ -66,9 +66,9 @@ class ComputerController extends Controller
             return response()->json($typeos);
         }
         $dataKomputer = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [1, $id]);
-        $dataKomponen = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [2, $id]);
-        $data = [$dataKomputer, $dataKomponen];
-        return response()->json($data);
+        // $dataKomponen = DB::connection('ConnEDP')->select('exec SP_4384_EDP_MaintenanceKomputer @Kode = ?, @KodeComp = ?', [2, $id]);
+        // $data = [$dataKomputer, $dataKomponen];
+        return response()->json($dataKomputer);
     }
 
     public function edit($id)
@@ -127,15 +127,30 @@ class ComputerController extends Controller
         return redirect('Computer')->with(['success' => 'Data ' . $id . ' berhasil dihapus!']);
     }
 
-    function TambahOS(Request $request)
+    function TambahSWAL(Request $request)
     {
-        $os = $request->os;
+        $typemodal = $request->typemodal;
         // add new OS data to table
         try {
-            DB::connection('ConnEDP')->table('Type_OS')->insert([
-                'Sistem_Operas' => $os
-            ]);
-            return response()->json('success');
+            if ($typemodal == 'AddNewOS') {
+                $os = $request->input;
+                DB::connection('ConnEDP')->table('Type_OS')->insert([
+                    'Sistem_Operas' => $os
+                ]);
+                return response()->json('success');
+            }
+            elseif ($typemodal == 'AddNewLocation') {
+                $dataInput = $request->input;
+                if (strpos($dataInput, '-') == false) {
+                    return response()->json("Data Lokasi Tidak Sesuai Format! | Format: ID_Lokasi - Nama Lokasi");
+                }
+                $location = explode('-', $dataInput);
+                DB::connection('ConnEDP')->table('Lokasi')->insert([
+                    'Id_Lokasi' => trim($location[0]),
+                    'Lokasi' => trim($location[1])
+                ]);
+                return response()->json('success');
+            }
         }
         //catch exception
         catch (Exception $e) {

@@ -65,6 +65,7 @@ class HakAksesController extends Controller
             ->leftJoin('ProgramMaster', 'ProgramMaster.IdProgram', '=', 'MenuMaster.Id_Program')
             ->where(function ($query) {
                 $query->where('User_Fitur.Id_User', Auth::user()->IDUser)
+                    ->Orwhere('Id_User','218') //User PUBLIC
                     ->orWhereIn('MenuMaster.IdMenu', function ($subquery) {
                         $subquery->select('MenuMaster.Parent_IdMenu')
                             ->from('MenuMaster')
@@ -73,6 +74,7 @@ class HakAksesController extends Controller
                             ->leftJoin('User_Fitur', 'FiturMaster.IdFitur', '=', 'User_Fitur.Id_Fitur')
                             ->whereNotNull('MenuMaster.Parent_IdMenu')
                             ->where('Id_User', Auth::user()->IDUser)
+                            ->Orwhere('Id_User','218') //User PUBLIC
                             ->groupBy('MenuMaster.Parent_IdMenu');
                     });
             })
@@ -89,12 +91,13 @@ class HakAksesController extends Controller
                         ->join('MenuMaster', 'Id_Menu', 'IdMenu')
                         ->join('ProgramMaster', 'Id_Program', 'IdProgram')
                         ->groupBy('IdFitur', 'NamaFitur', 'Id_Menu', 'Route')
-                        ->where('Id_User', Auth::user()->IDUser)->get();
+                        ->where('Id_User', Auth::user()->IDUser)
+                        ->Orwhere('Id_User','218')->get(); //'218' itu Id_User PUBLIC
         $Access = [
             'AccessMenu' => $AccessMenu,
             'AccessFitur' => $AccessFitur
         ];
-
+        // dd($Access);
         return $Access;
     }
 }

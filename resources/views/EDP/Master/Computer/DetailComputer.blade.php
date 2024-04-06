@@ -176,14 +176,14 @@
         }
 
         // Close the modal if the user clicks outside the modal content
-        window.onclick = function(event) {
-            var modals = document.getElementsByClassName('modal');
-            // Convert HTMLCollection to an array for easier manipulation
-            var modalsArray = Array.from(modals);
-            console.log(modalsArray);
-            // Check if the click is outside any of the modals
-            if (!modalsArray.some(modal => modal.contains(event.target)) && !event.target.classList.contains('modal')) {
-                closeAllModals();
-            }
-        }
+        // window.onclick = function(event) {
+        //     var modals = document.getElementsByClassName('modal');
+        //     // Convert HTMLCollection to an array for easier manipulation
+        //     var modalsArray = Array.from(modals);
+        //     console.log(modalsArray);
+        //     // Check if the click is outside any of the modals
+        //     if (!modalsArray.some(modal => modal.contains(event.target)) && !event.target.classList.contains('modal')) {
+        //         closeAllModals();
+        //     }
+        // }
     </script>
