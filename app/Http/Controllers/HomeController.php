@@ -46,8 +46,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appSales', compact('access'));
         } else {
-            // abort(403);
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Sales!');
 
         }
     }
@@ -59,7 +58,7 @@ class HomeController extends Controller
             return view('layouts.appOrderPembelian', compact('access'));
         } else {
             // abort(403);
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Beli!');
         }
     }
     public function EDP()
@@ -70,30 +69,29 @@ class HomeController extends Controller
             return view('layouts.appEDP', compact('access'));
         } else {
             // abort(403);
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program EDP!');
+        }
+    }
+    public function GPS()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('Workshop'); //belum diatur
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop'); //belum diatur
+        if ($result > 0) {
+            return view('layouts.appGPS', compact('access'));
+        } else {
+            // abort(403);
             return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
         }
     }
     public function Workshop()
     {
-        $result = (new HakAksesController)->HakAksesProgram('EDP');
-        $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
+        $result = (new HakAksesController)->HakAksesProgram('Workshop'); //belum diatur
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop'); //belum diatur
         if ($result > 0) {
-            return view('workshop.Workshop', compact('access'));
+            return view('layouts.appWorkshop', compact('access'));
         } else {
             // abort(403);
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
-        }
-    }
-
-    public function HomeWorkshop()
-    {
-        $result = (new HakAksesController)->HakAksesProgram('EDP');
-        $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
-        if ($result > 0) {
-            return view('layouts.WORKSHOP.Workshop.appWorkshop', compact('access'));
-        } else {
-            // abort(403);
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Workshop!');
         }
     }
 }

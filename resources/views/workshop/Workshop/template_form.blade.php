@@ -1,4 +1,4 @@
-@extends('layouts.WORKSHOP.Workshop.appWorkshop')
+@extends('layouts.appWorkshop')
 @section('content')
 
 <div class="card-header">

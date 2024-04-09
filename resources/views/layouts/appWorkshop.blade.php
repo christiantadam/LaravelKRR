@@ -8,16 +8,20 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="16x16">
-    <title style="font-size: 20px">{{ config('app.name', 'Laravel') }}</title>
+    {{-- <title style="font-size: 20px">{{ config('app.name', 'Laravel') }}</title> --}}
+    <title>@yield('title', 'Workshop')</title>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javascript'></script>
 
     <script src="{{ asset('js/app.js') }}"></script>
     <!-- <script src="https://code.jquery.com/jquery-3.1.0.js"></script> -->
     <!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
-    <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
 
@@ -28,15 +32,18 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- TAMBAHAN -->
+    <link href="{{ asset('bootstrap-5.3.0-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/appWorkshop.css') }}" rel="stylesheet">
     <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
+    <link href="{{ asset('css/RdzAndre.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 </head>
 
 <body onload="Greeting()">
@@ -148,8 +155,8 @@
                                 @endif
                             @endforeach
                         </ul>
-                        </div>
-                    @endif
+                </div>
+                @endif
                 @endforeach
                 </ul>
             @endguest
@@ -169,7 +176,6 @@
                                                      document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
-
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
@@ -177,11 +183,20 @@
                 </ul>
             @endguest
         </div>
-    </div>
-</nav>
-
+    </nav>
+</div>
+{{-- @section('title', 'Laravel') --}}
 <main class="py-4">
     @yield('content')
+    {{-- <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10 RDZMobilePaddingLR0">
+                <div class="card">
+                </div>
+            </div>
+        </div>
+    </div> --}}
+    {{-- Copy ini di setiap halaman --}}
 </main>
 </div>
 <script>
@@ -194,5 +209,8 @@
     });
 </script>
 </body>
+
+<!-- TAMBAHAN -->
+<script src="{{ asset('bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js') }}"></script>
 
 </html>

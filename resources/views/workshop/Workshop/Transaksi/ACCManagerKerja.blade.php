@@ -1,4 +1,4 @@
-@extends('layouts.WORKSHOP.Workshop.appWorkshop')
+@extends('layouts.appWorkshop')
 @section('content')
 @section('title', 'ACC Manager Kerja')
   <link href="{{ asset('css/Workshop/Transaksi/ACCManagerGambar.css') }}" rel="stylesheet">

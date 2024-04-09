@@ -4,7 +4,9 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\HakAksesController;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 
 class MaintenanceDivisiController extends Controller
@@ -12,9 +14,11 @@ class MaintenanceDivisiController extends Controller
     public function index()
     {
         $divisi = DB::connection('Connworkshop')->select('exec SP_5298_WRK_DIVISI');
+        $result = (new HakAksesController)->HakAksesProgram('Workshop');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         //dd(count($divisi));
         //$this->Cekdivisi(123);
-        return view('WORKSHOP.Workshop.Master.MaintenanceDivisi', compact(['divisi']));
+        return view('WORKSHOP.Workshop.Master.MaintenanceDivisi', compact(['divisi','result','access']));
     }
     public function create()
     {

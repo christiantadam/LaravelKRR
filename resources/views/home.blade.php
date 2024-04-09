@@ -7,9 +7,6 @@
                 <div class="acs-grid-container">
                     <script>
                         @if (Session::has('status'))
-                            {{-- <div class="alert alert-danger">
-                            {{ Session::get('status') }}
-                        </div> --}}
                             Swal.fire({
                                 icon: 'info',
                                 title: 'Informasi',
