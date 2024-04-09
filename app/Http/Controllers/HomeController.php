@@ -44,11 +44,11 @@ class HomeController extends Controller
         $result = (new HakAksesController)->HakAksesProgram('Sales');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
         if ($result > 0) {
-            // dd($access['AccessMenu']);
-            // dd($access);
             return view('layouts.appSales', compact('access'));
         } else {
-            abort(404);
+            // abort(403);
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
+
         }
     }
     public function Beli()
@@ -58,7 +58,8 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appOrderPembelian', compact('access'));
         } else {
-            abort(404);
+            // abort(403);
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
         }
     }
     public function EDP()
@@ -68,7 +69,8 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appEDP', compact('access'));
         } else {
-            abort(404);
+            // abort(403);
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
         }
     }
     public function Workshop()
@@ -78,7 +80,8 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('workshop.Workshop', compact('access'));
         } else {
-            abort(404);
+            // abort(403);
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
         }
     }
 
@@ -89,7 +92,8 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.WORKSHOP.Workshop.appWorkshop', compact('access'));
         } else {
-            abort(404);
+            // abort(403);
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
         }
     }
 }

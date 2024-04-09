@@ -31,6 +31,8 @@ Route::get('/', function () {
 
 //Auth::routes();
 
+Route::get('/test', 'App\Http\Controllers\testController@index'); //untuk registrasi user password
+
 Route::get('/login', 'App\Http\Controllers\LoginController@index')->name('login');
 Route::post('login', 'App\Http\Controllers\LoginController@login');
 Route::post('/logout', 'App\Http\Controllers\LoginController@logout')->name('logout');
@@ -812,5 +814,3 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('GetAllDataPengorderProyek/{tgl_awal}/{tgl_akhir}/{div}', 'App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderProyek@GetAllDataPengorder');
     Route::get('GetAllDataPenerimaProyek/{tgl_awal}/{tgl_akhir}', 'App\Http\Controllers\WORKSHOP\Workshop\Informasi\OrderProyek@GetAllDataPenerima');
 });
-
-Route::get('/test', 'App\Http\Controllers\testController@index');
