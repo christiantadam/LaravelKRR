@@ -6,22 +6,22 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use App\Http\Controllers\HakAksesController;
-
+use Illuminate\Support\Facades\Auth;
 class SupplierController extends Controller
 {
     // Display a listing of the resource.
     public function index()
     {
-        $supplier = db::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd = ?', [1]);
+        $supplier = DB::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd = ?', [1]);
+        $matauang = DB::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
-        // dd($supplier);
-        $matauang = db::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
+        // dd($matauang);
         return view('Beli.Master.Supplier', compact('supplier', 'matauang', 'access'));
     }
 
     public function getSupplier($id)
     {
-        $data = db::connection('ConnPurchase')->select('exec SP_1273_PBL_LIST_SUPPLIER @kd = ?, @idSup = ?',[1,$id]);
+        $data = DB::connection('ConnPurchase')->select('exec SP_1273_PBL_LIST_SUPPLIER @kd = ?, @idSup = ?',[1,$id]);
         return response()->json($data);
     }
 
@@ -62,7 +62,7 @@ class SupplierController extends Controller
             $jnSup = '02';
         }
         // dd($request->all());
-        db::connection('ConnPurchase')->statement('exec SP_5409_PBL_SUPPLIER
+        DB::connection('ConnPurchase')->statement('exec SP_5409_PBL_SUPPLIER
         @kd = '.$kd.',
         @Xno_sup = \''.$supplier_id.'\',
         @Xnm_sup = \''.$supplier_text.'\',

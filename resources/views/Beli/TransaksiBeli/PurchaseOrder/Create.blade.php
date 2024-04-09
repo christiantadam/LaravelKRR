@@ -2,28 +2,6 @@
 @section('content')
     <link href="{{ asset('css/CreatePurchaseOrder.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <script>
-        $(document).ready(function() {
-            $('#table_PurchaseOrder').DataTable({
-                order: [
-                    [1, 'desc']
-                ],
-
-            });
-
-
-            // var today = new Date();
-            // var dd = String(today.getDate()).padStart(2, '0');
-            // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            // var yyyy = today.getFullYear();
-
-            // // today1 = mm + '/' + dd + '/' + yyyy;
-            // today1 = yyyy + '-' + mm + '-' + dd;
-            // console.log(today1);
-            // document.getElementById("tglAwal").value=today1;
-            // document.getElementById("tglAkhir").value=today1;
-        });
-    </script>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
@@ -36,51 +14,69 @@
                         {{ Session::get('error') }}
                     </div>
                 @endif
-                <div class="card">
+                <div class="card font-weight-bold">
                     <div class="card-header">Daftar Order</div>
-                    <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-                        <div class="acs-form">
-                            <div class="acs-form1">
-                                <div class="acs-form">
+                    <div class="card-body">
+                        <div class="row px-2 px-md">
+                            <div class="col-md-4 h-auto mb-4 mb-md-0">
+                                <div class="w-100 h-auto">
                                     <input type="radio" name="filter_radioButton" id="filter_radioButton1" value="Divisi"
                                         class="radio-button" checked>Divisi
                                 </div>
-                                <div class="acs-form" style="border: 0.5px solid grey" id="filter_radioButtonDivisiDiv">
-                                    <select name="divisi_select" id="divisi_select" class="input">
-                                        <option disabled selected>-- Pilih Divisi --</option>
+                                <div class="w-100 col-12 rounded align-items-center pb-2" style="border: 0.5px solid grey"
+                                    id="filter_radioButtonDivisiDiv">
+                                    <div class="row">
+                                        <div class="col-xxl-6">
+                                            <input class="radio-button" type="radio" name="filter_divisiRadioButton"
+                                                id="filter_divisiRadioButton1" value="PengadaanPembelian" checked>
+                                            Pengadaan Pembelian
+
+                                        </div>
+                                        <div class="col-xxl-6">
+                                            <input class="radio-button" type="radio" name="filter_divisiRadioButton"
+                                                id="filter_divisiRadioButton2" value="Beli Sendiri">
+                                            Beli Sendiri
+                                        </div>
+                                    </div>
+                                    <select name="divisi_select" id="divisi_select" class="input w-100">
                                         <option value="ALL">ALL</option>
                                         @foreach ($divisi as $data)
                                             <option value="{{ $data->KD_DIV }}">{{ trim($data->NM_DIV) }}</option>
                                         @endforeach
                                     </select>
-                                    <input type="radio" name="filter_divisiRadioButton" id="filter_divisiRadioButton1"
-                                        value="PengadaanPembelian" class="radio-button" checked> Pengadaan Pembelian
-                                    <input type="radio" name="filter_divisiRadioButton" id="filter_divisiRadioButton2"
-                                        value="Beli Sendiri" class="radio-button"> Beli Sendiri
                                 </div>
                             </div>
-                            <div class="acs-form2">
-                                <div class="acs-form">
+                            <div class="col-md-3 h-auto mb-4 mb-md-0">
+                                <div class="w-100 h-auto">
                                     <input type="radio" name="filter_radioButton" id="filter_radioButton2" value="User"
                                         class="radio-button">User
                                 </div>
-                                <input type="text" name="filter_radioButtonUserInput" id="filter_radioButtonUserInput">
+                                <input class="w-100 font-weight-bold" type="text" name="filter_radioButtonUserInput"
+                                    id="filter_radioButtonUserInput">
                             </div>
-                            <div class="acs-form2">
-                                <div class="acs-form">
+                            <div class="col-md-3 h-auto mb-4 mb-md-0">
+                                <div class="w-100 h-auto">
                                     <input type="radio" name="filter_radioButton" id="filter_radioButton3" value="Order"
                                         class="radio-button"> Order
                                 </div>
-                                <input type="text" name="filter_radioButtonOrderInput" id="filter_radioButtonOrderInput">
+                                <input class="w-100 font-weight-bold" type="text" name="filter_radioButtonOrderInput"
+                                    id="filter_radioButtonOrderInput">
                             </div>
-                            <div class="acs-form2">
-                                <button class="btn btn-success" id="redisplay">Redisplay</button>
+                            <div class="w-auto h-auto pt-3 pl-2 pl-md-0">
+                                <div class="">
+                                    <input type="checkbox" id="check_nyantol">
+                                    <label for="">No. Order Nyantol</label>
+                                </div>
+                                <button class="w-100 custom-button2" id="redisplay"
+                                    style="display: block">Redisplay</button>
                             </div>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
-                            <table id="table_PurchaseOrder" class="table table-bordered table-striped" style="width:100%">
-                                <thead class="thead-dark">
+                            <table id="table_PurchaseOrder" class="table table-bordered" style="width:100%">
+                                <thead class="table-primary">
                                     <tr>
+                                        <th><input type="checkbox" name="CheckedAll"
+                                                id="CheckedAll" class="RDZCheckBoxSize"></th>
                                         <th>Supplier</th>
                                         <th>Id_Div</th>
                                         <th>User</th>
@@ -109,19 +105,26 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="">
+                            <p id="checkedCount">Jumlah Data Yang TerCentang 0</p>
+                        </div>
                         <div class="button-align-right">
-                            <div>
-                                <input type="checkbox" name="checkbox_centangSemuaBaris"
-                                    id="checkbox_centangSemuaBaris">Centang Semua
+                            <div style="display: block">
+                                <div class="">
+                                    <button class="custom-button3 w-100" id="btn_close">Close Order</button>
+                                </div>
                             </div>
 
                             <form action="{{ url('openFormCreateSPPB/create') }}" id="form_createSPPB" method="GET">
-                                <button class="btn btn-success" id="create_po">Create PO</button>
+                                <button class="custom-button2" id="create_po">Create PO</button>
                             </form>
+                            <div class="" id="backGroup">
+                                <button class="custom-button2" id="btn_backCreatePO">Back Create PO</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="{{ asset('js/OrderPembelian/CreatePurchaseOrder.js') }}"></script>
+        <script src="{{ asset('js/OrderPembelian/CreatePurchaseOrder/CreatePurchaseOrder.js') }}"></script>
     @endsection

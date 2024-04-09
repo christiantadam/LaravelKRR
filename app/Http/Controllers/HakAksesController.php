@@ -32,8 +32,9 @@ class HakAksesController extends Controller
         $AccessFitur = DB::connection('ConnEDP')
                         ->table('User_Fitur')
                         ->join('FiturMaster', 'Id_Fitur', 'IdFitur')
-                        ->where('Id_User', Auth::user()->IDUser)->where('NamaFitur', $Fitur)->count();
-        //dd($AccessProgram);
+                        ->where('Id_User', Auth::user()->IDUser)->where('NamaFitur', $Fitur)
+                        ->orWhere('Id_User', 218)->where('NamaFitur', $Fitur)->count();
+        // dd($AccessFitur);
         return $AccessFitur;
         //return view('home',compact('AccessProgram'));
     }

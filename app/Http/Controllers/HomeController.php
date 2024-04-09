@@ -28,7 +28,14 @@ class HomeController extends Controller
     public function index()
     {
         // $AccessProgram=DB::connection('ConnEDP')->table('User_Fitur')->select('NamaProgram')->join('FiturMaster','Id_Fitur','IdFitur')->join('ProgramMaster','Id_Program','IdProgram')->groupBy('NamaProgram')->where('Id_User',Auth::user()->IDUser)->get();
-        $AccessProgram = DB::connection('ConnEDP')->table('User_Fitur')->select('NamaProgram', 'RouteProgram')->join('FiturMaster', 'Id_Fitur', 'IdFitur')->join('MenuMaster', 'Id_Menu', 'IdMenu')->join('ProgramMaster', 'Id_Program', 'IdProgram')->groupBy('NamaProgram','RouteProgram')->where('Id_User', Auth::user()->IDUser)->get();
+        $AccessProgram = DB::connection('ConnEDP')->table('User_Fitur')
+            ->select('NamaProgram', 'RouteProgram')
+            ->join('FiturMaster', 'Id_Fitur', 'IdFitur')
+            ->join('MenuMaster', 'Id_Menu', 'IdMenu')
+            ->join('ProgramMaster', 'Id_Program', 'IdProgram')
+            ->groupBy('NamaProgram', 'RouteProgram')
+            ->where('Id_User', Auth::user()->IDUser)
+            ->OrWhere('Id_User', 218)->get();
         // dd($AccessProgram);
         return view('home', compact('AccessProgram'));
     }
@@ -64,7 +71,8 @@ class HomeController extends Controller
             abort(404);
         }
     }
-    public function Workshop() {
+    public function Workshop()
+    {
         $result = (new HakAksesController)->HakAksesProgram('EDP');
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
         if ($result > 0) {
@@ -74,7 +82,8 @@ class HomeController extends Controller
         }
     }
 
-    public function HomeWorkshop() {
+    public function HomeWorkshop()
+    {
         $result = (new HakAksesController)->HakAksesProgram('EDP');
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
         if ($result > 0) {

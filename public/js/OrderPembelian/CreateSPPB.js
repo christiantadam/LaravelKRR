@@ -1,336 +1,1195 @@
-let alasan_reject = document.getElementById("alasan_reject");
-let div_tablePO = document.getElementById("div_tablePO");
-let harga_subTotal = document.getElementById("harga_subTotal");
-let harga_total = document.getElementById("harga_total");
-let harga_unit = document.getElementById("harga_unit");
-let idr_ppn = document.getElementById("idr_ppn");
-let idr_subTotal = document.getElementById("idr_subTotal");
-let idr_total = document.getElementById("idr_total");
-let idr_unit = document.getElementById("idr_unit");
-let jumlah_discount = document.getElementById("jumlah_discount");
-let keterangan_internal = document.getElementById("keterangan_internal");
-let keterangan_order = document.getElementById("keterangan_order");
-let kode_barang = document.getElementById("kode_barang");
-let kurs = document.getElementById("kurs");
-let mata_uang = document.getElementById("mata_uang");
-let mata_uangButton = document.getElementById("mata_uangButton");
-let mata_uangSelect = document.getElementById("mata_uangSelect");
-let mata_uangText = document.getElementById("mata_uangText");
-let nama_barang = document.getElementById("nama_barang");
-let nomor_order = document.getElementById("nomor_order");
+let formIsi = document.getElementById("formIsi");
 let nomor_purchaseOrder = document.getElementById("nomor_purchaseOrder");
-let payment_term = document.getElementById("payment_term");
-let payment_termButton = document.getElementById("payment_termButton");
-let payment_termSelect = document.getElementById("payment_termSelect");
-let payment_termText = document.getElementById("payment_termText");
-let persen_discount = document.getElementById("persen_discount");
-let post_poButton = document.getElementById("post_poButton");
-let ppn_text = document.getElementById("ppn_text");
+let supplier_select = document.getElementById("supplier_select");
+let matauang_select = document.getElementById("matauang_select");
+let paymentTerm_select = document.getElementById("paymentTerm_select");
 let ppn_select = document.getElementById("ppn_select");
+let ppn = document.getElementById("ppn");
+let kurs = document.getElementById("kurs");
+let harga_unit = document.getElementById("harga_unit");
+let harga_sub_total = document.getElementById("harga_sub_total");
+let idr_sub_total = document.getElementById("idr_sub_total");
+let idr_ppn = document.getElementById("idr_ppn");
+let harga_total = document.getElementById("harga_total");
+let idr_harga_total = document.getElementById("idr_harga_total");
 let qty_delay = document.getElementById("qty_delay");
 let qty_order = document.getElementById("qty_order");
-let reject_button = document.getElementById("reject_button");
-let remove_button = document.getElementById("remove_button");
+let keterangan_internal = document.getElementById("keterangan_internal");
+let keterangan_order = document.getElementById("keterangan_order");
 let sub_kategori = document.getElementById("sub_kategori");
-let supplier_button = document.getElementById("supplier_button");
-let supplier_select = document.getElementById("supplier_select");
-let supplier_text = document.getElementById("supplier_text");
+let nama_barang = document.getElementById("nama_barang");
+let kode_barang = document.getElementById("kode_barang");
+let no_po = document.getElementById("no_po");
+let idr_unit = document.getElementById("idr_unit");
+let alasan_reject = document.getElementById("alasan_reject");
+let tanggal_dibutuhkan = document.getElementById("tanggal_dibutuhkan");
+let total_disc = document.getElementById("total_disc");
+let disc = document.getElementById("disc");
+let idr_total_disc = document.getElementById("idr_total_disc");
+let btn_update = document.getElementById("btn_update");
+let btn_reject = document.getElementById("btn_reject");
+let btn_remove = document.getElementById("btn_remove");
+let btn_post = document.getElementById("btn_post");
+
+let jenisSupplier;
+let fixValueQTYOrder;
+
+let csrfToken = $('meta[name="csrf-token"]').attr("content");
+
 let table_CreatePurchaseOrder = document.getElementById(
     "table_CreatePurchaseOrder"
 );
 let tanggal_mohonKirim = document.getElementById("tanggal_mohonKirim");
 let tanggal_purchaseOrder = document.getElementById("tanggal_purchaseOrder");
-let update_button = document.getElementById("update_button");
-
-//#region Form Load
 
 tanggal_purchaseOrder.valueAsDate = new Date();
 tanggal_mohonKirim.valueAsDate = new Date();
-console.log(loadPermohonanData);
-console.log(loadHeaderData);
-$("#table_CreatePurchaseOrder").DataTable({
-    data: loadPermohonanData,
-    columns: [
-        {
-            data: "No_trans",
-        },
-        {
-            data: "Kd_brg",
-        },
-        {
-            data: "NAMA_BRG",
-        },
-        {
-            data: "nama_sub_kategori",
-        },
-        {
-            data: "KET",
-        },
-        {
-            data: "Ket_Internal",
-        },
-        {
-            data: "Qty",
-            render: function (data) {
-                var stringValue = data.replace(".", "").replace(/\.?0*$/, ""); // Remove decimal point and trailing zeros
-                var intValue = parseInt(stringValue, 10);
-                return intValue;
-            },
-        },
-        {
-            data: "Nama_satuan",
-        },
-        {
-            data: "QtyCancel",
-        },
-        {
-            data: "PriceUnit",
-            render: function (data) {
-                var intValue = parseInt(data);
-                var formattedValue = intValue.toLocaleString();
-                return formattedValue;
-            },
-        },
-        {
-            data: "PriceSub",
-            render: function (data) {
-                var intValue = parseInt(data);
-                var formattedValue = intValue.toLocaleString();
-                return formattedValue;
-            },
-        },
-        {
-            data: "PPN",
-            render: function (data) {
-                var stringValue = data.replace(".", "").replace(/\.?0*$/, ""); // Remove decimal point and trailing zeros
-                var intValue = parseInt(stringValue, 10);
-                return intValue;
-            },
-        },
-        {
-            data: "PriceExt",
-            render: function (data) {
-                var intValue = parseInt(data);
-                var formattedValue = intValue.toLocaleString();
-                return formattedValue;
-            },
-        },
-        {
-            data: "Kurs",
-            render: function (data) {
-                var intValue = parseInt(data);
-                return intValue;
-            },
-        },
-        {
-            data: "PriceUnitIDR",
-            render: function (data) {
-                var intValue = parseInt(data);
-                var formattedValue = intValue.toLocaleString();
-                return formattedValue;
-            },
-        },
-        {
-            data: "PriceSubIDR",
-            render: function (data) {
-                var intValue = parseInt(data);
-                var formattedValue = intValue.toLocaleString();
-                return formattedValue;
-            },
-        },
-        {
-            data: "PriceUnitIDR_PPN",
-            render: function (data) {
-                var intValue = parseInt(data);
-                return intValue;
-            },
-        },
-        {
-            data: "PriceExtIDR",
-            render: function (data) {
-                var intValue = parseInt(data);
-                var formattedValue = intValue.toLocaleString();
-                return formattedValue;
-            },
-        },
-        {
-            data: "Disc",
-            render: function (data) {
-                var intValue = parseInt(data);
-                return intValue;
-            },
-        },
-        {
-            data: "harga_disc",
-            render: function (data) {
-                var intValue = parseInt(data);
-                return intValue;
-            },
-        },
-        {
-            data: "DiscIDR",
-            render: function (data) {
-                var intValue = parseInt(data);
+btn_update.disabled = true;
+btn_remove.disabled = true;
+btn_reject.disabled = true;
+btn_post.disabled = true;
 
-                // Return the formatted value
-                return intValue;
-            },
-        },
-    ],
+alasan_reject.addEventListener("change", function () {
+    btn_reject.focus();
 });
+function clearData() {
+    tanggal_purchaseOrder.valueAsDate = new Date();
+    tanggal_mohonKirim.valueAsDate = new Date();
+    no_po.value = "";
+    kode_barang.value = "";
+    nama_barang.value = "";
+    sub_kategori.value = "";
+    keterangan_order.value = "-";
+    keterangan_internal.value = "-";
+    qty_delay.value = 0;
+    qty_order.value = 0;
+    harga_unit.value = 0;
+    idr_unit.value = 0;
+    harga_sub_total.value = 0;
+    idr_sub_total.value = 0;
+    ppn_select.value = "";
+    ppn.value = 0;
+    idr_ppn.value = 0;
+    harga_total.value = "";
+    idr_harga_total.value = "";
+    kurs.value = 1;
+    disc.value = 0;
+    total_disc.value = 0;
+    idr_total_disc.value = 0;
+    btn_update.disabled = true;
+    btn_remove.disabled = true;
+    btn_reject.disabled = true;
+    alasan_reject.value = "";
+}
 
-$("#table_AccPenjualan tbody").on("click", "tr", function () {
-    alert("hehe");
-});
-//#endregion
+function submit(nomor, qtydelay) {
+    $.ajax({
+        url: "/openFormCreateSPPB/create/Submit",
+        type: "POST",
+        headers: {
+            "X-CSRF-TOKEN": csrfToken,
+        },
+        data: {
+            noTrans: nomor,
+            QtyDelay: qtydelay,
+        },
+        success: function (response) {},
+        error: function (error) {
+            console.error("Error Send Data:", error);
+        },
+    });
+}
 
-//#region Input Filter
+function LoadPermohonan(data) {
+    $("#table_CreatePurchaseOrder").DataTable().destroy();
+    let table = $("#table_CreatePurchaseOrder").DataTable({
+        responsive: true,
+        scrollX: true,
+        searching: false,
+        scrollY: "300px",
+        paging: false,
+        data: data,
+        columns: [
+            {
+                data: "No_trans",
+            },
+            {
+                data: "Kd_brg",
+            },
+            {
+                data: "NAMA_BRG",
+                render: function (data) {
+                    return data.replace(/</g, "&lt;");
+                },
+            },
+            {
+                data: "nama_sub_kategori",
+            },
+            {
+                data: "KET",
+                render: function (data) {
+                    return (
+                        data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
+                        '<p style="text-align:center;font-size: 14px;">-</p>'
+                    );
+                },
+            },
+            {
+                data: "Ket_Internal",
+                render: function (data) {
+                    return (
+                        data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
+                        '<p style="text-align:center;font-size: 14px;">-</p>'
+                    );
+                },
+            },
+            {
+                data: "NmUser",
+            },
+            {
+                data: "Qty",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0.00");
+                },
+            },
+            {
+                data: "Nama_satuan",
+            },
+            {
+                data: "QtyCancel",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0.00");
+                },
+            },
+            {
+                data: "PriceUnit",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "PriceSub",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "PPN",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "PriceExt",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "Kurs",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0.0000");
+                },
+            },
+            {
+                data: "PriceUnitIDR",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "PriceSubIDR",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "PriceUnitIDR_PPN",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "PriceExtIDR",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "Disc",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0.00");
+                },
+            },
+            {
+                data: "harga_disc",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "DiscIDR",
+                render: function (data) {
+                    return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+        ],
+        rowCallback: function (row, data) {
+            $(row).on("dblclick", function (event) {
+                clearData();
+                no_po.value = data.No_trans;
+                kode_barang.value = data.Kd_brg;
+                nama_barang.value = data.NAMA_BRG;
+                sub_kategori.value = data.nama_sub_kategori;
+                qty_order.value = parseFloat(data.Qty).toFixed(2);
+                keterangan_order.value = data.keterangan || '-';
+                keterangan_internal.value = data.Ket_Internal || "-";
+                qty_delay.value = parseFloat(data.QtyCancel).toFixed(2);
+                harga_unit.value = numeral(parseFloat(data.PriceUnit)).format(
+                    "0,0.0000"
+                );
+                idr_unit.value = numeral(parseFloat(data.PriceUnitIDR)).format(
+                    "0,0.0000"
+                );
+                harga_sub_total.value = numeral(
+                    parseFloat(data.PriceSub)
+                ).format("0,0.0000");
+                idr_sub_total.value = numeral(
+                    parseFloat(data.PriceSubIDR)
+                ).format("0,0.0000");
+                harga_total.value = numeral(parseFloat(data.PriceExt)).format(
+                    "0,0.0000"
+                );
+                idr_harga_total.value = numeral(
+                    parseFloat(data.PriceExtIDR)
+                ).format("0,0.0000");
+                ppn.value = numeral(parseFloat(data.PPN)).format("0,0.0000");
+                idr_ppn.value = numeral(parseFloat(data.PPN)).format(
+                    "0,0.0000"
+                );
+                disc.value = numeral(parseFloat(data.Disc)).format("0,0.00");
+                total_disc.value = numeral(parseFloat(data.harga_disc)).format(
+                    "0,0.0000"
+                );
+                idr_total_disc.value = numeral(parseFloat(data.DiscIDR)).format(
+                    "0,0.0000"
+                );
+                kurs.value = parseFloat(data.Currency).toFixed(4);
+                $("#ppn_select").val(data.IdPPN);
+                fixValueQTYOrder = data.Qty;
+                btn_update.disabled = false;
+                btn_remove.disabled = false;
 
-setInputFilter(
-    document.getElementById("qty_order"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("kurs"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("harga_unit"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("harga_total"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("harga_subTotal"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("ppn_text"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("persen_discount"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("jumlah_discount"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("idr_unit"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("idr_subTotal"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("idr_total"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("kode_barang"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("idr_ppn"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-//#endregion
+                alasan_reject.addEventListener("input", function (event) {
+                    if (alasan_reject.value.trim() !== "") {
+                        btn_reject.disabled = false;
+                    } else {
+                        btn_reject.disabled = true;
+                    }
+                });
+            });
+        },
+    });
+    table.on("dblclick", "tbody tr", (e) => {
+        const classList = e.currentTarget.classList;
 
-//#region Event Listener
+        if (classList.contains("selected")) {
+            classList.remove("selected");
+        } else {
+            table
+                .rows(".selected")
+                .nodes()
+                .each((row) => row.classList.remove("selected"));
+            classList.add("selected");
+        }
+    });
+}
 
-mata_uangButton.addEventListener("click", function (event) {
-    event.preventDefault();
-    if (mata_uangSelect.style.display == "none") {
-        mata_uangSelect.style.display = "inline-block";
-        mata_uangText.style.display = "none";
-    } else if (mata_uangText.style.display == "none") {
-        mata_uangText.style.display = "inline-block";
-        mata_uangSelect.style.display = "none";
+paymentTerm_select.addEventListener("change", function (event) {
+    if (paymentTerm_select.selectedIndex !== 0) {
+        btn_post.disabled = false;
+    } else {
+        btn_post.disabled = true;
     }
 });
 
-payment_termButton.addEventListener("click", function (event) {
-    event.preventDefault();
-    if (payment_termSelect.style.display == "none") {
-        payment_termSelect.style.display = "inline-block";
-        payment_termText.style.display = "none";
-    } else if (payment_termText.style.display == "none") {
-        payment_termText.style.display = "inline-block";
-        payment_termSelect.style.display = "none";
+btn_update.addEventListener("click", function (event) {
+    const nomor = no_po.value;
+    const qtydelay = qty_delay.value;
+    if (
+        qty_order.value == 0 &&
+        (isNaN(parseFloat(disc.value)) || !isFinite(parseFloat(disc.value)))
+    ) {
+        alert(
+            "Data Tidak Bisa DiUpdate Karena Qty Order = 0. Jika ingin Mengupdate Qty Order = 0 Maka Disc% Harus 0"
+        );
+    } else {
+        $.ajax({
+            url: "/openFormCreateSPPB/create/Update",
+            type: "PUT",
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            data: {
+                No_PO: nomor_purchaseOrder.value,
+                Qty: qty_order.value,
+                QtyCancel: qty_delay.value,
+                kurs: kurs.value,
+                pUnit: numeral(harga_unit.value).value(),
+                pSub: numeral(harga_sub_total.value).value(),
+                idPPN: ppn_select.value,
+                pPPN: numeral(ppn.value).value(),
+                pTot: numeral(harga_total.value).value(),
+                pIDRUnit: numeral(idr_unit.value).value(),
+                pIDRSub: numeral(idr_sub_total.value).value(),
+                pIDRPPN: numeral(idr_ppn.value).value(),
+                pIDRTot: numeral(idr_harga_total.value).value(),
+                persen: numeral(disc.value).value(),
+                disc: numeral(total_disc.value).value(),
+                discIDR: numeral(idr_total_disc.value).value(),
+                noTrans: no_po.value,
+            },
+            success: function (response) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Data Berhasil DiUpdate!",
+                    showConfirmButton: false,
+                    timer: "2000",
+                });
+                if (qtydelay > 0) {
+                    submit(nomor, qtydelay);
+                } else {
+                }
+                if (loadPermohonanData.length == 0) {
+                    window.location.href = "/PurchaseOrder/create";
+                } else {
+                    clearData();
+                    loadPermohonanData = response.data;
+                    LoadPermohonan(loadPermohonanData);
+                }
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Data Tidak Berhasil DiUpdate!",
+                    showConfirmButton: false,
+                    timer: "2000",
+                });
+                console.error("Error Send Data:", error);
+            },
+        });
+    }
+});
+btn_remove.addEventListener("click", function (event) {
+    $.ajax({
+        url: "/openFormCreateSPPB/create/Remove",
+        type: "PUT",
+        headers: {
+            "X-CSRF-TOKEN": csrfToken,
+        },
+        data: {
+            noTrans: no_po.value,
+        },
+        success: function (response) {
+            Swal.fire({
+                icon: "success",
+                title: "Data Berhasil DiRemove!",
+                showConfirmButton: false,
+                timer: "2000",
+            });
+            clearData();
+            location.reload(true);
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Data Tidak Berhasil DiRemove!",
+                showConfirmButton: false,
+                timer: "2000",
+            });
+            console.error("Error Send Data:", error);
+        },
+    });
+});
+btn_reject.addEventListener("click", function (event) {
+    $.ajax({
+        url: "/openFormCreateSPPB/create/Reject",
+        type: "PUT",
+        headers: {
+            "X-CSRF-TOKEN": csrfToken,
+        },
+        data: {
+            noTrans: no_po.value,
+            alasan: alasan_reject.value,
+        },
+        success: function (response) {
+            Swal.fire({
+                icon: "success",
+                title: "Data Berhasil DiReject!",
+                showConfirmButton: false,
+                timer: "2000",
+            });
+            let noOrder = no_po.value;
+            let objekDitemukan = loadPermohonanData.filter(
+                (obj) => obj.No_trans !== noOrder
+            );
+            loadPermohonanData = objekDitemukan;
+            if (loadPermohonanData.length == 0) {
+                window.location.href = "/PurchaseOrder/create";
+            } else {
+                LoadPermohonan(loadPermohonanData);
+                clearData();
+            }
+        },
+        error: function (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Data Tidak Berhasil DiReject!",
+                showConfirmButton: false,
+                timer: "2000",
+            });
+            console.error("Error Send Data:", error);
+        },
+    });
+});
+btn_post.addEventListener("click", function (event) {
+    if (loadPermohonanData.length == 0) {
+        alert("Data Yang Akan Dipost Tidak Ada");
+    } else {
+        for (let i = 0; i < loadPermohonanData.length; i++) {
+            $.ajax({
+                url: "/openFormCreateSPPB/create/Post",
+                type: "PUT",
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                data: {
+                    noTrans: loadPermohonanData[i].No_trans,
+                    mtUang: matauang_select.value,
+                    tglPO: tanggal_purchaseOrder.value,
+                    idpay: paymentTerm_select.value,
+                    Tgl_Dibutuhkan: tanggal_mohonKirim.value,
+                    idSup: supplier_select.value,
+                },
+                success: function (response) {
+                    if (i == loadPermohonanData.length - 1) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Data Berhasil DiPost!",
+                            showConfirmButton: false,
+                            timer: "2000",
+                        });
+                        dataPrint();
+                    }
+                },
+                error: function (error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Data Tidak Berhasil DiPost!",
+                        showConfirmButton: false,
+                        timer: "2000",
+                    });
+                    console.error("Error Send Data:", error);
+                },
+            });
+        }
     }
 });
 
-supplier_button.addEventListener("click", function (event) {
-    event.preventDefault();
-    if (supplier_select.style.display == "none") {
-        supplier_select.style.display = "inline-block";
-        supplier_text.style.display = "none";
-    } else if (supplier_text.style.display == "none") {
-        supplier_text.style.display = "inline-block";
-        supplier_select.style.display = "none";
+function dataPrint() {
+    $.ajax({
+        url: "/openFormCreateSPPB/create/Print",
+        type: "GET",
+        data: {
+            noPO: nomor_purchaseOrder.value.trim(),
+        },
+        success: function (response) {
+            print(response);
+        },
+        error: function (error) {
+            console.error("Error Get Data:", error);
+        },
+    });
+}
+
+function print(data) {
+    const printContentDiv = document.createElement("div");
+    let tableRows = "";
+
+    let sumAmount = 0;
+    let ppn = 0;
+    let No = 0;
+    let Page = 0;
+
+    for (let i = 0; i < data.print.length; i++) {
+        sumAmount += parseFloat(data.print[i].PriceSub);
+        ppn += parseFloat(data.print[i].PPN);
     }
+
+    const sumAmountFix = !sumAmount.toLocaleString("en-US").includes(".")
+        ? sumAmount.toLocaleString("en-US") + ".00"
+        : sumAmount.toLocaleString("en-US");
+
+    const ppnFix = !ppn.toLocaleString("en-US").includes(".")
+        ? ppn.toLocaleString("en-US") + ".00"
+        : ppn.toLocaleString("en-US");
+
+    const chunkSize = 5;
+    const chunkedData = [];
+    for (let i = 0; i < data.print.length; i += chunkSize) {
+        chunkedData.push(data.print.slice(i, i + chunkSize));
+    }
+
+    chunkedData.forEach((chunk, chunkIndex) => {
+        chunk.forEach((item, index) => {
+            tableRows += `
+                <tr>
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                        No + 1
+                    }</p></td>
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                        item.Kd_brg
+                    }</p></td>
+                    <td><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;">
+                    ${item.NAMA_BRG.replace(/</g, "&lt;")}
+                    <br>
+                    ${item.keterangan || "-"}
+                    <br>
+                    ${item.nama_kategori}
+                    <br>
+                    ${item.nama_sub_kategori}
+                    <br>
+                    ${item.No_trans}</p>
+                    </td>
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                        !parseFloat(item.Qty)
+                            .toLocaleString("en-US")
+                            .includes(".")
+                            ? parseFloat(item.Qty).toLocaleString("en-US") +
+                              ".00"
+                            : parseFloat(item.Qty).toLocaleString("en-US")
+                    }</p></td>
+                    <td style="text-align: center;vertical-align: top;">
+                    <p style="margin:0;font-size: 13px;font-family: Helvetica;">${item.Nama_satuan.trim()}</p>
+                    </td>
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                        !parseFloat(item.PriceUnit)
+                            .toLocaleString("en-US")
+                            .includes(".")
+                            ? parseFloat(item.PriceUnit).toLocaleString(
+                                  "en-US"
+                              ) + ".00"
+                            : parseFloat(item.PriceUnit).toLocaleString("en-US")
+                    }</p></td>
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                        !parseFloat(
+                            item.harga_disc == null ? 0 : item.harga_disc
+                        )
+                            .toLocaleString("en-US")
+                            .includes(".")
+                            ? parseFloat(
+                                  item.harga_disc == null ? 0 : item.harga_disc
+                              ).toLocaleString("en-US") + ".00"
+                            : parseFloat(
+                                  item.harga_disc == null ? 0 : item.harga_disc
+                              ).toLocaleString("en-US")
+                    }</p></td>
+                    <td style="text-align: right;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                        !parseFloat(item.PriceSub)
+                            .toLocaleString("en-US")
+                            .includes(".")
+                            ? parseFloat(item.PriceSub).toLocaleString(
+                                  "en-US"
+                              ) + ".00"
+                            : parseFloat(item.PriceSub).toLocaleString("en-US")
+                    }</p></td>
+                </tr>
+            `;
+            No += 1;
+        });
+
+        const print = `
+        <div style="width: 20.5cm; height: 27.94cm; padding: 30px 10px 0px 10px; margin: 0; background: #FFFFFF; box-sizing: border-box; page-break-after: ${
+            chunkIndex < chunkedData.length - 1 ? `always` : `avoid`
+        };">
+            <div style="width: 100%; height : 15%;">
+            </div>
+            <main style="width: 100%; height : 70%;">
+                <div style="width: 100%; height: auto; display: flex;">
+                    <div style="width: 50%; height: auto; margin-right: 20px;">
+                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin:2px 0 10px 0;">Issued To:</h1>
+                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                            data.printHeader[0].NM_SUP
+                        }</p>
+                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                            data.printHeader[0].ALAMAT1
+                        }</p>
+                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                            data.printHeader[0].KOTA1
+                        }</p>
+                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                            data.printHeader[0].NEGARA1
+                        }</p>
+                        <br>
+                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin-top: 10px; margin-bottom: 2px;">Delivery To:</h1>
+                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">PT. Kerta Rajasa Raya</p>
+                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Jl. Raya Tropodo No. 1</p>
+                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Waru - Sidoarjo 61256 East Java, Indonesia</p>
+                    </div>
+                    <div style="width: 50%; height: auto; margin-left: 20px;">
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 30%; height: auto;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Number</h1>
+                            </div>
+                            <div style="width: 70%; height: auto;">
+                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                    data.printHeader[0].NO_PO
+                                }</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 30%; height: auto;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Date</h1>
+                            </div>
+                            <div style="width: 70%; height: auto;">
+                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                    data.printHeader[0].Tgl_sppb
+                                }</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 30%; height: auto;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Delivery Date</h1>
+                            </div>
+                            <div style="width: 70%; height: auto;">
+                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                    data.printHeader[0].Est_Date
+                                }</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 30%; height: auto;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Payment Term</h1>
+                            </div>
+                            <div style="width: 70%; height: auto;">
+                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                    data.printHeader[0].Pembayaran
+                                }</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 30%; height: auto;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Divisi</h1>
+                            </div>
+                            <div style="width: 70%; height: auto;">
+                                <div  style="font-size: 13px;font-family: Helvetica; margin: 2px 0; display:flex"><span>:</span> <p style="font-size: 13px;font-family: Helvetica; margin: 0 0 0 4px">${data.printHeader[0].Kd_div.trim()} - ${data.printHeader[0].NM_DIV.trim()}</p></div>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 30%; height: auto;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Requester</h1>
+                            </div>
+                            <div style="width: 70%; height: auto;">
+                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                    data.printHeader[0].Nama
+                                }</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 30%; height: auto;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Page</h1>
+                            </div>
+                            <div style="width: 70%; height: auto;">
+                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: Page ${
+                                    Page + 1
+                                } of ${chunkedData.length}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="details" style="margin-top: 20px;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">No.</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Item Number</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Description</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Qty</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit Price IDR</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Disc. IDR</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Amount IDR</h1></th>
+                            </tr>
+                        </thead>
+                        <tbody style="border-top: 1px solid black; border-bottom: 1px solid black;">
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+                <div style="width: 100%; display: flex;">
+                    <div style="width: 70%;">
+                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold;margin-top:50px">Document Copy of ${
+                            data.print[0].JumCetak
+                        }</h1>
+                    </div>
+                    <div style="width: 30%;">
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 40%; margin-right: 3rem;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Sub Total</h1>
+                            </div>
+                            <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
+                                <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${sumAmountFix}</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 40%; margin-right: 3rem;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">VAT</h1>
+                            </div>
+                            <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
+                                <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${ppnFix}</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 40%; margin-right: 3rem;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Total</h1>
+                            </div>
+                            <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
+                                <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                                    !(sumAmount + ppn)
+                                        .toLocaleString("en-US")
+                                        .includes(".")
+                                        ? (sumAmount + ppn).toLocaleString(
+                                              "en-US"
+                                          ) + ".00"
+                                        : (sumAmount + ppn).toLocaleString(
+                                              "en-US"
+                                          )
+                                }</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    `;
+
+        printContentDiv.innerHTML += print;
+        tableRows = "";
+        Page += 1;
+    });
+    console.log(printContentDiv);
+    const printWindow = window.open("", "_blank");
+    const style = document.createElement("style");
+    style.textContent = `
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    `;
+    window.location.href = "/PurchaseOrder/create";
+    printWindow.document.head.appendChild(style);
+    printWindow.document.body.appendChild(printContentDiv);
+    printWindow.print();
+}
+
+$(document).ready(function () {
+    LoadPermohonan(loadPermohonanData);
+    console.log(loadPermohonanData);
+    // console.log(loadHeaderData);
+
+    $("#matauang_select").val(loadPermohonanData[0].ID_MATAUANG);
+    $("#supplier_select option").each(function () {
+        if ($(this).text() === loadPermohonanData[0].NM_SUP) {
+            $("#supplier_select").val($(this).val());
+            return false;
+        }
+    });
+    supplier_select.addEventListener("change", function (event) {
+        if (supplier_select.selectedIndex !== 0) {
+            $.ajax({
+                url: "/openFormCreateSPPB/create/DaftarSupplier",
+                type: "GET",
+                data: {
+                    idsup: supplier_select.value,
+                },
+                success: function (response) {
+                    for (let i = 0; i < matauang_select.options.length; i++) {
+                        if (
+                            matauang_select.options[i].value.replace(
+                                /\s/g,
+                                ""
+                            ) === response[0].Id_MataUang.replace(/\s/g, "")
+                        ) {
+                            matauang_select.selectedIndex = i;
+                            console.log('aman')
+                        }
+                    }
+                    jenisSupplier = response[0].JNS_SUP;
+                },
+                error: function (error) {
+                    console.error("Error Send Data:", error);
+                },
+            });
+        }
+    });
+    paymentTerm_select.addEventListener("change", function (event) {
+        btn_post.focus()
+    });
+    qty_delay.addEventListener("input", function (event) {
+        let qtyDelay = parseFloat(fixValueQTYOrder - qty_delay.value);
+
+        setInputFilter(
+            document.getElementById("qty_delay"),
+            function (value) {
+                return (
+                    /^-?\d*[.,]?\d*$$/.test(value) &&
+                    (value === "" || parseFloat(value) <= fixValueQTYOrder)
+                );
+            },
+            `Tidak boleh ketik character dan angka dibawah 0, harus angka diatas 0 dan tidak boleh lebih dari angka awal`
+        );
+        if (qtyDelay <= fixValueQTYOrder && qtyDelay >= 0) {
+            qty_order.value = qtyDelay.toFixed(2);
+        }
+        updateIdrUnit();
+        // updateSubTotal();
+        updateSubTotalDisc();
+        updateIDRSubTotal();
+        updateIDRPPN();
+        updatePPN();
+        updateHargaTotal();
+        updateIDRHargaTotal();
+        // updateDisc();
+        updateTotalDisc();
+        updateIDRDiscTotal();
+        // updateIDRDisc();
+    });
+
+    qty_order.addEventListener("input", function (event) {
+        let qtyOrder = parseFloat(fixValueQTYOrder - qty_order.value);
+        setInputFilter(
+            document.getElementById("qty_order"),
+            function (value) {
+                return (
+                    /^-?\d*[.,]?\d*$/.test(value) &&
+                    (value === "" || parseFloat(value) <= fixValueQTYOrder)
+                );
+            },
+            `Tidak boleh ketik character dan angka dibawah 0, harus angka diatas 0 dan tidak boleh lebih dari angka awal`
+        );
+        if (qtyOrder <= fixValueQTYOrder && qtyOrder >= 0) {
+            qty_delay.value = qtyOrder.toFixed(2);
+        }
+        updateIdrUnit();
+        // updateSubTotal();
+        updateSubTotalDisc();
+        updateIDRSubTotal();
+        updateIDRPPN();
+        updatePPN();
+        updateHargaTotal();
+        updateIDRHargaTotal();
+        // updateDisc();
+        updateTotalDisc();
+        updateIDRDiscTotal();
+        // updateIDRDisc();
+    });
+
+    kurs.addEventListener("input", function (event) {
+        setInputFilter(
+            document.getElementById("kurs"),
+            function (value) {
+                return /^-?\d*[.,]?\d*$/.test(value);
+            },
+            "Tidak boleh character, harus angka"
+        );
+        updateIdrUnit();
+        // updateSubTotal();
+        updateSubTotalDisc();
+        updateIDRSubTotal();
+        updateIDRPPN();
+        updatePPN();
+        updateHargaTotal();
+        updateIDRHargaTotal();
+        // updateIDRDisc();
+        updateTotalDisc();
+        updateIDRDiscTotal();
+        // updateDisc();
+    });
+
+    harga_unit.addEventListener("input", function (event) {
+        setInputFilter(
+            document.getElementById("harga_unit"),
+            function (value) {
+                return /^-?\d*([.,]\d*)*$/.test(value);
+            },
+            "Tidak boleh character, harus angka"
+        );
+        updateIdrUnit();
+        // updateSubTotal();
+        updateSubTotalDisc();
+        updateIDRSubTotal();
+        updateIDRPPN();
+        updatePPN();
+        updateHargaTotal();
+        updateIDRHargaTotal();
+        // updateDisc();
+        updateTotalDisc();
+        updateIDRDiscTotal();
+        // updateIDRDisc();
+    });
+
+    ppn_select.addEventListener("change", function (event) {
+        updatePPN();
+        updateIDRPPN();
+        updateHargaTotal();
+        updateIDRHargaTotal();
+        btn_update.focus()
+    });
+    disc.addEventListener("input", function (event) {
+        setInputFilter(
+            document.getElementById("disc"),
+            function (value) {
+                return /^-?\d*([.,]\d*)*$/.test(value);
+            },
+            "Tidak boleh character, harus angka"
+        );
+        updateIdrUnit();
+        updateSubTotal();
+        updateIDRSubTotal();
+        updateIDRPPN();
+        updatePPN();
+        updateHargaTotal();
+        updateIDRHargaTotal();
+        updateDisc();
+        updateIDRDisc();
+    });
+    total_disc.addEventListener("input", function (event) {
+        setInputFilter(
+            document.getElementById("total_disc"),
+            function (value) {
+                return /^-?\d*([.,]\d*)*$/.test(value);
+            },
+            "Tidak boleh character, harus angka"
+        );
+        updateIdrUnit();
+        updateSubTotalDisc();
+        updateIDRSubTotal();
+        updateIDRPPN();
+        updatePPN();
+        updateHargaTotal();
+        updateIDRHargaTotal();
+        updateTotalDisc();
+        updateIDRDiscTotal();
+    });
+
+    qty_order.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            qty_order.value = parseFloat(qty_order.value).toFixed(2);
+            qty_delay.focus();
+            qty_delay.select();
+        }
+    });
+    qty_delay.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            qty_delay.value = parseFloat(qty_delay.value).toFixed(2);
+            kurs.focus();
+            kurs.select();
+        }
+    });
+    kurs.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            kurs.value = parseFloat(kurs.value).toFixed(4);
+            disc.focus();
+            disc.select();
+        }
+    });
+
+    harga_unit.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            const data = numeral(harga_unit.value).value();
+            harga_unit.value = numeral(data).format("0,0.0000");
+            ppn_select.focus();
+        }
+    });
+
+    disc.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            disc.value = numeral(disc.value).format("0,0.00");
+            total_disc.focus();
+            total_disc.select();
+        }
+    });
+
+    total_disc.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            const data = numeral(total_disc.value).value();
+            total_disc.value = numeral(data).format("0,0.0000");
+            harga_unit.focus();
+            harga_unit.select();
+        }
+    });
 });
 
-update_button.addEventListener("click", function (event) {
-    event.preventDefault();
-});
+function updateIdrUnit() {
+    let kurs = numeral(document.getElementById("kurs").value).value();
+    let hargaUnit = numeral(
+        document.getElementById("harga_unit").value
+    ).value();
+    if (!isNaN(kurs) && !isNaN(hargaUnit)) {
+        let idrUnitValue = hargaUnit * kurs;
+        idr_unit.value = numeral(idrUnitValue).format("0,0.0000");
+    }
+}
 
-reject_button.addEventListener("click", function (event) {
-    event.preventDefault();
-});
+function updateSubTotal() {
+    let qty_order = numeral(document.getElementById("qty_order").value).value();
+    let hargaUnit = numeral(
+        document.getElementById("harga_unit").value
+    ).value();
+    let disc = numeral(document.getElementById("disc").value).value();
+    if (!isNaN(qty_order) && !isNaN(hargaUnit) && !isNaN(disc)) {
+        let SubTotalValue = hargaUnit * qty_order;
+        let discount = (SubTotalValue * disc) / 100;
+        let hargaSubTotal = SubTotalValue - discount;
 
-remove_button.addEventListener("click", function (event) {
-    event.preventDefault();
-});
+        harga_sub_total.value = numeral(hargaSubTotal).format("0,0.0000");
+    }
+}
 
-post_poButton.addEventListener("click", function (event) {
-    event.preventDefault();
-});
-//#endregion
+function updateIDRSubTotal() {
+    let kurs = numeral(document.getElementById("kurs").value).value();
+    let hargaSubTotal = numeral(
+        document.getElementById("harga_sub_total").value
+    ).value();
 
-//#region Function
+    if (!isNaN(kurs) && !isNaN(hargaSubTotal)) {
+        let idrSubTotalValue = hargaSubTotal * kurs;
+        idr_sub_total.value = numeral(idrSubTotalValue).format("0,0.0000");
+    }
+}
 
-//#region
+function updateSubTotalDisc() {
+    let qty_order = numeral(document.getElementById("qty_order").value).value();
+    let hargaUnit = numeral(
+        document.getElementById("harga_unit").value
+    ).value();
+    let total_disc = numeral(
+        document.getElementById("total_disc").value
+    ).value();
+    if (!isNaN(qty_order) && !isNaN(hargaUnit) && !isNaN(total_disc)) {
+        let SubTotalValue = hargaUnit * qty_order;
+        let hargaSubTotal = SubTotalValue - total_disc;
+        harga_sub_total.value = numeral(hargaSubTotal).format("0,0.0000");
+    }
+}
+
+function updatePPN() {
+    let selectedPPN = numeral(
+        ppn_select.options[ppn_select.selectedIndex].text
+    ).value();
+    let hargaSubTotal = numeral(
+        document.getElementById("harga_sub_total").value
+    ).value();
+    if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal)) {
+        let jumPPN = (hargaSubTotal * selectedPPN) / 100;
+        ppn.value = numeral(jumPPN).format("0,0.0000");
+    }
+}
+
+function updateIDRPPN() {
+    let selectedPPN = numeral(
+        ppn_select.options[ppn_select.selectedIndex].text
+    ).value();
+    let hargaSubTotal = numeral(
+        document.getElementById("harga_sub_total").value
+    ).value();
+    let kurs = numeral(document.getElementById("kurs").value).value();
+    if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal) && !isNaN(kurs)) {
+        let jumPPN = (hargaSubTotal * selectedPPN) / 100;
+        let idrPPNValue = jumPPN * kurs;
+        idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
+    }
+}
+
+function updateHargaTotal() {
+    let ppn = numeral(document.getElementById("ppn").value).value();
+    let hargaSubTotal = numeral(
+        document.getElementById("harga_sub_total").value
+    ).value();
+    if (!isNaN(ppn) && !isNaN(hargaSubTotal)) {
+        let hargaTotalValue = hargaSubTotal + ppn;
+        harga_total.value = numeral(hargaTotalValue).format("0,0.0000");
+    }
+}
+
+function updateIDRHargaTotal() {
+    let kurs = numeral(document.getElementById("kurs").value).value();
+    let hargaTotal = numeral(
+        document.getElementById("harga_total").value
+    ).value();
+    if (!isNaN(kurs) && !isNaN(hargaTotal)) {
+        let IDRHargaTotalValue = hargaTotal * kurs;
+        idr_harga_total.value = numeral(IDRHargaTotalValue).format("0,0.0000");
+    }
+}
+
+function updateDisc() {
+    let qty_order = numeral(document.getElementById("qty_order").value).value();
+    let hargaUnit = numeral(
+        document.getElementById("harga_unit").value
+    ).value();
+    let disc = numeral(document.getElementById("disc").value).value();
+    if (!isNaN(hargaUnit) && !isNaN(qty_order) && !isNaN(disc)) {
+        let SubTotalValue = hargaUnit * qty_order;
+        let discount = (SubTotalValue * disc) / 100;
+        total_disc.value = numeral(discount).format("0,0.0000");
+    }
+}
+
+function updateTotalDisc() {
+    let qty_order = numeral(document.getElementById("qty_order").value).value();
+    let hargaUnit = numeral(
+        document.getElementById("harga_unit").value
+    ).value();
+    let total_disc = numeral(
+        document.getElementById("total_disc").value
+    ).value();
+    if (!isNaN(hargaUnit) && !isNaN(qty_order) && !isNaN(total_disc)) {
+        let SubTotalValue = hargaUnit * qty_order;
+        let discount = (total_disc / SubTotalValue) * 100;
+        disc.value = numeral(discount).format("0,0.00");
+    }
+}
+
+function updateIDRDisc() {
+    let qty_order = numeral(document.getElementById("qty_order").value).value();
+    let hargaUnit = numeral(
+        document.getElementById("harga_unit").value
+    ).value();
+    let disc = numeral(document.getElementById("disc").value).value();
+    let kurs = numeral(document.getElementById("kurs").value).value();
+
+    if (
+        !isNaN(hargaUnit) &&
+        !isNaN(qty_order) &&
+        !isNaN(disc) &&
+        !isNaN(kurs)
+    ) {
+        let SubTotalValue = hargaUnit * qty_order;
+        let discount = (SubTotalValue * disc) / 100;
+        let totalIDRDiscValue = discount * kurs;
+        idr_total_disc.value = numeral(totalIDRDiscValue).format("0,0.0000");
+    }
+}
+
+function updateIDRDiscTotal() {
+    let total_disc = numeral(
+        document.getElementById("total_disc").value
+    ).value();
+    let kurs = numeral(document.getElementById("kurs").value).value();
+
+    if (!isNaN(total_disc) && !isNaN(kurs)) {
+        let totalIDRDiscValue = total_disc * kurs;
+        idr_total_disc.value = numeral(totalIDRDiscValue).format("0,0.0000");
+    }
+}

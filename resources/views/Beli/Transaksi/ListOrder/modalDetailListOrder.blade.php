@@ -18,23 +18,32 @@
                         <p class="RDZCard2" id="Kategori_ListOrder"></p>
                         <p class="RDZCard2" id="SubKategori_ListOrder"></p>
                     </div>
-                    <p class="RDZCard" id="Qty_ListOrder"></p>
-                    <p class="RDZCard" id="ketOrder_ListOrder"></p>
-                    <p class="RDZCard" id="ketInternal_ListOrder"></p>
-                    <p class="RDZCard" id="Divisi_ListOrder"></p>
                     <p class="RDZCard" id="Pemesan_ListOrder"></p>
                     <p class="RDZCard" id="Status_ListOrder"></p>
                     <p class="RDZCard" id="TglButuh_ListOrder"></p>
+                    <p class="RDZCard" id="keterangan" onclick="Detail('Detail_Ket','iconKet');">Keterangan : <text
+                            class='material-symbols-outlined' style='font-size:20px' id='iconKet'>expand_more</text>
+                    </p>
+                    <div id="Detail_Ket" style="display: none;border: 1px solid;padding-left: 10px">
+                        <p class="RDZCard" id="KetBarang_ListOrder"></p>
+                        <p class="RDZCard" id="KetOrder_ListOrder"></p>
+                        <p class="RDZCard" id="KetInternal_ListOrder"></p>
+                    </div>
                     <p class="RDZCard" id="AccManager_ListOrder"></p>
                     <p class="RDZCard" id="Offered_ListOrder"></p>
-                    <p class="RDZCard" id="Supplier_ListOrder"></p>
-
-                    <p class="RDZCard" id="Total_ListOrder" onclick="Detail('Detail_Harga','iconHarga');"></p>
+                    <p class="RDZCard" id="AccDireksi_ListOrder"></p>
+                    <p class="RDZCard" id="CreatePO_ListOrder"></p>
+                    <p class="RDZCard" id="TotalPrice_ListOrder" onclick="Detail('Detail_Harga','iconHarga');"></p>
                     <div id="Detail_Harga" style="display: none;border: 1px solid;padding-left: 10px">
-                        <p class="RDZCard2" id="Harga_ListOrder"></p>
-                        <p class="RDZCard2" id="Subtotal_ListOrder"></p>
-                        <p class="RDZCard2" id="PPN_ListOrder"></p>
+                        <p class="RDZCard" id="Currency_ListOrder"></p>
+                        <p class="RDZCard" id="UnitPrice_ListOrder"></p>
+                        <p class="RDZCard" id="Discount_ListOrder"></p>
+                        <p class="RDZCard" id="PPN_ListOrder"></p>
                     </div>
+                    <p class="RDZCard" id="ReceiveBTTB_ListOrder"></p>
+                    <p class="RDZCard" id="TransferInventory_ListOrder"></p>
+                    <p class="RDZCard" id="StatusOrder_ListOrder"></p>
+
                     <button type="button" class="btn btn-sm btn-default RDZButtonCard" data-dismiss="modal"
                         style="background-color:gray;color: white;">Tutup</button>
                 </div>

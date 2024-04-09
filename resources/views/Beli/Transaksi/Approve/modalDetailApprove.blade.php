@@ -10,7 +10,7 @@
                     <div class="loader" style="text-align: center;margin-left: 35%;"></div>
                     <br>
                 </div>
-                    
+
             <form class="formDetail" method="POST" enctype="multipart/form-data" action="" >
             {{ csrf_field() }}
             <div class="modal-body bordered" id="DivDetailData">

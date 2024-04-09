@@ -9,16 +9,22 @@ use App\Models\Beli\TransBL;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
+use DateTime;
+use DateTimeZone;
+use DB;
 
 
 class FinalApproveController extends Controller
 {
     public function index()
     {
+        $kd = 4;
+        $operator = trim(Auth::user()->NomorUser);
+        $result = (new HakAksesController)->HakAksesFitur('Final Approve');
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
-        $result = (new HakAksesController)->HakAksesFitur('FinalApprove');
         if ($result > 0) {
-            $data = TransBL::select()->join('YUSER_ACC_DIR', 'YUSER_ACC_DIR.Kd_div', 'YTRANSBL.Kd_div')->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')->where('YUSER_ACC_DIR.Kd_user', strval(Auth::user()->kd_user))->where('StatusOrder', '3')->get();
+            // $data = TransBL::select()->join('YUSER_ACC_DIR', 'YUSER_ACC_DIR.Kd_div', 'YTRANSBL.Kd_div')->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')->where('YUSER_ACC_DIR.Kd_user', strval(Auth::user()->kd_user))->where('StatusOrder', '3')->get();
+            $data = DB::connection('ConnPurchase')->select('exec SP_5409_LIST_ORDER @kd = ?, @Operator=?',[$kd,$operator]);
             return view('Beli.Transaksi.FinalApprove.List', compact('data', 'access'));
         } else {
             abort(403);
@@ -28,13 +34,14 @@ class FinalApproveController extends Controller
     public function store(Request $request)
     {
         $Checked = $request->input('checkedBOX');
-        $date = date("Y-m-d H:i:s");
+        $date = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+        $date->format('Y-m-d H:i:s');
         if (empty($Checked)) {
             echo 'kosong';
             return back()->with('danger', 'Gagal Approve/Reject, Karena Tidak Ada Data yang Dipilih');
         } else {
             foreach ($Checked as $item) {
-                TransBL::where('No_trans', $item)->update(['Tgl_Direktur' => $date, 'Direktur' => Auth::user()->kd_user, 'StatusOrder' => '4']);
+                TransBL::where('No_trans', $item)->update(['Tgl_Direktur' => $date, 'Direktur' => trim(Auth::user()->NomorUser), 'StatusOrder' => '4']);
             }
             return back();
         }
@@ -51,20 +58,21 @@ class FinalApproveController extends Controller
 
     public function update(Request $request, $id)
     {
-        $date = date("Y-m-d H:i:s");
-        TransBL::where('No_trans', $id)->update(['Tgl_Direktur' => $date, 'Direktur' => Auth::user()->kd_user, 'StatusOrder' => '4']);
+        $date = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+        $date->format('Y-m-d H:i:s');
+        TransBL::where('No_trans', $id)->update(['Tgl_Direktur' => $date, 'Direktur' => trim(Auth::user()->NomorUser), 'StatusOrder' => '4']);
 
         return back();
     }
 
-    public function destroy($id)
-    {
-        $HapusBarang = Barang::find($id);
-        $HapusBarang->status = "Dihapus";
-        $HapusBarang->save();
+    // public function destroy($id)
+    // {
+    //     $HapusBarang = Barang::find($id);
+    //     $HapusBarang->status = "Dihapus";
+    //     $HapusBarang->save();
 
 
 
-        return back();
-    }
+    //     return back();
+    // }
 }

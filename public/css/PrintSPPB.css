@@ -1,0 +1,60 @@
+.print-layout {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 1cm;
+    margin: 1cm auto;
+    border: 1px solid #D3D3D3;
+    border-radius: 5px;
+    background: #FFFFFF;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.page-main {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.page-headerChild {
+    width: 50%;
+    height: auto;
+}
+
+.page-headerChild1 {
+    width: 70%;
+    height: auto;
+}
+
+.page-headerChild2 {
+    width: 30%;
+    height: auto;
+}
+
+h1 {
+    font-size: large;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+p {
+    line-height: 13.8px;
+    font-size: 12px;
+}
+
+th {
+    text-align: center;
+}
+
+.details table {
+    width: 100%;
+    border: 0px solid;
+}
+
+thead th {
+    border-bottom: 1px solid;
+}
+
+
+tbody td {
+    border-bottom: 1px solid;
+}
