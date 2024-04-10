@@ -11,36 +11,30 @@
     <title style="font-size: 20px">@yield('title', 'Home EDP')</title>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-
+    <script src="{{ asset('js/jquery-3.1.0.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.1.0.js"></script> -->
-    <!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/kitfontawesome.js') }}"></script>
-    {{-- <script src="https://kit.fontawesome.com/e9be4582cc.js" crossorigin="anonymous"></script> --}}
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('js/jsdelivrNpmSelect2.js') }}"></script>
     <script src="{{ asset('js/User.js') }}"></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    {{-- Masih belum sepenuhnya Offline --}}
+    <link href="{{ asset('css/fonts.googleapis.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/JsdelivrNpmSelect2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/FontsGoogleapisIconFamilyMaterialIcons.css') }}" rel="stylesheet" />
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet" />
 </head>
 
 <body onload="Greeting()">
@@ -146,47 +140,6 @@
                 @endif
                 @endforeach
                 </ul>
-                {{-- <ul class="navbar-nav mr-auto RDZNavContenCenter">
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                        style="margin: 10px">
-                                        Master
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('User') }}">User</a></li>
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('Computer') }}">Computer</a></li>
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('Cartridge') }}">Cartridge</a></li>
-                                    </ul>
-                                </div>
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                        style="margin: 10px">
-                                        Perbaikan
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('PerbaikanComputer') }}">Computer</a></li>
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('PerbaikanPrinter') }}">Printer</a></li>
-                                        <li style="margin: 10px;"><a class="dropdown-item"
-                                                style="color: black;font-size: 15px;display: block"
-                                                href="{{ url('PerbaikanCartridge') }}">Cartridge</a></li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <a type="button" style="margin: 10px;color: black;font-size: 15px;display: block" href="{{url('Jurnal')}}">Jurnal</a>
-                                </div>
-                        </ul> --}}
             @endguest
             <!-- Right Side Of Navbar -->
 
@@ -194,43 +147,21 @@
             @guest
             @else
                 <ul class="navbar-nav ml-auto">
-                    {{-- <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->NamaUser }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li> --}}
                     <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
                         <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label id="greeting1"></label>,
                             {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
                     </div>
                     <li><a class="RDZlogout" style="color: black;font-size: 15px;display: block;"
                             href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
-
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
                     </li>
                 </ul>
             @endguest
-
         </div>
 </div>
 </nav>

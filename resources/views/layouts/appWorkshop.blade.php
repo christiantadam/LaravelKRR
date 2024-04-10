@@ -24,8 +24,6 @@
     <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
-
-
     <script src="{{ asset('js/User.js') }}"></script>
 
     <!-- Fonts -->
@@ -43,7 +41,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
 </head>
 
 <body onload="Greeting()">
@@ -188,15 +185,6 @@
 {{-- @section('title', 'Laravel') --}}
 <main class="py-4">
     @yield('content')
-    {{-- <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0">
-                <div class="card">
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    {{-- Copy ini di setiap halaman --}}
 </main>
 </div>
 <script>
