@@ -159,7 +159,7 @@
 
             @if ($formName == 'index')
                 <div id="navbar_full" class="">
-                    @if ($pageName == 'BeratKomposisi')
+                    @if ($pageName == 'BeratKomposisi') {{-- Ini bisa diganti --}}
                         <ul>
                             <li class="dropdown">
                                 <a href="#"><span>Berat Standar</span> <i class="bi bi-chevron-down"></i></a>
@@ -204,7 +204,7 @@
                             </li>
                             <li><a href="/Extruder">Keluar</a></li>
                         </ul>
-                    @elseif($pageName == 'ExtruderNet')
+                    @elseif($pageName == 'ExtruderNet'){{-- Ini bisa diganti --}}
                         <ul>
                             <li class="dropdown">
                                 <a href="#"><span>Master</span> <i class="bi bi-chevron-down"></i></a>
@@ -354,7 +354,7 @@
                             </li>
                             <li><a href="/Extruder">Keluar</a></li>
                         </ul>
-                    @elseif($pageName == 'WarehouseTerima')
+                    @elseif($pageName == 'WarehouseTerima'){{-- Ini bisa diganti --}}
                         <ul class="warehouse" style="border: black solid 3px;">
                             <li><a href="/Extruder/WarehouseTerima/formScanGelondongan">Scan
                                     Kirim<br>Gelondongan</a>
