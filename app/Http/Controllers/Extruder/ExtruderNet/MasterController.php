@@ -195,20 +195,20 @@ class MasterController extends Controller
 
     public function getListKomposisi($id_divisi, $id_komposisi = null)
     {
-        return DB::connection('ConnExtruder')->select(
-            'exec SP_5298_EXT_LIST_KOMPOSISI_1 @iddivisi = ?, @idkomposisi = ?',
-            [$id_divisi, $id_komposisi]
-        );
+        // return DB::connection('ConnExtruder')->select(
+        //     'exec SP_5298_EXT_LIST_KOMPOSISI_1 @iddivisi = ?, @idkomposisi = ?',
+        //     [$id_divisi, $id_komposisi]
+        // );
 
         // @iddivisi char(3), @idkomposisi char(9) = null
     }
 
     public function getListMesin($kode)
     {
-        return DB::connection('ConnExtruder')->select(
-            'exec SP_5298_EXT_LIST_MESIN @kode = ?',
-            [$kode]
-        );
+        // return DB::connection('ConnExtruder')->select(
+        //     'exec SP_5298_EXT_LIST_MESIN @kode = ?',
+        //     [$kode]
+        // );
 
         // @kode integer
     }

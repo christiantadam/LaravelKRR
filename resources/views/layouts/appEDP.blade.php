@@ -7,11 +7,11 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="16x16">
+    <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" loading=lazy sizes="16x16">
     <title style="font-size: 20px">@yield('title', 'Home EDP')</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.1.0.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>

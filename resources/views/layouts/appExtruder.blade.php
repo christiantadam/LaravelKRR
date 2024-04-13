@@ -24,19 +24,20 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.7.0.min.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('css/extruder_style.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body onload="Greeting()">
     <!-- ======= Header ======= -->
     <header id="header" class="d-flex align-items-center justify-content-center">
         @if ($pageName == 'WarehouseTerima' && $formName == 'index')
-            <div class="container d-flex justify-content-between" style="margin: 0px;">
+            <div class="container d-flex justify-content-left" style="margin: 0px;">
             @else
-                <div class="container d-flex justify-content-between">
+                <div class="container d-flex justify-content-left">
         @endif
 
         <div id="logo">
@@ -156,6 +157,10 @@
         </div>
 
         <nav id="navbar" class="navbar">
+            <div class="NameAndroid RDZNavBrandCenter" style="display:none;padding-top: 5px;">
+                <p style="font-size: 15px;display: block;margin-bottom: 0px;text-align:center"><label
+                        id="greeting"></label>, {{ Auth::user()->NamaUser }}</p>
+            </div>
 
             @if ($formName == 'index')
                 <div id="navbar_full" class="">
@@ -204,8 +209,8 @@
                             </li>
                             <li><a href="/Extruder">Keluar</a></li>
                         </ul>
-                    @elseif($pageName == 'ExtruderNet'){{-- Ini bisa diganti --}}
-                        <ul>
+                    @elseif($pageName == 'Extruder')
+                        {{-- <ul>
                             <li class="dropdown">
                                 <a href="#"><span>Master</span> <i class="bi bi-chevron-down"></i></a>
                                 <ul>
@@ -353,91 +358,179 @@
                                 </ul>
                             </li>
                             <li><a href="/Extruder">Keluar</a></li>
-                        </ul>
-                    @elseif($pageName == 'WarehouseTerima'){{-- Ini bisa diganti --}}
-                        <ul class="warehouse" style="border: black solid 3px;">
-                            <li><a href="/Extruder/WarehouseTerima/formScanGelondongan">Scan
-                                    Kirim<br>Gelondongan</a>
-                            </li>
-                            <li><a href="/Extruder/WarehouseTerima/formBatalGelondongan">Batal
-                                    Kirim<br>Gelondongan</a>
-                            </li>
-                            <li><a href="/Extruder/WarehouseTerima/formScanAssesoris">Scan
-                                    Kirim<br>Assesoris</a></li>
-                            <li><a href="/Extruder/WarehouseTerima/formBatalAssesoris">Batal
-                                    Kirim<br>Assesoris</a>
-                            </li>
-                            <li><a href="/Extruder/WarehouseTerima/formScanKRR2">Scan
-                                    Kirim<br>KRR2</a></li>
-                            <li><a href="/Extruder/WarehouseTerima/formBatalKRR2">Batal
-                                    Kirim<br>KRR2</a></li>
-                            <li><a href="/Extruder/WarehouseTerima/formCekBarcode">Cek<br>Barcode</a>
-                            </li>
-                            <li><a href="/Extruder/WarehouseTerima/formTerimaKRR2">Terima<br>KRR2</a>
-                            </li>
-                            <li><a href="/Extruder/WarehouseTerima/formStokSetengah">Stok<br>Setengah
-                                    Jadi</a></li>
-                            <li><a href="/Extruder/WarehouseTerima/formTerimaPeletan">Scan
-                                    Terima<br>Peletan</a></li>
-                            <li><a href="/Extruder/WarehouseTerima/formGagalPeletan">Gagal
-                                    Terima<br>Peletan</a></li>
-                            <li><a href="/Extruder">Keluar</a></li>
-                        </ul>
-                    @endif
-                </div>
-            @else
-                <div id="navbar_exit">
-                    @if ($pageName == 'BeratKomposisi')
-                        <ul>
-                            <li><a href="/Extruder/BeratKomposisi">Keluar</a></li>
-                        </ul>
-                    @elseif($pageName == 'ExtruderNet')
-                        <ul>
-                            <li><a href="/Extruder/ExtruderNet">Keluar</a></li>
-                        </ul>
-                    @elseif($pageName == 'WarehouseTerima')
-                        <ul>
-                            <li><a href="/Extruder/WarehouseTerima">Keluar</a></li>
-                        </ul>
-                    @endif
-                </div>
-            @endif
-
-        </nav><!-- .navbar -->
-
+                        </ul> --}}
+                        <ul style="padding:5px">
+                            @foreach ($access['AccessMenu'] as $menuItem)
+                                @php
+                                    $print = 0;
+                                    $cekSubMenuPrint = 0;
+                                @endphp
+                                @if ($menuItem->Parent_IdMenu === null)
+                                    @php
+                                        $print = 1;
+                                    @endphp
+                                    <div class="dropdown">
+                                        <a>
+                                            {{ $menuItem->NamaMenu }}
+                                        </a>
+                                @endif
+                                @foreach ($access['AccessMenu'] as $cekSubMenu)
+                                    @if ($menuItem->IdMenu == $cekSubMenu->Parent_IdMenu)
+                                        <ul style="padding:5px;cursor: default;">
+                                            @php
+                                                $cekSubMenuPrint = 1;
+                                            @endphp
+                                        @break
+                                @endif
+                            @endforeach
+                            @foreach ($access['AccessMenu'] as $secondMenuItem)
+                                @php
+                                    $printSecond = 0;
+                                @endphp
+                                @if ($secondMenuItem->Parent_IdMenu !== null && $secondMenuItem->Parent_IdMenu == $menuItem->IdMenu)
+                                    @php
+                                        $printSecond = 1;
+                                    @endphp
+                                    <li class="dropdown">
+                                        <a>
+                                            {{ $secondMenuItem->NamaMenu }} &raquo;
+                                        </a>
+                                @endif
+                                @if ($printSecond == 1)
+                                    <ul style="padding:5px">
+                                        @foreach ($access['AccessFitur'] as $secondSubMenuItem)
+                                            @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
+                                                <li>
+                                                    <a style="color: black;font-size: 15px;display: block"
+                                                        class="dropdown-item" tabindex="-1"
+                                                        href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                            @if ($cekSubMenuPrint == 1)
+                    </ul>
+                @endif
+                @if ($print == 1 && $printSecond == 0)
+                    <ul style="padding:5px">
+                        @foreach ($access['AccessFitur'] as $subMenuItem)
+                            @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
+                                <li>
+                                    <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
+                                        tabindex="-1"
+                                        href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+            </div>
+        @endif
+        @endforeach
+        </ul>
+    @elseif($pageName == 'WarehouseTerima')
+        {{-- Ini bisa diganti --}}
+        <ul class="warehouse" style="border: black solid 3px;">
+            <li><a href="/Extruder/WarehouseTerima/formScanGelondongan">Scan
+                    Kirim<br>Gelondongan</a>
+            </li>
+            <li><a href="/Extruder/WarehouseTerima/formBatalGelondongan">Batal
+                    Kirim<br>Gelondongan</a>
+            </li>
+            <li><a href="/Extruder/WarehouseTerima/formScanAssesoris">Scan
+                    Kirim<br>Assesoris</a></li>
+            <li><a href="/Extruder/WarehouseTerima/formBatalAssesoris">Batal
+                    Kirim<br>Assesoris</a>
+            </li>
+            <li><a href="/Extruder/WarehouseTerima/formScanKRR2">Scan
+                    Kirim<br>KRR2</a></li>
+            <li><a href="/Extruder/WarehouseTerima/formBatalKRR2">Batal
+                    Kirim<br>KRR2</a></li>
+            <li><a href="/Extruder/WarehouseTerima/formCekBarcode">Cek<br>Barcode</a>
+            </li>
+            <li><a href="/Extruder/WarehouseTerima/formTerimaKRR2">Terima<br>KRR2</a>
+            </li>
+            <li><a href="/Extruder/WarehouseTerima/formStokSetengah">Stok<br>Setengah
+                    Jadi</a></li>
+            <li><a href="/Extruder/WarehouseTerima/formTerimaPeletan">Scan
+                    Terima<br>Peletan</a></li>
+            <li><a href="/Extruder/WarehouseTerima/formGagalPeletan">Gagal
+                    Terima<br>Peletan</a></li>
+            <li><a href="/Extruder">Keluar</a></li>
+        </ul>
+        @endif
         </div>
-    </header><!-- End Header -->
+    @else
+        <div id="navbar_exit">
+            @if ($pageName == 'BeratKomposisi')
+                <ul>
+                    <li><a href="/Extruder/BeratKomposisi">Keluar</a></li>
+                </ul>
+            @elseif($pageName == 'ExtruderNet')
+                <ul>
+                    <li><a href="/Extruder/ExtruderNet">Keluar</a></li>
+                </ul>
+            @elseif($pageName == 'WarehouseTerima')
+                <ul>
+                    <li><a href="/Extruder/WarehouseTerima">Keluar</a></li>
+                </ul>
+            @endif
+        </div>
+        @endif
+        <ul class="navbar-nav ml-auto">
+            <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
+                <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label id="greeting1"></label>,
+                    {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
+            </div>
+            <li><a class="RDZlogout" style="color: black;font-size: 15px;display: block;"
+                    href="{{ route('logout') }}"
+                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </li>
+        </ul>
+    </nav><!-- .navbar -->
 
-    <!-- Modal -->
-    <div class="modal fade" id="confirmation_modal" tabindex="-1" data-toggle="modal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Pesan Konfirmasi</h1>
-                    <button type="button" id="btn_close_md" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div id="modal_body" class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn_cancel_md" class="btn btn-secondary"
-                        data-bs-dismiss="modal">Batal</button>
-                    <button type="button" id="btn_confirm_md" class="btn btn-primary"
-                        data-bs-dismiss="modal"></button>
-                </div>
+    </div>
+</header><!-- End Header -->
+
+<!-- Modal -->
+<div class="modal fade" id="confirmation_modal" tabindex="-1" data-toggle="modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Pesan Konfirmasi</h1>
+                <button type="button" id="btn_close_md" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div id="modal_body" class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn_cancel_md" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Batal</button>
+                <button type="button" id="btn_confirm_md" class="btn btn-primary"
+                    data-bs-dismiss="modal"></button>
             </div>
         </div>
     </div>
-    <!-- End Modal -->
+</div>
+<!-- End Modal -->
 
-    <!-- Template Main JS File -->
-    <script src="{{ asset('js/Extruder/extruder_main.js') }}"></script>
+<!-- Template Main JS File -->
+<script src="{{ asset('js/Extruder/extruder_main.js') }}"></script>
 
-    <main id="main">
-        <div class="container">
-            @yield('content')
-        </div>
-    </main><!-- End #main -->
+<main id="main">
+    <div class="container">
+        @yield('content')
+    </div>
+</main><!-- End #main -->
 </body>
 
 </html>
