@@ -63,9 +63,10 @@ btn_save.addEventListener("click", function (event) {
                 Swal.fire({
                     icon: "success",
                     title:
-                        response.message + " Dengan No. Order " + response.data,
+                        response.message +
+                        " Silahkan dicatat No. Order berikut: " +
+                        response.data,
                     showConfirmButton: false,
-                    timer: "2000",
                 });
                 no_order.value = response.data;
                 btn_save.disabled = true;
@@ -671,7 +672,7 @@ $(document).ready(function () {
             console.error("Error Fetch Data:", error);
         },
     });
-    console.log(statusKoreksi, idUser, data);
+    console.log(statusKoreksi, idUser, data, statusKoreksi != null);
     if (statusKoreksi != null) {
         $.ajax({
             url: "/MaintenanceOrderPembeliann/CekNoTrans",
@@ -724,11 +725,20 @@ $(document).ready(function () {
                         btn_delete.disabled = true;
                     }
                 } else {
-                    alert("No Trans Tidak Ditemukan");
+                    Swal.fire({
+                        title: "No Trans Tidak Ditemukan",
+                    });
                 }
+                btn_delete.disabled = false;
+                btn_save.disabled = false;
+                btn_submit.disabled = false;
+                btn_clear.disabled = true;
             },
             error: function (error) {
-                console.error("Error Send Data:", error);
+                Swal.fire({
+                    title: "Error Send Data:" + error,
+                    icon: error,
+                });
             },
         });
     } else {

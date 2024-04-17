@@ -43,12 +43,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region Beli
     Route::get('Beli', 'App\Http\Controllers\HomeController@Beli');
-    Route::resource('OrderPembelian', App\Http\Controllers\Beli\Transaksi\OrderPembelianController::class);
+
     Route::resource('ListOrder', App\Http\Controllers\Beli\Transaksi\ListOrderController::class);
     Route::resource('DaftarHarga', App\Http\Controllers\Beli\Informasi\DaftarHargaController::class);
     Route::resource('Approve', App\Http\Controllers\Beli\Transaksi\ApproveController::class);
     Route::resource('FinalApprove', App\Http\Controllers\Beli\Transaksi\FinalApproveController::class);
-    Route::resource('OrderPembelian', App\Http\Controllers\Beli\Transaksi\OrderPembelianController::class);
     Route::resource('MaintenanceOrderPembelian', App\Http\Controllers\Beli\Transaksi\MaintenanceOrderPembelianController::class);
     Route::resource('CariType', App\Http\Controllers\Beli\Informasi\CariTypeController::class);
     Route::resource('Supplier', App\Http\Controllers\Beli\Master\SupplierController::class);
@@ -734,7 +733,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('ACCPPIC', App\Http\Controllers\WORKSHOP\Workshop\Transaksi\ACCPPICController::class);
     Route::get('ACCCPPIC/{user}/{nomorOrder}', 'App\Http\Controllers\WORKSHOP\Workshop\Transaksi\ACCPPICController@ACCCPPIC');
 
-
     Route::resource('PenerimaOrderKerja', App\Http\Controllers\WORKSHOP\Workshop\Transaksi\PenerimaOrderKerjaController::class);
     Route::get('getalldataPenerimaOrderKerja/{tgl_awal}/{tgl_akhir}', 'App\Http\Controllers\WORKSHOP\Workshop\Transaksi\PenerimaOrderKerjaController@GetAllData');
     Route::get('cekuserPenerimaOrderKerja/{user}', 'App\Http\Controllers\WORKSHOP\Workshop\Transaksi\PenerimaOrderKerjaController@cekuser');
@@ -775,10 +773,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getdataprintCetakOrderProyek/{idorder}', 'App\Http\Controllers\WORKSHOP\Workshop\Proyek\CetakOrderProyekController@getdataprint');
     Route::post('updatedatacetakOrderProyek', 'App\Http\Controllers\WORKSHOP\Workshop\Proyek\CetakOrderProyekController@updatedatacetak');
 
-
     Route::resource('StatusOrderProyek', App\Http\Controllers\WORKSHOP\Workshop\Proyek\StatusOrderProyekController::class);
     Route::get('GetAllDataStatusOrderProyek/{tgl_awal}/{tgl_akhir}/{div}', 'App\Http\Controllers\WORKSHOP\Workshop\Proyek\StatusOrderProyekController@GetAllData');
-
 
     // Workshop - Informasi
 

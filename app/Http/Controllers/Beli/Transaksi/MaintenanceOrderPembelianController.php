@@ -10,7 +10,6 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 
 class MaintenanceOrderPembelianController extends Controller
-
 {
     // Display a listing of the resource.
     public function index(Request $request)
@@ -21,11 +20,8 @@ class MaintenanceOrderPembelianController extends Controller
         $statusKoreksi = $request->query('s');
         $result = (new HakAksesController)->HakAksesFitur('Maintenance Order Pembelian');
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
-        if ($result > 0) {
-            return view('Beli.Transaksi.MaintenanceOrderPembelian', compact('access', 'idUser', 'data', 'statusKoreksi'));
-        } else {
-            abort(403);
-        }
+        return view('Beli.Transaksi.MaintenanceOrderPembelian', compact('access', 'idUser', 'data', 'statusKoreksi'));
+
     }
 
     public function cekNoTrans(Request $request)
@@ -74,7 +70,7 @@ class MaintenanceOrderPembelianController extends Controller
             $kategoriUtama = DB::connection('ConnPurchase')->select('exec spSelect_HirarkiTypeBarang_dotNet @MyType = ?', [$MyType]);
             $satuanList = DB::connection('ConnPurchase')->select('exec sp_list_stri');
             $divisi = DB::connection('ConnPurchase')->select('exec spSelect_UserDivisi_dotNet @Operator = ?', [trim(Auth::user()->NomorUser)]);
-            return Response()->json(["kategoriUtama" => $kategoriUtama,  "satuanList" => $satuanList, "divisi" => $divisi]);
+            return Response()->json(["kategoriUtama" => $kategoriUtama, "satuanList" => $satuanList, "divisi" => $divisi]);
         } catch (\Throwable $Error) {
             return Response()->json($Error);
         }

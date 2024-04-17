@@ -21,12 +21,34 @@ class MaintenanceHakAksesController extends Controller
 
     function getAllFitur($IdProgram, $NomorPegawai)
     {
-        $fiturMaster = DB::connection('ConnEDP')->table('FiturMaster')->select('NamaMenu', 'NamaFitur', 'IdFitur')->leftJoin('MenuMaster', 'Id_Menu', '=', 'IdMenu')->where('Id_Program', '=', $IdProgram)->get();
-        $idFiturMilikUser = DB::connection('ConnEDP')->table('User_Fitur')->select('Id_Fitur')->leftJoin('UserMaster', 'IdUser', '=', 'Id_User')->where('NomorUser', '=', $NomorPegawai)->get();
-        $data = [
-            $fiturMaster,
-            $idFiturMilikUser
-        ];
+        $fiturMaster = DB::connection('ConnEDP')->table('FiturMaster')
+            ->select('NamaMenu', 'NamaFitur', 'IdFitur')
+            ->leftJoin('MenuMaster', 'Id_Menu', '=', 'IdMenu')
+            ->where('Id_Program', '=', $IdProgram)
+            ->get();
+        $idFiturMilikUser = DB::connection('ConnEDP')->table('User_Fitur')
+            ->select('Id_Fitur')
+            ->leftJoin('UserMaster', 'IdUser', '=', 'Id_User')
+            ->where('NomorUser', '=', $NomorPegawai)
+            ->get();
+        if ($NomorPegawai !== 666) {
+            $idFiturPublic = DB::connection('ConnEDP')->table('User_Fitur')
+                ->select('Id_Fitur')
+                ->leftJoin('UserMaster', 'IdUser', '=', 'Id_User')
+                ->where('NomorUser', '=', '666')
+                ->get();
+            $data = [
+                $fiturMaster,
+                $idFiturMilikUser,
+                $idFiturPublic
+            ];
+        } else {
+            $data = [
+                $fiturMaster,
+                $idFiturMilikUser
+            ];
+        }
+
         return response()->json($data);
     }
 
@@ -45,7 +67,7 @@ class MaintenanceHakAksesController extends Controller
             //     ->where('UserMaster.NomorUser', $request->namaPegawaiText)
             //     ->whereIn('User_fitur.Id_Fitur', $deletedValues)
             //     ->delete();
-            for ($i=0; $i < count($deletedValues); $i++) {
+            for ($i = 0; $i < count($deletedValues); $i++) {
                 DB::connection('ConnEDP')->statement('exec SP_4384_EDP_MaintenanceHakAksesLaravel @XKode = ?, @NomorUser = ?, @DeletedValues = ?', [1, $request->namaPegawaiText, $deletedValues[$i]]);
             }
         }

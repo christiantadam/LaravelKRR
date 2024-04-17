@@ -73,35 +73,31 @@ const SpesifikasiType = {
     KarungWovenBag: 1508,
 };
 
+btn_isi.focus();
+
 check_export.disabled = true;
 labelExport.style.display = "none";
 groupSpek.style.display = "none";
-select_satuanTritier.addEventListener("change", function(e){
-    for (
-        let i = 0;
-        i < select_satuanUmum.options.length;
-        i++
-    ) {
+select_satuanTritier.addEventListener("change", function (e) {
+    for (let i = 0; i < select_satuanUmum.options.length; i++) {
         if (
-            select_satuanUmum.options[i].value.replace(
-                /\s/g,
-                ""
-            ) ==
+            select_satuanUmum.options[i].value.replace(/\s/g, "") ==
             select_satuanTritier.value.replace(/\s/g, "")
         ) {
             select_satuanUmum.selectedIndex = i;
         }
     }
-})
-kd_barang.addEventListener("input", function (event) {
-    setInputFilter(
-        document.getElementById("kd_barang"),
-        function (value) {
-            return /^\d*$/.test(value);
-        },
-        "Tidak boleh character, harus angka"
-    );
+});
 
+setInputFilter(
+    document.getElementById("kd_barang"),
+    function (value) {
+        return /^\d*$/.test(value);
+    },
+    "Tidak boleh character, harus angka"
+);
+
+kd_barang.addEventListener("input", function (event) {
     if (kd_barang.value != "") {
         btn_proses.disabled = false;
     } else {
@@ -139,6 +135,7 @@ btn_isi.addEventListener("click", function () {
     btn_isi.disabled = true;
     btn_koreksi.disabled = true;
     btn_hapus.disabled = true;
+    kd_barang.focus();
 });
 
 btn_koreksi.addEventListener("click", function () {
@@ -218,18 +215,17 @@ btn_proses.addEventListener("click", function (event) {
                 Barang_Export: barangEksport,
             },
             success: function (response) {
-                if(response.errorInfo == undefined){
+                if (response.errorInfo == undefined) {
                     Swal.fire({
                         icon: "success",
                         title:
                             "Data Berhasil DiTambahkan! Kode Barang = " +
                             response.kd,
                     });
-                }else{
+                } else {
                     Swal.fire({
                         icon: "error",
-                        title:
-                            "Data Tidak Berhasil DiTambahkan Karena Data Sudah Ada!",
+                        title: "Data Tidak Berhasil DiTambahkan Karena Data Sudah Ada!",
                         showConfirmButton: false,
                         timer: "5000",
                     });
@@ -341,11 +337,10 @@ btn_proses.addEventListener("click", function (event) {
             success: function (response) {
                 Swal.fire({
                     icon: "success",
-                    title: "Data Berhasil DiTambahkan!",
+                    title: "Data Berhasil DiHapuskan!",
                     showConfirmButton: false,
                     timer: "2000",
                 });
-
                 clearData();
                 btnActive = "batal";
                 disableAll();
@@ -356,7 +351,7 @@ btn_proses.addEventListener("click", function (event) {
             error: function (error) {
                 Swal.fire({
                     icon: "error",
-                    title: "Data Tidak Berhasil DiTambahkan!",
+                    title: "Data Tidak Berhasil DiHapuskan!",
                     showConfirmButton: false,
                     timer: "2000",
                 });
@@ -367,7 +362,7 @@ btn_proses.addEventListener("click", function (event) {
 });
 
 btn_closeCekBarang.addEventListener("click", function (event) {
-    abortCekNamaBarang()
+    abortCekNamaBarang();
     $("#table_cekNamaBarang").DataTable().clear().destroy();
 });
 
@@ -465,9 +460,9 @@ btn_namaBarang.addEventListener("click", function (event) {
             data: function (data) {
                 data.namaBarang = nama_Barang.value.trim();
             },
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 requestCekNamaBarang = xhr;
-            }
+            },
         },
         columns: [
             { data: "nama_sub_kategori" },

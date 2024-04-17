@@ -9,7 +9,6 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 
 class MaintenanceKodeBarangController extends Controller
-
 {
     // Display a listing of the resource.
     public function index()
@@ -315,10 +314,12 @@ class MaintenanceKodeBarangController extends Controller
 
         if ($KD_BRG0 != null) {
             try {
-                $data = DB::connection('ConnPurchase')->statement('exec spDelete2_TypeBarang_dotNet @USERDELETE =?,@KD_BRG0 =?', [
+                DB::connection('ConnPurchase')->statement('exec spDelete2_TypeBarang_dotNet @USERDELETE =?,@KD_BRG0 =?', [
                     $USERDELETE,
                     $KD_BRG0
-
+                ]);
+                DB::connection('ConnPurchase')->statement('exec spDelete_TypeBarang_dotNet @KD_BRG0 =?', [
+                    $KD_BRG0
                 ]);
                 return response()->json(['message' => 'Data berhasil dihapus']);
             } catch (\Throwable $Error) {

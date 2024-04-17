@@ -3,7 +3,6 @@
     <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
 
     @include('Beli/Transaksi/ListOrder/modalDetailListOrder')
-    <script src="{{ asset('js/OrderPembelian/ListOrder/ListOrder.js') }}"></script>
     <script>
         let idUser = {!! json_encode($idUser) !!};
         $(document).ready(function() {
@@ -30,6 +29,10 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
+                <button class="acs-icon-btn acs-add-btn acs-float" onclick="openNewWindow('MaintenanceOrderPembelian')">
+                    <div class="acs-add-icon"></div>
+                    <div class="acs-btn-txt">Tambah Order</div>
+                </button>
                 <div class="card">
                     @if (Auth::user()->status == 1)
                         <div class="card-header">List Order</div>
@@ -105,10 +108,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class=""><p>Klik Status Order Saved Untuk Melakukan Koreksi</p></div>
+                        <div class="">
+                            <p>Klik Status Order Saved Untuk Melakukan Maintenance Order</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="{{ asset('js/OrderPembelian/ListOrder/ListOrder.js') }}"></script>
 @endsection

@@ -71,14 +71,19 @@ namaProgram.addEventListener("keypress", function (event) {
 namaProgramText.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        console.log(namaProgramText.value,namaPegawaiText.value);
+        console.log(namaProgramText.value, namaPegawaiText.value);
         fetch(
             "/AllFitur/" + namaProgramText.value + "/" + namaPegawaiText.value
         )
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                let checklist = createChecklist(data[0], data[1]);
+                let checklist;
+                if (namaPegawaiText.value != 666) {
+                    checklist = createChecklist(data[0], data[1], data[2]);
+                } else {
+                    checklist = createChecklist(data[0], data[1]);
+                }
                 divFitur.style.display = "block";
                 // console.log(checklist);
                 listFitur.appendChild(checklist);
@@ -182,7 +187,7 @@ buttonCancel.addEventListener("click", function (event) {
 
 //#region Function
 
-function createChecklist(array, checkedItems) {
+function createChecklist(array, checkedItems, publicItems) {
     let currentDiv;
     let checklist;
     let listItemCounter = 0;
@@ -210,8 +215,19 @@ function createChecklist(array, checkedItems) {
         const isChecked = checkedItems.some(
             (checkedItem) => checkedItem.Id_Fitur === item.IdFitur
         );
+        // console.log(checkbox, isChecked);
         if (isChecked) {
             checkbox.checked = true;
+        }
+        if (namaPegawaiText.value != 666) {
+            const isPublic = publicItems.some(
+                (publicItems) => publicItems.Id_Fitur === item.IdFitur
+            );
+
+            if (isPublic) {
+                checkbox.checked = true;
+                checkbox.disabled = true;
+            }
         }
 
         const label = document.createElement("label");
