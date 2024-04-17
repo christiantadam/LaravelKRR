@@ -222,10 +222,8 @@ btn_proses.addEventListener("click", function (event) {
                     Swal.fire({
                         icon: "success",
                         title:
-                            "Data Berhasil DiTambahkan! Kode Barang =" +
+                            "Data Berhasil DiTambahkan! Kode Barang = " +
                             response.kd,
-                        showConfirmButton: false,
-                        timer: "5000",
                     });
                 }else{
                     Swal.fire({
