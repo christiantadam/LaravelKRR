@@ -5,17 +5,21 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Proyek;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
+use App\Http\Controllers\HakAksesController;
+
 class StatusOrderProyekController extends Controller
 {
 
     public function index()
     {
-        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [4384]);
-        return view('WORKSHOP.Workshop.Proyek.StatusOrderProyek', compact(['divisi']));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
+        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
+        return view('WORKSHOP.Workshop.Proyek.StatusOrderProyek', compact(['divisi'], 'access'));
     }
-    public function GetAllData($tgl_awal, $tgl_akhir,$div)
+    public function GetAllData($tgl_awal, $tgl_akhir, $div)
     {
-        $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-PRY] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [9, $tgl_awal, $tgl_akhir,$div]);
+        $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-PRY] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [9, $tgl_awal, $tgl_akhir, $div]);
         return response()->json($all);
     }
 

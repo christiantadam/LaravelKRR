@@ -5,6 +5,7 @@ namespace App\Http\Controllers\WORKSHOP\Gps\JadwalKonstruksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class InputJadwalController extends Controller
 {
@@ -65,7 +66,7 @@ class InputJadwalController extends Controller
         $worksts = $request->WorkStation;
         $jamKrj = $request->jam_kerja;
         $status = $request->status;
-        $user = 4384;
+        $user = Auth::user()->NomorUser;
         $idBag = $request->NamaBagian;
         $hari = $request->hariKe;
         DB::connection('Connworkshop')->statement('exec [SP_5298_PJW_INSERT-NEWQUE-KONSTRUKSI] @estDate = ?, @estHour = ?, @estMinute = ?, @worksts = ?, @jamKrj = ?, @status = ?, @user = ?, @idBag = ?, @hari = ?', [$estDate, $estHour, $estMinute, $worksts, $jamKrj, $status, $user, $idBag, $hari]);

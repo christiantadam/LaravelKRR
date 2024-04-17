@@ -182,7 +182,6 @@
         </div>
     </nav>
 </div>
-{{-- @section('title', 'Laravel') --}}
 <main class="py-4">
     @yield('content')
 </main>

@@ -5,17 +5,21 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Proyek;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
+use Auth;
 
 class MaintenanceOrderProyekController extends Controller
 {
 
     public function index()
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         $satuan = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_SATUAN]');
-        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [4384]);
-        return view('WORKSHOP.Workshop.Proyek.MaintenanceOrderProyek', compact(['divisi', 'satuan']));
+        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
+        return view('WORKSHOP.Workshop.Proyek.MaintenanceOrderProyek', compact(['divisi', 'satuan'], 'access'));
     }
-    public function GetMesin($idDivisi) {
+    public function GetMesin($idDivisi)
+    {
         $mesin = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_LIST-MESIN] @Id_divisi = ?', [$idDivisi]);
         return response()->json($mesin);
     }
@@ -29,7 +33,8 @@ class MaintenanceOrderProyekController extends Controller
         $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-PRY] @kode = ?, @tgl1 = ?, @tgl2 = ?, @user = ?, @div = ?', [2, $tgl_awal, $tgl_akhir, $iduserOrder, $divisi]);
         return response()->json($all);
     }
-    public function GetDataTable($noOrder) {
+    public function GetDataTable($noOrder)
+    {
         $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-PRY] @kode = ?, @noOrder = ?', [3, $noOrder]);
         return response()->json($all);
     }

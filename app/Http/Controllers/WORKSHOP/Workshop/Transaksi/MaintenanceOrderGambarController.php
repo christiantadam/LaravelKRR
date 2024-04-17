@@ -5,17 +5,20 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
+use Auth;
 
 class MaintenanceOrderGambarController extends Controller
 {
 
     public function index()
     {
-        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [4384]);
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
+        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
         $satuan = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_SATUAN]');
 
         //dd($satuan);
-        return view('WORKSHOP.Workshop.Transaksi.MaintenanceOrderGambar', compact(['divisi', 'satuan']));
+        return view('WORKSHOP.Workshop.Transaksi.MaintenanceOrderGambar', compact(['divisi', 'satuan'], 'access'));
     }
     public function GetDataAll($tgl_awal, $tgl_akhir, $divisi)
     {

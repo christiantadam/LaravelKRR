@@ -5,14 +5,16 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class PenerimaOrderGambarController extends Controller
 {
 
     public function index()
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         $drafter = DB::connection('Connworkshop')->select('[SP_5298_WRK_USER-DRAFTER]');
-        return view('WORKSHOP.Workshop.Transaksi.PenerimaOrderGambar', compact(['drafter']));
+        return view('WORKSHOP.Workshop.Transaksi.PenerimaOrderGambar', compact(['drafter'], 'access'));
     }
     public function GetAllData($tgl_awal, $tgl_akhir)
     {
@@ -39,7 +41,8 @@ class PenerimaOrderGambarController extends Controller
         $data = DB::connection('Connworkshop')->select('[SP_5298_WRK_CEK-NO-GBR] @noGbr = ?', [$nogambar]);
         return response()->json($data);
     }
-    public function GetUserDrafter($noOd) {
+    public function GetUserDrafter($noOd)
+    {
         $data = DB::connection('Connworkshop')->select('[SP_5298_WRK_LOAD-DRAFTER] @noOd = ?', [$noOd]);
         return response()->json($data);
     }
@@ -128,8 +131,8 @@ class PenerimaOrderGambarController extends Controller
             $tglapprove = explode(",", $arraytglapp);
             DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-GBR] @kode = ?, @noOd = ?, @userDraf = ?, @tglSt = ?, @tglFh = ?', [2, $noOd, $userDraf, $tglSt, $tglFh]);
 
-            for ($i=0; $i < count($nomorgambar); $i++) {
-                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-DETAIL-ORDER-GBR]  @noOd = ?, @noGbr = ?, @nmBrg = ?, @tglAppv = ?', [$noOd, $nomorgambar[$i],$namagambar[$i],$tglapprove[$i]]);
+            for ($i = 0; $i < count($nomorgambar); $i++) {
+                DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-DETAIL-ORDER-GBR]  @noOd = ?, @noGbr = ?, @nmBrg = ?, @tglAppv = ?', [$noOd, $nomorgambar[$i], $namagambar[$i], $tglapprove[$i]]);
             }
             return redirect()->back()->with('success', 'Data TerSIMPAN');
         }

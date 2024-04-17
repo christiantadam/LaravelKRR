@@ -5,6 +5,7 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class MaintenanceMesinController extends Controller
 {
@@ -13,8 +14,8 @@ class MaintenanceMesinController extends Controller
     {
         $divisi = DB::connection('Connworkshop')->select('exec SP_5298_WRK_DIVISI');
         //$mesin = DB::connection('Connworkshop')->select('exec SP_5298_WRK_LIST-MESIN');
-
-        return view('WORKSHOP.Workshop.Master.MaintenanceMesin', compact(['divisi']));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
+        return view('WORKSHOP.Workshop.Master.MaintenanceMesin', compact(['divisi'], 'access'));
     }
     public function getmesin($id)
     {

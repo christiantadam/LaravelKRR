@@ -34,6 +34,7 @@ Route::get('/', function () {
 Route::get('/test', 'App\Http\Controllers\testController@index'); //untuk registrasi user password
 
 Route::get('/login', 'App\Http\Controllers\LoginController@index')->name('login');
+Route::post('Register', 'App\Http\Controllers\LoginController@Register')->name('register');
 Route::post('login', 'App\Http\Controllers\LoginController@login');
 Route::post('/logout', 'App\Http\Controllers\LoginController@logout')->name('logout');
 
@@ -346,11 +347,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/Extruder/{pageName?}', [ExtruderController::class, 'index']);
     Route::get('/Extruder/WarehouseTerima/{formName?}', [WarehouseController::class, 'index']);
     Route::get('/Extruder/{pageName?}/{formName?}', [ExtruderController::class, 'index']);
-    Route::get('/Extruder/ExtruderNet/Master/{formName?}/{namaGedung?}', [MasterController::class, 'index']);
-    Route::get('/Extruder/ExtruderNet/Order/{formName?}/{namaGedung?}', [OrderController::class, 'index']);
-    Route::get('/Extruder/ExtruderNet/Konversi/{formName?}/{namaGedung?}', [KonversiController::class, 'index']);
-    Route::get('/Extruder/ExtruderNet/Benang/{formName?}/{namaGedung?}', [BenangController::class, 'index']);
-    Route::get('/Extruder/ExtruderNet/Catat/{formName?}', [PencatatanController::class, 'index']);
+    Route::get('/Extruder/Extruder/Master/{formName?}/{namaGedung?}', [MasterController::class, 'index']);
+    Route::get('/Extruder/Extruder/Order/{formName?}/{namaGedung?}', [OrderController::class, 'index']);
+    Route::get('/Extruder/Extruder/Konversi/{formName?}/{namaGedung?}', [KonversiController::class, 'index']);
+    Route::get('/Extruder/Extruder/Benang/{formName?}/{namaGedung?}', [BenangController::class, 'index']);
+    Route::get('/Extruder/Extruder/Catat/{formName?}', [PencatatanController::class, 'index']);
     #endregion
 
     Route::get('/beratStandar/{fun_str}/{fun_data}', [BeratController::class, 'beratStandar']);
@@ -675,8 +676,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('getdata/{id}', 'App\Http\Controllers\WORKSHOP\Workshop\Master\UpdateNoGambarController@Getdata');
     Route::get('getmesin/{id}', 'App\Http\Controllers\WORKSHOP\Workshop\Master\MaintenanceMesinController@getmesin');
-
-
 
     // Workshop - Transaksi
     Route::resource('MaintenanceOrderGambar', App\Http\Controllers\WORKSHOP\Workshop\Transaksi\MaintenanceOrderGambarController::class);

@@ -6,15 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Auth;
+use App\Http\Controllers\HakAksesController;
 
 class MaintenanceOrderKerjaController extends Controller
 {
     public function index()
     {
-        //
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         $satuan = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_SATUAN]');
-        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [4384]);
-        return view('WORKSHOP.Workshop.Transaksi.MaintenanceOrderKerja', compact(['divisi', 'satuan']));
+        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
+        return view('WORKSHOP.Workshop.Transaksi.MaintenanceOrderKerja', compact(['divisi', 'satuan'], 'access'));
     }
     public function LoadData1($noGambar)
     {

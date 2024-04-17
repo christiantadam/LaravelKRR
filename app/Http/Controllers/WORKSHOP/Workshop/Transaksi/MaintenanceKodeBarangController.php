@@ -5,20 +5,25 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
+use App\Http\Controllers\HakAksesController;
+
 class MaintenanceKodeBarangController extends Controller
 {
 
     public function index()
     {
-        //
-        return view('WORKSHOP.Workshop.Transaksi.MaintenanceNomorGambar');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
+        return view('WORKSHOP.Workshop.Transaksi.MaintenanceNomorGambar', compact('access'));
     }
-    public function getbarang($noOd) {
+    public function getbarang($noOd)
+    {
         $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LOAD-DATA-GBR] @kode = ?, @noOd = ?', [1, $noOd]);
         return response()->json($all);
     }
-    public function selectnoGambar($noOd, $kode) {
-        $all = DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_LOAD-NO-GBR]  @noOd = ?, @kode = ?', [$noOd ,$kode]);
+    public function selectnoGambar($noOd, $kode)
+    {
+        $all = DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_LOAD-NO-GBR]  @noOd = ?, @kode = ?', [$noOd, $kode]);
         return response()->json($all);
     }
 

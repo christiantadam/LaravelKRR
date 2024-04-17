@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Auth;
 
 class EditEstimasiTanggalController extends Controller
 {
@@ -119,7 +120,7 @@ class EditEstimasiTanggalController extends Controller
         $worksts = $request->worksts;
         $oldDate =  $request->oldDate;
         $jamKrj = $request->jamKrj;
-        $user = 4384;
+        $user = Auth::user()->NomorUser;
         $keterangan = $request->keterangan;
         return DB::connection('Connworkshop')->statement(
             'exec [SP_5298_PJW_EDIT-ESTDATE-KONSTRUKSI-NEW] @estDate = ?, @noAntri = ?, @idBag = ?, @estHour = ?, @estMinute = ?, @worksts = ?, @oldDate = ?, @jamKrj = ?, @user = ?, @keterangan = ?',

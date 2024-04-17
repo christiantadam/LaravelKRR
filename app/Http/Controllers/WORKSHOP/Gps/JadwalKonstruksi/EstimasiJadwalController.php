@@ -5,6 +5,7 @@ namespace App\Http\Controllers\WORKSHOP\Gps\JadwalKonstruksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class EstimasiJadwalController extends Controller
 {
@@ -46,7 +47,7 @@ class EstimasiJadwalController extends Controller
         $tglStart = $request->TglStart;
         $tglFinish = $request->TglFinish;
         // $ppic = $request->PPIC;
-        DB::connection('Connworkshop')->statement('exec [SP_5298_PJW_MAINT-ESTIMASI-KONSTRUKSI] @kode = ?, @noOd = ?, @tglStart = ?, @tglFinish = ?, @ppic = ?', [1, $noOd, $tglStart, $tglFinish,4384]);
+        DB::connection('Connworkshop')->statement('exec [SP_5298_PJW_MAINT-ESTIMASI-KONSTRUKSI] @kode = ?, @noOd = ?, @tglStart = ?, @tglFinish = ?, @ppic = ?', [1, $noOd, $tglStart, $tglFinish,Auth::user()->NomorUser]);
         return redirect()->back()->with('success',"Data telah diSimpan.");
     }
 
@@ -67,7 +68,7 @@ class EstimasiJadwalController extends Controller
         $noOd = $request->NoOrder;
         $tglStart = $request->TglStart;
         $tglFinish = $request->TglFinish;
-        DB::connection('Connworkshop')->statement('exec [SP_5298_PJW_MAINT-ESTIMASI-KONSTRUKSI] @kode = ?, @noOd = ?, @tglStart = ?, @tglFinish = ?, @ppic = ?', [2, $noOd, $tglStart, $tglFinish,4384]);
+        DB::connection('Connworkshop')->statement('exec [SP_5298_PJW_MAINT-ESTIMASI-KONSTRUKSI] @kode = ?, @noOd = ?, @tglStart = ?, @tglFinish = ?, @ppic = ?', [2, $noOd, $tglStart, $tglFinish,Auth::user()->NomorUser]);
         return redirect()->back()->with('success',"Data telah diKoreksi.");
 
     }

@@ -3,8 +3,8 @@ let kddivisi = document.getElementById('kddivisi');
 let refresh = document.getElementById('refresh');
 let cek = false;
 let UserACC = document.getElementById('UserACC');
-let user = 4384;
-UserACC.value = user;
+// let user = 4384;
+// UserACC.value = user;
 
 let no_order = document.getElementById('no_order');
 let jmlh1 = document.getElementById('jmlh1');

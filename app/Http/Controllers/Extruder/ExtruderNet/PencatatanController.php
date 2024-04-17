@@ -11,7 +11,7 @@ class PencatatanController extends Controller
 {
     public function index($form_name)
     {
-        $view_name = 'extruder.ExtruderNet.' . $form_name;
+        $view_name = 'extruder.Extruder.' . $form_name;
         $form_data = [];
 
         switch ($form_name) {
@@ -39,7 +39,7 @@ class PencatatanController extends Controller
         }
 
         $view_data = [
-            'pageName' => 'ExtruderNet',
+            'pageName' => 'Extruder',
             'formName' => $form_name,
             'formData' => $form_data,
         ];

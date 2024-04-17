@@ -5,22 +5,26 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Informasi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
+use Auth;
 
 class LacakOrderKerja extends Controller
 {
 
     public function index()
     {
-        //
-        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [4384]);
-        return view('WORKSHOP.Workshop.Informasi.OrderKerjaSelesai',compact(['divisi']));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
+        $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
+        return view('WORKSHOP.Workshop.Informasi.OrderKerjaSelesai', compact(['divisi'], 'access'));
 
     }
-    public function GetAllDataPengorder($tgl_awal , $tgl_akhir, $divisi) {
-        $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [10, $tgl_awal, $tgl_akhir,$divisi]);
+    public function GetAllDataPengorder($tgl_awal, $tgl_akhir, $divisi)
+    {
+        $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [10, $tgl_awal, $tgl_akhir, $divisi]);
         return response()->json($all);
     }
-    public function GetAllDataPenerima($tgl_awal , $tgl_akhir) {
+    public function GetAllDataPenerima($tgl_awal, $tgl_akhir)
+    {
         $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?', [11, $tgl_awal, $tgl_akhir]);
         return response()->json($all);
     }

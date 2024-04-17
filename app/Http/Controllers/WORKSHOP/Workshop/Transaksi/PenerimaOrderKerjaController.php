@@ -5,12 +5,14 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class PenerimaOrderKerjaController extends Controller
 {
     public function index()
     {
-        return view('WORKSHOP.Workshop.Transaksi.PenerimaOrderKerja');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
+        return view('WORKSHOP.Workshop.Transaksi.PenerimaOrderKerja', compact('access'));
     }
     public function GetAllData($tgl_awal, $tgl_akhir)
     {
@@ -22,19 +24,23 @@ class PenerimaOrderKerjaController extends Controller
         $data = DB::connection('Connworkshop')->select('[SP_5298_WRK_USER-WRK] @kode = ?, @user = ?', [1, $user]);
         return response()->json($data);
     }
-    public function cekuserkoreksi($user) {
+    public function cekuserkoreksi($user)
+    {
         $data = DB::connection('Connworkshop')->select('[SP_5298_WRK_USER-WRK] @kode = ?, @user = ?', [2, $user]);
         return response()->json($data);
     }
-    public function namauserPenerimaOrderKerja($user) {
+    public function namauserPenerimaOrderKerja($user)
+    {
         $data = DB::connection('Connworkshop')->select('[SP_5298_WRK_USER-LOGIN-1] @user = ?', [$user]);
         return response()->json($data);
     }
-    public function LoadStok($kdbarang) {
+    public function LoadStok($kdbarang)
+    {
         $data = DB::connection('Connworkshop')->select('[SP_5298_WRK_SALDO-BARANG] @kdBarang = ?', [$kdbarang]);
         return response()->json($data);
     }
-    public function cekusermodalkoreksi() {
+    public function cekusermodalkoreksi()
+    {
 
     }
 
@@ -90,8 +96,7 @@ class PenerimaOrderKerjaController extends Controller
                 DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_TOLAK-ORDER-KRJ]  @noOrder = ?, @ket = ?', [$idorder[$i], $ket[$i]]);
             }
             return redirect()->back()->with('success', 'Order diTolak');
-        }
-        else if ($pembeda == "tunda") {
+        } else if ($pembeda == "tunda") {
             # code...
             $data = $request->idorderModalTunda;
             $idorder = explode(",", $data);
@@ -101,16 +106,13 @@ class PenerimaOrderKerjaController extends Controller
                 for ($i = 0; $i < count($idorder); $i++) {
                     DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PENDING-ORDER-KRJ]  @noOrder = ?, @ket = ?', [$idorder[$i], $alasanlain]);
                 }
-            }
-            else{
+            } else {
                 for ($i = 0; $i < count($idorder); $i++) {
                     DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PENDING-ORDER-KRJ]  @noOrder = ?, @ket = ?', [$idorder[$i], $alasan]);
                 }
             }
             return redirect()->back()->with('success', 'Order diTunda');
-        }
-
-        else if ($radiobox == "order_batal") {
+        } else if ($radiobox == "order_batal") {
             $no_order = $request->no_order;
             $ket = $request->ketbatal;
             DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_BATAL-KERJA-ORDER-KRJ]  @noOrder = ?, @ket = ?', [$no_order, $ket]);
@@ -128,7 +130,7 @@ class PenerimaOrderKerjaController extends Controller
             $tglSt = $request->TanggalStart;
             $tglFh = $request->TanggalFinish;
             $jml = $request->JumlahOrderSelesai;
-            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh,$jml]);
+            DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh, $jml]);
             return redirect()->back()->with('success', 'Data TerSIMPAN');
         }
     }

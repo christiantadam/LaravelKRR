@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function index($form_name, $nama_gedung = null)
     {
-        $view_name = 'extruder.ExtruderNet.' . $form_name;
+        $view_name = 'extruder.Extruder.' . $form_name;
         $form_data = [];
 
         $id_divisi = "";
@@ -48,7 +48,7 @@ class OrderController extends Controller
 
         $form_data['namaGedung'] = $nama_gedung;
         $view_data = [
-            'pageName' => 'ExtruderNet',
+            'pageName' => 'Extruder',
             'formName' => $form_name,
             'formData' => $form_data,
         ];

@@ -5,14 +5,16 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
 class UpdateNoGambarController extends Controller
 {
 
     public function index()
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         //$Gambar = DB::connection('ConnPurchase')->select('exec [SP_5298_WRK_USER-DRAFTER]');
-        return view('WORKSHOP.Workshop.Master.UpdateNoGambar');
+        return view('WORKSHOP.Workshop.Master.UpdateNoGambar', compact('access'));
     }
     public function Getdata($id)
     {
@@ -52,14 +54,13 @@ class UpdateNoGambarController extends Controller
         //dd($ada['ambildata']);
         if ($ada['ada'][0]->ada > 0) {
             //dd($ada[0]);
-            $namaBarang = $ada['ambildata'][0] -> Nama_Brg;
-            $kdBarang = $ada['ambildata'][0] -> Kd_Brg;
-            return redirect()->back()->with('error','Nomor Gambar Sudah dipakai untuk Kode Barang ' . $kdBarang .' Dengan nama '. $namaBarang .'. Tidak bisa diproses');
-        }
-        else {
+            $namaBarang = $ada['ambildata'][0]->Nama_Brg;
+            $kdBarang = $ada['ambildata'][0]->Kd_Brg;
+            return redirect()->back()->with('error', 'Nomor Gambar Sudah dipakai untuk Kode Barang ' . $kdBarang . ' Dengan nama ' . $namaBarang . '. Tidak bisa diproses');
+        } else {
 
             DB::connection('ConnPurchase')->statement('exec [SP_5298_WRK_UPDATE-NO-GBR] @kode = ?, @kdBrg = ?, @noGbr = ?', [1, $kd_barang, $no_gambar]);
-            return redirect()->back()->with('success', $nama_barang . ' Sudah Diubah! Dengan Kode Barang ' . $no_gambar. 'Dan Nomor Gambar '.$no_gambar);
+            return redirect()->back()->with('success', $nama_barang . ' Sudah Diubah! Dengan Kode Barang ' . $no_gambar . 'Dan Nomor Gambar ' . $no_gambar);
         }
         //dd($request->all());
     }
@@ -69,14 +70,16 @@ class UpdateNoGambarController extends Controller
     {
         //
     }
-    public function PengecekanAksesUser() {
+    public function PengecekanAksesUser()
+    {
         //pengecekan akses user Update Nomor Gambar
     }
-    public function CekNoGambar($no_gambar) {
+    public function CekNoGambar($no_gambar)
+    {
         $ada = DB::connection('ConnPurchase')->select('exec [SP_5298_WRK_CEK-NO-GAMBAR] @kode = ?, @noGbr = ?', [1, $no_gambar]);
         $ambildata = DB::connection('ConnPurchase')->select('exec [SP_5298_WRK_CEK-NO-GAMBAR] @kode = ?, @noGbr = ?', [2, $no_gambar]);
         $dataArray = [
-             'ada' => $ada,
+            'ada' => $ada,
             'ambildata' => $ambildata,
         ];
         return $dataArray;

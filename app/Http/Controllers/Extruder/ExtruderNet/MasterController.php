@@ -11,7 +11,7 @@ class MasterController extends Controller
 {
     public function index($form_name, $nama_gedung = null)
     {
-        $view_name = 'extruder.ExtruderNet.' . $form_name;
+        $view_name = 'extruder.Extruder.' . $form_name;
         $form_data = [];
 
         switch ($form_name) {
@@ -49,11 +49,11 @@ class MasterController extends Controller
 
         $form_data['namaGedung'] = $nama_gedung;
         $view_data = [
-            'pageName' => 'ExtruderNet',
+            'pageName' => 'Extruder',
             'formName' => $form_name,
             'formData' => $form_data,
         ];
-
+        // dd($view_data);
         return view($view_name, $view_data);
     }
 
@@ -195,20 +195,20 @@ class MasterController extends Controller
 
     public function getListKomposisi($id_divisi, $id_komposisi = null)
     {
-        // return DB::connection('ConnExtruder')->select(
-        //     'exec SP_5298_EXT_LIST_KOMPOSISI_1 @iddivisi = ?, @idkomposisi = ?',
-        //     [$id_divisi, $id_komposisi]
-        // );
+        return DB::connection('ConnExtruder')->select(
+            'exec SP_5298_EXT_LIST_KOMPOSISI_1 @iddivisi = ?, @idkomposisi = ?',
+            [$id_divisi, $id_komposisi]
+        );
 
         // @iddivisi char(3), @idkomposisi char(9) = null
     }
 
     public function getListMesin($kode)
     {
-        // return DB::connection('ConnExtruder')->select(
-        //     'exec SP_5298_EXT_LIST_MESIN @kode = ?',
-        //     [$kode]
-        // );
+        return DB::connection('ConnExtruder')->select(
+            'exec SP_5298_EXT_LIST_MESIN @kode = ?',
+            [$kode]
+        );
 
         // @kode integer
     }

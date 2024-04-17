@@ -5,15 +5,18 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Informasi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
+
 class NomorGambar extends Controller
 {
     public function index()
     {
-        //
-        return view('WORKSHOP.Workshop.Informasi.NomorGambar');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
+        return view('WORKSHOP.Workshop.Informasi.NomorGambar', compact('access'));
 
     }
-    public function getdata($kdbarang) {
+    public function getdata($kdbarang)
+    {
         $all = DB::connection('ConnPurchase')->select('[SP_5298_WRK_LOAD-BARANG] @kdBarang = ?', [$kdbarang]);
         return response()->json($all);
     }

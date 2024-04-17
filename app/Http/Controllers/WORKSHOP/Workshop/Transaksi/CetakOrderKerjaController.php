@@ -5,13 +5,15 @@ namespace App\Http\Controllers\WORKSHOP\Workshop\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
+
 class CetakOrderKerjaController extends Controller
 {
 
     public function index()
     {
-        return view('WORKSHOP.Workshop.Transaksi.CetakSuratOrderKerja');
-
+        $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
+        return view('WORKSHOP.Workshop.Transaksi.CetakSuratOrderKerja', compact('access'));
     }
 
     public function GetAllData($tgl_awal, $tgl_akhir)
@@ -19,10 +21,11 @@ class CetakOrderKerjaController extends Controller
         $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?', [12, $tgl_awal, $tgl_akhir]);
         return response()->json($all);
     }
-    public function getdataprint($idorder) {
+    public function getdataprint($idorder)
+    {
         $data = DB::connection('Connworkshop')->table('VW_PRG_5298_WRK_CETAK-ORDER-KRJ')
-        ->where('Id_Order', $idorder)
-        ->get();
+            ->where('Id_Order', $idorder)
+            ->get();
         return response()->json($data);
     }
     public function create()
@@ -50,7 +53,8 @@ class CetakOrderKerjaController extends Controller
         dd($request->all());
 
     }
-    public function updatedatacetak(Request $request) {
+    public function updatedatacetak(Request $request)
+    {
         // dd($request->all());
         $noOd = $request->noOd;
         DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_TGL-CETAK-ORDER_KRJ] @noOd = ?', [$noOd]);

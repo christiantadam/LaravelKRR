@@ -28,7 +28,7 @@ function getInputValue() {
 }
 
 function searchData(nm_brg) {
-    tabelData.style.display = "block";
+    tabelData.style.display = "table";
 
     $("#tabelData").DataTable({
         responsive: true,

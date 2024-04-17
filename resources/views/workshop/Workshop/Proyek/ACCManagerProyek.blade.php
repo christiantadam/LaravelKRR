@@ -116,7 +116,7 @@
                                     <div class="col-lg-3">
                                         <input type="text" name="UserACC" class="form-control"
                                             style="font-size: large; color: blue; font-weight: bold;" id="UserACC"
-                                            disabled>
+                                            value="{{ $user }}" disabled>
                                     </div>
                                 </div>
 

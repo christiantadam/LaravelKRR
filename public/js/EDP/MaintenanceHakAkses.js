@@ -77,7 +77,7 @@ namaProgramText.addEventListener("keypress", function (event) {
         )
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
+                console.log(data);
                 let checklist = createChecklist(data[0], data[1]);
                 divFitur.style.display = "block";
                 // console.log(checklist);
