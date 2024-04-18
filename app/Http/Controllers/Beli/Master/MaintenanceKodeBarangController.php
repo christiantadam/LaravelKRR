@@ -151,7 +151,7 @@ class MaintenanceKodeBarangController extends Controller
         $KodeBrgAslinya = $request->input('KodeBrgAslinya');
         $NO_SUB_KATEGORI = $request->input('NO_SUB_KATEGORI');
         $NAMA_BRG = $request->input('NAMA_BRG');
-        $KET = $request->input('KET');
+        $KET = $request->input('KET') ?? ' ';
         $KET_KHUSUS = $request->input('KET_KHUSUS');
         $ST_TRI = $request->input('ST_TRI');
         $ST_SEK = $request->input('ST_SEK');
