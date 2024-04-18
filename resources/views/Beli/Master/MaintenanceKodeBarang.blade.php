@@ -180,7 +180,7 @@
                             <div class="col-12 mb-2">
                                 <div class="row">
                                     <div class="col-4 col-md-2">
-                                        <label for="satuanPrimer"">Satuan Primer</label>
+                                        <label for="satuanPrimer">Satuan Primer</label>
                                     </div>
                                     <div class="col-8">
                                         <select name="select_satuanPrimer" id="select_satuanPrimer" class="w-100 input">
@@ -193,7 +193,7 @@
                             <div class="col-12 mb-2">
                                 <div class="row">
                                     <div class="col-4 col-md-2 ">
-                                        <label for="satuanSekunder"">Satuan Sekunder</label>
+                                        <label for="satuanSekunder">Satuan Sekunder</label>
                                     </div>
                                     <div class="col-8">
                                         <select name="select_satuanSekunder" id="select_satuanSekunder"
@@ -207,7 +207,7 @@
                             <div class="col-12 mb-2">
                                 <div class="row">
                                     <div class="col-4 col-md-2">
-                                        <label for="satuanTritier"">Satuan Tritier</label>
+                                        <label for="satuanTritier">Satuan Tritier</label>
                                     </div>
                                     <div class="col-8">
                                         <select name="select_satuanTritier" id="select_satuanTritier"
@@ -221,7 +221,7 @@
                             <div class="col-12 mb-2">
                                 <div class="row">
                                     <div class="col-4 col-md-2 ">
-                                        <label for="satuanUmum"">Satuan Umum</label>
+                                        <label for="satuanUmum">Satuan Umum</label>
                                     </div>
                                     <div class="col-8">
                                         <select name="select_satuanUmum" id="select_satuanUmum" class="w-100 input">
