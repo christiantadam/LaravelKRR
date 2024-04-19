@@ -88,7 +88,7 @@ class CustomerController extends Controller
                 $csrfToken = Session::get('_token');
                 $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; Edit</button>
                                         <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
-                                        action=\"http://127.0.0.1:8000/Customer/" . $idcust[0] . "\" method=\"POST\"
+                                        action=\"/Customer/" . $idcust[0] . "\" method=\"POST\"
                                         enctype=\"multipart/form-data\"> <button type=\"submit\"
                                             class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Hapus</button>
                                             <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
