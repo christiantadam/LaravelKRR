@@ -314,14 +314,24 @@ class MaintenanceKodeBarangController extends Controller
 
         if ($KD_BRG0 != null) {
             try {
-                DB::connection('ConnPurchase')->statement('exec spDelete2_TypeBarang_dotNet @USERDELETE =?,@KD_BRG0 =?', [
+                $result = DB::connection('ConnPurchase')->statement('exec spDelete2_TypeBarang_dotNet @USERDELETE =?,@KD_BRG0 =?', [
                     $USERDELETE,
                     $KD_BRG0
                 ]);
-                DB::connection('ConnPurchase')->statement('exec spDelete_TypeBarang_dotNet @KD_BRG =?', [
+                $resultHapus = DB::connection('ConnPurchase')->statement('exec spDelete_TypeBarang_dotNet @KD_BRG =?', [
                     $KD_BRG0
                 ]);
-                return response()->json(['message' => 'Data berhasil dihapus']);
+                if($resultHapus){
+                    if($result){
+                        return response()->json(['message' => 'Data berhasil dihapus']);
+                    }
+                    else{
+                        return response()->json(['message' => 'Data Gagal dibackup']);
+                    }
+                }
+                else{
+                    return response()->json(['message' => 'GAGAL dihapus']);
+                }
             } catch (\Throwable $Error) {
                 return response()->json($Error);
             }
