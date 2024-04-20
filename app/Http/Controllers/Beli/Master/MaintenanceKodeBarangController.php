@@ -318,7 +318,7 @@ class MaintenanceKodeBarangController extends Controller
                     $USERDELETE,
                     $KD_BRG0
                 ]);
-                DB::connection('ConnPurchase')->statement('exec spDelete_TypeBarang_dotNet @KD_BRG0 =?', [
+                DB::connection('ConnPurchase')->statement('exec spDelete_TypeBarang_dotNet @KD_BRG =?', [
                     $KD_BRG0
                 ]);
                 return response()->json(['message' => 'Data berhasil dihapus']);
