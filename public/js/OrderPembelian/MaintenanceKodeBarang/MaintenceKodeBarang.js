@@ -105,8 +105,12 @@ kd_barang.addEventListener("input", function (event) {
     }
 });
 
-kd_barang.addEventListener("change", function (event) {
-    btn_cari_kdBarang.focus();
+kd_barang.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        event.preventDefault();
+        btn_cari_kdBarang.click();
+        nama_Barang.focus();
+    }
 });
 
 check_barangSama.addEventListener("click", function (event) {
@@ -144,6 +148,7 @@ btn_koreksi.addEventListener("click", function () {
     btn_isi.disabled = true;
     btn_koreksi.disabled = true;
     btn_hapus.disabled = true;
+    kd_barang.focus();
 });
 
 btn_hapus.addEventListener("click", function () {
@@ -152,6 +157,7 @@ btn_hapus.addEventListener("click", function () {
     btn_isi.disabled = true;
     btn_koreksi.disabled = true;
     btn_hapus.disabled = true;
+    kd_barang.focus();
 });
 
 btn_proses.addEventListener("click", function (event) {

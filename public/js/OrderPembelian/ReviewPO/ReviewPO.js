@@ -235,7 +235,7 @@ function print(data) {
                     <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
                         item.Kd_brg
                     }</p></td>
-                    <td><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;">
+                    <td><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;padding-right:8px">
                     ${item.NAMA_BRG.replace(/</g, "&lt;")}
                     <br>
                     ${item.keterangan || "-"}
@@ -401,9 +401,9 @@ function print(data) {
                                 <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Description</h1></th>
                                 <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Qty</h1></th>
                                 <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit Price IDR</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Disc. IDR</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Amount IDR</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit Price<br> IDR</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Disc.<br> IDR</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Amount<br> IDR</h1></th>
                             </tr>
                         </thead>
                         <tbody style="border-top: 1px solid black; border-bottom: 1px solid black;">

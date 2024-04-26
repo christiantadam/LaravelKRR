@@ -7,7 +7,7 @@
         let idUser = {!! json_encode($idUser) !!};
         $(document).ready(function() {
             $('#table_ListOrder').DataTable({
-                searching: false,
+                searching: true,
                 order: [
                     [1, 'desc']
                 ],
