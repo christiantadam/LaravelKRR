@@ -1,6 +1,6 @@
 let redisplay = document.getElementById("redisplay");
 let formDaftarHarga = document.getElementById("formDaftarHarga");
-let tabelData = document.getElementById("tabelData");
+let tabelData = $("#tabelData").DataTable();
 let kdbarang = document.getElementById("search_kode_barang");
 
 let kdBarangAslinya;
@@ -71,10 +71,10 @@ function redisplayData(nm_brg, req, sup, kdbrg) {
         processing: true,
         serverSide: true,
         scrollX: true,
-        scrollY: "400px",
-        // paging: false,
-        lengthChange:false,
-        pageLength : 100,
+        scrollY: "500px",
+        order: [2, "desc"],
+        lengthChange: false,
+        pageLength: 100,
         ajax: {
             url: "/HistoryPembelianMasterRedisplay",
             type: "GET",
@@ -88,36 +88,39 @@ function redisplayData(nm_brg, req, sup, kdbrg) {
         columns: [
             { data: "No_trans" },
             { data: "Status" },
-            { data: "Kd_div" },
+            {
+                data: "Tgl_order",
+                width: "100px",
+                render: function (data) {
+                    let parts = data.split(" ")[0].split("-");
+                    let tgl = parts[1] + "-" + parts[2] + "-" + parts[0];
+                    return tgl;
+                },
+            },
             { data: "Kd_brg" },
             { data: "NAMA_BRG" },
-            { data: "Nama_satuan" },
-            { data: "NM_SUP" },
             {
                 data: "Hrg_trm",
                 render: function (data) {
                     return numeral(parseFloat(data)).format("0,0.0000");
                 },
             },
+            { data: "Nama_satuan" },
+            { data: "NM_SUP" },
             { data: "Nama" },
+            { data: "Kd_div" },
+            { data: "nama_sub_kategori" },
             {
-                data: "Tgl_sppb",
-                width: '100px',
-                render: function (data) {
-                    let parts = data.split(" ")[0].split("-");
-                    let tgl = parts[1] + "-" + parts[2] + "-" + parts[0];
-                    return tgl;
+                data: "StatusBeli",
+                render: function name(data) {
+                    if (data == 0) {
+                        return "Beli Sendiri";
+                    } else {
+                        return "Pengadaan Pembelian";
+                    }
                 },
             },
-            {
-                data: "Tgl_order",
-                width: '100px',
-                render: function (data) {
-                    let parts = data.split(" ")[0].split("-");
-                    let tgl = parts[1] + "-" + parts[2] + "-" + parts[0];
-                    return tgl;
-                },
-            },
+            { data: "Qty" },
         ],
     });
 }

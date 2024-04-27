@@ -1,6 +1,5 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
-    <link href="{{ asset('css/DaftarHarga.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
 
@@ -20,24 +19,26 @@
                     <div class="card-header">History Pembelian</div>
                     <div class="card-body ">
                         <form action="" id="formDaftarHarga">
-                            <div class="">
-                                <table id="tabelData" class="table table-bordered">
+                            <div style="overflow: auto;">
+                                <table id="tabelData" class="table table-bordered" style="white-space: nowrap">
                                     <thead class="table-primary">
                                         <tr>
                                             <th>No Order</th>
                                             <th>Status Order</th>
-                                            <th>KD Divisi</th>
-                                            <th >Kode Barang</th>
+                                            <th>Tgl PO</th>
+                                            <th>Kode Barang</th>
                                             <th>Nama Barang</th>
+                                            <th>Harga Unit</th>
                                             <th>Satuan</th>
                                             <th>Supplier</th>
-                                            <th>Harga Unit</th>
                                             <th>Requester</th>
-                                            <th>Tgl PO</th>
-                                            <th>Tgl Order</th>
+                                            <th>Kode Divisi</th>
+                                            <th>Sub Kategori</th>
+                                            <th>Status Beli</th>
+                                            <th>Qty PO</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    {{-- <tbody>
                                         <tr>
                                             <td></td>
                                             <td></td>
@@ -50,8 +51,10 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
-                                    </tbody>
+                                    </tbody> --}}
                                 </table>
                             </div>
                             <div class="row mt-4">

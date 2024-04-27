@@ -1,6 +1,5 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
-    <link href="{{ asset('css/DaftarHarga.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
 
@@ -21,11 +20,11 @@
                     <div class="card-body ">
                         <form action="" id="formDaftarHarga">
                             <div class="scrollmenu">
-                                <table id="tabelData" class="table table-bordered table-striped"  style="width:100%">
+                                <table id="tabelData" class="table table-bordered"  style="width:100%;white-space:nowrap">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>KD Divisi</th>
-                                            <th >Kode Barang</th>
+                                            <th>Kode Barang</th>
                                             <th>Nama Barang</th>
                                             <th>Satuan</th>
                                             <th>Supplier</th>

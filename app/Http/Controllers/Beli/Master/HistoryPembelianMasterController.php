@@ -27,136 +27,13 @@ class HistoryPembelianMasterController extends Controller
     public function redisplay(Request $request)
     {
         $nm_brg = $request->input('nm_brg');
-        $kd = 1;
+        $kd = 3;
         $req = $request->input('req');
         $sup = $request->input('sup');
         $kdbrg = $request->input('kdbrg');
         if (($nm_brg != null) || ($req != null) || ($sup != null) || ($kdbrg != null)) {
             try {
-                if ($nm_brg != null) {
-                    $redisplay = DB::connection('ConnPurchase')->table('YTRANSBL')->select(
-                        'STATUS_ORDER.Status',
-                        'YTRANSBL.NO_PO',
-                        'YTRANSBL.Tgl_sppb',
-                        'YTRANSBL.Kd_div',
-                        'YTRANSBL.Kd_brg',
-                        'YTRANSBL.Tgl_order',
-                        'YTRANSBL.PriceUnit',
-                        'YTRANSBL.Qty',
-                        'Y_BARANG.NAMA_BRG',
-                        'YSATUAN.Nama_satuan',
-                        'YSUPPLIER.NM_SUP',
-                        'YSUPPLIER.KOTA1',
-                        'YSUPPLIER.NEGARA1',
-                        'YTERIMA.Hrg_trm',
-                        'ACCOUNTING.dbo.T_MATAUANG.Id_MataUang_BC',
-                        'YUSER.Nama',
-                        'YTERIMA.No_trans',
-                    )
-                        ->join('Y_BARANG', 'YTRANSBL.Kd_brg', '=', 'Y_BARANG.KD_BRG')
-                        ->join('YTERIMA', 'YTRANSBL.No_trans', '=', 'YTERIMA.No_trans')
-                        ->join('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
-                        ->join('ACCOUNTING.dbo.T_MATAUANG', 'YTERIMA.IdMataUang', '=', 'ACCOUNTING.dbo.T_MATAUANG.Id_MataUang')
-                        ->join('YUSER', 'YTRANSBL.Operator', '=', 'YUSER.kd_user')
-                        ->join('YSUPPLIER', 'YTERIMA.No_sup', '=', 'YSUPPLIER.NO_SUP')
-                        ->join('STATUS_ORDER', 'YTRANSBL.StatusOrder', '=', 'STATUS_ORDER.KdStatus')
-                        ->where('Y_BARANG.NAMA_BRG', 'like', '%' . $nm_brg . '%')
-                        ->orderBy('YTRANSBL.Tgl_order')
-                        ->get();
-                } else if ($req != null) {
-                    $redisplay = DB::connection('ConnPurchase')->table('YTRANSBL')->select(
-                        'STATUS_ORDER.Status',
-                        'YTRANSBL.NO_PO',
-                        'YTRANSBL.Tgl_sppb',
-                        'YTRANSBL.Kd_div',
-                        'YTRANSBL.Kd_brg',
-                        'YTRANSBL.Tgl_order',
-                        'YTRANSBL.PriceUnit',
-                        'YTRANSBL.Qty',
-                        'Y_BARANG.NAMA_BRG',
-                        'YSATUAN.Nama_satuan',
-                        'YSUPPLIER.NM_SUP',
-                        'YSUPPLIER.KOTA1',
-                        'YSUPPLIER.NEGARA1',
-                        'YTERIMA.Hrg_trm',
-                        'ACCOUNTING.dbo.T_MATAUANG.Id_MataUang_BC',
-                        'YUSER.Nama',
-                        'YTERIMA.No_trans',
-                    )
-                        ->join('Y_BARANG', 'YTRANSBL.Kd_brg', '=', 'Y_BARANG.KD_BRG')
-                        ->join('YTERIMA', 'YTRANSBL.No_trans', '=', 'YTERIMA.No_trans')
-                        ->join('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
-                        ->join('ACCOUNTING.dbo.T_MATAUANG', 'YTERIMA.IdMataUang', '=', 'ACCOUNTING.dbo.T_MATAUANG.Id_MataUang')
-                        ->join('YUSER', 'YTRANSBL.Operator', '=', 'YUSER.kd_user')
-                        ->join('YSUPPLIER', 'YTERIMA.No_sup', '=', 'YSUPPLIER.NO_SUP')
-                        ->join('STATUS_ORDER', 'YTRANSBL.StatusOrder', '=', 'STATUS_ORDER.KdStatus')
-                        ->where('YUSER.Nama', 'like', '%' . $req . '%')
-                        ->orderBy('YTRANSBL.Tgl_order')
-                        ->get();
-                } else if ($sup != null) {
-                    $redisplay = DB::connection('ConnPurchase')->table('YTRANSBL')->select(
-                        'STATUS_ORDER.Status',
-                        'YTRANSBL.NO_PO',
-                        'YTRANSBL.Tgl_sppb',
-                        'YTRANSBL.Kd_div',
-                        'YTRANSBL.Kd_brg',
-                        'YTRANSBL.Tgl_order',
-                        'YTRANSBL.PriceUnit',
-                        'YTRANSBL.Qty',
-                        'Y_BARANG.NAMA_BRG',
-                        'YSATUAN.Nama_satuan',
-                        'YSUPPLIER.NM_SUP',
-                        'YSUPPLIER.KOTA1',
-                        'YSUPPLIER.NEGARA1',
-                        'YTERIMA.Hrg_trm',
-                        'ACCOUNTING.dbo.T_MATAUANG.Id_MataUang_BC',
-                        'YUSER.Nama',
-                        'YTERIMA.No_trans',
-                    )
-                        ->join('Y_BARANG', 'YTRANSBL.Kd_brg', '=', 'Y_BARANG.KD_BRG')
-                        ->join('YTERIMA', 'YTRANSBL.No_trans', '=', 'YTERIMA.No_trans')
-                        ->join('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
-                        ->join('ACCOUNTING.dbo.T_MATAUANG', 'YTERIMA.IdMataUang', '=', 'ACCOUNTING.dbo.T_MATAUANG.Id_MataUang')
-                        ->join('YUSER', 'YTRANSBL.Operator', '=', 'YUSER.kd_user')
-                        ->join('YSUPPLIER', 'YTERIMA.No_sup', '=', 'YSUPPLIER.NO_SUP')
-                        ->join('STATUS_ORDER', 'YTRANSBL.StatusOrder', '=', 'STATUS_ORDER.KdStatus')
-                        ->where('YSUPPLIER.NM_SUP', 'like', '%' . $sup . '%')
-                        ->orderBy('YTRANSBL.Tgl_order')
-                        ->get();
-                } else if ($kdbrg != null) {
-                    $redisplay = DB::connection('ConnPurchase')->table('YTRANSBL')->select(
-                        'STATUS_ORDER.Status',
-                        'YTRANSBL.NO_PO',
-                        'YTRANSBL.Tgl_sppb',
-                        'YTRANSBL.Kd_div',
-                        'YTRANSBL.Kd_brg',
-                        'YTRANSBL.Tgl_order',
-                        'YTRANSBL.PriceUnit',
-                        'YTRANSBL.Qty',
-                        'Y_BARANG.NAMA_BRG',
-                        'YSATUAN.Nama_satuan',
-                        'YSUPPLIER.NM_SUP',
-                        'YSUPPLIER.KOTA1',
-                        'YSUPPLIER.NEGARA1',
-                        'YTERIMA.Hrg_trm',
-                        'ACCOUNTING.dbo.T_MATAUANG.Id_MataUang_BC',
-                        'YUSER.Nama',
-                        'YTERIMA.No_trans',
-                    )
-                        ->join('Y_BARANG', 'YTRANSBL.Kd_brg', '=', 'Y_BARANG.KD_BRG')
-                        ->join('YTERIMA', 'YTRANSBL.No_trans', '=', 'YTERIMA.No_trans')
-                        ->join('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
-                        ->join('ACCOUNTING.dbo.T_MATAUANG', 'YTERIMA.IdMataUang', '=', 'ACCOUNTING.dbo.T_MATAUANG.Id_MataUang')
-                        ->join('YUSER', 'YTRANSBL.Operator', '=', 'YUSER.kd_user')
-                        ->join('YSUPPLIER', 'YTERIMA.No_sup', '=', 'YSUPPLIER.NO_SUP')
-                        ->join('STATUS_ORDER', 'YTRANSBL.StatusOrder', '=', 'STATUS_ORDER.KdStatus')
-                        ->where('YTRANSBL.Kd_brg', $kdbrg)
-                        ->orderBy('YTRANSBL.Tgl_order')
-                        ->get();
-                }
-
-
-                // $redisplay = DB::connection('ConnPurchase')->select('exec spSelect_CariTypeBarang_dotNet @nm_brg = ?, @kd = ?, @req = ?, @sup = ?, @kdbrg = ?', [$nm_brg, $kd, $req, $sup, $kdbrg]);
+                $redisplay = DB::connection('ConnPurchase')->select('exec spSelect_CariTypeBarang_dotNet @nm_brg = ?, @kd = ?, @req = ?, @sup = ?, @kdbrg = ?', [$nm_brg, $kd, $req, $sup, $kdbrg]);
                 return datatables($redisplay)->make(true);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);

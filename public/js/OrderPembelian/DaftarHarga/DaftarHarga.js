@@ -60,7 +60,7 @@ function getSelectedInputValue() {
 }
 
 function redisplayData(nm_brg, req, sup, kdbrg) {
-    tabelData.style.display = "block";
+    tabelData.style.display = "table";
     if (kdbrg != null) {
         while (kdbrg.length < 9) {
             kdbrg = "0" + kdbrg;
@@ -100,7 +100,7 @@ function redisplayData(nm_brg, req, sup, kdbrg) {
                     console.log(parts);
 
                     let tgl = parts[1] + "-" + parts[2] + "-" + parts[0];
-                    return tgl + ' ' + data.split(" ")[1];
+                    return tgl;
                 },
             },
         ],

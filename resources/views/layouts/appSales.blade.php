@@ -48,8 +48,8 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow sticky-top">
             <div class="container col-md-12">
                 <a class="navbar-brand RDZNavBrandCenter RDZUnderLine" href="{{ url('/') }}">
-                    <img src="{{ asset('/images/KRR.png') }}" width="55" height="50" alt="KRR">
-                    {{ config('app.name', 'Laravel') }}
+                    🡰 <img src="{{ asset('/images/KRR.png') }}" width="55" height="50" alt="KRR">
+                    {{-- {{ config('app.name', 'Laravel') }} --}}
                 </a>
                 @guest
                 @else

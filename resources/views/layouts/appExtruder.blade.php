@@ -42,7 +42,7 @@
 
         <div id="logo">
             @if ($pageName == 'index')
-                <h1><a href="#">Kerta Rajasa Raya</a></h1>
+                <h1><a href="#">🡰 Kerta Rajasa Raya</a></h1>
             @elseif($pageName == 'WarehouseTerima' && $formName == 'index')
                 <h1></h1>
             @elseif($formName == 'formBeratWoven')
@@ -152,7 +152,7 @@
             @elseif($formName == 'formGagalPeletan')
                 <h1><a href="#">Tidak Tersimpan Peletan</a></h1>
             @else
-                <h1><a href="/home">Kerta Rajasa Raya</a></h1>
+                <h1><a href="/home">🡰 Kerta Rajasa Raya</a></h1>
             @endif
         </div>
         @if ($formName == 'index')

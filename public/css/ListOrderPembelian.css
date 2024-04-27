@@ -34,3 +34,6 @@
     flex-direction: row;
     gap: 5px;
 }
+.scrollmenu{
+    overflow: auto;
+}

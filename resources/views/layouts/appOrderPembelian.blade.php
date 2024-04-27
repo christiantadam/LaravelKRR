@@ -21,6 +21,7 @@
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/User.js') }}"></script>
+    <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -41,8 +42,8 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow sticky-top">
             <div class="container col-md-12">
                 <a class="navbar-brand RDZNavBrandCenter RDZUnderLine" href="{{ url('/') }}">
-                    <img src="{{ asset('/images/KRR.png') }}" width="55" height="50" alt="KRR">
-                    {{ config('app.name', 'Laravel') }}
+                    🡰 <img src="{{ asset('/images/KRR.png') }}" width="55" height="50" alt="KRR">
+                    {{-- {{ config('app.name', 'Laravel') }} --}}
                 </a>
                 @guest
                 @else
