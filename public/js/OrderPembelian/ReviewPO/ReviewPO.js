@@ -19,7 +19,7 @@ function LoadPermohonan(data) {
         responsive: true,
         scrollX: true,
         searching: false,
-        scrollY: "200px",
+        scrollY: "auto",
         paging: false,
         data: data,
         columns: [

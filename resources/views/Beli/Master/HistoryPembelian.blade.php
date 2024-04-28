@@ -61,7 +61,7 @@
                                 <div class="col-md-9">
                                     <div class="row mb-3">
                                         <label for="" class="col-md-2 col-form-label">
-                                            <input type="radio" name="opsi" id="kode_barang" value="kode_barang" >
+                                            <input type="radio" name="opsi" id="rbkode_barang" value="kode_barang" >
                                             Kode Barang
                                         </label>
                                         <div class="col-md-10">
@@ -70,29 +70,29 @@
                                     </div>
                                     <div class="row mb-3">
                                         <label for="" class="col-md-2 col-form-label">
-                                            <input type="radio" name="opsi" id="nama_barang" value="nama_barang">
+                                            <input type="radio" name="opsi" id="rbnama_barang" value="nama_barang">
                                             Nama Barang
                                         </label>
                                         <div class="col-md-10">
-                                            <input type="text" name="search_nama_barang" class="form-control font-weight-bold">
+                                            <input type="text" name="search_nama_barang" id="search_nama_barang" class="form-control font-weight-bold">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="" class="col-md-2 col-form-label">
-                                            <input type="radio" name="opsi" id="supplier" value="supplier">
+                                            <input type="radio" name="opsi" id="rbsupplier" value="supplier">
                                             Supplier
                                         </label>
                                         <div class="col-md-10">
-                                            <input type="text" name="search_supplier" class="form-control font-weight-bold">
+                                            <input type="text" name="search_supplier" id="search_supplier" class="form-control font-weight-bold">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="" class="col-md-2 col-form-label">
-                                            <input type="radio" name="opsi" id="user" value="user">
+                                            <input type="radio" name="opsi" id="rbuser" value="user">
                                             User
                                         </label>
                                         <div class="col-md-10">
-                                            <input type="text" name="search_user" class="form-control font-weight-bold">
+                                            <input type="text" name="search_user" id="search_user" class="form-control font-weight-bold">
                                         </div>
                                     </div>
                                 </div>

@@ -1,17 +1,28 @@
 let search = document.getElementById("search");
 let formCari = document.getElementById("formCari");
 let inputText = document.getElementById("search_nama_barang");
-let tabelData = document.getElementById("tabelData");
+let tabelData = $("#tabelData").DataTable();
 
-tabelData.style.display = "none";
+inputText.focus();
 search.disabled = true;
 
 formCari.addEventListener("input", function (event) {
     search.disabled = !getInputValue();
 });
 
-formCari.addEventListener("change", function (event) {
-    search.focus();
+inputText.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (getInputValue()) {
+            let value = getInputValue();
+            $("#tabelData").DataTable().clear().destroy();
+            searchData(value);
+            this.blur();
+        } else {
+            this.classList.add("input-error");
+            this.setCustomValidity("Kolom tidak boleh kosong!");
+            this.reportValidity();
+        }
+    }
 });
 
 search.addEventListener("click", function (event) {
@@ -28,8 +39,6 @@ function getInputValue() {
 }
 
 function searchData(nm_brg) {
-    tabelData.style.display = "table";
-
     $("#tabelData").DataTable({
         responsive: true,
         processing: true,

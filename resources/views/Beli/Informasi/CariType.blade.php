@@ -20,7 +20,7 @@
                     <div class="card-body">
                         <div  id="formCari">
                             <div class="scrollmenu">
-                                <table id="tabelData" class="table table-bordered table-striped" style="width:100%">
+                                <table id="tabelData" class="table table-bordered" style="width:100%;white-space: nowrap">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nama Barang</th>
@@ -31,7 +31,7 @@
                                             <th>Keterangan</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    {{-- <tbody>
                                         <tr>
                                             <td></td>
                                             <td></td>
@@ -40,7 +40,7 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                    </tbody>
+                                    </tbody> --}}
                                 </table>
                             </div>
                             <div class="row mt-4">

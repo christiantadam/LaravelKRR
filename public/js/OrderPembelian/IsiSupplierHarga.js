@@ -28,6 +28,10 @@ let no_po = document.getElementById("no_po");
 let idr_unit = document.getElementById("idr_unit");
 let alasan_reject = document.getElementById("alasan_reject");
 let tanggal_dibutuhkan = document.getElementById("tanggal_dibutuhkan");
+$("#table_IsiHarga").DataTable({
+    searching: false,
+    lengthChange: false,
+});
 
 let jenisSupplier;
 let fixValueQTYOrder;
@@ -233,7 +237,7 @@ function redisplayData(noTrans, requester, kd) {
         serverSide: true,
         scrollX: true,
         searching: false,
-        scrollY: "200px",
+        scrollY: "255px",
         // paging: false,
         lengthChange: false,
         pageLength: 100,
@@ -489,14 +493,27 @@ $(document).ready(function () {
                         }
                     }
                     jenisSupplier = response[0].JNS_SUP;
+                    console.log(response[0]);
+                    if (response[0].ID_MATAUANG != 1) {
+                        kurs.focus();
+                    }
+                    else{
+                        let eventEnter = new KeyboardEvent('keypress', {
+                            key: 'Enter',
+                            code: 'Enter',
+                            keyCode: 13,
+                            which: 13,
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        kurs.dispatchEvent(eventEnter)
+                        harga_unit.focus();
+                    }
                 },
                 error: function (error) {
                     console.error("Error Send Data:", error);
                 },
             });
-        }
-        if (supplier_select.selectedIndex !== 0) {
-            kurs.focus();
         }
     });
     kurs.addEventListener("keypress", function (event) {

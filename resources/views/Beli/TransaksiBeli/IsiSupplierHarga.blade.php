@@ -22,7 +22,8 @@
                                 <label class="font-weight-bold" for="filter">Search by:</label>
                                 <div class="row" id="formCekRedisplay">
                                     <div class="col-12 col-xl-10 div-search">
-                                        <div class="row align-items-center mx-2 mb-4 " style="border: 0.5px grey solid;">
+                                        <div class="row align-items-center mx-2 mb-4 "
+                                            style="border: 0.5px grey solid;padding: 8px">
                                             <div class="col-xl-2">
                                                 <input type="radio" name="filter_radioButton"
                                                     id="filter_radioButtonAllOrder" value="AllOrder" class="radio-button"
@@ -47,14 +48,14 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-2">
-                                        <button class="custom-button2 w-100" id="button_redisplay">Redisplay</button>
+                                    <div class="col-md-2 mb-4" style="align-self: center">
+                                        <button class="btn btn-info" id="button_redisplay">Redisplay</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="div_tablePO" class="acs-form3">
-                            <table id="table_IsiHarga" class="table table-bordered" style="width:100%">
+                        <div id="div_tablePO" style="overflow: auto; margin:0px 0px 40px 0px">
+                            <table id="table_IsiHarga" class="table table-bordered" style="width:100%; white-space: nowrap">
                                 <thead class="table-primary">
                                     <tr>
                                         <th>No. Order</th>
@@ -78,38 +79,44 @@
                         </div>
                         <div class="" id="formApprove">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-4" style="padding: 0px 0px 0px 10px;">
                                     <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4">
                                                 <label class="font-weight-bold" for="no_po">Nomor Order</label>
                                             </div>
                                             <div class="col-8 col-md-6">
-                                                <input type="text" name="no_po" id="no_po" class="form-control font-weight-bold"
-                                                    readonly>
+                                                <input type="text" name="no_po" id="no_po"
+                                                    class="form-control font-weight-bold" readonly>
                                             </div>
 
                                         </div>
                                     </div>
                                     <div class="col-12 mb-2">
-                                        <label class="font-weight-bold" for="status_beli">Status Beli</label>
                                         <div class="row align-items-center">
-                                            <div class="col-6">
-                                                <input type="radio" name="status_beliRadioButton"
-                                                    id="status_beliPengadaanPembelian" class="input font-weight-bold" disabled
-                                                    checked>Pengadaan
-                                                Pembelian
+                                            <div class="col-4">
+                                                <label class="font-weight-bold" for="status_beli">Status Beli</label>
                                             </div>
-                                            <div style="col-6">
-                                                <input type="radio" name="status_beliRadioButton"
-                                                    id="status_beliBeliSendiri" class="input font-weight-bold" disabled>Beli Sendiri
+                                            <div class="col-10 col-md-6" style="padding: 0px 0px 0px 8px">
+                                                <div>
+                                                    <input type="radio" name="status_beliRadioButton"
+                                                        id="status_beliBeliSendiri" class="input font-weight-bold"
+                                                        disabled>Beli
+                                                    Sendiri
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="status_beliRadioButton"
+                                                        id="status_beliPengadaanPembelian" class="input font-weight-bold"
+                                                        disabled checked>Pengadaan Pembelian
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4">
-                                                <label class="font-weight-bold" for="tanggal_dibutuhkan">Tanggal Dibutuhkan</label>
+                                                <label class="font-weight-bold" for="tanggal_dibutuhkan">Tanggal
+                                                    Dibutuhkan</label>
                                             </div>
                                             <div class="col-8 col-md-6">
                                                 <input type="date" name="tanggal_dibutuhkan" id="tanggal_dibutuhkan"
@@ -124,8 +131,8 @@
                                                 <label class="font-weight-bold" for="divisi">Divisi</label>
                                             </div>
                                             <div class="col-8 col-md-6">
-                                                <input type="text" name="divisi" id="divisi" class="form-control font-weight-bold"
-                                                    readonly>
+                                                <input type="text" name="divisi" id="divisi"
+                                                    class="form-control font-weight-bold" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -168,7 +175,8 @@
                                     <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4">
-                                                <label class="font-weight-bold" for="keterangan_order">Keterangan Order</label>
+                                                <label class="font-weight-bold" for="keterangan_order">Keterangan
+                                                    Order</label>
                                             </div>
                                             <div class="col-8 col-md-6">
                                                 <input type="text" name="keterangan_order" id="keterangan_order"
@@ -180,7 +188,8 @@
                                     <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4">
-                                                <label class="font-weight-bold" for="keterangan_internal">Keterangan Internal</label>
+                                                <label class="font-weight-bold" for="keterangan_internal">Keterangan
+                                                    Internal</label>
                                             </div>
                                             <div class="col-8 col-md-6">
                                                 <input type="text" name="keterangan_internal" id="keterangan_internal"
@@ -201,8 +210,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="col-12">
+                                <div class="col-md-8" style="padding:0px">
+                                    <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <div class="row">
@@ -228,48 +237,50 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4 col-md-2">
                                                 <label class="font-weight-bold" for="supplier">Supplier</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <select name="supplier_select" id="supplier_select" class="w-100 input font-weight-bold">
+                                                <select name="supplier_select" id="supplier_select"
+                                                    class="w-100 input font-weight-bold">
                                                     <option class="w-100" selected disabled>-- Pilih Supplier --</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4 col-md-2">
                                                 <label class="font-weight-bold" for="mata_uang">Mata Uang</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <select name="matauang_select" id="matauang_select" class="w-100 input font-weight-bold"
-                                                    disabled>
+                                                <select name="matauang_select" id="matauang_select"
+                                                    class="w-100 input font-weight-bold" disabled>
                                                     <option class="w-100" selected disabled>-- Pilih Mata Uang --</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4 col-md-2">
                                                 <label class="font-weight-bold" for="kurs">Kurs</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <input type="text" name="kurs" id="kurs" class="form-control font-weight-bold"
-                                                    value="1">
+                                                <input type="text" name="kurs" id="kurs"
+                                                    class="form-control font-weight-bold" value="1">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <div class="row">
                                                     <div class="col-4">
-                                                        <label class="font-weight-bold" for="harga_unit">Harga Unit</label>
+                                                        <label class="font-weight-bold" for="harga_unit">Harga
+                                                            Unit</label>
                                                     </div>
                                                     <div class="col-8">
                                                         <input type="text" name="harga_unit" id="harga_unit"
@@ -290,12 +301,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <div class="row">
                                                     <div class="col-4">
-                                                        <label class="font-weight-bold" for="harga_sub_total">Harga Sub Total</label>
+                                                        <label class="font-weight-bold" for="harga_sub_total">Harga Sub
+                                                            Total</label>
                                                     </div>
                                                     <div class="col-8">
                                                         <input type="text" name="harga_sub_total" id="harga_sub_total"
@@ -306,7 +318,8 @@
                                             <div class="col-6">
                                                 <div class="row">
                                                     <div class="col-4">
-                                                        <label class="font-weight-bold" for="idr_sub_total">IDR Sub Total</label>
+                                                        <label class="font-weight-bold" for="idr_sub_total">IDR Sub
+                                                            Total</label>
                                                     </div>
                                                     <div class="col-8">
                                                         <input type="text" name="idr_sub_total" id="idr_sub_total"
@@ -316,7 +329,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <div class="row">
@@ -324,7 +337,8 @@
                                                         <label class="font-weight-bold" for="ppn">PPN %</label>
                                                     </div>
                                                     <div class="col-8">
-                                                        <select name="ppn_select" id="ppn_select" class="w-100 input font-weight-bold">
+                                                        <select name="ppn_select" id="ppn_select"
+                                                            class="w-100 input font-weight-bold">
                                                             <option class="w-100" selected disabled></option>
                                                         </select>
                                                         <input type="text" name="ppn" id="ppn"
@@ -345,12 +359,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-6">
                                                 <div class="row">
                                                     <div class="col-4">
-                                                        <label class="font-weight-bold" for="harga_total">Harga Total</label>
+                                                        <label class="font-weight-bold" for="harga_total">Harga
+                                                            Total</label>
                                                     </div>
                                                     <div class="col-8">
                                                         <input type="text" name="harga_total" id="harga_total"
@@ -361,7 +376,8 @@
                                             <div class="col-6">
                                                 <div class="row">
                                                     <div class="col-4">
-                                                        <label class="font-weight-bold" for="idr_harga_total">IDR Total</label>
+                                                        <label class="font-weight-bold" for="idr_harga_total">IDR
+                                                            Total</label>
                                                     </div>
                                                     <div class="col-8">
                                                         <input type="text" name="idr_harga_total" id="idr_harga_total"
@@ -371,28 +387,32 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mb-4">
                                         <div class="row align-items-center">
                                             <div class="col-4 col-md-2">
                                                 <label class="font-weight-bold" for="alasan_reject">Alasan Reject</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <textarea rows="1" type="text" name="alasan_reject" id="alasan_reject" class="form-control font-weight-bold"></textarea>
+                                                <textarea rows="1" type="text" name="alasan_reject" id="alasan_reject"
+                                                    class="form-control font-weight-bold"></textarea>
 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12 col-md-2">
-                                    <div class="row">
-                                        <div class="col-4 col-md-12">
-                                            <button class="custom-button2" style="width: 100px;height: 40px;" id="btn_approve">Approve</button>
-                                        </div>
-                                        <div class="col-4 col-md-12">
-                                            <button class="custom-button1" style="width: 100px;height: 40px;" id="btn_clear">Clear</button>
-                                        </div>
-                                        <div class="col-4 col-md-12">
-                                            <button class="custom-button3" style="width: 100px;height: 40px;" id="btn_reject">Reject</button>
+                                    <div class="col-12">
+                                        <div class="row align-items-center" style="gap: 5px">
+                                            <div class="col-4">
+                                                <button class="btn btn-success" style="width: 100%;height: 40px;"
+                                                    id="btn_approve">Approve</button>
+                                            </div>
+                                            <div class="col-3">
+                                                <button class="btn btn-secondary" style="width: 100%;height: 40px;"
+                                                    id="btn_clear">Clear</button>
+                                            </div>
+                                            <div class="col-4">
+                                                <button class="btn btn-danger" style="width: 100%;height: 40px;"
+                                                    id="btn_reject">Reject</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

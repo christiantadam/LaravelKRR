@@ -2,12 +2,46 @@ let redisplay = document.getElementById("redisplay");
 let formDaftarHarga = document.getElementById("formDaftarHarga");
 let tabelData = $("#tabelData").DataTable();
 let kdbarang = document.getElementById("search_kode_barang");
+let search_kode_barang = document.getElementById("search_kode_barang");
+let search_nama_barang = document.getElementById("search_nama_barang");
+let search_supplier = document.getElementById("search_supplier");
+let search_user = document.getElementById("search_user");
+let rbkode_barang = document.getElementById("rbkode_barang");
+let rbnama_barang = document.getElementById("rbnama_barang");
+let rbsupplier = document.getElementById("rbsupplier");
+let rbuser = document.getElementById("rbuser");
+let clickEvent = new Event("click");
 
 let kdBarangAslinya;
 redisplay.disabled = true;
+
 formDaftarHarga.addEventListener("change", function (event) {
     redisplay.disabled = !radioButtonIsSelected();
-    redisplay.focus();
+});
+
+search_kode_barang.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        rbkode_barang.checked = true;
+        redisplay.dispatchEvent(clickEvent);
+    }
+});
+search_nama_barang.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        rbnama_barang.checked = true;
+        redisplay.dispatchEvent(clickEvent);
+    }
+});
+search_supplier.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        rbsupplier.checked = true;
+        redisplay.dispatchEvent(clickEvent);
+    }
+});
+search_user.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        rbuser.checked = true;
+        redisplay.dispatchEvent(clickEvent);
+    }
 });
 
 redisplay.addEventListener("click", function (event) {

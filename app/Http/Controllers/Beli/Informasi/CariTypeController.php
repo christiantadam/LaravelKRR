@@ -12,7 +12,7 @@ class CariTypeController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
-        $result = (new HakAksesController)->HakAksesFitur('Cari Type');
+        $result = (new HakAksesController)->HakAksesFitur('Cari Kode Barang');
         // dd($result);
         if ($result > 0) {
             return view('Beli.Informasi.CariType', compact('access'));
@@ -30,7 +30,7 @@ class CariTypeController extends Controller
     public function searchData(Request $request)
     {
         $nm_brg = $request->input('nm_brg');
-        $kd = 3;
+        $kd = 4;
         if ($nm_brg != null) {
             try {
                 $search = DB::connection('ConnPurchase')->select('exec spSelect_CariTypeBarang_dotNet @nm_brg = ?, @kd = ?', [$nm_brg, $kd]);
