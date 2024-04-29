@@ -314,15 +314,15 @@ create_po.addEventListener("click", function (event) {
             let noTrans = [];
             for (let index = 0; index < selectedRows.length; index++) {
                 noTrans.push(selectedRows[index][5]);
-            console.log(noTrans)
-
+                console.log(noTrans);
             }
             let input = document.createElement("input");
             input.type = "hidden";
             input.name = "noTrans";
             input.value = noTrans;
+            form_createSPPB.target = "_blank";
             form_createSPPB.appendChild(input);
-            console.log(form_createSPPB)
+            console.log(form_createSPPB);
             form_createSPPB.submit();
         }
     } else {

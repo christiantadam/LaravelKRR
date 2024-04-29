@@ -67,7 +67,7 @@
                                     <input type="checkbox" id="check_nyantol">
                                     <label for="">No. Order Nyantol</label>
                                 </div>
-                                <button class="w-100 custom-button2" id="redisplay"
+                                <button class="btn btn-info" id="redisplay"
                                     style="display: block">Redisplay</button>
                             </div>
                         </div>
@@ -111,15 +111,15 @@
                         <div class="button-align-right">
                             <div style="display: block">
                                 <div class="">
-                                    <button class="custom-button3 w-100" id="btn_close">Close Order</button>
+                                    <button class="btn btn-danger" id="btn_close">Close Order</button>
                                 </div>
                             </div>
 
                             <form action="{{ url('openFormCreateSPPB/create') }}" id="form_createSPPB" method="GET">
-                                <button class="custom-button2" id="create_po">Create PO</button>
+                                <button class="btn btn-success" id="create_po">Create PO</button>
                             </form>
                             <div class="" id="backGroup">
-                                <button class="custom-button2" id="btn_backCreatePO">Back Create PO</button>
+                                <button class="btn btn-danger" id="btn_backCreatePO">Back Create PO</button>
                             </div>
                         </div>
                     </div>

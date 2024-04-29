@@ -96,7 +96,7 @@ function redisplay(MinDate, MaxDate, noPO) {
         if (classList.contains("selected")) {
             const data = tabelData.row(event.currentTarget).data();
             const url = "/OpenReviewPO" + "?No_PO=" + data.NO_PO;
-            OpenNewTab(url);
+            window.location.href = url;
         } else {
             tabelData
                 .rows(".selected")
