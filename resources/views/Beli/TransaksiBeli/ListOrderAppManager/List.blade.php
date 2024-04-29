@@ -19,7 +19,7 @@
                     <div class="card-header">List Order App Manager</div>
                     <div class="card-body">
                         <div class="row" id="formCekRedisplay">
-                            <div class="col-xl-3 mt-2">
+                            <div class="col-xl-2 mt-2">
                                 <div class="row align-items-center">
                                     <div class="col-12">
                                         <input type="radio" name="filter_radioButton" id="filter_radioButtonNomorOrder"
@@ -28,11 +28,11 @@
                                     </div>
                                     <div class="col-xl-12">
                                         <input type="text" name="nomor_order" id="nomor_order"
-                                        class="form-control font-weight-bold">
+                                            class="form-control font-weight-bold">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 mt-2">
+                            <div class="col-xl-4 mt-2">
                                 <div class="row align-items-center">
                                     <div class="col-12">
                                         <input type="radio" name="filter_radioButton" id="filter_radioButtonDivisi"
@@ -40,14 +40,15 @@
                                         Divisi
                                     </div>
                                     <div class="col-xl-12">
-                                        <select name="select_divisi" id="select_divisi" class="input w-100 font-weight-bold">
+                                        <select name="select_divisi" id="select_divisi"
+                                            class="input w-100 font-weight-bold">
                                             <option class="w-100 text-center" value="ALL" selected>ALL
                                             </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 mt-2">
+                            <div class="col-xl-5 mt-2">
                                 <div class="row align-items-center">
                                     <div class="col-6">
                                         <div class="pl-3">
@@ -57,10 +58,10 @@
                                         </div>
                                         <div class="col-xl-12">
                                             <div class="row">
-                                                <input type="date" class="form-control font-weight-bold Filter w-100" id="tglAwal"
-                                                    name="tglAwal">
-                                                <input type="time" class="form-control font-weight-bold Filter w-100" id="jamAwal"
-                                                    name="jamAwal">
+                                                <input type="date" class="form-control font-weight-bold Filter w-100"
+                                                    id="tglAwal" name="tglAwal">
+                                                <input type="time" class="form-control font-weight-bold Filter w-100"
+                                                    id="jamAwal" name="jamAwal">
                                             </div>
                                         </div>
                                     </div>
@@ -72,16 +73,16 @@
                                         </div>
                                         <div class="col-xl-12">
                                             <div class="row">
-                                                <input type="date" class="form-control font-weight-bold Filter w-100" id="tglAkhir"
-                                                    name="tglAkhir">
-                                                <input type="time" class="form-control font-weight-bold Filter w-100" id="jamAkhir"
-                                                    name="jamAkhir">
+                                                <input type="date" class="form-control font-weight-bold Filter w-100"
+                                                    id="tglAkhir" name="tglAkhir">
+                                                <input type="time" class="form-control font-weight-bold Filter w-100"
+                                                    id="jamAkhir" name="jamAkhir">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 mt-2">
+                            <div class="col-xl-6">
                                 <div class="row align-items-center">
                                     <div class="col-12 mb-2">
                                         <label for="status_beli">Status Beli</label>
@@ -99,9 +100,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="col-4 col-md-12 p-0">
-                                    <button class="custom-button2 w-100" id="button_redisplay">Redisplay</button>
+                            <div class="col-md-6" style="padding:10px 120px 0px 0px; text-align:end">
+                                <div class="col-4 col-md-12 p-0 h-100">
+                                    <button class="btn btn-info w-50 h-100" id="button_redisplay">Redisplay</button>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -138,7 +139,7 @@
                             </div>
                             <div class="col-md-2 mt-2">
                                 <div class="col-4 col-md-12 p-0">
-                                    <button class="custom-button1 w-100" id="btn_print">Print</button>
+                                    <button class="btn btn-success w-100" id="btn_print">Print</button>
                                 </div>
                             </div>
                         </div>
