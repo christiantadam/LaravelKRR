@@ -122,7 +122,7 @@
                             <div class="col-12 mb-2">
                                 <div class="row">
                                     <div class="col-4 col-md-2">
-                                        <label for="jenisPembelian"">Jenis Pembelian</label>
+                                        <label for="jenisPembelian">Jenis Pembelian</label>
                                     </div>
                                     <div class="col-8">
                                         <select name="select_jenisPembelian" id="select_jenisPembelian"

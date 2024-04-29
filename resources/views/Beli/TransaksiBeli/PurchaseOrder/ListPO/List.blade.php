@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="col-2">
                                     <div class="col-12">
-                                        <button class="custom-button1 mt-4 w-100" id="redisplayButton">Redisplay</button>
+                                        <button class="btn btn-info mt-4 w-100" id="redisplayButton">Redisplay</button>
                                     </div>
                                     <div class="col-12 mt-5">
                                         <span id="lihat_BTTB" class="text-primary" style="cursor: pointer; font-size: 24px; text-decoration: underline">Lihat BTTB</span>

@@ -107,7 +107,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="acs-form3">
-                                    <table id="table_ListOrder" class="table table-bordered" style="width:100%">
+                                    <table id="table_ListOrder" class="table table-bordered" style="width:100%;white-space: nowrap;">
                                         <thead class="table-primary">
                                             <tr>
                                                 <th><input type="checkbox" name="CheckedAll" id="CheckedAll"

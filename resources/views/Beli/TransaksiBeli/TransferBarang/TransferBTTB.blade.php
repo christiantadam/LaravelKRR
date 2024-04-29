@@ -347,8 +347,8 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="custom-button2" id="btn_transfer">Transfer</button>
-                                <button class="custom-button2" id="btn_koreksi">Koreksi</button>
+                                <button class="btn btn-success" id="btn_transfer">Transfer</button>
+                                <button class="btn btn-warning" id="btn_koreksi">Koreksi</button>
                             </div>
                         </div>
 

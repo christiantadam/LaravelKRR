@@ -109,10 +109,50 @@ kd_barang.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         event.preventDefault();
         btn_cari_kdBarang.click();
-        nama_Barang.focus();
     }
 });
-
+nama_Barang.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        MySpesifikasi = parseInt(select_subKategori.options[select_subKategori.selectedIndex].value);
+        switch (MySpesifikasi) {
+            case SpesifikasiType.BenangExtruder:
+                PecahBenang(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.Gelondongan:
+                PecahGelondongan(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.InnerGelondongan:
+                PecahInnerGelondongan(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.PolybagGelondonganLDPE:
+                PecahInnerGelondongan(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.PolybagGelondonganLLDPE:
+                PecahInnerGelondongan(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.PolybagHDPE:
+                PecahInnerHasilPotong(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.PolybagLDPE:
+                PecahInnerHasilPotong(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.PolybagLDPP:
+                PecahInnerHasilPotong(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.PolybagLLDPE:
+                PecahInnerHasilPotong(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.PolybagPE:
+                PecahInnerHasilPotong(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            case SpesifikasiType.KarungWovenBag:
+                PecahKarungWovenBag(nama_Barang.value.replace(/\s/g, ""));
+                break;
+            default:
+                break;
+        }
+    }
+});
 check_barangSama.addEventListener("click", function (event) {
     if (check_barangSama.checked == true) {
         select_kategori.disabled = true;
@@ -592,6 +632,7 @@ function cariKodeBarang(kd_barang) {
                 btn_cekNamaBarang.disabled = true;
                 select_kategori.disabled = true;
                 select_subKategori.disabled = true;
+                document.getElementById("kd_barang").focus();
             } else {
                 btn_tambah_kategori.disabled = false;
                 btn_tambah_subKategori.disabled = false;
@@ -774,6 +815,7 @@ function cariKodeBarang(kd_barang) {
                     default:
                         break;
                 }
+                nama_Barang.focus();
             }
         },
         error: function (error) {

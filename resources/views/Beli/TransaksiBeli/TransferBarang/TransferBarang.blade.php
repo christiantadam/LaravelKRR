@@ -49,14 +49,14 @@
                             <div class="col-md-2">
                                 <div class="col-4 col-md-12 p-0">
                                     <input type="checkbox" class="input" id="check_koreksi">
-                                    <label for="spek"">Koreksi</label>
+                                    <label for="spek">Koreksi</label>
                                 </div>
                                 <div class="col-4 col-md-12 p-0">
-                                    <button class="custom-button2 w-100" id="button_redisplay">Redisplay</button>
+                                    <button class="btn btn-info w-100" id="button_redisplay">Redisplay</button>
                                 </div>
                             </div>
                             <div class="col-12 mt-2">
-                                <table id="table_trasferBarang" class="table table-bordered" style="width:100%">
+                                <table id="table_trasferBarang" class="table table-bordered" style="width:100%;white-space: nowrap;">
                                     <thead class="table-primary">
                                         <tr>
                                             <th>No. PO</th>

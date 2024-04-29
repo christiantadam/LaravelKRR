@@ -47,13 +47,13 @@
 
                                     </div>
                                     <div class="col-md-2">
-                                        <button class="custom-button2 w-100" id="button_redisplay">Redisplay</button>
+                                        <button class="btn btn-info w-100" id="button_redisplay">Redisplay</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div id="div_tablePO" class="acs-form3">
-                            <table id="table_koreksi" class="table table-bordered" style="width:100%">
+                            <table id="table_koreksi" class="table table-bordered" style="width:100%;white-space: nowrap;">
                                 <thead class="table-primary">
                                     <tr>
                                         <th>No. Order</th>
@@ -102,7 +102,7 @@
                                 </div>
 
                                 <div class="col-2 mt-4">
-                                    <button class="custom-button2 w-100" id="btn_update">Update</button>
+                                    <button class="btn btn-success w-100" id="btn_update">Update</button>
 
                                 </div>
                             </div>

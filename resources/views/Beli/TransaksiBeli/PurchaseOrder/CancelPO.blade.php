@@ -56,7 +56,7 @@
                             </div>
                             <div id="div_tablePO" class="acs-form3">
                                 <table id="tableharga" class="table table-bordered"
-                                    style="width:100%">
+                                    style="width:100%;white-space: nowrap">
                                     <thead class="table-primary">
                                         <tr>
                                             <th>No. Order</th>
@@ -184,9 +184,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 d-flex justify-content-end pb-4">
-                                        <button type="button" class="custom-button3 mt-2 mr-3 mb-6" id="removebutton">
+                                        <button type="button" class="btn btn-danger mt-2 mr-3 mb-6" id="removebutton">
                                             Close</button>
-                                        <button type="button" class="custom-button3 mt-2 mr-3 mb-6" id="buttoncancel">
+                                        <button type="button" class="btn btn-danger mt-2 mr-3 mb-6" id="buttoncancel">
                                             Cancel PO</button>
                                     </div>
                                 </div>

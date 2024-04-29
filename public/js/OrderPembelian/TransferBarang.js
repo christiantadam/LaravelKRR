@@ -105,7 +105,7 @@ function redisplayData(Kd_Div, noBTTB, kd) {
                             data.No_BTTB +
                             "&koreksi=" +
                             1;
-                        window.location.href = url;
+                        OpenNewTab(url);
                     } else {
                         const url =
                             "/TransferBarang/TransferBTTB" +
@@ -115,7 +115,7 @@ function redisplayData(Kd_Div, noBTTB, kd) {
                             data.No_BTTB +
                             "&koreksi=" +
                             0;
-                        window.location.href = url;
+                        OpenNewTab(url);
                     }
                 } else {
                     table
