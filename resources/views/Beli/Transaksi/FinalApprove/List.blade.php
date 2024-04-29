@@ -7,7 +7,7 @@
             $('#table_Approve').DataTable({
                 searching: false,
                 order: [
-                    [1, 'desc']
+                    [4, 'asc']
                 ],
                 "columnDefs": [{
                     "orderable": false,
@@ -40,6 +40,7 @@
                                         <th class="RDZCenterTable">Tanggal<br><label
                                                 style="font-size: 10px; margin-bottom: 0px;">(MM-DD-YYYY)</label></th>
                                         <th>Nama Barang</th>
+                                        <th>Divisi</th>
                                         <th>User</th>
                                     </tr>
                                 </thead>
@@ -58,6 +59,7 @@
                                             <td class="RDZPaddingTable">{{ $item->NAMA_BRG }} <label
                                                     style="background-color:#00ff00;">{{ $item->Qty }}
                                                     {{ $item->Nama_satuan }}</label></td>
+                                            <td class="RDZPaddingTable">{{ $item->Kd_div }}</td>
                                             <td class="RDZPaddingTable">{{ $item->Nama }}</td>
                                         </tr>
                                     @endforeach
