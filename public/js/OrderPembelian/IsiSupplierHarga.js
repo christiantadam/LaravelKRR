@@ -55,8 +55,12 @@ alasan_reject.addEventListener("input", function (event) {
     }
 });
 
-alasan_reject.addEventListener("change", function (event) {
-    btn_reject.focus();
+alasan_reject.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        if (alasan_reject.value.trim() !== "") {
+            btn_reject.focus();
+        }
+    }
 });
 
 btn_reject.addEventListener("click", function (event) {
@@ -457,8 +461,15 @@ $(document).ready(function () {
         updateIDRPPN();
         updateHargaTotal();
         updateIDRHargaTotal();
-        btn_approve.focus();
+        // btn_approve.focus();
     });
+
+    ppn_select.addEventListener("keypress", function (event) {
+        if (event.key == "Enter") {
+            event.preventDefault();
+            btn_approve.focus();
+        }
+    })
 
     qty_order.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
@@ -496,17 +507,16 @@ $(document).ready(function () {
                     console.log(response[0]);
                     if (response[0].ID_MATAUANG != 1) {
                         kurs.focus();
-                    }
-                    else{
-                        let eventEnter = new KeyboardEvent('keypress', {
-                            key: 'Enter',
-                            code: 'Enter',
+                    } else {
+                        let eventEnter = new KeyboardEvent("keypress", {
+                            key: "Enter",
+                            code: "Enter",
                             keyCode: 13,
                             which: 13,
                             bubbles: true,
-                            cancelable: true
+                            cancelable: true,
                         });
-                        kurs.dispatchEvent(eventEnter)
+                        kurs.dispatchEvent(eventEnter);
                         harga_unit.focus();
                     }
                 },

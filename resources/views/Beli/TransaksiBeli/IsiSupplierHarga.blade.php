@@ -79,7 +79,7 @@
                         </div>
                         <div class="" id="formApprove">
                             <div class="row">
-                                <div class="col-md-4" style="padding: 0px 0px 0px 10px;">
+                                <div class="col-md-5" style="padding: 0px 0px 0px 10px;">
                                     <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4">
@@ -210,7 +210,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8" style="padding:0px">
+                                <div class="col-md-7" style="padding:0px">
                                     <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-6">
@@ -393,9 +393,8 @@
                                                 <label class="font-weight-bold" for="alasan_reject">Alasan Reject</label>
                                             </div>
                                             <div class="col-8 col-md-10">
-                                                <textarea rows="1" type="text" name="alasan_reject" id="alasan_reject"
-                                                    class="form-control font-weight-bold"></textarea>
-
+                                                <input type="text" name="alasan_reject" id="alasan_reject"
+                                                    class="form-control font-weight-bold">
                                             </div>
                                         </div>
                                     </div>
