@@ -123,30 +123,6 @@ function LoadPermohonan(data) {
                 },
             },
             {
-                data: "nama_sub_kategori",
-            },
-            {
-                data: "KET",
-                render: function (data) {
-                    return (
-                        data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
-                        '<p style="text-align:center;font-size: 14px;">-</p>'
-                    );
-                },
-            },
-            {
-                data: "Ket_Internal",
-                render: function (data) {
-                    return (
-                        data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
-                        '<p style="text-align:center;font-size: 14px;">-</p>'
-                    );
-                },
-            },
-            {
-                data: "NmUser",
-            },
-            {
                 data: "Qty",
                 render: function (data) {
                     return numeral(parseFloat(data)).format("0.00");
@@ -183,6 +159,30 @@ function LoadPermohonan(data) {
                 data: "PriceExt",
                 render: function (data) {
                     return numeral(parseFloat(data)).format("0,0.0000");
+                },
+            },
+            {
+                data: "NmUser",
+            },
+            {
+                data: "nama_sub_kategori",
+            },
+            {
+                data: "KET",
+                render: function (data) {
+                    return (
+                        data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
+                        '<p style="text-align:center;font-size: 14px;">-</p>'
+                    );
+                },
+            },
+            {
+                data: "Ket_Internal",
+                render: function (data) {
+                    return (
+                        data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
+                        '<p style="text-align:center;font-size: 14px;">-</p>'
+                    );
                 },
             },
             {

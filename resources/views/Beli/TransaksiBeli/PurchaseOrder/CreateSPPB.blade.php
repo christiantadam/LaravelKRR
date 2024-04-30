@@ -119,10 +119,6 @@
                                         <th>No Order</th>
                                         <th>Kd. Barang</th>
                                         <th>Nama Barang</th>
-                                        <th>Sub Kategori</th>
-                                        <th>Ket. Order</th>
-                                        <th>Ket. Internal</th>
-                                        <th>User</th>
                                         <th>Qty</th>
                                         <th>Satuan</th>
                                         <th>Qty Delay</th>
@@ -130,6 +126,10 @@
                                         <th>Sub Total</th>
                                         <th>PPN</th>
                                         <th>Harga Total</th>
+                                        <th>User</th>
+                                        <th>Sub Kategori</th>
+                                        <th>Ket. Order</th>
+                                        <th>Ket. Internal</th>
                                         <th>Kurs</th>
                                         <th>IDR Unit</th>
                                         <th>IDR Subtotal</th>
