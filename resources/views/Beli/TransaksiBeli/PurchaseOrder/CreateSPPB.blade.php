@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <div id="div_tablePO" class="acs-form-table">
-                            <table id="table_CreatePurchaseOrder" class="table table-bordered" style="width:100%">
+                            <table id="table_CreatePurchaseOrder" class="table table-bordered" style="width:100%;white-space: nowrap;">
                                 <thead class="table-primary">
                                     <tr>
                                         <th>No Order</th>
