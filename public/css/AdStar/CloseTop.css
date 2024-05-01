@@ -1,0 +1,255 @@
+.body {
+    font-family: Arial, sans-serif;
+    max-width: px;
+    margin: 0 auto;
+    padding: 20px;
+    height: AUTO;
+}
+
+h2 {
+    text-align: center;
+}
+
+.card {
+    display: flex; /* Setiap kartu akan mendapatkan lebar 50%, dikurangi jarak margin */
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    flex-direction: row;
+    width: 100%;
+    opacity: 0.95
+}
+.card2 {
+    display: flex; /* Setiap kartu akan mendapatkan lebar 50%, dikurangi jarak margin */
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    flex-direction: column;
+    width: 50%;
+    opacity: 0.8
+}
+.card3 {
+    position: relative;
+    display: flex; /* Setiap kartu akan mendapatkan lebar 50%, dikurangi jarak margin */
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    /* background-image: url('/images/Gbr3.png'); */
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+    width: 50%;
+    opacity: 0.8
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-container label {
+    margin-right: 10px;
+}
+
+.input-container input[type="text"]{
+    max-width: 30%;
+}
+
+.input-container input[type="number"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-container button {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.button-container {
+    display: flex;
+    max-width: 600px;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 40px;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.button-container button.ord {
+    background-color: #737573;
+    max-width: 200px;
+}
+
+.button-container button.add {
+    background-color: #4CAF50;
+    max-width: 120px;
+}
+
+.button-container button.update {
+    background-color: #2196F3;
+    max-width: 100px;
+}
+
+.button-container button.del {
+    background-color: #f44336;
+    max-width: 100px;
+}
+
+
+.scrollable-container {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 20px;
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.form-container {
+    max-width: 800px;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+}
+
+.aligned-text {
+    margin-right: 10px;
+}
+
+.mt-3 {
+    margin-top: 15px;
+}
+
+.mt-4 {
+    margin-top: 30px;
+}
+
+.mt-md-0 {
+    margin-top: 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.row.justify-content-md-center {
+    justify-content: center;
+    width:2000px ;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.acs-div-gambar-input{
+    width: 100%;
+}
+
+.acs-gambar{
+    z-index: -1;
+}
+
+.W_input{
+    position: relative;
+}
+
+.W_inputBB{
+    z-index: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 335px;
+    left: 49px;
+    height: 18px;
+    width: 53px;
+}
+
+.W_inputW{
+    z-index: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 32px;
+    left: 256px;
+    height: 18px;
+    width: 59px;
+}
+
+.W_inputH{
+    z-index: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 201px;
+    left: 437px;
+    height: 18px;
+    width: 51px;
+}
+
+/* tulisan front area */
+.W_inputFA{
+    z-index: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 270px;
+    left: 232px;
+    height: 18px;
+    width: 205px;
+}
+
+.W_inputBC{
+    z-index: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 118px;
+    left: 49px;
+    height: 18px;
+    width: 53px;
+}
+
+.W_inputVS{
+    z-index: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 188px;
+    left: 128px;
+    height: 18px;
+    width: 53px;
+}
+
+.W_inputVL{
+    z-index: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 223px;
+    left: 180px;
+    height: 18px;
+    width: 53px;
+}

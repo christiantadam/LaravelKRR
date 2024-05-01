@@ -29,7 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         $result = (new HakAksesController)->HakAksesProgram('Beli');
-        if($result==true)
+        if($result)
         {
             return view('Beli.Home');
         }
