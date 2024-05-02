@@ -305,9 +305,9 @@ create_po.addEventListener("click", function (event) {
                 selectedRows[0][1] !== selectedRows[i][1] ||
                 selectedRows[0][2] !== selectedRows[i][2]
             ) {
-                sameValues = false;
-                alert("Ada data supplier dan divisi yang tidak sama!");
-                return;
+                // sameValues = false;
+                alert("Ada data supplier dan divisi yang tidak sama! Jangan lupa diganti ya ❤");
+                // return;
             }
         }
         if (sameValues == true) {
