@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use App\Http\Controllers\HakAksesController;
 use Illuminate\Support\Facades\Auth;
+
 class SupplierController extends Controller
 {
     // Display a listing of the resource.
@@ -16,12 +17,95 @@ class SupplierController extends Controller
         $matauang = DB::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         // dd($matauang);
-        return view('Beli.Master.Supplier', compact('supplier', 'matauang', 'access'));
+        return view('Beli.Master.Supplier.Index', compact('supplier', 'matauang', 'access'));
+    }
+
+    function getallsuplier($request)
+    {
+        if (!$request->isMethod('post')) {
+            // Handle invalid method, e.g., return an error response
+            return response()->json(['error' => 'Invalid request method'], 405);
+        }
+        $columns = array(
+            0 => 'IDSupplier',
+            1 => 'NamaSupplier',
+            2 => 'Negara1',
+            3 => 'Kota1',
+            4 => 'Alamat1',
+        );
+
+        $totalData = DB::connection('ConnPurchase')->table('YSUPPLIER')
+            ->where('IsActive', 1)
+            ->count();
+
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $query = DB::connection('ConnSales')->table('T_Customer')
+            ->select(
+                DB::connection('ConnSales')->table('T_Customer')->raw("IDCust + ' - ' + JnsCust AS IDCustomer"),
+                DB::connection('ConnSales')->table('T_Customer')->raw("NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer"),
+                'KotaKirim',
+                'Negara'
+            )
+            // ->select('IDCust', 'Kota')
+            ->where('IsActive', 1);
+
+        if (!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+            $query->where('IDCust', 'LIKE', "%{$search}%")
+                ->orWhere('JnsCust', 'LIKE', "%{$search}%")
+                ->orWhere('NamaCust', 'LIKE', "%{$search}%")
+                ->orWhere('AlamatKirim', 'LIKE', "%{$search}%")
+                ->orWhere('KotaKirim', 'LIKE', "%{$search}%")
+                ->orWhere('Negara', 'LIKE', "%{$search}%");
+
+            $totalFiltered = $query->count();
+        }
+
+        $customer = $query->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $dir)
+            ->get();
+
+        $data = array();
+        if (!empty($customer)) {
+            foreach ($customer as $datacustomer) {
+                $nestedData['IDCustomer'] = $datacustomer->IDCustomer;
+                $nestedData['NamaCustomer'] = $datacustomer->NamaCustomer;
+                $nestedData['KotaKirim'] = $datacustomer->KotaKirim;
+                $nestedData['Negara'] = $datacustomer->Negara;
+                $idcust = explode(' - ', $datacustomer->IDCustomer);
+                $csrfToken = Session::get('_token');
+                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; Edit</button>
+                                        <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
+                                        action=\"/Customer/" . $idcust[0] . "\" method=\"POST\"
+                                        enctype=\"multipart/form-data\"> <button type=\"submit\"
+                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Hapus</button>
+                                            <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+                                    </form>";
+                // $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; EDIT</button>";
+                $data[] = $nestedData;
+            }
+        }
+
+        $json_data = array(
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+
+        return response()->json($json_data);
     }
 
     public function getSupplier($id)
     {
-        $data = DB::connection('ConnPurchase')->select('exec SP_1273_PBL_LIST_SUPPLIER @kd = ?, @idSup = ?',[1,$id]);
+        $data = DB::connection('ConnPurchase')->select('exec SP_1273_PBL_LIST_SUPPLIER @kd = ?, @idSup = ?', [1, $id]);
         return response()->json($data);
     }
 
@@ -63,33 +147,33 @@ class SupplierController extends Controller
         }
         // dd($request->all());
         DB::connection('ConnPurchase')->statement('exec SP_5409_PBL_SUPPLIER
-        @kd = '.$kd.',
-        @Xno_sup = \''.$supplier_id.'\',
-        @Xnm_sup = \''.$supplier_text.'\',
-        @Xperson1 = \''.$contact_person1.'\',
-        @Xperson2 = \''.$contact_person2.'\',
-        @Xtlp1 = \''.$phone1.'\',
-        @Xtlp2 = \''.$phone2.'\',
-        @Xhphone1 = \''.$mobile_phone1.'\',
-        @Xhphone2 = \''.$mobile_phone2.'\',
-        @Xtelex1 = \''.$email1.'\',
-        @Xtelex2 = \''.$email2.'\',
-        @Xalamat1 = \''.$alamat1.'\',
-        @Xalamat2 = \''.$alamat2.'\',
-        @Xkota1 = \''.$kota1.'\',
-        @Xkota2 = \''.$kota2.'\',
-        @Xfax1 = \''.$fax1.'\',
-        @Xfax2 = \''.$fax2.'\',
-        @Xnegara1 = \''.$negara1.'\',
-        @Xnegara2 = \''.$negara2.'\',
-        @IdUang = '.$mata_uang.',
-        @jnSup = \''.$jnSup.'\'');
+        @kd = ' . $kd . ',
+        @Xno_sup = \'' . $supplier_id . '\',
+        @Xnm_sup = \'' . $supplier_text . '\',
+        @Xperson1 = \'' . $contact_person1 . '\',
+        @Xperson2 = \'' . $contact_person2 . '\',
+        @Xtlp1 = \'' . $phone1 . '\',
+        @Xtlp2 = \'' . $phone2 . '\',
+        @Xhphone1 = \'' . $mobile_phone1 . '\',
+        @Xhphone2 = \'' . $mobile_phone2 . '\',
+        @Xtelex1 = \'' . $email1 . '\',
+        @Xtelex2 = \'' . $email2 . '\',
+        @Xalamat1 = \'' . $alamat1 . '\',
+        @Xalamat2 = \'' . $alamat2 . '\',
+        @Xkota1 = \'' . $kota1 . '\',
+        @Xkota2 = \'' . $kota2 . '\',
+        @Xfax1 = \'' . $fax1 . '\',
+        @Xfax2 = \'' . $fax2 . '\',
+        @Xnegara1 = \'' . $negara1 . '\',
+        @Xnegara2 = \'' . $negara2 . '\',
+        @IdUang = ' . $mata_uang . ',
+        @jnSup = \'' . $jnSup . '\'');
 
         if ($kd == 2) {
             return redirect()->back()->with('success', 'Data sudah tersimpan.');
         } else if ($kd == 3) {
             return redirect()->back()->with('success', 'Data Id Supplier ' . $supplier_id . ' sudah disimpan.');
-        } else{
+        } else {
             return redirect()->back()->with('success', 'Data Id Supplier ' . $supplier_id . ' sudah dihapus.');
         }
     }
