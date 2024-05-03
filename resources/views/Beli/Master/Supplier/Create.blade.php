@@ -35,8 +35,8 @@
                                                 @endforeach
                                             </select> --}}
                                             {{-- <input type="hidden" name="supplier_id" id="supplier_id"> --}}
-                                            {{-- <input type="hidden" name="kode" id="kode">
-                                            <button id="swtich_supplier" class="btn btn-info"
+                                            <input type="hidden" name="kode" id="kode">
+                                            {{-- <button id="swtich_supplier" class="btn btn-info"
                                                 style="display: inline;">↺</button> --}}
                                         </div>
                                     </div>
@@ -152,8 +152,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </form>
                     </div>
                 </div>

@@ -128,6 +128,7 @@ class SupplierController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd($request->all());
         $supplier_id = $request->supplier_id ?? NULL;
         $supplier_text = $request->supplier_text ?? NULL;
         $contact_person1 = $request->contact_person1 ?? NULL;
@@ -197,7 +198,11 @@ class SupplierController extends Controller
     //Show the form for editing the specified resource.
     public function edit($id)
     {
-        //
+        $data = DB::connection('ConnPurchase')->select('exec SP_1273_PBL_LIST_SUPPLIER @kd = ?, @idSup = ?', [1, $id]);
+        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
+        $matauang = DB::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
+        // dd($data, $matauang);
+        return view('Beli.Master.Supplier.Edit', compact('data', 'access', 'matauang'));
     }
 
     //Update the specified resource in storage.

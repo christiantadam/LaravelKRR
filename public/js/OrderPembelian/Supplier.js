@@ -8,11 +8,11 @@ let clear_button = document.getElementById("clear_button");
 // let fax1 = document.getElementById("fax1");
 // let fax2 = document.getElementById("fax2");
 // let form_supplier = document.getElementById("form_supplier");
-// let kode = document.getElementById("kode");
+let kode = document.getElementById("kode");
 // let hapus_button = document.getElementById("hapus_button");
 // let kota1 = document.getElementById("kota1");
 // let kota2 = document.getElementById("kota2");
-// let mata_uang = document.getElementById("mata_uang");
+let mata_uang = document.getElementById("mata_uang");
 // let mobile_phone1 = document.getElementById("mobile_phone1");
 // let mobile_phone2 = document.getElementById("mobile_phone2");
 // let negara1 = document.getElementById("negara1");
@@ -24,7 +24,9 @@ let save_button = document.getElementById("save_button");
 // let supplier_select = document.getElementById("supplier_select");
 // let supplier_text = document.getElementById("supplier_text");
 // let swtich_supplier = document.getElementById("swtich_supplier");
-
+if (mata_uang.selectedIndex == 0) {
+    mata_uang.selectedIndex = 1;
+}
 // swtich_supplier.addEventListener("click", function (event) {
 //     event.preventDefault();
 //     if (supplier_select.style.display == "none") {
@@ -78,18 +80,18 @@ let save_button = document.getElementById("save_button");
 
 save_button.addEventListener("click", function (event) {
     event.preventDefault();
-    if (supplier_id.value !== "") {
-        kode.value = "3";
-        form_supplier.submit();
+    // if (supplier_id.value !== "") {
+    //     kode.value = "3";
+    //     form_supplier.submit();
+    // } else {
+    if (supplier_text.value == "") {
+        alert("Nama Supplier Tidak boleh kosong!");
+        return;
     } else {
-        if (supplier_text.value == "") {
-            alert("Nama Supplier Tidak boleh kosong!");
-            return;
-        } else {
-            kode.value = "2";
-            form_supplier.submit();
-        }
+        kode.value = "2";
+        form_supplier.submit();
     }
+    // }
 });
 
 clear_button.addEventListener("click", function (event) {
