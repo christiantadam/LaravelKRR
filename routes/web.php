@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TransferBarang', App\Http\Controllers\Beli\TransaksiBeli\TransferBarangController::class);
     Route::get('/IsiSupplierHarga/{id}/Redisplay', 'App\Http\Controllers\Beli\TransaksiBeli\IsiSupplierHargaController@redisplay')->name('isisupplierharga.redisplay');
     Route::post('/Supplier/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@destroy')->name('supplier.destroy');
-    Route::post('getallsupplier', 'App\Http\Controllers\Sales\Master\SupplierController@getallsupplier');
+    Route::post('getallsupplier', 'App\Http\Controllers\Beli\Master\SupplierController@getallsupplier');
     Route::get('/options/supplierselect/{id}', 'App\Http\Controllers\Beli\Master\SupplierController@getSupplier');
     Route::get('/HistoryPembelianMasterRedisplay', 'App\Http\Controllers\Beli\Master\HistoryPembelianMasterController@redisplay')->name('historypembelianmaster.redisplay');
     Route::get('/Maintenance/KodeBarang', 'App\Http\Controllers\Beli\Master\MaintenanceKodeBarangController@kodeBarang')->name('maintenancekodebarang.kodebarang');

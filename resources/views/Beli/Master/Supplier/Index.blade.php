@@ -9,25 +9,28 @@
                 "ajax": {
                     "url": "{{ url('getallsupplier') }}",
                     "dataType": "json",
-                    "type": "POSTT",
+                    "type": "POST",
                     "data": {
                         _token: "{{ csrf_token() }}"
                     }
                 },
                 "columns": [{
-                        "data": "IDSupplier"
+                        "data": "NO_SUP"
                     },
                     {
-                        "data": "NamaSupplier"
+                        "data": "NM_SUP"
                     },
                     {
-                        "data": "Negara1"
+                        "data": "NEGARA1"
                     },
                     {
-                        "data": "Kota1"
+                        "data": "KOTA1"
                     },
                     {
-                        "data": "Alamat1"
+                        "data": "ALAMAT1"
+                    },
+                    {
+                        "data": "Actions"
                     }
                 ]
             });
@@ -44,14 +47,15 @@
             <div class="card">
                 <div class="card-header">Supplier</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-                    <table id="table_Supplier" class="table table-bordered table-striped" style="width:100%">
-                        <thead class="thead-dark">
+                    <table id="table_Supplier" class="table table-bordered" style="width:100%;white-space: nowrap;">
+                        <thead class="table-primary">
                             <tr>
                                 <th>IdSupplier</th>
                                 <th>Nama Supplier </th>
                                 <th>Negara</th>
                                 <th>Kota</th>
                                 <th>Alamat</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,5 +64,5 @@
                 </div>
             </div>
         </div>
-        <script src="{{ asset('js/OrderPembelian/Supplier.js') }}"></script>
+        {{-- <script src="{{ asset('js/OrderPembelian/Supplier.js') }}"></script> --}}
     @endsection

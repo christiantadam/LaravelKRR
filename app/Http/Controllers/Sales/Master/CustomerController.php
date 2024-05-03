@@ -85,7 +85,7 @@ class CustomerController extends Controller
                 $nestedData['KotaKirim'] = $datacustomer->KotaKirim;
                 $nestedData['Negara'] = $datacustomer->Negara;
                 $idcust = explode(' - ', $datacustomer->IDCustomer);
-                $csrfToken = Session::get('_token');
+                $csrfToken = $request->_token;
                 $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; Edit</button>
                                         <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
                                         action=\"/Customer/" . $idcust[0] . "\" method=\"POST\"

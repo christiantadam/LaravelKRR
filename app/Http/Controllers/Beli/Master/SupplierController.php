@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Beli\Master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use Session;
 use App\Http\Controllers\HakAksesController;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,21 +18,21 @@ class SupplierController extends Controller
         $matauang = DB::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
         // dd($matauang);
-        return view('Beli.Master.Supplier.Index', compact('supplier', 'matauang', 'access'));
+        return view('Beli.Master.Supplier.Index', compact('access'));
     }
 
-    function getallsuplier($request)
+    function getallsupplier(Request $request)
     {
         if (!$request->isMethod('post')) {
             // Handle invalid method, e.g., return an error response
             return response()->json(['error' => 'Invalid request method'], 405);
         }
         $columns = array(
-            0 => 'IDSupplier',
-            1 => 'NamaSupplier',
-            2 => 'Negara1',
-            3 => 'Kota1',
-            4 => 'Alamat1',
+            0 => 'NO_SUP',
+            1 => 'NM_SUP',
+            2 => 'NEGARA1',
+            3 => 'KOTA1',
+            4 => 'ALAMAT1',
         );
 
         $totalData = DB::connection('ConnPurchase')->table('YSUPPLIER')
@@ -45,49 +46,55 @@ class SupplierController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
 
-        $query = DB::connection('ConnSales')->table('T_Customer')
+        $query = DB::connection('ConnPurchase')->table('YSUPPLIER')
             ->select(
-                DB::connection('ConnSales')->table('T_Customer')->raw("IDCust + ' - ' + JnsCust AS IDCustomer"),
-                DB::connection('ConnSales')->table('T_Customer')->raw("NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer"),
-                'KotaKirim',
-                'Negara'
+                'NO_SUP',
+                'NM_SUP',
+                'NEGARA1',
+                'KOTA1',
+                'ALAMAT1'
             )
-            // ->select('IDCust', 'Kota')
             ->where('IsActive', 1);
 
         if (!empty($request->input('search.value'))) {
             $search = $request->input('search.value');
-            $query->where('IDCust', 'LIKE', "%{$search}%")
-                ->orWhere('JnsCust', 'LIKE', "%{$search}%")
-                ->orWhere('NamaCust', 'LIKE', "%{$search}%")
-                ->orWhere('AlamatKirim', 'LIKE', "%{$search}%")
-                ->orWhere('KotaKirim', 'LIKE', "%{$search}%")
-                ->orWhere('Negara', 'LIKE', "%{$search}%");
+            $query->where('NO_SUP', 'LIKE', "%{$search}%")
+                ->orWhere('NM_SUP', 'LIKE', "%{$search}%")
+                ->orWhere('NEGARA1', 'LIKE', "%{$search}%")
+                ->orWhere('KOTA1', 'LIKE', "%{$search}%")
+                ->orWhere('ALAMAT1', 'LIKE', "%{$search}%");
 
             $totalFiltered = $query->count();
         }
 
-        $customer = $query->offset($start)
+        $supplier = $query->offset($start)
             ->limit($limit)
             ->orderBy($order, $dir)
             ->get();
 
         $data = array();
-        if (!empty($customer)) {
-            foreach ($customer as $datacustomer) {
-                $nestedData['IDCustomer'] = $datacustomer->IDCustomer;
-                $nestedData['NamaCustomer'] = $datacustomer->NamaCustomer;
-                $nestedData['KotaKirim'] = $datacustomer->KotaKirim;
-                $nestedData['Negara'] = $datacustomer->Negara;
-                $idcust = explode(' - ', $datacustomer->IDCustomer);
+        if (!empty($supplier)) {
+            foreach ($supplier as $datasupplier) {
+                $nestedData['NO_SUP'] = $datasupplier->NO_SUP;
+                $nestedData['NM_SUP'] = $datasupplier->NM_SUP;
+                $nestedData['NEGARA1'] = $datasupplier->NEGARA1;
+                $nestedData['KOTA1'] = $datasupplier->KOTA1;
+                $nestedData['ALAMAT1'] = $datasupplier->ALAMAT1;
+                // $idcust = explode(' - ', $datasupplier->IDCustomer);
                 $csrfToken = Session::get('_token');
-                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; Edit</button>
-                                        <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
-                                        action=\"/Customer/" . $idcust[0] . "\" method=\"POST\"
-                                        enctype=\"multipart/form-data\"> <button type=\"submit\"
-                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Hapus</button>
-                                            <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
-                                    </form>";
+                $nestedData['Actions'] = "
+                                        <div style='display: flex'>
+                                            <button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/Supplier/" . $datasupplier->NO_SUP . "/edit')\">
+                                                &#x270E; Edit
+                                            </button>
+                                            <br>
+                                            <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"action=\"/Supplier/" . $datasupplier->NO_SUP . "\" method=\"POST\" enctype=\"multipart/form-data\">
+                                                <button type=\"submit\" class=\"btn btn-sm btn-danger\">
+                                                    <span>&#x1F5D1;</span>Hapus
+                                                </button>
+                                                <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+                                            </form>
+                                        </div>";
                 // $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; EDIT</button>";
                 $data[] = $nestedData;
             }
@@ -112,7 +119,10 @@ class SupplierController extends Controller
     //Show the form for creating a new resource.
     public function create()
     {
-        //
+        $supplier = DB::connection('ConnPurchase')->select('exec SP_5409_PBL_SUPPLIER @kd = ?', [1]);
+        $matauang = DB::connection('ConnPurchase')->select('exec SP_7775_PBL_LIST_MATA_UANG');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
+        return view('Beli.Master.Supplier.Create', compact('supplier', 'matauang', 'access'));
     }
 
     //Store a newly created resource in storage.

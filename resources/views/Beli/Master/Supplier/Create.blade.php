@@ -23,21 +23,21 @@
                             <div class="">
                                 <div class="acs-div-container">
                                     <div class="acs-div-filter pl-2">
-                                        <label for="supplier">Supplier</label>
+                                        <label for="supplier">Nama Supplier</label>
                                         <div class="acs-div-filter2">
-                                            <input type="text" name="supplier_text" id="supplier_text" class="input font-weight-bold">
-                                            <select name="supplier_select" id="supplier_select" class="font-weight-bold"
+                                            <input type="text" name="supplier_text" id="supplier_text" class="input font-weight-bold col-12">
+                                            {{-- <select name="supplier_select" id="supplier_select" class="font-weight-bold"
                                                 style="display: none; width:250px;">
                                                 <option selected disabled>--Pilih Supplier--</option>
                                                 @foreach ($supplier as $data)
                                                     <option value="{{ $data->NO_SUP }}">
                                                         {{ $data->NM_SUP }}</option>
                                                 @endforeach
-                                            </select>
-                                            <input type="hidden" name="supplier_id" id="supplier_id">
-                                            <input type="hidden" name="kode" id="kode">
+                                            </select> --}}
+                                            {{-- <input type="hidden" name="supplier_id" id="supplier_id"> --}}
+                                            {{-- <input type="hidden" name="kode" id="kode">
                                             <button id="swtich_supplier" class="btn btn-info"
-                                                style="display: inline;">↺</button>
+                                                style="display: inline;">↺</button> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -142,14 +142,11 @@
                                 <div class="row mt-4 pl-3">
                                     <div class="col-md-12">
                                         <div class="text-end">
-                                            <button id="save_button" class="custom-button2 font-weight-bold">
+                                            <button id="save_button" class="btn btn-success">
                                                 <span>Save</span>
                                             </button>
-                                            <button id="clear_button" class="custom-button1 font-weight-bold">
+                                            <button id="clear_button" class="btn btn-secondary">
                                                 <span>Clear All</span>
-                                            </button>
-                                            <button id="hapus_button" class="custom-button3 font-weight-bold">
-                                                <span>Hapus</span>
                                             </button>
                                         </div>
                                     </div>

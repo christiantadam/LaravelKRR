@@ -144,7 +144,9 @@ function inisialisasiDataTable(response) {
             {
                 data: "Tgl_Dibutuhkan",
                 render: function (data) {
-                    return data.split(" ")[0];
+                    let parts = data.split(" ")[0].split("-");
+                    let tgl = parts[1] + "/" + parts[2] + "/" + parts[0];
+                    return tgl;
                 },
             },
             {
