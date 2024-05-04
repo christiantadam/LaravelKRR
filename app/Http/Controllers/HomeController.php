@@ -94,4 +94,16 @@ class HomeController extends Controller
             return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Workshop!');
         }
     }
+    public function Utility()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('Utility');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
+        dd($result,$access);
+        if ($result > 0) {
+            return view('layouts.appUtility', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Utlity!');
+
+        }
+    }
 }

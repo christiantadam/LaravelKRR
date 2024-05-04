@@ -1,5 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
+@section('title', 'Create SPPB')
     <link href="{{ asset('css/CreateSPPB.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/PrintSPPB.css') }}" rel="stylesheet">

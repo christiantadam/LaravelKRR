@@ -1,5 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
+@section('title', 'Daftar Harga')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
 

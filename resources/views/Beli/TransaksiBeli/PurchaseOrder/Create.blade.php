@@ -1,5 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
+@section('title', 'Create PO')
     <link href="{{ asset('css/CreatePurchaseOrder.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <div class="container-fluid">

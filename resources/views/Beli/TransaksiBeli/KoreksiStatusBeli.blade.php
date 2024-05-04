@@ -1,5 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
+@section('title', 'Koreksi Status Beli')
     <link href="{{ asset('css/IsiSupplierHarga.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <div class="container-fluid">

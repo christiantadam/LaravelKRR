@@ -1,5 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
+@section('title', 'List Order Pembelian')
     <link href="{{ asset('css/ListOrderPembelian.css') }}" rel="stylesheet">
 
     @include('Beli/Transaksi/ListOrder/modalDetailListOrder')

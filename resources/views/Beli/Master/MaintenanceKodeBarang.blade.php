@@ -1,5 +1,6 @@
 @extends('layouts.appOrderPembelian')
 @section('content')
+@section('title', 'Maintenance KB')
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <div class="container-fluid">

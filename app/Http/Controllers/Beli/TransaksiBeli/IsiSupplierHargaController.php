@@ -32,11 +32,16 @@ class IsiSupplierHargaController extends Controller
     //Display the specified resource.
     public function show($id)
     {
-        $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
-        if ($access > 0) {
+        if ($id == 0) {
+            $result = (new HakAksesController)->HakAksesFitur('Beli Sendiri');
+        } else if ($id == 1) {
+            $result = (new HakAksesController)->HakAksesFitur('Pengadaan Pembelian');
+        }
+        if ($result > 0) {
+            $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
             return view('Beli.TransaksiBeli.IsiSupplierHarga', compact('id', 'access'));
         } else {
-            abort(404);
+            abort(403);
         }
     }
     public function redisplay(Request $request, $id)

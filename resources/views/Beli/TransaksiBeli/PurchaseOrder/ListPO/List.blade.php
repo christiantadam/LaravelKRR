@@ -1,5 +1,5 @@
 @extends('layouts.appOrderPembelian')
-
+@section('title', 'List PO')
 @section('content')
     <link href="{{ asset('css/ListPurchaseOrder.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
