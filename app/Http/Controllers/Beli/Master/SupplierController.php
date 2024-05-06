@@ -88,11 +88,13 @@ class SupplierController extends Controller
                                                 &#x270E; Edit
                                             </button>
                                             <br>
-                                            <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"action=\"/Supplier/" . $datasupplier->NO_SUP . "\" method=\"POST\" enctype=\"multipart/form-data\">
+                                            <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"action=\"/Supplier/\" method=\"POST\" enctype=\"multipart/form-data\">
                                                 <button type=\"submit\" class=\"btn btn-sm btn-danger\">
                                                     <span>&#x1F5D1;</span>Hapus
                                                 </button>
                                                 <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+                                                <input type=\"hidden\" name=\"kode\" value=\"4\">
+                                                <input type=\"hidden\" name=\"supplier_id\" value=\"" . $datasupplier->NO_SUP . "\">
                                             </form>
                                         </div>";
                 // $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; EDIT</button>";
@@ -147,7 +149,7 @@ class SupplierController extends Controller
         $alamat2 = $request->alamat2 ?? NULL;
         $kota2 = $request->kota2 ?? NULL;
         $negara2 = $request->negara2 ?? NULL;
-        $mata_uang = $request->mata_uang ?? NULL;
+        $mata_uang = $request->mata_uang ?? 0;
         $kd = $request->kode ?? NULL;
         $jnSup = 0;
 
