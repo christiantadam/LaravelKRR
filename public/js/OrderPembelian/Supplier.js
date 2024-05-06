@@ -9,6 +9,7 @@ let clear_button = document.getElementById("clear_button");
 // let fax2 = document.getElementById("fax2");
 // let form_supplier = document.getElementById("form_supplier");
 let kode = document.getElementById("kode");
+let kode_form = document.getElementById("kode_form");
 // let hapus_button = document.getElementById("hapus_button");
 // let kota1 = document.getElementById("kota1");
 // let kota2 = document.getElementById("kota2");
@@ -80,15 +81,15 @@ if (mata_uang.selectedIndex == 0) {
 
 save_button.addEventListener("click", function (event) {
     event.preventDefault();
-    // if (supplier_id.value !== "") {
-    //     kode.value = "3";
-    //     form_supplier.submit();
-    // } else {
     if (supplier_text.value == "") {
         alert("Nama Supplier Tidak boleh kosong!");
         return;
     } else {
-        kode.value = "2";
+        if (kode_form.value == "Create") {
+            kode.value = "2";
+        } else if (kode_form.value == "Edit") {
+            kode.value = "3";
+        }
         form_supplier.submit();
     }
     // }
