@@ -30,9 +30,9 @@ class SupplierController extends Controller
         $columns = array(
             0 => 'NO_SUP',
             1 => 'NM_SUP',
-            2 => 'NEGARA1',
+            2 => 'ALAMAT1',
             3 => 'KOTA1',
-            4 => 'ALAMAT1',
+            4 => 'NEGARA1',
         );
 
         $totalData = DB::connection('ConnPurchase')->table('YSUPPLIER')
@@ -50,9 +50,9 @@ class SupplierController extends Controller
             ->select(
                 'NO_SUP',
                 'NM_SUP',
-                'NEGARA1',
+                'ALAMAT1',
                 'KOTA1',
-                'ALAMAT1'
+                'NEGARA1',
             )
             ->where('IsActive', 1);
 

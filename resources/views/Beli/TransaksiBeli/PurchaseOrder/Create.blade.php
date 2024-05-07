@@ -93,12 +93,12 @@
                                         <th>PPN</th>
                                         <th>Harga Total</th>
                                         <th>Currency</th>
-                                        <th>Tgl. Dibutuhkan</th>
+                                        <th>Tgl. Dibutuhkan <br>(DD-MM-YYYY)</th>
                                         <th>Ket. Order</th>
                                         <th>Ket. Internal</th>
                                         <th>AppManager</th>
                                         <th>AppPBL</th>
-                                        <th>AppDireksi</th>
+                                        <th>AppDireksi <br>(DD-MM-YYYY HH:MM:SS)</th>
                                     </tr>
                                 </thead>
                                 <tbody>

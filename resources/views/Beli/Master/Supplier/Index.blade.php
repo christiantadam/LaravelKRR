@@ -21,13 +21,13 @@
                     "data": "NM_SUP"
                 },
                 {
-                    "data": "NEGARA1"
+                    "data": "ALAMAT1"
                 },
                 {
                     "data": "KOTA1"
                 },
                 {
-                    "data": "ALAMAT1"
+                    "data": "NEGARA1"
                 },
                 {
                     "data": "Actions"
@@ -54,9 +54,9 @@
                                 <tr>
                                     <th>IdSupplier</th>
                                     <th>Nama Supplier </th>
-                                    <th>Negara</th>
-                                    <th>Kota</th>
                                     <th>Alamat</th>
+                                    <th>Kota</th>
+                                    <th>Negara</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>

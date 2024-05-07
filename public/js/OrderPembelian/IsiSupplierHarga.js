@@ -268,9 +268,8 @@ function redisplayData(noTrans, requester, kd) {
                 data: "Tgl_Dibutuhkan",
                 render: function (data, type, row) {
                     let parts = data.split(" ")[0].split("-");
-                    console.log(parts);
 
-                    let tgl = parts[1] + "-" + parts[2] + "-" + parts[0];
+                    let tgl = parts[2] + "-" + parts[1] + "-" + parts[0];
                     return tgl;
                 },
             },
@@ -290,6 +289,17 @@ function redisplayData(noTrans, requester, kd) {
                         ? '<p style="text-align:center;font-size: 14px;">-</p>'
                         : data ||
                               '<p style="text-align:center;font-size: 14px;">-</p>';
+                },
+            },
+            {
+                data: "Tgl_acc",
+                render: function (data, type, row) {
+                    let parts = data.split(" ")[0].split("-");
+                    let time = data.split(" ")[1].split(".");
+                    console.log(parts);
+
+                    let tgl = parts[2] + "-" + parts[1] + "-" + parts[0] + " " + time[0];
+                    return tgl;
                 },
             },
         ],
@@ -469,7 +479,7 @@ $(document).ready(function () {
             event.preventDefault();
             btn_approve.focus();
         }
-    })
+    });
 
     qty_order.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {

@@ -72,9 +72,10 @@
                                     <th>Satuan</th>
                                     <th>User</th>
                                     <th>Id_Div</th>
-                                    <th>Tgl. Dibutuhkan</th>
+                                    <th>Tgl. Dibutuhkan <br>(DD-MM-YYYY)</th>
                                     <th>Ket. Order</th>
                                     <th>Ket. Internal</th>
+                                    <th>Tgl. Approve Mgr. <br>(DD-MM-YYYY HH:MM:SS)</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -306,7 +306,9 @@ create_po.addEventListener("click", function (event) {
                 selectedRows[0][2] !== selectedRows[i][2]
             ) {
                 // sameValues = false;
-                alert("Ada data supplier dan divisi yang tidak sama! Jangan lupa diganti ya ❤");
+                alert(
+                    "Ada data supplier dan divisi yang tidak sama! Jangan lupa diganti ya ❤"
+                );
                 // return;
             }
         }
@@ -341,6 +343,36 @@ function LoadPermohonan(proses, stbeli) {
             .then((response) => response.json())
             .then((data) => {
                 const rows = data.map((item) => {
+                    const tglDibutuhkan = new Date(item.Tgl_Dibutuhkan);
+                    // Format the date
+                    const tglDibutuhkanformattedDate =
+                        ("0" + tglDibutuhkan.getDate()).slice(-2) +
+                        "-" +
+                        ("0" + (tglDibutuhkan.getMonth() + 1)).slice(-2) +
+                        "-" +
+                        tglDibutuhkan.getFullYear();
+
+                    // Modify the item in the data array
+                    item.Tgl_Dibutuhkan = tglDibutuhkanformattedDate;
+
+                    const tglDirektur = new Date(item.Tgl_Direktur);
+                    // Format the date
+                    const tglDirekturformattedDate =
+                        ("0" + tglDirektur.getDate()).slice(-2) +
+                        "-" +
+                        ("0" + (tglDirektur.getMonth() + 1)).slice(-2) +
+                        "-" +
+                        tglDirektur.getFullYear() +
+                        " " +
+                        tglDirektur.getHours() +
+                        ":" +
+                        tglDirektur.getMinutes() +
+                        ":" +
+                        tglDirektur.getSeconds();
+
+                    // Modify the item in the data array
+                    item.Tgl_Direktur = tglDirekturformattedDate;
+
                     return [
                         `<input type="checkbox" name="checked" value="${item.No_trans.trim()}" id="${item.No_trans.trim()}" style="width: 20px;height: 20px;" />`,
                         item.NM_SUP.trim(),

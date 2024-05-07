@@ -53,7 +53,7 @@
                                     <tr>
                                         <th>No po</th>
                                         <th>Status</th>
-                                        <th>Tanggal PO</th>
+                                        <th>Tanggal PO <br>(DD-MM-YYYY)</th>
                                         <th>Divisi</th>
                                         <th>User</th>
                                         <th>No BTTB</th>

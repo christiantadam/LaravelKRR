@@ -69,8 +69,8 @@ function redisplay(MinDate, MaxDate, noPO) {
         scrollX: true,
         scrollY: "400px",
         // paging: false,
-        lengthChange:false,
-        pageLength : 100,
+        lengthChange: false,
+        pageLength: 100,
         searching: false,
         ajax: {
             url: "/GETPurchaseOrder",
@@ -84,7 +84,15 @@ function redisplay(MinDate, MaxDate, noPO) {
         columns: [
             { data: "NO_PO" },
             { data: "Status" },
-            { data: "Tgl_sppb" },
+            {
+                data: "Tgl_sppb",
+                render: function (data, type, row) {
+                    let parts = data.split(" ")[0].split("-");
+
+                    let tgl = parts[2] + "-" + parts[1] + "-" + parts[0];
+                    return tgl;
+                },
+            },
             { data: "Kd_div" },
             { data: "Nama" },
             { data: "No_BTTB" },
