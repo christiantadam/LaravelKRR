@@ -13,7 +13,7 @@ class ListSemuaOrderController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
-        $result = (new HakAksesController)->HakAksesFitur('Daftar Harga');
+        $result = (new HakAksesController)->HakAksesFitur('List Semua Order');
         // dd($result);
         if ($result > 0) {
             return view('Beli.Informasi.ListSemuaOrder', compact('access'));
@@ -39,15 +39,17 @@ class ListSemuaOrderController extends Controller
             return response()->json(['error' => 'Invalid request method'], 405);
         }
         $columns = array(
-            0 => 'Tgl_order',
-            1 => 'NO_ORDER',
-            2 => 'STATUS_PO',
-            3 => 'TglAprMGR',
-            4 => 'STATUS_BELI',
-            5 => 'NO_PO',
-            6 => 'TGL_PO',
-            7 => 'NM_USER',
-            8 => 'No_BTTB',
+            0 => 'NO_ORDER',
+            1 => 'STATUS_PO',
+            2 => 'TglAprMGR',
+            3 => 'STATUS_BELI',
+            4 => 'NO_PO',
+            5 => 'NM_BARANG',
+            6 => 'SUB_KATEGORI',
+            7 => 'QTY_PO',
+            8 => 'TGL_PO',
+            9 => 'NM_USER',
+            10 => 'No_BTTB',
         );
 
         $totalData = DB::connection('ConnPurchase')->table('VW_5409_ORDER_MOVEMENT')
@@ -62,12 +64,14 @@ class ListSemuaOrderController extends Controller
 
         $query = DB::connection('ConnPurchase')->table('VW_5409_ORDER_MOVEMENT')
             ->select(
-                'Tgl_order',
                 'NO_ORDER',
                 'STATUS_PO',
                 'TglAprMGR',
                 'STATUS_BELI',
                 'NO_PO',
+                'NM_BARANG',
+                'SUB_KATEGORI',
+                'QTY_PO',
                 'TGL_PO',
                 'NM_USER',
                 'No_BTTB',
@@ -83,7 +87,9 @@ class ListSemuaOrderController extends Controller
                 ->orWhere('TGL_PO', 'LIKE', "%{$search}%")
                 ->orWhere('NM_USER', 'LIKE', "%{$search}%")
                 ->orWhere('No_BTTB', 'LIKE', "%{$search}%")
-                ->orWhere('Tgl_order', 'LIKE', "%{$search}%");
+                ->orWhere('NM_BARANG', 'LIKE', "%{$search}%")
+                ->orWhere('SUB_KATEGORI', 'LIKE', "%{$search}%")
+                ->orWhere('QTY_PO', 'LIKE', "%{$search}%");
             $totalFiltered = $query->count();
         }
 
@@ -95,12 +101,14 @@ class ListSemuaOrderController extends Controller
         $data = array();
         if (!empty($order)) {
             foreach ($order as $dataorder) {
-                $nestedData['Tgl_order'] = $dataorder->Tgl_order;
                 $nestedData['NO_ORDER'] = $dataorder->NO_ORDER;
                 $nestedData['STATUS_PO'] = $dataorder->STATUS_PO;
                 $nestedData['TglAprMGR'] = $dataorder->TglAprMGR;
                 $nestedData['STATUS_BELI'] = $dataorder->STATUS_BELI;
                 $nestedData['NO_PO'] = $dataorder->NO_PO;
+                $nestedData['NM_BARANG'] = $dataorder->NM_BARANG;
+                $nestedData['SUB_KATEGORI'] = $dataorder->SUB_KATEGORI;
+                $nestedData['QTY_PO'] = $dataorder->QTY_PO;
                 $nestedData['TGL_PO'] = $dataorder->TGL_PO;
                 $nestedData['NM_USER'] = $dataorder->NM_USER;
                 $nestedData['No_BTTB'] = $dataorder->No_BTTB;

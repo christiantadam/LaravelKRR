@@ -9,7 +9,9 @@
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [[0, 'desc']],
+            order: [
+                [2, 'desc']
+            ],
             ajax: {
                 url: "{{ url('getAllOrder') }}",
                 dataType: "json",
@@ -19,20 +21,6 @@
                 }
             },
             columns: [{
-                    data: "Tgl_order",
-                    render: function(data, type, row) {
-                        console.log(data);
-                        if (data != null) {
-                            let parts = data.split(" ")[0].split("-");
-
-                            let tgl = parts[2] + "-" + parts[1] + "-" + parts[0];
-                            return tgl;
-                        } else {
-                            return data;
-                        }
-                    }
-                },
-                {
                     data: "NO_ORDER",
                 },
                 {
@@ -60,6 +48,15 @@
                 },
                 {
                     data: "NO_PO",
+                },
+                {
+                    data: "NM_BARANG",
+                },
+                {
+                    data: "SUB_KATEGORI",
+                },
+                {
+                    data: "QTY_PO",
                 },
                 {
                     data: "TGL_PO",
@@ -105,12 +102,14 @@
                         <table id="tabelData" class="table table-bordered" style="width:100%;white-space:nowrap">
                             <thead class="table-primary">
                                 <tr>
-                                    <th>Tgl. Order</th>
                                     <th>Nomer Order</th>
                                     <th>Status PO</th>
                                     <th>Tgl. Approve Mgr. <br>(DD-MM-YYYY HH:MM:SS)</th>
                                     <th>Status Beli</th>
                                     <th>No. PO</th>
+                                    <th>Nama Barang</th>
+                                    <th>Sub Kategori</th>
+                                    <th>Quantity</th>
                                     <th>Tgl. PO <br>(DD-MM-YYYY)</th>
                                     <th>Nama User</th>
                                     <th>No. BTTB</th>

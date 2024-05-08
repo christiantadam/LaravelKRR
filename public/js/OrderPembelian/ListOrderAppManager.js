@@ -124,6 +124,7 @@ function inisialisasiDataTable(response) {
                 },
                 orderable: false,
             },
+            { data: "No_trans" },
             {
                 data: "Tgl_acc",
                 render: function (data, type, row) {
@@ -132,7 +133,6 @@ function inisialisasiDataTable(response) {
                     return tgl;
                 },
             },
-            { data: "No_trans" },
             { data: "StatusBeli" },
             { data: "Kd_brg" },
             { data: "NAMA_BRG" },
