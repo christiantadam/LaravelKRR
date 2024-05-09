@@ -325,6 +325,7 @@ function redisplayData(noTrans, requester, kd) {
                 keterangan_order.value = data.keterangan || "-";
                 keterangan_internal.value = data.Ket_Internal || "-";
                 fixValueQTYOrder = data.Qty;
+                qty_order.focus();
             });
         },
     });

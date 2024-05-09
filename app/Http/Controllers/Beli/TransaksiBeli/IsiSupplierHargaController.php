@@ -116,7 +116,11 @@ class IsiSupplierHargaController extends Controller
         $noTrans = $request->input('noTrans');
         if (($noTrans != null) || ($kd != null) || ($Qty != null) || ($QtyDelay != null) || ($idsup != null) || ($mtUang != null) || ($kurs != null) || ($pUnit != null) || ($pSub != null) || ($idPPN != null) || ($pPPN != null) || ($pTOT != null) || ($pIDRUnit != null) || ($pIDRSub != null) || ($pIDRPPN != null) || ($pIDRTot != null) || ($jns_beli != null)) {
             try {
-                $approve = DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @Operator = ?, @kd = ?, @Qty = ?, @QtyDelay = ?, @idsup = ?, @kurs = ?, @pUnit = ?, @pSub = ?, @idPPN = ?, @pPPN = ?, @pTOT = ?, @pIDRUnit = ?, @pIDRSub = ?, @pIDRPPN = ?, @pIDRTot = ?, @jns_beli = ?, @mtUang = ?, @noTrans = ?', [$Operator, $kd, $Qty, $QtyDelay, $idsup, $kurs, $pUnit, $pSub, $idPPN, $pPPN, $pTOT, $pIDRUnit, $pIDRSub, $pIDRPPN, $pIDRTot, $jns_beli, $mtUang, $noTrans]);
+                DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @Operator = ?, @kd = ?, @Qty = ?, @QtyDelay = ?, @idsup = ?, @kurs = ?, @pUnit = ?, @pSub = ?, @idPPN = ?, @pPPN = ?, @pTOT = ?, @pIDRUnit = ?, @pIDRSub = ?, @pIDRPPN = ?, @pIDRTot = ?, @jns_beli = ?, @mtUang = ?, @noTrans = ?', [$Operator, $kd, $Qty, $QtyDelay, $idsup, $kurs, $pUnit, $pSub, $idPPN, $pPPN, $pTOT, $pIDRUnit, $pIDRSub, $pIDRPPN, $pIDRTot, $jns_beli, $mtUang, $noTrans]);
+                if ($QtyDelay > 0) {
+                    DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @kd = ?, @noTrans = ?, @QtyDelay = ?', [14, $noTrans, $QtyDelay]);
+                    return Response()->json(['message' => 'Data Berhasil DiApprove dan order baru sudah dibuat untuk quantity delay sebanyak ' . $QtyDelay]);
+                }
                 return Response()->json(['message' => 'Data Berhasil DiApprove']);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);

@@ -746,6 +746,10 @@ class PurchaseOrderController extends Controller
             try {
                 $update = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd = ?, @Qty = ?, @QtyCancel = ?, @kurs = ?, @pUnit = ?, @pSub = ?, @idPPN = ?, @pPPN = ?, @pTot = ?, @pIDRUnit = ?, @pIDRSub = ?, @pIDRPPN = ?, @pIDRTot = ?, @Operator = ?, @persen = ?, @disc = ?, @discIDR = ?, @noTrans = ?', [$kd, $Qty, $QtyCancel, $kurs, $pUnit, $pSub, $idPPN, $pPPN, $pTot, $pIDRUnit, $pIDRSub, $pIDRPPN, $pIDRTot, $Operator, $persen, $disc, $discIDR, $noTrans]);
                 $loadPermohonan = db::connection('ConnPurchase')->select('exec SP_5409_LIST_ORDER @kd = ?, @noPO = ?', [13, $No_PO]);
+                if ($QtyCancel > 0) {
+                    DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @kd = ?, @noTrans = ?, @QtyDelay = ?', [15, $noTrans, $QtyCancel]);
+                    return Response()->json(['message' => 'Data Berhasil DiApprove dan order baru sudah dibuat untuk quantity delay sebanyak ' . $QtyCancel]);
+                }
                 return Response()->json(['message' => 'Data Berhasil diupdate', 'data' => $loadPermohonan]);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);
