@@ -67,7 +67,6 @@ $(document).ready(function () {
             Teknisi: TeknisiValue,
             Lokasi: LokasiValue,
         };
-
         $.ajax({
             url: "/update-teknisi",
             method: "PUT",

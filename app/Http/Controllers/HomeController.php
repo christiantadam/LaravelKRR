@@ -98,7 +98,7 @@ class HomeController extends Controller
     {
         $result = (new HakAksesController)->HakAksesProgram('Utility');
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
-        dd($result,$access);
+        // dd($result,$access);
         if ($result > 0) {
             return view('layouts.appUtility', compact('access'));
         } else {

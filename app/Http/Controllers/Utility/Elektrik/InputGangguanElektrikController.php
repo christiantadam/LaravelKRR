@@ -31,7 +31,7 @@ class InputGangguanElektrikController extends Controller
             ->select("exec SP_LIST_UTILITY_TEKNISI @lokasi = ?", [$lokasi]);
 
 
-        $TipeGangguan = DB::connection('ConnUtility') -> select('exec SP_LIST_Tipe_Gangguan_Elektrik');
+        $TipeGangguan = DB::connection('ConnUtility') -> select('exec SP_LIST_TYPE_GANGGUAN_ELEKTRIK');
 
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
         return view('Utility.Elektrik.InputGangguan.InputGangguan', compact('teknisi', 'divisi','TipeGangguan', 'access'));
@@ -297,7 +297,7 @@ class InputGangguanElektrikController extends Controller
 
     public function reloadTipeKeterangan()
     {
-        $gangguan = DB::connection('ConnUtility')->select('exec SP_LIST_Tipe_Gangguan_Elektrik');
+        $gangguan = DB::connection('ConnUtility')->select('exec SP_LIST_TYPE_GANGGUAN_ELEKTRIK');
         return response()->json($gangguan);
     }
 

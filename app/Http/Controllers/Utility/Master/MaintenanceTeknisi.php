@@ -18,7 +18,14 @@ class MaintenanceTeknisi extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
-        $teknisi = DB::connection('ConnEDP')->table('UserMaster')->get();
+        $teknisi = DB::connection('ConnEDP')
+            ->table('UserMaster')
+            ->leftJoin('Utility.dbo.utility_teknisi', 'UserMaster.IdUser', '=', 'utility_teknisi.IdUserMaster')
+            ->orderBy('NamaUser')
+            ->where('IsActive', true)
+            ->whereNotNull('Password')
+            ->whereNull('utility_teknisi.IdUserMaster')
+            ->get();
         $lokasi = DB::connection('ConnEDP')->table('Lokasi')->get();
         return view('Utility.Master.MaintenanceTeknisi', compact('access', 'teknisi', 'lokasi'));
     }
@@ -27,11 +34,10 @@ class MaintenanceTeknisi extends Controller
     public function saveTeknisi(Request $request)
     {
         try {
-            $NamaUser = $request->input('NamaTeknisi');
+            $IdUserMaster = $request->input('NamaTeknisi');
             $Lokasi = $request->input('Lokasi');
-            $Aktif = true;
 
-            DB::connection('ConnUtility')->statement('EXEC SP_INSERT_UTILITY_TEKNISI ?,?,?', [$NamaUser, $Lokasi, $Aktif]);
+            DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?,@IdUserMaster = ?,@Lokasi = ?', [1, $IdUserMaster, $Lokasi]);
 
             return response()->json(['success' => 'Data Teknisi berhasil disimpan']);
         } catch (\Exception $e) {
@@ -47,7 +53,7 @@ class MaintenanceTeknisi extends Controller
             $Teknisi = $request->input('Teknisi');
             $Lokasi = $request->input('Lokasi');
 
-            $data = DB::connection('ConnUtility')->statement('EXEC SP_UPDATE_UTILITY_TEKNISI ?,?,?', [$id, $Teknisi, $Lokasi]);
+            $data = DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @IdUserMaster= ?, @Id_Teknisi = ?, @Lokasi = ?', [3, $id, $Teknisi, $Lokasi]);
             return response()->json($data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
@@ -68,7 +74,7 @@ class MaintenanceTeknisi extends Controller
 
     public function getTeknisi()
     {
-        $listTeknisi = DB::connection('ConnUtility')->select('exec SP_LIST_UTILITY_TEKNISI');
+        $listTeknisi = DB::connection('ConnUtility')->select('exec SP_MAINTENANCE_UTILITY_TEKNISI');
 
         return datatables($listTeknisi)->make(true);
     }
@@ -78,7 +84,7 @@ class MaintenanceTeknisi extends Controller
         try {
             $Id = $request->input('id');
 
-            DB::connection('ConnUtility')->statement('exec SP_HAPUS_UTILITY_TEKNISI @Id_Teknisi = ?', [$Id]);
+            DB::connection('ConnUtility')->statement('exec SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @Id_Teknisi = ?', [2, $Id]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {

@@ -41,7 +41,7 @@ class TipeGangguanElektrikController extends Controller
     public function getTipeGangguan()
     {
         $TipeGangguan =
-            DB::connection('ConnUtility')->select('exec SP_LIST_Tipe_Gangguan_Elektrik');
+            DB::connection('ConnUtility')->select('exec SP_LIST_TYPE_GANGGUAN_ELEKTRIK');
         return datatables($TipeGangguan)->make(true);
     }
 

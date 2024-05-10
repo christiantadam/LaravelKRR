@@ -13,24 +13,18 @@
                 </button>
                 <div class="card">
                     <div class="card-header">Maintenance Teknisi</div>
-                    <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-                        <div class="row-12 d-flex flex-wrap">
-                            <div class="col-lg-12 p-2">
-                                <div class="table-responsive mt-1">
-                                    <table class="table" id="table-teknisi">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th scope="col">Lokasi</th>
-                                                <th scope="col">Teknisi</th>
-                                                <th scope="col">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-body table-responsive mt-1">
+                        <table class="table" id="table-teknisi">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Lokasi</th>
+                                    <th scope="col">Teknisi</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
