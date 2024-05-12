@@ -15,16 +15,10 @@ class InputPerawatanController extends Controller
         $mesin = DB::connection('ConnUtility')->select('exec SP_LIST_MESIN_COMPRESSOR');
         $part = DB::connection('ConnUtility')->select('exec SP_LIST_PART_COMPRESSOR');
         $IDUser = auth::user()->IDUser;
-        $lokasiResult = DB::connection('ConnUtility')->table('Utility_Teknisi')
-            ->select('Lokasi')
-            ->where('IdUserMaster', $IDUser)
-            ->first();
-
-        $lokasi = $lokasiResult ? $lokasiResult->Lokasi : null;
+        // dd($IDUser);
 
         $teknisi = DB::connection('ConnUtility')
-            ->select("exec SP_LIST_UTILITY_TEKNISI @lokasi = ?", [$lokasi]);
-
+            ->select("exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?", [$IDUser]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
 
         return view('Utility.Compressor.InputPerawatan.index', compact('mesin', 'part', 'teknisi', 'access'));

@@ -2,6 +2,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <input type="hidden" id="hiddenIdTeknisi">
+            <input type="hidden" id="hiddenIdTeknisiAwalValue">
+            <input type="hidden" id="hiddenIdLokasiAwalValue">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Edit Teknisi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

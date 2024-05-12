@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalTeknisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="modalTeknisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <input type="hidden" id="hiddenIdTeknisi">
@@ -40,4 +40,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

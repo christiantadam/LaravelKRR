@@ -17,15 +17,8 @@ class InputPLNController extends Controller
 
         $teknisigenzet = DB::connection('ConnUtility')->select('exec SP_LIST_TEKNISI_GENZET');
         $IDUser = auth::user()->IDUser;
-        $lokasiResult = DB::connection('ConnUtility')->table('Utility_Teknisi')
-            ->select('Lokasi')
-            ->where('IdUserMaster', $IDUser)
-            ->first();
-
-        $lokasi = $lokasiResult ? $lokasiResult->Lokasi : null;
-
         $teknisi = DB::connection('ConnUtility')
-            ->select("exec SP_LIST_UTILITY_TEKNISI @lokasi = ?", [$lokasi]);
+            ->select("exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?", [$IDUser]);
         $sdp = DB::connection('ConnUtility')->select('exec SP_LIST_PRODUKSI_SPD');
 
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');

@@ -28,48 +28,55 @@ $(document).ready(function () {
         ],
     });
 
-    $("#refreshButtonTeknisi").click(function () {
-        $("#hiddenIdTeknisi").val("");
-        dataTableTeknisi.ajax.reload();
-    });
+    // $("#refreshButtonTeknisi").click(function () {
+    //     $("#hiddenIdTeknisi").val("");
+    //     dataTableTeknisi.ajax.reload();
+    // });
 
     $(document).on("click", ".editButtonTeknisi", function (e) {
         // e.preventDefault();
         var teknisiId = $(this).data("teknisi-id");
+        var $tr = $(this).closest('tr');
+        var lokasi = $tr.find('td:first').text();
         console.log("ID Teknisi yang akan diedit:", teknisiId);
         console.log("tes");
 
         var datas = {
             id: teknisiId,
+            lokasi: lokasi,
         };
         $.ajax({
             type: "GET",
-            url: "/get-teknisi-id",
+            url: "/get-teknisi-id", //get id lokasi awal
             data: datas,
             success: function (response) {
                 console.log(response);
-                $("#hiddenIdTeknisi").val(response.Id_Teknisi);
-                $("#editteknisi").val(response.IdUserMaster);
-                $("#editlokasi").val(response.Lokasi);
+                $("#editteknisi").val(response.IdUserMaster); //set selected index
+                $("#editlokasi").val(response.Id_Lokasi); //set selected index
+                $("#hiddenIdTeknisiAwalValue").val(teknisiId);
+                $("#hiddenIdLokasiAwalValue").val(response.Id_Lokasi);
             },
         });
     });
 
     $("#updateButtonTeknisi").click(function () {
-        var TeknisiValue = $("#editteknisi").val();
         var LokasiValue = $("#editlokasi").val();
-        var nomorIdValue = $("#hiddenIdTeknisi").val();
+        var IdUserMasterValue = $("#editteknisi").val();
+        var TeknisiAwalValue = $("#hiddenIdTeknisiAwalValue").val();
+        var LokasiAwalValue = $("#hiddenIdLokasiAwalValue").val();
 
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
         var requestData = {
-            ID: nomorIdValue,
-            Teknisi: TeknisiValue,
+            IdUserMaster: IdUserMasterValue,
             Lokasi: LokasiValue,
+            TeknisiAwal : TeknisiAwalValue,
+            LokasiAwal : LokasiAwalValue
         };
+        console.log(requestData);
         $.ajax({
             url: "/update-teknisi",
-            method: "PUT",
+            method: "POST",
             data: requestData,
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
@@ -77,17 +84,32 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(requestData);
                 console.log(response);
-                Swal.fire({
-                    icon: "success",
-                    title: "Data Berhasil Disimpan!",
-                    showConfirmButton: false,
-                    timer: "2000",
-                });
+                if (response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data Berhasil Disimpan!",
+                        showConfirmButton: false,
+                        timer: "2000",
+                    });
+                    // Clear Form
+                    $("#teknisi").val("");
+                    $("#lokasi").val("");
+                    dataTableTeknisi.ajax.reload();
+                }
+                else{
+                    Swal.fire({
+                        icon: "error",
+                        title: response.error,
+                        showConfirmButton: false,
+                        timer: "2000",
+                    });
+                }
                 // Clear Form
                 $("#editteknisi").val("");
                 $("#editlokasi").val("");
                 $("#hiddenIdTeknisi").val("");
                 dataTableTeknisi.ajax.reload();
+                $("#editmodal").modal("hide");
             },
             error: function (error) {
                 Swal.fire({
@@ -97,6 +119,7 @@ $(document).ready(function () {
                     timer: "2000",
                 });
                 console.error("Error saving data:", error);
+                $("#editmodal").modal("hide");
             },
         });
     });
@@ -175,17 +198,26 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(requestData);
                 console.log(response);
-                Swal.fire({
-                    icon: "success",
-                    title: "Data Berhasil Disimpan!",
-                    showConfirmButton: false,
-                    timer: "2000",
-                });
-
-                // Clear Form
-                $("#teknisi").val("");
-                $("#lokasi").val("");
-                dataTableTeknisi.ajax.reload();
+                if (response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data Berhasil Disimpan!",
+                        showConfirmButton: false,
+                        timer: "2000",
+                    });
+                    // Clear Form
+                    $("#teknisi").val("");
+                    $("#lokasi").val("");
+                    dataTableTeknisi.ajax.reload();
+                }
+                else{
+                    Swal.fire({
+                        icon: "error",
+                        title: response.error,
+                        showConfirmButton: false,
+                        timer: "2000",
+                    });
+                }
             },
             error: function (error) {
                 Swal.fire({

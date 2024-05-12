@@ -30,7 +30,7 @@
                             <option selected disabled>Pilih Lokasi...</option>
                             @foreach ($lokasi as $lok)
                                 <option value="{{ $lok->Id_Lokasi }}">
-                                    {{ $lok->Lokasi }} - ({{ $lok->Id_Lokasi }})
+                                    {{ $lok->Lokasi }}
                                 </option>
                             @endforeach
                         </select>

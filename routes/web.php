@@ -819,7 +819,7 @@ Route::group(['middleware' => ['auth']], function () {
     #region Utility
     Route::get('Utility', 'App\Http\Controllers\HomeController@Utility');
 
-    #elektrik
+    //elektrik
     Route::resource('InputGangguanElektrik', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController::class);
     Route::post('/postData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postData');
     Route::post('/postDataGambar', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postDataGambar');
@@ -963,7 +963,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/get-teknisi-id', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'getTeknisiById'])->name('get-teknisi-id');
     Route::get('/search-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'searchTeknisi'])->name('search-teknisi');
     Route::post('/save-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'saveTeknisi'])->name('save-teknisi');
-    Route::put('/update-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'updateTeknisi'])->name('update-teknisi');
+    Route::post('/update-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'updateTeknisi'])->name('update-teknisi');
     Route::delete('/delete-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'deleteTeknisi'])->name('delete-teknisi');
 
     #endRegion

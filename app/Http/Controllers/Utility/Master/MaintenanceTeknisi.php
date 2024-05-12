@@ -20,13 +20,11 @@ class MaintenanceTeknisi extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
         $teknisi = DB::connection('ConnEDP')
             ->table('UserMaster')
-            ->leftJoin('Utility.dbo.utility_teknisi', 'UserMaster.IdUser', '=', 'utility_teknisi.IdUserMaster')
             ->orderBy('NamaUser')
             ->where('IsActive', true)
             ->whereNotNull('Password')
-            ->whereNull('utility_teknisi.IdUserMaster')
-            ->get();
-        $lokasi = DB::connection('ConnEDP')->table('Lokasi')->get();
+            ->get(); //get all user in UserMaster that has registered login page
+        $lokasi = DB::connection('ConnUtility')->table('Lokasi')->get();
         return view('Utility.Master.MaintenanceTeknisi', compact('access', 'teknisi', 'lokasi'));
     }
 
@@ -36,12 +34,19 @@ class MaintenanceTeknisi extends Controller
         try {
             $IdUserMaster = $request->input('NamaTeknisi');
             $Lokasi = $request->input('Lokasi');
-
-            DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?,@IdUserMaster = ?,@Lokasi = ?', [1, $IdUserMaster, $Lokasi]);
-
-            return response()->json(['success' => 'Data Teknisi berhasil disimpan']);
+            $cekInput = DB::connection('ConnUtility')->table('Teknisi_Lokasi_Assignment')
+                ->join('Utility_Teknisi', 'Id_lokasi', 'Id_lokasi')
+                ->where('IdUserMaster', $IdUserMaster)
+                ->where('Id_lokasi', $Lokasi)
+                ->get();
+            if ($cekInput->isEmpty()) {
+                DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?,@IdUserMaster = ?,@Lokasi = ?', [1, $IdUserMaster, $Lokasi]);
+                return response()->json(['success' => 'Data Teknisi berhasil disimpan']);
+            } else {
+                return response()->json(['error' => 'Teknisi Sudah terdaftar pada lokasi tersebut!']);
+            }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -49,24 +54,29 @@ class MaintenanceTeknisi extends Controller
     public function updateTeknisi(Request $request)
     {
         try {
-            $id = $request->input('ID');
-            $Teknisi = $request->input('Teknisi');
+            $IdUserMaster = $request->input('IdUserMaster');
             $Lokasi = $request->input('Lokasi');
-
-            $data = DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @IdUserMaster= ?, @Id_Teknisi = ?, @Lokasi = ?', [3, $id, $Teknisi, $Lokasi]);
-            return response()->json($data);
+            $TeknisiAwal = $request->input('TeknisiAwal');
+            $LokasiAwal = $request->input('LokasiAwal');
+            // dd($request->all());
+            $data = DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @IdUserMaster = ?, @Lokasi = ?, @Id_TeknisiUpdateAwal = ?, @LokasiUpdateAwal = ?', [3, $IdUserMaster, $Lokasi,$TeknisiAwal, $LokasiAwal]);
+            return response()->json(['success' => 'Data Teknisi berhasil diperbarui']);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
+            return response()->json(['error' => 'Data Teknisi gagal diperbarui, coba cek kembali!']);
         }
     }
 
     public function getTeknisiById(Request $request)
     {
         $id = $request->input('id');
+        $lokasi = $request->input('lokasi');
 
         $listTeknisi = DB::connection('ConnUtility')
             ->table('Utility_Teknisi')
-            ->where('Id_Teknisi', $id)
+            ->join('Teknisi_Lokasi_Assignment', 'Utility_Teknisi.Id_Teknisi', 'Teknisi_Lokasi_Assignment.Id_Teknisi')
+            ->join('Lokasi', 'Teknisi_Lokasi_Assignment.Id_lokasi', 'Lokasi.Id_lokasi')
+            ->where('Utility_Teknisi.Id_Teknisi', $id)
+            ->where('Lokasi.Lokasi',$lokasi)
             ->first();
 
         return response()->json($listTeknisi);

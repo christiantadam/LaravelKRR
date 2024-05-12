@@ -20,16 +20,8 @@ class InputGangguanElektrikController extends Controller
     {
         $divisi = DB::connection('ConnUtility')->select('exec SP_LIST_DIVISI_PELAPOR');
         $IDUser = auth::user()->IDUser;
-        $lokasiResult = DB::connection('ConnUtility')->table('Utility_Teknisi')
-            ->select('Lokasi')
-            ->where('IdUserMaster', $IDUser)
-            ->first();
-
-        $lokasi = $lokasiResult ? $lokasiResult->Lokasi : null;
-
         $teknisi = DB::connection('ConnUtility')
-            ->select("exec SP_LIST_UTILITY_TEKNISI @lokasi = ?", [$lokasi]);
-
+            ->select("exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?", [$IDUser]);
 
         $TipeGangguan = DB::connection('ConnUtility') -> select('exec SP_LIST_TYPE_GANGGUAN_ELEKTRIK');
 
