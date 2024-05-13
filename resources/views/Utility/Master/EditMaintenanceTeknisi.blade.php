@@ -29,14 +29,19 @@
                         <label for="lokasi">Lokasi</label>
                     </div>
                     <div class="col-lg-12 d-flex">
-                        <select name="lokasi" id="editlokasi" class="form-select">
+                        {{-- <select name="lokasi" id="editlokasi" class="form-select">
                             <option selected disabled>Pilih Lokasi...</option>
                             @foreach ($lokasi as $lok)
                                 <option value="{{ $lok->Id_Lokasi }}">
                                     {{ $lok->Lokasi }} - ({{ $lok->Id_Lokasi }})
                                 </option>
                             @endforeach
-                        </select>
+                        </select> --}}
+                        <div id="divLokasiEdit">
+                            <div id="listLokasiEdit">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

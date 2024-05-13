@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    let divLokasiTambah = document.getElementById("divLokasiTambah");
+    let listLokasiTambah = document.getElementById("listLokasiTambah");
+    let divLokasiEdit = document.getElementById("divLokasiEdit");
+    let listLokasiEdit = document.getElementById("listLokasiEdit");
+    let lokasiUserSebelum = [];
+    let lokasiUserSesudah = [];
     var dataTableTeknisi = $("#table-teknisi").DataTable({
         serverSide: true,
         responsive: true,
@@ -28,23 +34,21 @@ $(document).ready(function () {
         ],
     });
 
-    // $("#refreshButtonTeknisi").click(function () {
-    //     $("#hiddenIdTeknisi").val("");
-    //     dataTableTeknisi.ajax.reload();
-    // });
-
     $(document).on("click", ".editButtonTeknisi", function (e) {
         // e.preventDefault();
         var teknisiId = $(this).data("teknisi-id");
-        var $tr = $(this).closest('tr');
-        var lokasi = $tr.find('td:first').text();
-        console.log("ID Teknisi yang akan diedit:", teknisiId);
-        console.log("tes");
+        var $tr = $(this).closest("tr");
+        var lokasi = $tr.find("td:first").text();
 
+        // console.log("ID Teknisi yang akan diedit:", teknisiId);
+        // console.log("tes");
+
+        getLokasi(teknisiId);
         var datas = {
             id: teknisiId,
             lokasi: lokasi,
         };
+        console.log(datas);
         $.ajax({
             type: "GET",
             url: "/get-teknisi-id", //get id lokasi awal
@@ -70,8 +74,8 @@ $(document).ready(function () {
         var requestData = {
             IdUserMaster: IdUserMasterValue,
             Lokasi: LokasiValue,
-            TeknisiAwal : TeknisiAwalValue,
-            LokasiAwal : LokasiAwalValue
+            TeknisiAwal: TeknisiAwalValue,
+            LokasiAwal: LokasiAwalValue,
         };
         console.log(requestData);
         $.ajax({
@@ -95,8 +99,7 @@ $(document).ready(function () {
                     $("#teknisi").val("");
                     $("#lokasi").val("");
                     dataTableTeknisi.ajax.reload();
-                }
-                else{
+                } else {
                     Swal.fire({
                         icon: "error",
                         title: response.error,
@@ -209,8 +212,7 @@ $(document).ready(function () {
                     $("#teknisi").val("");
                     $("#lokasi").val("");
                     dataTableTeknisi.ajax.reload();
-                }
-                else{
+                } else {
                     Swal.fire({
                         icon: "error",
                         title: response.error,
@@ -230,4 +232,86 @@ $(document).ready(function () {
             },
         });
     });
+
+    getLokasi(0); //initialize checkboxes in modal
+
+    function getLokasi(idTeknisi) {
+        fetch("/AllLokasiTeknisi/" + idTeknisi)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                let checklist;
+                if (data.length > 1) {
+                    checklist = createChecklist(data[0], data[1]);
+                    const checkboxes = document.querySelectorAll(
+                        'input[type="checkbox"]:checked'
+                    );
+                    fiturUserSebelum = Array.from(checkboxes).map((checkbox) =>
+                        parseInt(checkbox.value)
+                    );
+                } else {
+                    checklist = createChecklist(data[0], []);
+                }
+                // console.log(checklist);
+                if (idTeknisi == 0) {
+                    divLokasiTambah.style.display = "block";
+                    listLokasiTambah.appendChild(checklist);
+                } else {
+                    divLokasiEdit.style.display = "block";
+                    listLokasiEdit.appendChild(checklist);
+                }
+                // divButton.style.display = "block";
+                // document.getElementById("item-0").focus();
+            });
+    }
+
+    function createChecklist(array, checkedItems) {
+        let currentDiv;
+        let checklist;
+        let listItemCounter = 0;
+
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < array.length; i++) {
+            const item = array[i];
+
+            if (listItemCounter % 15 === 0) {
+                currentDiv = document.createElement("div");
+                checklist = document.createElement("ul");
+                currentDiv.appendChild(checklist);
+                fragment.appendChild(currentDiv);
+            }
+
+            const listItem = document.createElement("li");
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = `item-${i}`;
+            checkbox.value = item.Id_Lokasi;
+
+            // Check the checkbox if its value exists in the checkedItems array
+            if (checkedItems.length !== 0) {
+                const isChecked = checkedItems.some(
+                    (checkedItem) => checkedItem.id_lokasi === item.Id_Lokasi
+                );
+                // console.log(checkbox, isChecked);
+                if (isChecked) {
+                    checkbox.checked = true;
+                }
+            }
+
+            const label = document.createElement("label");
+            label.setAttribute("for", `item-${i}`);
+            label.textContent = `${item.Lokasi}`;
+
+            listItem.appendChild(checkbox);
+            listItem.appendChild(label);
+
+            checklist.appendChild(listItem);
+
+            listItemCounter++;
+        }
+
+        return fragment;
+    }
 });

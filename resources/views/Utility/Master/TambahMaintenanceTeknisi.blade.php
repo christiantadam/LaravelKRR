@@ -26,14 +26,19 @@
                         <label for="lokasi">Lokasi</label>
                     </div>
                     <div class="col-lg-12 d-flex">
-                        <select name="lokasi" id="lokasi" class="form-select">
+                        {{-- <select name="lokasi" id="lokasi" class="form-select">
                             <option selected disabled>Pilih Lokasi...</option>
                             @foreach ($lokasi as $lok)
                                 <option value="{{ $lok->Id_Lokasi }}">
                                     {{ $lok->Lokasi }}
                                 </option>
                             @endforeach
-                        </select>
+                        </select> --}}
+                        <div id="divLokasiTambah">
+                            <div id="listLokasiTambah">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

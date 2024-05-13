@@ -59,7 +59,7 @@ class MaintenanceTeknisi extends Controller
             $TeknisiAwal = $request->input('TeknisiAwal');
             $LokasiAwal = $request->input('LokasiAwal');
             // dd($request->all());
-            $data = DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @IdUserMaster = ?, @Lokasi = ?, @Id_TeknisiUpdateAwal = ?, @LokasiUpdateAwal = ?', [3, $IdUserMaster, $Lokasi,$TeknisiAwal, $LokasiAwal]);
+            $data = DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @IdUserMaster = ?, @Lokasi = ?, @Id_TeknisiUpdateAwal = ?, @LokasiUpdateAwal = ?', [3, $IdUserMaster, $Lokasi, $TeknisiAwal, $LokasiAwal]);
             return response()->json(['success' => 'Data Teknisi berhasil diperbarui']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Data Teknisi gagal diperbarui, coba cek kembali!']);
@@ -71,22 +71,78 @@ class MaintenanceTeknisi extends Controller
         $id = $request->input('id');
         $lokasi = $request->input('lokasi');
 
+        if (strpos($lokasi, ',') !== false) {
+            // If yes, explode $lokasi into an array
+            $lokasiArray = explode(',', $lokasi);
+        } else {
+            // If no, make $lokasi an array
+            $lokasiArray = [$lokasi];
+        }
+
         $listTeknisi = DB::connection('ConnUtility')
             ->table('Utility_Teknisi')
             ->join('Teknisi_Lokasi_Assignment', 'Utility_Teknisi.Id_Teknisi', 'Teknisi_Lokasi_Assignment.Id_Teknisi')
             ->join('Lokasi', 'Teknisi_Lokasi_Assignment.Id_lokasi', 'Lokasi.Id_lokasi')
             ->where('Utility_Teknisi.Id_Teknisi', $id)
-            ->where('Lokasi.Lokasi',$lokasi)
+            ->whereIn('Lokasi.Lokasi', $lokasiArray)
+            ->select('IdUserMaster')
             ->first();
 
         return response()->json($listTeknisi);
     }
 
+    public function AllLokasiTeknisi($idTeknisi)
+    {
+        if ($idTeknisi == 0) {
+            $listLokasi = DB::connection('ConnUtility')
+                ->table('Lokasi')
+                ->get();
+            $data = [
+                $listLokasi
+            ];
+        } else {
+            $listLokasi = DB::connection('ConnUtility')
+                ->table('Lokasi')
+                ->get();
+            $listLokasiTeknisi = DB::connection('ConnUtility')
+                ->table('Teknisi_Lokasi_Assignment')
+                ->join('Lokasi', 'Teknisi_Lokasi_Assignment.Id_lokasi', 'Lokasi.Id_lokasi')
+                ->where('Teknisi_Lokasi_Assignment.Id_Teknisi', $idTeknisi)
+                ->select('Lokasi.id_lokasi', 'Lokasi.lokasi')
+                ->get();
+            $data = [
+                $listLokasi,
+                $listLokasiTeknisi
+            ];
+        }
+        return response()->json($data);
+    }
+
     public function getTeknisi()
     {
         $listTeknisi = DB::connection('ConnUtility')->select('exec SP_MAINTENANCE_UTILITY_TEKNISI');
+        $groupedTeknisi = [];
+        foreach ($listTeknisi as $teknisi) {
+            $namaUser = $teknisi->NamaUser;
+            $lokasi = $teknisi->Lokasi;
+            $idTeknisi = $teknisi->Id_Teknisi;
 
-        return datatables($listTeknisi)->make(true);
+            // If technician already exists in groupedTeknisi, concatenate the location
+            if (array_key_exists($namaUser, $groupedTeknisi)) {
+                $groupedTeknisi[$namaUser]['Lokasi'] .= ", $lokasi";
+            } else {
+                $groupedTeknisi[$namaUser] = [
+                    'NamaUser' => $namaUser,
+                    'Lokasi' => $lokasi,
+                    'Id_Teknisi' => $idTeknisi
+                ];
+            }
+        }
+
+        // Convert the grouped technicians back to a sequential array
+        $formattedTeknisi = array_values($groupedTeknisi);
+
+        return datatables($formattedTeknisi)->make(true);
     }
 
     public function deleteTeknisi(Request $request)

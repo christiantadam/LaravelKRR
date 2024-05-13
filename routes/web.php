@@ -965,6 +965,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/save-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'saveTeknisi'])->name('save-teknisi');
     Route::post('/update-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'updateTeknisi'])->name('update-teknisi');
     Route::delete('/delete-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'deleteTeknisi'])->name('delete-teknisi');
+    Route::get('/AllLokasiTeknisi/{IdTeknisi}', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'AllLokasiTeknisi'])->name('All-Lokasi-Teknisi');
 
     #endRegion
 });
