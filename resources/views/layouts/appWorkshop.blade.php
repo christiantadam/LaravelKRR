@@ -17,7 +17,6 @@
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javascript'></script>
 
     <script src="{{ asset('js/app.js') }}"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.1.0.js"></script> -->
     <!-- <script src="//code.jquery.com/jquery-1.11.0.min.js"></script> -->
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -28,7 +27,7 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="{{ asset('css/FontsGoogleapisIconFamilyMaterialIcons.css') }}" rel="stylesheet">
 
     <!-- TAMBAHAN -->
     <link href="{{ asset('bootstrap-5.3.0-dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -38,9 +37,9 @@
     <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/RdzAndre.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
 </head>
 
 <body onload="Greeting()">
