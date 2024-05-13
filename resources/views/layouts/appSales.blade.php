@@ -13,14 +13,14 @@
     <title style="font-size: 20px">@yield('title', 'Home Sales')</title>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javascript'></script>
+    <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.2.1.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-3.3.7.min.js') }}"></script>
+    {{-- <script src='{{ asset('js/dataTables.select-1.6.2.min.js') }}'></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
+    <script src="{{ asset('js/jquery-1.12.1.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
@@ -28,7 +28,7 @@
     <script src="{{ asset('js/User.js') }}"></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
     <link href="{{ asset('css/FontsGoogleapisIconFamilyMaterialIcons.css') }}" rel="stylesheet">
 
     <!-- Styles -->
@@ -39,8 +39,7 @@
     <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
 </head>
 
 <body onload="Greeting()">
