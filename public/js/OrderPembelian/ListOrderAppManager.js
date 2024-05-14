@@ -110,7 +110,6 @@ function inisialisasiDataTable(response) {
     let table = $("#table_ListOrder").DataTable({
         responsive: true,
         scrollX: true,
-        searching: false,
         scrollY: "400px",
         paging: false,
         // lengthChange:false,
