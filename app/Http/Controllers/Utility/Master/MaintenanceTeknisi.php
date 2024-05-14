@@ -33,17 +33,23 @@ class MaintenanceTeknisi extends Controller
     {
         try {
             $IdUserMaster = $request->input('NamaTeknisi');
-            $Lokasi = $request->input('Lokasi');
-            $cekInput = DB::connection('ConnUtility')->table('Teknisi_Lokasi_Assignment')
-                ->join('Utility_Teknisi', 'Id_lokasi', 'Id_lokasi')
+            $cekInput = DB::connection('ConnUtility')->table('Utility_Teknisi')
                 ->where('IdUserMaster', $IdUserMaster)
-                ->where('Id_lokasi', $Lokasi)
                 ->get();
             if ($cekInput->isEmpty()) {
-                DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?,@IdUserMaster = ?,@Lokasi = ?', [1, $IdUserMaster, $Lokasi]);
-                return response()->json(['success' => 'Data Teknisi berhasil disimpan']);
+                if ($request->addedValues !== "[]") {
+                    $addedValues = json_decode($request->Lokasi);
+                    $addedValuesString = implode(', ', $addedValues);
+                    DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?,@IdUserMaster = ?', [1, $IdUserMaster]);
+                    $idTeknisi = DB::connection('ConnUtility')->table('Utility_Teknisi')
+                    ->where('IdUserMaster', $IdUserMaster)
+                    ->select('Id_Teknisi')
+                    ->get();
+                    DB::connection('ConnUtility')->statement('exec SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @XKode = ?, @Id_Teknisi = ?, @AddedValues = ?', [3, 2, $idTeknisi->pluck('Id_Teknisi')->all()[0], $addedValuesString]);
+                    return response()->json(['success' => 'Data Teknisi berhasil disimpan']);
+                }
             } else {
-                return response()->json(['error' => 'Teknisi Sudah terdaftar pada lokasi tersebut!']);
+                return response()->json(['error' => 'Teknisi Sudah terdaftar! Silahkan Edit Lokasi']);
             }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
@@ -54,15 +60,22 @@ class MaintenanceTeknisi extends Controller
     public function updateTeknisi(Request $request)
     {
         try {
-            $IdUserMaster = $request->input('IdUserMaster');
-            $Lokasi = $request->input('Lokasi');
-            $TeknisiAwal = $request->input('TeknisiAwal');
-            $LokasiAwal = $request->input('LokasiAwal');
-            // dd($request->all());
-            $data = DB::connection('ConnUtility')->statement('EXEC SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @IdUserMaster = ?, @Lokasi = ?, @Id_TeknisiUpdateAwal = ?, @LokasiUpdateAwal = ?', [3, $IdUserMaster, $Lokasi, $TeknisiAwal, $LokasiAwal]);
+            if ($request->deletedValues !== "[]") {
+                $deletedValues = json_decode($request->deletedValues);
+                // $detedValuesString = implode(', ', $deletedValues);
+                for ($i = 0; $i < count($deletedValues); $i++) {
+                    DB::connection('ConnUtility')->statement('exec SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @XKode = ?, @Id_Teknisi = ?, @DeletedValues = ?', [3, 1, $request->input('Teknisi'), $deletedValues[$i]]);
+                }
+            }
+            if ($request->addedValues !== "[]") {
+                $addedValues = json_decode($request->addedValues);
+                $addedValuesString = implode(', ', $addedValues);
+                DB::connection('ConnUtility')->statement('exec SP_MAINTENANCE_UTILITY_TEKNISI @Kode = ?, @XKode = ?, @Id_Teknisi = ?, @AddedValues = ?', [3, 2, $request->input('Teknisi'), $addedValuesString]);
+
+            }
             return response()->json(['success' => 'Data Teknisi berhasil diperbarui']);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Data Teknisi gagal diperbarui, coba cek kembali!']);
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 

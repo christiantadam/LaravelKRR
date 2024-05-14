@@ -24,7 +24,7 @@ $(document).ready(function () {
                     return (
                         '<button class="btn btn-primary editButtonTeknisi" data-teknisi-id="' +
                         rowID +
-                        '" data-bs-toggle="modal" data-bs-target="#editmodal" type="button">Edit</button>' +
+                        '" data-bs-toggle="modal" data-bs-target="#editmodal" type="button">Edit Lokasi</button>' +
                         '<button class="btn btn-secondary deleteButtonTeknisi" data-id="' +
                         rowID +
                         '">Hapus</button>'
@@ -57,25 +57,47 @@ $(document).ready(function () {
                 console.log(response);
                 $("#editteknisi").val(response.IdUserMaster); //set selected index
                 $("#editlokasi").val(response.Id_Lokasi); //set selected index
-                $("#hiddenIdTeknisiAwalValue").val(teknisiId);
-                $("#hiddenIdLokasiAwalValue").val(response.Id_Lokasi);
+                $("#hiddenIdTeknisi").val(teknisiId);
+                let checkboxes = listLokasiEdit.querySelectorAll(
+                    'input[type="checkbox"]:checked'
+                );
+                lokasiUserSebelum = Array.from(checkboxes).map((checkbox) =>
+                    parseInt(checkbox.value)
+                );
             },
         });
     });
 
     $("#updateButtonTeknisi").click(function () {
-        var LokasiValue = $("#editlokasi").val();
-        var IdUserMasterValue = $("#editteknisi").val();
-        var TeknisiAwalValue = $("#hiddenIdTeknisiAwalValue").val();
-        var LokasiAwalValue = $("#hiddenIdLokasiAwalValue").val();
+        var TeknisiValue = $("#hiddenIdTeknisi").val();
 
+        let checkboxes = listLokasiEdit.querySelectorAll(
+            'input[type="checkbox"]:checked'
+        );
+        lokasiUserSesudah = Array.from(checkboxes).map((checkbox) =>
+            parseInt(checkbox.value)
+        );
+
+        let deletedValues = [];
+        let addedValues = [];
+        console.log(lokasiUserSesudah, lokasiUserSebelum);
+        lokasiUserSebelum.forEach((value) => {
+            if (!lokasiUserSesudah.includes(value)) {
+                deletedValues.push(value);
+            }
+        });
+
+        lokasiUserSesudah.forEach((value) => {
+            if (!lokasiUserSebelum.includes(value)) {
+                addedValues.push(value);
+            }
+        });
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
         var requestData = {
-            IdUserMaster: IdUserMasterValue,
-            Lokasi: LokasiValue,
-            TeknisiAwal: TeknisiAwalValue,
-            LokasiAwal: LokasiAwalValue,
+            addedValues: JSON.stringify(addedValues),
+            Teknisi: TeknisiValue,
+            deletedValues: JSON.stringify(deletedValues),
         };
         console.log(requestData);
         $.ajax({
@@ -108,21 +130,22 @@ $(document).ready(function () {
                     });
                 }
                 // Clear Form
-                $("#editteknisi").val("");
-                $("#editlokasi").val("");
-                $("#hiddenIdTeknisi").val("");
+                // $("#editteknisi").val("");
+                // $("#editlokasi").val("");
+                // $("#hiddenIdTeknisi").val("");
                 dataTableTeknisi.ajax.reload();
                 $("#editmodal").modal("hide");
+                $("#editmodal").on("hidden.bs.modal", function () {
+                    $(".modal-backdrop").remove();
+                });
             },
             error: function (error) {
                 Swal.fire({
                     icon: "error",
                     title: "Data Tidak Berhasil Disimpan!",
-                    showConfirmButton: false,
-                    timer: "2000",
                 });
                 console.error("Error saving data:", error);
-                $("#editmodal").modal("hide");
+                // $("#editmodal").modal("hide");
             },
         });
     });
@@ -180,17 +203,22 @@ $(document).ready(function () {
 
     $("#saveButtonTeknisi").click(function () {
         var TeknisiValue = $("#teknisi").val();
-        var LokasiValue = $("#lokasi").val();
         // var nomorIdValue = $("#hiddenIdTeknisi").val();
+        let checkboxes = listLokasiTambah.querySelectorAll(
+            'input[type="checkbox"]:checked'
+        );
+        lokasiUserSesudah = Array.from(checkboxes).map((checkbox) =>
+            parseInt(checkbox.value)
+        );
 
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
         var requestData = {
             NamaTeknisi: TeknisiValue,
-            Lokasi: LokasiValue,
+            Lokasi: JSON.stringify(lokasiUserSesudah),
         };
         console.log(TeknisiValue);
-        console.log(LokasiValue);
+        console.log(lokasiUserSesudah);
         $.ajax({
             url: "/save-teknisi",
             method: "POST",
@@ -243,21 +271,16 @@ $(document).ready(function () {
                 let checklist;
                 if (data.length > 1) {
                     checklist = createChecklist(data[0], data[1]);
-                    const checkboxes = document.querySelectorAll(
-                        'input[type="checkbox"]:checked'
-                    );
-                    fiturUserSebelum = Array.from(checkboxes).map((checkbox) =>
-                        parseInt(checkbox.value)
-                    );
                 } else {
                     checklist = createChecklist(data[0], []);
                 }
-                // console.log(checklist);
                 if (idTeknisi == 0) {
                     divLokasiTambah.style.display = "block";
+                    listLokasiTambah.innerHTML = "";
                     listLokasiTambah.appendChild(checklist);
                 } else {
                     divLokasiEdit.style.display = "block";
+                    listLokasiEdit.innerHTML = "";
                     listLokasiEdit.appendChild(checklist);
                 }
                 // divButton.style.display = "block";
