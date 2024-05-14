@@ -168,7 +168,7 @@ function LoadPermohonan(data) {
                 data: "nama_sub_kategori",
             },
             {
-                data: "KET",
+                data: "keterangan",
                 render: function (data) {
                     return (
                         data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
