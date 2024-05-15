@@ -106,4 +106,27 @@ class HomeController extends Controller
 
         }
     }
+    public function WovenBag()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('Woven Bag');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Woven Bag');
+        // dd($result,$access);
+        if ($result > 0) {
+            return view('layouts.appWovenBag', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Woven Bag!');
+
+        }
+    }
+    public function JumboBag()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('Jumbo Bag');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
+        // dd($result,$access);
+        if ($result > 0) {
+            return view('layouts.appJumboBag', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Jumbo Bag!');
+        }
+    }
 }

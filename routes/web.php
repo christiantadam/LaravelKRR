@@ -810,8 +810,8 @@ Route::group(['middleware' => ['auth']], function () {
     #endregion
 
     #region Ad Star
-    Route::resource('AD Star', App\Http\Controllers\AdStarController\AdStar::class);
     Route::get('AD Star Home', 'App\Http\Controllers\AdStarController\AdStar@index')->name('AdStar.AdStarHome');
+    Route::resource('AD Star', App\Http\Controllers\AdStarController\AdStar::class);
     Route::resource('AdStarOpenTop', App\Http\Controllers\AdStarController\OpenTop::class);
     Route::resource('AdStarCloseTop', App\Http\Controllers\AdStarController\CloseTop::class);
     #endregion
@@ -968,4 +968,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/AllLokasiTeknisi/{IdTeknisi}', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'AllLokasiTeknisi'])->name('All-Lokasi-Teknisi');
 
     #endRegion
+
+    #region Jumbo Bag
+    Route::get('JumboBag', 'App\Http\Controllers\HomeController@JumboBag');
+    Route::resource('TabelHitunganJBB', App\Http\Controllers\JumboBag\TabelHitunganJumboBag::class);
+
+    #endregion
+
+    #region Woven Bag
+    Route::get('WovenBag', 'App\Http\Controllers\HomeController@WovenBag');
+    Route::resource('TabelHitungan', App\Http\Controllers\WovenBag\TabelHitunganWovenBag::class);
+
+    #endregion
 });
