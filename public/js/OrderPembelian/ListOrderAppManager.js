@@ -236,7 +236,7 @@ btnPrint.addEventListener("click", function () {
     });
     if (checkedRowData.length > 0 && checkedRowData[0].length > 0) {
         let headerRow = [
-            "Tgl. & Jam Acc",
+            "Tgl. & Jam Approve",
             "No. Order",
             "Kode Barang",
             "Nama Barang",

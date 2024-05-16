@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-11 RDZMobilePaddingLR0">
                 <h1 style="text-align: center">HOME</h1>
                 <div class="acs-grid-container">
                     <script>

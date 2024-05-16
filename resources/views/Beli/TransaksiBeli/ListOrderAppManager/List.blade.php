@@ -118,7 +118,7 @@
                                             <th>No. Order</th>
                                             <th>Status Beli</th>
                                             <th>Kd. Barang</th>
-                                            <th>Type</th>
+                                            <th>Nama Barang</th>
                                             <th>Sub Kategori</th>
                                             <th>Qty</th>
                                             <th>Satuan</th>
