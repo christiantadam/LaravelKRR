@@ -51,12 +51,12 @@
                             <table class ="table" id="tabelchelsy" style="width: 100%">
                                 <thead class="table-primary">
                                     <tr>
-                                        <th>No po</th>
+                                        <th>No. PO</th>
                                         <th>Status</th>
                                         <th>Tanggal PO <br>(DD-MM-YYYY)</th>
                                         <th>Divisi</th>
                                         <th>User</th>
-                                        <th>No BTTB</th>
+                                        <th>No. BTTB</th>
                                     </tr>
                                 </thead>
                                 <tbody>

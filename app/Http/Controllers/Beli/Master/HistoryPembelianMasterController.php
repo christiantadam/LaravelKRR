@@ -11,7 +11,7 @@ class HistoryPembelianMasterController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Beli');
-        $result = (new HakAksesController)->HakAksesFitur('History Pembelian Master');
+        $result = (new HakAksesController)->HakAksesFitur('History Pembelian');
         if ($result > 0) {
             return view('Beli.Master.HistoryPembelian', compact('access'));
         } else {

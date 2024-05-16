@@ -33,7 +33,7 @@
                                             <th>Satuan</th>
                                             <th>Supplier</th>
                                             <th>Requester</th>
-                                            <th>Kode Divisi</th>
+                                            <th>Nama Divisi</th>
                                             <th>Sub Kategori</th>
                                             <th>Status Beli</th>
                                             <th>Qty PO</th>

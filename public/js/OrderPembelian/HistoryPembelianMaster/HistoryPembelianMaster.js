@@ -142,7 +142,7 @@ function redisplayData(nm_brg, req, sup, kdbrg) {
             { data: "Nama_satuan" },
             { data: "NM_SUP" },
             { data: "Nama" },
-            { data: "Kd_div" },
+            { data: "NM_DIV" },
             { data: "nama_sub_kategori" },
             {
                 data: "StatusBeli",
