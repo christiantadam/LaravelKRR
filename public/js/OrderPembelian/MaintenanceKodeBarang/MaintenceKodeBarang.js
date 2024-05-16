@@ -113,7 +113,10 @@ kd_barang.addEventListener("keypress", function (event) {
 });
 nama_Barang.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
-        MySpesifikasi = parseInt(select_subKategori.options[select_subKategori.selectedIndex].value);
+        console.log(nama_Barang.value.replace(/\s/g, ""));
+        MySpesifikasi = parseInt(
+            select_subKategori.options[select_subKategori.selectedIndex].value
+        );
         switch (MySpesifikasi) {
             case SpesifikasiType.BenangExtruder:
                 PecahBenang(nama_Barang.value.replace(/\s/g, ""));

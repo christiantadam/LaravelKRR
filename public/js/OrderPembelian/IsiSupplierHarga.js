@@ -260,7 +260,12 @@ function redisplayData(noTrans, requester, kd) {
             { data: "Kd_brg" },
             { data: "NAMA_BRG" },
             { data: "nama_sub_kategori" },
-            { data: "Qty" },
+            {
+                data: "Qty",
+                render: function (data) {
+                    return parseFloat(data).toFixed(2); // Ensure two decimal places
+                },
+            },
             { data: "Nama_satuan" },
             { data: "Nama" },
             { data: "Kd_div" },
@@ -298,7 +303,14 @@ function redisplayData(noTrans, requester, kd) {
                     let time = data.split(" ")[1].split(".");
                     console.log(parts);
 
-                    let tgl = parts[2] + "-" + parts[1] + "-" + parts[0] + " " + time[0];
+                    let tgl =
+                        parts[2] +
+                        "-" +
+                        parts[1] +
+                        "-" +
+                        parts[0] +
+                        " " +
+                        time[0];
                     return tgl;
                 },
             },
