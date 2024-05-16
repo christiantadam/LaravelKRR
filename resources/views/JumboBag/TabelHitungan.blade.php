@@ -208,7 +208,7 @@
                         <label for="jenis-barang">Jenis Barang:</label>
                         <input type="text" id="jenis-barang">
                     </div>
-                    <div style="overflow: auto; margin-top: 2%">
+                    <div style="overflow: auto; margin-top: 2%;border:1px solid black;border-bottom: none;padding:5px">
                         <table id="tabelData" class="table table-bordered" style="white-space: nowrap">
                             <thead class="table-primary">
                                 <tr>
@@ -231,7 +231,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div style="display: flex; flex-direction: row;width: 100%; gap:2%">
+                    <div style="display: flex; flex-direction: row;width: 100%; gap:2%;border:1px solid black;border-top:none;padding: 2px 2px 20px 5px">
                         <div style="display: flex; flex-direction: row;width: 48%; gap:3%">
                             <button type="button" class="btn btn-info" style="width: 30%">Tambah Komponen</button>
                             <button type="button" class="btn btn-secondary" style="width: 30%">Koreksi Komponen</button>
@@ -245,10 +245,14 @@
                         </div>
                     </div>
                     <div style="display: flex; flex-direction: row;width: 100%; gap:2%;margin-top:3%">
-                        <button style="width: 10%" class="btn btn-primary">Isi</button>
-                        <button style="width: 15%" class="btn btn-warning">Koreksi</button>
-                        <button style="width: 15%" class="btn btn-danger">Hapus</button>
-                        <button style="width: 15%" class="btn btn-success">Proses</button>
+                        <div style="display: flex; flex-direction: row;width: 60%; gap:2%;border:1px solid black;padding:5px">
+                            <button style="width: 20%" class="btn btn-primary">Isi</button>
+                            <button style="width: 30%" class="btn btn-warning">Koreksi</button>
+                            <button style="width: 30%" class="btn btn-danger">Hapus</button>
+                        </div>
+                        <div style="display: flex; flex-direction: row;width: 40%; gap:2%;place-content:end">
+                            <button style="width: 35%;margin-right:60%" class="btn btn-success">Proses</button>
+                        </div>
                     </div>
                 </form>
             </div>
