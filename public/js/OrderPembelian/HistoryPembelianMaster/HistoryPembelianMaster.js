@@ -136,7 +136,7 @@ function redisplayData(nm_brg, req, sup, kdbrg) {
             {
                 data: "Hrg_trm",
                 render: function (data) {
-                    return numeral(parseFloat(data)).format("0,0.0000");
+                    return numeral(parseFloat(data)).format("0,0.00");
                 },
             },
             { data: "Nama_satuan" },
