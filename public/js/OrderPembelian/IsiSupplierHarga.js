@@ -64,6 +64,7 @@ alasan_reject.addEventListener("keypress", function (event) {
 });
 
 btn_reject.addEventListener("click", function (event) {
+    btn_reject.disabled = true;
     $.ajax({
         url: "/IsiSupplierHarga/" + id + "/Reject",
         type: "PUT",
@@ -139,6 +140,7 @@ btn_clear.addEventListener("click", function (event) {
     clearData();
 });
 btn_approve.addEventListener("click", function (event) {
+    btn_approve.disabled = true;
     $.ajax({
         url: "/IsiSupplierHarga/" + id + "/Approve",
         type: "PUT",
