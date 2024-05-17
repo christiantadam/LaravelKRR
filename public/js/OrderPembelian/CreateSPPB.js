@@ -314,6 +314,7 @@ paymentTerm_select.addEventListener("change", function (event) {
 });
 
 btn_update.addEventListener("click", function (event) {
+    btn_update.disabled = true;
     const nomor = no_po.value;
     const qtydelay = qty_delay.value;
     if (
@@ -381,6 +382,7 @@ btn_update.addEventListener("click", function (event) {
     }
 });
 btn_remove.addEventListener("click", function (event) {
+    btn_remove.disabled = true;
     $.ajax({
         url: "/openFormCreateSPPB/create/Remove",
         type: "PUT",
