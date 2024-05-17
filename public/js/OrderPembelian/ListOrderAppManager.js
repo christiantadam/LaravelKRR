@@ -76,7 +76,7 @@ buttonRedisplay.addEventListener("click", function (event) {
                 if (response.recordTotal != 0) {
                     checkedAll.disabled = false;
                 }
-                console.log(response)
+                console.log(response);
                 inisialisasiDataTable(response.data);
             },
             error: function (error) {
@@ -127,7 +127,14 @@ function inisialisasiDataTable(response) {
                 data: "Tgl_acc",
                 render: function (data, type, row) {
                     let parts = data.split(" ")[0].split("-");
-                    let tgl = parts[1] + "/" + parts[2] + "/" + parts[0] + ' ' + data.split(" ")[1].slice(0, 5);
+                    let tgl =
+                        parts[1] +
+                        "/" +
+                        parts[2] +
+                        "/" +
+                        parts[0] +
+                        " " +
+                        data.split(" ")[1].slice(0, 5);
                     return tgl;
                 },
             },
@@ -236,18 +243,18 @@ btnPrint.addEventListener("click", function () {
     });
     if (checkedRowData.length > 0 && checkedRowData[0].length > 0) {
         let headerRow = [
-            "Tgl. & Jam Approve",
+            "Tgl & Jam Approve",
             "No. Order",
-            "Kode Barang",
+            "Kd. Barang",
             "Nama Barang",
             "Sub Kategori",
             "Qty",
             "Satuan",
             "User",
             "Divisi",
-            "Tgl. Dibutuhkan",
-            "Ket. Order",
-            "Ket. Internal",
+            "Tgl Dibutuhkan",
+            "Keterangan Order",
+            "Keterangan Internal",
         ];
         checkedRowData.unshift(headerRow);
 
@@ -259,7 +266,8 @@ btnPrint.addEventListener("click", function () {
         });
         XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-        let fileName = window.prompt("Masukkan nama file (tanpa ekstensi):") || "data";
+        let fileName =
+            window.prompt("Masukkan nama file (tanpa ekstensi):") || "data";
 
         if (!fileName.endsWith(".xlsx")) {
             fileName += ".xlsx";
