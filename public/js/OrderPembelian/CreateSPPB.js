@@ -358,7 +358,7 @@ btn_update.addEventListener("click", function (event) {
                     timer: "2000",
                 });
                 if (qtydelay > 0) {
-                    submit(nomor, qtydelay);
+                    submit(nomor, qtydelay); //untuk bikin nomor order baru saat qty delay > 0
                 } else {
                 }
                 if (loadPermohonanData.length == 0) {

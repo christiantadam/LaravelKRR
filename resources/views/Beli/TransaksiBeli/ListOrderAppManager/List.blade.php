@@ -126,7 +126,7 @@
                                             <th>Divisi</th>
                                             <th>Tgl. Dibutuhkan</th>
                                             <th>Keterangan Order</th>
-                                            <th>Keterangan Internal</th>
+                                            <th>Keterangan Internal</th>
                                         </tr>
                                     </thead>
                                     <tbody>
