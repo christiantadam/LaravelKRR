@@ -692,7 +692,7 @@ table tr:last-child td:last-child {
     margin: 2%;
     display: grid;
     grid-template-columns: repeat(5, 20%);
-    grid-row-gap: 15%;
+    grid-row-gap: 5%;
 }
 
 /* Add hover effects to cards */
