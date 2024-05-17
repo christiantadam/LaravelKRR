@@ -114,19 +114,19 @@
                                         <tr>
                                             <th><input type="checkbox" name="CheckedAll" id="CheckedAll"
                                                     class="RDZCheckBoxSize" /></th>
-                                            <th>Tgl & Jam Approve</th>
+                                            <th>Tgl. & Jam Approve</th>
                                             <th>No. Order</th>
                                             <th>Status Beli</th>
-                                            <th>Kd. Barang</th>
+                                            <th>Kode Barang</th>
                                             <th>Nama Barang</th>
                                             <th>Sub Kategori</th>
-                                            <th>Qty</th>
+                                            <th>Qty.</th>
                                             <th>Satuan</th>
                                             <th>User</th>
                                             <th>Divisi</th>
-                                            <th>Tgl Dibutuhkan</th>
+                                            <th>Tgl. Dibutuhkan</th>
                                             <th>Keterangan Order</th>
-                                            <th>Keterangan Internal</th>
+                                            <th>Keterangan Internal</th>
                                         </tr>
                                     </thead>
                                     <tbody>

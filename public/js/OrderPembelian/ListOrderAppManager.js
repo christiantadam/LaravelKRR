@@ -243,18 +243,18 @@ btnPrint.addEventListener("click", function () {
     });
     if (checkedRowData.length > 0 && checkedRowData[0].length > 0) {
         let headerRow = [
-            "Tgl & Jam Approve",
+            "Tgl. & Jam Approve",
             "No. Order",
-            "Kd. Barang",
+            "Kode Barang",
             "Nama Barang",
             "Sub Kategori",
-            "Qty",
+            "Qty.",
             "Satuan",
             "User",
             "Divisi",
-            "Tgl Dibutuhkan",
+            "Tgl. Dibutuhkan",
             "Keterangan Order",
-            "Keterangan Internal",
+            "Keterangan Internal",
         ];
         checkedRowData.unshift(headerRow);
 
