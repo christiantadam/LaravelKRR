@@ -169,6 +169,21 @@ return [
             'trust_server_certificate' => true,
         ],
 
+        'ConnJumboBag' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_SIXTH', '127.0.0.1'),
+            'port' => env('DB_PORT_SIXTH', '1433'),
+            'database' => env('DB_DATABASE_SIXTH', 'forge'),
+            'username' => env('DB_USERNAME_SIXTH', 'forge'),
+            'password' => env('DB_PASSWORD_SIXTH', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'encrypt' => 'yes',
+            'trust_server_certificate' => true,
+        ],
+
         'ConnExtruder' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),

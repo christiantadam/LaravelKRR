@@ -972,6 +972,8 @@ Route::group(['middleware' => ['auth']], function () {
     #region Jumbo Bag
     Route::get('JumboBag', 'App\Http\Controllers\HomeController@JumboBag');
     Route::resource('TabelHitunganJBB', App\Http\Controllers\JumboBag\TabelHitunganJumboBag::class);
+    Route::post('getDataCustomerJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataCustomerJBB');
+
 
     #endregion
 
