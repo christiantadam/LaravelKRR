@@ -16,7 +16,7 @@
                 </div>
             @endif
             <div class="card font-weight-bold">
-                <div class="card-header">Supplier MASIH BELUM BISA EDIT KARENA MASIH BELUM DIATUR KODE EDITNYA</div>
+                <div class="card-header">Supplier Edit Data {{ $data[0]->NO_SUP }} - {{ $data[0]->NM_SUP }}</div>
                 <div class="card-body">
                     <form class="form" method="POST" enctype="multipart/form-data" action="{{ url('Supplier') }}"
                         id="form_supplier">
