@@ -11,8 +11,8 @@
                 </div>
             @endif
             <div class="container">
-                <form class="product-form">
-                    <h1>Sandwich Product Form</h1>
+                <form>
+                    <h1>Tabel Hitungan Sandwich</h1>
                     <hr>
                     <div
                         style="display: flex; flex-direction: row; gap:2%; border-bottom:black solid 1px; padding:5px;margin-bottom: 5px">
