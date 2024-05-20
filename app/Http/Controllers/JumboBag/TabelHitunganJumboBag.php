@@ -24,8 +24,8 @@ class TabelHitunganJumboBag extends Controller
             return response()->json(['error' => 'Invalid request method'], 405);
         }
         $columns = array(
-            0 => 'Kode_Customer',
-            1 => 'Nama_Customer'
+            0 => 'Nama_Customer',
+            1 => 'Kode_Customer'
         );
 
         $totalData = DB::connection('ConnJumboBag')->table('CUSTOMER')

@@ -1,11 +1,12 @@
-
 let csrfToken = document
-.querySelector('meta[name="csrf-token"]')
-.getAttribute("content");
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 let customer = document.getElementById("customer");
+let id_customer = document.getElementById("id_customer");
 let btn_customer = document.getElementById("btn_customer");
-let kode_barang = document.getElementById("kode_barang");
-let btn_kode_barang = document.getElementById("btn_kode_barang");
+let nama_barang = document.getElementById("nama_barang");
+let komponen = document.getElementById("komponen");
+let btn_nama_barang = document.getElementById("btn_nama_barang");
 let tanggal = document.getElementById("tanggal");
 let tanggal_update = document.getElementById("tanggal_update");
 let body_bentuk = document.getElementById("body_bentuk");
@@ -56,6 +57,7 @@ let btn_koreksi = document.getElementById("btn_koreksi");
 let btn_hapus = document.getElementById("btn_hapus");
 let btn_proses = document.getElementById("btn_proses");
 let tmb = 1;
+let proses;
 
 //#region Load Form
 
@@ -74,23 +76,24 @@ function aktif_tombol(tmb) {
         btn_koreksi.disabled = false;
         btn_hapus.disabled = false;
         btn_proses.disabled = true;
+        btn_hapus.innerHTML = "Hapus";
         btn_customer.disabled = true;
-        btn_kode_barang.disabled = true;
         btn_isi.focus();
     } else if (tmb == 2) {
         btn_isi.disabled = true;
         btn_koreksi.disabled = true;
-        btn_hapus.innerHTML = "Batal";
         btn_proses.disabled = false;
+        btn_hapus.innerHTML = "Batal";
         btn_customer.disabled = false;
-        btn_kode_barang.disabled = false;
         btn_customer.focus();
     }
 }
 
 function cleardata() {
     customer.value = "";
-    kode_barang.value = "";
+    id_customer.value = "";
+    nama_barang.value = "";
+    komponen.value = "";
     body_bentuk.value = "";
     body_model.value = "";
     body_panjang.value = "";
@@ -140,6 +143,15 @@ function cleardata() {
 btn_isi.addEventListener("click", function (event) {
     event.preventDefault();
     tmb = 2;
+    proses = 1;
+    aktif_tombol(tmb);
+    cleardata();
+});
+
+btn_koreksi.addEventListener("click", function (event) {
+    event.preventDefault();
+    tmb = 2;
+    proses = 2;
     aktif_tombol(tmb);
     cleardata();
 });
@@ -149,15 +161,18 @@ btn_hapus.addEventListener("click", function (event) {
     if (tmb == 2) {
         //batal
         tmb = 1;
+        proses = 0;
         aktif_tombol(tmb);
         cleardata();
     } else {
         //proses hapus
         tmb = 2;
+        proses = 3;
         aktif_tombol(tmb);
         cleardata();
     }
 });
+
 
 btn_customer.addEventListener("click", async function (event) {
     event.preventDefault();
@@ -177,8 +192,8 @@ btn_customer.addEventListener("click", async function (event) {
             return selectedData;
         },
         didOpen: () => {
-            $(document).ready(function() {
-                $("#customerTable").DataTable({
+            $(document).ready(function () {
+                const table = $("#customerTable").DataTable({
                     responsive: true,
                     processing: true,
                     serverSide: true,
@@ -187,31 +202,47 @@ btn_customer.addEventListener("click", async function (event) {
                         dataType: "json",
                         type: "POST",
                         data: {
-                            _token: csrfToken
-                        }
+                            _token: csrfToken,
+                        },
                     },
-                    columns: [{
-                        data: "Nama_Customer"
-                    }, {
-                        data: "Kode_Customer"
-                    }],
+                    columns: [
+                        {
+                            data: "Nama_Customer",
+                        },
+                        {
+                            data: "Kode_Customer",
+                        },
+                    ],
                 });
-            });
-            const table = document.getElementById('customerTable')
-
-            $("#customerTable tbody").on("click", "tr", function () {
-                if ($(this).hasClass("selected")) {
-                    $(this).removeClass("selected");
-                } else {
+                $("#customerTable tbody").on("click", "tr", function () {
+                    // Remove 'selected' class from all rows
                     table.$("tr.selected").removeClass("selected");
+                    // Add 'selected' class to the clicked row
                     $(this).addClass("selected");
-                }
+                });
             });
         },
     });
-
+    console.log(selectedRow);
     if (selectedRow) {
-        customer.value = selectedRow.name;
+        customer.value = selectedRow.Nama_Customer.trim();
+        id_customer.value = selectedRow.Kode_Customer.trim();
+        if (proses == 1) {
+            nama_barang.value = "O-" + id_customer.value.trim() + "-";
+            nama_barang.disabled = false;
+            nama_barang.focus();
+            console.log(nama_barang.value);
+        } else {
+            btn_nama_barang.disabled = false;
+            btn_nama_barang.focus();
+        }
     }
 });
+
+nama_barang.addEventListener("keypress", function (e) {
+    e.preventDefault();
+    if (e.key == "Enter") {
+        console.log(this.value);
+    }
+})
 //#endregion

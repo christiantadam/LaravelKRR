@@ -10,22 +10,24 @@
                     {{ Session::get('success') }}
                 </div>
             @endif
-            <div class="container">
+            <div class="acs-container">
                 <div
                     style="display: flex; flex-direction: row; gap:2%; border-bottom:black solid 1px; padding:5px;margin-bottom: 5px">
                     <div style="width: 49%">
                         <div style="display: flex; flex-direction: row;gap:2%; width:100%">
-                            <div style="display: flex;flex-direction: column; gap: 5%; width:18%">
+                            <div style="display: flex;flex-direction: column; gap: 5%; width:20%">
                                 <label for="customer">Customer:</label>
                                 <label for="kode_barang">Kode Barang:</label>
                             </div>
-                            <div style="display: flex;flex-direction: column; gap: 5%; width:35%">
+                            <div style="display: flex;flex-direction: column; gap: 5%; width:40%">
                                 <div style="display: flex;flex-direction: row; gap: 2%; width:100%">
                                     <input type="text" id="customer" style="width: 80%" disabled>
+                                    <input type="hidden" name="id_customer" id="id_customer">
                                     <button style="width: 20%" id="btn_customer" disabled>...</button>
                                 </div>
                                 <div style="display: flex;flex-direction: row; gap: 2%; width:100%">
-                                    <input type="text" style="width: 80%" id="kode_barang" disabled>
+                                    <input type="text" style="width: 20%" id="komponen" disabled>
+                                    <input type="text" style="width: 60%" id="nama_barang" disabled>
                                     <button style="width: 20%" id="btn_kode_barang" disabled>...</button>
                                 </div>
                             </div>
