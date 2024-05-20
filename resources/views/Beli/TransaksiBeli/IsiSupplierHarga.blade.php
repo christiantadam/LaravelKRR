@@ -276,7 +276,7 @@
                                         </div>
                                         <div class="col-8 col-md-10">
                                             <input type="text" name="kurs" id="kurs"
-                                                class="form-control font-weight-bold" value="1">
+                                                class="form-control font-weight-bold" value="1" readonly>
                                         </div>
                                     </div>
                                 </div>

@@ -530,9 +530,9 @@ $(document).ready(function () {
                     }
                     jenisSupplier = response[0].JNS_SUP;
                     console.log(response[0]);
-                    if (response[0].ID_MATAUANG != 1) {
-                        kurs.focus();
-                    } else {
+                    // if (response[0].ID_MATAUANG != 1) {
+                    //     kurs.focus();
+                    // } else {
                         let eventEnter = new KeyboardEvent("keypress", {
                             key: "Enter",
                             code: "Enter",
@@ -543,7 +543,7 @@ $(document).ready(function () {
                         });
                         kurs.dispatchEvent(eventEnter);
                         harga_unit.focus();
-                    }
+                    // }
                 },
                 error: function (error) {
                     console.error("Error Send Data:", error);
