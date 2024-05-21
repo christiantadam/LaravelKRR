@@ -34,11 +34,20 @@
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
 </head>
 
 <body onload="Greeting()">
+    @if (session('status'))
+        <script>
+            Swal.fire({
+                title: 'Pemberitahuan!',
+                text: "{{ session('status') }}",
+                icon: 'info',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow sticky-top">
             <div class="container col-md-12">
@@ -147,8 +156,8 @@
                                 @endif
                             @endforeach
                         </ul>
-                        </div>
-                    @endif
+                </div>
+                @endif
                 @endforeach
                 </ul>
             @endguest
@@ -176,7 +185,7 @@
                 </ul>
             @endguest
         </div>
-    </div>
+</div>
 </nav>
 
 <main class="py-4">

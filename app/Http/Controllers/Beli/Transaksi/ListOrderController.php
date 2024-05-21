@@ -37,9 +37,14 @@ class ListOrderController extends Controller
         $dataDiv = DB::select('exec spSelect_UserDivisi_dotNet @Operator = ' . rtrim($idUser) . '');
 
         $firstDivisi = UserDiv::select()->where('Kd_user', rtrim($idUser))->first();
-
-        $data = TransBL::select()->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')->where('YTRANSBL.Kd_div', $firstDivisi['Kd_div'])->where('YTRANSBL.Tgl_order', '=', $date)->get();
-        return view('Beli.Transaksi.ListOrder.List', compact('data', 'dataDiv', 'access','idUser'));
+        // dd($firstDivisi);
+        if ($firstDivisi !== null) {
+            $data = TransBL::select()->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')->where('YTRANSBL.Kd_div', $firstDivisi['Kd_div'])->where('YTRANSBL.Tgl_order', '=', $date)->get();
+            return view('Beli.Transaksi.ListOrder.List', compact('data', 'dataDiv', 'access','idUser'));
+        }
+        else{
+            return redirect('Beli')->with('status','Anda Belum terdaftar pada divisi manapun, silahkan hubungi EDP!');
+        }
     }
 
     public function show($id)

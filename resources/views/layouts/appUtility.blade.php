@@ -323,7 +323,6 @@
     });
 </script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
 <!-- Tambahkan ini untuk Bootstrap Selectpicker -->
 <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
 

@@ -14,7 +14,6 @@ class MaintenanceOrderPembelianController extends Controller
     // Display a listing of the resource.
     public function index(Request $request)
     {
-        // $idUser = trim(Auth::user()->NomorUser);
         $idUser = trim(Auth::user()->NomorUser);
         $data = $request->query('d');
         $statusKoreksi = $request->query('s');
