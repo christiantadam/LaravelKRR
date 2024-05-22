@@ -21,16 +21,16 @@
                 }
             },
             columns: [{
-                    data: "NO_ORDER",
+                    data: "NO_ORDER", // No. Order {{-- 0 --}}
                 },
                 {
-                    data: "STATUS_PO",
+                    data: "STATUS_PO", // Status Order  {{-- 1 --}}
                 },
                 {
-                    data: "TglAprMGR",
+                    data: "TglAprMGR", // Tgl. Approve Mgr. {{-- 2 --}}
                     render: function(data, type, row) {
                         if (data != null) {
-                            console.log(data);
+                            // console.log(data);
                             let parts = data.split(" ")[0].split("-");
                             let time = data.split(" ")[1].split(".");
                             console.log(parts);
@@ -39,44 +39,104 @@
                                 0];
                             return tgl;
                         } else {
-                            return data;
+                            return '';
                         }
                     },
                 },
                 {
-                    data: "STATUS_BELI",
+                    data: "STATUS_BELI", // Status Beli {{-- 3 --}}
                 },
                 {
-                    data: "NO_PO",
+                    data: "NO_PO", // No. PO {{-- 4 --}}
                 },
                 {
-                    data: "NM_BARANG",
-                },
-                {
-                    data: "SUB_KATEGORI",
-                },
-                {
-                    data: "QTY_PO",
-                },
-                {
-                    data: "TGL_PO",
+                    data: "TGL_PO", // Tgl. PO {{-- 5 --}}
                     render: function(data, type, row) {
                         console.log(data);
+                        if (data != null) {
+                            let parts = data.split(" ")[0].split("-");
+                            let tgl = parts[2] + "-" + parts[1] + "-" + parts[0];
+                            return tgl;
+                        } else {
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: "KODE_BARANG", // Kode Barang {{-- 6 --}}
+                },
+                {
+                    data: "NM_BARANG", // Nama Barang {{-- 7 --}}
+                },
+                {
+                    data: "SUB_KATEGORI", // Sub Kategori {{-- 8 --}}
+                },
+                {
+                    data: "SUPPLIER", // Supplier {{-- 9 --}}
+                },
+                {
+                    data: "PriceUnit", // Price Unit {{-- 10 --}}
+                    render: function(data) {
+                        if (data != null) {
+                            return parseFloat(data).toFixed(2);
+                        } else {
+                            return ''
+                        }
+                    }
+                },
+                {
+                    data: "PPN", // PPN (%) {{-- 11 --}}
+                    render: function(data) {
+                        if (data != null) {
+                            return parseFloat(data).toFixed(2);
+                        } else {
+                            return ''
+                        }
+                    }
+                },
+                {
+                    data: "QTY_PO", // Qty. PO {{-- 12 --}}
+                    render: function(data) {
+                        if (data != null) {
+                            return parseFloat(data).toFixed(2);
+                        } else {
+                            return ''
+                        }
+                    }
+                },
+                {
+                    data: "SATUAN", // Satuan {{-- 13 --}}
+                },
+                {
+                    data: "PAY_TERM", // Payment Term {{-- 14 --}}
+                },
+                {
+                    data: "NM_USER", // Nama User {{-- 15 --}}
+                },
+                {
+                    data: "NM_DIVISI", // Nama Divisi {{-- 16 --}}
+                },
+                {
+                    data: "No_BTTB", // No. BTTB {{-- 17 --}}
+                },
+                {
+                    data: "TGL_DATANG", // Tgl. Datang {{-- 18 --}}
+                    render: function(data, type, row) {
                         if (data != null) {
                             let parts = data.split(" ")[0].split("-");
 
                             let tgl = parts[2] + "-" + parts[1] + "-" + parts[0];
                             return tgl;
                         } else {
-                            return data;
+                            return '';
                         }
                     }
                 },
                 {
-                    data: "NM_USER",
+                    data: "NOTELINE", // Keterangan Order {{-- 19 --}}
                 },
                 {
-                    data: "No_BTTB",
+                    data: "Ket_Internal", // Keterangan Internal {{-- 20 --}}
                 },
             ],
         });
@@ -102,17 +162,27 @@
                         <table id="tabelData" class="table table-bordered" style="width:100%;white-space:nowrap">
                             <thead class="table-primary">
                                 <tr>
-                                    <th>Nomer Order</th>
-                                    <th>Status PO</th>
-                                    <th>Tgl. Approve Mgr. <br>(DD-MM-YYYY HH:MM:SS)</th>
-                                    <th>Status Beli</th>
-                                    <th>No. PO</th>
-                                    <th>Nama Barang</th>
-                                    <th>Sub Kategori</th>
-                                    <th>Quantity</th>
-                                    <th>Tgl. PO <br>(DD-MM-YYYY)</th>
-                                    <th>Nama User</th>
-                                    <th>No. BTTB</th>
+                                    <th>No. Order</th> {{-- 0 --}}
+                                    <th>Status Order</th> {{-- 1 --}}
+                                    <th>Tgl. Approve Mgr.</th> {{-- 2 --}}
+                                    <th>Status Beli</th> {{-- 3 --}}
+                                    <th>No. PO</th> {{-- 4 --}}
+                                    <th>Tgl. PO</th> {{-- 5 --}}
+                                    <th>Kode Barang</th> {{-- 6 --}}
+                                    <th>Nama Barang</th> {{-- 7 --}}
+                                    <th>Sub Kategori</th> {{-- 8 --}}
+                                    <th>Supplier</th> {{-- 9 --}}
+                                    <th>Price Unit</th> {{-- 10 --}}
+                                    <th>PPN (%)</th> {{-- 11 --}}
+                                    <th>Qty. PO</th> {{-- 12 --}}
+                                    <th>Satuan</th> {{-- 13 --}}
+                                    <th>Payment Term</th> {{-- 14 --}}
+                                    <th>Nama User</th> {{-- 15 --}}
+                                    <th>Nama Divisi</th> {{-- 16 --}}
+                                    <th>No. BTTB</th> {{-- 17 --}}
+                                    <th>Tgl. Datang</th> {{-- 18 --}}
+                                    <th>Keterangan Order</th> {{-- 19 --}}
+                                    <th>Keterangan Internal</th> {{-- 20 --}}
                                 </tr>
                             </thead>
                             <tbody>
