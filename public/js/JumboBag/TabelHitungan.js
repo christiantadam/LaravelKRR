@@ -173,76 +173,180 @@ btn_hapus.addEventListener("click", function (event) {
     }
 });
 
-
 btn_customer.addEventListener("click", async function (event) {
     event.preventDefault();
-    const { value: selectedRow } = await Swal.fire({
-        title: "Select a Customer",
-        html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
-        showCancelButton: true,
-        preConfirm: () => {
-            const selectedData = $("#customerTable")
-                .DataTable()
-                .row(".selected")
-                .data();
-            if (!selectedData) {
-                Swal.showValidationMessage("Please select a row");
-                return false;
+    try {
+        const result = await Swal.fire({
+            title: "Select a Customer",
+            html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+            showCancelButton: true,
+            preConfirm: () => {
+                const selectedData = $("#customerTable")
+                    .DataTable()
+                    .row(".selected")
+                    .data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            didOpen: () => {
+                $(document).ready(function () {
+                    const table = $("#customerTable").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            url: "getDataCustomerJBB",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                            },
+                        },
+                        columns: [
+                            {
+                                data: "Nama_Customer",
+                            },
+                            {
+                                data: "Kode_Customer",
+                            },
+                        ],
+                    });
+                    $("#customerTable tbody").on("click", "tr", function () {
+                        // Remove 'selected' class from all rows
+                        table.$("tr.selected").removeClass("selected");
+                        // Add 'selected' class to the clicked row
+                        $(this).addClass("selected");
+                    });
+                });
+            },
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                const selectedRow = result.value;
+                customer.value = selectedRow.Nama_Customer.trim();
+                id_customer.value = selectedRow.Kode_Customer.trim();
+                if (proses == 1) {
+                    nama_barang.value = "O-" + id_customer.value.trim() + "-";
+                    nama_barang.disabled = false;
+                    nama_barang.focus();
+                } else {
+                    btn_kode_barang.disabled = false;
+                    btn_kode_barang.focus();
+                }
             }
-            return selectedData;
-        },
-        didOpen: () => {
-            $(document).ready(function () {
-                const table = $("#customerTable").DataTable({
-                    responsive: true,
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "getDataCustomerJBB",
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            _token: csrfToken,
-                        },
-                    },
-                    columns: [
-                        {
-                            data: "Nama_Customer",
-                        },
-                        {
-                            data: "Kode_Customer",
-                        },
-                    ],
-                });
-                $("#customerTable tbody").on("click", "tr", function () {
-                    // Remove 'selected' class from all rows
-                    table.$("tr.selected").removeClass("selected");
-                    // Add 'selected' class to the clicked row
-                    $(this).addClass("selected");
-                });
-            });
-        },
-    });
-    console.log(selectedRow);
-    if (selectedRow) {
-        customer.value = selectedRow.Nama_Customer.trim();
-        id_customer.value = selectedRow.Kode_Customer.trim();
-        if (proses == 1) {
-            nama_barang.value = "O-" + id_customer.value.trim() + "-";
-            nama_barang.disabled = false;
-            nama_barang.focus();
-            console.log(nama_barang.value);
-        } else {
-            btn_nama_barang.disabled = false;
-            btn_nama_barang.focus();
-        }
+        });
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+    // console.log(selectedRow);
+});
+
+btn_customer.addEventListener("focus", function () {
+    if (nama_barang.value != '') {
+        btn_customer.blur();
+        nama_barang.focus();
     }
 });
 
 nama_barang.addEventListener("keypress", function (e) {
-    e.preventDefault();
     if (e.key == "Enter") {
-        console.log(this.value);
+        e.preventDefault();
+        tanggal.disabled = false;
+        tanggal.focus();
     }
-})
+});
+
+tanggal.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        body_bentuk.disabled = false;
+        body_bentuk.focus();
+    }
+});
+
+body_bentuk.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        if (body_bentuk && body_bentuk.value.trim() !== "") {
+            body_bentuk.value = body_bentuk.value.toUpperCase();
+            if (body_bentuk.value == "C" || body_bentuk.value == "S") {
+                if (proses == 1) {
+                    body_panjang.value = 0;
+                    body_lebar.value = 0;
+                    body_diameter.value = 0;
+                    body_diameter.value = 0;
+                    body_tinggi.value = 0;
+                }
+                if (body_bentuk.value == "S") {
+                    body_diameter.disabled = true;
+                    body_panjang.disabled = false;
+                    body_panjang.focus();
+                } else {
+                    body_panjang.disabled = true;
+                    body_diameter.disabled = false;
+                    body_diameter.focus();
+                }
+            } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "Pemberitahuan",
+                    text: "Bentuk Body Besar Harus [C]ircular / [S]quare!",
+                });
+                body_bentuk.value = "";
+                body_bentuk.focus();
+            }
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Bentuk Body Besar Harus [C]ircular / [S]quare!",
+            });
+        }
+    }
+});
+
+body_panjang.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        if (this.value == "") {
+            this.value = 0;
+        }
+        body_lebar.disabled = false;
+        body_lebar.focus();
+    }
+});
+
+body_diameter.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        if (this.value == "") {
+            this.value = 0;
+        }
+        body_tinggi.disabled = false;
+        body_tinggi.focus();
+    }
+});
+
+body_lebar.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        if (this.value == "") {
+            this.value = 0;
+        }
+        body_tinggi.disabled = false;
+        body_tinggi.focus();
+    }
+});
+
+body_tinggi.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        if (this.value == "") {
+            this.value = 0;
+        }
+        body_model.focus();
+    }
+});
+
 //#endregion

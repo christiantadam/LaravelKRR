@@ -45,11 +45,10 @@
                             <div style="display: flex; flex-direction: row;gap:2%">
                                 <div style="width:10%">
                                     <label for="body_bentuk">Bentuk:</label>
-                                    <label for="body_model">Model:</label>
                                 </div>
                                 <div style="width:20%">
-                                    <input type="text" id="body_bentuk" style="width:100%" disabled>
-                                    <input type="text" id="body_model" style="width:100%" disabled>
+                                    <input type="text" id="body_bentuk" style="width:100%" placeholder="[C] / [S]"
+                                        disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="body_panjang">Panjang:</label>
@@ -67,6 +66,11 @@
                                     <input type="text" id="body_diameter" style="width:100%" disabled>
                                     <input type="text" id="body_tinggi" style="width:100%" disabled>
                                 </div>
+                            </div>
+                            <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
+                                <label for="body_model">Model:</label>
+                                <input type="text" id="body_model" style="width:100%" disabled>
+                                <button style="width: 10%" id="btn_body_model" disabled>...</button>
                             </div>
                         </div>
 
