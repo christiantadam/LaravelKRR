@@ -70,6 +70,7 @@
                             <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
                                 <label for="body_model">Model:</label>
                                 <input type="text" id="body_model" style="width:100%" disabled>
+                                <input type="hidden" id="id_body_model" name="id_body_model">
                                 <button style="width: 10%" id="btn_body_model" disabled>...</button>
                             </div>
                         </div>
@@ -79,11 +80,10 @@
                             <div style="display: flex; flex-direction: row; gap:2%; width:100%">
                                 <div style="width:10%">
                                     <label for="cerobongAtas_bentuk">Bentuk:</label>
-                                    <label for="cerobongAtas_model">Model:</label>
                                 </div>
                                 <div style="width:20%">
-                                    <input type="text" id="cerobongAtas_bentuk" style="width:100%" disabled>
-                                    <input type="text" id="cerobongAtas_model" style="width:100%" disabled>
+                                    <input type="text" id="cerobongAtas_bentuk" style="width:100%"
+                                        placeholder="[C] / [S]" disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="cerobongAtas_panjang">Panjang:</label>
@@ -98,9 +98,15 @@
                                     <label for="cerobongAtas_tinggi">Tinggi:</label>
                                 </div>
                                 <div style="width:18%">
-                                    <input type="number" id="cerobongAtas_diameter" style="width:100%" disabled>
-                                    <input type="number" id="cerobongAtas_tinggi" style="width:100%" disabled>
+                                    <input type="text" id="cerobongAtas_diameter" style="width:100%" disabled>
+                                    <input type="text" id="cerobongAtas_tinggi" style="width:100%" disabled>
                                 </div>
+                            </div>
+                            <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
+                                <label for="cerobongAtas_model">Model:</label>
+                                <input type="text" id="cerobongAtas_model" style="width:100%" disabled>
+                                <input type="hidden" id="id_cerobongAtas_model" name="id_cerobongAtas_model">
+                                <button style="width: 10%" id="btn_cerobongAtas_model" disabled>...</button>
                             </div>
                         </div>
 
@@ -109,11 +115,10 @@
                             <div style="display: flex; flex-direction: row;gap:2%; width: 100%">
                                 <div style="width:10%">
                                     <label for="cerobongBawah_bentuk">Bentuk:</label>
-                                    <label for="cerobongBawah_model">Model:</label>
                                 </div>
                                 <div style="width:20%">
-                                    <input type="text" id="cerobongBawah_bentuk" style="width:100%" disabled>
-                                    <input type="text" id="cerobongBawah_model" style="width:100%" disabled>
+                                    <input type="text" id="cerobongBawah_bentuk" style="width:100%"
+                                        placeholder="[C] / [S]" disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="cerobongBawah_panjang">Panjang:</label>
@@ -131,6 +136,12 @@
                                     <input type="text" id="cerobongBawah_diameter" style="width:100%" disabled>
                                     <input type="text" id="cerobongBawah_tinggi" style="width:100%" disabled>
                                 </div>
+                            </div>
+                            <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
+                                <label for="cerobongBawah_model">Model:</label>
+                                <input type="text" id="cerobongBawah_model" style="width:100%" disabled>
+                                <input type="hidden" id="id_cerobongBawah_model" name="id_cerobongBawah_model">
+                                <button style="width: 10%" id="btn_cerobongBawah_model" disabled>...</button>
                             </div>
                         </div>
                     </div>
