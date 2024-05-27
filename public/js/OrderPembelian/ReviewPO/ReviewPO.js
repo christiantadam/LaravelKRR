@@ -229,13 +229,13 @@ function print(data) {
         chunk.forEach((item, index) => {
             tableRows += `
                 <tr>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         No + 1
                     }</p></td>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         item.Kd_brg
                     }</p></td>
-                    <td><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;padding-right:8px">
+                    <td><p style="line-height: 13.8px; font-size: 12px;font-family: Helvetica;padding-right:8px">
                     ${item.NAMA_BRG.replace(/</g, "&lt;")}
                     <br>
                     ${item.keterangan || "-"}
@@ -246,7 +246,7 @@ function print(data) {
                     <br>
                     ${item.No_trans}</p>
                     </td>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(item.Qty)
                             .toLocaleString("en-US")
                             .includes(".")
@@ -255,9 +255,9 @@ function print(data) {
                             : parseFloat(item.Qty).toLocaleString("en-US")
                     }</p></td>
                     <td style="text-align: center;vertical-align: top;">
-                    <p style="margin:0;font-size: 13px;font-family: Helvetica;">${item.Nama_satuan.trim()}</p>
+                    <p style="margin:0;font-size: 12px;font-family: Helvetica;">${item.Nama_satuan.trim()}</p>
                     </td>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(item.PriceUnit)
                             .toLocaleString("en-US")
                             .includes(".")
@@ -266,7 +266,7 @@ function print(data) {
                               ) + ".00"
                             : parseFloat(item.PriceUnit).toLocaleString("en-US")
                     }</p></td>
-                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(
                             item.harga_disc == null ? 0 : item.harga_disc
                         )
@@ -279,7 +279,7 @@ function print(data) {
                                   item.harga_disc == null ? 0 : item.harga_disc
                               ).toLocaleString("en-US")
                     }</p></td>
-                    <td style="text-align: right;vertical-align: top;"><p style="margin:0;font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: right;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(item.PriceSub)
                             .toLocaleString("en-US")
                             .includes(".")
