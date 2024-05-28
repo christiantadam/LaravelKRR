@@ -387,7 +387,7 @@ btn_body_model.addEventListener("click", async function (event) {
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "getDataModelJBB",
+                            url: "getDataModelBodyJBB",
                             dataType: "json",
                             type: "POST",
                             data: {
@@ -558,11 +558,11 @@ btn_cerobongAtas_model.addEventListener("click", async function (e) { //harusnya
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "getDataModelJBB",
+                            url: "getDataModelCerobongAtasJBB",
                             dataType: "json",
                             type: "POST",
                             data: {
-                                bentuk: cerobongAtas_bentuk.value,
+                                cerobongAtas_bentuk: cerobongAtas_bentuk.value,
                                 _token: csrfToken,
                             },
                         },
@@ -730,11 +730,11 @@ btn_cerobongBawah_model.addEventListener("click", async function (e) {//harusnya
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "getDataModelJBB",
+                            url: "getDataModelCerobongBawahJBB",
                             dataType: "json",
                             type: "POST",
                             data: {
-                                bentuk: cerobongBawah_bentuk.value,
+                                cerobongBawah_bentuk: cerobongBawah_bentuk.value,
                                 _token: csrfToken,
                             },
                         },
