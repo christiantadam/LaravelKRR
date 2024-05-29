@@ -976,7 +976,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('getDataModelBodyJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataModelBodyJBB');
     Route::post('getDataModelCerobongAtasJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataModelCerobongAtasJBB');
     Route::post('getDataModelCerobongBawahJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataModelCerobongBawahJBB');
-
+    Route::post('getDataWarnaBeltReinforcedJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataWarnaBeltReinforcedJBB');
+    Route::post('getDataLamiReinforcedJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataLamiReinforcedJBB');
 
     #endregion
 

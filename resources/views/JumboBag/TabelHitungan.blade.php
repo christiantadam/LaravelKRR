@@ -151,6 +151,91 @@
                             <div style="display: flex; flex-direction: row;gap:5px; width:100%">
                                 <div style="width:15%">
                                     <label style="width:100%; margin-bottom: 8%" for="reinforced_lebar">Lebar:</label>
+                                    <label style="width:100%; margin-bottom: 8%" for="reinforced_jarak">Jarak:</label>
+                                    <label style="width:100%; margin-bottom: 8%"
+                                        for="reinforced_warnaBelt">Warna:</label>
+                                    <label style="width:100%; margin-bottom: 8%" for="reinforced_tinggiloop">Tinggi
+                                        Loop:</label>
+                                    <label style="width:100%; margin-bottom: 8%" for="reinforced_SF">SF:</label>
+                                    <label style="width:100%; margin-bottom: 8%"
+                                        for="reinforced_printing">Printing(Y/N):</label>
+                                    <label style="width:100%; margin-bottom: 8%" for="reinforced_warna">Warna:</label>
+                                    <label style="width:100%; margin-bottom: 8%" for="reinforced_inner">Inner:</label>
+                                </div>
+                                <div style="width:30%">
+                                    <input style="width:100%; margin-bottom: 1%" type="text" id="reinforced_lebar"
+                                        name="reinforced_lebar" placeholder="Lebar" disabled>
+                                    <input style="width:100%; margin-bottom: 1%" type="text" id="reinforced_jarak"
+                                        placeholder="Jarak" disabled>
+                                    <div style="width: 100%; display: flex; flex-direction: row; gap: 1%">
+                                        <input style="width:100%; margin-bottom: 1%" type="text"
+                                            id="reinforced_warnaBelt" placeholder="Warna" disabled>
+                                        <input type="hidden" name="id_reinforced_warnaBelt"
+                                            id="id_reinforced_warnaBelt">
+                                        <button id="btn_reinforced_warnaBelt" disabled>...</button>
+                                    </div>
+                                    <input style="width:100%; margin-bottom: 1%" type="text"
+                                        id="reinforced_tinggiloop" placeholder="Tinggi Loop" disabled>
+                                    <div style="width: 100%; display: flex; flex-direction: row; gap: 1%">
+                                        <input style="width:50%; margin-bottom: 1%" type="text"
+                                            id="reinforced_SF1" placeholder="S" disabled> :
+                                        <input style="width:50%; margin-bottom: 1%" type="text"
+                                            id="reinforced_SF2" placeholder="F" disabled>
+                                    </div>
+                                    <input style="width:100%; margin-bottom: 1%" type="text"
+                                        id="reinforced_printing" placeholder="(Y/N)" disabled>
+                                    <div style="width: 100%; display: flex; flex-direction: row; gap: 1%">
+                                        <input style="width:100%; margin-bottom: 1%" type="text"
+                                            id="reinforced_warna" name="reinforced_warna" placeholder="Warna"
+                                            disabled>
+                                        <input type="hidden" name="id_reinforced_warna" id="id_reinforced_warna">
+                                        <button id="btn_reinforced_warna" disabled>...</button>
+                                    </div>
+                                    <input style="width:100%; margin-bottom: 1%" type="text" id="reinforced_inner"
+                                        name="reinforced_inner" placeholder="Inner" disabled>
+                                </div>
+                                <div style="display: flex; flex-direction: column;width:25%">
+                                    <label for="reinforced_jumlah">Jumlah:</label>
+                                    <label for="reinforced_beltrope">Belt /
+                                        Rope:</label>
+                                    <label for="reinforced_loop">Loop:</label>
+                                    <label for="reinforced_SWL">SWL:</label>
+                                    <label for="reinforced_stdwaktu">Std Waktu:</label>
+                                    <label for="reinforced_lami">Lami:</label>
+                                    <label for="reinforced_tebal">Tebal(µ):</label>
+                                    <div>
+                                        <input type="checkbox" name="reinforced_seal" id="reinforced_seal"
+                                            disabled>Seal
+                                    </div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; width:25%">
+                                    <input style="width:100%; margin-bottom: 2%" type="text"
+                                        id="reinforced_jumlah" placeholder="Jumlah" disabled>
+                                    <input style="width:100%; margin-bottom: 2%" type="text"
+                                        id="reinforced_beltrope" name="reinforced_beltrope"
+                                        placeholder="[B] / [R] / [N]" disabled>
+                                    <input style="width:100%; margin-bottom: 2%" type="text" id="reinforced_loop"
+                                        name="reinforced_loop" placeholder="Loop" disabled>
+                                    <input style="width:100%; margin-bottom: 2%" type="text" id="reinforced_SWL"
+                                        name="reinforced_SWL" placeholder="SWL" disabled>
+                                    <input style="width:100%; margin-bottom: 2%" type="text"
+                                        id="reinforced_stdwaktu" name="reinforced_stdwaktu" placeholder="Std Waktu"
+                                        disabled>
+                                    <div style="width: 100%; display: flex; flex-direction: row; gap: 1%">
+                                        <input style="width:100%; margin-bottom: 2%" type="text"
+                                            id="reinforced_lami" name="reinforced_lami" placeholder="Lami" disabled>
+                                        <input type="hidden" name="id_reinforced_lami" id="id_reinforced_lami">
+                                        <button id="btn_reinforced_lami" disabled>...</button>
+                                    </div>
+                                    <input style="width:100%; margin-bottom: 2%" type="text" id="reinforced_tebal"
+                                        placeholder="Tebal" disabled>
+                                </div>
+                            </div>
+                            {{-- <div style="display: flex; flex-direction: row;gap:5px; width:100%">
+                            </div>
+                            <div style="display: flex; flex-direction: row;gap:5px; width:100%">
+                                <div style="width:15%">
+                                    <label style="width:100%; margin-bottom: 8%" for="reinforced_lebar">Lebar:</label>
                                     <label style="width:100%; margin-bottom: 8%" for="reinforced_beltrope">Belt /
                                         Rope:</label>
                                     <label style="width:100%; margin-bottom: 8%" for="reinforced_loop">Loop:</label>
@@ -210,7 +295,7 @@
                                     <input style="width:100%; margin-bottom: 2%" type="text" id="reinforced_tebal"
                                         placeholder="Tebal" disabled>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div>
                                 <label for="reinforced_keterangan">Keterangan:</label>
                                 <textarea id="reinforced_keterangan" name="reinforced_keterangan" style="width: 100%" disabled></textarea>

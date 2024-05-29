@@ -252,6 +252,120 @@ class TabelHitunganJumboBag extends Controller
         return response()->json($json_data);
     }
 
+    public function getDataWarnaBeltReinforcedJBB(Request $request)
+    {
+        if (!$request->isMethod('post')) {
+            // Handle invalid method, e.g., return an error response
+            return response()->json(['error' => 'Invalid request method'], 405);
+        }
+        $columns = array(
+            0 => 'Nama_Warna',
+            1 => 'Kode_Warna'
+        );
+
+        $totalData = DB::connection('ConnJumboBag')->table('WARNA')
+            ->count();
+
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $query = DB::connection('ConnJumboBag')->table('WARNA')
+            ->select(
+                'Kode_Warna',
+                'Nama_Warna'
+            );
+
+        if (!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+            $query->where('Kode_Warna', 'LIKE', "%{$search}%")
+                ->orWhere('Nama_Warna', 'LIKE', "%{$search}%");
+            $totalFiltered = $query->count();
+        }
+
+        $order = $query->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $dir)
+            ->get();
+
+        $data = array();
+        if (!empty($order)) {
+            foreach ($order as $dataorder) {
+                $nestedData['Kode_Warna'] = $dataorder->Kode_Warna;
+                $nestedData['Nama_Warna'] = $dataorder->Nama_Warna;
+                $data[] = $nestedData;
+            }
+        }
+
+        $json_data = array(
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+        return response()->json($json_data);
+    }
+
+    public function getDataLamiReinforcedJBB(Request $request)
+    {
+        if (!$request->isMethod('post')) {
+            // Handle invalid method, e.g., return an error response
+            return response()->json(['error' => 'Invalid request method'], 405);
+        }
+        $columns = array(
+            0 => 'Nama_Lami',
+            1 => 'Kode_Lami'
+        );
+
+        $totalData = DB::connection('ConnJumboBag')->table('LAMI')
+            ->count();
+
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $query = DB::connection('ConnJumboBag')->table('LAMI')
+            ->select(
+                'Kode_Lami',
+                'Nama_Lami'
+            );
+
+        if (!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+            $query->where('Kode_Lami', 'LIKE', "%{$search}%")
+                ->orWhere('Nama_Lami', 'LIKE', "%{$search}%");
+            $totalFiltered = $query->count();
+        }
+
+        $order = $query->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $dir)
+            ->get();
+
+        $data = array();
+        if (!empty($order)) {
+            foreach ($order as $dataorder) {
+                $nestedData['Kode_Lami'] = $dataorder->Kode_Lami;
+                $nestedData['Nama_Lami'] = $dataorder->Nama_Lami;
+                $data[] = $nestedData;
+            }
+        }
+
+        $json_data = array(
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+        return response()->json($json_data);
+    }
+
     public function create()
     {
         dd('Masuk Create');

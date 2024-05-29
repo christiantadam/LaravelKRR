@@ -41,14 +41,25 @@ let reinforced_loop = document.getElementById("reinforced_loop");
 let reinforced_SWL = document.getElementById("reinforced_SWL");
 let reinforced_stdwaktu = document.getElementById("reinforced_stdwaktu");
 let reinforced_lami = document.getElementById("reinforced_lami");
+let btn_reinforced_lami = document.getElementById("btn_reinforced_lami");
+let id_reinforced_lami = document.getElementById("id_reinforced_lami");
 let reinforced_warna = document.getElementById("reinforced_warna");
+let btn_reinforced_warna = document.getElementById("btn_reinforced_warna");
+let id_reinforced_warna = document.getElementById("id_reinforced_warna");
 let reinforced_inner = document.getElementById("reinforced_inner");
 let reinforced_seal = document.getElementById("reinforced_seal");
 let reinforced_jumlah = document.getElementById("reinforced_jumlah");
 let reinforced_jarak = document.getElementById("reinforced_jarak");
 let reinforced_warnaBelt = document.getElementById("reinforced_warnaBelt");
+let btn_reinforced_warnaBelt = document.getElementById(
+    "btn_reinforced_warnaBelt"
+);
+let id_reinforced_warnaBelt = document.getElementById(
+    "id_reinforced_warnaBelt"
+);
 let reinforced_tinggiloop = document.getElementById("reinforced_tinggiloop");
-let reinforced_SF = document.getElementById("reinforced_SF");
+let reinforced_SF1 = document.getElementById("reinforced_SF1");
+let reinforced_SF2 = document.getElementById("reinforced_SF2");
 let reinforced_printing = document.getElementById("reinforced_printing");
 let reinforced_tebal = document.getElementById("reinforced_tebal");
 let reinforced_keterangan = document.getElementById("reinforced_keterangan");
@@ -66,6 +77,8 @@ let btn_hapus = document.getElementById("btn_hapus");
 let btn_proses = document.getElementById("btn_proses");
 let tmb = 1;
 let proses;
+let warna = "";
+let standarwaktu = "0";
 
 //#region Load Form
 
@@ -133,7 +146,8 @@ function cleardata() {
     reinforced_jarak.value = "";
     reinforced_warnaBelt.value = "";
     reinforced_tinggiloop.value = "";
-    reinforced_SF.value = "";
+    reinforced_SF1.value = "";
+    reinforced_SF2.value = "";
     reinforced_printing.value = "";
     reinforced_tebal.value = "";
     reinforced_keterangan.value = "";
@@ -261,6 +275,7 @@ btn_customer.addEventListener("focus", function () {
 nama_barang.addEventListener("keypress", function (e) {
     if (e.key == "Enter") {
         e.preventDefault();
+        this.value = this.value.toUpperCase();
         tanggal.disabled = false;
         tanggal.focus();
     }
@@ -416,7 +431,7 @@ btn_body_model.addEventListener("click", async function (event) {
             if (result.isConfirmed && result.value) {
                 const selectedRow = result.value;
                 body_model.value = selectedRow.Nama_Model.trim();
-                console.log(id_body_model.value, selectedRow.Kode_Model);
+                // console.log(id_body_model.value, selectedRow.Kode_Model);
                 id_body_model.value = selectedRow.Kode_Model.trim();
                 // if (proses == 1) {
                 //     nama_barang.value = "O-" + id_Model.value.trim() + "-";
@@ -533,7 +548,8 @@ cerobongAtas_tinggi.addEventListener("keypress", function (e) {
     }
 });
 
-btn_cerobongAtas_model.addEventListener("click", async function (e) { //harusnya beda dengan body_bentuk
+btn_cerobongAtas_model.addEventListener("click", async function (e) {
+    //harusnya beda dengan body_bentuk
     e.preventDefault();
     try {
         const result = await Swal.fire({
@@ -705,7 +721,8 @@ cerobongBawah_tinggi.addEventListener("keypress", function (e) {
     }
 });
 
-btn_cerobongBawah_model.addEventListener("click", async function (e) {//harusnya beda dengan body_bentuk
+btn_cerobongBawah_model.addEventListener("click", async function (e) {
+    //harusnya beda dengan body_bentuk
     e.preventDefault();
     try {
         const result = await Swal.fire({
@@ -734,7 +751,8 @@ btn_cerobongBawah_model.addEventListener("click", async function (e) {//harusnya
                             dataType: "json",
                             type: "POST",
                             data: {
-                                cerobongBawah_bentuk: cerobongBawah_bentuk.value,
+                                cerobongBawah_bentuk:
+                                    cerobongBawah_bentuk.value,
                                 _token: csrfToken,
                             },
                         },
@@ -769,7 +787,7 @@ btn_cerobongBawah_model.addEventListener("click", async function (e) {//harusnya
                 //     btn_kode_barang.disabled = false;
                 //     btn_kode_barang.focus();
                 // }
-                cerobongBawah_bentuk.disabled = false;
+                reinforced_lebar.disabled = false;
             }
         });
     } catch (error) {
@@ -780,8 +798,461 @@ btn_cerobongBawah_model.addEventListener("click", async function (e) {//harusnya
 btn_cerobongBawah_model.addEventListener("focus", function () {
     if (cerobongBawah_model.value != "" && id_cerobongBawah_model.value != "") {
         btn_cerobongBawah_model.blur();
-        cerobongBawah_bentuk.focus();
+        reinforced_lebar.focus();
     }
 });
 
+reinforced_lebar.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        if (proses == 2) {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Anda telah merubah nilai Reinforced! Koreksi lagi semua Komponen yang sudah ada!",
+            });
+        }
+        if (this.value == "") {
+            this.value = 0;
+        }
+        reinforced_jumlah.disabled = false;
+        reinforced_jumlah.focus();
+    }
+});
+
+reinforced_jumlah.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value == "") {
+            this.value = 0;
+        }
+        reinforced_jarak.disabled = false;
+        reinforced_jarak.focus();
+    }
+});
+
+reinforced_jarak.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value == "") {
+            this.value = 0;
+        }
+        reinforced_beltrope.disabled = false;
+        reinforced_beltrope.focus();
+    }
+});
+
+reinforced_beltrope.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value == "") {
+            this.value = "N";
+        } else {
+            this.value = this.value.toUpperCase();
+        }
+        if (this.value == "N" || this.value == "R") {
+            reinforced_warnaBelt.value = "";
+            reinforced_keterangan.value = reinforced_keterangan.value.replace(
+                "Warna Belt : " + warna.trim(),
+                ""
+            );
+            warna = "";
+            reinforced_warnaBelt.value = "";
+            btn_reinforced_warnaBelt.disabled = true;
+            reinforced_loop.disabled = false;
+            reinforced_loop.focus();
+        } else if (this.value == "B") {
+            btn_reinforced_warnaBelt.disabled = false;
+            btn_reinforced_warnaBelt.focus();
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Harus [B]elt/[R]ope/[N]o Belt,Rope !",
+            });
+            this.value = "";
+        }
+    }
+});
+
+btn_reinforced_warnaBelt.addEventListener("click", async function (e) {
+    e.preventDefault();
+    try {
+        const result = await Swal.fire({
+            title: "Select a Warna",
+            html: '<table id="WarnaTable" class="display" style="width:100%"><thead><tr><th>Nama Model</th><th>Id_Model</th></tr></thead><tbody></tbody></table>',
+            showCancelButton: true,
+            preConfirm: () => {
+                const selectedData = $("#WarnaTable")
+                    .DataTable()
+                    .row(".selected")
+                    .data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            didOpen: () => {
+                $(document).ready(function () {
+                    const table = $("#WarnaTable").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            url: "getDataWarnaBeltReinforcedJBB",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                            },
+                        },
+                        columns: [
+                            {
+                                data: "Nama_Warna",
+                            },
+                            {
+                                data: "Kode_Warna",
+                            },
+                        ],
+                    });
+                    $("#WarnaTable tbody").on("click", "tr", function () {
+                        // Remove 'selected' class from all rows
+                        table.$("tr.selected").removeClass("selected");
+                        // Add 'selected' class to the clicked row
+                        $(this).addClass("selected");
+                    });
+                });
+            },
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                const selectedRow = result.value;
+                reinforced_warnaBelt.value = selectedRow.Nama_Warna.trim();
+                id_reinforced_warnaBelt.value = selectedRow.Kode_Warna.trim();
+                if (warna.trim() == "") {
+                    reinforced_keterangan.value +=
+                        "Warna Belt : " + reinforced_warnaBelt.value.trim();
+                } else {
+                    if (
+                        reinforced_keterangan.value.indexOf(
+                            "Warna Belt : " + warna.trim()
+                        ) !== -1
+                    ) {
+                        reinforced_keterangan.value =
+                            reinforced_keterangan.value.replace(
+                                "Warna Belt : " + warna.trim(),
+                                "Warna Belt : " + reinforced_warnaBelt.value
+                            );
+                    } else {
+                        reinforced_keterangan.value +=
+                            "Warna Belt : " + reinforced_warnaBelt.value;
+                    }
+                }
+                warna = reinforced_warnaBelt.value;
+                reinforced_loop.disabled = false;
+            }
+        });
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+});
+
+btn_reinforced_warnaBelt.addEventListener("focus", function () {
+    if (
+        reinforced_warnaBelt.value != "" &&
+        id_reinforced_warnaBelt.value != ""
+    ) {
+        btn_reinforced_warnaBelt.blur();
+        reinforced_loop.focus();
+    }
+});
+
+reinforced_loop.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value == "") {
+            this.value = 0;
+        }
+        reinforced_tinggiloop.disabled = false;
+        reinforced_tinggiloop.focus();
+    }
+});
+
+reinforced_tinggiloop.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value == "") {
+            this.value = 0;
+        }
+        reinforced_SWL.disabled = false;
+        reinforced_SWL.focus();
+    }
+});
+
+reinforced_SWL.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value == "") {
+            this.value = 0;
+        }
+        reinforced_SF1.disabled = false;
+        reinforced_SF1.focus();
+    }
+});
+
+reinforced_SF1.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value == "") {
+            this.value = 0;
+        }
+        reinforced_SF2.disabled = false;
+        reinforced_SF2.focus();
+    }
+});
+
+reinforced_SF2.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value == "") {
+            this.value = 0;
+        }
+        reinforced_stdwaktu.disabled = false;
+        reinforced_stdwaktu.focus();
+    }
+});
+
+reinforced_stdwaktu.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+
+        if (this.value === "") {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Isi dulu standar waktunya!",
+            });
+        } else if (parseFloat(this.value) > 0) {
+            if (standarwaktu.trim() === "") {
+                reinforced_keterangan.value =
+                    "Std = " + this.value + "'\n" + reinforced_keterangan.value;
+            } else {
+                if (
+                    reinforced_keterangan.value.indexOf(
+                        "Std = " + standarwaktu.trim()
+                    ) !== -1
+                ) {
+                    reinforced_keterangan.value =
+                        reinforced_keterangan.value.replace(
+                            "Std = " + standarwaktu.trim(),
+                            "Std = " + this.value
+                        );
+                } else {
+                    reinforced_keterangan.value =
+                        "Std = " +
+                        this.value +
+                        "'\n" +
+                        reinforced_keterangan.value;
+                }
+            }
+            reinforced_keterangan.disabled = false;
+            reinforced_printing.disabled = false;
+            reinforced_printing.focus();
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Standar Waktu HARUS lebih besar dari 0!",
+            });
+            this.value = "";
+        }
+        standarwaktu = this.value;
+    }
+});
+
+reinforced_printing.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value != "") {
+            this.value = this.value.trim().toUpperCase();
+        } else {
+            this.value = "N";
+        }
+
+        if (this.value == "Y" || this.value == "N") {
+            btn_reinforced_lami.disabled = false;
+            btn_reinforced_lami.focus();
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Ketik [Y] jika diprinting atau [N] jika tidak diprinting!",
+            });
+            this.value = "";
+        }
+    }
+});
+
+btn_reinforced_lami.addEventListener("click", async function (e) {
+    e.preventDefault();
+    try {
+        const result = await Swal.fire({
+            title: "Select a Lami",
+            html: '<table id="LamiTable" class="display" style="width:100%"><thead><tr><th>Nama Model</th><th>Id_Model</th></tr></thead><tbody></tbody></table>',
+            showCancelButton: true,
+            preConfirm: () => {
+                const selectedData = $("#LamiTable")
+                    .DataTable()
+                    .row(".selected")
+                    .data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            didOpen: () => {
+                $(document).ready(function () {
+                    const table = $("#LamiTable").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            url: "getDataLamiReinforcedJBB",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                            },
+                        },
+                        columns: [
+                            {
+                                data: "Nama_Lami",
+                            },
+                            {
+                                data: "Kode_Lami",
+                            },
+                        ],
+                    });
+                    $("#LamiTable tbody").on("click", "tr", function () {
+                        // Remove 'selected' class from all rows
+                        table.$("tr.selected").removeClass("selected");
+                        // Add 'selected' class to the clicked row
+                        $(this).addClass("selected");
+                    });
+                });
+            },
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                const selectedRow = result.value;
+                reinforced_lami.value = selectedRow.Nama_Lami.trim();
+                id_reinforced_lami.value = selectedRow.Kode_Lami.trim();
+            }
+        });
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+});
+
+btn_reinforced_lami.addEventListener("focus", function (e) {
+    if (reinforced_lami.value != "") {
+        this.blur();
+        if (reinforced_lami.trim() == "No Lami") {
+            btn_reinforced_warna.disabled = false;
+            btn_reinforced_warna.focus();
+        } else {
+            reinforced_tebal.disabled = false;
+            reinforced_tebal.focus();
+        }
+    }
+});
+
+btn_reinforced_warna.addEventListener("click", async function (e) {
+    e.preventDefault();
+    try {
+        const result = await Swal.fire({
+            title: "Select a Warna",
+            html: '<table id="WarnaTable" class="display" style="width:100%"><thead><tr><th>Nama Model</th><th>Id_Model</th></tr></thead><tbody></tbody></table>',
+            showCancelButton: true,
+            preConfirm: () => {
+                const selectedData = $("#WarnaTable")
+                    .DataTable()
+                    .row(".selected")
+                    .data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            didOpen: () => {
+                $(document).ready(function () {
+                    const table = $("#WarnaTable").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            url: "getDataWarnaBeltReinforcedJBB",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                            },
+                        },
+                        columns: [
+                            {
+                                data: "Nama_Warna",
+                            },
+                            {
+                                data: "Kode_Warna",
+                            },
+                        ],
+                    });
+                    $("#WarnaTable tbody").on("click", "tr", function () {
+                        // Remove 'selected' class from all rows
+                        table.$("tr.selected").removeClass("selected");
+                        // Add 'selected' class to the clicked row
+                        $(this).addClass("selected");
+                    });
+                });
+            },
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                const selectedRow = result.value;
+                reinforced_warna.value = selectedRow.Nama_Warna.trim();
+                id_reinforced_warna.value = selectedRow.Kode_Warna.trim();
+                reinforced_inner.disabled = false;
+            }
+        });
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+});
+
+btn_reinforced_warna.addEventListener("focus", function () {
+    if (this.value != "" && id_reinforced_warna.value != "") {
+        btn_reinforced_warna.blur();
+        reinforced_inner.focus();
+    }
+});
+
+reinforced_tebal.addEventListener("keypress", function (e) {
+    if (this.value.trim() == "") {
+        this.value = 0;
+    } else {
+        if (!isNaN(this.value)) {
+            btn_reinforced_warna.disabled = false;
+            btn_reinforced_warna.focus();
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Harus Diisi Angka!",
+            });
+            this.value = "";
+        }
+    }
+});
+
+reinforced_inner.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
+        if (this.value.trim() == "") {
+            this.value = 0;
+        }
+        jenis_barang.disabled = false;
+        reinforced_keterangan.disabled = false;
+        reinforced_keterangan.focus();
+    }
+});
 //#endregion
