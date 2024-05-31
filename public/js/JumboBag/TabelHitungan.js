@@ -89,6 +89,51 @@ aktif_tombol(tmb);
 
 //#endregion
 
+//#region SetInputFilter
+
+const inputIds = [
+    "body_panjang",
+    "body_lebar",
+    "body_diameter",
+    "body_tinggi",
+    "cerobongAtas_panjang",
+    "cerobongAtas_lebar",
+    "cerobongAtas_diameter",
+    "cerobongAtas_tinggi",
+    "cerobongBawah_panjang",
+    "cerobongBawah_lebar",
+    "cerobongBawah_diameter",
+    "cerobongBawah_tinggi",
+    "reinforced_lebar",
+    "reinforced_loop",
+    "reinforced_SWL",
+    "reinforced_stdwaktu",
+    "reinforced_inner",
+    "reinforced_jumlah",
+    "reinforced_jarak",
+    "reinforced_tinggiloop",
+    "reinforced_SF1",
+    "reinforced_SF2",
+    "reinforced_tebal",
+];
+
+// Loop through each input ID and apply the filter
+inputIds.forEach(function (id) {
+    const inputElement = document.getElementById(id);
+    if (inputElement) {
+        setInputFilter(
+            inputElement,
+            function (value) {
+                return /^-?\d*[.,]?\d*$/.test(value);
+            },
+            "Tidak boleh character, harus angka"
+        );
+    } else {
+        console.warn("Input element with ID '" + id + "' not found.");
+    }
+});
+//#endregion
+
 //#region Functions
 
 function aktif_tombol(tmb) {
@@ -112,50 +157,100 @@ function aktif_tombol(tmb) {
 
 function cleardata() {
     customer.value = "";
+    customer.disabled = true;
     id_customer.value = "";
     nama_barang.value = "";
+    nama_barang.disabled = true;
     komponen.value = "";
+    komponen.disabled = true;
     body_bentuk.value = "";
+    body_bentuk.disabled = true;
     body_model.value = "";
+    body_model.disabled = true;
     body_panjang.value = "";
+    body_panjang.disabled = true;
     body_lebar.value = "";
+    body_lebar.disabled = true;
     body_diameter.value = "";
+    body_diameter.disabled = true;
     body_tinggi.value = "";
+    body_tinggi.disabled = true;
     cerobongAtas_bentuk.value = "";
+    cerobongAtas_bentuk.disabled = true;
     cerobongAtas_model.value = "";
+    cerobongAtas_model.disabled = true;
     cerobongAtas_panjang.value = "";
+    cerobongAtas_panjang.disabled = true;
     cerobongAtas_lebar.value = "";
+    cerobongAtas_lebar.disabled = true;
     cerobongAtas_diameter.value = "";
+    cerobongAtas_diameter.disabled = true;
     cerobongAtas_tinggi.value = "";
+    cerobongAtas_tinggi.disabled = true;
     cerobongBawah_bentuk.value = "";
+    cerobongBawah_bentuk.disabled = true;
     cerobongBawah_model.value = "";
+    cerobongBawah_model.disabled = true;
     cerobongBawah_panjang.value = "";
+    cerobongBawah_panjang.disabled = true;
     cerobongBawah_lebar.value = "";
+    cerobongBawah_lebar.disabled = true;
     cerobongBawah_diameter.value = "";
+    cerobongBawah_diameter.disabled = true;
     cerobongBawah_tinggi.value = "";
+    cerobongBawah_tinggi.disabled = true;
     reinforced_lebar.value = "";
+    reinforced_lebar.disabled = true;
     reinforced_beltrope.value = "";
+    reinforced_beltrope.disabled = true;
     reinforced_loop.value = "";
+    reinforced_loop.disabled = true;
     reinforced_SWL.value = "";
+    reinforced_SWL.disabled = true;
     reinforced_stdwaktu.value = "";
+    reinforced_stdwaktu.disabled = true;
     reinforced_lami.value = "";
+    reinforced_lami.disabled = true;
     reinforced_warna.value = "";
+    reinforced_warna.disabled = true;
     reinforced_inner.value = "";
+    reinforced_inner.disabled = true;
     reinforced_seal.checked = false;
+    reinforced_seal.disabled = true;
     reinforced_jumlah.value = "";
+    reinforced_jumlah.disabled = true;
     reinforced_jarak.value = "";
+    reinforced_jarak.disabled = true;
     reinforced_warnaBelt.value = "";
+    reinforced_warnaBelt.disabled = true;
     reinforced_tinggiloop.value = "";
+    reinforced_tinggiloop.disabled = true;
     reinforced_SF1.value = "";
+    reinforced_SF1.disabled = true;
     reinforced_SF2.value = "";
+    reinforced_SF2.disabled = true;
     reinforced_printing.value = "";
+    reinforced_printing.disabled = true;
     reinforced_tebal.value = "";
+    reinforced_tebal.disabled = true;
     reinforced_keterangan.value = "";
+    reinforced_keterangan.disabled = true;
     jenis_barang.value = "";
-    tabelData.clear().draw();
+    jenis_barang.disabled = true;
+    tabelData.clear().destroy().draw();
+    total1.disabled = true;
     total1.value = "";
+    total2.disabled = true;
     total2.value = "";
+    total3.disabled = true;
     total3.value = "";
+    btn_body_model.disabled = true;
+    btn_cerobongAtas_model.disabled = true;
+    btn_cerobongBawah_model.disabled = true;
+    btn_reinforced_warna.disabled=true;
+    btn_reinforced_warnaBelt.disabled = true;
+    btn_reinforced_lami.disabled = true;
+    btn_nama_barang.disabled = true;
 }
 
 //#endregion
@@ -219,6 +314,7 @@ btn_customer.addEventListener("click", async function (event) {
                         responsive: true,
                         processing: true,
                         serverSide: true,
+                        returnFocus: true,
                         ajax: {
                             url: "getDataCustomerJBB",
                             dataType: "json",
@@ -249,14 +345,7 @@ btn_customer.addEventListener("click", async function (event) {
                 const selectedRow = result.value;
                 customer.value = selectedRow.Nama_Customer.trim();
                 id_customer.value = selectedRow.Kode_Customer.trim();
-                if (proses == 1) {
-                    nama_barang.value = "O-" + id_customer.value.trim() + "-";
-                    nama_barang.disabled = false;
-                    nama_barang.focus();
-                } else {
-                    btn_kode_barang.disabled = false;
-                    btn_kode_barang.focus();
-                }
+
             }
         });
     } catch (error) {
@@ -266,11 +355,24 @@ btn_customer.addEventListener("click", async function (event) {
 });
 
 btn_customer.addEventListener("focus", function () {
-    if (nama_barang.value != "") {
-        btn_customer.blur();
-        nama_barang.focus();
+    console.log(proses);
+    if (customer.value != "") {
+        this.blur();
+        if (proses == 1) {
+            nama_barang.value = "O-" + id_customer.value.trim() + "-";
+            nama_barang.disabled = false;
+            nama_barang.focus();
+        } else {
+            btn_nama_barang.disabled = false;
+            btn_nama_barang.focus();
+        }
     }
 });
+
+btn_nama_barang.addEventListener("click", function (e) {
+    e.preventDefault();
+    console.log("coba copy swal dari btn_customer");
+})
 
 nama_barang.addEventListener("keypress", function (e) {
     if (e.key == "Enter") {
@@ -438,8 +540,8 @@ btn_body_model.addEventListener("click", async function (event) {
                 //     nama_barang.disabled = false;
                 //     nama_barang.focus();
                 // } else {
-                //     btn_kode_barang.disabled = false;
-                //     btn_kode_barang.focus();
+                //     btn_nama_barang.disabled = false;
+                //     btn_nama_barang.focus();
                 // }
                 cerobongAtas_bentuk.disabled = false;
             }
@@ -610,8 +712,8 @@ btn_cerobongAtas_model.addEventListener("click", async function (e) {
                 //     nama_barang.disabled = false;
                 //     nama_barang.focus();
                 // } else {
-                //     btn_kode_barang.disabled = false;
-                //     btn_kode_barang.focus();
+                //     btn_nama_barang.disabled = false;
+                //     btn_nama_barang.focus();
                 // }
                 cerobongBawah_bentuk.disabled = false;
             }
@@ -784,8 +886,8 @@ btn_cerobongBawah_model.addEventListener("click", async function (e) {
                 //     nama_barang.disabled = false;
                 //     nama_barang.focus();
                 // } else {
-                //     btn_kode_barang.disabled = false;
-                //     btn_kode_barang.focus();
+                //     btn_nama_barang.disabled = false;
+                //     btn_nama_barang.focus();
                 // }
                 reinforced_lebar.disabled = false;
             }
@@ -1086,6 +1188,13 @@ reinforced_printing.addEventListener("keypress", function (e) {
 
 btn_reinforced_lami.addEventListener("click", async function (e) {
     e.preventDefault();
+    reinforced_tebal.disabled = true;
+    reinforced_tebal.value = "";
+    reinforced_warna.value = "";
+    reinforced_lami.value = "";
+    reinforced_inner.disabled = true;
+    reinforced_inner.value = "";
+    this.focus();
     try {
         const result = await Swal.fire({
             title: "Select a Lami",
@@ -1108,6 +1217,7 @@ btn_reinforced_lami.addEventListener("click", async function (e) {
                         responsive: true,
                         processing: true,
                         serverSide: true,
+                        returnFocus: false,
                         ajax: {
                             url: "getDataLamiReinforcedJBB",
                             dataType: "json",
@@ -1138,6 +1248,14 @@ btn_reinforced_lami.addEventListener("click", async function (e) {
                 const selectedRow = result.value;
                 reinforced_lami.value = selectedRow.Nama_Lami.trim();
                 id_reinforced_lami.value = selectedRow.Kode_Lami.trim();
+
+                if (reinforced_lami.value.trim() == "No Lami") {
+                    btn_reinforced_warna.disabled = false;
+                    btn_reinforced_warna.focus();
+                } else {
+                    reinforced_tebal.disabled = false;
+                    reinforced_tebal.focus();
+                }
             }
         });
     } catch (error) {
@@ -1148,12 +1266,20 @@ btn_reinforced_lami.addEventListener("click", async function (e) {
 btn_reinforced_lami.addEventListener("focus", function (e) {
     if (reinforced_lami.value != "") {
         this.blur();
-        if (reinforced_lami.trim() == "No Lami") {
+        // console.log(
+        //     reinforced_lami.value.trim() === "No Lami",
+        //     reinforced_lami.value.trim(),
+        //     reinforced_lami.value,
+        //     reinforced_lami.value.trim().toUpperCase() === "NO LAMI"
+        // );
+        if (reinforced_lami.value.trim() == "No Lami") {
             btn_reinforced_warna.disabled = false;
             btn_reinforced_warna.focus();
+            console.log("masuk no lami");
         } else {
             reinforced_tebal.disabled = false;
             reinforced_tebal.focus();
+            console.log("masuk else");
         }
     }
 });
@@ -1221,38 +1347,52 @@ btn_reinforced_warna.addEventListener("click", async function (e) {
 });
 
 btn_reinforced_warna.addEventListener("focus", function () {
-    if (this.value != "" && id_reinforced_warna.value != "") {
+    if (reinforced_warna.value != "" && id_reinforced_warna.value != "") {
         btn_reinforced_warna.blur();
+        reinforced_inner.disabled = false;
         reinforced_inner.focus();
     }
 });
 
 reinforced_tebal.addEventListener("keypress", function (e) {
-    if (this.value.trim() == "") {
-        this.value = 0;
-    } else {
-        if (!isNaN(this.value)) {
-            btn_reinforced_warna.disabled = false;
-            btn_reinforced_warna.focus();
-        } else {
-            Swal.fire({
-                icon: "info",
-                title: "Pemberitahuan",
-                text: "Harus Diisi Angka!",
-            });
-            this.value = "";
-        }
-    }
+    // if (this.value.trim() == "") {
+    //     this.value = 0;
+    // } else {
+    //     if (!isNaN(this.value)) {
+    //         btn_reinforced_warna.disabled = false;
+    //         btn_reinforced_warna.focus();
+    //     } else {
+    //         Swal.fire({
+    //             icon: "info",
+    //             title: "Pemberitahuan",
+    //             text: "Harus Diisi Angka!",
+    //         });
+    //         this.value = "";
+    //     }
+    // }
 });
 
 reinforced_inner.addEventListener("keypress", function (e) {
+    if (this.value > 0) {
+        reinforced_seal.disabled = false;
+    } else {
+        reinforced_seal.disabled = true;
+    }
     if (e.key == "Enter") {
         if (this.value.trim() == "") {
             this.value = 0;
         }
-        jenis_barang.disabled = false;
-        reinforced_keterangan.disabled = false;
-        reinforced_keterangan.focus();
+        if (this.value > 0) {
+            reinforced_seal.focus();
+        } else {
+            jenis_barang.disabled = false;
+            reinforced_keterangan.disabled = false;
+            reinforced_keterangan.focus();
+        }
     }
 });
+
+reinforced_keterangan.addEventListener("keypress", function (e) {
+    console.log(e.key);
+})
 //#endregion

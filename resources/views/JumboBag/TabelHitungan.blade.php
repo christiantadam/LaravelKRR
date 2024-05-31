@@ -28,7 +28,7 @@
                                 <div style="display: flex;flex-direction: row; gap: 2%; width:100%">
                                     <input type="text" style="width: 20%" id="komponen" disabled>
                                     <input type="text" style="width: 60%" id="nama_barang" disabled>
-                                    <button style="width: 20%" id="btn_kode_barang" disabled>...</button>
+                                    <button style="width: 20%" id="btn_nama_barang" disabled>...</button>
                                 </div>
                             </div>
                             <div style="display: flex;flex-direction: column; gap: 5%; width:20%">
@@ -203,7 +203,7 @@
                                     <label for="reinforced_stdwaktu">Std Waktu:</label>
                                     <label for="reinforced_lami">Lami:</label>
                                     <label for="reinforced_tebal">Tebal(µ):</label>
-                                    <div>
+                                    <div style="align-self: center">
                                         <input type="checkbox" name="reinforced_seal" id="reinforced_seal"
                                             disabled>Seal
                                     </div>
