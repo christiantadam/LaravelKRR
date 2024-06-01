@@ -75,6 +75,70 @@ class TabelHitunganJumboBag extends Controller
         return response()->json($json_data);
     }
 
+    public function getDataNamaBarangJBB(Request $request)
+    {
+        if (!$request->isMethod('post')) {
+            // Handle invalid method, e.g., return an error response
+            return response()->json(['error' => 'Invalid request method'], 405);
+        }
+        $checkAvailabilityNamaBarang = DB::connection('ConnJumboBag')->table('KODE_BARANG')->where('Kode_Customer', $request->id_customer)->count();
+        if ($checkAvailabilityNamaBarang > 0) {
+            $columns = array(
+                0 => 'kode_barang',
+                1 => 'tanggal'
+            );
+
+            $totalData = DB::connection('ConnJumboBag')->table('KODE_BARANG')
+                ->where('Kode_Customer', $request->id_customer)
+                ->count();
+
+            $totalFiltered = $totalData;
+
+            $limit = $request->input('length');
+            $start = $request->input('start');
+            $order = $columns[$request->input('order.0.column')];
+            $dir = $request->input('order.0.dir');
+
+            $query = DB::connection('ConnJumboBag')->table('KODE_BARANG')
+                ->select(
+                    'kode_barang',
+                    'tanggal'
+                );
+
+            if (!empty($request->input('search.value'))) {
+                $search = $request->input('search.value');
+                $query->where('Kode_Customer', 'LIKE', "%{$search}%")
+                    ->orWhere('Nama_Customer', 'LIKE', "%{$search}%");
+                $totalFiltered = $query->count();
+            }
+
+            $order = $query->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+            $data = array();
+            if (!empty($order)) {
+                foreach ($order as $dataorder) {
+                    $nestedData['kode_barang'] = $dataorder->kode_barang;
+                    $nestedData['tanggal'] = $dataorder->tanggal;
+                    $data[] = $nestedData;
+                }
+            }
+
+            $json_data = array(
+                "draw" => intval($request->input('draw')),
+                "recordsTotal" => intval($totalData),
+                "recordsFiltered" => intval($totalFiltered),
+                "data" => $data
+            );
+
+            return response()->json($json_data);
+        } else {
+            return response()->json('Tidak ada kode barang untuk customer yang dipilih!');
+        }
+    }
+
     public function getDataModelBodyJBB(Request $request)
     {
         if (!$request->isMethod('post')) {

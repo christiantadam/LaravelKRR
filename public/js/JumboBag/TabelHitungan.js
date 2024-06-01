@@ -247,7 +247,7 @@ function cleardata() {
     btn_body_model.disabled = true;
     btn_cerobongAtas_model.disabled = true;
     btn_cerobongBawah_model.disabled = true;
-    btn_reinforced_warna.disabled=true;
+    btn_reinforced_warna.disabled = true;
     btn_reinforced_warnaBelt.disabled = true;
     btn_reinforced_lami.disabled = true;
     btn_nama_barang.disabled = true;
@@ -345,7 +345,6 @@ btn_customer.addEventListener("click", async function (event) {
                 const selectedRow = result.value;
                 customer.value = selectedRow.Nama_Customer.trim();
                 id_customer.value = selectedRow.Kode_Customer.trim();
-
             }
         });
     } catch (error) {
@@ -369,10 +368,81 @@ btn_customer.addEventListener("focus", function () {
     }
 });
 
-btn_nama_barang.addEventListener("click", function (e) {
+btn_nama_barang.addEventListener("click", async function (e) {
     e.preventDefault();
-    console.log("coba copy swal dari btn_customer");
-})
+    try {
+        const result = await Swal.fire({
+            title: "Select a Customer",
+            html: '<table id="barangTable" class="display" style="width:100%"><thead><tr><th>Kode Barang</th><th>Tanggal</th></tr></thead><tbody></tbody></table>',
+            showCancelButton: true,
+            preConfirm: () => {
+                const selectedData = $("#barangTable")
+                    .DataTable()
+                    .row(".selected")
+                    .data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            didOpen: () => {
+                console.log(id_customer.value);
+                $(document).ready(function () {
+                    const table = $("#barangTable").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        returnFocus: true,
+                        ajax: {
+                            url: "getDataNamaBarangJBB",
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                id_customer: id_customer.value,
+                                _token: csrfToken,
+                            }
+                        },
+                        columns: [
+                            {
+                                data: "kode_barang",
+                            },
+                            {
+                                data: "tanggal",
+                                render: function (data, type, row) {
+                                    let parts = data.split(" ")[0].split("-");
+                                    let time = data.split(" ")[1].split(".");
+                                    console.log(parts);
+
+                                    let tgl =
+                                        parts[2] +
+                                        "-" +
+                                        parts[1] +
+                                        "-" +
+                                        parts[0]
+                                    return tgl;
+                                },
+                            },
+                        ],
+                    });
+                    $("#barangTable tbody").on("click", "tr", function () {
+                        // Remove 'selected' class from all rows
+                        table.$("tr.selected").removeClass("selected");
+                        // Add 'selected' class to the clicked row
+                        $(this).addClass("selected");
+                    });
+                });
+            },
+        }).then((result) => {
+            const selectedRow = result.value;
+            nama_barang.value = selectedRow.kode_barang.trim();
+            let formattedDate = selectedRow.tanggal.trim().split(" ")[0];
+            tanggal.value = formattedDate;
+        });
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+});
 
 nama_barang.addEventListener("keypress", function (e) {
     if (e.key == "Enter") {
@@ -1394,5 +1464,5 @@ reinforced_inner.addEventListener("keypress", function (e) {
 
 reinforced_keterangan.addEventListener("keypress", function (e) {
     console.log(e.key);
-})
+});
 //#endregion

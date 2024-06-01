@@ -973,6 +973,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('JumboBag', 'App\Http\Controllers\HomeController@JumboBag');
     Route::resource('TabelHitunganJBB', App\Http\Controllers\JumboBag\TabelHitunganJumboBag::class);
     Route::post('getDataCustomerJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataCustomerJBB');
+    Route::post('getDataNamaBarangJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataNamaBarangJBB');
     Route::post('getDataModelBodyJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataModelBodyJBB');
     Route::post('getDataModelCerobongAtasJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataModelCerobongAtasJBB');
     Route::post('getDataModelCerobongBawahJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataModelCerobongBawahJBB');
