@@ -253,6 +253,41 @@ function cleardata() {
     btn_nama_barang.disabled = true;
 }
 
+
+function loadDataTglUpdateTH(kode_barang) {
+    fetch(
+        "/GetDataTglUpdateTH/" +
+            kode_barang
+    )
+        .then((response) => response.json())
+        .then((datas) => {
+            console.log(datas);
+        });
+}
+
+function loadDataHeadTH(kode_barang) {
+    fetch(
+        "/GetDataHeadTH/" +
+            kode_barang
+    )
+        .then((response) => response.json())
+        .then((datas) => {
+            console.log(datas);
+        });
+}
+
+function loadDataRincianTH(kode_barang, nama_customer) {
+    fetch(
+        "/GetDataRincianTH/" +
+            kode_barang +
+            "/" +
+            nama_customer
+    )
+        .then((response) => response.json())
+        .then((datas) => {
+            console.log(datas);
+        });
+}
 //#endregion
 
 //#region Add Event Listener
@@ -372,7 +407,7 @@ btn_nama_barang.addEventListener("click", async function (e) {
     e.preventDefault();
     try {
         const result = await Swal.fire({
-            title: "Select a Customer",
+            title: "Select Barang",
             html: '<table id="barangTable" class="display" style="width:100%"><thead><tr><th>Kode Barang</th><th>Tanggal</th></tr></thead><tbody></tbody></table>',
             showCancelButton: true,
             preConfirm: () => {
@@ -410,17 +445,21 @@ btn_nama_barang.addEventListener("click", async function (e) {
                             {
                                 data: "tanggal",
                                 render: function (data, type, row) {
-                                    let parts = data.split(" ")[0].split("-");
-                                    let time = data.split(" ")[1].split(".");
-                                    console.log(parts);
+                                        let parts = data
+                                            .split(" ")[0]
+                                            .split("-");
+                                        let time = data
+                                            .split(" ")[1]
+                                            .split(".");
+                                        // console.log(parts);
 
-                                    let tgl =
-                                        parts[2] +
-                                        "-" +
-                                        parts[1] +
-                                        "-" +
-                                        parts[0]
-                                    return tgl;
+                                        let tgl =
+                                            parts[2] +
+                                            "-" +
+                                            parts[1] +
+                                            "-" +
+                                            parts[0];
+                                        return tgl;
                                 },
                             },
                         ],
@@ -435,9 +474,19 @@ btn_nama_barang.addEventListener("click", async function (e) {
             },
         }).then((result) => {
             const selectedRow = result.value;
-            nama_barang.value = selectedRow.kode_barang.trim();
-            let formattedDate = selectedRow.tanggal.trim().split(" ")[0];
-            tanggal.value = formattedDate;
+            nama_barang.value = "";
+            tanggal.valueAsDate = new Date();
+            if (selectedRow) {
+                nama_barang.value = selectedRow.kode_barang.trim();
+                let formattedDate = selectedRow.tanggal.trim().split(" ")[0];
+                tanggal.value = formattedDate;
+
+                if (nama_barang.value != "") {
+                    loadDataTglUpdateTH(nama_barang.value);
+                    loadDataHeadTH(nama_barang.value);
+                    loadDataRincianTH(nama_barang.value, customer.value);
+                }
+            }
         });
     } catch (error) {
         console.error("An error occurred:", error);
@@ -553,7 +602,7 @@ btn_body_model.addEventListener("click", async function (event) {
     event.preventDefault();
     try {
         const result = await Swal.fire({
-            title: "Select a Model",
+            title: "Body Model",
             html: '<table id="ModelTable" class="display" style="width:100%"><thead><tr><th>Nama Model</th><th>Id_Model</th></tr></thead><tbody></tbody></table>',
             showCancelButton: true,
             preConfirm: () => {
@@ -725,7 +774,7 @@ btn_cerobongAtas_model.addEventListener("click", async function (e) {
     e.preventDefault();
     try {
         const result = await Swal.fire({
-            title: "Select a Model",
+            title: "Cerobong Atas Model",
             html: '<table id="ModelTable" class="display" style="width:100%"><thead><tr><th>Nama Model</th><th>Id_Model</th></tr></thead><tbody></tbody></table>',
             showCancelButton: true,
             preConfirm: () => {
@@ -898,7 +947,7 @@ btn_cerobongBawah_model.addEventListener("click", async function (e) {
     e.preventDefault();
     try {
         const result = await Swal.fire({
-            title: "Select a Model",
+            title: "Cerobong Bawah Model",
             html: '<table id="ModelTable" class="display" style="width:100%"><thead><tr><th>Nama Model</th><th>Id_Model</th></tr></thead><tbody></tbody></table>',
             showCancelButton: true,
             preConfirm: () => {

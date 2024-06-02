@@ -82,6 +82,7 @@ class TabelHitunganJumboBag extends Controller
             return response()->json(['error' => 'Invalid request method'], 405);
         }
         $checkAvailabilityNamaBarang = DB::connection('ConnJumboBag')->table('KODE_BARANG')->where('Kode_Customer', $request->id_customer)->count();
+        // dd($checkAvailabilityNamaBarang);
         if ($checkAvailabilityNamaBarang > 0) {
             $columns = array(
                 0 => 'kode_barang',
@@ -137,6 +138,29 @@ class TabelHitunganJumboBag extends Controller
         } else {
             return response()->json('Tidak ada kode barang untuk customer yang dipilih!');
         }
+    }
+
+    public function GetDataTglUpdateTH($kodeBarang)
+    {
+        $kodeBarangDecode = urldecode($kodeBarang);
+        $data = DB::connection('ConnJumboBag')->table('KODE_BARANG')->where('Kode_Barang', $kodeBarangDecode)->select('Tgl_Update')->get();
+        return response()->json($data);
+    }
+
+    public function GetDataHeadTH($kodeBarang)
+    {
+        $kodeBarangDecode = urldecode($kodeBarang);
+        $data = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_HEADTH')->where('Kode_Barang', $kodeBarangDecode)->get();
+        return response()->json($data);
+    }
+
+    public function GetDataRincianTH($kodeBarang, $namaCustomer)
+    {
+        $kodeBarangDecode = urldecode($kodeBarang);
+        $namaCustomerDecode = urldecode($namaCustomer);
+        // dd($kodeBarang, $kodeBarangDecode, $namaCustomer, $namaCustomerDecode);
+        $data = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $kodeBarangDecode)->where('Nama_Customer', $namaCustomerDecode)->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
+        return response()->json($data);
     }
 
     public function getDataModelBodyJBB(Request $request)
