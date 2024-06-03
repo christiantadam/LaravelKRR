@@ -156,6 +156,8 @@ function aktif_tombol(tmb) {
 }
 
 function cleardata() {
+    tanggal.valueAsDate = new Date();
+    tanggal_update.valueAsDate = new Date();
     customer.value = "";
     customer.disabled = true;
     id_customer.value = "";
@@ -253,39 +255,112 @@ function cleardata() {
     btn_nama_barang.disabled = true;
 }
 
-
-function loadDataTglUpdateTH(kode_barang) {
-    fetch(
-        "/GetDataTglUpdateTH/" +
-            kode_barang
-    )
-        .then((response) => response.json())
-        .then((datas) => {
-            console.log(datas);
-        });
+function formEnabler(status) {
+    body_bentuk.disabled = status;
+    body_panjang.disabled = status;
+    body_lebar.disabled = status;
+    body_diameter.disabled = status;
+    btn_body_model.disabled = status;
+    cerobongAtas_bentuk.disabled = status;
+    cerobongAtas_panjang.disabled = status;
+    cerobongAtas_lebar.disabled = status;
+    cerobongAtas_diameter.disabled = status;
+    btn_cerobongAtas_model.disabled = status;
+    cerobongBawah_bentuk.disabled = status;
+    cerobongBawah_panjang.disabled = status;
+    cerobongBawah_lebar.disabled = status;
+    cerobongBawah_diameter.disabled = status;
+    btn_cerobongBawah_model.disabled = status;
+    reinforced_lebar.disabled = status;
+    reinforced_beltrope.disabled = status;
+    reinforced_jarak.disabled = status;
+    reinforced_inner.disabled = status;
+    reinforced_jumlah.disabled = status;
+    reinforced_keterangan.disabled = status;
+    reinforced_loop.disabled = status;
+    reinforced_printing.disabled = status;
+    reinforced_seal.disabled = status;
+    reinforced_stdwaktu.disabled = status;
+    reinforced_tebal.disabled = status;
+    reinforced_tinggiloop.disabled = status;
+    reinforced_SWL.disabled = status;
+    reinforced_SF1.disabled = status;
+    reinforced_SF2.disabled = status;
+    btn_reinforced_lami.disabled = status;
+    btn_reinforced_warna.disabled = status;
+    btn_reinforced_warnaBelt.disabled = status;
+    jenis_barang.disabled = status;
+    tambah_komponen.disabled = status;
+    koreksi_komponen.disabled = status;
+    hapus_komponen.disabled = status;
 }
 
-function loadDataHeadTH(kode_barang) {
-    fetch(
-        "/GetDataHeadTH/" +
-            kode_barang
-    )
+function loadDataKoreksi(kode_barang, nama_customer) {
+    fetch("/GetDataKoreksi/" + kode_barang + "/" + nama_customer)
         .then((response) => response.json())
         .then((datas) => {
-            console.log(datas);
-        });
-}
+            console.log(datas, datas[0][0]["Tgl_Update"]);
+            let parts = datas[0][0]["Tgl_Update"].split(" ")[0].split("-");
+            let tgl = parts[0] + "-" + parts[1] + "-" + parts[2];
+            tanggal_update.value = tgl;
+            formEnabler(false);
 
-function loadDataRincianTH(kode_barang, nama_customer) {
-    fetch(
-        "/GetDataRincianTH/" +
-            kode_barang +
-            "/" +
-            nama_customer
-    )
-        .then((response) => response.json())
-        .then((datas) => {
-            console.log(datas);
+            //Bagian Body
+            body_bentuk.value = datas[1][0]["Bentuk_BB"];
+            body_panjang.value = datas[1][0]["Panjang_BB"];
+            body_lebar.value = datas[1][0]["Lebar_BB"];
+            body_tinggi.value = datas[1][0]["Tinggi_BB"];
+            body_diameter.value = datas[1][0]["Diameter_BB"];
+            body_model.value = datas[1][0]["Nama_ModelBB"];
+            id_body_model.value = datas[1][0]["Model_BB"];
+
+            //Bagian Cerobong Atas
+            cerobongAtas_bentuk.value = datas[1][0]["Bentuk_CA"];
+            cerobongAtas_panjang.value = datas[1][0]["Panjang_CA"];
+            cerobongAtas_lebar.value = datas[1][0]["Lebar_CA"];
+            cerobongAtas_tinggi.value = datas[1][0]["Tinggi_CA"];
+            cerobongAtas_diameter.value = datas[1][0]["Diameter_CA"];
+            cerobongAtas_model.value = datas[1][0]["Nama_ModelCA"];
+            id_cerobongAtas_model.value = datas[1][0]["Model_CA"];
+
+            //Bagian Cerobong Bawah
+            cerobongBawah_bentuk.value = datas[1][0]["Bentuk_CB"];
+            cerobongBawah_panjang.value = datas[1][0]["Panjang_CB"];
+            cerobongBawah_lebar.value = datas[1][0]["Lebar_CB"];
+            cerobongBawah_tinggi.value = datas[1][0]["Tinggi_CB"];
+            cerobongBawah_diameter.value = datas[1][0]["Diameter_CB"];
+            cerobongBawah_model.value = datas[1][0]["Nama_ModelCB"];
+            id_cerobongBawah_model.value = datas[1][0]["Model_CB"];
+
+            //Bagian Reinforced
+            reinforced_lebar.value = datas[1][0]["Reinforced"];
+            reinforced_jumlah.value = datas[1][0]["jmlrein"] ?? 0;
+            reinforced_jarak.value = datas[1][0]["jarakrein"] ?? 0;
+            reinforced_beltrope.value = datas[1][0]["Belt_Rope"];
+            reinforced_warna.value = datas[1][0]["Warna"];
+            reinforced_loop.value = datas[1][0]["Jumlah_Loop"];
+            reinforced_tinggiloop.value = datas[1][0]["Tinggi_Loop"];
+            reinforced_SWL.value = datas[1][0]["SWL"];
+            reinforced_SF1.value = datas[1][0]["SF1"];
+            reinforced_SF2.value = datas[1][0]["SF2"];
+            reinforced_stdwaktu.value = datas[1][0]["std_waktu"] ?? 0;
+            reinforced_printing.value = datas[1][0]["Status_Printing"] ?? 0;
+            if (datas[1][0]["Lami"] == "N") {
+                reinforced_lami.value = "No Lami";
+                reinforced_tebal.value = 0;
+            } else {
+                reinforced_lami.value = datas[1][0]["Status_Lami"];
+                reinforced_tebal.value = datas[1][0]["Tebal_lami"];
+            }
+            if (datas[1][0]["Iner"] == "N") {
+                reinforced_inner.value = 0;
+            } else {
+                reinforced_inner.value = datas[1][0]["Tebal_Iner"];
+            }
+            reinforced_keterangan.value = datas[1][0]["Keterangan"];
+            jenis_barang.value = datas[1][0]["Usage_type"] ?? "-";
+            warna = "";
+            standarwaktu = reinforced_stdwaktu.value;
         });
 }
 //#endregion
@@ -316,6 +391,7 @@ btn_hapus.addEventListener("click", function (event) {
         proses = 0;
         aktif_tombol(tmb);
         cleardata();
+        formEnabler(true);
     } else {
         //proses hapus
         tmb = 2;
@@ -436,7 +512,7 @@ btn_nama_barang.addEventListener("click", async function (e) {
                             data: {
                                 id_customer: id_customer.value,
                                 _token: csrfToken,
-                            }
+                            },
                         },
                         columns: [
                             {
@@ -445,21 +521,17 @@ btn_nama_barang.addEventListener("click", async function (e) {
                             {
                                 data: "tanggal",
                                 render: function (data, type, row) {
-                                        let parts = data
-                                            .split(" ")[0]
-                                            .split("-");
-                                        let time = data
-                                            .split(" ")[1]
-                                            .split(".");
-                                        // console.log(parts);
+                                    let parts = data.split(" ")[0].split("-");
+                                    let time = data.split(" ")[1].split(".");
+                                    // console.log(parts);
 
-                                        let tgl =
-                                            parts[2] +
-                                            "-" +
-                                            parts[1] +
-                                            "-" +
-                                            parts[0];
-                                        return tgl;
+                                    let tgl =
+                                        parts[2] +
+                                        "-" +
+                                        parts[1] +
+                                        "-" +
+                                        parts[0];
+                                    return tgl;
                                 },
                             },
                         ],
@@ -482,9 +554,7 @@ btn_nama_barang.addEventListener("click", async function (e) {
                 tanggal.value = formattedDate;
 
                 if (nama_barang.value != "") {
-                    loadDataTglUpdateTH(nama_barang.value);
-                    loadDataHeadTH(nama_barang.value);
-                    loadDataRincianTH(nama_barang.value, customer.value);
+                    loadDataKoreksi(nama_barang.value, customer.value);
                 }
             }
         });

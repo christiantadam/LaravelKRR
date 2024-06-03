@@ -77,6 +77,7 @@ class TabelHitunganJumboBag extends Controller
 
     public function getDataNamaBarangJBB(Request $request)
     {
+        // dd($request->all());
         if (!$request->isMethod('post')) {
             // Handle invalid method, e.g., return an error response
             return response()->json(['error' => 'Invalid request method'], 405);
@@ -104,7 +105,8 @@ class TabelHitunganJumboBag extends Controller
                 ->select(
                     'kode_barang',
                     'tanggal'
-                );
+                )
+                ->where('Kode_Customer', $request->id_customer);
 
             if (!empty($request->input('search.value'))) {
                 $search = $request->input('search.value');
@@ -140,26 +142,38 @@ class TabelHitunganJumboBag extends Controller
         }
     }
 
-    public function GetDataTglUpdateTH($kodeBarang)
-    {
-        $kodeBarangDecode = urldecode($kodeBarang);
-        $data = DB::connection('ConnJumboBag')->table('KODE_BARANG')->where('Kode_Barang', $kodeBarangDecode)->select('Tgl_Update')->get();
-        return response()->json($data);
-    }
+    // public function GetDataTglUpdateTH($kodeBarang)
+    // {
+    //     $kodeBarangDecode = urldecode($kodeBarang);
+    //     $data = DB::connection('ConnJumboBag')->table('KODE_BARANG')->where('Kode_Barang', $kodeBarangDecode)->select('Tgl_Update')->get();
+    //     return response()->json($data);
+    // }
 
-    public function GetDataHeadTH($kodeBarang)
-    {
-        $kodeBarangDecode = urldecode($kodeBarang);
-        $data = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_HEADTH')->where('Kode_Barang', $kodeBarangDecode)->get();
-        return response()->json($data);
-    }
+    // public function GetDataHeadTH($kodeBarang)
+    // {
+    //     $kodeBarangDecode = urldecode($kodeBarang);
+    //     $data = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_HEADTH')->where('Kode_Barang', $kodeBarangDecode)->get();
+    //     return response()->json($data);
+    // }
 
-    public function GetDataRincianTH($kodeBarang, $namaCustomer)
+    // public function GetDataRincianTH($kodeBarang, $namaCustomer)
+    // {
+    //     $kodeBarangDecode = urldecode($kodeBarang);
+    //     $namaCustomerDecode = urldecode($namaCustomer);
+    //     // dd($kodeBarang, $kodeBarangDecode, $namaCustomer, $namaCustomerDecode);
+    //     $data = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $kodeBarangDecode)->where('Nama_Customer', $namaCustomerDecode)->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
+    //     return response()->json($data);
+    // }
+
+    public function GetDataKoreksi($kodeBarang, $namaCustomer)
     {
         $kodeBarangDecode = urldecode($kodeBarang);
         $namaCustomerDecode = urldecode($namaCustomer);
         // dd($kodeBarang, $kodeBarangDecode, $namaCustomer, $namaCustomerDecode);
-        $data = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $kodeBarangDecode)->where('Nama_Customer', $namaCustomerDecode)->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
+        $dataTglUpdateTH = DB::connection('ConnJumboBag')->table('KODE_BARANG')->where('Kode_Barang', $kodeBarangDecode)->select('Tgl_Update')->get();
+        $dataHeadTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_HEADTH')->where('Kode_Barang', $kodeBarangDecode)->get();
+        $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $kodeBarangDecode)->where('Nama_Customer', $namaCustomerDecode)->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
+        $data = [$dataTglUpdateTH, $dataHeadTH, $dataRincianTH];
         return response()->json($data);
     }
 

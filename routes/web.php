@@ -979,9 +979,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('getDataModelCerobongBawahJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataModelCerobongBawahJBB');
     Route::post('getDataWarnaBeltReinforcedJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataWarnaBeltReinforcedJBB');
     Route::post('getDataLamiReinforcedJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataLamiReinforcedJBB');
-    Route::get('GetDataTglUpdateTH/{kodeBarang}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataTglUpdateTH');
-    Route::get('GetDataHeadTH/{kodeBarang}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataHeadTH');
-    Route::get('GetDataRincianTH/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataRincianTH');
+    // Route::get('GetDataTglUpdateTH/{kodeBarang}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataTglUpdateTH');
+    // Route::get('GetDataHeadTH/{kodeBarang}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataHeadTH');
+    // Route::get('GetDataRincianTH/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataRincianTH');
+    Route::get('GetDataKoreksi/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataKoreksi');
 
     #endregion
 
