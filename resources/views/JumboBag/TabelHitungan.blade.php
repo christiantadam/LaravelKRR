@@ -69,8 +69,11 @@
                             </div>
                             <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
                                 <label for="body_model">Model:</label>
-                                <input type="text" id="body_model" style="width:100%" disabled>
-                                <input type="hidden" id="id_body_model" name="id_body_model">
+                                <div style="display: flex; flex-direction: row;width:80%">
+                                    <input type="text" id="id_body_model" name="id_body_model" style="width:20%"
+                                        disabled>
+                                    <input type="text" id="body_model" style="width:80%" disabled>
+                                </div>
                                 <button style="width: 10%" id="btn_body_model" disabled>...</button>
                             </div>
                         </div>
@@ -104,8 +107,11 @@
                             </div>
                             <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
                                 <label for="cerobongAtas_model">Model:</label>
-                                <input type="text" id="cerobongAtas_model" style="width:100%" disabled>
-                                <input type="hidden" id="id_cerobongAtas_model" name="id_cerobongAtas_model">
+                                <div style="display: flex; flex-direction: row;width:80%">
+                                    <input type="text" id="id_cerobongAtas_model" name="id_cerobongAtas_model"
+                                        style="width:20%" disabled>
+                                    <input type="text" id="cerobongAtas_model" style="width:80%" disabled>
+                                </div>
                                 <button style="width: 10%" id="btn_cerobongAtas_model" disabled>...</button>
                             </div>
                         </div>
@@ -139,8 +145,11 @@
                             </div>
                             <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
                                 <label for="cerobongBawah_model">Model:</label>
-                                <input type="text" id="cerobongBawah_model" style="width:100%" disabled>
-                                <input type="hidden" id="id_cerobongBawah_model" name="id_cerobongBawah_model">
+                                <div style="display: flex; flex-direction: row;width:80%">
+                                    <input type="text" id="id_cerobongBawah_model" name="id_cerobongBawah_model"
+                                        style="width:20%" disabled>
+                                    <input type="text" id="cerobongBawah_model" style="width:80%" disabled>
+                                </div>
                                 <button style="width: 10%" id="btn_cerobongBawah_model" disabled>...</button>
                             </div>
                         </div>

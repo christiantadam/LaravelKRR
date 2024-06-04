@@ -79,6 +79,8 @@ let tmb = 1;
 let proses;
 let warna = "";
 let standarwaktu = "0";
+let kounter = 1;
+let statusBS = false;
 
 //#region Load Form
 
@@ -791,6 +793,7 @@ btn_body_model.addEventListener("click", async function (event) {
                         responsive: true,
                         processing: true,
                         serverSide: true,
+                        order: [1, "asc"],
                         ajax: {
                             url: "getDataModelBodyJBB",
                             dataType: "json",
@@ -963,6 +966,7 @@ btn_cerobongAtas_model.addEventListener("click", async function (e) {
                         responsive: true,
                         processing: true,
                         serverSide: true,
+                        order: [1, "asc"],
                         ajax: {
                             url: "getDataModelCerobongAtasJBB",
                             dataType: "json",
@@ -1136,6 +1140,7 @@ btn_cerobongBawah_model.addEventListener("click", async function (e) {
                         responsive: true,
                         processing: true,
                         serverSide: true,
+                        order: [1, "asc"],
                         ajax: {
                             url: "getDataModelCerobongBawahJBB",
                             dataType: "json",
@@ -1482,6 +1487,7 @@ btn_reinforced_lami.addEventListener("click", async function (e) {
     reinforced_lami.value = "";
     reinforced_inner.disabled = true;
     reinforced_inner.value = "";
+    reinforced_seal.checked = false;
     this.focus();
     try {
         const result = await Swal.fire({
@@ -1679,4 +1685,106 @@ reinforced_inner.addEventListener("keypress", function (e) {
         }
     }
 });
+
+btn_proses.addEventListener("click", function (e) {
+    if (proses == 1) {
+        tambah_komponen.disabled == false;
+        koreksi_komponen.disabled == false;
+        hapus_komponen.disabled == false;
+        insertMaster();
+        insertKodeBarang();
+
+        //Pengecekan untuk function Body
+        if (id_body_model.value !== "01BB4O") {
+            kounter = 1;
+            bodyBesar();
+        }
+        if (
+            id_body_model.value == "01BBUO" ||
+            id_body_model.value == "01BB4O" ||
+            id_body_model.value == "01BBUM"
+        ) {
+            statusBS = True;
+            kounter = 1;
+            BodySampingI();
+        }
+        if (id_body_model.value == "01BB4O") {
+            if (statusBS == True) {
+                statusBS = False;
+                kounter = 2;
+            } else {
+                kounter = 1;
+            }
+            BodySampingII();
+        }
+
+        //Pengecekan untuk Function Tutup Atas
+        if (
+            txtIdModelCA.value.substring(0, 5) !== "05CAD" &&
+            txtIdModelCA.value !== "05CAOX" &&
+            txtIdModelCA.value !== "05CA1X" &&
+            txtIdModelCA.value !== "05CA2X" &&
+            txtIdModelCA.value !== "05CA3X" &&
+            txtIdModelCA.value !== "05CA4X"
+        ) {
+            kounter = 1;
+            TutupAtas();
+        }
+
+        //Pengecekan untuk Function Tutup Bawah
+        if (
+            txtIdModelCB.value.substring(0, 5) !== "06CBD" &&
+            txtIdModelCB.value !== "06CBOX" &&
+            txtIdModelCB.value !== "06CB1X" &&
+            txtIdModelCB.value !== "06CB2X" &&
+            txtIdModelCB.value !== "06CB3X" &&
+            txtIdModelCB.value !== "06CB4X" &&
+            txtIdModelBB.value !== "01BBUO" &&
+            txtIdModelBB.value !== "01BBUM"
+        ) {
+            kounter = 1;
+            TutupBawah();
+        }
+
+        //Pengecekan untuk Function Cerobong Atas
+        if (
+            txtIdModelCA.value.substring(0, 5) === "05CAP" ||
+            txtIdModelCA.value.substring(0, 5) === "05CAD" ||
+            (txtIdModelCA.value === "05CASO" &&
+                txtIdModelCA.value !== "05CA1X" &&
+                txtIdModelCA.value !== "05CA2X" &&
+                txtIdModelCA.value !== "05CA3X" &&
+                txtIdModelCA.value !== "05CA4X")
+        ) {
+            kounter = 1;
+            CerobongAtas();
+        }
+
+        //Pengecekan untuk Function Cerobong Bawah
+        if (
+            txtIdModelCB.value.substring(0, 5) === "06CBD" ||
+            (txtIdModelCB.value === "06CBSO" &&
+                txtIdModelCB.value !== "06CBST" &&
+                txtIdModelCB.value !== "06CBCX") ||
+            txtIdModelCB.value.substring(0, 5) === "06CBP"
+        ) {
+            kounter = 1;
+            CerobongBawah();
+        }
+
+        Swal.fire({
+            icon: "info",
+            title: "Pemberitahuan",
+            text:
+                "Head Data Tabel Hitungan Kode : " +
+                nama_barang.value +
+                " sudah disimpan !",
+        });
+        nama_barang.disabled == true;
+
+    } else if (proses == 2) {
+    } else if (proses == 3) {
+    }
+});
+
 //#endregion
