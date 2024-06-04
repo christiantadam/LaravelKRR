@@ -482,19 +482,22 @@ function insertMaster() {
         // Append each input element to the form
         formInsert.appendChild(input);
     });
-    $.ajax({
-        type: 'POST', // or 'GET' depending on your server setup
-        url: 'TabelHitunganJBB', // Specify the URL of your controller
-        data: formInsert, // Pass the serialized form data
-        success: function(response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function(xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        }
-    });
+    formInsert.appendChild(reinforced_keterangan);
+
+    console.log(formInsert);
+    // $.ajax({
+    //     type: 'POST', // or 'GET' depending on your server setup
+    //     url: 'TabelHitunganJBB', // Specify the URL of your controller
+    //     data: formInsert, // Pass the serialized form data
+    //     success: function(response) {
+    //         // Handle the successful response from the controller
+    //         console.log(response);
+    //     },
+    //     error: function(xhr, status, error) {
+    //         // Handle errors
+    //         console.error(error);
+    //     }
+    // });
 }
 
 //#endregion

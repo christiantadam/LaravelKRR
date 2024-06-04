@@ -21,13 +21,14 @@
                             </div>
                             <div style="display: flex;flex-direction: column; gap: 5%; width:40%">
                                 <div style="display: flex;flex-direction: row; gap: 2%; width:100%">
-                                    <input type="text" id="customer" style="width: 80%" disabled>
+                                    <input type="text" name="customer" id="customer" style="width: 80%" disabled>
                                     <input type="hidden" name="id_customer" id="id_customer">
                                     <button style="width: 20%" id="btn_customer" disabled>...</button>
                                 </div>
                                 <div style="display: flex;flex-direction: row; gap: 2%; width:100%">
-                                    <input type="text" style="width: 20%" id="komponen" disabled>
-                                    <input type="text" style="width: 60%" id="nama_barang" disabled>
+                                    <input type="text" style="width: 20%" name="komponen" id="komponen" disabled>
+                                    <input type="text" style="width: 60%" name= "nama_barang" id="nama_barang"
+                                        disabled>
                                     <button style="width: 20%" id="btn_nama_barang" disabled>...</button>
                                 </div>
                             </div>
@@ -36,8 +37,8 @@
                                 <label style="white-space: nowrap" for="tanggal_update">Tanggal Update:</label>
                             </div>
                             <div style="display: flex;flex-direction: column; gap: 5%; width:20%">
-                                <input type="date" id="tanggal" disabled>
-                                <input type="date" id="tanggal_update" disabled>
+                                <input type="date" name="tanggal" id="tanggal" disabled>
+                                <input type="date" name="tanggal_update" id="tanggal_update" disabled>
                             </div>
                         </div>
                         <div style="width: 100%">
@@ -47,24 +48,27 @@
                                     <label for="body_bentuk">Bentuk:</label>
                                 </div>
                                 <div style="width:20%">
-                                    <input type="text" id="body_bentuk" style="width:100%" placeholder="[C] / [S]"
-                                        disabled>
+                                    <input type="text" name="body_bentuk" id="body_bentuk" style="width:100%"
+                                        placeholder="[C] / [S]" disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="body_panjang">Panjang:</label>
                                     <label for="body_lebar">Lebar:</label>
                                 </div>
                                 <div style="width:18%">
-                                    <input type="text" id="body_panjang" style="width:100%" disabled>
-                                    <input type="text" id="body_lebar" style="width:100%" disabled>
+                                    <input type="text" name="body_panjang" id="body_panjang" style="width:100%"
+                                        disabled>
+                                    <input type="text" name="body_lebar" id="body_lebar" style="width:100%" disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="body_diameter">Diameter:</label>
                                     <label for="body_tinggi">Tinggi:</label>
                                 </div>
                                 <div style="width:18%">
-                                    <input type="text" id="body_diameter" style="width:100%" disabled>
-                                    <input type="text" id="body_tinggi" style="width:100%" disabled>
+                                    <input type="text" name="body_diameter" id="body_diameter" style="width:100%"
+                                        disabled>
+                                    <input type="text" name="body_tinggi" id="body_tinggi" style="width:100%"
+                                        disabled>
                                 </div>
                             </div>
                             <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
@@ -72,7 +76,7 @@
                                 <div style="display: flex; flex-direction: row;width:80%">
                                     <input type="text" id="id_body_model" name="id_body_model" style="width:20%"
                                         disabled>
-                                    <input type="text" id="body_model" style="width:80%" disabled>
+                                    <input type="text" name="body_model" id="body_model" style="width:80%" disabled>
                                 </div>
                                 <button style="width: 10%" id="btn_body_model" disabled>...</button>
                             </div>
@@ -85,24 +89,28 @@
                                     <label for="cerobongAtas_bentuk">Bentuk:</label>
                                 </div>
                                 <div style="width:20%">
-                                    <input type="text" id="cerobongAtas_bentuk" style="width:100%"
-                                        placeholder="[C] / [S]" disabled>
+                                    <input type="text" name="cerobongAtas_bentuk" id="cerobongAtas_bentuk"
+                                        style="width:100%" placeholder="[C] / [S]" disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="cerobongAtas_panjang">Panjang:</label>
                                     <label for="cerobongAtas_lebar">Lebar:</label>
                                 </div>
                                 <div style="width:18%">
-                                    <input type="text" id="cerobongAtas_panjang" style="width:100%" disabled>
-                                    <input type="text" id="cerobongAtas_lebar" style="width:100%" disabled>
+                                    <input type="text" name="cerobongAtas_panjang" id="cerobongAtas_panjang"
+                                        style="width:100%" disabled>
+                                    <input type="text" name="cerobongAtas_lebar" id="cerobongAtas_lebar"
+                                        style="width:100%" disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="cerobongAtas_diameter">Diameter:</label>
                                     <label for="cerobongAtas_tinggi">Tinggi:</label>
                                 </div>
                                 <div style="width:18%">
-                                    <input type="text" id="cerobongAtas_diameter" style="width:100%" disabled>
-                                    <input type="text" id="cerobongAtas_tinggi" style="width:100%" disabled>
+                                    <input type="text" name="cerobongAtas_diameter" id="cerobongAtas_diameter"
+                                        style="width:100%" disabled>
+                                    <input type="text" name="cerobongAtas_tinggi" id="cerobongAtas_tinggi"
+                                        style="width:100%" disabled>
                                 </div>
                             </div>
                             <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
@@ -110,7 +118,8 @@
                                 <div style="display: flex; flex-direction: row;width:80%">
                                     <input type="text" id="id_cerobongAtas_model" name="id_cerobongAtas_model"
                                         style="width:20%" disabled>
-                                    <input type="text" id="cerobongAtas_model" style="width:80%" disabled>
+                                    <input type="text" name="cerobongAtas_model" id="cerobongAtas_model"
+                                        style="width:80%" disabled>
                                 </div>
                                 <button style="width: 10%" id="btn_cerobongAtas_model" disabled>...</button>
                             </div>
@@ -123,24 +132,28 @@
                                     <label for="cerobongBawah_bentuk">Bentuk:</label>
                                 </div>
                                 <div style="width:20%">
-                                    <input type="text" id="cerobongBawah_bentuk" style="width:100%"
-                                        placeholder="[C] / [S]" disabled>
+                                    <input type="text" name="cerobongBawah_bentuk" id="cerobongBawah_bentuk"
+                                        style="width:100%" placeholder="[C] / [S]" disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="cerobongBawah_panjang">Panjang:</label>
                                     <label for="cerobongBawah_lebar">Lebar:</label>
                                 </div>
                                 <div style="width:18%">
-                                    <input type="text" id="cerobongBawah_panjang" style="width:100%" disabled>
-                                    <input type="text" id="cerobongBawah_lebar" style="width:100%" disabled>
+                                    <input type="text" name="cerobongBawah_panjang" id="cerobongBawah_panjang"
+                                        style="width:100%" disabled>
+                                    <input type="text" name="cerobongBawah_lebar" id="cerobongBawah_lebar"
+                                        style="width:100%" disabled>
                                 </div>
                                 <div style="width:10%">
                                     <label for="cerobongBawah_diameter">Diameter:</label>
                                     <label for="cerobongBawah_tinggi">Tinggi:</label>
                                 </div>
                                 <div style="width:18%">
-                                    <input type="text" id="cerobongBawah_diameter" style="width:100%" disabled>
-                                    <input type="text" id="cerobongBawah_tinggi" style="width:100%" disabled>
+                                    <input type="text" name="cerobongBawah_diameter" id="cerobongBawah_diameter"
+                                        style="width:100%" disabled>
+                                    <input type="text" name="cerobongBawah_tinggi" id="cerobongBawah_tinggi"
+                                        style="width:100%" disabled>
                                 </div>
                             </div>
                             <div style="display: flex; flex-direction: row;gap:4%; padding-right: 4%">
@@ -148,7 +161,8 @@
                                 <div style="display: flex; flex-direction: row;width:80%">
                                     <input type="text" id="id_cerobongBawah_model" name="id_cerobongBawah_model"
                                         style="width:20%" disabled>
-                                    <input type="text" id="cerobongBawah_model" style="width:80%" disabled>
+                                    <input type="text" name="cerobongBawah_model" id="cerobongBawah_model"
+                                        style="width:80%" disabled>
                                 </div>
                                 <button style="width: 10%" id="btn_cerobongBawah_model" disabled>...</button>
                             </div>
@@ -172,27 +186,31 @@
                                     <label style="width:100%; margin-bottom: 8%" for="reinforced_inner">Inner:</label>
                                 </div>
                                 <div style="width:30%">
-                                    <input style="width:100%; margin-bottom: 1%" type="text" id="reinforced_lebar"
-                                        name="reinforced_lebar" placeholder="Lebar" disabled>
-                                    <input style="width:100%; margin-bottom: 1%" type="text" id="reinforced_jarak"
-                                        placeholder="Jarak" disabled>
+                                    <input style="width:100%; margin-bottom: 1%" type="text"
+                                        name="reinforced_lebar" id="reinforced_lebar" name="reinforced_lebar"
+                                        placeholder="Lebar" disabled>
+                                    <input style="width:100%; margin-bottom: 1%" type="text"
+                                        name="reinforced_jarak" id="reinforced_jarak" placeholder="Jarak" disabled>
                                     <div style="width: 100%; display: flex; flex-direction: row; gap: 1%">
                                         <input style="width:100%; margin-bottom: 1%" type="text"
-                                            id="reinforced_warnaBelt" placeholder="Warna" disabled>
+                                            name="reinforced_warnaBelt" id="reinforced_warnaBelt" placeholder="Warna"
+                                            disabled>
                                         <input type="hidden" name="id_reinforced_warnaBelt"
                                             id="id_reinforced_warnaBelt">
                                         <button id="btn_reinforced_warnaBelt" disabled>...</button>
                                     </div>
                                     <input style="width:100%; margin-bottom: 1%" type="text"
-                                        id="reinforced_tinggiloop" placeholder="Tinggi Loop" disabled>
+                                        name="reinforced_tinggiloop" id="reinforced_tinggiloop"
+                                        placeholder="Tinggi Loop" disabled>
                                     <div style="width: 100%; display: flex; flex-direction: row; gap: 1%">
                                         <input style="width:50%; margin-bottom: 1%" type="text"
-                                            id="reinforced_SF1" placeholder="S" disabled> :
+                                            name="reinforced_SF1" id="reinforced_SF1" placeholder="S" disabled> :
                                         <input style="width:50%; margin-bottom: 1%" type="text"
-                                            id="reinforced_SF2" placeholder="F" disabled>
+                                            name="reinforced_SF2" id="reinforced_SF2" placeholder="F" disabled>
                                     </div>
                                     <input style="width:100%; margin-bottom: 1%" type="text"
-                                        id="reinforced_printing" placeholder="(Y/N)" disabled>
+                                        id="reinforced_printing" name="reinforced_printing" placeholder="(Y/N)"
+                                        disabled>
                                     <div style="width: 100%; display: flex; flex-direction: row; gap: 1%">
                                         <input style="width:100%; margin-bottom: 1%" type="text"
                                             id="reinforced_warna" name="reinforced_warna" placeholder="Warna"
@@ -219,7 +237,8 @@
                                 </div>
                                 <div style="display: flex; flex-direction: column; width:25%">
                                     <input style="width:100%; margin-bottom: 2%" type="text"
-                                        id="reinforced_jumlah" placeholder="Jumlah" disabled>
+                                        name="reinforced_jumlah" id="reinforced_jumlah" placeholder="Jumlah"
+                                        disabled>
                                     <input style="width:100%; margin-bottom: 2%" type="text"
                                         id="reinforced_beltrope" name="reinforced_beltrope"
                                         placeholder="[B] / [R] / [N]" disabled>
@@ -236,8 +255,8 @@
                                         <input type="hidden" name="id_reinforced_lami" id="id_reinforced_lami">
                                         <button id="btn_reinforced_lami" disabled>...</button>
                                     </div>
-                                    <input style="width:100%; margin-bottom: 2%" type="text" id="reinforced_tebal"
-                                        placeholder="Tebal" disabled>
+                                    <input style="width:100%; margin-bottom: 2%" type="text"
+                                        name="reinforced_tebal" id="reinforced_tebal" placeholder="Tebal" disabled>
                                 </div>
                             </div>
                             {{-- <div style="display: flex; flex-direction: row;gap:5px; width:100%">
