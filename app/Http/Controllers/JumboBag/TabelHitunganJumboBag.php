@@ -476,7 +476,7 @@ class TabelHitunganJumboBag extends Controller
 
     public function store(Request $request)
     {
-        dd('Masuk Store');
+        dd('Masuk Store', $request->all());
 
     }
 

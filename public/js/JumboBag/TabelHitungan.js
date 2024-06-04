@@ -169,6 +169,7 @@ function cleardata() {
     komponen.disabled = true;
     body_bentuk.value = "";
     body_bentuk.disabled = true;
+    id_body_model.value = "";
     body_model.value = "";
     body_model.disabled = true;
     body_panjang.value = "";
@@ -181,6 +182,7 @@ function cleardata() {
     body_tinggi.disabled = true;
     cerobongAtas_bentuk.value = "";
     cerobongAtas_bentuk.disabled = true;
+    id_cerobongAtas_model.value = "";
     cerobongAtas_model.value = "";
     cerobongAtas_model.disabled = true;
     cerobongAtas_panjang.value = "";
@@ -193,6 +195,7 @@ function cleardata() {
     cerobongAtas_tinggi.disabled = true;
     cerobongBawah_bentuk.value = "";
     cerobongBawah_bentuk.disabled = true;
+    id_cerobongBawah_model.value = "";
     cerobongBawah_model.value = "";
     cerobongBawah_model.disabled = true;
     cerobongBawah_panjang.value = "";
@@ -464,6 +467,36 @@ function loadDataKoreksi(kode_barang, nama_customer) {
             });
         });
 }
+
+function insertMaster() {
+    // Create a new form element
+    let formInsert = document.createElement("form");
+    // Get the div element with the class "acs-container"
+    let acsContainer = document.querySelector(".acs-container");
+
+    // Select all input elements inside the "acs-container" div
+    let inputElements = acsContainer.querySelectorAll("input");
+
+    // Loop through each input element
+    inputElements.forEach(function (input) {
+        // Append each input element to the form
+        formInsert.appendChild(input);
+    });
+    $.ajax({
+        type: 'POST', // or 'GET' depending on your server setup
+        url: 'TabelHitunganJBB', // Specify the URL of your controller
+        data: formInsert, // Pass the serialized form data
+        success: function(response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function(xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        }
+    });
+}
+
 //#endregion
 
 //#region Add Event Listener
@@ -1481,6 +1514,7 @@ reinforced_printing.addEventListener("keypress", function (e) {
 
 btn_reinforced_lami.addEventListener("click", async function (e) {
     e.preventDefault();
+    jenis_barang.disabled = true;
     reinforced_tebal.disabled = true;
     reinforced_tebal.value = "";
     reinforced_warna.value = "";
@@ -1542,6 +1576,7 @@ btn_reinforced_lami.addEventListener("click", async function (e) {
                 const selectedRow = result.value;
                 reinforced_lami.value = selectedRow.Nama_Lami.trim();
                 id_reinforced_lami.value = selectedRow.Kode_Lami.trim();
+                jenis_barang.disabled = false;
 
                 if (reinforced_lami.value.trim() == "No Lami") {
                     btn_reinforced_warna.disabled = false;
@@ -1679,7 +1714,6 @@ reinforced_inner.addEventListener("keypress", function (e) {
         if (this.value > 0) {
             reinforced_seal.focus();
         } else {
-            jenis_barang.disabled = false;
             reinforced_keterangan.disabled = false;
             reinforced_keterangan.focus();
         }
@@ -1781,7 +1815,6 @@ btn_proses.addEventListener("click", function (e) {
                 " sudah disimpan !",
         });
         nama_barang.disabled == true;
-
     } else if (proses == 2) {
     } else if (proses == 3) {
     }
