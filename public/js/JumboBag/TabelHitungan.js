@@ -239,7 +239,7 @@ function cleardata() {
     reinforced_keterangan.disabled = true;
     jenis_barang.value = "";
     jenis_barang.disabled = true;
-    tabelData.clear().destroy().draw();
+    tabelData.clear().draw();
     total1.disabled = true;
     total1.value = "";
     total2.disabled = true;
@@ -260,16 +260,19 @@ function formEnabler(status) {
     body_panjang.disabled = status;
     body_lebar.disabled = status;
     body_diameter.disabled = status;
+    body_tinggi.disabled = status;
     btn_body_model.disabled = status;
     cerobongAtas_bentuk.disabled = status;
     cerobongAtas_panjang.disabled = status;
     cerobongAtas_lebar.disabled = status;
     cerobongAtas_diameter.disabled = status;
+    cerobongAtas_tinggi.disabled = status;
     btn_cerobongAtas_model.disabled = status;
     cerobongBawah_bentuk.disabled = status;
     cerobongBawah_panjang.disabled = status;
     cerobongBawah_lebar.disabled = status;
     cerobongBawah_diameter.disabled = status;
+    cerobongBawah_tinggi.disabled = status;
     btn_cerobongBawah_model.disabled = status;
     reinforced_lebar.disabled = status;
     reinforced_beltrope.disabled = status;
@@ -303,32 +306,54 @@ function loadDataKoreksi(kode_barang, nama_customer) {
             let parts = datas[0][0]["Tgl_Update"].split(" ")[0].split("-");
             let tgl = parts[0] + "-" + parts[1] + "-" + parts[2];
             tanggal_update.value = tgl;
-            formEnabler(false);
+            if (proses == 2) {
+                formEnabler(false);
+            }
 
             //Bagian Body
             body_bentuk.value = datas[1][0]["Bentuk_BB"];
-            body_panjang.value = datas[1][0]["Panjang_BB"];
-            body_lebar.value = datas[1][0]["Lebar_BB"];
-            body_tinggi.value = datas[1][0]["Tinggi_BB"];
-            body_diameter.value = datas[1][0]["Diameter_BB"];
+            body_panjang.value = parseFloat(datas[1][0]["Panjang_BB"]).toFixed(
+                2
+            );
+            body_lebar.value = parseFloat(datas[1][0]["Lebar_BB"]).toFixed(2);
+            body_tinggi.value = parseFloat(datas[1][0]["Tinggi_BB"]).toFixed(2);
+            body_diameter.value = parseFloat(
+                datas[1][0]["Diameter_BB"]
+            ).toFixed(2);
             body_model.value = datas[1][0]["Nama_ModelBB"];
             id_body_model.value = datas[1][0]["Model_BB"];
 
             //Bagian Cerobong Atas
             cerobongAtas_bentuk.value = datas[1][0]["Bentuk_CA"];
-            cerobongAtas_panjang.value = datas[1][0]["Panjang_CA"];
-            cerobongAtas_lebar.value = datas[1][0]["Lebar_CA"];
-            cerobongAtas_tinggi.value = datas[1][0]["Tinggi_CA"];
-            cerobongAtas_diameter.value = datas[1][0]["Diameter_CA"];
+            cerobongAtas_panjang.value = parseFloat(
+                datas[1][0]["Panjang_CA"]
+            ).toFixed(2);
+            cerobongAtas_lebar.value = parseFloat(
+                datas[1][0]["Lebar_CA"]
+            ).toFixed(2);
+            cerobongAtas_tinggi.value = parseFloat(
+                datas[1][0]["Tinggi_CA"]
+            ).toFixed(2);
+            cerobongAtas_diameter.value = parseFloat(
+                datas[1][0]["Diameter_CA"]
+            ).toFixed(2);
             cerobongAtas_model.value = datas[1][0]["Nama_ModelCA"];
             id_cerobongAtas_model.value = datas[1][0]["Model_CA"];
 
             //Bagian Cerobong Bawah
             cerobongBawah_bentuk.value = datas[1][0]["Bentuk_CB"];
-            cerobongBawah_panjang.value = datas[1][0]["Panjang_CB"];
-            cerobongBawah_lebar.value = datas[1][0]["Lebar_CB"];
-            cerobongBawah_tinggi.value = datas[1][0]["Tinggi_CB"];
-            cerobongBawah_diameter.value = datas[1][0]["Diameter_CB"];
+            cerobongBawah_panjang.value = parseFloat(
+                datas[1][0]["Panjang_CB"]
+            ).toFixed(2);
+            cerobongBawah_lebar.value = parseFloat(
+                datas[1][0]["Lebar_CB"]
+            ).toFixed(2);
+            cerobongBawah_tinggi.value = parseFloat(
+                datas[1][0]["Tinggi_CB"]
+            ).toFixed(2);
+            cerobongBawah_diameter.value = parseFloat(
+                datas[1][0]["Diameter_CB"]
+            ).toFixed(2);
             cerobongBawah_model.value = datas[1][0]["Nama_ModelCB"];
             id_cerobongBawah_model.value = datas[1][0]["Model_CB"];
 
@@ -361,6 +386,80 @@ function loadDataKoreksi(kode_barang, nama_customer) {
             jenis_barang.value = datas[1][0]["Usage_type"] ?? "-";
             warna = "";
             standarwaktu = reinforced_stdwaktu.value;
+
+            let dataToInsert = datas[2];
+            let index = 0;
+
+            $(document).ready(function () {
+                dataToInsert.forEach(function (obj) {
+                    // index += 1;
+                    tabelData.row
+                        .add([
+                            obj.Kode_Komponen,
+                            obj.Nama_Komponen,
+                            parseFloat(obj.Panjang_Potongan).toLocaleString(
+                                "en-US",
+                                {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }
+                            ),
+                            parseFloat(obj.Lebar_Potongan).toLocaleString(
+                                "en-US",
+                                {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }
+                            ),
+                            parseFloat(obj.WA_Rajutan).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }),
+                            parseFloat(obj.WE_Rajutan).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }),
+                            parseFloat(obj.Denier).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }),
+                            parseFloat(obj.Quantity).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }),
+                            parseFloat(obj.Berat).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }),
+                            parseFloat(obj.Harga).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }),
+                            parseFloat(obj.SubTotal).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }),
+                            parseFloat(obj.Kounter_Komponen).toLocaleString(
+                                "en-US",
+                                {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }
+                            ),
+                            // index,
+                        ])
+                        .draw();
+                });
+                if (proses == 2) {
+                    $("#tabelData tbody").on("click", "tr", function () {
+                        console.log("masuk #tabelData tbody click", this);
+                        // Remove 'selected' class from all rows
+                        tabelData.$("tr.selected").removeClass("selected");
+                        // Add 'selected' class to the clicked row
+                        $(this).addClass("selected");
+                    });
+                }
+            });
         });
 }
 //#endregion
@@ -1579,9 +1678,5 @@ reinforced_inner.addEventListener("keypress", function (e) {
             reinforced_keterangan.focus();
         }
     }
-});
-
-reinforced_keterangan.addEventListener("keypress", function (e) {
-    console.log(e.key);
 });
 //#endregion
