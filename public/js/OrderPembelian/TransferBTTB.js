@@ -185,6 +185,7 @@ btn_transfer.addEventListener("click", function (event) {
             NoTerima: no_terima.value,
             ket: keterangan.value,
             YTanggal: tanggal.value,
+            NoPib: no_pib.value,
         },
         success: function (response) {
             Swal.fire({

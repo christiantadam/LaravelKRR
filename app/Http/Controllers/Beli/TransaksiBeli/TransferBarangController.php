@@ -227,6 +227,7 @@ class TransferBarangController extends Controller
         $NoTerima = $request->input('NoTerima');
         $ket = $request->input('ket');
         $YTanggal = Carbon::parse($request->input('YTanggal'));
+        $NoPib = $request->input('NoPib') ?? null;
         if (
             $IdType !== null &&
             $MasukPrimer !== null &&
@@ -237,7 +238,7 @@ class TransferBarangController extends Controller
             $YTanggal !== null
         ) {
             try {
-                $data = DB::connection('ConnPurchase')->statement('exec SP_7775_PBL_TRANSFER_TMPTRANSAKSI @kd = ?, @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTerima = ?, @ket = ? , @YTanggal = ?', [
+                $data = DB::connection('ConnPurchase')->statement('exec SP_7775_PBL_TRANSFER_TMPTRANSAKSI @kd = ?, @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTerima = ?, @ket = ? , @YTanggal = ?, @noPIB = ?', [
                     $kd,
                     $IdType,
                     $MasukPrimer,
@@ -247,7 +248,8 @@ class TransferBarangController extends Controller
                     $SubKel,
                     $NoTerima,
                     $ket,
-                    $YTanggal
+                    $YTanggal,
+                    $NoPib,
                 ]);
                 return Response()->json(['message' => 'Data Berhasil Di Transfer']);
             } catch (\Throwable $Error) {

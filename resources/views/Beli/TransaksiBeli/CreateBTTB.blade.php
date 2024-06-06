@@ -41,7 +41,7 @@
                                 <input type="date" class="form-control font-weight-bold" id="tglbttb" name="tglbttb" value="{{ date('Y-m-d') }}">
                             </div>
                             <div class="col-md-3 mb-2">
-                                <label for="nopib" class="form-label font-weight-bold">No. PIB</label>
+                                <label for="nopib" class="form-label font-weight-bold">No. PIB Kerta</label>
                                 <input type="text" class="form-control font-weight-bold" id="nopib" name="nopib">
                             </div>
                             <div class="col-md-3 mb-2">
@@ -62,7 +62,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3 mb-2">
-                                <label for="nopibext" class="form-label font-weight-bold">No. PIB Ext</label>
+                                <label for="nopibext" class="form-label font-weight-bold">No. PIB Aju</label>
                                 <input type="text" class="form-control font-weight-bold" id="nopibext" name="nopibext">
                             </div>
                             <div class="col-md-3 mb-2">
@@ -388,9 +388,9 @@
 
                             <div class="col-md-12 d-flex justify-content-end pb-4">
                                 <div class="col-md-12 d-flex justify-content-end">
-                                    <button type="button" class="custom-button1 mr-3" id="updatedata" onclick="updateData()">Update</button>
-                                    <button type="button" class="custom-button3 mr-3"  id="removebutton" onclick="removeData()"> Remove</button>
-                                    <button type="button" class="custom-button2 mr-3" id="post_btn">Post BTTB</button>
+                                    <button type="button" class="btn btn-info" id="updatedata" onclick="updateData()">Update</button>
+                                    <button type="button" class="btn btn-danger"  id="removebutton" onclick="removeData()"> Remove</button>
+                                    <button type="button" class="btn btn-success" id="post_btn">Post BTTB</button>
                                 </div>
                             </div>
                         </div>
