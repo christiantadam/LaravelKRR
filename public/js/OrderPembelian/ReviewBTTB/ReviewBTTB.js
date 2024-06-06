@@ -223,7 +223,7 @@ function print(data) {
                     </div>
                 </div>
                 <div class="details" style="margin-top: 20px;">
-                    <table style="width: 100%; border-collapse: collapse;">
+                    <table style="width: 100%; border-collapse: separate;border-spacing:0 8px;">
                         <thead>
                             <tr>
                                 <th><h1 style="font-size: 13px; font-family: Helvetica; font-weight: bold; line-height: 13.8px">No.</h1></th>

@@ -193,8 +193,10 @@ btn_transfer.addEventListener("click", function (event) {
                 title: "Data Berhasil DiTransfer!",
                 showConfirmButton: false,
                 timer: "2000",
+            }).then(() => {
+                // Redirect after the timer expires
+                window.close();
             });
-            window.location.href = "/TransferBarang";
         },
         error: function (error) {
             Swal.fire({

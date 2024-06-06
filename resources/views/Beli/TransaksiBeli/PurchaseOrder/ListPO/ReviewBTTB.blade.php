@@ -121,7 +121,7 @@
                         <div class="row mt-4">
                             <div class="col-md-12 d-flex justify-content-end pb-4">
                                 <div class="col-md-12 d-flex justify-content-end">
-                                    <button type="button" class="custom-button2 mr-3" id="post_btn">Print</button>
+                                    <button type="button" class="btn btn-success" id="post_btn">Print</button>
                                 </div>
                             </div>
                         </div>

@@ -88,7 +88,7 @@
                         </div>
                         <div class="mt-4">
                             <div class="table-responsive">
-                                <table class="mx-auto table table-bordered" id="tabelcreate">
+                                <table class="mx-auto table table-bordered" id="tabelcreate" style="white-space: nowrap">
                                     <thead class="table-primary">
                                         <tr>
                                             <th>No Order</th>
