@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 class TabelHitunganJumboBag extends Controller
@@ -477,7 +478,107 @@ class TabelHitunganJumboBag extends Controller
     public function store(Request $request)
     {
         dd('Masuk Store', $request->all());
+        DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_INS_HEADTH @KodeBarang = ?,
+        @BentukBB = ?,
+        @ModelBB = ?,
+        @KodeModelBB = ?,
+        @PanjangBB = ?,
+        @LebarBB = ?,
+        @TinggiBB = ?,
+        @DiameterBB = ?,
+        @BentukCA = ?,
+        @ModelCA = ?,
+        @KodeModelCA = ?,
+        @PanjangCA = ?,
+        @LebarCA = ?,
+        @TinggiCA = ?,
+        @DiameterCA = ?,
+        @BentukCB = ?,
+        @ModelCB = ?,
+        @KodeModelCB = ?,
+        @PanjangCB = ?,
+        @LebarCB = ?,
+        @TinggiCB = ?,
+        @DiameterCB = ?,
+        @Reinforced = ?,
+        @Warna = ?,
+        @BeltRope = ?,
+        @Loop = ?,
+        @TinggiLoop = ?,
+        @Swl = ?,
+        @Sf1 = ?,
+        @Sf2 = ?,
+        @Lami = ?,
+        @StatusLami = ?,
+        @TebalLami = ?,
+        @Inner = ?,
+        @Tebalinner = ?,
+        @Seal = ?,
+        @Keterangan = ?,
+        @StdWaktu = ?,
+        @JmlReinf = ?,
+        @JarakReinf = ?,
+        @StatusPrinting = ?,
+        @Usage_type = ?',
+            [
+                $request->input('KodeBarang'),
+                $request->input('BentukBB'),
+                $request->input('ModelBB'),
+                $request->input('KodeModelBB'),
+                $request->input('PanjangBB'),
+                $request->input('LebarBB'),
+                $request->input('TinggiBB'),
+                $request->input('DiameterBB'),
+                $request->input('BentukCA'),
+                $request->input('ModelCA'),
+                $request->input('KodeModelCA'),
+                $request->input('PanjangCA'),
+                $request->input('LebarCA'),
+                $request->input('TinggiCA'),
+                $request->input('DiameterCA'),
+                $request->input('BentukCB'),
+                $request->input('ModelCB'),
+                $request->input('KodeModelCB'),
+                $request->input('PanjangCB'),
+                $request->input('LebarCB'),
+                $request->input('TinggiCB'),
+                $request->input('DiameterCB'),
+                $request->input('Reinforced'),
+                $request->input('Warna'),
+                $request->input('BeltRope'),
+                $request->input('Loop'),
+                $request->input('TinggiLoop'),
+                $request->input('Swl'),
+                $request->input('Sf1'),
+                $request->input('Sf2'),
+                $request->input('Lami'),
+                $request->input('StatusLami'),
+                $request->input('TebalLami'),
+                $request->input('Inner'),
+                $request->input('Tebalinner'),
+                $request->input('Seal'),
+                $request->input('Keterangan'),
+                $request->input('StdWaktu'),
+                $request->input('JmlReinf'),
+                $request->input('JarakReinf'),
+                $request->input('StatusPrinting'),
+                $request->input('Usage_type'),
+            ]
+        );
 
+        DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_INS_KDBRG @KodeCustomer = ?,
+        @KodeBarang = ?,
+        @Tanggal = ?,
+        @Tgl_Update = ?,
+        @User_Login = ?',
+            [
+                $request->input('KodeCustomer'),
+                $request->input('KodeBarang'),
+                $request->input('Tanggal'),
+                $request->input('Tgl_Update'),
+                Auth::user()->NomorUser
+            ]
+        );
     }
 
     public function show($id)

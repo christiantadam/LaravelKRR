@@ -468,7 +468,7 @@ function loadDataKoreksi(kode_barang, nama_customer) {
         });
 }
 
-function insertMaster() {
+function insertMasterDanKodeBarang() {
     // Create a new form element
     let formInsert = document.createElement("form");
     // Get the div element with the class "acs-container"
@@ -478,26 +478,104 @@ function insertMaster() {
     let inputElements = acsContainer.querySelectorAll("input");
 
     // Loop through each input element
-    inputElements.forEach(function (input) {
-        // Append each input element to the form
-        formInsert.appendChild(input);
-    });
-    formInsert.appendChild(reinforced_keterangan);
-
-    console.log(formInsert);
-    // $.ajax({
-    //     type: 'POST', // or 'GET' depending on your server setup
-    //     url: 'TabelHitunganJBB', // Specify the URL of your controller
-    //     data: formInsert, // Pass the serialized form data
-    //     success: function(response) {
-    //         // Handle the successful response from the controller
-    //         console.log(response);
-    //     },
-    //     error: function(xhr, status, error) {
-    //         // Handle errors
-    //         console.error(error);
-    //     }
+    // inputElements.forEach(function (input) {
+    // Append each input element to the form
+    // formInsert.appendChild(input);
     // });
+    // formInsert.appendChild();
+    // formInsert.appendChild(reinforced_keterangan);
+    // console.log(formInsert);
+    let lamiValue;
+    let statusLamiValue;
+    let tebalLamiValue;
+    let innerValue;
+    let tebalInnerValue;
+    let sealValue;
+    let dateNowValue;
+
+    if (reinforced_lami.value == "No Lami") {
+        lamiValue = "N";
+        statusLamiValue = "";
+        tebalLamiValue = 0;
+    } else {
+        lamiValue = "Y";
+        statusLamiValue = reinforced_lami.value;
+        tebalLamiValue = reinforced_tebal.value;
+    }
+
+    if (reinforced_inner.value > 0) {
+        innerValue = "Y";
+        tebalInnerValue = reinforced_inner.value;
+        if (reinforced_seal.checked == true) {
+            sealValue = "Y";
+        } else {
+            sealValue = "N";
+        }
+    } else {
+        innerValue = "N";
+        tebalInnerValue = 0;
+    }
+    dateNowValue = new Date();
+    $.ajax({
+        type: "POST", // or 'GET' depending on your server setup
+        url: "TabelHitunganJBB", // Specify the URL of your controller
+        data: {
+            _token: csrfToken,
+            KodeBarang: nama_barang.value,
+            BentukBB: body_bentuk.value,
+            ModelBB: body_model.value,
+            KodeModelBB: id_body_model.value,
+            PanjangBB: body_panjang.value,
+            LebarBB: body_lebar.value,
+            TinggiBB: body_tinggi.value,
+            DiameterBB: body_diameter.value,
+            BentukCA: cerobongAtas_bentuk.value,
+            ModelCA: cerobongAtas_model.value,
+            KodeModelCA: id_cerobongAtas_model.value,
+            PanjangCA: cerobongAtas_panjang.value,
+            LebarCA: cerobongAtas_lebar.value,
+            TinggiCA: cerobongAtas_tinggi.value,
+            DiameterCA: cerobongAtas_diameter.value,
+            BentukCB: cerobongBawah_bentuk.value,
+            ModelCB: cerobongBawah_model.value,
+            KodeModelCB: id_cerobongBawah_model.value,
+            PanjangCB: cerobongBawah_panjang.value,
+            LebarCB: cerobongBawah_lebar.value,
+            TinggiCB: cerobongBawah_tinggi.value,
+            DiameterCB: cerobongBawah_diameter.value,
+            Reinforced: reinforced_lebar.value,
+            Warna: reinforced_warna.value,
+            BeltRope: reinforced_beltrope.value,
+            Loop: reinforced_loop.value,
+            TinggiLoop: reinforced_tinggiloop.value,
+            Swl: reinforced_SWL.value,
+            Sf1: reinforced_SF1.value,
+            Sf2: reinforced_SF2.value,
+            Lami: lamiValue,
+            StatusLami: statusLamiValue,
+            TebalLami: tebalLamiValue,
+            Inner: innerValue,
+            Tebalinner: tebalInnerValue,
+            Seal: sealValue,
+            Keterangan: reinforced_keterangan.value,
+            StdWaktu: reinforced_stdwaktu.value,
+            JmlReinf: reinforced_jumlah.value,
+            JarakReinf: reinforced_jarak.value,
+            StatusPrinting: reinforced_printing.value,
+            Usage_type: jenis_barang.value,
+            KodeCustomer: id_customer.value,
+            Tanggal: tanggal.value,
+            Tgl_Update: dateNowValue,
+        }, // Pass the data with csrf_tokern
+        success: function (response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        },
+    });
 }
 
 //#endregion
@@ -1728,8 +1806,8 @@ btn_proses.addEventListener("click", function (e) {
         tambah_komponen.disabled == false;
         koreksi_komponen.disabled == false;
         hapus_komponen.disabled == false;
-        insertMaster();
-        insertKodeBarang();
+        insertMasterDanKodeBarang();
+        // insertKodeBarang();
 
         //Pengecekan untuk function Body
         if (id_body_model.value !== "01BB4O") {
