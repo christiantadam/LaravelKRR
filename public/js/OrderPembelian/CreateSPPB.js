@@ -30,6 +30,10 @@ let btn_update = document.getElementById("btn_update");
 let btn_reject = document.getElementById("btn_reject");
 let btn_remove = document.getElementById("btn_remove");
 let btn_post = document.getElementById("btn_post");
+let label_idr_unit = document.getElementById("label_idr_unit");
+let label_idr_sub_total = document.getElementById("label_idr_sub_total");
+let label_idr_ppn = document.getElementById("label_idr_ppn");
+let label_idr_harga_total = document.getElementById("label_idr_harga_total");
 
 let jenisSupplier;
 let fixValueQTYOrder;
@@ -170,19 +174,19 @@ function LoadPermohonan(data) {
             {
                 data: "keterangan",
                 render: function (data) {
-                    return (
-                        data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
-                        '<p style="text-align:center;font-size: 14px;">-</p>'
-                    );
+                    return data == "-"
+                        ? '<p style="text-align:center;font-size: 14px;">-</p>'
+                        : data ||
+                              '<p style="text-align:center;font-size: 14px;">-</p>';
                 },
             },
             {
                 data: "Ket_Internal",
                 render: function (data) {
-                    return (
-                        data == '-' ? '<p style="text-align:center;font-size: 14px;">-</p>' : data ||
-                        '<p style="text-align:center;font-size: 14px;">-</p>'
-                    );
+                    return data == "-"
+                        ? '<p style="text-align:center;font-size: 14px;">-</p>'
+                        : data ||
+                              '<p style="text-align:center;font-size: 14px;">-</p>';
                 },
             },
             {
@@ -242,7 +246,7 @@ function LoadPermohonan(data) {
                 nama_barang.value = data.NAMA_BRG;
                 sub_kategori.value = data.nama_sub_kategori;
                 qty_order.value = parseFloat(data.Qty).toFixed(2);
-                keterangan_order.value = data.keterangan || '-';
+                keterangan_order.value = data.keterangan || "-";
                 keterangan_internal.value = data.Ket_Internal || "-";
                 qty_delay.value = parseFloat(data.QtyCancel).toFixed(2);
                 harga_unit.value = numeral(parseFloat(data.PriceUnit)).format(
@@ -823,7 +827,7 @@ $(document).ready(function () {
                             ) === response[0].Id_MataUang.replace(/\s/g, "")
                         ) {
                             matauang_select.selectedIndex = i;
-                            console.log('aman')
+                            console.log("aman");
                         }
                     }
                     jenisSupplier = response[0].JNS_SUP;
@@ -835,7 +839,7 @@ $(document).ready(function () {
         }
     });
     paymentTerm_select.addEventListener("change", function (event) {
-        btn_post.focus()
+        btn_post.focus();
     });
     qty_delay.addEventListener("input", function (event) {
         let qtyDelay = parseFloat(fixValueQTYOrder - qty_delay.value);
@@ -945,7 +949,7 @@ $(document).ready(function () {
         updateIDRPPN();
         updateHargaTotal();
         updateIDRHargaTotal();
-        btn_update.focus()
+        btn_update.focus();
     });
     disc.addEventListener("input", function (event) {
         setInputFilter(
