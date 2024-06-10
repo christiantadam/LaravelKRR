@@ -13,7 +13,6 @@ tanggal_purchaseOrder.valueAsDate = new Date();
 tanggal_mohonKirim.valueAsDate = new Date();
 
 function LoadPermohonan(data) {
-    console.log(data)
     $("#table_CreatePurchaseOrder").DataTable().destroy();
     let table = $("#table_CreatePurchaseOrder").DataTable({
         responsive: true,
@@ -155,7 +154,6 @@ btn_post.addEventListener("click", function (event) {
                     Tgl_Dibutuhkan: tanggal_mohonKirim.value,
                 },
                 success: function (response) {
-                    console.log(response);
                     if (i == loadPermohonanData.length - 1) {
                         Swal.fire({
                             icon: "success",
@@ -188,7 +186,6 @@ function dataPrint() {
             noPO: nomor_purchaseOrder.value.trim(),
         },
         success: function (response) {
-            console.log(response);
             print(response);
         },
         error: function (error) {
@@ -401,9 +398,15 @@ function print(data) {
                                 <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Description</h1></th>
                                 <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Qty</h1></th>
                                 <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit Price<br> IDR</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Disc.<br> IDR</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Amount<br> IDR</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit Price<br> ${
+                                    data.printHeader[0].Id_MataUang_BC
+                                }</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Disc.<br> ${
+                                    data.printHeader[0].Id_MataUang_BC
+                                }</h1></th>
+                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Amount<br> ${
+                                    data.printHeader[0].Id_MataUang_BC
+                                }</h1></th>
                             </tr>
                         </thead>
                         <tbody style="border-top: 1px solid black; border-bottom: 1px solid black;">
@@ -483,5 +486,4 @@ $(document).ready(function () {
     matauang_select.value = loadHeaderData[0].Curr;
     tanggal_mohonKirim.value = loadHeaderData[0].Est_Date.split(" ")[0];
     tanggal_purchaseOrder.value = loadHeaderData[0].Tgl_sppb.split(" ")[0];
-    console.log(loadHeaderData);
 });

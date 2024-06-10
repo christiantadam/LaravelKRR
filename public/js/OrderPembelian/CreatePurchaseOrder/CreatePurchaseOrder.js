@@ -297,7 +297,8 @@ create_po.addEventListener("click", function (event) {
     if (
         confirm(
             "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi. Yakin akan memproses order ini?"
-        )
+        ) &&
+        selectedRows.length > 0
     ) {
         let sameValues = true;
         for (let i = 0; i < selectedRows.length; i++) {

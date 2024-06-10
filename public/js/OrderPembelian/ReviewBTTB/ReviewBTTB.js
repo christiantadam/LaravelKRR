@@ -104,6 +104,38 @@ function print(data) {
         });
 
         const print = `
+        <style>
+            table.styled-table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+                font-size: 18px;
+                text-align: left;
+            }
+
+            table.styled-table th,
+            table.styled-table td {
+                padding: 12px 15px;
+            }
+
+            /* Add border between thead and tbody */
+            table.styled-table thead tr {
+                border-bottom: 2px solid #333;
+            }
+
+            /* Add space between rows in tbody */
+            table.styled-table tbody tr {
+                border-bottom: 1px solid #ddd;
+            }
+
+            table.styled-table tbody tr:last-of-type {
+                border-bottom: none;
+            }
+
+            table.styled-table tbody tr+tr {
+                margin-top: 10px;
+            }
+        </style>
         <div style="width: 20.5cm; height: 27.94cm; padding: 30px 10px 0px 10px; margin: 0; background: #FFFFFF; box-sizing: border-box; page-break-after: ${
             chunkIndex < chunkedData.length - 1 ? `always` : `avoid`
         };">
@@ -223,7 +255,7 @@ function print(data) {
                     </div>
                 </div>
                 <div class="details" style="margin-top: 20px;">
-                    <table style="width: 100%; border-collapse: separate;border-spacing:0 8px;">
+                    <table Class="styled-table">
                         <thead>
                             <tr>
                                 <th><h1 style="font-size: 13px; font-family: Helvetica; font-weight: bold; line-height: 13.8px">No.</h1></th>

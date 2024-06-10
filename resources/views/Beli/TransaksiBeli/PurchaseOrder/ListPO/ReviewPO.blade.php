@@ -135,7 +135,7 @@
 
                         <div class="row mt-4">
                             <div class="col-12">
-                                <button class="custom-button2" id="btn_post">Print</button>
+                                <button class="btn btn-success" id="btn_post">Print</button>
 
                             </div>
                         </div>
