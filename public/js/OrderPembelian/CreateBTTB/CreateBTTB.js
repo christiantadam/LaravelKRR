@@ -419,7 +419,7 @@ function post(bttb) {
             success: function (response) {
                 console.log(response);
 
-                if (i == data.length - 1) {
+                if (response.Status) {
                     Swal.fire({
                         icon: "success",
                         title: "Data Berhasil DiPost!",
@@ -451,7 +451,7 @@ function dataPrint() {
         },
         success: function (response) {
             console.log(response);
-            print(response);
+            // print(response);
         },
         error: function (error) {
             console.error("Error Get Data:", error);
@@ -520,6 +520,36 @@ function print(data) {
         });
 
         const print = `
+        <style>
+            table.styled-table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+                font-size: 18px;
+                text-align: left;
+            }
+
+            table.styled-table th,
+            table.styled-table td {
+                padding: 12px 15px;
+            }
+
+            table.styled-table thead tr {
+                border-bottom: 2px solid #333;
+            }
+
+            table.styled-table tbody tr {
+                border-bottom: 1px solid #ddd;
+            }
+
+            table.styled-table tbody tr:last-of-type {
+                border-bottom: none;
+            }
+
+            table.styled-table tbody tr+tr {
+                margin-top: 10px;
+            }
+        </style>
         <div style="width: 20.5cm; height: 27.94cm; padding: 30px 10px 0px 10px; margin: 0; background: #FFFFFF; box-sizing: border-box; page-break-after: ${
             chunkIndex < chunkedData.length - 1 ? `always` : `avoid`
         };">
@@ -659,7 +689,6 @@ function print(data) {
             </main>
         </div>
     `;
-
         printContentDiv.innerHTML += print;
         tableRows = "";
         Page += 1;

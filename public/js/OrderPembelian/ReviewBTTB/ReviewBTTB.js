@@ -118,12 +118,10 @@ function print(data) {
                 padding: 12px 15px;
             }
 
-            /* Add border between thead and tbody */
             table.styled-table thead tr {
                 border-bottom: 2px solid #333;
             }
 
-            /* Add space between rows in tbody */
             table.styled-table tbody tr {
                 border-bottom: 1px solid #ddd;
             }

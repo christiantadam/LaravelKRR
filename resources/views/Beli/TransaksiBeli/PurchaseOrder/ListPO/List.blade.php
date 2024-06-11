@@ -42,7 +42,8 @@
                                         <button class="btn btn-info mt-4 w-100" id="redisplayButton">Redisplay</button>
                                     </div>
                                     <div class="col-12 mt-5">
-                                        <span id="lihat_BTTB" class="text-primary" style="cursor: pointer; font-size: 24px; text-decoration: underline">Lihat BTTB</span>
+                                        <button id="lihat_BTTB" class="btn btn-primary" style="width: 100%; margin:2% ">Lihat BTTB</button>
+                                        {{-- <span id="lihat_BTTB" class="text-primary" style="cursor: pointer; font-size: 24px; text-decoration: underline">Lihat BTTB</span> --}}
                                     </div>
                                 </div>
                             </div>

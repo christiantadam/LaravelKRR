@@ -195,7 +195,7 @@ print_pdf.addEventListener("click", function (event) {
 
 export_pdf.addEventListener("click", function (event) {
     event.preventDefault();
-    alert("This feature still on progress, Coming Soon!");
+    alert("This feature won't be Coming Soon!");
 });
 
 //#endregion
