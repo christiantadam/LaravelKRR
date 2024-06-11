@@ -51,7 +51,12 @@ function dropdownData() {
             if (response.data.length == 0) {
                 supplierDropdown.selectedIndex = 0;
                 tabelData.clear().draw();
-                alert("Data Tidak Ada");
+                Swal.fire({
+                    icon: "error",
+                    title: "Data Tidak Ada!",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
             } else {
                 for (let i = 0; i < supplierDropdown.options.length; i++) {
                     if (
@@ -72,7 +77,28 @@ function dropdownData() {
 
 noPODropdown.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
-        dropdownData();
+        if (this.value !== "") {
+            if (this.value.includes("PO-")) {
+                dropdownData();
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Nomor PO harus sesuai format!",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                this.value = "";
+                this.focus();
+            }
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Kolom nomor PO tidak boleh kosong!",
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            this.focus();
+        }
     }
 });
 
@@ -146,6 +172,7 @@ document.getElementById("buttoncancel").addEventListener("click", function () {
 function responseData(datas) {
     tabelData.clear().draw();
     datas.forEach(function (data) {
+        console.log(data);
         tabelData.row.add([
             data.No_trans,
             data.Kd_brg,
@@ -153,9 +180,9 @@ function responseData(datas) {
             data.nama_sub_kategori,
             data.Qty,
             data.Nama_satuan,
-            data.QtyRcv || "0",
-            data.QtyRemain || "0",
-            data.JumPPN,
+            data.QtyShipped ?? "0",
+            data.QtyRemain ?? "0",
+            data.QtyRcv,
             data.Status,
         ]);
     });
