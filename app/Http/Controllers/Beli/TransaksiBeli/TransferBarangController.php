@@ -99,7 +99,7 @@ class TransferBarangController extends Controller
                         ->join('Y_KATEGORY', 'Y_KATEGORI_SUB.no_kategori', '=', 'Y_KATEGORY.no_kategori')
                         ->join('Y_KATEGORI_UTAMA', 'Y_KATEGORY.no_kat_utama', '=', 'Y_KATEGORI_UTAMA.no_kat_utama')
                         ->join('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
-                        ->select('YTERIMA.No_terima', 'Y_KATEGORY.nama_kategori', 'Y_KATEGORI_SUB.nama_sub_kategori', 'YTRANSBL.Kd_brg', 'Y_BARANG.NAMA_BRG', 'YTERIMA.Qty_Terima', 'YSATUAN.Nama_satuan', 'YTERIMA.No_BTTB','YTERIMA.No_PIB')
+                        ->select('YTERIMA.No_terima', 'Y_KATEGORY.nama_kategori', 'Y_KATEGORI_SUB.nama_sub_kategori', 'YTRANSBL.Kd_brg', 'Y_BARANG.NAMA_BRG', 'YTERIMA.Qty_Terima', 'YSATUAN.Nama_satuan', 'YTERIMA.No_BTTB','YTERIMA.NoPIBExt')
                         ->whereNull('YTERIMA.NoTransaksiTmp')
                         ->where('YTERIMA.No_BTTB', '=', $noBTTB)
                         ->where('YTERIMA.Qty_Terima', '>', 0)

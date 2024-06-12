@@ -322,7 +322,7 @@ $(document).ready(function () {
             { data: "NAMA_BRG" },
             { data: "Qty_Terima" },
             { data: "Nama_satuan" },
-            { data: "No_PIB" },
+            { data: "NoPIBExt" },
         ],
         rowCallback: function (row, data) {
             console.log(data);
@@ -337,7 +337,7 @@ $(document).ready(function () {
                 );;
                 qty_terima.value = parseFloat(data.Qty_Terima);
                 ket_qtyTerima.value = data.Nama_satuan;
-                no_pib.value = data.No_PIB;
+                no_pib.value = data.NoPIBExt;
                 divisi(data.Kd_brg.trim());
                 loadSatuan(data.Kd_brg.trim());
                 if (koreksi == 1) {
