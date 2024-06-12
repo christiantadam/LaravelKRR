@@ -1153,7 +1153,7 @@ function CerobongAtas() {
             Panjang: PanjangPot,
             Lebar: LebarPot,
             Kounter: kounter,
-            mode_insert: "TutupBawah",
+            mode_insert: "CerobongAtas",
         }, // Pass the data with csrf_tokern
         success: function (response) {
             // Handle the successful response from the controller
@@ -1191,7 +1191,7 @@ function CerobongBawah() {
             Panjang: PanjangPot,
             Lebar: LebarPot,
             Kounter: kounter,
-            mode_insert: "TutupBawah",
+            mode_insert: "CerobongBawah",
         }, // Pass the data with csrf_tokern
         success: function (response) {
             // Handle the successful response from the controller
