@@ -422,6 +422,7 @@ function print(data) {
 
 post_btn.addEventListener("click", function (event) {
     if (data.length != 0) {
+        this.disabled = true;
         $.ajax({
             url: "/CCreateBTTB/CreateNoBTTB",
             type: "GET",
@@ -485,10 +486,8 @@ $("#tabelcreate").on("dblclick", "tr", function () {
     qty_ordered.value = parseFloat(rowData[4]).toFixed(2);
 
     ordered_satuan.value = rowData[5];
-    qty_ship.value =
-        parseFloat(rowData[6]).toFixed(2) || 0;
-    qty_remaining.value =
-        parseFloat(rowData[7]).toFixed(2) || 0;
+    qty_ship.value = parseFloat(rowData[6]).toFixed(2) || 0;
+    qty_remaining.value = parseFloat(rowData[7]).toFixed(2) || 0;
     harga_unit.value = numeral(parseFloat(rowData[8])).format("0,0.0000");
     harga_sub_total.value = numeral(parseFloat(rowData[9])).format("0,0.0000");
     ppn.value = numeral(parseFloat(rowData[10])).format("0,0.0000");
@@ -545,17 +544,17 @@ function updateData() {
         datas[0].Qty = qty_ordered.value;
         datas[0].QtyShipped = parseFloat(qty_ship.value).toFixed(2) || 0;
         datas[0].QtyRemain = parseFloat(qty_remaining.value).toFixed(2) || 0;
-        datas[0].PriceUnit = harga_unit.value.replace(/,/g, '') || 0;
-        datas[0].PriceSub = harga_sub_total.value.replace(/,/g, '') || 0;
-        datas[0].PPN = ppn.value.replace(/,/g, '') || 0;
-        datas[0].PriceExt = harga_total.value.replace(/,/g, '') || 0;
-        datas[0].PriceUnitIDR = idr_unit.value.replace(/,/g, '') || 0;
-        datas[0].PriceSubIDR = idr_sub_total.value.replace(/,/g, '') || 0;
-        datas[0].PriceUnitIDR_PPN = idr_ppn.value.replace(/,/g, '') || 0;
-        datas[0].PriceExtIDR = idr_harga_total.value.replace(/,/g, '') || 0;
-        datas[0].disc = disc.value.replace(/,/g, '') || 0;
-        datas[0].Harga_disc = total_disc.value.replace(/,/g, '') || 0;
-        datas[0].DiscIDR = idr_total_disc.value.replace(/,/g, '') || 0;
+        datas[0].PriceUnit = harga_unit.value.replace(/,/g, "") || 0;
+        datas[0].PriceSub = harga_sub_total.value.replace(/,/g, "") || 0;
+        datas[0].PPN = ppn.value.replace(/,/g, "") || 0;
+        datas[0].PriceExt = harga_total.value.replace(/,/g, "") || 0;
+        datas[0].PriceUnitIDR = idr_unit.value.replace(/,/g, "") || 0;
+        datas[0].PriceSubIDR = idr_sub_total.value.replace(/,/g, "") || 0;
+        datas[0].PriceUnitIDR_PPN = idr_ppn.value.replace(/,/g, "") || 0;
+        datas[0].PriceExtIDR = idr_harga_total.value.replace(/,/g, "") || 0;
+        datas[0].disc = disc.value.replace(/,/g, "") || 0;
+        datas[0].Harga_disc = total_disc.value.replace(/,/g, "") || 0;
+        datas[0].DiscIDR = idr_total_disc.value.replace(/,/g, "") || 0;
         datas[0].QtyRcv = parseFloat(qty_received.value).toFixed(2) || 0;
         datas[0].Kurs = parseFloat(kurs.value).toFixed(4) || 0;
 
