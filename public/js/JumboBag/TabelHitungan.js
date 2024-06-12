@@ -81,7 +81,15 @@ let warna = "";
 let standarwaktu = "0";
 let kounter = 1;
 let statusBS = false;
-
+let PanjangPot;
+let LebarPot;
+let WARajutan;
+let WERajutan;
+let Denier;
+let Qty;
+let Berat;
+let Harga;
+let SubTotal;
 //#region Load Form
 
 btn_isi.focus();
@@ -566,6 +574,624 @@ function insertMasterDanKodeBarang() {
             KodeCustomer: id_customer.value,
             Tanggal: tanggal.value,
             Tgl_Update: dateNowValue,
+            mode_insert: "Master",
+        }, // Pass the data with csrf_tokern
+        success: function (response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        },
+    });
+}
+
+function SetVariabel() {
+    PanjangPot = 0;
+    LebarPot = 0;
+    WARajutan = 0;
+    WERajutan = 0;
+    Denier = 0;
+    Qty = 0;
+    Berat = 0;
+    Harga = 0;
+    SubTotal = 0;
+}
+
+function Rumus_PanjangBB(bentukRumus_PanjangBB, modelRumus_PanjangBB) {
+    let hasil = 0;
+
+    // const txtTinggiBB = document.getElementById("txtTinggiBB").value;
+    // const txtPanjangBB = document.getElementById("txtPanjangBB").value;
+    // const txtLebarBB = document.getElementById("txtLebarBB").value;
+    // const txtDiaBB = document.getElementById("txtDiaBB").value;
+
+    const tinggiBB = parseFloat(body_tinggi.value ?? 0);
+    const panjangBB = parseFloat(body_panjang.value ?? 0);
+    const lebarBB = parseFloat(body_lebar.value ?? 0);
+    const diaBB = parseFloat(body_diameter.value ?? 0);
+
+    if (bentukRumus_PanjangBB === "S") {
+        switch (Model) {
+            case "01BBTM":
+                hasil = tinggiBB + 12;
+                break;
+            case "01BBTO":
+                hasil = tinggiBB + 10;
+                break;
+            case "01BBIM":
+                hasil = panjangBB * 2 + lebarBB * 2 + 14;
+                break;
+            case "01BBIO":
+                hasil = panjangBB * 2 + lebarBB * 2 + 10;
+                break;
+            case "01BBUO":
+                hasil = tinggiBB * 2 + lebarBB + 17;
+                break;
+            case "01BBUM":
+                hasil = tinggiBB * 2 + panjangBB + 17;
+                break;
+            case "01BB2M":
+                hasil = 2 * (panjangBB + lebarBB) + 2 * 14;
+                break;
+            case "01BB2O":
+                hasil = 2 * (panjangBB + lebarBB) + 2 * 10;
+                break;
+            case "01BBTS":
+                hasil = tinggiBB + 6;
+                break;
+        }
+    } else {
+        switch (modelRumus_PanjangBB) {
+            case "01BBTM":
+                hasil = tinggiBB + 12;
+                break;
+            case "01BBTO":
+                hasil = tinggiBB + 10;
+                break;
+            case "01BBIM":
+                hasil = diaBB * 3.14 + 14;
+                break;
+            case "01BBIO":
+                hasil = diaBB * 3.14 + 10;
+                break;
+            case "01BB2M":
+                hasil = 2 * (panjangBB + lebarBB) + 2 * 14;
+                break;
+            case "01BB2O":
+                hasil = 2 * (panjangBB + lebarBB) + 2 * 10;
+                break;
+            case "01BBTS":
+                hasil = tinggiBB + 6;
+                break;
+        }
+    }
+    return hasil;
+}
+
+function Rumus_LebarBB(bentukRumus_LebarBB, modelRumus_LebarBB) {
+    let hasil = 0;
+
+    const tinggiBB = parseFloat(body_tinggi.value ?? 0);
+    const panjangBB = parseFloat(body_panjang.value ?? 0);
+    const lebarBB = parseFloat(body_lebar.value ?? 0);
+    const diaBB = parseFloat(body_diameter.value ?? 0);
+
+    if (bentukRumus_LebarBB === "S") {
+        switch (modelRumus_LebarBB) {
+            case "01BBTM":
+            case "01BBTO":
+            case "01BBTS":
+                hasil = panjangBB + lebarBB;
+                break;
+            case "01BBIM":
+                hasil = tinggiBB + 12;
+                break;
+            case "01BBIO":
+                hasil = tinggiBB + 10;
+                break;
+            case "01BBUO":
+                hasil = panjangBB + 10;
+                break;
+            case "01BBUM":
+                hasil = panjangBB + 14;
+                break;
+            case "01BB2M":
+                hasil = tinggiBB + 12;
+                break;
+            case "01BB2O":
+                hasil = tinggiBB + 10;
+                break;
+        }
+    } else {
+        switch (modelRumus_LebarBB) {
+            case "01BBTM":
+            case "01BBTO":
+            case "01BBTS":
+                hasil = (diaBB * 3.14) / 2;
+                break;
+            case "01BBIM":
+                hasil = tinggiBB + 12;
+                break;
+            case "01BBIO":
+                hasil = tinggiBB + 10;
+                break;
+            case "01BB2M":
+                hasil = tinggiBB + 12;
+                break;
+            case "01BB2O":
+                hasil = tinggiBB + 10;
+                break;
+        }
+    }
+
+    return hasil;
+}
+
+function Rumus_PanjangBSI(bentukRumus_PanjangBSI, modelRumus_PanjangBSI) {
+    let hasil = 0;
+    if (bentukRumus_PanjangBSI == "S") {
+        hasil = parseFloat(body_tinggi.value ?? 0) + 14;
+    }
+    return hasil;
+}
+
+function Rumus_LebarBSI(bentukRumus_LebarBSI, modelRumus_LebarBSI) {
+    let hasil = 0;
+    if (bentukRumus_LebarBSI == "S") {
+        const panjangBB = parseFloat(body_panjang.value ?? 0);
+        const lebarBB = parseFloat(body_lebar.value ?? 0);
+
+        switch (modelRumus_LebarBSI) {
+            case "01BBUO":
+                hasil = lebarBB + 10;
+                break;
+            case "01BBUM":
+                hasil = panjangBB + 14;
+                break;
+            case "01BB4O":
+                hasil = panjangBB + 10;
+                break;
+        }
+    }
+    return hasil;
+}
+
+function Rumus_PanjangBSII(bentukRumus_PanjangBSII, modelRumus_PanjangBSII) {
+    let hasil = 0;
+    if (bentukRumus_PanjangBSII == "S") {
+        hasil = parseFloat(body_tinggi.value ?? 0) + 14;
+    }
+    return hasil;
+}
+
+function Rumus_LebarBSII(bentukRumus_LebarBSII, modelRumus_LebarBSII) {
+    let hasil = 0;
+    if (bentukRumus_LebarBSII == "S") {
+        hasil = parseFloat(body_tinggi.value ?? 0) + 14;
+    }
+    return hasil;
+}
+
+function Rumus_PanjangTA(bentukRumus_PanjangTA, modelRumus_PanjangTA) {
+    let hasil = 0;
+    if (bentukRumus_PanjangTA == "S") {
+        switch (modelRumus_PanjangTA.slice(-1)) {
+            case "O":
+                hasil = parseFloat(body_panjang.value ?? 0) + 10;
+                break;
+            case "M":
+                hasil = parseFloat(body_panjang.value ?? 0) + 12;
+                break;
+            case "S":
+                hasil = parseFloat(body_panjang.value ?? 0) + 6;
+                break;
+        }
+    } else {
+        switch (modelRumus_PanjangTA.slice(-1)) {
+            case "O":
+                hasil = parseFloat(body_diameter.value ?? 0) + 10;
+                break;
+            case "M":
+                hasil = parseFloat(body_diameter.value ?? 0) + 12;
+                break;
+            case "S":
+                hasil = parseFloat(body_diameter.value ?? 0) + 6;
+                break;
+        }
+    }
+    return hasil;
+}
+
+function Rumus_LebarTA(bentukRumus_LebarTA, modelRumus_LebarTA) {
+    let hasil = 0;
+    if (bentukRumus_PanjangTA == "S") {
+        switch (modelRumus_PanjangTA.slice(-1)) {
+            case "O":
+                hasil = parseFloat(body_lebar.value ?? 0) + 10;
+                break;
+            case "M":
+                hasil = parseFloat(body_lebar.value ?? 0) + 12;
+                break;
+            case "S":
+                hasil = parseFloat(body_lebar.value ?? 0) + 6;
+                break;
+        }
+    } else {
+        switch (modelRumus_PanjangTA.slice(-1)) {
+            case "O":
+                hasil = parseFloat(body_diameter.value ?? 0) + 10;
+                break;
+            case "M":
+                hasil = parseFloat(body_diameter.value ?? 0) + 12;
+                break;
+            case "S":
+                hasil = parseFloat(body_diameter.value ?? 0) + 6;
+                break;
+        }
+    }
+    return hasil;
+}
+
+function Rumus_PanjangTB(bentukRumus_PanjangTB, modelRumus_PanjangTB) {
+    let hasil = 0;
+    if (bentukRumus_PanjangTA == "S") {
+        switch (modelRumus_PanjangTA.slice(-1)) {
+            case "O":
+                hasil = parseFloat(body_panjang.value ?? 0) + 10;
+                break;
+            case "M":
+                hasil = parseFloat(body_panjang.value ?? 0) + 12;
+                break;
+            case "S":
+                hasil = parseFloat(body_panjang.value ?? 0) + 6;
+                break;
+        }
+    } else {
+        switch (modelRumus_PanjangTA.slice(-1)) {
+            case "O":
+                hasil = parseFloat(body_diameter.value ?? 0) + 10;
+                break;
+            case "M":
+                hasil = parseFloat(body_diameter.value ?? 0) + 12;
+                break;
+            case "S":
+                hasil = parseFloat(body_diameter.value ?? 0) + 6;
+                break;
+        }
+    }
+    return hasil;
+}
+
+function Rumus_LebarTB(bentukRumus_LebarTB, modelRumus_LebarTB) {
+    let hasil = 0;
+    if (bentukRumus_PanjangTA == "S") {
+        switch (modelRumus_PanjangTA.slice(-1)) {
+            case "O":
+                hasil = parseFloat(body_lebar.value ?? 0) + 10;
+                break;
+            case "M":
+                hasil = parseFloat(body_lebar.value ?? 0) + 12;
+                break;
+            case "S":
+                hasil = parseFloat(body_lebar.value ?? 0) + 6;
+                break;
+        }
+    } else {
+        switch (modelRumus_PanjangTA.slice(-1)) {
+            case "O":
+                hasil = parseFloat(body_diameter.value ?? 0) + 10;
+                break;
+            case "M":
+                hasil = parseFloat(body_diameter.value ?? 0) + 12;
+                break;
+            case "S":
+                hasil = parseFloat(body_diameter.value ?? 0) + 6;
+                break;
+        }
+    }
+    return hasil;
+}
+
+function Rumus_PanjangCA(bentukRumus_PanjangCA, modelRumus_PanjangCA) {
+    let hasil = 0;
+    if (bentukRumus_PanjangCA === "S") {
+        if (
+            modelRumus_PanjangCA.trim().substring(0, 5) === "05CAD" ||
+            modelRumus_PanjangCA.trim().substring(0, 5) === "05CAP" ||
+            modelRumus_PanjangCA.trim().substring(0, 5) === "05CAS"
+        ) {
+            hasil =
+                parseFloat(cerobongAtas_panjang.value ?? 0) * 2 +
+                parseFloat(cerobongAtas_lebar.value ?? 0) * 2 +
+                5;
+        }
+    } else {
+        if (
+            modelRumus_PanjangCA.trim().substring(0, 5) === "05CAD" ||
+            modelRumus_PanjangCA.trim().substring(0, 5) === "05CAP" ||
+            modelRumus_PanjangCA.trim().substring(0, 5) === "05CAS"
+        ) {
+            hasil = parseFloat(cerobongAtas_diameter.value ?? 0) * 3.14 + 6;
+        }
+    }
+    return hasil;
+}
+
+function Rumus_LebarCA(bentukRumus_LebarCA, modelRumus_LebarCA) {
+    let hasil = 0;
+    if (
+        modelRumus_LebarCA.trim().substring(0, 5) == "05CAD" ||
+        modelRumus_LebarCA.trim().substring(0, 5) == "05CAS"
+    ) {
+        hasil = parseFloat(cerobongAtas_tinggi.value ?? 0) + 5;
+    } else if (modelRumus_LebarCA.trim().substring(0, 5) == "05CAP") {
+        hasil = parseFloat(cerobongAtas_tinggi.value ?? 0) + 10;
+    }
+    return hasil;
+}
+
+function Rumus_PanjangCB(bentukRumus_PanjangCB, modelRumus_PanjangCB) {
+    let hasil = 0;
+    if (modelRumus_PanjangCB === "S") {
+        if (
+            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBD" ||
+            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBP" ||
+            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBS"
+        ) {
+            hasil =
+                parseFloat(cerobongBawah_panjang.value ?? 0) * 2 +
+                parseFloat(cerobongBawah_lebar.value ?? 0) * 2 +
+                5;
+        }
+    } else {
+        if (
+            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBD" ||
+            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBP" ||
+            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBS"
+        ) {
+            hasil = parseFloat(cerobongBawah_diameter.value ?? 0) * 3.14 + 6;
+        }
+    }
+    return hasil;
+}
+
+function Rumus_LebarCB(bentukRumus_LebarCB, modelRumus_LebarCB) {
+    let hasil = 0;
+    if (
+        modelRumus_LebarCB.trim().substring(0, 5) == "06CBD" ||
+        modelRumus_LebarCB.trim().substring(0, 5) == "06CBS"
+    ) {
+        hasil = parseFloat(cerobongBawah_tinggi.value ?? 0) + 5;
+    } else if (modelRumus_LebarCB.trim().substring(0, 5) == "06CBP") {
+        hasil = parseFloat(cerobongBawah_tinggi.value ?? 0) + 10;
+    }
+    return hasil;
+}
+
+function bodyBesar() {
+    SetVariabel();
+    PanjangPot = Rumus_PanjangBB(body_bentuk.value, id_body_model.value);
+    LebarPot = Rumus_LebarBB(body_bentuk.value, id_body_model.value);
+
+    if (id_body_model.value == "01BB2M" || id_body_model.value == "01BB2O") {
+        Qty = 2;
+    } else {
+        Qty = 0;
+    }
+
+    $.ajax({
+        type: "POST", // or 'GET' depending on your server setup
+        url: "TabelHitunganJBB", // Specify the URL of your controller
+        data: {
+            _token: csrfToken,
+            KodeBarang: nama_barang.value,
+            KodeKomponen: id_body_model.value,
+            Panjang: PanjangPot,
+            Lebar: LebarPot,
+            Kounter: kounter,
+            mode_insert: "BodyBesar",
+        }, // Pass the data with csrf_tokern
+        success: function (response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        },
+    });
+}
+
+function BodySampingI() {
+    SetVariabel();
+    PanjangPot = Rumus_PanjangBSI(body_bentuk.value, id_body_model.value);
+    LebarPot = Rumus_LebarBSI(body_bentuk.value, id_body_model.value);
+
+    id_body_model.value = "";
+    id_body_model.value = "02BS" + id_body_model.value.slice(-2);
+
+    $.ajax({
+        type: "POST", // or 'GET' depending on your server setup
+        url: "TabelHitunganJBB", // Specify the URL of your controller
+        data: {
+            _token: csrfToken,
+            KodeBarang: nama_barang.value,
+            KodeKomponen: id_body_model.value,
+            Panjang: PanjangPot,
+            Lebar: LebarPot,
+            Kounter: kounter,
+            mode_insert: "BodySampingI",
+        }, // Pass the data with csrf_tokern
+        success: function (response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        },
+    });
+}
+
+function BodySampingII() {
+    SetVariabel();
+    PanjangPot = Rumus_PanjangBSII(body_bentuk.value, id_body_model.value);
+    LebarPot = Rumus_LebarBSII(body_bentuk.value, id_body_model.value);
+
+    id_body_model.value = "";
+    id_body_model.value = "02BS" + id_body_model.value.slice(-2);
+
+    $.ajax({
+        type: "POST", // or 'GET' depending on your server setup
+        url: "TabelHitunganJBB", // Specify the URL of your controller
+        data: {
+            _token: csrfToken,
+            KodeBarang: nama_barang.value,
+            KodeKomponen: id_body_model.value,
+            Panjang: PanjangPot,
+            Lebar: LebarPot,
+            Kounter: kounter,
+            mode_insert: "BodySampingII",
+        }, // Pass the data with csrf_tokern
+        success: function (response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        },
+    });
+}
+
+function TutupAtas() {
+    SetVariabel();
+    PanjangPot = Rumus_PanjangTA(body_bentuk.value, id_body_model.value);
+    LebarPot = Rumus_LebarTA(body_bentuk.value, id_body_model.value);
+
+    id_body_model.value = "";
+    id_body_model.value = "03TA" + id_body_model.value.slice(-2);
+
+    $.ajax({
+        type: "POST", // or 'GET' depending on your server setup
+        url: "TabelHitunganJBB", // Specify the URL of your controller
+        data: {
+            _token: csrfToken,
+            KodeBarang: nama_barang.value,
+            KodeKomponen: id_body_model.value,
+            Panjang: PanjangPot,
+            Lebar: LebarPot,
+            Kounter: kounter,
+            mode_insert: "TutupAtas",
+        }, // Pass the data with csrf_tokern
+        success: function (response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        },
+    });
+}
+
+function TutupBawah() {
+    SetVariabel();
+    PanjangPot = Rumus_PanjangTB(body_bentuk.value, id_body_model.value);
+    LebarPot = Rumus_LebarTB(body_bentuk.value, id_body_model.value);
+
+    id_body_model.value = "";
+    id_body_model.value = "04TB" + id_body_model.value.slice(-2);
+
+    $.ajax({
+        type: "POST", // or 'GET' depending on your server setup
+        url: "TabelHitunganJBB", // Specify the URL of your controller
+        data: {
+            _token: csrfToken,
+            KodeBarang: nama_barang.value,
+            KodeKomponen: id_body_model.value,
+            Panjang: PanjangPot,
+            Lebar: LebarPot,
+            Kounter: kounter,
+            mode_insert: "TutupBawah",
+        }, // Pass the data with csrf_tokern
+        success: function (response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        },
+    });
+}
+
+function CerobongAtas() {
+    SetVariabel();
+    PanjangPot = Rumus_PanjangCA(
+        cerobongAtas_bentuk.value,
+        id_cerobongAtas_model.value
+    );
+    LebarPot = Rumus_LebarCA(
+        cerobongAtas_bentuk.value,
+        id_cerobongAtas_model.value
+    );
+
+    id_cerobongAtas_model.value = "";
+    id_cerobongAtas_model.value =
+        "04TB" + id_cerobongAtas_model.value.slice(-2);
+
+    $.ajax({
+        type: "POST", // or 'GET' depending on your server setup
+        url: "TabelHitunganJBB", // Specify the URL of your controller
+        data: {
+            _token: csrfToken,
+            KodeBarang: nama_barang.value,
+            KodeKomponen: id_cerobongAtas_model.value,
+            Panjang: PanjangPot,
+            Lebar: LebarPot,
+            Kounter: kounter,
+            mode_insert: "TutupBawah",
+        }, // Pass the data with csrf_tokern
+        success: function (response) {
+            // Handle the successful response from the controller
+            console.log(response);
+        },
+        error: function (xhr, status, error) {
+            // Handle errors
+            console.error(error);
+        },
+    });
+}
+
+function CerobongBawah() {
+    SetVariabel();
+    PanjangPot = Rumus_PanjangCB(
+        cerobongBawah_bentuk.value,
+        id_cerobongBawah_model.value
+    );
+    LebarPot = Rumus_LebarCB(
+        cerobongBawah_bentuk.value,
+        id_cerobongBawah_model.value
+    );
+
+    id_cerobongBawah_model.value = "";
+    id_cerobongBawah_model.value =
+        "04TB" + id_cerobongBawah_model.value.slice(-2);
+
+    $.ajax({
+        type: "POST", // or 'GET' depending on your server setup
+        url: "TabelHitunganJBB", // Specify the URL of your controller
+        data: {
+            _token: csrfToken,
+            KodeBarang: nama_barang.value,
+            KodeKomponen: id_cerobongBawah_model.value,
+            Panjang: PanjangPot,
+            Lebar: LebarPot,
+            Kounter: kounter,
+            mode_insert: "TutupBawah",
         }, // Pass the data with csrf_tokern
         success: function (response) {
             // Handle the successful response from the controller
