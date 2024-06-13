@@ -273,6 +273,36 @@ function print(data) {
         });
 
         const print = `
+        <style>
+            table.styled-table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+                font-size: 18px;
+                text-align: left;
+            }
+
+            table.styled-table th,
+            table.styled-table td {
+                padding: 12px 15px;
+            }
+
+            table.styled-table thead tr {
+                border-bottom: 2px solid #333;
+            }
+
+            table.styled-table tbody tr {
+                border-bottom: none;
+            }
+
+            table.styled-table tbody tr:last-of-type {
+                border-bottom: none;
+            }
+
+            table.styled-table tbody tr+tr {
+                margin-top: 10px;
+            }
+        </style>
         <div style="width: 21.59cm; height: 27.94cm; padding: 0 0.5cm; margin: 0 auto; background: #FFFFFF; box-sizing: border-box; page-break-after: ${
             chunkIndex < chunkedData.length - 1 ? `always` : `avoid`
         };">

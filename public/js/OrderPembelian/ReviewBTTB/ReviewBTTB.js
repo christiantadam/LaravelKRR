@@ -123,7 +123,7 @@ function print(data) {
             }
 
             table.styled-table tbody tr {
-                border-bottom: 1px solid #ddd;
+                border-bottom: none;
             }
 
             table.styled-table tbody tr:last-of-type {
