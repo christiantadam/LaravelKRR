@@ -371,6 +371,27 @@ function post(bttb) {
         if (data[i].no_kat_utama == "009") {
             noTrTmp = 1;
         }
+        if (data[i].Kd_brg.charAt(0) == "1" && data[i].Kd_brg.charAt(1) == "3") {
+            if (nopibext.value == "") {
+                Swal.fire({
+                    icon: "info",
+                    title: "Untuk kode barang KITE, PIB harus diisi!",
+                    showConfirmButton: false,
+                    timer: "2000",
+                });
+                return;
+            }
+        } else {
+            if (nopibext.value !== "") {
+                Swal.fire({
+                    icon: "info",
+                    title: "PIB sudah dikosongkan!",
+                    showConfirmButton: false,
+                    timer: "2000",
+                });
+                nopibext.value = "";
+            }
+        }
         $.ajax({
             url: "/CCreateBTTB/PostData",
             type: "POST",

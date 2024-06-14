@@ -165,9 +165,10 @@ class TransferBarangController extends Controller
         $Type = 11;
         $KodeBarang = $request->input('KodeBarang');
         $idObjek = $request->input('idObjek');
+        $noPIB = $request->input('noPIB');
         if (($KodeBarang != null) && ($idObjek != null)) {
             try {
-                $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_UserDivisi @KodeBarang = ?, @Type = ?,@idObjek=?', [$KodeBarang, $Type, $idObjek]);
+                $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_UserDivisi @KodeBarang = ?, @Type = ?,@idObjek=? , @noPIB = ?', [$KodeBarang, $Type, $idObjek, $noPIB]);
                 return Response()->json($data);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);

@@ -57,12 +57,16 @@ function optionClr() {
 objek_select.addEventListener("change", function (event) {
     ket_objek.value = objek_select.value;
     if (objek_select.selectedIndex != 0) {
+        if (no_pib.value !== '') {
+            let noPIBs = no_pib.value.trim();
+        }
         $.ajax({
             url: "/TransferBarang/TransferBTTB/LoadKelomDLL",
             type: "GET",
             data: {
                 KodeBarang: kode_barang.value.trim(),
                 idObjek: ket_objek.value.trim(),
+                noPIB: noPIBs ?? null
             },
             success: function (response) {
                 console.log(response);
