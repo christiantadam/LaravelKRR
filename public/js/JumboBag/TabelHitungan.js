@@ -312,278 +312,317 @@ function formEnabler(status) {
 }
 
 function loadDataKoreksi(kode_barang, nama_customer) {
-    fetch("/GetDataKoreksi/" + kode_barang + "/" + nama_customer)
-        .then((response) => response.json())
-        .then((datas) => {
-            console.log(datas, datas[0][0]["Tgl_Update"]);
-            let parts = datas[0][0]["Tgl_Update"].split(" ")[0].split("-");
-            let tgl = parts[0] + "-" + parts[1] + "-" + parts[2];
-            tanggal_update.value = tgl;
-            if (proses == 2) {
-                formEnabler(false);
-            }
-
-            //Bagian Body
-            body_bentuk.value = datas[1][0]["Bentuk_BB"];
-            body_panjang.value = parseFloat(datas[1][0]["Panjang_BB"]).toFixed(
-                2
-            );
-            body_lebar.value = parseFloat(datas[1][0]["Lebar_BB"]).toFixed(2);
-            body_tinggi.value = parseFloat(datas[1][0]["Tinggi_BB"]).toFixed(2);
-            body_diameter.value = parseFloat(
-                datas[1][0]["Diameter_BB"]
-            ).toFixed(2);
-            body_model.value = datas[1][0]["Nama_ModelBB"];
-            id_body_model.value = datas[1][0]["Model_BB"];
-
-            //Bagian Cerobong Atas
-            cerobongAtas_bentuk.value = datas[1][0]["Bentuk_CA"];
-            cerobongAtas_panjang.value = parseFloat(
-                datas[1][0]["Panjang_CA"]
-            ).toFixed(2);
-            cerobongAtas_lebar.value = parseFloat(
-                datas[1][0]["Lebar_CA"]
-            ).toFixed(2);
-            cerobongAtas_tinggi.value = parseFloat(
-                datas[1][0]["Tinggi_CA"]
-            ).toFixed(2);
-            cerobongAtas_diameter.value = parseFloat(
-                datas[1][0]["Diameter_CA"]
-            ).toFixed(2);
-            cerobongAtas_model.value = datas[1][0]["Nama_ModelCA"];
-            id_cerobongAtas_model.value = datas[1][0]["Model_CA"];
-
-            //Bagian Cerobong Bawah
-            cerobongBawah_bentuk.value = datas[1][0]["Bentuk_CB"];
-            cerobongBawah_panjang.value = parseFloat(
-                datas[1][0]["Panjang_CB"]
-            ).toFixed(2);
-            cerobongBawah_lebar.value = parseFloat(
-                datas[1][0]["Lebar_CB"]
-            ).toFixed(2);
-            cerobongBawah_tinggi.value = parseFloat(
-                datas[1][0]["Tinggi_CB"]
-            ).toFixed(2);
-            cerobongBawah_diameter.value = parseFloat(
-                datas[1][0]["Diameter_CB"]
-            ).toFixed(2);
-            cerobongBawah_model.value = datas[1][0]["Nama_ModelCB"];
-            id_cerobongBawah_model.value = datas[1][0]["Model_CB"];
-
-            //Bagian Reinforced
-            reinforced_lebar.value = datas[1][0]["Reinforced"];
-            reinforced_jumlah.value = datas[1][0]["jmlrein"] ?? 0;
-            reinforced_jarak.value = datas[1][0]["jarakrein"] ?? 0;
-            reinforced_beltrope.value = datas[1][0]["Belt_Rope"];
-            reinforced_warna.value = datas[1][0]["Warna"];
-            reinforced_loop.value = datas[1][0]["Jumlah_Loop"];
-            reinforced_tinggiloop.value = datas[1][0]["Tinggi_Loop"];
-            reinforced_SWL.value = datas[1][0]["SWL"];
-            reinforced_SF1.value = datas[1][0]["SF1"];
-            reinforced_SF2.value = datas[1][0]["SF2"];
-            reinforced_stdwaktu.value = datas[1][0]["std_waktu"] ?? 0;
-            reinforced_printing.value = datas[1][0]["Status_Printing"] ?? 0;
-            if (datas[1][0]["Lami"] == "N") {
-                reinforced_lami.value = "No Lami";
-                reinforced_tebal.value = 0;
-            } else {
-                reinforced_lami.value = datas[1][0]["Status_Lami"];
-                reinforced_tebal.value = datas[1][0]["Tebal_lami"];
-            }
-            if (datas[1][0]["Iner"] == "N") {
-                reinforced_inner.value = 0;
-            } else {
-                reinforced_inner.value = datas[1][0]["Tebal_Iner"];
-            }
-            reinforced_keterangan.value = datas[1][0]["Keterangan"];
-            jenis_barang.value = datas[1][0]["Usage_type"] ?? "-";
-            warna = "";
-            standarwaktu = reinforced_stdwaktu.value;
-
-            let dataToInsert = datas[2];
-            let index = 0;
-
-            $(document).ready(function () {
-                dataToInsert.forEach(function (obj) {
-                    // index += 1;
-                    tabelData.row
-                        .add([
-                            obj.Kode_Komponen,
-                            obj.Nama_Komponen,
-                            parseFloat(obj.Panjang_Potongan).toLocaleString(
-                                "en-US",
-                                {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                }
-                            ),
-                            parseFloat(obj.Lebar_Potongan).toLocaleString(
-                                "en-US",
-                                {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                }
-                            ),
-                            parseFloat(obj.WA_Rajutan).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            }),
-                            parseFloat(obj.WE_Rajutan).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            }),
-                            parseFloat(obj.Denier).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            }),
-                            parseFloat(obj.Quantity).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            }),
-                            parseFloat(obj.Berat).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            }),
-                            parseFloat(obj.Harga).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            }),
-                            parseFloat(obj.SubTotal).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            }),
-                            parseFloat(obj.Kounter_Komponen).toLocaleString(
-                                "en-US",
-                                {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                }
-                            ),
-                            // index,
-                        ])
-                        .draw();
-                });
+    return new Promise((resolve, reject) => {
+        //loadDataKoreksi ini adalah function loadDataHeader dan loadDataRincian dijadikan 1
+        fetch("/GetDataKoreksi/" + kode_barang + "/" + nama_customer)
+            .then((response) => response.json())
+            .then((datas) => {
+                console.log(datas);
+                let parts = datas[0][0]["Tgl_Update"].split(" ")[0].split("-");
+                let tgl = parts[0] + "-" + parts[1] + "-" + parts[2];
+                tanggal_update.value = tgl;
                 if (proses == 2) {
-                    $("#tabelData tbody").on("click", "tr", function () {
-                        console.log("masuk #tabelData tbody click", this);
-                        // Remove 'selected' class from all rows
-                        tabelData.$("tr.selected").removeClass("selected");
-                        // Add 'selected' class to the clicked row
-                        $(this).addClass("selected");
-                    });
+                    formEnabler(false);
                 }
+
+                //Bagian Body
+                body_bentuk.value = datas[1][0]["Bentuk_BB"];
+                body_panjang.value = parseFloat(
+                    datas[1][0]["Panjang_BB"]
+                ).toFixed(2);
+                body_lebar.value = parseFloat(datas[1][0]["Lebar_BB"]).toFixed(
+                    2
+                );
+                body_tinggi.value = parseFloat(
+                    datas[1][0]["Tinggi_BB"]
+                ).toFixed(2);
+                body_diameter.value = parseFloat(
+                    datas[1][0]["Diameter_BB"]
+                ).toFixed(2);
+                body_model.value = datas[1][0]["Nama_ModelBB"];
+                id_body_model.value = datas[1][0]["Model_BB"];
+
+                //Bagian Cerobong Atas
+                cerobongAtas_bentuk.value = datas[1][0]["Bentuk_CA"];
+                cerobongAtas_panjang.value = parseFloat(
+                    datas[1][0]["Panjang_CA"]
+                ).toFixed(2);
+                cerobongAtas_lebar.value = parseFloat(
+                    datas[1][0]["Lebar_CA"]
+                ).toFixed(2);
+                cerobongAtas_tinggi.value = parseFloat(
+                    datas[1][0]["Tinggi_CA"]
+                ).toFixed(2);
+                cerobongAtas_diameter.value = parseFloat(
+                    datas[1][0]["Diameter_CA"]
+                ).toFixed(2);
+                cerobongAtas_model.value = datas[1][0]["Nama_ModelCA"];
+                id_cerobongAtas_model.value = datas[1][0]["Model_CA"];
+
+                //Bagian Cerobong Bawah
+                cerobongBawah_bentuk.value = datas[1][0]["Bentuk_CB"];
+                cerobongBawah_panjang.value = parseFloat(
+                    datas[1][0]["Panjang_CB"]
+                ).toFixed(2);
+                cerobongBawah_lebar.value = parseFloat(
+                    datas[1][0]["Lebar_CB"]
+                ).toFixed(2);
+                cerobongBawah_tinggi.value = parseFloat(
+                    datas[1][0]["Tinggi_CB"]
+                ).toFixed(2);
+                cerobongBawah_diameter.value = parseFloat(
+                    datas[1][0]["Diameter_CB"]
+                ).toFixed(2);
+                cerobongBawah_model.value = datas[1][0]["Nama_ModelCB"];
+                id_cerobongBawah_model.value = datas[1][0]["Model_CB"];
+
+                //Bagian Reinforced
+                reinforced_lebar.value = datas[1][0]["Reinforced"];
+                reinforced_jumlah.value = datas[1][0]["jmlrein"] ?? 0;
+                reinforced_jarak.value = datas[1][0]["jarakrein"] ?? 0;
+                reinforced_beltrope.value = datas[1][0]["Belt_Rope"];
+                reinforced_warna.value = datas[1][0]["Warna"];
+                reinforced_loop.value = datas[1][0]["Jumlah_Loop"];
+                reinforced_tinggiloop.value = datas[1][0]["Tinggi_Loop"];
+                reinforced_SWL.value = datas[1][0]["SWL"];
+                reinforced_SF1.value = datas[1][0]["SF1"];
+                reinforced_SF2.value = datas[1][0]["SF2"];
+                reinforced_stdwaktu.value = datas[1][0]["std_waktu"] ?? 0;
+                reinforced_printing.value = datas[1][0]["Status_Printing"] ?? 0;
+                if (datas[1][0]["Lami"] == "N") {
+                    reinforced_lami.value = "No Lami";
+                    reinforced_tebal.value = 0;
+                } else {
+                    reinforced_lami.value = datas[1][0]["Status_Lami"];
+                    reinforced_tebal.value = datas[1][0]["Tebal_lami"];
+                }
+                if (datas[1][0]["Iner"] == "N") {
+                    reinforced_inner.value = 0;
+                } else {
+                    reinforced_inner.value = datas[1][0]["Tebal_Iner"];
+                }
+                reinforced_keterangan.value = datas[1][0]["Keterangan"];
+                jenis_barang.value = datas[1][0]["Usage_type"] ?? "-";
+                warna = "";
+                standarwaktu = reinforced_stdwaktu.value;
+
+                let dataToInsert = datas[2];
+                let index = 0;
+
+                $(document).ready(function () {
+                    dataToInsert.forEach(function (obj) {
+                        // index += 1;
+                        tabelData.row
+                            .add([
+                                obj.Kode_Komponen,
+                                obj.Nama_Komponen,
+                                parseFloat(obj.Panjang_Potongan).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.Lebar_Potongan).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.WA_Rajutan).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.WE_Rajutan).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.Denier).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }),
+                                parseFloat(obj.Quantity).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.Berat).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }),
+                                parseFloat(obj.Harga).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }),
+                                parseFloat(obj.SubTotal).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.Kounter_Komponen).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                // index,
+                            ])
+                            .draw();
+                    });
+                    if (proses == 2) {
+                        $("#tabelData tbody").on("click", "tr", function () {
+                            console.log("masuk #tabelData tbody click", this);
+                            // Remove 'selected' class from all rows
+                            tabelData.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                    }
+                });
             });
-        });
+    });
 }
 
 function insertMasterDanKodeBarang() {
-    // Create a new form element
-    let formInsert = document.createElement("form");
-    // Get the div element with the class "acs-container"
-    let acsContainer = document.querySelector(".acs-container");
+    return new Promise((resolve, reject) => {
+        // Create a new form element
+        let formInsert = document.createElement("form");
+        // Get the div element with the class "acs-container"
+        let acsContainer = document.querySelector(".acs-container");
 
-    // Select all input elements inside the "acs-container" div
-    let inputElements = acsContainer.querySelectorAll("input");
+        // Select all input elements inside the "acs-container" div
+        let inputElements = acsContainer.querySelectorAll("input");
 
-    // Loop through each input element
-    // inputElements.forEach(function (input) {
-    // Append each input element to the form
-    // formInsert.appendChild(input);
-    // });
-    // formInsert.appendChild();
-    // formInsert.appendChild(reinforced_keterangan);
-    // console.log(formInsert);
-    let lamiValue;
-    let statusLamiValue;
-    let tebalLamiValue;
-    let innerValue;
-    let tebalInnerValue;
-    let sealValue;
-    let dateNowValue;
+        let lamiValue;
+        let statusLamiValue;
+        let tebalLamiValue;
+        let innerValue;
+        let tebalInnerValue;
+        let sealValue;
+        let dateNowValue;
 
-    if (reinforced_lami.value == "No Lami") {
-        lamiValue = "N";
-        statusLamiValue = "";
-        tebalLamiValue = 0;
-    } else {
-        lamiValue = "Y";
-        statusLamiValue = reinforced_lami.value;
-        tebalLamiValue = reinforced_tebal.value;
-    }
-
-    if (reinforced_inner.value > 0) {
-        innerValue = "Y";
-        tebalInnerValue = reinforced_inner.value;
-        if (reinforced_seal.checked == true) {
-            sealValue = "Y";
+        if (reinforced_lami.value == "No Lami") {
+            lamiValue = "N";
+            statusLamiValue = "";
+            tebalLamiValue = 0;
         } else {
-            sealValue = "N";
+            lamiValue = "Y";
+            statusLamiValue = reinforced_lami.value;
+            tebalLamiValue = reinforced_tebal.value;
         }
-    } else {
-        innerValue = "N";
-        tebalInnerValue = 0;
-    }
-    dateNowValue = new Date();
-    $.ajax({
-        type: "POST", // or 'GET' depending on your server setup
-        url: "TabelHitunganJBB", // Specify the URL of your controller
-        data: {
-            _token: csrfToken,
-            KodeBarang: nama_barang.value,
-            BentukBB: body_bentuk.value,
-            ModelBB: body_model.value,
-            KodeModelBB: id_body_model.value,
-            PanjangBB: body_panjang.value,
-            LebarBB: body_lebar.value,
-            TinggiBB: body_tinggi.value,
-            DiameterBB: body_diameter.value,
-            BentukCA: cerobongAtas_bentuk.value,
-            ModelCA: cerobongAtas_model.value,
-            KodeModelCA: id_cerobongAtas_model.value,
-            PanjangCA: cerobongAtas_panjang.value,
-            LebarCA: cerobongAtas_lebar.value,
-            TinggiCA: cerobongAtas_tinggi.value,
-            DiameterCA: cerobongAtas_diameter.value,
-            BentukCB: cerobongBawah_bentuk.value,
-            ModelCB: cerobongBawah_model.value,
-            KodeModelCB: id_cerobongBawah_model.value,
-            PanjangCB: cerobongBawah_panjang.value,
-            LebarCB: cerobongBawah_lebar.value,
-            TinggiCB: cerobongBawah_tinggi.value,
-            DiameterCB: cerobongBawah_diameter.value,
-            Reinforced: reinforced_lebar.value,
-            Warna: reinforced_warna.value,
-            BeltRope: reinforced_beltrope.value,
-            Loop: reinforced_loop.value,
-            TinggiLoop: reinforced_tinggiloop.value,
-            Swl: reinforced_SWL.value,
-            Sf1: reinforced_SF1.value,
-            Sf2: reinforced_SF2.value,
-            Lami: lamiValue,
-            StatusLami: statusLamiValue,
-            TebalLami: tebalLamiValue,
-            Inner: innerValue,
-            Tebalinner: tebalInnerValue,
-            Seal: sealValue,
-            Keterangan: reinforced_keterangan.value,
-            StdWaktu: reinforced_stdwaktu.value,
-            JmlReinf: reinforced_jumlah.value,
-            JarakReinf: reinforced_jarak.value,
-            StatusPrinting: reinforced_printing.value,
-            Usage_type: jenis_barang.value,
-            KodeCustomer: id_customer.value,
-            Tanggal: tanggal.value,
-            Tgl_Update: dateNowValue,
-            mode_insert: "Master",
-        }, // Pass the data with csrf_tokern
-        success: function (response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        },
+
+        if (reinforced_inner.value > 0) {
+            innerValue = "Y";
+            tebalInnerValue = reinforced_inner.value;
+            if (reinforced_seal.checked == true) {
+                sealValue = "Y";
+            } else {
+                sealValue = "N";
+            }
+        } else {
+            innerValue = "N";
+            tebalInnerValue = 0;
+        }
+        dateNowValue = new Date();
+        let formattedDateNow =
+            dateNowValue.getFullYear() +
+            "-" +
+            ("0" + (dateNowValue.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + dateNowValue.getDate()).slice(-2) +
+            " " +
+            ("0" + dateNowValue.getHours()).slice(-2) +
+            ":" +
+            ("0" + dateNowValue.getMinutes()).slice(-2) +
+            ":" +
+            ("0" + dateNowValue.getSeconds()).slice(-2);
+
+        $.ajax({
+            type: "POST", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB", // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+                KodeBarang: nama_barang.value,
+                BentukBB: body_bentuk.value,
+                ModelBB: id_body_model.value,
+                KodeModelBB: body_bentuk.value + id_body_model.value,
+                PanjangBB: body_panjang.value,
+                LebarBB: body_lebar.value,
+                TinggiBB: body_tinggi.value,
+                DiameterBB: body_diameter.value,
+                BentukCA: cerobongAtas_bentuk.value,
+                ModelCA: id_cerobongAtas_model.value,
+                KodeModelCA:
+                    cerobongAtas_bentuk.value + id_cerobongAtas_model.value,
+                PanjangCA: cerobongAtas_panjang.value,
+                LebarCA: cerobongAtas_lebar.value,
+                TinggiCA: cerobongAtas_tinggi.value,
+                DiameterCA: cerobongAtas_diameter.value,
+                BentukCB: cerobongBawah_bentuk.value,
+                ModelCB: id_cerobongBawah_model.value,
+                KodeModelCB:
+                    cerobongBawah_bentuk.value + id_cerobongBawah_model.value,
+                PanjangCB: cerobongBawah_panjang.value,
+                LebarCB: cerobongBawah_lebar.value,
+                TinggiCB: cerobongBawah_tinggi.value,
+                DiameterCB: cerobongBawah_diameter.value,
+                Reinforced: reinforced_lebar.value,
+                Warna: reinforced_warna.value,
+                BeltRope: reinforced_beltrope.value,
+                Loop: reinforced_loop.value,
+                TinggiLoop: reinforced_tinggiloop.value,
+                Swl: reinforced_SWL.value,
+                Sf1: reinforced_SF1.value,
+                Sf2: reinforced_SF2.value,
+                Lami: lamiValue,
+                StatusLami: statusLamiValue,
+                TebalLami: tebalLamiValue,
+                Inner: innerValue,
+                Tebalinner: tebalInnerValue,
+                Seal: sealValue,
+                Keterangan: reinforced_keterangan.value,
+                StdWaktu: reinforced_stdwaktu.value,
+                JmlReinf: reinforced_jumlah.value,
+                JarakReinf: reinforced_jarak.value,
+                StatusPrinting: reinforced_printing.value,
+                Usage_type: jenis_barang.value,
+                KodeCustomer: id_customer.value,
+                Tanggal: tanggal.value,
+                Tgl_Update: formattedDateNow,
+                mode_insert: "Master",
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                if (response.success) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Pemberitahuan",
+                        text:
+                            "Head Data Tabel Hitungan Kode : " +
+                            nama_barang.value +
+                            " sudah disimpan !",
+                    });
+                }
+                console.log(response);
+                resolve(); // Resolve the promise when the request is successful
+            },
+            error: function (xhr, status, error) {
+                console.error(error); // Handle errors
+                reject(error); // Reject the promise if an error occurs
+            },
+        });
     });
 }
 
@@ -971,236 +1010,267 @@ function Rumus_LebarCB(bentukRumus_LebarCB, modelRumus_LebarCB) {
 }
 
 function bodyBesar() {
-    SetVariabel();
-    PanjangPot = Rumus_PanjangBB(body_bentuk.value, id_body_model.value);
-    LebarPot = Rumus_LebarBB(body_bentuk.value, id_body_model.value);
+    return new Promise((resolve, reject) => {
+        SetVariabel();
+        let PanjangPot = Rumus_PanjangBB(
+            body_bentuk.value,
+            id_body_model.value
+        );
+        let LebarPot = Rumus_LebarBB(body_bentuk.value, id_body_model.value);
 
-    if (id_body_model.value == "01BB2M" || id_body_model.value == "01BB2O") {
-        Qty = 2;
-    } else {
-        Qty = 0;
-    }
+        let Qty = 0;
+        if (
+            id_body_model.value == "01BB2M" ||
+            id_body_model.value == "01BB2O"
+        ) {
+            Qty = 2;
+        }
 
-    $.ajax({
-        type: "POST", // or 'GET' depending on your server setup
-        url: "TabelHitunganJBB", // Specify the URL of your controller
-        data: {
-            _token: csrfToken,
-            KodeBarang: nama_barang.value,
-            KodeKomponen: id_body_model.value,
-            Panjang: PanjangPot,
-            Lebar: LebarPot,
-            Kounter: kounter,
-            mode_insert: "BodyBesar",
-        }, // Pass the data with csrf_tokern
-        success: function (response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        },
+        $.ajax({
+            type: "POST",
+            url: "TabelHitunganJBB",
+            data: {
+                _token: csrfToken,
+                KodeBarang: nama_barang.value,
+                KodeKomponen: id_body_model.value,
+                Panjang: PanjangPot,
+                Lebar: LebarPot,
+                Kounter: kounter,
+                mode_insert: "BodyBesar",
+            },
+            success: function (response) {
+                console.log(response);
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                reject(error);
+            },
+        });
     });
 }
 
 function BodySampingI() {
-    SetVariabel();
-    PanjangPot = Rumus_PanjangBSI(body_bentuk.value, id_body_model.value);
-    LebarPot = Rumus_LebarBSI(body_bentuk.value, id_body_model.value);
+    return new Promise((resolve, reject) => {
+        SetVariabel();
+        PanjangPot = Rumus_PanjangBSI(body_bentuk.value, id_body_model.value);
+        LebarPot = Rumus_LebarBSI(body_bentuk.value, id_body_model.value);
 
-    id_body_model.value = "";
-    id_body_model.value = "02BS" + id_body_model.value.slice(-2);
+        id_body_model.value = "";
+        id_body_model.value = "02BS" + id_body_model.value.slice(-2);
 
-    $.ajax({
-        type: "POST", // or 'GET' depending on your server setup
-        url: "TabelHitunganJBB", // Specify the URL of your controller
-        data: {
-            _token: csrfToken,
-            KodeBarang: nama_barang.value,
-            KodeKomponen: id_body_model.value,
-            Panjang: PanjangPot,
-            Lebar: LebarPot,
-            Kounter: kounter,
-            mode_insert: "BodySampingI",
-        }, // Pass the data with csrf_tokern
-        success: function (response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        },
+        $.ajax({
+            type: "POST", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB", // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+                KodeBarang: nama_barang.value,
+                KodeKomponen: id_body_model.value,
+                Panjang: PanjangPot,
+                Lebar: LebarPot,
+                Kounter: kounter,
+                mode_insert: "BodySampingI",
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                console.log(response);
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+                console.error(error);
+                reject(error);
+            },
+        });
     });
 }
 
 function BodySampingII() {
-    SetVariabel();
-    PanjangPot = Rumus_PanjangBSII(body_bentuk.value, id_body_model.value);
-    LebarPot = Rumus_LebarBSII(body_bentuk.value, id_body_model.value);
+    return new Promise((resolve, reject) => {
+        SetVariabel();
+        PanjangPot = Rumus_PanjangBSII(body_bentuk.value, id_body_model.value);
+        LebarPot = Rumus_LebarBSII(body_bentuk.value, id_body_model.value);
 
-    id_body_model.value = "";
-    id_body_model.value = "02BS" + id_body_model.value.slice(-2);
+        id_body_model.value = "";
+        id_body_model.value = "02BS" + id_body_model.value.slice(-2);
 
-    $.ajax({
-        type: "POST", // or 'GET' depending on your server setup
-        url: "TabelHitunganJBB", // Specify the URL of your controller
-        data: {
-            _token: csrfToken,
-            KodeBarang: nama_barang.value,
-            KodeKomponen: id_body_model.value,
-            Panjang: PanjangPot,
-            Lebar: LebarPot,
-            Kounter: kounter,
-            mode_insert: "BodySampingII",
-        }, // Pass the data with csrf_tokern
-        success: function (response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        },
+        $.ajax({
+            type: "POST", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB", // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+                KodeBarang: nama_barang.value,
+                KodeKomponen: id_body_model.value,
+                Panjang: PanjangPot,
+                Lebar: LebarPot,
+                Kounter: kounter,
+                mode_insert: "BodySampingII",
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                console.log(response);
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+                console.error(error);
+                reject(error);
+            },
+        });
     });
 }
 
 function TutupAtas() {
-    SetVariabel();
-    PanjangPot = Rumus_PanjangTA(body_bentuk.value, id_body_model.value);
-    LebarPot = Rumus_LebarTA(body_bentuk.value, id_body_model.value);
+    return new Promise((resolve, reject) => {
+        SetVariabel();
+        PanjangPot = Rumus_PanjangTA(body_bentuk.value, id_body_model.value);
+        LebarPot = Rumus_LebarTA(body_bentuk.value, id_body_model.value);
 
-    id_body_model.value = "";
-    id_body_model.value = "03TA" + id_body_model.value.slice(-2);
+        id_body_model.value = "";
+        id_body_model.value = "03TA" + id_body_model.value.slice(-2);
 
-    $.ajax({
-        type: "POST", // or 'GET' depending on your server setup
-        url: "TabelHitunganJBB", // Specify the URL of your controller
-        data: {
-            _token: csrfToken,
-            KodeBarang: nama_barang.value,
-            KodeKomponen: id_body_model.value,
-            Panjang: PanjangPot,
-            Lebar: LebarPot,
-            Kounter: kounter,
-            mode_insert: "TutupAtas",
-        }, // Pass the data with csrf_tokern
-        success: function (response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        },
+        $.ajax({
+            type: "POST", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB", // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+                KodeBarang: nama_barang.value,
+                KodeKomponen: id_body_model.value,
+                Panjang: PanjangPot,
+                Lebar: LebarPot,
+                Kounter: kounter,
+                mode_insert: "TutupAtas",
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                console.log(response);
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+                console.error(error);
+                reject(error);
+            },
+        });
     });
 }
 
 function TutupBawah() {
-    SetVariabel();
-    PanjangPot = Rumus_PanjangTB(body_bentuk.value, id_body_model.value);
-    LebarPot = Rumus_LebarTB(body_bentuk.value, id_body_model.value);
+    return new Promise((resolve, reject) => {
+        SetVariabel();
+        PanjangPot = Rumus_PanjangTB(body_bentuk.value, id_body_model.value);
+        LebarPot = Rumus_LebarTB(body_bentuk.value, id_body_model.value);
 
-    id_body_model.value = "";
-    id_body_model.value = "04TB" + id_body_model.value.slice(-2);
+        id_body_model.value = "";
+        id_body_model.value = "04TB" + id_body_model.value.slice(-2);
 
-    $.ajax({
-        type: "POST", // or 'GET' depending on your server setup
-        url: "TabelHitunganJBB", // Specify the URL of your controller
-        data: {
-            _token: csrfToken,
-            KodeBarang: nama_barang.value,
-            KodeKomponen: id_body_model.value,
-            Panjang: PanjangPot,
-            Lebar: LebarPot,
-            Kounter: kounter,
-            mode_insert: "TutupBawah",
-        }, // Pass the data with csrf_tokern
-        success: function (response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        },
+        $.ajax({
+            type: "POST", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB", // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+                KodeBarang: nama_barang.value,
+                KodeKomponen: id_body_model.value,
+                Panjang: PanjangPot,
+                Lebar: LebarPot,
+                Kounter: kounter,
+                mode_insert: "TutupBawah",
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                console.log(response);
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+                console.error(error);
+                reject(error);
+            },
+        });
     });
 }
 
 function CerobongAtas() {
-    SetVariabel();
-    PanjangPot = Rumus_PanjangCA(
-        cerobongAtas_bentuk.value,
-        id_cerobongAtas_model.value
-    );
-    LebarPot = Rumus_LebarCA(
-        cerobongAtas_bentuk.value,
-        id_cerobongAtas_model.value
-    );
+    return new Promise((resolve, reject) => {
+        SetVariabel();
+        PanjangPot = Rumus_PanjangCA(
+            cerobongAtas_bentuk.value,
+            id_cerobongAtas_model.value
+        );
+        LebarPot = Rumus_LebarCA(
+            cerobongAtas_bentuk.value,
+            id_cerobongAtas_model.value
+        );
 
-    id_cerobongAtas_model.value = "";
-    id_cerobongAtas_model.value =
-        "04TB" + id_cerobongAtas_model.value.slice(-2);
+        id_cerobongAtas_model.value = "";
+        id_cerobongAtas_model.value =
+            "04TB" + id_cerobongAtas_model.value.slice(-2);
 
-    $.ajax({
-        type: "POST", // or 'GET' depending on your server setup
-        url: "TabelHitunganJBB", // Specify the URL of your controller
-        data: {
-            _token: csrfToken,
-            KodeBarang: nama_barang.value,
-            KodeKomponen: id_cerobongAtas_model.value,
-            Panjang: PanjangPot,
-            Lebar: LebarPot,
-            Kounter: kounter,
-            mode_insert: "CerobongAtas",
-        }, // Pass the data with csrf_tokern
-        success: function (response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        },
+        $.ajax({
+            type: "POST", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB", // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+                KodeBarang: nama_barang.value,
+                KodeKomponen: id_cerobongAtas_model.value,
+                Panjang: PanjangPot,
+                Lebar: LebarPot,
+                Kounter: kounter,
+                mode_insert: "CerobongAtas",
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                console.log(response);
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+                console.error(error);
+                reject(error);
+            },
+        });
     });
 }
 
 function CerobongBawah() {
-    SetVariabel();
-    PanjangPot = Rumus_PanjangCB(
-        cerobongBawah_bentuk.value,
-        id_cerobongBawah_model.value
-    );
-    LebarPot = Rumus_LebarCB(
-        cerobongBawah_bentuk.value,
-        id_cerobongBawah_model.value
-    );
+    return new Promise((resolve, reject) => {
+        SetVariabel();
+        PanjangPot = Rumus_PanjangCB(
+            cerobongBawah_bentuk.value,
+            id_cerobongBawah_model.value
+        );
+        LebarPot = Rumus_LebarCB(
+            cerobongBawah_bentuk.value,
+            id_cerobongBawah_model.value
+        );
 
-    id_cerobongBawah_model.value = "";
-    id_cerobongBawah_model.value =
-        "04TB" + id_cerobongBawah_model.value.slice(-2);
+        id_cerobongBawah_model.value = "";
+        id_cerobongBawah_model.value =
+            "04TB" + id_cerobongBawah_model.value.slice(-2);
 
-    $.ajax({
-        type: "POST", // or 'GET' depending on your server setup
-        url: "TabelHitunganJBB", // Specify the URL of your controller
-        data: {
-            _token: csrfToken,
-            KodeBarang: nama_barang.value,
-            KodeKomponen: id_cerobongBawah_model.value,
-            Panjang: PanjangPot,
-            Lebar: LebarPot,
-            Kounter: kounter,
-            mode_insert: "CerobongBawah",
-        }, // Pass the data with csrf_tokern
-        success: function (response) {
-            // Handle the successful response from the controller
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            // Handle errors
-            console.error(error);
-        },
+        $.ajax({
+            type: "POST", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB", // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+                KodeBarang: nama_barang.value,
+                KodeKomponen: id_cerobongBawah_model.value,
+                Panjang: PanjangPot,
+                Lebar: LebarPot,
+                Kounter: kounter,
+                mode_insert: "CerobongBawah",
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                console.log(response);
+                resolve(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+                console.error(error);
+                reject(error);
+            },
+        });
     });
 }
 
@@ -1470,6 +1540,8 @@ body_panjang.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         body_lebar.disabled = false;
         body_lebar.focus();
@@ -1481,6 +1553,8 @@ body_diameter.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         body_tinggi.disabled = false;
         body_tinggi.focus();
@@ -1492,6 +1566,8 @@ body_lebar.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         body_tinggi.disabled = false;
         body_tinggi.focus();
@@ -1503,6 +1579,8 @@ body_tinggi.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         btn_body_model.disabled = false;
         btn_body_model.focus();
@@ -1642,6 +1720,8 @@ cerobongAtas_panjang.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         cerobongAtas_lebar.disabled = false;
         cerobongAtas_lebar.focus();
@@ -1653,6 +1733,8 @@ cerobongAtas_lebar.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         cerobongAtas_tinggi.disabled = false;
         cerobongAtas_tinggi.focus();
@@ -1664,6 +1746,8 @@ cerobongAtas_diameter.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         cerobongAtas_tinggi.disabled = false;
         cerobongAtas_tinggi.focus();
@@ -1675,6 +1759,8 @@ cerobongAtas_tinggi.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         btn_cerobongAtas_model.disabled = false;
         btn_cerobongAtas_model.focus();
@@ -1816,6 +1902,8 @@ cerobongBawah_panjang.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         cerobongBawah_lebar.disabled = false;
         cerobongBawah_lebar.focus();
@@ -1827,6 +1915,8 @@ cerobongBawah_lebar.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         cerobongBawah_tinggi.disabled = false;
         cerobongBawah_tinggi.focus();
@@ -1838,6 +1928,8 @@ cerobongBawah_diameter.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         cerobongBawah_tinggi.disabled = false;
         cerobongBawah_tinggi.focus();
@@ -1849,6 +1941,8 @@ cerobongBawah_tinggi.addEventListener("keypress", function (e) {
         e.preventDefault();
         if (this.value == "") {
             this.value = 0;
+        } else {
+            this.value = parseFloat(this.value);
         }
         btn_cerobongBawah_model.disabled = false;
         btn_cerobongBawah_model.focus();
@@ -2391,21 +2485,23 @@ btn_reinforced_warna.addEventListener("focus", function () {
 });
 
 reinforced_tebal.addEventListener("keypress", function (e) {
-    // if (this.value.trim() == "") {
-    //     this.value = 0;
-    // } else {
-    //     if (!isNaN(this.value)) {
-    //         btn_reinforced_warna.disabled = false;
-    //         btn_reinforced_warna.focus();
-    //     } else {
-    //         Swal.fire({
-    //             icon: "info",
-    //             title: "Pemberitahuan",
-    //             text: "Harus Diisi Angka!",
-    //         });
-    //         this.value = "";
-    //     }
-    // }
+    if (e.key == "Enter") {
+        if (this.value.trim() == "") {
+            this.value = 0;
+        } else {
+            if (!isNaN(this.value)) {
+                btn_reinforced_warna.disabled = false;
+                btn_reinforced_warna.focus();
+            } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "Pemberitahuan",
+                    text: "Harus Diisi Angka!",
+                });
+                this.value = "";
+            }
+        }
+    }
 });
 
 reinforced_inner.addEventListener("keypress", function (e) {
@@ -2427,18 +2523,18 @@ reinforced_inner.addEventListener("keypress", function (e) {
     }
 });
 
-btn_proses.addEventListener("click", function (e) {
+btn_proses.addEventListener("click", async function (e) {
     if (proses == 1) {
         tambah_komponen.disabled == false;
         koreksi_komponen.disabled == false;
         hapus_komponen.disabled == false;
-        insertMasterDanKodeBarang();
+        await insertMasterDanKodeBarang();
         // insertKodeBarang();
 
         //Pengecekan untuk function Body
         if (id_body_model.value !== "01BB4O") {
             kounter = 1;
-            bodyBesar();
+            await bodyBesar();
         }
         if (
             id_body_model.value == "01BBUO" ||
@@ -2447,7 +2543,7 @@ btn_proses.addEventListener("click", function (e) {
         ) {
             statusBS = True;
             kounter = 1;
-            BodySampingI();
+            await BodySampingI();
         }
         if (id_body_model.value == "01BB4O") {
             if (statusBS == True) {
@@ -2456,75 +2552,73 @@ btn_proses.addEventListener("click", function (e) {
             } else {
                 kounter = 1;
             }
-            BodySampingII();
+            await BodySampingII();
         }
 
         //Pengecekan untuk Function Tutup Atas
         if (
-            txtIdModelCA.value.substring(0, 5) !== "05CAD" &&
-            txtIdModelCA.value !== "05CAOX" &&
-            txtIdModelCA.value !== "05CA1X" &&
-            txtIdModelCA.value !== "05CA2X" &&
-            txtIdModelCA.value !== "05CA3X" &&
-            txtIdModelCA.value !== "05CA4X"
+            id_cerobongAtas_model.value.substring(0, 5) !== "05CAD" &&
+            id_cerobongAtas_model.value !== "05CAOX" &&
+            id_cerobongAtas_model.value !== "05CA1X" &&
+            id_cerobongAtas_model.value !== "05CA2X" &&
+            id_cerobongAtas_model.value !== "05CA3X" &&
+            id_cerobongAtas_model.value !== "05CA4X"
         ) {
             kounter = 1;
-            TutupAtas();
+            await TutupAtas();
         }
 
         //Pengecekan untuk Function Tutup Bawah
         if (
-            txtIdModelCB.value.substring(0, 5) !== "06CBD" &&
-            txtIdModelCB.value !== "06CBOX" &&
-            txtIdModelCB.value !== "06CB1X" &&
-            txtIdModelCB.value !== "06CB2X" &&
-            txtIdModelCB.value !== "06CB3X" &&
-            txtIdModelCB.value !== "06CB4X" &&
-            txtIdModelBB.value !== "01BBUO" &&
-            txtIdModelBB.value !== "01BBUM"
+            id_cerobongBawah_model.value.substring(0, 5) !== "06CBD" &&
+            id_cerobongBawah_model.value !== "06CBOX" &&
+            id_cerobongBawah_model.value !== "06CB1X" &&
+            id_cerobongBawah_model.value !== "06CB2X" &&
+            id_cerobongBawah_model.value !== "06CB3X" &&
+            id_cerobongBawah_model.value !== "06CB4X" &&
+            id_body_model.value !== "01BBUO" &&
+            id_body_model.value !== "01BBUM"
         ) {
             kounter = 1;
-            TutupBawah();
+            await TutupBawah();
         }
 
         //Pengecekan untuk Function Cerobong Atas
         if (
-            txtIdModelCA.value.substring(0, 5) === "05CAP" ||
-            txtIdModelCA.value.substring(0, 5) === "05CAD" ||
-            (txtIdModelCA.value === "05CASO" &&
-                txtIdModelCA.value !== "05CA1X" &&
-                txtIdModelCA.value !== "05CA2X" &&
-                txtIdModelCA.value !== "05CA3X" &&
-                txtIdModelCA.value !== "05CA4X")
+            id_cerobongAtas_model.value.substring(0, 5) === "05CAP" ||
+            id_cerobongAtas_model.value.substring(0, 5) === "05CAD" ||
+            (id_cerobongAtas_model.value === "05CASO" &&
+                id_cerobongAtas_model.value !== "05CA1X" &&
+                id_cerobongAtas_model.value !== "05CA2X" &&
+                id_cerobongAtas_model.value !== "05CA3X" &&
+                id_cerobongAtas_model.value !== "05CA4X")
         ) {
             kounter = 1;
-            CerobongAtas();
+            await CerobongAtas();
         }
 
         //Pengecekan untuk Function Cerobong Bawah
         if (
-            txtIdModelCB.value.substring(0, 5) === "06CBD" ||
-            (txtIdModelCB.value === "06CBSO" &&
-                txtIdModelCB.value !== "06CBST" &&
-                txtIdModelCB.value !== "06CBCX") ||
-            txtIdModelCB.value.substring(0, 5) === "06CBP"
+            id_cerobongBawah_model.value.substring(0, 5) === "06CBD" ||
+            (id_cerobongBawah_model.value === "06CBSO" &&
+                id_cerobongBawah_model.value !== "06CBST" &&
+                id_cerobongBawah_model.value !== "06CBCX") ||
+            id_cerobongBawah_model.value.substring(0, 5) === "06CBP"
         ) {
             kounter = 1;
-            CerobongBawah();
+            await CerobongBawah();
         }
 
-        Swal.fire({
-            icon: "info",
-            title: "Pemberitahuan",
-            text:
-                "Head Data Tabel Hitungan Kode : " +
-                nama_barang.value +
-                " sudah disimpan !",
-        });
         nama_barang.disabled == true;
     } else if (proses == 2) {
     } else if (proses == 3) {
     }
+    if (proses !== 1) {
+        this.disabled = true;
+    } else if (proses == 1) {
+        proses = 2;
+    }
+    await loadDataKoreksi();
 });
 
 //#endregion

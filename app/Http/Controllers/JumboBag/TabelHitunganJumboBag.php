@@ -84,7 +84,10 @@ class TabelHitunganJumboBag extends Controller
             // Handle invalid method, e.g., return an error response
             return response()->json(['error' => 'Invalid request method'], 405);
         }
-        $checkAvailabilityNamaBarang = DB::connection('ConnJumboBag')->table('KODE_BARANG')->where('Kode_Customer', $request->id_customer)->count();
+        $checkAvailabilityNamaBarang = DB::connection('ConnJumboBag')
+            ->table('KODE_BARANG')
+            ->where('Kode_Customer', $request->id_customer)
+            ->count(); //SP_1273_JBB_CHECK_CUST_KDBRG
         // dd($checkAvailabilityNamaBarang);
         if ($checkAvailabilityNamaBarang > 0) {
             $columns = array(
@@ -468,6 +471,12 @@ class TabelHitunganJumboBag extends Controller
             "data" => $data
         );
         return response()->json($json_data);
+    }
+
+    function loadDataRincianTableHitunganJumboBag($KodeBarang, $NamaCustomer)
+    {
+        $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KDBRG_RINCIANTH @KodeBarang = ?, @NamaCustomer = ?', [$KodeBarang, $NamaCustomer]);
+        return response()->json($data);
     }
 
     public function create()
