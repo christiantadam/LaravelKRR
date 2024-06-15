@@ -294,43 +294,60 @@ redisplay.addEventListener("click", function (event) {
 
 create_po.addEventListener("click", function (event) {
     event.preventDefault();
-    if (
-        confirm(
-            "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi. Yakin akan memproses order ini?"
-        ) &&
-        selectedRows.length > 0
-    ) {
-        let sameValues = true;
-        for (let i = 0; i < selectedRows.length; i++) {
-            if (
-                selectedRows[0][1] !== selectedRows[i][1] ||
-                selectedRows[0][2] !== selectedRows[i][2]
-            ) {
-                // sameValues = false;
-                alert(
-                    "Ada data supplier dan divisi yang tidak sama! Jangan lupa diganti ya ❤"
-                );
-                // return;
+    Swal.fire({
+        title: 'Yakin akan memproses order ini?',
+        text: "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed && selectedRows.length > 0) {
+            let sameValues = true; // Ensure your condition is correctly set
+            if (sameValues) {
+                let noTrans = [];
+                for (let index = 0; index < selectedRows.length; index++) {
+                    noTrans.push(selectedRows[index][5]);
+                    console.log(noTrans);
+                }
+                let input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "noTrans";
+                input.value = noTrans;
+                form_createSPPB.target = "_blank";
+                form_createSPPB.appendChild(input);
+                console.log(form_createSPPB);
+                form_createSPPB.submit();
             }
+        } else {
+            return;
         }
-        if (sameValues == true) {
-            let noTrans = [];
-            for (let index = 0; index < selectedRows.length; index++) {
-                noTrans.push(selectedRows[index][5]);
-                console.log(noTrans);
-            }
-            let input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "noTrans";
-            input.value = noTrans;
-            form_createSPPB.target = "_blank";
-            form_createSPPB.appendChild(input);
-            console.log(form_createSPPB);
-            form_createSPPB.submit();
-        }
-    } else {
-        return;
-    }
+    });
+    // if (
+    //     confirm(
+    //         "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi. Yakin akan memproses order ini?"
+    //     ) &&
+    //     selectedRows.length > 0
+    // ) {
+    //     let sameValues = true;
+    //     if (sameValues == true) {
+    //         let noTrans = [];
+    //         for (let index = 0; index < selectedRows.length; index++) {
+    //             noTrans.push(selectedRows[index][5]);
+    //             console.log(noTrans);
+    //         }
+    //         let input = document.createElement("input");
+    //         input.type = "hidden";
+    //         input.name = "noTrans";
+    //         input.value = noTrans;
+    //         form_createSPPB.target = "_blank";
+    //         form_createSPPB.appendChild(input);
+    //         console.log(form_createSPPB);
+    //         form_createSPPB.submit();
+    //     }
+    // } else {
+    //     return;
+    // }
 });
 
 function LoadPermohonan(proses, stbeli) {
