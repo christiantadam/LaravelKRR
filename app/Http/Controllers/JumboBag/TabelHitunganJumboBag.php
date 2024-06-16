@@ -568,7 +568,7 @@ class TabelHitunganJumboBag extends Controller
                         $request->input('TebalLami'),
                         $request->input('Inner'),
                         $request->input('Tebalinner'),
-                        $request->input('Seal'),
+                        $request->input('Seal') ?? null,
                         $request->input('Keterangan'),
                         $request->input('StdWaktu'),
                         $request->input('JmlReinf'),
@@ -672,13 +672,149 @@ class TabelHitunganJumboBag extends Controller
 
     public function update(Request $request, $id)
     {
-        dd('Masuk Update');
+        if ($request->mode_update == "HeadUpdate") {
+            try {
+                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_LOGIN_KDBRG @KodeBarang = ?,
+            @Tgl_Update = ?,
+            @User_Login = ?',
+                    [
+                        $id,
+                        $request->input('Tgl_Update'),
+                        Auth::user()->NomorUser
+                    ]
+                );
 
+                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_HEADTH @KodeBarang = ?,
+            @BentukBB = ?,
+            @ModelBB = ?,
+            @KodeModelBB = ?,
+            @PanjangBB = ?,
+            @LebarBB = ?,
+            @TinggiBB = ?,
+            @DiameterBB = ?,
+            @BentukCA = ?,
+            @ModelCA = ?,
+            @KodeModelCA = ?,
+            @PanjangCA = ?,
+            @LebarCA = ?,
+            @TinggiCA = ?,
+            @DiameterCA = ?,
+            @BentukCB = ?,
+            @ModelCB = ?,
+            @KodeModelCB = ?,
+            @PanjangCB = ?,
+            @LebarCB = ?,
+            @TinggiCB = ?,
+            @DiameterCB = ?,
+            @Reinforced = ?,
+            @Warna = ?,
+            @BeltRope = ?,
+            @Loop = ?,
+            @TinggiLoop = ?,
+            @Swl = ?,
+            @Sf1 = ?,
+            @Sf2 = ?,
+            @Lami = ?,
+            @StatusLami = ?,
+            @TebalLami = ?,
+            @Inner = ?,
+            @Tebalinner = ?,
+            @Seal = ?,
+            @Keterangan = ?,
+            @StdWaktu = ?,
+            @JmlReinf = ?,
+            @JarakReinf = ?,
+            @StatusPrinting = ?,
+            @Usage_type = ?
+            @UserUpdate = ?',
+                    [
+                        $id,
+                        $request->input('BentukBB'),
+                        $request->input('ModelBB'),
+                        $request->input('KodeModelBB'),
+                        $request->input('PanjangBB'),
+                        $request->input('LebarBB'),
+                        $request->input('TinggiBB'),
+                        $request->input('DiameterBB'),
+                        $request->input('BentukCA'),
+                        $request->input('ModelCA'),
+                        $request->input('KodeModelCA'),
+                        $request->input('PanjangCA'),
+                        $request->input('LebarCA'),
+                        $request->input('TinggiCA'),
+                        $request->input('DiameterCA'),
+                        $request->input('BentukCB'),
+                        $request->input('ModelCB'),
+                        $request->input('KodeModelCB'),
+                        $request->input('PanjangCB'),
+                        $request->input('LebarCB'),
+                        $request->input('TinggiCB'),
+                        $request->input('DiameterCB'),
+                        $request->input('Reinforced'),
+                        $request->input('Warna'),
+                        $request->input('BeltRope'),
+                        $request->input('Loop'),
+                        $request->input('TinggiLoop'),
+                        $request->input('Swl'),
+                        $request->input('Sf1'),
+                        $request->input('Sf2'),
+                        $request->input('Lami'),
+                        $request->input('StatusLami'),
+                        $request->input('TebalLami'),
+                        $request->input('Inner'),
+                        $request->input('Tebalinner'),
+                        $request->input('Seal') ?? null,
+                        $request->input('Keterangan'),
+                        $request->input('StdWaktu'),
+                        $request->input('JmlReinf'),
+                        $request->input('JarakReinf'),
+                        $request->input('StatusPrinting'),
+                        $request->input('Usage_type'),
+                        Auth::user()->NomorUser
+                    ]
+                );
+
+                return response()->json(['success' => 'Record Head Table Hitungan updated successfully.']);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        }
     }
 
     public function destroy($id)
     {
-        dd('Masuk Destroy');
-
+        try {
+            $checkData = DB::connection('ConnJumboBag')->select(
+                'exec SP_1273_JBB_CHECKKD_HEADTO @KodeBarang = ?',
+                [
+                    $id
+                ]
+            );
+            if (!empty($checkData) && $checkData[0]->Ada > 0) {
+                return response()->json(['error' => 'Data tidak dapat dihapus karena sudah ada tabel ordernya']);
+            } else {
+                DB::connection('ConnJumboBag')->select(
+                    'exec SP_1273_JBB_DLT_All_RINCIANTH @KodeBarang = ?',
+                    [
+                        $id
+                    ]
+                );
+                DB::connection('ConnJumboBag')->select(
+                    'exec SP_1273_JBB_DLT_KDBRG @KodeBarang = ?',
+                    [
+                        $id
+                    ]
+                );
+                DB::connection('ConnJumboBag')->select(
+                    'exec SP_1273_JBB_DLT_HEADTH @KodeBarang = ?',
+                    [
+                        $id
+                    ]
+                );
+                return response()->json(['success' => 'Record Table Hitungan deleted successfully.']);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 }

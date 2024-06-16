@@ -497,14 +497,6 @@ function loadDataKoreksi(kode_barang, nama_customer) {
 
 function insertMasterDanKodeBarang() {
     return new Promise((resolve, reject) => {
-        // Create a new form element
-        let formInsert = document.createElement("form");
-        // Get the div element with the class "acs-container"
-        let acsContainer = document.querySelector(".acs-container");
-
-        // Select all input elements inside the "acs-container" div
-        let inputElements = acsContainer.querySelectorAll("input");
-
         let lamiValue;
         let statusLamiValue;
         let tebalLamiValue;
@@ -613,6 +605,208 @@ function insertMasterDanKodeBarang() {
                             "Head Data Tabel Hitungan Kode : " +
                             nama_barang.value +
                             " sudah disimpan !",
+                    });
+                }
+                console.log(response);
+                resolve(); // Resolve the promise when the request is successful
+            },
+            error: function (xhr, status, error) {
+                console.error(error); // Handle errors
+                reject(error); // Reject the promise if an error occurs
+            },
+        });
+    });
+}
+
+function updateDataHead() {
+    return new Promise((resolve, reject) => {
+        let lamiValue;
+        let statusLamiValue;
+        let tebalLamiValue;
+        let innerValue;
+        let tebalInnerValue;
+        let sealValue;
+        let dateNowValue;
+
+        if (reinforced_lami.value == "No Lami") {
+            lamiValue = "N";
+            statusLamiValue = "";
+            tebalLamiValue = 0;
+        } else {
+            lamiValue = "Y";
+            statusLamiValue = reinforced_lami.value;
+            tebalLamiValue = reinforced_tebal.value;
+        }
+
+        if (reinforced_inner.value > 0) {
+            innerValue = "Y";
+            tebalInnerValue = reinforced_inner.value;
+            if (reinforced_seal.checked == true) {
+                sealValue = "Y";
+            } else {
+                sealValue = "N";
+            }
+        } else {
+            innerValue = "N";
+            tebalInnerValue = 0;
+        }
+        dateNowValue = new Date();
+        let formattedDateNow =
+            dateNowValue.getFullYear() +
+            "-" +
+            ("0" + (dateNowValue.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + dateNowValue.getDate()).slice(-2) +
+            " " +
+            ("0" + dateNowValue.getHours()).slice(-2) +
+            ":" +
+            ("0" + dateNowValue.getMinutes()).slice(-2) +
+            ":" +
+            ("0" + dateNowValue.getSeconds()).slice(-2);
+
+        $.ajax({
+            type: "PUT", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB/" + nama_barang.value, // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+                BentukBB: body_bentuk.value,
+                ModelBB: id_body_model.value,
+                KodeModelBB: body_bentuk.value + id_body_model.value,
+                PanjangBB: body_panjang.value,
+                LebarBB: body_lebar.value,
+                TinggiBB: body_tinggi.value,
+                DiameterBB: body_diameter.value,
+                BentukCA: cerobongAtas_bentuk.value,
+                ModelCA: id_cerobongAtas_model.value,
+                KodeModelCA:
+                    cerobongAtas_bentuk.value + id_cerobongAtas_model.value,
+                PanjangCA: cerobongAtas_panjang.value,
+                LebarCA: cerobongAtas_lebar.value,
+                TinggiCA: cerobongAtas_tinggi.value,
+                DiameterCA: cerobongAtas_diameter.value,
+                BentukCB: cerobongBawah_bentuk.value,
+                ModelCB: id_cerobongBawah_model.value,
+                KodeModelCB:
+                    cerobongBawah_bentuk.value + id_cerobongBawah_model.value,
+                PanjangCB: cerobongBawah_panjang.value,
+                LebarCB: cerobongBawah_lebar.value,
+                TinggiCB: cerobongBawah_tinggi.value,
+                DiameterCB: cerobongBawah_diameter.value,
+                Reinforced: reinforced_lebar.value,
+                Warna: reinforced_warna.value,
+                BeltRope: reinforced_beltrope.value,
+                Loop: reinforced_loop.value,
+                TinggiLoop: reinforced_tinggiloop.value,
+                Swl: reinforced_SWL.value,
+                Sf1: reinforced_SF1.value,
+                Sf2: reinforced_SF2.value,
+                Lami: lamiValue,
+                StatusLami: statusLamiValue,
+                TebalLami: tebalLamiValue,
+                Inner: innerValue,
+                Tebalinner: tebalInnerValue,
+                Seal: sealValue,
+                Keterangan: reinforced_keterangan.value,
+                StdWaktu: reinforced_stdwaktu.value,
+                JmlReinf: reinforced_jumlah.value,
+                JarakReinf: reinforced_jarak.value,
+                StatusPrinting: reinforced_printing.value,
+                Usage_type: jenis_barang.value,
+                KodeCustomer: id_customer.value,
+                Tanggal: tanggal.value,
+                Tgl_Update: formattedDateNow,
+                mode_update: "HeadUpdate",
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                if (response.success) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Pemberitahuan",
+                        text:
+                            "Head Data Tabel Hitungan Kode : " +
+                            nama_barang.value +
+                            " sudah dikoreksi !",
+                    });
+                    Swal.fire({
+                        icon: "info",
+                        title: "Pemberitahuan",
+                        text: "Anda telah melakukan perubahan pada Head Data Tabel Hitungan! Koreksi kembali komponen-komponen yang sudah ada!",
+                    });
+                }
+                console.log(response);
+                resolve(); // Resolve the promise when the request is successful
+            },
+            error: function (xhr, status, error) {
+                console.error(error); // Handle errors
+                reject(error); // Reject the promise if an error occurs
+            },
+        });
+    });
+}
+
+function deleteDataTableHitungan() {
+    return new Promise((resolve, reject) => {
+        let lamiValue;
+        let statusLamiValue;
+        let tebalLamiValue;
+        let innerValue;
+        let tebalInnerValue;
+        let sealValue;
+        let dateNowValue;
+
+        if (reinforced_lami.value == "No Lami") {
+            lamiValue = "N";
+            statusLamiValue = "";
+            tebalLamiValue = 0;
+        } else {
+            lamiValue = "Y";
+            statusLamiValue = reinforced_lami.value;
+            tebalLamiValue = reinforced_tebal.value;
+        }
+
+        if (reinforced_inner.value > 0) {
+            innerValue = "Y";
+            tebalInnerValue = reinforced_inner.value;
+            if (reinforced_seal.checked == true) {
+                sealValue = "Y";
+            } else {
+                sealValue = "N";
+            }
+        } else {
+            innerValue = "N";
+            tebalInnerValue = 0;
+        }
+        dateNowValue = new Date();
+        let formattedDateNow =
+            dateNowValue.getFullYear() +
+            "-" +
+            ("0" + (dateNowValue.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + dateNowValue.getDate()).slice(-2) +
+            " " +
+            ("0" + dateNowValue.getHours()).slice(-2) +
+            ":" +
+            ("0" + dateNowValue.getMinutes()).slice(-2) +
+            ":" +
+            ("0" + dateNowValue.getSeconds()).slice(-2);
+
+        $.ajax({
+            type: "DELETE", // or 'GET' depending on your server setup
+            url: "TabelHitunganJBB/" + nama_barang.value, // Specify the URL of your controller
+            data: {
+                _token: csrfToken,
+            }, // Pass the data with csrf_tokern
+            success: function (response) {
+                // Handle the successful response from the controller
+                if (response.success) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Pemberitahuan",
+                        text:
+                            "Head Data Tabel Hitungan Kode : " +
+                            nama_barang.value +
+                            " sudah dihapus !",
                     });
                 }
                 console.log(response);
@@ -2611,14 +2805,20 @@ btn_proses.addEventListener("click", async function (e) {
 
         nama_barang.disabled == true;
     } else if (proses == 2) {
+        await updateDataHead();
     } else if (proses == 3) {
+        await deleteDataTableHitungan();
     }
+
+    if (proses != 3) {
+        await loadDataKoreksi(nama_barang.value, customer.value);
+    }
+
     if (proses !== 1) {
         this.disabled = true;
     } else if (proses == 1) {
         proses = 2;
     }
-    await loadDataKoreksi();
 });
 
 //#endregion
