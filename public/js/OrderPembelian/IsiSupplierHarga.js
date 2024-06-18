@@ -329,10 +329,9 @@ function redisplayData(noTrans, requester, kd) {
                 tanggal_dibutuhkan.value = data.Tgl_Dibutuhkan.split(" ")[0];
                 divisi.value = data.Kd_div;
                 kode_barang.value = data.Kd_brg;
-                nama_barang.value = data.NAMA_BRG.replace(/&lt;/g, "<").replace(
-                    /&gt;/g,
-                    ">"
-                );
+                nama_barang.value = data.NAMA_BRG.replace(/&lt;/g, "<")
+                    .replace(/&gt;/g, ">")
+                    .replace(/&quot;/g, '"');
                 sub_kategori.value = data.nama_sub_kategori;
                 qty_order.value = parseFloat(data.Qty);
                 user_input.value = data.Nama;
@@ -533,16 +532,16 @@ $(document).ready(function () {
                     // if (response[0].ID_MATAUANG != 1) {
                     //     kurs.focus();
                     // } else {
-                        let eventEnter = new KeyboardEvent("keypress", {
-                            key: "Enter",
-                            code: "Enter",
-                            keyCode: 13,
-                            which: 13,
-                            bubbles: true,
-                            cancelable: true,
-                        });
-                        kurs.dispatchEvent(eventEnter);
-                        harga_unit.focus();
+                    let eventEnter = new KeyboardEvent("keypress", {
+                        key: "Enter",
+                        code: "Enter",
+                        keyCode: 13,
+                        which: 13,
+                        bubbles: true,
+                        cancelable: true,
+                    });
+                    kurs.dispatchEvent(eventEnter);
+                    harga_unit.focus();
                     // }
                 },
                 error: function (error) {
