@@ -785,7 +785,7 @@ class TabelHitunganJumboBag extends Controller
     {
         try {
             $checkData = DB::connection('ConnJumboBag')->select(
-                'exec SP_1273_JBB_CHECKKD_HEADTO @KodeBarang = ?',
+                'exec SP_1273_JBB_CHECKKD_HEADTO @KodeBarang = \'?\'',
                 [
                     $id
                 ]
@@ -793,20 +793,20 @@ class TabelHitunganJumboBag extends Controller
             if (!empty($checkData) && $checkData[0]->Ada > 0) {
                 return response()->json(['error' => 'Data tidak dapat dihapus karena sudah ada tabel ordernya']);
             } else {
-                DB::connection('ConnJumboBag')->select(
-                    'exec SP_1273_JBB_DLT_All_RINCIANTH @KodeBarang = ?',
+                DB::connection('ConnJumboBag')->statement(
+                    'exec SP_1273_JBB_DLT_All_RINCIANTH @KodeBarang = \'?\'',
                     [
                         $id
                     ]
                 );
-                DB::connection('ConnJumboBag')->select(
-                    'exec SP_1273_JBB_DLT_KDBRG @KodeBarang = ?',
+                DB::connection('ConnJumboBag')->statement(
+                    'exec SP_1273_JBB_DLT_KDBRG @KodeBarang = \'?\'',
                     [
                         $id
                     ]
                 );
-                DB::connection('ConnJumboBag')->select(
-                    'exec SP_1273_JBB_DLT_HEADTH @KodeBarang = ?',
+                DB::connection('ConnJumboBag')->statement(
+                    'exec SP_1273_JBB_DLT_HEADTH @KodeBarang = \'?\'',
                     [
                         $id
                     ]

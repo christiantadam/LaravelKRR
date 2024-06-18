@@ -59,7 +59,7 @@ objek_select.addEventListener("change", function (event) {
     if (objek_select.selectedIndex != 0) {
         let noPIBs = "";
         if (no_pib.value !== "") {
-            let noPIBs = no_pib.value.trim();
+            noPIBs = no_pib.value.trim();
         }
         $.ajax({
             url: "/TransferBarang/TransferBTTB/LoadKelomDLL",

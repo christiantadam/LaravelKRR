@@ -410,6 +410,9 @@ function loadDataKoreksi(kode_barang, nama_customer) {
                 let index = 0;
 
                 $(document).ready(function () {
+                    if (tabelData.data().any()) {
+                        tabelData.clear().draw();
+                    }
                     dataToInsert.forEach(function (obj) {
                         // index += 1;
                         tabelData.row
@@ -1039,8 +1042,8 @@ function Rumus_PanjangTA(bentukRumus_PanjangTA, modelRumus_PanjangTA) {
 
 function Rumus_LebarTA(bentukRumus_LebarTA, modelRumus_LebarTA) {
     let hasil = 0;
-    if (bentukRumus_PanjangTA == "S") {
-        switch (modelRumus_PanjangTA.slice(-1)) {
+    if (bentukRumus_LebarTA == "S") {
+        switch (modelRumus_LebarTA.slice(-1)) {
             case "O":
                 hasil = parseFloat(body_lebar.value ?? 0) + 10;
                 break;
@@ -1052,7 +1055,7 @@ function Rumus_LebarTA(bentukRumus_LebarTA, modelRumus_LebarTA) {
                 break;
         }
     } else {
-        switch (modelRumus_PanjangTA.slice(-1)) {
+        switch (modelRumus_LebarTA.slice(-1)) {
             case "O":
                 hasil = parseFloat(body_diameter.value ?? 0) + 10;
                 break;
@@ -1069,8 +1072,8 @@ function Rumus_LebarTA(bentukRumus_LebarTA, modelRumus_LebarTA) {
 
 function Rumus_PanjangTB(bentukRumus_PanjangTB, modelRumus_PanjangTB) {
     let hasil = 0;
-    if (bentukRumus_PanjangTA == "S") {
-        switch (modelRumus_PanjangTA.slice(-1)) {
+    if (bentukRumus_PanjangTB == "S") {
+        switch (modelRumus_PanjangTB.slice(-1)) {
             case "O":
                 hasil = parseFloat(body_panjang.value ?? 0) + 10;
                 break;
@@ -1082,7 +1085,7 @@ function Rumus_PanjangTB(bentukRumus_PanjangTB, modelRumus_PanjangTB) {
                 break;
         }
     } else {
-        switch (modelRumus_PanjangTA.slice(-1)) {
+        switch (modelRumus_PanjangTB.slice(-1)) {
             case "O":
                 hasil = parseFloat(body_diameter.value ?? 0) + 10;
                 break;
@@ -1099,8 +1102,8 @@ function Rumus_PanjangTB(bentukRumus_PanjangTB, modelRumus_PanjangTB) {
 
 function Rumus_LebarTB(bentukRumus_LebarTB, modelRumus_LebarTB) {
     let hasil = 0;
-    if (bentukRumus_PanjangTA == "S") {
-        switch (modelRumus_PanjangTA.slice(-1)) {
+    if (bentukRumus_LebarTB == "S") {
+        switch (modelRumus_LebarTB.slice(-1)) {
             case "O":
                 hasil = parseFloat(body_lebar.value ?? 0) + 10;
                 break;
@@ -1112,7 +1115,7 @@ function Rumus_LebarTB(bentukRumus_LebarTB, modelRumus_LebarTB) {
                 break;
         }
     } else {
-        switch (modelRumus_PanjangTA.slice(-1)) {
+        switch (modelRumus_LebarTB.slice(-1)) {
             case "O":
                 hasil = parseFloat(body_diameter.value ?? 0) + 10;
                 break;
