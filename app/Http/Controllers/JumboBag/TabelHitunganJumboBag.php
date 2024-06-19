@@ -147,28 +147,62 @@ class TabelHitunganJumboBag extends Controller
         }
     }
 
-    // public function GetDataTglUpdateTH($kodeBarang)
-    // {
-    //     $kodeBarangDecode = urldecode($kodeBarang);
-    //     $data = DB::connection('ConnJumboBag')->table('KODE_BARANG')->where('Kode_Barang', $kodeBarangDecode)->select('Tgl_Update')->get();
-    //     return response()->json($data);
-    // }
+    public function getDataTambahKomponenJBB(Request $request)
+    {
+        if (!$request->isMethod('post')) {
+            // Handle invalid method, e.g., return an error response
+            return response()->json(['error' => 'Invalid request method'], 405);
+        }
+        $columns = array(
+            0 => 'Nama_Komponen',
+            1 => 'Kode_Komponen'
+        );
 
-    // public function GetDataHeadTH($kodeBarang)
-    // {
-    //     $kodeBarangDecode = urldecode($kodeBarang);
-    //     $data = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_HEADTH')->where('Kode_Barang', $kodeBarangDecode)->get();
-    //     return response()->json($data);
-    // }
+        $totalData = DB::connection('ConnJumboBag')->table('KOMPONEN')
+            ->count();
 
-    // public function GetDataRincianTH($kodeBarang, $namaCustomer)
-    // {
-    //     $kodeBarangDecode = urldecode($kodeBarang);
-    //     $namaCustomerDecode = urldecode($namaCustomer);
-    //     // dd($kodeBarang, $kodeBarangDecode, $namaCustomer, $namaCustomerDecode);
-    //     $data = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $kodeBarangDecode)->where('Nama_Customer', $namaCustomerDecode)->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
-    //     return response()->json($data);
-    // }
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        $query = DB::connection('ConnJumboBag')->table('KOMPONEN')
+            ->selectRaw('Kode_Komponen, Nama_Komponen + \'/\' + Status_Assesoris AS Nama_Komponen')
+            ->where('Kode_Komponen', '<>', '')
+            ->whereNotNull('Nama_Komponen');
+
+        if (!empty($request->input('search.value'))) {
+            $search = $request->input('search.value');
+            $query->where('Kode_Komponen', 'LIKE', "%{$search}%")
+                ->orWhere('Nama_Komponen', 'LIKE', "%{$search}%");
+            $totalFiltered = $query->count();
+        }
+
+        $order = $query->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $dir)
+            ->get();
+
+        $data = array();
+        if (!empty($order)) {
+            foreach ($order as $dataorder) {
+                $nestedData['Kode_Komponen'] = $dataorder->Kode_Komponen;
+                $nestedData['Nama_Komponen'] = $dataorder->Nama_Komponen;
+                $data[] = $nestedData;
+            }
+        }
+
+        $json_data = array(
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        );
+
+        return response()->json($json_data);
+    }
 
     public function GetDataKoreksi($kodeBarang, $namaCustomer)
     {

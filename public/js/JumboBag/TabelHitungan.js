@@ -387,7 +387,7 @@ function loadDataKoreksi(kode_barang, nama_customer) {
                 reinforced_SWL.value = datas[1][0]["SWL"];
                 reinforced_SF1.value = datas[1][0]["SF1"];
                 reinforced_SF2.value = datas[1][0]["SF2"];
-                reinforced_stdwaktu.value = datas[1][0]["std_waktu"] ?? 0;
+                reinforced_stdwaktu.value = datas[1][0]["Std_Waktu"] ?? 0;
                 reinforced_printing.value = datas[1][0]["Status_Printing"] ?? 0;
                 if (datas[1][0]["Lami"] == "N") {
                     reinforced_lami.value = "No Lami";
@@ -1485,6 +1485,9 @@ btn_isi.addEventListener("click", function (event) {
 
 btn_koreksi.addEventListener("click", function (event) {
     event.preventDefault();
+    tambah_komponen.disabled = false;
+    koreksi_komponen.disabled = false;
+    hapus_komponen.disabled = false;
     tmb = 2;
     proses = 2;
     aktif_tombol(tmb);
@@ -2722,9 +2725,9 @@ reinforced_inner.addEventListener("keypress", function (e) {
 
 btn_proses.addEventListener("click", async function (e) {
     if (proses == 1) {
-        tambah_komponen.disabled == false;
-        koreksi_komponen.disabled == false;
-        hapus_komponen.disabled == false;
+        tambah_komponen.disabled = false;
+        koreksi_komponen.disabled = false;
+        hapus_komponen.disabled = false;
         await insertMasterDanKodeBarang();
         // insertKodeBarang();
 
@@ -2824,4 +2827,88 @@ btn_proses.addEventListener("click", async function (e) {
     }
 });
 
+tambah_komponen.addEventListener("click", function (event) {
+    event.preventDefault();
+    if (nama_barang.value == "") {
+        Swal.fire({
+            icon: "info",
+            title: "Pemberitahuan",
+            text: "Kolom Kode Barang harus diisi dulu!",
+            didClose: () => {
+                setTimeout(() => {
+                    if (customer.value === "") {
+                        btn_customer.focus();
+                    } else {
+                        btn_nama_barang.focus();
+                    }
+                }, 100); // Small timeout to ensure focus is set correctly
+            },
+        });
+    } else {
+        tanggal_update.value = new Date().toJSON().slice(0, 10);
+        try {
+            const result = Swal.fire({
+                title: "Select a Komponen",
+                html: '<table id="komponenTable" class="display" style="width:100%"><thead><tr><th>Nama Komponen</th><th>Kode Komponen</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#komponenTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#komponenTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "getDataTambahKomponenJBB",
+                                dataType: "json",
+                                type: "POST",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Nama_Komponen",
+                                },
+                                {
+                                    data: "Kode_Komponen",
+                                },
+                            ],
+                            // Debugging step to check table structure after initialization
+                            initComplete: function(settings, json) {
+                                console.log('Table initialized', json);
+                            }
+                        });
+
+                        $("#komponenTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    console.log(selectedRow);
+                }
+            });
+
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    }
+});
 //#endregion
