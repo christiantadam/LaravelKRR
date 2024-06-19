@@ -371,7 +371,10 @@ function post(bttb) {
         if (data[i].no_kat_utama == "009") {
             noTrTmp = 1;
         }
-        if (data[i].Kd_brg.charAt(0) == "1" && data[i].Kd_brg.charAt(1) == "3") {
+        if (
+            data[i].Kd_brg.charAt(0) == "1" &&
+            data[i].Kd_brg.charAt(1) == "3"
+        ) {
             if (nopibext.value == "") {
                 Swal.fire({
                     icon: "info",
@@ -384,12 +387,24 @@ function post(bttb) {
         } else {
             if (nopibext.value !== "") {
                 Swal.fire({
-                    icon: "info",
-                    title: "PIB sudah dikosongkan!",
-                    showConfirmButton: false,
-                    timer: "2000",
+                    icon: "warning",
+                    title: "PIB sudah ada!",
+                    text: "Mau dikosongkan atau tidak?",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, kosongkan",
+                    cancelButtonText: "Batal",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User confirmed to clear the value
+                        nopibext.value = "";
+                        Swal.fire({
+                            icon: "info",
+                            title: "PIB sudah dikosongkan!",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                    }
                 });
-                nopibext.value = "";
             }
         }
         $.ajax({
@@ -843,56 +858,64 @@ $("#updatebutton").on("click", function () {
 
 $(document).ready(function () {
     qty_received.addEventListener("input", function (event) {
-        let sisa = parseFloat(
-            fixValueQTYOrder -
-                (parseFloat(qty_received.value) - fixValueQTYReceived) -
-                fixValueQTYShip
-        );
-        setInputFilter(
-            document.getElementById("qty_received"),
-            function (value) {
-                return (
-                    /^-?\d*[.,]?\d*$/.test(value) &&
-                    (value === "" ||
-                        parseFloat(value) <=
-                            fixValueQTYReceived +
-                                (fixValueQTYOrder - fixValueQTYShip))
-                );
-            },
-            `Tidak boleh ketik character dan angka dibawah 0, harus angka diatas 0 dan tidak boleh lebih dari QTY Ordered`
-        );
-        if (
-            sisa <= fixValueQTYOrder &&
-            sisa >= 0 &&
-            qty_received.value !== ""
+        this.setCustomValidity("");
+
+        // Store previous valid value
+        if (!this.oldValue && this.oldValue !== 0) {
+            this.oldValue = this.value;
+        }
+
+        if (this.value === "") {
+            // If the input is empty, clear the related fields and reset oldValue
+            qty_remaining.value = "";
+            qty_ship.value = "";
+            this.oldValue = "";
+        } else if (
+            !isNaN(this.value) &&
+            parseFloat(this.value) <= fixValueQTYOrder
         ) {
-            qty_remaining.value = sisa.toFixed(2);
-            if (qty_received.value != "") {
+            let qtyReceivedValue = parseFloat(this.value);
+            let sisa = parseFloat(
+                fixValueQTYOrder -
+                    (qtyReceivedValue - fixValueQTYReceived) -
+                    fixValueQTYShip
+            );
+
+            if (sisa <= fixValueQTYOrder && sisa >= 0) {
+                qty_remaining.value = sisa.toFixed(2);
                 qty_ship.value = (
                     fixValueQTYShip +
-                    parseFloat(qty_received.value - fixValueQTYReceived)
+                    (qtyReceivedValue - fixValueQTYReceived)
+                ).toFixed(2);
+            } else if (sisa < 0) {
+                qty_remaining.value = "0.00";
+                qty_ship.value = (
+                    qtyReceivedValue - fixValueQTYReceived
                 ).toFixed(2);
             }
-        } else if (sisa < 0) {
-            qty_remaining.value = "0.00";
-            if (qty_received.value != "") {
-                qty_ship.value = parseFloat(
-                    qty_received.value - fixValueQTYReceived
-                ).toFixed(2);
-            }
+
+            // Update oldValue
+            this.oldValue = this.value;
+        } else {
+            // Restore previous valid value
+            this.value = this.oldValue;
+
+            // Show custom error message
+            this.setCustomValidity(
+                "Tidak boleh character, harus angka. Tidak boleh melebihi Quantity Order"
+            );
+            this.reportValidity();
         }
+
+        updateDisc();
         updateIdrUnit();
-        // updateSubTotal();
         updateSubTotalDisc();
         updateIDRSubTotal();
         updateIDRPPN();
         updatePPN();
         updateHargaTotal();
         updateIDRHargaTotal();
-        // updateDisc();
-        updateTotalDisc();
         updateIDRDiscTotal();
-        // updateIDRDisc();
     });
 
     kurs.addEventListener("input", function (event) {
