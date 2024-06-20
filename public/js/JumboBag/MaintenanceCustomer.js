@@ -6,7 +6,7 @@ $(document).ready(function () {
         responsive: true,
         ordering: false,
         ajax: {
-            url: "/MaintenanceCustomerres/create",
+            url: "/MaintenanceCustomer/create",
             type: "GET",
         },
         columns: [
@@ -35,7 +35,7 @@ $(document).ready(function () {
     // Fungsi untuk mengambil data pelanggan dan mengisi tabel
     // function fetchCustomers() {
     //     $.ajax({
-    //         url: "/MaintenanceCustomerres/create",
+    //         url: "/MaintenanceCustomer/create",
     //         type: "GET",
     //         dataType: "json",
     //         success: function (data) {
@@ -89,7 +89,7 @@ $(document).ready(function () {
         // }
 
         $.ajax({
-            url: "/MaintenanceCustomerres",
+            url: "/MaintenanceCustomer",
             type: "POST",
             data: {
                 kode_customer: kodeCustomer,
@@ -142,7 +142,7 @@ $(document).ready(function () {
 
         // Ambil data customer berdasarkan Kode Customer
         $.ajax({
-            url: "/MaintenanceCustomerres/" + kodeCustomer + "/edit",
+            url: "/MaintenanceCustomer/" + kodeCustomer + "/edit",
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -166,10 +166,14 @@ $(document).ready(function () {
                     cancelButtonText: "Cancel",
                     focusConfirm: false,
                     preConfirm: () => {
-                        const kodeCustomer =
-                            document.getElementById("swal-input1").value;
-                        const namaCustomer =
-                            document.getElementById("swal-input2").value;
+                        const kodeCustomer = $("#swal-input1")
+                            .val()
+                            .toUpperCase()
+                            .trim();
+                        const namaCustomer = $("#swal-input2")
+                            .val()
+                            .toUpperCase()
+                            .trim();
                         if (kodeCustomer.length > 4) {
                             Swal.showValidationMessage(
                                 "Kode Customer harus tidak lebih dari 4 karakter"
@@ -185,12 +189,16 @@ $(document).ready(function () {
                     if (result.isConfirmed) {
                         // You can proceed with further actions such as making another AJAX call to save the updated data
 
-                        let kodeCustomers =
-                            document.getElementById("swal-input1").value;
-                        namaCustomer =
-                            document.getElementById("swal-input2").value;
+                        let kodeCustomers = $("#swal-input1")
+                            .val()
+                            .toUpperCase()
+                            .trim();
+                        namaCustomer = $("#swal-input2")
+                            .val()
+                            .toUpperCase()
+                            .trim();
                         $.ajax({
-                            url: "/MaintenanceCustomerres/" + kodeCustomer,
+                            url: "/MaintenanceCustomer/" + kodeCustomer,
                             type: "PUT",
                             data: {
                                 kode_customer: kodeCustomers,
@@ -250,7 +258,7 @@ $(document).ready(function () {
                 // };
                 console.log(rowID);
                 $.ajax({
-                    url: "/delete-customer/" + rowID, // Gantilah dengan URL endpoint yang benar
+                    url: "/MaintenanceCustomer/" + rowID, // Gantilah dengan URL endpoint yang benar
                     method: "DELETE",
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,

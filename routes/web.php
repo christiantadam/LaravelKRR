@@ -987,11 +987,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('GetDataKoreksi/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataKoreksi');
 
     Route::resource('MaintenanceCustomer', App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class);
-    Route::resource('MaintenanceCustomerres', App\Http\Controllers\JumboBag\MaintenanceCustomerJBBres::class);
-    Route::get('/api/customers', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'getCustomers']);
-    Route::delete('/delete-customer/{idCustomer}', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'deleteCustomer']);
-    Route::put('/update-customer/{id}', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'updateCustomer']);
-
 
     #endregion
 
