@@ -1538,9 +1538,9 @@ btn_customer.addEventListener("click", async function (event) {
                         serverSide: true,
                         returnFocus: true,
                         ajax: {
-                            url: "getDataCustomerJBB",
+                            url: "MaintenanceCustomer/create",
                             dataType: "json",
-                            type: "POST",
+                            type: "GET",
                             data: {
                                 _token: csrfToken,
                             },

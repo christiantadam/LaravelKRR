@@ -20,9 +20,7 @@ class MaintenanceCustomerJBB extends Controller
     {
         // Fetch the customer data
         $listCustomer = DB::connection('ConnJumboBag')
-            ->table('CUSTOMER')
-            ->orderBy('Kode_Customer', 'asc')
-            ->get();
+            ->select('exec SP_1273_JBB_LIST_CUSTOMER');
         // Convert the data into an array that DataTables can consume
         $dataCustomer = [];
         foreach ($listCustomer as $Customer) {

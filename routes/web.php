@@ -999,8 +999,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('OrderPotong', App\Http\Controllers\JumboBag\OrderPotong::class);
     Route::resource('OrderJahit', App\Http\Controllers\JumboBag\OrderJahit::class);
     Route::resource('OrderPress', App\Http\Controllers\JumboBag\OrderPress::class);
-    Route::resource('MainatenanceOrderPress', App\Http\Controllers\JumboBag\MaintenanceOrderPress::class);
-    Route::resource('TabelHitunganInformasi', App\Http\Controllers\JumboBag\TabelHitungan::class);
+    Route::resource('MaintenanceOrderPress', App\Http\Controllers\JumboBag\MaintenanceOrderPress::class);
+    Route::resource('TabelHitunganInformasi', App\Http\Controllers\JumboBag\TabelHitunganInformasi::class);
     Route::resource('EstimasiHarga', App\Http\Controllers\JumboBag\EstimasiHarga::class);
 
     #endregion
