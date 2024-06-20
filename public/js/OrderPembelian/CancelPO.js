@@ -109,7 +109,11 @@ document.getElementById("removebutton").addEventListener("click", function () {
         headers: {
             "X-CSRF-TOKEN": csrfToken,
         },
-        data: { noTrans: no_po.value },
+        data: {
+            noTrans: no_po.value,
+            QtyCancel: qty_cancel.value,
+            alasan: alasan_cancel.value,
+        },
         success: function (response) {
             console.log(response);
             Swal.fire({

@@ -864,17 +864,17 @@ class PurchaseOrderController extends Controller
     }
 
 
-    public function cancel(Request $request)
+    public function cancel(Request $request) //remove
     {
         $noTrans = $request->input('noTrans');
-        $kd = 15;
+        $kd = 17;
 
-        $purchaseorder = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd=?, @noTrans=?', [$kd, $noTrans]);
+        $purchaseorder = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd=?, @noTrans=?, @QtyCancel=?, @alasan=?', [$kd, $noTrans]);
 
         return response()->json($purchaseorder);
     }
 
-    public function cancel1(Request $request)
+    public function cancel1(Request $request) //cancel PO
     {
         $Operator = trim(Auth::user()->NomorUser);
         $QtyCancel = $request->input('QtyCancel');
