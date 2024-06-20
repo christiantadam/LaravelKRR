@@ -508,6 +508,28 @@ function print(data) {
         chunkedData.push(data.print.slice(i, i + chunkSize));
     }
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
     chunkedData.forEach((chunk, chunkIndex) => {
         chunk.forEach((item, index) => {
             tableRows += `
@@ -643,9 +665,9 @@ function print(data) {
                                 <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Date</h1>
                             </div>
                             <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${formatDate(
                                     data.printHeader[0].Datang.split(" ")[0]
-                                }</p>
+                                )}</p>
                             </div>
                         </div>
                         <div style="width: 100%; display: flex;">
