@@ -70,6 +70,71 @@ $(document).ready(function () {
     // }
 
     //#region Event Listener
+    // Event listener untuk tombol tambah customer
+    $("#tambahCustomerForm").on("submit", function (e) {
+        e.preventDefault();
+
+        var kodeCustomer = $("#kodeCustomer").val().toUpperCase().trim();
+        var namaCustomer = $("#namaCustomer").val().toUpperCase().trim();
+
+        // Validasi
+        // if (kodeCustomer.length > 4) {
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "Error!",
+        //         text: "Kode Customer tidak boleh lebih dari 4 karakter!",
+        //         showConfirmButton: false,
+        //     });
+        //     return;
+        // }
+
+        $.ajax({
+            url: "/MaintenanceCustomerres",
+            type: "POST",
+            data: {
+                kode_customer: kodeCustomer,
+                nama_customer: namaCustomer,
+            },
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#tambahCustomerModal").modal("hide");
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: response.success,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                    dataTableCustomer.ajax.reload(null, false); // Reload DataTable
+
+                    // Remove modal backdrop
+                    $(".modal-backdrop").remove();
+
+                    // Reset form fields
+                    $("#tambahCustomerForm")[0].reset();
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Terjadi kesalahan saat menambahkan data!",
+                    showConfirmButton: false,
+                });
+                console.error("Error adding data:", error);
+            },
+        });
+    });
     // Event listener untuk tombol edit
     $(document).on("click", ".btn-edit", function () {
         var kodeCustomer = $(this).data("id");
@@ -97,7 +162,8 @@ $(document).ready(function () {
                                 </div>
                             </div>
                         `,
-                        showCancelButton: true, cancelButtonText: 'Cancel',
+                    showCancelButton: true,
+                    cancelButtonText: "Cancel",
                     focusConfirm: false,
                     preConfirm: () => {
                         const kodeCustomer =
@@ -198,6 +264,7 @@ $(document).ready(function () {
                                 title: "Terhapus!",
                                 text: response.success,
                                 showConfirmButton: false,
+                                timer: 1500,
                             });
                         } else if (response.info) {
                             Swal.fire({

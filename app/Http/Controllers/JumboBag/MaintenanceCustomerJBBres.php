@@ -36,7 +36,17 @@ class MaintenanceCustomerJBBres extends Controller
 
     public function store(Request $request)
     {
-        //
+        try {
+            DB::connection('ConnJumboBag')
+                ->table('CUSTOMER')
+                ->insert([
+                    'Kode_Customer' => $request->input('kode_customer'),
+                    'Nama_Customer' => $request->input('nama_customer'),
+                ]);
+            return response()->json(['success' => 'Customer berhasil ditambahkan!']);
+        } catch (Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()]);
+        }
     }
 
     public function show($id)

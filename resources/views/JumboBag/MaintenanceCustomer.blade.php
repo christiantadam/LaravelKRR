@@ -1,13 +1,11 @@
 @extends('layouts.appJumboBag')
 @section('title', 'Maintenance Customer')
 @section('content')
-    {{-- @include('Utility.Master.TambahMaintenanceTeknisi')
-    @include('Utility.Master.EditMaintenanceTeknisi') --}}
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10 RDZMobilePaddingLR0">
-                <button class="acs-icon-btn acs-add-btn acs-float" data-bs-toggle="modal" data-bs-target="#tambahmodal"
-                    id="modaltambahteknisi" type="button">
+                <button class="acs-icon-btn acs-add-btn acs-float" data-bs-toggle="modal" data-bs-target="#tambahCustomerModal"
+                    id="modaltambahcustomer" type="button">
                     <div class="acs-add-icon"></div>
                     <div class="acs-btn-txt">Tambah Customer</div>
                 </button>
@@ -31,27 +29,33 @@
         </div>
     </div>
 
-    <!-- Modal untuk Edit Customer -->
-    <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel"
-        aria-hidden="true">
+    <!-- Modal untuk Tambah Customer -->
+    <!-- Modal untuk Tambah Customer -->
+    <div class="modal fade" id="tambahCustomerModal" tabindex="-1" aria-labelledby="tambahCustomerModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editCustomerModalLabel">Edit Customer</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title" id="tambahCustomerModalLabel">Tambah Customer</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editCustomerForm">
-                        <input type="hidden" id="editKodeCustomer">
-                        <div class="mb-3">
-                            <label for="editNamaCustomer" class="form-label">Nama Customer</label>
-                            <input type="text" class="form-control" id="editNamaCustomer" required>
+                    <form id="tambahCustomerForm">
+                        <div class="form-group">
+                            <label for="kodeCustomer">Kode Customer</label>
+                            <input type="text" class="form-control" id="kodeCustomer" name="kodeCustomer" maxlength="4">
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        <div class="form-group">
+                            <label for="namaCustomer">Nama Customer</label>
+                            <input type="text" class="form-control" id="namaCustomer" name="namaCustomer">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Tambah Customer</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="{{ asset('js/JumboBag/MaintenanceCustomer.js') }}"></script>
 @endsection
