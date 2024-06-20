@@ -987,6 +987,21 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('GetDataKoreksi/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataKoreksi');
 
     Route::resource('MaintenanceCustomer', App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class);
+    Route::get('/api/customers', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'getCustomers']);
+    Route::delete('/delete-customer/{idCustomer}', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'deleteCustomer']);
+    Route::put('/update-customer/{id}', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'updateCustomer']);
+    Route::resource('UbahKodeBarang', App\Http\Controllers\JumboBag\UbahKodeBarang::class);
+    Route::resource('CopyKodeBarang', App\Http\Controllers\JumboBag\CopyKodeBarang::class);
+    Route::resource('MaintenanceTabelOrder', App\Http\Controllers\JumboBag\MaintenanceTabelOrder::class);
+    Route::resource('CopyTabelOrder', App\Http\Controllers\JumboBag\CopyTabelOrder::class);
+    Route::resource('PermohonanRetur', App\Http\Controllers\JumboBag\PermohonanaRetur::class);
+    Route::resource('ReturPengganti', App\Http\Controllers\JumboBag\ReturPengganti::class);
+    Route::resource('OrderPotong', App\Http\Controllers\JumboBag\OrderPotong::class);
+    Route::resource('OrderJahit', App\Http\Controllers\JumboBag\OrderJahit::class);
+    Route::resource('OrderPress', App\Http\Controllers\JumboBag\OrderPress::class);
+    Route::resource('MainatenanceOrderPress', App\Http\Controllers\JumboBag\MaintenanceOrderPress::class);
+    Route::resource('TabelHitunganInformasi', App\Http\Controllers\JumboBag\TabelHitungan::class);
+    Route::resource('EstimasiHarga', App\Http\Controllers\JumboBag\EstimasiHarga::class);
 
     #endregion
 
