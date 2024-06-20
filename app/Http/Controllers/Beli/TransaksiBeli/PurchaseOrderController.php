@@ -727,7 +727,8 @@ class PurchaseOrderController extends Controller
         $disc = $request->input('disc');
         $discIDR = $request->input('discIDR');
         $noTrans = $request->input('noTrans');
-        if (($Qty !== null) ||
+        if (
+            ($Qty !== null) ||
             ($QtyCancel !== null) ||
             ($kurs !== null) ||
             ($pUnit !== null) ||
@@ -781,7 +782,8 @@ class PurchaseOrderController extends Controller
         $alasan = $request->input('alasan');
         $Operator = trim(Auth::user()->NomorUser);
 
-        if (($noTrans !== null) &&
+        if (
+            ($noTrans !== null) &&
             ($alasan !== null)
         ) {
             try {
@@ -807,7 +809,8 @@ class PurchaseOrderController extends Controller
         $Tgl_Dibutuhkan = Carbon::parse($request->input('Tgl_Dibutuhkan'));
         $idSup = $request->input('idSup');
 
-        if (($noTrans !== null) ||
+        if (
+            ($noTrans !== null) ||
             ($mtUang !== null) ||
             ($tglPO !== null) ||
             ($idpay !== null) ||
@@ -868,8 +871,10 @@ class PurchaseOrderController extends Controller
     {
         $noTrans = $request->input('noTrans');
         $kd = 17;
+        $QtyCancel = $request->input('QtyCancel');
+        $alasan = $request->input('alasan');
 
-        $purchaseorder = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd=?, @noTrans=?, @QtyCancel=?, @alasan=?', [$kd, $noTrans]);
+        $purchaseorder = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd=?, @noTrans=?, @QtyCancel=?, @alasan=?', [$kd, $noTrans, $QtyCancel, $alasan]);
 
         return response()->json($purchaseorder);
     }
@@ -882,7 +887,7 @@ class PurchaseOrderController extends Controller
         $noTrans = $request->input('noTrans');
         $kd = 16;
 
-        $purchaseorder = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd=?, @Operator=?, @QtyCancel=?, @alasan=?, @noTrans=?',  [$kd, $Operator, $QtyCancel, $alasan, $noTrans]);
+        $purchaseorder = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd=?, @Operator=?, @QtyCancel=?, @alasan=?, @noTrans=?', [$kd, $Operator, $QtyCancel, $alasan, $noTrans]);
 
         return response()->json($purchaseorder);
     }
@@ -895,7 +900,8 @@ class PurchaseOrderController extends Controller
         $MaxDate = Carbon::parse($request->input('MaxDate'));
         $MaxDate->setTimeFrom(Carbon::now()->setTimezone('Asia/Jakarta'));
         $noPO = $request->input('noPO');
-        if (($MinDate !== null) ||
+        if (
+            ($MinDate !== null) ||
             ($MaxDate !== null) ||
             ($noPO !== null)
         ) {
@@ -943,7 +949,8 @@ class PurchaseOrderController extends Controller
         $tglPO->setTimeFrom(Carbon::now()->setTimezone('Asia/Jakarta'));
         $Tgl_Dibutuhkan = Carbon::parse($request->input('Tgl_Dibutuhkan'));
 
-        if (($NoPO !== null) ||
+        if (
+            ($NoPO !== null) ||
             ($tglPO !== null) ||
             ($Tgl_Dibutuhkan !== null)
         ) {
