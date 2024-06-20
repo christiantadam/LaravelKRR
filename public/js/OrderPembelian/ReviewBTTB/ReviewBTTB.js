@@ -222,7 +222,7 @@ function print(data) {
                             </div>
                             <div style="width: 50%; height: auto;">
                                 <p style="font-size: 13px; font-family: Helvetica; margin: 2px 0;">: ${
-                                    data.printHeader[0].Datang.split(" ")[0]
+                                    formatDate(data.printHeader[0].Datang.split(" ")[0])
                                 }</p>
                             </div>
                         </div>
@@ -295,6 +295,13 @@ function print(data) {
 post_btn.addEventListener("click", function (event) {
     if (data.length != 0) {
         for (let i = 0; i < data.length; i++) {
+            // Convert date format
+            const tglDatangFormatted = formatDate(tglbttb.value);
+            const tglPIBFormatted = formatDate(tglpib.value);
+            const tglSPPBBCFormatted = formatDate(tglsppb.value);
+            const tglSKBMFormatted = formatDate(tglskbm.value);
+            const tglRegFormatted = formatDate(tglregis.value);
+
             $.ajax({
                 url: "/OpenReviewBTTB/Print",
                 type: "PUT",
@@ -302,18 +309,18 @@ post_btn.addEventListener("click", function (event) {
                     "X-CSRF-TOKEN": csrfToken,
                 },
                 data: {
-                    tglDatang: tglbttb.value,
+                    tglDatang: tglDatangFormatted,
                     SJ: nosj.value.trim(),
                     NoPIB: nopib.value.trim(),
                     BTTB: No_BTTB,
                     NoPIBExt: nopibext.value.trim(),
-                    TglPIB: tglpib.value,
+                    TglPIB: tglPIBFormatted,
                     NoSPPBBC: sppb.value.trim(),
-                    TglSPPBBC: tglsppb.value,
+                    TglSPPBBC: tglSPPBBCFormatted,
                     NoSKBM: skbm.value.trim(),
-                    TglSKBM: tglskbm.value,
+                    TglSKBM: tglSKBMFormatted,
                     NoReg: registrasi.value.trim(),
-                    TglReg: tglregis.value,
+                    TglReg: tglRegFormatted,
                 },
                 success: function (response) {
                     console.log(response);
@@ -343,6 +350,16 @@ post_btn.addEventListener("click", function (event) {
         alert("Data tidak ada");
     }
 });
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+}
+
 
 function responseData(datas) {
     data = datas;
