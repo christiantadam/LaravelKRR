@@ -197,6 +197,7 @@ function responseData(datas) {
         $("#tableharga tr.selected").not(this).removeClass("selected");
         $(this).toggleClass("selected");
         var rowData = tabelData.row(this).data();
+        console.log(rowData);
         if (rowData && rowData.length > 9) {
             var cancel = rowData[9];
             // console.log(cancel.trim())
@@ -212,7 +213,7 @@ function responseData(datas) {
                 document.getElementById("buttoncancel").style.display = "none";
                 document.getElementById("removebutton").disabled = false;
                 document.getElementById("buttoncancel").disabled = false;
-                document.getElementById("qty_cancel").value = rowData[8] || "";
+                document.getElementById("qty_cancel").value = rowData[7] || "";
             }
 
             document.getElementById("no_po").value = rowData[0] || "";
@@ -222,7 +223,7 @@ function responseData(datas) {
             document.getElementById("subkategori").value = rowData[3] || "";
             document.getElementById("subkategori").value = rowData[3] || "";
             document.getElementById("qty_ordered").value = rowData[4] || "0";
-            document.getElementById("qty_remaining").value = rowData[6] || "0";
+            document.getElementById("qty_remaining").value = rowData[7] || "0";
             document.getElementById("qty_received").value = rowData[6] || "0";
         }
     });
