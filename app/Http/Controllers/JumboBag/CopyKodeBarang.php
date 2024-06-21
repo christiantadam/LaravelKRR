@@ -4,7 +4,10 @@ namespace App\Http\Controllers\JumboBag;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
 use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class CopyKodeBarang extends Controller
 {
@@ -13,9 +16,49 @@ class CopyKodeBarang extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
         return view('JumboBag.CopyKodeBarang', compact('access'));
     }
-    public function create()
+    public function create(Request $request)
     {
-        //
+        {
+            // Fetch the customer data
+            $kodeCustomer = trim($request->input('kodeCustomer'));
+
+            // Step 1: Check if there are items for the customer
+            $checkResult = DB::connection('ConnJumboBag')
+                ->select('exec SP_1273_JBB_CHECK_CUST_KDBRG @KodeCustomer = ?', [$kodeCustomer]);
+
+            $ada = 0;
+            if ($checkResult && count($checkResult) > 0) {
+                $ada = $checkResult[0]->Ada;
+            }
+
+            if ($ada > 0) {
+                // Step 2: Fetch the list of items for the customer
+                $listKodebarang = DB::connection('ConnJumboBag')
+                    ->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG @KodeCustomer = ?', [$kodeCustomer]);
+
+                // Prepare data for DataTables
+                $dataKodebarang = [];
+                foreach ($listKodebarang as $Kd) {
+                    $dataKodebarang[] = [
+                        'tanggal' => $Kd->tanggal,
+                        'Kode_Barang' => $Kd->kode_barang,
+                    ];
+                }
+
+                // Check if `kodeBrgAsal` is not empty
+                $kodeBrgAsal = $request->input('kodeBrgAsal');
+                if (!empty($kodeBrgAsal)) {
+                    // Get first 6 characters of `kodeBrgAsal`
+                    $kodeBarangDirubah = substr($kodeBrgAsal, 0, 6);
+                }
+
+                // Return the data in a DataTables-compatible format
+                return datatables($dataKodebarang)->make(true);
+            } else {
+                // Handle the case where there are no items for the customer
+                return response()->json(['message' => 'Tidak ada kode barang untuk customer ' . $kodeCustomer], 404);
+            }
+        }
     }
     public function store(Request $request)
     {
