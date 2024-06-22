@@ -1471,6 +1471,1022 @@ function CerobongBawah() {
     });
 }
 
+function tampilFormKomposisi(typeForm) {
+    let htmlForm = "";
+    if (typeForm == "Form Komponen General") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" placeholder="Kode Komponen" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" placeholder="Nama" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="warp">Warp</label>
+                                    <input id="warp" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier-warp">Denier Warp</label>
+                                    <input id="denier-warp" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier">Denier</label>
+                                    <input id="denier" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat-warp">Berat Warp</label>
+                                    <input id="berat-warp" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat">Berat</label>
+                                    <input id="berat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <input id="lebar" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="weft">Weft</label>
+                                    <input id="weft" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier-weft">Denier Weft</label>
+                                    <input id="denier-weft" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="harga">Harga</label>
+                                    <input id="harga" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="subtotal">Subtotal</label>
+                                    <input id="subtotal" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat-weft">Berat Weft</label>
+                                    <input id="berat-weft" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Circular") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="diameter">Diameter</label>
+                                    <input id="diameter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="warp">Warp</label>
+                                    <input id="warp" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier-warp">Denier Warp</label>
+                                    <input id="denier-warp" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier">Denier</label>
+                                    <input id="denier" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat-warp">Berat Warp</label>
+                                    <input id="berat-warp" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat-weft">Berat Weft</label>
+                                    <input id="berat-weft" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="tinggi">Tinggi</label>
+                                    <input id="tinggi" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <input id="lebar" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="weft">Weft</label>
+                                    <input id="weft" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier-weft">Denier Weft</label>
+                                    <input id="denier-weft" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="harga">Harga</label>
+                                    <input id="harga" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="subtotal">Subtotal</label>
+                                    <input id="subtotal" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat">Berat</label>
+                                    <input id="berat" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Square") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="panjangca">Panjang CA</label>
+                            <input id="panjangca" class="input">
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="lebarca">Lebar CA</label>
+                            <input id="lebarca" class="input">
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="tinggica">Tinggi CA</label>
+                            <input id="tinggica" class="input">
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="warp">Warp</label>
+                                    <input id="warp" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier-warp">Denier Warp</label>
+                                    <input id="denier-warp" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier">Denier</label>
+                                    <input id="denier" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat">Berat</label>
+                                    <input id="berat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <input id="lebar" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="weft">Weft</label>
+                                    <input id="weft" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier-weft">Denier Weft</label>
+                                    <input id="denier-weft" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="harga">Harga</label>
+                                    <input id="harga" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="subtotal">Subtotal</label>
+                                    <input id="subtotal" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Rope") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="diameter">Diameter</label>
+                                    <input id="diameter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratPerMeter">Berat Per Meter</label>
+                                    <input id="beratPerMeter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Belt") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <div style="width: 100%">
+                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier">Denier</label>
+                                    <input id="denier" class="input" readonly>
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebar" class="input">
+                                        <button class="btn">. . .</button>
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratPerMeter">Berat Per Meter</label>
+                                    <input id="beratPerMeter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Selang") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input" style="width: 90%">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="diameter">Diameter</label>
+                                    <div style="width: 100%">
+                                        <input id="diameter" class="input">MM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratPer5cm">Berat Per 5 cm</label>
+                                    <input id="beratPer5cm" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Block") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat">Berat</label>
+                                    <div style="width: 100%">
+                                        <input id="berat" class="input">gram/pc
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Lami") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <table id="tableKomponenLami">
+                            <thead>
+                                <tr>
+                                    <th>Komponen</th>
+                                    <th>Nama Komponen</th>
+                                    <th>Panjang</th>
+                                    <th>Lebar</th>
+                                    <th>Quantity</th>
+                                    <th>Tebal</th>
+                                    <th>Berat</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Inner") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="tebalInner">Tebal Inner</label>
+                                    <input id="tebalInner" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <input id="lebar" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Pocket") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalHarga">Total Harga</label>
+                                    <input id="totalHarga" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <input id="lebar" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="hargaPerMeter">Harga/Meter</label>
+                                    <input id="hargaPerMeter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Eva") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="harga">Harga</label>
+                                    <input id="harga" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <input id="lebar" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat">Berat</label>
+                                    <input id="berat" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalHarga">Total Harga</label>
+                                    <input id="totalHarga" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Benang") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="hargaBenangPerKg">Harga Benang/Kg</label>
+                                    <input id="hargaBenangPerKg" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalHarga">Total Harga</label>
+                                    <input id="totalHarga" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kebutuhan">Kebutuhan</label>
+                                    <input id="kebutuhan" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex;align-items: center;gap: 10px;margin-bottom: 10px;">
+                            <label for="denier" style="margin-right: 15px;">Denier</label>
+                            <label>
+                                <input type="radio" name="denier" id="denier1" value="2000" style="margin-right: 3px;"> 2000
+                            </label>
+                            <label>
+                                <input type="radio" name="denier" id="denier2" value="2600" style="margin-right: 3px;margin-left: 3px"> 2600
+                            </label>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Ongkos") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBeratKomponen">Total Berat Komponen</label>
+                                    <input id="totalBeratKomponen" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="hargaPerKg">Harga/Kg</label>
+                                    <input id="hargaPerKg" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratInnerLiner">Berat Inner Liner</label>
+                                    <input id="beratInnerLiner" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalHarga">Total Harga</label>
+                                    <input id="totalHarga" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Dust") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="berat">Berat</label>
+                                    <input id="berat" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="hargaPerKg">Harga/Kg</label>
+                                    <input id="hargaPerKg" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalHarga">Total Harga</label>
+                                    <input id="totalHarga" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Katun") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <input id="panjang" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratPerMeter">Berat Per Meter</label>
+                                    <input id="beratPerMeter" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="hargaPerKg">Harga/Kg</label>
+                                    <input id="hargaPerKg" class="input" readonly>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalHarga">Total Harga</label>
+                                    <input id="totalHarga" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebar" class="input">
+                                        <button class="btn">. . .</button>
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Kertas") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="harga">Harga</label>
+                                    <div style="width: 100%">
+                                        <input id="harga" class="input" style="width: 90%"> Rupiah
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebar" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input" readonly>
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <div style="width: 100%">
+                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="GSM">GSM</label>
+                                    <div style="width: 100%">
+                                        <input id="GSM" class="input" style="width: 90%"> g/m²
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Kain") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="harga">Harga</label>
+                                    <div style="width: 100%">
+                                        <input id="harga" class="input" style="width: 90%"> Rupiah
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebar" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input" readonly>
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <div style="width: 100%">
+                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="GSM">GSM</label>
+                                    <div style="width: 100%">
+                                        <input id="GSM" class="input" style="width: 90%"> g/m²
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Benang Katun") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <div style="width: 100%">
+                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratStd">Berat Std</label>
+                                    <div style="width: 100%">
+                                        <input id="beratStd" class="input" style="width: 90%"> Gram/CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebar" class="input" style="width: 80%"> CM
+                                        <button class="btn">. . .</button>
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Karet") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <div style="width: 100%">
+                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratPerMeter">Berat/Meter</label>
+                                    <div style="width: 100%">
+                                        <input id="beratPerMeter" class="input" style="width: 90%"> Gram/M
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebar" class="input" style="width: 80%"> CM
+                                        <button class="btn">. . .</button>
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    } else if (typeForm == "Form Komponen Carbon") {
+        htmlForm = `<div style="text-align: left;">
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="kode-komponen">Kode Komponen</label>
+                            <input id="kode-komponen" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="nama">Nama</label>
+                            <input id="nama" class="input" readonly>
+                        </div>
+                        <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="panjang">Panjang</label>
+                                    <div style="width: 100%">
+                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="tebal">Tebal</label>
+                                    <input id="tebal" class="input" style="width: 90%"> Gram/M
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBerat">Total Berat</label>
+                                    <input id="totalBerat" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebar">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebar" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantity">Quantity</label>
+                                    <input id="quantity" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="kounter">Kounter</label>
+                                    <input id="kounter" class="input" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+    }
+    Swal.fire({
+        title: typeForm,
+        html: htmlForm,
+        showCancelButton: true,
+        confirmButtonText: "Proses",
+        cancelButtonText: "Cancel",
+        didOpen: () => {
+            if (typeForm == "FrmKompGeneral") {
+                console.log("masuk didopen() frmKompGeneral");
+            } else if (typeForm == "FrmKompCircular") {
+            } else if (typeForm == "FrmKompSquare") {
+            } else if (typeForm == "FrmKompRope") {
+            } else if (typeForm == "FrmKompBelt") {
+            } else if (typeForm == "FrmKompSelang") {
+            } else if (typeForm == "FrmBLock") {
+            } else if (typeForm == "FrmKompLami") {
+            } else if (typeForm == "FrmKompInner") {
+            } else if (typeForm == "FrmKompPocket") {
+            } else if (typeForm == "FrmKompEva") {
+            } else if (typeForm == "FrmKompBenang") {
+            } else if (typeForm == "FrmKompOngkos") {
+            } else if (typeForm == "FrmKompDust") {
+            } else if (typeForm == "FrmKompKatun") {
+            } else if (typeForm == "FrmKompKertas") {
+            } else if (typeForm == "FrmKompKain") {
+            } else if (typeForm == "FrmKompBngKatun") {
+            } else if (typeForm == "FrmKompKaret") {
+            } else if (typeForm == "FrmKompCarbon") {
+            }
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log(result.value);
+        }
+    });
+}
+
 //#endregion
 
 //#region Add Event Listener
@@ -2864,6 +3880,29 @@ tambah_komponen.addEventListener("click", function (event) {
                 },
                 didOpen: () => {
                     $(document).ready(function () {
+                        let TKreinf = reinforced_lebar.value;
+                        let TKkdBrg = nama_barang.value;
+                        let TKjmlreinf = reinforced_jumlah.value;
+                        let TKidmodelBB = id_body_model.value;
+                        let TKidModelCA = id_cerobongAtas_model.value;
+                        let TKbentukCA = cerobongAtas_bentuk.value;
+                        let TKidModelCB = id_cerobongBawah_model.value;
+                        let TKbentukCB = cerobongBawah_bentuk.value;
+                        let TKompGeneralKomponen = 1;
+                        let TKpanjangCA = cerobongAtas_panjang.value;
+                        let TKlebarCA = cerobongAtas_lebar.value;
+                        let TKtinggiCA = cerobongAtas_tinggi.value;
+                        let TKpanjangCB = cerobongBawah_panjang.value;
+                        let TKlebarCB = cerobongAtas_lebar.value;
+                        let TKtinggiCB = cerobongBawah_tinggi.value;
+                        let TKbentukBB = body_bentuk.value;
+                        let TKpanjangBB = body_panjang.value;
+                        let TKlebarBB = body_lebar.value;
+                        let TKdiameterCB = cerobongBawah_diameter.value;
+                        let TKdiameterBB = body_diameter.value;
+                        let TKdiameterCA = cerobongAtas_diameter.value;
+                        let TKtinggiBB = body_tinggi.value;
+                        let TKtebalInner = reinforced_inner.value;
                         const table = $("#komponenTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -2886,29 +3925,180 @@ tambah_komponen.addEventListener("click", function (event) {
                                 },
                             ],
                             // Debugging step to check table structure after initialization
-                            initComplete: function(settings, json) {
-                                console.log('Table initialized', json);
-                            }
                         });
 
-                        $("#komponenTable tbody").on("click", "tr", function () {
-                            // Remove 'selected' class from all rows
-                            table.$("tr.selected").removeClass("selected");
-                            // Add 'selected' class to the clicked row
-                            $(this).addClass("selected");
-                        });
+                        $("#komponenTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
                     });
                 },
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
+                    let typeForm = "";
                     console.log(selectedRow);
+                    if (selectedRow.Kode_Komponen.includes("01BB")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("02BS")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("03TA")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("04TB")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("05CA")) {
+                        if (cerobongAtas_bentuk.value == "C") {
+                            typeForm = "Form Komponen Circular";
+                        } else if (cerobongAtas_bentuk.value == "S") {
+                            typeForm = "Form Komponen Square";
+                        }
+                    } else if (selectedRow.Kode_Komponen.includes("06CB")) {
+                        if (cerobongAtas_bentuk.value == "C") {
+                            typeForm = "Form Komponen Circular";
+                        } else if (cerobongAtas_bentuk.value == "S") {
+                            typeForm = "Form Komponen Square";
+                        }
+                    } else if (selectedRow.Kode_Komponen.includes("07HR")) {
+                        typeForm = "Form Komponen Rope";
+                    } else if (selectedRow.Kode_Komponen.includes("07RR")) {
+                        typeForm = "Form Komponen Rope";
+                    } else if (selectedRow.Kode_Komponen.includes("08HB")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("09RB")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("10RC")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("11CR")) {
+                        typeForm = "Form Komponen Rope";
+                    } else if (selectedRow.Kode_Komponen.includes("11RR")) {
+                        typeForm = "Form Komponen Rope";
+                    } else if (selectedRow.Kode_Komponen.includes("12DR")) {
+                        typeForm = "Form Komponen Rope";
+                    } else if (selectedRow.Kode_Komponen.includes("12RR")) {
+                        typeForm = "Form Komponen Rope";
+                    } else if (selectedRow.Kode_Komponen.includes("13RR")) {
+                        typeForm = "Form Komponen Rope";
+                    } else if (selectedRow.Kode_Komponen.includes("14TR")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("15ST")) {
+                        typeForm = "Form Komponen Selang";
+                    } else if (selectedRow.Kode_Komponen.includes("16PP")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("16PH")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("16PC")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("16TT")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("16RP")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("16ST")) {
+                        typeForm = "Form Block";
+                    } else if (selectedRow.Kode_Komponen.includes("17CR")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("17CV")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("18LM")) {
+                        typeForm = "Form Komponen Lami";
+                    } else if (selectedRow.Kode_Komponen.includes("19IL")) {
+                        typeForm = "Form Komponen Inner";
+                    } else if (selectedRow.Kode_Komponen.includes("20PO")) {
+                        typeForm = "Form Komponen Pocket";
+                    } else if (selectedRow.Kode_Komponen.includes("21EV")) {
+                        typeForm = "Form Komponen Eva";
+                    } else if (selectedRow.Kode_Komponen.includes("22BJ")) {
+                        typeForm = "Form Komponen Benang";
+                    } else if (selectedRow.Kode_Komponen.includes("23OJ")) {
+                        typeForm = "Form Komponen Ongkos";
+                    } else if (selectedRow.Kode_Komponen.includes("24PA")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("25OB")) {
+                        typeForm = "Form Komponen Ongkos";
+                    } else if (selectedRow.Kode_Komponen.includes("26SB")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("27FP")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("28AB")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("28AR")) {
+                        typeForm = "Form Komponen Rope";
+                    } else if (selectedRow.Kode_Komponen.includes("29RB")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("30BD")) {
+                        typeForm = "Form Komponen Dust";
+                    } else if (selectedRow.Kode_Komponen.includes("31MT")) {
+                        typeForm = "Form Komponen Belt";
+                    } else if (selectedRow.Kode_Komponen.includes("32KG")) {
+                        typeForm = "Form Komponen General";
+                    } else if (selectedRow.Kode_Komponen.includes("33KT")) {
+                        typeForm = "Form Komponen Katun";
+                    } else if (selectedRow.Kode_Komponen.includes("34BA")) {
+                        typeForm = "Form Komponen Dust";
+                    } else if (selectedRow.Kode_Komponen.includes("35KR")) {
+                        typeForm = "Form Komponen Kertas";
+                    } else if (selectedRow.Kode_Komponen.includes("36KK")) {
+                        typeForm = "Form Komponen Kain";
+                    } else if (selectedRow.Kode_Komponen.includes("37KW")) {
+                        typeForm = "Form Komponen Kain";
+                    } else if (selectedRow.Kode_Komponen.includes("38BK")) {
+                        typeForm = "Form Komponen Benang Katun";
+                    } else if (selectedRow.Kode_Komponen.includes("39KA")) {
+                        typeForm = "Form Komponen Karet";
+                    } else if (selectedRow.Kode_Komponen.includes("40CC")) {
+                        typeForm = "Form Komponen Carbon";
+                    }
+                    tampilFormKomposisi(typeForm);
                 }
             });
-
         } catch (error) {
             console.error("An error occurred:", error);
         }
     }
 });
+
+//#endregion
+
+//#region test table Form Komponen Lami
+
+const createdCell = function (cell, cellData, rowData, rowIndex, colIndex) {
+    let original;
+    cell.setAttribute("contenteditable", true);
+    cell.setAttribute("spellcheck", false);
+
+    cell.addEventListener("focus", function (e) {
+        original = e.target.textContent;
+    });
+
+    cell.addEventListener("blur", function (e) {
+        if (original !== e.target.textContent) {
+            const row = table.row(e.target.parentElement);
+            row.invalidate();
+            console.log("Cell changed: ", e.target); // Logging the cell
+            console.log("New content: ", e.target.textContent); // Logging the new content
+            console.log("Column index: ", colIndex); // Logging the column index
+            console.log(
+                "Column name: ",
+                table.column(colIndex).header().textContent
+            ); // Logging the column name
+            console.log("Row data: ", row.data()); // Logging the row data
+            console.log(cell, cellData, rowData, rowIndex, colIndex); // Logging all parameters
+        }
+    });
+};
+
+const table = $("#example").DataTable({
+    columnDefs: [
+        {
+            targets: "_all",
+            createdCell: createdCell,
+        },
+    ],
+});
+
 //#endregion
