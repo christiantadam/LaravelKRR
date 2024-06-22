@@ -146,8 +146,6 @@ class UbahKodeBarang extends Controller
                         'exec SP_1273_JBB_UBAH_KDBRG @KodeCust = ?, @OldKodeBrg = ?, @NewKodeBrg = ?, @Tgl = ?, @TglUpdate = ?, @UserLgn =?',
                         [$kodeCust, $kodeBrgAsal, $kodeBarangTuj, $tanggal, now()->format('Y-m-d'), $operator]
                     );
-
-                    // return response()->view('JumboBag.UbahKodeBarang', compact('access',  ['message' => 'Data Terupdate']));
                     return redirect()->back()->with('success', 'Data sudah terupdate.');
                 }
             } else {

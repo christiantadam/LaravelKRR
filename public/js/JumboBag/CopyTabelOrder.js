@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "CopyKodeBarang/getListCustomer",
+                                url: "CopyTabelOrder/getListCustomer",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -117,76 +117,76 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log(selectedRow);
     });
 
-    btn_customers.addEventListener("click", async function (event) {
-        event.preventDefault();
-        try {
-            const result = await Swal.fire({
-                title: "Select a Customer",
-                html: '<table id="customerTable2" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
-                showCancelButton: true,
-                preConfirm: () => {
-                    const selectedData = $("#customerTable2")
-                        .DataTable()
-                        .row(".selected")
-                        .data();
-                    if (!selectedData) {
-                        Swal.showValidationMessage("Please select a row");
-                        return false;
-                    }
-                    return selectedData;
-                },
-                didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#customerTable2").DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            returnFocus: true,
-                            ajax: {
-                                url: "CopyKodeBarang/getListCustomer",
-                                dataType: "json",
-                                type: "GET",
-                                data: {
-                                    _token: csrfToken,
-                                },
-                            },
-                            columns: [
-                                {
-                                    data: "Nama_Customer",
-                                },
-                                {
-                                    data: "Kode_Customer",
-                                },
-                            ],
-                        });
-                        $("#customerTable2 tbody").on(
-                            "click",
-                            "tr",
-                            function () {
-                                // Remove 'selected' class from all rows
-                                table.$("tr.selected").removeClass("selected");
-                                // Add 'selected' class to the clicked row
-                                $(this).addClass("selected");
-                            }
-                        );
-                    });
-                },
-            }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    const selectedRow = result.value;
-                    customers.value = selectedRow.Nama_Customer.trim();
-                    id_customers.value = selectedRow.Kode_Customer.trim();
+    // btn_customers.addEventListener("click", async function (event) {
+    //     event.preventDefault();
+    //     try {
+    //         const result = await Swal.fire({
+    //             title: "Select a Customer",
+    //             html: '<table id="customerTable2" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+    //             showCancelButton: true,
+    //             preConfirm: () => {
+    //                 const selectedData = $("#customerTable2")
+    //                     .DataTable()
+    //                     .row(".selected")
+    //                     .data();
+    //                 if (!selectedData) {
+    //                     Swal.showValidationMessage("Please select a row");
+    //                     return false;
+    //                 }
+    //                 return selectedData;
+    //             },
+    //             didOpen: () => {
+    //                 $(document).ready(function () {
+    //                     const table = $("#customerTable2").DataTable({
+    //                         responsive: true,
+    //                         processing: true,
+    //                         serverSide: true,
+    //                         returnFocus: true,
+    //                         ajax: {
+    //                             url: "CopyKodeBarang/getListCustomer",
+    //                             dataType: "json",
+    //                             type: "GET",
+    //                             data: {
+    //                                 _token: csrfToken,
+    //                             },
+    //                         },
+    //                         columns: [
+    //                             {
+    //                                 data: "Nama_Customer",
+    //                             },
+    //                             {
+    //                                 data: "Kode_Customer",
+    //                             },
+    //                         ],
+    //                     });
+    //                     $("#customerTable2 tbody").on(
+    //                         "click",
+    //                         "tr",
+    //                         function () {
+    //                             // Remove 'selected' class from all rows
+    //                             table.$("tr.selected").removeClass("selected");
+    //                             // Add 'selected' class to the clicked row
+    //                             $(this).addClass("selected");
+    //                         }
+    //                     );
+    //                 });
+    //             },
+    //         }).then((result) => {
+    //             if (result.isConfirmed && result.value) {
+    //                 const selectedRow = result.value;
+    //                 customers.value = selectedRow.Nama_Customer.trim();
+    //                 id_customers.value = selectedRow.Kode_Customer.trim();
 
-                    if (id_customers.value !== "") {
-                        kodeBarangDirubah.value = "O-" + id_customers.value + "-";
-                    }
-                }
-            });
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
-        // console.log(selectedRow);
-    });
+    //                 if (id_customers.value !== "") {
+    //                     kodeBarangDirubah.value = "O-" + id_customers.value + "-";
+    //                 }
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error("An error occurred:", error);
+    //     }
+    //     // console.log(selectedRow);
+    // });
 
     btn_kodebarang.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "CopyKodeBarang/create",
+                                url: "CopyCopyTabelOrder/create",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
