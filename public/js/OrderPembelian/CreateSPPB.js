@@ -532,13 +532,35 @@ function print(data) {
         ppn += parseFloat(data.print[i].PPN);
     }
 
-    const sumAmountFix = !sumAmount.toLocaleString("en-US").includes(".")
-        ? sumAmount.toLocaleString("en-US") + ".00"
-        : sumAmount.toLocaleString("en-US");
+    const sumAmountFix = !sumAmount
+        .toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        })
+        .includes(".")
+        ? sumAmount.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          }) + ".00"
+        : sumAmount.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          });
 
-    const ppnFix = !ppn.toLocaleString("en-US").includes(".")
-        ? ppn.toLocaleString("en-US") + ".00"
-        : ppn.toLocaleString("en-US");
+    const ppnFix = !ppn
+        .toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        })
+        .includes(".")
+        ? ppn.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          }) + ".00"
+        : ppn.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          });
 
     const chunkSize = 5;
     const chunkedData = [];
@@ -580,34 +602,69 @@ function print(data) {
                     </td>
                     <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(item.PriceUnit)
-                            .toLocaleString("en-US")
+                            .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })
                             .includes(".")
                             ? parseFloat(item.PriceUnit).toLocaleString(
-                                  "en-US"
+                                  "en-US",
+                                  {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                  }
                               ) + ".00"
-                            : parseFloat(item.PriceUnit).toLocaleString("en-US")
+                            : parseFloat(item.PriceUnit).toLocaleString(
+                                  "en-US",
+                                  {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                  }
+                              )
                     }</p></td>
                     <td style="text-align: center;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(
                             item.harga_disc == null ? 0 : item.harga_disc
                         )
-                            .toLocaleString("en-US")
+                            .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })
                             .includes(".")
                             ? parseFloat(
                                   item.harga_disc == null ? 0 : item.harga_disc
-                              ).toLocaleString("en-US") + ".00"
+                              ).toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                              }) + ".00"
                             : parseFloat(
                                   item.harga_disc == null ? 0 : item.harga_disc
-                              ).toLocaleString("en-US")
+                              ).toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                              })
                     }</p></td>
                     <td style="text-align: right;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(item.PriceSub)
-                            .toLocaleString("en-US")
+                            .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })
                             .includes(".")
                             ? parseFloat(item.PriceSub).toLocaleString(
-                                  "en-US"
+                                  "en-US",
+                                  {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                  }
                               ) + ".00"
-                            : parseFloat(item.PriceSub).toLocaleString("en-US")
+                            : parseFloat(item.PriceSub).toLocaleString(
+                                  "en-US",
+                                  {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                  }
+                              )
                     }</p></td>
                 </tr>
             `;
