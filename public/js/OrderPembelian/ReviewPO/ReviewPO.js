@@ -493,13 +493,24 @@ function print(data) {
                             <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
                                 <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
                                     !(sumAmount + ppn)
-                                        .toLocaleString("en-US")
+                                        .toLocaleString("en-US", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        })
                                         .includes(".")
                                         ? (sumAmount + ppn).toLocaleString(
-                                              "en-US"
+                                              "en-US",
+                                              {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                              }
                                           ) + ".00"
                                         : (sumAmount + ppn).toLocaleString(
-                                              "en-US"
+                                              "en-US",
+                                              {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                              }
                                           )
                                 }</p>
                             </div>

@@ -418,6 +418,7 @@ btn_remove.addEventListener("click", function (event) {
     });
 });
 btn_reject.addEventListener("click", function (event) {
+    this.disabled = true;
     $.ajax({
         url: "/openFormCreateSPPB/create/Reject",
         type: "PUT",
@@ -459,6 +460,7 @@ btn_reject.addEventListener("click", function (event) {
     });
 });
 btn_post.addEventListener("click", function (event) {
+    this.disabled = true;
     if (loadPermohonanData.length == 0) {
         alert("Data Yang Akan Dipost Tidak Ada");
     } else {
@@ -528,24 +530,11 @@ function print(data) {
     let Page = 0;
 
     for (let i = 0; i < data.print.length; i++) {
-        sumAmount += parseFloat(data.print[i].PriceSub);
+        sumAmount += parseFloat(data.print[i].PriceSub.toFixed(2));
         ppn += parseFloat(data.print[i].PPN);
     }
 
-    const sumAmountFix = !sumAmount
-        .toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        })
-        .includes(".")
-        ? sumAmount.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-          }) + ".00"
-        : sumAmount.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-          });
+    const sumAmountFix = (sumAmount ?? 0).toFixed(2);
 
     const ppnFix = !ppn
         .toLocaleString("en-US", {
@@ -825,13 +814,24 @@ function print(data) {
                             <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
                                 <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
                                     !(sumAmount + ppn)
-                                        .toLocaleString("en-US")
+                                        .toLocaleString("en-US", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        })
                                         .includes(".")
                                         ? (sumAmount + ppn).toLocaleString(
-                                              "en-US"
+                                              "en-US",
+                                              {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                              }
                                           ) + ".00"
                                         : (sumAmount + ppn).toLocaleString(
-                                              "en-US"
+                                              "en-US",
+                                              {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                              }
                                           )
                                 }</p>
                             </div>
