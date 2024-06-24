@@ -530,11 +530,25 @@ function print(data) {
     let Page = 0;
 
     for (let i = 0; i < data.print.length; i++) {
-        sumAmount += parseFloat(data.print[i].PriceSub.toFixed(2));
+        sumAmount += parseFloat(data.print[i].PriceSub);
         ppn += parseFloat(data.print[i].PPN);
     }
 
-    const sumAmountFix = (sumAmount ?? 0).toFixed(2);
+    const sumAmountFix = !sumAmount
+        .toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        })
+        .includes(".")
+        ? sumAmount.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          }) + ".00"
+        : sumAmount.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          });
+
 
     const ppnFix = !ppn
         .toLocaleString("en-US", {
