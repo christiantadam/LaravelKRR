@@ -63,7 +63,7 @@ class CopyTabelOrder extends Controller
     {
         //
     }
-    public function show($id)
+    public function show(Request $request, $id)
     {
         if ($id == 'getListCustomer') {
             // Fetch the customer data
@@ -78,8 +78,113 @@ class CopyTabelOrder extends Controller
                 ];
             }
             return datatables($dataCustomer)->make(true);
+        } else if ($id == 'getNoSP') {
+            $kodeBarang = trim($request->input('KodeBrgAsal'));
+            $noSP = '';
+            $deliveryTime = '';
+            // dd($kodeBarang);
+
+            // Eksekusi prosedur tersimpan pertama
+            $items = DB::connection('ConnJumboBag')
+                ->select('exec SP_1273_JBB_LIST_NOSP_HEADTO @KodeBarang= ?', [$kodeBarang]);
+            // dd($items);
+            if (count($items) > 0) {
+                $noSP = $items[0]->No_SuratPesanan;
+                $deliveryTime = $items[0]->Waktu_Delivery;
+            }
+
+            if ($noSP !== '') {
+                // Eksekusi prosedur tersimpan kedua
+                $orderDetails = DB::connection('ConnJumboBag')
+                    ->select('exec SP_1273_JBB_LIST_KDBRG_HEADTO @KodeBarang =?, @NoSP = ?', [$kodeBarang, $noSP]);
+                // dd($orderDetails);
+                $dataSuratPesanan = [];
+                foreach ($items as $SuratPesanan) {
+                    $dataSuratPesanan[] = [
+                        'NoSP' => $SuratPesanan->No_SuratPesanan,
+                        'Delivery' => $SuratPesanan->Waktu_Delivery,
+                        'Jumlah' => $SuratPesanan->Jumlah_Order,
+                    ];
+                }
+                return datatables($dataSuratPesanan)->make(true);
+            }
+
+            return response()->json(['status' => 'error', 'message' => 'Tidak ada data ditemukan']);
+        } else if ($id == 'btnKdBrg2') {
+            $kodeBarangAsal = trim($request->input('KodeBrgAsal'));
+            $ada = false;
+
+            // Execute first stored procedure
+            $items = DB::connection('ConnJumboBag')
+                ->select('exec SP_1273_JBB_LIST_SALES @Kode = ?, @Kodebarangjbb = ?', [4, substr($kodeBarangAsal, 2)]);
+
+            if (count($items) > 0 && $items[0]->Ada > 0) {
+                $ada = true;
+            }
+
+            if (!$ada) {
+                return response()->json(['status' => 'error', 'message' => 'TIDAK ADA No.Surat Pesanan untuk kodebarang: ' . $kodeBarangAsal]);
+            } else {
+                $lookupItems = DB::connection('ConnJumboBag')
+                    ->select('exec SP_1273_JBB_LIST_SALES @Kode = ?, @Kodebarangjbb = ?', [1, substr($kodeBarangAsal, 2)]);
+                $dataLookup = [];
+                foreach ($lookupItems as $item) {
+                    $dataLookup[] = [
+                        'NamaType' => $item->NamaType,
+                        'KodeBarang' => $item->KodeBarang,
+                    ];
+                }
+                return datatables($dataLookup)->make(true);
+            }
+        }else if ($id == 'btnNoSP2') {
+            $kodeBarangSLS = $request->input('KodeBrgNew');
+            $jenisBarang = $request->input('JenisBarang');
+            $jnsBrg = '';
+
+            // dd($kodeBarangSLS, $jenisBarang);
+
+            if (substr($jenisBarang, -1) === 'E') {
+                $jnsBrg = 'JBE';
+            } else if (substr($jenisBarang, -1) === 'F') {
+                $jnsBrg = 'JBF';
+            } else if (substr($jenisBarang, -1) === 'N') {
+                $jnsBrg = 'JBN';
+            }
+
+            $lookupItems = DB::connection('ConnJumboBag')
+                ->select('exec SP_1273_JBB_LIST_SALES @Kode = ?, @KodeBarangSLS = ?, @JnsBrg = ?', [9, $kodeBarangSLS, $jnsBrg]);
+            dd($lookupItems);
+            if (count($lookupItems) > 0) {
+                $firstItem = $lookupItems[0];
+                $idSuratPesanan = $firstItem->IdSuratPesanan;
+                $qty = $firstItem->Qty;
+
+                // If txtNoSP2 is not empty
+                if (!empty($idSuratPesanan)) {
+                    if (substr($jenisBarang, -1) === 'L') {
+                        $idSuratPesanan .= 'A';
+                    }
+
+                    $orderDetails = DB::connection('ConnJumboBag')
+                        ->select('exec SP_1273_JBB_LIST_SALES @Kode = ?, @KodeBarangSLS = ?, @IdSuratPesanan = ?', [3, $kodeBarangSLS, $idSuratPesanan]);
+
+                        if (count($orderDetails) > 0) {
+                            $dataOrderDetails = [];
+                            foreach ($orderDetails as $orderDetail) {
+                                $dataOrderDetails[] = [
+                                    'IdPesanan' => $orderDetail->IdPesanan,
+                                    'Satuan' => $orderDetail->Satuan,
+                                    'TglRencanaKirim' => \Carbon\Carbon::parse($orderDetail->TglRencanaKirim)->format('m/d/Y')
+                                ];
+                            }
+                        }
+                }
+            }
+
+            return datatables($orderDetails)->make(true);
         }
     }
+
     public function edit($id)
     {
         //

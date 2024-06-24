@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let btn_customer = document.getElementById("button-customer");
-    let btn_customers = document.getElementById("button-customers");
     let btn_kodebarang = document.getElementById("button-kode-barang");
     let id_customer = document.getElementById("id_customer");
     let id_customers = document.getElementById("id_customers");
@@ -13,6 +12,18 @@ document.addEventListener("DOMContentLoaded", function () {
     let kodeBarangDirubah = document.getElementById("kodeBarangDirubah");
     let tanggal = document.getElementById("tanggal");
     let tanggals = document.getElementById("tanggals");
+    let btn_nopsn = document.getElementById("button-no-pesanan");
+    let no_pesanan = document.getElementById("no_pesanan");
+    let time_deliv = document.getElementById("time_deliv");
+    let jumlah_order = document.getElementById("jumlah_order");
+    let jumlah_order2 = document.getElementById("jumlah_order2");
+    let btn_kodebarang2 = document.getElementById("button-kode-barang2");
+    let kodebarang = document.getElementById("kodebarang");
+    let kodeBarangs = document.getElementById("kodeBarangs");
+    let jenis_barang = document.getElementById("jenis_barang");
+    let idsuratpesanan = document.getElementById("idsuratpesanan");
+    let idpesanan = document.getElementById("idpesanan");
+    let btn_pesanan = document.getElementById("button-pesanan");
     let tabel_hitunganDatatable = new DataTable(
         document.getElementById("table-hitungan")
     );
@@ -22,6 +33,12 @@ document.addEventListener("DOMContentLoaded", function () {
     customer.disabled = true;
     tanggal.disabled = true;
     kodeBarangAsal.disabled = true;
+    no_pesanan.disabled = true;
+    time_deliv.disabled = true;
+    jumlah_order.disabled = true;
+    kodebarang.disabled = true;
+    kodeBarangs.disabled = true;
+    idpesanan.disabled = true;
     tanggals.valueAsDate = new Date();
 
     if (successMessage) {
@@ -117,76 +134,216 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log(selectedRow);
     });
 
-    // btn_customers.addEventListener("click", async function (event) {
-    //     event.preventDefault();
-    //     try {
-    //         const result = await Swal.fire({
-    //             title: "Select a Customer",
-    //             html: '<table id="customerTable2" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
-    //             showCancelButton: true,
-    //             preConfirm: () => {
-    //                 const selectedData = $("#customerTable2")
-    //                     .DataTable()
-    //                     .row(".selected")
-    //                     .data();
-    //                 if (!selectedData) {
-    //                     Swal.showValidationMessage("Please select a row");
-    //                     return false;
-    //                 }
-    //                 return selectedData;
-    //             },
-    //             didOpen: () => {
-    //                 $(document).ready(function () {
-    //                     const table = $("#customerTable2").DataTable({
-    //                         responsive: true,
-    //                         processing: true,
-    //                         serverSide: true,
-    //                         returnFocus: true,
-    //                         ajax: {
-    //                             url: "CopyKodeBarang/getListCustomer",
-    //                             dataType: "json",
-    //                             type: "GET",
-    //                             data: {
-    //                                 _token: csrfToken,
-    //                             },
-    //                         },
-    //                         columns: [
-    //                             {
-    //                                 data: "Nama_Customer",
-    //                             },
-    //                             {
-    //                                 data: "Kode_Customer",
-    //                             },
-    //                         ],
-    //                     });
-    //                     $("#customerTable2 tbody").on(
-    //                         "click",
-    //                         "tr",
-    //                         function () {
-    //                             // Remove 'selected' class from all rows
-    //                             table.$("tr.selected").removeClass("selected");
-    //                             // Add 'selected' class to the clicked row
-    //                             $(this).addClass("selected");
-    //                         }
-    //                     );
-    //                 });
-    //             },
-    //         }).then((result) => {
-    //             if (result.isConfirmed && result.value) {
-    //                 const selectedRow = result.value;
-    //                 customers.value = selectedRow.Nama_Customer.trim();
-    //                 id_customers.value = selectedRow.Kode_Customer.trim();
+    btn_nopsn.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a No Pesanan",
+                html: '<table id="nopesananTable" class="display" style="width:100%"><thead><tr><th>No Surat Pesanan</th><th>Waktu Delivery</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#nopesananTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#nopesananTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "CopyTabelOrder/getNoSP",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    KodeBrgAsal: kodeBarangAsal.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NoSP",
+                                },
+                                {
+                                    data: "Delivery",
+                                    render: function (data) {
+                                        if (data) {
+                                            return data.substring(0, 10);
+                                        } else {
+                                            return "";
+                                        }
+                                    },
+                                },
+                            ],
+                        });
+                        $("#nopesananTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    no_pesanan.value = selectedRow.NoSP.trim();
+                    time_deliv.value = selectedRow.Delivery.trim();
+                    jumlah_order.value = selectedRow.Jumlah.trim();
+                    jumlah_order2.value = selectedRow.Jumlah.trim();
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
 
-    //                 if (id_customers.value !== "") {
-    //                     kodeBarangDirubah.value = "O-" + id_customers.value + "-";
-    //                 }
-    //             }
-    //         });
-    //     } catch (error) {
-    //         console.error("An error occurred:", error);
-    //     }
-    //     // console.log(selectedRow);
-    // });
+    btn_kodebarang2.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Kode Barang",
+                html: '<table id="kdBrgTable" class="display" style="width:100%;white-space: nowrap"><thead><tr><th>Nama Type</th><th>Kode Barang</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "90%",
+                preConfirm: () => {
+                    const selectedData = $("#kdBrgTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#kdBrgTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "CopyTabelOrder/btnKdBrg2",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    KodeBrgAsal: kodeBarangAsal.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NamaType",
+                                },
+                                {
+                                    data: "KodeBarang",
+                                },
+                            ],
+                        });
+                        $("#kdBrgTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    kodebarang.value = selectedRow.KodeBarang.trim();
+                    kodeBarangs.value = selectedRow.NamaType.substring(
+                        0,
+                        selectedRow.NamaType.length - 4
+                    );
+                    jenis_barang.value = selectedRow.NamaType.slice(-3);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_pesanan.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Surat Pesanan",
+                html: '<table id="pesananTable" class="display" style="width:100%;white-space: nowrap"><thead><tr><th>No Surat Pesanan</th><th>Qty</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                // width: "90%",
+                preConfirm: () => {
+                    const selectedData = $("#pesananTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#pesananTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "CopyTabelOrder/btnNoSP2",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    KodeBrgNew: kodebarang.value,
+                                    JenisBarang: jenis_barang.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "IdPesanan",
+                                },
+                                {
+                                    data: "Satuan",
+                                },
+                            ],
+                        });
+                        $("#pesananTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    idsuratpesanan.value = selectedRow.Idpesanan.trim();
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
 
     btn_kodebarang.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -214,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "CopyCopyTabelOrder/create",
+                                url: "CopyTabelOrder/create",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -240,63 +397,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     tanggal.value = selectedRow.tanggal.trim();
 
                     // Mengisi kodeBarangDirubah dengan 6 karakter pertama dari kodeBarangAsal
-                    if (kodeBarangAsal.value !== "") {
-                        kodeBarangDirubah.value =
-                            kodeBarangAsal.value.substring(0, 6);
-                    }
-
-                    if (id_customer.value !== "") {
-                        id_customers.value = id_customer.value;
-                        customers.value = customer.value;
-                    }
-
-                    // if (tanggal.value !== "") {
-                    //     tanggals.value = formatDateToUS(
-                    //         selectedRow.tanggal.trim()
-                    //     );
+                    // if (kodeBarangAsal.value !== "") {
+                    //     kodeBarangDirubah.value =
+                    //         kodeBarangAsal.value.substring(0, 6);
                     // }
 
-                    // Check if DataTable is already initialized
-                    if ($.fn.DataTable.isDataTable("#table-hitungan")) {
-                        // If DataTable is already initialized, destroy it
-                        $("#table-hitungan").DataTable().destroy();
-                    }
-
-                    // Configure the DataTable
-                    $("#table-hitungan").DataTable({
-                        responsive: true, // Enable responsiveness
-                        processing: true, // Show a processing indicator while loading data
-                        serverSide: true, // Enable server-side processing
-                        returnFocus: true, // Return focus to the table after operations
-
-                        // AJAX configuration to fetch data from the server
-                        ajax: {
-                            url: "CopyKodeBarang/getTableHitungan", // URL to fetch data from
-                            dataType: "json", // Expect JSON data
-                            type: "GET", // HTTP request type
-                            data: {
-                                _token: csrfToken, // CSRF token for security
-                                KodeBarang: kodeBarangAsal.value, // Data to send with the request
-                                NamaCustomer: customer.value, // Data to send with the request
-                            },
-                        },
-
-                        // Define the columns to be displayed in the table
-                        columns: [
-                            { data: "Kode_Komponen" }, // Component code
-                            { data: "Nama_Komponen" }, // Component name
-                            { data: "Panjang_Potongan" }, // Cut length
-                            { data: "Lebar_Potongan" }, // Cut width
-                            { data: "WA_Rajutan" }, // WA knitting
-                            { data: "WE_Rajutan" }, // WE knitting
-                            { data: "Denier" }, // Denier
-                            { data: "Quantity" }, // Quantity
-                            { data: "Berat" }, // Weight
-                            { data: "Harga" }, // Price
-                            { data: "SubTotal" }, // Subtotal
-                            { data: "Kounter_Komponen" }, // Component counter
-                        ],
-                    });
+                    // if (id_customer.value !== "") {
+                    //     id_customers.value = id_customer.value;
+                    //     customers.value = customer.value;
+                    // }
                 }
             });
         } catch (error) {

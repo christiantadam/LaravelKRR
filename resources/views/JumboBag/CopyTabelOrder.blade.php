@@ -73,25 +73,25 @@
                             <div class="form-group">
                                 <label for="kodeBarang">Kode Barang</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="tanggal" name="tanggal" required>
-                                    <input type="text" class="form-control" style="width: 85%" id="kodeBarangAsal"
-                                        name="kodeBarangAsal" required>
-                                    <button class="btn" type="button" id="button-kode-barang">...</button>
+                                    <input type="text" class="form-control" id="kodebarang" name="kodebarang" required>
+                                    <input type="text" class="form-control" style="width: 85%" id="kodeBarangs"
+                                        name="kodeBarangs" required>
+                                    <button class="btn" type="button" id="button-kode-barang2">...</button>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="customer">No Surat Pesanan</label>
+                                <label for="nosuratpesanan">No Surat Pesanan</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" style="width: 30%" id="id_customer"
-                                        name="id_customer" required>
-                                    <button class="btn" type="button" id="button-customer">...</button>
-                                    <input type="text" class="form-control" id="customer" name="customer" required>
+                                    <input type="text" class="form-control" style="width: 30%" id="idsuratpesanan"
+                                        name="idsuratpesanan" required>
+                                    <button class="btn" type="button" id="button-pesanan">...</button>
+                                    <input type="text" class="form-control" id="idpesanan" name="idpesanan" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="noPesanan">Jenis Barang</label>
+                                <label for="jenis_barang">Jenis Barang</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="no_pesanan" name="no_pesanan"
+                                    <input type="text" class="form-control" id="jenis_barang" name="jenis_barang"
                                         required>
                                 </div>
                             </div>
@@ -103,9 +103,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="jumlahOrder">Quantity</label>
+                                <label for="jumlahOrder2">Quantity</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="jumlah_order" name="jumlah_order"
+                                    <input type="text" class="form-control" id="jumlah_order2" name="jumlah_order2"
                                         required>
                                 </div>
                             </div>
