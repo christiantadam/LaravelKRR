@@ -451,8 +451,8 @@ function print(data) {
 }
 
 post_btn.addEventListener("click", function (event) {
+    this.disabled = true;
     if (data.length != 0) {
-        this.disabled = true;
         $.ajax({
             url: "/CCreateBTTB/CreateNoBTTB",
             type: "GET",
