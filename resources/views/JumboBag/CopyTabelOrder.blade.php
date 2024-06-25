@@ -1,5 +1,5 @@
 @extends('layouts.appJumboBag')
-@section('title', 'Copy Order')
+@section('title', 'Copy Tabel Order')
 
 @section('content')
     <div class="container-fluid">
@@ -68,7 +68,7 @@
                 <div class="card">
                     <div class="card-header">Surat Pesanan Baru</div>
                     <div class="card-body">
-                        <form id="copyKodeBarangForm" action="{{ route('CopyKodeBarang.store') }}" method="POST">
+                        <form id="copyKodeBarangForm" action="{{ route('CopyTabelOrder.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="kodeBarang">Kode Barang</label>
@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <label for="nosuratpesanan">No Surat Pesanan</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" style="width: 30%" id="idsuratpesanan"
+                                    <input type="text" class="form-control" style="width: 70%" id="idsuratpesanan"
                                         name="idsuratpesanan" required>
                                     <button class="btn" type="button" id="button-pesanan">...</button>
                                     <input type="text" class="form-control" id="idpesanan" name="idpesanan" required>
@@ -98,15 +98,16 @@
                             <div class="form-group">
                                 <label for="tanggals">Rencana Kirim</label>
                                 <div class="input-group">
-                                    <input type="date" class="form-control" id="tanggals" name="tanggals"
-                                        required>
+                                    <input type="date" class="form-control" id="tanggals" name="tanggals" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="jumlahOrder2">Quantity</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="jumlah_order2" name="jumlah_order2"
-                                        required>
+                                    <input type="text" class="form-control" style="width: 85%" id="jumlah_order2"
+                                        name="jumlah_order2" required>
+                                    <input type="text" class="form-control" id="satuan" name="satuan" required
+                                        style="text-align: center;">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Proses</button>

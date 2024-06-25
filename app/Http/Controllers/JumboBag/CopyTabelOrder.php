@@ -61,7 +61,30 @@ class CopyTabelOrder extends Controller
     }
     public function store(Request $request)
     {
-        //
+        try {
+            // Mengambil input dari request
+            $kodeBarang = trim($request->input('kodeBarangAsal'));
+            $noSP = trim($request->input('no_pesanan'));
+            $delivery = $request->input('time_deliv');
+            $noSPNew = trim($request->input('idsuratpesanan'));
+            $deliveryNew = $request->input('tanggals');
+            $jmlOrderNew = intval($request->input('satuan'));
+
+            DB::connection('ConnJumboBag')->statement(
+                'EXEC SP_1273_JBB_COPY_TORDER :KodeBarang, :NoSP, :Delivery, :NoSPNew, :DeliveryNew, :JmlOrderNew',
+                [
+                    'KodeBarang' => $kodeBarang,
+                    'NoSP' => $noSP,
+                    'Delivery' => $delivery,
+                    'NoSPNew' => $noSPNew,
+                    'DeliveryNew' => $deliveryNew,
+                    'JmlOrderNew' => $jmlOrderNew,
+                ]
+            );
+            return redirect()->back()->with('success', 'Data sudah diproses !!...');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
     public function show(Request $request, $id)
     {
@@ -136,12 +159,10 @@ class CopyTabelOrder extends Controller
                 }
                 return datatables($dataLookup)->make(true);
             }
-        }else if ($id == 'btnNoSP2') {
+        } else if ($id == 'btnNoSP2') {
             $kodeBarangSLS = $request->input('KodeBrgNew');
             $jenisBarang = $request->input('JenisBarang');
             $jnsBrg = '';
-
-            // dd($kodeBarangSLS, $jenisBarang);
 
             if (substr($jenisBarang, -1) === 'E') {
                 $jnsBrg = 'JBE';
@@ -149,40 +170,65 @@ class CopyTabelOrder extends Controller
                 $jnsBrg = 'JBF';
             } else if (substr($jenisBarang, -1) === 'N') {
                 $jnsBrg = 'JBN';
+            } else {
+                $jnsBrg = '';
             }
 
             $lookupItems = DB::connection('ConnJumboBag')
                 ->select('exec SP_1273_JBB_LIST_SALES @Kode = ?, @KodeBarangSLS = ?, @JnsBrg = ?', [9, $kodeBarangSLS, $jnsBrg]);
-            dd($lookupItems);
+            // dd($lookupItems);
+
             if (count($lookupItems) > 0) {
-                $firstItem = $lookupItems[0];
-                $idSuratPesanan = $firstItem->IdSuratPesanan;
-                $qty = $firstItem->Qty;
-
-                // If txtNoSP2 is not empty
-                if (!empty($idSuratPesanan)) {
-                    if (substr($jenisBarang, -1) === 'L') {
-                        $idSuratPesanan .= 'A';
-                    }
-
-                    $orderDetails = DB::connection('ConnJumboBag')
-                        ->select('exec SP_1273_JBB_LIST_SALES @Kode = ?, @KodeBarangSLS = ?, @IdSuratPesanan = ?', [3, $kodeBarangSLS, $idSuratPesanan]);
-
-                        if (count($orderDetails) > 0) {
-                            $dataOrderDetails = [];
-                            foreach ($orderDetails as $orderDetail) {
-                                $dataOrderDetails[] = [
-                                    'IdPesanan' => $orderDetail->IdPesanan,
-                                    'Satuan' => $orderDetail->Satuan,
-                                    'TglRencanaKirim' => \Carbon\Carbon::parse($orderDetail->TglRencanaKirim)->format('m/d/Y')
-                                ];
-                            }
-                        }
+                $datapesanan = [];
+                foreach ($lookupItems as $lookupItem) {
+                    $datapesanan[] = [
+                        'IdSuratPesanan' => $lookupItem->IDSuratPesanan,
+                    ];
                 }
-            }
 
-            return datatables($orderDetails)->make(true);
+                $dataOrderDetails = [];
+                foreach ($datapesanan as $item) {
+                    $idSuratPesanan = $item['IdSuratPesanan'];
+
+                    if (!empty($idSuratPesanan)) {
+                        if (substr($jenisBarang, -1) === 'L') {
+                            $idSuratPesanan .= 'A';
+                        }
+
+                        // Mencetak query untuk debugging
+                        \Log::info('Executing query with parameters:', [
+                            'Kode' => 3,
+                            'KodeBarangSLS' => $kodeBarangSLS,
+                            'IdSuratPesanan' => $idSuratPesanan
+                        ]);
+
+                        $orderDetails = DB::connection('ConnJumboBag')
+                            ->select('exec SP_1273_JBB_LIST_SALES @Kode = ?, @KodeBarangSLS = ?, @IdSuratPesanan = ?', [3, $kodeBarangSLS, $idSuratPesanan]);
+                        // dd($orderDetails);
+                        foreach ($orderDetails as $orderDetail) {
+                            $dataOrderDetails[] = [
+                                'IdPesanan' => $orderDetail->IDPesanan,
+                                'Qty' => $orderDetail->Qty,
+                                'IdSuratPesanan' => $orderDetail->IDSuratPesanan,
+                                'Satuan' => $orderDetail->Satuan,
+                                'TglRencanaKirim' => \Carbon\Carbon::parse($orderDetail->TglRencanaKirim)->format('Y-m-d'),
+                            ];
+                        }
+                        // dd($dataOrderDetails);
+                    }
+                }
+
+                if (count($dataOrderDetails) > 0) {
+                    // dd($dataOrderDetails);
+                    return datatables($dataOrderDetails)->make(true);
+                } else {
+                    return response()->json(['status' => 'error', 'message' => 'Tidak ada detail pesanan ditemukan']);
+                }
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Tidak ada lookup items ditemukan']);
+            }
         }
+
     }
 
     public function edit($id)

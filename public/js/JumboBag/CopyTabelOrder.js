@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let idsuratpesanan = document.getElementById("idsuratpesanan");
     let idpesanan = document.getElementById("idpesanan");
     let btn_pesanan = document.getElementById("button-pesanan");
+    let satuan = document.getElementById("satuan");
     let tabel_hitunganDatatable = new DataTable(
         document.getElementById("table-hitungan")
     );
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     kodebarang.disabled = true;
     kodeBarangs.disabled = true;
     idpesanan.disabled = true;
+    satuan.disabled = true;
     tanggals.valueAsDate = new Date();
 
     if (successMessage) {
@@ -202,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     no_pesanan.value = selectedRow.NoSP.trim();
                     time_deliv.value = selectedRow.Delivery.trim();
                     jumlah_order.value = selectedRow.Jumlah.trim();
-                    jumlah_order2.value = selectedRow.Jumlah.trim();
+                    // jumlah_order2.value = selectedRow.Jumlah.trim();
                 }
             });
         } catch (error) {
@@ -287,7 +289,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 title: "Select a Surat Pesanan",
                 html: '<table id="pesananTable" class="display" style="width:100%;white-space: nowrap"><thead><tr><th>No Surat Pesanan</th><th>Qty</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
-                // width: "90%",
                 preConfirm: () => {
                     const selectedData = $("#pesananTable")
                         .DataTable()
@@ -300,49 +301,43 @@ document.addEventListener("DOMContentLoaded", function () {
                     return selectedData;
                 },
                 didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#pesananTable").DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            returnFocus: true,
-                            ajax: {
-                                url: "CopyTabelOrder/btnNoSP2",
-                                dataType: "json",
-                                type: "GET",
-                                data: {
-                                    _token: csrfToken,
-                                    KodeBrgNew: kodebarang.value,
-                                    JenisBarang: jenis_barang.value,
-                                },
+                    const table = $("#pesananTable").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            url: "/CopyTabelOrder/btnNoSP2", // Pastikan URL benar
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                KodeBrgNew: kodebarang.value,
+                                JenisBarang: jenis_barang.value,
                             },
-                            columns: [
-                                {
-                                    data: "IdPesanan",
-                                },
-                                {
-                                    data: "Satuan",
-                                },
-                            ],
-                        });
-                        $("#pesananTable tbody").on("click", "tr", function () {
-                            // Remove 'selected' class from all rows
-                            table.$("tr.selected").removeClass("selected");
-                            // Add 'selected' class to the clicked row
-                            $(this).addClass("selected");
-                        });
+                        },
+                        columns: [{ data: "IdSuratPesanan" }, { data: "Qty" }],
+                    });
+
+                    $("#pesananTable tbody").on("click", "tr", function () {
+                        // Remove 'selected' class from all rows
+                        table.$("tr.selected").removeClass("selected");
+                        // Add 'selected' class to the clicked row
+                        $(this).addClass("selected");
                     });
                 },
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
-                    idsuratpesanan.value = selectedRow.Idpesanan.trim();
+                    idsuratpesanan.value = selectedRow.IdSuratPesanan.trim();
+                    satuan.value = selectedRow.Satuan.trim();
+                    idpesanan.value = selectedRow.IdPesanan.trim();
+                    tanggals.value = selectedRow.TglRencanaKirim;
+                    jumlah_order2.value = selectedRow.Qty.trim();
+                    // jumlah_order2.value = parseInt(selectedRow.Qty, 10);
                 }
             });
         } catch (error) {
             console.error("An error occurred:", error);
         }
-        // console.log(selectedRow);
     });
 
     btn_kodebarang.addEventListener("click", async function (event) {
