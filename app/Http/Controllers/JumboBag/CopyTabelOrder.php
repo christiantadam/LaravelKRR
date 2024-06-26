@@ -61,15 +61,15 @@ class CopyTabelOrder extends Controller
     }
     public function store(Request $request)
     {
-        try {
             // Mengambil input dari request
+        try {
             $kodeBarang = trim($request->input('kodeBarangAsal'));
             $noSP = trim($request->input('no_pesanan'));
             $delivery = $request->input('time_deliv');
             $noSPNew = trim($request->input('idsuratpesanan'));
             $deliveryNew = $request->input('tanggals');
-            $jmlOrderNew = intval($request->input('satuan'));
-
+            $jmlOrderNew = intval($request->input('jumlah_order2'));
+            // dd($request->all());
             DB::connection('ConnJumboBag')->statement(
                 'EXEC SP_1273_JBB_COPY_TORDER :KodeBarang, :NoSP, :Delivery, :NoSPNew, :DeliveryNew, :JmlOrderNew',
                 [

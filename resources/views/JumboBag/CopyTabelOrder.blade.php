@@ -18,17 +18,17 @@
                 </script>
             @endif
             <div class="col-md-10 RDZMobilePaddingLR0">
-                <div class="card">
-                    <div class="card-header">Data Tabel Order</div>
-                    <div class="card-body">
-                        <form id="copyOrderForm" action="{{ route('CopyTabelOrder.store') }}" method="POST">
+                <form id="copyKodeBarangForm" action="{{ route('CopyTabelOrder.store') }}" method="POST">
+                    <div class="card">
+                        <div class="card-header">Data Tabel Order</div>
+                        <div class="card-body">
                             @csrf
                             <div class="form-group">
                                 <label for="customer">Customer</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="id_customer" name="id_customer" required>
                                     <input type="text" class="form-control" style="width: 85%"id="customer"
-                                        name="customer" required>
+                                        name="customer" required readonly>
                                     <button class="btn" type="button" id="button-customer">...</button>
                                 </div>
                             </div>
@@ -61,15 +61,12 @@
                                         required>
                                 </div>
                             </div>
+                        </div>
                     </div>
-                    </form>
-                </div>
-                <br>
-                <div class="card">
-                    <div class="card-header">Surat Pesanan Baru</div>
-                    <div class="card-body">
-                        <form id="copyKodeBarangForm" action="{{ route('CopyTabelOrder.store') }}" method="POST">
-                            @csrf
+                    <br>
+                    <div class="card">
+                        <div class="card-header">Surat Pesanan Baru</div>
+                        <div class="card-body">
                             <div class="form-group">
                                 <label for="kodeBarang">Kode Barang</label>
                                 <div class="input-group">
@@ -110,12 +107,14 @@
                                         style="text-align: center;">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">Proses</button>
+                        </div>
                     </div>
-                    </form>
-                </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Proses</button>
+                </form>
             </div>
         </div>
+    </div>
     </div>
     </div>
     </div>

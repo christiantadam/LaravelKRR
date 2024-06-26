@@ -30,17 +30,17 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     let tabel_hitungan = document.getElementById("table-hitungan");
 
-    id_customer.disabled = true;
-    customer.disabled = true;
-    tanggal.disabled = true;
-    kodeBarangAsal.disabled = true;
-    no_pesanan.disabled = true;
-    time_deliv.disabled = true;
-    jumlah_order.disabled = true;
-    kodebarang.disabled = true;
-    kodeBarangs.disabled = true;
-    idpesanan.disabled = true;
-    satuan.disabled = true;
+    id_customer.readOnly = true;
+    customer.readOnly = true;
+    tanggal.readOnly = true;
+    kodeBarangAsal.readOnly = true;
+    no_pesanan.readOnly = true;
+    time_deliv.readOnly = true;
+    jumlah_order.readOnly = true;
+    kodebarang.readOnly = true;
+    kodeBarangs.readOnly = true;
+    idpesanan.readOnly = true;
+    satuan.readOnly = true;
     tanggals.valueAsDate = new Date();
 
     if (successMessage) {
