@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let btn_customer = document.getElementById("button-customer");
     let btn_kodebarang = document.getElementById("button-kode-barang");
     let btn_pesanan = document.getElementById("button-pesanan");
+    let btn_warna= document.getElementById("button-warna");
     let id_customer = document.getElementById("id_customer");
     let customer = document.getElementById("customer");
     let tanggal = document.getElementById("tanggal");
@@ -16,6 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let rajutan = document.getElementById("rajutan");
     let denier = document.getElementById("denier");
     let type = document.getElementById("type");
+    let warna = document.getElementById("warna");
+    let packing = document.getElementById("packing");
+    let no_referensi = document.getElementById("no_referensi");
+    let halaman = document.getElementById("halaman");
 
     id_customer.readOnly = true;
     customer.readOnly = true;
@@ -28,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     denier.readOnly = true;
     type.readOnly = true;
     delivery.readOnly = true;
+    warna.readOnly = true;
 
     if (successMessage) {
         Swal.fire({
@@ -71,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "OrderJahit/getListCustomer",
+                                url: "OrderPress/getListCustomer",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -137,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "OrderJahit/create",
+                                url: "OrderPress/create",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -172,6 +178,162 @@ document.addEventListener("DOMContentLoaded", function () {
                     //     id_customers.value = id_customer.value;
                     //     customers.value = customer.value;
                     // }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_pesanan.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a No Pesanan",
+                html: '<table id="nopesananTable" class="display" style="width:100%"><thead><tr><th>No Surat Pesanan</th><th>Waktu Delivery</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#nopesananTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#nopesananTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "OrderPress/getDeliveryList",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    kodeBarangAsal: kodeBarangAsal.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "No_SuratPesanan",
+                                },
+                                {
+                                    data: "Waktu_Delivery",
+                                },
+                            ],
+                        });
+                        $("#nopesananTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    no_suratpesanan.value = selectedRow.No_SuratPesanan.trim();
+                    delivery.value = selectedRow.Waktu_Delivery.trim();
+                    $.ajax({
+                        url: "OrderPress/getData",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            No_SuratPesanan: selectedRow.No_SuratPesanan.trim(),
+                            Waktu_Delivery: selectedRow.Waktu_Delivery.trim(),
+                            kodeBarangAsal: kodeBarangAsal.value,
+                        },
+                        success: function (data) {
+                            console.log(data.data[0]);
+                            jumlah_order.value = data.data[0].jumlah_order.trim();
+                            ukuran.value = data.data[0].ukuran.trim();
+                            rajutan.value = data.data[0].rajutan.trim();
+                            denier.value = data.data[0].denier.trim();
+                            type.value = data.data[0].type.trim();
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_warna.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Warna",
+                html: '<table id="warnaTable" class="display" style="width:100%"><thead><tr><th>Nama Warna</th><th>Kode</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#warnaTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#warnaTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "OrderPress/getWarna",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Nama_Warna",
+                                },
+                                {
+                                    data: "Kode_Warna",
+                                },
+                            ],
+                        });
+                        $("#warnaTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    warna.value = selectedRow.Nama_Warna.trim();
+                    // id_customer.value = selectedRow.Kode_Customer.trim();
                 }
             });
         } catch (error) {
