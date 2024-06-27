@@ -90,6 +90,29 @@ let Qty;
 let Berat;
 let Harga;
 let SubTotal;
+let TKreinf;
+let TKkdBrg;
+let TKjmlreinf;
+let TKidmodelBB;
+let TKidModelCA;
+let TKbentukCA;
+let TKidModelCB;
+let TKbentukCB;
+let TKompGeneralKomponen;
+let TKpanjangCA;
+let TKlebarCA;
+let TKtinggiCA;
+let TKpanjangCB;
+let TKlebarCB;
+let TKtinggiCB;
+let TKbentukBB;
+let TKpanjangBB;
+let TKlebarBB;
+let TKdiameterCB;
+let TKdiameterBB;
+let TKdiameterCA;
+let TKtinggiBB;
+let TKtebalInner;
 //#region Load Form
 
 btn_isi.focus();
@@ -1471,17 +1494,17 @@ function CerobongBawah() {
     });
 }
 
-function tampilFormKomposisi(typeForm) {
+function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
     let htmlForm = "";
     if (typeForm == "Form Komponen General") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" placeholder="Kode Komponen" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" placeholder="Kode Komponen" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" placeholder="Nama" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1499,7 +1522,7 @@ function tampilFormKomposisi(typeForm) {
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="denier">Denier</label>
-                                    <input id="denier" class="input">
+                                    <input id="denier" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="quantity">Quantity</label>
@@ -1507,7 +1530,7 @@ function tampilFormKomposisi(typeForm) {
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="berat-warp">Berat Warp</label>
-                                    <input id="berat-warp" class="input">
+                                    <input id="berat-warp" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="berat">Berat</label>
@@ -1549,12 +1572,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Circular") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1630,12 +1653,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Square") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
                             <label for="panjangca">Panjang CA</label>
@@ -1707,12 +1730,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Rope") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1748,12 +1771,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Belt") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1798,12 +1821,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Selang") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1841,12 +1864,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Block") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1876,12 +1899,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Lami") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <table id="tableKomponenLami">
                             <thead>
@@ -1914,12 +1937,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Inner") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1955,12 +1978,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Pocket") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1996,12 +2019,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Eva") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2041,12 +2064,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Benang") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2083,12 +2106,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Ongkos") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2120,12 +2143,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Dust") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2153,12 +2176,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Katun") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2205,12 +2228,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Kertas") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2258,12 +2281,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Kain") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2311,12 +2334,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Benang Katun") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2359,12 +2382,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Karet") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2407,12 +2430,12 @@ function tampilFormKomposisi(typeForm) {
     } else if (typeForm == "Form Komponen Carbon") {
         htmlForm = `<div style="text-align: left;">
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="kode-komponen">Kode Komponen</label>
-                            <input id="kode-komponen" class="input" readonly>
+                            <label for="kode_komponen">Kode Komponen</label>
+                            <input id="kode_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="nama">Nama</label>
-                            <input id="nama" class="input" readonly>
+                            <label for="nama_komponen">Nama Komponen</label>
+                            <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2457,28 +2480,60 @@ function tampilFormKomposisi(typeForm) {
         confirmButtonText: "Proses",
         cancelButtonText: "Cancel",
         didOpen: () => {
-            if (typeForm == "FrmKompGeneral") {
-                console.log("masuk didopen() frmKompGeneral");
-            } else if (typeForm == "FrmKompCircular") {
-            } else if (typeForm == "FrmKompSquare") {
-            } else if (typeForm == "FrmKompRope") {
-            } else if (typeForm == "FrmKompBelt") {
-            } else if (typeForm == "FrmKompSelang") {
-            } else if (typeForm == "FrmBLock") {
-            } else if (typeForm == "FrmKompLami") {
-            } else if (typeForm == "FrmKompInner") {
-            } else if (typeForm == "FrmKompPocket") {
-            } else if (typeForm == "FrmKompEva") {
-            } else if (typeForm == "FrmKompBenang") {
-            } else if (typeForm == "FrmKompOngkos") {
-            } else if (typeForm == "FrmKompDust") {
-            } else if (typeForm == "FrmKompKatun") {
-            } else if (typeForm == "FrmKompKertas") {
-            } else if (typeForm == "FrmKompKain") {
-            } else if (typeForm == "FrmKompBngKatun") {
-            } else if (typeForm == "FrmKompKaret") {
-            } else if (typeForm == "FrmKompCarbon") {
-            }
+            $(document).ready(function () { //lanjutkan bagian ini yaaaa
+                $("#kode_komponen").val(Kode_Komponen);
+                $("#nama_komponen").val(Nama_Komponen);
+                console.log(typeForm);
+                console.log(
+                    TKreinf,
+                    TKkdBrg,
+                    TKjmlreinf,
+                    TKidmodelBB,
+                    TKidModelCA,
+                    TKbentukCA,
+                    TKidModelCB,
+                    TKbentukCB,
+                    TKompGeneralKomponen,
+                    TKpanjangCA,
+                    TKlebarCA,
+                    TKtinggiCA,
+                    TKpanjangCB,
+                    TKlebarCB,
+                    TKtinggiCB,
+                    TKbentukBB,
+                    TKpanjangBB,
+                    TKlebarBB,
+                    TKdiameterCB,
+                    TKdiameterBB,
+                    TKdiameterCA,
+                    TKtinggiBB,
+                    TKtebalInner,
+                    Kode_Komponen,
+                    Nama_Komponen
+                );
+                if (typeForm == "Form Komponen General") {
+                    console.log("masuk didopen() Form Komponen General");
+                } else if (typeForm == "Form Komponen Circular") {
+                } else if (typeForm == "Form Komponen Square") {
+                } else if (typeForm == "Form Komponen Rope") {
+                } else if (typeForm == "Form Komponen Belt") {
+                } else if (typeForm == "Form Komponen Selang") {
+                } else if (typeForm == "Form Block") {
+                } else if (typeForm == "Form Komponen Lami") {
+                } else if (typeForm == "Form Komponen Inner") {
+                } else if (typeForm == "Form Komponen Pocket") {
+                } else if (typeForm == "Form Komponen Eva") {
+                } else if (typeForm == "Form Komponen Benang") {
+                } else if (typeForm == "Form Komponen Ongkos") {
+                } else if (typeForm == "Form Komponen Dust") {
+                } else if (typeForm == "Form Komponen Katun") {
+                } else if (typeForm == "Form Komponen Kertas") {
+                } else if (typeForm == "Form Komponen Kain") {
+                } else if (typeForm == "Form Komponen Benang") {
+                } else if (typeForm == "Form Komponen Karet") {
+                } else if (typeForm == "Form Komponen Carbon") {
+                }
+            });
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -3880,29 +3935,29 @@ tambah_komponen.addEventListener("click", function (event) {
                 },
                 didOpen: () => {
                     $(document).ready(function () {
-                        let TKreinf = reinforced_lebar.value;
-                        let TKkdBrg = nama_barang.value;
-                        let TKjmlreinf = reinforced_jumlah.value;
-                        let TKidmodelBB = id_body_model.value;
-                        let TKidModelCA = id_cerobongAtas_model.value;
-                        let TKbentukCA = cerobongAtas_bentuk.value;
-                        let TKidModelCB = id_cerobongBawah_model.value;
-                        let TKbentukCB = cerobongBawah_bentuk.value;
-                        let TKompGeneralKomponen = 1;
-                        let TKpanjangCA = cerobongAtas_panjang.value;
-                        let TKlebarCA = cerobongAtas_lebar.value;
-                        let TKtinggiCA = cerobongAtas_tinggi.value;
-                        let TKpanjangCB = cerobongBawah_panjang.value;
-                        let TKlebarCB = cerobongAtas_lebar.value;
-                        let TKtinggiCB = cerobongBawah_tinggi.value;
-                        let TKbentukBB = body_bentuk.value;
-                        let TKpanjangBB = body_panjang.value;
-                        let TKlebarBB = body_lebar.value;
-                        let TKdiameterCB = cerobongBawah_diameter.value;
-                        let TKdiameterBB = body_diameter.value;
-                        let TKdiameterCA = cerobongAtas_diameter.value;
-                        let TKtinggiBB = body_tinggi.value;
-                        let TKtebalInner = reinforced_inner.value;
+                        TKreinf = reinforced_lebar.value;
+                        TKkdBrg = nama_barang.value;
+                        TKjmlreinf = reinforced_jumlah.value;
+                        TKidmodelBB = id_body_model.value;
+                        TKidModelCA = id_cerobongAtas_model.value;
+                        TKbentukCA = cerobongAtas_bentuk.value;
+                        TKidModelCB = id_cerobongBawah_model.value;
+                        TKbentukCB = cerobongBawah_bentuk.value;
+                        TKompGeneralKomponen = 1;
+                        TKpanjangCA = cerobongAtas_panjang.value;
+                        TKlebarCA = cerobongAtas_lebar.value;
+                        TKtinggiCA = cerobongAtas_tinggi.value;
+                        TKpanjangCB = cerobongBawah_panjang.value;
+                        TKlebarCB = cerobongAtas_lebar.value;
+                        TKtinggiCB = cerobongBawah_tinggi.value;
+                        TKbentukBB = body_bentuk.value;
+                        TKpanjangBB = body_panjang.value;
+                        TKlebarBB = body_lebar.value;
+                        TKdiameterCB = cerobongBawah_diameter.value;
+                        TKdiameterBB = body_diameter.value;
+                        TKdiameterCA = cerobongAtas_diameter.value;
+                        TKtinggiBB = body_tinggi.value;
+                        TKtebalInner = reinforced_inner.value;
                         const table = $("#komponenTable").DataTable({
                             responsive: true,
                             processing: true,
@@ -4053,7 +4108,11 @@ tambah_komponen.addEventListener("click", function (event) {
                     } else if (selectedRow.Kode_Komponen.includes("40CC")) {
                         typeForm = "Form Komponen Carbon";
                     }
-                    tampilFormKomposisi(typeForm);
+                    tampilFormKomposisi(
+                        typeForm,
+                        selectedRow.Kode_Komponen,
+                        selectedRow.Nama_Komponen
+                    );
                 }
             });
         } catch (error) {
