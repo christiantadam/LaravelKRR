@@ -61,8 +61,59 @@ class MaintenanceOrderPress extends Controller
     }
     public function store(Request $request)
     {
-        //
+        // Mengambil dan memotong (trim) input dari request
+        $kodeBarang = trim($request->input('kodeBarangAsal'));
+        $jumlah = intval($request->input('jumlah'));
+        $jmlPress = intval($request->input('jumlah_press'));
+        $jmlOrder = intval($request->input('jumlah_order'));
+        $noSP = trim($request->input('no_suratpesanan'));
+        $delivery = $request->input('delivery');
+        $noSP2 = trim($request->input('stok2'));
+        $delivery2 = $request->input('stok1');
+        $tglMulai = $request->input('tanggals');
+        $tglSelesai = $request->input('tanggalf');
+
+        try {
+            // Menghitung sisa
+            $sisa = $jumlah + $jmlPress - $jmlOrder;
+            if ($sisa < 0) {
+                $sisa = 0;
+            }
+
+            // Menentukan status finish
+            $finish = 0;
+            if ($jmlOrder <= $jmlPress + $jumlah) {
+                $finish = 1;
+            }
+
+            // Memanggil stored procedure
+            DB::connection('ConnJumboBag')->statement(
+                'exec SP_5409_JBB_UDT_STOK_PRESS @kodebarang = ?, @nosp = ?, @jumlah = ?, @sisa = ?, @nosp2 = ?, @delivery = ?, @Delivery2 = ?, @tglmulai = ?, @tglselesai = ?',
+                [
+                    $kodeBarang,
+                    $noSP,
+                    $jumlah,
+                    $sisa,
+                    $noSP2,
+                    $delivery,
+                    $delivery2,
+                    $tglMulai,
+                    $tglSelesai
+                ]
+            );
+
+            // Menampilkan pesan sukses
+            if ($finish == 1) {
+                return redirect()->back()->with(['success' => 'Data tersimpan, ada kelebihan stok sebesar ' . $sisa]);
+            } else {
+                return redirect()->back()->with(['success' => 'Data tersimpan, jumlah yang sudah terlunasi sebesar ' . ($jmlPress + $jumlah)]);
+            }
+
+        } catch (Exception $ex) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $ex->getMessage());
+        }
     }
+
     public function show(Request $request, $id)
     {
         if ($id == 'getListCustomer') {
@@ -78,7 +129,7 @@ class MaintenanceOrderPress extends Controller
                 ];
             }
             return datatables($dataCustomer)->make(true);
-        }else if ($id == 'getNoSP') {
+        } else if ($id == 'getNoSP') {
             $kodeBarang = trim($request->input('kodeBarangAsal'));
             $noSP = '';
             $deliveryTime = '';
@@ -114,47 +165,66 @@ class MaintenanceOrderPress extends Controller
             }
 
             return response()->json(['status' => 'error', 'message' => 'Tidak ada data ditemukan']);
-        }else if ($id == 'getBuffer') {
-            try {
-                $kodeBarang = $request->input('kodeBarangAsal');
-                $noSP = '';
-                $deliveryTime = '';
-                $dataBufferStock = [];
+        } else if ($id == 'getBuffer') {
+            // Assuming the KodeBarang parameter is passed through the request
+            $kodeBarang = $request->input('kodeBarangAsal');
 
-                // Execute first stored procedure to get buffer stock
-                $bufferStockItems = DB::connection('ConnJumboBag')
-                    ->select('exec SP_5409_JBB_CEK_BUFFERSTOK @KodeBarang = ?', [$kodeBarang]);
-
-                foreach ($bufferStockItems as $bufferStockItem) {
-                    $dataBufferStock[] = [
-                        'noSP' => $bufferStockItem->No_SuratPesanan,
-                        'deliveryTime' => $bufferStockItem->Waktu_Delivery,
+            // Fetch the delivery data
+            $listDelivery = DB::connection('ConnJumboBag')
+                ->select('exec SP_5409_JBB_CEK_BUFFERSTOK  @KodeBarang = ?', [$kodeBarang]);
+            // dd($listDelivery);
+            // Convert the data into an array that DataTables can consume
+            $dataDelivery = [];
+            foreach ($listDelivery as $delivery) {
+                $dataDelivery[] = [
+                    'No_SuratPesanan' => $delivery->No_SuratPesanan,
+                    'Waktu_Delivery' => $delivery->Waktu_Delivery,
+                ];
+            }
+            return datatables($dataDelivery)->make(true);
+        } else if ($id == 'getData') {
+            // Fetch the necessary parameters from the request
+            $noSP = $request->input('No_SuratPesanan');
+            $kodeBarang = $request->input('kodeBarangAsal');
+            $waktuDelivery = $request->input('Waktu_Delivery');
+            // dd($noSP, $kodeBarang, $waktuDelivery);
+            // Fetch the data
+            $result = DB::connection('ConnJumboBag')
+                ->select('exec SP_5409_JBB_SLC_BUFFERSTOK @kodebarang = ?, @delivery = ?, @nosp = ?', [$kodeBarang, $waktuDelivery, $noSP]);
+            // dd(
+            //     $result,
+            //     $noSP,
+            //     $kodeBarang,
+            //     $waktuDelivery
+            // );
+            // Check if any data is returned
+            if (!empty($result)) {
+                // Initialize an array to store the formatted result
+                $formattedResult = [];
+                foreach ($result as $row) {
+                    $formattedResult[] = [
+                        'Buffer' => $row->BufferStok,
                     ];
-                    $noSP = $bufferStockItem->No_SuratPesanan;
-                    $deliveryTime = $bufferStockItem->Waktu_Delivery;
                 }
-
-                if ($noSP !== '') {
-                    // Execute second stored procedure to get stock details
-                    $stockDetails = DB::connection('ConnJumboBag')
-                        ->select('exec SP_5409_JBB_SLC_BUFFERSTOK @kodebarang = ?, @nosp = ?, @delivery = ?', [$kodeBarang, $noSP, $deliveryTime]);
-
-                    foreach ($stockDetails as $stockDetail) {
-                        $dataBufferStock[] = [
-                            'sisaStok' => $stockDetail->bufferstok,
-                        ];
-                    }
-
-                    return response()->json([
-                        'dataBufferStock' => $dataBufferStock,
-                    ]);
-                }
-            } catch (Exception $ex) {
-                return response()->json(['status' => 'error', 'message' => $ex->getMessage()]);
+                // $formattedResult = [];
+                // foreach ($result as $row) {
+                //     $item = [];
+                //     $item['jumlah_order'] = number_format($row->Jumlah_Order, 2);
+                //     if ($row->Bentuk_BB === 'S') {
+                //         $item['ukuran'] = trim($row->Bentuk_BB) . ' X ' . trim($row->Lebar_BB) . ' X ' . trim($row->Tinggi_BB);
+                //     } else {
+                //         $item['ukuran'] = trim($row->Diameter_BB) . ' X ' . trim($row->Tinggi_BB);
+                //     }
+                //     $item['rajutan'] = trim($row->WA_Rajutan) . ' X ' . trim($row->WE_Rajutan);
+                //     $item['denier'] = trim($row->Denier);
+                //     $item['type'] = trim($row->ModelBB) . ' TOP ' . trim($row->ModelCA) . ' BOTTOM ' . trim($row->ModelCB);
+                //     $formattedResult[] = $item;
+                // }
+                return datatables($formattedResult)->make(true);
+            } else {
+                return response()->json(['message' => 'No data found'], 404);
             }
         }
-
-        return response()->json(['status' => 'error', 'message' => 'Invalid request']);
     }
     public function edit($id)
     {

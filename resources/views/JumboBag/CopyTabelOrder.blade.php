@@ -34,7 +34,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="id_customer" name="id_customer"
                                             required>
-                                        <input type="text" class="form-control" style="width: 85%"id="customer"
+                                        <input type="text" class="form-control" style="width: 70%"id="customer"
                                             name="customer" required readonly>
                                         <button class="btn" type="button" id="button-customer">...</button>
                                     </div>
@@ -43,7 +43,7 @@
                                     <label for="kodeBarang">Kode Barang</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="tanggal" name="tanggal" required>
-                                        <input type="text" class="form-control" style="width: 85%" id="kodeBarangAsal"
+                                        <input type="text" class="form-control" style="width: 70%" id="kodeBarangAsal"
                                             name="kodeBarangAsal" required>
                                         <button class="btn" type="button" id="button-kode-barang">...</button>
                                     </div>
@@ -81,7 +81,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="kodebarang" name="kodebarang"
                                             required>
-                                        <input type="text" class="form-control" style="width: 85%" id="kodeBarangs"
+                                        <input type="text" class="form-control" style="width: 70%" id="kodeBarangs"
                                             name="kodeBarangs" required>
                                         <button class="btn" type="button" id="button-kode-barang2">...</button>
                                     </div>

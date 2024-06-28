@@ -22,6 +22,20 @@ document.addEventListener("DOMContentLoaded", function () {
     let sisa = document.getElementById("sisa");
     let jumlah = document.getElementById("jumlah");
 
+    id_customer.readOnly = true;
+    customer.readOnly = true;
+    tanggal.readOnly = true;
+    kodeBarangAsal.readOnly = true;
+    tanggals.readOnly = true;
+    no_suratpesanan.readOnly = true;
+    delivery.readOnly = true;
+    jumlah_order.readOnly = true;
+    jumlah_press.readOnly = true;
+    stok1.readOnly = true;
+    stok2.readOnly = true;
+    button_stok.readOnly = true;
+    sisa.readOnly = true;
+
     tanggals.valueAsDate = new Date();
     tanggalf.valueAsDate = new Date();
 
@@ -31,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
             title: "Success!",
             text: successMessage,
             showConfirmButton: false,
-            timer: 1500,
         });
     } else if (errorMessage) {
         Swal.fire({
@@ -39,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
             title: "Error!",
             text: errorMessage,
             showConfirmButton: false,
-            timer: 1500,
         });
     }
 
@@ -257,15 +269,15 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log(selectedRow);
     });
 
-    btn_pesanan.addEventListener("click", async function (event) {
+    button_stok.addEventListener("click", async function (event) {
         event.preventDefault();
         try {
             const result = await Swal.fire({
                 title: "Select a No Pesanan",
-                html: '<table id="nopesananTable" class="display" style="width:100%"><thead><tr><th>No Surat Pesanan</th><th>Waktu Delivery</th></tr></thead><tbody></tbody></table>',
+                html: '<table id="stokTable" class="display" style="width:100%"><thead><tr><th>No Surat Pesanan</th><th>Waktu Delivery</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 preConfirm: () => {
-                    const selectedData = $("#nopesananTable")
+                    const selectedData = $("#stokTable")
                         .DataTable()
                         .row(".selected")
                         .data();
@@ -277,13 +289,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 didOpen: () => {
                     $(document).ready(function () {
-                        const table = $("#nopesananTable").DataTable({
+                        const table = $("#stokTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "MaintenanceOrderPress/getNoSP",
+                                url: "MaintenanceOrderPress/getBuffer",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -293,41 +305,44 @@ document.addEventListener("DOMContentLoaded", function () {
                             },
                             columns: [
                                 {
-                                    data: "NoSP",
+                                    data: "No_SuratPesanan",
                                 },
                                 {
-                                    data: "Delivery",
-                                    render: function (data) {
-                                        if (data) {
-                                            return data.substring(0, 10);
-                                        } else {
-                                            return "";
-                                        }
-                                    },
+                                    data: "Waktu_Delivery",
                                 },
                             ],
                         });
-                        $("#nopesananTable tbody").on(
-                            "click",
-                            "tr",
-                            function () {
-                                // Remove 'selected' class from all rows
-                                table.$("tr.selected").removeClass("selected");
-                                // Add 'selected' class to the clicked row
-                                $(this).addClass("selected");
-                            }
-                        );
+                        $("#stokTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
                     });
                 },
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
-                    no_suratpesanan.value = selectedRow.NoSP.trim();
-                    delivery.value = selectedRow.Delivery.trim();
-                    jumlah_order.value = selectedRow.JumlahOrder.trim();
-                    jumlah_press.value = selectedRow.JumlahPress.trim();
-                    tanggals.value = selectedRow.start.trim();
-                    tanggalf.value = selectedRow.finish.trim();
+                    stok2.value = selectedRow.No_SuratPesanan.trim();
+                    stok1.value = selectedRow.Waktu_Delivery.trim();
+                    $.ajax({
+                        url: "MaintenanceOrderPress/getData",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            No_SuratPesanan: selectedRow.No_SuratPesanan.trim(),
+                            Waktu_Delivery: selectedRow.Waktu_Delivery.trim(),
+                            kodeBarangAsal: kodeBarangAsal.value,
+                        },
+                        success: function (data) {
+                            console.log(data.data[0]);
+                            sisa.value = data.data[0].Buffer.trim();
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
                 }
             });
         } catch (error) {
