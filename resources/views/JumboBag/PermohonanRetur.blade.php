@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-header">Permohonan Retur / Pengganti</div>
                     <div class="card-body">
-                        <form id="ReturPenggantiForm" action="{{ route('ReturPengganti.store') }}" method="POST">
+                        <form id="PermohonanReturForm" action="{{ route('PermohonanRetur.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="customer">Customer</label>
@@ -79,8 +79,8 @@
                                     <button id="btn_hapus" style="width: 100px"class="btn btn-danger">Hapus</button>
                                 </div>
                                 <div>
-                                    <button type="submit" id="btn_proses" style="width: 100px"class="btn btn-success">Proses</button>
-                                    <button type="reset" id="btn_batal" style="width: 100px"class="btn">Batal</button>
+                                    <button id="btn_proses" style="width: 100px"class="btn btn-success">Proses</button>
+                                    <button id="btn_batal" style="width: 100px"class="btn">Batal</button>
                                 </div>
                             </div>
                     </div>

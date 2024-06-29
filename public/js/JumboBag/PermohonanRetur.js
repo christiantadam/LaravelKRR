@@ -25,6 +25,15 @@ document.addEventListener("DOMContentLoaded", function () {
     time_deliv.valueAsDate = new Date();
     aktif_tombol(tmb);
     btn_isi.focus();
+    id_customer.readOnly = true;
+    customer.readOnly = true;
+    kodeBarangAsal.readOnly = true;
+    tanggal.readOnly = true;
+    no_suratpesanan.readOnly = true;
+    time_deliv.readOnly = true;
+    jumlah_order.readOnly = true;
+    jumlah_retur.readOnly = true;
+    no_referensi.readOnly = true;
 
     if (successMessage) {
         Swal.fire({
@@ -50,17 +59,43 @@ document.addEventListener("DOMContentLoaded", function () {
             btn_koreksi.disabled = false;
             btn_hapus.disabled = false;
             btn_proses.disabled = true;
-            // btn_hapus.innerHTML = "Hapus";
+            btn_batal.disabled = true;
             btn_customer.disabled = true;
+            btn_kodebarang.disabled = true;
+            btn_pesanan.disabled = true;
             btn_isi.focus();
         } else if (tmb == 2) {
             btn_isi.disabled = true;
             btn_koreksi.disabled = true;
+            btn_hapus.disabled = true;
             btn_proses.disabled = false;
-            // btn_hapus.innerHTML = "Batal";
+            btn_batal.disabled = false;
             btn_customer.disabled = false;
+            btn_kodebarang.disabled = false;
+            btn_pesanan.disabled = false;
             btn_customer.focus();
         }
+    }
+
+    function cleardata() {
+        time_deliv.valueAsDate = new Date();
+        customer.value = "";
+        customer.readOnly = true;
+        id_customer.value = "";
+        id_customer.readOnly = true;
+        kodeBarangAsal.value = "";
+        kodeBarangAsal.readOnly = true;
+        tanggal.value = "";
+        tanggal.readOnly = true;
+        no_suratpesanan.value = "";
+        no_suratpesanan.readOnly = true;
+        time_deliv.readOnly = true;
+        jumlah_order.value = "";
+        jumlah_order.readOnly = true;
+        jumlah_retur.value = "";
+        jumlah_retur.readOnly = true;
+        no_referensi.value = "";
+        no_referensi.readOnly = true;
     }
 
     //#region Event Listener
@@ -74,9 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     btn_koreksi.addEventListener("click", function (event) {
         event.preventDefault();
-        tambah_komponen.disabled = false;
-        koreksi_komponen.disabled = false;
-        hapus_komponen.disabled = false;
         tmb = 2;
         proses = 2;
         aktif_tombol(tmb);
@@ -85,22 +117,307 @@ document.addEventListener("DOMContentLoaded", function () {
 
     btn_hapus.addEventListener("click", function (event) {
         event.preventDefault();
-        if (tmb == 2) {
-            btn_batal.addEventListener("click", function (event) {
-                event.preventDefault();
-                tmb = 1;
-                proses = 0;
-                aktif_tombol(tmb);
-                cleardata();
-                formEnabler(true);
+        tmb = 2;
+        proses = 3;
+        aktif_tombol(tmb);
+        cleardata();
+    });
+
+    btn_batal.addEventListener("click", function (event) {
+        event.preventDefault();
+        tmb = 1;
+        proses = 0;
+        aktif_tombol(tmb);
+        cleardata();
+        formEnabler(true);
+    });
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+        aktif_tombol(tmb);
+        cleardata();
+    });
+
+    btn_customer.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#customerTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#customerTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PermohonanRetur/getListCustomer",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Nama_Customer",
+                                },
+                                {
+                                    data: "Kode_Customer",
+                                },
+                            ],
+                        });
+                        $("#customerTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    customer.value = selectedRow.Nama_Customer.trim();
+                    id_customer.value = selectedRow.Kode_Customer.trim();
+                }
             });
-        } else {
-            //proses hapus
-            tmb = 2;
-            proses = 3;
-            aktif_tombol(tmb);
-            cleardata();
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_kodebarang.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Kode Barang",
+                html: '<table id="barangTable" class="display" style="width:100%"><thead><tr><th>Kode Barang</th><th>Tanggal</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#barangTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#barangTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PermohonanRetur/create",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    kodeCustomer: id_customer.value,
+                                },
+                            },
+                            columns: [
+                                { data: "Kode_Barang" },
+                                { data: "tanggal" },
+                            ],
+                        });
+                        $("#barangTable tbody").on("click", "tr", function () {
+                            table.$("tr.selected").removeClass("selected");
+                            $(this).addClass("selected");
+                        });
+                    });
+                },
+            }).then(async (result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    kodeBarangAsal.value = selectedRow.Kode_Barang.trim();
+                    tanggal.value = selectedRow.tanggal.trim();
+
+                    // Mengisi kodeBarangDirubah dengan 6 karakter pertama dari kodeBarangAsal
+                    // if (kodeBarangAsal.value !== "") {
+                    //     kodeBarangDirubah.value =
+                    //         kodeBarangAsal.value.substring(0, 6);
+                    // }
+
+                    // if (id_customer.value !== "") {
+                    //     id_customers.value = id_customer.value;
+                    //     customers.value = customer.value;
+                    // }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
         }
     });
 
+    btn_pesanan.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a No Pesanan",
+                html: '<table id="nopesananTable" class="display" style="width:100%"><thead><tr><th>No Surat Pesanan</th><th>Waktu Delivery</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#nopesananTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#nopesananTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PermohonanRetur/getNoSP",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    kodeBarangAsal: kodeBarangAsal.value,
+                                    proses: proses,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NoSP",
+                                },
+                                {
+                                    data: "Delivery",
+                                    render: function (data) {
+                                        if (data) {
+                                            return data.substring(0, 10);
+                                        } else {
+                                            return "";
+                                        }
+                                    },
+                                },
+                            ],
+                        });
+                        $("#nopesananTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    no_suratpesanan.value = selectedRow.NoSP.trim();
+                    time_deliv.value = selectedRow.Delivery.trim();
+
+                    if (proses === 1) {
+                        jumlah_retur.readOnly = false;
+                        $.ajax({
+                            url: "PermohonanRetur/processNoSP",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                No_SuratPesanan: selectedRow.NoSP.trim(),
+                                kodeBarangAsal: kodeBarangAsal.value,
+                                proses: proses,
+                            },
+                            success: function (data) {
+                                console.log(data.data[0]);
+                                jumlah_order.value = data.data[0].jumlah_order.trim();
+                                jumlah_retur.focus();
+                            },
+                            error: function (xhr, status, error) {
+                                var err = eval("(" + xhr.responseText + ")");
+                                alert(err.Message);
+                            },
+                        });
+                    }
+
+                    if (proses === 2) {
+                        jumlah_retur.readOnly = false;
+                        $.ajax({
+                            url: "PermohonanRetur/processNoSP",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                No_SuratPesanan: selectedRow.NoSP.trim(),
+                                Waktu_Delivery: selectedRow.Delivery.trim(),
+                                kodeBarangAsal: kodeBarangAsal.value,
+                                proses: proses,
+                            },
+                            success: function (data) {
+                                console.log(data.data[0]);
+                                jumlah_retur.value = data.data[0].jumlah_retur.trim();
+                                no_referensi.value = data.data[0].referensi.trim();
+                                jumlah_retur.focus();
+                            },
+                            error: function (xhr, status, error) {
+                                var err = eval("(" + xhr.responseText + ")");
+                                alert(err.Message);
+                            },
+                        });
+                    }
+
+                    if (proses === 3) {
+                        jumlah_retur.readOnly = false;
+                        $.ajax({
+                            url: "PermohonanRetur/processNoSP",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                No_SuratPesanan: selectedRow.NoSP.trim(),
+                                Waktu_Delivery: selectedRow.Delivery.trim(),
+                                kodeBarangAsal: kodeBarangAsal.value,
+                                proses: proses,
+                            },
+                            success: function (data) {
+                                console.log(data.data[0]);
+                                jumlah_retur.value = data.data[0].jumlah_retur.trim();
+                                no_referensi.value = data.data[0].referensi.trim();
+                                jumlah_retur.focus();
+                            },
+                            error: function (xhr, status, error) {
+                                var err = eval("(" + xhr.responseText + ")");
+                                alert(err.Message);
+                            },
+                        });
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
 });
