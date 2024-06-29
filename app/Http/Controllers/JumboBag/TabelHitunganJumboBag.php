@@ -630,7 +630,7 @@ class TabelHitunganJumboBag extends Controller
                 return response()->json(['error' => $e->getMessage()]);
             }
 
-        } else if ($request->mode_insert == "BodyBesar") {
+        } elseif ($request->mode_insert == "BodyBesar") {
             switch ($request->mode_insert) {
                 case "BodyBesar":
                     $kodeKomponen = "01BB00";
@@ -685,6 +685,48 @@ class TabelHitunganJumboBag extends Controller
                     ]
                 );
                 return response()->json(['success' => 'Record Body Besar inserted successfully.']);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } elseif ($request->mode_insert == "KomponenBodyBesar") {
+            try {
+                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_INS_RINCIAN_TH
+                @KodeBarang = ?,
+                @KodeKomponen = ?,
+                @StandartKomponen = ?,
+                @Panjang = ?,
+                @Lebar = ?,
+                @WA = ?,
+                @WE = ?,
+                @Denier = ?,
+                @Quantity = ?,
+                @Berat = ?,
+                @BeratWA = ?,
+                @BeratWE = ?,
+                @Harga = ?,
+                @SubTotal = ?,
+                @DenierWA = ?,
+                @DenierWE = ?',
+                    [
+                        $request->input('KodeBarang'),
+                        $request->input('KodeKomponen'),
+                        $request->input('StandartKomponen'),
+                        $request->input('Panjang'),
+                        $request->input('Lebar'),
+                        $request->input('WA'),
+                        $request->input('WE'),
+                        $request->input('Denier'),
+                        $request->input('Quantity'),
+                        $request->input('Berat'),
+                        $request->input('BeratWA'),
+                        $request->input('BeratWE'),
+                        $request->input('Harga'),
+                        $request->input('SubTotal'),
+                        $request->input('DenierWA'),
+                        $request->input('DenierWE'),
+                    ]
+                );
+                return response()->json(['success' => 'Komponen Body Besar inserted successfully.']);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }

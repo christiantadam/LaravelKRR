@@ -11,6 +11,11 @@
         button:disabled {
             cursor: default;
         }
+
+        .input-error {
+            outline: 1px solid red;
+            text-decoration-color: red;
+        }
     </style>
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">

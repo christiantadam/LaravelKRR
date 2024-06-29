@@ -98,7 +98,7 @@ let TKidModelCA;
 let TKbentukCA;
 let TKidModelCB;
 let TKbentukCB;
-let TKompGeneralKomponen;
+let TKkomponen;
 let TKpanjangCA;
 let TKlebarCA;
 let TKtinggiCA;
@@ -401,7 +401,7 @@ function loadDataKoreksi(kode_barang, nama_customer) {
 
                 //Bagian Reinforced
                 reinforced_lebar.value = datas[1][0]["Reinforced"];
-                reinforced_jumlah.value = datas[1][0]["jmlrein"] ?? 0;
+                reinforced_jumlah.value = datas[1][0]["JmlRein"] ?? 0;
                 reinforced_jarak.value = datas[1][0]["jarakrein"] ?? 0;
                 reinforced_beltrope.value = datas[1][0]["Belt_Rope"];
                 reinforced_warna.value = datas[1][0]["Warna"];
@@ -1509,63 +1509,54 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input">
+                                    <label for="panjangKomponenGeneral">Panjang</label>
+                                    <input id="panjangKomponenGeneral" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="warp">Warp</label>
-                                    <input id="warp" class="input">
+                                    <label for="lebarKomponenGeneral">Lebar</label>
+                                    <input id="lebarKomponenGeneral" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier-warp">Denier Warp</label>
-                                    <input id="denier-warp" class="input">
+                                    <label for="warpKomponenGeneral">Warp</label>
+                                    <input id="warpKomponenGeneral" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier">Denier</label>
-                                    <input id="denier" class="input" readonly>
+                                    <label for="weftKomponenGeneral">Weft</label>
+                                    <input id="weftKomponenGeneral" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="denier_warpKomponenGeneral">Denier Warp</label>
+                                    <input id="denier_warpKomponenGeneral" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat-warp">Berat Warp</label>
-                                    <input id="berat-warp" class="input" readonly>
+                                    <label for="denier_weftKomponenGeneral">Denier Weft</label>
+                                    <input id="denier_weftKomponenGeneral" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat">Berat</label>
-                                    <input id="berat" class="input">
+                                    <label for="denierKomponenGeneral">Denier</label>
+                                    <input id="denierKomponenGeneral" class="input" readonly>
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
-                                    <input id="lebar" class="input">
+                                    <label for="quantityKomponenGeneral">Quantity</label>
+                                    <input id="quantityKomponenGeneral" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="weft">Weft</label>
-                                    <input id="weft" class="input">
+                                    <label for="berat_warpKomponenGeneral">Berat Warp</label>
+                                    <input id="berat_warpKomponenGeneral" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier-weft">Denier Weft</label>
-                                    <input id="denier-weft" class="input">
+                                    <label for="berat_weftKomponenGeneral">Berat Weft</label>
+                                    <input id="berat_weftKomponenGeneral" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="beratKomponenGeneral">Berat</label>
+                                    <input id="beratKomponenGeneral" class="input">
                                 </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="harga">Harga</label>
-                                    <input id="harga" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="subtotal">Subtotal</label>
-                                    <input id="subtotal" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat-weft">Berat Weft</label>
-                                    <input id="berat-weft" class="input">
-                                </div>
+                                <input type="hidden" id="kounterKomponenGeneral" class="input">
+                                <input type="hidden" id="hargaKomponenGeneral" class="input">
+                                <input type="hidden" id="subtotalKomponenGeneral" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -1582,70 +1573,70 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="diameter">Diameter</label>
-                                    <input id="diameter" class="input">
+                                    <label for="diameterKomponenCircular">Diameter</label>
+                                    <input id="diameterKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input">
+                                    <label for="panjangKomponenCircular">Panjang</label>
+                                    <input id="panjangKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="warp">Warp</label>
-                                    <input id="warp" class="input">
+                                    <label for="warpKomponenCircular">Warp</label>
+                                    <input id="warpKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier-warp">Denier Warp</label>
-                                    <input id="denier-warp" class="input">
+                                    <label for="denier_warpKomponenCircular">Denier Warp</label>
+                                    <input id="denier_warpKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier">Denier</label>
-                                    <input id="denier" class="input">
+                                    <label for="denierKomponenCircular">Denier</label>
+                                    <input id="denierKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenCircular">Quantity</label>
+                                    <input id="quantityKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat-warp">Berat Warp</label>
-                                    <input id="berat-warp" class="input">
+                                    <label for="berat_warpKomponenCircular">Berat Warp</label>
+                                    <input id="berat_warpKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat-weft">Berat Weft</label>
-                                    <input id="berat-weft" class="input">
+                                    <label for="berat_weftKomponenCircular">Berat Weft</label>
+                                    <input id="berat_weftKomponenCircular" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="tinggi">Tinggi</label>
-                                    <input id="tinggi" class="input">
+                                    <label for="tinggiKomponenCircular">Tinggi</label>
+                                    <input id="tinggiKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
-                                    <input id="lebar" class="input">
+                                    <label for="lebarKomponenCircular">Lebar</label>
+                                    <input id="lebarKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="weft">Weft</label>
-                                    <input id="weft" class="input">
+                                    <label for="weftKomponenCircular">Weft</label>
+                                    <input id="weftKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier-weft">Denier Weft</label>
-                                    <input id="denier-weft" class="input">
+                                    <label for="denier_weftKomponenCircular">Denier Weft</label>
+                                    <input id="denier_weftKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenCircular">Kounter</label>
+                                    <input id="kounterKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="harga">Harga</label>
-                                    <input id="harga" class="input">
+                                    <label for="hargaKomponenCircular">Harga</label>
+                                    <input id="hargaKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="subtotal">Subtotal</label>
-                                    <input id="subtotal" class="input">
+                                    <label for="subtotalKomponenCircular">Subtotal</label>
+                                    <input id="subtotalKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat">Berat</label>
-                                    <input id="berat" class="input">
+                                    <label for="beratKomponenCircular">Berat</label>
+                                    <input id="beratKomponenCircular" class="input">
                                 </div>
                             </div>
                         </div>
@@ -1661,68 +1652,68 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="panjangca">Panjang CA</label>
-                            <input id="panjangca" class="input">
+                            <label for="panjangcaKomponenSquare">Panjang CA</label>
+                            <input id="panjangcaKomponenSquare" class="input">
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="lebarca">Lebar CA</label>
-                            <input id="lebarca" class="input">
+                            <label for="lebarcaKomponenSquare">Lebar CA</label>
+                            <input id="lebarcaKomponenSquare" class="input">
                         </div>
                         <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="tinggica">Tinggi CA</label>
-                            <input id="tinggica" class="input">
+                            <label for="tinggicaKomponenSquare">Tinggi CA</label>
+                            <input id="tinggicaKomponenSquare" class="input">
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input">
+                                    <label for="panjangKomponenSquare">Panjang</label>
+                                    <input id="panjangKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="warp">Warp</label>
-                                    <input id="warp" class="input">
+                                    <label for="warpKomponenSquare">Warp</label>
+                                    <input id="warpKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier-warp">Denier Warp</label>
-                                    <input id="denier-warp" class="input">
+                                    <label for="denier_warpKomponenSquare">Denier Warp</label>
+                                    <input id="denier_warpKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier">Denier</label>
-                                    <input id="denier" class="input">
+                                    <label for="denierKomponenSquare">Denier</label>
+                                    <input id="denierKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenSquare">Quantity</label>
+                                    <input id="quantityKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat">Berat</label>
-                                    <input id="berat" class="input">
+                                    <label for="beratKomponenSquare">Berat</label>
+                                    <input id="beratKomponenSquare" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
-                                    <input id="lebar" class="input">
+                                    <label for="lebarKomponenSquare">Lebar</label>
+                                    <input id="lebarKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="weft">Weft</label>
-                                    <input id="weft" class="input">
+                                    <label for="weftKomponenSquare">Weft</label>
+                                    <input id="weftKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier-weft">Denier Weft</label>
-                                    <input id="denier-weft" class="input">
+                                    <label for="denier_weftKomponenSquare">Denier Weft</label>
+                                    <input id="denier_weftKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenSquare">Kounter</label>
+                                    <input id="kounterKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="harga">Harga</label>
-                                    <input id="harga" class="input">
+                                    <label for="hargaKomponenSquare">Harga</label>
+                                    <input id="hargaKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="subtotal">Subtotal</label>
-                                    <input id="subtotal" class="input">
+                                    <label for="subtotalKomponenSquare">Subtotal</label>
+                                    <input id="subtotalKomponenSquare" class="input">
                                 </div>
                             </div>
                         </div>
@@ -1740,30 +1731,30 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input">
+                                    <label for="panjangKomponenRope">Panjang</label>
+                                    <input id="panjangKomponenRope" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenRope">Quantity</label>
+                                    <input id="quantityKomponenRope" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenRope">Total Berat</label>
+                                    <input id="totalBeratKomponenRope" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="diameter">Diameter</label>
-                                    <input id="diameter" class="input">
+                                    <label for="diameterKomponenRope">Diameter</label>
+                                    <input id="diameterKomponenRope" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratPerMeter">Berat Per Meter</label>
-                                    <input id="beratPerMeter" class="input">
+                                    <label for="beratPerMeterKomponenRope">Berat Per Meter</label>
+                                    <input id="beratPerMeterKomponenRope" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenRope">Kounter</label>
+                                    <input id="kounterKomponenRope" class="input">
                                 </div>
                             </div>
                         </div>
@@ -1781,39 +1772,39 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
+                                    <label for="panjangKomponenBelt">Panjang</label>
                                     <div style="width: 100%">
-                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                        <input id="panjangKomponenBelt" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenBelt">Quantity</label>
+                                    <input id="quantityKomponenBelt" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenBelt">Total Berat</label>
+                                    <input id="totalBeratKomponenBelt" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier">Denier</label>
-                                    <input id="denier" class="input" readonly>
+                                    <label for="denierKomponenBelt">Denier</label>
+                                    <input id="denierKomponenBelt" class="input" readonly>
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
+                                    <label for="lebarKomponenBelt">Lebar</label>
                                     <div style="width: 100%">
-                                        <input id="lebar" class="input">
+                                        <input id="lebarKomponenBelt" class="input">
                                         <button class="btn">. . .</button>
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratPerMeter">Berat Per Meter</label>
-                                    <input id="beratPerMeter" class="input">
+                                    <label for="beratPerMeterKomponenBelt">Berat Per Meter</label>
+                                    <input id="beratPerMeterKomponenBelt" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenBelt">Kounter</label>
+                                    <input id="kounterKomponenBelt" class="input">
                                 </div>
                             </div>
                         </div>
@@ -1831,32 +1822,32 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input" style="width: 90%">
+                                    <label for="panjangKomponenSelang">Panjang</label>
+                                    <input id="panjangKomponenSelang" class="input" style="width: 90%">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenSelang">Quantity</label>
+                                    <input id="quantityKomponenSelang" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenSelang">Total Berat</label>
+                                    <input id="totalBeratKomponenSelang" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="diameter">Diameter</label>
+                                    <label for="diameterKomponenSelang">Diameter</label>
                                     <div style="width: 100%">
-                                        <input id="diameter" class="input">MM
+                                        <input id="diameterKomponenSelang" class="input">MM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratPer5cm">Berat Per 5 cm</label>
-                                    <input id="beratPer5cm" class="input">
+                                    <label for="beratPer5cmKomponenSelang">Berat Per 5 cm</label>
+                                    <input id="beratPer5cmKomponenSelang" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenSelang">Kounter</label>
+                                    <input id="kounterKomponenSelang" class="input">
                                 </div>
                             </div>
                         </div>
@@ -1874,14 +1865,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat">Berat</label>
+                                    <label for="beratBlock">Berat</label>
                                     <div style="width: 100%">
-                                        <input id="berat" class="input">gram/pc
+                                        <input id="beratBlock" class="input">gram/pc
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratBlock">Total Berat</label>
+                                    <input id="totalBeratBlock" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -1890,8 +1881,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <input id="quantity" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterBlock">Kounter</label>
+                                    <input id="kounterBlock" class="input">
                                 </div>
                             </div>
                         </div>
@@ -1922,14 +1913,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenLami">Kounter</label>
+                                    <input id="kounterKomponenLami" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenLami">Total Berat</label>
+                                    <input id="totalBeratKomponenLami" class="input">
                                 </div>
                             </div>
                         </div>
@@ -1947,30 +1938,30 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="tebalInner">Tebal Inner</label>
-                                    <input id="tebalInner" class="input">
+                                    <label for="tebalInnerKomponenInner">Tebal Inner</label>
+                                    <input id="tebalInnerKomponenInner" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
-                                    <input id="lebar" class="input">
+                                    <label for="lebarKomponenInner">Lebar</label>
+                                    <input id="lebarKomponenInner" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenInner">Total Berat</label>
+                                    <input id="totalBeratKomponenInner" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input">
+                                    <label for="panjangKomponenInner">Panjang</label>
+                                    <input id="panjangKomponenInner" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenInner">Quantity</label>
+                                    <input id="quantityKomponenInner" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenInner">Kounter</label>
+                                    <input id="kounterKomponenInner" class="input">
                                 </div>
                             </div>
                         </div>
@@ -1988,30 +1979,30 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input">
+                                    <label for="panjangKomponenPocket">Panjang</label>
+                                    <input id="panjangKomponenPocket" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenPocket">Quantity</label>
+                                    <input id="quantityKomponenPocket" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalHarga">Total Harga</label>
-                                    <input id="totalHarga" class="input">
+                                    <label for="totalHargaKomponenPocket">Total Harga</label>
+                                    <input id="totalHargaKomponenPocket" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
-                                    <input id="lebar" class="input">
+                                    <label for="lebarKomponenPocket">Lebar</label>
+                                    <input id="lebarKomponenPocket" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="hargaPerMeter">Harga/Meter</label>
-                                    <input id="hargaPerMeter" class="input">
+                                    <label for="hargaPerMeterKomponenPocket">Harga/Meter</label>
+                                    <input id="hargaPerMeterKomponenPocket" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenPocket">Kounter</label>
+                                    <input id="kounterKomponenPocket" class="input">
                                 </div>
                             </div>
                         </div>
@@ -2029,34 +2020,34 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input">
+                                    <label for="panjangKomponenEva">Panjang</label>
+                                    <input id="panjangKomponenEva" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenEva">Quantity</label>
+                                    <input id="quantityKomponenEva" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="harga">Harga</label>
-                                    <input id="harga" class="input">
+                                    <label for="hargaKomponenEva">Harga</label>
+                                    <input id="hargaKomponenEva" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenEva">Kounter</label>
+                                    <input id="kounterKomponenEva" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
-                                    <input id="lebar" class="input">
+                                    <label for="lebarKomponenEva">Lebar</label>
+                                    <input id="lebarKomponenEva" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat">Berat</label>
-                                    <input id="berat" class="input">
+                                    <label for="beratKomponenEva">Berat</label>
+                                    <input id="beratKomponenEva" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalHarga">Total Harga</label>
-                                    <input id="totalHarga" class="input">
+                                    <label for="totalHargaKomponenEva">Total Harga</label>
+                                    <input id="totalHargaKomponenEva" class="input">
                                 </div>
                             </div>
                         </div>
@@ -2074,32 +2065,32 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="hargaBenangPerKg">Harga Benang/Kg</label>
-                                    <input id="hargaBenangPerKg" class="input">
+                                    <label for="hargaBenangPerKgKomponenBenang">Harga Benang/Kg</label>
+                                    <input id="hargaBenangPerKgKomponenBenang" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalHarga">Total Harga</label>
-                                    <input id="totalHarga" class="input">
+                                    <label for="totalHargaKomponenBenang">Total Harga</label>
+                                    <input id="totalHargaKomponenBenang" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kebutuhan">Kebutuhan</label>
-                                    <input id="kebutuhan" class="input">
+                                    <label for="kebutuhanKomponenBenang">Kebutuhan</label>
+                                    <input id="kebutuhanKomponenBenang" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenBenang">Kounter</label>
+                                    <input id="kounterKomponenBenang" class="input">
                                 </div>
                             </div>
                         </div>
                         <div style="display: flex;align-items: center;gap: 10px;margin-bottom: 10px;">
-                            <label for="denier" style="margin-right: 15px;">Denier</label>
+                            <label for="denierKomponenBenang" style="margin-right: 15px;">Denier</label>
                             <label>
-                                <input type="radio" name="denier" id="denier1" value="2000" style="margin-right: 3px;"> 2000
+                                <input type="radio" name="denier" id="denier1KomponenBenang" value="2000" style="margin-right: 3px;"> 2000
                             </label>
                             <label>
-                                <input type="radio" name="denier" id="denier2" value="2600" style="margin-right: 3px;margin-left: 3px"> 2600
+                                <input type="radio" name="denier" id="denier2KomponenBenang" value="2600" style="margin-right: 3px;margin-left: 3px"> 2600
                             </label>
                         </div>
                     </div>`;
@@ -2116,26 +2107,26 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBeratKomponen">Total Berat Komponen</label>
-                                    <input id="totalBeratKomponen" class="input">
+                                    <label for="totalBeratKomponenKomponenOngkos">Total Berat Komponen</label>
+                                    <input id="totalBeratKomponenKomponenOngkos" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="hargaPerKg">Harga/Kg</label>
-                                    <input id="hargaPerKg" class="input">
+                                    <label for="hargaPerKgKomponenOngkos">Harga/Kg</label>
+                                    <input id="hargaPerKgKomponenOngkos" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenOngkos">Kounter</label>
+                                    <input id="kounterKomponenOngkos" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratInnerLiner">Berat Inner Liner</label>
-                                    <input id="beratInnerLiner" class="input">
+                                    <label for="beratInnerLinerKomponenOngkos">Berat Inner Liner</label>
+                                    <input id="beratInnerLinerKomponenOngkos" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalHarga">Total Harga</label>
-                                    <input id="totalHarga" class="input">
+                                    <label for="totalHargaKomponenOngkos">Total Harga</label>
+                                    <input id="totalHargaKomponenOngkos" class="input">
                                 </div>
                             </div>
                         </div>
@@ -2153,22 +2144,22 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="berat">Berat</label>
-                                    <input id="berat" class="input">
+                                    <label for="beratKomponenDust">Berat</label>
+                                    <input id="beratKomponenDust" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="hargaPerKg">Harga/Kg</label>
-                                    <input id="hargaPerKg" class="input">
+                                    <label for="hargaPerKgKomponenDust">Harga/Kg</label>
+                                    <input id="hargaPerKgKomponenDust" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenDust">Kounter</label>
+                                    <input id="kounterKomponenDust" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalHarga">Total Harga</label>
-                                    <input id="totalHarga" class="input">
+                                    <label for="totalHargaKomponenDust">Total Harga</label>
+                                    <input id="totalHargaKomponenDust" class="input">
                                 </div>
                             </div>
                         </div>
@@ -2186,41 +2177,41 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
-                                    <input id="panjang" class="input">
+                                    <label for="panjangKomponenKatun">Panjang</label>
+                                    <input id="panjangKomponenKatun" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratPerMeter">Berat Per Meter</label>
-                                    <input id="beratPerMeter" class="input">
+                                    <label for="beratPerMeterKomponenKatun">Berat Per Meter</label>
+                                    <input id="beratPerMeterKomponenKatun" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="hargaPerKg">Harga/Kg</label>
-                                    <input id="hargaPerKg" class="input" readonly>
+                                    <label for="hargaPerKgKomponenKatun">Harga/Kg</label>
+                                    <input id="hargaPerKgKomponenKatun" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalHarga">Total Harga</label>
-                                    <input id="totalHarga" class="input">
+                                    <label for="totalHargaKomponenKatun">Total Harga</label>
+                                    <input id="totalHargaKomponenKatun" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
+                                    <label for="lebarKomponenKatun">Lebar</label>
                                     <div style="width: 100%">
-                                        <input id="lebar" class="input">
-                                        <button class="btn">. . .</button>
+                                        <input id="lebarKomponenKatun" class="input">
+                                        <button class="btn" id="btnLebarKomponenKatun">. . .</button>
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenKatun">Quantity</label>
+                                    <input id="quantityKomponenKatun" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenKatun">Total Berat</label>
+                                    <input id="totalBeratKomponenKatun" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input">
+                                    <label for="kounterKomponenKatun">Kounter</label>
+                                    <input id="kounterKomponenKatun" class="input">
                                 </div>
                             </div>
                         </div>
@@ -2238,42 +2229,42 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="harga">Harga</label>
+                                    <label for="hargaKomponenKertas">Harga</label>
                                     <div style="width: 100%">
-                                        <input id="harga" class="input" style="width: 90%"> Rupiah
+                                        <input id="hargaKomponenKertas" class="input" style="width: 90%"> Rupiah
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
+                                    <label for="lebarKomponenKertas">Lebar</label>
                                     <div style="width: 100%">
-                                        <input id="lebar" class="input" style="width: 90%"> CM
+                                        <input id="lebarKomponenKertas" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenKertas">Quantity</label>
+                                    <input id="quantityKomponenKertas" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input" readonly>
+                                    <label for="kounterKomponenKertas">Kounter</label>
+                                    <input id="kounterKomponenKertas" class="input" readonly>
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
+                                    <label for="panjangKomponenKertas">Panjang</label>
                                     <div style="width: 100%">
-                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                        <input id="panjangKomponenKertas" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="GSM">GSM</label>
+                                    <label for="GSMKomponenKertas">GSM</label>
                                     <div style="width: 100%">
-                                        <input id="GSM" class="input" style="width: 90%"> g/m²
+                                        <input id="GSMKomponenKertas" class="input" style="width: 90%"> g/m²
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenKertas">Total Berat</label>
+                                    <input id="totalBeratKomponenKertas" class="input">
                                 </div>
                             </div>
                         </div>
@@ -2291,42 +2282,42 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="harga">Harga</label>
+                                    <label for="hargaKomponenKain">Harga</label>
                                     <div style="width: 100%">
-                                        <input id="harga" class="input" style="width: 90%"> Rupiah
+                                        <input id="hargaKomponenKain" class="input" style="width: 90%"> Rupiah
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
+                                    <label for="lebarKomponenKain">Lebar</label>
                                     <div style="width: 100%">
-                                        <input id="lebar" class="input" style="width: 90%"> CM
+                                        <input id="lebarKomponenKain" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenKain">Quantity</label>
+                                    <input id="quantityKomponenKain" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input" readonly>
+                                    <label for="kounterKomponenKain">Kounter</label>
+                                    <input id="kounterKomponenKain" class="input" readonly>
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
+                                    <label for="panjangKomponenKain">Panjang</label>
                                     <div style="width: 100%">
-                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                        <input id="panjangKomponenKain" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="GSM">GSM</label>
+                                    <label for="GSMKomponenKain">GSM</label>
                                     <div style="width: 100%">
-                                        <input id="GSM" class="input" style="width: 90%"> g/m²
+                                        <input id="GSMKomponenKain" class="input" style="width: 90%"> g/m²
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenKain">Total Berat</label>
+                                    <input id="totalBeratKomponenKain" class="input">
                                 </div>
                             </div>
                         </div>
@@ -2344,37 +2335,37 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
+                                    <label for="panjangKomponenBenangKatun">Panjang</label>
                                     <div style="width: 100%">
-                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                        <input id="panjangKomponenBenangKatun" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratStd">Berat Std</label>
+                                    <label for="beratStdKomponenBenangKatun">Berat Std</label>
                                     <div style="width: 100%">
-                                        <input id="beratStd" class="input" style="width: 90%"> Gram/CM
+                                        <input id="beratStdKomponenBenangKatun" class="input" style="width: 90%"> Gram/CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenBenangKatun">Total Berat</label>
+                                    <input id="totalBeratKomponenBenangKatun" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
+                                    <label for="lebarKomponenBenangKatun">Lebar</label>
                                     <div style="width: 100%">
-                                        <input id="lebar" class="input" style="width: 80%"> CM
-                                        <button class="btn">. . .</button>
+                                        <input id="lebarKomponenBenangKatun" class="input" style="width: 80%"> CM
+                                        <button id="btnLebarKomponenBenangKatun" class="btn">. . .</button>
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenBenangKatun">Quantity</label>
+                                    <input id="quantityKomponenBenangKatun" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input" readonly>
+                                    <label for="kounterKomponenBenangKatun">Kounter</label>
+                                    <input id="kounterKomponenBenangKatun" class="input" readonly>
                                 </div>
                             </div>
                         </div>
@@ -2392,37 +2383,37 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
+                                    <label for="panjangKomponenKaret">Panjang</label>
                                     <div style="width: 100%">
-                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                        <input id="panjangKomponenKaret" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratPerMeter">Berat/Meter</label>
+                                    <label for="beratPerMeterKomponenKaret">Berat/Meter</label>
                                     <div style="width: 100%">
-                                        <input id="beratPerMeter" class="input" style="width: 90%"> Gram/M
+                                        <input id="beratPerMeterKomponenKaret" class="input" style="width: 90%"> Gram/M
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenKaret">Total Berat</label>
+                                    <input id="totalBeratKomponenKaret" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
+                                    <label for="lebarKomponenKaret">Lebar</label>
                                     <div style="width: 100%">
-                                        <input id="lebar" class="input" style="width: 80%"> CM
-                                        <button class="btn">. . .</button>
+                                        <input id="lebarKomponenKaret" class="input" style="width: 80%"> CM
+                                        <button id="btnLebarKomponenKaret" class="btn">. . .</button>
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenKaret">Quantity</label>
+                                    <input id="quantityKomponenKaret" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input" readonly>
+                                    <label for="kounterKomponenKaret">Kounter</label>
+                                    <input id="kounterKomponenKaret" class="input" readonly>
                                 </div>
                             </div>
                         </div>
@@ -2440,34 +2431,34 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="panjang">Panjang</label>
+                                    <label for="panjangKomponenCarbon">Panjang</label>
                                     <div style="width: 100%">
-                                        <input id="panjang" class="input" style="width: 90%"> CM
+                                        <input id="panjangKomponenCarbon" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="tebal">Tebal</label>
-                                    <input id="tebal" class="input" style="width: 90%"> Gram/M
+                                    <label for="tebalKomponenCarbon">Tebal</label>
+                                    <input id="tebalKomponenCarbon" class="input" style="width: 90%"> Gram/M
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBerat">Total Berat</label>
-                                    <input id="totalBerat" class="input">
+                                    <label for="totalBeratKomponenCarbon">Total Berat</label>
+                                    <input id="totalBeratKomponenCarbon" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebar">Lebar</label>
+                                    <label for="lebarKomponenCarbon">Lebar</label>
                                     <div style="width: 100%">
-                                        <input id="lebar" class="input" style="width: 90%"> CM
+                                        <input id="lebarKomponenCarbon" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <label for="quantityKomponenCarbon">Quantity</label>
+                                    <input id="quantityKomponenCarbon" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounter">Kounter</label>
-                                    <input id="kounter" class="input" readonly>
+                                    <label for="kounterKomponenCarbon">Kounter</label>
+                                    <input id="kounterKomponenCarbon" class="input" readonly>
                                 </div>
                             </div>
                         </div>
@@ -2477,43 +2468,555 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
         title: typeForm,
         html: htmlForm,
         showCancelButton: true,
-        confirmButtonText: "Proses",
+        confirmButtonText:
+            TKkomponen == 1
+                ? "Simpan"
+                : TKkomponen == 2
+                ? "Koreksi"
+                : TKkomponen == 3
+                ? "Hapus"
+                : "Proses",
         cancelButtonText: "Cancel",
         didOpen: () => {
-            $(document).ready(function () { //lanjutkan bagian ini yaaaa
+            $(document).ready(function () {
                 $("#kode_komponen").val(Kode_Komponen);
                 $("#nama_komponen").val(Nama_Komponen);
-                console.log(typeForm);
-                console.log(
-                    TKreinf,
-                    TKkdBrg,
-                    TKjmlreinf,
-                    TKidmodelBB,
-                    TKidModelCA,
-                    TKbentukCA,
-                    TKidModelCB,
-                    TKbentukCB,
-                    TKompGeneralKomponen,
-                    TKpanjangCA,
-                    TKlebarCA,
-                    TKtinggiCA,
-                    TKpanjangCB,
-                    TKlebarCB,
-                    TKtinggiCB,
-                    TKbentukBB,
-                    TKpanjangBB,
-                    TKlebarBB,
-                    TKdiameterCB,
-                    TKdiameterBB,
-                    TKdiameterCA,
-                    TKtinggiBB,
-                    TKtebalInner,
-                    Kode_Komponen,
-                    Nama_Komponen
-                );
                 if (typeForm == "Form Komponen General") {
+                    //Javascript khusus untuk Form Komponen General FormKomponenGeneral.js
                     console.log("masuk didopen() Form Komponen General");
+                    let panjangKomponenGeneral = document.getElementById(
+                        "panjangKomponenGeneral"
+                    );
+                    let warpKomponenGeneral = document.getElementById(
+                        "warpKomponenGeneral"
+                    );
+                    let denier_warpKomponenGeneral = document.getElementById(
+                        "denier_warpKomponenGeneral"
+                    );
+                    let denierKomponenGeneral = document.getElementById(
+                        "denierKomponenGeneral"
+                    );
+                    let quantityKomponenGeneral = document.getElementById(
+                        "quantityKomponenGeneral"
+                    );
+                    let berat_warpKomponenGeneral = document.getElementById(
+                        "berat_warpKomponenGeneral"
+                    );
+                    let beratKomponenGeneral = document.getElementById(
+                        "beratKomponenGeneral"
+                    );
+                    let lebarKomponenGeneral = document.getElementById(
+                        "lebarKomponenGeneral"
+                    );
+                    let weftKomponenGeneral = document.getElementById(
+                        "weftKomponenGeneral"
+                    );
+                    let denier_weftKomponenGeneral = document.getElementById(
+                        "denier_weftKomponenGeneral"
+                    );
+                    let kounterKomponenGeneral = document.getElementById(
+                        "kounterKomponenGeneral"
+                    );
+                    let hargaKomponenGeneral = document.getElementById(
+                        "hargaKomponenGeneral"
+                    );
+                    let subtotalKomponenGeneral = document.getElementById(
+                        "subtotalKomponenGeneral"
+                    );
+                    let berat_weftKomponenGeneral = document.getElementById(
+                        "berat_weftKomponenGeneral"
+                    );
+                    var inputElements = [
+                        "panjangKomponenGeneral",
+                        "warpKomponenGeneral",
+                        "denier_warpKomponenGeneral",
+                        "denierKomponenGeneral",
+                        "quantityKomponenGeneral",
+                        "berat_warpKomponenGeneral",
+                        "beratKomponenGeneral",
+                        "lebarKomponenGeneral",
+                        "weftKomponenGeneral",
+                        "denier_weftKomponenGeneral",
+                        "kounterKomponenGeneral",
+                        "hargaKomponenGeneral",
+                        "subtotalKomponenGeneral",
+                        "berat_weftKomponenGeneral",
+                    ];
+                    warpKomponenGeneral.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (
+                                    this.value == 10 ||
+                                    this.value == 11 ||
+                                    this.value == 12 ||
+                                    this.value == 13
+                                ) {
+                                    denier_warpKomponenGeneral.value = 2000;
+                                } else if (
+                                    this.value == 14 ||
+                                    this.value == 15 ||
+                                    this.value == 22 ||
+                                    this.value == 22.5
+                                ) {
+                                    denier_warpKomponenGeneral.value = 1500;
+                                } else if (this.value == 8) {
+                                    denier_warpKomponenGeneral.value = 800;
+                                } else {
+                                    denier_warpKomponenGeneral.value = 0;
+                                }
+
+                                if (
+                                    !isNaN(
+                                        parseFloat(
+                                            denier_warpKomponenGeneral.value
+                                        )
+                                    )
+                                ) {
+                                    parseFloat(
+                                        denier_warpKomponenGeneral.value
+                                    ).toFixed(2);
+                                }
+                                hitungDenier();
+                            }
+                        }
+                    );
+                    weftKomponenGeneral.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (
+                                    this.value == 11 ||
+                                    this.value == 12 ||
+                                    this.value == 13 ||
+                                    this.value == 14 ||
+                                    this.value == 15 ||
+                                    this.value == 16
+                                ) {
+                                    denier_weftKomponenGeneral.value = 1500;
+                                } else if (
+                                    this.value == 10 &&
+                                    warpKomponenGeneral.value == 10
+                                ) {
+                                    denier_weftKomponenGeneral.value = 900;
+                                } else if (this.value == 8) {
+                                    denier_weftKomponenGeneral.value = 800;
+                                } else {
+                                    denier_weftKomponenGeneral.value = 0;
+                                }
+
+                                if (
+                                    !isNaN(
+                                        parseFloat(
+                                            denier_weftKomponenGeneral.value
+                                        )
+                                    )
+                                ) {
+                                    denier_weftKomponenGeneral.value =
+                                        parseFloat(
+                                            denier_weftKomponenGeneral.value
+                                        ).toFixed(2);
+                                }
+                                hitungDenier();
+                            }
+                        }
+                    );
+
+                    denier_warpKomponenGeneral.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Deniernya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    denier_weftKomponenGeneral.readOnly = false;
+                                    denier_weftKomponenGeneral.focus();
+                                    hitungDenier();
+                                }
+                            }
+                        }
+                    );
+                    denier_weftKomponenGeneral.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Deniernya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungDenier();
+                                }
+                            }
+                        }
+                    );
+                    quantityKomponenGeneral.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Deniernya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+                    function hitungDenier() {
+                        if (
+                            denier_warpKomponenGeneral.value != "" &&
+                            denier_weftKomponenGeneral.value != ""
+                        ) {
+                            denierKomponenGeneral.value =
+                                (parseFloat(warpKomponenGeneral.value) *
+                                    parseFloat(
+                                        denier_warpKomponenGeneral.value
+                                    ) +
+                                    parseFloat(weftKomponenGeneral.value) *
+                                        parseFloat(
+                                            denier_weftKomponenGeneral.value
+                                        )) /
+                                (parseFloat(warpKomponenGeneral.value) +
+                                    parseFloat(weftKomponenGeneral.value));
+                            console.log(
+                                denierKomponenGeneral.value,
+                                denier_warpKomponenGeneral.value,
+                                denier_weftKomponenGeneral.value,
+                                warpKomponenGeneral.value,
+                                weftKomponenGeneral.value
+                            );
+                            if (
+                                !isNaN(parseFloat(denierKomponenGeneral.value))
+                            ) {
+                                denierKomponenGeneral.value = parseFloat(
+                                    denierKomponenGeneral.value
+                                ).toFixed(2);
+                            }
+                            denier_warpKomponenGeneral.readOnly = false;
+                        }
+                    }
+                    function hitungBerat() {
+                        let TBerat, ReInb, TBeratWA, TBeratWE;
+                        let XDenier;
+                        let XTemp;
+                        let XGram;
+                        console.log(Kode_Komponen);
+
+                        if (
+                            ["01BB", "02BS", "24PA", "27FP", "32KG"].includes(
+                                Kode_Komponen.substring(0, 4)
+                            )
+                        ) {
+                            XDenier =
+                                parseFloat(warpKomponenGeneral.value) *
+                                    parseInt(denier_warpKomponenGeneral.value) +
+                                parseFloat(weftKomponenGeneral.value) *
+                                    parseInt(denier_weftKomponenGeneral.value);
+                            TBerat =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    XDenier *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (2.54 * 900000);
+                            TBeratWA =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    (parseFloat(warpKomponenGeneral.value) *
+                                        parseInt(
+                                            denier_warpKomponenGeneral.value
+                                        )) *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (2.54 * 900000);
+                            TBeratWE =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    (parseFloat(weftKomponenGeneral.value) *
+                                        parseInt(
+                                            denier_weftKomponenGeneral.value
+                                        )) *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (2.54 * 900000);
+
+                            switch (
+                                Kode_Komponen.substring(
+                                    Kode_Komponen.length - 2,
+                                    Kode_Komponen.length - 1
+                                )
+                            ) {
+                                case "T":
+                                    ReInb =
+                                        (parseFloat(TKreinf) *
+                                            parseFloat(
+                                                panjangKomponenGeneral.value
+                                            ) *
+                                            parseFloat(
+                                                warpKomponenGeneral.value
+                                            ) *
+                                            parseInt(
+                                                denier_warpKomponenGeneral.value
+                                            ) *
+                                            parseFloat(TKjmlreinf) *
+                                            parseFloat(
+                                                quantityKomponenGeneral.value
+                                            )) /
+                                        (2.54 * 900000);
+                                    TBerat = TBerat * 2 + ReInb;
+                                    TBeratWA = TBeratWA * 2 + ReInb;
+                                    TBeratWE = TBeratWE * 2;
+                                    break;
+                                case "U":
+                                    ReInb =
+                                        (parseFloat(TKreinf) *
+                                            parseFloat(
+                                                panjangKomponenGeneral.value
+                                            ) *
+                                            parseFloat(
+                                                warpKomponenGeneral.value
+                                            ) *
+                                            parseInt(
+                                                denier_warpKomponenGeneral.value
+                                            ) *
+                                            2 *
+                                            parseFloat(
+                                                quantityKomponenGeneral.value
+                                            )) /
+                                        (2.54 * 900000);
+                                    TBerat = TBerat + ReInb;
+                                    TBeratWA = TBeratWA + ReInb;
+                                    TBeratWE = TBeratWE;
+                                    break;
+                                case "4":
+                                    ReInb =
+                                        (parseFloat(TKreinf) *
+                                            parseFloat(
+                                                panjangKomponenGeneral.value
+                                            ) *
+                                            parseFloat(
+                                                warpKomponenGeneral.value
+                                            ) *
+                                            parseInt(
+                                                denier_warpKomponenGeneral.value
+                                            ) *
+                                            2 *
+                                            parseFloat(
+                                                quantityKomponenGeneral.value
+                                            )) /
+                                        (2.54 * 900000);
+                                    TBerat = TBerat + ReInb;
+                                    TBeratWA = TBeratWA + ReInb;
+                                    TBeratWE = TBeratWE;
+                                    break;
+                            }
+                        }
+                        // 03TA dan 04TB
+                        if (
+                            ["03TA", "04TB"].includes(
+                                Kode_Komponen.substring(0, 4)
+                            )
+                        ) {
+                            XDenier =
+                                parseFloat(warpKomponenGeneral.value) *
+                                    parseInt(denier_warpKomponenGeneral.value) +
+                                parseFloat(weftKomponenGeneral.value) *
+                                    parseInt(denier_weftKomponenGeneral.value);
+                            TBerat =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    XDenier *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                            TBeratWA =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    (parseFloat(warpKomponenGeneral.value) *
+                                        parseInt(
+                                            denier_warpKomponenGeneral.value
+                                        )) *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                            TBeratWE =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    (parseFloat(weftKomponenGeneral.value) *
+                                        parseInt(
+                                            denier_weftKomponenGeneral.value
+                                        )) *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                        }
+
+                        // 10RC
+                        if (Kode_Komponen.substring(0, 4) === "10RC") {
+                            XDenier =
+                                parseFloat(warpKomponenGeneral.value) *
+                                    parseInt(denier_warpKomponenGeneral.value) +
+                                parseFloat(weftKomponenGeneral.value) *
+                                    parseInt(denier_weftKomponenGeneral.value);
+                            TBerat =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    XDenier *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                            TBeratWA =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    (parseFloat(warpKomponenGeneral.value) *
+                                        parseInt(
+                                            denier_warpKomponenGeneral.value
+                                        )) *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                            TBeratWE =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    (parseFloat(weftKomponenGeneral.value) *
+                                        parseInt(
+                                            denier_weftKomponenGeneral.value
+                                        )) *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                        }
+
+                        // 14TR, 17CR, 17CV
+                        if (
+                            ["14TR", "17CR", "17CV"].includes(
+                                Kode_Komponen.substring(0, 4)
+                            )
+                        ) {
+                            XDenier =
+                                parseFloat(warpKomponenGeneral.value) *
+                                    parseInt(denier_warpKomponenGeneral.value) +
+                                parseFloat(weftKomponenGeneral.value) *
+                                    parseInt(denier_weftKomponenGeneral.value);
+                            TBerat =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    XDenier *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                            TBeratWA =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    (parseFloat(warpKomponenGeneral.value) *
+                                        parseInt(
+                                            denier_warpKomponenGeneral.value
+                                        )) *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                            TBeratWE =
+                                (parseFloat(panjangKomponenGeneral.value) *
+                                    parseFloat(lebarKomponenGeneral.value) *
+                                    (parseFloat(weftKomponenGeneral.value) *
+                                        parseInt(
+                                            denier_weftKomponenGeneral.value
+                                        )) *
+                                    parseFloat(quantityKomponenGeneral.value)) /
+                                (1143000 * 2);
+                            XTemp =
+                                parseFloat(panjangKomponenGeneral.value) *
+                                parseFloat(lebarKomponenGeneral.value);
+                            ReInb = XTemp * 0.004 * 0.92;
+                            TBerat = TBerat + ReInb;
+                            TBeratWA = TBeratWA + ReInb;
+                            TBeratWE = TBeratWE;
+                        }
+                        let XDes = (Math.round(TBerat * 10) / 10).toString();
+                        let XWa = (Math.round(TBeratWA * 10) / 10).toString();
+                        let XWe = (Math.round(TBeratWE * 10) / 10).toString();
+
+                        let BeratWA, BeratWE;
+
+                        if (parseInt(XDes.slice(-1)) === 0) {
+                            beratKomponenGeneral.value = TBerat.toFixed(2);
+                        } else {
+                            if (parseInt(XDes.slice(-1)) > 5) {
+                                beratKomponenGeneral.value =
+                                    Math.round(TBerat).toFixed(2);
+                            } else {
+                                if (parseInt(XDes.slice(-1)) === 5) {
+                                    TBerat = Math.ceil(TBerat * 10) / 10;
+                                    beratKomponenGeneral.value =
+                                        TBerat.toFixed(2);
+                                } else {
+                                    TBerat = Math.round(TBerat) + 1;
+                                    beratKomponenGeneral.value =
+                                        TBerat.toFixed(2);
+                                }
+                            }
+                        }
+
+                        if (parseInt(XWa.slice(-1)) === 0) {
+                            berat_warpKomponenGeneral.value =
+                                TBeratWA.toFixed(2);
+                        } else {
+                            if (parseInt(XWa.slice(-1)) > 5) {
+                                berat_warpKomponenGeneral.value =
+                                    Math.round(TBeratWA).toFixed(2);
+                            } else {
+                                if (parseInt(XWa.slice(-1)) === 5) {
+                                    TBeratWA = Math.ceil(TBeratWA * 10) / 10;
+                                    berat_warpKomponenGeneral.value =
+                                        TBeratWA.toFixed(2);
+                                } else {
+                                    BeratWA = TBeratWA;
+                                    berat_warpKomponenGeneral.value = (
+                                        Math.round(TBeratWA) + 1
+                                    ).toFixed(2);
+                                }
+                            }
+                        }
+
+                        if (parseInt(XWe.slice(-1)) === 0) {
+                            berat_weftKomponenGeneral.value =
+                                TBeratWE.toFixed(2);
+                        } else {
+                            if (parseInt(XWe.slice(-1)) > 5) {
+                                berat_weftKomponenGeneral.value =
+                                    Math.round(TBeratWE).toFixed(2);
+                            } else {
+                                if (parseInt(XWe.slice(-1)) === 5) {
+                                    TBeratWE = Math.ceil(TBeratWE * 10) / 10;
+                                    berat_weftKomponenGeneral.value =
+                                        TBeratWE.toFixed(2);
+                                } else {
+                                    BeratWE = TBeratWE;
+                                    berat_weftKomponenGeneral.value = (
+                                        Math.round(TBeratWE) + 1
+                                    ).toFixed(2);
+                                }
+                            }
+                        }
+
+                        let Total =
+                            parseFloat(berat_warpKomponenGeneral.value) +
+                            parseFloat(berat_weftKomponenGeneral.value);
+                        if (Total !== parseFloat(beratKomponenGeneral.value)) {
+                            if (BeratWA > 0) {
+                                berat_warpKomponenGeneral.value -= 1;
+                            } else {
+                                berat_weftKomponenGeneral.value -= 1;
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Circular") {
+                    //Javascript khusus untuk Form Komponen Circular FormKomponenCircular.js
                 } else if (typeForm == "Form Komponen Square") {
                 } else if (typeForm == "Form Komponen Rope") {
                 } else if (typeForm == "Form Komponen Belt") {
@@ -2529,15 +3032,226 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                 } else if (typeForm == "Form Komponen Katun") {
                 } else if (typeForm == "Form Komponen Kertas") {
                 } else if (typeForm == "Form Komponen Kain") {
-                } else if (typeForm == "Form Komponen Benang") {
+                } else if (typeForm == "Form Komponen Benang Katun") {
                 } else if (typeForm == "Form Komponen Karet") {
                 } else if (typeForm == "Form Komponen Carbon") {
                 }
+
+                inputElements.forEach(function (id) {
+                    let element = document.getElementById(id);
+
+                    element.addEventListener("keypress", function (e) {
+                        if (e.key == "Enter") {
+                            e.preventDefault(); // Prevent the default action of the Enter key
+
+                            if (this.value == "") {
+                                this.value = 0;
+                            }
+
+                            var value = parseFloat(this.value);
+                            if (!isNaN(value)) {
+                                this.value = parseFloat(value).toFixed(2);
+                            }
+
+                            // Find the next input element that is not readonly or disabled
+                            let nextElement = getNextFocusableElement(this);
+                            if (nextElement) {
+                                nextElement.focus();
+                            }
+                        }
+                    });
+                });
+
+                function getNextFocusableElement(currentElement) {
+                    let elements = document.querySelectorAll(
+                        "input, select, textarea"
+                    );
+                    let currentIndex = Array.prototype.indexOf.call(
+                        elements,
+                        currentElement
+                    );
+
+                    for (let i = currentIndex + 1; i < elements.length; i++) {
+                        if (!elements[i].readOnly && !elements[i].disabled) {
+                            return elements[i];
+                        }
+                    }
+                    return null;
+                }
+            });
+        },
+        preConfirm: () => {
+            return new Promise((resolve) => {
+                // Perform some async operation, e.g., form validation
+                setTimeout(() => {
+                    // Re-enable the confirm button
+                    resolve();
+                }, 2000); // simulate a delay of 2 seconds
             });
         },
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log(result.value);
+            if (typeForm == "Form Komponen General") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenGeneral.value,
+                            Lebar: lebarKomponenGeneral.value,
+                            WA: warpKomponenGeneral.value,
+                            WE: weftKomponenGeneral.value,
+                            Denier: denierKomponenGeneral.value,
+                            Quantity: quantityKomponenGeneral.value,
+                            Berat: beratKomponenGeneral.value,
+                            BeratWA: berat_warpKomponenGeneral.value,
+                            BeratWE: berat_weftKomponenGeneral.value,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: denier_warpKomponenGeneral.value,
+                            DenierWE: denier_weftKomponenGeneral.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(nama_barang.value, customer.value);
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
+                //     Try
+                //     If komponen = 1 Then
+                //         tutupkoneksiJBB()
+                //         bukaKoneksiJBB()
+                //         Dim sqlCmd As New SqlCommand
+                //         With sqlCmd
+                //             .CommandText = "SP_1273_JBB_INS_RINCIAN_TH"
+                //             .CommandType = CommandType.StoredProcedure
+                //             .Parameters.Add(New SqlParameter("@KodeBarang", SqlDbType.VarChar)).Value = kdBrg
+                //             .Parameters.Add(New SqlParameter("@KodeKomponen", SqlDbType.VarChar)).Value = txtIdKomponen.Text
+                //             .Parameters.Add(New SqlParameter("@StandartKomponen", SqlDbType.VarChar)).Value = Microsoft.VisualBasic.Left(txtIdKomponen.Text, 4) + "00"
+                //             .Parameters.Add(New SqlParameter("@Panjang", SqlDbType.Decimal)).Value = txtPanjang.Text
+                //             .Parameters.Add(New SqlParameter("@Lebar", SqlDbType.Decimal)).Value = txtLebar.Text
+                //             .Parameters.Add(New SqlParameter("@WA", SqlDbType.Decimal)).Value = txtWarp.Text
+                //             .Parameters.Add(New SqlParameter("@WE", SqlDbType.Decimal)).Value = txtWeft.Text
+                //             .Parameters.Add(New SqlParameter("@Denier", SqlDbType.Decimal)).Value = txtDenier.Text
+                //             .Parameters.Add(New SqlParameter("@Quantity", SqlDbType.Decimal)).Value = txtQuantity.Text
+                //             .Parameters.Add(New SqlParameter("@Berat", SqlDbType.Decimal)).Value = txtBerat.Text
+                //             .Parameters.Add(New SqlParameter("@BeratWA", SqlDbType.Decimal)).Value = txtBeratWA.Text
+                //             .Parameters.Add(New SqlParameter("@BeratWE", SqlDbType.Decimal)).Value = txtBeratWE.Text
+                //             .Parameters.Add(New SqlParameter("@Harga", SqlDbType.Decimal)).Value = 0
+                //             .Parameters.Add(New SqlParameter("@SubTotal", SqlDbType.Decimal)).Value = 0
+                //             .Parameters.Add(New SqlParameter("@DenierWA", SqlDbType.Decimal)).Value = txtDenierWarp.Text
+                //             .Parameters.Add(New SqlParameter("@DenierWE", SqlDbType.Decimal)).Value = txtDenierWeft.Text
+                //             .Connection = JBBConn
+                //             .ExecuteNonQuery()
+                //         End With
+                //         sqlCmd.Dispose()
+                //         tutupkoneksiJBB()
+                //         MsgBox("komponen sudah disimpan")
+                //     ElseIf komponen = 2 Then
+                //         tutupkoneksiJBB()
+                //         bukaKoneksiJBB()
+                //         Dim sqlCmd As New SqlCommand
+                //         With sqlCmd
+                //             .CommandText = "SP_1273_JBB_UDT_RINCIANTH"
+                //             .CommandType = CommandType.StoredProcedure
+                //             .Parameters.Add(New SqlParameter("@KodeBarang", SqlDbType.VarChar)).Value = kdBrg
+                //             .Parameters.Add(New SqlParameter("@KodeKomponen", SqlDbType.VarChar)).Value = txtIdKomponen.Text
+                //             .Parameters.Add(New SqlParameter("@StandartKomponen", SqlDbType.VarChar)).Value = Microsoft.VisualBasic.Left(txtIdKomponen.Text, 4) + "00"
+                //             .Parameters.Add(New SqlParameter("@Panjang", SqlDbType.Decimal)).Value = txtPanjang.Text
+                //             .Parameters.Add(New SqlParameter("@Lebar", SqlDbType.Decimal)).Value = txtLebar.Text
+                //             .Parameters.Add(New SqlParameter("@WA", SqlDbType.Decimal)).Value = txtWarp.Text
+                //             .Parameters.Add(New SqlParameter("@WE", SqlDbType.Decimal)).Value = txtWeft.Text
+                //             .Parameters.Add(New SqlParameter("@Denier", SqlDbType.Decimal)).Value = txtDenier.Text
+                //             .Parameters.Add(New SqlParameter("@Quantity", SqlDbType.Decimal)).Value = txtQuantity.Text
+                //             .Parameters.Add(New SqlParameter("@Berat", SqlDbType.Decimal)).Value = txtBerat.Text
+                //             .Parameters.Add(New SqlParameter("@BeratWA", SqlDbType.Decimal)).Value = txtBeratWA.Text
+                //             .Parameters.Add(New SqlParameter("@BeratWE", SqlDbType.Decimal)).Value = txtBeratWE.Text
+                //             .Parameters.Add(New SqlParameter("@Harga", SqlDbType.Decimal)).Value = txtHarga.Text
+                //             .Parameters.Add(New SqlParameter("@SubTotal", SqlDbType.Decimal)).Value = txtSubtotal.Text
+                //             .Parameters.Add(New SqlParameter("@Kounter", SqlDbType.Int)).Value = txtkounter.Text
+                //             .Parameters.Add(New SqlParameter("@DenierWA", SqlDbType.Decimal)).Value = txtDenierWarp.Text
+                //             .Parameters.Add(New SqlParameter("@DenierWE", SqlDbType.Decimal)).Value = txtDenierWeft.Text
+                //             .Parameters.Add(New SqlParameter("@UserUpdate", SqlDbType.VarChar)).Value = User_id
+                //             .Connection = JBBConn
+                //             .ExecuteNonQuery()
+                //         End With
+                //         sqlCmd.Dispose()
+                //         tutupkoneksiJBB()
+                //         MsgBox("komponen sudah disimpan")
+                //     ElseIf komponen = 3 Then
+                //         tutupkoneksiJBB()
+                //         bukaKoneksiJBB()
+                //         Dim sqlCmd As New SqlCommand
+                //         With sqlCmd
+                //             .CommandText = "SP_1273_JBB_DLT_RINCIANTH"
+                //             .CommandType = CommandType.StoredProcedure
+                //             .Parameters.Add(New SqlParameter("@KodeBarang", SqlDbType.VarChar)).Value = kdBrg
+                //             .Parameters.Add(New SqlParameter("@KodeKomponen", SqlDbType.VarChar)).Value = txtIdKomponen.Text
+                //             .Parameters.Add(New SqlParameter("@Kounter", SqlDbType.Int)).Value = txtkounter.Text
+                //             .Connection = JBBConn
+                //             .ExecuteNonQuery()
+                //         End With
+                //         sqlCmd.Dispose()
+                //         tutupkoneksiJBB()
+                //         bukaKoneksiJBB()
+                //         sqlCmd = New SqlCommand
+                //         With sqlCmd
+                //             .CommandText = "SP_1273_JBB_UDT_LOGIN_KDBRG"
+                //             .CommandType = CommandType.StoredProcedure
+                //             .Parameters.Add(New SqlParameter("@KodeBarang", SqlDbType.VarChar)).Value = kdBrg
+                //             .Parameters.Add(New SqlParameter("@Tgl_Update", SqlDbType.DateTime)).Value = Format(Now.Date, "M/d/yyyy")
+                //             .Parameters.Add(New SqlParameter("@User_Login", SqlDbType.VarChar)).Value = User_id
+                //             .Connection = JBBConn
+                //             .ExecuteNonQuery()
+                //         End With
+                //         sqlCmd.Dispose()
+                //         tutupkoneksiJBB()
+                //         MsgBox("komponen sudah dihapus")
+                //     End If
+                //     Me.DialogResult = DialogResult.OK
+                //     Catch ex As Exception
+                //         MsgBox(ex.Message)
+                //     End Try
+            } else if (typeForm == "Form Komponen Circular") {
+            } else if (typeForm == "Form Komponen Square") {
+            } else if (typeForm == "Form Komponen Rope") {
+            } else if (typeForm == "Form Komponen Belt") {
+            } else if (typeForm == "Form Komponen Selang") {
+            } else if (typeForm == "Form Block") {
+            } else if (typeForm == "Form Komponen Lami") {
+            } else if (typeForm == "Form Komponen Inner") {
+            } else if (typeForm == "Form Komponen Pocket") {
+            } else if (typeForm == "Form Komponen Eva") {
+            } else if (typeForm == "Form Komponen Benang") {
+            } else if (typeForm == "Form Komponen Ongkos") {
+            } else if (typeForm == "Form Komponen Dust") {
+            } else if (typeForm == "Form Komponen Katun") {
+            } else if (typeForm == "Form Komponen Kertas") {
+            } else if (typeForm == "Form Komponen Kain") {
+            } else if (typeForm == "Form Komponen Benang") {
+            } else if (typeForm == "Form Komponen Karet") {
+            } else if (typeForm == "Form Komponen Carbon") {
+            }
         }
     });
 }
@@ -3935,29 +4649,29 @@ tambah_komponen.addEventListener("click", function (event) {
                 },
                 didOpen: () => {
                     $(document).ready(function () {
-                        TKreinf = reinforced_lebar.value;
-                        TKkdBrg = nama_barang.value;
-                        TKjmlreinf = reinforced_jumlah.value;
-                        TKidmodelBB = id_body_model.value;
-                        TKidModelCA = id_cerobongAtas_model.value;
-                        TKbentukCA = cerobongAtas_bentuk.value;
-                        TKidModelCB = id_cerobongBawah_model.value;
-                        TKbentukCB = cerobongBawah_bentuk.value;
-                        TKompGeneralKomponen = 1;
-                        TKpanjangCA = cerobongAtas_panjang.value;
-                        TKlebarCA = cerobongAtas_lebar.value;
-                        TKtinggiCA = cerobongAtas_tinggi.value;
-                        TKpanjangCB = cerobongBawah_panjang.value;
-                        TKlebarCB = cerobongAtas_lebar.value;
-                        TKtinggiCB = cerobongBawah_tinggi.value;
                         TKbentukBB = body_bentuk.value;
-                        TKpanjangBB = body_panjang.value;
-                        TKlebarBB = body_lebar.value;
-                        TKdiameterCB = cerobongBawah_diameter.value;
+                        TKbentukCA = cerobongAtas_bentuk.value;
+                        TKbentukCB = cerobongBawah_bentuk.value;
                         TKdiameterBB = body_diameter.value;
                         TKdiameterCA = cerobongAtas_diameter.value;
-                        TKtinggiBB = body_tinggi.value;
+                        TKdiameterCB = cerobongBawah_diameter.value;
+                        TKidmodelBB = id_body_model.value;
+                        TKidModelCA = id_cerobongAtas_model.value;
+                        TKidModelCB = id_cerobongBawah_model.value;
+                        TKjmlreinf = reinforced_jumlah.value;
+                        TKkdBrg = nama_barang.value;
+                        TKlebarBB = body_lebar.value;
+                        TKlebarCA = cerobongAtas_lebar.value;
+                        TKlebarCB = cerobongAtas_lebar.value;
+                        TKkomponen = 1;
+                        TKpanjangBB = body_panjang.value;
+                        TKpanjangCA = cerobongAtas_panjang.value;
+                        TKpanjangCB = cerobongBawah_panjang.value;
+                        TKreinf = reinforced_lebar.value;
                         TKtebalInner = reinforced_inner.value;
+                        TKtinggiBB = body_tinggi.value;
+                        TKtinggiCA = cerobongAtas_tinggi.value;
+                        TKtinggiCB = cerobongBawah_tinggi.value;
                         const table = $("#komponenTable").DataTable({
                             responsive: true,
                             processing: true,
