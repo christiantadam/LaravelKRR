@@ -1577,16 +1577,34 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <input id="diameterKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="tinggiKomponenCircular">Tinggi</label>
+                                    <input id="tinggiKomponenCircular" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="panjangKomponenCircular">Panjang</label>
                                     <input id="panjangKomponenCircular" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebarKomponenCircular">Lebar</label>
+                                    <input id="lebarKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="warpKomponenCircular">Warp</label>
                                     <input id="warpKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="weftKomponenCircular">Weft</label>
+                                    <input id="weftKomponenCircular" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="denier_warpKomponenCircular">Denier Warp</label>
                                     <input id="denier_warpKomponenCircular" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier_weftKomponenCircular">Denier Weft</label>
+                                    <input id="denier_weftKomponenCircular" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="denierKomponenCircular">Denier</label>
@@ -1604,40 +1622,13 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <label for="berat_weftKomponenCircular">Berat Weft</label>
                                     <input id="berat_weftKomponenCircular" class="input">
                                 </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="tinggiKomponenCircular">Tinggi</label>
-                                    <input id="tinggiKomponenCircular" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebarKomponenCircular">Lebar</label>
-                                    <input id="lebarKomponenCircular" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="weftKomponenCircular">Weft</label>
-                                    <input id="weftKomponenCircular" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier_weftKomponenCircular">Denier Weft</label>
-                                    <input id="denier_weftKomponenCircular" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenCircular">Kounter</label>
-                                    <input id="kounterKomponenCircular" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="hargaKomponenCircular">Harga</label>
-                                    <input id="hargaKomponenCircular" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="subtotalKomponenCircular">Subtotal</label>
-                                    <input id="subtotalKomponenCircular" class="input">
-                                </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="beratKomponenCircular">Berat</label>
                                     <input id="beratKomponenCircular" class="input">
                                 </div>
+                                    <input type="hidden" id="kounterKomponenCircular" class="input">
+                                    <input type="hidden" id="hargaKomponenCircular" class="input">
+                                    <input type="hidden" id="subtotalKomponenCircular" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -2617,6 +2608,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             denier_weftKomponenGeneral.value
                                         ).toFixed(2);
                                 }
+                                denier_warpKomponenGeneral.readOnly = false;
                                 hitungDenier();
                             }
                         }
@@ -2693,14 +2685,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             denier_weftKomponenGeneral.value
                                         )) /
                                 (parseFloat(warpKomponenGeneral.value) +
-                                    parseFloat(weftKomponenGeneral.value));
-                            console.log(
-                                denierKomponenGeneral.value,
-                                denier_warpKomponenGeneral.value,
-                                denier_weftKomponenGeneral.value,
-                                warpKomponenGeneral.value,
-                                weftKomponenGeneral.value
-                            );
+                                    parseFloat(weftKomponenGeneral.value));;
                             if (
                                 !isNaN(parseFloat(denierKomponenGeneral.value))
                             ) {
@@ -2708,7 +2693,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     denierKomponenGeneral.value
                                 ).toFixed(2);
                             }
-                            denier_warpKomponenGeneral.readOnly = false;
                         }
                     }
                     function hitungBerat() {
@@ -3016,16 +3000,538 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         }
                     }
                 } else if (typeForm == "Form Komponen Circular") {
+                    //O-ATX-002-KR01 ATEX INDONESIA, PT
                     //Javascript khusus untuk Form Komponen Circular FormKomponenCircular.js
+                    let diameterKomponenCircular = document.getElementById(
+                        "diameterKomponenCircular"
+                    );
+                    let tinggiKomponenCircular = document.getElementById(
+                        "tinggiKomponenCircular"
+                    );
+                    let panjangKomponenCircular = document.getElementById(
+                        "panjangKomponenCircular"
+                    );
+                    let lebarKomponenCircular = document.getElementById(
+                        "lebarKomponenCircular"
+                    );
+                    let warpKomponenCircular = document.getElementById(
+                        "warpKomponenCircular"
+                    );
+                    let weftKomponenCircular = document.getElementById(
+                        "weftKomponenCircular"
+                    );
+                    let denier_warpKomponenCircular = document.getElementById(
+                        "denier_warpKomponenCircular"
+                    );
+                    let denier_weftKomponenCircular = document.getElementById(
+                        "denier_weftKomponenCircular"
+                    );
+                    let denierKomponenCircular = document.getElementById(
+                        "denierKomponenCircular"
+                    );
+                    let quantityKomponenCircular = document.getElementById(
+                        "quantityKomponenCircular"
+                    );
+                    let berat_warpKomponenCircular = document.getElementById(
+                        "berat_warpKomponenCircular"
+                    );
+                    let berat_weftKomponenCircular = document.getElementById(
+                        "berat_weftKomponenCircular"
+                    );
+                    let beratKomponenCircular = document.getElementById(
+                        "beratKomponenCircular"
+                    );
+                    let kounterKomponenCircular = document.getElementById(
+                        "kounterKomponenCircular"
+                    );
+                    let hargaKomponenCircular = document.getElementById(
+                        "hargaKomponenCircular"
+                    );
+                    let subtotalKomponenCircular = document.getElementById(
+                        "subtotalKomponenCircular"
+                    );
+                    warpKomponenCircular.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (
+                                    this.value == 11 ||
+                                    this.value == 12 ||
+                                    this.value == 13
+                                ) {
+                                    denier_warpKomponenCircular.value = 2000;
+                                } else if (
+                                    this.value == 14 ||
+                                    this.value == 15 ||
+                                    this.value == 22.5
+                                ) {
+                                    denier_warpKomponenCircular.value = 1500;
+                                } else if (this.value == 10) {
+                                    denier_warpKomponenCircular.value = 900;
+                                } else if (this.value == 8) {
+                                    denier_warpKomponenCircular.value = 800;
+                                } else {
+                                    denier_warpKomponenCircular.value = 0;
+                                }
+
+                                if (
+                                    !isNaN(
+                                        parseFloat(
+                                            denier_warpKomponenCircular.value
+                                        )
+                                    )
+                                ) {
+                                    parseFloat(
+                                        denier_warpKomponenCircular.value
+                                    ).toFixed(2);
+                                }
+                                hitungDenier();
+                            }
+                        }
+                    );
+                    weftKomponenCircular.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (
+                                    this.value == 11 ||
+                                    this.value == 12 ||
+                                    this.value == 13 ||
+                                    this.value == 14 ||
+                                    this.value == 15 ||
+                                    this.value == 16
+                                ) {
+                                    denier_weftKomponenCircular.value = 1500;
+                                } else if (
+                                    this.value == 10 &&
+                                    warpKomponenCircular.value == 10
+                                ) {
+                                    denier_weftKomponenCircular.value = 900;
+                                } else if (this.value == 8) {
+                                    denier_weftKomponenCircular.value = 800;
+                                } else {
+                                    denier_weftKomponenCircular.value = 0;
+                                }
+
+                                if (
+                                    !isNaN(
+                                        parseFloat(
+                                            denier_weftKomponenCircular.value
+                                        )
+                                    )
+                                ) {
+                                    denier_weftKomponenCircular.value =
+                                        parseFloat(
+                                            denier_weftKomponenCircular.value
+                                        ).toFixed(2);
+                                }
+                                denier_warpKomponenCircular.readOnly = false;
+                                hitungDenier();
+                            }
+                        }
+                    );
+                    denier_warpKomponenCircular.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Deniernya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    denier_weftKomponenCircular.readOnly = false;
+                                    denier_weftKomponenCircular.focus();
+                                    hitungDenier();
+                                }
+                            }
+                        }
+                    );
+                    denier_weftKomponenCircular.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Deniernya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungDenier();
+                                }
+                            }
+                        }
+                    );
+                    quantityKomponenCircular.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Deniernya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+                    function hitungDenier() {
+                        if (
+                            denier_warpKomponenCircular.value != "" &&
+                            denier_weftKomponenCircular.value != ""
+                        ) {
+                            denierKomponenCircular.value =
+                                (parseFloat(warpKomponenCircular.value) *
+                                    parseFloat(
+                                        denier_warpKomponenCircular.value
+                                    ) +
+                                    parseFloat(weftKomponenCircular.value) *
+                                        parseFloat(
+                                            denier_weftKomponenCircular.value
+                                        )) /
+                                (parseFloat(warpKomponenCircular.value) +
+                                    parseFloat(weftKomponenCircular.value));;
+                            if (
+                                !isNaN(parseFloat(denierKomponenCircular.value))
+                            ) {
+                                denierKomponenCircular.value = parseFloat(
+                                    denierKomponenCircular.value
+                                ).toFixed(2);
+                            }
+                        }
+                    }
+                    function hitungBerat() {
+                        let TBerat, ReInb, TBeratWA, TBeratWE;
+                        let XDenier;
+                        let XTemp;
+                        let XGram;
+
+                        if (
+                            ["01BB", "02BS", "24PA", "27FP", "32KG"].includes(
+                                Kode_Komponen.substring(0, 4)
+                            )
+                        ) {
+                            XDenier =
+                                parseFloat(warpKomponenCircular.value) *
+                                    parseInt(denier_warpKomponenCircular.value) +
+                                parseFloat(weftKomponenCircular.value) *
+                                    parseInt(denier_weftKomponenCircular.value);
+                            TBerat =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    XDenier *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (2.54 * 900000);
+                            TBeratWA =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    (parseFloat(warpKomponenCircular.value) *
+                                        parseInt(
+                                            denier_warpKomponenCircular.value
+                                        )) *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (2.54 * 900000);
+                            TBeratWE =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    (parseFloat(weftKomponenCircular.value) *
+                                        parseInt(
+                                            denier_weftKomponenCircular.value
+                                        )) *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (2.54 * 900000);
+
+                            switch (
+                                Kode_Komponen.substring(
+                                    Kode_Komponen.length - 2,
+                                    Kode_Komponen.length - 1
+                                )
+                            ) {
+                                case "T":
+                                    ReInb =
+                                        (parseFloat(TKreinf) *
+                                            parseFloat(
+                                                panjangKomponenCircular.value
+                                            ) *
+                                            parseFloat(
+                                                warpKomponenCircular.value
+                                            ) *
+                                            parseInt(
+                                                denier_warpKomponenCircular.value
+                                            ) *
+                                            parseFloat(TKjmlreinf) *
+                                            parseFloat(
+                                                quantityKomponenCircular.value
+                                            )) /
+                                        (2.54 * 900000);
+                                    TBerat = TBerat * 2 + ReInb;
+                                    TBeratWA = TBeratWA * 2 + ReInb;
+                                    TBeratWE = TBeratWE * 2;
+                                    break;
+                                case "U":
+                                    ReInb =
+                                        (parseFloat(TKreinf) *
+                                            parseFloat(
+                                                panjangKomponenCircular.value
+                                            ) *
+                                            parseFloat(
+                                                warpKomponenCircular.value
+                                            ) *
+                                            parseInt(
+                                                denier_warpKomponenCircular.value
+                                            ) *
+                                            2 *
+                                            parseFloat(
+                                                quantityKomponenCircular.value
+                                            )) /
+                                        (2.54 * 900000);
+                                    TBerat = TBerat + ReInb;
+                                    TBeratWA = TBeratWA + ReInb;
+                                    TBeratWE = TBeratWE;
+                                    break;
+                                case "4":
+                                    ReInb =
+                                        (parseFloat(TKreinf) *
+                                            parseFloat(
+                                                panjangKomponenCircular.value
+                                            ) *
+                                            parseFloat(
+                                                warpKomponenCircular.value
+                                            ) *
+                                            parseInt(
+                                                denier_warpKomponenCircular.value
+                                            ) *
+                                            2 *
+                                            parseFloat(
+                                                quantityKomponenCircular.value
+                                            )) /
+                                        (2.54 * 900000);
+                                    TBerat = TBerat + ReInb;
+                                    TBeratWA = TBeratWA + ReInb;
+                                    TBeratWE = TBeratWE;
+                                    break;
+                            }
+                        }
+                        // 03TA dan 04TB
+                        if (
+                            ["03TA", "04TB"].includes(
+                                Kode_Komponen.substring(0, 4)
+                            )
+                        ) {
+                            XDenier =
+                                parseFloat(warpKomponenCircular.value) *
+                                    parseInt(denier_warpKomponenCircular.value) +
+                                parseFloat(weftKomponenCircular.value) *
+                                    parseInt(denier_weftKomponenCircular.value);
+                            TBerat =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    XDenier *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                            TBeratWA =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    (parseFloat(warpKomponenCircular.value) *
+                                        parseInt(
+                                            denier_warpKomponenCircular.value
+                                        )) *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                            TBeratWE =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    (parseFloat(weftKomponenCircular.value) *
+                                        parseInt(
+                                            denier_weftKomponenCircular.value
+                                        )) *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                        }
+
+                        // 10RC
+                        if (Kode_Komponen.substring(0, 4) === "10RC") {
+                            XDenier =
+                                parseFloat(warpKomponenCircular.value) *
+                                    parseInt(denier_warpKomponenCircular.value) +
+                                parseFloat(weftKomponenCircular.value) *
+                                    parseInt(denier_weftKomponenCircular.value);
+                            TBerat =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    XDenier *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                            TBeratWA =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    (parseFloat(warpKomponenCircular.value) *
+                                        parseInt(
+                                            denier_warpKomponenCircular.value
+                                        )) *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                            TBeratWE =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    (parseFloat(weftKomponenCircular.value) *
+                                        parseInt(
+                                            denier_weftKomponenCircular.value
+                                        )) *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                        }
+
+                        // 14TR, 17CR, 17CV
+                        if (
+                            ["14TR", "17CR", "17CV"].includes(
+                                Kode_Komponen.substring(0, 4)
+                            )
+                        ) {
+                            XDenier =
+                                parseFloat(warpKomponenCircular.value) *
+                                    parseInt(denier_warpKomponenCircular.value) +
+                                parseFloat(weftKomponenCircular.value) *
+                                    parseInt(denier_weftKomponenCircular.value);
+                            TBerat =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    XDenier *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                            TBeratWA =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    (parseFloat(warpKomponenCircular.value) *
+                                        parseInt(
+                                            denier_warpKomponenCircular.value
+                                        )) *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                            TBeratWE =
+                                (parseFloat(panjangKomponenCircular.value) *
+                                    parseFloat(lebarKomponenCircular.value) *
+                                    (parseFloat(weftKomponenCircular.value) *
+                                        parseInt(
+                                            denier_weftKomponenCircular.value
+                                        )) *
+                                    parseFloat(quantityKomponenCircular.value)) /
+                                (1143000 * 2);
+                            XTemp =
+                                parseFloat(panjangKomponenCircular.value) *
+                                parseFloat(lebarKomponenCircular.value);
+                            ReInb = XTemp * 0.004 * 0.92;
+                            TBerat = TBerat + ReInb;
+                            TBeratWA = TBeratWA + ReInb;
+                            TBeratWE = TBeratWE;
+                        }
+                        let XDes = (Math.round(TBerat * 10) / 10).toString();
+                        let XWa = (Math.round(TBeratWA * 10) / 10).toString();
+                        let XWe = (Math.round(TBeratWE * 10) / 10).toString();
+
+                        let BeratWA, BeratWE;
+
+                        if (parseInt(XDes.slice(-1)) === 0) {
+                            beratKomponenCircular.value = TBerat.toFixed(2);
+                        } else {
+                            if (parseInt(XDes.slice(-1)) > 5) {
+                                beratKomponenCircular.value =
+                                    Math.round(TBerat).toFixed(2);
+                            } else {
+                                if (parseInt(XDes.slice(-1)) === 5) {
+                                    TBerat = Math.ceil(TBerat * 10) / 10;
+                                    beratKomponenCircular.value =
+                                        TBerat.toFixed(2);
+                                } else {
+                                    TBerat = Math.round(TBerat) + 1;
+                                    beratKomponenCircular.value =
+                                        TBerat.toFixed(2);
+                                }
+                            }
+                        }
+
+                        if (parseInt(XWa.slice(-1)) === 0) {
+                            berat_warpKomponenCircular.value =
+                                TBeratWA.toFixed(2);
+                        } else {
+                            if (parseInt(XWa.slice(-1)) > 5) {
+                                berat_warpKomponenCircular.value =
+                                    Math.round(TBeratWA).toFixed(2);
+                            } else {
+                                if (parseInt(XWa.slice(-1)) === 5) {
+                                    TBeratWA = Math.ceil(TBeratWA * 10) / 10;
+                                    berat_warpKomponenCircular.value =
+                                        TBeratWA.toFixed(2);
+                                } else {
+                                    BeratWA = TBeratWA;
+                                    berat_warpKomponenCircular.value = (
+                                        Math.round(TBeratWA) + 1
+                                    ).toFixed(2);
+                                }
+                            }
+                        }
+
+                        if (parseInt(XWe.slice(-1)) === 0) {
+                            berat_weftKomponenCircular.value =
+                                TBeratWE.toFixed(2);
+                        } else {
+                            if (parseInt(XWe.slice(-1)) > 5) {
+                                berat_weftKomponenCircular.value =
+                                    Math.round(TBeratWE).toFixed(2);
+                            } else {
+                                if (parseInt(XWe.slice(-1)) === 5) {
+                                    TBeratWE = Math.ceil(TBeratWE * 10) / 10;
+                                    berat_weftKomponenCircular.value =
+                                        TBeratWE.toFixed(2);
+                                } else {
+                                    BeratWE = TBeratWE;
+                                    berat_weftKomponenCircular.value = (
+                                        Math.round(TBeratWE) + 1
+                                    ).toFixed(2);
+                                }
+                            }
+                        }
+
+                        let Total =
+                            parseFloat(berat_warpKomponenCircular.value) +
+                            parseFloat(berat_weftKomponenCircular.value);
+                        if (Total !== parseFloat(beratKomponenCircular.value)) {
+                            if (BeratWA > 0) {
+                                berat_warpKomponenCircular.value -= 1;
+                            } else {
+                                berat_weftKomponenCircular.value -= 1;
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Square") {
+                    //Javascript khusus untuk Form Komponen Square FormKomponenSquare.js
                 } else if (typeForm == "Form Komponen Rope") {
+                    //Javascript khusus untuk Form Komponen Rope FormKomponenRope.js
                 } else if (typeForm == "Form Komponen Belt") {
+                    //Javascript khusus untuk Form Komponen Belt FormKomponenBelt.js
                 } else if (typeForm == "Form Komponen Selang") {
+                    //Javascript khusus untuk Form Komponen Selang FormKomponenSelang.js
                 } else if (typeForm == "Form Block") {
+                    //Javascript khusus untuk Form Block FormBlock.js
                 } else if (typeForm == "Form Komponen Lami") {
+                    //Javascript khusus untuk Form Komponen Lami FormKomponenLami.js
                 } else if (typeForm == "Form Komponen Inner") {
+                    //Javascript khusus untuk Form Komponen Inner FormKomponenInner.js
                 } else if (typeForm == "Form Komponen Pocket") {
+                    //Javascript khusus untuk Form Komponen Pocket FormKomponenPocket.js
                 } else if (typeForm == "Form Komponen Eva") {
+                    //Javascript khusus untuk Form Komponen Eva FormKomponenEva.js
                 } else if (typeForm == "Form Komponen Benang") {
                 } else if (typeForm == "Form Komponen Ongkos") {
                 } else if (typeForm == "Form Komponen Dust") {
@@ -3125,7 +3631,10 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     title: "Pemberitahuan",
                                     text: "Komponen baru sudah disimpan !",
                                 }).then((result) => {
-                                    loadDataKoreksi(nama_barang.value, customer.value);
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
                                 });
                             }
                             console.log(response);
@@ -3137,102 +3646,55 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                 } else if (TKkomponen == 2) {
                 } else if (TKkomponen == 3) {
                 }
-                //     Try
-                //     If komponen = 1 Then
-                //         tutupkoneksiJBB()
-                //         bukaKoneksiJBB()
-                //         Dim sqlCmd As New SqlCommand
-                //         With sqlCmd
-                //             .CommandText = "SP_1273_JBB_INS_RINCIAN_TH"
-                //             .CommandType = CommandType.StoredProcedure
-                //             .Parameters.Add(New SqlParameter("@KodeBarang", SqlDbType.VarChar)).Value = kdBrg
-                //             .Parameters.Add(New SqlParameter("@KodeKomponen", SqlDbType.VarChar)).Value = txtIdKomponen.Text
-                //             .Parameters.Add(New SqlParameter("@StandartKomponen", SqlDbType.VarChar)).Value = Microsoft.VisualBasic.Left(txtIdKomponen.Text, 4) + "00"
-                //             .Parameters.Add(New SqlParameter("@Panjang", SqlDbType.Decimal)).Value = txtPanjang.Text
-                //             .Parameters.Add(New SqlParameter("@Lebar", SqlDbType.Decimal)).Value = txtLebar.Text
-                //             .Parameters.Add(New SqlParameter("@WA", SqlDbType.Decimal)).Value = txtWarp.Text
-                //             .Parameters.Add(New SqlParameter("@WE", SqlDbType.Decimal)).Value = txtWeft.Text
-                //             .Parameters.Add(New SqlParameter("@Denier", SqlDbType.Decimal)).Value = txtDenier.Text
-                //             .Parameters.Add(New SqlParameter("@Quantity", SqlDbType.Decimal)).Value = txtQuantity.Text
-                //             .Parameters.Add(New SqlParameter("@Berat", SqlDbType.Decimal)).Value = txtBerat.Text
-                //             .Parameters.Add(New SqlParameter("@BeratWA", SqlDbType.Decimal)).Value = txtBeratWA.Text
-                //             .Parameters.Add(New SqlParameter("@BeratWE", SqlDbType.Decimal)).Value = txtBeratWE.Text
-                //             .Parameters.Add(New SqlParameter("@Harga", SqlDbType.Decimal)).Value = 0
-                //             .Parameters.Add(New SqlParameter("@SubTotal", SqlDbType.Decimal)).Value = 0
-                //             .Parameters.Add(New SqlParameter("@DenierWA", SqlDbType.Decimal)).Value = txtDenierWarp.Text
-                //             .Parameters.Add(New SqlParameter("@DenierWE", SqlDbType.Decimal)).Value = txtDenierWeft.Text
-                //             .Connection = JBBConn
-                //             .ExecuteNonQuery()
-                //         End With
-                //         sqlCmd.Dispose()
-                //         tutupkoneksiJBB()
-                //         MsgBox("komponen sudah disimpan")
-                //     ElseIf komponen = 2 Then
-                //         tutupkoneksiJBB()
-                //         bukaKoneksiJBB()
-                //         Dim sqlCmd As New SqlCommand
-                //         With sqlCmd
-                //             .CommandText = "SP_1273_JBB_UDT_RINCIANTH"
-                //             .CommandType = CommandType.StoredProcedure
-                //             .Parameters.Add(New SqlParameter("@KodeBarang", SqlDbType.VarChar)).Value = kdBrg
-                //             .Parameters.Add(New SqlParameter("@KodeKomponen", SqlDbType.VarChar)).Value = txtIdKomponen.Text
-                //             .Parameters.Add(New SqlParameter("@StandartKomponen", SqlDbType.VarChar)).Value = Microsoft.VisualBasic.Left(txtIdKomponen.Text, 4) + "00"
-                //             .Parameters.Add(New SqlParameter("@Panjang", SqlDbType.Decimal)).Value = txtPanjang.Text
-                //             .Parameters.Add(New SqlParameter("@Lebar", SqlDbType.Decimal)).Value = txtLebar.Text
-                //             .Parameters.Add(New SqlParameter("@WA", SqlDbType.Decimal)).Value = txtWarp.Text
-                //             .Parameters.Add(New SqlParameter("@WE", SqlDbType.Decimal)).Value = txtWeft.Text
-                //             .Parameters.Add(New SqlParameter("@Denier", SqlDbType.Decimal)).Value = txtDenier.Text
-                //             .Parameters.Add(New SqlParameter("@Quantity", SqlDbType.Decimal)).Value = txtQuantity.Text
-                //             .Parameters.Add(New SqlParameter("@Berat", SqlDbType.Decimal)).Value = txtBerat.Text
-                //             .Parameters.Add(New SqlParameter("@BeratWA", SqlDbType.Decimal)).Value = txtBeratWA.Text
-                //             .Parameters.Add(New SqlParameter("@BeratWE", SqlDbType.Decimal)).Value = txtBeratWE.Text
-                //             .Parameters.Add(New SqlParameter("@Harga", SqlDbType.Decimal)).Value = txtHarga.Text
-                //             .Parameters.Add(New SqlParameter("@SubTotal", SqlDbType.Decimal)).Value = txtSubtotal.Text
-                //             .Parameters.Add(New SqlParameter("@Kounter", SqlDbType.Int)).Value = txtkounter.Text
-                //             .Parameters.Add(New SqlParameter("@DenierWA", SqlDbType.Decimal)).Value = txtDenierWarp.Text
-                //             .Parameters.Add(New SqlParameter("@DenierWE", SqlDbType.Decimal)).Value = txtDenierWeft.Text
-                //             .Parameters.Add(New SqlParameter("@UserUpdate", SqlDbType.VarChar)).Value = User_id
-                //             .Connection = JBBConn
-                //             .ExecuteNonQuery()
-                //         End With
-                //         sqlCmd.Dispose()
-                //         tutupkoneksiJBB()
-                //         MsgBox("komponen sudah disimpan")
-                //     ElseIf komponen = 3 Then
-                //         tutupkoneksiJBB()
-                //         bukaKoneksiJBB()
-                //         Dim sqlCmd As New SqlCommand
-                //         With sqlCmd
-                //             .CommandText = "SP_1273_JBB_DLT_RINCIANTH"
-                //             .CommandType = CommandType.StoredProcedure
-                //             .Parameters.Add(New SqlParameter("@KodeBarang", SqlDbType.VarChar)).Value = kdBrg
-                //             .Parameters.Add(New SqlParameter("@KodeKomponen", SqlDbType.VarChar)).Value = txtIdKomponen.Text
-                //             .Parameters.Add(New SqlParameter("@Kounter", SqlDbType.Int)).Value = txtkounter.Text
-                //             .Connection = JBBConn
-                //             .ExecuteNonQuery()
-                //         End With
-                //         sqlCmd.Dispose()
-                //         tutupkoneksiJBB()
-                //         bukaKoneksiJBB()
-                //         sqlCmd = New SqlCommand
-                //         With sqlCmd
-                //             .CommandText = "SP_1273_JBB_UDT_LOGIN_KDBRG"
-                //             .CommandType = CommandType.StoredProcedure
-                //             .Parameters.Add(New SqlParameter("@KodeBarang", SqlDbType.VarChar)).Value = kdBrg
-                //             .Parameters.Add(New SqlParameter("@Tgl_Update", SqlDbType.DateTime)).Value = Format(Now.Date, "M/d/yyyy")
-                //             .Parameters.Add(New SqlParameter("@User_Login", SqlDbType.VarChar)).Value = User_id
-                //             .Connection = JBBConn
-                //             .ExecuteNonQuery()
-                //         End With
-                //         sqlCmd.Dispose()
-                //         tutupkoneksiJBB()
-                //         MsgBox("komponen sudah dihapus")
-                //     End If
-                //     Me.DialogResult = DialogResult.OK
-                //     Catch ex As Exception
-                //         MsgBox(ex.Message)
-                //     End Try
             } else if (typeForm == "Form Komponen Circular") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenGeneral.value,
+                            Lebar: lebarKomponenGeneral.value,
+                            WA: warpKomponenGeneral.value,
+                            WE: weftKomponenGeneral.value,
+                            Denier: denierKomponenGeneral.value,
+                            Quantity: quantityKomponenGeneral.value,
+                            Berat: beratKomponenGeneral.value,
+                            BeratWA: berat_warpKomponenGeneral.value,
+                            BeratWE: berat_weftKomponenGeneral.value,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: denier_warpKomponenGeneral.value,
+                            DenierWE: denier_weftKomponenGeneral.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Square") {
             } else if (typeForm == "Form Komponen Rope") {
             } else if (typeForm == "Form Komponen Belt") {
