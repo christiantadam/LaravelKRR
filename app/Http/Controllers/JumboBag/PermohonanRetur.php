@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use DB;
 use App\Http\Controllers\HakAksesController;
 use Exception;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Auth;
 
-class PermohonanaRetur extends Controller
+class PermohonanRetur extends Controller
 {
     public function index()
     {
@@ -62,82 +63,88 @@ class PermohonanaRetur extends Controller
     public function store(Request $request)
     {
         $proses = $request->input('proses');
-        dd($proses);
+        // dd($proses);
         switch ($proses) {
             case 1:
+                $noSP = $request->input('no_suratpesanan');
+                $kodeBarang = $request->input('kodeBarangAsal');
                 $tanggal = now()->format('Y-m-d');
                 $waktu_delivery = \Carbon\Carbon::parse($request->input('time_deliv'))->format('Y-m-d');
-                // dd($tanggal, $waktu_delivery);
+                $retur = $request->input('jumlah_retur');
+                $referensi = $request->input('no_referensi');
+                // dd($request->all(), $tanggal, $waktu_delivery);
                 DB::connection('ConnJumboBag')->beginTransaction();
                 try {
-                    DB::connection('ConnJumboBag')->insert('exec SP_5409_JBB_INS_RETUR ?, ?, ?, ?, ?, ?', [
-                        $request->input('txtNoSP'),
-                        $request->input('txtKdBrg'),
+                    DB::connection('ConnJumboBag')->insert('exec SP_5409_JBB_INS_RETUR @No_SuratPesanan = ?, @KodeBarang = ?,@Tanggal = ?,@Waktu_Delivery = ?,@Jumlah_Retur = ?,@noref = ?', [
+                        $noSP,
+                        $kodeBarang,
                         $tanggal,
                         $waktu_delivery,
-                        $request->input('txtJmlRetur'),
-                        $request->input('txtNoRef'),
+                        $retur,
+                        $referensi,
                     ]);
+                    // dd($request->all());
                     DB::connection('ConnJumboBag')->commit();
-                    // Menghitung kelebihan stok (misalnya sederhana, sesuaikan dengan logika bisnis yang sesuai)
-                    return redirect()->back()->with(['success' => 'Data tersimpan']);
+                    return response()->json(['success' => 'Data tersimpan']);
                 } catch (Exception $e) {
                     DB::connection('ConnJumboBag')->rollback();
-                    return redirect()->back()->with(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
+                    return response()->json(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
                 }
                 break;
 
             case 2:
                 $tanggal = now()->format('Y-m-d');
-                $waktu_delivery = \Carbon\Carbon::parse($request->input('dtDelivery'))->format('Y-m-d');
+                $waktu_delivery = \Carbon\Carbon::parse($request->input('time_deliv'))->format('Y-m-d');
 
                 DB::connection('ConnJumboBag')->beginTransaction();
                 try {
                     DB::connection('ConnJumboBag')->insert('exec SP_5409_JBB_UDT_RETUR ?, ?, ?, ?, ?, ?', [
-                        $request->input('txtNoSP'),
-                        $request->input('txtKdBrg'),
+                        $request->input('no_suratpesanan'),
+                        $request->input('kodeBarangAsal'),
                         $tanggal,
                         $waktu_delivery,
-                        $request->input('txtJmlRetur'),
-                        $request->input('txtNoRef'),
+                        $request->input('jumlah_retur'),
+                        $request->input('no_referensi'),
                     ]);
                     DB::connection('ConnJumboBag')->commit();
-                    return redirect()->back()->with(['success' => 'Data berhasil dikoreksi!!...']);
+                    return response()->json(['success' => 'Data berhasil dikoreksi']);
                 } catch (Exception $e) {
                     DB::connection('ConnJumboBag')->rollback();
-                    return redirect()->back()->with(['error' => 'Gagal melakukan koreksi data: ' . $e->getMessage()]);
+                    return response()->json(['error' => 'Gagal melakukan koreksi data: ' . $e->getMessage()]);
                 }
                 break;
 
             case 3:
                 $tanggal = now()->format('Y-m-d');
-                $waktu_delivery = \Carbon\Carbon::parse($request->input('dtDelivery'))->format('Y-m-d');
-
+                $waktu_delivery = \Carbon\Carbon::parse($request->input('time_deliv'))->format('Y-m-d');
+                // dd($tanggal, $waktu_delivery);
                 $jumlah = 0;
                 $dr = DB::connection('ConnJumboBag')->select('exec SP_5409_JBB_SLC_RETUR ?, ?, ?', [
-                    $request->input('txtNoSP'),
-                    $request->input('txtKdBrg'),
+                    $request->input('no_suratpesanan'),
+                    $request->input('kodeBarangAsal'),
                     $waktu_delivery,
                 ]);
+                // dd($dr);
                 foreach ($dr as $row) {
-                    $jumlah = $row->Jumlah_Retur;
+                    $jumlah = $row->Jumlah_Produksi;
                 }
+                // dd($jumlah);
 
                 if ($jumlah > 0) {
-                    return redirect()->back()->with(['error' => 'Data tidak dapat dihapus karena sudah ada hasil produksi']);
+                    return response()->json(['error' => 'Data tidak dapat dihapus karena sudah ada hasil produksi']);
                 } else {
                     DB::connection('ConnJumboBag')->beginTransaction();
                     try {
                         DB::connection('ConnJumboBag')->insert('exec SP_5409_JBB_DLT_RETUR ?, ?, ?', [
-                            $request->input('txtNoSP'),
-                            $request->input('txtKdBrg'),
+                            $request->input('no_suratpesanan'),
+                            $request->input('kodeBarangAsal'),
                             $waktu_delivery,
                         ]);
                         DB::connection('ConnJumboBag')->commit();
-                        return redirect()->back()->with(['success' => 'Data dihapus!!...']);
+                        response()->json(['success' => 'Data berhasil dihapus']);
                     } catch (Exception $e) {
                         DB::connection('ConnJumboBag')->rollback();
-                        return redirect()->back()->with(['error' => 'Gagal menghapus data: ' . $e->getMessage()]);
+                        return response()->json(['error' => 'Gagal menghapus data: ' . $e->getMessage()]);
                     }
                 }
                 break;

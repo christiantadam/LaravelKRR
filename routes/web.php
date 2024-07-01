@@ -994,7 +994,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('CopyKodeBarang', App\Http\Controllers\JumboBag\CopyKodeBarang::class);
     Route::resource('MaintenanceTabelOrder', App\Http\Controllers\JumboBag\MaintenanceTabelOrder::class);
     Route::resource('CopyTabelOrder', App\Http\Controllers\JumboBag\CopyTabelOrder::class);
-    Route::resource('PermohonanRetur', App\Http\Controllers\JumboBag\PermohonanaRetur::class);
+    Route::resource('PermohonanRetur', App\Http\Controllers\JumboBag\PermohonanRetur::class);
     Route::resource('ReturPengganti', App\Http\Controllers\JumboBag\ReturPengganti::class);
     Route::resource('OrderPotong', App\Http\Controllers\JumboBag\OrderPotong::class);
     Route::resource('OrderJahit', App\Http\Controllers\JumboBag\OrderJahit::class);

@@ -129,13 +129,68 @@ document.addEventListener("DOMContentLoaded", function () {
         proses = 0;
         aktif_tombol(tmb);
         cleardata();
-        formEnabler(true);
     });
+
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
+        if (no_suratpesanan.value.trim() === "") {
+            Swal.fire({
+                icon: "warning",
+                title: "Warning!",
+                text: "Isi data terlebih dahulu",
+                showConfirmButton: true,
+            });
+            return; // Prevent the form submission
+        }
+        $.ajax({
+            url: "/PermohonanRetur",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                proses: proses,
+                time_deliv: time_deliv.value,
+                no_suratpesanan: no_suratpesanan.value,
+                kodeBarangAsal: kodeBarangAsal.value,
+                jumlah_retur: jumlah_retur.value,
+                no_referensi: no_referensi.value,
+            },
+            success: function (data) {
+                console.log(data);
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: data.success,
+                    showConfirmButton: false,
+                });
+                // sisa.value = data.data[0].Buffer.trim();
+            },
+            error: function (xhr, status, error) {
+                // Menampilkan pesan kesalahan
+                let errorMessage = "Terjadi kesalahan saat memproses data.";
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMessage = xhr.responseJSON.error;
+                } else if (xhr.responseText) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        errorMessage = response.error || errorMessage;
+                    } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                    }
+                }
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: error,
+                    showConfirmButton: false,
+                });
+            },
+        });
+        tmb = 1;
         aktif_tombol(tmb);
         cleardata();
     });
+
 
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -379,7 +434,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             success: function (data) {
                                 console.log(data.data[0]);
                                 jumlah_retur.value = data.data[0].jumlah_retur.trim();
-                                no_referensi.value = data.data[0].referensi.trim();
+                                no_referensi.value = data.data[0].referensi;
                                 jumlah_retur.focus();
                             },
                             error: function (xhr, status, error) {
@@ -404,7 +459,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             success: function (data) {
                                 console.log(data.data[0]);
                                 jumlah_retur.value = data.data[0].jumlah_retur.trim();
-                                no_referensi.value = data.data[0].referensi.trim();
+                                no_referensi.value = data.data[0].referensi;
                                 jumlah_retur.focus();
                             },
                             error: function (xhr, status, error) {

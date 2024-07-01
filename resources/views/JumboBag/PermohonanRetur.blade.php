@@ -52,25 +52,21 @@
                             <div class="form-group">
                                 <label for="timeDelivery">Time Delivery</label>
                                 <div class="input-group">
-                                    <input type="date" class="form-control" id="time_deliv" name="time_deliv"
-                                        required>
+                                    <input type="date" class="form-control" id="time_deliv" name="time_deliv" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="jumlah_order">Jumlah order</label>
-                                <input type="text" class="form-control" id="jumlah_order" name="jumlah_order"
-                                    required>
+                                <input type="text" class="form-control" id="jumlah_order" name="jumlah_order" required>
                             </div>
                             <hr>
                             <div class="form-group">
                                 <label for="jumlah_retur">Jumlah Retur</label>
-                                <input type="text" class="form-control" id="jumlah_retur" name="jumlah_retur"
-                                    required>
+                                <input type="text" class="form-control" id="jumlah_retur" name="jumlah_retur" required>
                             </div>
                             <div class="form-group">
                                 <label for="no_referensi">No Referensi</label>
-                                <input type="text" class="form-control" id="no_referensi" name="no_referensi"
-                                    required>
+                                <input type="text" class="form-control" id="no_referensi" name="no_referensi" required>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <div>
