@@ -4,36 +4,72 @@ document.addEventListener("DOMContentLoaded", function () {
         .getAttribute("content");
     let btn_customer = document.getElementById("button_customer");
     let btn_kodebarang = document.getElementById("button_kodebarang");
+    let btn_nopesanan = document.getElementById("button_nopesanan");
+    let btn_customers = document.getElementById("button_customers");
+    let btn_kodebarang2 = document.getElementById("button_kodebarang2");
     let btn_pesanan = document.getElementById("button_pesanan");
     let id_customer = document.getElementById("id_customer");
     let customer = document.getElementById("customer");
+    // let tanggal = document.getElementById("tanggal");
     let kodeBarangAsal = document.getElementById("kodeBarangAsal");
-    let tanggal = document.getElementById("tanggal");
-    let no_suratpesanan = document.getElementById("no_suratpesanan");
+    let no_pesanan = document.getElementById("no_pesanan");
     let time_deliv = document.getElementById("time_deliv");
     let jumlah_order = document.getElementById("jumlah_order");
-    let jumlah_retur = document.getElementById("jumlah_retur");
-    let no_referensi = document.getElementById("no_referensi");
+    let tanggal_dikerjakan = document.getElementById("tanggal_dikerjakan");
+    let tanggal_selesai = document.getElementById("tanggal_selesai");
+    let alasan = document.getElementById("alasan");
+    let id_customers = document.getElementById("id_customers");
+    let customers = document.getElementById("customers");
+    let kodebarangs = document.getElementById("kodebarangs");
+    let kodeBarangs = document.getElementById("kodeBarangs");
+    let idsuratpesanan = document.getElementById("idsuratpesanan");
+    let idpesanan = document.getElementById("idpesanan");
+    let jenis_barang = document.getElementById("jenis_barang");
+    let tanggal_j = document.getElementById("tanggal_j");
+    let qty_sp = document.getElementById("qty_sp");
+    let qty_sisa = document.getElementById("qty_sisa");
+    let qty_produksi = document.getElementById("qty_produksi");
+    let rencana = document.getElementById("rencana");
     let btn_isi = document.getElementById("btn_isi");
     let btn_koreksi = document.getElementById("btn_koreksi");
     let btn_hapus = document.getElementById("btn_hapus");
+    let btn_stop_order = document.getElementById("btn_stop_order");
     let btn_proses = document.getElementById("btn_proses");
     let btn_batal = document.getElementById("btn_batal");
     let tmb = 1;
     let proses;
 
     time_deliv.valueAsDate = new Date();
+    tanggal_dikerjakan.valueAsDate = new Date();
+    tanggal_selesai.valueAsDate = new Date();
+    tanggal_j.valueAsDate = new Date();
     aktif_tombol(tmb);
     btn_isi.focus();
     id_customer.readOnly = true;
     customer.readOnly = true;
     kodeBarangAsal.readOnly = true;
-    tanggal.readOnly = true;
-    no_suratpesanan.readOnly = true;
+    // tanggal.readOnly = true;
     time_deliv.readOnly = true;
+    btn_nopesanan.readOnly = true;
+    btn_customers.readOnly = true;
+    btn_kodebarang2.readOnly = true;
+    no_pesanan.readOnly = true;
     jumlah_order.readOnly = true;
-    jumlah_retur.readOnly = true;
-    no_referensi.readOnly = true;
+    tanggal_dikerjakan.readOnly = true;
+    tanggal_selesai.readOnly = true;
+    alasan.readOnly = true;
+    id_customers.readOnly = true;
+    customers.readOnly = true;
+    kodebarangs.readOnly = true;
+    kodeBarangs.readOnly = true;
+    idsuratpesanan.readOnly = true;
+    idpesanan.readOnly = true;
+    jenis_barang.readOnly = true;
+    tanggal_j.readOnly = false;
+    qty_sp.readOnly = false;
+    qty_sisa.readOnly = false;
+    qty_produksi.readOnly = false;
+    rencana.readOnly = true;
 
     if (successMessage) {
         Swal.fire({
@@ -58,9 +94,13 @@ document.addEventListener("DOMContentLoaded", function () {
             btn_isi.disabled = false;
             btn_koreksi.disabled = false;
             btn_hapus.disabled = false;
+            btn_stop_order.disabled = false;
             btn_proses.disabled = true;
             btn_batal.disabled = true;
             btn_customer.disabled = true;
+            btn_nopesanan.disabled = true;
+            btn_customers.disabled = true;
+            btn_kodebarang2.disabled = true;
             btn_kodebarang.disabled = true;
             btn_pesanan.disabled = true;
             btn_isi.focus();
@@ -68,9 +108,13 @@ document.addEventListener("DOMContentLoaded", function () {
             btn_isi.disabled = true;
             btn_koreksi.disabled = true;
             btn_hapus.disabled = true;
+            btn_stop_order.disabled = true;
             btn_proses.disabled = false;
             btn_batal.disabled = false;
             btn_customer.disabled = false;
+            btn_nopesanan.disabled = false;
+            btn_customers.disabled = false;
+            btn_kodebarang2.disabled = false;
             btn_kodebarang.disabled = false;
             btn_pesanan.disabled = false;
             btn_customer.focus();
@@ -79,23 +123,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function cleardata() {
         time_deliv.valueAsDate = new Date();
-        customer.value = "";
-        customer.readOnly = true;
+        tanggal_dikerjakan.valueAsDate = new Date();
+        tanggal_selesai.valueAsDate = new Date();
+        tanggal_j.valueAsDate = new Date();
         id_customer.value = "";
         id_customer.readOnly = true;
+        customer.value = "";
+        customer.readOnly = true;
+        // tanggal.value = "";
+        // tanggal.readOnly = true;
         kodeBarangAsal.value = "";
         kodeBarangAsal.readOnly = true;
-        tanggal.value = "";
-        tanggal.readOnly = true;
-        no_suratpesanan.value = "";
-        no_suratpesanan.readOnly = true;
+        no_pesanan.value = "";
+        no_pesanan.readOnly = true;
+        // time_deliv.value = "";
         time_deliv.readOnly = true;
         jumlah_order.value = "";
         jumlah_order.readOnly = true;
-        jumlah_retur.value = "";
-        jumlah_retur.readOnly = true;
-        no_referensi.value = "";
-        no_referensi.readOnly = true;
+        // tanggal_dikerjakan.value = "";
+        tanggal_dikerjakan.readOnly = true;
+        // tanggal_selesai.value = "";
+        tanggal_selesai.readOnly = true;
+        alasan.value = "";
+        alasan.readOnly = true;
+        id_customers.value = "";
+        id_customers.readOnly = true;
+        customers.value = "";
+        customers.readOnly = true;
+        kodebarangs.value = "";
+        kodebarangs.readOnly = true;
+        kodeBarangs.value = "";
+        kodeBarangs.readOnly = true;
+        idsuratpesanan.value = "";
+        idsuratpesanan.readOnly = true;
+        idpesanan.value = "";
+        idpesanan.readOnly = true;
+        jenis_barang.value = "";
+        jenis_barang.readOnly = true;
+        // tanggal_j.value = "";
+        tanggal_j.readOnly = false;
+        qty_sp.value = "";
+        qty_sp.readOnly = false;
+        qty_sisa.value = "";
+        qty_sisa.readOnly = false;
+        qty_produksi.value = "";
+        qty_produksi.readOnly = false;
+        rencana.value = "";
+        rencana.readOnly = true;
     }
 
     //#region Event Listener
@@ -119,6 +193,14 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         tmb = 2;
         proses = 3;
+        aktif_tombol(tmb);
+        cleardata();
+    });
+
+    btn_stop_order.addEventListener("click", function (event) {
+        event.preventDefault();
+        tmb = 2;
+        proses = 4;
         aktif_tombol(tmb);
         cleardata();
     });
@@ -200,7 +282,6 @@ document.addEventListener("DOMContentLoaded", function () {
         cleardata();
     });
 
-
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
         try {
@@ -227,11 +308,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "PermohonanRetur/getListCustomer",
+                                url: "MaintenanceTabelOrder/getListCustomer",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
                                     _token: csrfToken,
+
                                 },
                             },
                             columns: [
@@ -294,12 +376,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "PermohonanRetur/create",
+                                url: "MaintenanceTabelOrder/create",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
                                     _token: csrfToken,
                                     kodeCustomer: id_customer.value,
+                                    proses: proses,
                                 },
                             },
                             columns: [
@@ -317,18 +400,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     kodeBarangAsal.value = selectedRow.Kode_Barang.trim();
-                    tanggal.value = selectedRow.tanggal.trim();
 
-                    // Mengisi kodeBarangDirubah dengan 6 karakter pertama dari kodeBarangAsal
-                    // if (kodeBarangAsal.value !== "") {
-                    //     kodeBarangDirubah.value =
-                    //         kodeBarangAsal.value.substring(0, 6);
-                    // }
-
-                    // if (id_customer.value !== "") {
-                    //     id_customers.value = id_customer.value;
-                    //     customers.value = customer.value;
-                    // }
+                    if (proses === 1) {
+                        console.log(proses);
+                        btn_nopesanan.disabled = true;
+                        btn_customers.focus();
+                    }
                 }
             });
         } catch (error) {
@@ -336,7 +413,214 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    btn_customers.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                html: '<table id="customersTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#customersTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#customersTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "MaintenanceTabelOrder/getCustomerDetails",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NamaCust",
+                                },
+                                {
+                                    data: "KodeCust",
+                                },
+                            ],
+                        });
+                        $("#customersTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    customers.value = selectedRow.NamaCust.trim();
+                    id_customers.value = selectedRow.KodeCust.trim();
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_kodebarang2.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                html: '<table id="barang2Table" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#barang2Table")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#barang2Table").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "MaintenanceTabelOrder/getBarangDetails",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    id_customers: id_customers.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NamaType",
+                                },
+                                {
+                                    data: "IdBarang",
+                                },
+                            ],
+                        });
+                        $("#barang2Table tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    kodeBarangs.value = selectedRow.NamaType.trim();
+                    kodebarangs.value = selectedRow.IdBarang.trim().replace(/\D/g, '');
+                    jenis_barang.value = selectedRow.IdBarang.trim().replace(/[^a-zA-Z]/g, '');
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
     btn_pesanan.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                html: '<table id="pesananTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#pesananTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#pesananTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "MaintenanceTabelOrder/getSuratPesananDetails",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    kodebarangs: kodebarangs.value,
+                                    jenis_barang: jenis_barang.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NamaType",
+                                },
+                                {
+                                    data: "IdBarang",
+                                },
+                            ],
+                        });
+                        $("#pesananTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    kodeBarangs.value = selectedRow.NamaType.trim();
+                    kodebarangs.value = selectedRow.IdBarang.trim().slice(0, -3);
+                    jenis_barang.value = selectedRow.IdBarang.trim().slice(-3);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_nopesanan.addEventListener("click", async function (event) {
         event.preventDefault();
         try {
             const result = await Swal.fire({
@@ -362,7 +646,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "PermohonanRetur/getNoSP",
+                                url: "MaintenanceTabelOrder/getPesanan",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -373,10 +657,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             },
                             columns: [
                                 {
-                                    data: "NoSP",
+                                    data: "No_SuratPesanan",
                                 },
                                 {
-                                    data: "Delivery",
+                                    data: "Waktu_Delivery",
                                     render: function (data) {
                                         if (data) {
                                             return data.substring(0, 10);
@@ -402,24 +686,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
-                    no_suratpesanan.value = selectedRow.NoSP.trim();
-                    time_deliv.value = selectedRow.Delivery.trim();
+                    no_pesanan.value = selectedRow.No_SuratPesanan.trim();
+                    // time_deliv.value = selectedRow.Delivery.trim();
 
                     if (proses === 1) {
-                        jumlah_retur.readOnly = false;
+                        btn_nopesanan.readOnly = true;
                         $.ajax({
-                            url: "PermohonanRetur/processNoSP",
+                            url: "MaintenanceTabelOrder/getJumlahOrder",
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                No_SuratPesanan: selectedRow.NoSP.trim(),
+                                No_SuratPesanan: selectedRow.No_SuratPesanan.trim(),
                                 kodeBarangAsal: kodeBarangAsal.value,
                                 proses: proses,
                             },
                             success: function (data) {
                                 console.log(data.data[0]);
-                                jumlah_order.value = data.data[0].jumlah_order.trim();
-                                jumlah_retur.focus();
+                                // jumlah_order.value =
+                                //     data.data[0].jumlah_order.trim();
+                                btn_customers.focus();
                             },
                             error: function (xhr, status, error) {
                                 var err = eval("(" + xhr.responseText + ")");
@@ -429,20 +714,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     if (proses === 2) {
-                        jumlah_retur.readOnly = false;
                         $.ajax({
-                            url: "PermohonanRetur/processNoSP",
+                            url: "MaintenanceTabelOrder/getJumlahOrder",
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                No_SuratPesanan: selectedRow.NoSP.trim(),
+                                No_SuratPesanan: selectedRow.No_SuratPesanan.trim(),
                                 Waktu_Delivery: selectedRow.Delivery.trim(),
                                 kodeBarangAsal: kodeBarangAsal.value,
                                 proses: proses,
                             },
                             success: function (data) {
                                 console.log(data.data[0]);
-                                jumlah_retur.value = data.data[0].jumlah_retur.trim();
+                                jumlah_retur.value =
+                                    data.data[0].jumlah_retur.trim();
                                 no_referensi.value = data.data[0].referensi;
                                 jumlah_retur.focus();
                             },
@@ -460,14 +745,15 @@ document.addEventListener("DOMContentLoaded", function () {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                No_SuratPesanan: selectedRow.NoSP.trim(),
+                                No_SuratPesanan: selectedRow.No_SuratPesanan.trim(),
                                 Waktu_Delivery: selectedRow.Delivery.trim(),
                                 kodeBarangAsal: kodeBarangAsal.value,
                                 proses: proses,
                             },
                             success: function (data) {
                                 console.log(data.data[0]);
-                                jumlah_retur.value = data.data[0].jumlah_retur.trim();
+                                jumlah_retur.value =
+                                    data.data[0].jumlah_retur.trim();
                                 no_referensi.value = data.data[0].referensi;
                                 jumlah_retur.focus();
                             },

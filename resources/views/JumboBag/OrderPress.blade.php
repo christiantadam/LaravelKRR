@@ -1,5 +1,5 @@
 @extends('layouts.appJumboBag')
-@section('title', 'Order Jahit')
+@section('title', 'Order Press')
 
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/cetakPress.css') }}" rel="stylesheet">
@@ -24,7 +24,7 @@
             @endif
             <div class="col-md-10 RDZMobilePaddingLR0">
                 <div class="card">
-                    <div class="card-header">Order Jahit</div>
+                    <div class="card-header">Order Press</div>
                     <div class="card-body">
                         <form id="ReturPenggantiForm" action="{{ route('OrderJahit.store') }}" method="POST">
                             @csrf
