@@ -736,8 +736,28 @@ class TabelHitunganJumboBag extends Controller
 
     public function show($id)
     {
-        dd('Masuk Show');
-
+        if ($id == 'getDiameterKomponenRope') {
+            try {
+                $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_LEBARROPE');
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } else if ($id == 'getLebarKomponenBelt') {
+            try {
+                $data = DB::connection('ConnJumboBag')->select('exec SP_5409_JBB_LIST_LEBARBELT');
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } else if ($id == 'getLebarKomponenPita') {
+            try {
+                $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_LEBARPITA');
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        }
     }
 
     public function edit($id)

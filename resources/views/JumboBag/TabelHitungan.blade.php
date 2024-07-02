@@ -436,8 +436,9 @@
                                 </div>
                             </div>
                             <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                <label for="quantity">Quantity</label>
-                                <input id="quantity" class="input">
+                                <select class="input" id="x" disabled>
+                                    <option selected disabled>-- Pilih Diameter --</option>
+                                </select>
                             </div>
                             <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                 <label for="kounter">Kounter</label>

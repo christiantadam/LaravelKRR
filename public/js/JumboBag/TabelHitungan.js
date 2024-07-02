@@ -113,6 +113,7 @@ let TKdiameterBB;
 let TKdiameterCA;
 let TKtinggiBB;
 let TKtebalInner;
+let TKStatusBelt = false;
 //#region Load Form
 
 btn_isi.focus();
@@ -1573,14 +1574,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="diameterKomponenCircular">Diameter</label>
-                                    <input id="diameterKomponenCircular" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="tinggiKomponenCircular">Tinggi</label>
-                                    <input id="tinggiKomponenCircular" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="panjangKomponenCircular">Panjang</label>
                                     <input id="panjangKomponenCircular" class="input">
                                 </div>
@@ -1600,12 +1593,12 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <label for="denier_warpKomponenCircular">Denier Warp</label>
                                     <input id="denier_warpKomponenCircular" class="input">
                                 </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="denier_weftKomponenCircular">Denier Weft</label>
                                     <input id="denier_weftKomponenCircular" class="input">
                                 </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="denierKomponenCircular">Denier</label>
                                     <input id="denierKomponenCircular" class="input">
@@ -1616,11 +1609,11 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="berat_warpKomponenCircular">Berat Warp</label>
-                                    <input id="berat_warpKomponenCircular" class="input">
+                                    <input id="berat_warpKomponenCircular" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="berat_weftKomponenCircular">Berat Weft</label>
-                                    <input id="berat_weftKomponenCircular" class="input">
+                                    <input id="berat_weftKomponenCircular" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="beratKomponenCircular">Berat</label>
@@ -1642,18 +1635,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             <label for="nama_komponen">Nama Komponen</label>
                             <input id="nama_komponen" class="input" readonly>
                         </div>
-                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="panjangcaKomponenSquare">Panjang CA</label>
-                            <input id="panjangcaKomponenSquare" class="input">
-                        </div>
-                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="lebarcaKomponenSquare">Lebar CA</label>
-                            <input id="lebarcaKomponenSquare" class="input">
-                        </div>
-                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
-                            <label for="tinggicaKomponenSquare">Tinggi CA</label>
-                            <input id="tinggicaKomponenSquare" class="input">
-                        </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
@@ -1661,12 +1642,26 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <input id="panjangKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebarKomponenSquare">Lebar</label>
+                                    <input id="lebarKomponenSquare" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="warpKomponenSquare">Warp</label>
                                     <input id="warpKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="weftKomponenSquare">Weft</label>
+                                    <input id="weftKomponenSquare" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="denier_warpKomponenSquare">Denier Warp</label>
                                     <input id="denier_warpKomponenSquare" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="denier_weftKomponenSquare">Denier Weft</label>
+                                    <input id="denier_weftKomponenSquare" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="denierKomponenSquare">Denier</label>
@@ -1680,32 +1675,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <label for="beratKomponenSquare">Berat</label>
                                     <input id="beratKomponenSquare" class="input">
                                 </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebarKomponenSquare">Lebar</label>
-                                    <input id="lebarKomponenSquare" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="weftKomponenSquare">Weft</label>
-                                    <input id="weftKomponenSquare" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="denier_weftKomponenSquare">Denier Weft</label>
-                                    <input id="denier_weftKomponenSquare" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenSquare">Kounter</label>
-                                    <input id="kounterKomponenSquare" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="hargaKomponenSquare">Harga</label>
-                                    <input id="hargaKomponenSquare" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="subtotalKomponenSquare">Subtotal</label>
-                                    <input id="subtotalKomponenSquare" class="input">
-                                </div>
+                                <input type="hidden" id="kounterKomponenSquare" class="input">
+                                <input type="hidden" id="hargaKomponenSquare" class="input">
+                                <input type="hidden" id="subtotalKomponenSquare" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -1726,27 +1698,26 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <input id="panjangKomponenRope" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="diameterKomponenRope">Diameter</label>
+                                    <select class="input" id="diameterKomponenRope">
+                                        <option selected disabled>-- Pilih Diameter --</option>
+                                    </select>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="quantityKomponenRope">Quantity</label>
                                     <input id="quantityKomponenRope" class="input">
                                 </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBeratKomponenRope">Total Berat</label>
-                                    <input id="totalBeratKomponenRope" class="input">
-                                </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="diameterKomponenRope">Diameter</label>
-                                    <input id="diameterKomponenRope" class="input">
-                                </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="beratPerMeterKomponenRope">Berat Per Meter</label>
                                     <input id="beratPerMeterKomponenRope" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenRope">Kounter</label>
-                                    <input id="kounterKomponenRope" class="input">
+                                    <label for="totalBeratKomponenRope">Total Berat</label>
+                                    <input id="totalBeratKomponenRope" class="input">
                                 </div>
+                                    <input type="hidden" id="kounterKomponenRope" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -1769,8 +1740,20 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebarKomponenBelt">Lebar</label>
+                                    <select class="input" id="lebarKomponenBelt">
+                                        <option selected disabled>-- Pilih Lebar --</option>
+                                    </select>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="quantityKomponenBelt">Quantity</label>
                                     <input id="quantityKomponenBelt" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratPerMeterKomponenBelt">Berat Per Meter</label>
+                                    <input id="beratPerMeterKomponenBelt" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="totalBeratKomponenBelt">Total Berat</label>
@@ -1780,23 +1763,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <label for="denierKomponenBelt">Denier</label>
                                     <input id="denierKomponenBelt" class="input" readonly>
                                 </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebarKomponenBelt">Lebar</label>
-                                    <div style="width: 100%">
-                                        <input id="lebarKomponenBelt" class="input">
-                                        <button class="btn">. . .</button>
-                                    </div>
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratPerMeterKomponenBelt">Berat Per Meter</label>
-                                    <input id="beratPerMeterKomponenBelt" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenBelt">Kounter</label>
-                                    <input id="kounterKomponenBelt" class="input">
-                                </div>
+                                <input type="hidden" id="kounterKomponenBelt" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -2685,7 +2652,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             denier_weftKomponenGeneral.value
                                         )) /
                                 (parseFloat(warpKomponenGeneral.value) +
-                                    parseFloat(weftKomponenGeneral.value));;
+                                    parseFloat(weftKomponenGeneral.value));
                             if (
                                 !isNaN(parseFloat(denierKomponenGeneral.value))
                             ) {
@@ -3050,6 +3017,22 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     let subtotalKomponenCircular = document.getElementById(
                         "subtotalKomponenCircular"
                     );
+                    var inputElements = [
+                        "panjangKomponenCircular",
+                        "lebarKomponenCircular",
+                        "warpKomponenCircular",
+                        "weftKomponenCircular",
+                        "denier_warpKomponenCircular",
+                        "denier_weftKomponenCircular",
+                        "denierKomponenCircular",
+                        "quantityKomponenCircular",
+                        "berat_warpKomponenCircular",
+                        "berat_weftKomponenCircular",
+                        "beratKomponenCircular",
+                        "kounterKomponenCircular",
+                        "hargaKomponenCircular",
+                        "subtotalKomponenCircular",
+                    ];
                     warpKomponenCircular.addEventListener(
                         "keypress",
                         function (e) {
@@ -3102,13 +3085,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     this.value == 16
                                 ) {
                                     denier_weftKomponenCircular.value = 1500;
-                                } else if (
-                                    this.value == 10 &&
-                                    warpKomponenCircular.value == 10
-                                ) {
+                                } else if (this.value == 10) {
                                     denier_weftKomponenCircular.value = 900;
-                                } else if (this.value == 8) {
-                                    denier_weftKomponenCircular.value = 800;
+                                    denier_warpKomponenCircular.value = 900;
                                 } else {
                                     denier_weftKomponenCircular.value = 0;
                                 }
@@ -3201,7 +3180,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             denier_weftKomponenCircular.value
                                         )) /
                                 (parseFloat(warpKomponenCircular.value) +
-                                    parseFloat(weftKomponenCircular.value));;
+                                    parseFloat(weftKomponenCircular.value));
                             if (
                                 !isNaN(parseFloat(denierKomponenCircular.value))
                             ) {
@@ -3212,314 +3191,735 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         }
                     }
                     function hitungBerat() {
-                        let TBerat, ReInb, TBeratWA, TBeratWE;
+                        let TBerat, TBeratWA, TBeratWE;
                         let XDenier;
-                        let XTemp;
-                        let XGram;
+                        let XDes, XWa, XWe;
 
-                        if (
-                            ["01BB", "02BS", "24PA", "27FP", "32KG"].includes(
-                                Kode_Komponen.substring(0, 4)
-                            )
-                        ) {
-                            XDenier =
-                                parseFloat(warpKomponenCircular.value) *
-                                    parseInt(denier_warpKomponenCircular.value) +
-                                parseFloat(weftKomponenCircular.value) *
-                                    parseInt(denier_weftKomponenCircular.value);
-                            TBerat =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    XDenier *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (2.54 * 900000);
-                            TBeratWA =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    (parseFloat(warpKomponenCircular.value) *
-                                        parseInt(
-                                            denier_warpKomponenCircular.value
-                                        )) *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (2.54 * 900000);
-                            TBeratWE =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    (parseFloat(weftKomponenCircular.value) *
-                                        parseInt(
-                                            denier_weftKomponenCircular.value
-                                        )) *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (2.54 * 900000);
+                        XDenier =
+                            parseFloat(warpKomponenCircular.value) *
+                                parseInt(denier_warpKomponenCircular.value) +
+                            parseFloat(weftKomponenCircular.value) *
+                                parseInt(denier_weftKomponenCircular.value);
+                        TBerat =
+                            (parseFloat(panjangKomponenCircular.value) *
+                                parseFloat(lebarKomponenCircular.value) *
+                                XDenier *
+                                parseFloat(quantityKomponenCircular.value)) /
+                            (2 * 1143000);
+                        TBeratWA =
+                            (parseFloat(panjangKomponenCircular.value) *
+                                parseFloat(lebarKomponenCircular.value) *
+                                (parseFloat(warpKomponenCircular.value) *
+                                    parseInt(
+                                        denier_warpKomponenCircular.value
+                                    )) *
+                                parseFloat(quantityKomponenCircular.value)) /
+                            (2 * 1143000);
+                        TBeratWE =
+                            (parseFloat(panjangKomponenCircular.value) *
+                                parseFloat(lebarKomponenCircular.value) *
+                                (parseFloat(weftKomponenCircular.value) *
+                                    parseInt(
+                                        denier_weftKomponenCircular.value
+                                    )) *
+                                parseFloat(quantityKomponenCircular.value)) /
+                            (2 * 1143000);
 
-                            switch (
-                                Kode_Komponen.substring(
-                                    Kode_Komponen.length - 2,
-                                    Kode_Komponen.length - 1
-                                )
-                            ) {
-                                case "T":
-                                    ReInb =
-                                        (parseFloat(TKreinf) *
-                                            parseFloat(
-                                                panjangKomponenCircular.value
-                                            ) *
-                                            parseFloat(
-                                                warpKomponenCircular.value
-                                            ) *
-                                            parseInt(
-                                                denier_warpKomponenCircular.value
-                                            ) *
-                                            parseFloat(TKjmlreinf) *
-                                            parseFloat(
-                                                quantityKomponenCircular.value
-                                            )) /
-                                        (2.54 * 900000);
-                                    TBerat = TBerat * 2 + ReInb;
-                                    TBeratWA = TBeratWA * 2 + ReInb;
-                                    TBeratWE = TBeratWE * 2;
-                                    break;
-                                case "U":
-                                    ReInb =
-                                        (parseFloat(TKreinf) *
-                                            parseFloat(
-                                                panjangKomponenCircular.value
-                                            ) *
-                                            parseFloat(
-                                                warpKomponenCircular.value
-                                            ) *
-                                            parseInt(
-                                                denier_warpKomponenCircular.value
-                                            ) *
-                                            2 *
-                                            parseFloat(
-                                                quantityKomponenCircular.value
-                                            )) /
-                                        (2.54 * 900000);
-                                    TBerat = TBerat + ReInb;
-                                    TBeratWA = TBeratWA + ReInb;
-                                    TBeratWE = TBeratWE;
-                                    break;
-                                case "4":
-                                    ReInb =
-                                        (parseFloat(TKreinf) *
-                                            parseFloat(
-                                                panjangKomponenCircular.value
-                                            ) *
-                                            parseFloat(
-                                                warpKomponenCircular.value
-                                            ) *
-                                            parseInt(
-                                                denier_warpKomponenCircular.value
-                                            ) *
-                                            2 *
-                                            parseFloat(
-                                                quantityKomponenCircular.value
-                                            )) /
-                                        (2.54 * 900000);
-                                    TBerat = TBerat + ReInb;
-                                    TBeratWA = TBeratWA + ReInb;
-                                    TBeratWE = TBeratWE;
-                                    break;
-                            }
-                        }
-                        // 03TA dan 04TB
-                        if (
-                            ["03TA", "04TB"].includes(
-                                Kode_Komponen.substring(0, 4)
-                            )
-                        ) {
-                            XDenier =
-                                parseFloat(warpKomponenCircular.value) *
-                                    parseInt(denier_warpKomponenCircular.value) +
-                                parseFloat(weftKomponenCircular.value) *
-                                    parseInt(denier_weftKomponenCircular.value);
-                            TBerat =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    XDenier *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                            TBeratWA =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    (parseFloat(warpKomponenCircular.value) *
-                                        parseInt(
-                                            denier_warpKomponenCircular.value
-                                        )) *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                            TBeratWE =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    (parseFloat(weftKomponenCircular.value) *
-                                        parseInt(
-                                            denier_weftKomponenCircular.value
-                                        )) *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                        }
-
-                        // 10RC
-                        if (Kode_Komponen.substring(0, 4) === "10RC") {
-                            XDenier =
-                                parseFloat(warpKomponenCircular.value) *
-                                    parseInt(denier_warpKomponenCircular.value) +
-                                parseFloat(weftKomponenCircular.value) *
-                                    parseInt(denier_weftKomponenCircular.value);
-                            TBerat =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    XDenier *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                            TBeratWA =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    (parseFloat(warpKomponenCircular.value) *
-                                        parseInt(
-                                            denier_warpKomponenCircular.value
-                                        )) *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                            TBeratWE =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    (parseFloat(weftKomponenCircular.value) *
-                                        parseInt(
-                                            denier_weftKomponenCircular.value
-                                        )) *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                        }
-
-                        // 14TR, 17CR, 17CV
-                        if (
-                            ["14TR", "17CR", "17CV"].includes(
-                                Kode_Komponen.substring(0, 4)
-                            )
-                        ) {
-                            XDenier =
-                                parseFloat(warpKomponenCircular.value) *
-                                    parseInt(denier_warpKomponenCircular.value) +
-                                parseFloat(weftKomponenCircular.value) *
-                                    parseInt(denier_weftKomponenCircular.value);
-                            TBerat =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    XDenier *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                            TBeratWA =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    (parseFloat(warpKomponenCircular.value) *
-                                        parseInt(
-                                            denier_warpKomponenCircular.value
-                                        )) *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                            TBeratWE =
-                                (parseFloat(panjangKomponenCircular.value) *
-                                    parseFloat(lebarKomponenCircular.value) *
-                                    (parseFloat(weftKomponenCircular.value) *
-                                        parseInt(
-                                            denier_weftKomponenCircular.value
-                                        )) *
-                                    parseFloat(quantityKomponenCircular.value)) /
-                                (1143000 * 2);
-                            XTemp =
-                                parseFloat(panjangKomponenCircular.value) *
-                                parseFloat(lebarKomponenCircular.value);
-                            ReInb = XTemp * 0.004 * 0.92;
-                            TBerat = TBerat + ReInb;
-                            TBeratWA = TBeratWA + ReInb;
-                            TBeratWE = TBeratWE;
-                        }
-                        let XDes = (Math.round(TBerat * 10) / 10).toString();
-                        let XWa = (Math.round(TBeratWA * 10) / 10).toString();
-                        let XWe = (Math.round(TBeratWE * 10) / 10).toString();
-
-                        let BeratWA, BeratWE;
+                        // Pembulatan
+                        XDes = TBerat.toFixed(1);
+                        XWa = TBeratWA.toFixed(1);
+                        XWe = TBeratWE.toFixed(1);
 
                         if (parseInt(XDes.slice(-1)) === 0) {
-                            beratKomponenCircular.value = TBerat.toFixed(2);
+                            beratKomponenCircular.value = Math.round(TBerat);
+                        } else if (parseInt(XDes.slice(-1)) > 5) {
+                            beratKomponenCircular.value = Math.round(TBerat);
+                        } else if (parseInt(XDes.slice(-1)) === 5) {
+                            TBerat = Math.round(TBerat);
+                            beratKomponenCircular.value = Math.round(TBerat);
                         } else {
-                            if (parseInt(XDes.slice(-1)) > 5) {
-                                beratKomponenCircular.value =
-                                    Math.round(TBerat).toFixed(2);
-                            } else {
-                                if (parseInt(XDes.slice(-1)) === 5) {
-                                    TBerat = Math.ceil(TBerat * 10) / 10;
-                                    beratKomponenCircular.value =
-                                        TBerat.toFixed(2);
-                                } else {
-                                    TBerat = Math.round(TBerat) + 1;
-                                    beratKomponenCircular.value =
-                                        TBerat.toFixed(2);
-                                }
-                            }
+                            TBerat = Math.round(TBerat) + 1;
+                            beratKomponenCircular.value = Math.round(TBerat);
                         }
 
                         if (parseInt(XWa.slice(-1)) === 0) {
-                            berat_warpKomponenCircular.value =
-                                TBeratWA.toFixed(2);
+                            beratKomponenCircular.value = Math.round(TBeratWA);
+                        } else if (parseInt(XWa.slice(-1)) > 5) {
+                            beratKomponenCircular.value = Math.round(
+                                TBeratWA
+                            ).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            });
+                        } else if (parseInt(XWa.slice(-1)) === 5) {
+                            TBeratWA = Math.ceil(TBeratWA);
+                            beratKomponenCircular.value = Math.round(TBeratWA);
                         } else {
-                            if (parseInt(XWa.slice(-1)) > 5) {
-                                berat_warpKomponenCircular.value =
-                                    Math.round(TBeratWA).toFixed(2);
-                            } else {
-                                if (parseInt(XWa.slice(-1)) === 5) {
-                                    TBeratWA = Math.ceil(TBeratWA * 10) / 10;
-                                    berat_warpKomponenCircular.value =
-                                        TBeratWA.toFixed(2);
-                                } else {
-                                    BeratWA = TBeratWA;
-                                    berat_warpKomponenCircular.value = (
-                                        Math.round(TBeratWA) + 1
-                                    ).toFixed(2);
-                                }
-                            }
+                            TBeratWA = Math.round(TBeratWA) + 1;
+                            beratKomponenCircular.value = Math.round(TBeratWA);
                         }
 
                         if (parseInt(XWe.slice(-1)) === 0) {
-                            berat_weftKomponenCircular.value =
-                                TBeratWE.toFixed(2);
+                            berat_weftKomponenCircular.value = parseFloat(
+                                TBeratWE
+                            ).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            });
+                        } else if (parseInt(XWe.slice(-1)) > 5) {
+                            berat_weftKomponenCircular.value = Math.round(
+                                TBeratWE
+                            ).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            });
+                        } else if (parseInt(XWe.slice(-1)) === 5) {
+                            TBeratWE = Math.round(TBerat);
+                            berat_weftKomponenCircular.value = parseFloat(
+                                TBeratWE
+                            ).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            });
                         } else {
-                            if (parseInt(XWe.slice(-1)) > 5) {
-                                berat_weftKomponenCircular.value =
-                                    Math.round(TBeratWE).toFixed(2);
-                            } else {
-                                if (parseInt(XWe.slice(-1)) === 5) {
-                                    TBeratWE = Math.ceil(TBeratWE * 10) / 10;
-                                    berat_weftKomponenCircular.value =
-                                        TBeratWE.toFixed(2);
-                                } else {
-                                    BeratWE = TBeratWE;
-                                    berat_weftKomponenCircular.value = (
-                                        Math.round(TBeratWE) + 1
-                                    ).toFixed(2);
-                                }
-                            }
+                            TBeratWE = Math.round(TBeratWE) + 1;
+                            berat_weftKomponenCircular.value = parseFloat(
+                                TBeratWE
+                            ).toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            });
                         }
 
                         let Total =
-                            parseFloat(berat_warpKomponenCircular.value) +
+                            parseFloat(beratKomponenCircular.value) +
                             parseFloat(berat_weftKomponenCircular.value);
                         if (Total !== parseFloat(beratKomponenCircular.value)) {
-                            if (BeratWA > 0) {
-                                berat_warpKomponenCircular.value -= 1;
+                            if (TBeratWA > 0) {
+                                beratKomponenCircular.value = (
+                                    parseFloat(beratKomponenCircular.value) - 1
+                                ).toFixed(2);
                             } else {
-                                berat_weftKomponenCircular.value -= 1;
+                                berat_weftKomponenCircular.value = (
+                                    parseFloat(
+                                        berat_weftKomponenCircular.value
+                                    ) - 1
+                                ).toFixed(2);
                             }
                         }
                     }
                 } else if (typeForm == "Form Komponen Square") {
                     //Javascript khusus untuk Form Komponen Square FormKomponenSquare.js
+                    let panjangKomponenSquare = document.getElementById(
+                        "panjangKomponenSquare"
+                    );
+                    let lebarKomponenSquare = document.getElementById(
+                        "lebarKomponenSquare"
+                    );
+                    let warpKomponenSquare =
+                        document.getElementById("warpKomponenSquare");
+                    let weftKomponenSquare =
+                        document.getElementById("weftKomponenSquare");
+                    let denier_warpKomponenSquare = document.getElementById(
+                        "denier_warpKomponenSquare"
+                    );
+                    let denier_weftKomponenSquare = document.getElementById(
+                        "denier_weftKomponenSquare"
+                    );
+                    let denierKomponenSquare = document.getElementById(
+                        "denierKomponenSquare"
+                    );
+                    let quantityKomponenSquare = document.getElementById(
+                        "quantityKomponenSquare"
+                    );
+                    let berat_warpKomponenSquare = document.getElementById(
+                        "berat_warpKomponenSquare"
+                    );
+                    let berat_weftKomponenSquare = document.getElementById(
+                        "berat_weftKomponenSquare"
+                    );
+                    let beratKomponenSquare = document.getElementById(
+                        "beratKomponenSquare"
+                    );
+                    let kounterKomponenSquare = document.getElementById(
+                        "kounterKomponenSquare"
+                    );
+                    let hargaKomponenSquare = document.getElementById(
+                        "hargaKomponenSquare"
+                    );
+                    let subtotalKomponenSquare = document.getElementById(
+                        "subtotalKomponenSquare"
+                    );
+                    var inputElements = [
+                        "panjangKomponenSquare",
+                        "warpKomponenSquare",
+                        "denier_warpKomponenSquare",
+                        "denierKomponenSquare",
+                        "quantityKomponenSquare",
+                        "beratKomponenSquare",
+                        "lebarKomponenSquare",
+                        "weftKomponenSquare",
+                        "denier_weftKomponenSquare",
+                        "kounterKomponenSquare",
+                        "hargaKomponenSquare",
+                        "subtotalKomponenSquare",
+                    ];
+                    warpKomponenSquare.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (
+                                    this.value == 11 ||
+                                    this.value == 12 ||
+                                    this.value == 13
+                                ) {
+                                    denier_warpKomponenSquare.value = 2000;
+                                } else if (
+                                    this.value == 14 ||
+                                    this.value == 15
+                                ) {
+                                    denier_warpKomponenSquare.value = 1500;
+                                } else if (this.value == 10) {
+                                    denier_warpKomponenSquare.value = 900;
+                                } else {
+                                    denier_warpKomponenSquare.value = 0;
+                                }
+
+                                if (
+                                    !isNaN(
+                                        parseFloat(
+                                            denier_warpKomponenSquare.value
+                                        )
+                                    )
+                                ) {
+                                    parseFloat(
+                                        denier_warpKomponenSquare.value
+                                    ).toFixed(2);
+                                }
+                                hitungDenier();
+                            }
+                        }
+                    );
+                    weftKomponenSquare.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (
+                                    this.value == 11 ||
+                                    this.value == 12 ||
+                                    this.value == 13 ||
+                                    this.value == 14 ||
+                                    this.value == 15
+                                ) {
+                                    denier_weftKomponenSquare.value = 1500;
+                                } else if (this.value == 10) {
+                                    denier_weftKomponenSquare.value = 900;
+                                } else {
+                                    denier_weftKomponenSquare.value = 0;
+                                }
+
+                                if (
+                                    !isNaN(
+                                        parseFloat(
+                                            denier_weftKomponenSquare.value
+                                        )
+                                    )
+                                ) {
+                                    denier_weftKomponenSquare.value =
+                                        parseFloat(
+                                            denier_weftKomponenSquare.value
+                                        ).toFixed(2);
+                                }
+                                denier_warpKomponenSquare.readOnly = false;
+                                hitungDenier();
+                            }
+                        }
+                    );
+                    denier_warpKomponenSquare.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Deniernya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    denier_weftKomponenSquare.readOnly = false;
+                                    denier_weftKomponenSquare.focus();
+                                    hitungDenier();
+                                }
+                            }
+                        }
+                    );
+                    denier_weftKomponenSquare.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Deniernya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungDenier();
+                                }
+                            }
+                        }
+                    );
+                    quantityKomponenSquare.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+                    function hitungDenier() {
+                        if (
+                            denier_warpKomponenSquare.value != "" &&
+                            denier_weftKomponenSquare.value != ""
+                        ) {
+                            denierKomponenSquare.value =
+                                (parseFloat(warpKomponenSquare.value) *
+                                    parseFloat(
+                                        denier_warpKomponenSquare.value
+                                    ) +
+                                    parseFloat(weftKomponenSquare.value) *
+                                        parseFloat(
+                                            denier_weftKomponenSquare.value
+                                        )) /
+                                (parseFloat(warpKomponenSquare.value) +
+                                    parseFloat(weftKomponenSquare.value));
+                            if (
+                                !isNaN(parseFloat(denierKomponenSquare.value))
+                            ) {
+                                denierKomponenSquare.value = parseFloat(
+                                    denierKomponenSquare.value
+                                ).toFixed(2);
+                            }
+                        }
+                    }
+                    function hitungBerat() {
+                        let TBerat;
+                        let XDenier;
+                        let XDes;
+
+                        XDenier =
+                            parseFloat(warpKomponenSquare.value) *
+                                parseInt(denier_warpKomponenSquare.value) +
+                            parseFloat(weftKomponenSquare.value) *
+                                parseInt(denier_weftKomponenSquare.value);
+                        TBerat =
+                            (parseFloat(panjangKomponenSquare.value) *
+                                parseFloat(lebarKomponenSquare.value) *
+                                XDenier *
+                                parseFloat(quantityKomponenSquare.value)) /
+                            (2 * 1143000);
+
+                        // Pembulatan
+                        XDes = TBerat.toFixed(1);
+
+                        if (parseInt(XDes.slice(-1)) === 0) {
+                            beratKomponenSquare.value = Math.round(TBerat);
+                        } else if (parseInt(XDes.slice(-1)) > 5) {
+                            beratKomponenSquare.value = Math.round(TBerat);
+                        } else if (parseInt(XDes.slice(-1)) === 5) {
+                            TBerat = Math.round(TBerat);
+                            beratKomponenSquare.value = Math.round(TBerat);
+                        } else {
+                            TBerat = Math.round(TBerat) + 1;
+                            beratKomponenSquare.value = Math.round(TBerat);
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Rope") {
                     //Javascript khusus untuk Form Komponen Rope FormKomponenRope.js
+                    panjangKomponenRope = document.getElementById(
+                        "panjangKomponenRope"
+                    );
+                    quantityKomponenRope = document.getElementById(
+                        "quantityKomponenRope"
+                    );
+                    totalBeratKomponenRope = document.getElementById(
+                        "totalBeratKomponenRope"
+                    );
+                    diameterKomponenRope = document.getElementById(
+                        "diameterKomponenRope"
+                    );
+                    beratPerMeterKomponenRope = document.getElementById(
+                        "beratPerMeterKomponenRope"
+                    );
+                    kounterKomponenRope = document.getElementById(
+                        "kounterKomponenRope"
+                    );
+
+                    var inputElements = [
+                        "panjangKomponenRope",
+                        "quantityKomponenRope",
+                        "totalBeratKomponenRope",
+                        "diameterKomponenRope",
+                        "beratPerMeterKomponenRope",
+                        "kounterKomponenRope",
+                    ];
+
+                    $.ajax({
+                        url: "TabelHitunganJBB/getDiameterKomponenRope", // URL to your PHP script that fetches data
+                        method: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            // Get the select element
+                            const selectElement = $("#diameterKomponenRope");
+                            console.log(data, selectElement);
+
+                            // Loop through the data and create an option element for each item
+                            data.forEach((item) => {
+                                // Create a new option element
+                                const newOption = $("<option></option>")
+                                    .val(item.Lebar) // Set the value of the option element
+                                    .text(item.Lebar); // Set the text content of the option element
+
+                                // Append the option element to the select element
+                                selectElement.append(newOption);
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching data:", error);
+                        },
+                    });
+                    quantityKomponenRope.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+
+                    function hitungBerat() {
+                        let TBerat, ReInb;
+                        let berat;
+
+                        switch (diameterKomponenCircular.value) {
+                            case 2:
+                                berat = 9;
+                                break;
+                            case 3:
+                                berat = 12;
+                                break;
+                            case 5:
+                                berat = 20;
+                                break;
+                            case 6:
+                                berat = 22;
+                                break;
+                            case 8:
+                                berat = 23;
+                                break;
+                            case 12:
+                                berat = 65;
+                                break;
+                            case 14:
+                                berat = 99;
+                                break;
+                            case 16:
+                                berat = 125;
+                                break;
+                            case 18:
+                                berat = 153.4;
+                                break;
+                            case 20:
+                                berat = 184;
+                                break;
+                            default:
+                                berat = 0;
+                                break;
+                        }
+
+                        beratPerMeterKomponenRope.value = berat;
+
+                        TBerat =
+                            (parseFloat(beratPerMeterKomponenRope.value) *
+                                parseFloat(panjangKomponenRope.value) *
+                                parseFloat(quantityKomponenRope.value)) /
+                            100;
+
+                        // Rounding
+                        let XDes = TBerat.toFixed(1);
+                        let lastDigit = parseInt(XDes[XDes.length - 1]);
+
+                        if (lastDigit === 0) {
+                            totalBeratKomponenRope.value = TBerat.toFixed(
+                                2
+                            ).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+                        } else {
+                            if (lastDigit > 5) {
+                                totalBeratKomponenRope.value = Math.round(
+                                    TBerat
+                                )
+                                    .toFixed(2)
+                                    .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+                            } else {
+                                if (lastDigit === 5) {
+                                    TBerat = Math.round(TBerat);
+                                    totalBeratKomponenRope.value =
+                                        TBerat.toFixed(2).replace(
+                                            /\d(?=(\d{3})+\.)/g,
+                                            "$&,"
+                                        );
+                                } else {
+                                    TBerat = Math.round(TBerat) + 1;
+                                    totalBeratKomponenRope.value =
+                                        TBerat.toFixed(2).replace(
+                                            /\d(?=(\d{3})+\.)/g,
+                                            "$&,"
+                                        );
+                                }
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Belt") {
                     //Javascript khusus untuk Form Komponen Belt FormKomponenBelt.js
+                    var inputElements = [
+                        "panjangKomponenBelt",
+                        "lebarKomponenBelt",
+                        "quantityKomponenBelt",
+                        "beratPerMeterKomponenBelt",
+                        "totalBeratKomponenBelt",
+                        "denierKomponenBelt",
+                        "kounterKomponenBelt",
+                    ];
+                    panjangKomponenBelt = document.getElementById(
+                        "panjangKomponenBelt"
+                    );
+                    lebarKomponenBelt =
+                        document.getElementById("lebarKomponenBelt");
+                    quantityKomponenBelt = document.getElementById(
+                        "quantityKomponenBelt"
+                    );
+                    beratPerMeterKomponenBelt = document.getElementById(
+                        "beratPerMeterKomponenBelt"
+                    );
+                    totalBeratKomponenBelt = document.getElementById(
+                        "totalBeratKomponenBelt"
+                    );
+                    denierKomponenBelt =
+                        document.getElementById("denierKomponenBelt");
+                    kounterKomponenBelt = document.getElementById(
+                        "kounterKomponenBelt"
+                    );
+                    if (TKStatusBelt) {
+                        $.ajax({
+                            url: "TabelHitunganJBB/getLebarKomponenPita", // URL to your PHP script that fetches data
+                            method: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                console.log(data);
+                                // Get the select element
+                                const selectElement = $("#lebarKomponenBelt");
+
+                                // Loop through the data and create an option element for each item
+                                data.forEach((item) => {
+                                    // Create a new option element
+                                    const newOption = $("<option></option>")
+                                        .val(item.Lebar) // Set the value of the option element
+                                        .text(
+                                            item.Lebar + " | " + item.Brt08HB
+                                        ); // Set the text content of the option element
+
+                                    // Append the option element to the select element
+                                    selectElement.append(newOption);
+                                });
+                                lebarKomponenBelt.addEventListener(
+                                    "change",
+                                    function (e) {
+                                        beratPerMeterKomponenBelt.value =
+                                            lebarKomponenBelt.options[
+                                                lebarKomponenBelt.selectedIndex
+                                            ].text
+                                                .split("|")[1]
+                                                .split("(")[0]
+                                                .trim();
+                                        denierKomponenBelt.value =
+                                            lebarKomponenBelt.options[
+                                                lebarKomponenBelt.selectedIndex
+                                            ].text
+                                                .split("|")[1]
+                                                .split("(")[1]
+                                                .trim()
+                                                .substring(0, 4);
+                                    }
+                                );
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error fetching data:", error);
+                            },
+                        });
+                    } else {
+                        $.ajax({
+                            url: "TabelHitunganJBB/getLebarKomponenBelt", // URL to your PHP script that fetches data
+                            method: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                // Get the select element
+                                console.log(data);
+                                const selectElement = $("#lebarKomponenBelt");
+
+                                // Loop through the data and create an option element for each item
+                                data.forEach((item) => {
+                                    // Create a new option element
+                                    const newOption = $("<option></option>")
+                                        .val(item.Lebar) // Set the value of the option element
+                                        .text(item.Lebar); // Set the text content of the option element
+
+                                    // Append the option element to the select element
+                                    selectElement.append(newOption);
+                                });
+                                lebarKomponenBelt.addEventListener(
+                                    "change",
+                                    function (e) {
+                                        beratPerMeterKomponenBelt.value = 0;
+                                        beratPerMeterKomponenBelt.readOnly = true;
+                                        denierKomponenBelt.value = 0;
+                                    }
+                                );
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error fetching data:", error);
+                            },
+                        });
+                    }
+
+                    quantityKomponenRope.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+
+                    function hitungBerat() {
+                        let TBerat;
+
+                        if (!TKStatusBelt) {
+                            TBerat =
+                                (parseFloat(beratPerMeterKomponenBelt.value) *
+                                    parseFloat(panjangKomponenBelt.value) *
+                                    parseFloat(quantityKomponenBelt.value)) /
+                                100;
+                        } else {
+                            let diameter = parseFloat(
+                                lebarKomponenBelt.value.trim()
+                            );
+
+                            switch (diameter) {
+                                case 2:
+                                    beratPerMeterKomponenBelt.value =
+                                        Kode_Komponen.value.startsWith("31MT")
+                                            ? "20"
+                                            : "8.24";
+                                    break;
+                                case 2.5:
+                                    beratPerMeterKomponenBelt.value =
+                                        Kode_Komponen.value.startsWith("31MT")
+                                            ? "20"
+                                            : "10.3";
+                                    break;
+                                case 3:
+                                    beratPerMeterKomponenBelt.value =
+                                        Kode_Komponen.value.startsWith("31MT")
+                                            ? "10"
+                                            : "12.4";
+                                    break;
+                                case 3.5:
+                                    beratPerMeterKomponenBelt.value =
+                                        Kode_Komponen.value.startsWith("31MT")
+                                            ? "10"
+                                            : "13";
+                                    break;
+                                case 4:
+                                    beratPerMeterKomponenBelt.value =
+                                        Kode_Komponen.value.startsWith("31MT")
+                                            ? "40"
+                                            : "16.48";
+                                    break;
+                                case 7:
+                                    beratPerMeterKomponenBelt.value =
+                                        Kode_Komponen.value.startsWith("31MT")
+                                            ? "20"
+                                            : "26";
+                                    break;
+                                default:
+                                    beratPerMeterKomponenBelt.value = "0";
+                                    break;
+                            }
+
+                            TBerat =
+                                (parseFloat(beratPerMeterKomponenBelt.value) *
+                                    parseFloat(panjangKomponenBelt.value) *
+                                    parseFloat(quantityKomponenBelt.value)) /
+                                100;
+                        }
+
+                        // Pembulatan
+                        let XDes = TBerat.toFixed(1).toString();
+                        if (parseInt(XDes.charAt(XDes.length - 1)) === 0) {
+                            totalBeratKomponenBelt.value = TBerat.toFixed(2);
+                        } else {
+                            if (parseInt(XDes.charAt(XDes.length - 1)) > 5) {
+                                totalBeratKomponenBelt.value =
+                                    Math.round(TBerat).toFixed(2);
+                            } else {
+                                if (
+                                    parseInt(XDes.charAt(XDes.length - 1)) === 5
+                                ) {
+                                    TBerat = Math.round(TBerat);
+                                    totalBeratKomponenBelt.value =
+                                        TBerat.toFixed(2);
+                                } else {
+                                    TBerat = Math.round(TBerat) + 1;
+                                    totalBeratKomponenBelt.value =
+                                        TBerat.toFixed(2);
+                                }
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Selang") {
                     //Javascript khusus untuk Form Komponen Selang FormKomponenSelang.js
                 } else if (typeForm == "Form Block") {
@@ -3658,19 +4058,19 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
                                 Kode_Komponen.substring(0, 4) + "00",
-                            Panjang: panjangKomponenGeneral.value,
-                            Lebar: lebarKomponenGeneral.value,
-                            WA: warpKomponenGeneral.value,
-                            WE: weftKomponenGeneral.value,
-                            Denier: denierKomponenGeneral.value,
-                            Quantity: quantityKomponenGeneral.value,
-                            Berat: beratKomponenGeneral.value,
-                            BeratWA: berat_warpKomponenGeneral.value,
-                            BeratWE: berat_weftKomponenGeneral.value,
+                            Panjang: panjangKomponenCircular.value,
+                            Lebar: lebarKomponenCircular.value,
+                            WA: warpKomponenCircular.value,
+                            WE: weftKomponenCircular.value,
+                            Denier: denierKomponenCircular.value,
+                            Quantity: quantityKomponenCircular.value,
+                            Berat: beratKomponenCircular.value,
+                            BeratWA: berat_warpKomponenCircular.value,
+                            BeratWE: berat_weftKomponenCircular.value,
                             Harga: 0,
                             SubTotal: 0,
-                            DenierWA: denier_warpKomponenGeneral.value,
-                            DenierWE: denier_weftKomponenGeneral.value,
+                            DenierWA: denier_warpKomponenCircular.value,
+                            DenierWE: denier_weftKomponenCircular.value,
                         }, // Pass the data with csrf_tokern
                         success: function (response) {
                             // Handle the successful response from the controller
@@ -3696,8 +4096,152 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                 } else if (TKkomponen == 3) {
                 }
             } else if (typeForm == "Form Komponen Square") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenSquare.value,
+                            Lebar: lebarKomponenSquare.value,
+                            WA: warpKomponenSquare.value,
+                            WE: weftKomponenSquare.value,
+                            Denier: denierKomponenSquare.value,
+                            Quantity: quantityKomponenSquare.value,
+                            Berat: beratKomponenSquare.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: denier_warpKomponenSquare.value,
+                            DenierWE: denier_weftKomponenSquare.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Rope") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenRope.value,
+                            Lebar: lebarKomponenRope.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenRope.value,
+                            Berat: totalBeratKomponenRope.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Belt") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenBelt.value,
+                            Lebar: lebarKomponenBelt.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: denierKomponenBelt.value,
+                            Quantity: quantityKomponenBelt.value,
+                            Berat: totalBeratKomponenBelt.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Selang") {
             } else if (typeForm == "Form Block") {
             } else if (typeForm == "Form Komponen Lami") {
@@ -5201,8 +5745,10 @@ tambah_komponen.addEventListener("click", function (event) {
                         typeForm = "Form Komponen Rope";
                     } else if (selectedRow.Kode_Komponen.includes("08HB")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = false;
                     } else if (selectedRow.Kode_Komponen.includes("09RB")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = false;
                     } else if (selectedRow.Kode_Komponen.includes("10RC")) {
                         typeForm = "Form Komponen General";
                     } else if (selectedRow.Kode_Komponen.includes("11CR")) {
@@ -5221,14 +5767,19 @@ tambah_komponen.addEventListener("click", function (event) {
                         typeForm = "Form Komponen Selang";
                     } else if (selectedRow.Kode_Komponen.includes("16PP")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = true;
                     } else if (selectedRow.Kode_Komponen.includes("16PH")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = true;
                     } else if (selectedRow.Kode_Komponen.includes("16PC")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = true;
                     } else if (selectedRow.Kode_Komponen.includes("16TT")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = true;
                     } else if (selectedRow.Kode_Komponen.includes("16RP")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = true;
                     } else if (selectedRow.Kode_Komponen.includes("16ST")) {
                         typeForm = "Form Block";
                     } else if (selectedRow.Kode_Komponen.includes("17CR")) {
@@ -5253,18 +5804,22 @@ tambah_komponen.addEventListener("click", function (event) {
                         typeForm = "Form Komponen Ongkos";
                     } else if (selectedRow.Kode_Komponen.includes("26SB")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = false;
                     } else if (selectedRow.Kode_Komponen.includes("27FP")) {
                         typeForm = "Form Komponen General";
                     } else if (selectedRow.Kode_Komponen.includes("28AB")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = false;
                     } else if (selectedRow.Kode_Komponen.includes("28AR")) {
                         typeForm = "Form Komponen Rope";
                     } else if (selectedRow.Kode_Komponen.includes("29RB")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = false;
                     } else if (selectedRow.Kode_Komponen.includes("30BD")) {
                         typeForm = "Form Komponen Dust";
                     } else if (selectedRow.Kode_Komponen.includes("31MT")) {
                         typeForm = "Form Komponen Belt";
+                        TKStatusBelt = true;
                     } else if (selectedRow.Kode_Komponen.includes("32KG")) {
                         typeForm = "Form Komponen General";
                     } else if (selectedRow.Kode_Komponen.includes("33KT")) {
