@@ -726,9 +726,31 @@ class TabelHitunganJumboBag extends Controller
                         $request->input('DenierWE'),
                     ]
                 );
-                return response()->json(['success' => 'Komponen Body Besar inserted successfully.']);
+                return response()->json(['success' => 'Komponen Body Besar inserted successfully.'], 200);
             } catch (Exception $e) {
-                return response()->json(['error' => $e->getMessage()]);
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        } elseif ($request->mode_insert == "KomponenLami") {
+            $kdBrg = $request->input('KodeBarang');
+            $gridLamiData = $request->input('gridLamiData');
+
+            try {
+                foreach ($gridLamiData as $row) {
+                    DB::statement('
+                    EXEC SP_1273_JBB_INS_RINCIAN_LAMI :KodeBarang, :KodeKomponen, :Panjang, :Lebar, :Tebal, :Berat
+                ', [
+                        'KodeBarang' => $kdBrg,
+                        'KodeKomponen' => $row['KodeKomponen'],
+                        'Panjang' => $row['Panjang'],
+                        'Lebar' => $row['Lebar'],
+                        'Tebal' => $row['Tebal'],
+                        'Berat' => $row['Berat']
+                    ]);
+                }
+
+                return response()->json(['message' => 'Data KomponenLami inserted successfully'], 200);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
             }
         }
 

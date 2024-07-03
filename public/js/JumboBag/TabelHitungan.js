@@ -1784,29 +1784,26 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <input id="panjangKomponenSelang" class="input" style="width: 90%">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantityKomponenSelang">Quantity</label>
-                                    <input id="quantityKomponenSelang" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBeratKomponenSelang">Total Berat</label>
-                                    <input id="totalBeratKomponenSelang" class="input">
-                                </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="diameterKomponenSelang">Diameter</label>
                                     <div style="width: 100%">
                                         <input id="diameterKomponenSelang" class="input">MM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantityKomponenSelang">Quantity</label>
+                                    <input id="quantityKomponenSelang" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="beratPer5cmKomponenSelang">Berat Per 5 cm</label>
                                     <input id="beratPer5cmKomponenSelang" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenSelang">Kounter</label>
-                                    <input id="kounterKomponenSelang" class="input">
+                                    <label for="totalBeratKomponenSelang">Total Berat</label>
+                                    <input id="totalBeratKomponenSelang" class="input" readonly>
                                 </div>
+                                <input type="hidden" id="kounterKomponenSelang" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -1821,7 +1818,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             <input id="nama_komponen" class="input" readonly>
                         </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                            <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="beratBlock">Berat</label>
                                     <div style="width: 100%">
@@ -1830,18 +1827,13 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="totalBeratBlock">Total Berat</label>
-                                    <input id="totalBeratBlock" class="input">
-                                </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantity">Quantity</label>
-                                    <input id="quantity" class="input">
+                                    <input id="totalBeratBlock" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterBlock">Kounter</label>
-                                    <input id="kounterBlock" class="input">
+                                    <label for="quantityBlock">Quantity</label>
+                                    <input id="quantityBlock" class="input">
                                 </div>
+                                <input type="hidden" id="kounterBlock" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -1869,12 +1861,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             </thead>
                         </table>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenLami">Kounter</label>
-                                    <input id="kounterKomponenLami" class="input">
-                                </div>
-                            </div>
+                            <input type="hidden" id="kounterKomponenLami" class="input">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="totalBeratKomponenLami">Total Berat</label>
@@ -1893,34 +1880,31 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             <label for="nama_komponen">Nama Komponen</label>
                             <input id="nama_komponen" class="input" readonly>
                         </div>
+                        <div style="display: flex;width: 75%;flex-direction: column;margin-bottom: 4px;">
+                            <label for="tebalInnerKomponenInner">Tebal Inner</label>
+                            <input id="tebalInnerKomponenInner" class="input" readonly>
+                        </div>
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="tebalInnerKomponenInner">Tebal Inner</label>
-                                    <input id="tebalInnerKomponenInner" class="input">
-                                </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="lebarKomponenInner">Lebar</label>
                                     <input id="lebarKomponenInner" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBeratKomponenInner">Total Berat</label>
-                                    <input id="totalBeratKomponenInner" class="input">
-                                </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="panjangKomponenInner">Panjang</label>
                                     <input id="panjangKomponenInner" class="input">
                                 </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="quantityKomponenInner">Quantity</label>
                                     <input id="quantityKomponenInner" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenInner">Kounter</label>
-                                    <input id="kounterKomponenInner" class="input">
+                                    <label for="totalBeratKomponenInner">Total Berat</label>
+                                    <input id="totalBeratKomponenInner" class="input">
                                 </div>
+                                <input type="hidden" id="kounterKomponenInner" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -1941,27 +1925,24 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <input id="panjangKomponenPocket" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantityKomponenPocket">Quantity</label>
-                                    <input id="quantityKomponenPocket" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalHargaKomponenPocket">Total Harga</label>
-                                    <input id="totalHargaKomponenPocket" class="input">
-                                </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="lebarKomponenPocket">Lebar</label>
                                     <input id="lebarKomponenPocket" class="input">
                                 </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="quantityKomponenPocket">Quantity</label>
+                                    <input id="quantityKomponenPocket" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="hargaPerMeterKomponenPocket">Harga/Meter</label>
                                     <input id="hargaPerMeterKomponenPocket" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenPocket">Kounter</label>
-                                    <input id="kounterKomponenPocket" class="input">
+                                    <label for="totalHargaKomponenPocket">Total Harga</label>
+                                    <input id="totalHargaKomponenPocket" class="input" readonly>
                                 </div>
+                                <input type="hidden" id="kounterKomponenPocket" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -1982,31 +1963,28 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <input id="panjangKomponenEva" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebarKomponenEva">Lebar</label>
+                                    <input id="lebarKomponenEva" class="input">
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="quantityKomponenEva">Quantity</label>
                                     <input id="quantityKomponenEva" class="input">
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="beratKomponenEva">Berat</label>
+                                    <input id="beratKomponenEva" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="hargaKomponenEva">Harga</label>
                                     <input id="hargaKomponenEva" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenEva">Kounter</label>
-                                    <input id="kounterKomponenEva" class="input">
-                                </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebarKomponenEva">Lebar</label>
-                                    <input id="lebarKomponenEva" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratKomponenEva">Berat</label>
-                                    <input id="beratKomponenEva" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="totalHargaKomponenEva">Total Harga</label>
-                                    <input id="totalHargaKomponenEva" class="input">
+                                    <input id="totalHargaKomponenEva" class="input" readonly>
                                 </div>
+                                <input type="hidden" id="kounterKomponenEva" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -2028,7 +2006,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="totalHargaKomponenBenang">Total Harga</label>
-                                    <input id="totalHargaKomponenBenang" class="input">
+                                    <input id="totalHargaKomponenBenang" class="input" readonly>
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
@@ -2036,10 +2014,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <label for="kebutuhanKomponenBenang">Kebutuhan</label>
                                     <input id="kebutuhanKomponenBenang" class="input">
                                 </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenBenang">Kounter</label>
-                                    <input id="kounterKomponenBenang" class="input">
-                                </div>
+                                <input id="kounterKomponenBenang" class="input">
                             </div>
                         </div>
                         <div style="display: flex;align-items: center;gap: 10px;margin-bottom: 10px;">
@@ -3550,22 +3525,22 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Rope") {
                     //Javascript khusus untuk Form Komponen Rope FormKomponenRope.js
-                    panjangKomponenRope = document.getElementById(
+                    let panjangKomponenRope = document.getElementById(
                         "panjangKomponenRope"
                     );
-                    quantityKomponenRope = document.getElementById(
+                    let quantityKomponenRope = document.getElementById(
                         "quantityKomponenRope"
                     );
-                    totalBeratKomponenRope = document.getElementById(
+                    let totalBeratKomponenRope = document.getElementById(
                         "totalBeratKomponenRope"
                     );
-                    diameterKomponenRope = document.getElementById(
+                    let diameterKomponenRope = document.getElementById(
                         "diameterKomponenRope"
                     );
-                    beratPerMeterKomponenRope = document.getElementById(
+                    let beratPerMeterKomponenRope = document.getElementById(
                         "beratPerMeterKomponenRope"
                     );
-                    kounterKomponenRope = document.getElementById(
+                    let kounterKomponenRope = document.getElementById(
                         "kounterKomponenRope"
                     );
 
@@ -3714,23 +3689,23 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         "denierKomponenBelt",
                         "kounterKomponenBelt",
                     ];
-                    panjangKomponenBelt = document.getElementById(
+                    let panjangKomponenBelt = document.getElementById(
                         "panjangKomponenBelt"
                     );
-                    lebarKomponenBelt =
+                    let lebarKomponenBelt =
                         document.getElementById("lebarKomponenBelt");
-                    quantityKomponenBelt = document.getElementById(
+                    let quantityKomponenBelt = document.getElementById(
                         "quantityKomponenBelt"
                     );
-                    beratPerMeterKomponenBelt = document.getElementById(
+                    let beratPerMeterKomponenBelt = document.getElementById(
                         "beratPerMeterKomponenBelt"
                     );
-                    totalBeratKomponenBelt = document.getElementById(
+                    let totalBeratKomponenBelt = document.getElementById(
                         "totalBeratKomponenBelt"
                     );
-                    denierKomponenBelt =
+                    let denierKomponenBelt =
                         document.getElementById("denierKomponenBelt");
-                    kounterKomponenBelt = document.getElementById(
+                    let kounterKomponenBelt = document.getElementById(
                         "kounterKomponenBelt"
                     );
                     if (TKStatusBelt) {
@@ -3922,17 +3897,633 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Selang") {
                     //Javascript khusus untuk Form Komponen Selang FormKomponenSelang.js
+                    let panjangKomponenSelang = document.getElementById(
+                        "panjangKomponenSelang"
+                    );
+                    let diameterKomponenSelang = document.getElementById(
+                        "diameterKomponenSelang"
+                    );
+                    let quantityKomponenSelang = document.getElementById(
+                        "quantityKomponenSelang"
+                    );
+                    let beratPer5cmKomponenSelang = document.getElementById(
+                        "beratPer5cmKomponenSelang"
+                    );
+                    let totalBeratKomponenSelang = document.getElementById(
+                        "totalBeratKomponenSelang"
+                    );
+                    let kounterKomponenSelang = document.getElementById(
+                        "kounterKomponenSelang"
+                    );
+
+                    quantityKomponenSelang.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+                    function hitungBerat() {
+                        let TBerat, XDes;
+
+                        if (Kode_Komponen.value.substring(0, 4) === "15ST") {
+                            beratPer5cmKomponenSelang.value = 10;
+                            TBerat =
+                                (parseFloat(panjangKomponenSelang.value) *
+                                    parseFloat(quantityKomponenSelang.value)) /
+                                5;
+                            TBerat *= 10;
+                        }
+
+                        // Pembulatan
+                        XDes = TBerat.toFixed(1).toString();
+
+                        if (parseInt(XDes.slice(-1)) === 0) {
+                            totalBeratKomponenSelang.value = TBerat.toFixed(2);
+                        } else {
+                            if (parseInt(XDes.slice(-1)) > 5) {
+                                totalBeratKomponenSelang.value =
+                                    Math.round(TBerat).toFixed(2);
+                            } else {
+                                if (parseInt(XDes.slice(-1)) === 5) {
+                                    TBerat = Math.round(TBerat);
+                                    totalBeratKomponenSelang.value =
+                                        TBerat.toFixed(2);
+                                } else {
+                                    TBerat = Math.round(TBerat) + 1;
+                                    totalBeratKomponenSelang.value =
+                                        TBerat.toFixed(2);
+                                }
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Block") {
                     //Javascript khusus untuk Form Block FormBlock.js
+                    let beratBlock = document.getElementById("beratBlock");
+                    let totalBeratBlock =
+                        document.getElementById("totalBeratBlock");
+                    let quantityBlock =
+                        document.getElementById("quantityBlock");
+                    let kounterBlock = document.getElementById("kounterBlock");
+
+                    quantityBlock.addEventListener("keypress", function (e) {
+                        if (e.key == "Enter") {
+                            if (this.value == "") {
+                                this.classList.add("input-error");
+                                this.setCustomValidity("Isi dulu Quantitynya!");
+                                this.reportValidity();
+                            } else {
+                                this.classList.remove("input-error");
+                                this.setCustomValidity("");
+                                hitungBerat();
+                            }
+                        }
+                    });
+
+                    function hitungBerat() {
+                        // Calculate the total weight
+                        let TBerat = beratBlock * quantityBlock;
+
+                        // Round the result
+                        let XDes = TBerat.toFixed(1);
+                        let lastDigit = parseInt(XDes.slice(-1));
+
+                        if (lastDigit === 0) {
+                            totalBeratBlock.value = TBerat.toFixed(2);
+                        } else {
+                            if (lastDigit > 5) {
+                                totalBeratBlock.value =
+                                    Math.round(TBerat).toFixed(2);
+                            } else if (lastDigit === 5) {
+                                TBerat = Math.round(TBerat);
+                                totalBeratBlock.value = TBerat.toFixed(2);
+                            } else {
+                                TBerat = Math.round(TBerat) + 1;
+                                totalBeratBlock.value = TBerat.toFixed(2);
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Lami") {
                     //Javascript khusus untuk Form Komponen Lami FormKomponenLami.js
+                    let kounterKomponenLami = document.getElementById(
+                        "kounterKomponenLami"
+                    );
+                    let totalBeratKomponenLami = document.getElementById(
+                        "totalBeratKomponenLami"
+                    );
+                    const tableKomponenLami = $("#tableKomponenLami").DataTable(
+                        {
+                            columnDefs: [
+                                {
+                                    targets: "_all",
+                                    createdCell: createdCell,
+                                },
+                            ],
+                        }
+                    );
+                    const createdCell = function (
+                        cell,
+                        cellData,
+                        rowData,
+                        rowIndex,
+                        colIndex
+                    ) {
+                        //editable tableKomponenLami
+                        let original;
+                        cell.setAttribute("contenteditable", true);
+                        cell.setAttribute("spellcheck", false);
+
+                        cell.addEventListener("focus", function (e) {
+                            original = e.target.textContent;
+                        });
+
+                        cell.addEventListener("blur", function (e) {
+                            if (original !== e.target.textContent) {
+                                const row = table.row(e.target.parentElement);
+                                row.invalidate();
+                                console.log("Cell changed: ", e.target); // Logging the cell
+                                console.log(
+                                    "New content: ",
+                                    e.target.textContent
+                                ); // Logging the new content
+                                console.log("Column index: ", colIndex); // Logging the column index
+                                console.log(
+                                    "Column name: ",
+                                    table.column(colIndex).header().textContent
+                                ); // Logging the column name
+                                console.log("Row data: ", row.data()); // Logging the row data
+                                console.log(
+                                    cell,
+                                    cellData,
+                                    rowData,
+                                    rowIndex,
+                                    colIndex
+                                ); // Logging all parameters
+                                hitungBerat();
+                            }
+                        });
+                    };
+
+                    function hitungBerat() {
+                        let totalBerat = 0;
+
+                        tableKomponenLami
+                            .rows()
+                            .every(function (rowIdx, tableLoop, rowLoop) {
+                                let data = this.data();
+                                let panjang = parseFloat(data[2]);
+                                let lebar = parseFloat(data[3]);
+                                let beratSat = parseFloat(data[5]);
+                                let qty = parseFloat(data[4]);
+                                let kdKomponen = data[0];
+
+                                let berat = 0;
+
+                                if (kdKomponen !== "") {
+                                    switch (kdKomponen.substring(0, 4)) {
+                                        case "01BB":
+                                            // Model U-panel, One side sewing
+                                            if (
+                                                kdKomponen.substring(0, 5) ===
+                                                    "01BBU" ||
+                                                kdKomponen.substring(0, 5) ===
+                                                    "01BBI"
+                                            ) {
+                                                berat =
+                                                    panjang *
+                                                    lebar *
+                                                    beratSat *
+                                                    (0.92 / 10000) *
+                                                    qty;
+                                            } else {
+                                                berat =
+                                                    panjang *
+                                                    (lebar + 4) *
+                                                    beratSat *
+                                                    (0.92 / 10000) *
+                                                    qty;
+                                            }
+                                            // Model Tubular
+                                            if (
+                                                kdKomponen.substring(0, 5) ===
+                                                "01BBT"
+                                            ) {
+                                                berat *= 2;
+                                            }
+                                            break;
+                                        case "02BS":
+                                            // Model U-panel, Four side sewing
+                                            if (
+                                                kdKomponen.substring(0, 5) ===
+                                                    "01BBU" ||
+                                                kdKomponen.substring(0, 5) ===
+                                                    "01BB4" ||
+                                                kdKomponen.substring(0, 5) ===
+                                                    "01BBI"
+                                            ) {
+                                                berat =
+                                                    panjang *
+                                                    lebar *
+                                                    beratSat *
+                                                    (0.92 / 10000) *
+                                                    qty;
+                                            }
+                                            break;
+                                        default:
+                                            berat =
+                                                panjang *
+                                                lebar *
+                                                beratSat *
+                                                (0.92 / 10000) *
+                                                qty;
+                                            break;
+                                    }
+
+                                    // Update the calculated weight in the table
+                                    this.data()[6] =
+                                        parseFloat(this.data()[6]) + berat;
+                                    this.data()[6] = this.data()[6].toFixed(2);
+
+                                    // Accumulate total weight
+                                    totalBerat += parseFloat(this.data()[6]);
+                                }
+                            });
+
+                        // Update the total weight field
+                        totalBeratKomponenLami.value = totalBerat.toFixed(2);
+                    }
                 } else if (typeForm == "Form Komponen Inner") {
                     //Javascript khusus untuk Form Komponen Inner FormKomponenInner.js
+                    let tebalInnerKomponenInner = document.getElementById(
+                        "tebalInnerKomponenInner"
+                    );
+                    let lebarKomponenInner =
+                        document.getElementById("lebarKomponenInner");
+                    let panjangKomponenInner = document.getElementById(
+                        "panjangKomponenInner"
+                    );
+                    let quantityKomponenInner = document.getElementById(
+                        "quantityKomponenInner"
+                    );
+                    let totalBeratKomponenInner = document.getElementById(
+                        "totalBeratKomponenInner"
+                    );
+                    let kounterKomponenInner = document.getElementById(
+                        "kounterKomponenInner"
+                    );
+
+                    tebalInnerKomponenInner.value = reinforced_inner.value;
+
+                    if (tebalInnerKomponenInner.value > 0) {
+                        if (
+                            parseFloat(panjangKomponenInner.value) === 0 ||
+                            parseFloat(lebarKomponenInner.value) === 0
+                        ) {
+                            let Diagonal,
+                                Atas = 0,
+                                Bawah = 0,
+                                TempD = 0,
+                                TempP = 0,
+                                Keliling,
+                                Jari;
+
+                            // Calculate panjang
+                            if (body_bentuk.value === "S") {
+                                Diagonal = Math.sqrt(
+                                    Math.pow(body_panjang.value, 2) +
+                                        Math.pow(body_lebar.value, 2)
+                                );
+                                Diagonal = Math.round(Diagonal * 100) / 100;
+                                if (cerobongAtas_bentuk.value === "C")
+                                    Atas =
+                                        (Diagonal -
+                                            cerobongAtas_diameter.value) /
+                                        2;
+                                if (cerobongBawah_bentuk === "C")
+                                    Bawah =
+                                        (Diagonal -
+                                            cerobongBawah_diameter.value) /
+                                        2;
+                            } else {
+                                if (cerobongAtas_bentuk.value === "C")
+                                    Atas =
+                                        (body_diameter.value -
+                                            cerobongAtas_diameter.value) /
+                                        2;
+                                if (cerobongBawah_bentuk.value === "C")
+                                    Bawah =
+                                        (body_diameter.value -
+                                            cerobongBawah_diameter.value) /
+                                        2;
+                            }
+
+                            if (cerobongBawah_model.value === "06CBCX") {
+                                TempD = body_panjang.value;
+                                TempP = Math.round((TempD / 2) * 100) / 100;
+                                panjangKomponenInner.value =
+                                    cerobongAtas_tinggi.value +
+                                    Atas +
+                                    body_tinggi.value +
+                                    10 +
+                                    TempP;
+                            } else {
+                                panjangKomponenInner.value =
+                                    cerobongAtas_tinggi.value +
+                                    Atas +
+                                    body_tinggi.value +
+                                    Bawah +
+                                    20 +
+                                    cerobongBawah_tinggi.value;
+                            }
+
+                            // Calculate lebar
+                            if (body_bentuk.value === "S") {
+                                lebarKomponenInner.value =
+                                    body_panjang.value + body_lebar.value + 5;
+                            } else {
+                                Jari =
+                                    Math.round(
+                                        (body_diameter.value / 2) * 100
+                                    ) / 100;
+                                Keliling = 2 * 3.14 * Jari;
+                                lebarKomponenInner.value = Keliling / 2 + 5;
+                            }
+                        }
+                    }
+
+                    quantityKomponenInner.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+
+                    function hitungBerat() {
+                        let TBerat, ReInb;
+
+                        TBerat =
+                            parseFloat(lebarKomponenInner.value) *
+                            parseFloat(panjangKomponenInner.value) *
+                            parseFloat(quantityKomponenInner.value) *
+                            ((parseFloat(tebalInnerKomponenInner.value) /
+                                10000) *
+                                1.84);
+
+                        // Pembulatan
+                        let XDes = TBerat.toFixed(1);
+                        if (parseInt(XDes[XDes.length - 1]) === 0) {
+                            totalBeratKomponenInner.value = TBerat.toFixed(
+                                2
+                            ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        } else {
+                            if (parseInt(XDes[XDes.length - 1]) > 5) {
+                                totalBeratKomponenInner.value = Math.round(
+                                    TBerat
+                                )
+                                    .toFixed(2)
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else if (parseInt(XDes[XDes.length - 1]) === 5) {
+                                TBerat = Math.round(TBerat);
+                                totalBeratKomponenInner.value = TBerat.toFixed(
+                                    2
+                                ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else {
+                                TBerat = Math.round(TBerat) + 1;
+                                totalBeratKomponenInner.value = TBerat.toFixed(
+                                    2
+                                ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Pocket") {
                     //Javascript khusus untuk Form Komponen Pocket FormKomponenPocket.js
+                    let panjangKomponenPocket = document.getElementById(
+                        "panjangKomponenPocket"
+                    );
+                    let lebarKomponenPocket = document.getElementById(
+                        "lebarKomponenPocket"
+                    );
+                    let quantityKomponenPocket = document.getElementById(
+                        "quantityKomponenPocket"
+                    );
+                    let hargaPerMeterKomponenPocket = document.getElementById(
+                        "hargaPerMeterKomponenPocket"
+                    );
+                    let totalHargaKomponenPocket = document.getElementById(
+                        "totalHargaKomponenPocket"
+                    );
+                    let kounterKomponenPocket = document.getElementById(
+                        "kounterKomponenPocket"
+                    );
+
+                    hargaPerMeterKomponenPocket.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Harga Per Meternya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+
+                    function hitungBerat() {
+                        let TBerat, ReInb;
+                        ReInb = parseFloat(panjangKomponenPocket.value);
+                        TBerat =
+                            (ReInb / 100) *
+                            (parseFloat(hargaPerMeterKomponenPocket.value) *
+                                parseFloat(quantityKomponenPocket.value));
+
+                        // Pembulatan
+                        let XDes = TBerat.toFixed(1);
+                        if (parseInt(XDes[XDes.length - 1]) === 0) {
+                            totalHargaKomponenPocket.value = TBerat.toFixed(
+                                2
+                            ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        } else {
+                            if (parseInt(XDes[XDes.length - 1]) > 5) {
+                                totalHargaKomponenPocket.value = Math.round(
+                                    TBerat
+                                )
+                                    .toFixed(2)
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else if (parseInt(XDes[XDes.length - 1]) === 5) {
+                                TBerat = Math.round(TBerat);
+                                totalHargaKomponenPocket.value = TBerat.toFixed(
+                                    2
+                                ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else {
+                                TBerat = Math.round(TBerat) + 1;
+                                totalHargaKomponenPocket.value = TBerat.toFixed(
+                                    2
+                                ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Eva") {
                     //Javascript khusus untuk Form Komponen Eva FormKomponenEva.js
+                    let panjangKomponenEva =
+                        document.getElementById("panjangKomponenEva");
+                    let lebarKomponenEva =
+                        document.getElementById("lebarKomponenEva");
+                    let quantityKomponenEva = document.getElementById(
+                        "quantityKomponenEva"
+                    );
+                    let hargaKomponenEva =
+                        document.getElementById("hargaKomponenEva");
+                    let kounterKomponenEva =
+                        document.getElementById("kounterKomponenEva");
+                    let beratKomponenEva =
+                        document.getElementById("beratKomponenEva");
+                    let totalHargaKomponenEva = document.getElementById(
+                        "totalHargaKomponenEva"
+                    );
+
+                    hargaKomponenEva.addEventListener("keypress", function (e) {
+                        if (e.key == "Enter") {
+                            if (this.value == "") {
+                                this.classList.add("input-error");
+                                this.setCustomValidity(
+                                    "Isi dulu Harga Per Meternya!"
+                                );
+                                this.reportValidity();
+                            } else {
+                                this.classList.remove("input-error");
+                                this.setCustomValidity("");
+                                hitungBerat();
+                            }
+                        }
+                    });
+
+                    function hitungBerat() {
+                        let TBerat =
+                            (parseFloat(panjangKomponenEva.value) *
+                                parseFloat(lebarKomponenEva.value) *
+                                parseFloat(quantityKomponenEva.value) *
+                                parseFloat(hargaKomponenEva.value)) /
+                            (120 * 240);
+
+                        // Pembulatan
+                        let XDes = TBerat.toFixed(1);
+                        if (parseInt(XDes[XDes.length - 1]) === 0) {
+                            totalHargaKomponenEva.value = TBerat.toFixed(
+                                2
+                            ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        } else {
+                            if (parseInt(XDes[XDes.length - 1]) > 5) {
+                                totalHargaKomponenEva.value = Math.round(TBerat)
+                                    .toFixed(2)
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else if (parseInt(XDes[XDes.length - 1]) === 5) {
+                                TBerat = Math.round(TBerat);
+                                totalHargaKomponenEva.value = TBerat.toFixed(
+                                    2
+                                ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else {
+                                TBerat = Math.round(TBerat) + 1;
+                                totalHargaKomponenEva.value = TBerat.toFixed(
+                                    2
+                                ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Benang") {
+                    let hargaBenangPerKgKomponenBenang =
+                        document.getElementById(
+                            "hargaBenangPerKgKomponenBenang"
+                        );
+                    let totalHargaKomponenBenang = document.getElementById(
+                        "totalHargaKomponenBenang"
+                    );
+                    let kebutuhanKomponenBenang = document.getElementById(
+                        "kebutuhanKomponenBenang"
+                    );
+                    let kounterKomponenBenang = document.getElementById(
+                        "kounterKomponenBenang"
+                    );
+                    let denier1KomponenBenang = document.getElementById(
+                        "denier1KomponenBenang"
+                    );
+                    let denier2KomponenBenang = document.getElementById(
+                        "denier2KomponenBenang"
+                    );
+                    let denierKomponenBenang;
+
+                    if (denier1KomponenBenang.checked) {
+                        denierKomponenBenang = denier1KomponenBenang.value;
+                    } else {
+                        denierKomponenBenang = denier2KomponenBenang.value;
+                    }
+
+                    kebutuhanKomponenBenang.addEventListener("keypress", function (e) {
+                        if (e.key == "Enter") {
+                            if (this.value == "") {
+                                this.classList.add("input-error");
+                                this.setCustomValidity(
+                                    "Isi dulu Kebutuhannya!"
+                                );
+                                this.reportValidity();
+                            } else {
+                                this.classList.remove("input-error");
+                                this.setCustomValidity("");
+                                hitungBerat();
+                            }
+                        }
+                    });
+
+                    function hitungBerat() {
+                        let TBerat, ReInb;
+                        ReInb = parseFloat(hargaBenangPerKgKomponenBenang.value);
+                        TBerat = (ReInb / 1000) * parseFloat(kebutuhanKomponenBenang.value);
+
+                        // Pembulatan
+                        let XDes = TBerat.toFixed(1);
+                        if (parseInt(XDes[XDes.length - 1]) === 0) {
+                            totalHargaKomponenBenang.value = TBerat.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        } else {
+                            if (parseInt(XDes[XDes.length - 1]) > 5) {
+                                totalHargaKomponenBenang.value = Math.round(TBerat).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else if (parseInt(XDes[XDes.length - 1]) === 5) {
+                                TBerat = Math.round(TBerat);
+                                totalHargaKomponenBenang.value = TBerat.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else {
+                                TBerat = Math.round(TBerat) + 1;
+                                totalHargaKomponenBenang.value = TBerat.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Ongkos") {
                 } else if (typeForm == "Form Komponen Dust") {
                 } else if (typeForm == "Form Komponen Katun") {
@@ -4243,12 +4834,378 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                 } else if (TKkomponen == 3) {
                 }
             } else if (typeForm == "Form Komponen Selang") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenSelang.value,
+                            Lebar: diameterKomponenSelang.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenSelang.value,
+                            Berat: totalBeratKomponenSelang.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Block") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: 0,
+                            Lebar: 0,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityBlock.value,
+                            Berat: totalBeratBlock.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Lami") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: 0,
+                            Lebar: 0,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: 0,
+                            Berat: totalBeratKomponenLami.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                let gridLamiData = [];
+
+                                tableKomponenLami.rows().every(function () {
+                                    let data = this.data();
+                                    gridLamiData.push({
+                                        KodeKomponen: data[0],
+                                        Panjang: parseFloat(data[2]),
+                                        Lebar: parseFloat(data[3]),
+                                        Tebal: parseFloat(data[5]),
+                                        Berat: parseFloat(data[6]),
+                                    });
+                                });
+                                $.ajax({
+                                    type: "POST", // or 'GET' depending on your server setup
+                                    url: "TabelHitunganJBB", // Specify the URL of your controller
+                                    data: {
+                                        _token: csrfToken,
+                                        mode_insert: "KomponenLami",
+                                        KodeBarang: nama_barang.value,
+                                        gridLamiData: gridLamiData,
+                                    }, // Pass the data with csrf_tokern
+                                    success: function (response) {
+                                        // Handle the successful response from the controller
+                                        if (response.success) {
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "Pemberitahuan",
+                                                text: "Komponen baru sudah disimpan !",
+                                            }).then((result) => {
+                                                loadDataKoreksi(
+                                                    nama_barang.value,
+                                                    customer.value
+                                                );
+                                            });
+                                        }
+                                        console.log(response);
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error(error); // Handle errors
+                                    },
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Inner") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenInner.value,
+                            Lebar: lebarKomponenInner.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenInner.value,
+                            Berat: totalBeratKomponenInner.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Pocket") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenPocket.value,
+                            Lebar: lebarKomponenPocket.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenPocket.value,
+                            Berat: 0,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaPerMeterKomponenPocket.value,
+                            SubTotal: totalHargaKomponenPocket.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Eva") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenEva.value,
+                            Lebar: lebarKomponenEva.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenEva.value,
+                            Berat: beratKomponenEva.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaKomponenEva.value,
+                            SubTotal: totalHargaKomponenEva.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Benang") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "KomponenBodyBesar",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: 0,
+                            Lebar: 0,
+                            WA: 0,
+                            WE: 0,
+                            Denier: denierKomponenBenang.value,
+                            Quantity: 0,
+                            Berat: denierKomponenBenang.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaBenangPerKgKomponenBenang.value,
+                            SubTotal: totalHargaKomponenBenang.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Ongkos") {
             } else if (typeForm == "Form Komponen Dust") {
             } else if (typeForm == "Form Komponen Katun") {
@@ -5850,45 +6807,6 @@ tambah_komponen.addEventListener("click", function (event) {
             console.error("An error occurred:", error);
         }
     }
-});
-
-//#endregion
-
-//#region test table Form Komponen Lami
-
-const createdCell = function (cell, cellData, rowData, rowIndex, colIndex) {
-    let original;
-    cell.setAttribute("contenteditable", true);
-    cell.setAttribute("spellcheck", false);
-
-    cell.addEventListener("focus", function (e) {
-        original = e.target.textContent;
-    });
-
-    cell.addEventListener("blur", function (e) {
-        if (original !== e.target.textContent) {
-            const row = table.row(e.target.parentElement);
-            row.invalidate();
-            console.log("Cell changed: ", e.target); // Logging the cell
-            console.log("New content: ", e.target.textContent); // Logging the new content
-            console.log("Column index: ", colIndex); // Logging the column index
-            console.log(
-                "Column name: ",
-                table.column(colIndex).header().textContent
-            ); // Logging the column name
-            console.log("Row data: ", row.data()); // Logging the row data
-            console.log(cell, cellData, rowData, rowIndex, colIndex); // Logging all parameters
-        }
-    });
-};
-
-const table = $("#example").DataTable({
-    columnDefs: [
-        {
-            targets: "_all",
-            createdCell: createdCell,
-        },
-    ],
 });
 
 //#endregion
