@@ -91,23 +91,25 @@ class MaintenanceTabelOrder extends Controller
             foreach ($listNoSP as $noSP) {
                 $dataNoSP[] = [
                     'No_SuratPesanan' => $noSP->No_SuratPesanan,
-                    'Waktu_Delivery' => $noSP->Waktu_Delivery,
+                    'Waktu_Delivery' => \Carbon\Carbon::parse($noSP->Waktu_Delivery)->format('Y-m-d'),
                 ];
             }
 
             return datatables($dataNoSP)->make(true);
-        } else if ($id == 'getJumlahOrder') {
+        } else if ($id == 'getOrder') {
             $kodeBarang = $request->input('kodeBarangAsal');
-            $noSP = $request->input('NoSP');
+            $noSP = $request->input('no_pesanan');
 
             $details = DB::connection('ConnJumboBag')
                 ->select('exec SP_1273_JBB_LIST_KDBRG_HEADTO @KodeBarang = ?, @NoSP = ?', [$kodeBarang, $noSP]);
-
+            // dd($details);
             if (!empty($details)) {
                 $detail = $details[0];
                 return response()->json([
-                    'jumlah_order' => $detail->jumlah_order,
-                    'waktu_delivery' => \Carbon\Carbon::parse($detail->waktu_delivery)->format('m/d/Y'),
+                    'Jumlah_Order' => $detail->Jumlah_Order,
+                    'Waktu_Delivery' => \Carbon\Carbon::parse($detail->Waktu_Delivery)->format('Y-m-d'),
+                    'Tgl_Start' => $detail->A_Tgl_Start,
+                    'Tgl_Finish' => $detail->A_Tgl_Finish,
                 ]);
             } else {
                 return response()->json(['error' => 'No data found'], 404);
@@ -148,7 +150,7 @@ class MaintenanceTabelOrder extends Controller
             // Fetch the NoSP data
             $kodeBarangSLS = $request->input('kodebarangs');
             $jenisBarang = $request->input('jenis_barang');
-            dd($kodeBarangSLS, $jenisBarang);
+            // dd($kodeBarangSLS, $jenisBarang);
             $queryParams = [
                 $kodeBarangSLS,
             ];
@@ -177,17 +179,18 @@ class MaintenanceTabelOrder extends Controller
             $dataSuratPesanan = [];
             foreach ($listSuratPesanan as $suratPesanan) {
                 $dataSuratPesanan[] = [
-                    'IdSuratPesanan' => $suratPesanan->IdSuratPesanan,
+                    'IDSuratPesanan' => $suratPesanan->IDSuratPesanan,
                     'Qty' => $suratPesanan->Qty,
+                    'IDPesanan' => $suratPesanan->IDPesanan,
                 ];
             }
 
             return datatables($dataSuratPesanan)->make(true);
-        } else if ($id == 'getSuratPesananDetailsExtra') {
-            $kodeBarangSLS = $request->input('kodeBarangSLS');
-            $jenisBarang = $request->input('jenisBarang');
-            $noSP = $request->input('NoSP');
-
+        } else if ($id == 'getTransfer') {
+            $kodeBarangSLS = $request->input('kodebarangs');
+            $jenisBarang = $request->input('jenis_barang');
+            $noSP = $request->input('IDSuratPesanan');
+            // dd($kodeBarangSLS, $jenisBarang, $noSP);
             $queryParams = [
                 $kodeBarangSLS,
                 3,
@@ -196,24 +199,48 @@ class MaintenanceTabelOrder extends Controller
 
             $details = DB::connection('ConnJumboBag')
                 ->select('exec SP_1273_JBB_LIST_SALES @KodeBarangSLS = ?, @Kode = ?, @IdSuratPesanan = ?', $queryParams);
-
+            // dd($details);
             if (!empty($details)) {
                 $detail = $details[0];
                 return response()->json([
-                    'IdPesanan' => $detail->IdPesanan,
+                    'IDSuratPesanan' => $detail->IDSuratPesanan,
+                    'Qty' => $detail->Qty,
+                    'TglRencanaKirim' => \Carbon\Carbon::parse($detail->TglRencanaKirim)->format('Y-m-d'),
+                ]);
+            } else {
+                return response()->json(['error' => 'No data found'], 404);
+            }
+        } else if ($id == 'getSuratPesananDetailsExtra') {
+            $kodeBarangSLS = $request->input('kodebarangs');
+            $jenisBarang = $request->input('jenis_barang');
+            $noSP = $request->input('IDSuratPesanan');
+            // dd($kodeBarangSLS, $jenisBarang, $noSP);
+            $queryParams = [
+                $kodeBarangSLS,
+                3,
+                $noSP . (in_array(substr($jenisBarang, -1), ['E', 'F', 'N']) ? '' : 'A'),
+            ];
+
+            $details = DB::connection('ConnJumboBag')
+                ->select('exec SP_1273_JBB_LIST_SALES @KodeBarangSLS = ?, @Kode = ?, @IdSuratPesanan = ?', $queryParams);
+            // dd($details);
+            if (!empty($details)) {
+                $detail = $details[0];
+                return response()->json([
+                    'IDPesanan' => $detail->IDPesanan,
                     'Satuan' => $detail->Satuan,
                     'TglRencanaKirim' => $detail->TglRencanaKirim,
                 ]);
             } else {
                 return response()->json(['error' => 'No data found'], 404);
             }
-        } else if ($id == 'checkSisaOrder') {
-            $kodeBarang = $request->input('kodeBarang');
-            $noSP = $request->input('NoSP');
-
+        }else if ($id == 'checkSisaOrder') {
+            $kodeBarang = $request->input('kodebarangs');
+            $noSP = $request->input('IDSuratPesanan');
+            // dd($kodeBarang, $noSP);
             $sisaOrder = DB::connection('ConnJumboBag')
                 ->select('exec SP_1273_JBB_LIST_SISAORDER @KodeBarang = ?, @Kode = ?, @IdSP = ?', [$kodeBarang, 1, $noSP]);
-
+            // dd($sisaOrder);
             $ada = false;
             if (!empty($sisaOrder)) {
                 foreach ($sisaOrder as $order) {
@@ -227,7 +254,7 @@ class MaintenanceTabelOrder extends Controller
             if ($ada) {
                 $sisaDetails = DB::connection('ConnJumboBag')
                     ->select('exec SP_1273_JBB_LIST_SISAORDER @KodeBarang = ?, @Kode = ?, @IdSP = ?', [$kodeBarang, 2, $noSP]);
-
+                // dd($sisaDetails);
                 if (!empty($sisaDetails)) {
                     $sisaDetail = $sisaDetails[0];
                     return response()->json([

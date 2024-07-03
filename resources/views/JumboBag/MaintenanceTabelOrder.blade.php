@@ -141,8 +141,9 @@
                                 <div class="form-group">
                                     <label for="qtySP">Qty SP</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="qty_sp" name="qty_sp"
-                                            required>
+                                        <input type="text" style="width: 75%" class="form-control" id="qty_sp"
+                                            name="qty_sp" required>
+                                        <input type="text" class="form-control" id="satuan" name="satuan">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -175,8 +176,9 @@
                             <button id="btn_isi" style="width: 100px" class="btn btn-primary">Isi</button>
                             <button id="btn_koreksi" style="width: 100px" class="btn btn-warning">Koreksi</button>
                             <button id="btn_hapus" style="width: 100px" class="btn btn-danger">Hapus</button>
-                            <button style="margin-right: 910px; width: 100px"id="btn_stop_order" style="width: 100px"
-                                class="btn btn-dark">Stop Order</button>
+                            <button id="btn_stop_order" style="width: 100px" class="btn btn-dark">Stop Order</button>
+                            <button style="margin-right: 755px; width: 150px"id="btn_transfer"
+                                class="btn btn-info">Transfer Data</button>
                             <button style="width: 100px" id="btn_proses" style="width: 100px"
                                 class="btn btn-success">Proses</button>
                             <button id="btn_batal" style="width: 100px" class="btn">Batal</button>
