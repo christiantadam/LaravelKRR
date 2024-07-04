@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let kodeBarangAsal = document.getElementById("kodeBarangAsal");
     let no_pesanan = document.getElementById("no_pesanan");
     let time_deliv = document.getElementById("time_deliv");
+    let time_delivold = document.getElementById("time_delivold");
     let jumlah_order = document.getElementById("jumlah_order");
     let tanggal_dikerjakan = document.getElementById("tanggal_dikerjakan");
     let tanggal_selesai = document.getElementById("tanggal_selesai");
@@ -98,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
             btn_koreksi.disabled = false;
             btn_hapus.disabled = false;
             btn_stop_order.disabled = false;
-            btn_transfer.disabled = true;
+            btn_transfer.hidden = true;
             btn_proses.disabled = true;
             btn_batal.disabled = true;
             btn_customer.disabled = true;
@@ -196,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
         btn_customer.focus();
         proses = 1;
         cleardata();
-        btn_transfer.disabled = false;
+        btn_transfer.hidden = false;
     });
 
     btn_transfer.addEventListener("click", function (event) {
@@ -247,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
         btn_kodebarang.disabled = false;
         btn_pesanan.disabled = false;
         btn_customer.focus();
-        proses = 5;
+        proses = 1;
     });
 
     btn_koreksi.addEventListener("click", function (event) {
@@ -268,6 +269,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     btn_stop_order.addEventListener("click", function (event) {
         event.preventDefault();
+        // if (alasan.value.trim() === "") {
+        //     Swal.fire({
+        //         icon: "warning",
+        //         title: "Warning!",
+        //         text: "Isi alasan stop dahulu",
+        //         showConfirmButton: true,
+        //     });
+        //     return;
+        // }
         tmb = 2;
         proses = 4;
         aktif_tombol(tmb);
@@ -284,26 +294,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
-        if (no_suratpesanan.value.trim() === "") {
-            Swal.fire({
-                icon: "warning",
-                title: "Warning!",
-                text: "Isi data terlebih dahulu",
-                showConfirmButton: true,
-            });
-            return; // Prevent the form submission
+        if (proses === 4) {
+            if (alasan.value.trim() === "") {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Warning!",
+                    text: "Isi alasan stop dahulu",
+                    showConfirmButton: true,
+                });
+                return;
+            }
         }
+        // if (no_suratpesanan.value.trim() === "") {
+        //     Swal.fire({
+        //         icon: "warning",
+        //         title: "Warning!",
+        //         text: "Isi data terlebih dahulu",
+        //         showConfirmButton: true,
+        //     });
+        //     return; // Prevent the form submission
+        // }
         $.ajax({
-            url: "/PermohonanRetur",
+            url: "/MaintenanceTabelOrder",
             type: "POST",
             data: {
                 _token: csrfToken,
                 proses: proses,
-                time_deliv: time_deliv.value,
-                no_suratpesanan: no_suratpesanan.value,
                 kodeBarangAsal: kodeBarangAsal.value,
-                jumlah_retur: jumlah_retur.value,
-                no_referensi: no_referensi.value,
+                kodebarangs: kodebarangs.value,
+                id_customer: id_customer.value,
+                no_pesanan: no_pesanan.value,
+                time_deliv: time_deliv.value,
+                jumlah_order: jumlah_order.value,
+                idpesanan: idpesanan.value,
+                tanggal_dikerjakan: tanggal_dikerjakan.value,
+                tanggal_selesai: tanggal_selesai.value,
+                tanggal_j: tanggal_j.value,
+                alasan: alasan.value,
             },
             success: function (data) {
                 console.log(data);

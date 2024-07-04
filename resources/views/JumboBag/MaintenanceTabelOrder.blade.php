@@ -61,6 +61,9 @@
                                     <div class="input-group">
                                         <input type="date" class="form-control" id="time_deliv" name="time_deliv"
                                             required>
+                                        <input type="hidden" class="form-control" id="time_delivold"
+                                            name="time_delivold" required>
+
                                     </div>
                                 </div>
                                 <hr>
@@ -172,16 +175,28 @@
                         <br>
                     </div>
                     <div>
-                        <div>
+                        <div
+                            style="
+                        display: flex;
+                        flex-direction: row;
+                        width: 100%;
+                    ">
                             <button id="btn_isi" style="width: 100px" class="btn btn-primary">Isi</button>
                             <button id="btn_koreksi" style="width: 100px" class="btn btn-warning">Koreksi</button>
                             <button id="btn_hapus" style="width: 100px" class="btn btn-danger">Hapus</button>
                             <button id="btn_stop_order" style="width: 100px" class="btn btn-dark">Stop Order</button>
-                            <button style="margin-right: 755px; width: 150px"id="btn_transfer"
-                                class="btn btn-info">Transfer Data</button>
-                            <button style="width: 100px" id="btn_proses" style="width: 100px"
-                                class="btn btn-success">Proses</button>
-                            <button id="btn_batal" style="width: 100px" class="btn">Batal</button>
+                            <button style="width: 150px"id="btn_transfer" class="btn btn-info">Transfer
+                                Data</button>
+                            <div
+                                style="
+                            width: 100%;
+                            text-align: right;
+                            margin-right: 2%;
+                        ">
+                                <button style="width: 100px" id="btn_proses" style="width: 100px"
+                                    class="btn btn-success">Proses</button>
+                                <button id="btn_batal" style="width: 100px" class="btn">Batal</button>
+                            </div>
                         </div>
                         {{-- <div style="margin-left: -10px;">
                             <button id="btn_proses" style="width: 100px" class="btn btn-success">Proses</button>
