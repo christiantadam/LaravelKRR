@@ -794,6 +794,13 @@ class TabelHitunganJumboBag extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
+        } else if ($id == 'getLebarKomponenKatun'){
+            try {
+                $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_LEBARKATUN',);
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
         }
     }
 
