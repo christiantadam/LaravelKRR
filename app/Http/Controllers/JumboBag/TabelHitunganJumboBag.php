@@ -756,7 +756,7 @@ class TabelHitunganJumboBag extends Controller
 
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         if ($id == 'getDiameterKomponenRope') {
             try {
@@ -775,6 +775,21 @@ class TabelHitunganJumboBag extends Controller
         } else if ($id == 'getLebarKomponenPita') {
             try {
                 $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_LEBARPITA');
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } else if ($id == 'getTotalBeratKomponenKomponenOngkos') {
+            try {
+                $data1 = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_JML_RINCIANTH @KodeBarang = ?', [$request->input('KodeBarang')]);
+                $ada = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_CHECKKD_KDBRG_RINCIANTH @KodeBarang = ?, @Kode = ?', [$request->input('KodeBarang'), '19IL00']);
+
+                if ($ada > 0) {
+                    $data2 = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KD_RINCIANTH @KodeBarang = ?, @KodeKomponen = ?, @Kounter = ?', [$request->input('KodeBarang'),'19IL' ,1]);
+                } else {
+                    $data2 = [['Berat' => 0]];
+                }
+                $data = [$data1, $data2];
                 return response()->json($data);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);

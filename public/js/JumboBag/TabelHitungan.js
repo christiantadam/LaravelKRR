@@ -2044,23 +2044,20 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <input id="totalBeratKomponenKomponenOngkos" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="hargaPerKgKomponenOngkos">Harga/Kg</label>
-                                    <input id="hargaPerKgKomponenOngkos" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenOngkos">Kounter</label>
-                                    <input id="kounterKomponenOngkos" class="input">
+                                    <label for="beratInnerLinerKomponenOngkos">Berat Inner Liner</label>
+                                    <input id="beratInnerLinerKomponenOngkos" class="input">
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratInnerLinerKomponenOngkos">Berat Inner Liner</label>
-                                    <input id="beratInnerLinerKomponenOngkos" class="input">
+                                    <label for="hargaPerKgKomponenOngkos">Harga/Kg</label>
+                                    <input id="hargaPerKgKomponenOngkos" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="totalHargaKomponenOngkos">Total Harga</label>
-                                    <input id="totalHargaKomponenOngkos" class="input">
+                                    <input id="totalHargaKomponenOngkos" class="input" readonly>
                                 </div>
+                                <input type="hidden" id="kounterKomponenOngkos" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -4487,51 +4484,109 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         denierKomponenBenang = denier2KomponenBenang.value;
                     }
 
-                    kebutuhanKomponenBenang.addEventListener("keypress", function (e) {
-                        if (e.key == "Enter") {
-                            if (this.value == "") {
-                                this.classList.add("input-error");
-                                this.setCustomValidity(
-                                    "Isi dulu Kebutuhannya!"
-                                );
-                                this.reportValidity();
-                            } else {
-                                this.classList.remove("input-error");
-                                this.setCustomValidity("");
-                                hitungBerat();
+                    kebutuhanKomponenBenang.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Kebutuhannya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
                             }
                         }
-                    });
+                    );
 
                     function hitungBerat() {
                         let TBerat, ReInb;
-                        ReInb = parseFloat(hargaBenangPerKgKomponenBenang.value);
-                        TBerat = (ReInb / 1000) * parseFloat(kebutuhanKomponenBenang.value);
+                        ReInb = parseFloat(
+                            hargaBenangPerKgKomponenBenang.value
+                        );
+                        TBerat =
+                            (ReInb / 1000) *
+                            parseFloat(kebutuhanKomponenBenang.value);
 
                         // Pembulatan
                         let XDes = TBerat.toFixed(1);
                         if (parseInt(XDes[XDes.length - 1]) === 0) {
-                            totalHargaKomponenBenang.value = TBerat.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            totalHargaKomponenBenang.value = TBerat.toFixed(
+                                2
+                            ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                         } else {
                             if (parseInt(XDes[XDes.length - 1]) > 5) {
-                                totalHargaKomponenBenang.value = Math.round(TBerat).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                totalHargaKomponenBenang.value = Math.round(
+                                    TBerat
+                                )
+                                    .toFixed(2)
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             } else if (parseInt(XDes[XDes.length - 1]) === 5) {
                                 TBerat = Math.round(TBerat);
-                                totalHargaKomponenBenang.value = TBerat.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                totalHargaKomponenBenang.value = TBerat.toFixed(
+                                    2
+                                ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             } else {
                                 TBerat = Math.round(TBerat) + 1;
-                                totalHargaKomponenBenang.value = TBerat.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                totalHargaKomponenBenang.value = TBerat.toFixed(
+                                    2
+                                ).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                             }
                         }
                     }
                 } else if (typeForm == "Form Komponen Ongkos") {
+                    //Javascript khusus untuk Form Komponen Ongkos FormKomponenOngkos.js
+                    totalBeratKomponenKomponenOngkos = document.getElementById(
+                        "totalBeratKomponenKomponenOngkos"
+                    );
+                    beratInnerLinerKomponenOngkos = document.getElementById(
+                        "beratInnerLinerKomponenOngkos"
+                    );
+                    hargaPerKgKomponenOngkos = document.getElementById(
+                        "hargaPerKgKomponenOngkos"
+                    );
+                    totalHargaKomponenOngkos = document.getElementById(
+                        "totalHargaKomponenOngkos"
+                    );
+                    kounterKomponenOngkos = document.getElementById(
+                        "kounterKomponenOngkos"
+                    );
+
+                    $.ajax({
+                        url: "TabelHitunganJBB/getTotalBeratKomponenKomponenOngkos", // URL to your PHP script that fetches data
+                        method: "GET",
+                        dataType: "json",
+                        data: { KodeBarang: nama_barang.value },
+                        success: function (data) {
+                            // Get the select element
+                            console.log(data);
+                            totalBeratKomponenKomponenOngkos.value =
+                                data[0][0].total_berat;
+                            beratInnerLinerKomponenOngkos.value =
+                                data[1][0].Berat;
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching data:", error);
+                        },
+                    });
                 } else if (typeForm == "Form Komponen Dust") {
+                    //Javascript khusus untuk Form Komponen Dust FormKomponenDust.js
                 } else if (typeForm == "Form Komponen Katun") {
+                    //Javascript khusus untuk Form Komponen Katun FormKomponenKatun.js
                 } else if (typeForm == "Form Komponen Kertas") {
+                    //Javascript khusus untuk Form Komponen Kertas FormKomponenKertas.js
                 } else if (typeForm == "Form Komponen Kain") {
+                    //Javascript khusus untuk Form Komponen Kain FormKomponenKain.js
                 } else if (typeForm == "Form Komponen Benang Katun") {
+                    //Javascript khusus untuk Form Komponen Benang Katun FormKomponenBenangKatun.js
                 } else if (typeForm == "Form Komponen Karet") {
+                    //Javascript khusus untuk Form Komponen Karet FormKomponenKaret.js
                 } else if (typeForm == "Form Komponen Carbon") {
+                    //Javascript khusus untuk Form Komponen Carbon FormKomponenCarbon.js
                 }
 
                 inputElements.forEach(function (id) {
@@ -6807,6 +6862,45 @@ tambah_komponen.addEventListener("click", function (event) {
             console.error("An error occurred:", error);
         }
     }
+});
+
+//#endregion
+
+//#region test table Form Komponen Lami
+
+const createdCell = function (cell, cellData, rowData, rowIndex, colIndex) {
+    let original;
+    cell.setAttribute("contenteditable", true);
+    cell.setAttribute("spellcheck", false);
+
+    cell.addEventListener("focus", function (e) {
+        original = e.target.textContent;
+    });
+
+    cell.addEventListener("blur", function (e) {
+        if (original !== e.target.textContent) {
+            const row = table.row(e.target.parentElement);
+            row.invalidate();
+            console.log("Cell changed: ", e.target); // Logging the cell
+            console.log("New content: ", e.target.textContent); // Logging the new content
+            console.log("Column index: ", colIndex); // Logging the column index
+            console.log(
+                "Column name: ",
+                table.column(colIndex).header().textContent
+            ); // Logging the column name
+            console.log("Row data: ", row.data()); // Logging the row data
+            console.log(cell, cellData, rowData, rowIndex, colIndex); // Logging all parameters
+        }
+    });
+};
+
+const table = $("#example").DataTable({
+    columnDefs: [
+        {
+            targets: "_all",
+            createdCell: createdCell,
+        },
+    ],
 });
 
 //#endregion
