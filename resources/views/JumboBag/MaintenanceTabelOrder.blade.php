@@ -23,7 +23,7 @@
                 }
             </style>
             <div class="col-md-10 RDZMobilePaddingLR0">
-                <form id="copyKodeBarangForm" action="{{ route('CopyTabelOrder.store') }}" method="POST">
+                <form id="copyKodeBarangForm" action="{{ route('MaintenanceTabelOrder.store') }}" method="POST">
                     <div style="display: flex; flex-direction: row; gap: 1%;margin-bottom: 5px;">
                         <div style="width: 50%" class="card">
                             <div class="card-header">Jumbo Bag</div>
