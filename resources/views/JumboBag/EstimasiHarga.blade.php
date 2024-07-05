@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-header">Estimasi Harga</div>
                     <div class="card-body">
-                        <form id="PermohonanReturForm" action="{{ route('PermohonanRetur.store') }}" method="POST">
+                        <form id="PermohonanReturForm" action="{{ route('EstimasiHarga.store') }}" method="POST">
                             @csrf
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -55,6 +55,7 @@
                                             <th>Nama Komponen</th>
                                             <th>Berat</th>
                                             <th>Index</th>
+                                            <th>Harga</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -63,8 +64,8 @@
                             </div>
                             <div class="d-flex align-items-start">
                                 <div class="me-4">
-                                    <label for="space" style="visibility: hidden;">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</label>
-
+                                    <label for="space" style="visibility: hidden;">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</label>
+                                    <label id="keterangan" for="text"></label>
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="form-group">

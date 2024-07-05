@@ -95,9 +95,27 @@ class EstimasiHarga extends Controller
                     'Nama_Komponen' => $row->Nama_Komponen,
                     'Berat' => number_format($row->Berat, 2),
                     'Index' => $row->indek,
+                    'Harga' => $row->Harga,
                 ];
             }
             return response()->json($dataTable);
+        } else if ($id == 'getKeterangan') {
+            $kode = $request->input('kodeBarangAsal');
+            // dd($kode);
+            // Fetch the data
+            $data = DB::connection('ConnJumboBag')
+                ->select('exec SP_1486_LIST_TABEL_HITUNGAN @KODE = ?', [$kode]);
+            // dd($data);
+            // Convert the data into an array that DataTables can consume
+            $dataKeterangan = [];
+            foreach ($data as $row) {
+                $dataKeterangan[] = [
+                    'keterangan' => $row->keterangan,
+                ];
+            }
+
+            // Return the data for DataTables
+            return datatables($dataKeterangan)->make(true);
         }
     }
     public function edit($id)
