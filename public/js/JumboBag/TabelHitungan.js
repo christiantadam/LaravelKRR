@@ -693,9 +693,10 @@ function updateDataHead() {
 
         $.ajax({
             type: "PUT", // or 'GET' depending on your server setup
-            url: "TabelHitunganJBB/" + nama_barang.value, // Specify the URL of your controller
+            url: "TabelHitunganJBB/" + HeadUpdate, // Specify the URL of your controller
             data: {
                 _token: csrfToken,
+                nama_barang: nama_barang.value,
                 BentukBB: body_bentuk.value,
                 ModelBB: id_body_model.value,
                 KodeModelBB: body_bentuk.value + id_body_model.value,
@@ -742,7 +743,6 @@ function updateDataHead() {
                 KodeCustomer: id_customer.value,
                 Tanggal: tanggal.value,
                 Tgl_Update: formattedDateNow,
-                mode_update: "HeadUpdate",
             }, // Pass the data with csrf_tokern
             success: function (response) {
                 // Handle the successful response from the controller
@@ -2196,27 +2196,19 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebarKomponenKain">Lebar</label>
-                                    <div style="width: 100%">
-                                        <input id="lebarKomponenKain" class="input" style="width: 90%"> CM
-                                    </div>
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="quantityKomponenKain">Quantity</label>
-                                    <input id="quantityKomponenKain" class="input">
-                                </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenKain">Kounter</label>
-                                    <input id="kounterKomponenKain" class="input" readonly>
-                                </div>
-                            </div>
-                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="panjangKomponenKain">Panjang</label>
                                     <div style="width: 100%">
                                         <input id="panjangKomponenKain" class="input" style="width: 90%"> CM
                                     </div>
                                 </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebarKomponenKain">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebarKomponenKain" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="GSMKomponenKain">GSM</label>
                                     <div style="width: 100%">
@@ -2224,9 +2216,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBeratKomponenKain">Total Berat</label>
-                                    <input id="totalBeratKomponenKain" class="input">
+                                    <label for="quantityKomponenKain">Quantity</label>
+                                    <input id="quantityKomponenKain" class="input">
                                 </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="totalBeratKomponenKain">Total Berat</label>
+                                    <input id="totalBeratKomponenKain" class="input" readonly>
+                                </div>
+                                <input type="hidden" id="kounterKomponenKain" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -2249,32 +2246,30 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="beratStdKomponenBenangKatun">Berat Std</label>
+                                    <label for="lebarKomponenBenangKatun">Lebar</label>
                                     <div style="width: 100%">
-                                        <input id="beratStdKomponenBenangKatun" class="input" style="width: 90%"> Gram/CM
+                                        <select class="input" id="lebarKomponenBenangKatun">
+                                            <option selected disabled>-- Pilih Lebar --</option>
+                                        </select> CM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBeratKomponenBenangKatun">Total Berat</label>
-                                    <input id="totalBeratKomponenBenangKatun" class="input">
+                                    <label for="beratStdKomponenBenangKatun">Berat Std</label>
+                                    <div style="width: 100%">
+                                        <input id="beratStdKomponenBenangKatun" class="input" style="width: 90%" readonly> Gram/CM
+                                    </div>
                                 </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebarKomponenBenangKatun">Lebar</label>
-                                    <div style="width: 100%">
-                                        <input id="lebarKomponenBenangKatun" class="input" style="width: 80%"> CM
-                                        <button id="btnLebarKomponenBenangKatun" class="btn">. . .</button>
-                                    </div>
-                                </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="quantityKomponenBenangKatun">Quantity</label>
                                     <input id="quantityKomponenBenangKatun" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenBenangKatun">Kounter</label>
-                                    <input id="kounterKomponenBenangKatun" class="input" readonly>
+                                    <label for="totalBeratKomponenBenangKatun">Total Berat</label>
+                                    <input id="totalBeratKomponenBenangKatun" class="input" readonly>
                                 </div>
+                                <input type="hidden" id="kounterKomponenBenangKatun" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -2297,32 +2292,28 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebarKomponenKaret">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebarKomponenKaret" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="beratPerMeterKomponenKaret">Berat/Meter</label>
                                     <div style="width: 100%">
                                         <input id="beratPerMeterKomponenKaret" class="input" style="width: 90%"> Gram/M
                                     </div>
                                 </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBeratKomponenKaret">Total Berat</label>
-                                    <input id="totalBeratKomponenKaret" class="input">
-                                </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebarKomponenKaret">Lebar</label>
-                                    <div style="width: 100%">
-                                        <input id="lebarKomponenKaret" class="input" style="width: 80%"> CM
-                                        <button id="btnLebarKomponenKaret" class="btn">. . .</button>
-                                    </div>
-                                </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="quantityKomponenKaret">Quantity</label>
                                     <input id="quantityKomponenKaret" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenKaret">Kounter</label>
-                                    <input id="kounterKomponenKaret" class="input" readonly>
+                                    <label for="totalBeratKomponenKaret">Total Berat</label>
+                                    <input id="totalBeratKomponenKaret" class="input"readonly>
                                 </div>
+                                <input type="hidden" id="kounterKomponenKaret" class="input" >
                             </div>
                         </div>
                     </div>`;
@@ -2339,6 +2330,12 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         <div style="display: flex;width: 100%;flex-direction: row;margin-bottom: 4px;gap: 2%">
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
+                                    <label for="lebarKomponenCarbon">Lebar</label>
+                                    <div style="width: 100%">
+                                        <input id="lebarKomponenCarbon" class="input" style="width: 90%"> CM
+                                    </div>
+                                </div>
+                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="panjangKomponenCarbon">Panjang</label>
                                     <div style="width: 100%">
                                         <input id="panjangKomponenCarbon" class="input" style="width: 90%"> CM
@@ -2348,26 +2345,17 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <label for="tebalKomponenCarbon">Tebal</label>
                                     <input id="tebalKomponenCarbon" class="input" style="width: 90%"> Gram/M
                                 </div>
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="totalBeratKomponenCarbon">Total Berat</label>
-                                    <input id="totalBeratKomponenCarbon" class="input">
-                                </div>
                             </div>
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
-                                <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="lebarKomponenCarbon">Lebar</label>
-                                    <div style="width: 100%">
-                                        <input id="lebarKomponenCarbon" class="input" style="width: 90%"> CM
-                                    </div>
-                                </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="quantityKomponenCarbon">Quantity</label>
                                     <input id="quantityKomponenCarbon" class="input">
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
-                                    <label for="kounterKomponenCarbon">Kounter</label>
-                                    <input id="kounterKomponenCarbon" class="input" readonly>
+                                    <label for="totalBeratKomponenCarbon">Total Berat</label>
+                                    <input id="totalBeratKomponenCarbon" class="input">
                                 </div>
+                                    <input type="hidden" id="kounterKomponenCarbon" class="input">
                             </div>
                         </div>
                     </div>`;
@@ -2434,7 +2422,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     let berat_weftKomponenGeneral = document.getElementById(
                         "berat_weftKomponenGeneral"
                     );
-                    var inputElements = [
+                    let inputElements = [
                         "panjangKomponenGeneral",
                         "warpKomponenGeneral",
                         "denier_warpKomponenGeneral",
@@ -2967,7 +2955,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     let subtotalKomponenCircular = document.getElementById(
                         "subtotalKomponenCircular"
                     );
-                    var inputElements = [
+                    let inputElements = [
                         "panjangKomponenCircular",
                         "lebarKomponenCircular",
                         "warpKomponenCircular",
@@ -3300,7 +3288,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     let subtotalKomponenSquare = document.getElementById(
                         "subtotalKomponenSquare"
                     );
-                    var inputElements = [
+                    let inputElements = [
                         "panjangKomponenSquare",
                         "warpKomponenSquare",
                         "denier_warpKomponenSquare",
@@ -3519,7 +3507,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         "kounterKomponenRope"
                     );
 
-                    var inputElements = [
+                    let inputElements = [
                         "panjangKomponenRope",
                         "quantityKomponenRope",
                         "totalBeratKomponenRope",
@@ -3655,7 +3643,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Belt") {
                     //Javascript khusus untuk Form Komponen Belt FormKomponenBelt.js
-                    var inputElements = [
+                    let inputElements = [
                         "panjangKomponenBelt",
                         "lebarKomponenBelt",
                         "quantityKomponenBelt",
@@ -3872,6 +3860,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Selang") {
                     //Javascript khusus untuk Form Komponen Selang FormKomponenSelang.js
+                    let inputElements = [
+                        "panjangKomponenSelang",
+                        "diameterKomponenSelang",
+                        "quantityKomponenSelang",
+                        "beratPer5cmKomponenSelang",
+                        "totalBeratKomponenSelang",
+                        "kounterKomponenSelang",
+                    ];
                     let panjangKomponenSelang = document.getElementById(
                         "panjangKomponenSelang"
                     );
@@ -3945,6 +3941,12 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Block") {
                     //Javascript khusus untuk Form Block FormBlock.js
+                    let inputElements = [
+                        "beratBlock",
+                        "totalBeratBlock",
+                        "quantityBlock",
+                        "kounterBlock",
+                    ];
                     let beratBlock = document.getElementById("beratBlock");
                     let totalBeratBlock =
                         document.getElementById("totalBeratBlock");
@@ -4140,6 +4142,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Inner") {
                     //Javascript khusus untuk Form Komponen Inner FormKomponenInner.js
+                    let inputElements = [
+                        "tebalInnerKomponenInner",
+                        "lebarKomponenInner",
+                        "panjangKomponenInner",
+                        "quantityKomponenInner",
+                        "totalBeratKomponenInner",
+                        "kounterKomponenInner",
+                    ];
                     let tebalInnerKomponenInner = document.getElementById(
                         "tebalInnerKomponenInner"
                     );
@@ -4295,6 +4305,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Pocket") {
                     //Javascript khusus untuk Form Komponen Pocket FormKomponenPocket.js
+                    let inputElements = [
+                        "panjangKomponenPocket",
+                        "lebarKomponenPocket",
+                        "quantityKomponenPocket",
+                        "hargaPerMeterKomponenPocket",
+                        "totalHargaKomponenPocket",
+                        "kounterKomponenPocket",
+                    ];
                     let panjangKomponenPocket = document.getElementById(
                         "panjangKomponenPocket"
                     );
@@ -4369,6 +4387,15 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Eva") {
                     //Javascript khusus untuk Form Komponen Eva FormKomponenEva.js
+                    let inputElements = [
+                        "panjangKomponenEva",
+                        "lebarKomponenEva",
+                        "quantityKomponenEva",
+                        "hargaKomponenEva",
+                        "kounterKomponenEva",
+                        "beratKomponenEva",
+                        "totalHargaKomponenEva",
+                    ];
                     let panjangKomponenEva =
                         document.getElementById("panjangKomponenEva");
                     let lebarKomponenEva =
@@ -4435,6 +4462,11 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         }
                     }
                 } else if (typeForm == "Form Komponen Benang") {
+                    let inputElements = [
+                        "hargaBenangPerKgKomponenBenang",
+                        "totalHargaKomponenBenang",
+                        "kebutuhanKomponenBenang",
+                    ];
                     let hargaBenangPerKgKomponenBenang =
                         document.getElementById(
                             "hargaBenangPerKgKomponenBenang"
@@ -4518,19 +4550,26 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Ongkos") {
                     //Javascript khusus untuk Form Komponen Ongkos FormKomponenOngkos.js
-                    totalBeratKomponenKomponenOngkos = document.getElementById(
-                        "totalBeratKomponenKomponenOngkos"
-                    );
-                    beratInnerLinerKomponenOngkos = document.getElementById(
+                    let inputElements = [
+                        "totalBeratKomponenKomponenOngkos",
+                        "beratInnerLinerKomponenOngkos",
+                        "hargaPerKgKomponenOngkos",
+                        "totalHargaKomponenOngkos",
+                    ];
+                    let totalBeratKomponenKomponenOngkos =
+                        document.getElementById(
+                            "totalBeratKomponenKomponenOngkos"
+                        );
+                    let beratInnerLinerKomponenOngkos = document.getElementById(
                         "beratInnerLinerKomponenOngkos"
                     );
-                    hargaPerKgKomponenOngkos = document.getElementById(
+                    let hargaPerKgKomponenOngkos = document.getElementById(
                         "hargaPerKgKomponenOngkos"
                     );
-                    totalHargaKomponenOngkos = document.getElementById(
+                    let totalHargaKomponenOngkos = document.getElementById(
                         "totalHargaKomponenOngkos"
                     );
-                    kounterKomponenOngkos = document.getElementById(
+                    let kounterKomponenOngkos = document.getElementById(
                         "kounterKomponenOngkos"
                     );
 
@@ -4619,15 +4658,20 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Dust") {
                     //Javascript khusus untuk Form Komponen Dust FormKomponenDust.js
-                    beratKomponenDust =
+                    var inputElements = [
+                        "beratKomponenDust",
+                        "hargaPerKgKomponenDust",
+                        "totalHargaKomponenDust",
+                    ];
+                    let beratKomponenDust =
                         document.getElementById("beratKomponenDust");
-                    hargaPerKgKomponenDust = document.getElementById(
+                    let hargaPerKgKomponenDust = document.getElementById(
                         "hargaPerKgKomponenDust"
                     );
-                    totalHargaKomponenDust = document.getElementById(
+                    let totalHargaKomponenDust = document.getElementById(
                         "totalHargaKomponenDust"
                     );
-                    kounterKomponenDust = document.getElementById(
+                    let kounterKomponenDust = document.getElementById(
                         "kounterKomponenDust"
                     );
 
@@ -4691,27 +4735,36 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Katun") {
                     //Javascript khusus untuk Form Komponen Katun FormKomponenKatun.js
-                    panjangKomponenKatun = document.getElementById(
+                    var inputElements = [
+                        "panjangKomponenKatun",
+                        "lebarKomponenKatun",
+                        "beratPerMeterKomponenKatun",
+                        "quantityKomponenKatun",
+                        "hargaPerKgKomponenKatun",
+                        "totalBeratKomponenKatun",
+                        "totalHargaKomponenKatun",
+                    ];
+                    let panjangKomponenKatun = document.getElementById(
                         "panjangKomponenKatun"
                     );
-                    lebarKomponenKatun =
+                    let lebarKomponenKatun =
                         document.getElementById("lebarKomponenKatun");
-                    beratPerMeterKomponenKatun = document.getElementById(
+                    let beratPerMeterKomponenKatun = document.getElementById(
                         "beratPerMeterKomponenKatun"
                     );
-                    quantityKomponenKatun = document.getElementById(
+                    let quantityKomponenKatun = document.getElementById(
                         "quantityKomponenKatun"
                     );
-                    hargaPerKgKomponenKatun = document.getElementById(
+                    let hargaPerKgKomponenKatun = document.getElementById(
                         "hargaPerKgKomponenKatun"
                     );
-                    totalBeratKomponenKatun = document.getElementById(
+                    let totalBeratKomponenKatun = document.getElementById(
                         "totalBeratKomponenKatun"
                     );
-                    totalHargaKomponenKatun = document.getElementById(
+                    let totalHargaKomponenKatun = document.getElementById(
                         "totalHargaKomponenKatun"
                     );
-                    kounterKomponenKatun = document.getElementById(
+                    let kounterKomponenKatun = document.getElementById(
                         "kounterKomponenKatun"
                     );
 
@@ -4805,21 +4858,28 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Kertas") {
                     //Javascript khusus untuk Form Komponen Kertas FormKomponenKertas.js
-                    panjangKomponenKertas = document.getElementById(
+                    var inputElements = [
+                        "panjangKomponenKertas",
+                        "GSMKomponenKertas",
+                        "lebarKomponenKertas",
+                        "quantityKomponenKertas",
+                        "totalBeratKomponenKertas",
+                    ];
+                    let panjangKomponenKertas = document.getElementById(
                         "panjangKomponenKertas"
                     );
-                    GSMKomponenKertas =
+                    let GSMKomponenKertas =
                         document.getElementById("GSMKomponenKertas");
-                    lebarKomponenKertas = document.getElementById(
+                    let lebarKomponenKertas = document.getElementById(
                         "lebarKomponenKertas"
                     );
-                    quantityKomponenKertas = document.getElementById(
+                    let quantityKomponenKertas = document.getElementById(
                         "quantityKomponenKertas"
                     );
-                    totalBeratKomponenKertas = document.getElementById(
+                    let totalBeratKomponenKertas = document.getElementById(
                         "totalBeratKomponenKertas"
                     );
-                    kounterKomponenKertas = document.getElementById(
+                    let kounterKomponenKertas = document.getElementById(
                         "kounterKomponenKertas"
                     );
 
@@ -4853,12 +4913,299 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     }
                 } else if (typeForm == "Form Komponen Kain") {
                     //Javascript khusus untuk Form Komponen Kain FormKomponenKain.js
+                    var inputElements = [
+                        "hargaKomponenKain",
+                        "panjangKomponenKain",
+                        "lebarKomponenKain",
+                        "GSMKomponenKain",
+                        "quantityKomponenKain",
+                        "totalBeratKomponenKain",
+                    ];
+                    let hargaKomponenKain =
+                        document.getElementById("hargaKomponenKain");
+                    let panjangKomponenKain = document.getElementById(
+                        "panjangKomponenKain"
+                    );
+                    let lebarKomponenKain =
+                        document.getElementById("lebarKomponenKain");
+                    let GSMKomponenKain =
+                        document.getElementById("GSMKomponenKain");
+                    let quantityKomponenKain = document.getElementById(
+                        "quantityKomponenKain"
+                    );
+                    let totalBeratKomponenKain = document.getElementById(
+                        "totalBeratKomponenKain"
+                    );
+                    let kounterKomponenKain = document.getElementById(
+                        "kounterKomponenKain"
+                    );
+
+                    quantityKomponenKain.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    hitungBerat();
+                                }
+                            }
+                        }
+                    );
+
+                    function hitungBerat() {
+                        const panjang = parseFloat(panjangKomponenKain.value);
+                        const lebar = parseFloat(lebarKomponenKain.value);
+                        const gsm = parseFloat(GSMKomponenKain.value);
+                        const quantity = parseFloat(quantityKomponenKain.value);
+
+                        // Calculate total weight
+                        let tBerat =
+                            ((panjang * lebar) / 10000) * gsm * quantity;
+
+                        // Rounding
+                        const xDes = tBerat.toFixed(1);
+                        const lastDigit = parseInt(
+                            xDes.charAt(xDes.length - 1),
+                            10
+                        );
+
+                        if (lastDigit === 0) {
+                            totalBeratKomponenKain.value = tBerat.toFixed(2);
+                        } else {
+                            if (lastDigit > 5) {
+                                totalBeratKomponenKain.value =
+                                    Math.round(tBerat).toFixed(2);
+                            } else if (lastDigit === 5) {
+                                tBerat = Math.round(tBerat);
+                                totalBeratKomponenKain.value =
+                                    tBerat.toFixed(2);
+                            } else {
+                                tBerat = Math.round(tBerat) + 1;
+                                totalBeratKomponenKain.value =
+                                    tBerat.toFixed(2);
+                            }
+                        }
+                    }
                 } else if (typeForm == "Form Komponen Benang Katun") {
                     //Javascript khusus untuk Form Komponen Benang Katun FormKomponenBenangKatun.js
+                    var inputElements = [
+                        "panjangKomponenBenangKatun",
+                        "lebarKomponenBenangKatun",
+                        "beratStdKomponenBenangKatun",
+                        "quantityKomponenBenangKatun",
+                        "totalBeratKomponenBenangKatun",
+                    ];
+                    let panjangKomponenBenangKatun = document.getElementById(
+                        "panjangKomponenBenangKatun"
+                    );
+                    let lebarKomponenBenangKatun = document.getElementById(
+                        "lebarKomponenBenangKatun"
+                    );
+                    let beratStdKomponenBenangKatun = document.getElementById(
+                        "beratStdKomponenBenangKatun"
+                    );
+                    let quantityKomponenBenangKatun = document.getElementById(
+                        "quantityKomponenBenangKatun"
+                    );
+                    let totalBeratKomponenBenangKatun = document.getElementById(
+                        "totalBeratKomponenBenangKatun"
+                    );
+                    let kounterKomponenBenangKatun = document.getElementById(
+                        "kounterKomponenBenangKatun"
+                    );
+
+                    $.ajax({
+                        url: "TabelHitunganJBB/getLebarKomponenBenangKatun", // URL to your PHP script that fetches data
+                        method: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            // Get the select element
+                            const selectElement = $(
+                                "#lebarKomponenBenangKatun"
+                            );
+
+                            // Loop through the data and create an option element for each item
+                            data.forEach((item) => {
+                                // Create a new option element
+                                const newOption = $("<option></option>")
+                                    .val(item.Lebar) // Set the value of the option element
+                                    .text(item.Lebar + " | " + item.Brt_Sat); // Set the text content of the option element
+
+                                // Append the option element to the select element
+                                selectElement.append(newOption);
+                            });
+                            lebarKomponenBenangKatun.addEventListener(
+                                "change",
+                                function (e) {
+                                    beratStdKomponenBenangKatun.value =
+                                        lebarKomponenBenangKatun.options[
+                                            lebarKomponenBenangKatun
+                                                .selectedIndex
+                                        ].text
+                                            .split("|")[1]
+                                            .trim();
+                                }
+                            );
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching data:", error);
+                        },
+                    });
+
+                    quantityKomponenBenangKatun.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    totalBeratKomponenBenangKatun.value = (
+                                        parseFloat(
+                                            panjangKomponenBenangKatun.value
+                                        ) *
+                                        parseFloat(
+                                            beratStdKomponenBenangKatun.value
+                                        ) *
+                                        parseFloat(
+                                            quantityKomponenBenangKatun.value
+                                        )
+                                    ).toFixed(1);
+                                }
+                            }
+                        }
+                    );
                 } else if (typeForm == "Form Komponen Karet") {
                     //Javascript khusus untuk Form Komponen Karet FormKomponenKaret.js
+                    var inputElements = [
+                        "panjangKomponenKaret",
+                        "lebarKomponenKaret",
+                        "beratPerMeterKomponenKaret",
+                        "quantityKomponenKaret",
+                        "totalBeratKomponenKaret",
+                    ];
+                    let panjangKomponenKaret = document.getElementById(
+                        "panjangKomponenKaret"
+                    );
+                    let lebarKomponenKaret =
+                        document.getElementById("lebarKomponenKaret");
+                    let beratPerMeterKomponenKaret = document.getElementById(
+                        "beratPerMeterKomponenKaret"
+                    );
+                    let quantityKomponenKaret = document.getElementById(
+                        "quantityKomponenKaret"
+                    );
+                    let totalBeratKomponenKaret = document.getElementById(
+                        "totalBeratKomponenKaret"
+                    );
+                    let kounterKomponenKaret = document.getElementById(
+                        "kounterKomponenKaret"
+                    );
+
+                    quantityKomponenKaret.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    totalBeratKomponenKaret.value = (
+                                        (parseFloat(
+                                            panjangKomponenKaret.value
+                                        ) /
+                                            100) *
+                                        parseFloat(
+                                            beratPerMeterKomponenKaret.value
+                                        ) *
+                                        parseFloat(quantityKomponenKaret.value)
+                                    ).toFixed(2);
+                                }
+                            }
+                        }
+                    );
                 } else if (typeForm == "Form Komponen Carbon") {
                     //Javascript khusus untuk Form Komponen Carbon FormKomponenCarbon.js
+                    var inputElements = [
+                        "lebarKomponenCarbon",
+                        "panjangKomponenCarbon",
+                        "tebalKomponenCarbon",
+                        "quantityKomponenCarbon",
+                        "totalBeratKomponenCarbon",
+                    ];
+                    let lebarKomponenCarbon = document.getElementById(
+                        "lebarKomponenCarbon"
+                    );
+                    let panjangKomponenCarbon = document.getElementById(
+                        "panjangKomponenCarbon"
+                    );
+                    let tebalKomponenCarbon = document.getElementById(
+                        "tebalKomponenCarbon"
+                    );
+                    let quantityKomponenCarbon = document.getElementById(
+                        "quantityKomponenCarbon"
+                    );
+                    let totalBeratKomponenCarbon = document.getElementById(
+                        "totalBeratKomponenCarbon"
+                    );
+                    let kounterKomponenCarbon = document.getElementById(
+                        "kounterKomponenCarbon"
+                    );
+
+                    quantityKomponenCarbon.addEventListener(
+                        "keypress",
+                        function (e) {
+                            if (e.key == "Enter") {
+                                if (this.value == "") {
+                                    this.classList.add("input-error");
+                                    this.setCustomValidity(
+                                        "Isi dulu Quantitynya!"
+                                    );
+                                    this.reportValidity();
+                                } else {
+                                    this.classList.remove("input-error");
+                                    this.setCustomValidity("");
+                                    const TBerat =
+                                        Math.round(
+                                            ((parseFloat(
+                                                panjangKomponenCarbon.value
+                                            ) *
+                                                (parseFloat(
+                                                    lebarKomponenCarbon.value
+                                                ) *
+                                                    0.92 *
+                                                    parseFloat(
+                                                        tebalKomponenCarbon.value
+                                                    ) *
+                                                    parseFloat(
+                                                        quantityKomponenCarbon.value
+                                                    ))) /
+                                                10000) *
+                                                100
+                                        ) / 100;
+                                    totalBeratKomponenCarbon.value = TBerat;
+                                }
+                            }
+                        }
+                    );
                 }
 
                 inputElements.forEach(function (id) {
@@ -4922,7 +5269,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -4962,6 +5309,48 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (TKkomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenGeneral.value,
+                            Lebar: lebarKomponenGeneral.value,
+                            WA: warpKomponenGeneral.value,
+                            WE: weftKomponenGeneral.value,
+                            Denier: denierKomponenGeneral.value,
+                            Quantity: quantityKomponenGeneral.value,
+                            Berat: beratKomponenGeneral.value,
+                            Harga: hargaKomponenGeneral.value,
+                            SubTotal: subtotalKomponenGeneral.value,
+                            Kounter: kounterKomponenGeneral.value,
+                            DenierWA: denier_warpKomponenGeneral.value,
+                            DenierWE: denier_weftKomponenGeneral.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (TKkomponen == 3) {
                 }
             } else if (typeForm == "Form Komponen Circular") {
@@ -4971,7 +5360,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5020,7 +5409,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5069,7 +5458,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5118,7 +5507,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5167,7 +5556,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5216,7 +5605,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5265,7 +5654,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5344,7 +5733,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5393,7 +5782,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5442,7 +5831,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5491,7 +5880,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5540,7 +5929,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5589,7 +5978,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5638,7 +6027,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5687,7 +6076,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
-                            mode_insert: "KomponenBodyBesar",
+                            mode_insert: "TambahKomponen",
                             KodeBarang: nama_barang.value,
                             KodeKomponen: Kode_Komponen,
                             StandartKomponen:
@@ -5730,9 +6119,243 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                 } else if (TKkomponen == 3) {
                 }
             } else if (typeForm == "Form Komponen Kain") {
-            } else if (typeForm == "Form Komponen Benang") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "TambahKomponen",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenKain.value,
+                            Lebar: lebarKomponenKain.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: GSMKomponenKain.value,
+                            Quantity: quantityKomponenKain.value,
+                            Berat: totalBeratKomponenKain.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaKomponenKain.value,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
+            } else if (typeForm == "Form Komponen Benang Katun") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "TambahKomponen",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenBenangKatun.value,
+                            Lebar: lebarKomponenBenangKatun.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenBenangKatun.value,
+                            Berat: totalBeratKomponenBenangKatun.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Karet") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "TambahKomponen",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenKaret.value,
+                            Lebar: lebarKomponenKaret.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenKaret.value,
+                            Berat: totalBeratKomponenKaret.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                } else if (TKkomponen == 3) {
+                }
             } else if (typeForm == "Form Komponen Carbon") {
+                if (TKkomponen == 1) {
+                    $.ajax({
+                        type: "POST", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            mode_insert: "TambahKomponen",
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenCarbon.value,
+                            Lebar: lebarKomponenCarbon.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenCarbon.value,
+                            Berat: totalBeratKomponenCarbon.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah disimpan !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenCarbon.value,
+                            Lebar: lebarKomponenCarbon.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenCarbon.value,
+                            Berat: totalBeratKomponenCarbon.value,
+                            Harga: 0,
+                            SubTotal: 0,
+                            Kounter: kounterKomponenCarbon.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
+                } else if (TKkomponen == 3) {
+                }
             }
         }
     });

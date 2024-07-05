@@ -688,7 +688,7 @@ class TabelHitunganJumboBag extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
-        } elseif ($request->mode_insert == "KomponenBodyBesar") {
+        } elseif ($request->mode_insert == "TambahKomponen") {
             try {
                 DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_INS_RINCIAN_TH
                 @KodeBarang = ?,
@@ -785,7 +785,7 @@ class TabelHitunganJumboBag extends Controller
                 $ada = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_CHECKKD_KDBRG_RINCIANTH @KodeBarang = ?, @Kode = ?', [$request->input('KodeBarang'), '19IL00']);
 
                 if ($ada > 0) {
-                    $data2 = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KD_RINCIANTH @KodeBarang = ?, @KodeKomponen = ?, @Kounter = ?', [$request->input('KodeBarang'),'19IL' ,1]);
+                    $data2 = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KD_RINCIANTH @KodeBarang = ?, @KodeKomponen = ?, @Kounter = ?', [$request->input('KodeBarang'), '19IL', 1]);
                 } else {
                     $data2 = [['Berat' => 0]];
                 }
@@ -794,9 +794,16 @@ class TabelHitunganJumboBag extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
-        } else if ($id == 'getLebarKomponenKatun'){
+        } else if ($id == 'getLebarKomponenKatun') {
             try {
-                $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_LEBARKATUN',);
+                $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_LEBARKATUN', );
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } else if ($id == 'getLebarKomponenBenangKatun') {
+            try {
+                $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_LEBARBENANGKATUN', );
                 return response()->json($data);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
@@ -812,63 +819,63 @@ class TabelHitunganJumboBag extends Controller
 
     public function update(Request $request, $id)
     {
-        if ($request->mode_update == "HeadUpdate") {
+        if ($id == "HeadUpdate") {
             try {
                 DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_LOGIN_KDBRG @KodeBarang = ?,
-            @Tgl_Update = ?,
-            @User_Login = ?',
+                    @Tgl_Update = ?,
+                    @User_Login = ?',
                     [
-                        $id,
+                        $request->input('nama_barang'),
                         $request->input('Tgl_Update'),
                         Auth::user()->NomorUser
                     ]
                 );
 
                 DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_HEADTH @KodeBarang = ?,
-            @BentukBB = ?,
-            @ModelBB = ?,
-            @KodeModelBB = ?,
-            @PanjangBB = ?,
-            @LebarBB = ?,
-            @TinggiBB = ?,
-            @DiameterBB = ?,
-            @BentukCA = ?,
-            @ModelCA = ?,
-            @KodeModelCA = ?,
-            @PanjangCA = ?,
-            @LebarCA = ?,
-            @TinggiCA = ?,
-            @DiameterCA = ?,
-            @BentukCB = ?,
-            @ModelCB = ?,
-            @KodeModelCB = ?,
-            @PanjangCB = ?,
-            @LebarCB = ?,
-            @TinggiCB = ?,
-            @DiameterCB = ?,
-            @Reinforced = ?,
-            @Warna = ?,
-            @BeltRope = ?,
-            @Loop = ?,
-            @TinggiLoop = ?,
-            @Swl = ?,
-            @Sf1 = ?,
-            @Sf2 = ?,
-            @Lami = ?,
-            @StatusLami = ?,
-            @TebalLami = ?,
-            @Inner = ?,
-            @Tebalinner = ?,
-            @Seal = ?,
-            @Keterangan = ?,
-            @StdWaktu = ?,
-            @JmlReinf = ?,
-            @JarakReinf = ?,
-            @StatusPrinting = ?,
-            @Usage_type = ?
-            @UserUpdate = ?',
+                    @BentukBB = ?,
+                    @ModelBB = ?,
+                    @KodeModelBB = ?,
+                    @PanjangBB = ?,
+                    @LebarBB = ?,
+                    @TinggiBB = ?,
+                    @DiameterBB = ?,
+                    @BentukCA = ?,
+                    @ModelCA = ?,
+                    @KodeModelCA = ?,
+                    @PanjangCA = ?,
+                    @LebarCA = ?,
+                    @TinggiCA = ?,
+                    @DiameterCA = ?,
+                    @BentukCB = ?,
+                    @ModelCB = ?,
+                    @KodeModelCB = ?,
+                    @PanjangCB = ?,
+                    @LebarCB = ?,
+                    @TinggiCB = ?,
+                    @DiameterCB = ?,
+                    @Reinforced = ?,
+                    @Warna = ?,
+                    @BeltRope = ?,
+                    @Loop = ?,
+                    @TinggiLoop = ?,
+                    @Swl = ?,
+                    @Sf1 = ?,
+                    @Sf2 = ?,
+                    @Lami = ?,
+                    @StatusLami = ?,
+                    @TebalLami = ?,
+                    @Inner = ?,
+                    @Tebalinner = ?,
+                    @Seal = ?,
+                    @Keterangan = ?,
+                    @StdWaktu = ?,
+                    @JmlReinf = ?,
+                    @JarakReinf = ?,
+                    @StatusPrinting = ?,
+                    @Usage_type = ?
+                    @UserUpdate = ?',
                     [
-                        $id,
+                        $request->input('nama_barang'),
                         $request->input('BentukBB'),
                         $request->input('ModelBB'),
                         $request->input('KodeModelBB'),
@@ -915,6 +922,48 @@ class TabelHitunganJumboBag extends Controller
                 );
 
                 return response()->json(['success' => 'Record Head Table Hitungan updated successfully.']);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } else if ($id == 'EditKomponen') {
+            try {
+                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_HEADTH
+                    @KodeBarang = ?,
+                    @KodeKomponen = ?,
+                    @StandartKomponen = ?,
+                    @Panjang = ?,
+                    @Lebar = ?,
+                    @WA = ?,
+                    @WE = ?,
+                    @Denier = ?,
+                    @Quantity = ?,
+                    @Berat = ?,
+                    @Harga = ?,
+                    @SubTotal = ?,
+                    @Kounter = ?,
+                    @DenierWA = ?,
+                    @DenierWE = ?,
+                    @UserUpdate = ?',
+                    [
+                        $request->input('KodeBarang'),
+                        $request->input('KodeKomponen'),
+                        $request->input('StandartKomponen'),
+                        $request->input('Panjang'),
+                        $request->input('Lebar'),
+                        $request->input('WA'),
+                        $request->input('WE'),
+                        $request->input('Denier'),
+                        $request->input('Quantity'),
+                        $request->input('Berat'),
+                        $request->input('Harga'),
+                        $request->input('SubTotal'),
+                        $request->input('Kounter'),
+                        $request->input('DenierWA'),
+                        $request->input('DenierWE'),
+                        Auth::user()->NomorUser
+                    ]
+                );
+                return response()->json(['success' => 'Komponen updated successfully.']);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
