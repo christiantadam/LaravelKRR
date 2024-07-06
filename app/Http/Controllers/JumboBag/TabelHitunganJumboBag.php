@@ -808,6 +808,22 @@ class TabelHitunganJumboBag extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
+        } elseif ($id == 'getDataKoreksiKomponenGeneral') {
+            try {
+                $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KD_RINCIANTH
+                    @KodeBarang = ?,
+                    @KodeKomponen = ?,
+                    @kounter = ?',
+                    [
+                        $request->input('KodeBarang'),
+                        $request->input('KodeKomponen'),
+                        (int) $request->input('kounter')
+                    ]
+                );
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
         }
     }
 
