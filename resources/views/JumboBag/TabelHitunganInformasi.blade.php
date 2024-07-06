@@ -134,11 +134,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="Swl" style="width: 50%">SWL</label>
-                                        <label for="Sf">SF</label>
+                                        <label for="Sf1" style="width: 25%">SF1</label>
+                                        <label for="Sf2">SF2</label>
                                         <div class="input-group" style="display: flex; align-items: center; gap: 10px;">
-                                            <input type="text" class="form-control" id="swl" name="swl"
+                                            <input style="width: 28%" type="text" class="form-control" id="swl" name="swl"
                                                 required>
-                                            <input type="text" class="form-control" id="sf" name="sf"
+                                            <input type="text" class="form-control" id="sf1" name="sf1"
+                                                required>
+                                            <input type="text" class="form-control" id="sf2" name="sf2"
                                                 required>
                                         </div>
                                     </div>
@@ -228,8 +231,10 @@
                             </div>
                             <hr>
                             <div style="display: flex; justify-content: center;">
-                                <button id="btn_cari" class="btn btn-primary" style="margin-right: 20px; width:100px">Cari</button>
-                                <button id="btn_clear" class="btn btn-warning" style="margin-right: 20px; width:100px">Clear</button>
+                                <button id="btn_cari" class="btn btn-primary"
+                                    style="margin-right: 20px; width:100px">Cari</button>
+                                <button id="btn_clear" class="btn btn-warning"
+                                    style="margin-right: 20px; width:100px">Clear</button>
                                 <button id="btn_print" class="btn btn-success" style="width:100px">Print</button>
                             </div>
                         </form>

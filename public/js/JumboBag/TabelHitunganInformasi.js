@@ -22,7 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let model_cb = document.getElementById("model_cb");
     let dimensi_cb = document.getElementById("dimensi_cb");
     let swl = document.getElementById("swl");
-    let sf = document.getElementById("sf");
+    let sf1 = document.getElementById("sf1");
+    let sf2 = document.getElementById("sf2");
     let panjang_body = document.getElementById("panjang_body");
     let diameter_body = document.getElementById("diameter_body");
     let lebar_body = document.getElementById("lebar_body");
@@ -35,12 +36,49 @@ document.addEventListener("DOMContentLoaded", function () {
     let diameter_cb = document.getElementById("diameter_cb");
     let lebar_cb = document.getElementById("lebar_cb");
     let tinggi_cb = document.getElementById("tinggi_cb");
+    let btn_body = document.getElementById("btn_body");
+    let btn_ca = document.getElementById("btn_ca");
+    let btn_cb = document.getElementById("btn_cb");
     let tabel = document.getElementById("tabel");
     let btn_cari = document.getElementById("btn_cari");
     let btn_clear = document.getElementById("btn_clear");
     let btn_print = document.getElementById("btn_print");
 
+    btn_body.disabled = true;
+    btn_ca.disabled = true;
+    btn_cb.disabled = true;
     tanggalu.valueAsDate = new Date();
+    id_customer.readOnly = true;
+    customer.readOnly = true;
+    ukuran.readOnly = true;
+    tanggal.readOnly = true;
+    kodeBarangAsal.readOnly = true;
+    tanggalu.readOnly = true;
+    user.readOnly = true;
+    bentuk_body.readOnly = false;
+    model_body.readOnly = true;
+    dimensi_body.readOnly = true;
+    bentuk_ca.readOnly = false;
+    model_ca.readOnly = true;
+    dimensi_ca.readOnly = true;
+    bentuk_cb.readOnly = false;
+    model_cb.readOnly = true;
+    dimensi_cb.readOnly = true;
+    swl.readOnly = false;
+    sf1.readOnly = false;
+    sf2.readOnly = false;
+    panjang_body.readOnly = true;
+    diameter_body.readOnly = true;
+    lebar_body.readOnly = true;
+    tinggi_body.readOnly = true;
+    panjang_ca.readOnly = true;
+    diameter_ca.readOnly = true;
+    lebar_ca.readOnly = true;
+    tinggi_ca.readOnly = true;
+    panjang_cb.readOnly = true;
+    diameter_cb.readOnly = true;
+    lebar_cb.readOnly = true;
+    tinggi_cb.readOnly = true;
 
     //#region Tabel
 
@@ -82,6 +120,84 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     //#region Event Listener
+    btn_ok.addEventListener("click", function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "TabelHitunganInformasi/getDetailTabel",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                kodeBarangAsal: kodeBarangAsal.value,
+            },
+            success: function (data) {
+                console.log(data);
+                $.ajax({
+                    url: "EstimasiHarga/getKeterangan",
+                    type: "GET",
+                    data: {
+                        _token: csrfToken,
+                        kodeBarangAsal: kodeBarangAsal.value,
+                        bentuk_ca: bentuk_ca.value,
+                        bentuk_cb: bentuk_cb.value,
+                    },
+                    success: function (data) {
+                        console.log(data.data[0]); // Log the first data item (optional)
+
+                        // Extract keterangan text and replace '\r\n' with '<br>'
+                        let keteranganText = data.data[0].keterangan.replace(
+                            /\r\n/g,
+                            "<br>"
+                        );
+
+                        // Set the HTML content of the element with id 'keterangan'
+                        keterangan.innerHTML = keteranganText;
+                    },
+
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    },
+                });
+                for (let index = 0; index < data.length; index++) {
+                    let berat = data[index].Berat;
+                    let indeks = data[index].Index;
+                    let harga = data[index].Harga;
+
+                    if (berat === ".00") {
+                        berat = "0";
+                    } else if (berat.endsWith(".00")) {
+                        berat = berat.slice(0, -3);
+                    }
+
+                    if (indeks === ".00") {
+                        indeks = "0";
+                    } else if (indeks.endsWith(".00")) {
+                        indeks = indeks.slice(0, -3);
+                    }
+
+                    if (harga === ".00") {
+                        harga = "0";
+                    } else if (harga.endsWith(".00")) {
+                        harga = harga.slice(0, -3);
+                    }
+
+                    table.row
+                        .add([
+                            data[index].Kode_Komponen,
+                            data[index].Nama_Komponen,
+                            berat,
+                            indeks,
+                            harga,
+                        ])
+                        .draw(false);
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+    });
 
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -184,9 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     id_customer: id_customer.value,
                                 },
                             },
-                            columns: [
-                                { data: "Ukuran" },
-                            ],
+                            columns: [{ data: "Ukuran" }],
                         });
                         $("#ukuranTable tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
@@ -244,11 +358,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 data: {
                                     _token: csrfToken,
                                     kodeCustomer: id_customer.value,
+                                    ukuran: ukuran.value,
                                 },
                             },
                             columns: [
                                 { data: "Kode_Barang" },
-                                { data: "tanggal" },
+                                { data: "Tanggal" },
                             ],
                         });
                         $("#barangTable tbody").on("click", "tr", function () {
@@ -261,21 +376,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     kodeBarangAsal.value = selectedRow.Kode_Barang.trim();
-                    tanggal.value = selectedRow.tanggal.trim();
+                    tanggal.value = selectedRow.Tanggal.trim();
 
                     $.ajax({
                         url: "TabelHitunganInformasi/updateUser",
                         type: "GET",
                         data: {
                             _token: csrfToken,
-                            kodebarangs: kodebarangs.value,
-                            IDSuratPesanan: selectedRow.IDSuratPesanan.trim(),
+                            kodeBarangAsal: kodeBarangAsal.value,
                         },
                         success: function (data) {
-                            console.log(data);
-                            qty_sisa.value = data.SisaOrder;
-                            qty_sisa.value = data.ada ? data.ada : 0;
-                            qty_sisa.focus();
+                            console.log(data.data[0]);
+                            tanggalu.value = data.data[0].Tgl_Update;
+                            user.value = data.data[0].Nama_User;
+
+                            // Handle numeric values and format them
+                            panjang_body.value = parseFloat(
+                                data.data[0].Panjang_BB
+                            ).toFixed(2);
+                            diameter_body.value = parseFloat(
+                                data.data[0].Diameter_BB
+                            ).toFixed(2);
+                            lebar_body.value = parseFloat(
+                                data.data[0].Lebar_BB
+                            ).toFixed(2);
+                            tinggi_body.value = parseFloat(
+                                data.data[0].Tinggi_BB
+                            ).toFixed(2);
+                            bentuk_body.value = data.data[0].Bentuk_BB;
+                            bentuk_body.readOnly = true;
+
+                            // qty_sisa.value = data.ada ? data.ada : 0;
+                            // qty_sisa.focus();
                         },
                         error: function (xhr, status, error) {
                             var err = eval("(" + xhr.responseText + ")");

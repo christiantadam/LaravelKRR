@@ -18,11 +18,12 @@ class TabelHitunganInformasi extends Controller
         return view('JumboBag.TabelHitunganInformasi', compact('access'));
     }
     public function create(Request $request)
-    { {
+    {
+        try {
             // Fetch the customer data
-            $kodeCustomer = trim($request->input('kodeCustomer'));
-            $proses = $request->input('proses');
-            // dd($proses);
+            $kodeCustomer = $request->input('kodeCustomer');
+            $ukuran = $request->input('ukuran');
+
             // Step 1: Check if there are items for the customer
             $checkResult = DB::connection('ConnJumboBag')
                 ->select('exec SP_1273_JBB_CHECK_CUST_KDBRG @KodeCustomer = ?', [$kodeCustomer]);
@@ -34,16 +35,31 @@ class TabelHitunganInformasi extends Controller
 
             if ($ada > 0) {
                 // Step 2: Fetch the list of items for the customer
-                $listKodebarang = DB::connection('ConnJumboBag')
-                    ->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG @KodeCustomer = ?', [$kodeCustomer]);
+                if (empty($ukuran)) {
+                    $listKodebarang = DB::connection('ConnJumboBag')
+                        ->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG @KodeCustomer = ?', [$kodeCustomer]);
 
-                // Prepare data for DataTables
-                $dataKodebarang = [];
-                foreach ($listKodebarang as $Kd) {
-                    $dataKodebarang[] = [
-                        'tanggal' => $Kd->tanggal,
-                        'Kode_Barang' => $Kd->kode_barang,
-                    ];
+                    // Prepare data for DataTables
+                    $dataKodebarang = [];
+                    foreach ($listKodebarang as $Kd) {
+                        $dataKodebarang[] = [
+                            'Tanggal' => $Kd->tanggal,
+                            'Kode_Barang' => $Kd->kode_barang,
+                        ];
+                    }
+                } else {
+                    $listKodebarang = DB::connection('ConnJumboBag')
+                        ->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG_wewe @KodeCustomer = ?, @ukuran = ?', [$kodeCustomer, $ukuran]);
+
+                    // Prepare data for DataTables
+                    $dataKodebarang = [];
+                    foreach ($listKodebarang as $Kd) {
+                        $dataKodebarang[] = [
+                            // 'Tanggal' => $Kd->Tanggal,
+                            'Tanggal' => \Carbon\Carbon::parse($Kd->Tanggal)->format('m/d/Y'),
+                            'Kode_Barang' => $Kd->Kode_Barang,
+                        ];
+                    }
                 }
 
                 // Check if `kodeBrgAsal` is not empty
@@ -59,8 +75,11 @@ class TabelHitunganInformasi extends Controller
                 // Handle the case where there are no items for the customer
                 return response()->json(['message' => 'Tidak ada kode barang untuk customer ' . $kodeCustomer], 404);
             }
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
+
     public function store(Request $request)
     {
         //
@@ -112,18 +131,24 @@ class TabelHitunganInformasi extends Controller
                     'message' => $e->getMessage(),
                 ]);
             }
-        }else if ($id == 'updateUser') {
+        } else if ($id == 'updateUser') {
             try {
-                $kodeBarang = trim($request->input('Kodebarang'));
+                $kodeBarang = trim($request->input('kodeBarangAsal'));
+                // dd($kodeBarang);
                 $result = DB::connection('ConnJumboBag')
                     ->select('exec SP_1273_JBB_LIST_KDBRG_KDBRG @Kodebarang = ?', [$kodeBarang]);
-
+                // dd($result);
                 if (!empty($result)) {
                     $dataUpdate = [];
                     foreach ($result as $row) {
                         $dataUpdate[] = [
                             'Tgl_Update' => \Carbon\Carbon::parse($row->Tgl_Update)->format('Y-m-d'),
-                            'Nama_user' => $row->Nama_user,
+                            'Nama_User' => $row->Nama_User,
+                            'Panjang_BB' => $row->Panjang_BB,
+                            'Lebar_BB' => $row->Lebar_BB,
+                            'Diameter_BB' => $row->Diameter_BB,
+                            'Tinggi_BB' => $row->Tinggi_BB,
+                            'Bentuk_BB' => $row->Bentuk_BB,
                         ];
                     }
 
@@ -140,6 +165,25 @@ class TabelHitunganInformasi extends Controller
                     'message' => $e->getMessage(),
                 ]);
             }
+        } else if ($id == 'getDetailTabel') {
+            $kode = $request->input('kodeBarangAsal');
+            // dd($kode);
+            // Fetch the data
+            $dataHitungan = DB::connection('ConnJumboBag')
+                ->select('exec SP_5409_JBB_INFO_TABEL_HITUNGAN @KODE = ?', [$kode]);
+            // dd($dataHitungan);
+            // Convert the data into an array that DataTables can consume
+            $dataTable = [];
+            foreach ($dataHitungan as $row) {
+                $dataTable[] = [
+                    'Kode_Komponen' => $row->Kode_komponen,
+                    'Nama_Komponen' => $row->Nama_Komponen,
+                    'Berat' => number_format($row->Berat, 2),
+                    'Index' => $row->indek,
+                    'Harga' => $row->Harga,
+                ];
+            }
+            return response()->json($dataTable);
         }
     }
     public function edit($id)
