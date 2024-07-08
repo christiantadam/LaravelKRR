@@ -3093,7 +3093,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             kounterKomponenGeneral.value
                         );
                         $.ajax({
-                            url: "TabelHitunganJBB/getDataKoreksiKomponenGeneral", // URL to your PHP script that fetches data
+                            url: "TabelHitunganJBB/getDataKoreksiKomponen", // URL to your PHP script that fetches data
                             method: "GET",
                             data: {
                                 KodeBarang: KompVarKdBrg,
@@ -3160,14 +3160,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     let beratKomponenCircular = document.getElementById(
                         "beratKomponenCircular"
                     );
-                    let kounterKomponenCircular = document.getElementById(
-                        "kounterKomponenCircular"
-                    );
                     let hargaKomponenCircular = document.getElementById(
                         "hargaKomponenCircular"
                     );
                     let subtotalKomponenCircular = document.getElementById(
                         "subtotalKomponenCircular"
+                    );
+                    let kounterKomponenCircular = document.getElementById(
+                        "kounterKomponenCircular"
                     );
                     var inputElements = [
                         "panjangKomponenCircular",
@@ -3460,6 +3460,59 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
+                    if (KompVarKomponen == 2) {
+                        const selectedData = $("#tabelData")
+                            .DataTable()
+                            .row(".selected")
+                            .data();
+                        panjangKomponenCircular.value = selectedData[2];
+                        lebarKomponenCircular.value = selectedData[3];
+                        warpKomponenCircular.value = selectedData[4];
+                        weftKomponenCircular.value = selectedData[5];
+                        denierKomponenCircular.value = selectedData[6];
+                        quantityKomponenCircular.value = selectedData[7];
+                        beratKomponenCircular.value = selectedData[8];
+                        hargaKomponenCircular.value = selectedData[9];
+                        subtotalKomponenCircular.value = selectedData[10];
+                        kounterKomponenCircular.value = selectedData[11];
+                        if (Kode_Komponen.substring(0, 4) === "05CA") {
+                            diameterKomponenCircular.value =
+                                cerobongAtas_diameter.value;
+                            tinggiKomponenCircular.value =
+                                cerobongAtas_tinggi.value;
+                        } else if (Kode_Komponen.substring(0, 4) === "06CB") {
+                            diameterKomponenCircular.value =
+                                cerobongBawah_diameter.value;
+                            tinggiKomponenCircular.value =
+                                cerobongBawah_tinggi.value;
+                        }
+
+                        $.ajax({
+                            url: "TabelHitunganJBB/getDataKoreksiKomponen", // URL to your PHP script that fetches data
+                            method: "GET",
+                            data: {
+                                KodeBarang: KompVarKdBrg,
+                                KodeKomponen: Kode_Komponen,
+                                kounter: kounterKomponenCircular.value,
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                                // Get the select element
+                                console.log(data);
+                                denier_warpKomponenCircular.value =
+                                    data[0].Denier_WA ?? 0;
+                                denier_weftKomponenCircular.value =
+                                    data[0].Denier_WE ?? 0;
+                                berat_warpKomponenCircular.value =
+                                    data[0].Berat_WA ?? 0;
+                                berat_weftKomponenCircular.value =
+                                    data[0].Berat_WE ?? 0;
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error fetching data:", error);
+                            },
+                        });
+                    }
                 } else if (typeForm == "Form Komponen Square") {
                     //Javascript khusus untuk Form Komponen Square FormKomponenSquare.js
                     let panjangKomponenSquare = document.getElementById(
@@ -3700,6 +3753,48 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             beratKomponenSquare.value = Math.round(TBerat);
                         }
                     }
+                    if (KompVarKomponen == 2) {
+                        const selectedData = $("#tabelData")
+                            .DataTable()
+                            .row(".selected")
+                            .data();
+                        panjangKomponenSquare.value = selectedData[2];
+                        lebarKomponenSquare.value = selectedData[3];
+                        warpKomponenSquare.value = selectedData[4];
+                        weftKomponenSquare.value = selectedData[5];
+                        denierKomponenSquare.value = selectedData[6];
+                        quantityKomponenSquare.value = selectedData[7];
+                        beratKomponenSquare.value = selectedData[8];
+                        hargaKomponenSquare.value = selectedData[9];
+                        subtotalKomponenSquare.value = selectedData[10];
+                        kounterKomponenSquare.value = selectedData[11];
+
+                        $.ajax({
+                            url: "TabelHitunganJBB/getDataKoreksiKomponen", // URL to your PHP script that fetches data
+                            method: "GET",
+                            data: {
+                                KodeBarang: KompVarKdBrg,
+                                KodeKomponen: Kode_Komponen,
+                                kounter: kounterKomponenSquare.value,
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                                // Get the select element
+                                console.log(data);
+                                denier_warpKomponenSquare.value =
+                                    data[0].Denier_WA ?? 0;
+                                denier_weftKomponenSquare.value =
+                                    data[0].Denier_WE ?? 0;
+                                berat_warpKomponenSquare.value =
+                                    data[0].Berat_WA ?? 0;
+                                berat_weftKomponenSquare.value =
+                                    data[0].Berat_WE ?? 0;
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error fetching data:", error);
+                            },
+                        });
+                    }
                 } else if (typeForm == "Form Komponen Rope") {
                     //Javascript khusus untuk Form Komponen Rope FormKomponenRope.js
                     let panjangKomponenRope = document.getElementById(
@@ -3854,6 +3949,17 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 }
                             }
                         }
+                    }
+                    if (KompVarKomponen == 2) {
+                        const selectedData = $("#tabelData")
+                            .DataTable()
+                            .row(".selected")
+                            .data();
+                        panjangKomponenRope.value = selectedData[2];
+                        diameterKomponenRope.value = selectedData[3];
+                        quantityKomponenRope.value = selectedData[7];
+                        totalBeratKomponenRope.value = selectedData[8];
+                        kounterKomponenRope.value = selectedData[11];
                     }
                 } else if (typeForm == "Form Komponen Belt") {
                     //Javascript khusus untuk Form Komponen Belt FormKomponenBelt.js
@@ -5539,6 +5645,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             Denier: denierKomponenGeneral.value,
                             Quantity: quantityKomponenGeneral.value,
                             Berat: beratKomponenGeneral.value,
+                            BeratWA: berat_warpKomponenGeneral.value,
+                            BeratWE: berat_weftKomponenGeneral.value,
                             Harga: hargaKomponenGeneral.value,
                             SubTotal: subtotalKomponenGeneral.value,
                             Kounter: kounterKomponenGeneral.value,
@@ -5614,6 +5722,50 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenCircular.value,
+                            Lebar: lebarKomponenCircular.value,
+                            WA: warpKomponenCircular.value,
+                            WE: weftKomponenCircular.value,
+                            Denier: denierKomponenCircular.value,
+                            Quantity: quantityKomponenCircular.value,
+                            Berat: beratKomponenCircular.value,
+                            BeratWA: berat_warpKomponenCircular.value,
+                            BeratWE: berat_weftKomponenCircular.value,
+                            Harga: hargaKomponenCircular.value,
+                            SubTotal: subtotalKomponenCircular.value,
+                            Kounter: kounterKomponenCircular.value,
+                            DenierWA: denier_warpKomponenCircular.value,
+                            DenierWE: denier_weftKomponenCircular.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
                 }
             } else if (typeForm == "Form Komponen Square") {
@@ -5663,6 +5815,50 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenSquare.value,
+                            Lebar: lebarKomponenSquare.value,
+                            WA: warpKomponenSquare.value,
+                            WE: weftKomponenSquare.value,
+                            Denier: denierKomponenSquare.value,
+                            Quantity: quantityKomponenSquare.value,
+                            Berat: beratKomponenSquare.value,
+                            BeratWA: berat_warpKomponenSquare.value,
+                            BeratWE: berat_weftKomponenSquare.value,
+                            Harga: hargaKomponenSquare.value,
+                            SubTotal: subtotalKomponenSquare.value,
+                            Kounter: kounterKomponenSquare.value,
+                            DenierWA: denier_warpKomponenSquare.value,
+                            DenierWE: denier_weftKomponenSquare.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
                 }
             } else if (typeForm == "Form Komponen Rope") {
@@ -5712,6 +5908,50 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenRope.value,
+                            Lebar: diameterKomponenRope.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenRope.value,
+                            Berat: totalBeratKomponenRope.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            Kounter: kounterKomponenRope.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
                 }
             } else if (typeForm == "Form Komponen Belt") {

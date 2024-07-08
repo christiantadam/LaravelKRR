@@ -808,7 +808,7 @@ class TabelHitunganJumboBag extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
-        } elseif ($id == 'getDataKoreksiKomponenGeneral') {
+        } elseif ($id == 'getDataKoreksiKomponen') {
             try {
                 $data = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KD_RINCIANTH
                     @KodeBarang = ?,
@@ -954,6 +954,8 @@ class TabelHitunganJumboBag extends Controller
                     @Denier = ?,
                     @Quantity = ?,
                     @Berat = ?,
+                    @BeratWA = ?,
+                    @BeratWE = ?,
                     @Harga = ?,
                     @SubTotal = ?,
                     @Kounter = ?,
@@ -971,6 +973,8 @@ class TabelHitunganJumboBag extends Controller
                         $request->input('Denier'),
                         $request->input('Quantity'),
                         $request->input('Berat'),
+                        $request->input('BeratWA'),
+                        $request->input('BeratWE'),
                         $request->input('Harga'),
                         $request->input('SubTotal'),
                         $request->input('Kounter'),

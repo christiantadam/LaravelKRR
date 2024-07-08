@@ -451,27 +451,24 @@ $(document).ready(function () {
 
         console.log("FormData:", formData);
 
-        if ($(".checkbox_keterangan").prop("checked")) {
-            $("#id_laporan").val("");
-            // Membuat permintaan AJAX POST
-            $.ajax({
-                url: "/postData",
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    // Respons sukses
+        $.ajax({
+            url: id_laporanValue ? "/updateDataElektrik" : "/postData",
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(response.data);
+                // Respons sukses
+                $(".checkbox_elektrik").prop("disabled", false);
+                if (response.success) {
                     Swal.fire({
                         icon: "success",
                         title: "Data Berhasil Disimpan!",
                         showConfirmButton: false,
-                        timer: "2000",
                     });
 
                     dataTable.ajax.reload();
@@ -480,80 +477,25 @@ $(document).ready(function () {
                     koreksiButton.disabled = false;
                     hapusButton.disabled = false;
                     inputButton.disabled = false;
-                },
-                error: function (xhr, status, error) {
-                    if (xhr.status === 419) {
-                        console.log("Sesi tidak valid. Silakan login kembali.");
-                    } else {
-                        // Penanganan kesalahan lainnya
-                        console.log("Terjadi kesalahan saat menyimpan data.");
-                    }
-                },
-            });
-        } else {
-            $.ajax({
-                url: id_laporanValue ? "/updateDataElektrik" : "/postData",
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    console.log(response);
-                    // Respons sukses
-                    $(".checkbox_elektrik").prop("disabled", false);
-
-                    $("#id").val("");
-                    if (id_laporanValue) {
-                        // PUT request
-                        Swal.fire({
-                            icon: "success",
-                            title: "Data Berhasil Diperbarui!",
-                            showConfirmButton: false,
-                            timer: "2000",
-                        });
-                        dataTable.ajax.reload();
-                        disableForm();
-                        clearForm();
-                        // jamLapor.value = timeString;
-                        koreksiButton.disabled = false;
-                        hapusButton.disabled = false;
-                        inputButton.disabled = false;
-                    } else {
-                        // POST request
-                        Swal.fire({
-                            icon: "success",
-                            title: "Data Berhasil Disimpan!",
-                            showConfirmButton: false,
-                            timer: "2000",
-                        });
-                        dataTable.ajax.reload();
-                        disableForm();
-                        clearForm();
-                        koreksiButton.disabled = false;
-                        hapusButton.disabled = false;
-                        inputButton.disabled = false;
-                    }
-                    clearForm();
-                    dataTable.ajax.reload();
-                    console.log("Data berhasil disimpan.");
-                    tanggal.value = tanggal_akhirOutput;
-                    JamLapor.value = timeString;
-                },
-                error: function (xhr, status, error) {
-                    if (xhr.status === 419) {
-                        console.log("Sesi tidak valid. Silakan login kembali.");
-                    } else {
-                        // Penanganan kesalahan lainnya
-                        console.log("Terjadi kesalahan saat menyimpan gambar.");
-                    }
-                },
-            });
-        }
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title:
+                            response.message +
+                            " Id Laporan: " + id_laporanValue,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 419) {
+                    console.log("Sesi tidak valid. Silakan login kembali.");
+                } else {
+                    // Penanganan kesalahan lainnya
+                    console.log("Terjadi kesalahan saat menyimpan gambar.");
+                }
+            },
+        });
     });
 
     var timeRenderer = function (data, type, full, meta) {

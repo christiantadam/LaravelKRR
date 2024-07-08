@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\HakAksesController;
 use Illuminate\Support\Facades\Response;
+use PHPUnit\Framework\Constraint\IsEmpty;
 
 $fileContent = Storage::get('webdictionary.txt');
 echo $fileContent;
@@ -23,10 +24,10 @@ class InputGangguanElektrikController extends Controller
         $teknisi = DB::connection('ConnUtility')
             ->select("exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?", [$IDUser]);
 
-        $TipeGangguan = DB::connection('ConnUtility') -> select('exec SP_LIST_TYPE_GANGGUAN_ELEKTRIK');
+        $TipeGangguan = DB::connection('ConnUtility')->select('exec SP_LIST_TYPE_GANGGUAN_ELEKTRIK');
 
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
-        return view('Utility.Elektrik.InputGangguan.InputGangguan', compact('teknisi', 'divisi','TipeGangguan', 'access'));
+        return view('Utility.Elektrik.InputGangguan.InputGangguan', compact('teknisi', 'divisi', 'TipeGangguan', 'access'));
     }
 
     public function postData(Request $request)
@@ -245,29 +246,33 @@ class InputGangguanElektrikController extends Controller
             // Lakukan pembaruan pada data yang memiliki Type_gangguan yang sama
 
             $idLaporanUpdate = DB::connection('ConnUtility')
-            ->table('E_Gangguan_elektrik')
-            ->select('Id_Laporan')
-            ->where('L_div_pelapor', $divisi_pelapor1)
-            ->where('Type_gangguan', $Type_gangguan)
-            ->where('Keterangan', 'Lanjut')
-            ->get();
+                ->table('E_Gangguan_elektrik')
+                ->select('Id_Laporan')
+                ->where('L_div_pelapor', $divisi_pelapor1)
+                ->where('Type_gangguan', $Type_gangguan)
+                ->where('Keterangan', 'Lanjut')
+                ->get();
+
+            if ($idLaporanUpdate->IsEmpty()) {
+                return response()->json(['error' => true, 'message' => 'Data Laporan tidak bisa diupdate karena Keterangan sudah \'Selesai\'']);
+            }
 
             foreach ($idLaporanUpdate as $i) {
                 $updateResult = DB::connection('ConnUtility')
-                                ->table('E_Gangguan_elektrik')
-                                ->where('Id_Laporan',$i->Id_Laporan)
-                                ->where('L_div_pelapor', $divisi_pelapor1)
-                                ->where('Type_gangguan', $Type_gangguan)
-                                ->where('Keterangan', 'Lanjut') // Hanya data dengan keterangan "Lanjut"
-                                ->update(['Keterangan' => 'Selesai']);
-              }
+                    ->table('E_Gangguan_elektrik')
+                    ->where('Id_Laporan', $i->Id_Laporan)
+                    ->where('L_div_pelapor', $divisi_pelapor1)
+                    ->where('Type_gangguan', $Type_gangguan)
+                    ->where('Keterangan', 'Lanjut') // Hanya data dengan keterangan "Lanjut"
+                    ->update(['Keterangan' => 'Selesai']);
+            }
 
             // Periksa apakah pembaruan berhasil
             // dd($updateResult);
             if ($updateResult !== false) {
                 return response()->json(['success' => true, 'message' => 'Gangguan berhasil diselesaikan', 'data' => $save]);
             } else {
-                return response()->json(['success' => false, 'message' => 'Gagal memperbarui data', 'data' => $save]);
+                return response()->json(['error' => false, 'message' => 'Gagal memperbarui data', 'data' => $save]);
             }
         } else {
             DB::connection('ConnUtility')->statement('exec SP_KOREKSI_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?', [
