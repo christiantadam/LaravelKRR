@@ -167,23 +167,76 @@ class TabelHitunganInformasi extends Controller
             }
         } else if ($id == 'getDetailTabel') {
             $kode = $request->input('kodeBarangAsal');
-            // dd($kode);
-            // Fetch the data
+            $bentuk_ca = $request->input('bentuk_ca');
+            $bentuk_cb = $request->input('bentuk_cb');
+            $swl = $request->input('swl');
+            $sf1 = $request->input('sf1');
+            $sf2 = $request->input('sf2');
+
+            // Ambil data
             $dataHitungan = DB::connection('ConnJumboBag')
-                ->select('exec SP_5409_JBB_INFO_TABEL_HITUNGAN @KODE = ?', [$kode]);
-            // dd($dataHitungan);
-            // Convert the data into an array that DataTables can consume
-            $dataTable = [];
-            foreach ($dataHitungan as $row) {
-                $dataTable[] = [
-                    'Kode_Komponen' => $row->Kode_komponen,
-                    'Nama_Komponen' => $row->Nama_Komponen,
-                    'Berat' => number_format($row->Berat, 2),
-                    'Index' => $row->indek,
-                    'Harga' => $row->Harga,
+                ->select('exec SP_5409_JBB_INFO_TABEL_HITUNGAN');
+            // Filter data
+            $dataTable = array_filter($dataHitungan, function ($item) use ($kode, $bentuk_ca, $bentuk_cb, $swl, $sf1, $sf2) {
+                $valid = true;
+                if ($kode && trim($item->Kode_Barang) !== $kode) {
+                    $valid = false;
+                }
+                if ($bentuk_ca && trim($item->Bentuk_CA) !== $bentuk_ca) {
+                    $valid = false;
+                }
+                if ($bentuk_cb && trim($item->Bentuk_CB) !== $bentuk_cb) {
+                    $valid = false;
+                }
+                if ($swl && trim($item->SWL) != $swl) { // Assuming SWL is numeric
+                    $valid = false;
+                }
+                if ($sf1 && trim($item->SF1) != $sf1) { // Assuming SF1 is numeric
+                    $valid = false;
+                }
+                if ($sf2 && trim($item->SF2) != $sf2) { // Assuming SF2 is numeric
+                    $valid = false;
+                }
+                return $valid;
+            });
+            // Konversi data ke format array yang bisa dikonsumsi oleh DataTables
+            $dataTable = array_map(function ($row) {
+                return [
+                    'Nama_Customer' => $row->Nama_Customer,
+                    'Kode_Barang' => $row->Kode_Barang,
+                    'Panjang_BB' => $row->Panjang_BB,
+                    'Lebar_BB' => $row->Lebar_BB,
+                    'Tinggi_BB' => $row->Tinggi_BB,
+                    'Diameter_BB' => $row->Diameter_BB,
+                    'ModelBB' => $row->ModelBB,
+                    'ModelCA' => $row->ModelCA,
+                    'ModelCB' => $row->ModelCB,
+                    'Warna' => $row->Warna,
+                    'SWL' => $row->SWL,
+                    'SF1' => $row->SF1,
+                    'SF2' => $row->SF2,
                 ];
-            }
+            }, $dataTable);
+
             return response()->json($dataTable);
+        } else if ($id == 'printReport') {
+            // Retrieve kdbarang from request or fallback to some default value
+            // $kdbarang = $request->input('kodeBarangAsal') ?: $request->input('datagrid_item');
+            $kdbarang = $request->input('kodeBarangAsal');
+            // dd($kdbarang);
+            // Set up the criteria for the report
+            // $criteria = "{VW_PRG_1273_JBB_CETAK_THITUNGAN.Kode_Barang} = '" . $kdbarang . "'";
+            // dd($criteria);
+            $criteria = DB::connection('ConnJumboBag')
+            ->table('VW_PRG_1273_JBB_CETAK_THITUNGAN')
+            ->where('Kode_Barang', $kdbarang)
+            ->get();
+            // dd($criteria);
+            // Assuming you have a view for the report
+            return view('report', [
+                'namaLaporan' => 'InfoTabelHitungan',
+                'kriteria' => $criteria
+            ]);
         }
     }
     public function edit($id)

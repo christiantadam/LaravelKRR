@@ -1,6 +1,8 @@
 @extends('layouts.appJumboBag')
 @section('title', 'Tabel Hitungan')
 
+<link href="{{ asset('css/printTHI.css') }}" rel="stylesheet">
+
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -21,7 +23,8 @@
                 <div class="card">
                     <div class="card-header">Tabel Hitungan</div>
                     <div class="card-body">
-                        <form id="ReturPenggantiForm" action="{{ route('TabelHitunganInformasi.store') }}" method="POST">
+                        <form id="form_tabelhitunganinformasi" action="{{ route('TabelHitunganInformasi.store') }}"
+                            method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -137,8 +140,8 @@
                                         <label for="Sf1" style="width: 25%">SF1</label>
                                         <label for="Sf2">SF2</label>
                                         <div class="input-group" style="display: flex; align-items: center; gap: 10px;">
-                                            <input style="width: 28%" type="text" class="form-control" id="swl" name="swl"
-                                                required>
+                                            <input style="width: 28%" type="text" class="form-control" id="swl"
+                                                name="swl" required>
                                             <input type="text" class="form-control" id="sf1" name="sf1"
                                                 required>
                                             <input type="text" class="form-control" id="sf2" name="sf2"
@@ -198,11 +201,6 @@
                                                 required>
                                         </div>
                                     </div>
-                                    {{-- <div class="form-group text-right">
-                                        <label for="jumlah" style="visibility: hidden;">a</label>
-                                        <br>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div> --}}
                                 </div>
                             </div>
                             <hr>
@@ -236,6 +234,296 @@
                                 <button id="btn_clear" class="btn btn-warning"
                                     style="margin-right: 20px; width:100px">Clear</button>
                                 <button id="btn_print" class="btn btn-success" style="width:100px">Print</button>
+                            </div>
+                            <hr>
+                            <div class="acs-div-container" id="contoh_printDiv">
+                                <div class="cetak-prspdf-container">
+                                    <div class="cetak-prspdf-container01">
+                                        <div class="cetak-prspdf-container02">
+                                            <div class="cetak-prspdf-container03">
+                                                <div class="cetak-prspdf-container04">
+                                                    <h2 style="margin-bottom: 0px;font-size:35px">
+                                                        <span>PT. KERTA RAJASA RAYA</span>
+                                                    </h2>
+                                                    <p style="margin-bottom: 0px;font-size:28px">
+                                                        <span>Woven Bag - Jumbo Bag Industrial</span>
+                                                        <br />
+                                                    </p>
+                                                    <p style="margin-bottom: 0px;font-size:25px">
+                                                        <span>No. Dokumen : FM-7.2-02-JB-01-01</span>
+                                                        <br />
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="cetak-prspdf-container06">
+                                                <div class="cetak-prspdf-container07">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td style="margin-bottom: 0px;font-size:22px">No Referensi
+                                                                </td>
+                                                                <td style="margin-bottom: 0px;font-size:22px">:</td>
+                                                                <td style="margin-bottom: 0px;font-size:22px"
+                                                                    id="no_referensi"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td style="margin-bottom: 0px;font-size:22px">Tanggal</td>
+                                                                <td style="margin-bottom: 0px;font-size:22px">:</td>
+                                                                <td style="margin-bottom: 0px;font-size:22px"
+                                                                    id="tanggal"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+                                                                <td style="margin-bottom: 0px;font-size:22px">Halaman</td>
+                                                                <td style="margin-bottom: 0px;font-size:22px">:</td>
+                                                                <td style="margin-bottom: 0px;font-size:22px"
+                                                                    id="halaman"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="centered-text-container">
+                                            <h1 style="margin-bottom: 0px;font-size:23px;">
+                                                <span>TABEL HITUNGAN PERSIAPAN</span>
+                                            </h1>
+                                        </div>
+                                        <br>
+                                        <div class="cetak-prspdf-container08">
+                                            <table style="width: 100%;border-collapse: collapse; border: 1px solid black;"
+                                                id="table_ket">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;TANGGAL</td>
+                                                        <td style="border:none !important; width: 78%"
+                                                            id="nama_barangKolom">&nbsp;c</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;CUSTOMER</td>
+                                                        <td style="border:none !important" id="nama_barangKolom">&nbsp;c</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;UKURAN</td>
+                                                        <td style="border:none !important" id="nama_barangKolom">&nbsp;c</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;MODEL</td>
+                                                        <td style="border:none !important" id="nama_barangKolom">&nbsp;c</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;REINFORCED</td>
+                                                        <td style="border:none !important" id="nama_barangKolom">&nbsp;c</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;SWL</td>
+                                                        <td style="border:none !important" id="nama_barangKolom">&nbsp;c</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;SF</td>
+                                                        <td style="border:none !important" id="nama_barangKolom">&nbsp;c</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;BERAT KAIN / M</td>
+                                                        <td style="border:none !important" id="nama_barangKolom">&nbsp;c</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border:none !important; border-right: 1px solid black !important"
+                                                            id="nomor_barangKolom">&nbsp;TYPE / JNS BARANG</td>
+                                                        <td style="border:none !important" id="type_brg">&nbsp;c</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br>
+                                        <div class="cetak-prspdf-container08">
+                                            <table style="width: 100%">
+                                                <tr>
+                                                    <td
+                                                        style="width: 480px;text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important;border-right: 1px solid black !important">
+                                                        KOMPONEN</td>
+                                                    <td colspan="2"
+                                                        style="border:none !important; border-bottom: 1px solid black !important; border-top: 1px solid black !important; text-align: center; border-right: 1px solid black !important">
+                                                        POTONGAN
+                                                    </td>
+                                                    <td colspan="2"
+                                                        style="border:none !important; border-bottom: 1px solid black !important; border-top: 1px solid black !important; text-align: center; border-right: 1px solid black !important">
+                                                        RAJUTAN
+                                                    </td>
+                                                    <td
+                                                        style="text-align: center !important; border:none !important; border-top: 1px solid black !important;">
+                                                        DENIER</td>
+                                                        <td
+                                                        style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
+                                                        QTY</td>
+                                                        <td
+                                                        style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
+                                                        BERAT</td>
+                                                        <td
+                                                        style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
+                                                        HARGA / (KG)</td>
+                                                        <td
+                                                        style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important;border-right: 1px solid black !important">
+                                                        HARGA</td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                                    </td>
+                                                    <td style="text-align: center !important; width: 60px">&nbsp;P</td>
+                                                    <td style="text-align: center !important; width: 60px">&nbsp;L</td>
+                                                    <td style="text-align: center !important; width: 60px">Warp</td>
+                                                    <td style="text-align: center !important; width: 60px">Weft</td>
+                                                    <td
+                                                        style="border:none !important;border-bottom: 1px solid black !important">
+                                                    </td>
+                                                    <td
+                                                        style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                                    </td>
+                                                    <td
+                                                        style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                                    </td>
+                                                    <td
+                                                        style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                                    </td>
+                                                    <td
+                                                        style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
+                                                        BODY BESAR</td>
+                                                </tr>
+                                                <tr>
+
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <br>
+                                        <div class="cetak-prspdf-container10">
+                                            <table style="margin-left: 8px">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="text-align: center; white-space: nowrap">WIRANIAGA
+                                                            LOKAL</td>
+                                                        <td>&nbsp; &nbsp;</td>
+                                                        <td style="text-align: center">MANAGER</td>
+                                                        <td>&nbsp; &nbsp;</td>
+                                                        <td style="text-align: center">DIREKTUR</td>
+                                                        <td>&nbsp; &nbsp;</td>
+                                                        <td style="text-align: center">PPIC</td>
+                                                        <td>&nbsp; &nbsp;</td>
+                                                        <td>Lembar Ke:</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="border: none !important;text-align: center;text-decoration: underline;vertical-align:bottom;padding-bottom: 20px;white-space: nowrap"
+                                                            id="nama_salesKolom">
+                                                            ADAM CHRISTIANTO</th>
+                                                        <th style="border: none !important;text-align: center"></th>
+                                                        <th
+                                                            style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                            ______________________</th>
+                                                        <th style="border: none !important;text-align: center"></th>
+                                                        <th
+                                                            style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                            _______________________</th>
+                                                        <th style="border: none !important;text-align: center"></th>
+                                                        <th
+                                                            style="border: none !important;text-align: center;vertical-align:bottom;padding-bottom: 20px;">
+                                                            _______________________</th>
+                                                        <th style="border: none !important;text-align: center"></th>
+                                                        <td style="border: none !important;">1. Putih - Produksi <br>
+                                                            2. Merah - QC <br>
+                                                            3. Kuning - Adm. Piutang <br>
+                                                            4. Hijau - Arsip Pemasaran</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

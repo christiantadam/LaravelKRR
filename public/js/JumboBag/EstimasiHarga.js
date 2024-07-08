@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             success: function (data) {
                 console.log(data);
+                table.clear().draw();
                 $.ajax({
                     url: "EstimasiHarga/getKeterangan",
                     type: "GET",

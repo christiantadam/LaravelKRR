@@ -119,88 +119,180 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
     });
 
-    //#region Event Listener
-    btn_ok.addEventListener("click", function (event) {
+    // #region Event Listener
+    // document.getElementById('form_tabelhitunganinformasi').addEventListener('keydown', function(e) {
+    //     if (e.key === 'Enter') {
+    //         let inputs = Array.from(this.querySelectorAll('input:not([disabled]):not([readonly]), select:not([disabled]):not([readonly]), textarea:not([disabled]):not([readonly])'));
+    //         let currentIndex = inputs.indexOf(document.activeElement);
+
+    //         if (currentIndex > -1 && currentIndex < inputs.length - 1) {
+    //             // Temukan indeks elemen berikutnya yang tidak ter-disable atau ter-readonly
+    //             let nextIndex = currentIndex + 1;
+    //             while (nextIndex < inputs.length && (inputs[nextIndex].disabled || inputs[nextIndex].readOnly)) {
+    //                 nextIndex++;
+    //             }
+    //             // Pindahkan fokus ke elemen berikutnya yang valid
+    //             if (nextIndex < inputs.length) {
+    //                 inputs[nextIndex].focus();
+    //             }
+    //         } else {
+    //             this.submit(); // Misalnya, melakukan submit formulir jika sudah di akhir
+    //         }
+
+    //         e.preventDefault();
+    //     }
+    // });
+
+    btn_cari.addEventListener("click", function (event) {
         event.preventDefault();
+        console.log(
+            csrfToken,
+            kodeBarangAsal.value,
+            bentuk_ca.value,
+            bentuk_cb.value,
+            swl.value,
+            sf1.value,
+            sf2.value
+        );
         $.ajax({
             url: "TabelHitunganInformasi/getDetailTabel",
             type: "GET",
             data: {
                 _token: csrfToken,
                 kodeBarangAsal: kodeBarangAsal.value,
+                bentuk_ca: bentuk_ca.value,
+                bentuk_cb: bentuk_cb.value,
+                swl: swl.value,
+                sf1: sf1.value,
+                sf2: sf2.value,
             },
             success: function (data) {
-                console.log(data);
-                $.ajax({
-                    url: "EstimasiHarga/getKeterangan",
-                    type: "GET",
-                    data: {
-                        _token: csrfToken,
-                        kodeBarangAsal: kodeBarangAsal.value,
-                        bentuk_ca: bentuk_ca.value,
-                        bentuk_cb: bentuk_cb.value,
-                    },
-                    success: function (data) {
-                        console.log(data.data[0]); // Log the first data item (optional)
+                console.log(data); // Ensure data structure in console
+                table.clear().draw();
+                // Assuming data is an object with numeric keys like '2521'
+                Object.keys(data).forEach((key) => {
+                    let rowData = data[key];
 
-                        // Extract keterangan text and replace '\r\n' with '<br>'
-                        let keteranganText = data.data[0].keterangan.replace(
-                            /\r\n/g,
-                            "<br>"
-                        );
-
-                        // Set the HTML content of the element with id 'keterangan'
-                        keterangan.innerHTML = keteranganText;
-                    },
-
-                    error: function (xhr, status, error) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        alert(err.Message);
-                    },
-                });
-                for (let index = 0; index < data.length; index++) {
-                    let berat = data[index].Berat;
-                    let indeks = data[index].Index;
-                    let harga = data[index].Harga;
-
-                    if (berat === ".00") {
-                        berat = "0";
-                    } else if (berat.endsWith(".00")) {
-                        berat = berat.slice(0, -3);
-                    }
-
-                    if (indeks === ".00") {
-                        indeks = "0";
-                    } else if (indeks.endsWith(".00")) {
-                        indeks = indeks.slice(0, -3);
-                    }
-
-                    if (harga === ".00") {
-                        harga = "0";
-                    } else if (harga.endsWith(".00")) {
-                        harga = harga.slice(0, -3);
+                    // Function to format values
+                    function formatValue(value) {
+                        return value === ".00" ? "0.00" : value;
                     }
 
                     table.row
                         .add([
-                            data[index].Kode_Komponen,
-                            data[index].Nama_Komponen,
-                            berat,
-                            indeks,
-                            harga,
+                            rowData.Nama_Customer,
+                            rowData.Kode_Barang.trim(),
+                            formatValue(rowData.Panjang_BB),
+                            formatValue(rowData.Lebar_BB),
+                            formatValue(rowData.Tinggi_BB),
+                            formatValue(rowData.Diameter_BB),
+                            rowData.ModelBB,
+                            rowData.ModelCA,
+                            rowData.ModelCB,
+                            rowData.Warna,
+                            formatValue(rowData.SWL),
+                            formatValue(rowData.SF1),
+                            formatValue(rowData.SF2),
                         ])
                         .draw(false);
-                }
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err.Message);
+                });
             },
         });
     });
 
+    btn_print.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (kodeBarangAsal.value.trim() === "") {
+            Swal.fire({
+                icon: "warning",
+                title: "Warning!",
+                text: "Isi kode barang terlebih dahulu",
+                showConfirmButton: true,
+            });
+            return;
+        }
+        $.ajax({
+            url: "TabelHitunganInformasi/printReport",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                kodeBarangAsal: kodeBarangAsal.value,
+                // no_suratpesanan: no_suratpesanan.value,
+                // kodeBarangAsal: kodeBarangAsal.value,
+                // jumlah_retur: jumlah_retur.value,
+                // no_referensi: no_referensi.value,
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: data.success,
+                        showConfirmButton: false,
+                    });
+                } else if (data.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: data.error,
+                        showConfirmButton: false,
+                    });
+                }
+                // sisa.value = data.data[0].Buffer.trim();
+            },
+            error: function (xhr, status, error) {
+                // Menampilkan pesan kesalahan
+                let errorMessage = "Terjadi kesalahan saat memproses data.";
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMessage = xhr.responseJSON.error;
+                } else if (xhr.responseText) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        errorMessage = response.error || errorMessage;
+                    } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                    }
+                }
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: error,
+                    showConfirmButton: false,
+                });
+            },
+        });
+        tmb = 1;
+        aktif_tombol(tmb);
+        cleardata();
+    });
+
+    btn_clear.addEventListener("click", function (event) {
+        event.preventDefault();
+        table.clear().draw();
+        bentuk_body.value = "";
+        bentuk_ca.value = "";
+        bentuk_cb.value = "";
+        swl.value = "";
+        sf1.value = "";
+        sf2.value = "";
+        id_customer.value = "";
+        customer.value = "";
+        kodeBarangAsal.value = "";
+        tanggal.value = "";
+        ukuran.value = "";
+        tanggalu.valueAsDate = new Date();
+        user.value = "";
+        panjang_body.value = "";
+        diameter_body.value = "";
+        lebar_body.value = "";
+        tinggi_body.value = "";
+    });
+
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
+        btn_ukuran.focus();
         try {
             const result = await Swal.fire({
                 title: "Select a Customer",
@@ -268,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     btn_ukuran.addEventListener("click", async function (event) {
         event.preventDefault();
+        btn_kodebarang.focus();
         try {
             const result = await Swal.fire({
                 title: "Select a Ukuran",
@@ -328,6 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     btn_kodebarang.addEventListener("click", async function (event) {
         event.preventDefault();
+        btn_cari.focus();
         try {
             const result = await Swal.fire({
                 title: "Select a Kode Barang",

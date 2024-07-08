@@ -45,7 +45,7 @@ h1, h2 {
     border: 1px solid #000;
 }
 
-@media print {
+/* @media print {
     body {
         margin: 0;
         padding: 0;
@@ -59,4 +59,4 @@ h1, h2 {
     h1, h2 {
         page-break-after: avoid;
     }
-}
+} */
