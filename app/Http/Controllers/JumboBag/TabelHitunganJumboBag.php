@@ -987,6 +987,28 @@ class TabelHitunganJumboBag extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
+        }elseif ($id == "EditKomponenLami") {
+            $kdBrg = $request->input('KodeBarang');
+            $gridLamiData = $request->input('gridLamiData');
+
+            try {
+                foreach ($gridLamiData as $row) {
+                    DB::statement('
+                    EXEC SP_1273_JBB_UDT_RINCIAN_LAMI :KodeBarang, :KodeKomponen, :Panjang, :Lebar, :Tebal, :Berat
+                ', [
+                        'KodeBarang' => $kdBrg,
+                        'KodeKomponen' => $row['KodeKomponen'],
+                        'Panjang' => $row['Panjang'],
+                        'Lebar' => $row['Lebar'],
+                        'Tebal' => $row['Tebal'],
+                        'Berat' => $row['Berat']
+                    ]);
+                }
+
+                return response()->json(['message' => 'Data KomponenLami inserted successfully'], 200);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
         }
     }
 
