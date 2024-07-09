@@ -562,8 +562,8 @@
                         </tr>
                         <tr>
                             <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;CEROBONG ATAS 47.00 X 40.00</td>
+                                id="ca_x" style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
+                                &nbsp;CEROBONG ATAS</td>
                             <td id="potonganP_ca"
                                 style="text-align: left !important; border-top:none !important; border-left:none !important;">
                             </td>
@@ -594,8 +594,8 @@
                         </tr>
                         <tr>
                             <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;CEROBONG BAWAH 36.00 X 50.00</td>
+                                id="cb_x" style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
+                                &nbsp;CEROBONG BAWAH</td>
                             <td id="potonganP_cb"
                                 style="text-align: left !important; border-top:none !important; border-left:none !important;">
                             </td>
@@ -626,8 +626,8 @@
                         </tr>
                         <tr>
                             <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;LIFTING BELT 25.00 Tinggi Loop</td>
+                                id="lb_x" style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
+                                &nbsp;LIFTING BELT</td>
                             <td id="potonganP_lb"
                                 style="text-align: left !important; border-top:none !important; border-left:none !important;">
                             </td>
@@ -818,8 +818,8 @@
                         </tr>
                         <tr>
                             <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;LAMINATING 0.00 Mikron</td>
+                                id="lami_x" style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
+                                &nbsp;LAMINATING</td>
                             <td id="potonganP_lami"
                                 style="text-align: left !important; border-top:none !important; border-left:none !important;">
                             </td>

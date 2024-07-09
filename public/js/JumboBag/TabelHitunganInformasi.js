@@ -43,6 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let btn_cari = document.getElementById("btn_cari");
     let btn_clear = document.getElementById("btn_clear");
     let btn_print = document.getElementById("btn_print");
+    let ca_x = document.getElementById("ca_x");
+    let cb_x = document.getElementById("cb_x");
+    let lb_x = document.getElementById("lb_x");
+    let lami_x = document.getElementById("lami_x");
 
     btn_body.disabled = true;
     btn_ca.disabled = true;
@@ -238,6 +242,111 @@ document.addEventListener("DOMContentLoaded", function () {
                     currentPage + " dari " + totalPages;
                 document.getElementById("tanggal_tabel").innerHTML =
                     "&nbsp;" + formattedDate;
+                document.getElementById("customer_tabel").innerHTML =
+                    "&nbsp;" +
+                    data.data[0].Nama_Customer +
+                    "&nbsp;" +
+                    "(" +
+                    data.data[0].Kode_Barang +
+                    ")";
+                // Mendapatkan data dalam sentimeter
+                let lebarCm = data.data[0].Lebar_BB;
+                let panjangCm = data.data[0].Panjang_BB;
+                let tinggiCm = data.data[0].Tinggi_BB;
+
+                // Konversi ke inch
+                let lebarInch = lebarCm / 2.54;
+                let panjangInch = panjangCm / 2.54;
+                let tinggiInch = tinggiCm / 2.54;
+
+                // Memperbarui nilai HTML
+                document.getElementById("ukuran_tabel").innerHTML =
+                    "&nbsp;" +
+                    data.data[0].Lebar_BB +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    data.data[0].Panjang_BB +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    data.data[0].Tinggi_BB +
+                    "&nbsp;" +
+                    "(" +
+                    lebarInch.toFixed(2) +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    panjangInch.toFixed(2) +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    tinggiInch.toFixed(2) +
+                    ")";
+
+                document.getElementById("model_tabel").innerHTML =
+                    "&nbsp;" + data.data[0].Model;
+                document.getElementById("reinforced_tabel").innerHTML =
+                    "&nbsp;" +
+                    data.data[0].Reinforced +
+                    "&nbsp;CM,&nbsp;&nbsp;" +
+                    "JUMLAH REINFORCED =&nbsp;" +
+                    data.data[0].JmlRein +
+                    ".00," +
+                    "&nbsp;&nbsp;JARAK REINFORCED&nbsp;" +
+                    data.data[0].JarakRein +
+                    ".00&nbsp;CM";
+                document.getElementById("swl_tabel").innerHTML =
+                    "&nbsp;" + data.data[0].SWL + "&nbsp;KG";
+                document.getElementById("sf_tabel").innerHTML =
+                    "&nbsp;" +
+                    data.data[0].SF1 +
+                    "&nbsp;:&nbsp;" +
+                    data.data[0].SF2;
+
+                let Wa = parseFloat(data.data[0].Wa);
+                let We = parseFloat(data.data[0].We);
+                let Dnr = parseFloat(data.data[0].Dnr);
+
+                let berat = (100 * 100 * (Wa + We) * Dnr) / (1143000 * 2);
+                let hasilAkhir = berat / (28.35 / 0.9144 / 0.9144);
+
+                document.getElementById("berat_tabel").innerHTML =
+                    "&nbsp;" +
+                    berat.toFixed(2) +
+                    "&nbsp;=&nbsp;" +
+                    hasilAkhir.toFixed(2) +
+                    "&nbsp;OZ";
+                document.getElementById("type_tabel").innerHTML =
+                    "&nbsp;" + data.data[0].Usage_type;
+                document.getElementById("ca_x").innerHTML =
+                    ca_x.textContent +
+                    "&nbsp;" +
+                    data.data[0].Diameter_CA +
+                    "&nbsp;X&nbsp;" +
+                    data.data[0].Tinggi_CA;
+                document.getElementById("cb_x").innerHTML =
+                    cb_x.textContent +
+                    "&nbsp;" +
+                    data.data[0].Diameter_CB +
+                    "&nbsp;X&nbsp;" +
+                    data.data[0].Tinggi_CB;
+                document.getElementById("lb_x").innerHTML =
+                    lb_x.textContent +
+                    "&nbsp;" +
+                    data.data[0].Tinggi_Loop +
+                    "&nbsp;Tinggi Loop";
+
+                let tebalLami = data.data[0].Tebal_Lami;
+
+                if (parseFloat(tebalLami) === 0) {
+                    tebalLami = "0.00";
+                } else {
+                    tebalLami = parseFloat(tebalLami).toFixed(2);
+                }
+
+                document.getElementById("lami_x").innerHTML =
+                    lami_x.textContent + "&nbsp;" + tebalLami + "&nbsp;Mikron";
 
                 window.print();
             },
