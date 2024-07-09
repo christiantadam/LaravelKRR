@@ -19,13 +19,16 @@ body {
     border: 1px solid #000;
 }
 
-h1, h2 {
+h1,
+h2 {
     text-align: center;
     text-transform: uppercase;
     margin: 20px 0;
 }
 
-.order-details, .shift-info, .additional-info {
+.order-details,
+.shift-info,
+.additional-info {
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
@@ -33,7 +36,9 @@ h1, h2 {
     border: 1px solid #000;
 }
 
-.order-details .order-item, .shift-info .shift-item, .additional-info .additional-item {
+.order-details .order-item,
+.shift-info .shift-item,
+.additional-info .additional-item {
     width: 100%;
     padding: 5px;
     border: 1px solid #000;
@@ -117,7 +122,7 @@ h1, h2 {
 .cetak-prspdf-container07 table,
 .cetak-prspdf-container08 table,
 .cetak-prspdf-container09 table,
-.cetak-prspdf-container05{
+.cetak-prspdf-container05 {
     font-size: 17px;
     padding: 0;
 }
@@ -187,6 +192,7 @@ h1, h2 {
     height: 800px;
     border: 1px solid black !important;
     background-color: white;
+    display: none;
 }
 #table_sp table tr td,
 #table_sp table tr td:first-child {
@@ -221,56 +227,25 @@ h1, h2 {
 }
 
 @page {
-    margin-top: 0cm;
-    margin-right: 1cm;
-    margin-left: 1cm;
+    margin: 50px;
 }
 @media print {
-    * {
-        visibility: hidden;
+    .container-fluid {
+        display: none;
     }
     .acs-div-container,
     .acs-div-container * {
         font-family: Arial, Helvetica, sans-serif;
-        visibility: visible;
         border: none;
+        visibility: visible;
     }
     .acs-div-container {
+        display: block;
+        border: 1px solid black !important;
         position: absolute;
         left: 0;
         top: 0;
-        margin: 0;
         width: 100%;
         height: 100%;
-    }
-    #type_brg {
-        border-left: 1px solid black !important;
-    }
-    /* #table_sp {
-        border-collapse: collapse !important;
-    }
-
-    #table_sp,
-    #table_sp th,
-    #table_sp td {
-        border: 1px solid black !important;
-        padding: 3px;
-    }
-    #table_sp th {
-        font-size: 15px;
-        white-space: nowrap;
-        text-align: left;
-    }
-    #table_sp td:first-child,
-    #table_sp td:last-child,
-    #table_sp td:nth-child(3) {
-        text-align: center;
-    } */
-    #table_sp td,
-    .cetak-prspdf-container09 table,
-    .cetak-prspdf-container08 table,
-    .cetak-prspdf-container07 table,
-    .cetak-prspdf-container05 {
-        font-size: 17px;
     }
 }

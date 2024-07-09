@@ -217,55 +217,35 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
                 _token: csrfToken,
                 kodeBarangAsal: kodeBarangAsal.value,
-                // no_suratpesanan: no_suratpesanan.value,
-                // kodeBarangAsal: kodeBarangAsal.value,
-                // jumlah_retur: jumlah_retur.value,
-                // no_referensi: no_referensi.value,
             },
             success: function (data) {
                 console.log(data);
-                if (data.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success!",
-                        text: data.success,
-                        showConfirmButton: false,
-                    });
-                } else if (data.error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error!",
-                        text: data.error,
-                        showConfirmButton: false,
-                    });
-                }
-                // sisa.value = data.data[0].Buffer.trim();
+                var currentDate = new Date();
+                var formattedDate =
+                    currentDate.getMonth() +
+                    1 +
+                    "/" +
+                    currentDate.getDate() +
+                    "/" +
+                    currentDate.getFullYear();
+
+                document.getElementById("tanggal_print").textContent =
+                    formattedDate;
+
+                var currentPage = 1;
+                var totalPages = 1;
+                document.getElementById("halaman_print").textContent =
+                    currentPage + " dari " + totalPages;
+                document.getElementById("tanggal_tabel").innerHTML =
+                    "&nbsp;" + formattedDate;
+
+                window.print();
             },
             error: function (xhr, status, error) {
-                // Menampilkan pesan kesalahan
-                let errorMessage = "Terjadi kesalahan saat memproses data.";
-                if (xhr.responseJSON && xhr.responseJSON.error) {
-                    errorMessage = xhr.responseJSON.error;
-                } else if (xhr.responseText) {
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        errorMessage = response.error || errorMessage;
-                    } catch (e) {
-                        console.error("Error parsing JSON response:", e);
-                    }
-                }
-
-                Swal.fire({
-                    icon: "error",
-                    title: "Error!",
-                    text: error,
-                    showConfirmButton: false,
-                });
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
             },
         });
-        tmb = 1;
-        aktif_tombol(tmb);
-        cleardata();
     });
 
     btn_clear.addEventListener("click", function (event) {

@@ -228,15 +228,78 @@ class TabelHitunganInformasi extends Controller
             // $criteria = "{VW_PRG_1273_JBB_CETAK_THITUNGAN.Kode_Barang} = '" . $kdbarang . "'";
             // dd($criteria);
             $criteria = DB::connection('ConnJumboBag')
-            ->table('VW_PRG_1273_JBB_CETAK_THITUNGAN')
-            ->where('Kode_Barang', $kdbarang)
-            ->get();
+                ->table('VW_PRG_1273_JBB_CETAK_THITUNGAN')
+                ->where('Kode_Barang', $kdbarang)
+                ->get();
             // dd($criteria);
+            $dataPrint = [];
+            foreach ($criteria as $data) {
+                $dataPrint[] = [
+                    'Nama_Customer' => $data->Nama_Customer,
+                    'Kode_Barang' => $data->Kode_Barang,
+                    'Panjang_BB' => $data->Panjang_BB,
+                    'Lebar_BB' => $data->Lebar_BB,
+                    'Tinggi_BB' => $data->Tinggi_BB,
+                    'Diameter_BB' => $data->Diameter_BB,
+                    'Model_BB' => $data->Model_BB,
+                    'Model_CA' => $data->Model_CA,
+                    'Model_CB' => $data->Model_CB,
+                    'Model' => $data->Model,
+                    'Reinforced' => $data->Reinforced,
+                    'Warna' => $data->Warna,
+                    'Belt_Rope' => $data->Belt_Rope,
+                    'Jumlah_Loop' => $data->Jumlah_Loop,
+                    'SWL' => $data->SWL,
+                    'SF1' => $data->SF1,
+                    'SF2' => $data->SF2,
+                    'Lami' => $data->Lami,
+                    'Status_Lami' => $data->Status_Lami,
+                    'Iner' => $data->Iner,
+                    'Keterangan' => $data->Keterangan,
+                    'Kode_Komponen' => $data->Kode_Komponen,
+                    'Panjang_Potongan' => $data->Panjang_Potongan,
+                    'Lebar_Potongan' => $data->Lebar_Potongan,
+                    'WA_Rajutan' => $data->WA_Rajutan,
+                    'WE_Rajutan' => $data->WE_Rajutan,
+                    'Denier' => $data->Denier,
+                    'Quantity' => $data->Quantity,
+                    'Berat' => $data->Berat,
+                    'Harga' => $data->Harga,
+                    'SubTotal' => $data->SubTotal,
+                    'Tanggal' => $data->Tanggal,
+                    'Nama_Komponen' => $data->Nama_Komponen,
+                    'Wa' => $data->Wa,
+                    'We' => $data->We,
+                    'Dnr' => $data->Dnr,
+                    'Bentuk_BB' => $data->Bentuk_BB,
+                    'Tinggi_Loop' => $data->Tinggi_Loop,
+                    'Tebal_Lami' => $data->Tebal_Lami,
+                    'Tebal_Iner' => $data->Tebal_Iner,
+                    'Bentuk_CA' => $data->Bentuk_CA,
+                    'Tinggi_CA' => $data->Tinggi_CA,
+                    'Diameter_CA' => $data->Diameter_CA,
+                    'Bentuk_CB' => $data->Bentuk_CB,
+                    'Tinggi_CB' => $data->Tinggi_CB,
+                    'Diameter_CB' => $data->Diameter_CB,
+                    'Standart_Komponen' => $data->Standart_Komponen,
+                    'JmlRein' => $data->JmlRein,
+                    'JarakRein' => $data->JarakRein,
+                    'Kode_Model_CB' => $data->Kode_Model_CB,
+                    'Kode_Model_CA' => $data->Kode_Model_CA,
+                    'Kode_Model_BB' => $data->Kode_Model_BB,
+                    'Kode_Customer' => $data->Kode_Customer,
+                    'Usage_type' => $data->Usage_type,
+                    'IdBarang' => $data->IdBarang,
+                    'SEAL' => $data->SEAL,
+                ];
+            }
+
+            return datatables($dataPrint)->make(true);
             // Assuming you have a view for the report
-            return view('report', [
-                'namaLaporan' => 'InfoTabelHitungan',
-                'kriteria' => $criteria
-            ]);
+            // return view('report', [
+            //     'namaLaporan' => 'InfoTabelHitungan',
+            //     'kriteria' => $criteria
+            // ]);
         }
     }
     public function edit($id)

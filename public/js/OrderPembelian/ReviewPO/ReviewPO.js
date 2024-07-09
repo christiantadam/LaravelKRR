@@ -38,7 +38,7 @@ function LoadPermohonan(data) {
                 data: "nama_sub_kategori",
             },
             {
-                data: "KET",
+                data: "keterangan",
             },
             {
                 data: "Ket_Internal",
