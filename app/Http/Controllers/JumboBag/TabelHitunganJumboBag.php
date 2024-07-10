@@ -1025,16 +1025,16 @@ class TabelHitunganJumboBag extends Controller
                 DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_DLT_RINCIANTH
                     @KodeBarang = ?,
                     @KodeKomponen = ?,
-                    @Kounter = ?,',
+                    @Kounter = ?',
                     [
                         $request->input('KodeBarang'),
                         $request->input('KodeKomponen'),
-                        $request->input('Kounter')
+                        (int)$request->input('Kounter')
                     ]
                 );
                 DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_LOGIN_KDBRG
                     @KodeBarang = ?,
-                    @User_Login = ?,',
+                    @User_Login = ?',
                     [
                         $request->input('KodeBarang'),
                         Auth::user()->NomorUser

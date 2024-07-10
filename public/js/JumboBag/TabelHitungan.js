@@ -2669,7 +2669,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             denier_weftKomponenGeneral.value
                                         ).toFixed(2);
                                 }
-                                denier_warpKomponenGeneral.readOnly = false;
+                                if (KompVarKomponen == 2) {
+                                    denier_warpKomponenGeneral.readOnly = false;
+                                }
                                 hitungDenier();
                             }
                         }
@@ -2688,7 +2690,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 } else {
                                     this.classList.remove("input-error");
                                     this.setCustomValidity("");
-                                    denier_weftKomponenGeneral.readOnly = false;
+                                    if (KompVarKomponen == 2) {
+                                        denier_weftKomponenGeneral.readOnly = false;
+                                    }
                                     denier_weftKomponenGeneral.focus();
                                     hitungDenier();
                                 }
@@ -3060,7 +3064,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -3101,6 +3105,19 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 console.error("Error fetching data:", error);
                             },
                         });
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenGeneral.readOnly = true;
+                            lebarKomponenGeneral.readOnly = true;
+                            warpKomponenGeneral.readOnly = true;
+                            weftKomponenGeneral.readOnly = true;
+                            denierKomponenGeneral.readOnly = true;
+                            quantityKomponenGeneral.readOnly = true;
+                            beratKomponenGeneral.readOnly = true;
+                            hargaKomponenGeneral.readOnly = true;
+                            subtotalKomponenGeneral.readOnly = true;
+                            denier_warpKomponenGeneral.readOnly = true;
+                            denier_weftKomponenGeneral.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Circular") {
                     //O-ATX-002-KR01 ATEX INDONESIA, PT
@@ -3240,7 +3257,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             denier_weftKomponenCircular.value
                                         ).toFixed(2);
                                 }
-                                denier_warpKomponenCircular.readOnly = false;
+                                if (KompVarKomponen == 2) {
+                                    denier_warpKomponenCircular.readOnly = false;
+                                }
                                 hitungDenier();
                             }
                         }
@@ -3258,7 +3277,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 } else {
                                     this.classList.remove("input-error");
                                     this.setCustomValidity("");
-                                    denier_weftKomponenCircular.readOnly = false;
+                                    if (KompVarKomponen == 2) {
+                                        denier_weftKomponenCircular.readOnly = false;
+                                    }
                                     denier_weftKomponenCircular.focus();
                                     hitungDenier();
                                 }
@@ -3444,7 +3465,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -3496,6 +3517,20 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 console.error("Error fetching data:", error);
                             },
                         });
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenCircular.readOnly = true;
+                            lebarKomponenCircular.readOnly = true;
+                            warpKomponenCircular.readOnly = true;
+                            weftKomponenCircular.readOnly = true;
+                            denierKomponenCircular.readOnly = true;
+                            quantityKomponenCircular.readOnly = true;
+                            beratKomponenCircular.readOnly = true;
+                            hargaKomponenCircular.readOnly = true;
+                            subtotalKomponenCircular.readOnly = true;
+                            kounterKomponenCircular.readOnly = true;
+                            diameterKomponenCircular.readOnly = true;
+                            tinggiKomponenCircular.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Square") {
                     //Javascript khusus untuk Form Komponen Square FormKomponenSquare.js
@@ -3619,7 +3654,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             denier_weftKomponenSquare.value
                                         ).toFixed(2);
                                 }
-                                denier_warpKomponenSquare.readOnly = false;
+                                if (KompVarKomponen == 2) {
+                                    denier_warpKomponenSquare.readOnly = false;
+                                }
                                 hitungDenier();
                             }
                         }
@@ -3637,7 +3674,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 } else {
                                     this.classList.remove("input-error");
                                     this.setCustomValidity("");
-                                    denier_weftKomponenSquare.readOnly = false;
+                                    if (KompVarKomponen == 2) {
+                                        denier_weftKomponenSquare.readOnly = false;
+                                    }
                                     denier_weftKomponenSquare.focus();
                                     hitungDenier();
                                 }
@@ -3737,7 +3776,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             beratKomponenSquare.value = Math.round(TBerat);
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -3778,6 +3817,18 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 console.error("Error fetching data:", error);
                             },
                         });
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenSquare.readOnly = true;
+                            lebarKomponenSquare.readOnly = true;
+                            warpKomponenSquare.readOnly = true;
+                            weftKomponenSquare.readOnly = true;
+                            denierKomponenSquare.readOnly = true;
+                            quantityKomponenSquare.readOnly = true;
+                            beratKomponenSquare.readOnly = true;
+                            hargaKomponenSquare.readOnly = true;
+                            subtotalKomponenSquare.readOnly = true;
+                            kounterKomponenSquare.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Rope") {
                     //Javascript khusus untuk Form Komponen Rope FormKomponenRope.js
@@ -3934,7 +3985,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -3944,6 +3995,13 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         quantityKomponenRope.value = selectedData[7];
                         totalBeratKomponenRope.value = selectedData[8];
                         kounterKomponenRope.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenRope.readOnly = true;
+                            diameterKomponenRope.readOnly = true;
+                            quantityKomponenRope.readOnly = true;
+                            totalBeratKomponenRope.readOnly = true;
+                            kounterKomponenRope.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Belt") {
                     //Javascript khusus untuk Form Komponen Belt FormKomponenBelt.js
@@ -4162,7 +4220,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -4173,6 +4231,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         quantityKomponenBelt.value = selectedData[7];
                         totalBeratKomponenBelt.value = selectedData[8];
                         kounterKomponenBelt.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenBelt.readOnly = true;
+                            lebarKomponenBelt.readOnly = true;
+                            denierKomponenBelt.readOnly = true;
+                            quantityKomponenBelt.readOnly = true;
+                            totalBeratKomponenBelt.readOnly = true;
+                            kounterKomponenBelt.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Selang") {
                     //Javascript khusus untuk Form Komponen Selang FormKomponenSelang.js
@@ -4255,7 +4321,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -4265,6 +4331,13 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         quantityKomponenSelang.value = selectedData[7];
                         totalBeratKomponenSelang.value = selectedData[8];
                         kounterKomponenSelang.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenSelang.readOnly = true;
+                            diameterKomponenSelang.readOnly = true;
+                            quantityKomponenSelang.readOnly = true;
+                            totalBeratKomponenSelang.readOnly = true;
+                            kounterKomponenSelang.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Block") {
                     //Javascript khusus untuk Form Block FormBlock.js
@@ -4318,7 +4391,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -4329,6 +4402,12 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         quantityBlock.value = selectedData[7];
                         totalBeratBlock.value = selectedData[8];
                         kounterBlock.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            beratBlock.readOnly = true;
+                            quantityBlock.readOnly = true;
+                            totalBeratBlock.readOnly = true;
+                            kounterBlock.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Lami") {
                     //Javascript khusus untuk Form Komponen Lami FormKomponenLami.js
@@ -4343,7 +4422,10 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             columnDefs: [
                                 {
                                     targets: "_all",
-                                    createdCell: createdCell,
+                                    createdCell:
+                                        KompVarKomponen == 2
+                                            ? createdCell
+                                            : null,
                                 },
                             ],
                         }
@@ -4479,13 +4561,17 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         // Update the total weight field
                         totalBeratKomponenLami.value = totalBerat.toFixed(2);
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
                             .data();
                         totalBeratKomponenLami.value = selectedData[8];
                         kounterKomponenLami.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            totalBeratKomponenLami.readOnly = true;
+                            kounterKomponenLami.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Inner") {
                     //Javascript khusus untuk Form Komponen Inner FormKomponenInner.js
@@ -4650,7 +4736,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -4660,6 +4746,13 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         quantityKomponenInner.value = selectedData[7];
                         totalBeratKomponenInner.value = selectedData[8];
                         kounterKomponenInner.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenInner.readOnly = true;
+                            lebarKomponenInner.readOnly = true;
+                            quantityKomponenInner.readOnly = true;
+                            totalBeratKomponenInner.readOnly = true;
+                            kounterKomponenInner.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Pocket") {
                     //Javascript khusus untuk Form Komponen Pocket FormKomponenPocket.js
@@ -4743,7 +4836,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -4754,6 +4847,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         hargaPerMeterKomponenPocket.value = selectedData[9];
                         totalHargaKomponenPocket.value = selectedData[10];
                         kounterKomponenPocket.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenPocket.readOnly = true;
+                            lebarKomponenPocket.readOnly = true;
+                            quantityKomponenPocket.readOnly = true;
+                            hargaPerMeterKomponenPocket.readOnly = true;
+                            totalHargaKomponenPocket.readOnly = true;
+                            kounterKomponenPocket.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Eva") {
                     //Javascript khusus untuk Form Komponen Eva FormKomponenEva.js
@@ -4831,7 +4932,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -4843,6 +4944,15 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         hargaKomponenEva.value = selectedData[9];
                         totalHargaKomponenEva.value = selectedData[10];
                         kounterKomponenEva.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenEva.readOnly = true;
+                            lebarKomponenEva.readOnly = true;
+                            quantityKomponenEva.readOnly = true;
+                            beratKomponenEva.readOnly = true;
+                            hargaKomponenEva.readOnly = true;
+                            totalHargaKomponenEva.readOnly = true;
+                            kounterKomponenEva.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Benang") {
                     var inputElements = [
@@ -4931,7 +5041,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -4944,6 +5054,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             denier2KomponenBenang.checked = true;
                         } else {
                             denier1KomponenBenang.checked = true;
+                        }
+                        if (KompVarKomponen == 3) {
+                            hargaBenangPerKgKomponenBenang.readOnly = true;
+                            totalHargaKomponenBenang.readOnly = true;
+                            kebutuhanKomponenBenang.readOnly = true;
+                            kounterKomponenBenang.readOnly = true;
+                            denier2KomponenBenang.disabled = true;
+                            denier1KomponenBenang.disabled = true;
                         }
                     }
                 } else if (typeForm == "Form Komponen Ongkos") {
@@ -5054,7 +5172,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -5062,6 +5180,11 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         hargaPerKgKomponenOngkos.value = selectedData[9];
                         totalHargaKomponenOngkos.value = selectedData[10];
                         kounterKomponenOngkos.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            hargaPerKgKomponenOngkos.readOnly = true;
+                            totalHargaKomponenOngkos.readOnly = true;
+                            kounterKomponenOngkos.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Dust") {
                     //Javascript khusus untuk Form Komponen Dust FormKomponenDust.js
@@ -5140,7 +5263,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -5159,6 +5282,12 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             hargaPerKgKomponenDust.value = selectedData[9];
                             totalHargaKomponenDust.value = selectedData[10];
                             kounterKomponenDust.value = selectedData[11];
+                        }
+                        if (KompVarKomponen == 3) {
+                            beratKomponenDust.readOnly = true;
+                            kounterKomponenDust.readOnly = true;
+                            hargaPerKgKomponenDust.readOnly = true;
+                            totalHargaKomponenDust.readOnly = true;
                         }
                     }
                 } else if (typeForm == "Form Komponen Katun") {
@@ -5245,7 +5374,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 } else {
                                     this.classList.remove("input-error");
                                     this.setCustomValidity("");
-                                    hargaPerKgKomponenKatun.readOnly = false;
+                                    if (KompVarKomponen == 2) {
+                                        hargaPerKgKomponenKatun.readOnly = false;
+                                    }
                                     hargaPerKgKomponenKatun.focus();
                                 }
                             }
@@ -5284,7 +5415,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         totalHargaKomponenKatun.value =
                             parseFloat(totalHarga).toFixed(2);
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -5296,6 +5427,15 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         totalBeratKomponenKatun.value = selectedData[8];
                         totalHargaKomponenKatun.value = selectedData[10];
                         kounterKomponenKatun.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenKatun.readOnly = true;
+                            lebarKomponenKatun.readOnly = true;
+                            quantityKomponenKatun.readOnly = true;
+                            hargaPerKgKomponenKatun.readOnly = true;
+                            totalBeratKomponenKatun.readOnly = true;
+                            totalHargaKomponenKatun.readOnly = true;
+                            kounterKomponenKatun.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Kertas") {
                     //Javascript khusus untuk Form Komponen Kertas FormKomponenKertas.js
@@ -5352,7 +5492,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             quantityKomponenKertas;
                         totalBeratKomponenKertas.value = TBerat;
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -5364,6 +5504,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         totalBeratKomponenKertas.value = selectedData[8];
                         //hargaKomponenKertas tidak dipakai
                         kounterKomponenKertas.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenKertas.readOnly = true;
+                            lebarKomponenKertas.readOnly = true;
+                            GSMKomponenKertas.readOnly = true;
+                            quantityKomponenKertas.readOnly = true;
+                            totalBeratKomponenKertas.readOnly = true;
+                            kounterKomponenKertas.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Kain") {
                     //Javascript khusus untuk Form Komponen Kain FormKomponenKain.js
@@ -5447,7 +5595,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-                    if (KompVarKomponen == 2) {
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -5459,6 +5607,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         totalBeratKomponenKain.value = selectedData[8];
                         //hargaKomponenKain tidak dipakai
                         kounterKomponenKain.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenKain.readOnly = true;
+                            lebarKomponenKain.readOnly = true;
+                            GSMKomponenKain.readOnly = true;
+                            quantityKomponenKain.readOnly = true;
+                            totalBeratKomponenKain.readOnly = true;
+                            kounterKomponenKain.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Benang Katun") {
                     //Javascript khusus untuk Form Komponen Benang Katun FormKomponenBenangKatun.js
@@ -5554,8 +5710,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 }
                             }
                         }
-                    )
-                    if (KompVarKomponen == 2) {
+                    );
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -5570,6 +5726,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 quantityKomponenBenangKatun.value);
                         //hargaKomponenKain tidak dipakai
                         kounterKomponenBenangKatun.value = selectedData[11];
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenBenangKatun.readOnly = true;
+                            lebarKomponenBenangKatun.readOnly = true;
+                            quantityKomponenBenangKatun.readOnly = true;
+                            totalBeratKomponenBenangKatun.readOnly = true;
+                            beratStdKomponenBenangKatun.readOnly = true;
+                            kounterKomponenBenangKatun.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Karet") {
                     //Javascript khusus untuk Form Komponen Karet FormKomponenKaret.js
@@ -5624,8 +5788,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 }
                             }
                         }
-                    )
-                    if (KompVarKomponen == 2) {
+                    );
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -5640,6 +5804,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 (parseFloat(panjangKomponenKaret.value / 100) *
                                     parseFloat(quantityKomponenKaret.value))
                         ).toFixed(2);
+                        if (KompVarKomponen == 3) {
+                            panjangKomponenKaret.readOnly = true;
+                            lebarKomponenKaret.readOnly = true;
+                            quantityKomponenKaret.readOnly = true;
+                            totalBeratKomponenKaret.readOnly = true;
+                            kounterKomponenKaret.readOnly = true;
+                            beratPerMeterKomponenKaret.readOnly = true;
+                        }
                     }
                 } else if (typeForm == "Form Komponen Carbon") {
                     //Javascript khusus untuk Form Komponen Carbon FormKomponenCarbon.js
@@ -5704,8 +5876,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 }
                             }
                         }
-                    )
-                    if (KompVarKomponen == 2) {
+                    );
+                    if (KompVarKomponen == 2 || KompVarKomponen == 3) {
                         const selectedData = $("#tabelData")
                             .DataTable()
                             .row(".selected")
@@ -5725,6 +5897,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     100
                             ) / 100
                         ).toFixed(2);
+                        if (KompVarKomponen == 3) {
+                            lebarKomponenCarbon.readOnly = true;
+                            panjangKomponenCarbon.readOnly = true;
+                            quantityKomponenCarbon.readOnly = true;
+                            totalBeratKomponenCarbon.readOnly = true;
+                            kounterKomponenCarbon.readOnly = true;
+                            tebalKomponenCarbon.readOnly = true;
+                        }
                     }
                 }
 
@@ -5859,7 +6039,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -5981,7 +6161,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -6103,7 +6283,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -6225,7 +6405,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -6347,7 +6527,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -6469,7 +6649,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -6591,7 +6771,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -6768,7 +6948,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             Swal.fire({
                                                 icon: "success",
                                                 title: "Pemberitahuan",
-                                                text: "Komponen baru sudah disimpan !",
+                                                text: "Komponen sudah diperbarui !",
                                             }).then((result) => {
                                                 loadDataKoreksi(
                                                     nama_barang.value,
@@ -6922,7 +7102,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -7044,7 +7224,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -7166,7 +7346,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -7288,7 +7468,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -7410,7 +7590,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -7532,7 +7712,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -7654,7 +7834,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -7777,7 +7957,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -7900,7 +8080,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -8022,7 +8202,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -8144,7 +8324,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -8264,7 +8444,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah diperbarui !",
+                                    text: "Komponen sudah diperbarui !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -8294,7 +8474,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 Swal.fire({
                                     icon: "success",
                                     title: "Pemberitahuan",
-                                    text: "Komponen baru sudah dihapus !",
+                                    text: "Komponen sudah dihapus !",
                                 }).then((result) => {
                                     loadDataKoreksi(
                                         nama_barang.value,
@@ -9775,7 +9955,7 @@ hapus_komponen.addEventListener("click", function (event) {
         Swal.fire({
             icon: "info",
             title: "Pemberitahuan",
-            text: "Pilih Komponen yang ingin dikoreksi!",
+            text: "Pilih Komponen yang ingin dihapus!",
         });
     } else {
         console.log(selectedData[0]);
