@@ -25,10 +25,11 @@ class TabelHitunganJumboBag extends Controller
             // Handle invalid method, e.g., return an error response
             return response()->json(['error' => 'Invalid request method'], 405);
         }
-        $columns = array(
-            0 => 'Nama_Customer',
-            1 => 'Kode_Customer'
-        );
+        $columns =
+            [
+                0 => 'Nama_Customer',
+                1 => 'Kode_Customer'
+            ];
 
         $totalData = DB::connection('ConnJumboBag')->table('CUSTOMER')
             ->count();
@@ -90,10 +91,11 @@ class TabelHitunganJumboBag extends Controller
             ->count(); //SP_1273_JBB_CHECK_CUST_KDBRG
         // dd($checkAvailabilityNamaBarang);
         if ($checkAvailabilityNamaBarang > 0) {
-            $columns = array(
-                0 => 'kode_barang',
-                1 => 'tanggal'
-            );
+            $columns =
+                [
+                    0 => 'kode_barang',
+                    1 => 'tanggal'
+                ];
 
             $totalData = DB::connection('ConnJumboBag')->table('KODE_BARANG')
                 ->where('Kode_Customer', $request->id_customer)
@@ -943,7 +945,7 @@ class TabelHitunganJumboBag extends Controller
             }
         } else if ($id == 'EditKomponen') {
             try {
-                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_HEADTH
+                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_RINCIANTH
                     @KodeBarang = ?,
                     @KodeKomponen = ?,
                     @StandartKomponen = ?,
@@ -977,7 +979,7 @@ class TabelHitunganJumboBag extends Controller
                         $request->input('BeratWE'),
                         $request->input('Harga'),
                         $request->input('SubTotal'),
-                        $request->input('Kounter'),
+                        (int)$request->input('Kounter'),
                         $request->input('DenierWA'),
                         $request->input('DenierWE'),
                         Auth::user()->NomorUser
@@ -987,24 +989,28 @@ class TabelHitunganJumboBag extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
-        }elseif ($id == "EditKomponenLami") {
+        } elseif ($id == "EditKomponenLami") {
             $kdBrg = $request->input('KodeBarang');
             $gridLamiData = $request->input('gridLamiData');
 
             try {
                 foreach ($gridLamiData as $row) {
-                    DB::statement('
-                    EXEC SP_1273_JBB_UDT_RINCIAN_LAMI :KodeBarang, :KodeKomponen, :Panjang, :Lebar, :Tebal, :Berat
+                    DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_UDT_RINCIAN_LAMI
+                    @KodeBarang = ?,
+                    @KodeKomponen = ?,
+                    @Panjang = ?,
+                    @Lebar = ?,
+                    @Tebal = ?,
+                    @Berat = ?
                 ', [
-                        'KodeBarang' => $kdBrg,
-                        'KodeKomponen' => $row['KodeKomponen'],
-                        'Panjang' => $row['Panjang'],
-                        'Lebar' => $row['Lebar'],
-                        'Tebal' => $row['Tebal'],
-                        'Berat' => $row['Berat']
+                        $kdBrg,
+                        $row['KodeKomponen'],
+                        $row['Panjang'],
+                        $row['Lebar'],
+                        $row['Tebal'],
+                        $row['Berat']
                     ]);
                 }
-
                 return response()->json(['message' => 'Data KomponenLami inserted successfully'], 200);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
@@ -1012,40 +1018,85 @@ class TabelHitunganJumboBag extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        try {
-            $checkData = DB::connection('ConnJumboBag')->select(
-                'exec SP_1273_JBB_CHECKKD_HEADTO @KodeBarang = \'?\'',
-                [
-                    $id
-                ]
-            );
-            if (!empty($checkData) && $checkData[0]->Ada > 0) {
-                return response()->json(['error' => 'Data tidak dapat dihapus karena sudah ada tabel ordernya']);
-            } else {
-                DB::connection('ConnJumboBag')->statement(
-                    'exec SP_1273_JBB_DLT_All_RINCIANTH @KodeBarang = \'?\'',
+        if ($id == 'DeleteKomponen') {
+            try {
+                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_DLT_RINCIANTH
+                    @KodeBarang = ?,
+                    @KodeKomponen = ?,
+                    @Kounter = ?,',
                     [
-                        $id
+                        $request->input('KodeBarang'),
+                        $request->input('KodeKomponen'),
+                        $request->input('Kounter')
                     ]
                 );
-                DB::connection('ConnJumboBag')->statement(
-                    'exec SP_1273_JBB_DLT_KDBRG @KodeBarang = \'?\'',
+                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_LOGIN_KDBRG
+                    @KodeBarang = ?,
+                    @User_Login = ?,',
                     [
-                        $id
+                        $request->input('KodeBarang'),
+                        Auth::user()->NomorUser
                     ]
                 );
-                DB::connection('ConnJumboBag')->statement(
-                    'exec SP_1273_JBB_DLT_HEADTH @KodeBarang = \'?\'',
-                    [
-                        $id
-                    ]
-                );
-                return response()->json(['success' => 'Record Table Hitungan deleted successfully.']);
+                return response()->json(['success' => 'Komponen deleted successfully.']);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
             }
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
+        } else if ($id == 'DeleteKomponenLami') {
+            $kdBrg = $request->input('KodeBarang');
+            $gridLamiData = $request->input('gridLamiData');
+
+            try {
+                foreach ($gridLamiData as $row) {
+                    DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_DLT_RINCIAN_LAMI
+                    @KodeBarang = ?,
+                    @KodeKomponen = ?',
+                        [
+                            $kdBrg,
+                            $row['KodeKomponen'],
+                        ]
+                    );
+                }
+                return response()->json(['message' => 'Data KomponenLami deleted successfully'], 200);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        } else {
+            try {
+                $checkData = DB::connection('ConnJumboBag')->select(
+                    'exec SP_1273_JBB_CHECKKD_HEADTO @KodeBarang = \'?\'',
+                    [
+                        $id
+                    ]
+                );
+                if (!empty($checkData) && $checkData[0]->Ada > 0) {
+                    return response()->json(['error' => 'Data tidak dapat dihapus karena sudah ada tabel ordernya']);
+                } else {
+                    DB::connection('ConnJumboBag')->statement(
+                        'exec SP_1273_JBB_DLT_All_RINCIANTH @KodeBarang = \'?\'',
+                        [
+                            $id
+                        ]
+                    );
+                    DB::connection('ConnJumboBag')->statement(
+                        'exec SP_1273_JBB_DLT_KDBRG @KodeBarang = \'?\'',
+                        [
+                            $id
+                        ]
+                    );
+                    DB::connection('ConnJumboBag')->statement(
+                        'exec SP_1273_JBB_DLT_HEADTH @KodeBarang = \'?\'',
+                        [
+                            $id
+                        ]
+                    );
+                    return response()->json(['success' => 'Record Table Hitungan deleted successfully.']);
+                }
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
         }
     }
 }

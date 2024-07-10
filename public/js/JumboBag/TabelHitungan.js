@@ -3060,7 +3060,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-
                     if (KompVarKomponen == 2) {
                         const selectedData = $("#tabelData")
                             .DataTable()
@@ -3077,21 +3076,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         subtotalKomponenGeneral.value = selectedData[10];
                         kounterKomponenGeneral.value = selectedData[11];
 
-                        console.log(
-                            KompVarKdBrg,
-                            Kode_Komponen,
-                            selectedData,
-                            panjangKomponenGeneral.value,
-                            lebarKomponenGeneral.value,
-                            warpKomponenGeneral.value,
-                            weftKomponenGeneral.value,
-                            denierKomponenGeneral.value,
-                            quantityKomponenGeneral.value,
-                            beratKomponenGeneral.value,
-                            hargaKomponenGeneral.value,
-                            subtotalKomponenGeneral.value,
-                            kounterKomponenGeneral.value
-                        );
                         $.ajax({
                             url: "TabelHitunganJBB/getDataKoreksiKomponen", // URL to your PHP script that fetches data
                             method: "GET",
@@ -5156,7 +5140,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         }
                     }
-
                     if (KompVarKomponen == 2) {
                         const selectedData = $("#tabelData")
                             .DataTable()
@@ -5301,7 +5284,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         totalHargaKomponenKatun.value =
                             parseFloat(totalHarga).toFixed(2);
                     }
-
                     if (KompVarKomponen == 2) {
                         const selectedData = $("#tabelData")
                             .DataTable()
@@ -5370,7 +5352,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             quantityKomponenKertas;
                         totalBeratKomponenKertas.value = TBerat;
                     }
-
                     if (KompVarKomponen == 2) {
                         const selectedData = $("#tabelData")
                             .DataTable()
@@ -5573,7 +5554,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 }
                             }
                         }
-                    );
+                    )
                     if (KompVarKomponen == 2) {
                         const selectedData = $("#tabelData")
                             .DataTable()
@@ -5643,7 +5624,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 }
                             }
                         }
-                    );
+                    )
                     if (KompVarKomponen == 2) {
                         const selectedData = $("#tabelData")
                             .DataTable()
@@ -5723,7 +5704,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 }
                             }
                         }
-                    );
+                    )
                     if (KompVarKomponen == 2) {
                         const selectedData = $("#tabelData")
                             .DataTable()
@@ -5893,6 +5874,35 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenGeneral.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Circular") {
                 if (KompVarKomponen == 1) {
@@ -5986,6 +5996,35 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenCircular.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Square") {
                 if (KompVarKomponen == 1) {
@@ -6079,6 +6118,35 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenSquare.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Rope") {
                 if (KompVarKomponen == 1) {
@@ -6172,6 +6240,35 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenRope.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Belt") {
                 if (KompVarKomponen == 1) {
@@ -6265,6 +6362,35 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenBelt.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Selang") {
                 if (KompVarKomponen == 1) {
@@ -6358,6 +6484,35 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenSelang.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Block") {
                 if (KompVarKomponen == 1) {
@@ -6451,6 +6606,35 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterBlock.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Lami") {
                 if (KompVarKomponen == 1) {
@@ -6549,6 +6733,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             BeratWE: 0,
                             Harga: 0,
                             SubTotal: 0,
+                            Kounter: kounterKomponenLami.value,
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
@@ -6558,13 +6743,15 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 let gridLamiData = [];
 
                                 tableKomponenLami.rows().every(function () {
-                                    let data = this.data();
+                                    let datagridLamiData = this.data();
                                     gridLamiData.push({
-                                        KodeKomponen: data[0],
-                                        Panjang: parseFloat(data[2]),
-                                        Lebar: parseFloat(data[3]),
-                                        Tebal: parseFloat(data[5]),
-                                        Berat: parseFloat(data[6]),
+                                        KodeKomponen: datagridLamiData[0],
+                                        Panjang: parseFloat(
+                                            datagridLamiData[2]
+                                        ),
+                                        Lebar: parseFloat(datagridLamiData[3]),
+                                        Tebal: parseFloat(datagridLamiData[5]),
+                                        Berat: parseFloat(datagridLamiData[6]),
                                     });
                                 });
                                 $.ajax({
@@ -6602,6 +6789,61 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenLami.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                let gridLamiData = [];
+
+                                tableKomponenLami.rows().every(function () {
+                                    let datagridLamiData = this.data();
+                                    gridLamiData.push({
+                                        KodeKomponen: datagridLamiData[0],
+                                    });
+                                });
+                                $.ajax({
+                                    type: "DELETE", // or 'GET' depending on your server setup
+                                    url: "TabelHitunganJBB/DeleteKomponenLami", // Specify the URL of your controller
+                                    data: {
+                                        _token: csrfToken,
+                                        KodeBarang: nama_barang.value,
+                                        gridLamiData: gridLamiData,
+                                    }, // Pass the data with csrf_tokern
+                                    success: function (response) {
+                                        // Handle the successful response from the controller
+                                        if (response.success) {
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "Pemberitahuan",
+                                                text: "Komponen sudah dihapus !",
+                                            }).then((result) => {
+                                                loadDataKoreksi(
+                                                    nama_barang.value,
+                                                    customer.value
+                                                );
+                                            });
+                                        }
+                                        console.log(response);
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error(error); // Handle errors
+                                    },
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Inner") {
                 if (KompVarKomponen == 1) {
@@ -6650,7 +6892,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenInner.value,
+                            Lebar: lebarKomponenInner.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenInner.value,
+                            Berat: totalBeratKomponenInner.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            Kounter: kounterKomponenInner.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenInner.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Pocket") {
                 if (KompVarKomponen == 1) {
@@ -6699,7 +7014,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenPocket.value,
+                            Lebar: lebarKomponenPocket.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenPocket.value,
+                            Berat: hargaPerMeterKomponenPocket.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: totalHargaKomponenPocket.value,
+                            Kounter: kounterKomponenPocket.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenPocket.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Eva") {
                 if (KompVarKomponen == 1) {
@@ -6748,7 +7136,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenEva.value,
+                            Lebar: lebarKomponenEva.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenEva.value,
+                            Berat: beratKomponenEva.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: hargaKomponenEva.value,
+                            Kounter: kounterKomponenEva.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenEva.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Benang") {
                 if (KompVarKomponen == 1) {
@@ -6797,7 +7258,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: 0,
+                            Lebar: 0,
+                            WA: 0,
+                            WE: 0,
+                            Denier: denierKomponenBenang.value,
+                            Quantity: 0,
+                            Berat: kebutuhanKomponenBenang.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaBenangPerKgKomponenBenang.value,
+                            SubTotal: totalHargaKomponenBenang.value,
+                            Kounter: kounterKomponenBenang.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenBenang.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Ongkos") {
                 if (KompVarKomponen == 1) {
@@ -6846,7 +7380,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: 0,
+                            Lebar: 0,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: 0,
+                            Berat: 0,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaPerKgKomponenOngkos.value,
+                            SubTotal: totalHargaKomponenOngkos.value,
+                            Kounter: kounterKomponenOngkos.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenOngkos.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Dust") {
                 if (KompVarKomponen == 1) {
@@ -6895,7 +7502,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: 0,
+                            Lebar: 0,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: 0,
+                            Berat: beratKomponenDust.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaPerKgKomponenDust.value,
+                            SubTotal: totalHargaKomponenDust.value,
+                            Kounter: kounterKomponenDust.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenDust.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Katun") {
                 if (KompVarKomponen == 1) {
@@ -6944,7 +7624,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenKatun.value,
+                            Lebar: lebarKomponenKatun.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenKatun.value,
+                            Berat: totalBeratKomponenKatun.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaPerKgKomponenKatun.value,
+                            SubTotal: totalHargaKomponenKatun.value,
+                            Kounter: kounterKomponenKatun.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenBenangKatun.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Kertas") {
                 if (KompVarKomponen == 1) {
@@ -6994,7 +7747,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     });
                 } else if (KompVarKomponen == 2) {
                     //hargaKomponenKertas tidak dipakai!
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenKertas.value,
+                            Lebar: lebarKomponenKertas.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: GSMKomponenKertas.value,
+                            Quantity: quantityKomponenKertas.value,
+                            Berat: totalBeratKomponenKertas.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            Kounter: kounterKomponenKertas.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenKertas.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Kain") {
                 if (KompVarKomponen == 1) {
@@ -7017,7 +7843,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             Berat: totalBeratKomponenKain.value,
                             BeratWA: 0,
                             BeratWE: 0,
-                            Harga: hargaKomponenKain.value,
+                            Harga: hargaKomponenKain.value ?? 0,
                             SubTotal: 0,
                             DenierWA: 0,
                             DenierWE: 0,
@@ -7044,7 +7870,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     });
                 } else if (KompVarKomponen == 2) {
                     //hargaKomponenKain tidak dipakai
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenKain.value,
+                            Lebar: lebarKomponenKain.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: GSMKomponenKain.value,
+                            Quantity: quantityKomponenKain.value,
+                            Berat: totalBeratKomponenKain.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: hargaKomponenKain.value ?? 0,
+                            SubTotal: 0,
+                            Kounter: kounterKomponenKain.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenKain.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Benang Katun") {
                 if (KompVarKomponen == 1) {
@@ -7093,7 +7992,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenBenangKatun.value,
+                            Lebar: lebarKomponenBenangKatun.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenBenangKatun.value,
+                            Berat: totalBeratKomponenBenangKatun.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            Kounter: kounterKomponenBenangKatun.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenBenangKatun.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Karet") {
                 if (KompVarKomponen == 1) {
@@ -7142,7 +8114,80 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 2) {
+                    $.ajax({
+                        type: "PUT", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            StandartKomponen:
+                                Kode_Komponen.substring(0, 4) + "00",
+                            Panjang: panjangKomponenKaret.value,
+                            Lebar: lebarKomponenKaret.value,
+                            WA: 0,
+                            WE: 0,
+                            Denier: 0,
+                            Quantity: quantityKomponenKaret.value,
+                            Berat: totalBeratKomponenKaret.value,
+                            BeratWA: 0,
+                            BeratWE: 0,
+                            Harga: 0,
+                            SubTotal: 0,
+                            Kounter: kounterKomponenKaret.value,
+                            DenierWA: 0,
+                            DenierWE: 0,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah diperbarui !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenKaret.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             } else if (typeForm == "Form Komponen Carbon") {
                 if (KompVarKomponen == 1) {
@@ -7234,6 +8279,35 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         },
                     });
                 } else if (KompVarKomponen == 3) {
+                    $.ajax({
+                        type: "DELETE", // or 'GET' depending on your server setup
+                        url: "TabelHitunganJBB/DeleteKomponen", // Specify the URL of your controller
+                        data: {
+                            _token: csrfToken,
+                            KodeBarang: nama_barang.value,
+                            KodeKomponen: Kode_Komponen,
+                            Kounter: kounterKomponenCarbon.value,
+                        }, // Pass the data with csrf_tokern
+                        success: function (response) {
+                            // Handle the successful response from the controller
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Pemberitahuan",
+                                    text: "Komponen baru sudah dihapus !",
+                                }).then((result) => {
+                                    loadDataKoreksi(
+                                        nama_barang.value,
+                                        customer.value
+                                    );
+                                });
+                            }
+                            console.log(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error); // Handle errors
+                        },
+                    });
                 }
             }
         }
@@ -8693,43 +9767,60 @@ koreksi_komponen.addEventListener("click", function (event) {
         pilihTypeFormKomposisi(selectedData[0], selectedData[1]);
     }
 });
+
+hapus_komponen.addEventListener("click", function (event) {
+    event.preventDefault();
+    const selectedData = $("#tabelData").DataTable().row(".selected").data();
+    if (!selectedData) {
+        Swal.fire({
+            icon: "info",
+            title: "Pemberitahuan",
+            text: "Pilih Komponen yang ingin dikoreksi!",
+        });
+    } else {
+        console.log(selectedData[0]);
+        setKompVar();
+        KompVarKomponen = 3;
+        pilihTypeFormKomposisi(selectedData[0], selectedData[1]);
+    }
+});
 //#endregion
 
 //#region test table Form Komponen Lami
 
-const createdCell = function (cell, cellData, rowData, rowIndex, colIndex) {
-    let original;
-    cell.setAttribute("contenteditable", true);
-    cell.setAttribute("spellcheck", false);
+// const createdCell = function (cell, cellData, rowData, rowIndex, colIndex) {
+//     let original;
+//     cell.setAttribute("contenteditable", true);
+//     cell.setAttribute("spellcheck", false);
 
-    cell.addEventListener("focus", function (e) {
-        original = e.target.textContent;
-    });
+//     cell.addEventListener("focus", function (e) {
+//         original = e.target.textContent;
+//     });
 
-    cell.addEventListener("blur", function (e) {
-        if (original !== e.target.textContent) {
-            const row = table.row(e.target.parentElement);
-            row.invalidate();
-            console.log("Cell changed: ", e.target); // Logging the cell
-            console.log("New content: ", e.target.textContent); // Logging the new content
-            console.log("Column index: ", colIndex); // Logging the column index
-            console.log(
-                "Column name: ",
-                table.column(colIndex).header().textContent
-            ); // Logging the column name
-            console.log("Row data: ", row.data()); // Logging the row data
-            console.log(cell, cellData, rowData, rowIndex, colIndex); // Logging all parameters
-        }
-    });
-};
+//     cell.addEventListener("blur", function (e) {
+//         if (original !== e.target.textContent) {
+//             const row = table.row(e.target.parentElement);
+//             row.invalidate();
+//             console.log("Cell changed: ", e.target); // Logging the cell
+//             console.log("New content: ", e.target.textContent); // Logging the new content
+//             console.log("Column index: ", colIndex); // Logging the column index
+//             console.log(
+//                 "Column name: ",
+//                 table.column(colIndex).header().textContent
+//             ); // Logging the column name
+//             console.log("Row data: ", row.data()); // Logging the row data
+//             console.log(cell, cellData, rowData, rowIndex, colIndex); // Logging all parameters
+//         }
+//     });
+// };
 
-const table = $("#example").DataTable({
-    columnDefs: [
-        {
-            targets: "_all",
-            createdCell: createdCell,
-        },
-    ],
-});
+// const table = $("#example").DataTable({
+//     columnDefs: [
+//         {
+//             targets: "_all",
+//             createdCell: createdCell,
+//         },
+//     ],
+// });
 
 //#endregion
