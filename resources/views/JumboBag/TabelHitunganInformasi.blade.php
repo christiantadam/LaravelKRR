@@ -469,31 +469,31 @@
                                 style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
                                 &nbsp;BODY BESAR</td>
                             <td id="potonganP_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="potonganL_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="warp_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="weft_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="denier_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="berat_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="hargakg_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="harga_bb"
-                                style="text-align: left !important; border-top:none !important; border-left:none !important;">
+                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                         </tr>
                         <tr>

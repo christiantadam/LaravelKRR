@@ -5,6 +5,7 @@ let hapusinputButton = document.getElementById("hapusButton");
 let prosesButton = document.getElementById("prosesButton");
 let batalButton = document.getElementById("batalButton");
 let refreshButton = document.getElementById("refreshButton");
+let refresh_tg_t = document.getElementById("refresh_tg_t");
 
 //form
 let tanggal = document.getElementById("tanggal");
@@ -39,6 +40,40 @@ var tanggalInput = document.getElementById("tanggal");
 let JamLapor = document.getElementById("jam_lapor");
 
 var currentTime = moment().format("HH:mm");
+
+refresh_tg_t.addEventListener("click", function (event) {
+    event.preventDefault();
+    $.ajax({
+        url: "/getUpdatedData", // Gantilah URL ini sesuai dengan rute yang sesuai di Laravel
+        type: "GET",
+        success: function(response) {
+            // Perbarui elemen <select> tipe_gangguan
+            var tipeGangguanSelect = $("#tipe_gangguan");
+            tipeGangguanSelect.empty(); // Kosongkan elemen <select>
+            tipeGangguanSelect.append('<option selected disabled>Pilih Tipe Gangguan...</option>');
+            response.TipeGangguan.forEach(function(item) {
+                tipeGangguanSelect.append('<option value="' + item.nama_type_gangguan + '">' + item.nama_type_gangguan + '</option>');
+            });
+
+            // Perbarui elemen <select> teknisi
+            var teknisiSelect = $("#teknisi");
+            teknisiSelect.empty(); // Kosongkan elemen <select>
+            teknisiSelect.append('<option selected disabled>Pilih Teknisi...</option>');
+            response.teknisi.forEach(function(item) {
+                teknisiSelect.append('<option value="' + item.NamaUser + '">' + item.NamaUser + '</option>');
+            });
+        },
+        error: function(error) {
+            console.error("Error fetching updated data:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Terjadi kesalahan saat memperbarui data!",
+                showConfirmButton: false,
+            });
+        }
+    });
+});
 
 sampaiDenganInput.addEventListener("change", function () {
     // Ambil nilai tanggal awal dan tanggal akhir
@@ -258,62 +293,37 @@ koreksiButton.addEventListener("click", function () {
         });
         return; // Stop the function execution
     } else {
-        Swal.fire({
-            icon: "question",
-            title: "Pilih Tindakan",
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: "Penyelesaian Gangguan",
-            denyButtonText: "Koreksi Data",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                keterangan.disabled = false;
-                inputButton.disabled = true;
-                prosesButton.disabled = false;
-                hapusButton.disabled = true;
-                tanggal.disabled = true;
-                divisi_pelapor1.disabled = true;
-                nama_pelapor.disabled = true;
-                penerima_laporan.disabled = true;
-                jam_lapor.disabled = true;
-                jam_perbaikan.disabled = true;
-                jam_selesai.disabled = true;
-                tipe_gangguan.disabled = true;
-                penyebab.disabled = true;
-                penyelesaian.disabled = true;
-                teknisi.disabled = true;
-                gambar1.disabled = true;
-                ket_gambar1.disabled = true;
-                hasil_gambar1.disabled = true;
-                gambar2.disabled = true;
-                ket_gambar2.disabled = true;
-                hasil_gambar2.disabled = true;
-            } else if (result.isDenied) {
-                inputButton.disabled = true;
-                prosesButton.disabled = false;
-                hapusButton.disabled = true;
-                tanggal.disabled = false;
-                divisi_pelapor1.disabled = false;
-                nama_pelapor.disabled = false;
-                penerima_laporan.disabled = false;
-                jam_lapor.disabled = false;
-                jam_perbaikan.disabled = false;
-                jam_selesai.disabled = false;
-                tipe_gangguan.disabled = false;
-                penyebab.disabled = false;
-                penyelesaian.disabled = false;
-                keterangan.disabled = true;
-                teknisi.disabled = false;
-                gambar1.disabled = false;
-                ket_gambar1.disabled = false;
-                hasil_gambar1.disabled = false;
-                gambar2.disabled = false;
-                ket_gambar2.disabled = false;
-                hasil_gambar2.disabled = false;
-            }
-        });
+        if (keterangan.value === "Lanjut") {
+            inputButton.disabled = true;
+            prosesButton.disabled = false;
+            hapusButton.disabled = true;
+            tanggal.disabled = false;
+            divisi_pelapor1.disabled = false;
+            nama_pelapor.disabled = false;
+            penerima_laporan.disabled = false;
+            jam_lapor.disabled = false;
+            jam_perbaikan.disabled = false;
+            jam_selesai.disabled = false;
+            tipe_gangguan.readOnly = true;
+            penyebab.disabled = false;
+            penyelesaian.disabled = false;
+            keterangan.disabled = false;
+            teknisi.disabled = false;
+            gambar1.disabled = false;
+            ket_gambar1.disabled = false;
+            hasil_gambar1.disabled = false;
+            gambar2.disabled = false;
+            ket_gambar2.disabled = false;
+            hasil_gambar2.disabled = false;
+        } else if (keterangan.value === "Selesai") {
+            Swal.fire({
+                icon: "success",
+                title: "Gangguan telah selesai, tidak dapat dikoreksi",
+            });
+        }
     }
 });
+
 
 // Function to check if all fields are filled
 

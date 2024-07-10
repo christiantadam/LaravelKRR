@@ -102,14 +102,26 @@ class InputGangguanElektrikController extends Controller
                 'UserKoreksi' => null,
             ]);
 
-
+            return response()->json(['success' => true, 'message' => 'Sudah menyimpan data']);
         } catch (\Throwable $th) {
             report($th);
-            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan saat menyimpan data']);
+            return response()->json(['error' => false, 'message' => 'Terjadi kesalahan saat menyimpan data']);
         }
     }
 
+    public function getUpdatedData()
+    {
+        $IDUser = auth::user()->IDUser;
+        $teknisi = DB::connection('ConnUtility')
+            ->select("exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?", [$IDUser]);
 
+        $TipeGangguan = DB::connection('ConnUtility')->select('exec SP_LIST_TYPE_GANGGUAN_ELEKTRIK');
+
+        return response()->json([
+            'TipeGangguan' => $TipeGangguan,
+            'teknisi' => $teknisi
+        ]);
+    }
     public function getData(Request $request)
     {
         $tanggal1 = $request->input('tanggal1');

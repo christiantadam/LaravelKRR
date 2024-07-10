@@ -348,6 +348,37 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("lami_x").innerHTML =
                     lami_x.textContent + "&nbsp;" + tebalLami + "&nbsp;Mikron";
 
+                document.getElementById("potonganP_bb").innerHTML =
+                    data.data[0].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[0].Panjang_Potongan;
+                document.getElementById("potonganL_bb").innerHTML =
+                    data.data[0].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[0].Lebar_Potongan;
+                document.getElementById("warp_bb").innerHTML =
+                    data.data[0].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[0].WA_Rajutan;
+                document.getElementById("weft_bb").innerHTML =
+                    data.data[0].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[0].WE_Rajutan;
+                document.getElementById("denier_bb").innerHTML =
+                    parseFloat(data.data[0].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[0].Denier).toFixed(2);
+                document.getElementById("qty_bb").innerHTML =
+                    data.data[0].Quantity;
+                document.getElementById("berat_bb").innerHTML =
+                    data.data[0].Berat;
+                document.getElementById("hargakg_bb").innerHTML =
+                    data.data[0].Harga === ".00" ? "0.00" : data.data[0].Harga;
+                document.getElementById("harga_bb").innerHTML =
+                    data.data[0].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[0].SubTotal;
+
                 window.print();
             },
             error: function (xhr, status, error) {

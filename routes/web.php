@@ -821,6 +821,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //elektrik
     Route::resource('InputGangguanElektrik', App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController::class);
+    Route::get('/getUpdatedData', [App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController::class, 'getUpdatedData']);
     Route::post('/postData', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postData');
     Route::post('/postDataGambar', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@postDataGambar');
     Route::get('/selectImage/{id}/{imageName}', 'App\Http\Controllers\Utility\Elektrik\InputGangguanElektrikController@selectImage');
@@ -959,6 +960,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Master
     Route::resource('MaintenanceTeknisi', App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class);
+    Route::resource('MaintenanceTipeGangguan', App\Http\Controllers\Utility\Master\MaintenanceTipeGangguan::class);
     Route::get('/get-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'getTeknisi'])->name('get-teknisi');
     Route::get('/get-teknisi-id', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'getTeknisiById'])->name('get-teknisi-id');
     Route::get('/search-teknisi', [App\Http\Controllers\Utility\Master\MaintenanceTeknisi::class, 'searchTeknisi'])->name('search-teknisi');

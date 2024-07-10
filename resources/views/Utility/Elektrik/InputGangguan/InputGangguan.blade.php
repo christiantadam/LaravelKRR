@@ -56,10 +56,10 @@
                                                 @endforeach
                                             </select>
 
-                                            <button class="btn btn-primary ms-1" data-bs-toggle="modal"
+                                            {{-- <button class="btn btn-primary ms-1" data-bs-toggle="modal"
                                                 data-bs-target="#TipeGangguanModal" id="openmodaltipe" type="button">Tambah
                                                 Tipe Gangguan
-                                            </button>
+                                            </button> --}}
                                         </div>
                                         <div class="penyebab mb-2 mt-2">Penyebab</div>
                                         <input type="text" name="nama_pelapor" id="penyebab" class="form-control">
@@ -115,7 +115,8 @@
                                             class="btn btn-primary w-100 mt-5"id="prosesButton">Proses</button>
                                         <button type="button"
                                             class="btn btn-primary w-100 mt-2"id="batalButton">Batal</button>
-
+                                        <button type="button" class="btn btn-primary w-100 mt-2"
+                                            id="refresh_tg_t">Refresh Tipe Gangguan & Teknisi</button>
                                     </div>
 
 
