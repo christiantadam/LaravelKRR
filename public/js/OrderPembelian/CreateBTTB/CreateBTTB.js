@@ -760,7 +760,7 @@ async function print(data) {
             padding: 0;
         }
     `;
-    window.location.href = "/CreateBTTB";
+    // window.location.href = "/CreateBTTB";
     printWindow.document.head.appendChild(style);
     printWindow.document.body.appendChild(printContentDiv);
     printWindow.print();
