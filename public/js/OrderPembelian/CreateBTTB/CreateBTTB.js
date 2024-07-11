@@ -373,6 +373,7 @@ function post(bttb) {
     return new Promise((resolve, reject) => {
         let CCreateBTTB = false; // Initialize outside the loop to be used later
         let ajaxPromises = []; // Array to hold all the AJAX call promises
+        console.log(data); // console.log untuk tracing gagal post BTTB
 
         for (let i = 0; i < data.length; i++) {
             let noTrTmp = null;
@@ -464,13 +465,11 @@ function post(bttb) {
                             noTrTmp: noTrTmp,
                         },
                         success: function (response) {
-                            console.log(response, response.Status);
                             if (response.Status) {
                                 CCreateBTTB = true;
                             } else {
                                 CCreateBTTB = false;
                             }
-                            console.log(CCreateBTTB);
                             resolve(response);
                         },
                         error: function (error) {
@@ -491,7 +490,7 @@ function post(bttb) {
         // Wait for all AJAX calls to complete
         Promise.all(ajaxPromises)
             .then(() => {
-                console.log(CCreateBTTB);
+                console.log(CCreateBTTB); // console.log untuk tracing gagal post BTTB
                 if (CCreateBTTB) {
                     Swal.fire({
                         icon: "success",
@@ -521,7 +520,7 @@ async function dataPrint() {
             No_BTTB: nobttb.value,
         },
         success: async function (response) {
-            console.log(response);
+            console.log(response, nobttb.value); // console.log untuk tracing gagal post BTTB
             await print(response);
         },
         error: function (error) {
@@ -531,6 +530,7 @@ async function dataPrint() {
 }
 
 async function print(data) {
+    console.log(data);// console.log untuk tracing gagal post BTTB
     const printContentDiv = document.createElement("div");
     let tableRows = "";
 
@@ -804,6 +804,7 @@ post_btn.addEventListener("click", function (event) {
             type: "GET",
             success: async function (response) {
                 nobttb.value = response.data;
+                console.log(response.data); // console.log untuk tracing gagal post BTTB
                 await post(response.data);
                 await setStatusPO();
             },
