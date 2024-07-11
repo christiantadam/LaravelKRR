@@ -371,6 +371,9 @@ async function setStatusPO() {
 
 function post(bttb) {
     return new Promise((resolve, reject) => {
+        let CCreateBTTB = false; // Initialize outside the loop to be used later
+        let ajaxPromises = []; // Array to hold all the AJAX call promises
+
         for (let i = 0; i < data.length; i++) {
             let noTrTmp = null;
             if (data[i].no_kat_utama == "009") {
@@ -412,77 +415,101 @@ function post(bttb) {
                     });
                 }
             }
-            $.ajax({
-                url: "/CCreateBTTB/PostData",
-                type: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                data: {
-                    tglDatang: tglbttb.value,
-                    Qty: data[i].Qty,
-                    qtyShip: data[i].QtyShipped || 0,
-                    qtyRcv: data[i].QtyRcv || 0,
-                    qtyremain: data[i].QtyRemain || 0,
-                    NoSatuan: data[i].NoSatuan,
-                    SJ: nosj.value.trim(),
-                    idSup: supplier.value,
-                    pUnit: data[i].PriceUnit,
-                    pPPN: data[i].PPN,
-                    noTrans: data[i].No_trans,
-                    kurs: data[i].Kurs,
-                    pIDRUnit: data[i].PriceUnitIDR,
-                    pIDRPPN: data[i].PriceUnitIDR_PPN,
-                    NoPIB: nopib.value.trim(),
-                    NoPO: po.value.trim(),
-                    BTTB: bttb,
-                    pSub: data[i].PriceSub,
-                    pIDRSub: data[i].PriceSubIDR,
-                    pTot: data[i].PriceExt,
-                    pIDRTot: data[i].PriceExtIDR,
-                    NoPIBExt: nopibext.value.trim(),
-                    TglPIB: tglpib.value,
-                    NoSPPBBC: sppb.value.trim(),
-                    TglSPPBBC: tglsppb.value,
-                    NoSKBM: skbm.value.trim(),
-                    TglSKBM: tglskbm.value,
-                    NoReg: registrasi.value.trim(),
-                    TglReg: tglregis.value.trim(),
-                    idPPN: data[i].IdPPN,
-                    jumPPN: data[i].JumPPN,
-                    persen: data[i].disc,
-                    disc: data[i].Harga_disc,
-                    discIDR: data[i].DiscIDR,
-                    mtUang: data[i].ID_MATAUANG,
-                    KodeHS: kodehs.value.trim(),
-                    noTrTmp: noTrTmp,
-                },
-                success: async function (response) {
-                    console.log(response);
+            // Create a promise for each AJAX call and push it into the array
+            ajaxPromises.push(
+                new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: "/CCreateBTTB/PostData",
+                        type: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                        data: {
+                            tglDatang: tglbttb.value,
+                            Qty: data[i].Qty,
+                            qtyShip: data[i].QtyShipped || 0,
+                            qtyRcv: data[i].QtyRcv || 0,
+                            qtyremain: data[i].QtyRemain || 0,
+                            NoSatuan: data[i].NoSatuan,
+                            SJ: nosj.value.trim(),
+                            idSup: supplier.value,
+                            pUnit: data[i].PriceUnit,
+                            pPPN: data[i].PPN,
+                            noTrans: data[i].No_trans,
+                            kurs: data[i].Kurs,
+                            pIDRUnit: data[i].PriceUnitIDR,
+                            pIDRPPN: data[i].PriceUnitIDR_PPN,
+                            NoPIB: nopib.value.trim(),
+                            NoPO: po.value.trim(),
+                            BTTB: bttb,
+                            pSub: data[i].PriceSub,
+                            pIDRSub: data[i].PriceSubIDR,
+                            pTot: data[i].PriceExt,
+                            pIDRTot: data[i].PriceExtIDR,
+                            NoPIBExt: nopibext.value.trim(),
+                            TglPIB: tglpib.value,
+                            NoSPPBBC: sppb.value.trim(),
+                            TglSPPBBC: tglsppb.value,
+                            NoSKBM: skbm.value.trim(),
+                            TglSKBM: tglskbm.value,
+                            NoReg: registrasi.value.trim(),
+                            TglReg: tglregis.value.trim(),
+                            idPPN: data[i].IdPPN,
+                            jumPPN: data[i].JumPPN,
+                            persen: data[i].disc,
+                            disc: data[i].Harga_disc,
+                            discIDR: data[i].DiscIDR,
+                            mtUang: data[i].ID_MATAUANG,
+                            KodeHS: kodehs.value.trim(),
+                            noTrTmp: noTrTmp,
+                        },
+                        success: function (response) {
+                            console.log(response, response.Status);
+                            if (response.Status) {
+                                CCreateBTTB = true;
+                            } else {
+                                CCreateBTTB = false;
+                            }
+                            console.log(CCreateBTTB);
+                            resolve(response);
+                        },
+                        error: function (error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Data Tidak Berhasil DiPost!",
+                                showConfirmButton: false,
+                                timer: "2000",
+                            });
+                            console.error("Error Send Data:", error);
+                            reject(error);
+                        },
+                    });
+                })
+            );
+        }
 
-                    if (response.Status) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Data Berhasil DiPost!",
-                            showConfirmButton: false,
-                            timer: "2000",
-                        });
-                        resolve(response);
-                        await dataPrint();
-                    }
-                },
-                error: function (error) {
+        // Wait for all AJAX calls to complete
+        Promise.all(ajaxPromises)
+            .then(() => {
+                console.log(CCreateBTTB);
+                if (CCreateBTTB) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data Berhasil DiPost!",
+                        showConfirmButton: false,
+                    });
+                    dataPrint();
+                } else {
                     Swal.fire({
                         icon: "error",
-                        title: "Data Tidak Berhasil DiPost!",
+                        title: "Data Belum Berhasil DiPost!",
                         showConfirmButton: false,
-                        timer: "2000",
                     });
-                    console.error("Error Send Data:", error);
-                    reject(error);
-                },
+                }
+            })
+            .catch((error) => {
+                console.error("One or more AJAX calls failed:", error);
             });
-        }
     });
 }
 
