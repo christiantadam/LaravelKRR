@@ -416,6 +416,46 @@ function post(bttb) {
                     });
                 }
             }
+            console.log({
+                // console.log untuk tracing gagal post BTTB
+                tglDatang: tglbttb.value,
+                Qty: data[i].Qty,
+                qtyShip: data[i].QtyShipped || 0,
+                qtyRcv: data[i].QtyRcv || 0,
+                qtyremain: data[i].QtyRemain || 0,
+                NoSatuan: data[i].NoSatuan,
+                SJ: nosj.value.trim(),
+                idSup: supplier.value,
+                pUnit: data[i].PriceUnit,
+                pPPN: data[i].PPN,
+                noTrans: data[i].No_trans,
+                kurs: data[i].Kurs,
+                pIDRUnit: data[i].PriceUnitIDR,
+                pIDRPPN: data[i].PriceUnitIDR_PPN,
+                NoPIB: nopib.value.trim(),
+                NoPO: po.value.trim(),
+                BTTB: bttb,
+                pSub: data[i].PriceSub,
+                pIDRSub: data[i].PriceSubIDR,
+                pTot: data[i].PriceExt,
+                pIDRTot: data[i].PriceExtIDR,
+                NoPIBExt: nopibext.value.trim(),
+                TglPIB: tglpib.value,
+                NoSPPBBC: sppb.value.trim(),
+                TglSPPBBC: tglsppb.value,
+                NoSKBM: skbm.value.trim(),
+                TglSKBM: tglskbm.value,
+                NoReg: registrasi.value.trim(),
+                TglReg: tglregis.value.trim(),
+                idPPN: data[i].IdPPN,
+                jumPPN: data[i].JumPPN,
+                persen: data[i].disc,
+                disc: data[i].Harga_disc,
+                discIDR: data[i].DiscIDR,
+                mtUang: data[i].ID_MATAUANG,
+                KodeHS: kodehs.value.trim(),
+                noTrTmp: noTrTmp,
+            });
             // Create a promise for each AJAX call and push it into the array
             ajaxPromises.push(
                 new Promise((resolve, reject) => {
@@ -530,7 +570,7 @@ async function dataPrint() {
 }
 
 async function print(data) {
-    console.log(data);// console.log untuk tracing gagal post BTTB
+    console.log(data); // console.log untuk tracing gagal post BTTB
     const printContentDiv = document.createElement("div");
     let tableRows = "";
 

@@ -129,4 +129,14 @@ class HomeController extends Controller
             return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Jumbo Bag!');
         }
     }
+    function Accounting(){
+        $result = (new HakAksesController)->HakAksesProgram('Accounting');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        // dd($access);
+        if ($result > 0) {
+            return view('layouts.appAccounting', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Accounting!');
+        }
+    }
 }

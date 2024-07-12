@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title style="font-size: 20px">@yield('title', 'Home Beli')</title>
+    <title style="font-size: 20px">@yield('title', 'Home Accounting')</title>
 
     <!-- Title and Logo -->
     <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="16x16">
@@ -68,7 +68,6 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 @endguest
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     @guest
@@ -134,11 +133,11 @@
                                                 <li>
                                                     <a class="dropdown-item" tabindex="-1"
                                                         @if (isset($combinedArrayFiturMenus['Route'])) href="{{ url($combinedArrayFiturMenus['Route']) }}"
-                                                        style="color: black;font-size: 15px;display: block"
-                                                    @else
-                                                        style="color: black;font-size: 15px;display: block; cursor: default;" @endif>
+                                                            style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
+                                                        @else
+                                                            style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px; cursor: default;" @endif>
                                                         @if (!isset($combinedArrayFiturMenus['Route']))
-                                                            {{ $combinedArrayFiturMenus['Nama'] }} »
+                                                            {{ $combinedArrayFiturMenus['Nama'] }} ► ▸ ► 🞂
                                                         @else
                                                             {{ $combinedArrayFiturMenus['Nama'] }}
                                                         @endif
@@ -148,7 +147,7 @@
                                                             @foreach ($access['AccessFitur'] as $fiturSubMenu)
                                                                 @if ($fiturSubMenu->Id_Menu == $combinedArrayFiturMenus['IdMenu'])
                                                                     <li>
-                                                                        <a style="color: black;font-size: 15px;display: block"
+                                                                        <a style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
                                                                             class="dropdown-item" tabindex="-1"
                                                                             href="{{ $fiturSubMenu->Route }}">{{ $fiturSubMenu->NamaFitur }}
                                                                         </a>
