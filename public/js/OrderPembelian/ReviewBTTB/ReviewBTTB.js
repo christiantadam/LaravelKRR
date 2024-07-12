@@ -90,14 +90,19 @@ function print(data) {
                               )
                     }</p></td>
                     <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px; font-family: Helvetica;">${
-                        !parseFloat(item.QtyRemain)
-                            .toLocaleString("en-US")
-                            .includes(".")
-                            ? parseFloat(item.QtyRemain).toLocaleString(
-                                  "en-US"
-                              ) + ".00"
-                            : parseFloat(item.QtyRemain).toLocaleString("en-US")
-                    }</p></td>
+                        isNaN(parseFloat(item.QtyRemain)) ||
+                        parseFloat(item.QtyRemain) === 0
+                            ? "0.00"
+                            : parseFloat(item.QtyRemain).toLocaleString(
+                                  "en-US",
+                                  {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                  }
+                              )
+                    }
+    </p>
+</td>
                 </tr>
             `;
             No += 1;
@@ -221,9 +226,9 @@ function print(data) {
                                 <h1 style="font-size: 13px; font-family: Helvetica; font-weight: bold; margin: 2px 0;">Date</h1>
                             </div>
                             <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px; font-family: Helvetica; margin: 2px 0;">: ${
-                                    formatDate(data.printHeader[0].Datang.split(" ")[0])
-                                }</p>
+                                <p style="font-size: 13px; font-family: Helvetica; margin: 2px 0;">: ${formatDate(
+                                    data.printHeader[0].Datang.split(" ")[0]
+                                )}</p>
                             </div>
                         </div>
                         <div style="width: 100%; display: flex;">
@@ -353,13 +358,25 @@ post_btn.addEventListener("click", function (event) {
 
 function formatDate(dateString) {
     const date = new Date(dateString);
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
     const day = date.getDate();
     const month = months[date.getMonth()];
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
 }
-
 
 function responseData(datas) {
     data = datas;

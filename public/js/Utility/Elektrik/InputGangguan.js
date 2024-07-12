@@ -317,7 +317,7 @@ koreksiButton.addEventListener("click", function () {
             hasil_gambar2.disabled = false;
         } else if (keterangan.value === "Selesai") {
             Swal.fire({
-                icon: "success",
+                icon: "info",
                 title: "Gangguan telah selesai, tidak dapat dikoreksi",
             });
         }
@@ -412,7 +412,7 @@ $(document).ready(function () {
     $("#prosesButton").click(function (e) {
         e.preventDefault();
         checkAllFieldsFilled();
-
+        this.disabled = true;
         // Ambil nilai-nilai form
         var tanggalValue = $("#tanggal").val();
         var divisi_pelapor1Value = $("#divisi_pelapor1").val();

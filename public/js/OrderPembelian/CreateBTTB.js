@@ -258,15 +258,19 @@ function print(data) {
                                   "en-US"
                               )
                     }</p></td>
-                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 12px;">${
-                        !parseFloat(item.QtyRemain)
-                            .toLocaleString("en-US")
-                            .includes(".")
-                            ? parseFloat(item.QtyRemain).toLocaleString(
-                                  "en-US"
-                              ) + ".00"
-                            : parseFloat(item.QtyRemain).toLocaleString("en-US")
-                    }</p></td>
+                    <td style="text-align: center;">
+    <p style="line-height: 13.8px; font-size: 12px;">
+        ${
+            isNaN(parseFloat(item.QtyRemain)) ||
+            parseFloat(item.QtyRemain) === 0
+                ? "0.00"
+                : parseFloat(item.QtyRemain).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                  })
+        }
+    </p>
+</td>
                 </tr>
             `;
             No += 1;
