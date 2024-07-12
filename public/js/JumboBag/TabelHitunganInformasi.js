@@ -348,6 +348,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("lami_x").innerHTML =
                     lami_x.textContent + "&nbsp;" + tebalLami + "&nbsp;Mikron";
 
+                //Body Besar
                 document.getElementById("potonganP_bb").innerHTML =
                     data.data[0].Panjang_Potongan === ".00"
                         ? "0.00"
@@ -367,17 +368,757 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("denier_bb").innerHTML =
                     parseFloat(data.data[0].Denier).toFixed(2) === ".00"
                         ? "0.00"
-                        : parseFloat(data.data[0].Denier).toFixed(2);
+                        : parseFloat(data.data[0].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
                 document.getElementById("qty_bb").innerHTML =
-                    data.data[0].Quantity;
+                    parseFloat(data.data[0].Quantity) ===
+                    parseInt(data.data[0].Quantity)
+                        ? parseInt(data.data[0].Quantity)
+                        : parseFloat(data.data[0].Quantity).toFixed(2);
                 document.getElementById("berat_bb").innerHTML =
-                    data.data[0].Berat;
+                    parseFloat(data.data[0].Berat) ===
+                    parseInt(data.data[0].Berat)
+                        ? parseInt(data.data[0].Berat)
+                        : parseFloat(data.data[0].Berat).toFixed(2);
                 document.getElementById("hargakg_bb").innerHTML =
                     data.data[0].Harga === ".00" ? "0.00" : data.data[0].Harga;
                 document.getElementById("harga_bb").innerHTML =
                     data.data[0].SubTotal === ".00"
                         ? "0.00"
                         : data.data[0].SubTotal;
+
+                //Tutup Atas
+                document.getElementById("potonganP_ta").innerHTML =
+                    data.data[1].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[1].Panjang_Potongan;
+                document.getElementById("potonganL_ta").innerHTML =
+                    data.data[1].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[1].Lebar_Potongan;
+                document.getElementById("warp_ta").innerHTML =
+                    data.data[1].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[1].WA_Rajutan;
+                document.getElementById("weft_ta").innerHTML =
+                    data.data[1].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[1].WE_Rajutan;
+                document.getElementById("denier_ta").innerHTML =
+                    parseFloat(data.data[1].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[1].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_ta").innerHTML =
+                    parseFloat(data.data[1].Quantity) ===
+                    parseInt(data.data[1].Quantity)
+                        ? parseInt(data.data[1].Quantity)
+                        : parseFloat(data.data[1].Quantity).toFixed(2);
+                document.getElementById("berat_ta").innerHTML =
+                    parseFloat(data.data[1].Berat) ===
+                    parseInt(data.data[1].Berat)
+                        ? parseInt(data.data[1].Berat)
+                        : parseFloat(data.data[1].Berat).toFixed(2);
+                document.getElementById("hargakg_ta").innerHTML =
+                    data.data[1].Harga === ".00" ? "0.00" : data.data[1].Harga;
+                document.getElementById("harga_ta").innerHTML =
+                    data.data[1].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[1].SubTotal;
+
+                //Tutup Bawah
+                document.getElementById("potonganP_tb").innerHTML =
+                    data.data[2].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[2].Panjang_Potongan;
+                document.getElementById("potonganL_tb").innerHTML =
+                    data.data[2].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[2].Lebar_Potongan;
+                document.getElementById("warp_tb").innerHTML =
+                    data.data[2].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[2].WA_Rajutan;
+                document.getElementById("weft_tb").innerHTML =
+                    data.data[2].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[2].WE_Rajutan;
+                document.getElementById("denier_tb").innerHTML =
+                    parseFloat(data.data[2].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[2].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_tb").innerHTML =
+                    parseFloat(data.data[2].Quantity) ===
+                    parseInt(data.data[2].Quantity)
+                        ? parseInt(data.data[2].Quantity)
+                        : parseFloat(data.data[2].Quantity).toFixed(2);
+                document.getElementById("berat_tb").innerHTML =
+                    parseFloat(data.data[2].Berat) ===
+                    parseInt(data.data[2].Berat)
+                        ? parseInt(data.data[2].Berat)
+                        : parseFloat(data.data[2].Berat).toFixed(2);
+                document.getElementById("hargakg_tb").innerHTML =
+                    data.data[2].Harga === ".00" ? "0.00" : data.data[2].Harga;
+                document.getElementById("harga_tb").innerHTML =
+                    data.data[2].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[2].SubTotal;
+
+                //Cerobong Atas
+                document.getElementById("potonganP_ca").innerHTML =
+                    data.data[3].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[3].Panjang_Potongan;
+                document.getElementById("potonganL_ca").innerHTML =
+                    data.data[3].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[3].Lebar_Potongan;
+                document.getElementById("warp_ca").innerHTML =
+                    data.data[3].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[3].WA_Rajutan;
+                document.getElementById("weft_ca").innerHTML =
+                    data.data[3].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[3].WE_Rajutan;
+                document.getElementById("denier_ca").innerHTML =
+                    parseFloat(data.data[3].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[3].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_ca").innerHTML =
+                    parseFloat(data.data[3].Quantity) ===
+                    parseInt(data.data[3].Quantity)
+                        ? parseInt(data.data[3].Quantity)
+                        : parseFloat(data.data[3].Quantity).toFixed(2);
+                document.getElementById("berat_ca").innerHTML =
+                    parseFloat(data.data[3].Berat) ===
+                    parseInt(data.data[3].Berat)
+                        ? parseInt(data.data[3].Berat)
+                        : parseFloat(data.data[3].Berat).toFixed(2);
+                document.getElementById("hargakg_ca").innerHTML =
+                    data.data[3].Harga === ".00" ? "0.00" : data.data[3].Harga;
+                document.getElementById("harga_ca").innerHTML =
+                    data.data[3].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[3].SubTotal;
+
+                //Cerobong Bawah
+                document.getElementById("potonganP_cb").innerHTML =
+                    data.data[4].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[4].Panjang_Potongan;
+                document.getElementById("potonganL_cb").innerHTML =
+                    data.data[4].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[4].Lebar_Potongan;
+                document.getElementById("warp_cb").innerHTML =
+                    data.data[4].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[4].WA_Rajutan;
+                document.getElementById("weft_cb").innerHTML =
+                    data.data[4].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[4].WE_Rajutan;
+                document.getElementById("denier_cb").innerHTML =
+                    parseFloat(data.data[4].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[4].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_cb").innerHTML =
+                    parseFloat(data.data[4].Quantity) ===
+                    parseInt(data.data[4].Quantity)
+                        ? parseInt(data.data[4].Quantity)
+                        : parseFloat(data.data[4].Quantity).toFixed(2);
+                document.getElementById("berat_cb").innerHTML =
+                    parseFloat(data.data[4].Berat) ===
+                    parseInt(data.data[4].Berat)
+                        ? parseInt(data.data[4].Berat)
+                        : parseFloat(data.data[4].Berat).toFixed(2);
+                document.getElementById("hargakg_cb").innerHTML =
+                    data.data[4].Harga === ".00" ? "0.00" : data.data[4].Harga;
+                document.getElementById("harga_cb").innerHTML =
+                    data.data[4].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[4].SubTotal;
+
+                //Lifting Belt
+                document.getElementById("potonganP_lb").innerHTML =
+                    data.data[10].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[10].Panjang_Potongan;
+                document.getElementById("potonganL_lb").innerHTML =
+                    data.data[10].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[10].Lebar_Potongan;
+                document.getElementById("warp_lb").innerHTML =
+                    data.data[10].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[10].WA_Rajutan;
+                document.getElementById("weft_lb").innerHTML =
+                    data.data[10].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[10].WE_Rajutan;
+                document.getElementById("denier_lb").innerHTML =
+                    parseFloat(data.data[10].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[10].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_lb").innerHTML =
+                    parseFloat(data.data[10].Quantity) ===
+                    parseInt(data.data[10].Quantity)
+                        ? parseInt(data.data[10].Quantity)
+                        : parseFloat(data.data[10].Quantity).toFixed(2);
+                document.getElementById("berat_lb").innerHTML =
+                    parseFloat(data.data[10].Berat) ===
+                    parseInt(data.data[10].Berat)
+                        ? parseInt(data.data[10].Berat)
+                        : parseFloat(data.data[10].Berat).toFixed(2);
+                document.getElementById("hargakg_lb").innerHTML =
+                    data.data[10].Harga === ".00"
+                        ? "0.00"
+                        : data.data[10].Harga;
+                document.getElementById("harga_lb").innerHTML =
+                    data.data[10].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[10].SubTotal;
+
+                //Discharging
+                document.getElementById("potonganP_dr").innerHTML =
+                    data.data[7].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[7].Panjang_Potongan;
+                let lebarPotongan = parseFloat(data.data[7].Lebar_Potongan);
+
+                // Cek nilai Standart_Komponen dan terapkan logika
+                if (
+                    data.data[7].Standart_Komponen === "07HR00" ||
+                    data.data[7].Standart_Komponen === "11CR00" ||
+                    data.data[7].Standart_Komponen === "12DR00" ||
+                    data.data[7].Standart_Komponen === "13RR00" ||
+                    data.data[7].Standart_Komponen === "28AR00"
+                ) {
+                    lebarPotongan = lebarPotongan - lebarPotongan; // Menghasilkan 0
+                }
+
+                // Tampilkan hasil dengan .00 menjadi 0.00
+                document.getElementById("potonganL_dr").innerHTML =
+                    lebarPotongan.toFixed(2) === ".00"
+                        ? "0.00"
+                        : lebarPotongan.toFixed(2);
+                document.getElementById("warp_dr").innerHTML =
+                    data.data[7].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[7].WA_Rajutan;
+                document.getElementById("weft_dr").innerHTML =
+                    data.data[7].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[7].WE_Rajutan;
+                document.getElementById("denier_dr").innerHTML =
+                    parseFloat(data.data[7].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[7].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_dr").innerHTML =
+                    parseFloat(data.data[7].Quantity) ===
+                    parseInt(data.data[7].Quantity)
+                        ? parseInt(data.data[7].Quantity)
+                        : parseFloat(data.data[7].Quantity).toFixed(2);
+                document.getElementById("berat_dr").innerHTML =
+                    parseFloat(data.data[7].Berat) ===
+                    parseInt(data.data[7].Berat)
+                        ? parseInt(data.data[7].Berat)
+                        : parseFloat(data.data[7].Berat).toFixed(2);
+                document.getElementById("hargakg_dr").innerHTML =
+                    data.data[7].Harga === ".00" ? "0.00" : data.data[7].Harga;
+                document.getElementById("harga_dr").innerHTML =
+                    data.data[7].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[7].SubTotal;
+
+                //Ring Tali
+                document.getElementById("potonganP_rt").innerHTML =
+                    data.data[6].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[6].Panjang_Potongan;
+                document.getElementById("potonganL_rt").innerHTML =
+                    data.data[6].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[6].Lebar_Potongan;
+                document.getElementById("warp_rt").innerHTML =
+                    data.data[6].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[6].WA_Rajutan;
+                document.getElementById("weft_rt").innerHTML =
+                    data.data[6].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[6].WE_Rajutan;
+                document.getElementById("denier_rt").innerHTML =
+                    parseFloat(data.data[6].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[6].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_rt").innerHTML =
+                    parseFloat(data.data[6].Quantity) ===
+                    parseInt(data.data[6].Quantity)
+                        ? parseInt(data.data[6].Quantity)
+                        : parseFloat(data.data[6].Quantity).toFixed(2);
+                document.getElementById("berat_rt").innerHTML =
+                    parseFloat(data.data[6].Berat) ===
+                    parseInt(data.data[6].Berat)
+                        ? parseInt(data.data[6].Berat)
+                        : parseFloat(data.data[6].Berat).toFixed(2);
+                document.getElementById("hargakg_rt").innerHTML =
+                    data.data[6].Harga === ".00" ? "0.00" : data.data[6].Harga;
+                document.getElementById("harga_rt").innerHTML =
+                    data.data[6].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[6].SubTotal;
+
+                //Selang Tutup
+                document.getElementById("potonganP_st").innerHTML =
+                    data.data[8].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[8].Panjang_Potongan;
+                let lebarPotonganST = parseFloat(data.data[8].Lebar_Potongan);
+
+                // Mengurangi Lebar_Potongan dengan dirinya sendiri
+                lebarPotonganST = lebarPotonganST - lebarPotonganST;
+
+                // Tampilkan hasil dengan .00 menjadi 0.00
+                document.getElementById("potonganL_st").innerHTML =
+                    lebarPotongan.toFixed(2) === ".00"
+                        ? "0.00"
+                        : lebarPotongan.toFixed(2);
+
+                document.getElementById("warp_st").innerHTML =
+                    data.data[8].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[8].WA_Rajutan;
+                document.getElementById("weft_st").innerHTML =
+                    data.data[8].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[8].WE_Rajutan;
+                document.getElementById("denier_st").innerHTML =
+                    parseFloat(data.data[8].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[8].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_st").innerHTML =
+                    parseFloat(data.data[8].Quantity) ===
+                    parseInt(data.data[8].Quantity)
+                        ? parseInt(data.data[8].Quantity)
+                        : parseFloat(data.data[8].Quantity).toFixed(2);
+                document.getElementById("berat_st").innerHTML =
+                    parseFloat(data.data[8].Berat) ===
+                    parseInt(data.data[8].Berat)
+                        ? parseInt(data.data[8].Berat)
+                        : parseFloat(data.data[8].Berat).toFixed(2);
+                document.getElementById("hargakg_st").innerHTML =
+                    data.data[8].Harga === ".00" ? "0.00" : data.data[8].Harga;
+                document.getElementById("harga_st").innerHTML =
+                    data.data[8].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[8].SubTotal;
+
+                //Pita Pengikat
+                document.getElementById("potonganP_pp").innerHTML =
+                    data.data[5].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[5].Panjang_Potongan;
+                document.getElementById("potonganL_pp").innerHTML =
+                    data.data[5].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[5].Lebar_Potongan;
+                document.getElementById("warp_pp").innerHTML =
+                    data.data[5].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[5].WA_Rajutan;
+                document.getElementById("weft_pp").innerHTML =
+                    data.data[5].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[5].WE_Rajutan;
+                document.getElementById("denier_pp").innerHTML =
+                    parseFloat(data.data[5].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[5].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_pp").innerHTML =
+                    parseFloat(data.data[5].Quantity) ===
+                    parseInt(data.data[5].Quantity)
+                        ? parseInt(data.data[5].Quantity)
+                        : parseFloat(data.data[5].Quantity).toFixed(2);
+                document.getElementById("berat_pp").innerHTML =
+                    parseFloat(data.data[5].Berat) ===
+                    parseInt(data.data[5].Berat)
+                        ? parseInt(data.data[5].Berat)
+                        : parseFloat(data.data[5].Berat).toFixed(2);
+                document.getElementById("hargakg_pp").innerHTML =
+                    data.data[5].Harga === ".00" ? "0.00" : data.data[5].Harga;
+                document.getElementById("harga_pp").innerHTML =
+                    data.data[5].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[5].SubTotal;
+
+                //Cover Bawah
+                document.getElementById("potonganP_cvb").innerHTML =
+                    data.data[9].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[9].Panjang_Potongan;
+                document.getElementById("potonganL_cvb").innerHTML =
+                    data.data[9].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[9].Lebar_Potongan;
+                document.getElementById("warp_cvb").innerHTML =
+                    data.data[9].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[9].WA_Rajutan;
+                document.getElementById("weft_cvb").innerHTML =
+                    data.data[9].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[9].WE_Rajutan;
+                document.getElementById("denier_cvb").innerHTML =
+                    parseFloat(data.data[9].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[9].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_cvb").innerHTML =
+                    parseFloat(data.data[9].Quantity) ===
+                    parseInt(data.data[9].Quantity)
+                        ? parseInt(data.data[9].Quantity)
+                        : parseFloat(data.data[9].Quantity).toFixed(2);
+                document.getElementById("berat_cvb").innerHTML =
+                    parseFloat(data.data[9].Berat) ===
+                    parseInt(data.data[9].Berat)
+                        ? parseInt(data.data[9].Berat)
+                        : parseFloat(data.data[9].Berat).toFixed(2);
+                document.getElementById("hargakg_cvb").innerHTML =
+                    data.data[9].Harga === ".00" ? "0.00" : data.data[9].Harga;
+                document.getElementById("harga_cvb").innerHTML =
+                    data.data[9].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[9].SubTotal;
+
+                //Laminating 1
+                document.getElementById("potonganP_lami").innerHTML =
+                    data.data[11].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[11].Panjang_Potongan;
+                document.getElementById("potonganL_lami").innerHTML =
+                    data.data[11].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[11].Lebar_Potongan;
+                document.getElementById("warp_lami").innerHTML =
+                    data.data[11].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[11].WA_Rajutan;
+                document.getElementById("weft_lami").innerHTML =
+                    data.data[11].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[11].WE_Rajutan;
+                document.getElementById("denier_lami").innerHTML =
+                    parseFloat(data.data[11].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[11].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_lami").innerHTML =
+                    parseFloat(data.data[11].Quantity) ===
+                    parseInt(data.data[11].Quantity)
+                        ? parseInt(data.data[11].Quantity)
+                        : parseFloat(data.data[11].Quantity).toFixed(2);
+                document.getElementById("berat_lami").innerHTML =
+                    parseFloat(data.data[11].Berat) ===
+                    parseInt(data.data[11].Berat)
+                        ? parseInt(data.data[11].Berat)
+                        : parseFloat(data.data[11].Berat).toFixed(2);
+                document.getElementById("hargakg_lami").innerHTML =
+                    data.data[11].Harga === ".00"
+                        ? "0.00"
+                        : data.data[11].Harga;
+                document.getElementById("harga_lami").innerHTML =
+                    data.data[11].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[11].SubTotal;
+
+                //Laminating 2
+                document.getElementById("potonganP_lami2").innerHTML =
+                    data.data[12].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[12].Panjang_Potongan;
+                document.getElementById("potonganL_lami2").innerHTML =
+                    data.data[12].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[12].Lebar_Potongan;
+                document.getElementById("warp_lami2").innerHTML =
+                    data.data[12].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[12].WA_Rajutan;
+                document.getElementById("weft_lami2").innerHTML =
+                    data.data[12].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[12].WE_Rajutan;
+                document.getElementById("denier_lami2").innerHTML =
+                    parseFloat(data.data[12].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[12].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_lami2").innerHTML =
+                    parseFloat(data.data[12].Quantity) ===
+                    parseInt(data.data[12].Quantity)
+                        ? parseInt(data.data[12].Quantity)
+                        : parseFloat(data.data[12].Quantity).toFixed(2);
+                document.getElementById("berat_lami2").innerHTML =
+                    parseFloat(data.data[12].Berat) ===
+                    parseInt(data.data[12].Berat)
+                        ? parseInt(data.data[12].Berat)
+                        : parseFloat(data.data[12].Berat).toFixed(2);
+                document.getElementById("hargakg_lami2").innerHTML =
+                    data.data[12].Harga === ".00"
+                        ? "0.00"
+                        : data.data[12].Harga;
+                document.getElementById("harga_lami2").innerHTML =
+                    data.data[12].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[12].SubTotal;
+
+                //Benang Jahit
+                document.getElementById("potonganP_bj").innerHTML =
+                    data.data[13].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[13].Panjang_Potongan;
+                document.getElementById("potonganL_bj").innerHTML =
+                    data.data[13].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[13].Lebar_Potongan;
+                document.getElementById("warp_bj").innerHTML =
+                    data.data[13].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[13].WA_Rajutan;
+                document.getElementById("weft_bj").innerHTML =
+                    data.data[13].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[13].WE_Rajutan;
+                document.getElementById("denier_bj").innerHTML =
+                    parseFloat(data.data[13].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[13].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_bj").innerHTML =
+                    parseFloat(data.data[13].Quantity) ===
+                    parseInt(data.data[13].Quantity)
+                        ? parseInt(data.data[13].Quantity)
+                        : parseFloat(data.data[13].Quantity).toFixed(2);
+                document.getElementById("berat_bj").innerHTML =
+                    parseFloat(data.data[13].Berat) ===
+                    parseInt(data.data[13].Berat)
+                        ? parseInt(data.data[13].Berat)
+                        : parseFloat(data.data[13].Berat).toFixed(2);
+                document.getElementById("hargakg_bj").innerHTML =
+                    data.data[13].Harga === ".00"
+                        ? "0.00"
+                        : data.data[13].Harga;
+                document.getElementById("harga_bj").innerHTML =
+                    data.data[13].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[13].SubTotal;
+
+                //Ongkos Jahit
+                document.getElementById("potonganP_oj").innerHTML =
+                    data.data[14].Panjang_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[14].Panjang_Potongan;
+                document.getElementById("potonganL_oj").innerHTML =
+                    data.data[14].Lebar_Potongan === ".00"
+                        ? "0.00"
+                        : data.data[14].Lebar_Potongan;
+                document.getElementById("warp_oj").innerHTML =
+                    data.data[14].WA_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[14].WA_Rajutan;
+                document.getElementById("weft_oj").innerHTML =
+                    data.data[14].WE_Rajutan === ".00"
+                        ? "0.00"
+                        : data.data[14].WE_Rajutan;
+                document.getElementById("denier_oj").innerHTML =
+                    parseFloat(data.data[14].Denier).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[14].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("qty_oj").innerHTML =
+                    parseFloat(data.data[14].Quantity) ===
+                    parseInt(data.data[14].Quantity)
+                        ? parseInt(data.data[14].Quantity)
+                        : parseFloat(data.data[14].Quantity).toFixed(2);
+                document.getElementById("berat_oj").innerHTML =
+                    parseFloat(data.data[14].Berat) ===
+                    parseInt(data.data[14].Berat)
+                        ? parseInt(data.data[14].Berat)
+                        : parseFloat(data.data[14].Berat).toFixed(2);
+                document.getElementById("hargakg_oj").innerHTML =
+                    data.data[14].Harga === ".00"
+                        ? "0.00"
+                        : data.data[14].Harga;
+                document.getElementById("harga_oj").innerHTML =
+                    data.data[14].SubTotal === ".00"
+                        ? "0.00"
+                        : data.data[14].SubTotal;
+
+                //Total
+                // Inisialisasi total berat
+                let totalBerat = 0;
+
+                // Loop untuk menjumlahkan Berat dari indeks 0 hingga 14
+                for (let i = 0; i <= 14; i++) {
+                    totalBerat += parseFloat(data.data[i].Berat);
+                }
+
+                // Format total berat dengan separator ribuan dan tiga desimal
+                let formattedTotalBerat = totalBerat.toLocaleString("en-US", {
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3,
+                });
+
+                // Hilangkan 4 karakter dari belakang nilai
+                formattedTotalBerat = formattedTotalBerat.slice(0, -4);
+
+                // Tampilkan hasil total berat
+                document.getElementById("berat_total").innerHTML =
+                    formattedTotalBerat;
+
+                // Inisialisasi total harga
+                let totalHarga = 0;
+
+                // Loop untuk menjumlahkan Harga dari indeks 0 hingga 14
+                for (let i = 0; i <= 14; i++) {
+                    // Konversi nilai Harga ke float untuk menjumlahkan
+                    totalHarga += parseFloat(data.data[i].Harga);
+                }
+
+                // Format total harga dengan dua desimal menggunakan toFixed(2)
+                let formattedTotalHarga = totalHarga.toFixed(2);
+
+                // Ubah ".00" menjadi "0.00" jika formattedTotalHarga sama dengan "0.00"
+                formattedTotalHarga =
+                    formattedTotalHarga === ".00"
+                        ? "0.00"
+                        : parseFloat(formattedTotalHarga)
+                              .toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                              })
+                              // Menghilangkan 3 karakter dari belakang nilai
+                              .slice(0, -3);
+
+                // Tampilkan hasil total harga
+                document.getElementById("hargakg_total").innerHTML =
+                    formattedTotalHarga;
+
+                // Inisialisasi total SubTotal
+                let totalSubTotal = 0;
+
+                // Loop untuk menjumlahkan SubTotal dari indeks 0 hingga 14
+                for (let i = 0; i <= 14; i++) {
+                    // Konversi nilai SubTotal ke float untuk menjumlahkan
+                    totalSubTotal += parseFloat(data.data[i].SubTotal);
+                }
+
+                // Format total SubTotal dengan dua desimal menggunakan toFixed(2)
+                let formattedTotalSubTotal = totalSubTotal.toFixed(2);
+
+                // Tampilkan hasil total SubTotal
+                document.getElementById("harga_total").innerHTML =
+                    formattedTotalSubTotal === ".00"
+                        ? "0.00"
+                        : formattedTotalSubTotal;
+
+                //Catatan
+                // Ambil teks Keterangan dari data
+                let keterangan = data.data[0].Keterangan;
+
+                // Ganti \r\n dengan <br> di depannya
+                keterangan = keterangan.replace(/\r\n/g, "<br>");
+
+                // Tambahkan non-breaking space di depan teks
+                keterangan = "&nbsp;" + keterangan;
+
+                // Tampilkan hasilnya dalam elemen HTML
+                document.getElementById("catatan_tabel").innerHTML = keterangan;
 
                 window.print();
             },

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let btn_customer = document.getElementById("button-customer");
     let btn_kodebarang = document.getElementById("button-kode-barang");
     let btn_pesanan = document.getElementById("button-pesanan");
-    let btn_warna= document.getElementById("button-warna");
+    let btn_warna = document.getElementById("button-warna");
     let id_customer = document.getElementById("id_customer");
     let customer = document.getElementById("customer");
     let tanggal = document.getElementById("tanggal");
@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let rajutan = document.getElementById("rajutan");
     let denier = document.getElementById("denier");
     let type = document.getElementById("type");
+    let iner = document.getElementById("iner");
     let warna = document.getElementById("warna");
     let packing = document.getElementById("packing");
     let no_referensi = document.getElementById("no_referensi");
@@ -50,6 +51,144 @@ document.addEventListener("DOMContentLoaded", function () {
             showConfirmButton: false,
         });
     }
+
+    btn_print.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (no_suratpesanan.value.trim() === "") {
+            Swal.fire({
+                icon: "warning",
+                title: "Warning!",
+                text: "Isi kode barang terlebih dahulu",
+                showConfirmButton: true,
+            });
+            return;
+        }
+        $.ajax({
+            url: "OrderPress/printReport",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                no_suratpesanan: no_suratpesanan.value,
+                kodeBarangAsal: kodeBarangAsal.value,
+                delivery: delivery.value,
+                no_referensi: no_referensi.value,
+                warna: warna.value,
+                packing: packing.value,
+                halaman: halaman.value,
+                iner: iner.value,
+            },
+            success: function (data) {
+                console.log(data.data[0]);
+                var currentDate = new Date();
+                var formattedDate =
+                    currentDate.getMonth() +
+                    1 +
+                    "/" +
+                    currentDate.getDate() +
+                    "/" +
+                    currentDate.getFullYear();
+
+                document.getElementById("tanggal_print").textContent =
+                    formattedDate;
+
+                document.getElementById("no_referensi_print").innerHTML =
+                    no_referensi.value;
+
+                var currentPage = 1;
+                var totalPages = 1;
+                document.getElementById("halaman_print").textContent =
+                    currentPage + " dari " + totalPages;
+
+                document.getElementById("kode_tabel").innerHTML =
+                    data.data[0].Kode_Barang;
+                document.getElementById("type_tabel").innerHTML =
+                    data.data[0].ModelBB +
+                    "&nbsp;TOP&nbsp;" +
+                    data.data[0].ModelCA +
+                    "&nbsp;BOTTOM&nbsp;" +
+                    data.data[0].ModelCB;
+                document.getElementById("ukuran_tabel").innerHTML =
+                    data.data[0].Lebar_BB +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    data.data[0].Panjang_BB +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    data.data[0].Tinggi_BB;
+                document.getElementById("nosp_tabel").innerHTML =
+                    data.data[0].No_SuratPesanan;
+                document.getElementById("rajutan_tabel").innerHTML =
+                    data.data[0].WA_Rajutan +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    data.data[0].WE_Rajutan;
+                // var jumlahOrder = data.data[0].Jumlah_Order;
+                // var formattedJumlahOrder = jumlahOrder.toLocaleString("en-US");
+                // document.getElementById("qty_tabel").innerHTML =
+                //     "&nbsp;" + formattedJumlahOrder;
+                document.getElementById("qty_tabel").innerHTML =
+                    parseFloat(data.data[0].Jumlah_Order).toFixed(2) === ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[0].Jumlah_Order).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("denier_tabel").innerHTML =
+                    "&nbsp;" + parseFloat(data.data[0].Denier).toFixed(2) ===
+                    ".00"
+                        ? "0.00"
+                        : parseFloat(data.data[0].Denier).toLocaleString(
+                              undefined,
+                              {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 0,
+                              }
+                          );
+                document.getElementById("delivery_tabel").innerHTML =
+                    data.data[0].Waktu_Delivery;
+                document.getElementById("warna_tabel").innerHTML =
+                    "&nbsp;" + data.data[0].Warna;
+                document.getElementById("packing_tabel").innerHTML =
+                    data.data[0].Packing;
+                var inerValue = data.data[0].Iner;
+
+                // Ubah nilai menjadi strip ("-") jika nilai adalah "N"
+                var innerHTMLValue =
+                    inerValue === "N" ? "&nbsp;-" : "&nbsp;" + inerValue;
+
+                // Masukkan nilai yang sudah diformat ke dalam elemen HTML
+                document.getElementById("inner_tabel").innerHTML =
+                    innerHTMLValue;
+
+                //Catatan
+                // Ambil teks Keterangan dari data
+                let keterangan = data.data[0].Keterangan;
+
+                // Ganti \r\n dengan <br> di depannya
+                keterangan = keterangan.replace(/\r\n/g, "<br>");
+
+                // Tambahkan non-breaking space di depan teks
+                keterangan = "&nbsp;" + keterangan;
+
+                // Tampilkan hasilnya dalam elemen HTML
+                document.getElementById("catatan_tabel").innerHTML = keterangan;
+
+                // document.getElementById("tanggal_tabel").innerHTML =
+                //     "&nbsp;" + formattedDate;
+                window.print();
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+    });
 
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -256,11 +395,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         },
                         success: function (data) {
                             console.log(data.data[0]);
-                            jumlah_order.value = data.data[0].jumlah_order.trim();
+                            jumlah_order.value =
+                                data.data[0].jumlah_order.trim();
                             ukuran.value = data.data[0].ukuran.trim();
                             rajutan.value = data.data[0].rajutan.trim();
                             denier.value = data.data[0].denier.trim();
                             type.value = data.data[0].type.trim();
+                            iner.value = data.data[0].iner.trim();
                         },
                         error: function (xhr, status, error) {
                             var err = eval("(" + xhr.responseText + ")");
@@ -317,16 +458,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                             ],
                         });
-                        $("#warnaTable tbody").on(
-                            "click",
-                            "tr",
-                            function () {
-                                // Remove 'selected' class from all rows
-                                table.$("tr.selected").removeClass("selected");
-                                // Add 'selected' class to the clicked row
-                                $(this).addClass("selected");
-                            }
-                        );
+                        $("#warnaTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
                     });
                 },
             }).then((result) => {
