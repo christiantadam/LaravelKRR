@@ -2,9 +2,20 @@
 @section('content')
 @section('title', 'Maintenance Bank')
 
+@include('Accounting.Master.ModalMaintenanceBank')
+<style>
+    .custom-modal-width {
+        max-width: 90%; /* Adjust the percentage as needed */
+    }
+</style>
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
+            <button class="acs-icon-btn acs-add-btn acs-float" data-bs-toggle="modal" data-bs-target="#modalBank"
+                id="tambahButtonBank" type="button">
+                <div class="acs-add-icon"></div>
+                <div class="acs-btn-txt">Tambah Bank</div>
+            </button>
             <div class="card">
                 <div class="card-header">Maintenance Bank</div>
                 @if (Session::has('success'))
@@ -13,6 +24,21 @@
                     </div>
                 @endif
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                    <div style="overflow: auto;">
+                        <table id="table_Bank" class="table table-bordered" style="width:100%;white-space: nowrap;">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Id Bank</th>
+                                    <th>Nama Bank </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {{-- <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div class="form-container col-md-12">
                         <form method="POST" action="{{ url('MaintenanceBank') }}" id="formkoreksi">
                             {{ csrf_field() }}
@@ -138,7 +164,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

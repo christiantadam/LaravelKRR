@@ -14,8 +14,10 @@ class MaintenanceBankController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
         $maintenanceBank = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BANK_ALL_TBANK');
-        //dd($maintenanceBank);
-        return view('Accounting.Master.MaintenanceBank', compact(['maintenanceBank', 'access']));
+        $kodePerkiraan =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = 1');
+        // dd($kodePerkiraan);
+        return view('Accounting.Master.MaintenanceBank', compact(['maintenanceBank', 'kodePerkiraan', 'access']));
+        // return view('Accounting.Master.MaintenanceBank', compact(['access']));
 
     }
     function getDataBank($idBank)
@@ -91,9 +93,12 @@ class MaintenanceBankController extends Controller
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show($id)
     {
-        dd('masuk show');
+        if ($id == 'getAllBank') {
+            $listBank = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BANK_IDBANK_TBANK]'); //Get All data Bank where aktif == 'Y'
+            return datatables($listBank)->make(true);
+        }
     }
 
     // Show the form for editing the specified resource.
