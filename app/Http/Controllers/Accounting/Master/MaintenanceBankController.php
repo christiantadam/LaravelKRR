@@ -5,27 +5,28 @@ namespace App\Http\Controllers\Accounting\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\HakAksesController;
 
 
 class MaintenanceBankController extends Controller
 {
     public function index()
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
         $maintenanceBank = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BANK_ALL_TBANK');
         //dd($maintenanceBank);
-        return view('Accounting.Master.MaintenanceBank', compact(['maintenanceBank']));
+        return view('Accounting.Master.MaintenanceBank', compact(['maintenanceBank', 'access']));
 
     }
     function getDataBank($idBank)
     {
-        $data =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BANK_IDBANK_TBANK] @IdBank = ?', [$idBank]);
+        $data = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BANK_IDBANK_TBANK] @IdBank = ?', [$idBank]);
         return response()->json($data);
     }
 
     function getKodePerkiraan()
     {
-        $data =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BKK1_KODEPERKIRAAN]');
+        $data = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BKK1_KODEPERKIRAAN]');
         return response()->json($data);
     }
 
@@ -54,8 +55,7 @@ class MaintenanceBankController extends Controller
 
         if ($request->statusAktif == "on") {
             $Aktif = 'Y';
-        }
-        else if ($request->statusAktif == "off"){
+        } else if ($request->statusAktif == "off") {
             $Aktif = 'T';
         }
 
@@ -110,10 +110,10 @@ class MaintenanceBankController extends Controller
         $namaBankSelect = $request->namaBankSelect;
         $jenisBank = $request->jenisBankSelect;
         $alamat = $request->alamat;
-        $kota = $request->kota ;
-        $telp = $request->telp ;
-        $person = $request->person ;
-        $hp = $request->hp ;
+        $kota = $request->kota;
+        $telp = $request->telp;
+        $person = $request->person;
+        $hp = $request->hp;
         $saldoBank = $request->saldoBank;
         $noRekening = $request->norekening;
         $statusAktif = $request->statusAktif;
@@ -121,8 +121,7 @@ class MaintenanceBankController extends Controller
 
         if ($request->statusAktif == "on") {
             $statusAktif = 'Y';
-        }
-        else if ($request->statusAktif == "off"){
+        } else if ($request->statusAktif == "off") {
             $statusAktif = 'T';
         }
 

@@ -135,9 +135,10 @@
                                                         @if (isset($combinedArrayFiturMenus['Route'])) href="{{ url($combinedArrayFiturMenus['Route']) }}"
                                                             style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
                                                         @else
-                                                            style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px; cursor: default;" @endif>
+                                                            style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px; padding-right: 1px; cursor: default;" @endif>
                                                         @if (!isset($combinedArrayFiturMenus['Route']))
-                                                            {{ $combinedArrayFiturMenus['Nama'] }} ► ▸ ► 🞂
+                                                            {{ $combinedArrayFiturMenus['Nama'] }}<span
+                                                                style="float: right;">🞂</span>
                                                         @else
                                                             {{ $combinedArrayFiturMenus['Nama'] }}
                                                         @endif
@@ -149,7 +150,7 @@
                                                                     <li>
                                                                         <a style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
                                                                             class="dropdown-item" tabindex="-1"
-                                                                            href="{{ $fiturSubMenu->Route }}">{{ $fiturSubMenu->NamaFitur }}
+                                                                            href="{{ url($fiturSubMenu->Route) }}">{{ $fiturSubMenu->NamaFitur }}
                                                                         </a>
                                                                     </li>
                                                                 @endif

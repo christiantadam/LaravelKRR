@@ -150,7 +150,7 @@
                                                                     <li>
                                                                         <a style="color: black;font-size: 15px;display: block"
                                                                             class="dropdown-item" tabindex="-1"
-                                                                            href="{{ $fiturSubMenu->Route }}">{{ $fiturSubMenu->NamaFitur }}
+                                                                            href="{{ url($fiturSubMenu->Route) }}">{{ $fiturSubMenu->NamaFitur }}
                                                                         </a>
                                                                     </li>
                                                                 @endif
