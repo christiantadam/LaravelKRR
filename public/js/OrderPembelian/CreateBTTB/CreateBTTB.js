@@ -958,52 +958,87 @@ $(document).ready(function () {
     qty_received.addEventListener("input", function (event) {
         this.setCustomValidity("");
 
-        // Store previous valid value
-        if (!this.oldValue && this.oldValue !== 0) {
-            this.oldValue = this.value;
+        // Daftar kode barang yang diizinkan untuk melebihi 15% dari QTY Order
+        const allowedCodes = [
+            "000093120",
+            "000112089",
+            "000125147",
+            "000128488",
+            "000128489",
+            "000128782",
+            "000130323",
+            "000131238",
+            "000137554",
+            "000137789",
+            "000139279",
+            "000140582",
+        ];
+
+        // Fungsi untuk memeriksa apakah kode barang diizinkan
+        function isAllowedCode(barangCode) {
+            return allowedCodes.includes(barangCode);
         }
 
-        if (this.value === "") {
-            // If the input is empty, clear the related fields and reset oldValue
-            qty_remaining.value = "";
-            qty_ship.value = "";
-            this.oldValue = "";
-        } else if (
-            !isNaN(this.value) &&
-            parseFloat(this.value) <= fixValueQTYOrder
-        ) {
-            let qtyReceivedValue = parseFloat(this.value);
-            let sisa = parseFloat(
-                fixValueQTYOrder -
-                    (qtyReceivedValue - fixValueQTYReceived) -
-                    fixValueQTYShip
-            );
+        // Elemen input dan kode barang
+        const qtyReceivedElement = document.getElementById("qty_received");
+        const kodeBarangElement = document.getElementById("kode_barang");
+        const qtyRemainingElement = document.getElementById("qty_remaining");
+        const qtyShipElement = document.getElementById("qty_ship");
 
-            if (sisa <= fixValueQTYOrder && sisa >= 0) {
-                qty_remaining.value = sisa.toFixed(2);
-                qty_ship.value = (
-                    fixValueQTYShip +
-                    (qtyReceivedValue - fixValueQTYReceived)
-                ).toFixed(2);
-            } else if (sisa < 0) {
-                qty_remaining.value = "0.00";
-                qty_ship.value = (
-                    qtyReceivedValue - fixValueQTYReceived
-                ).toFixed(2);
+        qtyReceivedElement.addEventListener("input", function () {
+            // Store previous valid value
+            if (!this.oldValue && this.oldValue !== 0) {
+                this.oldValue = this.value;
             }
 
-            // Update oldValue
-            this.oldValue = this.value;
-        } else {
-            // Restore previous valid value
-            this.value = this.oldValue;
+            const barangCode = kodeBarangElement.value;
+            const isAllowed = isAllowedCode(barangCode);
+            const maxLimit = isAllowed
+                ? fixValueQTYOrder * 1.15 // Batas maksimum ditetapkan sebagai 115% dari QTY Order
+                : fixValueQTYOrder;
 
-            // Show custom error message
-            this.setCustomValidity(
-                "Tidak boleh character, harus angka. Tidak boleh melebihi Quantity Order"
-            );
-            this.reportValidity();
-        }
+            if (this.value === "") {
+                // Jika input kosong, kosongkan field terkait dan reset oldValue
+                qtyRemainingElement.value = "";
+                qtyShipElement.value = "";
+                this.oldValue = "";
+            } else if (
+                !isNaN(this.value) &&
+                parseFloat(this.value) <= Math.round(maxLimit)
+            ) {
+                let qtyReceivedValue = parseFloat(this.value);
+                let sisa = parseFloat(
+                    fixValueQTYOrder -
+                        (qtyReceivedValue - fixValueQTYReceived) -
+                        fixValueQTYShip
+                );
+
+                if (sisa <= maxLimit && sisa >= 0) {
+                    qtyRemainingElement.value = sisa.toFixed(2);
+                    qtyShipElement.value = (
+                        fixValueQTYShip +
+                        (qtyReceivedValue - fixValueQTYReceived)
+                    ).toFixed(2);
+                } else if (sisa < 0) {
+                    qtyRemainingElement.value = "0.00";
+                    qtyShipElement.value = (
+                        qtyReceivedValue - fixValueQTYReceived
+                    ).toFixed(2);
+                }
+
+                // Update oldValue
+                this.oldValue = this.value;
+            } else {
+                // Restore previous valid value
+                this.value = this.oldValue;
+
+                // Show custom error message
+                this.setCustomValidity(
+                    "Tidak boleh character, harus angka. Tidak boleh melebihi Quantity Order"
+                );
+                this.reportValidity();
+            }
+        });
 
         updateDisc();
         updateIdrUnit();
