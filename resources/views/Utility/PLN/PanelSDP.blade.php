@@ -1,6 +1,6 @@
 <div class="modal fade" id="modalPanel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl" style="width: 80%; max-width: 100%; margin: 20px auto 0;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">PANEL SDP</h5>
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table mt-2" id="table-panelsdp">
+                        <table class="table mt-2" id="table-panelsdp" style="width: 100% !important">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Aksi</th>
