@@ -4,14 +4,20 @@ namespace App\Http\Controllers\Accounting\Hutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class UraianBKKController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Hutang.UraianBKK', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Hutang.UraianBKK', compact('access'));
+        // $data = 'Accounting';
+        // return view('Accounting.Hutang.UraianBKK', compact('data'));
     }
 
     public function getCheckBKKIdBKK($idBKK)
@@ -45,7 +51,7 @@ class UraianBKKController extends Controller
     }
 
     //Display the specified resource.
-    public function show(cr $cr)
+    public function show($id)
     {
         //
     }

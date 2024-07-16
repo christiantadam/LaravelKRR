@@ -63,7 +63,7 @@ class BatalPenagihanController extends Controller
 
                 return redirect()->back()->with('success', 'Data sudah dibatalkan...!!');
             } else {
-                return redirect()->back();
+                return redirect()->back()->withInput();
             }
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
