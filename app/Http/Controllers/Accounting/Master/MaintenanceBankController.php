@@ -13,12 +13,8 @@ class MaintenanceBankController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        $maintenanceBank = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BANK_ALL_TBANK');
-        $kodePerkiraan =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = 1');
-        // dd($kodePerkiraan);
+        $kodePerkiraan = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = 1');
         return view('Accounting.Master.MaintenanceBank', compact(['maintenanceBank', 'kodePerkiraan', 'access']));
-        // return view('Accounting.Master.MaintenanceBank', compact(['access']));
-
     }
     function getDataBank($idBank)
     {
@@ -41,7 +37,7 @@ class MaintenanceBankController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //dd($request->all());
+        dd($request->all());
         $IdBank = $request->idBank;
         $NamaBank = $request->isiNamaBank;
         $JenisBank = $request->jenisBankSelect;
@@ -93,11 +89,14 @@ class MaintenanceBankController extends Controller
     }
 
     //Display the specified resource.
-    public function show($id)
+    public function show($id, Request $request)
     {
         if ($id == 'getAllBank') {
             $listBank = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BANK_IDBANK_TBANK]'); //Get All data Bank where aktif == 'Y'
             return datatables($listBank)->make(true);
+        } else if ($id == 'getCertainBank') {
+            $data = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BANK_IDBANK_TBANK] @IdBank = ?', [$request->idBank]);
+            return response()->json($data);
         }
     }
 
@@ -110,7 +109,7 @@ class MaintenanceBankController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request, $id)
     {
-        //dd($request->all());
+        dd($request->all());
         $idBank = $request->idBank;
         $namaBankSelect = $request->namaBankSelect;
         $jenisBank = $request->jenisBankSelect;

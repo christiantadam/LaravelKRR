@@ -179,82 +179,6 @@
 //         });
 // });
 
-// kodePerkiraanSelect.addEventListener("change", function (event) {
-//     event.preventDefault();
-//     const selectedOption = kodePerkiraanSelect.options[kodePerkiraanSelect.selectedIndex];
-//     if (selectedOption) {
-//         const selectedValue = selectedOption.value; // Nilai dari opsi yang dipilih (format: "id | nama")
-//         const idkp = selectedValue.split(" | ")[0];
-//         ketKodePerkiraan.value = idkp;
-//     }
-// });
-
-// namaBankselect.addEventListener("keypress", function (event) {
-//     if (event.key == "Enter") {
-//         fetch("/detailbank/" + namaBankselect.value)
-//             .then((response) => response.json())
-//             .then((options) => {
-//                 hiddenInput = document.createElement("input");
-//                 // Set the type attribute to "hidden"
-//                 hiddenInput.setAttribute("type", "hidden");
-
-//                 // Set other attributes if needed
-//                 hiddenInput.setAttribute("name", "namaBankselect");
-//                 hiddenInput.setAttribute("value", namaBankselect.options[namaBankselect.selectedIndex].text);
-//                 //console.log(hiddenInput.value);
-
-//                 idBank.value = namaBankselect.value;
-//                 console.log(options);
-//                 saldoBank.value = options[0].SaldoBank;
-//                 noRekening.value = options[0].No_Rekening;
-//                 alamat.value = options[0].Alamat;
-//                 kota.value = options[0].Kota;
-//                 person.value = options[0].Nama_Person;
-//                 telp.value = options[0].No_Telp;
-//                 hp.value = options[0].No_HP;
-//                 ketKodePerkiraan.value = options[0].KodePerkiraan;
-
-//                 const USERPENAGIH = options[0].KodePerkiraan;
-//                 const options2 = kodePerkiraanSelect.options;
-//                 for (let i = 0; i < options2.length; i++) {
-//                     if (options2[i].value === USERPENAGIH) {
-//                         // Setel select option jenisPembayaranSelect sesuai dengan opsi yang cocok
-//                         kodePerkiraanSelect.selectedIndex = i;
-//                         break;
-//                     }
-//                 };
-
-//                 var statusAktifCheckbox = document.getElementById("statusAktif");
-//                 if (options[0].Aktif === "Y") {
-//                     statusAktifCheckbox.checked = true;
-//                 } else {
-//                     statusAktifCheckbox.checked = false;
-//                 }
-
-//                 var jenisBankSelect = document.getElementsByName("jenisBankSelect");
-//                 for (var i = 0; i < jenisBankSelect.length; i++) {
-//                     if (jenisBankSelect[i].value === options[0].Jenis_Bank) {
-//                         jenisBankSelect[i].checked = true;
-//                         break;
-//                     }
-//                 }
-
-//                 fetch("/detailkodeperkiraan/" + kodePerkiraanSelect.value)
-//                     .then((response) => response.json())
-//                     .then((kodePerkiraanOptions) => {
-//                         // Cari data yang sesuai dengan kodePerkiraanSelect.value
-//                         var selectedKodePerkiraan = kodePerkiraanOptions.find(option => option.NoKodePerkiraan === kodePerkiraanSelect.value);
-//                         if (selectedKodePerkiraan) {
-//                             ketKodePerkiraan.value = selectedKodePerkiraan.Keterangan;
-//                         } else {
-//                             // Jika tidak ada data yang sesuai, kosongkan nilai kodePerkiraan dan ketKodePerkiraan
-//                             ketKodePerkiraan.value = "";
-//                         }
-//                     });
-//             });
-//     }
-// });
-
 // btnProses.addEventListener ("click", function (event) {
 //     event.preventDefault();
 //     if (proses == 1) {
@@ -290,10 +214,12 @@ $(document).ready(function () {
                 render: function (data, type, full, meta) {
                     var rowID = data;
                     return (
-                        '<button class="btn btn-primary editButtonBank" data-Bank-id="' +
+                        '<button id="editButtonBank' +
                         rowID +
-                        '" data-bs-toggle="modal" data-bs-target="#editmodal" type="button">Edit</button>' +
-                        '<button class="btn btn-danger deleteButtonBank" data-id="' +
+                        '" class="btn btn-primary" data-Bank-id="' +
+                        rowID +
+                        '" data-bs-toggle="modal" data-typeForm="koreksi" data-bs-target="#modalBank" type="button">Edit</button>' +
+                        '<button class="btn btn-danger" data-id="' +
                         rowID +
                         '">Hapus</button>'
                     );
@@ -301,6 +227,130 @@ $(document).ready(function () {
             },
         ],
     });
+    // variabel element halaman maintenance bank
+    var csrfToken = $('meta[name="csrf-token"]').attr("content");
+    let tambahButtonBank = document.getElementById("tambahButtonBank");
 
+    // variabel element modal maintenance bank
+    let modalBank = document.getElementById("modalBank");
+    let modalLabelBank = document.getElementById("modalLabelBank");
+    let formMaintenanceBank = document.getElementById("formMaintenanceBank");
+    let typeKegiatanForm = document.getElementById("typeKegiatanForm");
+    let idBank = document.getElementById("idBank");
+    let isiNamaBank = document.getElementById("isiNamaBank");
+    let jenisBankSelect_E = document.getElementById("jenisBankSelect_E");
+    let jenisBankSelect_I = document.getElementById("jenisBankSelect_I");
+    let statusAktif = document.getElementById("statusAktif");
+    let ketKodePerkiraan = document.getElementById("ketKodePerkiraan");
+    let kodePerkiraanSelect = document.getElementById("kodePerkiraanSelect");
+    let noRekening = document.getElementById("noRekening");
+    let saldoBank = document.getElementById("saldoBank");
+    let alamat = document.getElementById("alamat");
+    let kota = document.getElementById("kota");
+    let telp = document.getElementById("telp");
+    let person = document.getElementById("person");
+    let hp = document.getElementById("hp");
+    let prosesButtonModal = document.getElementById("prosesButtonModal");
 
+    modalBank.addEventListener("shown.bs.modal", function (event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let bankData = button.data();
+        let typeform = button.data("typeform");
+        typeKegiatanForm.value = typeform;
+        console.log(bankData);
+        let form = $("#formMaintenanceBank");
+
+        if (typeform == "koreksi") {
+            //setting up modal supaya bisa koreksi barang
+            modalLabelBank.innerHTML = "Koreksi Bank";
+            form.attr("action", "/MaintenanceBank/" + idBank.value);
+            form.attr("method", "PUT");
+            idBank.readOnly = true;
+            isiNamaBank.style.display = "block";
+            isiNamaBank.focus();
+            prosesButtonModal.disabled = true;
+
+            $.ajax({
+                //Get data bank menurut ID
+                url: "/MaintenanceBank/getCertainBank",
+                method: "GET",
+                data: {
+                    idBank: idBank.value,
+                },
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                success: function (response) {
+                    console.log(response);
+                    idBank.value = button.data("bankId");
+                    isiNamaBank.value = response[0].Nama_Bank;
+                    kodePerkiraanSelect.value = response[0].KodePerkiraan;
+                    noRekening.value = response[0].No_Rekening;
+                    saldoBank.value = parseFloat(response[0].SaldoBank);
+                    alamat.value = response[0].Alamat;
+                    kota.value = response[0].Kota;
+                    telp.value = response[0].No_Telp;
+                    person.value = response[0].Nama_Person;
+                    hp.value = response[0].No_HP;
+                    if (response[0].Jenis_Bank == "E") {
+                        jenisBankSelect_E.checked = true;
+                    } else {
+                        jenisBankSelect_I.checked = true;
+                    }
+                    if (response[0].Aktif == "Y") {
+                        statusAktif.checked = true;
+                    } else {
+                        statusAktif.checked = false;
+                    }
+                    prosesButtonModal.disabled = false;
+                },
+                error: function (error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Data Tidak Berhasil Disimpan!",
+                    });
+                    console.error("Error saving data:", error);
+                },
+            });
+        } else if (typeform == "tambah") {
+            modalLabelBank.innerHTML = "Tambah Bank";
+            form.attr("action", "/MaintenanceBank/");
+            form.attr("method", "POST");
+            isiNamaBank.style.display = "block";
+            idBank.focus();
+        }
+    });
+
+    modalBank.addEventListener("hidden.bs.modal", function (event) {
+        // Clear all input fields
+        jenisBankSelect_E.checked = true;
+        statusAktif.checked = true;
+        formMaintenanceBank.querySelectorAll("input").forEach(function (input) {
+            input.value = "";
+            input.readOnly = false;
+        });
+
+        // Reset all select elements to their first option
+        formMaintenanceBank
+            .querySelectorAll("select")
+            .forEach(function (select) {
+                select.selectedIndex = 0;
+            });
+
+        // Optionally, reset textareas if you have any
+        formMaintenanceBank
+            .querySelectorAll("textarea")
+            .forEach(function (textarea) {
+                textarea.value = "";
+            });
+    });
+
+    kodePerkiraanSelect.addEventListener("change", function (event) {
+        event.preventDefault();
+        const selectedOption =
+            kodePerkiraanSelect.options[kodePerkiraanSelect.selectedIndex];
+        if (selectedOption) {
+            ketKodePerkiraan.value = selectedOption.value.split(" | ")[1]; // Nilai dari opsi yang dipilih (format: "id | nama")
+        }
+    });
 });

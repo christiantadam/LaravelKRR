@@ -994,7 +994,7 @@ $(document).ready(function () {
             const barangCode = kodeBarangElement.value;
             const isAllowed = isAllowedCode(barangCode);
             const maxLimit = isAllowed
-                ? fixValueQTYOrder * 1.15 // Batas maksimum ditetapkan sebagai 115% dari QTY Order
+                ? Math.round(fixValueQTYOrder * 1.15) // Batas maksimum ditetapkan sebagai 115% dari QTY Order
                 : fixValueQTYOrder;
 
             if (this.value === "") {
@@ -1004,7 +1004,7 @@ $(document).ready(function () {
                 this.oldValue = "";
             } else if (
                 !isNaN(this.value) &&
-                parseFloat(this.value) <= Math.round(maxLimit)
+                parseFloat(this.value) <= parseFloat(maxLimit)
             ) {
                 let qtyReceivedValue = parseFloat(this.value);
                 let sisa = parseFloat(
