@@ -20,9 +20,16 @@
             <div class="card">
                 <div class="card-header">Maintenance Bank</div>
                 @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        {{ Session::get('success') }}
-                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: '{{ Session::get('success') }}',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            });
+                        });
+                    </script>
                 @endif
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div style="overflow: auto;">

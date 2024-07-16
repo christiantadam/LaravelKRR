@@ -204,6 +204,22 @@ $(document).ready(function () {
         ajax: {
             url: "MaintenanceBank/getAllBank",
             type: "GET",
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
+            error: function () {
+                // Hide loading screen and show error message
+                $("#loading-screen").css("display", "none");
+                Swal.fire({
+                    icon: "error",
+                    title: "Data Tidak Berhasil Diload!",
+                });
+            },
         },
         columns: [
             { data: "Id_Bank" },
@@ -251,14 +267,18 @@ $(document).ready(function () {
     let person = document.getElementById("person");
     let hp = document.getElementById("hp");
     let prosesButtonModal = document.getElementById("prosesButtonModal");
+    let button;
+    let bankData;
+    let typeform;
+    let form;
 
     modalBank.addEventListener("shown.bs.modal", function (event) {
-        let button = $(event.relatedTarget); // Button that triggered the modal
-        let bankData = button.data();
-        let typeform = button.data("typeform");
+        button = $(event.relatedTarget); // Button that triggered the modal
+        bankData = button.data();
+        typeform = button.data("typeform");
         typeKegiatanForm.value = typeform;
         console.log(bankData);
-        let form = $("#formMaintenanceBank");
+        form = $("#formMaintenanceBank");
 
         if (typeform == "koreksi") {
             //setting up modal supaya bisa koreksi barang
@@ -280,11 +300,21 @@ $(document).ready(function () {
                 headers: {
                     "X-CSRF-TOKEN": csrfToken,
                 },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (response) {
                     console.log(response);
                     idBank.value = button.data("bankId");
                     isiNamaBank.value = response[0].Nama_Bank;
                     kodePerkiraanSelect.value = response[0].KodePerkiraan;
+                    if (kodePerkiraanSelect.value) {
+                        ketKodePerkiraan.value =
+                            kodePerkiraanSelect.options[
+                                kodePerkiraanSelect.selectedIndex
+                            ].text.split(" | ")[1]; // Nilai dari opsi yang dipilih (format: "id | nama")
+                    }
                     noRekening.value = response[0].No_Rekening;
                     saldoBank.value = parseFloat(response[0].SaldoBank);
                     alamat.value = response[0].Alamat;
@@ -307,9 +337,13 @@ $(document).ready(function () {
                 error: function (error) {
                     Swal.fire({
                         icon: "error",
-                        title: "Data Tidak Berhasil Disimpan!",
+                        title: "Data Tidak Berhasil Diload!",
                     });
                     console.error("Error saving data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         } else if (typeform == "tambah") {
@@ -351,6 +385,22 @@ $(document).ready(function () {
             kodePerkiraanSelect.options[kodePerkiraanSelect.selectedIndex];
         if (selectedOption) {
             ketKodePerkiraan.value = selectedOption.value.split(" | ")[1]; // Nilai dari opsi yang dipilih (format: "id | nama")
+        }
+    });
+
+    prosesButtonModal.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        // Serialize form data into an object
+        let formDataObject = {};
+        formDataArray.forEach((item) => {
+            formDataObject[item.name] = item.value;
+        });
+        console.log(formDataObject);
+        console.log(formDataObject["typeKegiatanForm"]);
+
+        if (formDataObject["typeKegiatanForm"] == "koreksi") {
+            console.log('masuk');
         }
     });
 });

@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+<!-- Loading Screen -->
+<link rel="prefetch" href="{{ asset('images/kuning.png') }}" />
+<link rel="prefetch" href="{{ asset('images/biru.png') }}" />
+<link rel="prefetch" href="{{ asset('images/merah.png') }}" />
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -298,7 +303,8 @@
                             {{ __('Logout') }}
                         </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                            style="display: none;">
                             @csrf
                         </form>
                     </li>

@@ -14,7 +14,7 @@ class MaintenanceBankController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
         $kodePerkiraan = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = 1');
-        return view('Accounting.Master.MaintenanceBank', compact(['maintenanceBank', 'kodePerkiraan', 'access']));
+        return view('Accounting.Master.MaintenanceBank', compact(['kodePerkiraan', 'access']));
     }
     function getDataBank($idBank)
     {

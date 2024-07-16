@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+<!-- Loading Screen -->
+<link rel="prefetch" href="{{ asset('images/kuning.png') }}" />
+<link rel="prefetch" href="{{ asset('images/biru.png') }}" />
+<link rel="prefetch" href="{{ asset('images/merah.png') }}" />
+
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,8 +44,7 @@
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/RdzAndre.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
 </head>
 
 <body onload="Greeting()">
