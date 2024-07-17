@@ -231,6 +231,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 nomorpanelValue
                     ? Swal.fire({
@@ -269,12 +273,16 @@ $(document).ready(function () {
             },
             error: function (error) {
                 Swal.fire({
-                    icon: "failed",
+                    icon: "error",
                     title: "Data Tidak Berhasil Disimpan!",
                     showConfirmButton: false,
                     timer: "2000",
                 });
                 console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -335,7 +343,13 @@ $(document).ready(function () {
                 },
             },
             { data: "Keterangan" },
-            { data: "NamaUser" },
+            {
+                data: null,
+            defaultContent: "",
+            render: function (data, type, full, meta) {
+                return full.NamaUser ? full.NamaUser : full.User_log;
+                },
+            },
         ],
     });
 
@@ -367,34 +381,34 @@ $(document).ready(function () {
                 success: function (data) {
                     console.log(data);
 
-                    var date = new Date(data.tanggal + "Z");
+                    var date = new Date(data.data[0].tanggal + "Z");
                     tanggal.value = date.toISOString().split("T")[0];
 
-                    feeder.value = data.Feeder_line.trim();
+                    feeder.value = data.data[0].Feeder_line.trim()
 
-                    var startHours = new Date(data.Start_time + "Z")
+                    var startHours = new Date(data.data[0].Start_time + "Z")
                         .getUTCHours()
                         .toString()
                         .padStart(2, "0");
-                    var startMinutes = new Date(data.Start_time + "Z")
+                    var startMinutes = new Date(data.data[0].Start_time + "Z")
                         .getUTCMinutes()
                         .toString()
                         .padStart(2, "0");
                     jam_gangguan.value = startHours + ":" + startMinutes;
 
-                    var endHours = new Date(data.Finish_time + "Z")
+                    var endHours = new Date(data.data[0].Finish_time + "Z")
                         .getUTCHours()
                         .toString()
                         .padStart(2, "0");
-                    var endMinutes = new Date(data.Finish_time + "Z")
+                    var endMinutes = new Date(data.data[0].Finish_time + "Z")
                         .getUTCMinutes()
                         .toString()
                         .padStart(2, "0");
                     jam_selesai.value = endHours + ":" + endMinutes;
 
-                    ket_gangguan.value = data.L_Gangguan_panel_induk;
-                    teknisi.value = data.Teknisi_Utility;
-                    keterangan.value = data.Keterangan;
+                    ket_gangguan.value = data.data[0].L_Gangguan_panel_induk;
+                    teknisi.value = data.data[0].NamaUser;
+                    keterangan.value = data.data[0].Keterangan;
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);
@@ -451,6 +465,10 @@ $(document).ready(function () {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
                     },
+                    beforeSend: function () {
+                        // Show loading screen
+                        $("#loading-screen").css("display", "flex");
+                    },
                     success: function (response) {
                         Swal.fire({
                             icon: "success",
@@ -469,6 +487,10 @@ $(document).ready(function () {
                             "Error delete Data : ",
                             error.responseText
                         );
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             }
@@ -698,6 +720,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 nomorIdValue
                     ? Swal.fire({
@@ -726,6 +752,10 @@ $(document).ready(function () {
                     timer: "2000",
                 });
                 console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });

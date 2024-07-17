@@ -44,6 +44,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 if (response.success) {
                     $("#tambahCustomerModal").modal("hide");
@@ -79,6 +83,10 @@ $(document).ready(function () {
                 });
                 console.error("Error adding data:", error);
             },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     });
     //#region Edit
@@ -90,6 +98,10 @@ $(document).ready(function () {
             url: "/MaintenanceTipeGangguan/" + id_type + "/edit",
             type: "GET",
             dataType: "json",
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 console.log(data);
                 // Display SweetAlert popup with form inputs
@@ -134,6 +146,10 @@ $(document).ready(function () {
                             headers: {
                                 "X-CSRF-TOKEN": csrfToken,
                             },
+                            beforeSend: function () {
+                                // Show loading screen
+                                $("#loading-screen").css("display", "flex");
+                            },
                             dataType: "json",
                             success: function (response) {
                                 if (response.success) {
@@ -153,12 +169,23 @@ $(document).ready(function () {
                                     });
                                 }
                             },
+                            error: function (xhr, status, error) {
+                                console.error("Error:", status, error);
+                            },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
+                            },
                         });
                     }
                 });
             },
             error: function (error) {
                 console.log("Error fetching customer data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -192,6 +219,10 @@ $(document).ready(function () {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
                     },
+                    beforeSend: function () {
+                        // Show loading screen
+                        $("#loading-screen").css("display", "flex");
+                    },
                     success: function (response) {
                         dataTableCustomer.ajax.reload(); // Memuat ulang data setelah penghapusan
                         console.log(response);
@@ -224,6 +255,10 @@ $(document).ready(function () {
                             "Error delete Data: ",
                             error.responseText
                         );
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             }

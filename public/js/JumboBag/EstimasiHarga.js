@@ -75,6 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 _token: csrfToken,
                 kode: $("#kodeBarangAsal").val(),
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 console.log(data);
                 table.clear().draw();
@@ -140,6 +144,10 @@ document.addEventListener("DOMContentLoaded", function () {
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 alert(err.Message);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });

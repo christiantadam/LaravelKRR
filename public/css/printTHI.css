@@ -230,6 +230,9 @@ h2 {
     margin: 50px;
 }
 @media print {
+    .loading-screen {
+        display: none !important;
+    }
     .container-fluid {
         display: none;
     }

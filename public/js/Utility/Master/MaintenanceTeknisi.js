@@ -6,6 +6,7 @@ $(document).ready(function () {
     let lokasiUserSebelum = [];
     let lokasiUserSesudah = [];
     var dataTableTeknisi = $("#table-teknisi").DataTable({
+        processing: true,
         serverSide: true,
         responsive: true,
         ordering: false,
@@ -53,6 +54,10 @@ $(document).ready(function () {
             type: "GET",
             url: "/get-teknisi-id", //get id lokasi awal
             data: datas,
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 console.log(response);
                 $("#editteknisi").val(response.IdUserMaster); //set selected index
@@ -64,6 +69,13 @@ $(document).ready(function () {
                 lokasiUserSebelum = Array.from(checkboxes).map((checkbox) =>
                     parseInt(checkbox.value)
                 );
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", status, error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -107,6 +119,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 console.log(requestData);
                 console.log(response);
@@ -147,6 +163,10 @@ $(document).ready(function () {
                 console.error("Error saving data:", error);
                 // $("#editmodal").modal("hide");
             },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     });
 
@@ -178,6 +198,10 @@ $(document).ready(function () {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
                     },
+                    beforeSend: function () {
+                        // Show loading screen
+                        $("#loading-screen").css("display", "flex");
+                    },
                     success: function (response) {
                         // console.log(response);
                         dataTableTeknisi.ajax.reload();
@@ -195,6 +219,10 @@ $(document).ready(function () {
                             "Error delete Data : ",
                             error.responseText
                         );
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             }

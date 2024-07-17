@@ -2,6 +2,7 @@ $(document).ready(function () {
     //#region Load Form
     var csrfToken = $('meta[name="csrf-token"]').attr("content");
     var dataTableCustomer = $("#table-customer").DataTable({
+        processing: true,
         serverSide: true,
         responsive: true,
         ordering: false,
@@ -98,6 +99,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 if (response.success) {
                     $("#tambahCustomerModal").modal("hide");
@@ -133,6 +138,10 @@ $(document).ready(function () {
                 });
                 console.error("Error adding data:", error);
             },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     });
     // Event listener untuk tombol edit
@@ -145,6 +154,10 @@ $(document).ready(function () {
             url: "/MaintenanceCustomer/" + kodeCustomer + "/edit",
             type: "GET",
             dataType: "json",
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 console.log(data);
                 // Display SweetAlert popup with form inputs
@@ -207,6 +220,10 @@ $(document).ready(function () {
                             headers: {
                                 "X-CSRF-TOKEN": csrfToken,
                             },
+                            beforeSend: function () {
+                                // Show loading screen
+                                $("#loading-screen").css("display", "flex");
+                            },
                             dataType: "json",
                             success: function (response) {
                                 if (response.success) {
@@ -226,12 +243,23 @@ $(document).ready(function () {
                                     });
                                 }
                             },
+                            error: function (xhr, status, error) {
+                                console.error("Error:", status, error);
+                            },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
+                            },
                         });
                     }
                 });
             },
             error: function (error) {
                 console.log("Error fetching customer data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -262,6 +290,10 @@ $(document).ready(function () {
                     method: "DELETE",
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
+                    },
+                    beforeSend: function () {
+                        // Show loading screen
+                        $("#loading-screen").css("display", "flex");
                     },
                     success: function (response) {
                         dataTableCustomer.ajax.reload(); // Memuat ulang data setelah penghapusan
@@ -295,6 +327,10 @@ $(document).ready(function () {
                             "Error delete Data: ",
                             error.responseText
                         );
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             }

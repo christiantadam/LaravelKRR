@@ -220,6 +220,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 nomorplnValue
                     ? Swal.fire({
@@ -259,6 +263,10 @@ $(document).ready(function () {
                     timer: "2000",
                 });
                 console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
         tanggal_Input.value = tanggal_Output;
@@ -402,6 +410,10 @@ $(document).ready(function () {
                 url: "/get-pln-id",
                 type: "GET",
                 data: { id: selectedNomorPLN },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (data) {
                     console.log(data);
                     var selectedDate = data.tanggal;
@@ -429,6 +441,10 @@ $(document).ready(function () {
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         } else {
@@ -480,6 +496,10 @@ $(document).ready(function () {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
                     },
+                    beforeSend: function () {
+                        // Show loading screen
+                        $("#loading-screen").css("display", "flex");
+                    },
                     success: function (response) {
                         Swal.fire({
                             icon: "success",
@@ -496,6 +516,10 @@ $(document).ready(function () {
                             "Error delete Data : ",
                             error.responseText
                         );
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             }
@@ -671,6 +695,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 nomorsdpValue
                     ? Swal.fire({
@@ -709,6 +737,10 @@ $(document).ready(function () {
                     timer: "2000",
                 });
                 console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -794,6 +826,10 @@ $(document).ready(function () {
                 url: "/get-sdp-id",
                 type: "GET",
                 data: { idsdp: selectedNomorsdp },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (data) {
                     produksisdp.value = data.NoProduksi;
                     var date = new Date(data.Tanggal + "Z");
@@ -812,6 +848,10 @@ $(document).ready(function () {
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         } else {
@@ -1109,6 +1149,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 alert;
                 clearFormBA();
@@ -1139,6 +1183,10 @@ $(document).ready(function () {
                     timer: "2000",
                 });
                 console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -1293,6 +1341,10 @@ $(document).ready(function () {
                     headers: {
                         "X-CSRF-TOKEN": csrfToken,
                     },
+                    beforeSend: function () {
+                        // Show loading screen
+                        $("#loading-screen").css("display", "flex");
+                    },
                     success: function (response) {
                         dataTableBA.ajax.reload();
                         Swal.fire({
@@ -1312,6 +1364,10 @@ $(document).ready(function () {
                             "Error delete Data : ",
                             error.responseText
                         );
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             }

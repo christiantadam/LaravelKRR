@@ -77,6 +77,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 halaman: halaman.value,
                 iner: iner.value,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 console.log(data.data[0]);
                 var currentDate = new Date();
@@ -181,11 +185,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // document.getElementById("tanggal_tabel").innerHTML =
                 //     "&nbsp;" + formattedDate;
-                window.print();
+
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 alert(err.Message);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+                window.print();
             },
         });
     });

@@ -50,6 +50,11 @@
     {{-- <link href="{{ asset('css/bootstrap@5.0.1.min.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
+    <div id="loading-screen">
+        <div id="part1" class="logo-part"></div>
+        <div id="part2" class="logo-part"></div>
+        <div id="part3" class="logo-part"></div>
+    </div>
 </head>
 
 <body onload="Greeting()">

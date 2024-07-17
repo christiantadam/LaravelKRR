@@ -170,6 +170,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 sf1: sf1.value,
                 sf2: sf2.value,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 console.log(data); // Ensure data structure in console
                 table.clear().draw();
@@ -201,6 +205,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         .draw(false);
                 });
             },
+            error: function (xhr, status, error) {
+                console.error("Error:", status, error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     });
 
@@ -221,6 +232,10 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
                 _token: csrfToken,
                 kodeBarangAsal: kodeBarangAsal.value,
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
             },
             success: function (data) {
                 console.log(data);
@@ -1120,11 +1135,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Tampilkan hasilnya dalam elemen HTML
                 document.getElementById("catatan_tabel").innerHTML = keterangan;
 
-                window.print();
+
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 alert(err.Message);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+                window.print();
             },
         });
     });

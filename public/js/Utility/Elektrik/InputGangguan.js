@@ -46,24 +46,44 @@ refresh_tg_t.addEventListener("click", function (event) {
     $.ajax({
         url: "/getUpdatedData", // Gantilah URL ini sesuai dengan rute yang sesuai di Laravel
         type: "GET",
-        success: function(response) {
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
+        success: function (response) {
             // Perbarui elemen <select> tipe_gangguan
             var tipeGangguanSelect = $("#tipe_gangguan");
             tipeGangguanSelect.empty(); // Kosongkan elemen <select>
-            tipeGangguanSelect.append('<option selected disabled>Pilih Tipe Gangguan...</option>');
-            response.TipeGangguan.forEach(function(item) {
-                tipeGangguanSelect.append('<option value="' + item.nama_type_gangguan + '">' + item.nama_type_gangguan + '</option>');
+            tipeGangguanSelect.append(
+                "<option selected disabled>Pilih Tipe Gangguan...</option>"
+            );
+            response.TipeGangguan.forEach(function (item) {
+                tipeGangguanSelect.append(
+                    '<option value="' +
+                        item.nama_type_gangguan +
+                        '">' +
+                        item.nama_type_gangguan +
+                        "</option>"
+                );
             });
 
             // Perbarui elemen <select> teknisi
             var teknisiSelect = $("#teknisi");
             teknisiSelect.empty(); // Kosongkan elemen <select>
-            teknisiSelect.append('<option selected disabled>Pilih Teknisi...</option>');
-            response.teknisi.forEach(function(item) {
-                teknisiSelect.append('<option value="' + item.NamaUser + '">' + item.NamaUser + '</option>');
+            teknisiSelect.append(
+                "<option selected disabled>Pilih Teknisi...</option>"
+            );
+            response.teknisi.forEach(function (item) {
+                teknisiSelect.append(
+                    '<option value="' +
+                        item.NamaUser +
+                        '">' +
+                        item.NamaUser +
+                        "</option>"
+                );
             });
         },
-        error: function(error) {
+        error: function (error) {
             console.error("Error fetching updated data:", error);
             Swal.fire({
                 icon: "error",
@@ -71,7 +91,11 @@ refresh_tg_t.addEventListener("click", function (event) {
                 text: "Terjadi kesalahan saat memperbarui data!",
                 showConfirmButton: false,
             });
-        }
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
     });
 });
 
@@ -324,7 +348,6 @@ koreksiButton.addEventListener("click", function () {
     }
 });
 
-
 // Function to check if all fields are filled
 
 // Event listener untuk Gambar 1
@@ -470,6 +493,10 @@ $(document).ready(function () {
             data: formData,
             processData: false,
             contentType: false,
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 console.log(response.data);
                 // Respons sukses
@@ -492,7 +519,8 @@ $(document).ready(function () {
                         icon: "error",
                         title:
                             response.message +
-                            " Id Laporan: " + id_laporanValue,
+                            " Id Laporan: " +
+                            id_laporanValue,
                         showConfirmButton: false,
                     });
                 }
@@ -504,6 +532,10 @@ $(document).ready(function () {
                     // Penanganan kesalahan lainnya
                     console.log("Terjadi kesalahan saat menyimpan gambar.");
                 }
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -694,6 +726,10 @@ $(document).ready(function () {
                     xhrFields: {
                         responseType: "blob",
                     },
+                    beforeSend: function () {
+                        // Show loading screen
+                        $("#loading-screen").css("display", "flex");
+                    },
                     success: function (data, status, xhr) {
                         displayImage(data, `hasil_gambar${index + 1}`);
                         updateFileInput(gambar1, data["Gambar1"]);
@@ -710,6 +746,10 @@ $(document).ready(function () {
                     },
                     error: function (xhr, status, error) {
                         console.error("Error:", status, error);
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             });

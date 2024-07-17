@@ -332,6 +332,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 tanggal_j: tanggal_j.value,
                 alasan: alasan.value,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 console.log(data);
                 if (data.success) {
@@ -371,6 +375,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     text: error,
                     showConfirmButton: false,
                 });
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
         tmb = 1;

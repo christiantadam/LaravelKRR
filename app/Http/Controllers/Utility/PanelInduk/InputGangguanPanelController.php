@@ -34,9 +34,17 @@ class InputGangguanPanelController extends Controller
             $end = $request->input('JamSelesai');
             $gangguan = $request->input('Gangguan');
             $keterangan = $request->input('Keterangan');
-            $UserInput = Auth::user()->NomorUser;
-            $Teknisi = $request->input('Teknisi');
+            $UserLog = Auth::user()->NomorUser;
+            $UserInput = Auth::user()->IDUser;
+            // $Teknisi = $request->input('Teknisi');
+            // dd($UserInput);
 
+            $idTeknisi = DB::connection('ConnUtility')->table('Utility_Teknisi')->select('Utility_Teknisi.Id_Teknisi')
+                ->join('EDP.dbo.UserMaster', 'Utility_Teknisi.IdUserMaster', 'EDP.dbo.UserMaster.IDUser')
+                ->where('EDP.dbo.UserMaster.IDUser', $UserInput)->get();
+
+            // dd($idTeknisi[0]->Id_Teknisi);
+            // dd($idTeknisi);
             $datetimeNow = now();
             $datetimeStart = $datetimeNow->toDateString() . ' ' . $start;
             $datetimeEnd = $datetimeNow->toDateString() . ' ' . $end;
@@ -46,7 +54,7 @@ class InputGangguanPanelController extends Controller
             // ]);
 
 
-            $data = DB::connection('ConnUtility')->statement('exec SP_INSERT_PANEL_INDUK ? , ? , ? , ? , ? , ? , ?, ? ', [$tanggal, $feeder, $datetimeStart, $datetimeEnd, $gangguan, $keterangan, $UserInput, $Teknisi]);
+            $data = DB::connection('ConnUtility')->statement('exec SP_INSERT_PANEL_INDUK ? , ? , ? , ? , ? , ? , ? , ?', [$tanggal, $feeder, $datetimeStart, $datetimeEnd, $gangguan, $keterangan, $UserLog, $idTeknisi[0]->Id_Teknisi]);
             return response()->json($data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
@@ -69,9 +77,14 @@ class InputGangguanPanelController extends Controller
             $end = $request->input('JamSelesai');
             $gangguan = $request->input('Gangguan');
             $keterangan = $request->input('Keterangan');
-            $UserInput = Auth::user()->NomorUser;
-            $Teknisi = $request->input('Teknisi');
-            $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_PANEL_INDUK ?, ? , ? , ? , ? , ? , ? , ? , ? ', [$tanggal, $feeder, $start, $end, $gangguan, $keterangan, $UserInput, $id, $Teknisi]);
+            $UserLog = Auth::user()->NomorUser;
+            $UserInput = Auth::user()->IDUser;
+            // $Teknisi = $request->input('Teknisi');
+            $idTeknisi = DB::connection('ConnUtility')->table('Utility_Teknisi')->select('Utility_Teknisi.Id_Teknisi')
+                ->join('EDP.dbo.UserMaster', 'Utility_Teknisi.IdUserMaster', 'EDP.dbo.UserMaster.IDUser')
+                ->where('EDP.dbo.UserMaster.IDUser', $UserInput)->get();
+            // dd($UserLog, $idTeknisi);
+            $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_PANEL_INDUK ?, ? , ? , ? , ? , ? , ? , ? , ? ', [$tanggal, $feeder, $start, $end, $gangguan, $keterangan, $UserLog, $idTeknisi[0]->Id_Teknisi , $id]);
             return response()->json($data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
@@ -81,13 +94,11 @@ class InputGangguanPanelController extends Controller
     public function getPANELById(Request $request)
     {
         $id = $request->input('id');
-        $data = DB::connection('ConnUtility')->table('E_Panel_induk')->where('Id_transaksi', $id)->first();
-
-        if (!$data) {
-            return response()->json(['message' => 'Data not found'], 404);
-        }
-
-        return response()->json($data, 200);
+        // dd($id);
+        $listPerawatan =
+            DB::connection('ConnUtility')->select('exec SP_DT_LIST_PANEL_INDUK_BLN_THN2 @kode = ?, @id=?', [2, $id]);
+            // dd($tes);
+        return datatables($listPerawatan)->make(true);
     }
 
     public function getPANEL(Request $request)
@@ -96,7 +107,7 @@ class InputGangguanPanelController extends Controller
         $date2 = $request->input('date2');
 
         $listPerawatan =
-            DB::connection('ConnUtility')->select('exec SP_DT_LIST_PANEL_INDUK_BLN_THN2 @date1 = ?, @date2 = ?', [$date1, $date2]);
+            DB::connection('ConnUtility')->select('exec SP_DT_LIST_PANEL_INDUK_BLN_THN2 @kode = ?, @date1 = ?, @date2 = ?', [1, $date1, $date2]);
         return datatables($listPerawatan)->make(true);
     }
 

@@ -282,6 +282,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 console.log("Data saved successfully:", response);
                 idValue
@@ -321,6 +325,10 @@ $(document).ready(function () {
             },
             error: function (error) {
                 console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -399,6 +407,10 @@ $(document).ready(function () {
                 url: "/get-logsheet-compressor",
                 type: "GET",
                 data: { id: selectedNoLogSheet },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (data) {
                     // console.log(data);
 
@@ -428,6 +440,10 @@ $(document).ready(function () {
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         } else {

@@ -401,6 +401,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 nomorgenzetValue
                     ? Swal.fire({
@@ -448,6 +452,10 @@ $(document).ready(function () {
                 });
                 console.error("Error saving data:", error);
             },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     });
 
@@ -464,6 +472,10 @@ $(document).ready(function () {
                 url: "/get-operational-genzet",
                 type: "GET",
                 data: { nomorGenzet: selectedNomorgenzet },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (data) {
                     var date = new Date(data.Tanggal + "Z");
                     tanggal.value = date.toISOString().split("T")[0];
@@ -503,6 +515,10 @@ $(document).ready(function () {
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         } else {

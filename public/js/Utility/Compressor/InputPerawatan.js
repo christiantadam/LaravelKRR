@@ -287,6 +287,10 @@ $(document).ready(function () {
                 url: "/get-perawatan-compressor",
                 type: "GET",
                 data: { id: selectedNomorPerawatan },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (data) {
                     // console.log(data);
 
@@ -302,6 +306,10 @@ $(document).ready(function () {
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         } else {
@@ -341,6 +349,10 @@ $(document).ready(function () {
             data: requestData,
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
             },
             success: function (response) {
                 if (response.Error) {
@@ -384,6 +396,10 @@ $(document).ready(function () {
             },
             error: function (error) {
                 console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });

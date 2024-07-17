@@ -295,6 +295,10 @@ $(document).ready(function () {
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             data: formData,
             processData: false,
             contentType: false,
@@ -334,6 +338,13 @@ $(document).ready(function () {
                 inputButton.disabled = false;
                 hapusButton.disabled = false;
                 koreksiButton.disabled = false;
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", status, error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     });
@@ -573,6 +584,10 @@ $(document).ready(function () {
                     xhrFields: {
                         responseType: "blob",
                     },
+                    beforeSend: function () {
+                        // Show loading screen
+                        $("#loading-screen").css("display", "flex");
+                    },
                     success: function (data, status, xhr) {
                         displayImage(data, `hasil_gambar${index + 1}`);
                         updateFileInput(gambar1, data["Gambar1"]);
@@ -589,6 +604,10 @@ $(document).ready(function () {
                     },
                     error: function (xhr, status, error) {
                         //console.error("Error:", status, error);
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             });
@@ -745,6 +764,10 @@ $(document).ready(function () {
                                                 'meta[name="csrf-token"]'
                                             ).attr("content"),
                                         },
+                                        beforeSend: function () {
+                                            // Show loading screen
+                                            $("#loading-screen").css("display", "flex");
+                                        },
                                         success: function (response) {
                                             dataTable.ajax.reload();
                                             Swal.fire(
@@ -774,6 +797,10 @@ $(document).ready(function () {
                     },
                     error: function (error) {
                         console.error(error);
+                    },
+                    complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
                     },
                 });
             } else {

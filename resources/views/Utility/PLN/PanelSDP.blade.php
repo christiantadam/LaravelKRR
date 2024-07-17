@@ -40,7 +40,7 @@
                                 <option selected disabled>Pilih...</option>
                                 @foreach ($teknisi as $data)
                                     <option value="{{ $data->NamaUser }}">
-                                        {{ $data->NamaUser }} - ( {{ $data->Lokasi }} )</option>
+                                        {{ $data->NamaUser }}</option>
                                 @endforeach
                             </select>
                         </div>
