@@ -632,7 +632,15 @@ class TabelHitunganJumboBag extends Controller
                 return response()->json(['error' => $e->getMessage()]);
             }
 
-        } elseif ($request->mode_insert == "BodyBesar") {
+        } elseif (
+            $request->mode_insert == "BodyBesar" ||
+            $request->mode_insert == "BodySampingI" ||
+            $request->mode_insert == "BodySampingII" ||
+            $request->mode_insert == "TutupAtas" ||
+            $request->mode_insert == "TutupBawah" ||
+            $request->mode_insert == "CerobongAtas" ||
+            $request->mode_insert == "CerobongBawah"
+        ) {
             switch ($request->mode_insert) {
                 case "BodyBesar":
                     $kodeKomponen = "01BB00";
@@ -979,7 +987,7 @@ class TabelHitunganJumboBag extends Controller
                         $request->input('BeratWE'),
                         $request->input('Harga'),
                         $request->input('SubTotal'),
-                        (int)$request->input('Kounter'),
+                        (int) $request->input('Kounter'),
                         $request->input('DenierWA'),
                         $request->input('DenierWE'),
                         Auth::user()->NomorUser
@@ -1029,7 +1037,7 @@ class TabelHitunganJumboBag extends Controller
                     [
                         $request->input('KodeBarang'),
                         $request->input('KodeKomponen'),
-                        (int)$request->input('Kounter')
+                        (int) $request->input('Kounter')
                     ]
                 );
                 DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_LOGIN_KDBRG
@@ -1074,22 +1082,22 @@ class TabelHitunganJumboBag extends Controller
                 if (!empty($checkData) && $checkData[0]->Ada > 0) {
                     return response()->json(['error' => 'Data tidak dapat dihapus karena sudah ada tabel ordernya']);
                 } else {
-                    DB::connection('ConnJumboBag')->statement(
-                        'exec SP_1273_JBB_DLT_All_RINCIANTH @KodeBarang = \'?\'',
+                    $result = DB::connection('ConnJumboBag')->statement(
+                        'exec SP_1273_JBB_DLT_All_RINCIANTH @KodeBarang = ?',
                         [
-                            $id
+                            (string) $id
                         ]
                     );
-                    DB::connection('ConnJumboBag')->statement(
-                        'exec SP_1273_JBB_DLT_KDBRG @KodeBarang = \'?\'',
+                    $result1 = DB::connection('ConnJumboBag')->statement(
+                        'exec SP_1273_JBB_DLT_KDBRG @KodeBarang = ?',
                         [
-                            $id
+                            (string) $id
                         ]
                     );
-                    DB::connection('ConnJumboBag')->statement(
-                        'exec SP_1273_JBB_DLT_HEADTH @KodeBarang = \'?\'',
+                    $result2 = DB::connection('ConnJumboBag')->statement(
+                        'exec SP_1273_JBB_DLT_HEADTH @KodeBarang = ?',
                         [
-                            $id
+                            (string) $id
                         ]
                     );
                     return response()->json(['success' => 'Record Table Hitungan deleted successfully.']);

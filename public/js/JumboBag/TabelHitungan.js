@@ -114,6 +114,7 @@ let KompVarDiameterCA;
 let KompVarTinggiBB;
 let KompVarTebalInner;
 let KompVarStatusBelt = false;
+let karakterIdBodyModel;
 //#region Load Form
 
 btn_isi.focus();
@@ -873,7 +874,7 @@ function Rumus_PanjangBB(bentukRumus_PanjangBB, modelRumus_PanjangBB) {
     const diaBB = parseFloat(body_diameter.value ?? 0);
 
     if (bentukRumus_PanjangBB === "S") {
-        switch (Model) {
+        switch (modelRumus_PanjangBB) {
             case "01BBTM":
                 hasil = tinggiBB + 12;
                 break;
@@ -1276,9 +1277,9 @@ function BodySampingI() {
         SetVariabel();
         PanjangPot = Rumus_PanjangBSI(body_bentuk.value, id_body_model.value);
         LebarPot = Rumus_LebarBSI(body_bentuk.value, id_body_model.value);
-
+        karakterIdBodyModel = id_body_model.value.slice(-2);
         id_body_model.value = "";
-        id_body_model.value = "02BS" + id_body_model.value.slice(-2);
+        id_body_model.value = "02BS" + karakterIdBodyModel;
 
         $.ajax({
             type: "POST", // or 'GET' depending on your server setup
@@ -1311,9 +1312,9 @@ function BodySampingII() {
         SetVariabel();
         PanjangPot = Rumus_PanjangBSII(body_bentuk.value, id_body_model.value);
         LebarPot = Rumus_LebarBSII(body_bentuk.value, id_body_model.value);
-
+        karakterIdBodyModel = id_body_model.value.slice(-2);
         id_body_model.value = "";
-        id_body_model.value = "02BS" + id_body_model.value.slice(-2);
+        id_body_model.value = "02BS" + karakterIdBodyModel;
 
         $.ajax({
             type: "POST", // or 'GET' depending on your server setup
@@ -1347,8 +1348,9 @@ function TutupAtas() {
         PanjangPot = Rumus_PanjangTA(body_bentuk.value, id_body_model.value);
         LebarPot = Rumus_LebarTA(body_bentuk.value, id_body_model.value);
 
+        karakterIdBodyModel = id_body_model.value.slice(-2);
         id_body_model.value = "";
-        id_body_model.value = "03TA" + id_body_model.value.slice(-2);
+        id_body_model.value = "03TA" + karakterIdBodyModel;
 
         $.ajax({
             type: "POST", // or 'GET' depending on your server setup
@@ -1382,8 +1384,9 @@ function TutupBawah() {
         PanjangPot = Rumus_PanjangTB(body_bentuk.value, id_body_model.value);
         LebarPot = Rumus_LebarTB(body_bentuk.value, id_body_model.value);
 
+        karakterIdBodyModel = id_body_model.value.slice(-2);
         id_body_model.value = "";
-        id_body_model.value = "04TB" + id_body_model.value.slice(-2);
+        id_body_model.value = "04TB" + karakterIdBodyModel;
 
         $.ajax({
             type: "POST", // or 'GET' depending on your server setup
@@ -1424,8 +1427,7 @@ function CerobongAtas() {
         );
 
         id_cerobongAtas_model.value = "";
-        id_cerobongAtas_model.value =
-            "04TB" + id_cerobongAtas_model.value.slice(-2);
+        id_cerobongAtas_model.value = "05CA" + id_cerobongAtas_model.value.slice(-2);
 
         $.ajax({
             type: "POST", // or 'GET' depending on your server setup
@@ -1466,8 +1468,7 @@ function CerobongBawah() {
         );
 
         id_cerobongBawah_model.value = "";
-        id_cerobongBawah_model.value =
-            "04TB" + id_cerobongBawah_model.value.slice(-2);
+        id_cerobongBawah_model.value = "06CB" + id_cerobongBawah_model.value.slice(-2);
 
         $.ajax({
             type: "POST", // or 'GET' depending on your server setup
@@ -3352,18 +3353,22 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         let XDenier;
                         let XDes, XWa, XWe;
 
-                        XDenier =
+                        let BeratWA, BeratWE;
+
+                        XDenier = parseInt(
                             parseFloat(warpKomponenCircular.value) *
                                 parseInt(denier_warpKomponenCircular.value) +
-                            parseFloat(weftKomponenCircular.value) *
-                                parseInt(denier_weftKomponenCircular.value);
-                        TBerat =
+                                parseFloat(weftKomponenCircular.value) *
+                                    parseInt(denier_weftKomponenCircular.value)
+                        );
+                        TBerat = Math.round(
                             (parseFloat(panjangKomponenCircular.value) *
                                 parseFloat(lebarKomponenCircular.value) *
                                 XDenier *
                                 parseFloat(quantityKomponenCircular.value)) /
-                            (2 * 1143000);
-                        TBeratWA =
+                                (2 * 1143000)
+                        );
+                        TBeratWA = Math.round(
                             (parseFloat(panjangKomponenCircular.value) *
                                 parseFloat(lebarKomponenCircular.value) *
                                 (parseFloat(warpKomponenCircular.value) *
@@ -3371,8 +3376,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                         denier_warpKomponenCircular.value
                                     )) *
                                 parseFloat(quantityKomponenCircular.value)) /
-                            (2 * 1143000);
-                        TBeratWE =
+                                (2 * 1143000)
+                        );
+                        TBeratWE = Math.round(
                             (parseFloat(panjangKomponenCircular.value) *
                                 parseFloat(lebarKomponenCircular.value) *
                                 (parseFloat(weftKomponenCircular.value) *
@@ -3380,8 +3386,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                         denier_weftKomponenCircular.value
                                     )) *
                                 parseFloat(quantityKomponenCircular.value)) /
-                            (2 * 1143000);
-
+                                (2 * 1143000)
+                        );
                         // Pembulatan
                         XDes = TBerat.toFixed(1);
                         XWa = TBeratWA.toFixed(1);
@@ -3400,61 +3406,42 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         }
 
                         if (parseInt(XWa.slice(-1)) === 0) {
-                            beratKomponenCircular.value = Math.round(TBeratWA);
+                            berat_warpKomponenCircular.value = Math.round(TBeratWA);
                         } else if (parseInt(XWa.slice(-1)) > 5) {
-                            beratKomponenCircular.value = Math.round(
-                                TBeratWA
-                            ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            });
+                            berat_warpKomponenCircular.value = Math.round(TBeratWA);
                         } else if (parseInt(XWa.slice(-1)) === 5) {
-                            TBeratWA = Math.ceil(TBeratWA);
-                            beratKomponenCircular.value = Math.round(TBeratWA);
+                            TBeratWA = Math.ceil(TBerat);
+                            berat_warpKomponenCircular.value = Math.round(TBeratWA);
                         } else {
-                            TBeratWA = Math.round(TBeratWA) + 1;
-                            beratKomponenCircular.value = Math.round(TBeratWA);
+                            BeratWA = TBeratWA
+                            TBeratWA = Math.round(TBerat) + 1;
+                            berat_warpKomponenCircular.value =
+                                Math.round(TBeratWA) + 1;
                         }
 
                         if (parseInt(XWe.slice(-1)) === 0) {
-                            berat_weftKomponenCircular.value = parseFloat(
-                                TBeratWE
-                            ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            });
+                            berat_weftKomponenCircular.value =
+                                Math.round(TBeratWE);
                         } else if (parseInt(XWe.slice(-1)) > 5) {
-                            berat_weftKomponenCircular.value = Math.round(
-                                TBeratWE
-                            ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            });
+                            berat_weftKomponenCircular.value =
+                                Math.round(TBeratWE);
                         } else if (parseInt(XWe.slice(-1)) === 5) {
-                            TBeratWE = Math.round(TBerat);
-                            berat_weftKomponenCircular.value = parseFloat(
-                                TBeratWE
-                            ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            });
+                            TBeratWE = Math.round(TBerat)
+                            berat_weftKomponenCircular.value =
+                                Math.round(TBeratWE);
                         } else {
-                            TBeratWE = Math.round(TBeratWE) + 1;
-                            berat_weftKomponenCircular.value = parseFloat(
-                                TBeratWE
-                            ).toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            });
+                            BeratWE = TBeratWE
+                            berat_weftKomponenCircular.value =
+                                Math.round(TBeratWE) + 1;
                         }
 
                         let Total =
-                            parseFloat(beratKomponenCircular.value) +
+                            parseFloat(berat_warpKomponenCircular.value) +
                             parseFloat(berat_weftKomponenCircular.value);
                         if (Total !== parseFloat(beratKomponenCircular.value)) {
-                            if (TBeratWA > 0) {
-                                beratKomponenCircular.value = (
-                                    parseFloat(beratKomponenCircular.value) - 1
+                            if (BeratWA > 0) {
+                                berat_warpKomponenCircular.value = (
+                                    parseFloat(berat_warpKomponenCircular.value) - 1
                                 ).toFixed(2);
                             } else {
                                 berat_weftKomponenCircular.value = (
@@ -9830,14 +9817,14 @@ btn_proses.addEventListener("click", async function (e) {
         await deleteDataTableHitungan();
     }
 
-    if (proses != 3) {
-        await loadDataKoreksi(nama_barang.value, customer.value);
-    }
-
     if (proses !== 1) {
         this.disabled = true;
     } else if (proses == 1) {
         proses = 2;
+    }
+
+    if (proses != 3) {
+        await loadDataKoreksi(nama_barang.value, customer.value);
     }
 });
 
@@ -9964,43 +9951,5 @@ hapus_komponen.addEventListener("click", function (event) {
         pilihTypeFormKomposisi(selectedData[0], selectedData[1]);
     }
 });
-//#endregion
-
-//#region test table Form Komponen Lami
-
-// const createdCell = function (cell, cellData, rowData, rowIndex, colIndex) {
-//     let original;
-//     cell.setAttribute("contenteditable", true);
-//     cell.setAttribute("spellcheck", false);
-
-//     cell.addEventListener("focus", function (e) {
-//         original = e.target.textContent;
-//     });
-
-//     cell.addEventListener("blur", function (e) {
-//         if (original !== e.target.textContent) {
-//             const row = table.row(e.target.parentElement);
-//             row.invalidate();
-//             console.log("Cell changed: ", e.target); // Logging the cell
-//             console.log("New content: ", e.target.textContent); // Logging the new content
-//             console.log("Column index: ", colIndex); // Logging the column index
-//             console.log(
-//                 "Column name: ",
-//                 table.column(colIndex).header().textContent
-//             ); // Logging the column name
-//             console.log("Row data: ", row.data()); // Logging the row data
-//             console.log(cell, cellData, rowData, rowIndex, colIndex); // Logging all parameters
-//         }
-//     });
-// };
-
-// const table = $("#example").DataTable({
-//     columnDefs: [
-//         {
-//             targets: "_all",
-//             createdCell: createdCell,
-//         },
-//     ],
-// });
 
 //#endregion
