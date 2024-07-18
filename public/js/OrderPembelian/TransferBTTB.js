@@ -34,6 +34,10 @@ let saldo_tertier = document.getElementById("saldo_tertier");
 let ket_saldoTertier = document.getElementById("ket_saldoTertier");
 let btn_transfer = document.getElementById("btn_transfer");
 let btn_koreksi = document.getElementById("btn_koreksi");
+const container = document.getElementById("formContainer");
+const elements = Array.from(
+    container.querySelectorAll("input, select, button")
+);
 
 let csrfToken = $('meta[name="csrf-token"]').attr("content");
 let NoTransTmp;
@@ -213,6 +217,23 @@ btn_transfer.addEventListener("click", function (event) {
             console.error("Error Send Data:", error);
         },
     });
+});
+
+container.addEventListener("keydown", function (event) {
+    if (event.key === "Tab") {
+        event.preventDefault();
+        const currentIndex = elements.indexOf(document.activeElement);
+        let nextIndex = currentIndex;
+
+        do {
+            nextIndex = (nextIndex + 1) % elements.length;
+        } while (
+            elements[nextIndex].hasAttribute("readonly") ||
+            elements[nextIndex].disabled
+        );
+
+        elements[nextIndex].focus();
+    }
 });
 
 function clearData() {
