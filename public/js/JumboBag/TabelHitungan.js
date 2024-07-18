@@ -115,6 +115,7 @@ let KompVarTinggiBB;
 let KompVarTebalInner;
 let KompVarStatusBelt = false;
 let karakterIdBodyModel;
+let tampilSwalFireUntukInsertMasterDanKdBrg = 0;
 //#region Load Form
 
 btn_isi.focus();
@@ -349,9 +350,195 @@ function loadDataKoreksi(kode_barang, nama_customer) {
             complete: function () {
                 // Hide loading screen
                 $("#loading-screen").css("display", "none");
+                if (tampilSwalFireUntukInsertMasterDanKdBrg) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Pemberitahuan",
+                        text:
+                            "Head Data Tabel Hitungan Kode : " +
+                            nama_barang.value +
+                            " sudah disimpan !",
+                    });
+                }
             }, // Pass the data with csrf_tokern
             success: function (datas) {
                 console.log(datas);
+                let parts = datas[0][0]["Tgl_Update"].split(" ")[0].split("-");
+                let tgl = parts[0] + "-" + parts[1] + "-" + parts[2];
+                tanggal_update.value = tgl;
+                if (proses == 2) {
+                    formEnabler(false);
+                }
+
+                //Bagian Body
+                body_bentuk.value = datas[1][0]["Bentuk_BB"];
+                body_panjang.value = parseFloat(
+                    datas[1][0]["Panjang_BB"]
+                ).toFixed(2);
+                body_lebar.value = parseFloat(datas[1][0]["Lebar_BB"]).toFixed(
+                    2
+                );
+                body_tinggi.value = parseFloat(
+                    datas[1][0]["Tinggi_BB"]
+                ).toFixed(2);
+                body_diameter.value = parseFloat(
+                    datas[1][0]["Diameter_BB"]
+                ).toFixed(2);
+                body_model.value = datas[1][0]["Nama_ModelBB"];
+                id_body_model.value = datas[1][0]["Model_BB"];
+
+                //Bagian Cerobong Atas
+                cerobongAtas_bentuk.value = datas[1][0]["Bentuk_CA"];
+                cerobongAtas_panjang.value = parseFloat(
+                    datas[1][0]["Panjang_CA"]
+                ).toFixed(2);
+                cerobongAtas_lebar.value = parseFloat(
+                    datas[1][0]["Lebar_CA"]
+                ).toFixed(2);
+                cerobongAtas_tinggi.value = parseFloat(
+                    datas[1][0]["Tinggi_CA"]
+                ).toFixed(2);
+                cerobongAtas_diameter.value = parseFloat(
+                    datas[1][0]["Diameter_CA"]
+                ).toFixed(2);
+                cerobongAtas_model.value = datas[1][0]["Nama_ModelCA"];
+                id_cerobongAtas_model.value = datas[1][0]["Model_CA"];
+
+                //Bagian Cerobong Bawah
+                cerobongBawah_bentuk.value = datas[1][0]["Bentuk_CB"];
+                cerobongBawah_panjang.value = parseFloat(
+                    datas[1][0]["Panjang_CB"]
+                ).toFixed(2);
+                cerobongBawah_lebar.value = parseFloat(
+                    datas[1][0]["Lebar_CB"]
+                ).toFixed(2);
+                cerobongBawah_tinggi.value = parseFloat(
+                    datas[1][0]["Tinggi_CB"]
+                ).toFixed(2);
+                cerobongBawah_diameter.value = parseFloat(
+                    datas[1][0]["Diameter_CB"]
+                ).toFixed(2);
+                cerobongBawah_model.value = datas[1][0]["Nama_ModelCB"];
+                id_cerobongBawah_model.value = datas[1][0]["Model_CB"];
+
+                //Bagian Reinforced
+                reinforced_lebar.value = datas[1][0]["Reinforced"];
+                reinforced_jumlah.value = datas[1][0]["JmlRein"] ?? 0;
+                reinforced_jarak.value = datas[1][0]["jarakrein"] ?? 0;
+                reinforced_beltrope.value = datas[1][0]["Belt_Rope"];
+                reinforced_warna.value = datas[1][0]["Warna"];
+                reinforced_loop.value = datas[1][0]["Jumlah_Loop"];
+                reinforced_tinggiloop.value = datas[1][0]["Tinggi_Loop"];
+                reinforced_SWL.value = datas[1][0]["SWL"];
+                reinforced_SF1.value = datas[1][0]["SF1"];
+                reinforced_SF2.value = datas[1][0]["SF2"];
+                reinforced_stdwaktu.value = datas[1][0]["Std_Waktu"] ?? 0;
+                reinforced_printing.value = datas[1][0]["Status_Printing"] ?? 0;
+                if (datas[1][0]["Lami"] == "N") {
+                    reinforced_lami.value = "No Lami";
+                    reinforced_tebal.value = 0;
+                } else {
+                    reinforced_lami.value = datas[1][0]["Status_Lami"];
+                    reinforced_tebal.value = datas[1][0]["Tebal_lami"];
+                }
+                if (datas[1][0]["Iner"] == "N") {
+                    reinforced_inner.value = 0;
+                } else {
+                    reinforced_inner.value = datas[1][0]["Tebal_Iner"];
+                }
+                reinforced_keterangan.value = datas[1][0]["Keterangan"];
+                jenis_barang.value = datas[1][0]["Usage_type"] ?? "-";
+                warna = "";
+                standarwaktu = reinforced_stdwaktu.value;
+
+                let dataToInsert = datas[2];
+                let index = 0;
+
+                $(document).ready(function () {
+                    if (tabelData.data().any()) {
+                        tabelData.clear().draw();
+                    }
+                    dataToInsert.forEach(function (obj) {
+                        // index += 1;
+                        tabelData.row
+                            .add([
+                                obj.Kode_Komponen,
+                                obj.Nama_Komponen,
+                                parseFloat(obj.Panjang_Potongan).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.Lebar_Potongan).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.WA_Rajutan).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.WE_Rajutan).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.Denier).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }),
+                                parseFloat(obj.Quantity).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.Berat).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }),
+                                parseFloat(obj.Harga).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }),
+                                parseFloat(obj.SubTotal).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                parseFloat(obj.Kounter_Komponen).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                ),
+                                // index,
+                            ])
+                            .draw();
+                    });
+                    if (proses == 2) {
+                        $("#tabelData tbody").on("click", "tr", function () {
+                            console.log("masuk #tabelData tbody click", this);
+                            // Remove 'selected' class from all rows
+                            tabelData.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                    }
+                });
                 resolve(); // Resolve the promise when the request is successful
             },
             error: function (xhr, status, error) {
@@ -359,187 +546,6 @@ function loadDataKoreksi(kode_barang, nama_customer) {
                 reject(error); // Reject the promise if an error occurs
             },
         });
-        // fetch("/GetDataKoreksi/" + kode_barang + "/" + nama_customer)
-        //     .then((response) => response.json())
-        //     .then((datas) => {
-        //         console.log(datas);
-        //         let parts = datas[0][0]["Tgl_Update"].split(" ")[0].split("-");
-        //         let tgl = parts[0] + "-" + parts[1] + "-" + parts[2];
-        //         tanggal_update.value = tgl;
-        //         if (proses == 2) {
-        //             formEnabler(false);
-        //         }
-
-        //         //Bagian Body
-        //         body_bentuk.value = datas[1][0]["Bentuk_BB"];
-        //         body_panjang.value = parseFloat(
-        //             datas[1][0]["Panjang_BB"]
-        //         ).toFixed(2);
-        //         body_lebar.value = parseFloat(datas[1][0]["Lebar_BB"]).toFixed(
-        //             2
-        //         );
-        //         body_tinggi.value = parseFloat(
-        //             datas[1][0]["Tinggi_BB"]
-        //         ).toFixed(2);
-        //         body_diameter.value = parseFloat(
-        //             datas[1][0]["Diameter_BB"]
-        //         ).toFixed(2);
-        //         body_model.value = datas[1][0]["Nama_ModelBB"];
-        //         id_body_model.value = datas[1][0]["Model_BB"];
-
-        //         //Bagian Cerobong Atas
-        //         cerobongAtas_bentuk.value = datas[1][0]["Bentuk_CA"];
-        //         cerobongAtas_panjang.value = parseFloat(
-        //             datas[1][0]["Panjang_CA"]
-        //         ).toFixed(2);
-        //         cerobongAtas_lebar.value = parseFloat(
-        //             datas[1][0]["Lebar_CA"]
-        //         ).toFixed(2);
-        //         cerobongAtas_tinggi.value = parseFloat(
-        //             datas[1][0]["Tinggi_CA"]
-        //         ).toFixed(2);
-        //         cerobongAtas_diameter.value = parseFloat(
-        //             datas[1][0]["Diameter_CA"]
-        //         ).toFixed(2);
-        //         cerobongAtas_model.value = datas[1][0]["Nama_ModelCA"];
-        //         id_cerobongAtas_model.value = datas[1][0]["Model_CA"];
-
-        //         //Bagian Cerobong Bawah
-        //         cerobongBawah_bentuk.value = datas[1][0]["Bentuk_CB"];
-        //         cerobongBawah_panjang.value = parseFloat(
-        //             datas[1][0]["Panjang_CB"]
-        //         ).toFixed(2);
-        //         cerobongBawah_lebar.value = parseFloat(
-        //             datas[1][0]["Lebar_CB"]
-        //         ).toFixed(2);
-        //         cerobongBawah_tinggi.value = parseFloat(
-        //             datas[1][0]["Tinggi_CB"]
-        //         ).toFixed(2);
-        //         cerobongBawah_diameter.value = parseFloat(
-        //             datas[1][0]["Diameter_CB"]
-        //         ).toFixed(2);
-        //         cerobongBawah_model.value = datas[1][0]["Nama_ModelCB"];
-        //         id_cerobongBawah_model.value = datas[1][0]["Model_CB"];
-
-        //         //Bagian Reinforced
-        //         reinforced_lebar.value = datas[1][0]["Reinforced"];
-        //         reinforced_jumlah.value = datas[1][0]["JmlRein"] ?? 0;
-        //         reinforced_jarak.value = datas[1][0]["jarakrein"] ?? 0;
-        //         reinforced_beltrope.value = datas[1][0]["Belt_Rope"];
-        //         reinforced_warna.value = datas[1][0]["Warna"];
-        //         reinforced_loop.value = datas[1][0]["Jumlah_Loop"];
-        //         reinforced_tinggiloop.value = datas[1][0]["Tinggi_Loop"];
-        //         reinforced_SWL.value = datas[1][0]["SWL"];
-        //         reinforced_SF1.value = datas[1][0]["SF1"];
-        //         reinforced_SF2.value = datas[1][0]["SF2"];
-        //         reinforced_stdwaktu.value = datas[1][0]["Std_Waktu"] ?? 0;
-        //         reinforced_printing.value = datas[1][0]["Status_Printing"] ?? 0;
-        //         if (datas[1][0]["Lami"] == "N") {
-        //             reinforced_lami.value = "No Lami";
-        //             reinforced_tebal.value = 0;
-        //         } else {
-        //             reinforced_lami.value = datas[1][0]["Status_Lami"];
-        //             reinforced_tebal.value = datas[1][0]["Tebal_lami"];
-        //         }
-        //         if (datas[1][0]["Iner"] == "N") {
-        //             reinforced_inner.value = 0;
-        //         } else {
-        //             reinforced_inner.value = datas[1][0]["Tebal_Iner"];
-        //         }
-        //         reinforced_keterangan.value = datas[1][0]["Keterangan"];
-        //         jenis_barang.value = datas[1][0]["Usage_type"] ?? "-";
-        //         warna = "";
-        //         standarwaktu = reinforced_stdwaktu.value;
-
-        //         let dataToInsert = datas[2];
-        //         let index = 0;
-
-        //         $(document).ready(function () {
-        //             if (tabelData.data().any()) {
-        //                 tabelData.clear().draw();
-        //             }
-        //             dataToInsert.forEach(function (obj) {
-        //                 // index += 1;
-        //                 tabelData.row
-        //                     .add([
-        //                         obj.Kode_Komponen,
-        //                         obj.Nama_Komponen,
-        //                         parseFloat(obj.Panjang_Potongan).toLocaleString(
-        //                             "en-US",
-        //                             {
-        //                                 minimumFractionDigits: 2,
-        //                                 maximumFractionDigits: 2,
-        //                             }
-        //                         ),
-        //                         parseFloat(obj.Lebar_Potongan).toLocaleString(
-        //                             "en-US",
-        //                             {
-        //                                 minimumFractionDigits: 2,
-        //                                 maximumFractionDigits: 2,
-        //                             }
-        //                         ),
-        //                         parseFloat(obj.WA_Rajutan).toLocaleString(
-        //                             "en-US",
-        //                             {
-        //                                 minimumFractionDigits: 2,
-        //                                 maximumFractionDigits: 2,
-        //                             }
-        //                         ),
-        //                         parseFloat(obj.WE_Rajutan).toLocaleString(
-        //                             "en-US",
-        //                             {
-        //                                 minimumFractionDigits: 2,
-        //                                 maximumFractionDigits: 2,
-        //                             }
-        //                         ),
-        //                         parseFloat(obj.Denier).toLocaleString("en-US", {
-        //                             minimumFractionDigits: 2,
-        //                             maximumFractionDigits: 2,
-        //                         }),
-        //                         parseFloat(obj.Quantity).toLocaleString(
-        //                             "en-US",
-        //                             {
-        //                                 minimumFractionDigits: 2,
-        //                                 maximumFractionDigits: 2,
-        //                             }
-        //                         ),
-        //                         parseFloat(obj.Berat).toLocaleString("en-US", {
-        //                             minimumFractionDigits: 2,
-        //                             maximumFractionDigits: 2,
-        //                         }),
-        //                         parseFloat(obj.Harga).toLocaleString("en-US", {
-        //                             minimumFractionDigits: 2,
-        //                             maximumFractionDigits: 2,
-        //                         }),
-        //                         parseFloat(obj.SubTotal).toLocaleString(
-        //                             "en-US",
-        //                             {
-        //                                 minimumFractionDigits: 2,
-        //                                 maximumFractionDigits: 2,
-        //                             }
-        //                         ),
-        //                         parseFloat(obj.Kounter_Komponen).toLocaleString(
-        //                             "en-US",
-        //                             {
-        //                                 minimumFractionDigits: 2,
-        //                                 maximumFractionDigits: 2,
-        //                             }
-        //                         ),
-        //                         // index,
-        //                     ])
-        //                     .draw();
-        //             });
-        //             if (proses == 2) {
-        //                 $("#tabelData tbody").on("click", "tr", function () {
-        //                     console.log("masuk #tabelData tbody click", this);
-        //                     // Remove 'selected' class from all rows
-        //                     tabelData.$("tr.selected").removeClass("selected");
-        //                     // Add 'selected' class to the clicked row
-        //                     $(this).addClass("selected");
-        //                 });
-        //             }
-        //         });
-        //     });
     });
 }
 
@@ -646,14 +652,7 @@ function insertMasterDanKodeBarang() {
             success: function (response) {
                 // Handle the successful response from the controller
                 if (response.success) {
-                    Swal.fire({
-                        icon: "info",
-                        title: "Pemberitahuan",
-                        text:
-                            "Head Data Tabel Hitungan Kode : " +
-                            nama_barang.value +
-                            " sudah disimpan !",
-                    });
+                    tampilSwalFireUntukInsertMasterDanKdBrg = 1;
                 }
                 console.log(response);
                 resolve(); // Resolve the promise when the request is successful
@@ -9752,6 +9751,7 @@ reinforced_inner.addEventListener("keypress", function (e) {
 });
 
 btn_proses.addEventListener("click", async function (e) {
+    $("#loading-screen").css("display", "flex");
     if (proses == 1) {
         tambah_komponen.disabled = false;
         koreksi_komponen.disabled = false;
@@ -9850,6 +9850,7 @@ btn_proses.addEventListener("click", async function (e) {
         proses = 2;
     }
 
+    $("#loading-screen").css("display", "none");
     if (proses != 3) {
         await loadDataKoreksi(nama_barang.value, customer.value);
     }

@@ -6,7 +6,6 @@
     <script>
         $(document).ready(function() {
             $('#table_Approve').DataTable({
-                searching: false,
                 order: [
                     [4, 'asc']
                 ],
