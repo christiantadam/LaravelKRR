@@ -241,14 +241,15 @@ function LoadPermohonan(data) {
         rowCallback: function (row, data) {
             $(row).on("dblclick", function (event) {
                 clearData();
+                console.log(data);
                 no_po.value = data.No_trans;
                 kode_barang.value = data.Kd_brg;
                 nama_barang.value = data.NAMA_BRG;
                 sub_kategori.value = data.nama_sub_kategori;
-                qty_order.value = parseFloat(data.Qty).toFixed(2);
+                qty_order.value = parseFloat(data.Qty).toFixed(4);
                 keterangan_order.value = data.keterangan || "-";
                 keterangan_internal.value = data.Ket_Internal || "-";
-                qty_delay.value = parseFloat(data.QtyCancel).toFixed(2);
+                qty_delay.value = parseFloat(data.QtyCancel).toFixed(4);
                 harga_unit.value = numeral(parseFloat(data.PriceUnit)).format(
                     "0,0.0000"
                 );
@@ -271,14 +272,14 @@ function LoadPermohonan(data) {
                 idr_ppn.value = numeral(parseFloat(data.PPN)).format(
                     "0,0.0000"
                 );
-                disc.value = numeral(parseFloat(data.Disc)).format("0,0.00");
+                disc.value = numeral(parseFloat(data.Disc)).format("0,0.0000");
                 total_disc.value = numeral(parseFloat(data.harga_disc)).format(
                     "0,0.0000"
                 );
                 idr_total_disc.value = numeral(parseFloat(data.DiscIDR)).format(
                     "0,0.0000"
                 );
-                kurs.value = parseFloat(data.Currency).toFixed(4);
+                kurs.value = parseFloat(data.Kurs).toFixed(4);
                 $("#ppn_select").val(data.IdPPN);
                 fixValueQTYOrder = data.Qty;
                 btn_update.disabled = false;
@@ -548,7 +549,6 @@ function print(data) {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
           });
-
 
     const ppnFix = !ppn
         .toLocaleString("en-US", {

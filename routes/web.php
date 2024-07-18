@@ -973,6 +973,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region Jumbo Bag
     Route::get('JumboBag', 'App\Http\Controllers\HomeController@JumboBag');
+
     Route::resource('TabelHitunganJBB', App\Http\Controllers\JumboBag\TabelHitunganJumboBag::class);
     Route::post('getDataCustomerJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataCustomerJBB');
     Route::post('getDataTambahKomponenJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataTambahKomponenJBB');
@@ -986,7 +987,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('GetDataTglUpdateTH/{kodeBarang}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataTglUpdateTH');
     // Route::get('GetDataHeadTH/{kodeBarang}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataHeadTH');
     // Route::get('GetDataRincianTH/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataRincianTH');
-    Route::get('GetDataKoreksi/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataKoreksi');
+    Route::get('GetDataKoreksiJBB/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataKoreksi');
 
     Route::resource('MaintenanceCustomer', App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class);
     Route::get('/api/customers', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'getCustomers']);
