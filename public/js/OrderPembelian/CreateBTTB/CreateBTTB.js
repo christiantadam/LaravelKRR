@@ -955,91 +955,87 @@ $("#updatebutton").on("click", function () {
 });
 
 $(document).ready(function () {
-    qty_received.addEventListener("input", function (event) {
-        this.setCustomValidity("");
+    const qtyReceivedElement = document.getElementById("qty_received");
+    const kodeBarangElement = document.getElementById("kode_barang");
+    const qtyRemainingElement = document.getElementById("qty_remaining");
+    const qtyShipElement = document.getElementById("qty_ship");
 
-        // Daftar kode barang yang diizinkan untuk melebihi 15% dari QTY Order
-        const allowedCodes = [
-            "000093120",
-            "000112089",
-            "000125147",
-            "000128488",
-            "000128489",
-            "000128782",
-            "000130323",
-            "000131238",
-            "000137554",
-            "000137789",
-            "000139279",
-            "000140582",
-        ];
+    // Daftar kode barang yang diizinkan untuk melebihi 15% dari QTY Order
+    const allowedCodes = [
+        "000093120",
+        "000112089",
+        "000125147",
+        "000128488",
+        "000128489",
+        "000128782",
+        "000130323",
+        "000131238",
+        "000137554",
+        "000137789",
+        "000139279",
+        "000140582",
+    ];
 
-        // Fungsi untuk memeriksa apakah kode barang diizinkan
-        function isAllowedCode(barangCode) {
-            return allowedCodes.includes(barangCode);
+    // Fungsi untuk memeriksa apakah kode barang diizinkan
+    function isAllowedCode(barangCode) {
+        return allowedCodes.includes(barangCode);
+    }
+
+    qtyReceivedElement.addEventListener("input", function () {
+        // Store previous valid value
+        if (!this.oldValue && this.oldValue !== 0) {
+            this.oldValue = this.value;
         }
 
-        // Elemen input dan kode barang
-        const qtyReceivedElement = document.getElementById("qty_received");
-        const kodeBarangElement = document.getElementById("kode_barang");
-        const qtyRemainingElement = document.getElementById("qty_remaining");
-        const qtyShipElement = document.getElementById("qty_ship");
+        const barangCode = kodeBarangElement.value;
+        const isAllowed = isAllowedCode(barangCode);
+        const maxLimit = isAllowed
+            ? Math.round(fixValueQTYOrder * 1.15) // Batas maksimum ditetapkan sebagai 115% dari QTY Order
+            : fixValueQTYOrder;
 
-        qtyReceivedElement.addEventListener("input", function () {
-            // Store previous valid value
-            if (!this.oldValue && this.oldValue !== 0) {
-                this.oldValue = this.value;
+        if (this.value === "") {
+            // Jika input kosong, kosongkan field terkait dan reset oldValue
+            qtyRemainingElement.value = "";
+            qtyShipElement.value = "";
+            this.oldValue = "";
+        } else if (
+            !isNaN(this.value) &&
+            parseFloat(this.value) <= parseFloat(maxLimit)
+        ) {
+            let qtyReceivedValue = parseFloat(this.value);
+            let sisa = parseFloat(
+                fixValueQTYOrder -
+                    (qtyReceivedValue - fixValueQTYReceived) -
+                    fixValueQTYShip
+            );
+
+            if (sisa <= maxLimit && sisa >= 0) {
+                qtyRemainingElement.value = sisa.toFixed(2);
+                qtyShipElement.value = (
+                    fixValueQTYShip +
+                    (qtyReceivedValue - fixValueQTYReceived)
+                ).toFixed(2);
+            } else if (sisa < 0) {
+                qtyRemainingElement.value = "0.00";
+                qtyShipElement.value = (
+                    qtyReceivedValue - fixValueQTYReceived
+                ).toFixed(2);
             }
 
-            const barangCode = kodeBarangElement.value;
-            const isAllowed = isAllowedCode(barangCode);
-            const maxLimit = isAllowed
-                ? Math.round(fixValueQTYOrder * 1.15) // Batas maksimum ditetapkan sebagai 115% dari QTY Order
-                : fixValueQTYOrder;
+            // Update oldValue
+            this.oldValue = this.value;
+        } else {
+            // Restore previous valid value
+            this.value = this.oldValue;
 
-            if (this.value === "") {
-                // Jika input kosong, kosongkan field terkait dan reset oldValue
-                qtyRemainingElement.value = "";
-                qtyShipElement.value = "";
-                this.oldValue = "";
-            } else if (
-                !isNaN(this.value) &&
-                parseFloat(this.value) <= parseFloat(maxLimit)
-            ) {
-                let qtyReceivedValue = parseFloat(this.value);
-                let sisa = parseFloat(
-                    fixValueQTYOrder -
-                        (qtyReceivedValue - fixValueQTYReceived) -
-                        fixValueQTYShip
-                );
+            // Show custom error message
+            this.setCustomValidity(
+                "Tidak boleh character, harus angka. Tidak boleh melebihi Quantity Order"
+            );
+            this.reportValidity();
+        }
 
-                if (sisa <= maxLimit && sisa >= 0) {
-                    qtyRemainingElement.value = sisa.toFixed(2);
-                    qtyShipElement.value = (
-                        fixValueQTYShip +
-                        (qtyReceivedValue - fixValueQTYReceived)
-                    ).toFixed(2);
-                } else if (sisa < 0) {
-                    qtyRemainingElement.value = "0.00";
-                    qtyShipElement.value = (
-                        qtyReceivedValue - fixValueQTYReceived
-                    ).toFixed(2);
-                }
-
-                // Update oldValue
-                this.oldValue = this.value;
-            } else {
-                // Restore previous valid value
-                this.value = this.oldValue;
-
-                // Show custom error message
-                this.setCustomValidity(
-                    "Tidak boleh character, harus angka. Tidak boleh melebihi Quantity Order"
-                );
-                this.reportValidity();
-            }
-        });
-
+        // Panggil fungsi pembaruan setelah setiap perubahan input
         updateDisc();
         updateIdrUnit();
         updateSubTotalDisc();
@@ -1059,18 +1055,16 @@ $(document).ready(function () {
             },
             "Tidak boleh character, harus angka"
         );
+
         updateIdrUnit();
-        // updateSubTotal();
         updateSubTotalDisc();
         updateIDRSubTotal();
         updateIDRPPN();
         updatePPN();
         updateHargaTotal();
         updateIDRHargaTotal();
-        // updateIDRDisc();
         updateTotalDisc();
         updateIDRDiscTotal();
-        // updateDisc();
     });
 
     harga_unit.addEventListener("input", function (event) {
@@ -1081,18 +1075,16 @@ $(document).ready(function () {
             },
             "Tidak boleh character, harus angka"
         );
+
         updateIdrUnit();
-        // updateSubTotal();
         updateSubTotalDisc();
         updateIDRSubTotal();
         updateIDRPPN();
         updatePPN();
         updateHargaTotal();
         updateIDRHargaTotal();
-        // updateDisc();
         updateTotalDisc();
         updateIDRDiscTotal();
-        // updateIDRDisc();
     });
 
     ppn_select.addEventListener("change", function (event) {
@@ -1101,6 +1093,7 @@ $(document).ready(function () {
         updateHargaTotal();
         updateIDRHargaTotal();
     });
+
     disc.addEventListener("input", function (event) {
         setInputFilter(
             document.getElementById("disc"),
@@ -1109,6 +1102,7 @@ $(document).ready(function () {
             },
             "Tidak boleh character, harus angka"
         );
+
         updateIdrUnit();
         updateSubTotal();
         updateIDRSubTotal();
@@ -1128,6 +1122,7 @@ $(document).ready(function () {
             },
             "Tidak boleh character, harus angka"
         );
+
         updateIdrUnit();
         updateSubTotalDisc();
         updateIDRSubTotal();
@@ -1138,6 +1133,7 @@ $(document).ready(function () {
         updateTotalDisc();
         updateIDRDiscTotal();
     });
+
     qty_received.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             qty_received.value = parseFloat(qty_received.value).toFixed(2);
@@ -1179,5 +1175,6 @@ $(document).ready(function () {
         }
     });
 });
+
 
 //#endregion
