@@ -108,6 +108,7 @@ button_proses.addEventListener("click", function () {
         alert("Isi kode barang lebih dulu!");
         kode_barang.focus();
     } else {
+        $("#loading-screen").css("display", "flex");
         const form = new FormData();
         let kodeFilter = "";
         if (checkbox_Tanggal.checked == true) {
@@ -178,7 +179,10 @@ button_proses.addEventListener("click", function () {
                 });
                 jumlah_data.innerHTML = data.length;
             })
-            .catch((error) => console.error(error));
+            .catch((error) => console.error(error))
+            .finally(() => {
+                $("#loading-screen").css("display", "none");
+            });
         div_tableBarcode.style.display = "block";
         jumlah_dataKolom.style.visibility = "visible";
     }
@@ -199,6 +203,7 @@ switch_idType.addEventListener("click", function () {
 kode_barang.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
+        $("#loading-screen").css("display", "flex");
         let kodeBarang9digit;
         kodeBarang9digit = document.getElementById("kode_barang");
         if (kodeBarang9digit.value.length < 9) {
@@ -213,16 +218,21 @@ kode_barang.addEventListener("keypress", function (event) {
                     id_typeSelect.innerHTML =
                         "<option disabled selected value>-- Pilih Id Type --</option>";
                     id_type.innerHTML = "";
-                    options.forEach((option) => {
-                        let optionTagSelect = document.createElement("option");
-                        optionTagSelect.value = option.id_type_tujuan;
-                        optionTagSelect.text = option.id_type_tujuan;
-                        id_typeSelect.appendChild(optionTagSelect);
+                    options
+                        .forEach((option) => {
+                            let optionTagSelect =
+                                document.createElement("option");
+                            optionTagSelect.value = option.id_type_tujuan;
+                            optionTagSelect.text = option.id_type_tujuan;
+                            id_typeSelect.appendChild(optionTagSelect);
 
-                        let optionTag = document.createElement("option");
-                        optionTag.value = option.id_type_tujuan;
-                        id_type.appendChild(optionTag);
-                    });
+                            let optionTag = document.createElement("option");
+                            optionTag.value = option.id_type_tujuan;
+                            id_type.appendChild(optionTag);
+                        })
+                        .finally(() => {
+                            $("#loading-screen").css("display", "none");
+                        });
                 });
         } else {
             fetch("/cariBarcodeIdTypeTmpGudang/" + kode_barang.value)
@@ -232,16 +242,21 @@ kode_barang.addEventListener("keypress", function (event) {
                     id_typeSelect.innerHTML =
                         "<option disabled selected value>-- Pilih Id Type --</option>";
                     id_type.innerHTML = "";
-                    options.forEach((option) => {
-                        let optionTagSelect = document.createElement("option");
-                        optionTagSelect.value = option.id_type_tujuan;
-                        optionTagSelect.text = option.id_type_tujuan;
-                        id_typeSelect.appendChild(optionTagSelect);
+                    options
+                        .forEach((option) => {
+                            let optionTagSelect =
+                                document.createElement("option");
+                            optionTagSelect.value = option.id_type_tujuan;
+                            optionTagSelect.text = option.id_type_tujuan;
+                            id_typeSelect.appendChild(optionTagSelect);
 
-                        let optionTag = document.createElement("option");
-                        optionTag.value = option.id_type_tujuan;
-                        id_type.appendChild(optionTag);
-                    });
+                            let optionTag = document.createElement("option");
+                            optionTag.value = option.id_type_tujuan;
+                            id_type.appendChild(optionTag);
+                        })
+                        .finally(() => {
+                            $("#loading-screen").css("display", "none");
+                        });
                 });
         }
         id_typeSelect.focus();

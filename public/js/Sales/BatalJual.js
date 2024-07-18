@@ -64,6 +64,7 @@ setInputFilter(
 kode_barang.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         event.preventDefault();
+        $("#loading-screen").css("display", "flex");
         if (kode_barang.value == "") {
             alert("Isi kode barang lebih dulu!");
             kode_barang.focus();
@@ -100,6 +101,8 @@ kode_barang.addEventListener("keypress", function (event) {
                         $(this).toggleClass("selected");
                         selectedRows = table.rows(".selected").data().toArray();
                     });
+                }).finally(() => {
+                    $("#loading-screen").css("display", "none");
                 });
             div_proses.style.display = "block";
         }

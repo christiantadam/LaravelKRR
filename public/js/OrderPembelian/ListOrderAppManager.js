@@ -72,6 +72,10 @@ buttonRedisplay.addEventListener("click", function (event) {
                 MinDate: tglAwal.value + " " + jamAwal.value,
                 MaxDate: tglAkhir.value + " " + jamAkhir.value,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 if (response.recordTotal != 0) {
                     checkedAll.disabled = false;
@@ -81,6 +85,10 @@ buttonRedisplay.addEventListener("click", function (event) {
             },
             error: function (error) {
                 console.error("Error fetching data from server:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     } else if (filter_radioButtonNomorOrder.checked == true) {
@@ -93,6 +101,10 @@ buttonRedisplay.addEventListener("click", function (event) {
             data: {
                 noOrder: nomor_order.value.trim(),
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 if (response.recordTotal != 0) {
                     checkedAll.disabled = false;
@@ -102,12 +114,17 @@ buttonRedisplay.addEventListener("click", function (event) {
             error: function (error) {
                 console.error("Error fetching data from server:", error);
             },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     }
 });
 
 function inisialisasiDataTable(response) {
     let table = $("#table_ListOrder").DataTable({
+        processing: true,
         responsive: true,
         scrollX: true,
         scrollY: "400px",
@@ -283,6 +300,10 @@ $(document).ready(function () {
     $.ajax({
         url: "/ListOrderAppManager/Divisi",
         type: "GET",
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             response.forEach(function (data) {
                 let option = document.createElement("option");
@@ -293,6 +314,10 @@ $(document).ready(function () {
         },
         error: function (error) {
             console.error("Error Fetch Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 });

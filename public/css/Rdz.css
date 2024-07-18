@@ -324,17 +324,17 @@ table tr:last-child td:last-child {
 }
 
 #part1 {
-    background-image: url('/images/merah.png');
+    background-image: url("/images/merah.png");
     animation: move1 2s infinite;
 }
 
 #part2 {
-    background-image: url('/images/kuning.png');
+    background-image: url("/images/kuning.png");
     animation: move2 2s infinite;
 }
 
 #part3 {
-    background-image: url('/images/biru.png');
+    background-image: url("/images/biru.png");
     animation: move3 2s infinite;
 }
 

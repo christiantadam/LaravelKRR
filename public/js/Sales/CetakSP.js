@@ -24,6 +24,7 @@ let keterangan_kolom = document.getElementById("keterangan_kolom");
 let nama_salesKolom = document.getElementById("nama_salesKolom");
 let lihat_sp = document.getElementById("lihat_sp");
 let print_pdf = document.getElementById("print_pdf");
+let loading_screen = document.getElementById("loading-screen");
 let table_sp = $("#table_sp").DataTable({
     searching: false,
     paging: false,
@@ -102,7 +103,7 @@ lihat_sp.addEventListener("click", function (event) {
 
 print_button.addEventListener("click", function (event) {
     event.preventDefault();
-
+    $("#loading-screen").css("display", "flex");
     if (no_spText.value == "") {
         alert("Pilih Surat Pesanan dulu!");
         no_sp.focus();
@@ -111,7 +112,6 @@ print_button.addEventListener("click", function (event) {
         contoh_print.style.display = "inline-block";
         print_pdf.style.display = "inline-block";
         contoh_printDiv.style.display = "block";
-
         fetch("/viewprint/" + no_spText.value)
             .then((response) => response.json())
             .then((data) => {
@@ -182,6 +182,9 @@ print_button.addEventListener("click", function (event) {
                 }
                 keterangan_kolom.innerHTML = ketWithLineBreaks;
                 nama_salesKolom.innerHTML = data[0].NamaSales;
+            })
+            .finally(() => {
+                $("#loading-screen").css("display", "none");
             });
     }
     table_sp.draw();

@@ -842,6 +842,10 @@ post_btn.addEventListener("click", function (event) {
         $.ajax({
             url: "/CCreateBTTB/CreateNoBTTB",
             type: "GET",
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: async function (response) {
                 nobttb.value = response.data;
                 console.log(response.data); // console.log untuk tracing gagal post BTTB
@@ -850,6 +854,10 @@ post_btn.addEventListener("click", function (event) {
             },
             error: function (error) {
                 console.error("Error Send Data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     } else {
@@ -866,6 +874,10 @@ po.addEventListener("keypress", function (event) {
             type: "GET",
             data: {
                 noPO: po.value.trim(),
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
             },
             success: function (response) {
                 if (response.length == 0) {
@@ -885,6 +897,10 @@ po.addEventListener("keypress", function (event) {
             },
             error: function (error) {
                 console.error("Error Fetch Data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     }

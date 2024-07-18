@@ -13,11 +13,19 @@ btn_proses.addEventListener("click", function (event) {
         data: {
             No_Terima: no_terima.value,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             console.log(response);
         },
         error: function (error) {
             console.error("Error Send Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 });

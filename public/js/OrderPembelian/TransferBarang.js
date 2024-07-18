@@ -132,6 +132,10 @@ $(document).ready(function () {
     $.ajax({
         url: "/TransferBrg/Divisi",
         type: "GET",
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             response.forEach(function (data) {
                 let option = document.createElement("option");
@@ -142,6 +146,10 @@ $(document).ready(function () {
         },
         error: function (error) {
             console.error("Error Fetch Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 });

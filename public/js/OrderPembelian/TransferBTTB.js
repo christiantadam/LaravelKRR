@@ -157,6 +157,10 @@ btn_koreksi.addEventListener("click", function (event) {
             NoTransTmp: NoTransTmp,
             ket: keterangan.value,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             Swal.fire({
                 icon: "success",
@@ -174,6 +178,10 @@ btn_koreksi.addEventListener("click", function (event) {
                 timer: "2000",
             });
             console.error("Error Send Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 });
@@ -196,6 +204,10 @@ btn_transfer.addEventListener("click", function (event) {
             YTanggal: tanggal.value,
             NoPib: no_pib.value,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             Swal.fire({
                 icon: "success",
@@ -215,6 +227,10 @@ btn_transfer.addEventListener("click", function (event) {
                 timer: "2000",
             });
             console.error("Error Send Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 });

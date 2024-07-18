@@ -6,6 +6,10 @@ $(function () {
         url: window.location.origin+"/Approve/"+$(this).data('id')+"/show",
         type: 'get',
         data: '_token = <?php echo csrf_token() ?>', // Remember that you need to have your csrf token included
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function( data ){
           document.getElementById("KategoriUtama").innerHTML="Kategori Utama: "+data.data.KatUtama;
           document.getElementById("Kategori").innerHTML="Kategori: "+data.data.kategori;
@@ -88,7 +92,11 @@ $(function () {
         error: function(xhr, status, error){
             let err = eval("(" + xhr.responseText + ")");
             alert(err.Message);
-        }
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
     });
 
     let $url=$(this).attr('href');

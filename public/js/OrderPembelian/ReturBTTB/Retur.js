@@ -159,6 +159,10 @@ function hangusInv() {
         data: {
             IdType: type.value.trim(),
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             console.log(response);
             if (response[0].jumlah >= 1) {
@@ -172,6 +176,10 @@ function hangusInv() {
         },
         error: function (error) {
             console.error("Error sending data to the server:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 }
@@ -194,6 +202,10 @@ function invInsertTmp() {
             XTujuanIdSubKelompok: objekDitemukan[0].IdSubkelompok,
             XUraianDetailTransaksi: alasan.value,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             console.log(response);
             if (response.status == true) {
@@ -204,6 +216,10 @@ function invInsertTmp() {
         },
         error: function (error) {
             console.error("Error sending data to the server:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 }
@@ -221,12 +237,20 @@ function accHangus(data) {
             JumlahKeluarSekunder: sekunder.value,
             JumlahKeluarTritier: tertier.value,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             alert("Data Sudah Tersimpan");
             retur(unitMode);
         },
         error: function (error) {
             console.error("Error sending data to the server:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 }
@@ -309,6 +333,10 @@ function retur(mode) {
             alasan: alasan.value,
             qtyRetur: qtyRetur,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             console.log("retur", response);
             Swal.fire({
@@ -331,6 +359,10 @@ function retur(mode) {
             });
             console.error("Error sending data to the server:", error);
         },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
     });
 }
 
@@ -345,6 +377,10 @@ batalbutton.addEventListener("click", function (event) {
             Terima: id_terima.value.trim(),
             tglRetur: tanggalretur.value,
             alasan: alasan.value,
+        },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
         },
         success: function (response) {
             console.log(response);
@@ -367,6 +403,10 @@ batalbutton.addEventListener("click", function (event) {
             });
             console.error("Error sending data to the server:", error);
         },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
     });
 });
 
@@ -376,6 +416,10 @@ function loadPermohonan() {
         url: "/RReturBTTB/Display",
         data: {
             noPO: nomor_po.value.trim(),
+        },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
         },
         success: function (response) {
             tabelretur.clear().draw();
@@ -406,6 +450,10 @@ function loadPermohonan() {
         },
         error: function (error) {
             console.error("Error sending data to the server:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 }
@@ -516,6 +564,10 @@ function checkInn(data) {
         data: {
             kodebarang: data,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             console.log(response);
             if (response.length != 0) {
@@ -535,6 +587,10 @@ function checkInn(data) {
         },
         error: function (error) {
             console.error("Error sending data to the server:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 }

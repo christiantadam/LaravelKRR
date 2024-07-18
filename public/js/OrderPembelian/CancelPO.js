@@ -47,6 +47,10 @@ function dropdownData() {
         data: {
             noPO: noPODropdown.value.trim(),
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             if (response.data.length == 0) {
                 supplierDropdown.selectedIndex = 0;
@@ -71,6 +75,10 @@ function dropdownData() {
         },
         error: function (error) {
             console.error("Error Fetch Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 }
@@ -114,6 +122,10 @@ document.getElementById("removebutton").addEventListener("click", function () {
             QtyCancel: qty_cancel.value,
             alasan: alasan_cancel.value,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             console.log(response);
             Swal.fire({
@@ -134,6 +146,10 @@ document.getElementById("removebutton").addEventListener("click", function () {
             });
             console.error("Error: " + error);
         },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
     });
 });
 
@@ -148,6 +164,10 @@ document.getElementById("buttoncancel").addEventListener("click", function () {
             noTrans: no_po.value,
             QtyCancel: qty_cancel.value,
             alasan: alasan_cancel.value,
+        },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
         },
         success: function (response) {
             // Lakukan sesuatu setelah pembatalan selesai
@@ -169,6 +189,10 @@ document.getElementById("buttoncancel").addEventListener("click", function () {
                 timer: "2000",
             });
             console.error("Error: " + error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 });

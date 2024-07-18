@@ -19,6 +19,7 @@ $(document).ready(function () {
 });
 
 let table = $("#table_dataBarcode").DataTable({
+    processing: true,
     data: data_kodeBarang,
     columns: [
         { data: null },

@@ -71,6 +71,7 @@ print_pdf.style.display = "none";
 //#region Event Listener
 
 print_button.addEventListener("click", function () {
+    $("#loading-screen").css("display", "flex");
     if (no_sjText.value == "" && no_sp.value == "") {
         alert("Kolom Nomor SJ dan Nomor SP tidak boleh kosong!");
         return;
@@ -126,6 +127,8 @@ print_button.addEventListener("click", function () {
                 contoh_printDiv.style.display = "block";
                 export_pdf.style.display = "inline-block";
                 print_pdf.style.display = "inline-block";
+            }).finally(() => {
+                $("#loading-screen").css("display", "none");
             });
     } else if (surat_jalanNonPPN.checked == true) {
         //coming soon
@@ -189,6 +192,8 @@ print_button.addEventListener("click", function () {
                     contoh_printSjEksportDiv.style.display = "block";
                     export_pdf.style.display = "inline-block";
                     print_pdf.style.display = "inline-block";
+                }).finally(() => {
+                    $("#loading-screen").css("display", "none");
                 });
         } else {
             alert("SJ yang dipilih bukan SJ Export!");

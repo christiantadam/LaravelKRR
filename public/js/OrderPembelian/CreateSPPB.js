@@ -355,6 +355,10 @@ btn_update.addEventListener("click", function (event) {
                 discIDR: numeral(idr_total_disc.value).value(),
                 noTrans: no_po.value,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (response) {
                 Swal.fire({
                     icon: "success",
@@ -383,6 +387,10 @@ btn_update.addEventListener("click", function (event) {
                 });
                 console.error("Error Send Data:", error);
             },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     }
 });
@@ -396,6 +404,10 @@ btn_remove.addEventListener("click", function (event) {
         },
         data: {
             noTrans: no_po.value,
+        },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
         },
         success: function (response) {
             Swal.fire({
@@ -416,6 +428,10 @@ btn_remove.addEventListener("click", function (event) {
             });
             console.error("Error Send Data:", error);
         },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
     });
 });
 btn_reject.addEventListener("click", function (event) {
@@ -429,6 +445,10 @@ btn_reject.addEventListener("click", function (event) {
         data: {
             noTrans: no_po.value,
             alasan: alasan_reject.value,
+        },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
         },
         success: function (response) {
             Swal.fire({
@@ -458,6 +478,10 @@ btn_reject.addEventListener("click", function (event) {
             });
             console.error("Error Send Data:", error);
         },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
     });
 });
 btn_post.addEventListener("click", function (event) {
@@ -480,6 +504,10 @@ btn_post.addEventListener("click", function (event) {
                     Tgl_Dibutuhkan: tanggal_mohonKirim.value,
                     idSup: supplier_select.value,
                 },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (response) {
                     if (i == loadPermohonanData.length - 1) {
                         Swal.fire({
@@ -499,6 +527,10 @@ btn_post.addEventListener("click", function (event) {
                         timer: "2000",
                     });
                     console.error("Error Send Data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         }

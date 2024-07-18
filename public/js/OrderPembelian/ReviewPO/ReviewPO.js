@@ -15,6 +15,7 @@ tanggal_mohonKirim.valueAsDate = new Date();
 function LoadPermohonan(data) {
     $("#table_CreatePurchaseOrder").DataTable().destroy();
     let table = $("#table_CreatePurchaseOrder").DataTable({
+        processing: true,
         responsive: true,
         scrollX: true,
         searching: false,
@@ -153,6 +154,10 @@ btn_post.addEventListener("click", function (event) {
                     tglPO: tanggal_purchaseOrder.value,
                     Tgl_Dibutuhkan: tanggal_mohonKirim.value,
                 },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (response) {
                     if (i == loadPermohonanData.length - 1) {
                         Swal.fire({
@@ -172,6 +177,10 @@ btn_post.addEventListener("click", function (event) {
                         timer: "2000",
                     });
                     console.error("Error Send Data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         }

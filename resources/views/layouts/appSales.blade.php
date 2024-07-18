@@ -7,6 +7,11 @@
 <link rel="prefetch" href="{{ asset('images/merah.png') }}" />
 
 <head>
+    <div id="loading-screen">
+        <div id="part1" class="logo-part"></div>
+        <div id="part2" class="logo-part"></div>
+        <div id="part3" class="logo-part"></div>
+    </div>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,9 +24,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
-    <script src="{{ asset('js/jquery-3.2.1.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-3.3.7.min.js') }}"></script>
-    {{-- <script src='{{ asset('js/dataTables.select-1.6.2.min.js') }}'></script> --}}
+    <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
@@ -33,16 +36,14 @@
     <script src="{{ asset('js/User.js') }}"></script>
 
     <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
     <link href="{{ asset('css/FontsGoogleapisIconFamilyMaterialIcons.css') }}" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+    <link href="{{ asset('css/sweetalert2.min.css') }}">
     <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
 </head>
@@ -329,7 +330,8 @@
                             {{ __('Logout') }}
                         </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                            style="display: none;">
                             @csrf
                         </form>
                     </li>

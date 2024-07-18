@@ -6,6 +6,10 @@ $(function () {
           url: window.location.origin+"/FinalApproveOrderPembelian/"+$(this).data('id')+"/show",
           type: 'get',
           data: '_token = <?php echo csrf_token() ?>', // Remember that you need to have your csrf token included
+          beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
           success: function( data ){
 
             document.getElementById("KategoriUtamaFinal").innerHTML="Kategori Utama: "+data.data.KatUtama;
@@ -128,7 +132,11 @@ $(function () {
           },
           error: function( data ){
               console.log(data);
-          }
+          },
+          complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
       });
 
       var $url=$(this).attr('href');

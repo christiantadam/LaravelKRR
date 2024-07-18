@@ -67,6 +67,7 @@ $("#table_AccPenjualan").DataTable({
     pageLength: 25,
 });
 $("#table_AccPenjualan tbody").on("click", "tr", function () {
+    $("#loading-screen").css("display", "flex");
     const table = $("#table_AccPenjualan").DataTable();
     table.$("tr.selected").removeClass("selected");
     $(this).addClass("selected");
@@ -245,6 +246,8 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                         );
                     }
                 });
+        }).finally(() => {
+            $("#loading-screen").css("display", "none");
         });
 });
 

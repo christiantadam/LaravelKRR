@@ -34,6 +34,7 @@ print_pdf.style.display = "none";
 
 print_button.addEventListener("click", function (event) {
     event.preventDefault();
+    $("#loading-screen").css("display", "flex");
     if (nomor_referensi.value == "") {
         alert("Isi kolom nomor referensi terlebih dahulu!");
         nomor_referensi.focus();
@@ -193,6 +194,8 @@ print_button.addEventListener("click", function (event) {
                         div_cetakDOBelumACC.appendChild(
                             body_deliveryOrderBelumACC
                         );
+                    }).finally(() => {
+                        $("#loading-screen").css("display", "none");
                     });
                 });
         } else if (cetak_sudahACC.checked == true) {
@@ -305,6 +308,8 @@ print_button.addEventListener("click", function (event) {
                         div_cetakDOSudahACC.appendChild(
                             body_deliveryOrderSudahACC
                         );
+                    }).finally(() => {
+                        $("#loading-screen").css("display", "none");
                     });
                 });
         } else {

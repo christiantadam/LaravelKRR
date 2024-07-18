@@ -126,6 +126,7 @@ no_spText.addEventListener("keypress", function (event) {
 
 print_button.addEventListener("click", function (event) {
     event.preventDefault();
+    $("#loading-screen").css("display", "flex");
     contoh_printDiv.style.display = "block";
     contoh_print.style.display = "block";
     if (no_spText.value == "") {
@@ -242,6 +243,8 @@ print_button.addEventListener("click", function (event) {
                 ) {
                     item_conditionKolom.style.display = "table-row";
                 }
+            }).finally(() => {
+                $("#loading-screen").css("display", "none");
             });
     }
 });

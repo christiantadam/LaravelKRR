@@ -147,6 +147,10 @@ btn_update.addEventListener("click", function (event) {
             noTrans: no_po.value,
             stBeli: stBeli,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             Swal.fire({
                 icon: "success",
@@ -165,6 +169,10 @@ btn_update.addEventListener("click", function (event) {
                 timer: "2000",
             });
             console.error("Error Send Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 });

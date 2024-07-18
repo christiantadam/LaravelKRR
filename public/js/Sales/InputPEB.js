@@ -108,6 +108,7 @@ closeBtn.addEventListener("click", function () {
 
 button_submitSelected.addEventListener("click", function (event) {
     event.preventDefault();
+    $("#loading-screen").css("display", "flex");
     // console.log("mantap ", IDDO);
     const form = new FormData();
     const csrfToken = document
@@ -123,5 +124,8 @@ button_submitSelected.addEventListener("click", function (event) {
         .then((data) => {
             // console.log(data);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error))
+        .finally(() => {
+            $("#loading-screen").css("display", "none");
+        });
 });

@@ -7,6 +7,10 @@ $(function () {
             url: window.location.origin + "/Customer/" + $(this).data('id') + "/show",
             type: 'get',
             data: '_token = <?php echo csrf_token() ?>', // Remember that you need to have your csrf token included
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 document.getElementById("DetailCustomer").innerHTML = "ID Customer: " + data.data.IDCust
                 + "</br>Jenis Customer: " + data.data.JnsCust + " - " + data.data.NamaJnsCust + "</br>Nama Customer: "
@@ -25,7 +29,11 @@ $(function () {
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 alert(err.Message);
-            }
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     });
 });

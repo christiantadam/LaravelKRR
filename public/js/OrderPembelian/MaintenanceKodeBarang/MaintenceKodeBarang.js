@@ -229,6 +229,10 @@ btn_proses.addEventListener("click", function (event) {
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
             },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             data: {
                 Kriteria: select_kategori_utama.value[0],
                 Jenis_Pembelian: select_jenisPembelian.value,
@@ -295,6 +299,10 @@ btn_proses.addEventListener("click", function (event) {
                 });
                 console.error("Error Send Data:", error);
             },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     } else if (btnActive == "koreksi") {
         let round = "N";
@@ -316,6 +324,10 @@ btn_proses.addEventListener("click", function (event) {
             type: "POST",
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
             },
             data: {
                 KD_BRG: kd_barang.value.replace(/\s/g, ""),
@@ -372,6 +384,10 @@ btn_proses.addEventListener("click", function (event) {
                 });
                 console.error("Error Send Data:", error);
             },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
         });
     } else if (btnActive == "hapus") {
         $.ajax({
@@ -379,6 +395,10 @@ btn_proses.addEventListener("click", function (event) {
             type: "POST",
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
             },
             data: {
                 KD_BRG0: kd_barang.value.replace(/\s/g, ""),
@@ -405,6 +425,10 @@ btn_proses.addEventListener("click", function (event) {
                     timer: "2000",
                 });
                 console.error("Error Send Data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
             },
         });
     }
@@ -437,6 +461,10 @@ btn_tambahKategori.addEventListener("click", function (event) {
         headers: {
             "X-CSRF-TOKEN": csrfToken,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         data: {
             no_kat_utama: myValue,
             nama_kategori: tambah_kategori.value,
@@ -461,6 +489,10 @@ btn_tambahKategori.addEventListener("click", function (event) {
             });
             console.error("Error Send Data:", error);
         },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
     });
 });
 btn_tambahSubKategori.addEventListener("click", function (event) {
@@ -469,6 +501,10 @@ btn_tambahSubKategori.addEventListener("click", function (event) {
         type: "POST",
         headers: {
             "X-CSRF-TOKEN": csrfToken,
+        },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
         },
         data: {
             no_kategori: select_kategori.value,
@@ -495,6 +531,10 @@ btn_tambahSubKategori.addEventListener("click", function (event) {
                 timer: "2000",
             });
             console.error("Error Send Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 });
@@ -623,6 +663,10 @@ function cariKodeBarang(kd_barang) {
         type: "GET",
         data: {
             kodeBarang: kd_barang,
+        },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
         },
         success: function (response) {
             dataRes = response[0];
@@ -823,6 +867,10 @@ function cariKodeBarang(kd_barang) {
         },
         error: function (error) {
             console.error("Error Fetch Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
     if (btnActive == "isi") {

@@ -97,6 +97,10 @@ btn_backCreatePO.addEventListener("click", function (event) {
                 data: {
                     noTrans: selectedRows[i][5].trim(),
                 },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (response) {
                     Swal.fire({
                         icon: "success",
@@ -149,6 +153,10 @@ btn_backCreatePO.addEventListener("click", function (event) {
                     });
                     console.error("Error Send Data:", error);
                 },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
+                },
             });
         }
     }
@@ -169,6 +177,10 @@ btn_close.addEventListener("click", function (event) {
                 data: {
                     noTrans: selectedRows[i][5].trim(),
                     QtyCancel: parseFloat(selectedRows[i][9]),
+                },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
                 },
                 success: function (response) {
                     Swal.fire({
@@ -221,6 +233,10 @@ btn_close.addEventListener("click", function (event) {
                         timer: "2000",
                     });
                     console.error("Error Send Data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         }
