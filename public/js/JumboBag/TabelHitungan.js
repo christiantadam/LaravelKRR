@@ -359,6 +359,7 @@ function loadDataKoreksi(kode_barang, nama_customer) {
                             nama_barang.value +
                             " sudah disimpan !",
                     });
+                    tampilSwalFireUntukInsertMasterDanKdBrg = 0;
                 }
             }, // Pass the data with csrf_tokern
             success: function (datas) {
@@ -4046,16 +4047,49 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     let kounterKomponenBelt = document.getElementById(
                         "kounterKomponenBelt"
                     );
+                    console.log(KompVarStatusBelt);
                     if (KompVarStatusBelt) {
                         $.ajax({
-                            url: "TabelHitunganJBB/getLebarKomponenPita", // URL to your PHP script that fetches data
+                            url: "TabelHitunganJBB/getLebarKomponenPita",
                             method: "GET",
                             dataType: "json",
                             success: function (data) {
                                 console.log(data);
                                 // Get the select element
                                 const selectElement = $("#lebarKomponenBelt");
+                                // Loop through the data and create an option element for each item
+                                data.forEach((item) => {
+                                    // Create a new option element
+                                    const newOption = $("<option></option>")
+                                        .val(item.Lebar) // Set the value of the option element
+                                        .text(item.Lebar); // Set the text content of the option element
 
+                                    // Append the option element to the select element
+                                    selectElement.append(newOption);
+                                });
+                                lebarKomponenBelt.addEventListener(
+                                    "change",
+                                    function (e) {
+                                        beratPerMeterKomponenBelt.value = 0;
+                                        totalBeratKomponenBelt.readOnly = true;
+                                        beratPerMeterKomponenBelt.readOnly = true;
+                                        denierKomponenBelt.value = 0;
+                                    }
+                                );
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("Error fetching data:", error);
+                            },
+                        });
+                    } else {
+                        $.ajax({
+                            url: "TabelHitunganJBB/getLebarKomponenBelt", // URL to your PHP script that fetches data
+                            method: "GET",
+                            dataType: "json",
+                            success: function (data) {
+                                // Get the select element
+                                console.log(data);
+                                const selectElement = $("#lebarKomponenBelt");
                                 // Loop through the data and create an option element for each item
                                 data.forEach((item) => {
                                     // Create a new option element
@@ -4071,6 +4105,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 lebarKomponenBelt.addEventListener(
                                     "change",
                                     function (e) {
+                                        totalBeratKomponenBelt.readOnly = true;
+                                        beratPerMeterKomponenBelt.readOnly = true;
                                         beratPerMeterKomponenBelt.value =
                                             lebarKomponenBelt.options[
                                                 lebarKomponenBelt.selectedIndex
@@ -4093,42 +4129,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 console.error("Error fetching data:", error);
                             },
                         });
-                    } else {
-                        $.ajax({
-                            url: "TabelHitunganJBB/getLebarKomponenBelt", // URL to your PHP script that fetches data
-                            method: "GET",
-                            dataType: "json",
-                            success: function (data) {
-                                // Get the select element
-                                console.log(data);
-                                const selectElement = $("#lebarKomponenBelt");
-
-                                // Loop through the data and create an option element for each item
-                                data.forEach((item) => {
-                                    // Create a new option element
-                                    const newOption = $("<option></option>")
-                                        .val(item.Lebar) // Set the value of the option element
-                                        .text(item.Lebar); // Set the text content of the option element
-
-                                    // Append the option element to the select element
-                                    selectElement.append(newOption);
-                                });
-                                lebarKomponenBelt.addEventListener(
-                                    "change",
-                                    function (e) {
-                                        beratPerMeterKomponenBelt.value = 0;
-                                        beratPerMeterKomponenBelt.readOnly = true;
-                                        denierKomponenBelt.value = 0;
-                                    }
-                                );
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error fetching data:", error);
-                            },
-                        });
                     }
 
-                    quantityKomponenRope.addEventListener(
+                    quantityKomponenBelt.addEventListener(
                         "keypress",
                         function (e) {
                             if (e.key == "Enter") {
@@ -4164,37 +4167,37 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             switch (diameter) {
                                 case 2:
                                     beratPerMeterKomponenBelt.value =
-                                        Kode_Komponen.value.startsWith("31MT")
+                                        Kode_Komponen.startsWith("31MT")
                                             ? "20"
                                             : "8.24";
                                     break;
                                 case 2.5:
                                     beratPerMeterKomponenBelt.value =
-                                        Kode_Komponen.value.startsWith("31MT")
+                                        Kode_Komponen.startsWith("31MT")
                                             ? "20"
                                             : "10.3";
                                     break;
                                 case 3:
                                     beratPerMeterKomponenBelt.value =
-                                        Kode_Komponen.value.startsWith("31MT")
+                                        Kode_Komponen.startsWith("31MT")
                                             ? "10"
                                             : "12.4";
                                     break;
                                 case 3.5:
                                     beratPerMeterKomponenBelt.value =
-                                        Kode_Komponen.value.startsWith("31MT")
+                                        Kode_Komponen.startsWith("31MT")
                                             ? "10"
                                             : "13";
                                     break;
                                 case 4:
                                     beratPerMeterKomponenBelt.value =
-                                        Kode_Komponen.value.startsWith("31MT")
+                                        Kode_Komponen.startsWith("31MT")
                                             ? "40"
                                             : "16.48";
                                     break;
                                 case 7:
                                     beratPerMeterKomponenBelt.value =
-                                        Kode_Komponen.value.startsWith("31MT")
+                                        Kode_Komponen.startsWith("31MT")
                                             ? "20"
                                             : "26";
                                     break;
