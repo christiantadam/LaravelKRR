@@ -18,7 +18,7 @@
                 <div class="acs-btn-txt">Tambah Bank</div>
             </button>
             <div class="card">
-                <div class="card-header">Maintenance Bank</div>
+                <div class="card-header">Maintenance Bank (In Progress)</div>
                 @if (Session::has('success'))
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {

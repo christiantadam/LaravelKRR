@@ -1891,11 +1891,11 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             <div style="display: flex;width: 45%;flex-direction: column;margin-bottom: 4px;">
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="beratPerMeterKomponenRope">Berat Per Meter</label>
-                                    <input id="beratPerMeterKomponenRope" class="input">
+                                    <input id="beratPerMeterKomponenRope" class="input" readonly>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="totalBeratKomponenRope">Total Berat</label>
-                                    <input id="totalBeratKomponenRope" class="input">
+                                    <input id="totalBeratKomponenRope" class="input" readonly>
                                 </div>
                                     <input type="hidden" id="kounterKomponenRope" class="input">
                             </div>
@@ -1966,7 +1966,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
                                     <label for="diameterKomponenSelang">Diameter</label>
                                     <div style="width: 100%">
-                                        <input id="diameterKomponenSelang" class="input">MM
+                                        <input id="diameterKomponenSelang" class="input" style="width:80%">MM
                                     </div>
                                 </div>
                                 <div style="display: flex;width: 100%;flex-direction: column;margin-bottom: 4px;">
@@ -2194,7 +2194,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     <label for="kebutuhanKomponenBenang">Kebutuhan</label>
                                     <input id="kebutuhanKomponenBenang" class="input">
                                 </div>
-                                <input id="kounterKomponenBenang" class="input">
+                                <input type="hidden" id="kounterKomponenBenang" class="input">
                             </div>
                         </div>
                         <div style="display: flex;align-items: center;gap: 10px;margin-bottom: 10px;">
@@ -2263,7 +2263,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             <label for="totalHargaKomponenDust">Total Harga</label>
                             <input id="totalHargaKomponenDust" class="input" readonly>
                         </div>
-                        <input id="kounterKomponenDust" class="input">
+                        <input type="hidden" id="kounterKomponenDust" class="input">
                     </div>`;
     } else if (typeForm == "Form Komponen Katun") {
         htmlForm = `<div style="text-align: left;">
@@ -3881,7 +3881,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         success: function (data) {
                             // Get the select element
                             const selectElement = $("#diameterKomponenRope");
-                            console.log(data, selectElement);
+                            console.log(data);
 
                             // Loop through the data and create an option element for each item
                             data.forEach((item) => {
@@ -3921,7 +3921,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         let TBerat, ReInb;
                         let berat;
 
-                        switch (diameterKomponenCircular.value) {
+                        switch (parseInt(diameterKomponenRope.value)) {
                             case 2:
                                 berat = 9;
                                 break;
@@ -3956,7 +3956,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 berat = 0;
                                 break;
                         }
-
                         beratPerMeterKomponenRope.value = berat;
 
                         TBerat =
@@ -4306,7 +4305,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     function hitungBerat() {
                         let TBerat, XDes;
 
-                        if (Kode_Komponen.value.substring(0, 4) === "15ST") {
+                        if (Kode_Komponen.substring(0, 4) === "15ST") {
                             beratPer5cmKomponenSelang.value = 10;
                             TBerat =
                                 (parseFloat(panjangKomponenSelang.value) *
