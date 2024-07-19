@@ -194,9 +194,10 @@ print_button.addEventListener("click", function (event) {
                         div_cetakDOBelumACC.appendChild(
                             body_deliveryOrderBelumACC
                         );
-                    }).finally(() => {
-                        $("#loading-screen").css("display", "none");
                     });
+                })
+                .finally(() => {
+                    $("#loading-screen").css("display", "none");
                 });
         } else if (cetak_sudahACC.checked == true) {
             // console.log("Sudah ACC");
@@ -308,9 +309,10 @@ print_button.addEventListener("click", function (event) {
                         div_cetakDOSudahACC.appendChild(
                             body_deliveryOrderSudahACC
                         );
-                    }).finally(() => {
-                        $("#loading-screen").css("display", "none");
                     });
+                })
+                .finally(() => {
+                    $("#loading-screen").css("display", "none");
                 });
         } else {
             alert("Pilih status DO sudah ACC atau belum ACC dulu!");
