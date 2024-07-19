@@ -17,12 +17,12 @@ class CustomerController extends Controller
     // Display a listing of the resource.
     public function index()
     {
-        //get all customer from models
-        // $data = Customer::get()->where('IsActive', 1);
+        $model = new Customer;
+        $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        // dd($data->all());
+        // dd($model);
         //return data to view
-        return view('Sales.Master.Customer.Index', compact('access'));
+        return view('Sales.Master.Customer.Index', compact('access', 'model', 'jnscust'));
     }
 
     function getallcustomer(Request $request)
@@ -86,15 +86,21 @@ class CustomerController extends Controller
                 $nestedData['Negara'] = $datacustomer->Negara;
                 $idcust = explode(' - ', $datacustomer->IDCustomer);
                 $csrfToken = $request->_token;
-                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; Edit</button>
-                                        <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
-                                        action=\"/Customer/" . $idcust[0] . "\" method=\"POST\"
-                                        enctype=\"multipart/form-data\"> <button type=\"submit\"
-                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Hapus</button>
-                                            <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
-                                    </form>";
-                // $nestedData['Actions'] = "<button class=\"btn btn-info\" onclick=\"openNewWindow('/Customer/" . $idcust[0] . "/edit')\">&#x270E; EDIT</button>";
+                // $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openEditModal('" . $idcust[0] . "')\">&#x270E; Edit</button>
+                //           <br>
+                //           <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\" action=\"/Customer/" . $idcust[0] . "\" method=\"POST\" enctype=\"multipart/form-data\">
+                //               <button type=\"submit\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Hapus</button>
+                //               <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+                //           </form>";
+                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" data-bs-toggle=\"modal\" data-bs-target=\"#modalCustomer\"
+                                            data-typeForm=\"edit\" data-idcustomer=\"" . $idcust[0] . "\">&#x270E; Edit</button>
+                                            <br>
+                                            <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\" action=\"/Customer/" . $idcust[0] . "\" method=\"POST\" enctype=\"multipart/form-data\">
+                                                <button type=\"submit\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Hapus</button>
+                                                <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+                                            </form>";
                 $data[] = $nestedData;
+
             }
         }
 
@@ -150,6 +156,8 @@ class CustomerController extends Controller
         $NamaNPWP = $request->NamaNPWP ?? NULL;
         $AlamatNPWP = $request->AlamatNPWP ?? NULL;
         $KotaKirim = $request->KotaKirim ?? NULL;
+
+        // dd($request->all());
 
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_PROSES_INS_CUSTOMER @KodeCust = ?,
         @JnsCust = ? ,
@@ -216,16 +224,19 @@ class CustomerController extends Controller
         // dd($model, $jnscust);
         $jnscust = db::connection('ConnSales')->select('select * from T_JnsCust');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Master.Customer.edit', compact('model', 'jnscust', 'access'));
+        return view('Sales.Master.Customer.ModalCustomer', compact('model', 'jnscust', 'access'));
     }
 
     // Update the specified resource in storage.
     public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
             'KodeCust' => 'required',
             'NamaCust' => 'required',
         ]);
+
+        // Mendapatkan data dari request dan memberikan nilai default jika null
         $User = Auth::user()->NomorUser;
         $JnsCust = $request->JnsCust ?? NULL;
         $NamaCust = $request->NamaCust;
@@ -249,10 +260,10 @@ class CustomerController extends Controller
         $NamaNPWP = $request->NamaNPWP ?? NULL;
         $AlamatNPWP = $request->AlamatNPWP ?? NULL;
         $KotaKirim = $request->KotaKirim ?? " ";
-        // dd($request->all());
 
-        //kurang parameter di sql server tentang inisial cust
-        DB::connection('ConnSales')->statement('exec SP_1486_SLS_UDT_CUSTOMER @IdCust = ?,
+        // Eksekusi stored procedure dengan parameter yang diberikan
+        DB::connection('ConnSales')->statement('exec SP_1486_SLS_UDT_CUSTOMER
+        @IdCust = ?,
         @NamaCust = ?,
         @NPWP = ?,
         @LimitBeli = ?,
@@ -302,14 +313,14 @@ class CustomerController extends Controller
             ]
         );
 
-        echo "<script type='text/javascript'>alert('Data Berhasil diubah') ;</script>";
-        echo "<script type='text/javascript'>window.close() ;</script>";
-        //return view('Sales.Master.Customer.Index')->with(['success' => 'Data berhasil diubah!']);
+        // Redirect kembali ke halaman sebelumnya dengan pesan sukses
+        return response()->json($User);
     }
 
     // Display the specified resource.
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        // dd($id);
         $data = Customer::select('*')->join('T_JnsCust', 'IDJnsCust', 'JnsCust')->where('IDCust', $id)->first();
         // $jnsCust = JnsCust::select('*')->where('IDJnsCust', $data->JnsCust);
         return compact('data');

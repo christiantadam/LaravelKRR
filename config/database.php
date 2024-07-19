@@ -199,7 +199,7 @@ return [
             'trust_server_certificate' => true,
         ],
 
-        'ConnWorkshop' => [
+        'Connworkshop' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST_NINTH', '127.0.0.1'),
