@@ -746,7 +746,7 @@ class TabelHitunganJumboBag extends Controller
 
             try {
                 foreach ($gridLamiData as $row) {
-                    DB::statement('
+                    DB::connection('ConnJumboBag')->statement('
                     EXEC SP_1273_JBB_INS_RINCIAN_LAMI :KodeBarang, :KodeKomponen, :Panjang, :Lebar, :Tebal, :Berat
                 ', [
                         'KodeBarang' => $kdBrg,
@@ -758,7 +758,7 @@ class TabelHitunganJumboBag extends Controller
                     ]);
                 }
 
-                return response()->json(['message' => 'Data KomponenLami inserted successfully'], 200);
+                return response()->json(['success' => 'Data KomponenLami inserted successfully'], 200);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
@@ -828,6 +828,18 @@ class TabelHitunganJumboBag extends Controller
                         $request->input('KodeBarang'),
                         $request->input('KodeKomponen'),
                         (int) $request->input('kounter')
+                    ]
+                );
+                return response()->json($data);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } elseif ($id == 'getDataKomponenLami') {
+            try {
+                $data = DB::connection('ConnJumboBag')->select('exec SP_5409_JBB_Data_Komponen_Lami
+                    @KodeBarang = ?',
+                    [
+                        (string) $request->input('KodeBarang')
                     ]
                 );
                 return response()->json($data);
@@ -1006,20 +1018,16 @@ class TabelHitunganJumboBag extends Controller
                     DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_UDT_RINCIAN_LAMI
                     @KodeBarang = ?,
                     @KodeKomponen = ?,
-                    @Panjang = ?,
-                    @Lebar = ?,
                     @Tebal = ?,
                     @Berat = ?
                 ', [
                         $kdBrg,
                         $row['KodeKomponen'],
-                        $row['Panjang'],
-                        $row['Lebar'],
                         $row['Tebal'],
                         $row['Berat']
                     ]);
                 }
-                return response()->json(['message' => 'Data KomponenLami inserted successfully'], 200);
+                return response()->json(['success' => 'Data KomponenLami inserted successfully'], 200);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
@@ -1067,7 +1075,7 @@ class TabelHitunganJumboBag extends Controller
                         ]
                     );
                 }
-                return response()->json(['message' => 'Data KomponenLami deleted successfully'], 200);
+                return response()->json(['success' => 'Data KomponenLami deleted successfully'], 200);
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
@@ -1100,7 +1108,7 @@ class TabelHitunganJumboBag extends Controller
                             (string) $id
                         ]
                     );
-                    return response()->json(['success' => 'Record Table Hitungan deleted successfully.']);
+                    return response()->json(['success' => 'Record Table Hitungan deleted successfully', 200]);
                 }
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);

@@ -2,6 +2,7 @@
 @section('title', 'Tabel Hitungan Tubing OPP')
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/JumboBag/TabelHitungan.css') }}" rel="stylesheet">
+
 <div class="container-fluid">
     <style>
         button {

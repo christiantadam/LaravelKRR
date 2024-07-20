@@ -2027,8 +2027,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             <label for="nama_komponen">Nama Komponen</label>
                             <input id="nama_komponen" class="input" readonly>
                         </div>
-                        <table id="tableKomponenLami">
-                            <thead>
+                        <table id="tableKomponenLami" style="width:100%">
+                            <thead style="white-space:nowrap">
                                 <tr>
                                     <th>Komponen</th>
                                     <th>Nama Komponen</th>
@@ -2544,6 +2544,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
         title: typeForm,
         html: htmlForm,
         showCancelButton: true,
+        width: typeForm == "Form Komponen Lami" ? "90%" : "auto",
         confirmButtonText:
             KompVarKomponen == 1
                 ? "Simpan"
@@ -2555,6 +2556,13 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
         cancelButtonText: "Cancel",
         didOpen: () => {
             $(document).ready(function () {
+                // Make the SweetAlert dialog draggable
+                $(".swal2-popup").draggable({
+                    handle: ".swal2-title",
+                });
+                // Change the cursor style
+                $(".swal2-title").css("cursor", "grab");
+
                 $("#kode_komponen").val(Kode_Komponen);
                 $("#nama_komponen").val(Nama_Komponen);
                 if (typeForm == "Form Komponen General") {
@@ -4432,19 +4440,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     let totalBeratKomponenLami = document.getElementById(
                         "totalBeratKomponenLami"
                     );
-                    const tableKomponenLami = $("#tableKomponenLami").DataTable(
-                        {
-                            columnDefs: [
-                                {
-                                    targets: "_all",
-                                    createdCell:
-                                        KompVarKomponen == 2
-                                            ? createdCell
-                                            : null,
-                                },
-                            ],
-                        }
-                    );
+                    var inputElements = ["totalBeratKomponenLami"];
+
                     const createdCell = function (
                         cell,
                         cellData,
@@ -4462,9 +4459,17 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         });
 
                         cell.addEventListener("blur", function (e) {
+                            const newContent = e.target.textContent;
+
                             if (original !== e.target.textContent) {
-                                const row = table.row(e.target.parentElement);
-                                row.invalidate();
+                                const row = tableKomponenLami.row(
+                                    e.target.parentElement
+                                );
+                                // Update the data in the DataTable's internal data store
+                                row.data()[colIndex] = newContent;
+
+                                // Invalidate and redraw the row to reflect the change
+                                row.invalidate().draw();
                                 console.log("Cell changed: ", e.target); // Logging the cell
                                 console.log(
                                     "New content: ",
@@ -4473,7 +4478,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 console.log("Column index: ", colIndex); // Logging the column index
                                 console.log(
                                     "Column name: ",
-                                    table.column(colIndex).header().textContent
+                                    tableKomponenLami.column(colIndex).header()
+                                        .textContent
                                 ); // Logging the column name
                                 console.log("Row data: ", row.data()); // Logging the row data
                                 console.log(
@@ -4487,6 +4493,74 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             }
                         });
                     };
+
+                    const tableKomponenLami = $("#tableKomponenLami").DataTable(
+                        {
+                            columnDefs: [
+                                {
+                                    targets: "_all",
+                                    createdCell: createdCell,
+                                },
+                            ],
+                        }
+                    );
+
+                    $.ajax({
+                        url: "TabelHitunganJBB/getDataKomponenLami", // URL to your PHP script that fetches data
+                        method: "GET",
+                        dataType: "json",
+                        data: { KodeBarang: nama_barang.value },
+                        success: function (data) {
+                            // Get the select element
+                            console.log(data, KompVarKomponen);
+                            $(document).ready(function () {
+                                if (tableKomponenLami.data().any()) {
+                                    tableKomponenLami.clear().draw();
+                                }
+                                data.forEach(function (obj) {
+                                    tableKomponenLami.row
+                                        .add([
+                                            obj.Kode_Komponen,
+                                            obj.Nama_Komponen,
+                                            parseFloat(
+                                                obj.Panjang_Potongan
+                                            ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            }),
+                                            parseFloat(
+                                                obj.Lebar_Potongan
+                                            ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            }),
+                                            parseFloat(
+                                                obj.Quantity ?? 0
+                                            ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            }),
+                                            parseFloat(
+                                                obj.Tebal ?? 0
+                                            ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            }),
+                                            parseFloat(
+                                                obj.Berat ?? 0
+                                            ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            }),
+                                        ])
+                                        .draw();
+                                });
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error fetching data:", error);
+                        },
+                    });
 
                     function hitungBerat() {
                         let totalBerat = 0;
@@ -4570,10 +4644,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
 
                                     // Accumulate total weight
                                     totalBerat += parseFloat(this.data()[6]);
+                                    // Update the total weight field
                                 }
                             });
-
-                        // Update the total weight field
                         totalBeratKomponenLami.value = totalBerat.toFixed(2);
                     }
                     if (KompVarKomponen == 2 || KompVarKomponen == 3) {
@@ -6735,6 +6808,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6780,6 +6861,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6810,6 +6899,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterBlock.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6832,6 +6929,8 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     });
                 }
             } else if (typeForm == "Form Komponen Lami") {
+                let tableKomponenLami = $("#tableKomponenLami").DataTable();
+                let totalBeratKomponenLami = document.getElementById("totalBeratKomponenLami")
                 if (KompVarKomponen == 1) {
                     $.ajax({
                         type: "POST", // or 'GET' depending on your server setup
@@ -6857,11 +6956,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
                                 let gridLamiData = [];
-
                                 tableKomponenLami.rows().every(function () {
                                     let data = this.data();
                                     gridLamiData.push({
@@ -6881,8 +6983,13 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                         KodeBarang: nama_barang.value,
                                         gridLamiData: gridLamiData,
                                     }, // Pass the data with csrf_tokern
+                                    beforeSend: function () {
+                                        // Show loading screen
+                                        $("#loading-screen").css("display", "flex");
+                                    },
                                     success: function (response) {
                                         // Handle the successful response from the controller
+                                        $("#loading-screen").css("display", "none");
                                         if (response.success) {
                                             Swal.fire({
                                                 icon: "success",
@@ -6894,22 +7001,43 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                                     customer.value
                                                 );
                                             });
+                                        }else if (response.error) {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "Pemberitahuan",
+                                                text: "Komponen baru tidak berhasil disimpan !",
+                                            }).then((result) => {
+                                                loadDataKoreksi(
+                                                    nama_barang.value,
+                                                    customer.value
+                                                );
+                                            });
                                         }
                                         console.log(response);
                                     },
                                     error: function (xhr, status, error) {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Pemberitahuan",
+                                            text: error,
+                                        })
                                         console.error(error); // Handle errors
                                     },
                                 });
                             }
                         },
                         error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Pemberitahuan",
+                                text: error,
+                            })
                             console.error(error); // Handle errors
                         },
                     });
                 } else if (KompVarKomponen == 2) {
                     $.ajax({
-                        type: "POST", // or 'GET' depending on your server setup
+                        type: "PUT", // or 'GET' depending on your server setup
                         url: "TabelHitunganJBB/EditKomponen", // Specify the URL of your controller
                         data: {
                             _token: csrfToken,
@@ -6932,6 +7060,10 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6950,15 +7082,20 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     });
                                 });
                                 $.ajax({
-                                    type: "POST", // or 'GET' depending on your server setup
+                                    type: "PUT", // or 'GET' depending on your server setup
                                     url: "TabelHitunganJBB/EditKomponenLami", // Specify the URL of your controller
                                     data: {
                                         _token: csrfToken,
                                         KodeBarang: nama_barang.value,
                                         gridLamiData: gridLamiData,
                                     }, // Pass the data with csrf_tokern
+                                    beforeSend: function () {
+                                        // Show loading screen
+                                        $("#loading-screen").css("display", "flex");
+                                    },
                                     success: function (response) {
                                         // Handle the successful response from the controller
+                                        $("#loading-screen").css("display", "none");
                                         if (response.success) {
                                             Swal.fire({
                                                 icon: "success",
@@ -6970,16 +7107,37 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                                     customer.value
                                                 );
                                             });
+                                        } else if (response.error) {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "Pemberitahuan",
+                                                text: "Komponen tidak berhasil diperbarui !",
+                                            }).then((result) => {
+                                                loadDataKoreksi(
+                                                    nama_barang.value,
+                                                    customer.value
+                                                );
+                                            });
                                         }
                                         console.log(response);
                                     },
                                     error: function (xhr, status, error) {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Pemberitahuan",
+                                            text: error,
+                                        })
                                         console.error(error); // Handle errors
                                     },
                                 });
                             }
                         },
                         error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Pemberitahuan",
+                                text: error,
+                            })
                             console.error(error); // Handle errors
                         },
                     });
@@ -6993,6 +7151,10 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenLami.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7012,8 +7174,13 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                         KodeBarang: nama_barang.value,
                                         gridLamiData: gridLamiData,
                                     }, // Pass the data with csrf_tokern
+                                    beforeSend: function () {
+                                        // Show loading screen
+                                        $("#loading-screen").css("display", "flex");
+                                    },
                                     success: function (response) {
                                         // Handle the successful response from the controller
+                                        $("#loading-screen").css("display", "none");
                                         if (response.success) {
                                             Swal.fire({
                                                 icon: "success",
@@ -7025,10 +7192,26 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                                     customer.value
                                                 );
                                             });
+                                        } else if (response.error) {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "Pemberitahuan",
+                                                text: "Komponen tidak berhasil dihapus !",
+                                            }).then((result) => {
+                                                loadDataKoreksi(
+                                                    nama_barang.value,
+                                                    customer.value
+                                                );
+                                            });
                                         }
                                         console.log(response);
                                     },
                                     error: function (xhr, status, error) {
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Pemberitahuan",
+                                            text: error,
+                                        })
                                         console.error(error); // Handle errors
                                     },
                                 });
@@ -7036,6 +7219,11 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             console.log(response);
                         },
                         error: function (xhr, status, error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Pemberitahuan",
+                                text: error,
+                            })
                             console.error(error); // Handle errors
                         },
                     });

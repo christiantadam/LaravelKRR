@@ -16,12 +16,9 @@
     <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="16x16">
     <title style="font-size: 20px">@yield('title', 'Jumbo Bag')</title>
 
-
     <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
+    <script src="{{ asset('js/jquery-3.1.0.js') }}"></script>
     <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
-
-
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/moment.min.js') }}"></script>
@@ -30,7 +27,6 @@
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
-
 
     <script src="{{ asset('js/User.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
@@ -50,6 +46,11 @@
     {{-- <link href="{{ asset('css/bootstrap@5.0.1.min.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
+
+    <!--jQuery UI - v1.12.1-->
+    <script src="{{ asset('js/jQuery UI - v1.12.1.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/jQuery UI - v1.12.1.css') }}">
+
     <div id="loading-screen">
         <div id="part1" class="logo-part"></div>
         <div id="part2" class="logo-part"></div>
