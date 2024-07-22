@@ -13,12 +13,13 @@ class MaintenanceOrderGambarController extends Controller
 
     public function index()
     {
+        $nomoruser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
         $satuan = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_SATUAN]');
 
         //dd($satuan);
-        return view('WORKSHOP.Workshop.Transaksi.MaintenanceOrderGambar', compact(['divisi', 'satuan'], 'access'));
+        return view('WORKSHOP.Workshop.Transaksi.MaintenanceOrderGambar', compact(['divisi', 'satuan'], 'access', 'nomoruser'));
     }
     public function GetDataAll($tgl_awal, $tgl_akhir, $divisi)
     {
@@ -81,7 +82,8 @@ class MaintenanceOrderGambarController extends Controller
 
     public function show($id)
     {
-        //
+        // $nomoruser = trim(Auth::user()->NomorUser);
+        // return view('Beli.Transaksi.Approve.List', compact('data', 'access'));
     }
 
 

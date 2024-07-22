@@ -1,7 +1,7 @@
 //#region variabel
 let divisi = document.getElementById("kddivisi");
 let table_data = $("#table_manager").DataTable();
-let user = 4384;
+// let user = 4384;
 //data di kanan
 let userinput = document.getElementById("userinput");
 let no_order = document.getElementById("no_order");

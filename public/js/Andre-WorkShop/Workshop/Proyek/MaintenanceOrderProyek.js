@@ -4,7 +4,7 @@ let table_data = $("#tableMaintenanceOrderProyek").DataTable();
 
 let kddivisi = document.getElementById("kddivisi");
 let pilih;
-let user = 4384;
+// let user = 4384;
 
 let refresh = document.getElementById("refresh");
 let isi = document.getElementById("isi");

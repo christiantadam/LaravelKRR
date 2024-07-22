@@ -22,7 +22,7 @@ let order_batal = document.getElementById("order_batal");
 let methodForm = document.getElementById("methodForm");
 let formPemerimaGambar = document.getElementById("formPemerimaGambar");
 
-let user = 4384;
+// let user = 4384;
 let iduser = document.getElementById("iduser");
 iduser.value = user;
 

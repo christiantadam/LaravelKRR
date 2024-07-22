@@ -13,10 +13,11 @@ class MaintenanceOrderKerjaController extends Controller
 {
     public function index()
     {
+        $nomoruser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         $satuan = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_SATUAN]');
         $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
-        return view('WORKSHOP.Workshop.Transaksi.MaintenanceOrderKerja', compact(['divisi', 'satuan'], 'access'));
+        return view('WORKSHOP.Workshop.Transaksi.MaintenanceOrderKerja', compact(['divisi', 'satuan'], 'access', "nomoruser"));
     }
     public function LoadData1($noGambar)
     {

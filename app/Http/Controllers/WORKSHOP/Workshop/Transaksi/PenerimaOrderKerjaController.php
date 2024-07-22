@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HakAksesController;
+use Auth;
 
 class PenerimaOrderKerjaController extends Controller
 {
     public function index()
     {
+        $nomoruser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
-        return view('WORKSHOP.Workshop.Transaksi.PenerimaOrderKerja', compact('access'));
+        return view('WORKSHOP.Workshop.Transaksi.PenerimaOrderKerja', compact('access','nomoruser'));
     }
     public function GetAllData($tgl_awal, $tgl_akhir)
     {

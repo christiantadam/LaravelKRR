@@ -4,7 +4,7 @@ let table_data = $("#TablePenerimaOrderProyek").DataTable();
 let refresh = document.getElementById("refresh");
 let cek = false;
 let iduser = document.getElementById("iduser");
-let user = 4384;
+// let user = 4384;
 iduser.value = user;
 var panjangdata;
 var arraycheckbox = [];

@@ -1,3 +1,11 @@
+// document.addEventListener("DOMContentLoaded", function () {
+//     const userDataElement = document.getElementById("user-data");
+//     const user = userDataElement.getAttribute("data-nomoruser");
+//     console.log("User number is:", user);
+
+//     // Lanjutkan dengan kode JavaScript lainnya
+// });
+
 //tanggal
 let tgl_awal = document.getElementById("tgl_awal");
 let tgl_akhir = document.getElementById("tgl_akhir");
@@ -8,7 +16,7 @@ let bodytable = document.getElementById("datatable");
 
 //array
 let dataarray = [];
-let user = 4384;
+// let user = 4384;
 //form
 let formMaintenanceOrderGambar = document.getElementById(
     "formMaintenanceOrderGambar"

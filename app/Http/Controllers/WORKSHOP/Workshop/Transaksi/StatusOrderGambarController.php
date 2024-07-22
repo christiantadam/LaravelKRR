@@ -13,9 +13,10 @@ class StatusOrderGambarController extends Controller
 
     public function index()
     {
+        $nomoruser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
-        return view('WORKSHOP.Workshop.Transaksi.StatusOrderGambar', compact(['divisi'], 'access'));
+        return view('WORKSHOP.Workshop.Transaksi.StatusOrderGambar', compact(['divisi'], 'access','nomoruser'));
     }
     public function GetAllData($tgl_awal, $tgl_akhir, $div)
     {

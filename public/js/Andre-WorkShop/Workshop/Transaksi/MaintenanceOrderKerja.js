@@ -24,7 +24,7 @@ let tunda_teknik = document.getElementById("tunda_teknik");
 let jmlh1 = document.getElementById("jmlh1");
 let pilih;
 let Divisi = document.getElementById("kddivisi");
-let user = 4384;
+// let user = 4384;
 
 let btnisi = document.getElementById("isi");
 let modetrans;

@@ -1,7 +1,7 @@
 let table_data = $("#ACCManagerKerjatable").DataTable();
 let divisi = document.getElementById('kddivisi');
 let idorder;
-let user = 4384;
+// let user = 4384;
 let UserACC = document.getElementById('UserACC');
 UserACC.value = user;
 

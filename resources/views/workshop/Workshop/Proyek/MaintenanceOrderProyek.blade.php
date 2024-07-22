@@ -382,5 +382,9 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    let user = @json($nomoruser);
+    console.log('User number is:', user);
+</script>
 <script src="{{ asset('js/Andre-WorkShop/Workshop/Proyek/MaintenanceOrderProyek.js') }}"></script>
 @endsection

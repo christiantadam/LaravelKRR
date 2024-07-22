@@ -5,7 +5,7 @@ let table_data = $("#tablestatus").DataTable();
 
 let kddivisi = document.getElementById("kddivisi");
 
-let user = 4384;
+// let user = 4384;
 let refresh = document.getElementById("refresh");
 
 let formterima = document.getElementById('formterima');

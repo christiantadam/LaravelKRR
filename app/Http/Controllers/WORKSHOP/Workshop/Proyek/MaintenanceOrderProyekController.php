@@ -13,10 +13,11 @@ class MaintenanceOrderProyekController extends Controller
 
     public function index()
     {
+        $nomoruser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         $satuan = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_SATUAN]');
         $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
-        return view('WORKSHOP.Workshop.Proyek.MaintenanceOrderProyek', compact(['divisi', 'satuan'], 'access'));
+        return view('WORKSHOP.Workshop.Proyek.MaintenanceOrderProyek', compact(['divisi', 'satuan'], 'access', 'nomoruser'));
     }
     public function GetMesin($idDivisi)
     {

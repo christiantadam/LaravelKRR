@@ -13,9 +13,10 @@ class ACCManagerGambarController extends Controller
 
     public function index()
     {
+        $nomoruser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
         $divisi = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_USER-DIVISI] @user = ?', [Auth::user()->NomorUser]);
-        return view('WORKSHOP.Workshop.Transaksi.ACCManagerGambar', compact(['divisi'], 'access'));
+        return view('WORKSHOP.Workshop.Transaksi.ACCManagerGambar', compact(['divisi'], 'access', 'nomoruser'));
     }
     public function GetDataAll($divisi)
     {

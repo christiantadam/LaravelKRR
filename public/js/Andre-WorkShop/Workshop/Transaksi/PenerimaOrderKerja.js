@@ -4,7 +4,7 @@ let table_data = $("#tablePenerimaOrderKerja").DataTable();
 let refresh = document.getElementById("refresh");
 let cek = false;
 let iduser = document.getElementById("iduser");
-let user = 4384;
+// let user = 4384;
 iduser.value = user;
 var panjangdata;
 let arraycheckbox = [];
@@ -520,7 +520,7 @@ function koreksiklik() {
                 KeteranganOrder.value = table_data.cell(index, 10).data();
                 JumlahOrder.value = table_data.cell(index, 6).data();
                 LabelStatus.textContent = table_data.cell(index, 7).data();
-                Usermodalkoreksi.value = table_data.cell(index, 12).data();
+                Usermodalkoreksi.value = user;
                 Tsts.value = 1;
                 console.log(KdBarang.value);
                 if (KdBarang.value != "") {

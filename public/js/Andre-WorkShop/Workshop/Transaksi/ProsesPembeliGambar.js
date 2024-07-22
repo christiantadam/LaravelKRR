@@ -5,7 +5,7 @@ let tgl_akhir = document.getElementById("tgl_akhir");
 let table_data = $("#tableProsesPembeli").DataTable();
 let refresh = document.getElementById("refresh");
 //let user_id = 4384;
-let user_id = 2697;
+let user_id = user;
 
 let nogam = document.getElementById("nogam");
 let idorder = document.getElementById("idorder");

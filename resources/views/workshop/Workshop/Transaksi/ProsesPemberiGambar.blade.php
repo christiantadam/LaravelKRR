@@ -281,5 +281,9 @@
     <input type="hidden" name="_method" id="methodForm">
     <input type="hidden" name="noOd" id="noOd">
 </form>
+<script type="text/javascript">
+    let user = @json($nomoruser);
+    console.log('User number is:', user);
+</script>
 <script src="{{ asset('js/Andre-WorkShop/Workshop/Transaksi/ProsesPembeliGambar.js') }}"></script>
 @endsection

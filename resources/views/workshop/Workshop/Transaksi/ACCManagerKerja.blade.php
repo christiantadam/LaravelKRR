@@ -108,13 +108,14 @@
                                 <input type="hidden" name="_method" id="methodForm">
                                 <div class="row">
                                     <div class="col-lg-5">
-                                        <span class="custom-alignment">User ACC</span>
+                                        <span class="custom-alignment">User ACC:</span>
                                     </div>
 
                                     <div class="col-lg-5">
-                                        <input type="text" name="UserACC" class="form-control" id="UserACC">
+                                        <input type="text" name="UserACC" class="form-control" id="UserACC" readonly>
                                     </div>
                                 </div>
+                                <br>
                                 <div class="row">
                                     <div class="col-lg-5">
                                         <span class="custom-alignment">No. Order:</span>
@@ -295,5 +296,9 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    let user = @json($nomoruser);
+    console.log('User number is:', user);
+</script>
 <script src="{{ asset('js/Andre-WorkShop/Workshop/Transaksi/ACCManagerKerja.js') }}"></script>
 @endsection

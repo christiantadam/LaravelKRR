@@ -13,8 +13,9 @@ class ProsesPembeliGambarController extends Controller
 
     public function index()
     {
+        $nomoruser = trim(Auth::user()->NomorUser);
         $access = (new HakAksesController)->HakAksesFiturMaster('Workshop');
-        return view('WORKSHOP.Workshop.Transaksi.ProsesPemberiGambar', compact('access'));
+        return view('WORKSHOP.Workshop.Transaksi.ProsesPemberiGambar', compact('access','nomoruser'));
     }
     public function GetAllData($tgl_awal, $tgl_akhir)
     {
