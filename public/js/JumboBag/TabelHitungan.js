@@ -650,6 +650,14 @@ function insertMasterDanKodeBarang() {
                 Tgl_Update: formattedDateNow,
                 mode_insert: "Master",
             }, // Pass the data with csrf_tokern
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
             success: function (response) {
                 // Handle the successful response from the controller
                 if (response.success) {
@@ -765,6 +773,14 @@ function updateDataHead() {
                 Tanggal: tanggal.value,
                 Tgl_Update: formattedDateNow,
             }, // Pass the data with csrf_tokern
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
             success: function (response) {
                 // Handle the successful response from the controller
                 if (response.success) {
@@ -845,6 +861,14 @@ function deleteDataTableHitungan() {
             data: {
                 _token: csrfToken,
             }, // Pass the data with csrf_tokern
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
             success: function (response) {
                 // Handle the successful response from the controller
                 if (response.success) {
@@ -3120,6 +3144,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 kounter: kounterKomponenGeneral.value,
                             },
                             dataType: "json",
+                            beforeSend: function () {
+                                // Show loading screen
+                                $("#loading-screen").css("display", "flex");
+                            },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
+                            },
                             success: function (data) {
                                 // Get the select element
                                 console.log(data);
@@ -3523,6 +3555,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 kounter: kounterKomponenCircular.value,
                             },
                             dataType: "json",
+                            beforeSend: function () {
+                                // Show loading screen
+                                $("#loading-screen").css("display", "flex");
+                            },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
+                            },
                             success: function (data) {
                                 // Get the select element
                                 console.log(data);
@@ -3823,6 +3863,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 kounter: kounterKomponenSquare.value,
                             },
                             dataType: "json",
+                            beforeSend: function () {
+                                // Show loading screen
+                                $("#loading-screen").css("display", "flex");
+                            },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
+                            },
                             success: function (data) {
                                 // Get the select element
                                 console.log(data);
@@ -3886,6 +3934,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB/getDiameterKomponenRope", // URL to your PHP script that fetches data
                         method: "GET",
                         dataType: "json",
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (data) {
                             // Get the select element
                             const selectElement = $("#diameterKomponenRope");
@@ -4060,6 +4116,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             url: "TabelHitunganJBB/getLebarKomponenPita",
                             method: "GET",
                             dataType: "json",
+                            beforeSend: function () {
+                                // Show loading screen
+                                $("#loading-screen").css("display", "flex");
+                            },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
+                            },
                             success: function (data) {
                                 console.log(data);
                                 // Get the select element
@@ -4093,6 +4157,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             url: "TabelHitunganJBB/getLebarKomponenBelt", // URL to your PHP script that fetches data
                             method: "GET",
                             dataType: "json",
+                            beforeSend: function () {
+                                // Show loading screen
+                                $("#loading-screen").css("display", "flex");
+                            },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
+                            },
                             success: function (data) {
                                 // Get the select element
                                 console.log(data);
@@ -4510,6 +4582,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         method: "GET",
                         dataType: "json",
                         data: { KodeBarang: nama_barang.value },
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (data) {
                             // Get the select element
                             console.log(data, KompVarKomponen);
@@ -5182,6 +5262,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         method: "GET",
                         dataType: "json",
                         data: { KodeBarang: nama_barang.value },
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (data) {
                             // Get the select element
                             console.log(data);
@@ -5417,6 +5505,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB/getLebarKomponenKatun", // URL to your PHP script that fetches data
                         method: "GET",
                         dataType: "json",
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (data) {
                             console.log(data);
                             // Get the select element
@@ -5708,7 +5804,6 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                     //Javascript khusus untuk Form Komponen Benang Katun FormKomponenBenangKatun.js
                     var inputElements = [
                         "panjangKomponenBenangKatun",
-                        "lebarKomponenBenangKatun",
                         "beratStdKomponenBenangKatun",
                         "quantityKomponenBenangKatun",
                         "totalBeratKomponenBenangKatun",
@@ -5736,6 +5831,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         url: "TabelHitunganJBB/getLebarKomponenBenangKatun", // URL to your PHP script that fetches data
                         method: "GET",
                         dataType: "json",
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (data) {
                             console.log(data);
                             // Get the select element
@@ -6076,6 +6179,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: denier_warpKomponenGeneral.value,
                             DenierWE: denier_weftKomponenGeneral.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6121,6 +6232,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: denier_warpKomponenGeneral.value,
                             DenierWE: denier_weftKomponenGeneral.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6151,6 +6270,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenGeneral.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6198,6 +6325,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: denier_warpKomponenCircular.value,
                             DenierWE: denier_weftKomponenCircular.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6243,6 +6378,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: denier_warpKomponenCircular.value,
                             DenierWE: denier_weftKomponenCircular.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6273,6 +6416,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenCircular.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6320,6 +6471,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: denier_warpKomponenSquare.value,
                             DenierWE: denier_weftKomponenSquare.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6365,6 +6524,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: denier_warpKomponenSquare.value,
                             DenierWE: denier_weftKomponenSquare.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6395,6 +6562,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenSquare.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6442,6 +6617,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6487,6 +6670,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6517,6 +6708,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenRope.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6564,6 +6763,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6609,6 +6816,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6639,6 +6854,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenBelt.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6686,6 +6909,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6731,6 +6962,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -6761,6 +7000,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenSelang.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7254,6 +7501,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7299,6 +7554,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7329,6 +7592,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenInner.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7376,6 +7647,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7421,6 +7700,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7451,6 +7738,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenPocket.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7498,6 +7793,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7543,6 +7846,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7573,6 +7884,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenEva.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7620,6 +7939,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7665,6 +7992,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7695,6 +8030,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenBenang.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7742,6 +8085,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7787,6 +8138,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7817,6 +8176,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenOngkos.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7864,6 +8231,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7909,6 +8284,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7939,6 +8322,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenDust.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -7986,6 +8377,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8031,6 +8430,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8061,6 +8468,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenBenangKatun.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8108,6 +8523,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8154,6 +8577,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8184,6 +8615,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenKertas.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8231,6 +8670,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8277,6 +8724,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8307,6 +8762,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenKain.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8354,6 +8817,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8399,6 +8870,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8429,6 +8908,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenBenangKatun.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8476,6 +8963,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8521,6 +9016,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8551,6 +9054,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenKaret.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8598,6 +9109,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8641,6 +9160,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             DenierWA: 0,
                             DenierWE: 0,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
@@ -8671,6 +9198,14 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             KodeKomponen: Kode_Komponen,
                             Kounter: kounterKomponenCarbon.value,
                         }, // Pass the data with csrf_tokern
+                        beforeSend: function () {
+                            // Show loading screen
+                            $("#loading-screen").css("display", "flex");
+                        },
+                        complete: function () {
+                            // Hide loading screen
+                            $("#loading-screen").css("display", "none");
+                        },
                         success: function (response) {
                             // Handle the successful response from the controller
                             if (response.success) {
