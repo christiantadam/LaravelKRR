@@ -451,42 +451,72 @@ function koreksiklik() {
             "Pilih 'Order DiKerjakan' atau 'Order Selesai' atau 'Order Dibatalkan"
         );
     } else {
-        let no_order;
         var arrayindex = [];
+        var no_order;
+        var trselect;
+        var index;
 
         $("input[name='penerimaCheckbox']:checked").each(function () {
-            let rowIndex = $(this).closest("tr").index();
-            let closestTr = $(this).closest("tr");
-            // console.log(rowIndex);
+            var tr = $(this).closest('tr')[0];
+            var row = table_data.row(tr);
+
             no_order = this.value;
-            trselect = closestTr;
-            index = rowIndex;
+            index = row.index();
+            trselect = tr;
             arrayindex.push(index);
-            console.log(trselect);
-            // let value = this.value;
-            // console.log(rowIndexArray);
+
+            console.log("Row Index:", index);
+            console.log("Row Node:", tr);
+            console.log("Order Value:", no_order);
+            console.log("Array Indexes:", arrayindex);
         });
-        console.log(index);
+
+        // $("input[name='penerimaCheckbox']:checked").each(function () {
+        // let rowIndex = $(this).closest("tr").index();
+        // let closestTr = $(this).closest("tr");
+        // console.log(rowIndex);
+        // no_order = this.value;
+        // trselect = closestTr;
+        // index = rowIndex;
+        // arrayindex.push(index);
+        // console.log(trselect);
+        // let value = this.value;
+        // console.log(rowIndexArray);
+        // });
+
+        // $('input[name="penerimaCheckbox"]:checked').each(function() {
+        //     var rowIndex = $(this).closest('tr').index();
+        //     var tr = window.table.row(rowIndex).node();
+        //     no_order = this.value;
+        //     index = rowIndex;
+        //     arrayindex.push(index);
+
+        //     console.log('Row Index:', rowIndex);
+        //     console.log('Row Node:', tr);
+        //     console.log('Order Value:', no_order);
+        //     console.log('Array Indexes:', arrayindex);
+        // });
+
         if (arrayindex.length === 0 || arrayindex.length > 1) {
             alert("Pilih 1 Data Untuk DiPROSES");
             return;
         } else {
-            if (trselect.hasClass("red-color") && order_batal.checked == true) {
+            if (trselect && $(trselect).hasClass("red-color") && order_batal.checked == true) {
                 alert("Proses Order Untuk Dikerjakan Dulu Atau Batal ACC");
                 return;
             }
-            if (trselect.hasClass("black-color")) {
+            if (trselect && $(trselect).hasClass("black-color")) {
                 alert("Proses Order Untuk Diterima Dulu, baru Koreksi");
                 return;
             }
             if (
-                trselect.hasClass("red-color") &&
+                trselect && $(trselect).hasClass("red-color") &&
                 order_selesai.checked == true
             ) {
                 alert("Proses Order Untuk Dikerjakan Dulu");
                 return;
             }
-            if (trselect.hasClass("Fuchsia-color")) {
+            if (trselect && $(trselect).hasClass("Fuchsia-color")) {
                 alert("Order Gambar Finished");
                 return;
             } else if (
@@ -498,8 +528,8 @@ function koreksiklik() {
                 btnkoreksi.setAttribute("data-target", "");
             }
             if (
-                trselect.hasClass("red-color") ||
-                (trselect.hasClass("blue-color") && order_kerja.checked == true)
+                trselect && $(trselect).hasClass("red-color") ||
+                (trselect && $(trselect).hasClass("blue-color") && order_kerja.checked == true)
             ) {
                 fetch("/namauserPenerimaOrderKerja/" + user)
                     .then((response) => response.json())
@@ -557,7 +587,7 @@ function koreksiklik() {
                 });
             }
             if (
-                trselect.hasClass("blue-color") &&
+                trselect && $(trselect).hasClass("blue-color") &&
                 order_selesai.checked == true
             ) {
                 fetch("/namauserPenerimaOrderKerja/" + user)
@@ -615,7 +645,7 @@ function koreksiklik() {
                 });
             }
             if (
-                trselect.hasClass("blue-color") &&
+                trselect && $(trselect).hasClass("blue-color") &&
                 order_batal.checked == true
             ) {
                 let ada;
