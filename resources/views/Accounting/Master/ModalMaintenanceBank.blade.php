@@ -7,10 +7,9 @@
             </div>
             <div class="modal-body">
                 <div class="form-container col-md-12">
-                    <form method="POST" action="{{ url('MaintenanceBank') }}" id="formMaintenanceBank">
+                    <form id="formMaintenanceBank">
                         {{ csrf_field() }}
-                        <input type="hidden" name="_method" id="methodkoreksi">
-                        <input type="hidden" name="typeKegiatanForm" id="typeKegiatanForm"> {{-- untuk setting kegiatan apa yang digunakan, (isi, atau koreksi) --}}
+                        <input type="hidden" name="_method">
                         <!-- Form fields go here -->
                         <div style="display: flex;flex-direction:row">
                             <div class="col-md-6">
@@ -41,12 +40,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="statusAktif" style="width: 51%">Status Aktif</label>
-                                    <div class="input-group">
-                                        <input type="checkbox" name="statusAktif" id="statusAktif" checked>Aktif
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label for="kodePerkiraanSelect" style="width: 100%;">Kode Perkiraan</label>
                                     <div class="input-group" style="display: flex; align-items: center;">
                                         <input type="hidden" id="ketKodePerkiraan" name="ketKodePerkiraan"
@@ -67,14 +60,14 @@
                                         <input type="text" name="noRekening" id="noRekening" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="saldoBank" style="width: 51%">Saldo Bank</label>
                                     <div class="input-group">
                                         <input type="text" name="saldoBank" id="saldoBank" class="form-control">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="alamat" style="width: 51%">Alamat</label>
                                     <div class="input-group">
@@ -107,20 +100,9 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="d-flex">
-                        <input type="submit" name="isi" id="btnIsi" value="Isi" class="btn btn-primary">
-                        <input type="submit" name="koreksi" id="btnKoreksi" value="Koreksi"
-                            class="btn btn-warning">
-                        <input type="submit" name="hapus" id="btnHapus" value="Hapus" class="btn btn-danger">
-                        <input type="submit" name="proses" id="btnProses" value="Proses" class="btn btn-success"
-                            disabled>
-                        <input type="submit" name="batal" id="btnBatal" value="Batal" class="btn btn-danger"
-                            style="display: none">
-                    </div> --}}
                         <div class="modal-footer d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary" id="prosesButtonModal">Proses</button>
-                            <button type="button text-end" class="btn btn-danger"
-                                data-bs-dismiss="modal">Keluar</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Keluar</button>
                         </div>
                     </form>
                 </div>

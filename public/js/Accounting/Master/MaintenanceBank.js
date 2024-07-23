@@ -1,206 +1,11 @@
-// let idBank = document.getElementById("idBank");
-// let namaBankselect = document.getElementById("namaBankselect");
-// let jenisBankSelect = document.getElementById("jenisBankSelect");
-// let statusAktif = document.getElementById("statusAktif");
-// let kodePerkiraanSelect = document.getElementById("kodePerkiraanSelect");
-// let noRekening = document.getElementById("noRekening");
-// let saldoBank = document.getElementById("saldoBank");
-// let alamat = document.getElementById("alamat");
-// let kota = document.getElementById("kota");
-// let telp = document.getElementById("telp");
-// let person = document.getElementById("person");
-// let hp = document.getElementById("hp");
-// let isiNamaBank = document.getElementById("isiNamaBank");
-// let kodePerkiraan = document.getElementById("kodePerkiraan");
-// let ketKodePerkiraan = document.getElementById("ketKodePerkiraan");
-// let proses;
-// var hiddenInput;
+var csrfToken = $('meta[name="csrf-token"]').attr("content");
 
-// let btnIsi = document.getElementById("btnIsi");
-// let btnKoreksi = document.getElementById("btnKoreksi");
-// let btnHapus = document.getElementById("btnHapus");
-// let btnProses = document.getElementById("btnProses");
-// let btnKeluar = document.getElementById("btnKeluar");
-// let btnBatal = document.getElementById("btnBatal");
-
-// let formkoreksi = document.getElementById("formkoreksi");
-// let methodform = document.getElementById("methodkoreksi");
-
-// btnIsi.addEventListener('click', function (event) {
-//     event.preventDefault();
-// })
-
-// btnBatal.addEventListener('click', function (event) {
-//     event.preventDefault();
-//     // clickBatal();
-//     idBank.value = "";
-//     jenisBankSelect.checked = false;
-//     namaBankselect.selectedIndex = 0;
-//     statusAktif.checked = false;
-//     kodePerkiraanSelect.value = "";
-//     noRekening.value = "";
-//     saldoBank.value = "";
-//     alamat.value = "";
-//     kota.value = "";
-//     telp.value = "";
-//     person.value = "";
-//     hp.value = "";
-//     isiNamaBank.value = "";
-//     ketKodePerkiraan.value = "";
-//     kodePerkiraan.value ="";
-// });
-
-// btnProses.addEventListener('click', function (event) {
-//     event.preventDefault();
-// })
-
-// btnKoreksi.addEventListener('click', function (event) {
-//     event.preventDefault();
-// });
-
-// btnHapus.addEventListener('click', function(event) {
-//     event.preventDefault();
-// })
-
-// function clickIsi() {
-//     idBank.disabled = false;
-//     namaBankselect.disabled = false;
-//     jenisBankSelect.disabled = false;
-//     statusAktif.disabled = false;
-//     ketKodePerkiraan.disabled = false;
-//     kodePerkiraanSelect.disabled = false;
-//     noRekening.disabled = false;
-//     saldoBank.disabled = false;
-//     alamat.disabled = false;
-//     kota.disabled = false;
-//     kota.disabled = false;
-//     telp.disabled = false;
-//     person.disabled = false;
-//     hp.disabled = false;
-
-//     namaBankselect.style.display = "none";
-//     isiNamaBank.style.display = "block";
-//     btnIsi.disabled = true;
-//     btnKoreksi.disabled = true;
-//     btnHapus.disabled = true;
-//     btnProses.disabled = false;
-//     //btnKeluar.style.display = "none";
-//     btnBatal.style.display = "block";
-//     proses = 1;
-// }
-
-// function clickBatal() {
-//     namaBankselect.style.display = "block";
-//     isiNamaBank.style.display = "none";
-//     btnIsi.disabled = false;
-//     btnKoreksi.disabled = false;
-//     btnHapus.disabled = false;
-//     btnProses.disabled = true;
-//     btnBatal.style.display = "none";
-
-//     idBank.disabled = true;
-//     namaBankselect.disabled = true;
-//     kodePerkiraanSelect.disabled = true;
-//     ketKodePerkiraan.disabled = true;
-//     noRekening.disabled = true;
-//     saldoBank.disabled = true;
-//     alamat.disabled = true;
-//     kota.disabled = true;
-//     telp.disabled = true;
-//     person.disabled = true;
-//     hp.disabled = true;
-// }
-
-// function clickKoreksi() {
-//     idBank.disabled = false;
-//     namaBankselect.disabled = false;
-//     jenisBankSelect.disabled = false;
-//     statusAktif.disabled = false;
-//     ketKodePerkiraan.disabled = false;
-//     kodePerkiraanSelect.disabled = false;
-//     noRekening.disabled = false;
-//     saldoBank.disabled = false;
-//     alamat.disabled = false;
-//     kota.disabled = false;
-//     kota.disabled = false;
-//     telp.disabled = false;
-//     person.disabled = false;
-//     hp.disabled = false;
-
-//     btnIsi.disabled = true
-//     btnKoreksi.disabled = true;
-//     btnHapus.disabled = true;
-//     btnProses.disabled = false;
-//     btnBatal.style.display = "block";
-//     proses = 2;
-// }
-
-// function clickHapus() {
-//     idBank.disabled = false;
-//     namaBankselect.disabled = false;
-//     jenisBankSelect.disabled = false;
-//     statusAktif.disabled = false;
-//     ketKodePerkiraan.disabled = false;
-//     kodePerkiraanSelect.disabled = false;
-//     noRekening.disabled = false;
-//     saldoBank.disabled = false;
-//     alamat.disabled = false;
-//     kota.disabled = false;
-//     kota.disabled = false;
-//     telp.disabled = false;
-//     person.disabled = false;
-//     hp.disabled = false;
-
-//     btnIsi.disabled = true
-//     btnKoreksi.disabled = true;
-//     btnHapus.disabled = true;
-//     btnProses.disabled = false;
-//     btnBatal.style.display = "block";
-//     proses = 3;
-// }
-
-// fetch("/getkodeperkiraan/")
-//     .then((response) => response.json())
-//     .then((options) => {
-//         console.log(options);
-//         kodePerkiraanSelect.innerHTML = "";
-
-//         const defaultOption = document.createElement("option");
-//         defaultOption.disabled = true;
-//         defaultOption.selected = true;
-//         defaultOption.innerText = "Kode Perkiraan";
-//         kodePerkiraanSelect.appendChild(defaultOption);
-
-//         options.forEach((entry) => {
-//             const option = document.createElement("option");
-//             option.value = entry.NoKodePerkiraan;
-//             option.innerText = entry.NoKodePerkiraan + "|" + entry.Keterangan;
-//             kodePerkiraanSelect.appendChild(option);
-//         });
-// });
-
-// btnProses.addEventListener ("click", function (event) {
-//     event.preventDefault();
-//     if (proses == 1) {
-//         // console.log("masuk isi");
-//         formkoreksi.submit();
-//     } else if (proses == 2) {
-//         //console.log("masuk korek");
-//         methodform.value="PUT";
-//         formkoreksi.action = "/MaintenanceBank/" + idBank.value;
-//         formkoreksi.append(hiddenInput);
-//         formkoreksi.submit();
-//     } else if (proses == 3) {
-//         methodform.value="DELETE";
-//         formkoreksi.action = "/MaintenanceBank/" + idBank.value;
-//         formkoreksi.submit();
-//     }
-// });
 $(document).ready(function () {
+    //#region Set up Variable
+
     var dataTableBank = $("#table_Bank").DataTable({
         serverSide: true,
         responsive: true,
-        ordering: false,
         ajax: {
             url: "MaintenanceBank/getAllBank",
             type: "GET",
@@ -237,26 +42,23 @@ $(document).ready(function () {
                         '" data-bs-toggle="modal" data-typeForm="koreksi" data-bs-target="#modalBank" type="button">Edit</button>' +
                         '<button class="btn btn-danger" data-id="' +
                         rowID +
-                        '">Hapus</button>'
+                        '">Non-aktif</button>'
                     );
                 },
             },
         ],
     });
     // variabel element halaman maintenance bank
-    var csrfToken = $('meta[name="csrf-token"]').attr("content");
-    let tambahButtonBank = document.getElementById("tambahButtonBank");
+    let table_Bank = document.getElementById("table_Bank");
 
     // variabel element modal maintenance bank
     let modalBank = document.getElementById("modalBank");
     let modalLabelBank = document.getElementById("modalLabelBank");
     let formMaintenanceBank = document.getElementById("formMaintenanceBank");
-    let typeKegiatanForm = document.getElementById("typeKegiatanForm");
     let idBank = document.getElementById("idBank");
     let isiNamaBank = document.getElementById("isiNamaBank");
     let jenisBankSelect_E = document.getElementById("jenisBankSelect_E");
     let jenisBankSelect_I = document.getElementById("jenisBankSelect_I");
-    let statusAktif = document.getElementById("statusAktif");
     let ketKodePerkiraan = document.getElementById("ketKodePerkiraan");
     let kodePerkiraanSelect = document.getElementById("kodePerkiraanSelect");
     let noRekening = document.getElementById("noRekening");
@@ -272,23 +74,122 @@ $(document).ready(function () {
     let typeform;
     let form;
 
+    //#endregion
+
+    //#region Function Mantap-mantap
+
+    // Define the hapusBank function
+    function hapusBank(event) {
+        // Get the button element that triggered the event
+        var button = event.target;
+        // Retrieve the data-id attribute
+        var dataId = button.getAttribute("data-id");
+        // Log or use the dataId as needed
+        console.log(dataId);
+
+        $.ajax({
+            url: "/MaintenanceBank/" + dataId,
+            method: "DELETE",
+            processData: false,
+            contentType: false,
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: response.success,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: response.error,
+                    });
+                }
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: error.statusText,
+                });
+                console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
+        });
+        dataTableBank.ajax.reload();
+    }
+
+    // Function to handle keypress events
+    function ModalBankHandleEnterKeypress(e) {
+        if (e.key == "Enter") {
+            e.preventDefault(); // Prevent the default action of the Enter key
+
+            if (this.value == "") {
+                this.value = "-";
+            }
+
+            // Find the next input element that is not readonly or disabled
+            let nextElement = getNextFocusableElement(this);
+            if (nextElement) {
+                nextElement.focus();
+            }
+        }
+    }
+
+    // Function to get the next focusable element
+    function getNextFocusableElement(currentElement) {
+        let elements = document.querySelectorAll(
+            "#modalBank input:not([type='hidden']), #modalBank select, #modalBank button"
+        );
+        let currentIndex = Array.prototype.indexOf.call(
+            elements,
+            currentElement
+        );
+
+        for (let i = currentIndex + 1; i < elements.length; i++) {
+            if (!elements[i].readOnly && !elements[i].disabled) {
+                return elements[i];
+            }
+        }
+        return null;
+    }
+
+    //#endregion
+
+    //#region Add Event Listener
+
     modalBank.addEventListener("shown.bs.modal", function (event) {
         button = $(event.relatedTarget); // Button that triggered the modal
         bankData = button.data();
         typeform = button.data("typeform");
-        typeKegiatanForm.value = typeform;
-        console.log(bankData);
         form = $("#formMaintenanceBank");
+        let inputElements = modalBank.querySelectorAll(
+            "input, select, textarea"
+        );
+        // Add event listeners to all input elements within the modal
+        inputElements.forEach(function (element) {
+            element.addEventListener("keypress", ModalBankHandleEnterKeypress);
+        });
 
         if (typeform == "koreksi") {
             //setting up modal supaya bisa koreksi barang
             modalLabelBank.innerHTML = "Koreksi Bank";
-            form.attr("action", "/MaintenanceBank/" + idBank.value);
-            form.attr("method", "PUT");
+            idBank.value = button.data("bankId");
             idBank.readOnly = true;
             isiNamaBank.style.display = "block";
             isiNamaBank.focus();
             prosesButtonModal.disabled = true;
+            form.attr("action", "/MaintenanceBank/" + idBank.value);
+            form.attr("method", "PUT");
 
             $.ajax({
                 //Get data bank menurut ID
@@ -306,7 +207,6 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     console.log(response);
-                    idBank.value = button.data("bankId");
                     isiNamaBank.value = response[0].Nama_Bank;
                     kodePerkiraanSelect.value = response[0].KodePerkiraan;
                     if (kodePerkiraanSelect.value) {
@@ -326,11 +226,6 @@ $(document).ready(function () {
                         jenisBankSelect_E.checked = true;
                     } else {
                         jenisBankSelect_I.checked = true;
-                    }
-                    if (response[0].Aktif == "Y") {
-                        statusAktif.checked = true;
-                    } else {
-                        statusAktif.checked = false;
                     }
                     prosesButtonModal.disabled = false;
                 },
@@ -358,7 +253,6 @@ $(document).ready(function () {
     modalBank.addEventListener("hidden.bs.modal", function (event) {
         // Clear all input fields
         jenisBankSelect_E.checked = true;
-        statusAktif.checked = true;
         formMaintenanceBank.querySelectorAll("input").forEach(function (input) {
             input.value = "";
             input.readOnly = false;
@@ -377,30 +271,158 @@ $(document).ready(function () {
             .forEach(function (textarea) {
                 textarea.value = "";
             });
+
+        // Remove event listeners when the modal is hidden to prevent memory leaks
+        let inputElements = modalBank.querySelectorAll(
+            "input, select, textarea"
+        );
+
+        inputElements.forEach(function (element) {
+            element.removeEventListener(
+                "keypress",
+                ModalBankHandleEnterKeypress
+            );
+        });
     });
 
     kodePerkiraanSelect.addEventListener("change", function (event) {
         event.preventDefault();
-        const selectedOption =
-            kodePerkiraanSelect.options[kodePerkiraanSelect.selectedIndex];
-        if (selectedOption) {
-            ketKodePerkiraan.value = selectedOption.value.split(" | ")[1]; // Nilai dari opsi yang dipilih (format: "id | nama")
+        if (kodePerkiraanSelect.selectedIndex > 0) {
+            ketKodePerkiraan.value = kodePerkiraanSelect.options[
+                kodePerkiraanSelect.selectedIndex
+            ].innerText
+                .split("|")[1]
+                .trim(); // Nilai dari opsi yang dipilih (format: "id | nama")
         }
     });
 
     prosesButtonModal.addEventListener("click", function (event) {
         event.preventDefault();
-
-        // Serialize form data into an object
-        let formDataObject = {};
-        formDataArray.forEach((item) => {
-            formDataObject[item.name] = item.value;
-        });
-        console.log(formDataObject);
-        console.log(formDataObject["typeKegiatanForm"]);
-
-        if (formDataObject["typeKegiatanForm"] == "koreksi") {
-            console.log('masuk');
+        if (typeform == "koreksi") {
+            console.log(
+                isiNamaBank.value,
+                jenisBankSelect_E.checked ? "E" : "I",
+                alamat.value,
+                kota.value,
+                telp.value,
+                person.value,
+                hp.value,
+                saldoBank.value,
+                noRekening.value,
+                kodePerkiraanSelect.value
+            );
+            $.ajax({
+                url: "/MaintenanceBank/" + idBank.value,
+                method: "PUT",
+                data: {
+                    namaBankSelect: isiNamaBank.value,
+                    jenisBankSelect: jenisBankSelect_E.checked ? "E" : "I",
+                    alamat: alamat.value,
+                    kota: kota.value,
+                    telp: telp.value,
+                    person: person.value,
+                    hp: hp.value,
+                    saldoBank: saldoBank.value,
+                    norekening: noRekening.value,
+                    kodePerkiraanSelect: kodePerkiraanSelect.value,
+                },
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: response.success,
+                        }).then((result) => {
+                            console.log(modalBank);
+                            $('#modalBank').modal('hide');
+                            dataTableBank.ajax.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: response.error,
+                        }).then((result) => {
+                            $('#modalBank').modal('hide');
+                            dataTableBank.ajax.reload();
+                        });
+                    }
+                },
+                error: function (error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: error.statusText,
+                    });
+                    console.error(error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
+                },
+            });
+        } else if (typeform == "tambah") {
+            $.ajax({
+                //Get data bank menurut ID
+                url: "/MaintenanceBank/",
+                method: "POST",
+                data: new FormData(formMaintenanceBank),
+                processData: false,
+                contentType: false,
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: response.success,
+                        }).then((result) => {
+                            $('#modalBank').modal('hide');
+                            dataTableBank.ajax.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: response.error,
+                        }).then((result) => {
+                            $('#modalBank').modal('hide');
+                            dataTableBank.ajax.reload();
+                        });
+                    }
+                },
+                error: function (error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: error.statusText,
+                    });
+                    console.error("Error saving data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
+                },
+            });
         }
     });
+
+    // Attach a click event listener to the table
+    table_Bank.addEventListener("click", function (event) {
+        // Check if the clicked element is a button with class 'btn btn-danger'
+        if (event.target && event.target.classList.contains("btn-danger")) {
+            hapusBank(event);
+        }
+    });
+
+    //#endregion
 });
