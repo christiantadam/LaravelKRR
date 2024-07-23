@@ -8,6 +8,11 @@
         max-width: 90%;
         /* Adjust the percentage as needed */
     }
+
+    table.dataTable tbody th,
+    table.dataTable tbody td {
+        padding: 2px 3px
+    }
 </style>
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -18,19 +23,7 @@
                 <div class="acs-btn-txt">Tambah Bank</div>
             </button>
             <div class="card">
-                <div class="card-header">Maintenance Bank (In Progress)</div>
-                @if (Session::has('success'))
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            Swal.fire({
-                                title: 'Success!',
-                                text: '{{ Session::get('success') }}',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            });
-                        });
-                    </script>
-                @endif
+                <div class="card-header">List Bank</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div style="overflow: auto;">
                         <table id="table_Bank" class="table table-bordered" style="width:100%;white-space: nowrap;">

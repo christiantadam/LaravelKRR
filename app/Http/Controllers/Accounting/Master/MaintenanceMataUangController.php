@@ -5,19 +5,22 @@ namespace App\Http\Controllers\Accounting\Master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
+use Exception;
 
 class MaintenanceMataUangController extends Controller
 {
     //Display a listing of the resource.
     public function index()
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
         $maintenanceMataUang = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_UANG_ALL_TMATAUANG]');
         // dd($maintenanceMataUang);
-        return view('Accounting.Master.MaintenanceMataUang', compact(['maintenanceMataUang']));
+        return view('Accounting.Master.MaintenanceMataUang', compact(['maintenanceMataUang', 'access']));
     }
     function getDataMataUang($idMataUang)
     {
-        $data =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_UANG_ID_TMATAUANG]
+        $data = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_UANG_ID_TMATAUANG]
         @IdMataUang = ?', [$idMataUang]);
         return response()->json($data);
     }
@@ -47,9 +50,17 @@ class MaintenanceMataUangController extends Controller
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show($id)
     {
-        //
+        try {
+            if ($id == 'getAllMataUang') {
+                $listMataUang = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_UANG_ALL_TMATAUANG]'); //Get All data Bank where aktif == 'Y'
+                return datatables($listMataUang)->make(true);
+            }
+        } catch (Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()]);
+        }
+
     }
 
     // Show the form for editing the specified resource.

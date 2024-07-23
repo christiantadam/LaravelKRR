@@ -17,6 +17,15 @@
             outline: 1px solid red;
             text-decoration-color: red;
         }
+
+        table.dataTable tbody th,
+        table.dataTable tbody td {
+            padding: 4px 5px
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 2px 4px;
+        }
     </style>
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
