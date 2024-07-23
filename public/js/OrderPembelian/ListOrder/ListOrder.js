@@ -10,6 +10,10 @@ $(function () {
                 $(this).data("id") +
                 "/show",
             type: "get",
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 console.log(data)
                 document.getElementById("KategoriUtama_ListOrder").innerHTML =
@@ -103,6 +107,7 @@ $(function () {
                 alert(error);
             },
             complete: function () {
+                $("#loading-screen").css("display", "none");
                 $("#loading_ListOrder").hide();
                 $("#DivDetailData_ListOrder").show();
             },
@@ -141,6 +146,10 @@ $(function () {
                 "/Filter",
             type: "get",
             data: "_token = <?php echo csrf_token() ?>", // Remember that you need to have your csrf token included
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
             success: function (data) {
                 console.log(data);
                 datas = data.data;
@@ -174,6 +183,10 @@ $(function () {
                 console.log(status);
                 console.log(error);
             },
+            complete: function () {
+                        // Hide loading screen
+                        $("#loading-screen").css("display", "none");
+                    },
         });
         $("#table_ListOrder")
             .DataTable()
