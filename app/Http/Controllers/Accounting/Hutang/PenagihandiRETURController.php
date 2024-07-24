@@ -4,14 +4,19 @@ namespace App\Http\Controllers\Accounting\Hutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class PenagihandiRETURController extends Controller
 {
     //
-    public function PenagihandiRETUR()
+    public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Hutang.PenagihandiRETUR', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Hutang.PenagihandiRETUR', compact('access'));
     }
 
     //Show the form for creating a new resource.

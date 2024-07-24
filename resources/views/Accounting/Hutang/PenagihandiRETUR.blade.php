@@ -31,28 +31,15 @@
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>Tanggal</th>
-                                                <th>Id Penagihan</th>
+                                                <th>Id. Penagihan</th>
                                                 <th>Nama Supplier</th>
                                                 <th>Jenis Dok.</th>
                                                 <th>Sts. Pajak</th>
                                                 <th>Mata Uang</th>
                                                 <th>Nilai Penagihan</th>
-                                                <th>.......</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><input type="checkbox" id="checkAll">Data 1</td>
-                                                <td>Data 2</td>
-                                                <td>Data 3</td>
-                                                <td>Data 4</td>
-                                                <td>Data 5</td>
-                                                <td>Data 6</td>
-                                                <td>Data 7</td>
-                                                <td>Data 8</td>
-                                            </tr>
-
-                                            <!-- Tambahkan data tabel sesuai kebutuhan -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -79,20 +66,13 @@
                                                 <th>No. SPPB</th>
                                                 <th>Kd. Brg</th>
                                                 <th>Nama Barang</th>
-                                                <th>Gty Tagih</th>
+                                                <th>Qty Tagih</th>
+                                                <th>Satuan</th>
+                                                <th>Qty Retur</th>
+                                                <th>Tgl. Retur</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Data 1</td>
-                                                <td>Data 2</td>
-                                                <td>Data 3</td>
-                                                <td>Data 4</td>
-                                                <td>Data 5</td>
-                                                <td>Data 6</td>
-                                            </tr>
-
-                                            <!-- Tambahkan data tabel sesuai kebutuhan -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -101,10 +81,9 @@
                                 <div class="mb-3">
                                     <div class="row">
                                         <div class="col-2">
-                                            <input type="submit" id="btnProses" name="proses" value="Proses" class="btn btn-primary" disabled>
+                                            <button class="btn btn-primary" id="btn_proses">Proses</button>
                                         </div>
                                         <div class="col-10">
-                                            <input type="submit" id="btnKeluar" name="keluar" value="Keluar" class="btn btn-primary d-flex ml-auto">
                                         </div>
                                     </div>
 

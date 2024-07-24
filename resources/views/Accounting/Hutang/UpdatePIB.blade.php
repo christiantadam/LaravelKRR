@@ -4,6 +4,19 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
+        <script>
+            let successMessage = '';
+            let errorMessage = '';
+        </script>
+        @if (Session::has('success'))
+            <script>
+                successMessage = "{{ Session::get('success') }}";
+            </script>
+        @elseif (Session::has('error'))
+            <script>
+                errorMessage = "{{ Session::get('error') }}";
+            </script>
+        @endif
         <div class="col-md-7 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">Update PIB</div>
@@ -18,10 +31,12 @@
                                         <label for="id">Supplier</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="text" name="sp1" id="sp1" class="form-control" style="width: 100%">
+                                        <input type="text" name="sp1" id="sp1" class="form-control"
+                                            style="width: 100%">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" name="sp2" id="sp2" class="form-control" style="width: 100%">
+                                        <input type="text" name="sp2" id="sp2" class="form-control"
+                                            style="width: 100%">
                                     </div>
                                     <div class="col-md-1">
                                         <button class="btn" type="button" id="btn_supplier">...</button>
@@ -33,7 +48,8 @@
                                         <label for="id">ID Penagihan</label>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" id="idpenagihan" name="idtagihan" class="form-control" required>
+                                        <input type="text" id="idpenagihan" name="idtagihan" class="form-control"
+                                            required>
                                     </div>
                                     <div class="col-md-1">
                                         <button class="btn" type="button" id="btn_penagihan">...</button>
@@ -60,16 +76,19 @@
 
 <style>
     .custom-modal-content {
-        width: 200%; /* atau nilai lain sesuai kebutuhanmu */
+        width: 200%;
+        /* atau nilai lain sesuai kebutuhanmu */
         max-width: 200%;
         margin: 0 auto;
     }
 </style>
 
 <!-- Modal -->
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content" style="width: 300%; max-width: 300%; margin: 0 auto; position: relative; left: 50%; transform: translateX(-50%);">
+        <div class="modal-content"
+            style="width: 300%; max-width: 300%; margin: 0 auto; position: relative; left: 50%; transform: translateX(-50%);">
             <div class="modal-header">
                 <h5 class="modal-title" id="importModalLabel">Pemberitahuan Import Barang</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -158,6 +177,22 @@
                             <input type="date" class="form-control" id="tgl_spppb_bc" name="tgl_spppb_bc">
                         </div>
                     </div>
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" id="TIdTT" name="TIdTT">
+                    <input type="hidden" id="TIdPIB" name="TIdPIB">
+                    <input type="hidden" id="TPengajuan" name="TPengajuan">
+                    <input type="hidden" id="TNilai" name="TNilai">
+                    <input type="hidden" id="TNoPajak" name="TNoPajak">
+                    <input type="hidden" id="txtKontrak" name="txtKontrak">
+                    <input type="hidden" id="dtpKontrak" name="dtpKontrak">
+                    <input type="hidden" id="txtInvoice" name="txtInvoice">
+                    <input type="hidden" id="dtpInvoice" name="dtpInvoice">
+                    <input type="hidden" id="txtSKBM" name="txtSKBM">
+                    <input type="hidden" id="dtpSKBM" name="dtpSKBM">
+                    <input type="hidden" id="txtSKPPH" name="txtSKPPH">
+                    <input type="hidden" id="dtpSKPPH" name="dtpSKPPH">
+                    <input type="hidden" id="txtSPPBBC" name="txtSPPBBC">
+                    <input type="hidden" id="dtpSPPBBC" name="dtpSPPBBC">
                     <div class="table-responsive">
                         <table class="table mt-3" style="width: max-content" id="tableupdate">
                             <thead class="table-dark" style="white-space: nowrap">
@@ -185,7 +220,7 @@
                     </div>
                     <br>
                     <div class="modal-footer-left">
-                        <button type="submit" class="btn btn-primary">Proses</button>
+                        <button id="btn_proses" class="btn btn-primary">Proses</button>
                         {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button> --}}
                     </div>
                 </form>

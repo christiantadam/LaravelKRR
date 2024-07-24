@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let tgl_skpph = document.getElementById("tgl_skpph");
     let no_spppb_bc = document.getElementById("no_spppb_bc");
     let tgl_spppb_bc = document.getElementById("tgl_spppb_bc");
+    let btn_proses = document.getElementById("btn_proses");
 
     tanggal.valueAsDate = new Date();
     tgl_pib.valueAsDate = new Date();
@@ -37,7 +38,25 @@ document.addEventListener("DOMContentLoaded", function () {
     sp2.readOnly = true;
     idpenagihan.readOnly = true;
     tanggal.readOnly = true;
-    // btn_update.disabled = true;
+    btn_update.disabled = true;
+
+    if (successMessage) {
+        Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: successMessage,
+            showConfirmButton: false,
+            timer: 1500,
+        });
+    } else if (errorMessage) {
+        Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: errorMessage,
+            showConfirmButton: false,
+            timer: 1500,
+        });
+    }
 
     //#region Function
     function decodeHtml(html) {
@@ -46,8 +65,67 @@ document.addEventListener("DOMContentLoaded", function () {
         return txt.value;
     }
 
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const ids = [];
+        $('input[name="penerimaCheckbox"]:checked').each(function () {
+            ids.push({
+                checked: this.checked,
+                id: this.value,
+            });
+        });
+
+        // Collect the form data
+        const formData = {
+            ids: ids,
+            TIdTT: $("#id_penagihan").val(),
+            TIdPIB: $("#id_pib").val(),
+            TPengajuan: $("#no_pengajuan").val(),
+            TNilai: $("#nilai").val(),
+            TNoPajak: $("#no_pajak").val(),
+            txtKontrak: $("#no_kontrak").val(),
+            dtpKontrak: $("#tgl_kontrak").val(),
+            txtInvoice: $("#no_invoice").val(),
+            dtpInvoice: $("#tgl_invoice").val(),
+            txtSKBM: $("#no_skbm").val(),
+            dtpSKBM: $("#tgl_skbm").val(),
+            txtSKPPH: $("#no_skpph").val(),
+            dtpSKPPH: $("#tgl_skpph").val(),
+            txtSPPBBC: $("#no_spppb_bc").val(),
+            dtpSPPBBC: $("#tgl_spppb_bc").val(),
+            _token: csrfToken,
+        };
+
+        $.ajax({
+            url: `UpdatePIB/update`, // Replace with the actual update URL
+            type: "PUT",
+            data: formData,
+            success: function (response) {
+                // alert(response.message);
+                Swal.fire({
+                    title: 'Success!',
+                    text: response.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Reload the DataTable
+                    $("#tableupdate").DataTable().ajax.reload();
+                });
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+    });
+
     $("#btn_update").on("click", function () {
         $("#importModal").modal("show");
+
+        // Destroy existing DataTable instance if it exists
+        if ($.fn.DataTable.isDataTable("#tableupdate")) {
+            $("#tableupdate").DataTable().destroy();
+        }
 
         // Initialize DataTable
         let table = $("#tableupdate").DataTable({
@@ -74,19 +152,64 @@ document.addEventListener("DOMContentLoaded", function () {
                 { data: "Nilai_PIB" },
                 { data: "No_Pajak" },
                 { data: "Id_PIB" },
-                { data: "Tgl_PIB" },
+                {
+                    data: "Tgl_PIB",
+                    render: function (data) {
+                        return data
+                            ? new Date(data).toLocaleDateString("en-US")
+                            : "";
+                    },
+                },
                 { data: "No_Kontrak" },
-                { data: "Tgl_Kontrak" },
+                {
+                    data: "Tgl_Kontrak",
+                    render: function (data) {
+                        return data
+                            ? new Date(data).toLocaleDateString("en-US")
+                            : "";
+                    },
+                },
                 { data: "No_Invoice" },
-                { data: "Tgl_Invoice" },
+                {
+                    data: "Tgl_Invoice",
+                    render: function (data) {
+                        return data
+                            ? new Date(data).toLocaleDateString("en-US")
+                            : "";
+                    },
+                },
                 { data: "No_SKBM" },
-                { data: "Tgl_SKBM" },
+                {
+                    data: "Tgl_SKBM",
+                    render: function (data) {
+                        return data
+                            ? new Date(data).toLocaleDateString("en-US")
+                            : "";
+                    },
+                },
                 { data: "No_SKPPH" },
-                { data: "Tgl_SKPPH" },
+                {
+                    data: "Tgl_SKPPH",
+                    render: function (data) {
+                        return data
+                            ? new Date(data).toLocaleDateString("en-US")
+                            : "";
+                    },
+                },
                 { data: "No_SPPB_BC" },
-                { data: "Tgl_SPPB_BC" },
+                {
+                    data: "Tgl_SPPB_BC",
+                    render: function (data) {
+                        return data
+                            ? new Date(data).toLocaleDateString("en-US")
+                            : "";
+                    },
+                },
             ],
         });
+
+        // Detach any existing event listeners on the table body
+        $("#tableupdate tbody").off("change", 'input[name="penerimaCheckbox"]');
 
         // Add event listener for checkboxes
         $("#tableupdate tbody").on(
@@ -94,75 +217,45 @@ document.addEventListener("DOMContentLoaded", function () {
             'input[name="penerimaCheckbox"]',
             function () {
                 if (this.checked) {
-
                     const rowData = table.row($(this).closest("tr")).data();
                     const sanitizedNilaiPIB = rowData.Nilai_PIB.replace(
                         /,/g,
                         ""
                     );
-                    const currentDate = new Date().toISOString().split("T")[0];
+
+                    // Function to format date to yyyy-MM-dd in local timezone
+                    const formatDate = (dateString) => {
+                        if (!dateString)
+                            return new Date().toISOString().split("T")[0];
+                        const date = new Date(dateString);
+                        const offset = date.getTimezoneOffset();
+                        const adjustedDate = new Date(
+                            date.getTime() - offset * 60 * 1000
+                        );
+                        return adjustedDate.toISOString().split("T")[0];
+                    };
+
                     // Set the values of the input fields
                     no_pengajuan.value = rowData.No_Pengajuan;
                     id_penagihan.value = idpenagihan.value;
                     nilai.value = sanitizedNilaiPIB;
                     id_pib.value = rowData.Id_PIB;
                     no_pajak.value = rowData.No_Pajak;
-                    tgl_pib.value = rowData.Tgl_PIB || currentDate;
+                    tgl_pib.value = formatDate(rowData.Tgl_PIB);
                     no_kontrak.value = rowData.No_Kontrak;
-                    tgl_kontrak.value = rowData.Tgl_Kontrak || currentDate;
+                    tgl_kontrak.value = formatDate(rowData.Tgl_Kontrak);
                     no_invoice.value = rowData.No_Invoice;
-                    tgl_invoice.value = rowData.Tgl_Invoice || currentDate;
+                    tgl_invoice.value = formatDate(rowData.Tgl_Invoice);
                     no_skbm.value = rowData.No_SKBM;
-                    tgl_skbm.value = rowData.Tgl_SKBM || currentDate;
+                    tgl_skbm.value = formatDate(rowData.Tgl_SKBM);
                     no_skpph.value = rowData.No_SKPPH;
-                    tgl_skpph.value = rowData.Tgl_SKPPH || currentDate;
+                    tgl_skpph.value = formatDate(rowData.Tgl_SKPPH);
                     no_spppb_bc.value = rowData.No_SPPB_BC;
-                    tgl_spppb_bc.value = rowData.Tgl_SPPB_BC || currentDate;
+                    tgl_spppb_bc.value = formatDate(rowData.Tgl_SPPB_BC);
                 }
             }
         );
     });
-
-    // $.ajax({
-    //     url: "UpdatePIB/getListPIB",
-    //     type: "GET",
-    //     data: {
-    //         _token: csrfToken,
-    //         idpenagihan: idpenagihan.value,
-    //         // jenis_barang: jenis_barang.value,
-    //         // IDSuratPesanan: selectedRow.IDSuratPesanan.trim(),
-    //     },
-    //     success: function (data) {
-    //         console.log(data.data[0]);
-    //         no_pengajuan.value = data.data[0].No_Pengajuan;
-    //         id_penagihan.value = idpenagihan.value;
-    //         nilai.value = parseFloat(data.data[0].Nilai_PIB.replace(/,/g, '')).toFixed(4);
-    //         id_pib.value = data.data[0].Id_PIB;
-    //         no_pajak.value = data.data[0].No_Pajak;
-    //         tgl_pib.value = data.data[0].Tgl_PIB;
-    //         no_kontrak.value = data.data[0].No_Kontrak;
-    //         tgl_kontrak.value = data.data[0].Tgl_Kontrak;
-    //         no_invoice.value = data.data[0].No_Invoice;
-    //         tgl_invoice.value = data.data[0].Tgl_Invoice;
-    //         no_skbm.value = data.data[0].No_SKBM;
-    //         tgl_skbm.value = data.data[0].Tgl_SKBM;
-    //         no_skpph.value = data.data[0].No_SKPPH;
-    //         tgl_skpph.value = data.data[0].Tgl_SKPPH;
-    //         no_spppb_bc.value = data.data[0].No_SPPB_BC;
-    //         tgl_spppb_bc.value = data.data[0].Tgl_SPPB_BC;
-
-    //         // satuan.value = data.Satuan.trim();
-    //         // // let originalDate = data.TglRencanaKirim.trim();
-    //         // let date = new Date(originalDate);
-    //         // let formattedDate =
-    //         //     date.toLocaleDateString("en-US");
-    //         // rencana.value = formattedDate;
-    //     },
-    //     error: function (xhr, status, error) {
-    //         var err = eval("(" + xhr.responseText + ")");
-    //         alert(err.Message);
-    //     },
-    // });
 
     //#region Event Listener
     btn_supplier.addEventListener("click", async function (event) {
