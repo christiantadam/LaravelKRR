@@ -159,13 +159,12 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table mt-3" style="width: max-content" id="tablepenerimagambar">
+                        <table class="table mt-3" style="width: max-content" id="tableupdate">
                             <thead class="table-dark" style="white-space: nowrap">
                                 <tr>
                                     <th>No. Pengajuan</th>
                                     <th>Nilai</th>
                                     <th>No. Pajak / PIB</th>
-                                    <th>Nama Barang</th>
                                     <th>Tgl PIB</th>
                                     <th>No. Kontrak</th>
                                     <th>Status Order</th>

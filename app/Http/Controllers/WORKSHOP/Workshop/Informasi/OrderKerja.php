@@ -18,12 +18,14 @@ class OrderKerja extends Controller
     }
     public function GetAllDataPengorder($tgl_awal, $tgl_akhir, $divisi)
     {
-        $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [14, $tgl_awal, $tgl_akhir, $divisi]);
+        $all = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [14, $tgl_awal, $tgl_akhir, $divisi]);
         return response()->json($all);
     }
     public function GetAllDataPenerima($tgl_awal, $tgl_akhir)
     {
-        $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?', [15, $tgl_awal, $tgl_akhir]);
+        // dd($tgl_awal, $tgl_akhir);
+        $all = DB::connection('Connworkshop')->select('exec [SP_5298_WRK_LIST-ORDER-KRJ] @kode = ?, @tgl1 = ?, @tgl2 = ?', [15, $tgl_awal, $tgl_akhir]);
+        // dd($all, $tgl_awal, $tgl_akhir);
         return response()->json($all);
     }
     public function create()
