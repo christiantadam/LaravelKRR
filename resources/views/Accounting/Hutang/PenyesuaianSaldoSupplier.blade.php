@@ -14,7 +14,7 @@
                                 <!-- Form fields go here -->
                                 <div >
                                     <div style="white-space: nowrap;">
-                                        PENYESUAIAN SALDO
+                                        <h5>PENYESUAIAN SALDO</h5>
                                     </div>
                                 </div>
 
@@ -23,17 +23,20 @@
                                         <label for="radio_1">Supplier</label>
                                     </div>
                                     <div>
-                                        <input type="radio" name="radiogrup" value="radio_2" id="radio_2">
+                                        <input type="radio" name="radiogrup" value="radio_2" id="radio_hutang">
                                         <label for="radio_2">Hutang</label>
+                                        <label style="visibility: hidden"">AAAAA</label>
+                                        <input type="radio" name="radiogrup" value="radio_3" id="radio_tunai">
+                                        <label for="radio_3">Tunai</label>
+                                        <label style="visibility: hidden"">AAAAAAA</label>
+                                        <button id="btn_ok" class="btn btn-success">OK</button>
                                     </div>
                                     <div>
-                                        <input type="radio" name="radiogrup" value="radio_3" id="radio_3">
-                                        <label for="radio_3">Tunai</label>
-                                    </div>
-                                    <button>OK</button>
-                                </div>
 
-                                <table class="table">
+                                    </div>
+                                </div>
+                                <br>
+                                <table class="table" id="tablepenyesuaian">
                                     <thead class="table-dark">
                                         <tr>
                                             <th>Id Supplier</th>
@@ -42,24 +45,16 @@
                                             <th>Kartu Saldo Rp</th>
                                             <th>Mata Uang</th>
                                             <th>Supplier Saldo</th>
-                                            <th>Supplier Saldo...</th>
+                                            <th>Supplier Saldo Rp</th>
+                                            <th>Id Trans</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><input type="checkbox" id="checkAll"> Data 1</td>
-                                            <td>Data 2</td>
-                                            <td>Data 3</td>
-                                            <td>Data 4</td>
-                                            <td>Data 5</td>
-                                            <td>Data 6</td>
-                                            <td>Data 7</td>
-                                        </tr>
                                     </tbody>
                                 </table>
 
                                 <div class="row">
-                                    <div class="col-9">
+                                    <div class="col-9" style="margin-left: 20px;">
                                         <div>
                                             <input class="form-check-input" type="checkbox" id="checkbox2" value="option1">
                                         </div>
@@ -67,7 +62,7 @@
                                             Pilih Semua
                                         </div>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-2" style="margin-left: 134px;">
                                         <div>
                                             <input type="submit" id="btnProses1" name="proses" value="Proses" class="btn btn-primary d-flex ml-auto">
                                         </div>
@@ -77,29 +72,21 @@
                                 <hr style="height:2px;">
                                 <div>
                                     <div style="white-space: nowrap;">
-                                        ISI SALDO KOSONG
+                                        <h5>ISI SALDO KOSONG</h5>
                                     </div>
                                 </div>
 
-                                <br><table class="table">
+                                <br><table class="table" id="tablesaldokosong">
                                     <thead class="table-dark">
                                         <tr>
 
                                             <th>Id. Supplier</th>
                                             <th>Supplier</th>
                                             <th>Supplier Saldo</th>
-                                            <th>Supplier Saldo...</th>
+                                            <th>Supplier Saldo Rp</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><input type="checkbox" id="checkAll"> Data 1</td>
-                                            <td>Data 2</td>
-                                            <td>Data 3</td>
-                                            <td>Data 4</td>
-                                        </tr>
-
-                                        <!-- Tambahkan data tabel sesuai kebutuhan -->
                                     </tbody>
                                 </table>
 
@@ -107,10 +94,7 @@
                                 <div class="mb-3">
                                     <div class="row">
                                         <div class="col-12">
-                                            <input type="submit" id="btnProses" name="proses" value="Proses" class="btn btn-primary d-flex ml-auto">
-                                        </div>
-                                        <div class="col-12">
-                                            <input type="submit" id="btnKeluar" name="keluar" value="Keluar" class="btn btn-primary d-flex ml-auto">
+                                            <input type="submit" id="btn_proses2" name="proses" value="Proses" class="btn btn-primary d-flex ml-auto">
                                         </div>
                                     </div>
                                 </div>
