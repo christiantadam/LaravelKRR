@@ -5,7 +5,7 @@
 @include('Accounting.Master.ModalMaintenanceMataUang')
 <style>
     .custom-modal-width {
-        max-width: 90%;
+        max-width: 40%;
         /* Adjust the percentage as needed */
     }
 

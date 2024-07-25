@@ -181,7 +181,7 @@ $(document).ready(function () {
         });
 
         if (typeform == "koreksi") {
-            //setting up modal supaya bisa koreksi barang
+            //setting up modal supaya bisa koreksi
             modalLabelBank.innerHTML = "Koreksi Bank";
             idBank.value = button.data("bankId");
             idBank.readOnly = true;
@@ -245,7 +245,6 @@ $(document).ready(function () {
             modalLabelBank.innerHTML = "Tambah Bank";
             form.attr("action", "/MaintenanceBank/");
             form.attr("method", "POST");
-            isiNamaBank.style.display = "block";
             idBank.focus();
         }
     });

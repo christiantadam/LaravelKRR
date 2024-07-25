@@ -6,18 +6,13 @@
             </div>
             <div class="modal-body">
                 <div class="form-container col-md-12">
+                    <input type="hidden" name="idMataUang" id="idMataUang">
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="idMataUang">Id Mata Uang </label>
+                            <label for="kodeMataUang">Kode Mata Uang </label>
                         </div>
                         <div class="col-md-7">
-                            <select name="nama_select" id="idMataUang" name="idMataUang" class="form-control">
-                                <option disabled selected>-- Pilih Id. Mata Uang --</option>
-                                {{-- @foreach ($maintenanceMataUang as $mmu)
-                                <option value="{{ $mmu->Id_MataUang }}">{{ $mmu->Id_MataUang }} | {{ $mmu->Nama_MataUang
-                                    }}</option>
-                                @endforeach --}}
-                            </select>
+                            <input type="text" name="kodeMataUang" id="kodeMataUang" class="form-control">
                         </div>
                     </div>
                     <p>
@@ -37,6 +32,10 @@
                         <div class="col-md-7">
                             <input type="text" id="symbol" name="symbol" class="form-control">
                         </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary" id="prosesButtonModal">Proses</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Keluar</button>
                     </div>
                 </div>
             </div>

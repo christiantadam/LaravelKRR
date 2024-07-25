@@ -34,28 +34,39 @@ class MaintenanceMataUangController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //$IdMataUang = $request->idMataUang;
-        $NamaMataUang = $request->namaMataUang;
-        $Symbol = $request->symbol;
+        try {
+            $NamaMataUang = $request->NamaMataUang;
+            $Symbol = $request->Symbol;
+            $IdMataUangBC = $request->IdMataUangBC;
 
-        DB::connection('ConnAccounting')->statement('exec [SP_1273_ACC_UDT_UANG_TMATAUANG]
-        @Kode = ?,
-        @Nama_MataUang = ?,
-        @Symbol = ?', [
-            1,
-            $NamaMataUang,
-            $Symbol
-        ]);
-        return redirect()->back()->with('success', 'Data sudah diSIMPAN');
+            DB::connection('ConnAccounting')->statement('exec [SP_1273_ACC_UDT_UANG_TMATAUANG]
+            @Kode = ?,
+            @Nama_MataUang = ?,
+            @Symbol = ?,
+            @IdMataUangBC = ?',
+                [
+                    1,
+                    $NamaMataUang,
+                    $Symbol,
+                    $IdMataUangBC
+                ]
+            );
+            return response()->json(['success' => 'Data Mata Uang berhasil ditambahkan!']);
+        } catch (Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()]);
+        }
     }
 
     //Display the specified resource.
-    public function show($id)
+    public function show($id, Request $request)
     {
         try {
             if ($id == 'getAllMataUang') {
                 $listMataUang = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_UANG_ALL_TMATAUANG]'); //Get All data Bank where aktif == 'Y'
                 return datatables($listMataUang)->make(true);
+            } else if ($id == 'getCertainMataUang') {
+                $data = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_UANG_ID_TMATAUANG] @IdMataUang = ?', [$request->idMataUang]);
+                return response()->json($data);
             }
         } catch (Exception $ex) {
             return response()->json(['error' => $ex->getMessage()]);
@@ -72,34 +83,45 @@ class MaintenanceMataUangController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-        // dd($request->all());
-        $IdMataUang = $request->nama_select;
-        $NamaMataUang = $request->namaMataUang;
-        $Symbol = $request->symbol;
+        try {
+            $IdMataUang = $request->IdMataUang;
+            $IdMataUangBC = $request->IdMataUangBC;
+            $NamaMataUang = $request->NamaMataUang;
+            $Symbol = $request->Symbol;
 
-        DB::connection('ConnAccounting')->statement('exec [SP_1273_ACC_UDT_UANG_TMATAUANG]
-        @Kode = ?,
-        @IdMataUang = ?,
-        @Nama_MataUang = ?,
-        @Symbol = ?', [
-            2,
-            $IdMataUang,
-            $NamaMataUang,
-            $Symbol
-        ]);
-        return redirect()->back()->with('success', 'Data sudah diKOREKSI');
+            DB::connection('ConnAccounting')->statement('exec [SP_1273_ACC_UDT_UANG_TMATAUANG]
+            @Kode = ?,
+            @IdMataUang = ?,
+            @IdMataUangBC = ?,
+            @Nama_MataUang = ?,
+            @Symbol = ?',
+                [
+                    2,
+                    $IdMataUang,
+                    $IdMataUangBC,
+                    $NamaMataUang,
+                    $Symbol
+                ]
+            );
+            return response()->json(['success' => 'Data Mata Uang berhasil diubah!']);
+        } catch (Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()]);
+        }
     }
 
     //Remove the specified resource from storage.
     public function destroy($idMataUang)
     {
-
-        DB::connection('ConnAccounting')->statement('exec [SP_1273_ACC_UDT_UANG_TMATAUANG]
-        @Kode = ?,
-        @IdMataUang = ?', [
-            3,
-            $idMataUang
-        ]);
-        return redirect()->back()->with('success', 'Data sudah diHAPUS');
+        try {
+            DB::connection('ConnAccounting')->statement('exec [SP_1273_ACC_UDT_UANG_TMATAUANG]
+            @Kode = ?,
+            @IdMataUang = ?', [
+                3,
+                $idMataUang
+            ]);
+            return response()->json(['success' => 'Data Mata Uang berhasil dihapus!']);
+        } catch (Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()]);
+        }
     }
 }
