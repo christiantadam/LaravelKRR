@@ -2,93 +2,185 @@ document.addEventListener("DOMContentLoaded", function () {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
-    let radio_hutang = document.getElementById("radio_hutang");
-    let radio_tunai = document.getElementById("radio_tunai");
+    let radiogrup_hutang = document.getElementById("radiogrup_hutang");
+    let radiogrup_tunai = document.getElementById("radiogrup_tunai");
     let btn_ok = document.getElementById("btn_ok");
+    let btn_proses1 = document.getElementById("btn_proses1");
+    let btn_proses2 = document.getElementById("btn_proses2");
+    let checkbox2 = document.getElementById("checkbox2");
+    let proses1 = 1;
+    let proses2 = 2;
+
+    let tableatas = $("#tablepenyesuaian").DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "PenyesuaianSaldoSupplier/getData",
+            dataType: "json",
+            type: "GET",
+            data: function(d) {
+                return $.extend({}, d, {
+                    _token: csrfToken,
+                    radio_hutang: $('input[name="radiogrup"]:checked').val() === "radio_hutang",
+                    radio_tunai: $('input[name="radiogrup"]:checked').val() === "radio_tunai",
+                });
+            }
+        },
+        columns: [
+            {
+                data: "Id_Supplier",
+                render: function (data) {
+                    return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                },
+            },
+            { data: "NM_SUP" },
+            { data: "Saldo" },
+            { data: "Saldo_Rp" },
+            { data: "Nama_MataUang" },
+            { data: "SALDO_HUTANG" },
+            { data: "SALDO_HUTANG_Rp" },
+            { data: "IdTrans" },
+        ],
+    });
+
+    let tablebawah = $("#tablesaldokosong").DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "PenyesuaianSaldoSupplier/getDataKosong",
+            dataType: "json",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+            },
+        },
+        columns: [
+            {
+                data: "Id_Supplier",
+                render: function (data) {
+                    return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                },
+            },
+            { data: "NM_SUP" },
+            { data: "SALDO_HUTANG" },
+            { data: "SALDO_HUTANG_Rp" },
+        ],
+    });
+
+    //#region Event Listener
+    btn_proses1.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const ids = [];
+        $('input[name="penerimaCheckbox"]:checked').each(function () {
+            ids.push({
+                checked: this.checked,
+                id: this.value,
+            });
+        });
+
+        // Mengumpulkan semua baris tabel yang relevan dengan checkbox yang tercentang
+        const selectedRows = $("#tablepenyesuaian tbody tr").filter(
+            function () {
+                // Mendapatkan nilai dari checkbox dalam baris saat ini
+                const checkboxId = $(this)
+                    .find('input[name="penerimaCheckbox"]')
+                    .val();
+
+                // Memeriksa apakah nilai checkbox dalam baris ada dalam daftar checkbox yang tercentang
+                return ids.some(function (item) {
+                    return item.id === checkboxId && item.checked;
+                });
+            }
+        );
+
+        const formData = {
+            _token: csrfToken,
+            data: JSON.stringify(selectedRows.map(function () {
+                return {
+                    IdTrans: $(this).find("td:eq(7)").text(), // Assuming this is the correct key
+                    id: $(this).find('input[name="penerimaCheckbox"]').val() // Assuming this is the correct key
+                };
+            }).get())
+        };
+
+        $.ajax({
+            url: "PenyesuaianSaldoSupplier",
+            type: "POST",
+            data: $.param(formData) + '&proses1=' + proses1,
+            success: function (response) {
+                Swal.fire({
+                    title: "Success!",
+                    text: response.message,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    // Reload DataTable setelah sukses
+                    tableatas.ajax.reload();
+                    tablebawah.ajax.reload();
+                });
+            },
+            error: function (xhr) {
+                Swal.fire({
+                    title: "Error!",
+                    text: xhr.responseJSON.message,
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            },
+        });
+    });
+
+    checkbox2.addEventListener("change", function () {
+        const checkboxes = document.querySelectorAll(
+            '#tablepenyesuaian input[type="checkbox"][name="penerimaCheckbox"]'
+        );
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = checkbox2.checked;
+        });
+    });
 
     btn_ok.addEventListener("click", function (event) {
         event.preventDefault();
+
+        var selectedRadio = document.querySelector('input[name="radiogrup"]:checked');
+        var radioValue = selectedRadio ? selectedRadio.value : null;
+        console.log(radioValue);
+
         if ($.fn.DataTable.isDataTable("#tablepenyesuaian")) {
             $("#tablepenyesuaian").DataTable().destroy();
         }
 
-        let table = $("#tablepenyesuaian").DataTable({
+        tableatas = $("#tablepenyesuaian").DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
-            returnFocus: true,
             ajax: {
                 url: "PenyesuaianSaldoSupplier/getData",
                 dataType: "json",
                 type: "GET",
                 data: {
                     _token: csrfToken,
-                    idpenagihan: idpenagihan.value,
+                    radio_hutang: radioValue === "radio_hutang",
+                    radio_tunai: radioValue === "radio_tunai",
                 },
             },
             columns: [
                 {
-                    data: "No_Pengajuan",
+                    data: "Id_Supplier",
                     render: function (data) {
                         return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
                     },
                 },
-                { data: "Nilai_PIB" },
-                { data: "No_Pajak" },
-                { data: "Id_PIB" },
-                {
-                    data: "Tgl_PIB",
-                    render: function (data) {
-                        return data
-                            ? new Date(data).toLocaleDateString("en-US")
-                            : "";
-                    },
-                },
-                { data: "No_Kontrak" },
-                {
-                    data: "Tgl_Kontrak",
-                    render: function (data) {
-                        return data
-                            ? new Date(data).toLocaleDateString("en-US")
-                            : "";
-                    },
-                },
-                { data: "No_Invoice" },
-                {
-                    data: "Tgl_Invoice",
-                    render: function (data) {
-                        return data
-                            ? new Date(data).toLocaleDateString("en-US")
-                            : "";
-                    },
-                },
-                { data: "No_SKBM" },
-                {
-                    data: "Tgl_SKBM",
-                    render: function (data) {
-                        return data
-                            ? new Date(data).toLocaleDateString("en-US")
-                            : "";
-                    },
-                },
-                { data: "No_SKPPH" },
-                {
-                    data: "Tgl_SKPPH",
-                    render: function (data) {
-                        return data
-                            ? new Date(data).toLocaleDateString("en-US")
-                            : "";
-                    },
-                },
-                { data: "No_SPPB_BC" },
-                {
-                    data: "Tgl_SPPB_BC",
-                    render: function (data) {
-                        return data
-                            ? new Date(data).toLocaleDateString("en-US")
-                            : "";
-                    },
-                },
+                { data: "NM_SUP" },
+                { data: "Saldo" },
+                { data: "Saldo_Rp" },
+                { data: "Nama_MataUang" },
+                { data: "SALDO_HUTANG" },
+                { data: "SALDO_HUTANG_Rp" },
+                { data: "IdTrans" },
             ],
         });
     });

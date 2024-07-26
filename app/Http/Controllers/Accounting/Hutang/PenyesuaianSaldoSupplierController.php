@@ -27,39 +27,100 @@ class PenyesuaianSaldoSupplierController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
-    }
+        // Retrieve the data from the request
+        $formData = $request->input('data', '[]');
+        // Decode the JSON data
+        $selectedItems = json_decode($formData, true);
+        // dd($selectedItems);
+        // Check for JSON decoding errors
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return response()->json(['message' => 'Invalid data format.'], 400);
+        }
 
+        // Check if there are any items to process
+        if (empty($selectedItems)) {
+            return response()->json(['message' => 'Tidak ada Data yang diPROSES!!..'], 400);
+        }
+
+        // Processing each selected item
+        try {
+            foreach ($selectedItems as $item) {
+                // Extract necessary data for each item
+                $idTrans = $item['IdTrans'] ?? null;
+                $idSupp = $item['id'] ?? null;
+                // dd($idTrans, $idSupp);
+                // Execute the stored procedure
+                DB::statement('EXEC SP_1273_ACC_UDT_TT_SESUAI_SALDO @IdTrans = ?, @IdSupp = ?', [$idTrans, $idSupp]);
+            }
+
+            // Return success response
+            return response()->json(['message' => 'Data processed successfully.'], 200);
+
+        } catch (Exception $e) {
+            // Handle exceptions
+            return response()->json(['message' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
+    }
     //Display the specified resource.
     public function show(Request $request, $id)
     {
         if ($id == 'getData') {
-            $hutang = $request->input('hutang', false);
-            $tunai = $request->input('tunai', false);
-
+            $hutang = $request->input('radio_hutang') == 'true' ? true : false;
+            $tunai = $request->input('radio_tunai') == 'true' ? true : false;
+            // dd($hutang, $tunai, $hutang && !$tunai);
             $results = [];
-
+            // dd($results);
             if ($hutang && !$tunai) {
-                $results = DB::select('EXEC SP_1273_ACC_LIST_TT_SALDOSUPP_HUTANG');
+                $results = DB::connection('ConnAccounting')
+                    ->select('EXEC SP_1273_ACC_LIST_TT_SALDOSUPP_HUTANG');
             } elseif (!$hutang && $tunai) {
-                $results = DB::select('EXEC SP_1273_ACC_LIST_TT_SALDOSUPP_TUNAI');
+                $results = DB::connection('ConnAccounting')
+                    ->select('EXEC SP_1273_ACC_LIST_TT_SALDOSUPP_TUNAI');
             }
-
+            // dd($results);
             $response = [];
 
             foreach ($results as $row) {
                 $response[] = [
                     'Id_Supplier' => trim($row->Id_Supplier),
-                    'nm_sup' => trim($row->nm_sup),
-                    'saldo' => number_format($row->saldo, 4, '.', ','),
-                    'saldo_rp' => number_format($row->saldo_rp, 4, '.', ','),
+                    'NM_SUP' => trim($row->NM_SUP),
+                    'Saldo' => number_format($row->Saldo, 4, '.', ','),
+                    'Saldo_Rp' => number_format($row->Saldo_Rp, 4, '.', ','),
                     'Nama_MataUang' => $row->Nama_MataUang,
-                    'Saldo_Hutang' => number_format($row->Saldo_Hutang, 4, '.', ','),
-                    'Saldo_Hutang_Rp' => number_format($row->Saldo_Hutang_Rp, 4, '.', ','),
+                    'SALDO_HUTANG' => number_format($row->SALDO_HUTANG, 4, '.', ','),
+                    'SALDO_HUTANG_Rp' => number_format($row->SALDO_HUTANG_Rp, 4, '.', ','),
                     'IdTrans' => $row->IdTrans
                 ];
             }
+            // dd($response);
 
+            return datatables($response)->make(true);
+        } else if ($id == 'getDataKosong') {
+            $results = DB::connection('ConnAccounting')->table('PURCHASE.dbo.YSUPPLIER')
+                ->select(
+                    'PURCHASE.dbo.YSUPPLIER.NO_SUP AS Id_Supplier',
+                    'PURCHASE.dbo.YSUPPLIER.NM_SUP',
+                    'PURCHASE.dbo.YSUPPLIER.SALDO_HUTANG',
+                    'PURCHASE.dbo.YSUPPLIER.SALDO_HUTANG_Rp'
+                )
+                ->leftJoin('dbo.VW_PRG_1273_ACC_TT_SESUAI_SALDO', 'PURCHASE.dbo.YSUPPLIER.NO_SUP', '=', 'dbo.VW_PRG_1273_ACC_TT_SESUAI_SALDO.Id_Supplier')
+                ->leftJoin('dbo.T_MATAUANG', 'PURCHASE.dbo.YSUPPLIER.ID_MATAUANG', '=', 'dbo.T_MATAUANG.Id_MataUang')
+                ->whereNull('PURCHASE.dbo.YSUPPLIER.SALDO_HUTANG')
+                ->orWhereNull('PURCHASE.dbo.YSUPPLIER.SALDO_HUTANG_Rp')
+                ->orderBy('PURCHASE.dbo.YSUPPLIER.NM_SUP')
+                ->get();
+
+            // Format hasil query
+            $response = [];
+
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_Supplier' => trim($row->Id_Supplier),
+                    'NM_SUP' => trim($row->NM_SUP),
+                    'SALDO_HUTANG' => number_format($row->SALDO_HUTANG, 4, '.', ','),
+                    'SALDO_HUTANG_Rp' => number_format($row->SALDO_HUTANG_Rp, 4, '.', ','),
+                ];
+            }
             return datatables($response)->make(true);
         }
     }
