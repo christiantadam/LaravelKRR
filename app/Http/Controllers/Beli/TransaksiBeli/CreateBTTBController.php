@@ -8,6 +8,7 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Log;
 
 
 class CreateBTTBController extends Controller
@@ -181,13 +182,14 @@ class CreateBTTBController extends Controller
                     $KodeHS,
                     $noTrTmp
                 ]);
-
+                Log::info(json_encode($request->all()) . ' | ' . $post);
                 return Response()->json(['message' => 'Data Berhasil Post', 'Status' => $post]);
             } catch (\Throwable $Error) {
-                return Response()->json($Error);
+                Log::error($Error->getMessage());
+                return response()->json(['error' => $Error->getMessage()], 500);
             }
         } else {
-            return Response()->json('Parameter harus di isi');
+            return response()->json(['error' => 'Parameter BTTB harus di isi'], 400);
         }
     }
 
@@ -199,7 +201,7 @@ class CreateBTTBController extends Controller
                 $print = DB::connection('ConnPurchase')->table('VW_5409_PRINT_BTTB')->where('VW_5409_PRINT_BTTB.No_BTTB', $No_BTTB)->get();
                 $printHeader = DB::connection('ConnPurchase')->table('VW_5409_PRINT_HEADER_BTTB')->where('VW_5409_PRINT_HEADER_BTTB.No_BTTB', $No_BTTB)->get();
 
-                return Response()->json(["print"=>$print,"printHeader" => $printHeader]);
+                return Response()->json(["print" => $print, "printHeader" => $printHeader]);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);
             }
