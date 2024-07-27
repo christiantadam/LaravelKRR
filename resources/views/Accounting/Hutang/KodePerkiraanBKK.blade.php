@@ -81,7 +81,7 @@
                                             </div>
                                         </div>
                                         <input type="hidden" id="BlnThn" name="BlnThn" class="form-control" style="width: 100%">
-                                        <input type="text" name="idBKK" id="idBKK" class="form-control" style="width: 100%">
+                                        <input type="text" name="idBKK" id="idBKK" class="form-control" style="width: 100%; visibility: hidden">
 
                                         <div class="card">
                                             <div class="card-body">

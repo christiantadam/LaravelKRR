@@ -1071,7 +1071,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getListBKKBtlBKK/{idBKKSelect}', 'App\Http\Controllers\Accounting\Hutang\BatalBKKController@getListBKKBtlBKK');
     Route::get('getCheckBtlBKK/{idBKKSelect}', 'App\Http\Controllers\Accounting\Hutang\BatalBKKController@getCheckBtlBKK');
 
-    Route::resource('UraianBKK', App\Http\Controllers\Accounting\Hutang\UraianBKKController::class);
+    Route::resource('MaintenanceUraianBKK', App\Http\Controllers\Accounting\Hutang\UraianBKKController::class);
     Route::get('getCheckBKKIdBKK/{idBKK}', 'App\Http\Controllers\Accounting\Hutang\UraianBKKController@getCheckBKKIdBKK');
     Route::get('getListBKK/{idBKK}', 'App\Http\Controllers\Accounting\Hutang\UraianBKKController@getListBKK');
     Route::get('getListBKKTotalIdBKK/{idBKK}', 'App\Http\Controllers\Accounting\Hutang\UraianBKKController@getListBKKTotalIdBKK');

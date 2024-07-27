@@ -107,6 +107,7 @@
                                                     style="width: 100%">
                                             </div>
                                         </div>
+                                        <br>
                                         <div class="d-flex">
                                             <div class="col-md-2">
                                                 <label for="rincian" style="margin-right: 10px;">Rincian</label>
@@ -116,6 +117,7 @@
                                                     style="width: 100%">
                                             </div>
                                         </div>
+                                        <br>
                                         <div class="d-flex">
                                             <div class="col-md-2">
                                                 <label for="nilaiRincian" style="margin-right: 10px;">Nilai Rincian</label>
@@ -125,6 +127,7 @@
                                                     class="form-control" style="width: 100%">
                                             </div>
                                         </div>
+                                        <br>
                                         <div class="d-flex">
                                             <div class="col-md-2">
                                                 <label for="kodePerkiraanSelect" style="margin-right: 10px;">Kode
@@ -135,10 +138,11 @@
                                                     class="form-control" style="width: 100%">
                                             </div>
                                             <div class="col-md-5">
-                                                <select id="kodePerkiraanSelect" name="kodePerkiraanSelect"
+                                                <input id="kodePerkiraanSelect" name="kodePerkiraanSelect"
                                                     class="form-control">
-
-                                                </select>
+                                            </div>
+                                            <div>
+                                                <button class="btn" type="button" id="btn_kp">...</button>
                                             </div>
                                         </div>
                                         <br>
@@ -157,8 +161,7 @@
                                                         class="btn btn-primary" disabled>
                                                 </div>
                                                 <div class="col-7">
-                                                    <input type="submit" id="btnKeluar" name="btnKeluar" value="Keluar"
-                                                        class="btn btn-primary d-flex ml-auto">
+                                                    <button class="btn btn-primary" id="btn_batal">Batal</button>
                                                 </div>
                                             </div>
                                         </div>
