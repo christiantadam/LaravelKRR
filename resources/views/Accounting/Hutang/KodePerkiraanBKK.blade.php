@@ -165,5 +165,5 @@
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Hutang/KodePerkiraanBKK.js') }}"></script>
+<script src="{{ asset('js/Accounting/Hutang/KodePerkiraanBKK.js') }}"></script>
 @endsection

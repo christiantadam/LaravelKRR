@@ -27,38 +27,64 @@ class PenyesuaianSaldoSupplierController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // Retrieve the data from the request
-        $formData = $request->input('data', '[]');
-        // Decode the JSON data
-        $selectedItems = json_decode($formData, true);
-        // dd($selectedItems);
-        // Check for JSON decoding errors
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return response()->json(['message' => 'Invalid data format.'], 400);
-        }
+        $proses = $request->input('proses1', 0);
+        // dd($proses);
+        // dd($request->all());
+        if ($proses == 1) {
+            $formData = $request->input('data', '[]');
+            $selectedItems = json_decode($formData, true);
 
-        // Check if there are any items to process
-        if (empty($selectedItems)) {
-            return response()->json(['message' => 'Tidak ada Data yang diPROSES!!..'], 400);
-        }
-
-        // Processing each selected item
-        try {
-            foreach ($selectedItems as $item) {
-                // Extract necessary data for each item
-                $idTrans = $item['IdTrans'] ?? null;
-                $idSupp = $item['id'] ?? null;
-                // dd($idTrans, $idSupp);
-                // Execute the stored procedure
-                DB::statement('EXEC SP_1273_ACC_UDT_TT_SESUAI_SALDO @IdTrans = ?, @IdSupp = ?', [$idTrans, $idSupp]);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return response()->json(['message' => 'Invalid data format.'], 400);
             }
 
-            // Return success response
-            return response()->json(['message' => 'Data processed successfully.'], 200);
+            if (empty($selectedItems)) {
+                return response()->json(['message' => 'Tidak ada Data yang diPROSES!!..'], 400);
+            }
 
-        } catch (Exception $e) {
-            // Handle exceptions
-            return response()->json(['message' => 'An error occurred: ' . $e->getMessage()], 500);
+            // Processing each selected item
+            try {
+                foreach ($selectedItems as $item) {
+                    // Extract necessary data for each item
+                    $idTrans = $item['IdTrans'] ?? null;
+                    $idSupp = $item['id'] ?? null;
+
+                    // Execute the stored procedure
+                    DB::connection('ConnAccounting')
+                        ->statement('EXEC SP_1273_ACC_UDT_TT_SESUAI_SALDO @IdTrans = ?, @IdSupp = ?', [$idTrans, $idSupp]);
+                }
+
+                // Return success response
+                return response()->json(['message' => 'Data processed successfully.'], 200);
+
+            } catch (Exception $e) {
+                return response()->json(['message' => 'An error occurred: ' . $e->getMessage()], 500);
+            }
+        } else {
+            $formData = $request->input('data', '[]');
+            $selectedItems = json_decode($formData, true);
+            // dd($selectedItems);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return response()->json(['message' => 'Invalid data format.'], 400);
+            }
+
+            if (empty($selectedItems)) {
+                return response()->json(['message' => 'Tidak ada Data yang diPROSES!!..'], 400);
+            }
+
+            try {
+                foreach ($selectedItems as $supplierId) {
+                    $idSupp = $supplierId['id'] ?? null;
+                    // dd($idSupp);
+                    DB::connection('ConnAccounting')
+                        ->select('exec SP_1273_ACC_UDT_TT_SALDO_KOSONG(?)', [$supplierId]);
+                }
+
+                return response()->json(['message' => 'Proses berhasil'], 200);
+            } catch (Exception $e) {
+
+                return response()->json(['error' => 'Terjadi kesalahan saat memproses data: ' . $e->getMessage()], 500);
+            }
         }
     }
     //Display the specified resource.

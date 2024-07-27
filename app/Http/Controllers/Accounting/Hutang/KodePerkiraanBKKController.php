@@ -4,14 +4,18 @@ namespace App\Http\Controllers\Accounting\Hutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class KodePerkiraanBKKController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Hutang.KodePerkiraanBKK', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Hutang.KodePerkiraanBKK', compact('access'));
     }
 
     public function getIdBKKKdPrk($BlnThn)

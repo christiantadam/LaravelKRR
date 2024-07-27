@@ -606,9 +606,9 @@ function koreksiklik() {
                 Divisi.value = table_data.cell(index, 8).data();
                 NamaBarang.value = table_data.cell(index, 3).data();
                 KeteranganOrder.value = table_data.cell(index, 10).data();
-                JumlahOrder.value = table_data.cell(index, 5).data();
+                JumlahOrder.value = table_data.cell(index, 6).data();
                 LabelStatus.textContent = table_data.cell(index, 7).data();
-                Usermodalkoreksi.value = table_data.cell(index, 12).data();
+                Usermodalkoreksi.value = user;
                 Tsts.value = 2;
                 console.log(KdBarang.value);
                 if (KdBarang.value != "") {

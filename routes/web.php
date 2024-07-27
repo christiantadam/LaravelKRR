@@ -1058,7 +1058,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('MaintenanceBKKKRR1', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKKKRR1Controller@MaintenanceBKKKRR1');
     Route::get('MaintenanceBKMKRR1', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKMKRR1Controller@MaintenanceBKMKRR1');
 
-    Route::resource('KodePerkiraanBKK', App\Http\Controllers\Accounting\Hutang\KodePerkiraanBKKController::class);
+    Route::resource('MaintenanceKodePerkiraanBKK', App\Http\Controllers\Accounting\Hutang\KodePerkiraanBKKController::class);
     Route::get('getIdBKKKdPrk/{BlnThn}', 'App\Http\Controllers\Accounting\Hutang\KodePerkiraanBKKController@getIdBKKKdPrk');
     Route::get('getIdBKKKdPrk2/{BlnThn}', 'App\Http\Controllers\Accounting\Hutang\KodePerkiraanBKKController@getIdBKKKdPrk2');
     Route::get('getTabelRincianBKK/{idBKK}', 'App\Http\Controllers\Accounting\Hutang\KodePerkiraanBKKController@getTabelRincianBKK');

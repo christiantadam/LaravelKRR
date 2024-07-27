@@ -81,15 +81,11 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-        // Mengumpulkan semua baris tabel yang relevan dengan checkbox yang tercentang
         const selectedRows = $("#tablepenyesuaian tbody tr").filter(
             function () {
-                // Mendapatkan nilai dari checkbox dalam baris saat ini
                 const checkboxId = $(this)
                     .find('input[name="penerimaCheckbox"]')
                     .val();
-
-                // Memeriksa apakah nilai checkbox dalam baris ada dalam daftar checkbox yang tercentang
                 return ids.some(function (item) {
                     return item.id === checkboxId && item.checked;
                 });
@@ -100,8 +96,8 @@ document.addEventListener("DOMContentLoaded", function () {
             _token: csrfToken,
             data: JSON.stringify(selectedRows.map(function () {
                 return {
-                    IdTrans: $(this).find("td:eq(7)").text(), // Assuming this is the correct key
-                    id: $(this).find('input[name="penerimaCheckbox"]').val() // Assuming this is the correct key
+                    IdTrans: $(this).find("td:eq(7)").text(),
+                    id: $(this).find('input[name="penerimaCheckbox"]').val()
                 };
             }).get())
         };
@@ -110,6 +106,65 @@ document.addEventListener("DOMContentLoaded", function () {
             url: "PenyesuaianSaldoSupplier",
             type: "POST",
             data: $.param(formData) + '&proses1=' + proses1,
+            success: function (response) {
+                Swal.fire({
+                    title: "Success!",
+                    text: response.message,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    // Reload DataTable setelah sukses
+                    tableatas.ajax.reload();
+                    tablebawah.ajax.reload();
+                });
+            },
+            error: function (xhr) {
+                Swal.fire({
+                    title: "Error!",
+                    text: xhr.responseJSON.message,
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            },
+        });
+    });
+
+    btn_proses2.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const ids = [];
+        $('input[name="penerimaCheckbox"]:checked').each(function () {
+            ids.push({
+                checked: this.checked,
+                id: this.value,
+            });
+        });
+
+        const selectedRows = $("#tablesaldokosong tbody tr").filter(
+            function () {
+                const checkboxId = $(this)
+                    .find('input[name="penerimaCheckbox"]')
+                    .val();
+                return ids.some(function (item) {
+                    return item.id === checkboxId && item.checked;
+                });
+            }
+        );
+
+        const formData = {
+            _token: csrfToken,
+            data: JSON.stringify(selectedRows.map(function () {
+                return {
+                    // IdTrans: $(this).find("td:eq(7)").text(),
+                    id: $(this).find('input[name="penerimaCheckbox"]').val()
+                };
+            }).get())
+        };
+
+        $.ajax({
+            url: "PenyesuaianSaldoSupplier",
+            type: "POST",
+            data: $.param(formData),
             success: function (response) {
                 Swal.fire({
                     title: "Success!",
