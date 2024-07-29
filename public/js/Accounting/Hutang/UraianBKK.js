@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let idBKK = document.getElementById("idBKK");
+    let idDetail = document.getElementById("idDetail");
     let nilai = document.getElementById("nilai");
     let tabelListBKK = $("#tabelListBKK").DataTable();
     let idBayar = document.getElementById("idBayar");
@@ -10,7 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let nilaiRincian = document.getElementById("nilaiRincian");
     let kodePerkiraanSelect = document.getElementById("kodePerkiraanSelect");
     let idKodePerkiraan = document.getElementById("idKodePerkiraan");
+    let total = document.getElementById("total");
     let btn_kp = document.getElementById("btn_kp");
+    let btn_proses = document.getElementById("btn_proses");
     let btn_batal = document.getElementById("btn_batal");
 
     let btnIsi = document.getElementById("btnIsi");
@@ -27,8 +30,58 @@ document.addEventListener("DOMContentLoaded", function () {
             .replace(/&#039;/g, "'");
     }
 
-    btn_proses1.addEventListener("click", function (event) {
+    btn_batal.addEventListener("click", function (event) {
         event.preventDefault();
+        tabelListBKK.clear().draw();
+        idBKK.value = "";
+        nilai.value = "";
+        idDetail.value = "";
+        idBayar.value = "";
+        rincian.value = "";
+        nilaiRincian.value = "";
+        kodePerkiraanSelect.value = "";
+        idKodePerkiraan.value = "";
+        total.value = "";
+        // kodeBarangAsal.value = "";
+        // tanggal.value = "";
+    });
+
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "MaintenanceUraianBKK",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                proses: proses,
+                idBKK: idBKK.value,
+                idDetail: idDetail.value,
+                idBayar: idBayar.value,
+                rincian: rincian.value,
+                nilaiRincian: nilaiRincian.value,
+                idKodePerkiraan: idKodePerkiraan.value,
+
+            },
+            success: function (response) {
+                console.log(response);
+                Swal.fire({
+                    title: "Success!",
+                    text: response.message,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                });
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+                Swal.fire({
+                    title: "Error!",
+                    text: xhr.responseJSON.message,
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            },
+        });
     });
 
     idBKK.addEventListener("keypress", function (event) {
@@ -129,26 +182,26 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    fetch("/detailkodeperkiraan/" + 1)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
-            kodePerkiraanSelect.innerHTML = "";
+    // fetch("/detailkodeperkiraan/" + 1)
+    //     .then((response) => response.json())
+    //     .then((options) => {
+    //         console.log(options);
+    //         kodePerkiraanSelect.innerHTML = "";
 
-            const defaultOption = document.createElement("option");
-            defaultOption.disabled = true;
-            defaultOption.selected = true;
-            defaultOption.innerText = "Kode Perkiraan";
-            kodePerkiraanSelect.appendChild(defaultOption);
+    //         const defaultOption = document.createElement("option");
+    //         defaultOption.disabled = true;
+    //         defaultOption.selected = true;
+    //         defaultOption.innerText = "Kode Perkiraan";
+    //         kodePerkiraanSelect.appendChild(defaultOption);
 
-            options.forEach((entry) => {
-                const option = document.createElement("option");
-                option.value = entry.NoKodePerkiraan;
-                option.innerText =
-                    entry.NoKodePerkiraan + "|" + entry.Keterangan;
-                kodePerkiraanSelect.appendChild(option);
-            });
-        });
+    //         options.forEach((entry) => {
+    //             const option = document.createElement("option");
+    //             option.value = entry.NoKodePerkiraan;
+    //             option.innerText =
+    //                 entry.NoKodePerkiraan + "|" + entry.Keterangan;
+    //             kodePerkiraanSelect.appendChild(option);
+    //         });
+    //     });
 
     kodePerkiraanSelect.addEventListener("change", function (event) {
         event.preventDefault();
@@ -252,11 +305,11 @@ document.addEventListener("DOMContentLoaded", function () {
         rincian.focus();
     });
 
-    btnProses.addEventListener("click", function (event) {
-        event.preventDefault();
+    // btnProses.addEventListener("click", function (event) {
+    //     event.preventDefault();
 
-        if (proses == 1) {
-        } else if (proses == 2) {
-        }
-    });
+    //     if (proses == 1) {
+    //     } else if (proses == 2) {
+    //     }
+    // });
 });

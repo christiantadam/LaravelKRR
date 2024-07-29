@@ -19,6 +19,12 @@ let btnProses = document.getElementById('btnProses');
 let methodkoreksi = document.getElementById('methodkoreksi');
 let formkoreksi = document.getElementById('formkoreksi');
 
+let currentDate = new Date();
+let currentMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+let currentYear = currentDate.getFullYear();
+bulan.value = currentMonth;
+tahun.value = value = currentYear;
+
 fetch("/getkodeperkiraan/")
     .then((response) => response.json())
     .then((options) => {

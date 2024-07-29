@@ -16,8 +16,6 @@ class UraianBKKController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
         return view('Accounting.Hutang.UraianBKK', compact('access'));
-        // $data = 'Accounting';
-        // return view('Accounting.Hutang.UraianBKK', compact('data'));
     }
 
     public function getCheckBKKIdBKK($idBKK)
@@ -49,44 +47,44 @@ class UraianBKKController extends Controller
     {
         $proses = $request->input('proses');
         $userId = trim(Auth::user()->NomorUser);
-        $idBKK = $request->input('id_bkk');
-
+        $idBKK = $request->input('idBKK');
+        // dd($request->all());
         DB::connection('ConnAccounting')->beginTransaction();
 
         try {
             switch ($proses) {
                 case 1:
-                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_INS_BKK2_DETAILBAYAR(?, ?, ?, ?)', [
-                        $request->input('id_pembayaran'),
+                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_INS_BKK2_DETAILBAYAR @IdDetailBayar = ?, @Rincian = ?, @Nilai = ?, @Perkiraan = ?', [
+                        $request->input('idBayar'),
                         $request->input('rincian'),
-                        $request->input('nilai'),
-                        $request->input('perkiraan')
+                        $request->input('nilaiRincian'),
+                        $request->input('idKodePerkiraan')
                     ]);
                     break;
 
                 case 2:
-                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK2_DETAILBAYAR(?, ?, ?, ?, ?)', [
-                        $request->input('id_detail_bayar'),
-                        $request->input('id_pembayaran'),
+                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK2_DETAILBAYAR @IdDetailBayar = ?, @IdPembayaran = ?, @Rincian = ?, @Nilai = ?, @Perkiraan = ?', [
+                        $request->input('idDetail'),
+                        $request->input('idBayar'),
                         $request->input('rincian'),
-                        $request->input('nilai'),
-                        $request->input('perkiraan')
+                        $request->input('nilaiRincian'),
+                        $request->input('idKodePerkiraan')
                     ]);
                     break;
             }
 
-            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK_USER_UPDATE(?, ?)', [
+            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK_USER_UPDATE @USERID = ?, @IDBKK = ?', [
                 $userId,
                 $idBKK
             ]);
 
             DB::connection('ConnAccounting')->commit();
 
-            return response()->json(['success' => 'Operation completed successfully']);
+            return response()->json(['message' => 'Data processed successfully']);
 
         } catch (Exception $e) {
             DB::connection('ConnAccounting')->rollBack();
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 

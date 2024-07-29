@@ -149,20 +149,20 @@
                                         <div class="mb-3">
                                             <div class="row">
                                                 <div class="col-1">
-                                                    <input type="submit" id="btnIsi" name="btnIsi" value="Isi"
+                                                    <input style="width: 80px" type="submit" id="btnIsi" name="btnIsi" value="Isi"
                                                         class="btn btn-primary">
                                                 </div>
-                                                <div class="col-2">
-                                                    <input type="submit" id="btnKoreksi" name="btnKoreksi"
-                                                        value="Koreksi" class="btn btn-primary">
+                                                <div class="col-3">
+                                                    <input style="width: 80px" type="submit" id="btnKoreksi" name="btnKoreksi"
+                                                        value="Koreksi" class="btn btn-warning">
                                                 </div>
-                                                <div class="col-2">
-                                                    <input type="submit" id="btnProses" name="btnProses" value="Proses"
-                                                        class="btn btn-primary" disabled>
+                                                <div class="col text-right ms-auto">
+                                                    <button style="width: 80px" class="btn btn-success" id="btn_proses">Proses</button>
+                                                    <button style="width: 80px" class="btn btn-danger" id="btn_batal">Batal</button>
                                                 </div>
-                                                <div class="col-7">
+                                                {{-- <div class="col-7">
                                                     <button class="btn btn-primary" id="btn_batal">Batal</button>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </form>

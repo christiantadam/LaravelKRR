@@ -56,7 +56,7 @@ class MaintenanceBKMPenagihanController extends Controller
 
     function getKodePerkiraan()
     {
-        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = ?', 1);
+        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = ?', [1]);
         return response()->json($kode);
     }
 

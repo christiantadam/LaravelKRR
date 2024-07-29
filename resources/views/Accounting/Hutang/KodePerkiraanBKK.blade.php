@@ -51,7 +51,7 @@
                                             <div class="col">
                                                 <div class="d-flex">
                                                     <div class="col-md-6">
-                                                        <input type="radio" name="radiogrup1" value="kecil" id="kasKecil">
+                                                        <input type="radio" name="radiogrup1" value="kecil" id="kasKecil" checked>
                                                         <label for="kasKecil">Kas Kecil</label>
                                                     </div>
                                                     <div class="col-md-6">
@@ -90,7 +90,7 @@
                                                     <label for="rincianPembayaran">Rincian Pembayaran</label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text" id="rincianPembayaran" name="rincianPembayaran" class="form-control" style="width: 100%">
+                                                    <textarea type="text" id="rincianPembayaran" name="rincianPembayaran" class="form-control" style="width: 100%"> </textarea>
                                                 </div>
                                                 <p><div class="col-md-6">
                                                     <label for="nilaiRincian">Nilai Rincian</label>
@@ -106,7 +106,7 @@
                                                         <input type="text" id="idKodePerkiraan" name="idKodePerkiraan" class="form-control" style="width: 100%">
                                                     </div>
                                                     <div class="col-md-7">
-                                                        <select id="kodePerkiraanSelect" name="kodePerkiraanSelect" class="form-control">
+                                                        <select style="height: 80px !important" id="kodePerkiraanSelect" name="kodePerkiraanSelect" class="form-control">
 
                                                         </select>
                                                     </div>
@@ -151,9 +151,9 @@
                                             <p><div style="padding-left: 450px">
                                                 <input type="submit" id="btnProses" name="btnProses" value="PROSES" class="btn btn-success" disabled>
                                             </div>
-                                            <div style="padding-left: 450px">
+                                            {{-- <div style="padding-left: 450px">
                                                 <input type="submit" name="keluar" value="KELUAR" class="btn btn-primary d-flex ml-auto">
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
