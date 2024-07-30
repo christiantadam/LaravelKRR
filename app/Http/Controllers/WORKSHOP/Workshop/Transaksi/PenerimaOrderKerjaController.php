@@ -131,7 +131,8 @@ class PenerimaOrderKerjaController extends Controller
             $noOd = $request->NoOrder;
             $tglSt = $request->TanggalStart;
             $tglFh = $request->TanggalFinish;
-            $jml = $request->JumlahOrderSelesai;
+            $jml = intval($request->JumlahOrderSelesai);
+            // dd($jml);
             DB::connection('Connworkshop')->statement('exec [SP_5298_WRK_PROSES-ORDER-KRJ] @kode = ?, @noOd = ?, @tglSt = ?, @tglFh = ?, @jml = ?', [2, $noOd, $tglSt, $tglFh, $jml]);
             return redirect()->back()->with('success', 'Data TerSIMPAN');
         }
