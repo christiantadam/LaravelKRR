@@ -279,13 +279,13 @@ class CreateBTTBController extends Controller
                             $tsaldo = 0;
                             $tsaldoRP = 0;
                             foreach ($dataTrans as $trans) {
-                                $tsaldo += $trans->nilai_debet - $trans->nilai_kredit;
-                                $tsaldoRP += $trans->nilai_debet_Rp - $trans->nilai_kredit_Rp;
+                                $tsaldo += floatval($trans->nilai_debet) - floatval($trans->nilai_kredit);
+                                $tsaldoRP += floatval($trans->nilai_debet_Rp) - floatval($trans->nilai_kredit_Rp);
                                 DB::connection('ConnPurchase')->table('ACCOUNTING.DBO.T_TRANSAKSI_SUPPLIER')
                                     ->where('Id_Transaksi', $trans->Id_Transaksi)
                                     ->update([
-                                        'Saldo' => $tsaldo,
-                                        'Saldo_Rp' => $tsaldoRP
+                                        'Saldo' => number_format($tsaldo, 2, '.', ''),
+                                        'Saldo_Rp' => number_format($tsaldoRP, 2, '.', '')
                                     ]);
                             }
                         }
