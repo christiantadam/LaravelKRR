@@ -311,12 +311,12 @@ redisplay.addEventListener("click", function (event) {
 create_po.addEventListener("click", function (event) {
     event.preventDefault();
     Swal.fire({
-        title: 'Yakin akan memproses order ini?',
+        title: "Yakin akan memproses order ini?",
         text: "Pastikan kembali bahwa order yang dicentang adalah milik divisi yang sama. 1 PO, 1 Supplier, 1 Divisi.",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No'
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
     }).then((result) => {
         if (result.isConfirmed && selectedRows.length > 0) {
             let sameValues = true; // Ensure your condition is correctly set
@@ -428,9 +428,9 @@ function LoadPermohonan(proses, stbeli) {
                             "0,0.0000"
                         ),
                         numeral(parseFloat(item.PPN.trim())).format("0,0.0000"),
-                        numeral(parseFloat(item.PriceExt.trim())).format(
-                            "0,0.0000"
-                        ),
+                        numeral(
+                            parseFloat((item.PriceExt ?? "0").trim())
+                        ).format("0,0.0000"),
                         item.Curr.trim(),
                         item.Tgl_Dibutuhkan.trim(),
                         item.keterangan == null ? "-" : item.keterangan.trim(),
