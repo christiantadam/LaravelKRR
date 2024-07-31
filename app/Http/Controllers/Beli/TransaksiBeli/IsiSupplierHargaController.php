@@ -106,7 +106,7 @@ class IsiSupplierHargaController extends Controller
         $pSub = $request->input('pSub');
         $idPPN = $request->input('idPPN');
         $pPPN = $request->input('pPPN');
-        $pTOT = $request->input('pTOT');
+        $pTOT = $request->input('pTOT') ?? 0;
         $pIDRUnit = $request->input('pIDRUnit');
         $pIDRSub = $request->input('pIDRSub');
         $pIDRPPN = $request->input('pIDRPPN');

@@ -146,7 +146,7 @@
                                                 <label for="id">Jenis Pembayaran</label>
                                             </div>
                                             <div class="col-md-2">
-                                                <input type="text" name="supplierSelect" class="form-control"
+                                                <input id="jns_pembayaran" type="text" name="jns_pembayaran" class="form-control"
                                                     style="width: 100%">
                                             </div>
                                             <div class="col-md-1" style="vertical-align: middle;">

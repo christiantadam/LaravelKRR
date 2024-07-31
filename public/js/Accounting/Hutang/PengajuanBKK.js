@@ -32,6 +32,8 @@ $(document).ready(function () {
     let btn_jenispembayaran = document.getElementById("btn_jenispembayaran");
     let btn_matauang = document.getElementById("btn_matauang");
     let id_bank = document.getElementById("id_bank");
+    let kurs = document.getElementById("kurs");
+    let jns_pembayaran = document.getElementById("jns_pembayaran");
     let BKM_Pot;
 
     mata_uang_kanan.style.visibility = "hidden";
@@ -40,6 +42,7 @@ $(document).ready(function () {
     radiogrup_adadp.disabled = true;
     radiogrup_tidakdp.disabled = true;
     btn_proses.disabled = true;
+    kurs.value = 1;
 
     let tablekedua = $("#tablebkkpenagihan").DataTable({});
     $("#tablebkkpenagihan").parents("div.dataTables_wrapper").first().hide();
@@ -69,14 +72,24 @@ $(document).ready(function () {
     });
 
     radiogrup_penagihan.addEventListener("click", function (event) {
+        btn_supplier.focus();
         $("#tablebkkpertama").parents("div.dataTables_wrapper").first().hide();
         $("#tablebkkpenagihan")
             .parents("div.dataTables_wrapper")
             .first()
             .show();
+        Swal.fire({
+            icon: "info",
+            title: "Info!",
+            text: "Menampilkan data penagihan!",
+            showConfirmButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+            } else {
+            }
+        });
         label_pajak.style.visibility = "visible";
         pajak.style.visibility = "visible";
-        btn_supplier.focus();
     });
 
     radiogrup_nopenagihan.addEventListener("click", function (event) {
@@ -254,6 +267,16 @@ $(document).ready(function () {
                     btn_koreksi.disabled = true;
                     btn_hapus.disabled = true;
                     btn_proses.disabled = false;
+                    if (mata_uang.value.trim() !== "") {
+                        // Swal.fire({
+                        //     icon: "warning",
+                        //     title: "Warning!",
+                        //     text: "Isi kode barang terlebih dahulu",
+                        //     showConfirmButton: true,
+                        // });
+                        btn_matauang.disabled = true;
+                        return;
+                    }
                 });
             }
         }
@@ -328,10 +351,10 @@ $(document).ready(function () {
         try {
             const result = await Swal.fire({
                 title: "Select a Bank",
-                html: '<table id="bkkTable" class="display" style="width:100%"><thead><tr><th>ID Bank</th><th>ID Supplier</th></tr></thead><tbody></tbody></table>',
+                html: '<table id="bankTable" class="display" style="width:100%"><thead><tr><th>ID Bank</th><th>Nama Bank</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 preConfirm: () => {
-                    const selectedData = $("#bkkTable")
+                    const selectedData = $("#bankTable")
                         .DataTable()
                         .row(".selected")
                         .data();
@@ -343,31 +366,29 @@ $(document).ready(function () {
                 },
                 didOpen: () => {
                     $(document).ready(function () {
-                        const table = $("#bkkTable").DataTable({
+                        const table = $("#bankTable").DataTable({
                             responsive: true,
                             processing: true,
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "MaintenancePengajuanBKK/getBKK_DP",
+                                url: "MaintenancePengajuanBKK/getBank",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
                                     _token: csrfToken,
-                                    supplier1: supplier1.value,
-                                    BKM_Pot: BKM_Pot,
                                 },
                             },
                             columns: [
                                 {
-                                    data: "Supplier",
+                                    data: "Id_Bank",
                                 },
                                 {
-                                    data: "No_Supplier",
+                                    data: "Nama_Bank",
                                 },
                             ],
                         });
-                        $("#bkkTable tbody").on("click", "tr", function () {
+                        $("#bankTable tbody").on("click", "tr", function () {
                             // Remove 'selected' class from all rows
                             table.$("tr.selected").removeClass("selected");
                             // Add 'selected' class to the clicked row
@@ -379,7 +400,142 @@ $(document).ready(function () {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     // sp1.value = decodeHtml(selectedRow.Supplier).trim();
-                    // sp2.value = selectedRow.No_Supplier.trim();
+                    id_bank.value = selectedRow.Id_Bank.trim();
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_jenispembayaran.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Jenis Pembayaran",
+                html: '<table id="jnsbayarTable" class="display" style="width:100%"><thead><tr><th>Jenis Pembayaran</th><th>ID Pembayaran</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#jnsbayarTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#jnsbayarTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "MaintenancePengajuanBKK/getJnsByr",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    id_bank: id_bank.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Jenis_Pembayaran",
+                                },
+                                {
+                                    data: "Id_Jenis_Bayar",
+                                },
+                            ],
+                        });
+                        $("#jnsbayarTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    // sp1.value = decodeHtml(selectedRow.Supplier).trim();
+                    jns_pembayaran.value = selectedRow.Jenis_Pembayaran.trim();
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_matauang.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Mata Uang",
+                html: '<table id="matauangTable" class="display" style="width:100%"><thead><tr><th>Nama Mata Uang</th><th>ID Mata Uang</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const selectedData = $("#matauangTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#matauangTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "MaintenancePengajuanBKK/GetMataUang",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    mata_uang: mata_uang.value,
+                                    id_bank: id_bank.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Nama_MataUang",
+                                },
+                                {
+                                    data: "Id_MataUang",
+                                },
+                            ],
+                        });
+                        $("#matauangTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    // sp1.value = decodeHtml(selectedRow.Supplier).trim();
+                    mata_uang.value = selectedRow.Nama_MataUang.trim();
                 }
             });
         } catch (error) {
