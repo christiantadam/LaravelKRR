@@ -51,7 +51,7 @@ class PengajuanBKKController extends Controller
         $TIDSupplier = $request->input('TIDSupplier');
         $txtKurs = $request->input('txtKurs');
         $TBKM = $request->input('TBKM');
-        $DP_lagi = 0; // Initialize DP_lagi
+        $DP_lagi = 0;
 
         switch ($proses) {
             case 1:

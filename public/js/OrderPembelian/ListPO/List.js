@@ -62,8 +62,19 @@ function radioButtonIsSelected() {
 }
 
 function redisplay(MinDate, MaxDate, noPO) {
+    if (MinDate && MaxDate && MinDate > MaxDate) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Info',
+            text: 'Tanggal Awal tidak boleh lebih dari Tanggal Akhir',
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+        });
+        return;
+    }
     let tabelData = $("#tabelchelsy").DataTable({
         responsive: true,
+        destroy: true,
         processing: true,
         serverSide: true,
         scrollX: true,
@@ -76,9 +87,9 @@ function redisplay(MinDate, MaxDate, noPO) {
             url: "/GETPurchaseOrder",
             type: "GET",
             data: function (data) {
-                (data.MinDate = MinDate),
-                    (data.MaxDate = MaxDate),
-                    (data.noPO = noPO);
+                data.MinDate = MinDate;
+                data.MaxDate = MaxDate;
+                data.noPO = noPO;
             },
         },
         columns: [
@@ -88,7 +99,6 @@ function redisplay(MinDate, MaxDate, noPO) {
                 data: "Tgl_sppb",
                 render: function (data, type, row) {
                     let parts = data.split(" ")[0].split("-");
-
                     let tgl = parts[2] + "-" + parts[1] + "-" + parts[0];
                     return tgl;
                 },
@@ -98,7 +108,10 @@ function redisplay(MinDate, MaxDate, noPO) {
             { data: "No_BTTB" },
         ],
     });
-    tabelData.on("click", "tbody tr", function (event) {
+
+    // Detach any existing event listeners before attaching new ones
+    $("#tabelchelsy tbody").off("click", "tr");
+    $("#tabelchelsy tbody").on("click", "tr", function (event) {
         const classList = event.currentTarget.classList;
 
         if (classList.contains("selected")) {
@@ -113,18 +126,22 @@ function redisplay(MinDate, MaxDate, noPO) {
             classList.add("selected");
         }
     });
-    lihat_BTTB.addEventListener("click", function (event) {
-        let data = [];
-        data = tabelData.row(".selected").data();
-        if (data == undefined) {
-            alert("Pilih Data Yang Mau Di Review BTTB");
-        } else {
-            if (data.No_BTTB == null || data.No_BTTB == "") {
-                alert("Data Tidak Dapat Di Review BTTB");
-            } else {
-                const url = "/OpenReviewBTTB" + "?No_BTTB=" + data.No_BTTB;
-                window.location.href = url;
-            }
-        }
-    });
 }
+
+// Detach any existing event listeners before attaching new ones
+lihat_BTTB.removeEventListener("click", handleLihatBTTBClick);
+function handleLihatBTTBClick(event) {
+    let data = [];
+    data = $("#tabelchelsy").DataTable().row(".selected").data();
+    if (data == undefined) {
+        alert("Pilih Data Yang Mau Di Review BTTB");
+    } else {
+        if (data.No_BTTB == null || data.No_BTTB == "") {
+            alert("Data Tidak Dapat Di Review BTTB");
+        } else {
+            const url = "/OpenReviewBTTB" + "?No_BTTB=" + data.No_BTTB;
+            window.location.href = url;
+        }
+    }
+}
+lihat_BTTB.addEventListener("click", handleLihatBTTBClick);

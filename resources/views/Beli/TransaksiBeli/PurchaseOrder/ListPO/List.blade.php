@@ -21,33 +21,42 @@
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-5 ">
-                                    <input class="form-check-input" type="radio" name="radiobutton" id="radiobutton"
-                                        checked value="{{ date('Y-m-d') }}">
-                                    Betwen Date
-                                    <input type="date" class="form-control font-weight-bold" id="betwendate1" name="betwendate1">
-                                    <label for="betwendate1" class="form-label"></label>
-                                    <input type="date" class="form-control font-weight-bold" id="betwendate2" name="betwendate2">
-                                    <label for="betwendate2" class="form-label"></label>
+                                <div class="col-5">
+                                    <input class="form-check-input" type="radio" name="radiobutton" id="radiobutton" checked value="{{ date('Y-m-d') }}" style="margin-left: 2px">
+                                    <label for="radiobutton" class="form-check-label" style="margin-left: 20px">Between Date</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="date" class="form-control font-weight-bold" id="betwendate1" name="betwendate1">
+                                            <label for="betwendate1" class="form-label"></label>
+                                        </div>
+                                        <div>
+                                            <label  for="sampai_dengan">s/d</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="date" class="form-control font-weight-bold" id="betwendate2" name="betwendate2">
+                                            <label for="betwendate2" class="form-label"></label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="col-5">
-                                    <input class="form-check-input" type="radio" name="radiobutton" value="nomor_po">
-                                    <label class="form-check-label" for="nomor_po">
-                                        Nomor PO </label>
+                                    <input class="form-check-input" type="radio" name="radiobutton" value="nomor_po" style="margin-left: 2px">
+                                    <label class="form-check-label" for="nomor_po" style="margin-left: 20px">Nomor PO</label>
                                     <input type="text" class="form-control font-weight-bold" id="no_po" name="no_po">
                                 </div>
+
                                 <div class="col-2">
                                     <div class="col-12">
                                         <button class="btn btn-info mt-4 w-100" id="redisplayButton">Redisplay</button>
                                     </div>
                                     <div class="col-12 mt-5">
-                                        <button id="lihat_BTTB" class="btn btn-primary" style="width: 100%; margin:2% ">Lihat BTTB</button>
+                                        <button id="lihat_BTTB" class="btn btn-primary" style="width: 100%; margin:%">Lihat BTTB</button>
                                         {{-- <span id="lihat_BTTB" class="text-primary" style="cursor: pointer; font-size: 24px; text-decoration: underline">Lihat BTTB</span> --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="col-12">
                             <table class ="table" id="tabelchelsy" style="width: 100%">
                                 <thead class="table-primary">

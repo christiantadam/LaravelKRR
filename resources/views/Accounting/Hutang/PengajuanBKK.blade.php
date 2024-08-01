@@ -101,9 +101,9 @@
                                     <input id="bkk_uangmuka" type="text" name="bkk_uangmuka"
                                         class="form-control me-2" style="width: 200px;">
                                     <input id="id_bkk" type="text" name="id_bkk" class="form-control me-2"
-                                        style="width: 200px; visibility: hidden">
+                                        style="width: 200px; display: none">
                                     <input id="id_bayardp" type="text" name="id_bayardp" class="form-control me-2"
-                                        style="width: 200px; visibility: hidden">
+                                        style="width: 200px; display: none">
                                     <button class="btn" type="button" id="btn_bkkuangmuka">...</button>
                                 </div>
                                 <div class="d-flex align-items-center" style="margin-right: 10px;">
@@ -125,6 +125,15 @@
                                 <div class="card-container" style="display: flex;">
                                     <div class="card" style="width: 50%;">
                                         <p>
+                                        <div style="display: flex;">
+                                            <div class="col-md-3">
+                                                <label id="bkm" for="bkm">BKM</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input id="ada_bkm" type="text" name="ada_bkm"
+                                                    class="form-control" style="width: 100%">
+                                            </div>
+                                        </div>
                                         <div style="display: flex;">
                                             <div class="col-md-3">
                                                 <label for="id">Bank</label>
@@ -262,13 +271,15 @@
                                 </div>
                             </div>
                             <p>
-                            <div class="mb-3">
+                            <div class="mb-3 d-flex justify-content-between">
                                 <button class="btn btn-primary" id="btn_isi" style="width: 130px">Isi</button>
                                 <button class="btn btn-warning" id="btn_koreksi" style="width: 130px">Koreksi
                                     (Belum)</button>
                                 <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus
                                     (Belum)</button>
                                 <button class="btn btn-success" id="btn_proses" style="width: 130px">Proses</button>
+                                <button class="btn" id="btn_batal"
+                                    style="width: 130px; margin-left: auto;">Batal</button>
                             </div>
                         </form>
                         <br>

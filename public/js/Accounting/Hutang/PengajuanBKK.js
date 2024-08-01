@@ -43,6 +43,9 @@ $(document).ready(function () {
     let bkk_uangmuka = document.getElementById("bkk_uangmuka");
     let id_bkk = document.getElementById("id_bkk");
     let id_bayardp = document.getElementById("id_bayardp");
+    let ada_bkm = document.getElementById("ada_bkm");
+    let bkm = document.getElementById("bkm");
+    let rowData;
     let proses;
     let BKM_Pot;
     let TT;
@@ -52,9 +55,11 @@ $(document).ready(function () {
     id_jnsbayar.style.visibility = "hidden";
     mata_uang_kanan.style.visibility = "hidden";
     nilai_pembayaran_kanan.style.visibility = "hidden";
+    ada_bkm.style.visibility = "hidden";
+    bkm.style.visibility = "hidden";
     btn_bkkuangmuka.disabled = true;
-    radiogrup_adadp.disabled = false;
-    radiogrup_tidakdp.disabled = false;
+    radiogrup_adadp.disabled = true;
+    radiogrup_tidakdp.disabled = true;
     btn_proses.disabled = true;
     kurs.value = 1;
     jumlah_bayar.value = 0;
@@ -217,41 +222,44 @@ $(document).ready(function () {
                     supplier2.value = selectedRow.NM_SUP.trim();
                     supplier1.value = selectedRow.NO_SUP.trim();
 
-                    tablekedua = $("#tablebkkpenagihan").DataTable({
-                        responsive: true,
-                        processing: true,
-                        serverSide: true,
-                        destroy: true,
-                        ajax: {
-                            url: "MaintenancePengajuanBKK/getTT",
-                            dataType: "json",
-                            type: "GET",
-                            data: function (d) {
-                                return $.extend({}, d, {
-                                    _token: csrfToken,
-                                    supplier1: supplier1.value,
-                                });
-                            },
-                        },
-                        columns: [
-                            {
-                                data: "Waktu_Penagihan",
-                                render: function (data, type, row) {
-                                    return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    if (!TT) {
+                    } else {
+                        tablekedua = $("#tablebkkpenagihan").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            destroy: true,
+                            ajax: {
+                                url: "MaintenancePengajuanBKK/getTT",
+                                dataType: "json",
+                                type: "GET",
+                                data: function (d) {
+                                    return $.extend({}, d, {
+                                        _token: csrfToken,
+                                        supplier1: supplier1.value,
+                                    });
                                 },
                             },
-                            { data: "Id_Penagihan" },
-                            { data: "Status_PPN" },
-                            { data: "UangTT" },
-                            { data: "Nilai_Penagihan" },
-                            { data: "Lunas" },
-                            { data: "IdUangTT" },
-                            { data: "Id_Pembayaran" },
-                            // { data: "TT_NoLunas" },
-                            // { data: "isRed" },
-                        ],
-                        columnDefs: [{ targets: [6, 7], visible: false }],
-                    });
+                            columns: [
+                                {
+                                    data: "Waktu_Penagihan",
+                                    render: function (data, type, row) {
+                                        return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                                    },
+                                },
+                                { data: "Id_Penagihan" },
+                                { data: "Status_PPN" },
+                                { data: "UangTT" },
+                                { data: "Nilai_Penagihan" },
+                                { data: "Lunas" },
+                                { data: "IdUangTT" },
+                                { data: "Id_Pembayaran" },
+                                // { data: "TT_NoLunas" },
+                                // { data: "isRed" },
+                            ],
+                            columnDefs: [{ targets: [6, 7], visible: false }],
+                        });
+                    }
                 }
             });
         } catch (error) {
@@ -272,7 +280,7 @@ $(document).ready(function () {
                 $('input[name="penerimaCheckbox"]')
                     .not(this)
                     .prop("checked", false);
-                const rowData = tablekedua.row($(this).closest("tr")).data();
+                rowData = tablekedua.row($(this).closest("tr")).data();
                 console.log(rowData, this, tablekedua);
                 const formatDate = (dateString) => {
                     if (!dateString)
@@ -284,75 +292,89 @@ $(document).ready(function () {
                     );
                     return adjustedDate.toISOString().split("T")[0];
                 };
-
-                btn_isi.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    proses = 1;
-                    // radiogrup_adadp.disabled = false;
-                    // radiogrup_tidakdp.disabled = false;
-                    // pajak.value = rowData.Status_PPN;
-                    // rincian.value = rowData.Id_Penagihan;
-                    // mata_uang.value = rowData.UangTT;
-                    // document.getElementById("nilai_pembayaran").style.color =
-                    //     "green";
-                    // nilai_pembayaran.value = rowData.Nilai_Penagihan;
-                    // id_pembayaran.value = rowData.Id_Pembayaran;
-                    // btn_koreksi.disabled = true;
-                    // btn_hapus.disabled = true;
-                    // btn_proses.disabled = false;
-                    if (mata_uang.value.trim() !== "") {
-                        // Swal.fire({
-                        //     icon: "warning",
-                        //     title: "Warning!",
-                        //     text: "Isi kode barang terlebih dahulu",
-                        //     showConfirmButton: true,
-                        // });
-                        btn_matauang.disabled = true;
-                        return;
-                    }
-                    console.log(TT);
-                    if (!TT) {
-                        Swal.fire({
-                            title: "Confirmation",
-                            text: "Pengajuan untuk Pembayaran (YES) / Uang Muka (NO) ?",
-                            icon: "question",
-                            showCancelButton: true,
-                            confirmButtonText: "Yes",
-                            cancelButtonText: "No",
-                        }).then((result) => {
-                            console.log(result);
-                            btn_bkkuangmuka.disabled = !result.isConfirmed;
-                            if (result.isConfirmed) {
-                                radiogrup_adadp.checked = true;
-                                radiogrup_tidakdp.disabled = true;
-                            } else {
-                                radiogrup_adadp.disabled = true;
-                                radiogrup_tidakdp.checked = true;
-                            }
-                            console.log(BKM_Pot);
-                        });
-                        btn_matauang.disabled = true;
-                        return;
-                    } else {
-                        radiogrup_adadp.disabled = false;
-                        radiogrup_tidakdp.disabled = false;
-                        pajak.value = rowData.Status_PPN;
-                        rincian.value = rowData.Id_Penagihan;
-                        mata_uang.value = rowData.UangTT;
-                        document.getElementById(
-                            "nilai_pembayaran"
-                        ).style.color = "green";
-                        nilai_pembayaran.value = rowData.Nilai_Penagihan;
-                        id_pembayaran.value = rowData.Id_Pembayaran;
-                        btn_koreksi.disabled = true;
-                        btn_hapus.disabled = true;
-                        btn_proses.disabled = false;
-                        return;
-                    }
-                });
             }
         }
     );
+
+    btn_isi.addEventListener("click", function (event) {
+        event.preventDefault();
+        proses = 1;
+        if (mata_uang.value.trim() !== "") {
+            // Swal.fire({
+            //     icon: "warning",
+            //     title: "Warning!",
+            //     text: "Isi kode barang terlebih dahulu",
+            //     showConfirmButton: true,
+            // });
+            btn_matauang.disabled = true;
+            return;
+        }
+        if (!TT) {
+            Swal.fire({
+                title: "Confirmation",
+                text: "Pengajuan untuk Pembayaran (YES) / Uang Muka (NO) ?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+            }).then((result) => {
+                console.log(result);
+                btn_bkkuangmuka.disabled = !result.isConfirmed;
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Confirmation",
+                        text: "Pengajuan untuk Pembayaran berdasarkan BKM ?",
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonText: "Yes",
+                        cancelButtonText: "No",
+                    }).then((result) => {
+                        console.log(result);
+                        if (result.isConfirmed) {
+                            ada_bkm.style.visibility = "visible";
+                            bkm.style.visibility = "visible";
+                        } else {
+                        }
+                    });
+                    radiogrup_adadp.disabled = true;
+                    radiogrup_tidakdp.checked = true;
+                } else {
+                    radiogrup_adadp.checked = true;
+                    radiogrup_tidakdp.disabled = true;
+                }
+                console.log(BKM_Pot);
+            });
+            btn_matauang.disabled = true;
+            return;
+        } else {
+            console.log(rowData !== null, rowData !== undefined);
+            if ((rowData == null) & (rowData == undefined)) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Info!",
+                    text: "Pilih data terlebih dahulu",
+                    showConfirmButton: true,
+                });
+                return;
+            } else {
+                radiogrup_adadp.disabled = false;
+                radiogrup_tidakdp.disabled = false;
+                pajak.value = rowData.Status_PPN;
+                rincian.value = rowData.Id_Penagihan;
+                mata_uang.value = rowData.UangTT;
+                document.getElementById("nilai_pembayaran").style.color =
+                    "green";
+                document.getElementById("nilai_pembayaran").style.fontWeight =
+                    "bold";
+                nilai_pembayaran.value = rowData.Nilai_Penagihan;
+                id_pembayaran.value = rowData.Id_Pembayaran;
+                btn_koreksi.disabled = true;
+                btn_hapus.disabled = true;
+                btn_proses.disabled = false;
+                return;
+            }
+        }
+    });
 
     btn_koreksi.addEventListener("click", function (event) {
         event.preventDefault();
@@ -362,6 +384,10 @@ $(document).ready(function () {
     btn_hapus.addEventListener("click", function (event) {
         event.preventDefault();
         proses = 3;
+    });
+
+    btn_batal.addEventListener("click", function (event) {
+        location.reload();
     });
 
     btn_bkkuangmuka.addEventListener("click", async function (event) {
