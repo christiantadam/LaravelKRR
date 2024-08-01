@@ -89,23 +89,29 @@
 
                             <div class="radio-container">
                                 <div class="d-flex align-items-center" style="margin-right: 10px;">
-                                    <label>PENAGIHAN&nbsp;&nbsp;</label>
+                                    <label for="penagihan">PENAGIHAN&nbsp;&nbsp;</label>
                                     <input type="radio" name="radiogrup" value="ada_dp" id="radiogrup_adadp"
                                         style="margin-bottom: 8px">
                                     <label for="radio_2">&nbsp;ADA DP&nbsp;&nbsp;</label>
                                     <input type="radio" name="radiogrup" value="tidak_dp" id="radiogrup_tidakdp"
                                         style="margin-bottom: 8px">
-                                    <label for="radio_2">&nbsp;TIDAK ADA DP</label>
+                                    <label for="radio_3">&nbsp;TIDAK ADA DP</label>
                                     <label style="visibility: hidden">AAAAAAAAAAAAAAAAAAA</label>
                                     <label for="supplierSelect">BKK Uang Muka&nbsp;&nbsp;</label>
-                                    <input type="text" name="supplierSelect" class="form-control me-2"
-                                        style="width: 200px;">
+                                    <input id="bkk_uangmuka" type="text" name="bkk_uangmuka"
+                                        class="form-control me-2" style="width: 200px;">
+                                    <input id="id_bkk" type="text" name="id_bkk" class="form-control me-2"
+                                        style="width: 200px; visibility: hidden">
+                                    <input id="id_bayardp" type="text" name="id_bayardp" class="form-control me-2"
+                                        style="width: 200px; visibility: hidden">
                                     <button class="btn" type="button" id="btn_bkkuangmuka">...</button>
                                 </div>
                                 <div class="d-flex align-items-center" style="margin-right: 10px;">
                                     <label id="label_pajak" for="pajak">Pajak&nbsp;&nbsp;</label>
                                     <input type="text" id="pajak" name="pajak" class="form-control"
                                         style="width: 400px; margin-left: 98px">
+                                    <input type="text" id="rincian_dp" name="rincian_dp" class="form-control"
+                                        style="width: 400px; margin-left: 98px; visibility: hidden">
                                 </div>
                                 <br>
                                 <div class="d-flex align-items-center" style="margin-right: 10px;">
@@ -124,20 +130,19 @@
                                                 <label for="id">Bank</label>
                                             </div>
                                             <div class="col-md-2">
-                                                <input id="id_bank" type="text" name="id_bank" class="form-control"
-                                                    style="width: 100%">
+                                                <input id="id_bank" type="text" name="id_bank"
+                                                    class="form-control" style="width: 100%">
                                             </div>
                                             <div class="col-md-1" style="vertical-align: middle;">
-                                                <button class="btn" type="button"
-                                                    id="btn_bank">...</button>
+                                                <button class="btn" type="button" id="btn_bank">...</button>
                                             </div>
                                             <div style="display: flex; padding-left: 20px">
                                                 <div class="col-md-2">
                                                     <label for="id">Kurs</label>
                                                 </div>
                                                 <div class="col-md-6" style="margin-left: 10px;">
-                                                    <input id="kurs" type="number" name="kurs" class="form-control"
-                                                        style="width: 100%">
+                                                    <input id="kurs" type="number" name="kurs"
+                                                        class="form-control" style="width: 100%">
                                                 </div>
                                             </div>
                                         </div>
@@ -146,8 +151,8 @@
                                                 <label for="id">Jenis Pembayaran</label>
                                             </div>
                                             <div class="col-md-2">
-                                                <input id="jns_pembayaran" type="text" name="jns_pembayaran" class="form-control"
-                                                    style="width: 100%">
+                                                <input id="jns_pembayaran" type="text" name="jns_pembayaran"
+                                                    class="form-control" style="width: 100%">
                                             </div>
                                             <div class="col-md-1" style="vertical-align: middle;">
                                                 <button class="btn" type="button"
@@ -158,8 +163,8 @@
                                                     <label for="id">Jumlah</label>
                                                 </div>
                                                 <div class="col-md-6" style="margin-left: 8px;">
-                                                    <input type="number" name="belom" class="form-control"
-                                                        style="width: 94%">
+                                                    <input id="jumlah_bayar" type="number" name="jumlah_bayar"
+                                                        class="form-control" style="width: 94%">
                                                 </div>
                                             </div>
                                         </div>
@@ -172,16 +177,18 @@
                                                     class="form-control" style="width: 100%">
                                             </div>
                                             <div class="col-md-1" style="vertical-align: middle;">
-                                                <button class="btn" type="button"
-                                                    id="btn_matauang">...</button>
+                                                <button class="btn" type="button" id="btn_matauang">...</button>
                                             </div>
                                             <div style="display: flex; padding-left: 20px">
                                                 <div class="col-md-6" style="margin-left: 8px;">
+                                                    <input id="id_jnsbayar" type="number" name="id_jnsbayar"
+                                                        class="form-control" style="width: 145%">
                                                     <input id="mata_uang_kanan" type="number" name="mata_uang_kanan"
                                                         class="form-control" style="width: 145%">
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div style="display: flex;">
                                             <div class="col-md-3">
                                                 <label for="id">Nilai Pembayaran</label>
@@ -211,8 +218,8 @@
                                                 <label for="id">ID. Pembayaran</label>
                                             </div>
                                             <div class="col-md-2">
-                                                <input id="id_pembayaran" type="text" name="id_pembayaran" class="form-control"
-                                                    style="width: 100%">
+                                                <input id="id_pembayaran" type="text" name="id_pembayaran"
+                                                    class="form-control" style="width: 100%">
                                             </div>
                                         </div>
                                         <div style="display: flex;">
@@ -229,8 +236,8 @@
                                                 <label for="id">Nilai Pembayaran</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="number" name="supplierSelect" class="form-control"
-                                                    style="width: 100%">
+                                                <input id="nilai_pembayaran2" type="number" name="nilai_pembayaran2"
+                                                    class="form-control" style="width: 100%">
                                             </div>
                                         </div>
                                         <div style="display: flex;">
@@ -238,8 +245,8 @@
                                                 <label for="id">Belum Dibayar</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="number" name="supplierSelect" class="form-control"
-                                                    style="width: 100%">
+                                                <input id="belum_dibayar" type="number" name="belum_dibayar"
+                                                    class="form-control" style="width: 100%">
                                             </div>
                                         </div>
                                         <div style="display: flex;">
@@ -247,8 +254,8 @@
                                                 <label for="id">Saldo</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="number" name="supplierSelect" class="form-control"
-                                                    style="width: 100%">
+                                                <input id="saldo" type="number" name="saldo"
+                                                    class="form-control" style="width: 100%">
                                             </div>
                                         </div>
                                     </div>
@@ -257,8 +264,10 @@
                             <p>
                             <div class="mb-3">
                                 <button class="btn btn-primary" id="btn_isi" style="width: 130px">Isi</button>
-                                <button class="btn btn-warning" id="btn_koreksi" style="width: 130px">Koreksi (Belum)</button>
-                                <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus (Belum)</button>
+                                <button class="btn btn-warning" id="btn_koreksi" style="width: 130px">Koreksi
+                                    (Belum)</button>
+                                <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus
+                                    (Belum)</button>
                                 <button class="btn btn-success" id="btn_proses" style="width: 130px">Proses</button>
                             </div>
                         </form>
