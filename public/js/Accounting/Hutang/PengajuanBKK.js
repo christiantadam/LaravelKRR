@@ -45,13 +45,18 @@ $(document).ready(function () {
     let id_bayardp = document.getElementById("id_bayardp");
     let ada_bkm = document.getElementById("ada_bkm");
     let bkm = document.getElementById("bkm");
+    let rowDataPertama;
     let rowData;
     let proses;
     let BKM_Pot;
     let TT;
     let TdkDP;
     let AdaDP;
+    let bayar;
+    let dp;
 
+    document.getElementById("nilai_pembayaran").style.color = "green";
+    document.getElementById("nilai_pembayaran").style.fontWeight = "bold";
     id_jnsbayar.style.visibility = "hidden";
     mata_uang_kanan.style.visibility = "hidden";
     nilai_pembayaran_kanan.style.visibility = "hidden";
@@ -74,6 +79,7 @@ $(document).ready(function () {
     radiogrup_adadp.addEventListener("click", async function (event) {
         AdaDP = true;
         TdkDP = false;
+        dp = true;
         Swal.fire({
             title: "Confirmation",
             text: "BKK Uang Muka (Yes) atau BKM Potongan (No)",
@@ -84,7 +90,7 @@ $(document).ready(function () {
         }).then((result) => {
             console.log(result);
             btn_bkkuangmuka.disabled = !result.isConfirmed;
-            if (result.isConfirmed) {
+            if (!result.isConfirmed) {
                 BKM_Pot = true;
             } else {
                 BKM_Pot = false;
@@ -96,11 +102,14 @@ $(document).ready(function () {
     radiogrup_tidakdp.addEventListener("click", function (event) {
         AdaDP = false;
         TdkDP = true;
+        bayar = true;
     });
 
     radiogrup_penagihan.addEventListener("click", function (event) {
         btn_supplier.focus();
         btn_isi.disabled = false;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = false;
         TT = true;
         $("#tablebkkpertama").parents("div.dataTables_wrapper").first().hide();
         $("#tablebkkpenagihan")
@@ -123,6 +132,8 @@ $(document).ready(function () {
 
     radiogrup_nopenagihan.addEventListener("click", function (event) {
         btn_isi.disabled = false;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = false;
         TT = false;
         $("#tablebkkpertama").parents("div.dataTables_wrapper").first().hide();
         $("#tablebkkpenagihan")
@@ -170,6 +181,32 @@ $(document).ready(function () {
             { data: "Jml_JenisBayar" },
         ],
     });
+
+    $("#tablebkkpertama tbody").off("change", 'input[name="penerimaCheckbox"]');
+
+    $("#tablebkkpertama tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            if (this.checked) {
+                $('input[name="penerimaCheckbox"]')
+                    .not(this)
+                    .prop("checked", false);
+                rowDataPertama = tablepertama.row($(this).closest("tr")).data();
+                console.log(rowData, this, tablepertama);
+                const formatDate = (dateString) => {
+                    if (!dateString)
+                        return new Date().toISOString().split("T")[0];
+                    const date = new Date(dateString);
+                    const offset = date.getTimezoneOffset();
+                    const adjustedDate = new Date(
+                        date.getTime() - offset * 60 * 1000
+                    );
+                    return adjustedDate.toISOString().split("T")[0];
+                };
+            }
+        }
+    );
 
     btn_supplier.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -223,6 +260,8 @@ $(document).ready(function () {
                     supplier1.value = selectedRow.NO_SUP.trim();
 
                     if (!TT) {
+                        rincian.value =
+                            "UANG MUKA - " + selectedRow.NM_SUP.trim();
                     } else {
                         tablekedua = $("#tablebkkpenagihan").DataTable({
                             responsive: true,
@@ -299,16 +338,12 @@ $(document).ready(function () {
     btn_isi.addEventListener("click", function (event) {
         event.preventDefault();
         proses = 1;
-        if (mata_uang.value.trim() !== "") {
-            // Swal.fire({
-            //     icon: "warning",
-            //     title: "Warning!",
-            //     text: "Isi kode barang terlebih dahulu",
-            //     showConfirmButton: true,
-            // });
-            btn_matauang.disabled = true;
-            return;
-        }
+        // btn_isi.disabled = false;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_matauang.disabled = true;
+
         if (!TT) {
             Swal.fire({
                 title: "Confirmation",
@@ -318,6 +353,15 @@ $(document).ready(function () {
                 confirmButtonText: "Yes",
                 cancelButtonText: "No",
             }).then((result) => {
+                if (mata_uang.value.trim() == "") {
+                    // Swal.fire({
+                    //     icon: "warning",
+                    //     title: "Warning!",
+                    //     text: "Isi kode barang terlebih dahulu",
+                    //     showConfirmButton: true,
+                    // });
+                    btn_matauang.disabled = false;
+                }
                 console.log(result);
                 btn_bkkuangmuka.disabled = !result.isConfirmed;
                 if (result.isConfirmed) {
@@ -337,18 +381,19 @@ $(document).ready(function () {
                         }
                     });
                     radiogrup_adadp.disabled = true;
-                    radiogrup_tidakdp.checked = true;
+                    radiogrup_tidakdp.disabled = false;
+                    radiogrup_tidakdp.click();
                 } else {
-                    radiogrup_adadp.checked = true;
+                    radiogrup_adadp.disabled = false;
+                    radiogrup_adadp.click();
                     radiogrup_tidakdp.disabled = true;
                 }
                 console.log(BKM_Pot);
             });
-            btn_matauang.disabled = true;
             return;
         } else {
             console.log(rowData !== null, rowData !== undefined);
-            if ((rowData == null) & (rowData == undefined)) {
+            if (rowData == null && rowData == undefined) {
                 Swal.fire({
                     icon: "info",
                     title: "Info!",
@@ -361,32 +406,157 @@ $(document).ready(function () {
                 radiogrup_tidakdp.disabled = false;
                 pajak.value = rowData.Status_PPN;
                 rincian.value = rowData.Id_Penagihan;
+                nilai_pembayaran_kanan = rowData.Id_Penagihan;
                 mata_uang.value = rowData.UangTT;
-                document.getElementById("nilai_pembayaran").style.color =
-                    "green";
-                document.getElementById("nilai_pembayaran").style.fontWeight =
-                    "bold";
                 nilai_pembayaran.value = rowData.Nilai_Penagihan;
                 id_pembayaran.value = rowData.Id_Pembayaran;
-                btn_koreksi.disabled = true;
-                btn_hapus.disabled = true;
-                btn_proses.disabled = false;
+                if (mata_uang.value.trim() == "") {
+                    // Swal.fire({
+                    //     icon: "warning",
+                    //     title: "Warning!",
+                    //     text: "Isi kode barang terlebih dahulu",
+                    //     showConfirmButton: true,
+                    // });
+                    btn_matauang.disabled = false;
+                }
                 return;
             }
         }
     });
 
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+        // if (proses === 4) {
+        //     if (alasan.value.trim() === "") {
+        //         Swal.fire({
+        //             icon: "warning",
+        //             title: "Warning!",
+        //             text: "Isi alasan stop dahulu",
+        //             showConfirmButton: true,
+        //         });
+        //         return;
+        //     }
+        // }
+        $.ajax({
+            url: "MaintenancePengajuanBKK",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                proses: proses,
+                TT: TT ? 1 : 0,
+                TdkDP: TdkDP ? 1 : 0,
+                AdaDP: AdaDP ? 1 : 0,
+                pajak: pajak.value,
+                id_pembayaran: id_pembayaran.value,
+                id_bank: id_bank.value,
+                id_jnsbayar: id_jnsbayar.value,
+                jumlah_bayar: jumlah_bayar.value,
+                nilai_pembayaran: nilai_pembayaran.value,
+                nilai_pembayaran_kanan: nilai_pembayaran_kanan.value,
+                rincian_dp: rincian_dp.value,
+                nilai_pembayaran2: nilai_pembayaran2.value,
+                id_bkk: id_bkk.value,
+                bkk_uangmuka: bkk_uangmuka.value,
+                id_bayardp: id_bayardp.value,
+                belum_dibayar: belum_dibayar.value,
+                bayar: bayar ? 1 : 0,
+                dp: dp ? 1 : 0,
+                supplier1: supplier1.value,
+                kurs: kurs.value,
+                ada_bkm: ada_bkm.value,
+            },
+            // beforeSend: function () {
+            //     // Show loading screen
+            //     $("#loading-screen").css("display", "flex");
+            // },
+            success: function (data) {
+                console.log(data);
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: data.success,
+                        showConfirmButton: false,
+                    });
+                } else if (data.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: data.error,
+                        showConfirmButton: false,
+                    });
+                }
+                // sisa.value = data.data[0].Buffer.trim();
+            },
+            error: function (xhr, status, error) {
+                // Menampilkan pesan kesalahan
+                let errorMessage = "Terjadi kesalahan saat memproses data.";
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    errorMessage = xhr.responseJSON.error;
+                } else if (xhr.responseText) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        errorMessage = response.error || errorMessage;
+                    } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                    }
+                }
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: error,
+                    showConfirmButton: false,
+                });
+            },
+            // complete: function () {
+            //     // Hide loading screen
+            //     $("#loading-screen").css("display", "none");
+            // },
+        });
+    });
+
     btn_koreksi.addEventListener("click", function (event) {
         event.preventDefault();
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
         proses = 2;
+        label_pajak.style.visibility = "hidden";
+        pajak.style.visibility = "hidden";
+        console.log(TT, rowDataPertama);
+        if (TT == undefined) {
+            rincian.value = rowDataPertama.Rincian_Bayar;
+            id_bank.value = rowDataPertama.Id_Bank;
+            id_jnsbayar.value = rowDataPertama.Id_Jenis_Bayar;
+            jns_pembayaran.value = rowDataPertama.Jenis_Pembayaran;
+            mata_uang.value = rowDataPertama.Nama_MataUang;
+            kurs.value = parseFloat(rowDataPertama.Kurs_Bayar);
+            nilai_pembayaran.value = rowDataPertama.Nilai_Pembayaran;
+            id_pembayaran.value = rowDataPertama.Id_Pembayaran;
+            jumlah_bayar.value = rowDataPertama.Jml_JenisBayar;
+            mata_uang_kanan.value = rowDataPertama.Id_MataUang;
+        }
     });
 
     btn_hapus.addEventListener("click", function (event) {
         event.preventDefault();
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
         proses = 3;
+        console.log(TT);
+        if (TT == true) {
+            id_pembayaran.value = rowData.Id_Pembayaran;
+        } else if (TT == undefined){
+            id_pembayaran.value = rowDataPertama.Id_Pembayaran;
+            nilai_pembayaran_kanan.value = rowDataPertama.Id_Penagihan;
+        }
     });
 
     btn_batal.addEventListener("click", function (event) {
+        event.preventDefault();
         location.reload();
     });
 
@@ -422,7 +592,7 @@ $(document).ready(function () {
                                 data: {
                                     _token: csrfToken,
                                     supplier1: supplier1.value,
-                                    BKM_Pot: BKM_Pot,
+                                    BKM_Pot: BKM_Pot ? 1 : 0,
                                 },
                             },
                             columns: [
@@ -445,6 +615,7 @@ $(document).ready(function () {
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
+                    // rincian_dp.value =
                     // sp1.value = decodeHtml(selectedRow.Supplier).trim();
                     // sp2.value = selectedRow.No_Supplier.trim();
                 }
@@ -617,6 +788,21 @@ $(document).ready(function () {
                                     mata_uang: mata_uang.value,
                                     id_bank: id_bank.value,
                                 },
+                                error: function (xhr, errorType, exception) {
+                                    console.log(xhr);
+                                    alert(xhr.responseJSON.message);
+                                },
+                                // dataSrc: function (json) {
+                                //     // Check for error status from the server
+                                //     if (json.status && json.status === 'error') {
+                                //         // Display an alert with the error message
+                                //         alert('Error: ' + json.message);
+                                //         return []; // Return an empty array to prevent DataTables from processing data
+                                //     } else {
+                                //         // Return the data array for DataTables to process
+                                //         return json;
+                                //     }
+                                // },
                             },
                             columns: [
                                 {
@@ -644,6 +830,7 @@ $(document).ready(function () {
                     const selectedRow = result.value;
                     // sp1.value = decodeHtml(selectedRow.Supplier).trim();
                     mata_uang.value = selectedRow.Nama_MataUang.trim();
+                    mata_uang_kanan.value = selectedRow.Id_MataUang.trim();
                 }
             });
         } catch (error) {
