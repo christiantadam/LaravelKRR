@@ -71,7 +71,6 @@ class MaintenanceMataUangController extends Controller
         } catch (Exception $ex) {
             return response()->json(['error' => $ex->getMessage()]);
         }
-
     }
 
     // Show the form for editing the specified resource.

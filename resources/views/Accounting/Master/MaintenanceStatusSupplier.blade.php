@@ -2,107 +2,68 @@
 @section('content')
 @section('title', 'Maintenance Status Supplier')
 
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-12 RDZMobilePaddingLR0">
-                <div class="card">
-                    <div class="card-header">Maintenance Status Supplier</div>
-                    @if (Session::has('success'))
-                        <div class="alert alert-success">
-                            {{ Session::get('success') }}
-                        </div>
-                    @endif
-                    <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-                        <div class="form-container col-md-12">
-                            <form method="POST" action="{{ url('MaintenanceStatusSupplier') }}" id="formkoreksi">
-                                {{csrf_field()}}
-                                <input type="hidden" name="_method" id="methodkoreksi">
-                                <!-- Form fields go here -->
-                                <div>
-                                    <table style="width: 100%" id="tabelStatusSupplier" name="tabelStatusSupplier">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>id. Supp</th>
-                                            <th>Nama Supplier</th>
-                                            <th>Saldo</th>
-                                            <th>Saldo Rp</th>
-                                            <th>Jns Supp</th>
-                                            <th>Jns Bayar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                    </table>
-                                </div>
+@include('Accounting.Master.ModalMaintenanceStatusSupplier')
+<style>
+    table.dataTable tbody th,
+    table.dataTable tbody td {
+        padding: 4px 5px
+    }
 
-                                <p><div class="container fluid">
-                                    <p><div class="row">
-                                        <div class="col-md-2 ">
-                                            <label for="idSupplier">ID/Nm.Supplier</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <input type="text" name="idSupplier" id="idSupplier" class="form-control" style="width: 100%">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="text" name="namaSupplier" id="namaSupplier" class="form-control" style="width: 100%">
-                                        </div>
-                                        <div>
-                                            <select id="idMataUang" name="idMataUang" class="form-control">
-                                                {{-- <option disabled selected>-- Pilih Id/Nm. Supp --</option>
-                                                @foreach ($maintenanceStatusSupplier as $mss)
-                                                <option value="{{ $mss->NO_SUP }}">{{ $mss->NO_SUP }} | {{ $mss->NM_SUP }}</option>
-                                                @endforeach --}}
-                                            </select>
-                                        </div>
-                                    </div>
+    .card-body {
+        flex: 1 1 auto;
+        padding: 0.5rem;
+    }
 
-                                    <p><div class="row" onchange="fillColumns()">
-                                        <div class="col-md-2">
-                                            <label for="id" >Jenis Supplier</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <input type="text" name="idJenisSupplier" id="idJenisSupplier" class="form-control" style="width: 100%">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="text" name="namaJenisSupplier" id="namaJenisSupplier" class="form-control" style="width: 100%">
-                                        </div>
-                                    </div>
+    .card-header {
+        padding: .5rem 1rem;
+        margin-bottom: 0;
+        background-color: rgba(0, 0, 0, .03);
+        border-bottom: 1px solid rgba(0, 0, 0, .125);
+    }
 
-                                    <p><div class="row">
-                                        <div class="col-md-2">
-                                            <label for="id">Jenis Bayar</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <input type="text" name="jenisbayar" class="form-control" style="width: 100%">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h6>[H] -- Hutang</h6>
-                                            <h6>[T] -- Tunai</h6>
-                                            <h6>[A] -- Angkutan</h6>
-                                        </div>
-                                    </div>
+    .py-4 {
+        padding-bottom: 10px !important;
+        padding-top: 20px !important;
+    }
 
-                                    <div class="row">
-                                        <div class="col-1">
-                                            <input type="submit" name="isi" value="Isi" id="btnIsi" class="btn btn-primary">
-                                        </div>
-                                        <div class="col-1">
-                                            <input type="submit" name="koreksi" value="Koreksi" id="btnKoreksi" class="btn btn-warning" onclick="clickKoreksi()">
-                                        </div>
-                                        <div class="col-1">
-                                            <input type="submit" name="proses" value="Proses" id="btnProses" class="btn btn-success" style="display: none" onclick="clickKoreksi()">
-                                        </div>
-                                        <div class="col-9">
-                                            <input type="submit" name="batal" id="btnBatal" value="Batal" class="btn btn-danger d-flex ml-auto" style="display: none" onclick="clickBatal()">
-                                        </div>
-                                    </div>
-                                    </div>
-                            </form>
-                        </div>
+    .acs-div-filter {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        margin-bottom: 4px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-12 RDZMobilePaddingLR0">
+            <div class="card">
+                <div class="card-header">Maintenance Status Supplier</div>
+                @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
+                <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                    <div class="form-container col-md-12">
+                        <table style="width: 100%" id="table_StatusSupplier" name="table_StatusSupplier">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Id Supp</th>
+                                    <th>Nama Supplier</th>
+                                    <th>Saldo</th>
+                                    <th>Saldo Rp</th>
+                                    <th>Jns Supp</th>
+                                    <th>Jns Bayar</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Master/MaintenanceStatusSupplier.js') }}"></script>
+</div>
+<script src="{{ asset('js/Accounting/Master/MaintenanceStatusSupplier.js') }}"></script>
 @endsection

@@ -18,7 +18,7 @@
     <button class="acs-icon-btn acs-add-btn acs-float" data-bs-toggle="modal" data-bs-target="#modalMataUang"
         data-typeForm="tambah" id="tambahButtonMataUang" type="button">
         <div class="acs-add-icon"></div>
-        <div class="acs-btn-txt">Tambah MataUang</div>
+        <div class="acs-btn-txt">Tambah Mata Uang</div>
     </button>
     <div class="row justify-content-center">
         <div class="col-md-6 RDZMobilePaddingLR0">

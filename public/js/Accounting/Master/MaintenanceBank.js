@@ -6,6 +6,7 @@ $(document).ready(function () {
     var dataTableBank = $("#table_Bank").DataTable({
         serverSide: true,
         responsive: true,
+        processing: true,
         ajax: {
             url: "MaintenanceBank/getAllBank",
             type: "GET",

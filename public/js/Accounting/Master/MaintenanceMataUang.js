@@ -5,6 +5,7 @@ $(document).ready(function () {
     var dataTableMataUang = $("#table_MataUang").DataTable({
         serverSide: true,
         responsive: true,
+        processing: true,
         ajax: {
             url: "MaintenanceMataUang/getAllMataUang",
             type: "GET",
