@@ -926,6 +926,7 @@ $(document).ready(function () {
         "000137789",
         "000139279",
         "000140582",
+        "000136600",
     ];
 
     // Fungsi untuk memeriksa apakah kode barang diizinkan

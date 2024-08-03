@@ -1048,7 +1048,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('PenyesuaianSaldoSupplier', 'App\Http\Controllers\Accounting\Hutang\PenyesuaianSaldoSupplierController@PenyesuaianSaldoSupplier');
     Route::resource('MaintenancePengajuanBKK', App\Http\Controllers\Accounting\Hutang\PengajuanBKKController::class);
     // Route::get('MaintenancePengajuanBKK', 'App\Http\Controllers\Accounting\Hutang\PengajuanBKKController@PengajuanBKK');
-    Route::get('ACCBKK', 'App\Http\Controllers\Accounting\Hutang\ACCBKKController@ACCBKK');
+    Route::resource('MaintenanceACCBKK', App\Http\Controllers\Accounting\Hutang\ACCBKKController::class);
+    // Route::get('ACCBKK', 'App\Http\Controllers\Accounting\Hutang\ACCBKKController@ACCBKK');
     Route::get('MaintenanceBKK', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKKController@MaintenanceBKK');
 
     Route::resource('MaintenanceTTKRR1', App\Http\Controllers\Accounting\Hutang\MaintenanceTTKRR1Controller::class);

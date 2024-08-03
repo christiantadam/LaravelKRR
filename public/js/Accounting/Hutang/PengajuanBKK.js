@@ -406,7 +406,7 @@ $(document).ready(function () {
                 radiogrup_tidakdp.disabled = false;
                 pajak.value = rowData.Status_PPN;
                 rincian.value = rowData.Id_Penagihan;
-                nilai_pembayaran_kanan = rowData.Id_Penagihan;
+                nilai_pembayaran_kanan.value = rowData.Id_Penagihan;
                 mata_uang.value = rowData.UangTT;
                 nilai_pembayaran.value = rowData.Nilai_Penagihan;
                 id_pembayaran.value = rowData.Id_Pembayaran;
@@ -426,94 +426,172 @@ $(document).ready(function () {
 
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
-        // if (proses === 4) {
-        //     if (alasan.value.trim() === "") {
-        //         Swal.fire({
-        //             icon: "warning",
-        //             title: "Warning!",
-        //             text: "Isi alasan stop dahulu",
-        //             showConfirmButton: true,
-        //         });
-        //         return;
-        //     }
-        // }
-        $.ajax({
-            url: "MaintenancePengajuanBKK",
-            type: "POST",
-            data: {
-                _token: csrfToken,
-                proses: proses,
-                TT: TT ? 1 : 0,
-                TdkDP: TdkDP ? 1 : 0,
-                AdaDP: AdaDP ? 1 : 0,
-                pajak: pajak.value,
-                id_pembayaran: id_pembayaran.value,
-                id_bank: id_bank.value,
-                id_jnsbayar: id_jnsbayar.value,
-                jumlah_bayar: jumlah_bayar.value,
-                nilai_pembayaran: nilai_pembayaran.value,
-                nilai_pembayaran_kanan: nilai_pembayaran_kanan.value,
-                rincian_dp: rincian_dp.value,
-                nilai_pembayaran2: nilai_pembayaran2.value,
-                id_bkk: id_bkk.value,
-                bkk_uangmuka: bkk_uangmuka.value,
-                id_bayardp: id_bayardp.value,
-                belum_dibayar: belum_dibayar.value,
-                bayar: bayar ? 1 : 0,
-                dp: dp ? 1 : 0,
-                supplier1: supplier1.value,
-                kurs: kurs.value,
-                ada_bkm: ada_bkm.value,
-            },
-            // beforeSend: function () {
-            //     // Show loading screen
-            //     $("#loading-screen").css("display", "flex");
-            // },
-            success: function (data) {
-                console.log(data);
-                if (data.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success!",
-                        text: data.success,
-                        showConfirmButton: false,
+        if (proses === 3) {
+            Swal.fire({
+                title: "Apakah anda yakin menghapus?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "MaintenancePengajuanBKK",
+                        type: "POST",
+                        data: {
+                            _token: csrfToken,
+                            proses: proses,
+                            TT: TT ? 1 : 0,
+                            TdkDP: TdkDP ? 1 : 0,
+                            AdaDP: AdaDP ? 1 : 0,
+                            id_pembayaran: id_pembayaran.value,
+                            nilai_pembayaran_kanan:
+                                nilai_pembayaran_kanan.value,
+                            bayar: bayar ? 1 : 0,
+                            dp: dp ? 1 : 0,
+                        },
+                        success: function (response) {
+                            if (response.message) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success!",
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        console.log(TT);
+
+                                        if (TT == undefined) {
+                                            tablepertama.ajax.reload();
+                                            btn_proses.disabled = true;
+                                            btn_koreksi.disabled = false;
+                                            btn_hapus.disabled = false;
+                                        } else if (TT == true) {
+                                            tablekedua.ajax.reload();
+                                            btn_proses.disabled = true;
+                                            btn_isi.disabled = false;
+                                            btn_hapus.disabled = false;
+                                        }
+                                    }
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            let errorMessage =
+                                "Terjadi kesalahan saat memproses data.";
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            } else if (xhr.responseText) {
+                                try {
+                                    const response = JSON.parse(
+                                        xhr.responseText
+                                    );
+                                    errorMessage =
+                                        response.error || errorMessage;
+                                } catch (e) {
+                                    console.error(
+                                        "Error parsing JSON response:",
+                                        e
+                                    );
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: errorMessage,
+                                showConfirmButton: false,
+                            });
+                        },
                     });
-                } else if (data.error) {
+                }
+            });
+        } else {
+            $.ajax({
+                url: "MaintenancePengajuanBKK",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    TT: TT ? 1 : 0,
+                    TdkDP: TdkDP ? 1 : 0,
+                    AdaDP: AdaDP ? 1 : 0,
+                    pajak: pajak.value,
+                    id_pembayaran: id_pembayaran.value,
+                    rincian: rincian.value,
+                    mata_uang_kanan: mata_uang_kanan.value,
+                    id_bank: id_bank.value,
+                    id_jnsbayar: id_jnsbayar.value,
+                    jumlah_bayar: jumlah_bayar.value,
+                    nilai_pembayaran: nilai_pembayaran.value,
+                    nilai_pembayaran_kanan: nilai_pembayaran_kanan.value,
+                    rincian_dp: rincian_dp.value,
+                    nilai_pembayaran2: nilai_pembayaran2.value,
+                    id_bkk: id_bkk.value,
+                    bkk_uangmuka: bkk_uangmuka.value,
+                    id_bayardp: id_bayardp.value,
+                    belum_dibayar: belum_dibayar.value,
+                    bayar: bayar ? 1 : 0,
+                    dp: dp ? 1 : 0,
+                    supplier1: supplier1.value,
+                    kurs: kurs.value,
+                    ada_bkm: ada_bkm.value,
+                },
+                success: function (response) {
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                if (TT == true || TT == false) {
+                                    tablekedua.ajax.reload();
+                                    btn_proses.disabled = true;
+                                    btn_isi.disabled = false;
+                                    btn_hapus.disabled = false;
+                                }
+                            }
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    let errorMessage = "Terjadi kesalahan saat memproses data.";
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMessage = xhr.responseJSON.error;
+                    } else if (xhr.responseText) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            errorMessage = response.error || errorMessage;
+                        } catch (e) {
+                            console.error("Error parsing JSON response:", e);
+                        }
+                    }
+
                     Swal.fire({
                         icon: "error",
                         title: "Error!",
-                        text: data.error,
+                        text: errorMessage,
                         showConfirmButton: false,
                     });
-                }
-                // sisa.value = data.data[0].Buffer.trim();
-            },
-            error: function (xhr, status, error) {
-                // Menampilkan pesan kesalahan
-                let errorMessage = "Terjadi kesalahan saat memproses data.";
-                if (xhr.responseJSON && xhr.responseJSON.error) {
-                    errorMessage = xhr.responseJSON.error;
-                } else if (xhr.responseText) {
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        errorMessage = response.error || errorMessage;
-                    } catch (e) {
-                        console.error("Error parsing JSON response:", e);
-                    }
-                }
-
-                Swal.fire({
-                    icon: "error",
-                    title: "Error!",
-                    text: error,
-                    showConfirmButton: false,
-                });
-            },
-            // complete: function () {
-            //     // Hide loading screen
-            //     $("#loading-screen").css("display", "none");
-            // },
-        });
+                },
+            });
+        }
     });
 
     btn_koreksi.addEventListener("click", function (event) {
@@ -549,7 +627,7 @@ $(document).ready(function () {
         console.log(TT);
         if (TT == true) {
             id_pembayaran.value = rowData.Id_Pembayaran;
-        } else if (TT == undefined){
+        } else if (TT == undefined) {
             id_pembayaran.value = rowDataPertama.Id_Pembayaran;
             nilai_pembayaran_kanan.value = rowDataPertama.Id_Penagihan;
         }

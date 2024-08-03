@@ -52,10 +52,15 @@ class PengajuanBKKController extends Controller
         $Bayar = (bool) $request->input('bayar');
         $DP = (bool) $request->input('dp');
         $TIDSupplier = $request->input('supplier1');
-        $txtKurs = $request->input('kurs');
+        $kurs_value = str_replace(".", "", $request->input('kurs'));
+        $kurs_value = str_replace(",", ".", $kurs_value);
+        $txtKurs = (float) $kurs_value;
+        // $txtKurs = $request->input('kurs');
         $TBKM = $request->input('ada_bkm');
+        $idMataUang = $request->input('mata_uang_kanan');
         $DP_lagi = 0;
         // dd($request->all());
+        // dd($idMataUang);
         switch ($proses) {
             case 1:
                 if ($TT) {
@@ -129,14 +134,15 @@ class PengajuanBKKController extends Controller
                 } else {
                     if ($Bayar) {
                         $recTrans = DB::connection('ConnAccounting')
-                            ->select('EXEC SP_1273_ACC_INS_BKK2_ACUAN_NOTT_BAYAR ?, ?, ?, ?, ?, ?, ?, ?', [
+                            ->select('EXEC SP_1273_ACC_INS_BKK2_ACUAN_NOTT_BAYAR ?, ?, ?, ?, ?, ?, ?, ?, ?', [
                                 $TBank,
                                 $TIdJnsByr,
                                 $request->input('mata_uang_kanan'),
                                 $TJmlByr,
-                                $request->input('TRincian'),
+                                $request->input('rincian'),
                                 $TNilaiBayar,
                                 $nomorUser,
+                                $txtKurs,
                                 $TIDSupplier
                             ]);
                         if (!empty($recTrans)) {
@@ -149,7 +155,7 @@ class PengajuanBKKController extends Controller
                                 $TIdJnsByr,
                                 $request->input('mata_uang_kanan'),
                                 $TJmlByr,
-                                $request->input('TRincian'),
+                                $request->input('rincian'),
                                 $TNilaiBayar,
                                 $TIDSupplier,
                                 $nomorUser,
