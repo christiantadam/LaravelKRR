@@ -440,7 +440,7 @@ function loadDataKoreksi(kode_barang, nama_customer) {
                     reinforced_tebal.value = 0;
                 } else {
                     reinforced_lami.value = datas[1][0]["Status_Lami"];
-                    reinforced_tebal.value = datas[1][0]["Tebal_lami"];
+                    reinforced_tebal.value = datas[1][0]["Tebal_Lami"];
                 }
                 if (datas[1][0]["Iner"] == "N") {
                     reinforced_inner.value = 0;
@@ -1239,11 +1239,11 @@ function Rumus_LebarCA(bentukRumus_LebarCA, modelRumus_LebarCA) {
 
 function Rumus_PanjangCB(bentukRumus_PanjangCB, modelRumus_PanjangCB) {
     let hasil = 0;
-    if (modelRumus_PanjangCB === "S") {
+    if (bentukRumus_PanjangCB === "S") {
         if (
-            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBD" ||
-            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBP" ||
-            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBS"
+            modelRumus_PanjangCB.trim().substring(0, 5) === "06CBD" ||
+            modelRumus_PanjangCB.trim().substring(0, 5) === "06CBP" ||
+            modelRumus_PanjangCB.trim().substring(0, 5) === "06CBS"
         ) {
             hasil =
                 parseFloat(cerobongBawah_panjang.value ?? 0) * 2 +
@@ -1252,9 +1252,9 @@ function Rumus_PanjangCB(bentukRumus_PanjangCB, modelRumus_PanjangCB) {
         }
     } else {
         if (
-            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBD" ||
-            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBP" ||
-            bentukRumus_PanjangCB.trim().substring(0, 5) === "06CBS"
+            modelRumus_PanjangCB.trim().substring(0, 5) === "06CBD" ||
+            modelRumus_PanjangCB.trim().substring(0, 5) === "06CBP" ||
+            modelRumus_PanjangCB.trim().substring(0, 5) === "06CBS"
         ) {
             hasil = parseFloat(cerobongBawah_diameter.value ?? 0) * 3.14 + 6;
         }
@@ -1465,6 +1465,7 @@ function CerobongAtas() {
             cerobongAtas_bentuk.value,
             id_cerobongAtas_model.value
         );
+
         LebarPot = Rumus_LebarCA(
             cerobongAtas_bentuk.value,
             id_cerobongAtas_model.value
@@ -1507,6 +1508,7 @@ function CerobongBawah() {
             cerobongBawah_bentuk.value,
             id_cerobongBawah_model.value
         );
+
         LebarPot = Rumus_LebarCB(
             cerobongBawah_bentuk.value,
             id_cerobongBawah_model.value
@@ -7177,7 +7179,9 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                 }
             } else if (typeForm == "Form Komponen Lami") {
                 let tableKomponenLami = $("#tableKomponenLami").DataTable();
-                let totalBeratKomponenLami = document.getElementById("totalBeratKomponenLami")
+                let totalBeratKomponenLami = document.getElementById(
+                    "totalBeratKomponenLami"
+                );
                 if (KompVarKomponen == 1) {
                     $.ajax({
                         type: "POST", // or 'GET' depending on your server setup
@@ -7232,11 +7236,17 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     }, // Pass the data with csrf_tokern
                                     beforeSend: function () {
                                         // Show loading screen
-                                        $("#loading-screen").css("display", "flex");
+                                        $("#loading-screen").css(
+                                            "display",
+                                            "flex"
+                                        );
                                     },
                                     success: function (response) {
                                         // Handle the successful response from the controller
-                                        $("#loading-screen").css("display", "none");
+                                        $("#loading-screen").css(
+                                            "display",
+                                            "none"
+                                        );
                                         if (response.success) {
                                             Swal.fire({
                                                 icon: "success",
@@ -7248,7 +7258,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                                     customer.value
                                                 );
                                             });
-                                        }else if (response.error) {
+                                        } else if (response.error) {
                                             Swal.fire({
                                                 icon: "error",
                                                 title: "Pemberitahuan",
@@ -7267,7 +7277,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             icon: "error",
                                             title: "Pemberitahuan",
                                             text: error,
-                                        })
+                                        });
                                         console.error(error); // Handle errors
                                     },
                                 });
@@ -7278,7 +7288,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 icon: "error",
                                 title: "Pemberitahuan",
                                 text: error,
-                            })
+                            });
                             console.error(error); // Handle errors
                         },
                     });
@@ -7338,11 +7348,17 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     }, // Pass the data with csrf_tokern
                                     beforeSend: function () {
                                         // Show loading screen
-                                        $("#loading-screen").css("display", "flex");
+                                        $("#loading-screen").css(
+                                            "display",
+                                            "flex"
+                                        );
                                     },
                                     success: function (response) {
                                         // Handle the successful response from the controller
-                                        $("#loading-screen").css("display", "none");
+                                        $("#loading-screen").css(
+                                            "display",
+                                            "none"
+                                        );
                                         if (response.success) {
                                             Swal.fire({
                                                 icon: "success",
@@ -7373,7 +7389,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             icon: "error",
                                             title: "Pemberitahuan",
                                             text: error,
-                                        })
+                                        });
                                         console.error(error); // Handle errors
                                     },
                                 });
@@ -7384,7 +7400,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 icon: "error",
                                 title: "Pemberitahuan",
                                 text: error,
-                            })
+                            });
                             console.error(error); // Handle errors
                         },
                     });
@@ -7423,11 +7439,17 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                     }, // Pass the data with csrf_tokern
                                     beforeSend: function () {
                                         // Show loading screen
-                                        $("#loading-screen").css("display", "flex");
+                                        $("#loading-screen").css(
+                                            "display",
+                                            "flex"
+                                        );
                                     },
                                     success: function (response) {
                                         // Handle the successful response from the controller
-                                        $("#loading-screen").css("display", "none");
+                                        $("#loading-screen").css(
+                                            "display",
+                                            "none"
+                                        );
                                         if (response.success) {
                                             Swal.fire({
                                                 icon: "success",
@@ -7458,7 +7480,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                             icon: "error",
                                             title: "Pemberitahuan",
                                             text: error,
-                                        })
+                                        });
                                         console.error(error); // Handle errors
                                     },
                                 });
@@ -7470,7 +7492,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                                 icon: "error",
                                 title: "Pemberitahuan",
                                 text: error,
-                            })
+                            });
                             console.error(error); // Handle errors
                         },
                     });
@@ -10390,6 +10412,7 @@ btn_reinforced_warna.addEventListener("click", async function (e) {
                         responsive: true,
                         processing: true,
                         serverSide: true,
+                        order: [[1, "asc"]],
                         ajax: {
                             url: "getDataWarnaBeltReinforcedJBB",
                             dataType: "json",
