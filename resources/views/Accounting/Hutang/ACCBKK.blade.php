@@ -25,6 +25,7 @@
                                         <th>Kurs</th>
                                         <th>Supplier</th>
                                         <th>ID Pembayaran</th>
+                                        <th>ID Mata Uang</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,7 +113,7 @@
                                         (RP)</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="number" id="nilaiPenagihanRP" class="form-control"
+                                    <input type="text" id="nilaiPenagihanRP" class="form-control"
                                         style="width: 100%">
                                 </div>
                             </div>
@@ -124,11 +125,13 @@
                                     <p>
                                     <div style="display: flex;">
                                         <div class="col-md-4">
-                                            <label for="bank">Mata Uang</label>
+                                            <label for="mata_uangbawah">Mata Uang</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text" id="bank" name="bankSelect"
+                                            <input type="text" id="mata_uangbawah" name="bankSelect"
                                                 class="form-control" style="width: 100%">
+                                                <input type="text" id="id_matauang" name="bankSelect"
+                                                class="form-control" style="width: 100%; display: none">
                                         </div>
                                         <div class="col-md-1" style="vertical-align: middle;">
                                             <button class="btn" type="button" id="btn_supplier">...</button>
@@ -170,7 +173,7 @@
                                             <label for="mataUang" class="clickable">Mata Uang</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" id="mataUang" class="form-control"
+                                            <input type="text" id="mata_uangkanan" class="form-control"
                                                 style="width: 100%">
                                         </div>
                                     </div>
@@ -181,7 +184,7 @@
                                                 dibayar</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="number" id="nilaiSudahDibayar" class="form-control"
+                                            <input type="text" id="nilaiSudahDibayar" class="form-control"
                                                 style="width: 100%">
                                         </div>
                                     </div>
@@ -192,7 +195,7 @@
                                                 dibayar</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="number" id="nilaiBelumDibayar" class="form-control"
+                                            <input type="text" id="nilaiBelumDibayar" class="form-control"
                                                 style="width: 100%">
                                         </div>
                                     </div>

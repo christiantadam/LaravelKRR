@@ -13,9 +13,23 @@ $(document).ready(function () {
     let jenis_pembayaran = document.getElementById("jenis_pembayaran");
     let jumlah_pembayaran = document.getElementById("jumlah_pembayaran");
     let id_jenisbayar = document.getElementById("id_jenisbayar");
+    let mataUang = document.getElementById("mataUang");
+    let nilaiPenagihan = document.getElementById("nilaiPenagihan");
+    let nilaiPenagihanRP = document.getElementById("nilaiPenagihanRP");
+    let mata_uangbawah = document.getElementById("mata_uangbawah");
+    let nilaidibayarkan = document.getElementById("nilaidibayarkan");
+    let nilaikurs = document.getElementById("nilaikurs");
+    let mata_uangkanan = document.getElementById("mata_uangkanan");
+    let nilaiSudahDibayar = document.getElementById("nilaiSudahDibayar");
+    let nilaiBelumDibayar = document.getElementById("nilaiBelumDibayar");
+    let id_matauang = document.getElementById("id_matauang");
     let rowData;
 
     btn_proses.style.display = "none";
+    nilaidibayarkan.value = 0;
+    nilaikurs.value = 1;
+    nilaiSudahDibayar.value = 0;
+    nilaiBelumDibayar.value = 0;
 
     let tablepertama = $("#tablepertama").DataTable({
         responsive: true,
@@ -48,8 +62,9 @@ $(document).ready(function () {
             { data: "Kurs_Bayar" },
             { data: "NM_SUP" },
             { data: "Id_Jenis_Bayar" },
+            { data: "Id_MataUang" },
         ],
-        columnDefs: [{ targets: [10], visible: false }],
+        columnDefs: [{ targets: [10, 11], visible: false }],
     });
 
     $("#tablepertama tbody").off("change", 'input[name="penerimaCheckbox"]');
@@ -94,7 +109,16 @@ $(document).ready(function () {
         jenis_pembayaran.value = rowData.Jenis_Pembayaran;
         jumlah_pembayaran.value = rowData.Jml_JenisBayar;
         id_jenisbayar.value = rowData.Id_Jenis_Bayar;
-
+        mataUang.value = rowData.Nama_MataUang;
+        nilaiPenagihan.value = rowData.Nilai_Pembayaran;
+        nilaiPenagihanRP.value = rowData.Nilai_Pembayaran;
+        mata_uangbawah.value = rowData.Nama_MataUang;
+        nilaidibayarkan.value = rowData.Nilai_Pembayaran;
+        nilaikurs.value = rowData.Kurs_Bayar;
+        mata_uangkanan.value = rowData.Nama_MataUang;
+        nilaiSudahDibayar.value = rowData.Nilai_Pembayaran;
+        id_matauang.value = rowData.Id_MataUang;
+        nilaiBelumDibayar.value = "0.00";
     });
 
     btn_bank.addEventListener("click", async function (event) {
