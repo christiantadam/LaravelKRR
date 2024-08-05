@@ -175,6 +175,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('DeliveryOrderManager', App\Http\Controllers\Sales\Transaksi\DeliveryOrder\DeliveryOrderManagerController::class);
     Route::resource('InputPEB', App\Http\Controllers\Sales\Transaksi\DeliveryOrder\InputPEBController::class);
     Route::resource('SuratJalan', App\Http\Controllers\Sales\Transaksi\SuratJalan\SuratJalanController::class);
+    Route::resource('BatalSJ', App\Http\Controllers\Sales\Transaksi\SuratJalan\BatalSuratJalanController::class);
     Route::resource('SuratJalanManager', App\Http\Controllers\Sales\Transaksi\SuratJalan\SuratJalanManagerController::class);
     Route::resource('PascaKirim', App\Http\Controllers\Sales\Transaksi\SuratJalan\PascaKirimController::class);
     Route::resource('CetakSP', App\Http\Controllers\Sales\Cetak\CetakSPController::class);
