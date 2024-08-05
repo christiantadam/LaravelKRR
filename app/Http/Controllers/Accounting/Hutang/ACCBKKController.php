@@ -29,8 +29,94 @@ class ACCBKKController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
+        $TIDPembayaran = $request->input('id_pembayaran');
+
+        if (empty($TIDPembayaran)) {
+            return response()->json(['message' => 'Tidak Ada Data yang diPROSES!!..'], 200);
+        }
+
+        $Status_Lunas = "N";
+        $TUang_TT = $request->input('mataUang');
+        $TUang = $request->input('mata_uangbawah');
+        // $TNilaiBayar = (int)$request->input('nilaidibayarkan');
+        $TNilaiBayarTanpaKoma = str_replace(',', '', $request->input('nilaidibayarkan'));
+        $TNilaiBayar = (float) str_replace('.', ',', $TNilaiBayarTanpaKoma);
+        $TNilai_TT = $request->input('nilaiPenagihan');
+        $TIdUang = $request->input('id_matauang');
+        $TNilai_TT_Rp = $request->input('nilaiPenagihanRP');
+        // $cleaned_value = str_replace(".", "", $request->input('nilaidibayarkan'));
+        // $cleaned_value = str_replace(",", ".", $cleaned_value);
+        // $TNilaiBayar = (float) $cleaned_value;
+        $kurs_value = str_replace(".", "", $request->input('nilaikurs'));
+        $kurs_value = str_replace(",", ".", $kurs_value);
+        $txtKurs = (float) $kurs_value;
+        // dd($request->all());
+        // dd($TNilaiBayar, $txtKurs);
+        if ($TUang_TT == $TUang) {
+            if ($TNilaiBayar == $TNilai_TT) {
+                $Status_Lunas = "Y";
+            } else {
+                if ($request->input('confirm_lunas') == 'yes') {
+                    $Status_Lunas = "Y";
+                } else {
+                    $Status_Lunas = "N";
+                }
+            }
+        } else {
+            if ($TIdUang == 1) {
+                if ($TNilaiBayar == $TNilai_TT_Rp) {
+                    $Status_Lunas = "Y";
+                } else {
+                    if ($request->input('confirm_lunas') == 'yes') {
+                        $Status_Lunas = "Y";
+                    } else {
+                        $Status_Lunas = "N";
+                    }
+                }
+            }
+        }
+
+        // Execute the stored procedure to get the detail count
+        $result = DB::connection('ConnAccounting')
+            ->select('EXEC SP_1273_ACC_LIST_BKK2_JMLDETAIL ?', [$TIDPembayaran]);
+
+        if (!empty($result) && $result[0]->JmlDetail == 1) {
+            // Execute the first detail update stored procedure
+            DB::connection('ConnAccounting')
+                ->statement('EXEC SP_1273_ACC_UDT_BKK2_DETAIL_1 ?,?,?,?,?,?,?,?,?,?', [
+                    (int) $TIDPembayaran,
+                    $request->input('bank'),
+                    (int) $request->input('id_jenisbayar'),
+                    (int) $request->input('id_matauang'),
+                    (int) $request->input('jumlah_pembayaran'),
+                    $request->input('rincian'),
+                    $TNilaiBayar,
+                    trim(Auth::user()->NomorUser),
+                    $request->input('id_penagihan'),
+                    $Status_Lunas,
+                    $txtKurs,
+                ]);
+        } else {
+            // Execute the second detail update stored procedure
+            DB::connection('ConnAccounting')
+                ->statement('EXEC SP_1273_ACC_UDT_BKK2_DETAIL_2 ?,?,?,?,?,?,?,?,?,?', [
+                    (int) $TIDPembayaran,
+                    $request->input('bank'),
+                    (int) $request->input('id_jenisbayar'),
+                    (int) $request->input('id_matauang'),
+                    (int) $request->input('jumlah_pembayaran'),
+                    $request->input('rincian'),
+                    $TNilaiBayar,
+                    trim(Auth::user()->NomorUser),
+                    $request->input('id_penagihan'),
+                    $Status_Lunas,
+                    $txtKurs,
+                ]);
+        }
+
+        return response()->json(['message' => 'Data sudah diSIMPAN !!..'], 200);
     }
+
     //Display the specified resource.
     public function show(Request $request, $id)
     {

@@ -102,14 +102,12 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             @php
-                                                // Filter the submenus for the current menu item
                                                 $filteredItemsMenu = $access['AccessMenu']->filter(function (
                                                     $item,
                                                 ) use ($menuItem) {
                                                     return $item->Parent_IdMenu == $menuItem->IdMenu;
                                                 });
 
-                                                // Convert the filtered items to an array if needed
                                                 $filteredArrayMenu = $filteredItemsMenu->all();
 
                                                 $filteredItemsFitur = $access['AccessFitur']->filter(function (
@@ -118,7 +116,6 @@
                                                     return $item->Id_Menu == $menuItem->IdMenu;
                                                 });
 
-                                                // Convert the filtered items to an array if needed
                                                 $filteredArrayFitur = $filteredItemsFitur->all();
 
                                                 $combinedArrayFiturMenu = [];
@@ -127,6 +124,7 @@
                                                         'Nama' => $fitur->NamaFitur,
                                                         'Route' => $fitur->Route,
                                                         'IdMenu' => null,
+                                                        'IdFitur' => $fitur->IdFitur,
                                                     ];
                                                 }
 
@@ -135,19 +133,28 @@
                                                         'Nama' => $menu->NamaMenu,
                                                         'Route' => null,
                                                         'IdMenu' => $menu->IdMenu,
+                                                        'IdFitur' => null,
                                                     ];
                                                 }
+
                                                 usort($combinedArrayFiturMenu, function ($a, $b) {
-                                                    return strcmp($a['Nama'], $b['Nama']);
+                                                    return $a['IdFitur'] <=> $b['IdFitur'];
                                                 });
+
+                                                $itemCount = 0;
                                             @endphp
+
                                             @foreach ($combinedArrayFiturMenu as $combinedArrayFiturMenus)
+                                                @php
+                                                    $itemCount++;
+                                                @endphp
+
                                                 <li>
                                                     <a class="dropdown-item" tabindex="-1"
                                                         @if (isset($combinedArrayFiturMenus['Route'])) href="{{ url($combinedArrayFiturMenus['Route']) }}"
-                                                            style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
-                                                        @else
-                                                            style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px; padding-right: 1px; cursor: default;" @endif>
+                                style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
+                            @else
+                                style="color: black;font-size: 15px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px; padding-right: 1px; cursor: default;" @endif>
                                                         @if (!isset($combinedArrayFiturMenus['Route']))
                                                             {{ $combinedArrayFiturMenus['Nama'] }}<span
                                                                 style="float: right;">🞂</span>
@@ -170,6 +177,22 @@
                                                         </ul>
                                                     @endif
                                                 </li>
+
+                                                @if ($menuItem->IdMenu == 36 && $itemCount == 10)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 36 && $itemCount == 13)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 36 && $itemCount == 17)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </div>

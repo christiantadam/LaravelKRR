@@ -24,6 +24,7 @@ $(document).ready(function () {
     let nilaiBelumDibayar = document.getElementById("nilaiBelumDibayar");
     let id_matauang = document.getElementById("id_matauang");
     let rowData;
+    let confirm_lunas;
 
     btn_proses.style.display = "none";
     nilaidibayarkan.value = 0;
@@ -100,6 +101,15 @@ $(document).ready(function () {
 
     btn_isi.addEventListener("click", function (event) {
         event.preventDefault();
+        if (rowData == null && rowData == undefined) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data terlebih dahulu",
+                showConfirmButton: true,
+            });
+            return;
+        }
         btn_isi.style.display = "none";
         btn_proses.style.display = "block";
         id_pembayaran.value = rowData.Id_Pembayaran;
@@ -180,6 +190,435 @@ $(document).ready(function () {
             });
         } catch (error) {
             console.error("An error occurred:", error);
+        }
+    });
+
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (nilaidibayarkan.value !== nilaiPenagihan.value) {
+            Swal.fire({
+                title: "Dianggap Lunas ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    confirm_lunas = "yes";
+                    $.ajax({
+                        url: "MaintenanceACCBKK",
+                        type: "POST",
+                        data: {
+                            _token: csrfToken,
+                            confirm_lunas: confirm_lunas,
+                            rincian: rincian.value,
+                            id_pembayaran: id_pembayaran.value,
+                            mataUang: mataUang.value,
+                            mata_uangbawah: mata_uangbawah.value,
+                            nilaidibayarkan: nilaidibayarkan.value,
+                            nilaiPenagihan: nilaiPenagihan.value,
+                            id_matauang: id_matauang.value,
+                            nilaiPenagihanRP: nilaiPenagihanRP.value,
+                            bank: bank.value,
+                            id_jenisbayar: id_jenisbayar.value,
+                            id_matauang: id_matauang.value,
+                            jumlah_pembayaran: jumlah_pembayaran.value,
+                            nilaikurs: nilaikurs.value,
+                        },
+                        success: function (response) {
+                            if (response.message) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success!",
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+
+                                        // if (TT == undefined) {
+                                        //     tablepertama.ajax.reload();
+                                        //     btn_proses.disabled = true;
+                                        //     btn_koreksi.disabled = false;
+                                        //     btn_hapus.disabled = false;
+                                        // } else if (TT == true) {
+                                        //     tablekedua.ajax.reload();
+                                        //     btn_proses.disabled = true;
+                                        //     btn_isi.disabled = false;
+                                        //     btn_hapus.disabled = false;
+                                        // }
+                                    }
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            let errorMessage =
+                                "Terjadi kesalahan saat memproses data.";
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            } else if (xhr.responseText) {
+                                try {
+                                    const response = JSON.parse(
+                                        xhr.responseText
+                                    );
+                                    errorMessage =
+                                        response.error || errorMessage;
+                                } catch (e) {
+                                    console.error(
+                                        "Error parsing JSON response:",
+                                        e
+                                    );
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: errorMessage,
+                                showConfirmButton: false,
+                            });
+                        },
+                    });
+                } else {
+                    confirm_lunas = "no";
+                    $.ajax({
+                        url: "MaintenanceACCBKK",
+                        type: "POST",
+                        data: {
+                            _token: csrfToken,
+                            confirm_lunas: confirm_lunas,
+                            rincian: rincian.value,
+                            id_pembayaran: id_pembayaran.value,
+                            mataUang: mataUang.value,
+                            mata_uangbawah: mata_uangbawah.value,
+                            nilaidibayarkan: nilaidibayarkan.value,
+                            nilaiPenagihan: nilaiPenagihan.value,
+                            id_matauang: id_matauang.value,
+                            nilaiPenagihanRP: nilaiPenagihanRP.value,
+                            bank: bank.value,
+                            id_jenisbayar: id_jenisbayar.value,
+                            id_matauang: id_matauang.value,
+                            jumlah_pembayaran: jumlah_pembayaran.value,
+                            nilaikurs: nilaikurs.value,
+                        },
+                        success: function (response) {
+                            if (response.message) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success!",
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+
+
+                                        // if (TT == undefined) {
+                                        //     tablepertama.ajax.reload();
+                                        //     btn_proses.disabled = true;
+                                        //     btn_koreksi.disabled = false;
+                                        //     btn_hapus.disabled = false;
+                                        // } else if (TT == true) {
+                                        //     tablekedua.ajax.reload();
+                                        //     btn_proses.disabled = true;
+                                        //     btn_isi.disabled = false;
+                                        //     btn_hapus.disabled = false;
+                                        // }
+                                    }
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            let errorMessage =
+                                "Terjadi kesalahan saat memproses data.";
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            } else if (xhr.responseText) {
+                                try {
+                                    const response = JSON.parse(
+                                        xhr.responseText
+                                    );
+                                    errorMessage =
+                                        response.error || errorMessage;
+                                } catch (e) {
+                                    console.error(
+                                        "Error parsing JSON response:",
+                                        e
+                                    );
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: errorMessage,
+                                showConfirmButton: false,
+                            });
+                        },
+                    });
+                }
+            });
+        } else if (nilaidibayarkan.value !== nilaiPenagihanRP.value) {
+            Swal.fire({
+                title: "Dianggap Lunas ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    confirm_lunas = "yes";
+                    $.ajax({
+                        url: "MaintenanceACCBKK",
+                        type: "POST",
+                        data: {
+                            _token: csrfToken,
+                            confirm_lunas: confirm_lunas,
+                            rincian: rincian.value,
+                            id_pembayaran: id_pembayaran.value,
+                            mataUang: mataUang.value,
+                            mata_uangbawah: mata_uangbawah.value,
+                            nilaidibayarkan: nilaidibayarkan.value,
+                            nilaiPenagihan: nilaiPenagihan.value,
+                            id_matauang: id_matauang.value,
+                            nilaiPenagihanRP: nilaiPenagihanRP.value,
+                            bank: bank.value,
+                            id_jenisbayar: id_jenisbayar.value,
+                            id_matauang: id_matauang.value,
+                            jumlah_pembayaran: jumlah_pembayaran.value,
+                            nilaikurs: nilaikurs.value,
+                        },
+                        success: function (response) {
+                            if (response.message) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success!",
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+
+                                        // if (TT == undefined) {
+                                        //     tablepertama.ajax.reload();
+                                        //     btn_proses.disabled = true;
+                                        //     btn_koreksi.disabled = false;
+                                        //     btn_hapus.disabled = false;
+                                        // } else if (TT == true) {
+                                        //     tablekedua.ajax.reload();
+                                        //     btn_proses.disabled = true;
+                                        //     btn_isi.disabled = false;
+                                        //     btn_hapus.disabled = false;
+                                        // }
+                                    }
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            let errorMessage =
+                                "Terjadi kesalahan saat memproses data.";
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            } else if (xhr.responseText) {
+                                try {
+                                    const response = JSON.parse(
+                                        xhr.responseText
+                                    );
+                                    errorMessage =
+                                        response.error || errorMessage;
+                                } catch (e) {
+                                    console.error(
+                                        "Error parsing JSON response:",
+                                        e
+                                    );
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: errorMessage,
+                                showConfirmButton: false,
+                            });
+                        },
+                    });
+                } else {
+                    confirm_lunas = "no";
+                    $.ajax({
+                        url: "MaintenanceACCBKK",
+                        type: "POST",
+                        data: {
+                            _token: csrfToken,
+                            confirm_lunas: confirm_lunas,
+                            rincian: rincian.value,
+                            id_pembayaran: id_pembayaran.value,
+                            mataUang: mataUang.value,
+                            mata_uangbawah: mata_uangbawah.value,
+                            nilaidibayarkan: nilaidibayarkan.value,
+                            nilaiPenagihan: nilaiPenagihan.value,
+                            id_matauang: id_matauang.value,
+                            nilaiPenagihanRP: nilaiPenagihanRP.value,
+                            bank: bank.value,
+                            id_jenisbayar: id_jenisbayar.value,
+                            id_matauang: id_matauang.value,
+                            jumlah_pembayaran: jumlah_pembayaran.value,
+                            nilaikurs: nilaikurs.value,
+                        },
+                        success: function (response) {
+                            if (response.message) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success!",
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+
+                                        // if (TT == undefined) {
+                                        //     tablepertama.ajax.reload();
+                                        //     btn_proses.disabled = true;
+                                        //     btn_koreksi.disabled = false;
+                                        //     btn_hapus.disabled = false;
+                                        // } else if (TT == true) {
+                                        //     tablekedua.ajax.reload();
+                                        //     btn_proses.disabled = true;
+                                        //     btn_isi.disabled = false;
+                                        //     btn_hapus.disabled = false;
+                                        // }
+                                    }
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            let errorMessage =
+                                "Terjadi kesalahan saat memproses data.";
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            } else if (xhr.responseText) {
+                                try {
+                                    const response = JSON.parse(
+                                        xhr.responseText
+                                    );
+                                    errorMessage =
+                                        response.error || errorMessage;
+                                } catch (e) {
+                                    console.error(
+                                        "Error parsing JSON response:",
+                                        e
+                                    );
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: errorMessage,
+                                showConfirmButton: false,
+                            });
+                        },
+                    });
+                }
+            });
+        } else {
+            confirm_lunas = "yes";
+            $.ajax({
+                url: "MaintenanceACCBKK",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    confirm_lunas: confirm_lunas,
+                    rincian: rincian.value,
+                    id_pembayaran: id_pembayaran.value,
+                    mataUang: mataUang.value,
+                    mata_uangbawah: mata_uangbawah.value,
+                    nilaidibayarkan: nilaidibayarkan.value,
+                    nilaiPenagihan: nilaiPenagihan.value,
+                    id_matauang: id_matauang.value,
+                    nilaiPenagihanRP: nilaiPenagihanRP.value,
+                    bank: bank.value,
+                    id_jenisbayar: id_jenisbayar.value,
+                    id_matauang: id_matauang.value,
+                    jumlah_pembayaran: jumlah_pembayaran.value,
+                    nilaikurs: nilaikurs.value,
+                },
+                success: function (response) {
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                                // if (TT == undefined) {
+                                //     tablepertama.ajax.reload();
+                                //     btn_proses.disabled = true;
+                                //     btn_koreksi.disabled = false;
+                                //     btn_hapus.disabled = false;
+                                // } else if (TT == true) {
+                                //     tablekedua.ajax.reload();
+                                //     btn_proses.disabled = true;
+                                //     btn_isi.disabled = false;
+                                //     btn_hapus.disabled = false;
+                                // }
+                            }
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    let errorMessage = "Terjadi kesalahan saat memproses data.";
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMessage = xhr.responseJSON.error;
+                    } else if (xhr.responseText) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            errorMessage = response.error || errorMessage;
+                        } catch (e) {
+                            console.error("Error parsing JSON response:", e);
+                        }
+                    }
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: errorMessage,
+                        showConfirmButton: false,
+                    });
+                },
+            });
         }
     });
 });

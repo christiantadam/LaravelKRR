@@ -273,10 +273,8 @@
                             <p>
                             <div class="mb-3 d-flex justify-content-between">
                                 <button class="btn btn-primary" id="btn_isi" style="width: 130px">Isi</button>
-                                <button class="btn btn-warning" id="btn_koreksi" style="width: 130px">Koreksi
-                                    (Belum)</button>
-                                <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus
-                                    (Belum)</button>
+                                <button class="btn btn-warning" id="btn_koreksi" style="width: 130px">Koreksi</button>
+                                <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus</button>
                                 <button class="btn btn-success" id="btn_proses" style="width: 130px">Proses</button>
                                 <button class="btn" id="btn_batal"
                                     style="width: 130px; margin-left: auto;">Batal</button>
