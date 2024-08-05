@@ -104,5 +104,5 @@
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Piutang/ACCNotaKredit.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/ACCNotaKredit.js') }}"></script>
 @endsection

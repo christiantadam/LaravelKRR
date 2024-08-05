@@ -5,18 +5,21 @@ namespace App\Http\Controllers\Accounting\Piutang;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Auth;
 
 class ACCNotaKreditController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.ACCNotaKredit', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.ACCNotaKredit', compact('access'));
     }
 
     public function getTabelHeaderACCNotaKredit()
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?', [3]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?', [3]);
         return response()->json($tabel);
     }
 
@@ -24,13 +27,13 @@ class ACCNotaKreditController extends Controller
     {
 
         $idNotaKredit = str_replace('.', '/', $idnotakredit);
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?, @ID_NotaKredit = ?', [4, $idNotaKredit]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?, @ID_NotaKredit = ?', [4, $idNotaKredit]);
         return response()->json($tabel);
     }
 
     public function getDetailHeaderACCNotaKredit2($idNotaKredit)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?, @ID_NotaKredit = ?', [10, $idNotaKredit]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?, @ID_NotaKredit = ?', [10, $idNotaKredit]);
         return response()->json($tabel);
     }
 
@@ -58,7 +61,7 @@ class ACCNotaKreditController extends Controller
         @kredit = ?,
         @kurs = ?,
         @status = ?', [
-            1,
+            trim(Auth::user()->NomorUser),
             $idNotaKredit,
             $idCustomer,
             $idMataUang,
@@ -69,9 +72,22 @@ class ACCNotaKreditController extends Controller
     }
 
     //Display the specified resource.
-    public function show(cr $cr)
+    public function show($id, Request $request)
     {
-        //
+        try {
+            if ($id == 'getTabelHeaderACCNotaKredit') {
+                $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?', [3]);
+                return response()->json($tabel);
+            } else if ($id == 'getDetailHeaderACCNotaKredit') {
+                $idNotaKredit = str_replace('.', '/', $request->input('idnotakredit'));
+                $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?, @ID_NotaKredit = ?', [4, $idNotaKredit]);
+                return response()->json($tabel);
+            } else {
+                return response()->json(['error' => 'Invalid Show $id']);
+            }
+        } catch (Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()]);
+        }
     }
 
     // Show the form for editing the specified resource.

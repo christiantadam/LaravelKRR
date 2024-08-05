@@ -18,12 +18,6 @@ class MaintenanceMataUangController extends Controller
         // dd($maintenanceMataUang);
         return view('Accounting.Master.MaintenanceMataUang', compact(['maintenanceMataUang', 'access']));
     }
-    function getDataMataUang($idMataUang)
-    {
-        $data = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_UANG_ID_TMATAUANG]
-        @IdMataUang = ?', [$idMataUang]);
-        return response()->json($data);
-    }
 
     //Show the form for creating a new resource.
     public function create()

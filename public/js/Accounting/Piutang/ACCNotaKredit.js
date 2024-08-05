@@ -13,7 +13,7 @@ let formkoreksi = document.getElementById('formkoreksi');
 
 
 
-fetch("/getTabelHeaderACCNotaKredit/")
+fetch("ACCNotaKredit/getTabelHeaderACCNotaKredit/")
     .then((response) => response.json())
     .then((options) => {
         console.log(options);
