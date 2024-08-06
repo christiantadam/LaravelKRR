@@ -101,6 +101,7 @@ class MaintenanceBKKController extends Controller
         } else if ($id == 'getBKK') {
             $month = $request->input('month');
             $year = $request->input('year');
+            dd($request->all());
 
             if (is_numeric($month) && $month > 0 && $month < 13) {
                 $formattedMonthYear = str_pad($month, 2, '0', STR_PAD_LEFT) . substr($year, -2);

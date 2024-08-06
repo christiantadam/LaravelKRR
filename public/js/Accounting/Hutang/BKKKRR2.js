@@ -8,6 +8,7 @@ $(document).ready(function () {
     let btn_proses = document.getElementById("btn_proses");
     let btn_batal = document.getElementById("btn_batal");
     let btn_tampil = document.getElementById("btn_tampil");
+    let btn_okbkk = document.getElementById("btn_okbkk");
     let id_pembayaran = document.getElementById("id_pembayaran");
     let month = document.getElementById("month");
     let year = document.getElementById("year");
@@ -17,6 +18,8 @@ $(document).ready(function () {
 
     let currentMonth = new Date().getMonth() + 1;
     month.value = currentMonth.toString().padStart(2, "0");
+    let currentYear = new Date().getFullYear();
+    year.value = currentYear;
 
     let tableatas = $("#tableatas").DataTable({
         responsive: true,
@@ -142,5 +145,42 @@ $(document).ready(function () {
     btn_batal.addEventListener("click", function (event) {
         event.preventDefault();
         location.reload();
+    });
+
+    btn_okbkk.addEventListener("click", function (event) {
+        event.preventDefault();
+        tabletampilBKK = $("#tabletampilBKK").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "MaintenanceBKKKRR2/getBKK",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        month: month.value,
+                        year: year.value,
+                    });
+                },
+            },
+            columns: [
+                {
+                    data: "Id_Detail_Bayar",
+                    render: function (data) {
+                        return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    },
+                },
+                { data: "Rincian_Bayar" },
+                { data: "Nilai_Rincian" },
+                // { data: "Kode_Perkiraan" },
+                // { data: "Id_Detail_BGCek" },
+                // { data: "Id_Pembayaran" },
+                // { data: "Keterangan" },
+            ],
+            columnDefs: [{ targets: [5, 6], visible: false }],
+        });
     });
 });

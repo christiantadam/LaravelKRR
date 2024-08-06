@@ -778,6 +778,7 @@ async function print(data) {
 //#region Add Event Listener
 
 post_btn.addEventListener("click", function (event) {
+    this.disabled =  true;
     if (data.length != 0) {
         $.ajax({
             url: "/CCreateBTTB/CreateNoBTTB",
@@ -803,6 +804,7 @@ post_btn.addEventListener("click", function (event) {
 
 po.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
+        post_btn.disabled = false;
         $("#tabelcreate").DataTable().clear().draw();
         clear();
         $.ajax({

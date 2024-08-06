@@ -190,7 +190,7 @@
                     <span>&nbsp;/&nbsp;</span>
                     <input type="text" id="year" class="form-control" style="width: 80px">
                     <span>&nbsp;&nbsp;</span>
-                    <button type="button" class="btn btn-primary">OK</button>
+                    <button id="btn_okbkk" type="button" class="btn btn-primary">OK</button>
                 </div>
                 <br>
                 <div class="table-container">
