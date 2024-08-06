@@ -120,6 +120,7 @@ class ACCBKKController extends Controller
     //Display the specified resource.
     public function show(Request $request, $id)
     {
+        // dd($id);
         if ($id == 'getBank') {
             $response = [];
 

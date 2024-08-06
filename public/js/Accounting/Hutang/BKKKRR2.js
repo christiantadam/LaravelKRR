@@ -7,8 +7,16 @@ $(document).ready(function () {
     let btn_hapus = document.getElementById("btn_hapus");
     let btn_proses = document.getElementById("btn_proses");
     let btn_batal = document.getElementById("btn_batal");
+    let btn_tampil = document.getElementById("btn_tampil");
     let id_pembayaran = document.getElementById("id_pembayaran");
+    let month = document.getElementById("month");
+    let year = document.getElementById("year");
+    let tablekanan = $("#tablekanan").DataTable();
+    let tablekiri = $("#tablekiri").DataTable();
     let rowData;
+
+    let currentMonth = new Date().getMonth() + 1;
+    month.value = currentMonth.toString().padStart(2, "0");
 
     let tableatas = $("#tableatas").DataTable({
         responsive: true,
@@ -48,16 +56,17 @@ $(document).ready(function () {
         columnDefs: [{ targets: [10, 11, 12, 13], visible: false }],
     });
 
+    $("#tablepertama tbody").off("change", 'input[name="penerimaCheckbox"]');
     $("#tableatas tbody").on(
         "change",
         'input[name="penerimaCheckbox"]',
         function () {
             if (this.checked) {
-                $('input[name="penerimaCheckbox"]')
-                    .not(this)
-                    .prop("checked", false);
-                rowData = tablepertama.row($(this).closest("tr")).data();
-                console.log(rowData, this, tablepertama);
+                $('input[name="penerimaCheckbox"]');
+                // .not(this)
+                // .prop("checked", false);
+                rowData = tableatas.row($(this).closest("tr")).data();
+                console.log(rowData, this, tableatas);
                 const formatDate = (dateString) => {
                     if (!dateString)
                         return new Date().toISOString().split("T")[0];
@@ -84,40 +93,54 @@ $(document).ready(function () {
         const tableatas = $("#tableatas").DataTable();
         let selectedRows = tableatas.rows(".selected").data().toArray();
         id_pembayaran.value = selectedRows[0].Id_Pembayaran;
-        let tablekanan = $("#tablekanan").DataTable({
+
+        tablekanan = $("#tablekanan").DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
+            destroy: true,
             ajax: {
-                url: "MaintenanceACCBKK/getPembayaran",
+                url: "MaintenanceBKKKRR2/getPembayaran",
                 dataType: "json",
                 type: "GET",
                 data: function (d) {
                     return $.extend({}, d, {
                         _token: csrfToken,
+                        id_pembayaran: id_pembayaran.value,
                     });
                 },
             },
             columns: [
                 {
-                    data: "Id_Pembayaran",
+                    data: "Id_Detail_Bayar",
                     render: function (data) {
                         return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
                     },
                 },
-                { data: "Id_Penagihan" },
-                { data: "Id_Bank" },
                 { data: "Rincian_Bayar" },
-                { data: "Nilai_Pembayaran" },
-                { data: "Jenis_Pembayaran" },
-                { data: "Nama_MataUang" },
-                { data: "Jml_JenisBayar" },
-                { data: "Kurs_Bayar" },
-                { data: "NM_SUP" },
-                { data: "Id_Jenis_Bayar" },
-                { data: "Id_MataUang" },
+                { data: "Nilai_Rincian" },
+                { data: "Kode_Perkiraan" },
+                { data: "Id_Detail_BGCek" },
+                { data: "Id_Pembayaran" },
+                { data: "Keterangan" },
             ],
-            columnDefs: [{ targets: [10, 11], visible: false }],
+            columnDefs: [{ targets: [5, 6], visible: false }],
         });
+    });
+
+    btn_tampil.addEventListener("click", function (event) {
+        event.preventDefault();
+        var myModal = new bootstrap.Modal(
+            document.getElementById("dataBKKModal"),
+            {
+                keyboard: false,
+            }
+        );
+        myModal.show();
+    });
+
+    btn_batal.addEventListener("click", function (event) {
+        event.preventDefault();
+        location.reload();
     });
 });

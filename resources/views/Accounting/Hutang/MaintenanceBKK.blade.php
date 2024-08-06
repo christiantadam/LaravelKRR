@@ -132,6 +132,8 @@
                                                     <col style="width: 25%;">
                                                     <col style="width: 25%;">
                                                     <col style="width: 25%;">
+                                                    <col style="width: 25%;">
+                                                    <col style="width: 25%;">
                                                 </colgroup>
                                                 <thead class="table-dark">
                                                     <tr>
@@ -140,6 +142,8 @@
                                                         <th>Nilai Rincian</th>
                                                         <th>Kode Perkiraan</th>
                                                         <th>No BG</th>
+                                                        <th>ID. Pembayaran</th>
+                                                        <th>Keterangan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -153,7 +157,8 @@
                             <hr style="height:2px;">
                             <div class="mb-3 d-flex justify-content-between">
                                 <button class="btn btn-primary" id="btn_isi" style="width: 130px">Isi</button>
-                                <button class="btn btn-warning" id="btn_koreksi" style="width: 130px">Koreksi</button>
+                                <button class="btn btn-warning" id="btn_koreksi"
+                                    style="width: 130px">Koreksi</button>
                                 <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus</button>
                                 <button class="btn btn-success" id="btn_proses" style="width: 130px">Proses</button>
                                 <button class="btn" id="btn_batal"
@@ -165,6 +170,58 @@
                         <div></div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tampil BKK-->
+<div class="modal fade" id="dataBKKModal" tabindex="-1" aria-labelledby="dataBKKModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataBKKModalLabel">Data BKK</h5>
+                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-inline">
+                    <label for="month">Bln/Thn:</label>
+                    <input type="text" id="month" class="form-control" style="width: 80px">
+                    <span>&nbsp;/&nbsp;</span>
+                    <input type="text" id="year" class="form-control" style="width: 80px">
+                    <span>&nbsp;&nbsp;</span>
+                    <button type="button" class="btn btn-primary">OK</button>
+                </div>
+                <br>
+                <div class="table-container">
+                    <table class="table table-bordered" id="tabletampilBKK">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>BKK</th>
+                                <th>Nilai BKK</th>
+                                <th>Supplier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="bkk">BKK:</label>
+                    <input type="text" id="bkk" class="form-control">
+                </div>
+                <div class="form-group mt-3">
+                    <label for="nilaiBkk">Nilai BKK:</label>
+                    <input type="text" id="nilaiBkk" class="form-control" value="0">
+                </div>
+                <div class="form-group mt-3">
+                    <label for="nilaiPembulatan">Nilai Pembulatan:</label>
+                    <input type="text" id="nilaiPembulatan" class="form-control" value="0">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success">Cetak</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>

@@ -35,6 +35,7 @@ class MaintenanceBKKController extends Controller
     //Display the specified resource.
     public function show(Request $request, $id)
     {
+        // dd($id);
         if ($id == 'getPengajuan') {
             $result = DB::connection('ConnAccounting')->select('exec SP_BKK2_TAMPIL_NOBKK');
             // dd($result);
@@ -64,15 +65,15 @@ class MaintenanceBKKController extends Controller
                 return response()->json(['message' => 'No records found']);
             }
         } else if ($id == 'getPembayaran') {
-            $idPembayaran = $request->input('IdPembayaran');
-
+            $idPembayaran = $request->input('id_pembayaran');
+            // dd($idPembayaran);
             $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_DETAILBAYAR ?', [$idPembayaran]);
-
-            if ($result && $result[0]->ada == 0) {
+            // dd($result);
+            if ($result && $result[0]->Ada == 0) {
                 return response()->json(['message' => 'No records found']);
             } else {
                 $details = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_DETAILBAYAR ?', [$idPembayaran]);
-
+                // dd($details);
                 $response = [];
                 foreach ($details as $detail) {
                     $item = [
@@ -96,6 +97,34 @@ class MaintenanceBKKController extends Controller
                 }
 
                 return datatables($response)->make(true);
+            }
+        } else if ($id == 'getBKK') {
+            $month = $request->input('month');
+            $year = $request->input('year');
+
+            if (is_numeric($month) && $month > 0 && $month < 13) {
+                $formattedMonthYear = str_pad($month, 2, '0', STR_PAD_LEFT) . substr($year, -2);
+
+                $result = DB::connection('ConnAccounting')->select('exec Sp_1273_ACC_LIST_BKK2_BKK @BlnThn = ?', [$formattedMonthYear]);
+
+                if ($result) {
+                    $response = [];
+                    foreach ($result as $row) {
+                        $item = [
+                            'Id_bkk' => trim($row->Id_bkk),
+                            'NilaiBKK' => number_format($row->NilaiBKK, 2, '.', ','),
+                            'nm_sup' => !is_null($row->nm_sup) ? trim($row->nm_sup) : 'NO Penagihan',
+                            'Id_MataUang' => trim($row->Id_MataUang),
+                            'Id_Jenis_Bayar' => trim($row->Id_Jenis_Bayar),
+                        ];
+                        $response[] = $item;
+                    }
+                    return datatables($response)->make(true);
+                } else {
+                    return response()->json(['message' => 'No records found']);
+                }
+            } else {
+                return response()->json(['message' => 'Invalid month']);
             }
         }
     }
