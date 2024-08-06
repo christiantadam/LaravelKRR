@@ -162,7 +162,7 @@
                                 <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus</button>
                                 <button class="btn btn-success" id="btn_proses" style="width: 130px">Proses</button>
                                 <button class="btn" id="btn_batal"
-                                    style="width: 130px; margin-left: auto;">Batal</button>
+                                    style="width: 130px; margin-left: auto; visibility: hidden">Batal</button>
                             </div>
 
                         </form>
@@ -181,7 +181,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="dataBKKModalLabel">Data BKK</h5>
-                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">X</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="form-inline">
@@ -200,6 +202,8 @@
                                 <th>BKK</th>
                                 <th>Nilai BKK</th>
                                 <th>Supplier</th>
+                                <th>ID. Mata Uang</th>
+                                <th>ID. Jenis Bayar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -220,8 +224,129 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success">Cetak</button>
+                <button id="btn_cetakbkk" type="button" class="btn btn-success">Cetak</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal BG -->
+<div class="modal fade" id="formBGModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModalLabel">Detail BG/Cek/Transfer</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="bank">Bank :</label>
+                    <input type="text" id="bank" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="jnsByr">Jenis Bayar :</label>
+                    <div class="d-flex">
+                        <input type="text" id="jnsByr" class="form-control mr-2">
+                        <input type="text" id="id_jnsByr" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="noJnsByr">No Jenis Bayar :</label>
+                    <input type="text" id="noJnsByr" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="jumlahJnsByr">Jumlah Jenis Bayar :</label>
+                    <input type="text" id="jumlahJnsByr" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="jatuhTempo">Jatuh Tempo :</label>
+                    <div class="d-flex">
+                        <input type="date" id="jatuhTempo" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="statusCetak">Status Cetak :</label>
+                    <input type="text" id="statusCetak" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn_prosesBG" type="button" class="btn btn-success">Proses</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Pembayaran -->
+<div class="modal fade" id="formModalPembayaran" tabindex="-1" aria-labelledby="formModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModalLabel">Detail Pembayaran</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="uangMuka">
+                    <label class="form-check-label" for="uangMuka">Uang Muka (DP)</label>
+                </div>
+                <div class="form-group">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="paymentType" id="biaya"
+                            value="biaya">
+                        <label class="form-check-label" for="biaya">Biaya</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="paymentType" id="pembayaran"
+                            value="pembayaran">
+                        <label class="form-check-label" for="pembayaran">Pembayaran</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bank">Bank :</label>
+                    <input type="text" id="bank_pembayaran" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="jnsByr">Jenis Bayar :</label>
+                    <input type="text" id="jnsByr_pembayaran" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="noBg">No BG:</label>
+                    <div class="d-flex">
+                        <input type="text" id="noBg" class="form-control">
+                        <button class="btn" type="button" id="btn_noBg">...</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rincian">Rincian :</label>
+                    <input type="text" id="rincian" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nilaiBayar">Nilai Bayar :</label>
+                    <input type="text" id="nilaiBayar" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="nilaiRincian">Nilai Rincian :</label>
+                    <input type="text" id="nilaiRincian" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="kdPerkiraan">Kode Perkiraan :</label>
+                    <div class="d-flex">
+                        <input type="text" id="kdPerkiraan1" class="form-control mr-2" style="width: 35%">
+                        <input type="text" id="kdPerkiraan2" class="form-control">
+                        <button class="btn" type="button" id="btn_kodePerkiraan">...</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn_prosesPembayaran" type="button" class="btn btn-success">Proses</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

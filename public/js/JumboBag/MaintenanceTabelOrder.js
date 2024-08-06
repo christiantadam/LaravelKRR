@@ -305,15 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
         }
-        // if (no_suratpesanan.value.trim() === "") {
-        //     Swal.fire({
-        //         icon: "warning",
-        //         title: "Warning!",
-        //         text: "Isi data terlebih dahulu",
-        //         showConfirmButton: true,
-        //     });
-        //     return; // Prevent the form submission
-        // }
+
         $.ajax({
             url: "/MaintenanceTabelOrder",
             type: "POST",
