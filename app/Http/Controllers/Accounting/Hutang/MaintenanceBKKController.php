@@ -101,20 +101,20 @@ class MaintenanceBKKController extends Controller
         } else if ($id == 'getBKK') {
             $month = $request->input('month');
             $year = $request->input('year');
-            dd($request->all());
+            // dd($request->all());
 
             if (is_numeric($month) && $month > 0 && $month < 13) {
                 $formattedMonthYear = str_pad($month, 2, '0', STR_PAD_LEFT) . substr($year, -2);
 
                 $result = DB::connection('ConnAccounting')->select('exec Sp_1273_ACC_LIST_BKK2_BKK @BlnThn = ?', [$formattedMonthYear]);
-
+                // dd($result);
                 if ($result) {
                     $response = [];
                     foreach ($result as $row) {
                         $item = [
-                            'Id_bkk' => trim($row->Id_bkk),
+                            'Id_BKK' => trim($row->Id_BKK),
                             'NilaiBKK' => number_format($row->NilaiBKK, 2, '.', ','),
-                            'nm_sup' => !is_null($row->nm_sup) ? trim($row->nm_sup) : 'NO Penagihan',
+                            'NM_SUP' => !is_null($row->NM_SUP) ? trim($row->NM_SUP) : 'NO Penagihan',
                             'Id_MataUang' => trim($row->Id_MataUang),
                             'Id_Jenis_Bayar' => trim($row->Id_Jenis_Bayar),
                         ];
@@ -126,6 +126,72 @@ class MaintenanceBKKController extends Controller
                 }
             } else {
                 return response()->json(['message' => 'Invalid month']);
+            }
+        } else if ($id == 'getBGCek') {
+            $idPembayaran = $request->input('id_pembayaran');
+            // dd($idPembayaran);
+            $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_BGCEK @IdPembayaran = ?', [$idPembayaran]);
+            // dd($result);
+            if (!empty($result) && $result[0]->Ada == 0) {
+                return response()->json(['message' => 'No records found']);
+            } else {
+                $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_IDBAYAR_BGCEK @IdPembayaran = ?', [$idPembayaran]);
+                $response = [];
+                if ($result) {
+                    foreach ($result as $row) {
+                        $item = [
+                            'Id_Detail_BGCek' => trim($row->Id_Detail_BGCek),
+                            'No_BGCek' => trim($row->No_BGCek),
+                            'Jatuh_Tempo' => date('m/d/Y', strtotime($row->Jatuh_Tempo)),
+                            'Status_Cetak' => trim($row->Status_Cetak),
+                            'Id_Pembayaran' => trim($row->Id_Pembayaran),
+                            'Nilai_BGCek' => number_format($row->Nilai_BGCek, 2, '.', ',')
+                        ];
+                        $response[] = $item;
+                    }
+                }
+                return datatables($response)->make(true);
+            }
+        } else if ($id == 'getKodePerkiraan') {
+            $response = [];
+
+            $kodePerkiraan = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_KODEPERKIRAAN');
+            // dd($kodePerkiraan);
+            foreach ($kodePerkiraan as $kp) {
+                $response[] = [
+                    'Keterangan' => $kp->Keterangan,
+                    'NoKodePerkiraan' => $kp->NoKodePerkiraan,
+                ];
+            }
+
+            if (empty($response)) {
+                return response()->json(['error' => 'No records found']);
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getDetailBG') {
+            $response = [];
+            $IdPembayaran = $request->input('id_pembayaran');
+            // dd($IdPembayaran);
+            $checkBG = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_BGCEK @IdPembayaran = ?', [$IdPembayaran]);
+            // dd($checkBG);
+            if (!empty($checkBG) && $checkBG[0]->Ada == 0) {
+                return response()->json(['error' => 'Isi dulu Detail BG/Cek/Transfernya !!..']);
+            } else {
+                $detailBG = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_IDBAYAR_BGCEK @IdPembayaran = ?', [$IdPembayaran]);
+
+                foreach ($detailBG as $bg) {
+                    $response[] = [
+                        'No_BGCek' => $bg->No_BGCek,
+                        'Id_Detail_BGCek' => $bg->Id_Detail_BGCek,
+                    ];
+                }
+
+                if (empty($response)) {
+                    return response()->json(['error' => 'Pilih dulu No BG/CEK/TRANSFERnya !!..']);
+                }
+
+                return datatables($response)->make(true);
             }
         }
     }
