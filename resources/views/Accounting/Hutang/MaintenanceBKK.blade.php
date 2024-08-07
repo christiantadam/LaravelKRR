@@ -73,6 +73,8 @@
                                                 <div class="col-md-2">
                                                     <input id="id_detailkiri" type="text" name="id_detailkiri"
                                                         class="form-control" style="width: 100%">
+                                                    <input id="bg_b" type="text" name="bg_b"
+                                                        class="form-control" style="width: 100%; display: none">
                                                 </div>
                                             </div>
                                         </div>
@@ -225,6 +227,7 @@
             </div>
             <div class="modal-footer">
                 <button id="btn_cetakbkk" type="button" class="btn btn-success">Cetak</button>
+                <button id="btn_prosesbkk" type="button" class="btn btn-success" style="display: none">Proses</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
@@ -269,7 +272,7 @@
                 </div>
                 <div class="form-group">
                     <label for="statusCetak">Status Cetak :</label>
-                    <input type="text" id="statusCetak" class="form-control">
+                    <input type="text" id="statusCetak" class="form-control"> <p>[ T, O, S ]</p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -293,17 +296,17 @@
             </div>
             <div class="modal-body">
                 <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="uangMuka">
+                    <input type="checkbox" class="form-check-input" id="uangMuka" name="dp">
                     <label class="form-check-label" for="uangMuka">Uang Muka (DP)</label>
                 </div>
                 <div class="form-group">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="paymentType" id="biaya"
+                        <input class="form-check-input" type="radio" name="paymentType" id="radio_biaya"
                             value="biaya">
                         <label class="form-check-label" for="biaya">Biaya</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="paymentType" id="pembayaran"
+                        <input class="form-check-input" type="radio" name="paymentType" id="radio_pembayaran"
                             value="pembayaran">
                         <label class="form-check-label" for="pembayaran">Pembayaran</label>
                     </div>

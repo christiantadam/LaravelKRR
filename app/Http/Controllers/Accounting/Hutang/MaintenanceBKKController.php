@@ -29,7 +29,90 @@ class MaintenanceBKKController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
+        $detailBG = (bool) $request->input('bg');
+        $proses = $request->input('proses');
+        $idBayar = (int) $request->input('id_pembayaran');
+        $noBG = $request->input('noJnsByr');
+        $tempo = $request->input('jatuhTempo');
+        $cetak = $request->input('statusCetak');
+        $jumlah = $request->input('jumlahJnsByr');
+        $detailBGText = (int)$request->input('id_detailkiri');
+        $rincian = $request->input('rincian');
+        $nilaiRincianTanpaKoma = str_replace(',', '', $request->input('nilaiRincian'));
+        $nilaiRincian = (float) str_replace('.', ',', $nilaiRincianTanpaKoma);
+        $idKira = $request->input('kdPerkiraan1');
+        $idDetailBG_B = (int) $request->input('bg_b');
+        $detailByr = $request->input('id_detailkanan');
+        $dp = $request->input('dp');
+        // dd($detailBG);
+        // dd($nilaiRincian);
+
+        if ($detailBG) {
+            switch ($proses) {
+                case 1:
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1273_ACC_INS_BKK2_BGCEK ?, ?, ?, ?, ? ', [
+                        $idBayar,
+                        $noBG,
+                        $tempo,
+                        $cetak,
+                        $jumlah
+                    ]);
+                    return response()->json(['message' => 'Data sudah diSIMPAN !!..']);
+                case 2:
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1273_ACC_UDT_BKK2_BGCEK @IdDetailBGCek= ?, @NoBGCek = ?, @JatuhTempo = ?, @StatusCetak = ?, @Jumlah = ?', [
+                        $detailBGText,
+                        $noBG,
+                        $tempo,
+                        $cetak,
+                        $jumlah
+                    ]);
+                    return response()->json(['message' => 'Data sudah diKOREKSI !!..']);
+                case 3:
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1273_ACC_DLT_BKK2_BGCEK ?', [
+                        $detailBGText
+                    ]);
+                    return response()->json(['message' => 'Data sudah diHAPUS !!..']);
+            }
+            // $this->clearTextBG();
+        }
+
+        if (!$detailBG) {
+            switch ($proses) {
+                case 1:
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1273_ACC_INS_BKK2_DETAILBAYAR @IdPembayaran = ?, @Rincian = ?, @Nilai = ?, @Perkiraan = ?, @IdDetailBGCek = ? ', [
+                        $idBayar,
+                        $rincian,
+                        $nilaiRincian,
+                        $idKira,
+                        $idDetailBG_B ?: null
+                    ]);
+                    return response()->json(['message' => 'Data sudah diSIMPAN !!..']);
+                case 2:
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1273_ACC_UDT_BKK2_DETAILBAYAR @IdDetailBayar = ?, @IdPembayaran = ?, @Rincian = ?, @Nilai = ?, @Perkiraan = ?, @IdDetailBGCek = ? ', [
+                        $detailByr,
+                        $idBayar,
+                        $rincian,
+                        $nilaiRincian,
+                        $idKira,
+                        $idDetailBG_B ?: null
+                    ]);
+                    return response()->json(['message' => 'Data sudah diKOREKSI !!..']);
+                case 3:
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1273_ACC_DLT_BKK2_DETAILBAYAR @IdDetailBayar = ?, @IdPembayaran = ? ', [
+                        $detailByr,
+                        $idBayar
+                    ]);
+                    return response()->json(['message' => 'Data sudah diHAPUS !!..']);
+            }
+
+            if ($dp == 1) {
+                DB::connection('ConnAccounting')->statement('EXEC SP_1273_ACC_UDT_BKK2_SALDO ? ', [
+                    $idBayar
+                ]);
+                return response()->json(['message' => 'Data sudah diSIMPAN !!..']);
+            }
+        }
+
     }
 
     //Display the specified resource.
