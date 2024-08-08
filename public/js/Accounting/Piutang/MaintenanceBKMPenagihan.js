@@ -98,7 +98,7 @@ let ket3 = document.getElementById('ket3');
 //BTNCETAK
 let nomer = document.getElementById('nomer');
 let tglCetak = new Date();
-const formattedDate2 = tglInput.toISOString().substring(0, 10);
+const formattedDate2 = tglCetak.toISOString().substring(0, 10);
 tanggalInput.value = formattedDate2;
 
 const tglTagihan = new Date();

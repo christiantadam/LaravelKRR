@@ -81,10 +81,15 @@ class HakAksesController extends Controller
                     });
             })
             ->where('ProgramMaster.NamaProgram', $Program)
-            ->groupBy('IdMenu', 'NamaMenu', 'Parent_IdMenu', 'MenuMaster.NomorUrutDisplay')
-            ->orderBy('IdMenu', 'asc')
-            ->get();
+            ->groupBy('IdMenu', 'NamaMenu', 'Parent_IdMenu', 'MenuMaster.NomorUrutDisplay');
 
+        if ($Program == 'Accounting') {
+            $AccessMenu = $AccessMenu->orderBy('IdMenu', 'asc');
+        } else {
+            $AccessMenu = $AccessMenu->orderBy('NamaMenu', 'asc');
+        }
+
+        $AccessMenu = $AccessMenu->get();
 
         $AccessFitur = DB::connection('ConnEDP')
             ->table('User_Fitur')
@@ -94,10 +99,13 @@ class HakAksesController extends Controller
             ->join('ProgramMaster', 'Id_Program', 'IdProgram')
             ->groupBy('IdFitur', 'NamaFitur', 'Id_Menu', 'Route', 'FiturMaster.NomorUrutDisplay')
             ->where('Id_User', Auth::user()->IDUser)
-            ->orderBy('IdFitur', 'asc')
-            ->Orwhere('Id_User', '218')
-            ->get(); //'218' itu Id_User PUBLIC
-
+            ->Orwhere('Id_User', '218'); //'218' itu Id_User PUBLIC
+        if ($Program == 'Accounting') {
+            $AccessFitur = $AccessFitur->orderBy('IdFitur', 'asc');
+        } else {
+            $AccessFitur = $AccessFitur->orderBy('NamaFitur', 'asc');
+        }
+        $AccessFitur = $AccessFitur->get();
         $Access = [
             'AccessMenu' => $AccessMenu,
             'AccessFitur' => $AccessFitur

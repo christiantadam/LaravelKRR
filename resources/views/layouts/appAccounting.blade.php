@@ -5,6 +5,16 @@
 <link rel="prefetch" href="{{ asset('images/kuning.png') }}" />
 <link rel="prefetch" href="{{ asset('images/biru.png') }}" />
 <link rel="prefetch" href="{{ asset('images/merah.png') }}" />
+<script>
+    function ubahFormatTanggal(tanggal) {
+        var bulanIndonesia = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
+            "Oktober", "November", "Desember"
+        ];
+        var tanggalTerpisah = tanggal.split("-");
+        var bulan = bulanIndonesia[parseInt(tanggalTerpisah[1]) - 1];
+        return tanggalTerpisah[2] + "/" + bulan + "/" + tanggalTerpisah[0];
+    }
+</script>
 
 <head>
     <meta charset="utf-8">

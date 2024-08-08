@@ -450,13 +450,6 @@ function clickOK() {
     }
 };
 
-function ubahFormatTanggal(tanggal) {
-    var bulanIndonesia = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    var tanggalTerpisah = tanggal.split("-");
-    var bulan = bulanIndonesia[parseInt(tanggalTerpisah[1]) - 1];
-    return tanggalTerpisah[2] + "/" + bulan + "/" + tanggalTerpisah[0];
-};
-
 const ones = ['', 'Satu ', 'Dua ', 'Tiga ', 'Empat ', 'Lima ', 'Enam ', 'Tujuh ', 'Delapan ', 'Sembilan ' ];
 const teens = ['Sepuluh', 'Sebelas', 'Dua Belas', 'Tiga Belas', 'Empat Belas', 'Lima Belas', 'Enam Belas', 'Tujuh Belas', 'Delapan Belas', 'Sembilan Belas'];
 const tens = ['', 'Sepuluh', 'Dua Puluh', 'Tiga Puluh', 'Empat Puluh', 'Lima Puluh', 'Enam Puluh', 'Tujuh Puluh', 'Delapan Puluh', 'Sembilan Puluh'];

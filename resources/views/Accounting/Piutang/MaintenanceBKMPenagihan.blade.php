@@ -853,5 +853,5 @@
     </div>
 </div>
 
-<script src="{{ asset('js/Piutang/MaintenanceBKMPenagihan.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/MaintenanceBKMPenagihan.js') }}"></script>
 @endsection
