@@ -234,18 +234,9 @@ $(document).ready(function () {
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-
-                                        // if (TT == undefined) {
-                                        //     tablepertama.ajax.reload();
-                                        //     btn_proses.disabled = true;
-                                        //     btn_koreksi.disabled = false;
-                                        //     btn_hapus.disabled = false;
-                                        // } else if (TT == true) {
-                                        //     tablekedua.ajax.reload();
-                                        //     btn_proses.disabled = true;
-                                        //     btn_isi.disabled = false;
-                                        //     btn_hapus.disabled = false;
-                                        // }
+                                        tablepertama.ajax.reload();
+                                    }else{
+                                        tablepertama.ajax.reload();
                                     }
                                 });
                             } else if (response.error) {
@@ -316,19 +307,9 @@ $(document).ready(function () {
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-
-
-                                        // if (TT == undefined) {
-                                        //     tablepertama.ajax.reload();
-                                        //     btn_proses.disabled = true;
-                                        //     btn_koreksi.disabled = false;
-                                        //     btn_hapus.disabled = false;
-                                        // } else if (TT == true) {
-                                        //     tablekedua.ajax.reload();
-                                        //     btn_proses.disabled = true;
-                                        //     btn_isi.disabled = false;
-                                        //     btn_hapus.disabled = false;
-                                        // }
+                                        tablepertama.ajax.reload();
+                                    }else{
+                                        tablepertama.ajax.reload();
                                     }
                                 });
                             } else if (response.error) {
@@ -409,18 +390,9 @@ $(document).ready(function () {
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-
-                                        // if (TT == undefined) {
-                                        //     tablepertama.ajax.reload();
-                                        //     btn_proses.disabled = true;
-                                        //     btn_koreksi.disabled = false;
-                                        //     btn_hapus.disabled = false;
-                                        // } else if (TT == true) {
-                                        //     tablekedua.ajax.reload();
-                                        //     btn_proses.disabled = true;
-                                        //     btn_isi.disabled = false;
-                                        //     btn_hapus.disabled = false;
-                                        // }
+                                        tablepertama.ajax.reload();
+                                    }else{
+                                        tablepertama.ajax.reload();
                                     }
                                 });
                             } else if (response.error) {
@@ -491,18 +463,9 @@ $(document).ready(function () {
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-
-                                        // if (TT == undefined) {
-                                        //     tablepertama.ajax.reload();
-                                        //     btn_proses.disabled = true;
-                                        //     btn_koreksi.disabled = false;
-                                        //     btn_hapus.disabled = false;
-                                        // } else if (TT == true) {
-                                        //     tablekedua.ajax.reload();
-                                        //     btn_proses.disabled = true;
-                                        //     btn_isi.disabled = false;
-                                        //     btn_hapus.disabled = false;
-                                        // }
+                                        tablepertama.ajax.reload();
+                                    }else{
+                                        tablepertama.ajax.reload();
                                     }
                                 });
                             } else if (response.error) {
@@ -575,18 +538,9 @@ $(document).ready(function () {
                             showConfirmButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
-
-                                // if (TT == undefined) {
-                                //     tablepertama.ajax.reload();
-                                //     btn_proses.disabled = true;
-                                //     btn_koreksi.disabled = false;
-                                //     btn_hapus.disabled = false;
-                                // } else if (TT == true) {
-                                //     tablekedua.ajax.reload();
-                                //     btn_proses.disabled = true;
-                                //     btn_isi.disabled = false;
-                                //     btn_hapus.disabled = false;
-                                // }
+                                tablepertama.ajax.reload();
+                            }else{
+                                tablepertama.ajax.reload();
                             }
                         });
                     } else if (response.error) {

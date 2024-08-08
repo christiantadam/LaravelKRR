@@ -19,6 +19,7 @@ $(document).ready(function () {
     let btn_noBg = document.getElementById("btn_noBg");
     let btn_prosesPembayaran = document.getElementById("btn_prosesPembayaran");
     let btn_prosesBG = document.getElementById("btn_prosesBG");
+    let btn_group = document.getElementById("btn_group");
     let id_pembayaran = document.getElementById("id_pembayaran");
     let month = document.getElementById("month");
     let year = document.getElementById("year");
@@ -129,29 +130,34 @@ $(document).ready(function () {
         columnDefs: [{ targets: [10, 11, 12, 13], visible: false }],
     });
 
+    let rowDataArray = [];
+
+    function parsePaymentValue(value) {
+        return parseFloat(value.replace(/,/g, ""));
+    }
+
+    function calculateTotalPayment(rowDataArray) {
+        return rowDataArray.reduce((total, row) => {
+            return total + parsePaymentValue(row.Nilai_Pembayaran);
+        }, 0);
+    }
+
     $("#tableatas tbody").off("change", 'input[name="penerimaCheckbox"]');
     $("#tableatas tbody").on(
         "change",
         'input[name="penerimaCheckbox"]',
         function () {
             if (this.checked) {
-                $('input[name="penerimaCheckbox"]');
-                // .not(this)
-                // .prop("checked", false);
                 rowData = tableatas.row($(this).closest("tr")).data();
+                rowDataArray.push(rowData);
                 console.log(rowData, this, tableatas);
-                const formatDate = (dateString) => {
-                    if (!dateString)
-                        return new Date().toISOString().split("T")[0];
-                    const date = new Date(dateString);
-                    const offset = date.getTimezoneOffset();
-                    const adjustedDate = new Date(
-                        date.getTime() - offset * 60 * 1000
-                    );
-                    return adjustedDate.toISOString().split("T")[0];
-                };
             } else {
-                rowData = null;
+                const index = rowDataArray.findIndex(
+                    (row) => row.Id_Pembayaran === rowData.Id_Pembayaran
+                );
+                if (index > -1) {
+                    rowDataArray.splice(index, 1);
+                }
             }
         }
     );
@@ -292,6 +298,130 @@ $(document).ready(function () {
     );
 
     //#region Event Listener
+
+    btn_group.addEventListener("click", function (event) {
+        event.preventDefault();
+        console.log(rowDataArray);
+        const totalPayment = calculateTotalPayment(rowDataArray);
+        Swal.fire({
+            title: "Isikan Tanggal Pembuatan BKK",
+            icon: "info",
+            html: '<input type="date" id="bkk_date" class="swal2-input">',
+            showCancelButton: true,
+            confirmButtonText: "Ya",
+            cancelButtonText: "Tidak",
+            didOpen: () => {
+                // Get the current date
+                const today = new Date();
+                // Set the value of the input field
+                document.getElementById("bkk_date").valueAsDate = today;
+            },
+            preConfirm: () => {
+                const date = $("#bkk_date").val();
+                if (!date) {
+                    Swal.showValidationMessage("Tanggal harus diisi");
+                    return false;
+                }
+                return date;
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const selectedDate = result.value;
+                console.log("Tanggal yang dipilih: ", selectedDate);
+                Swal.fire({
+                    title: "Total Pembayaran",
+                    icon: "info",
+                    text: `${totalPayment.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "IDR",
+                    })}`,
+                    showCancelButton: true,
+                    confirmButtonText: "Ya",
+                    cancelButtonText: "Tidak",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        console.log("Total dibayarkan: ", totalPayment);
+                        $.ajax({
+                            url: "MaintenanceBKKKRR2/getGroup",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                rowDataArray: rowDataArray,
+                                tanggalgrup: selectedDate,
+                            },
+                            success: function (response) {
+                                if (response.message) {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Success!",
+                                        text: response.message + ' dengan ID BKK: ' + response.idbkk,
+                                        showConfirmButton: true,
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            tableatas.ajax.reload();
+                                            tablekiri.ajax.reload();
+                                            tablekanan.ajax.reload();
+                                            id_detailkanan.value = "";
+                                            id_detailkiri.value = "";
+                                            id_pembayaran.value = "";
+                                        } else {
+                                            tableatas.ajax.reload();
+                                            tablekiri.ajax.reload();
+                                            tablekanan.ajax.reload();
+                                            id_detailkanan.value = "";
+                                            id_detailkiri.value = "";
+                                            id_pembayaran.value = "";
+                                        }
+                                    });
+                                } else if (response.error) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Error!",
+                                        text: response.error,
+                                        showConfirmButton: false,
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                let errorMessage =
+                                    "Terjadi kesalahan saat memproses data.";
+                                if (
+                                    xhr.responseJSON &&
+                                    xhr.responseJSON.error
+                                ) {
+                                    errorMessage = xhr.responseJSON.error;
+                                } else if (xhr.responseText) {
+                                    try {
+                                        const response = JSON.parse(
+                                            xhr.responseText
+                                        );
+                                        errorMessage =
+                                            response.error || errorMessage;
+                                    } catch (e) {
+                                        console.error(
+                                            "Error parsing JSON response:",
+                                            e
+                                        );
+                                    }
+                                }
+
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: errorMessage,
+                                    showConfirmButton: false,
+                                });
+                            },
+                        });
+                    } else {
+                        console.log("Total dibayarkan dibatalkan");
+                    }
+                });
+            } else {
+                console.log("Pemilihan tanggal dibatalkan");
+            }
+        });
+    });
 
     btn_prosesPembayaran.addEventListener("click", function (event) {
         event.preventDefault();
@@ -913,6 +1043,7 @@ $(document).ready(function () {
                     nilaiPembulatan.focus();
                 }, 300);
             } else {
+                window.location.href = "MaintenanceBKKKRR2Print";
             }
         });
     });
