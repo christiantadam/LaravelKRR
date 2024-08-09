@@ -29,7 +29,7 @@ class BatalSuratJalanController extends Controller
         $noSP = $request->input('surat_pesanan');
         $ket = $request->input('alasan_batal');
         $idUser = Auth::user()->NomorUser;
-        $idJnsSJ = $request->input('jenisSuratJalan');
+        $idJnsSJ = $request->input('idJenisSuratJalan');
         $noSJ = $request->input('surat_jalan');
         try {
             DB::connection('ConnSales')->statement('exec SP_5409_SLS_BATAL_SJ @kode =?,
