@@ -55,6 +55,7 @@ $(document).ready(function () {
     let proses;
     let dp;
 
+    //#region Function
     function escapeHTML(text) {
         return text
             .replace(/&amp;/g, "&")
@@ -63,6 +64,133 @@ $(document).ready(function () {
             .replace(/&quot;/g, '"')
             .replace(/&#039;/g, "'");
     }
+
+    function parsePaymentValue(value) {
+        return parseFloat(value.replace(/,/g, ""));
+    }
+
+    function calculateTotalPayment(rowDataArray) {
+        return rowDataArray.reduce((total, row) => {
+            return total + parsePaymentValue(row.Nilai_Pembayaran);
+        }, 0);
+    }
+
+    //Terbilang
+    var ones = [
+        "",
+        "ONE",
+        "TWO",
+        "THREE",
+        "FOUR",
+        "FIVE",
+        "SIX",
+        "SEVEN",
+        "EIGHT",
+        "NINE",
+    ];
+    var tens = [
+        "",
+        "",
+        "TWENTY",
+        "THIRTY",
+        "FORTY",
+        "FIFTY",
+        "SIXTY",
+        "SEVENTY",
+        "EIGHTY",
+        "NINETY",
+    ];
+    var teens = [
+        "TEN",
+        "ELEVEN",
+        "TWELVE",
+        "THIRTEEN",
+        "FOURTEEN",
+        "FIFTEEN",
+        "SIXTEEN",
+        "SEVENTEEN",
+        "EIGHTEEN",
+        "NINETEEN",
+    ];
+
+    function convert_billions(num) {
+        if (num >= 1000000000) {
+            return (
+                convert_billions(Math.floor(num / 1000000000)) +
+                " BILLION " +
+                convert_millions(num % 1000000000)
+            );
+        } else {
+            return convert_millions(num);
+        }
+    }
+
+    function convert_millions(num) {
+        if (num >= 1000000) {
+            return (
+                convert_millions(Math.floor(num / 1000000)) +
+                " MILLION " +
+                convert_thousands(num % 1000000)
+            );
+        } else {
+            return convert_thousands(num);
+        }
+    }
+
+    function convert_thousands(num) {
+        if (num >= 1000) {
+            return (
+                convert_hundreds(Math.floor(num / 1000)) +
+                " THOUSAND " +
+                convert_hundreds(num % 1000)
+            );
+        } else {
+            return convert_hundreds(num);
+        }
+    }
+
+    function convert_hundreds(num) {
+        if (num > 99) {
+            return (
+                ones[Math.floor(num / 100)] +
+                " HUNDRED " +
+                convert_tens(num % 100)
+            );
+        } else {
+            return convert_tens(num);
+        }
+    }
+
+    function convert_tens(num) {
+        if (num < 10) return ones[num];
+        else if (num >= 10 && num < 20) return teens[num - 10];
+        else {
+            return tens[Math.floor(num / 10)] + " " + ones[num % 10];
+        }
+    }
+
+    function convert(num) {
+        if (num == 0) return "ZERO DOLLAR";
+        else {
+            let result = convert_billions(num).trim();
+            // Replace multiple spaces with a single space
+            result = result.replace(/\s{2,}/g, " ");
+            return result + " DOLLAR";
+        }
+    }
+
+    function main() {
+        var cases = [
+            0, 1, 2, 7, 10, 11, 12, 13, 15, 19, 20, 21, 25, 29, 30, 35, 50, 55,
+            69, 70, 99, 100, 101, 119, 510, 900, 1000, 5001, 5019, 5555, 10000,
+            11000, 100000, 199001, 1000000, 1111111, 190000009, 1020503000,
+        ];
+        for (var i = 0; i < cases.length; i++) {
+            console.log(cases[i] + ": " + convert(cases[i]));
+        }
+    }
+
+    main();
 
     let currentMonth = new Date().getMonth() + 1;
     month.value = currentMonth.toString().padStart(2, "0");
@@ -131,16 +259,6 @@ $(document).ready(function () {
     });
 
     let rowDataArray = [];
-
-    function parsePaymentValue(value) {
-        return parseFloat(value.replace(/,/g, ""));
-    }
-
-    function calculateTotalPayment(rowDataArray) {
-        return rowDataArray.reduce((total, row) => {
-            return total + parsePaymentValue(row.Nilai_Pembayaran);
-        }, 0);
-    }
 
     $("#tableatas tbody").off("change", 'input[name="penerimaCheckbox"]');
     $("#tableatas tbody").on(
@@ -331,10 +449,12 @@ $(document).ready(function () {
                 Swal.fire({
                     title: "Total Pembayaran",
                     icon: "info",
-                    text: `${totalPayment.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "IDR",
-                    })}`,
+                    text: `${totalPayment
+                        .toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "IDR",
+                        })
+                        .replace("IDR", "")}`,
                     showCancelButton: true,
                     confirmButtonText: "Ya",
                     cancelButtonText: "Tidak",
@@ -354,7 +474,10 @@ $(document).ready(function () {
                                     Swal.fire({
                                         icon: "success",
                                         title: "Success!",
-                                        text: response.message + ' dengan ID BKK: ' + response.idbkk,
+                                        text:
+                                            response.message +
+                                            " dengan ID BKK: " +
+                                            response.idbkk,
                                         showConfirmButton: true,
                                     }).then((result) => {
                                         if (result.isConfirmed) {
@@ -999,27 +1122,27 @@ $(document).ready(function () {
         });
     });
 
+    let rowDataBKKArray = [];
+
     $("#tabletampilBKK tbody").off("change", 'input[name="penerimaCheckbox"]');
     $("#tabletampilBKK tbody").on(
         "change",
         'input[name="penerimaCheckbox"]',
         function () {
             if (this.checked) {
-                $('input[name="penerimaCheckbox"]');
-                // .not(this)
-                // .prop("checked", false);
+                $('input[name="penerimaCheckbox"]')
+                    .not(this)
+                    .prop("checked", false);
                 rowDataBKK = tabletampilBKK.row($(this).closest("tr")).data();
+                rowDataBKKArray.push(rowDataBKK);
                 console.log(rowDataBKK, this, tabletampilBKK);
-                const formatDate = (dateString) => {
-                    if (!dateString)
-                        return new Date().toISOString().split("T")[0];
-                    const date = new Date(dateString);
-                    const offset = date.getTimezoneOffset();
-                    const adjustedDate = new Date(
-                        date.getTime() - offset * 60 * 1000
-                    );
-                    return adjustedDate.toISOString().split("T")[0];
-                };
+            } else {
+                const index = rowDataBKKArray.findIndex(
+                    (row) => row.Id_BKK === rowDataBKK.Id_BKK
+                );
+                if (index > -1) {
+                    rowDataBKKArray.splice(index, 1);
+                }
             }
         }
     );
@@ -1043,8 +1166,54 @@ $(document).ready(function () {
                     nilaiPembulatan.focus();
                 }, 300);
             } else {
-                window.location.href = "MaintenanceBKKKRR2Print";
+                const newWindow = window.open(
+                    "MaintenanceBKKKRR2Print",
+                    "_blank"
+                );
+                newWindow.onload = function () {
+                    newWindow.print();
+                };
             }
+        });
+    });
+
+    btn_prosesbkk.addEventListener("click", function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "MaintenanceBKKKRR2/processPrint",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                rowDataBKKArray: rowDataBKKArray,
+            },
+            success: function (data) {
+                // console.log(data.data[0]);
+                // tanggalu.value = data.data[0].Tgl_Update;
+                // user.value = data.data[0].Nama_User;
+
+                // // Handle numeric values and format them
+                // panjang_body.value = parseFloat(
+                //     data.data[0].Panjang_BB
+                // ).toFixed(2);
+                // diameter_body.value = parseFloat(
+                //     data.data[0].Diameter_BB
+                // ).toFixed(2);
+                // lebar_body.value = parseFloat(
+                //     data.data[0].Lebar_BB
+                // ).toFixed(2);
+                // tinggi_body.value = parseFloat(
+                //     data.data[0].Tinggi_BB
+                // ).toFixed(2);
+                // bentuk_body.value = data.data[0].Bentuk_BB;
+                // bentuk_body.readOnly = true;
+
+                // qty_sisa.value = data.ada ? data.ada : 0;
+                // qty_sisa.focus();
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
         });
     });
 

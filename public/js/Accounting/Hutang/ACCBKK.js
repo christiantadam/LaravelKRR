@@ -235,8 +235,12 @@ $(document).ready(function () {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         tablepertama.ajax.reload();
-                                    }else{
+                                        btn_isi.style.display = "block";
+                                        btn_proses.style.display = "none";
+                                    } else {
                                         tablepertama.ajax.reload();
+                                        btn_isi.style.display = "block";
+                                        btn_proses.style.display = "none";
                                     }
                                 });
                             } else if (response.error) {
@@ -308,8 +312,12 @@ $(document).ready(function () {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         tablepertama.ajax.reload();
-                                    }else{
+                                        btn_isi.style.display = "block";
+                                        btn_proses.style.display = "none";
+                                    } else {
                                         tablepertama.ajax.reload();
+                                        btn_isi.style.display = "block";
+                                        btn_proses.style.display = "none";
                                     }
                                 });
                             } else if (response.error) {
@@ -391,8 +399,12 @@ $(document).ready(function () {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         tablepertama.ajax.reload();
-                                    }else{
+                                        btn_isi.style.display = "block";
+                                        btn_proses.style.display = "none";
+                                    } else {
                                         tablepertama.ajax.reload();
+                                        btn_isi.style.display = "block";
+                                        btn_proses.style.display = "none";
                                     }
                                 });
                             } else if (response.error) {
@@ -464,8 +476,12 @@ $(document).ready(function () {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         tablepertama.ajax.reload();
-                                    }else{
+                                        btn_isi.style.display = "block";
+                                        btn_proses.style.display = "none";
+                                    } else {
                                         tablepertama.ajax.reload();
+                                        btn_isi.style.display = "block";
+                                        btn_proses.style.display = "none";
                                     }
                                 });
                             } else if (response.error) {
@@ -539,8 +555,12 @@ $(document).ready(function () {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 tablepertama.ajax.reload();
-                            }else{
+                                btn_isi.style.display = "block";
+                                btn_proses.style.display = "none";
+                            } else {
                                 tablepertama.ajax.reload();
+                                btn_isi.style.display = "block";
+                                btn_proses.style.display = "none";
                             }
                         });
                     } else if (response.error) {

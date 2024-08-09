@@ -1389,12 +1389,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             alert(err.Message);
                         },
                     });
-
-                    // if (proses === 1) {
-                    //     console.log(proses);
-                    //     btn_nopesanan.disabled = true;
-                    //     btn_customers.focus();
-                    // }
                 }
             });
         } catch (error) {
