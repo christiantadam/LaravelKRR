@@ -146,9 +146,9 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "/getallcustomer",
+            url: "Customer/getallcustomer",
             dataType: "json",
-            type: "POST",
+            type: "GET",
             data: {
                 _token: csrfToken,
             },
@@ -168,6 +168,17 @@ $(document).ready(function () {
             },
             {
                 data: "Actions",
+                render: function (data, type, row) {
+                    return `
+                        <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#modalCustomer"
+                            data-typeForm="edit" data-idcustomer="${row.IDCustomer}">&#x270E; Edit</button>
+                        <br>
+                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="/Customer/${row.IDCustomer}" method="POST" enctype="multipart/form-data">
+                            <button type="submit" class="btn btn-sm btn-danger"><span>&#x1F5D1;</span> Hapus</button>
+                            <input type="hidden" name="_token" value="${csrfToken}">
+                        </form>
+                    `;
+                },
             },
         ],
     });
@@ -197,13 +208,14 @@ $(document).ready(function () {
             // isiNamaBank.style.display = "block";
             // isiNamaBank.focus();
             // prosesButtonModal.disabled = true;
+            console.log(idCustomer);
 
             $.ajax({
                 //Get data bank menurut ID
-                url: "/Customer/" + idCustomer,
+                url: "/Customer/getCertainCustomer",
                 method: "GET",
                 data: {
-                    // idCustomer: idCustomer.value,
+                    idCustomer: idCustomer,
                 },
                 headers: {
                     "X-CSRF-TOKEN": csrfToken,
@@ -252,7 +264,7 @@ $(document).ready(function () {
             });
         } else if (typeform == "tambah") {
             modalLabelCustomer.innerHTML = "Tambah Customer";
-            $('#modalCustomer').find('input, textarea, select').val('');
+            $("#modalCustomer").find("input, textarea, select").val("");
             // form.attr("action", "/MaintenanceBank/");
             // form.attr("method", "POST");
         }

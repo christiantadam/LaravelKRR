@@ -25,95 +25,6 @@ class CustomerController extends Controller
         return view('Sales.Master.Customer.Index', compact('access', 'model', 'jnscust'));
     }
 
-    function getallcustomer(Request $request)
-    {
-        if (!$request->isMethod('post')) {
-            // Handle invalid method, e.g., return an error response
-            return response()->json(['error' => 'Invalid request method'], 405);
-        }
-        $columns = array(
-            0 => 'IdCustomer',
-            1 => 'Nama Customer',
-            2 => 'Kota Kirim',
-            3 => 'Negara',
-            4 => 'Action',
-        );
-
-        $totalData = DB::connection('ConnSales')->table('T_Customer')
-            ->where('IsActive', 1)
-            ->count();
-
-        $totalFiltered = $totalData;
-
-        $limit = $request->input('length');
-        $start = $request->input('start');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
-
-        $query = DB::connection('ConnSales')->table('T_Customer')
-            ->select(
-                DB::connection('ConnSales')->table('T_Customer')->raw("IDCust + ' - ' + JnsCust AS IDCustomer"),
-                DB::connection('ConnSales')->table('T_Customer')->raw("NamaCust + ' (' + ISNULL(AlamatKirim, '') + ') ' AS NamaCustomer"),
-                'KotaKirim',
-                'Negara'
-            )
-            // ->select('IDCust', 'Kota')
-            ->where('IsActive', 1);
-
-        if (!empty($request->input('search.value'))) {
-            $search = $request->input('search.value');
-            $query->where('IDCust', 'LIKE', "%{$search}%")
-                ->orWhere('JnsCust', 'LIKE', "%{$search}%")
-                ->orWhere('NamaCust', 'LIKE', "%{$search}%")
-                ->orWhere('AlamatKirim', 'LIKE', "%{$search}%")
-                ->orWhere('KotaKirim', 'LIKE', "%{$search}%")
-                ->orWhere('Negara', 'LIKE', "%{$search}%");
-
-            $totalFiltered = $query->count();
-        }
-
-        $customer = $query->offset($start)
-            ->limit($limit)
-            ->orderBy($order, $dir)
-            ->get();
-
-        $data = array();
-        if (!empty($customer)) {
-            foreach ($customer as $datacustomer) {
-                $nestedData['IDCustomer'] = $datacustomer->IDCustomer;
-                $nestedData['NamaCustomer'] = $datacustomer->NamaCustomer;
-                $nestedData['KotaKirim'] = $datacustomer->KotaKirim;
-                $nestedData['Negara'] = $datacustomer->Negara;
-                $idcust = explode(' - ', $datacustomer->IDCustomer);
-                $csrfToken = $request->_token;
-                // $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openEditModal('" . $idcust[0] . "')\">&#x270E; Edit</button>
-                //           <br>
-                //           <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\" action=\"/Customer/" . $idcust[0] . "\" method=\"POST\" enctype=\"multipart/form-data\">
-                //               <button type=\"submit\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Hapus</button>
-                //               <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
-                //           </form>";
-                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" data-bs-toggle=\"modal\" data-bs-target=\"#modalCustomer\"
-                                            data-typeForm=\"edit\" data-idcustomer=\"" . $idcust[0] . "\">&#x270E; Edit</button>
-                                            <br>
-                                            <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\" action=\"/Customer/" . $idcust[0] . "\" method=\"POST\" enctype=\"multipart/form-data\">
-                                                <button type=\"submit\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Hapus</button>
-                                                <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
-                                            </form>";
-                $data[] = $nestedData;
-
-            }
-        }
-
-        $json_data = array(
-            "draw" => intval($request->input('draw')),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data
-        );
-
-        return response()->json($json_data);
-    }
-
     // Show the form for creating a new resource.
     public function create()
     {
@@ -320,10 +231,14 @@ class CustomerController extends Controller
     // Display the specified resource.
     public function show(Request $request, $id)
     {
-        // dd($id);
-        $data = Customer::select('*')->join('T_JnsCust', 'IDJnsCust', 'JnsCust')->where('IDCust', $id)->first();
-        // $jnsCust = JnsCust::select('*')->where('IDJnsCust', $data->JnsCust);
-        return compact('data');
+        if ($id == 'getallcustomer') {
+            $data = DB::connection('ConnSales')->select('exec SP_4384_SLS_MASTER @XKode = ?', [7]);
+            return datatables($data)->make(true);
+        } else if ($id == 'getCertainCustomer') {
+            $idCust = trim(explode('-', $request->input('idCustomer'))[0]);
+            $data = Customer::select('*')->join('T_JnsCust', 'IDJnsCust', 'JnsCust')->where('IDCust', $idCust)->first();
+            return compact('data');
+        }
     }
 
     // Remove the specified resource from storage.

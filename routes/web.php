@@ -206,7 +206,6 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('Sales/Master/Customer/getDetail/{idcust}', 'ControllerCustomer@getDetail');
     Route::get('Customer/{IDCust}', 'CustomerController@show');
     Route::post('/Customer/{id}', 'App\Http\Controllers\Sales\Master\CustomerController@destroy')->name('customer.destroy');
-    Route::post('getallcustomer', 'App\Http\Controllers\Sales\Master\CustomerController@getallcustomer');
     Route::get('/Billing/{id}/show', 'App\Http\Controllers\Sales\Master\BillingController@show')->name('billing.show');
     Route::post('/Billing/{id}/up', 'App\Http\Controllers\Sales\Master\BillingController@update')->name('billing.update');
     Route::get('Billing/{IDCust}', 'BillingController@show');

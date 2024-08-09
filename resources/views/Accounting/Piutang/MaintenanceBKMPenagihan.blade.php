@@ -37,7 +37,7 @@
                                 <!-- Form fields go here -->
                                 <div class="d-flex">
                                     <div class="col-md-2">
-                                        <label for="bulanTahun" style="margin-right: 10px;">Bulan/Tahun</label>
+                                        <label for="bulanTahun" style="margin-right: 10px;">Bulan/Tahun (Untuk contoh 11/2010)</label>
                                     </div>
                                     <div class="col-md-1">
                                         <input type="text" id="bulan" name="bulan" class="form-control" style="width: 100%">
