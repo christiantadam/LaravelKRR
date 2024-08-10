@@ -1,7 +1,6 @@
 @extends('layouts.appAccounting')
 @section('content')
 @section('title', 'Maintenance BKK (KRR2)')
-
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
@@ -215,6 +214,8 @@
                 <div class="form-group mt-3">
                     <label for="bkk">BKK:</label>
                     <input type="text" id="bkk" class="form-control">
+                    <input type="text" id="terbilang" class="form-control" style="display: none">
+                    <input type="text" id="id_matauang" class="form-control" style="display: none">
                 </div>
                 <div class="form-group mt-3">
                     <label for="nilaiBkk">Nilai BKK:</label>
@@ -354,5 +355,6 @@
         </div>
     </div>
 </div>
+@include('Accounting.Hutang.PrintTampilBKK')
 <script src="{{ asset('js/Accounting/Hutang/BKKKRR2.js') }}"></script>
 @endsection

@@ -418,67 +418,45 @@ class MaintenanceBKKController extends Controller
                 } else {
                     $brs = 0;
                     $tIdBKK = $listBKK[$brs]['Id_BKK'];
-                    $tNilaiBKK = number_format((float) str_replace(',', '', $listBKK[$brs]['NilaiBKK']), 2, '.', ',');
+                    $tNilaiBKK = number_format((float) str_replace(',', '', $request->input('nilaiPembulatan')), 2, '.', ',');
                     $tNilaiBulat = $tNilaiBKK;
+                    $nilaiTerbilang = $request->input('nilaiPembulatan');
+                    // dd($tNilaiBKK);
+                    $result = DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK2_NILAIBKK ?, ?', [$tIdBKK, $tNilaiBulat]);
+                    // dd($result);
+                    $currencyConversion = $listBKK[$brs]['Id_MataUang'];
 
-                    // Execute the first stored procedure
-                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK2_NILAIBKK ?, ?', [$tIdBKK, $tNilaiBulat]);
-
-                    // Determine the currency conversion
-                    $currencyConversion = $request->input('currencyType') == 1
-                        ? F_Rupiah($tNilaiBulat)
-                        : F_DOLLAR($tNilaiBulat);
-
-                    // Execute the second stored procedure
-                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK2_TERBILANG ?, ?', [$tIdBKK, $currencyConversion]);
-
-                    // Determine which report to show
-                    $reportType = $request->input('reportType');
-                    if (!$request->input('groupBKK')) {
-                        if ($reportType == 1) {
-                            $sno = "{VW_PRG_1273_ACC_CETAK_BAYAR_BKK1.Id_BKK} = '" . trim($tIdBKK) . "'";
-                            return $this->showReport($sno, 1);
-                        } elseif ($reportType == 5) {
-                            // Check if record exists in the stored procedure
-                            $recTrans = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_NOBG ?', [$tIdBKK]);
-
-                            if ($recTrans[0]->ada > 1) {
-                                $sno = "{VW_PRG_1273_ACC_CETAK_BAYAR_BKK1.Id_BKK} = '" . trim($tIdBKK) . "'";
-                                return $this->showReport($sno, 1);
-                            } else {
-                                $sno = "{VW_PRG_1273_ACC_CETAK_BAYAR_BKK1.Id_BKK} = '" . trim($tIdBKK) . "'";
-                                return $this->showReport($sno, 1);
-                            }
-                        } else {
-                            $sno = "{VW_PRG_1273_ACC_CETAK_BAYAR_BKK1.Id_BKK} = '" . trim($tIdBKK) . "'";
-                            return $this->showReport($sno, 1);
-                        }
-                    } else {
-                        if ($reportType == 1) {
-                            $sno = "{VW_PRG_1273_ACC_CETAK_BAYAR_TUNAI_BKK2.Id_BKK} = '" . trim($tIdBKK) . "'";
-                            return $this->showReport($sno, 2);
-                        } elseif ($reportType == 5) {
-                            // Check if record exists in the stored procedure
-                            $recTrans = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_NOBG ?', [$tIdBKK]);
-
-                            if ($recTrans[0]->ada > 1) {
-                                $sno = "{VW_PRG_1273_ACC_CETAK_BAYAR_BKK1.Id_BKK} = '" . trim($tIdBKK) . "'";
-                                return $this->showReport($sno, 8);
-                            } else {
-                                $sno = "{VW_PRG_1273_ACC_CETAK_BAYAR_BKK1.Id_BKK} = '" . trim($tIdBKK) . "'";
-                                return $this->showReport($sno, 1);
-                            }
-                        } else {
-                            $sno = "{VW_PRG_1273_ACC_CETAK_BAYAR_BKK1.Id_BKK} = '" . trim($tIdBKK) . "'";
-                            return $this->showReport($sno, 1);
-                        }
-                    }
+                    return response()->json([
+                        'message' => 'BKK berhasil diproses',
+                        'nilaiTerbilang' => $nilaiTerbilang,
+                        'currencyConversion' => $currencyConversion
+                    ]);
                 }
-                // Finalize by closing the process
-                return response()->json(['message' => 'Data sudah diSIMPAN !!..'], 200);
             }
+        } else if ($id == 'viewPrint') {
+            $listBKK = $request->input('rowDataBKKArray');
+            $brs = 0;
+            $tIdBKK = $listBKK[$brs]['Id_BKK'];
+            $currencyConversion = $request->input('terbilang');
+            // dd($tIdBKK, $currencyConversion);
+            // Execute the second stored procedure
+            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK2_TERBILANG ?, ?', [$tIdBKK, $currencyConversion]);
 
+            // Determine which report to show
+            $recTrans = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_NOBG ?', [$tIdBKK]);
+            // dd($recTrans);
+            if ($recTrans[0]->Ada > 1) {
+                $data = DB::connection('ConnAccounting')
+                    ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_BKK1 WHERE Id_BKK = ?", [$tIdBKK]);
+            } else {
+                $data = DB::connection('ConnAccounting')
+                    ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_BKK1 WHERE Id_BKK = ?", [$tIdBKK]);
+            }
         }
+        return response()->json([
+            'data' => $data,
+            'message' => 'Data retrieved successfully!'
+        ]);
     }
 
     // Show the form for editing the specified resource.

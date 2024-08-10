@@ -42,6 +42,14 @@ $(document).ready(function () {
     let kdPerkiraan1 = document.getElementById("kdPerkiraan1");
     let kdPerkiraan2 = document.getElementById("kdPerkiraan2");
     let bg_b = document.getElementById("bg_b");
+    let terbilang = document.getElementById("terbilang");
+    // let name_p = document.getElementById("name_p");
+    // let tanggal_p = document.getElementById("tanggal_p");
+    // let voucher_p = document.getElementById("voucher_p");
+    // let description_p = document.getElementById("description_p");
+    // let paid_p = document.getElementById("paid_p");
+    // let posted_p = document.getElementById("posted_p");
+    let id_matauang = document.getElementById("id_matauang");
     let id_detailkanan = document.getElementById("id_detailkanan");
     let id_detailkiri = document.getElementById("id_detailkiri");
     let tablekanan = $("#tablekanan").DataTable();
@@ -54,6 +62,33 @@ $(document).ready(function () {
     let rowDataKanan;
     let proses;
     let dp;
+
+    let currentMonth = new Date().getMonth() + 1;
+    month.value = currentMonth.toString().padStart(2, "0");
+    let currentYear = new Date().getFullYear();
+    year.value = currentYear;
+    btn_proses.style.display = "none";
+    jatuhTempo.valueAsDate = new Date();
+
+    let currentDate = new Date();
+    let day = currentDate.getDate();
+    let monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+    let months = monthNames[currentDate.getMonth()];
+    let years = currentDate.getFullYear();
+    document.getElementById("posted_p").innerHTML = `${day}-${months}-${years}`;
 
     //#region Function
     function escapeHTML(text) {
@@ -75,110 +110,6 @@ $(document).ready(function () {
         }, 0);
     }
 
-    //Terbilang
-    var ones = [
-        "",
-        "ONE",
-        "TWO",
-        "THREE",
-        "FOUR",
-        "FIVE",
-        "SIX",
-        "SEVEN",
-        "EIGHT",
-        "NINE",
-    ];
-    var tens = [
-        "",
-        "",
-        "TWENTY",
-        "THIRTY",
-        "FORTY",
-        "FIFTY",
-        "SIXTY",
-        "SEVENTY",
-        "EIGHTY",
-        "NINETY",
-    ];
-    var teens = [
-        "TEN",
-        "ELEVEN",
-        "TWELVE",
-        "THIRTEEN",
-        "FOURTEEN",
-        "FIFTEEN",
-        "SIXTEEN",
-        "SEVENTEEN",
-        "EIGHTEEN",
-        "NINETEEN",
-    ];
-
-    function convert_billions(num) {
-        if (num >= 1000000000) {
-            return (
-                convert_billions(Math.floor(num / 1000000000)) +
-                " BILLION " +
-                convert_millions(num % 1000000000)
-            );
-        } else {
-            return convert_millions(num);
-        }
-    }
-
-    function convert_millions(num) {
-        if (num >= 1000000) {
-            return (
-                convert_millions(Math.floor(num / 1000000)) +
-                " MILLION " +
-                convert_thousands(num % 1000000)
-            );
-        } else {
-            return convert_thousands(num);
-        }
-    }
-
-    function convert_thousands(num) {
-        if (num >= 1000) {
-            return (
-                convert_hundreds(Math.floor(num / 1000)) +
-                " THOUSAND " +
-                convert_hundreds(num % 1000)
-            );
-        } else {
-            return convert_hundreds(num);
-        }
-    }
-
-    function convert_hundreds(num) {
-        if (num > 99) {
-            return (
-                ones[Math.floor(num / 100)] +
-                " HUNDRED " +
-                convert_tens(num % 100)
-            );
-        } else {
-            return convert_tens(num);
-        }
-    }
-
-    function convert_tens(num) {
-        if (num < 10) return ones[num];
-        else if (num >= 10 && num < 20) return teens[num - 10];
-        else {
-            return tens[Math.floor(num / 10)] + " " + ones[num % 10];
-        }
-    }
-
-    function convert(num) {
-        if (num == 0) return "ZERO DOLLAR";
-        else {
-            let result = convert_billions(num).trim();
-            // Replace multiple spaces with a single space
-            result = result.replace(/\s{2,}/g, " ");
-            return result + " DOLLAR";
-        }
-    }
-
     function main() {
         var cases = [
             0, 1, 2, 7, 10, 11, 12, 13, 15, 19, 20, 21, 25, 29, 30, 35, 50, 55,
@@ -186,18 +117,17 @@ $(document).ready(function () {
             11000, 100000, 199001, 1000000, 1111111, 190000009, 1020503000,
         ];
         for (var i = 0; i < cases.length; i++) {
-            console.log(cases[i] + ": " + convert(cases[i]));
+            console.log(
+                cases[i] +
+                    ": " +
+                    convertNumberToWordsDollar(cases[i]) +
+                    " - " +
+                    convertNumberToWordsRupiah(cases[i])
+            );
         }
     }
 
     main();
-
-    let currentMonth = new Date().getMonth() + 1;
-    month.value = currentMonth.toString().padStart(2, "0");
-    let currentYear = new Date().getFullYear();
-    year.value = currentYear;
-    btn_proses.style.display = "none";
-    jatuhTempo.valueAsDate = new Date();
 
     $("#uangMuka").off("change");
     $("#uangMuka").on("change", function () {
@@ -1129,20 +1059,18 @@ $(document).ready(function () {
         "change",
         'input[name="penerimaCheckbox"]',
         function () {
+            // Clear the array before adding the new checked row
+            rowDataBKKArray = [];
+
             if (this.checked) {
                 $('input[name="penerimaCheckbox"]')
                     .not(this)
                     .prop("checked", false);
+
                 rowDataBKK = tabletampilBKK.row($(this).closest("tr")).data();
                 rowDataBKKArray.push(rowDataBKK);
+
                 console.log(rowDataBKK, this, tabletampilBKK);
-            } else {
-                const index = rowDataBKKArray.findIndex(
-                    (row) => row.Id_BKK === rowDataBKK.Id_BKK
-                );
-                if (index > -1) {
-                    rowDataBKKArray.splice(index, 1);
-                }
             }
         }
     );
@@ -1179,36 +1107,53 @@ $(document).ready(function () {
 
     btn_prosesbkk.addEventListener("click", function (event) {
         event.preventDefault();
+        btn_cetakbkk.style.display = "block";
+        btn_prosesbkk.style.display = "none";
         $.ajax({
             url: "MaintenanceBKKKRR2/processPrint",
             type: "GET",
             data: {
                 _token: csrfToken,
                 rowDataBKKArray: rowDataBKKArray,
+                nilaiPembulatan: nilaiPembulatan.value,
             },
             success: function (data) {
-                // console.log(data.data[0]);
-                // tanggalu.value = data.data[0].Tgl_Update;
-                // user.value = data.data[0].Nama_User;
+                // console.log(data);
+                id_matauang.value = data.currencyConversion;
+                let nilaiTerbilang = data.nilaiTerbilang;
+                let nilaiNumerik = nilaiTerbilang.replace(/,/g, "");
+                nilaiNumerik = nilaiNumerik.split(".")[0];
 
-                // // Handle numeric values and format them
-                // panjang_body.value = parseFloat(
-                //     data.data[0].Panjang_BB
-                // ).toFixed(2);
-                // diameter_body.value = parseFloat(
-                //     data.data[0].Diameter_BB
-                // ).toFixed(2);
-                // lebar_body.value = parseFloat(
-                //     data.data[0].Lebar_BB
-                // ).toFixed(2);
-                // tinggi_body.value = parseFloat(
-                //     data.data[0].Tinggi_BB
-                // ).toFixed(2);
-                // bentuk_body.value = data.data[0].Bentuk_BB;
-                // bentuk_body.readOnly = true;
+                let terbilang;
 
-                // qty_sisa.value = data.ada ? data.ada : 0;
-                // qty_sisa.focus();
+                if (id_matauang.value == 1) {
+                    terbilang = convertNumberToWordsRupiah(nilaiNumerik);
+                } else {
+                    terbilang = convertNumberToWordsDollar(nilaiNumerik);
+                }
+
+                console.log(terbilang);
+
+                $.ajax({
+                    url: "MaintenanceBKKKRR2/viewPrint",
+                    type: "GET",
+                    data: {
+                        _token: csrfToken,
+                        rowDataBKKArray: rowDataBKKArray,
+                        terbilang: terbilang,
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        document.getElementById("name_p").innerHTML =
+                            data.data[0].Id_Bank;
+
+                        window.print();
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    },
+                });
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");

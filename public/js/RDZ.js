@@ -153,5 +153,225 @@ function setInputFilter(textbox, inputFilter, errMsg) {
 }
 
 function updateTitle(menuName) {
-    document.getElementById('dynamicTitle').innerHTML = menuName;
+    document.getElementById("dynamicTitle").innerHTML = menuName;
+}
+
+function convertNumberToWordsRupiah(num) {
+    // Arrays to hold number words
+    const ones = [
+        "",
+        "SATU",
+        "DUA",
+        "TIGA",
+        "EMPAT",
+        "LIMA",
+        "ENAM",
+        "TUJUH",
+        "DELAPAN",
+        "SEMBILAN",
+    ];
+    const tens = [
+        "",
+        "",
+        "DUA PULUH",
+        "TIGA PULUH",
+        "EMPAT PULUH",
+        "LIMA PULUH",
+        "ENAM PULUH",
+        "TUJUH PULUH",
+        "DELAPAN PULUH",
+        "SEMBILAN PULUH",
+    ];
+    const teens = [
+        "SEPULUH",
+        "SEBELAS",
+        "DUA BELAS",
+        "TIGA BELAS",
+        "EMPAT BELAS",
+        "LIMA BELAS",
+        "ENAM BELAS",
+        "TUJUH BELAS",
+        "DELAPAN BELAS",
+        "SEMBILAN BELAS",
+    ];
+
+    function convert(num) {
+        if (num === 0) return "NOL RUPIAH";
+
+        const convertBillions = (num) => {
+            if (num >= 1000000000) {
+                return (
+                    convertBillions(Math.floor(num / 1000000000)) +
+                    " MILYAR " +
+                    convertMillions(num % 1000000000)
+                );
+            } else {
+                return convertMillions(num);
+            }
+        };
+
+        const convertMillions = (num) => {
+            if (num >= 1000000) {
+                return (
+                    convertMillions(Math.floor(num / 1000000)) +
+                    " JUTA " +
+                    convertThousands(num % 1000000)
+                );
+            } else {
+                return convertThousands(num);
+            }
+        };
+
+        const convertThousands = (num) => {
+            if (num >= 1000) {
+                if (num >= 1000 && num < 2000) {
+                    return "SERIBU " + convertHundreds(num % 1000);
+                } else {
+                    return (
+                        convertHundreds(Math.floor(num / 1000)) +
+                        " RIBU " +
+                        convertHundreds(num % 1000)
+                    );
+                }
+            } else {
+                return convertHundreds(num);
+            }
+        };
+
+        const convertHundreds = (num) => {
+            if (num > 99) {
+                if (num >= 100 && num < 200) {
+                    return "SERATUS " + convertTens(num % 100);
+                } else {
+                    return (
+                        ones[Math.floor(num / 100)] +
+                        " RATUS " +
+                        convertTens(num % 100)
+                    );
+                }
+            } else {
+                return convertTens(num);
+            }
+        };
+
+        const convertTens = (num) => {
+            if (num < 10) return ones[num];
+            else if (num >= 10 && num < 20) return teens[num - 10];
+            else {
+                return tens[Math.floor(num / 10)] + " " + ones[num % 10];
+            }
+        };
+
+        let result = convertBillions(num).trim();
+        result = result.replace(/\s{2,}/g, " ");
+        return result + " RUPIAH";
+    }
+
+    return convert(num);
+}
+
+function convertNumberToWordsDollar(num) {
+    // Arrays to hold number words
+    const ones = [
+        "",
+        "ONE",
+        "TWO",
+        "THREE",
+        "FOUR",
+        "FIVE",
+        "SIX",
+        "SEVEN",
+        "EIGHT",
+        "NINE",
+    ];
+    const tens = [
+        "",
+        "",
+        "TWENTY",
+        "THIRTY",
+        "FORTY",
+        "FIFTY",
+        "SIXTY",
+        "SEVENTY",
+        "EIGHTY",
+        "NINETY",
+    ];
+    const teens = [
+        "TEN",
+        "ELEVEN",
+        "TWELVE",
+        "THIRTEEN",
+        "FOURTEEN",
+        "FIFTEEN",
+        "SIXTEEN",
+        "SEVENTEEN",
+        "EIGHTEEN",
+        "NINETEEN",
+    ];
+
+    function convert(num) {
+        if (num === 0) return "ZERO DOLLAR";
+
+        const convertBillions = (num) => {
+            if (num >= 1000000000) {
+                return (
+                    convertBillions(Math.floor(num / 1000000000)) +
+                    " BILLION " +
+                    convertMillions(num % 1000000000)
+                );
+            } else {
+                return convertMillions(num);
+            }
+        };
+
+        const convertMillions = (num) => {
+            if (num >= 1000000) {
+                return (
+                    convertMillions(Math.floor(num / 1000000)) +
+                    " MILLION " +
+                    convertThousands(num % 1000000)
+                );
+            } else {
+                return convertThousands(num);
+            }
+        };
+
+        const convertThousands = (num) => {
+            if (num >= 1000) {
+                return (
+                    convertHundreds(Math.floor(num / 1000)) +
+                    " THOUSAND " +
+                    convertHundreds(num % 1000)
+                );
+            } else {
+                return convertHundreds(num);
+            }
+        };
+
+        const convertHundreds = (num) => {
+            if (num > 99) {
+                return (
+                    ones[Math.floor(num / 100)] +
+                    " HUNDRED " +
+                    convertTens(num % 100)
+                );
+            } else {
+                return convertTens(num);
+            }
+        };
+
+        const convertTens = (num) => {
+            if (num < 10) return ones[num];
+            else if (num >= 10 && num < 20) return teens[num - 10];
+            else {
+                return tens[Math.floor(num / 10)] + " " + ones[num % 10];
+            }
+        };
+
+        let result = convertBillions(num).trim();
+        result = result.replace(/\s{2,}/g, " ");
+        return result + " DOLLAR";
+    }
+
+    return convert(num);
 }
