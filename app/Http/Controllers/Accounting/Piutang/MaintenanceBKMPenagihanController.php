@@ -16,71 +16,60 @@ class MaintenanceBKMPenagihanController extends Controller
         return view('Accounting.Piutang.MaintenanceBKMPenagihan', compact('access'));
     }
 
-    public function getTabelPelunasan($bulan, $tahun)
-    {
-        //dd($bulan, $tahun);
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_PELUNASAN_TAGIHAN] @bln = ?, @thn = ?', [$bulan, $tahun]);
-        return response()->json($tabel);
-    }
-
     public function getTabelDetailPelunasan($idPelunasan)
     {
         //dd($bulan, $tahun);
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_DETAIL_PELUNASAN] @idPelunasan = ?', [$idPelunasan]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_DETAIL_PELUNASAN] @idPelunasan = ?', [$idPelunasan]);
         return response()->json($tabel);
     }
 
     public function getTabelKurangLebih($idPelunasan)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_DETAIL_KRGLBH] @idPelunasan = ?', [$idPelunasan]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_DETAIL_KRGLBH] @idPelunasan = ?', [$idPelunasan]);
         return response()->json($tabel);
     }
 
     public function getTabelTampilBKMPenagihan($tanggalInputTampil, $tanggalInputTampil2)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BKM_TAGIH_PERTGL] @tgl1 = ?, @tgl2 = ?', [$tanggalInputTampil, $tanggalInputTampil2]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BKM_TAGIH_PERTGL] @tgl1 = ?, @tgl2 = ?', [$tanggalInputTampil, $tanggalInputTampil2]);
         return response()->json($tabel);
     }
 
     public function getTabelBiaya($idPelunasan)
     {
 
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_DETAIL_BIAYA] @idPelunasan = ?', [$idPelunasan]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_DETAIL_BIAYA] @idPelunasan = ?', [$idPelunasan]);
         return response()->json($tabel);
-    }
-
-    function getDataBank()
-    {
-        $bank =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK]');
-        return response()->json($bank);
     }
 
     function getKodePerkiraan()
     {
-        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = ?', [1]);
+        $kode = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = ?', [1]);
         return response()->json($kode);
     }
 
     function cekNoPelunasanBKMPenagihan($idPelunasan, $idCustomer)
     {
-        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_CEK_NO_PELUNASAN]
+        $kode = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_CEK_NO_PELUNASAN]
         @idpelunasan = ?,
         @idcust = ?',
-        [
-            $idPelunasan,
-            $idCustomer
-        ]);
+            [
+                $idPelunasan,
+                $idCustomer
+            ]
+        );
         return response()->json($kode);
     }
 
 
     public function cekJumlahRincianBKMPenagihan($idPelunasan)
     {
-        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_CEK_JML_RINCIAN]
+        $kode = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_CEK_JML_RINCIAN]
         @idpelunasan = ?',
-        [
-            $idPelunasan
-        ]);
+            [
+                $idPelunasan
+            ]
+        );
         return response()->json($kode);
     }
 
@@ -108,11 +97,12 @@ class MaintenanceBKMPenagihanController extends Controller
 
     public function prosesSisaPiutang($idPelunasan)
     {
-        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_GET_IDPENAGIHAN_PIUTANG]
+        $kode = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_GET_IDPENAGIHAN_PIUTANG]
         @idpelunasan = ?',
-        [
-            $idPelunasan
-        ]);
+            [
+                $idPelunasan
+            ]
+        );
         return response()->json($kode);
     }
 
@@ -136,8 +126,8 @@ class MaintenanceBKMPenagihanController extends Controller
         list($hari, $bulan, $tahun) = explode('-', $tglInputNew);
 
         // Mengambil bulan dan tahun sebagai integer
-        $bulan = (int)$bulan;
-        $tahun = (int)$tahun;
+        $bulan = (int) $bulan;
+        $tahun = (int) $tahun;
         $tgl = $bulan . $tahun;
 
         DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKM_TDETAILPEL]
@@ -192,8 +182,8 @@ class MaintenanceBKMPenagihanController extends Controller
     {
         //dd($idBKM);
         $data = DB::connection('ConnAccounting')->table('VW_PRG_5298_ACC_CETAK_BKM_TAGIH')
-        ->where('Id_BKM', $idBKMInput)
-        ->get();
+            ->where('Id_BKM', $idBKMInput)
+            ->get();
         return $data;
     }
 
@@ -201,8 +191,8 @@ class MaintenanceBKMPenagihanController extends Controller
     {
         //dd($idBKM);
         $data = DB::connection('ConnAccounting')->table('VW_PRG_5298_ACC_JML_PELUNASAN_TAGIH')
-        ->where('Id_BKM', $idBKMInput)
-        ->get();
+            ->where('Id_BKM', $idBKMInput)
+            ->get();
         return $data;
     }
 
@@ -219,9 +209,15 @@ class MaintenanceBKMPenagihanController extends Controller
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show($id, Request $request)
     {
-        //
+        if ($id == 'getTabelPelunasan') {
+            $tabel = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_PELUNASAN_TAGIHAN] @bln = ?, @thn = ?', [$request->input('bulan'), $request->input('tahun')]);
+            return response()->json($tabel);
+        } else if ($id == 'getDataBank') {
+            $bank = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK]');
+            return response()->json($bank);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -233,7 +229,7 @@ class MaintenanceBKMPenagihanController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-        $proses =  $request->all();
+        $proses = $request->all();
         //dd("masuk");
         if ($proses['detpelunasan'] == "datpelunasan") {
             $idBank = $request->idBank;
@@ -246,25 +242,32 @@ class MaintenanceBKMPenagihanController extends Controller
             $idDetail = $request->iddetail;
             $kode = $request->idKodePerkiraan;
             DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_PELUNASAN] @iddetail = ?, @kode = ?', [
-                $idDetail, $kode]);
+                $idDetail,
+                $kode
+            ]);
             return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
 
         } else if ($proses['detpelunasan'] == "detkuranglebih") {
             //dd($request->all());
             $idcoba = $request->idcoba;
-            $kode = $request ->idKodePerkiraanKrgLbh;
-            $keterangan = $request ->keterangan;
+            $kode = $request->idKodePerkiraanKrgLbh;
+            $keterangan = $request->keterangan;
             DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_KRGLBH] @iddetail = ?, @keterangan = ?, @kode = ?', [
-                $idcoba, $keterangan, $kode]);
+                $idcoba,
+                $keterangan,
+                $kode
+            ]);
             return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
-        }
-        else if ($proses['detpelunasan'] == "detbiaya") {
+        } else if ($proses['detpelunasan'] == "detbiaya") {
             //dd($request->all());
             $idDetailBiaya = $request->idDetailBiaya;
-            $kode = $request ->idKodePerkiraanBiaya;
-            $keterangan = $request ->keteranganBiaya;
+            $kode = $request->idKodePerkiraanBiaya;
+            $keterangan = $request->keteranganBiaya;
             DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_BIAYA] @iddetail = ?, @keterangan = ?, @kode = ?', [
-                $idDetailBiaya, $keterangan, $kode]);
+                $idDetailBiaya,
+                $keterangan,
+                $kode
+            ]);
             return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
         }
         // else if ($proses['detpelunasan'] == "dettampilbkm") {

@@ -14,7 +14,6 @@ class BatalSuratJalanController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        // dd($data);
         return view('Sales.Transaksi.SuratJalan.BatalSJ', compact('access'));
     }
 
