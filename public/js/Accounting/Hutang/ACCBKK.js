@@ -237,10 +237,12 @@ $(document).ready(function () {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
+                                        document.querySelectorAll('input').forEach(input => input.value = "");
                                     } else {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
+                                        document.querySelectorAll('input').forEach(input => input.value = "");
                                     }
                                 });
                             } else if (response.error) {
@@ -314,10 +316,12 @@ $(document).ready(function () {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
+                                        document.querySelectorAll('input').forEach(input => input.value = "");
                                     } else {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
+                                        document.querySelectorAll('input').forEach(input => input.value = "");
                                     }
                                 });
                             } else if (response.error) {
@@ -401,10 +405,12 @@ $(document).ready(function () {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
+                                        document.querySelectorAll('input').forEach(input => input.value = "");
                                     } else {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
+                                        document.querySelectorAll('input').forEach(input => input.value = "");
                                     }
                                 });
                             } else if (response.error) {
@@ -478,10 +484,12 @@ $(document).ready(function () {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
+                                        document.querySelectorAll('input').forEach(input => input.value = "");
                                     } else {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
+                                        document.querySelectorAll('input').forEach(input => input.value = "");
                                     }
                                 });
                             } else if (response.error) {
@@ -557,10 +565,12 @@ $(document).ready(function () {
                                 tablepertama.ajax.reload();
                                 btn_isi.style.display = "block";
                                 btn_proses.style.display = "none";
+                                document.querySelectorAll('input').forEach(input => input.value = "");
                             } else {
                                 tablepertama.ajax.reload();
                                 btn_isi.style.display = "block";
                                 btn_proses.style.display = "none";
+                                document.querySelectorAll('input').forEach(input => input.value = "");
                             }
                         });
                     } else if (response.error) {

@@ -256,8 +256,8 @@ $(document).ready(function () {
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
-                    supplier2.value = selectedRow.NM_SUP.trim();
-                    supplier1.value = selectedRow.NO_SUP.trim();
+                    supplier2.value = escapeHTML(selectedRow.NM_SUP.trim());
+                    supplier1.value = escapeHTML(selectedRow.NO_SUP.trim());
 
                     if (!TT) {
                         rincian.value =

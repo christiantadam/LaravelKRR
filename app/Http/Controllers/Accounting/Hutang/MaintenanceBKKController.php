@@ -438,23 +438,42 @@ class MaintenanceBKKController extends Controller
             $brs = 0;
             $tIdBKK = $listBKK[$brs]['Id_BKK'];
             $currencyConversion = $request->input('terbilang');
+            // dd($listBKK);
             // dd($tIdBKK, $currencyConversion);
-            // Execute the second stored procedure
             DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK2_TERBILANG ?, ?', [$tIdBKK, $currencyConversion]);
 
-            // Determine which report to show
-            $recTrans = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_NOBG ?', [$tIdBKK]);
-            // dd($recTrans);
-            if ($recTrans[0]->Ada > 1) {
+            if ($listBKK[$brs]['Id_Jenis_Bayar'] == 1) {
                 $data = DB::connection('ConnAccounting')
-                    ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_BKK1 WHERE Id_BKK = ?", [$tIdBKK]);
+                    ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_TUNAI_BKK2 WHERE Id_BKK = ?", [$tIdBKK]);
+                $reporttype = 2;
+            } elseif ($listBKK[$brs]['Id_Jenis_Bayar'] == 5) {
+                $recTrans = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_NOBG ?', [$tIdBKK]);
+                // dd($recTrans);
+                if ($recTrans[0]->Ada > 1) {
+                    $data = DB::connection('ConnAccounting')
+                        ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_BKK1 WHERE Id_BKK = ?", [$tIdBKK]);
+                    $reporttype = 8;
+                } else {
+                    $data = DB::connection('ConnAccounting')
+                        ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_BKK1 WHERE Id_BKK = ?", [$tIdBKK]);
+                    $reporttype = 1;
+                }
             } else {
-                $data = DB::connection('ConnAccounting')
-                    ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_BKK1 WHERE Id_BKK = ?", [$tIdBKK]);
+                $recTrans = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_NOBG ?', [$tIdBKK]);
+                // dd($recTrans);
+                if ($recTrans[0]->Ada > 1) {
+                    $data = DB::connection('ConnAccounting')
+                        ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_BKK1 WHERE Id_BKK = ?", [$tIdBKK]);
+                    $reporttype = 1;
+                } else {
+                    $data = DB::connection('ConnAccounting')
+                        ->select("SELECT * FROM VW_PRG_1273_ACC_CETAK_BAYAR_BKK1 WHERE Id_BKK = ?", [$tIdBKK]);
+                    $reporttype = 1;
+                }
             }
         }
         return response()->json([
-            'data' => $data,
+            'data' => $data, $reporttype,
             'message' => 'Data retrieved successfully!'
         ]);
     }

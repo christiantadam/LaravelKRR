@@ -1,127 +1,107 @@
-let idSupplier = document.getElementById("idSupplier");
-let namaSupplier = document.getElementById("namaSupplier");
-let supplierSelect = document.getElementById("supplierSelect");
-let detailPO = document.getElementById("detailPO");
-let detailFakturPajak = document.getElementById("detailFakturPajak");
-let proses;
+$(document).ready(function () {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let supplier_1 = document.getElementById("supplier_1");
+    let supplier_2 = document.getElementById("supplier_2");
+    let btn_supplier = document.getElementById("btn_supplier");
 
-let btnIsi = document.getElementById("btnIsi");
-let btnKoreksi = document.getElementById("btnKoreksi");
-let btnProses = document.getElementById("btnProses");
-let btnPrint = document.getElementById("btnPrint");
-let btnBatal = document.getElementById("btnBatal");
 
-let btnIsiDetail = document.getElementById("btnIsiDetail");
-let btnIsiDetail2 = document.getElementById("btnIsiDetail2");
-let btnKoreksiDetail = document.getElementById("btnKoreksiDetail");
-let btnHapusDetail = document.getElementById("btnHapusDetail");
-
-let formkoreksi = document.getElementById("formkoreksi");
-let methodform = document.getElementById("methodkoreksi");
-
-btnKoreksi.addEventListener('click', function (event) {
-    event.preventDefault();
-});
-
-btnIsiDetail.addEventListener('click', function (event) {
-    event.preventDefault();
-    validateIsiDetail();
-})
-
-// btnIsiDetail2.addEventListener('click', function (event) {
-//     event.preventDefault();
-//     validateIsiDetail();
-// })
-
-btnIsi.addEventListener('click', function (event) {
-    event.preventDefault();
-})
-
-function clickIsi() {
-    btnIsi.disabled = true;
-    btnKoreksi.disabled = true;
-    btnPrint.disabled = true;
-    btnBatal.style.display = "block";
-    btnIsiDetail.disabled = false;
-    btnKoreksiDetail.disabled = false;
-    btnHapusDetail.disabled = false;
-    supplierSelect.disabled = false;
-    //proses = 1;
-}
-
-function clickKoreksi() {
-    btnIsi.disabled = true;
-    btnKoreksi.disabled = true;
-    btnPrint.disabled = true;
-    btnBatal.style.display = "block";
-    btnIsiDetail.disabled = false;
-    btnKoreksiDetail.disabled = false;
-    btnHapusDetail.disabled = false;
-    supplierSelect.disabled = false;
-    proses = 2;
-}
-
-// supplierSelect.addEventListener("change", function () {
-//     if (this.selectedIndex !== 0) {
-//         this.classList.add("input-error");
-//         this.setCustomValidity("Tekan Enter!");
-//         this.reportValidity();
-//     }
-// });
-
-supplierSelect.addEventListener("keypress", function (event) {
-    if (event.key == "Enter") {
+    btn_supplier.addEventListener("click", async function (event) {
         event.preventDefault();
-        let text = supplierSelect.options[supplierSelect.selectedIndex].text.split("|");
-        idSupplier.value = text[0];
-        namaSupplier.value = text[1];
-        // fetch("/detailSupplier/" + idSupplier.value)
-        //     .then((response) => response.json())
-        //     .then((options) => {
-        //         console.log(options);
-        //         idSupplier.value = options[0].NO_SUP;
-        //         namaSupplier.value = options[0].NM_SUP;
-        //     });
-    }
-});
+        try {
+            const result = await Swal.fire({
+                title: "Select a Supplier",
+                html: '<table id="supplierTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#supplierTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#supplierTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "MaintenancePenagihan/getSupplier",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [{ data: "NM_SUP" }, { data: "NO_SUP" }],
+                        });
+                        $("#supplierTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                table.$("tr.selected").removeClass("selected");
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    supplier_2.value = escapeHTML(selectedRow.NM_SUP.trim());
+                    supplier_1.value = escapeHTML(selectedRow.NO_SUP.trim());
 
-function validateIsiDetail() {
-    let detailSelect = document.getElementsByName("radiogrup");
-    let isSelected = false;
-    for (let radio of detailSelect) {
-        if (radio.checked) {
-            isSelected = true;
-            break;
+                    // if (!TT) {
+                    //     rincian.value =
+                    //         "UANG MUKA - " + selectedRow.NM_SUP.trim();
+                    // } else {
+                    //     tablekedua = $("#tablebkkpenagihan").DataTable({
+                    //         responsive: true,
+                    //         processing: true,
+                    //         serverSide: true,
+                    //         destroy: true,
+                    //         ajax: {
+                    //             url: "MaintenancePengajuanBKK/getTT",
+                    //             dataType: "json",
+                    //             type: "GET",
+                    //             data: function (d) {
+                    //                 return $.extend({}, d, {
+                    //                     _token: csrfToken,
+                    //                     supplier1: supplier1.value,
+                    //                 });
+                    //             },
+                    //         },
+                    //         columns: [
+                    //             {
+                    //                 data: "Waktu_Penagihan",
+                    //                 render: function (data, type, row) {
+                    //                     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    //                 },
+                    //             },
+                    //             { data: "Id_Penagihan" },
+                    //             { data: "Status_PPN" },
+                    //             { data: "UangTT" },
+                    //             { data: "Nilai_Penagihan" },
+                    //             { data: "Lunas" },
+                    //             { data: "IdUangTT" },
+                    //             { data: "Id_Pembayaran" },
+                    //             // { data: "TT_NoLunas" },
+                    //             // { data: "isRed" },
+                    //         ],
+                    //         columnDefs: [{ targets: [6, 7], visible: false }],
+                    //     });
+                    // }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
         }
-    }
-    if (isSelected) {
-        let selectedValue = document.querySelector('input[name="radiogrup"]:checked').value;
-        if (selectedValue === "po") {
-            window.location.href="MPIsiDetail";
-        } else if (selectedValue === "faktur") {
-            $('#isiDetailModal').modal('show');
-        } else if(selectedValue === 'pib') {
-
-        }
-    } else {
-        alert("Pilih dulu Isi Detail SPPB atau FAKTUR atau PIB !!.");
-    }
-};
-
-btnProses.addEventListener ("click", function (event) {
-    event.preventDefault();
-    if (proses == 1) {
-        // console.log("masuk isi");
-        // formkoreksi.submit();
-    } else if (proses == 2) {
-        //console.log("masuk korek");
-        // methodform.value="PUT";
-        // formkoreksi.action = "/MaintenanceMataUang/" + idMataUang.value;
-        //formkoreksi.append(hiddenInput);
-        formkoreksi.submit();
-    } else if (proses == 3) {
-        // methodform.value="DELETE";
-        // formkoreksi.action = "/MaintenanceMataUang/" + idMataUang.value;
-        // formkoreksi.submit();
-    }
+    });
 });

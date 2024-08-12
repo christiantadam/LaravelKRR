@@ -8,7 +8,11 @@
     }
 
     @media print {
-        .modal{
+        .modal {
+            display: none !important;
+        }
+
+        .modal-backdrop {
             display: none !important;
         }
 
@@ -98,7 +102,7 @@
     }
 </style>
 
-<div class="container">
+<div class="container" style="display: none">
     <div class="header">
         <h3 style="text-align: left;">Payment Voucher</h3>
         <h2 style="text-align: left;">PT. KERTA RAJASA RAYA</h2>
@@ -106,25 +110,25 @@
     <div class="content">
         <table style="border:none !important">
             <tr style="border:none !important">
-                <td style="width: 80px; border:none !important">Name</td>
-                <td style="width: 5px; border:none !important">:</td>
-                <td style="width: 140px; border:none !important" id="name_p"></td>
-                <td style="width: 80px; border:none !important">Date</td>
-                <td style="width: 5px; border:none !important">:</td>
-                <td style="width: 200px !important;border:none !important" id="tanggal_p"></td>
-                <td style="width: 80px; border:none !important">Voucher</td>
-                <td style="width: 5px; border:none !important">:</td>
-                <td style="width: 100px; border:none !important" id="voucher_p"></td>
+                <td style="width: 10px; border:none !important">Name</td>
+                <td style="border:none !important">:</td>
+                <td style="border:none !important;" id="name_p"></td>
+                <td style="width: 65px; border:none !important">Date</td>
+                <td style="border:none !important">:</td>
+                <td style="border:none !important" id="tanggal_p"></td>
+                <td style="width: 85px; border:none !important">Voucher</td>
+                <td style="border:none !important">:</td>
+                <td style="border:none !important" id="voucher_p"></td>
             </tr>
             <tr>
-                <td style="width: 80px; border:none !important">Description</td>
-                <td style="width: 5px; border:none !important">:</td>
-                <td style="width: 140px; border:none !important" id="description_p"></td>
-                <td style="width: 80px; border:none !important">Paid To</td>
-                <td style="width: 5px; border:none !important">:</td>
+                <td style="width: 10px; border:none !important">Description</td>
+                <td style="border:none !important">:</td>
+                <td style="border:none !important" id="description_p"></td>
+                <td style="width: 65px; border:none !important">Paid To</td>
+                <td style="border:none !important">:</td>
                 <td style="border:none !important" id="paid_p"></td>
-                <td style="width: 80px; border:none !important">Posted On</td>
-                <td style="width: 5px; border:none !important">:</td>
+                <td style="width: 85px; border:none !important">Posted On</td>
+                <td style="border:none !important">:</td>
                 <td style="border:none !important" id="posted_p"></td>
             </tr>
         </table>
@@ -134,21 +138,21 @@
                     <th style="border:none !important; border-bottom: 1px solid black !important">C.O.A</th>
                     <th style="border:none !important; border-bottom: 1px solid black !important">Account Name</th>
                     <th style="border:none !important; border-bottom: 1px solid black !important">Description</th>
-                    <th style="border:none !important; border-bottom: 1px solid black !important">CEK/BG No.</th>
-                    <th style="border:none !important; border-bottom: 1px solid black !important">Amount</th>
+                    <th style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG No.</th>
+                    <th style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount</th>
                 </tr>
             </thead>
             <tbody style="border:none !important; border-bottom: 1px solid black !important">
-                <td style="border:none !important; border-bottom: 1px solid black !important"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important"></td>
+                <td style="border:none !important; border-bottom: 1px solid black !important" id="coa_p"></td>
+                <td style="border:none !important; border-bottom: 1px solid black !important" id="acc_p"></td>
+                <td style="border:none !important; border-bottom: 1px solid black !important" id="desc_p"></td>
+                <td style="border:none !important; border-bottom: 1px solid black !important" id="bgno_p"></td>
+                <td style="border:none !important; border-bottom: 1px solid black !important" id="amount_p"></td>
             </tbody>
             <tfoot style="border:none !important">
                 <tr style="border:none !important">
                     <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td>
-                    <td style="border:none !important"></td>
+                    <td style="border:none !important" id="total_p"></td>
                 </tr>
             </tfoot>
         </table>
@@ -167,7 +171,8 @@
                     <td style="border:none !important">&nbsp;</td>
                     <td style="width: 80px; text-align: right !important; font-style: italic; border:none !important">
                         Note :</td>
-                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="batal_p">&nbsp;</td>
+                    {{-- <td style="border:none !important" id="alasan_p">&nbsp;</td> --}}
                 </tr>
                 <tr>
                     <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
@@ -175,7 +180,7 @@
                     <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
                     </td>
                     <td style="border:none !important">&nbsp;</td>
-                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="alasan_p">&nbsp;</td>
                 </tr>
             </thead>
         </table>

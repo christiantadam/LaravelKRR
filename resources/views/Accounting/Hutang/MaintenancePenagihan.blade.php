@@ -2,290 +2,260 @@
 @section('content')
 @section('title', 'Maintenance Penagihan')
 
-<style>
-    /* Ganti warna latar belakang overlay dan atur posisi modal */
-    .modal-backdrop {
-        background-color: rgba(0, 0, 0, 0.5);
-    }
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-12 RDZMobilePaddingLR0">
+            <div class="card">
+                <div class="card-header">Tanda Terima Penagihan</div>
+                <div class="card-body RDZOverflow RDZMobilePaddingLR0">
+                    <div class="form-container col-md-12">
+                        <form method="POST" action="{{ url('') }}" id="form_maintenancepenagihan">
+                            {{ csrf_field() }}
 
-    /* Atur posisi modal */
-    .modal-dialog {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-</style>
+                            <!-- Supplier Section -->
+                            <div class="row mb-3">
+                                <div class="col-md-1">
+                                    <label for="supplier">Supplier</label>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <input type="text" id="supplier_1" name="supplier_1" class="form-control"
+                                        style="width: 150px; margin-right: 10px;">
+                                    <input type="text" id="supplier_2" name="supplier_2" class="form-control"
+                                        style="width: 1000px;">
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-default" id="btn_supplier">...</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-warning" style="width: 100px">Clear</button>
+                                </div>
+                            </div>
 
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-12 RDZMobilePaddingLR0">
-                <div class="card">
-                    <div class="card-header">Penagihan Tanda</div>
-                    <div class="card-body RDZOverflow RDZMobilePaddingLR0">
-                        <div class="form-container col-md-12">
-                            <form method="POST" action="{{ url('MaintenancePenagihan') }}" id="formkoreksi">
-                                {{csrf_field()}}
-                                <input type="hidden" name="_method" id="methodkoreksi">
-                                <!-- Form fields go here -->
-                                <div class="container fluid">
-                                    <div class="row">
+                            <!-- BTTB Belum Tertagih Section -->
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <h5>BTTB Belum Tertagih</h5>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary">Display BTTB</button>
+                                </div>
+                            </div>
 
-                                        <div class="col-md-2 ">
-                                            <label for="id">ID Penagihan</label>
-                                        </div>
-                                        <div class="col-md-2 ">
-                                            <select name="nama_select" class="form-control" style="width: 400px;">
-                                                <option value="option1">Pilihan 1</option>
-                                                <option value="option2">Pilihan 2</option>
-                                                <option value="option3">Pilihan 3</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-2 d-flex ml-auto">
-                                            <label for="id" >Tanggal </label>
-                                            <input type="date" name="jenissupplier1" class="form-control" style="width: 100%"></input>
-                                        </div>
+                            <!-- BTTB Table -->
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered" id="table_bttb">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>No. BTTB</th>
+                                                <th>No. Surat Jalan</th>
+                                                <th>No. PO</th>
+                                                <th>SubTotal</th>
+                                                <th>PPN %</th>
+                                                <th>PPN Price</th>
+                                                <th>Total Price</th>
+                                                <th>Mata Uang</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <small>*) Double click item yang dipilih untuk melihat detail isi BTTB pada tabel di
+                                        bawah.</small>
+                                </div>
+                            </div>
+
+                            <!-- Detail Isi BTTB Section -->
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <h5>Detail Isi BTTB</h5>
+                                    <table class="table table-bordered" id="table_detail">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>No. BTTB</th>
+                                                <th>No. Terima</th>
+                                                <th>Kode Barang</th>
+                                                <th>Nama Barang</th>
+                                                <th>Qty Tagih</th>
+                                                <th>Unit Price</th>
+                                                <th>Sub Total</th>
+                                                <th>PPN</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Input Ke Penagihan Button -->
+                            <div class="row mb-3">
+                                <div class="col-md-12 text-end">
+                                    <button type="button" class="btn btn-success">Input Ke Penagihan &gt;&gt;</button>
+                                </div>
+                            </div>
+
+                            <!-- BTTB Ditagihkan Section -->
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <h5>BTTB Ditagihkan</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="id_penagihan" class="form-label">ID Penagihan</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" id="id_penagihan" name="id_penagihan" class="form-control">
+                                        <button class="input" type="button" id="button-customer"
+                                            style="border-radius: 5px; width: 40px; height:35px; cursor: pointer; border: 1px solid black;">...</button>
                                     </div>
                                 </div>
-                                <div class="container fluid">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <label for="id">Supplier</label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="text" name="namaSupplier" id="namaSupplier" class="form-control" style="width: 100%">
-                                        </div>
-                                        <div class="col-md-1">
-                                            <input type="text" name="idSupplier" id="idSupplier" class="form-control" style="width: 100%">
-                                        </div>
-                                        <div class="col-md-1">
-                                            <select name="supplierSelect" id="supplierSelect" class="form-control" disabled>
-                                                <option disabled selected>-- Pilih Supplier --</option>
-                                                @foreach ($maintenancePenagihan as $mp)
-                                                <option value="{{ $mp->NO_SUP }}">{{ $mp->NO_SUP }} | {{ $mp->NM_SUP }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                <div class="col-md-4">
+                                    <label for="tanggal_penagihan">Tanggal Penagihan</label>
+                                    <input type="date" id="tanggal_penagihan" name="tanggal_penagihan"
+                                        class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="id_penagihan_supplier">ID Penagihan Supplier</label>
+                                    <input type="text" id="id_penagihan_supplier" name="id_penagihan_supplier"
+                                        class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Total Nilai Penagihan -->
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="subtotal">SubTotal</label>
+                                    <input type="text" id="subtotal" name="subtotal" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="ppn_price">PPN Price</label>
+                                    <input type="text" id="ppn_price" name="ppn_price" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="total_price">Total Price</label>
+                                    <input type="text" id="total_price" name="total_price" class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Jenis PPH and PPH Price Section -->
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="jenis_pph">Jenis PPH</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" id="jenis_pph" name="jenis_pph" class="form-control">
+                                        <button class="input" type="button" id="button-customer"
+                                            style="border-radius: 5px; width: 40px; height:35px; cursor: pointer; border: 1px solid black;">...</button>
                                     </div>
                                 </div>
-
-                                <div class="container fluid">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <label for="id">ID Penagihan Supplier</label>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <input type="text" name="jenisbayar" class="form-control" style="width: 100%">
-                                        </div>
+                                <div class="col-md-4">
+                                    <label for="pph_percent">PPH %</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" id="pph_percent" name="pph_percent"
+                                            class="form-control">
+                                        <button class="input" type="button" id="button-customer"
+                                            style="border-radius: 5px; width: 40px; height:35px; cursor: pointer; border: 1px solid black;">...</button>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <label for="pph_price">PPH Price</label>
+                                    <input type="text" id="pph_price" name="pph_price" class="form-control">
+                                </div>
+                                <br>
+                                <div class="col-md-4">
+                                    <br>
+                                    <h5 for="total_np" style="font-weight: bold;">Total Nilai Penagihan</h5>
+                                    <input type="text" id="total_np" name="total_np" class="form-control">
+                                </div>
+                            </div>
 
-                                <!--CARD-->
-                                <p><div class="container fluid">
-                                    <div class="card">
-                                        <p><div class="row">
-                                            <div class="col-md-4">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label for="id" style="padding-left: 15px">Mata Uang</label>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input type="text" name="matauang" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label for="id" style="padding-left: 15px">Tagihan</label>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input type="number" name="tagihan" class="form-control">
-                                                        <input type="submit" name="dirupiahkan" value="DIRUPIAHKAN" class="btn btn-primary" style="width: 100%">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label for="id">Pembulatan</label>
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        <input type="number" name="pembulatan" class="form-control">
-                                                        <input type="submit" name="dirupiahkan" value="DIRUPIAHKAN" class="btn btn-primary"><p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="row">
-                                                    <div class="col-md-1">
-                                                        <input type="checkbox" name="status">
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <label for="id">Free of Charge</label>
-                                                        <input type="submit" name="keterangan" value="Keterangan" class="btn btn-primary">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <!-- BTTB Ditagihkan Table -->
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered" id="table_penagihan">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>No. BTTB</th>
+                                                <th>No. Surat Jalan</th>
+                                                <th>No. PO</th>
+                                                <th>SubTotal</th>
+                                                <th>PPN %</th>
+                                                <th>PPN Price</th>
+                                                <th>Total Price</th>
+                                                <th>Mata Uang</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <small>*) Double click item yang dipilih untuk melengkapi data atau untuk remove
+                                        data.</small>
+                                </div>
+                            </div>
 
-                                    <p>
-                                    <div class="radio-container">
-                                        <div>
-                                            <input type="radio" name="radiogrup" value="po" id="detailPO" required>
-                                            <label for="detailPO">Detail PO</label>
-                                        </div>
-                                        <button>Tampilkan Surat Jalan</button>
-                                        <div>
-                                            <input type="radio" name="radiogrup" value="faktur" id="detailFakturPajak" required>
-                                            <label for="detailFakturPajak">Detail Faktur Pajak</label>
-                                        </div>
-                                        <div>
-                                            <input type="radio" name="radiogrup" value="pib" id="pib">
-                                            <label for="radio_3">PIB</label>
-                                        </div>
-                                    </div>
+                            <!-- Update and Remove Buttons -->
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    <label for="no_bttb">No. BTTB</label>
+                                    <input type="text" id="no_bttb" name="no_bttb" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="no_suratjalan">No. Surat Jalan</label>
+                                    <input type="text" id="no_suratjalan" name="no_suratjalan"
+                                        class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="no_po">No. PO</label>
+                                    <input type="text" id="no_po" name="no_po" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="sub_total">Sub Total</label>
+                                    <input type="text" id="sub_total" name="sub_total"
+                                        class="form-control">
+                                </div>
+                            </div>
 
-                                    <!--TABEL-->
-                                    <p>
-                                    <div class="table-container">
-                                        <div class="table-col">
-                                            <table style="width: 80%;" class="table-dark">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID Div</th>
-                                                        <th>SPPB</th>
-                                                        <th>Nilai</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                        <div class="table-col">
-                                            <table style="width: 105%" class="table-dark">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID Detail</th>
-                                                        <th>NOMOR FAKTUR</th>
-                                                        <th>Nilai MURNI</th>
-                                                        <th>PAJAK</th>
-                                                        <th>Nilai Pajak</th>
-                                                        <th>KURS</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <p>
-                                        <div style="display: inline-block; vertical-align: middle; padding-right: 180px">
-                                            <h6 style="margin: 0;">TOTAL Detail Penagihan</h6>
-                                        </div>
-                                        <div class="numeric-column" id="numeric-column">
-                                            <!-- Angka akan ditambahkan secara dinamis menggunakan JavaScript -->
-                                        </div>
-
-                                        <div style="display: inline-block; vertical-align: middle; padding-left: 110px">
-                                            <h6 style="margin: 0;">TOTAL Detail Faktur Pajak</h6>
-                                        </div>
-                                        <div class="numeric-column" id="numeric-column">
-                                            <!-- Angka akan ditambahkan secara dinamis menggunakan JavaScript -->
-                                        </div>
-                                    </div>
-
-                                    <p>
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <input type="submit" name="btnIsiDetail" id="btnIsiDetail" class="btn btn-primary" value="ISI Detail" onclick="validateIsiDetail()"></a>
-                                            {{-- <a href="{{ url('MPIsiDetail') }}" type="submit" name="btnIsiDetail2" id="btnIsiDetail2" class="btn btn-primary" hidden>ISI Detail</a> --}}
-                                        </div>
-                                        <div class="col-2">
-                                            <input type="submit" name="btnKoreksiDetail" id="btnKoreksiDetail" value="KOREKSI Detail" class="btn btn-primary" disabled>
-                                        </div>
-                                        <div class="col-1">
-                                            <input type="submit" name="btnHapusDetail" id="btnHapusDetail" value="HAPUS Detail" class="btn btn-primary" disabled>
-                                        </div>
-                                    </div>
-
-                                    <hr style="height:2px;">
-                                    <div class="row">
-                                        <div style="padding-left: 15px">
-                                            <input type="submit" name="isi" id="btnIsi" value="ISI" class="btn btn-primary" onclick="clickIsi()">
-                                        </div>
-                                        <div class="col-1">
-                                            <input type="submit" name="koreksi" id="btnKoreksi" value="KOREKSI" class="btn btn-primary" onclick="clickKoreksi()">
-                                        </div>
-                                        <div class="col-1">
-                                            <input type="submit" name="isi" id="btnPrint" value="PRINT" class="btn btn-primary" disabled>
-                                        </div>
-                                        <div class="col-9">
-                                            <input type="submit" name="batal" id="btnBatal" value="Batal" class="btn btn-primary" style="display: none" onclick="">
-                                        </div>
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    <label for="ppn">PPN</label>
+                                    <div class="d-flex align-items-center">
+                                    <input type="text" id="ppn_1" name="ppn_1" class="form-control" style="width: 80px">
+                                    <input type="text" id="ppn_2" name="ppn_2" class="form-control">
                                     </div>
                                 </div>
-
-                                <div class="modal fade" id="isiDetailModal" tabindex="-1" role="dialog" aria-labelledby="isiDetailModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog " role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="isiDetailModalLabel">Isi Detail Faktur Pajak</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Tambahkan konten modal di sini -->
-                                                <!-- Misalnya, Anda dapat menyertakan beberapa informasi atau formulir untuk diisi -->
-                                                <!-- Ganti URL aksi formulir dengan URL yang sesuai untuk menangani pengiriman formulir -->
-                                                <form action="{{ url('handle_form_submission_faktur') }}" method="post">
-                                                    <div class="container fluid">
-                                                        <div class="row">
-                                                            <div class="col-md-3">
-                                                                <label for="id">Tgl F. Pajak</label>
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <input type="date" name="namaSupplier" id="namaSupplier" class="form-control" style="width: 100%">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="container fluid">
-                                                        <div class="row">
-                                                            <div class="col-md-3">
-                                                                <label for="id">Nomor Seri</label>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <input type="text" name="namaSupplier" id="namaSupplier" class="form-control" style="width: 100%">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="container fluid">
-                                                        <div class="row">
-                                                            <div class="col-md-3">
-                                                                <label for="id">Nilai</label>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <input type="text" name="namaSupplier" id="namaSupplier" class="form-control" style="width: 100%">
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                = Harga Murni
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-2">
+                                    <label for="total_price_bottom">Total Price</label>
+                                    <input type="text" id="total_price_bottom" name="total_price_bottom"
+                                        class="form-control">
                                 </div>
-                            </form>
-                        </div>
+                                <div class="col-md-2">
+                                    <label for="kurs">Kurs</label>
+                                    <input type="text" id="kurs" name="kurs" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="no_faktur_pajak">No. Faktur Pajak</label>
+                                    <input type="text" id="no_faktur_pajak" name="no_faktur_pajak"
+                                        class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="no_faktur_pajak" style="visibility: hidden">No. Faktur Pajak</label>
+                                    <br>
+                                    <button type="button" class="btn btn-primary">Update Data</button>
+                                    <button type="button" class="btn btn-danger">Remove Data</button>
+                                </div>
+                            </div>
+
+                            <!-- Post Button -->
+                            <div class="row mb-3">
+                                <div class="col-md-12 text-end">
+                                    <button type="submit" class="btn btn-success" style="width: 100px">POST</button>
+                                </div>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Hutang/MaintenancePenagihan.js') }}"></script>
+</div>
+<script src="{{ asset('js/Accounting/Hutang/MaintenancePenagihan.js') }}"></script>
 @endsection
