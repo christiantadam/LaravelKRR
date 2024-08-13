@@ -129,7 +129,7 @@ function LoadPermohonan(data) {
             {
                 data: "Qty",
                 render: function (data) {
-                    return numeral(parseFloat(data)).format("0.00");
+                    return numeral(parseFloat(data)).format("0,0.00");
                 },
             },
             {
@@ -246,7 +246,7 @@ function LoadPermohonan(data) {
                 kode_barang.value = data.Kd_brg;
                 nama_barang.value = data.NAMA_BRG;
                 sub_kategori.value = data.nama_sub_kategori;
-                qty_order.value = parseFloat(data.Qty).toFixed(4);
+                qty_order.value = numeral(parseFloat(data.Qty)).format("0,0.00");
                 keterangan_order.value = data.keterangan || "-";
                 keterangan_internal.value = data.Ket_Internal || "-";
                 qty_delay.value = parseFloat(data.QtyCancel).toFixed(4);
@@ -338,8 +338,8 @@ btn_update.addEventListener("click", function (event) {
             },
             data: {
                 No_PO: nomor_purchaseOrder.value,
-                Qty: qty_order.value,
-                QtyCancel: qty_delay.value,
+                Qty: numeral(qty_order.value).value(),
+                QtyCancel: numeral(qty_delay.value).value(),
                 kurs: kurs.value,
                 pUnit: numeral(harga_unit.value).value(),
                 pSub: numeral(harga_sub_total.value).value(),

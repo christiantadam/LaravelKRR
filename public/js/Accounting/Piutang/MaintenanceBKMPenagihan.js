@@ -130,84 +130,6 @@
 //         $("#pilihBank").modal("hide");
 //     });
 
-//     btnOK.addEventListener("click", function (event) {
-//         event.preventDefault();
-//         $.ajax({
-//             //Get data Mata Uang menurut ID
-//             url: "/MaintenanceBKMPenagihan/getTabelPelunasan",
-//             method: "GET",
-//             data: {
-//                 bulan: bulan.value,
-//                 tahun: tahun.value,
-//             },
-//             headers: {
-//                 "X-CSRF-TOKEN": csrfToken,
-//             },
-//             beforeSend: function () {
-//                 // Show loading screen
-//                 $("#loading-screen").css("display", "flex");
-//             },
-//             success: function (options) {
-//                 dataTable = $("#tabelDataPelunasan").DataTable({
-//                     destroy: true,
-//                     data: options,
-//                     columns: [
-//                         {
-//                             title: "Tgl. Pelunasan",
-//                             data: "Tgl_Pelunasan",
-//                             render: function (data) {
-//                                 var date = new Date(data);
-//                                 var formattedDate = date.toLocaleDateString();
-
-//                                 return `<div>
-//                                             <input type="checkbox" name="divisiCheckbox" value="${formattedDate}" />
-//                                             <span>${formattedDate}</span>
-//                                         </div>`;
-//                             },
-//                         },
-//                         { title: "Id. Pelunasan", data: "Id_Pelunasan" },
-//                         { title: "Id. Bank", data: "Id_bank" },
-//                         { title: "Jenis Pembayaran", data: "Jenis_Pembayaran" },
-//                         { title: "Mata Uang", data: "Nama_MataUang" },
-//                         {
-//                             title: "Total Pelunasan",
-//                             data: "Nilai_Pelunasan",
-//                             render: function (data) {
-//                                 // Mengubah format angka ke format dengan koma
-//                                 return parseFloat(data).toLocaleString();
-//                             },
-//                         },
-//                         { title: "No. Bukti", data: "No_Bukti" },
-//                         { title: "Tgl Pembuatan", defaultContent: "" },
-//                         { title: "IdCust", data: "ID_Cust", visible: false },
-//                         {
-//                             title: "Jenis Bayar",
-//                             data: "Id_Jenis_Bayar",
-//                             visible: false,
-//                         },
-//                     ],
-//                     columnDefs: [
-//                         {
-//                             targets: "_all", // Apply to all columns
-//                             className: "nowrap", // Prevent text wrapping
-//                         },
-//                     ],
-//                 });
-//             },
-//             error: function (error) {
-//                 Swal.fire({
-//                     icon: "error",
-//                     title: "Data Tidak Berhasil Diload!",
-//                 });
-//                 console.error("Error saving data:", error);
-//             },
-//             complete: function () {
-//                 // Hide loading screen
-//                 $("#loading-screen").css("display", "none");
-//             },
-//         });
-//     });
-
 //     btnPilihBank.addEventListener("click", function (event) {
 //         event.preventDefault();
 
@@ -1508,5 +1430,130 @@
 // });
 
 $(document).ready(function () {
+    //#region Set up Variables
+    //Halaman Utama
+    var csrfToken = $('meta[name="csrf-token"]').attr("content");
+    let bulan = document.getElementById("bulan");
+    let tahun = document.getElementById("tahun");
+    let btnOK = document.getElementById("btnOK");
+    let btnPilihBank = document.getElementById("btnPilihBank");
+    let btnGroupBKM = document.getElementById("btnGroupBKM");
+    let idBKMNew = document.getElementById("idBKMNew");
+    let tabelDataPelunasan = $("#tabelDataPelunasan").DataTable();
+    let jenisBank = document.getElementById("jenisBank");
+    let total = document.getElementById("total");
+    let uang = document.getElementById("uang");
+    let konversi = document.getElementById("konversi");
+    let sisa = document.getElementById("sisa");
+    let idbkm = document.getElementById("idbkm");
+    let radioDetailPelunasan = document.getElementById("radioDetailPelunasan");
+    let radioDetailBiaya = document.getElementById("radioDetailBiaya");
+    let radioDetailKurangLebih = document.getElementById(
+        "radioDetailKurangLebih"
+    );
+    let tabelDetailPelunasan = $("#tabelDetailPelunasan").DataTable();
+    let tabelDetailBiaya = $("#tabelDetailBiaya").DataTable();
+    let tabelDetailKurangLebih = $("#tabelDetailKurangLebih").DataTable();
+    let btnKoreksiDetail = document.getElementById("btnKoreksiDetail");
+    let btnTampilBKM = document.getElementById("btnTampilBKM");
+    let btnTutup = document.getElementById("btnTutup");
 
-})
+    //Set up Variables Modal Pilih Bank
+    let pilihBank = document.getElementById("pilihBank");
+    let pilihBankModal = document.getElementById("pilihBankModal");
+    let idPelunasan = document.getElementById("idPelunasan");
+    let tanggalInput = document.getElementById("tanggalInput");
+    let tanggalTagih = document.getElementById("tanggalTagih");
+    let jenisBayar = document.getElementById("jenisBayar");
+    let idBank = document.getElementById("idBank");
+    let namaBankSelect = document.getElementById("namaBankSelect");
+    let mataUang = document.getElementById("mataUang");
+    let nilaiPelunasan = document.getElementById("nilaiPelunasan");
+    let noBukti = document.getElementById("noBukti");
+    let person = document.getElementById("person");
+    let hp = document.getElementById("hp");
+    let prosesButtonModal = document.getElementById("prosesButtonModal");
+
+    //#endregion
+
+    //#region Add Event Listener
+
+    btnOK.addEventListener("click", function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/MaintenanceBKMPenagihan/getTabelPelunasan",
+            method: "GET",
+            data: {
+                bulan: bulan.value,
+                tahun: tahun.value,
+            },
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            success: function (options) {
+                dataTable = $("#tabelDataPelunasan").DataTable({
+                    destroy: true,
+                    data: options,
+                    columns: [
+                        {
+                            title: "Tgl. Pelunasan",
+                            data: "Tgl_Pelunasan",
+                            render: function (data) {
+                                var date = new Date(data);
+                                var formattedDate = date.toLocaleDateString();
+
+                                return `<div>
+                                            <input type="checkbox" name="divisiCheckbox" value="${formattedDate}" />
+                                            <span>${formattedDate}</span>
+                                        </div>`;
+                            },
+                        },
+                        { title: "Id. Pelunasan", data: "Id_Pelunasan" },
+                        { title: "Id. Bank", data: "Id_bank" },
+                        { title: "Jenis Pembayaran", data: "Jenis_Pembayaran" },
+                        { title: "Mata Uang", data: "Nama_MataUang" },
+                        {
+                            title: "Total Pelunasan",
+                            data: "Nilai_Pelunasan",
+                            render: function (data) {
+                                // Mengubah format angka ke format dengan koma
+                                return parseFloat(data).toLocaleString();
+                            },
+                        },
+                        { title: "No. Bukti", data: "No_Bukti" },
+                        { title: "Tgl Pembuatan", defaultContent: "" },
+                        { title: "IdCust", data: "ID_Cust", visible: false },
+                        {
+                            title: "Jenis Bayar",
+                            data: "Id_Jenis_Bayar",
+                            visible: false,
+                        },
+                    ],
+                    columnDefs: [
+                        {
+                            targets: "_all", // Apply to all columns
+                            className: "nowrap", // Prevent text wrapping
+                        },
+                    ],
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Data Tidak Berhasil Diload!",
+                });
+                console.error("Error saving data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
+        });
+    });
+
+    //#endregion
+});
