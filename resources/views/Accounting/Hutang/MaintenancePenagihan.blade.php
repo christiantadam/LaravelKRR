@@ -37,7 +37,8 @@
                                     <h5>BTTB Belum Tertagih</h5>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-primary">Display BTTB</button>
+                                    <button type="button" class="btn btn-primary" id="btn_display">Display
+                                        BTTB</button>
                                 </div>
                             </div>
 
@@ -54,13 +55,15 @@
                                                 <th>PPN %</th>
                                                 <th>PPN Price</th>
                                                 <th>Total Price</th>
+                                                <th>ID. Mata Uang</th>
                                                 <th>Mata Uang</th>
+                                                <th>Kurs</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
                                     </table>
-                                    <small>*) Double click item yang dipilih untuk melihat detail isi BTTB pada tabel di
+                                    <small>*) Click item yang dipilih untuk melihat detail isi BTTB pada tabel di
                                         bawah.</small>
                                 </div>
                             </div>
@@ -79,7 +82,12 @@
                                                 <th>Qty Tagih</th>
                                                 <th>Unit Price</th>
                                                 <th>Sub Total</th>
-                                                <th>PPN</th>
+                                                <th>PPN %</th>
+                                                <th>PPN Price</th>
+                                                <th>Total Price</th>
+                                                <th>ID. Mata Uang</th>
+                                                <th>Mata Uang</th>
+                                                <th>Kurs</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -91,7 +99,7 @@
                             <!-- Input Ke Penagihan Button -->
                             <div class="row mb-3">
                                 <div class="col-md-12 text-end">
-                                    <button type="button" class="btn btn-success">Input Ke Penagihan &gt;&gt;</button>
+                                    <button type="button" class="btn btn-success" id="btn_input">Input Ke Penagihan &gt;&gt;</button>
                                 </div>
                             </div>
 
@@ -103,7 +111,8 @@
                                 <div class="col-md-4">
                                     <label for="id_penagihan" class="form-label">ID Penagihan</label>
                                     <div class="d-flex align-items-center">
-                                        <input type="text" id="id_penagihan" name="id_penagihan" class="form-control">
+                                        <input type="text" id="id_penagihan" name="id_penagihan"
+                                            class="form-control">
                                         <button class="input" type="button" id="button-customer"
                                             style="border-radius: 5px; width: 40px; height:35px; cursor: pointer; border: 1px solid black;">...</button>
                                     </div>
@@ -141,17 +150,19 @@
                                 <div class="col-md-4">
                                     <label for="jenis_pph">Jenis PPH</label>
                                     <div class="d-flex align-items-center">
-                                        <input type="text" id="jenis_pph" name="jenis_pph" class="form-control">
-                                        <button class="input" type="button" id="button-customer"
+                                        <input type="text" id="idjenis_pph" name="idjenis_pph" class="form-control" style="width: 80px">
+                                        <input type="text" id="jenis_pph" name="jenis_pph" class="form-control" style="width: 500px">
+                                        <button class="input" type="button" id="btn_jnspph"
                                             style="border-radius: 5px; width: 40px; height:35px; cursor: pointer; border: 1px solid black;">...</button>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="pph_percent">PPH %</label>
                                     <div class="d-flex align-items-center">
+                                        <input type="text" id="idpph_percent" name="idpph_percent" class="form-control" style="width: 80px">
                                         <input type="text" id="pph_percent" name="pph_percent"
-                                            class="form-control">
-                                        <button class="input" type="button" id="button-customer"
+                                            class="form-control" style="width: 500px">
+                                        <button class="input" type="button" id="btn_pphpersen"
                                             style="border-radius: 5px; width: 40px; height:35px; cursor: pointer; border: 1px solid black;">...</button>
                                     </div>
                                 </div>
@@ -163,7 +174,11 @@
                                 <div class="col-md-4">
                                     <br>
                                     <h5 for="total_np" style="font-weight: bold;">Total Nilai Penagihan</h5>
-                                    <input type="text" id="total_np" name="total_np" class="form-control">
+                                    <div class="d-flex">
+                                        <input type="text" id="total_np" name="total_np" class="form-control">
+                                        <label for="pph_price" style="visibility: hidden">AAAAAAAAAAAAAAAA</label>
+                                        <button type="submit" class="btn btn-success ml-auto" style="width: 200px;">POST</button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -180,13 +195,16 @@
                                                 <th>PPN %</th>
                                                 <th>PPN Price</th>
                                                 <th>Total Price</th>
+                                                <th>ID. Mata Uang</th>
                                                 <th>Mata Uang</th>
+                                                <th>Kurs</th>
+                                                <th>No. Faktur Pajak</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
                                     </table>
-                                    <small>*) Double click item yang dipilih untuk melengkapi data atau untuk remove
+                                    <small>*) Click item yang dipilih untuk melengkapi data atau untuk remove
                                         data.</small>
                                 </div>
                             </div>
@@ -208,8 +226,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="sub_total">Sub Total</label>
-                                    <input type="text" id="sub_total" name="sub_total"
-                                        class="form-control">
+                                    <input type="text" id="sub_total" name="sub_total" class="form-control">
                                 </div>
                             </div>
 
@@ -217,8 +234,9 @@
                                 <div class="col-md-2">
                                     <label for="ppn">PPN</label>
                                     <div class="d-flex align-items-center">
-                                    <input type="text" id="ppn_1" name="ppn_1" class="form-control" style="width: 80px">
-                                    <input type="text" id="ppn_2" name="ppn_2" class="form-control">
+                                        <input type="text" id="ppn_1" name="ppn_1" class="form-control"
+                                            style="width: 80px">
+                                        <input type="text" id="ppn_2" name="ppn_2" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -238,15 +256,15 @@
                                 <div class="col-md-3">
                                     <label for="no_faktur_pajak" style="visibility: hidden">No. Faktur Pajak</label>
                                     <br>
-                                    <button type="button" class="btn btn-primary">Update Data</button>
-                                    <button type="button" class="btn btn-danger">Remove Data</button>
+                                    <button type="button" class="btn btn-primary" id="btn_update">Update Data</button>
+                                    <button type="button" class="btn btn-danger" id="btn_remove">Remove Data</button>
                                 </div>
                             </div>
 
                             <!-- Post Button -->
                             <div class="row mb-3">
                                 <div class="col-md-12 text-end">
-                                    <button type="submit" class="btn btn-success" style="width: 100px">POST</button>
+                                    {{-- <button type="submit" class="btn btn-success" style="width: 100px">POST</button> --}}
                                 </div>
                             </div>
 
