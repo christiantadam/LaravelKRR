@@ -349,7 +349,7 @@ function redisplayData(noTrans, requester, kd) {
                     .replace(/&gt;/g, ">")
                     .replace(/&quot;/g, '"');
                 sub_kategori.value = data.nama_sub_kategori;
-                qty_order.value = parseFloat(data.Qty);
+                qty_order.value = parseFloat(data.Qty).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 user_input.value = data.Nama;
                 keterangan_order.value = data.keterangan || "-";
                 keterangan_internal.value = data.Ket_Internal || "-";
