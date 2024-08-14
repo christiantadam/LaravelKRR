@@ -41,6 +41,21 @@ let url = window.location.href;
 let segments = url.split("/");
 let id = segments[segments.length - 1];
 
+setInputFilter(
+    document.getElementById("qty_delay"),
+    function (value) {
+        var numericValue = parseFloat(value);
+
+        return (
+            value === "" ||
+            !isNaN(numericValue) &&
+            numericValue > 0 &&
+            numericValue <= fixValueQTYOrder
+        );
+    },
+    "Tidak boleh ketik karakter dan angka di bawah 0, harus angka di atas 0 dan tidak boleh lebih dari angka awal."
+);
+
 tanggal_dibutuhkan.valueAsDate = new Date();
 formCekRedisplay.addEventListener("change", function (event) {
     redisplay.disabled = !radioButtonIsSelected();
@@ -349,7 +364,10 @@ function redisplayData(noTrans, requester, kd) {
                     .replace(/&gt;/g, ">")
                     .replace(/&quot;/g, '"');
                 sub_kategori.value = data.nama_sub_kategori;
-                qty_order.value = parseFloat(data.Qty).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                qty_order.value = parseFloat(data.Qty).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
                 user_input.value = data.Nama;
                 keterangan_order.value = data.keterangan || "-";
                 keterangan_internal.value = data.Ket_Internal || "-";
@@ -415,19 +433,13 @@ $(document).ready(function () {
 
     qty_delay.addEventListener("input", function (event) {
         let qtyDelay = parseFloat(fixValueQTYOrder - qty_delay.value);
+        console.log(qtyDelay);
 
-        setInputFilter(
-            document.getElementById("qty_delay"),
-            function (value) {
-                return (
-                    /^-?\d*[.,]?\d*$/.test(value) &&
-                    (value === "" || parseFloat(value) <= fixValueQTYOrder)
-                );
-            },
-            `Tidak boleh ketik character dan angka dibawah 0, harus angka diatas 0 dan tidak boleh lebih dari angka awal`
-        );
         if (qtyDelay <= fixValueQTYOrder && qtyDelay >= 0) {
-            qty_order.value = qtyDelay.toFixed(2);
+            qty_order.value = parseFloat(qtyDelay.toFixed(2)).toLocaleString(
+                "en-US",
+                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+            );
         }
         updateIdrUnit();
         updateSubTotal();
@@ -440,18 +452,11 @@ $(document).ready(function () {
 
     qty_order.addEventListener("input", function (event) {
         let qtyOrder = parseFloat(fixValueQTYOrder - qty_order.value);
-        setInputFilter(
-            document.getElementById("qty_order"),
-            function (value) {
-                return (
-                    /^-?\d*[.,]?\d*$/.test(value) &&
-                    (value === "" || parseFloat(value) <= fixValueQTYOrder)
-                );
-            },
-            `Tidak boleh ketik character dan angka dibawah 0, harus angka diatas 0 dan tidak boleh lebih dari angka awal`
-        );
         if (qtyOrder <= fixValueQTYOrder && qtyOrder >= 0) {
-            qty_delay.value = qtyOrder.toFixed(2);
+            qty_delay.value = parseFloat(qtyOrder.toFixed(2)).toLocaleString(
+                "en-US",
+                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+            );
         }
         updateIdrUnit();
         updateSubTotal();
@@ -513,14 +518,16 @@ $(document).ready(function () {
 
     qty_order.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
-            qty_order.value = parseFloat(qty_order.value).toFixed(2);
+            let numeralValue = numeral(qty_order.value).value();
+            this.value = numeral(numeralValue).format("0,0.00");
             qty_delay.focus();
             qty_delay.select();
         }
     });
     qty_delay.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            qty_delay.value = parseFloat(qty_delay.value).toFixed(2);
+        if (event.key == "Enter") {
+            let numeralValue = numeral(qty_delay.value).value();
+            this.value = numeral(numeralValue).format("0,0.00");
             supplier_select.focus();
         }
     });

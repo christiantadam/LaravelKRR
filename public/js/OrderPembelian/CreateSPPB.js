@@ -53,6 +53,21 @@ btn_remove.disabled = true;
 btn_reject.disabled = true;
 btn_post.disabled = true;
 
+setInputFilter(
+    document.getElementById("qty_delay"),
+    function (value) {
+        var numericValue = parseFloat(value);
+
+        return (
+            value === "" ||
+            (!isNaN(numericValue) &&
+                numericValue > 0 &&
+                numericValue <= fixValueQTYOrder)
+        );
+    },
+    "Tidak boleh ketik karakter dan angka di bawah 0, harus angka di atas 0 dan tidak boleh lebih dari angka awal."
+);
+
 alasan_reject.addEventListener("change", function () {
     btn_reject.focus();
 });
@@ -246,7 +261,9 @@ function LoadPermohonan(data) {
                 kode_barang.value = data.Kd_brg;
                 nama_barang.value = data.NAMA_BRG;
                 sub_kategori.value = data.nama_sub_kategori;
-                qty_order.value = numeral(parseFloat(data.Qty)).format("0,0.00");
+                qty_order.value = numeral(parseFloat(data.Qty)).format(
+                    "0,0.00"
+                );
                 keterangan_order.value = data.keterangan || "-";
                 keterangan_internal.value = data.Ket_Internal || "-";
                 qty_delay.value = parseFloat(data.QtyCancel).toFixed(4);
@@ -953,18 +970,11 @@ $(document).ready(function () {
     qty_delay.addEventListener("input", function (event) {
         let qtyDelay = parseFloat(fixValueQTYOrder - qty_delay.value);
 
-        setInputFilter(
-            document.getElementById("qty_delay"),
-            function (value) {
-                return (
-                    /^-?\d*[.,]?\d*$$/.test(value) &&
-                    (value === "" || parseFloat(value) <= fixValueQTYOrder)
-                );
-            },
-            `Tidak boleh ketik character dan angka dibawah 0, harus angka diatas 0 dan tidak boleh lebih dari angka awal`
-        );
         if (qtyDelay <= fixValueQTYOrder && qtyDelay >= 0) {
-            qty_order.value = qtyDelay.toFixed(2);
+            qty_order.value = parseFloat(qtyDelay.toFixed(2)).toLocaleString(
+                "en-US",
+                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+            );
         }
         updateIdrUnit();
         // updateSubTotal();
@@ -982,18 +992,11 @@ $(document).ready(function () {
 
     qty_order.addEventListener("input", function (event) {
         let qtyOrder = parseFloat(fixValueQTYOrder - qty_order.value);
-        setInputFilter(
-            document.getElementById("qty_order"),
-            function (value) {
-                return (
-                    /^-?\d*[.,]?\d*$/.test(value) &&
-                    (value === "" || parseFloat(value) <= fixValueQTYOrder)
-                );
-            },
-            `Tidak boleh ketik character dan angka dibawah 0, harus angka diatas 0 dan tidak boleh lebih dari angka awal`
-        );
         if (qtyOrder <= fixValueQTYOrder && qtyOrder >= 0) {
-            qty_delay.value = qtyOrder.toFixed(2);
+            qty_delay.value = parseFloat(qtyOrder.toFixed(2)).toLocaleString(
+                "en-US",
+                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+            );
         }
         updateIdrUnit();
         // updateSubTotal();
@@ -1099,14 +1102,17 @@ $(document).ready(function () {
 
     qty_order.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
-            qty_order.value = parseFloat(qty_order.value).toFixed(2);
+            // qty_order.value = parseFloat(qty_order.value).toFixed(2);
+            let numeralValue = numeral(qty_order.value).value();
+            this.value = numeral(numeralValue).format("0,0.00");
             qty_delay.focus();
             qty_delay.select();
         }
     });
     qty_delay.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
-            qty_delay.value = parseFloat(qty_delay.value).toFixed(2);
+            let numeralValue = numeral(qty_delay.value).value();
+            this.value = numeral(numeralValue).format("0,0.00");
             kurs.focus();
             kurs.select();
         }
