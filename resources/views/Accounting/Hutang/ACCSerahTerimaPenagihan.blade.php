@@ -6,38 +6,25 @@
         <div class="row justify-content-center">
             <div class="col-md-12 RDZMobilePaddingLR0">
                 <div class="card">
-                    <div class="card-header">ACC Serah Terima Penagihan</div>
+                    <div class="card-header">Maintenance ACC Serah Terima Penagihan</div>
                     <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                         <div class="form-container col-md-12">
                             <form method="POST" action="">
                                 @csrf
-                                <!-- Form fields go here -->
-
                                 <div class="card">
                                     <table class="table">
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>Tanggal</th>
-                                                <th>Id Penagihan</th>
+                                                <th>ID. Penagihan</th>
                                                 <th>Nama Supplier</th>
                                                 <th>Jenis Dok.</th>
                                                 <th>Sts. Pajak</th>
                                                 <th>Mata Uang</th>
                                                 <th>Nilai Penagihan</th>
-                                                <th>.......</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td><input type="checkbox" class="data-checkbox"> Data 1</td>
-                                                <td>Data 2</td>
-                                                <td>Data 3</td>
-                                                <td>Data 4</td>
-                                                <td>Data 5</td>
-                                                <td>Data 6</td>
-                                                <td>Data 7</td>
-                                                <td>Data 8</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

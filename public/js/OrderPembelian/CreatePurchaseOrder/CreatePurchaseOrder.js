@@ -419,7 +419,7 @@ function LoadPermohonan(proses, stbeli) {
                         item.Kd_brg.trim(),
                         item.NAMA_BRG.trim().replace(/</g, "&lt;"),
                         item.nama_sub_kategori.trim(),
-                        numeral(parseFloat(item.Qty.trim())).format("0.00"),
+                        numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
                             "0,0.0000"
@@ -512,7 +512,7 @@ function LoadPermohonan(proses, stbeli) {
                         item.Kd_brg.trim(),
                         item.NAMA_BRG.trim().replace(/</g, "&lt;"),
                         item.nama_sub_kategori.trim(),
-                        numeral(parseFloat(item.Qty.trim())).format("0.00"),
+                        numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
                             "0,0.0000"
@@ -605,7 +605,7 @@ function LoadPermohonan(proses, stbeli) {
                         item.Kd_brg.trim(),
                         item.NAMA_BRG.trim().replace(/</g, "&lt;"),
                         item.nama_sub_kategori.trim(),
-                        numeral(parseFloat(item.Qty.trim())).format("0.00"),
+                        numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
                             "0,0.0000"
@@ -708,7 +708,7 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         item.Kd_brg.trim(),
                         item.NAMA_BRG.trim().replace(/</g, "&lt;"),
                         item.nama_sub_kategori.trim(),
-                        numeral(parseFloat(item.Qty.trim())).format("0.00"),
+                        numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
                             "0,0.0000"
@@ -804,7 +804,7 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         item.Kd_brg.trim(),
                         item.NAMA_BRG.trim().replace(/</g, "&lt;"),
                         item.nama_sub_kategori.trim(),
-                        numeral(parseFloat(item.Qty.trim())).format("0.00"),
+                        numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
                             "0,0.0000"
@@ -900,7 +900,7 @@ function LoadPermohonanNyantol(proses, stbeli) {
                         item.Kd_brg.trim(),
                         item.NAMA_BRG.trim().replace(/</g, "&lt;"),
                         item.nama_sub_kategori.trim(),
-                        numeral(parseFloat(item.Qty.trim())).format("0.00"),
+                        numeral(parseFloat(item.Qty.trim())).format("0,0.00"),
                         item.Nama_satuan.trim(),
                         numeral(parseFloat(item.PriceUnit.trim())).format(
                             "0,0.0000"
