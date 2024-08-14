@@ -160,7 +160,12 @@ function inisialisasiDataTable(response) {
             { data: "Kd_brg" },
             { data: "NAMA_BRG" },
             { data: "nama_sub_kategori" },
-            { data: "Qty" },
+            {
+                data: "Qty",
+                render: function (data, type, row) {
+                    return numeral(data).format("0,0.00");
+                }
+            },
             { data: "Nama_satuan" },
             { data: "Nama" },
             { data: "NM_DIV" },

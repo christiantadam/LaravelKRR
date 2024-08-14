@@ -49,5 +49,5 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('js/Accounting/Hutang/MaintenancePenagihan.js') }}"></script>
+<script src="{{ asset('js/Accounting/Hutang/ACCSerahTerima.js') }}"></script>
 @endsection

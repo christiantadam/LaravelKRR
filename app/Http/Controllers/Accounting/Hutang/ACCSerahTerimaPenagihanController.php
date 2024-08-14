@@ -33,9 +33,20 @@ class ACCSerahTerimaPenagihanController extends Controller
     }
 
     //Display the specified resource.
-    public function show(cr $cr)
+    public function show(Request $request, $id)
     {
-        //
+        if ($id == 'getSupplier') {
+            $supplierDetails = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_LIST_SUPPLIER');
+            $response = [];
+            foreach ($supplierDetails as $row) {
+                $response[] = [
+                    'NM_SUP' => trim($row->NM_SUP),
+                    'NO_SUP' => trim($row->NO_SUP),
+                ];
+            }
+            return datatables($response)->make(true);
+        }
     }
 
     // Show the form for editing the specified resource.
