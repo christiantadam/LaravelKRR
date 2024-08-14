@@ -11,7 +11,6 @@
                         <div class="form-container col-md-12">
                             <form method="POST" action="">
                                 @csrf
-                                <div class="card">
                                     <table class="table">
                                         <thead class="table-dark">
                                             <tr>
@@ -27,7 +26,6 @@
                                         <tbody>
                                         </tbody>
                                     </table>
-                                </div>
                                 <p>
                                 <div class="mb-3">
                                 <div class="form-check form-check-inline">

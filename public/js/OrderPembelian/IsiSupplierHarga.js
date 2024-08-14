@@ -281,7 +281,7 @@ function redisplayData(noTrans, requester, kd) {
             {
                 data: "Qty",
                 render: function (data) {
-                    return parseFloat(data).toFixed(2); // Ensure two decimal places
+                    return numeral(parseFloat(data)).format("0,0.00"); // Format with thousand separators and two decimal places
                 },
             },
             { data: "Nama_satuan" },
