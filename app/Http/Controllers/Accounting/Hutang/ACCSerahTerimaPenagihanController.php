@@ -35,14 +35,22 @@ class ACCSerahTerimaPenagihanController extends Controller
     //Display the specified resource.
     public function show(Request $request, $id)
     {
-        if ($id == 'getSupplier') {
-            $supplierDetails = DB::connection('ConnAccounting')
-                ->select('exec SP_1273_ACC_LIST_SUPPLIER');
+        if ($id == 'getSerahTerima') {
+            $data = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_LIST_TT_SERAHTRM');
+            // dd($data);
             $response = [];
-            foreach ($supplierDetails as $row) {
+            foreach ($data as $row) {
+                $statusPpn = $row->Status_PPN == 'N' ? 'Tidak Ada' : 'Ada Pajak';
                 $response[] = [
+                    'Waktu_Penagihan' => \Carbon\Carbon::parse($row->Waktu_Penagihan)->format('m/d/Y'),
+                    'Id_Penagihan' => trim($row->Id_Penagihan),
                     'NM_SUP' => trim($row->NM_SUP),
-                    'NO_SUP' => trim($row->NO_SUP),
+                    'Nama_Dokumen' => trim($row->Nama_Dokumen),
+                    'Status_PPN' => $statusPpn,
+                    'Nama_MataUang' => trim($row->Nama_MataUang),
+                    'Nilai_Penagihan' => number_format($row->Nilai_Penagihan, 4, '.', ','),
+                    'Id_MataUang' => $row->Id_MataUang,
                 ];
             }
             return datatables($response)->make(true);

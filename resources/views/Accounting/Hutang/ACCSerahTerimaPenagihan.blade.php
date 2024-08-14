@@ -11,7 +11,7 @@
                     <div class="form-container col-md-12">
                         <form method="POST" action="">
                             @csrf
-                            <table class="table">
+                            <table class="table" id="table_terima">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Tanggal</th>
@@ -21,6 +21,7 @@
                                         <th>Sts. Pajak</th>
                                         <th>Mata Uang</th>
                                         <th>Nilai Penagihan</th>
+                                        <th>ID. MataUang</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -33,8 +34,7 @@
                                     <label class="form-check-label" for="checkbox2">Pilih Semua</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="checkbox2" value="option2">
-                                    <label class="form-check-label" for="checkbox2">BATAL Serah Terima</label>
+                                    <button type="button" class="btn btn-primary" id="btn_batal">Batal Serah Terima</button>
                                 </div>
                                 <div style="text-align: right;">
                                     <input type="submit" id="btn_proses" name="proses" value="Proses" class="btn btn-success" style="width: 150px">
