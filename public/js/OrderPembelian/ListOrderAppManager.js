@@ -256,7 +256,7 @@ btnPrint.addEventListener("click", function () {
         row.querySelectorAll("td").forEach(function (cell, index) {
             if (index > 0 && index != 3) {
                 let cellText = cell.textContent.trim();
-                cellText = cellText.replace(/,/g, ".");
+                // cellText = cellText.replace(/,/g, ".");
                 rowData.push(cellText);
             }
         });
