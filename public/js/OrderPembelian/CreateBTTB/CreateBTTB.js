@@ -233,9 +233,13 @@ function updateData() {
     if (selectedRow.length > 0) {
         let noOrder = no_po.value;
         let datas = data.filter((obj) => obj.No_trans === noOrder);
-        datas[0].Qty = qty_ordered.value;
-        datas[0].QtyShipped = parseFloat(qty_ship.value).toFixed(2) || 0;
-        datas[0].QtyRemain = parseFloat(qty_remaining.value).toFixed(2) || 0;
+        datas[0].Qty = numeral(numeral(qty_ordered.value).value()).format(
+            "0,0.00"
+        );
+        datas[0].QtyShipped =
+            numeral(numeral(qty_ship.value).value()).format("0,0.00") || 0;
+        datas[0].QtyRemain =
+            numeral(numeral(qty_remaining.value).value()).format("0,0.00") || 0;
         datas[0].PriceUnit = harga_unit.value.replace(/,/g, "") || 0;
         datas[0].PriceSub = harga_sub_total.value.replace(/,/g, "") || 0;
         datas[0].PPN = ppn.value.replace(/,/g, "") || 0;
@@ -247,7 +251,8 @@ function updateData() {
         datas[0].disc = disc.value.replace(/,/g, "") || 0;
         datas[0].Harga_disc = total_disc.value.replace(/,/g, "") || 0;
         datas[0].DiscIDR = idr_total_disc.value.replace(/,/g, "") || 0;
-        datas[0].QtyRcv = parseFloat(qty_received.value).toFixed(2) || 0;
+        datas[0].QtyRcv =
+            numeral(numeral(qty_received.value).value()).format("0,0.00") || 0;
         datas[0].Kurs = parseFloat(kurs.value).toFixed(4) || 0;
 
         responseData(data);
@@ -268,10 +273,10 @@ function responseData(datas) {
                 data.Kd_brg,
                 data.NAMA_BRG.replace(/</g, "&lt;"),
                 data.nama_sub_kategori,
-                numeral(parseFloat(data.Qty)).format("0.00") || 0,
+                numeral(numeral(data.Qty).value()).format("0,0.00") || 0,
                 data.Nama_satuan,
-                numeral(parseFloat(data.QtyShipped)).format("0.00") || 0,
-                numeral(parseFloat(data.QtyRemain)).format("0.00") || 0,
+                numeral(numeral(data.QtyShipped).value()).format("0,0.00") || 0,
+                numeral(numeral(data.QtyRemain).value()).format("0,0.00") || 0,
                 numeral(parseFloat(data.PriceUnit)).format("0,0.0000") || 0,
                 numeral(parseFloat(data.PriceSub)).format("0,0.0000") || 0,
                 numeral(parseFloat(data.PPN)).format("0,0.0000") || 0,
@@ -286,7 +291,7 @@ function responseData(datas) {
                 numeral(parseFloat(data.disc)).format("0.00") || 0,
                 numeral(parseFloat(data.Harga_disc)).format("0,0.0000") || 0,
                 numeral(parseFloat(data.DiscIDR)).format("0,0.0000") || 0,
-                numeral(parseFloat(data.QtyRcv)).format("0.00") || 0,
+                numeral(numeral(data.QtyRcv).value()).format("0,0.00") || 0,
             ])
             .draw();
     });
@@ -417,10 +422,10 @@ function post(bttb) {
 
         dataToSend.push({
             tglDatang: tglbttb.value,
-            Qty: data[i].Qty,
-            qtyShip: data[i].QtyShipped || 0,
-            qtyRcv: data[i].QtyRcv || 0,
-            qtyremain: data[i].QtyRemain || 0,
+            Qty: numeral(data[i].Qty).value(),
+            qtyShip: numeral(data[i].QtyShipped).value() || 0,
+            qtyRcv: numeral(data[i].QtyRcv).value() || 0,
+            qtyremain: numeral(data[i].QtyRemain).value() || 0,
             NoSatuan: data[i].NoSatuan,
             SJ: nosj.value.trim(),
             idSup: supplier.value,
@@ -778,7 +783,7 @@ async function print(data) {
 //#region Add Event Listener
 
 post_btn.addEventListener("click", function (event) {
-    this.disabled =  true;
+    this.disabled = true;
     if (data.length != 0) {
         $.ajax({
             url: "/CCreateBTTB/CreateNoBTTB",
@@ -854,11 +859,12 @@ $("#tabelcreate").on("dblclick", "tr", function () {
     kode_barang.value = rowData[1];
     nama_barang.value = rowData[2].replace(/&lt;/g, "<").replace(/&gt;/g, ">");
     sub_kategori.value = rowData[3];
-    qty_ordered.value = parseFloat(rowData[4]).toFixed(2);
+    qty_ordered.value = numeral(numeral(rowData[4]).value()).format("0,0.00");
 
     ordered_satuan.value = rowData[5];
-    qty_ship.value = parseFloat(rowData[6]).toFixed(2) || 0;
-    qty_remaining.value = parseFloat(rowData[7]).toFixed(2) || 0;
+    qty_ship.value = numeral(numeral(rowData[6]).value()).format("0,0.00") || 0;
+    qty_remaining.value =
+        numeral(numeral(rowData[7]).value()).format("0,0.00") || 0;
     harga_unit.value = numeral(numeral(rowData[8]).value()).format("0,0.0000");
     harga_sub_total.value = numeral(numeral(rowData[9]).value()).format(
         "0,0.0000"
@@ -882,11 +888,11 @@ $("#tabelcreate").on("dblclick", "tr", function () {
     idr_total_disc.value = numeral(numeral(rowData[20]).value()).format(
         "0,0.0000"
     );
-    qty_received.value = parseFloat(rowData[21]).toFixed(2);
-    fixValueQTYOrder = parseFloat(rowData[4]);
-    fixValueQTYReceived = parseFloat(rowData[21]);
-    fixValueQTYRemain = parseFloat(rowData[7]) || 0;
-    fixValueQTYShip = parseFloat(rowData[6]) || 0;
+    qty_received.value = numeral(numeral(rowData[21]).value()).format("0,0.00");
+    fixValueQTYOrder = numeral(rowData[4]).value();
+    fixValueQTYReceived = numeral(rowData[21]).value();
+    fixValueQTYRemain = numeral(rowData[7]).value() || 0;
+    fixValueQTYShip = numeral(rowData[6]).value() || 0;
     // console.log(fixValueQTYShip);
     let noOrder = rowData[0];
     let objekDitemukan = data.filter((obj) => obj.No_trans === noOrder);
@@ -966,16 +972,15 @@ $(document).ready(function () {
             );
 
             if (sisa <= maxLimit && sisa >= 0) {
-                qtyRemainingElement.value = sisa.toFixed(2);
-                qtyShipElement.value = (
-                    fixValueQTYShip +
-                    (qtyReceivedValue - fixValueQTYReceived)
-                ).toFixed(2);
+                qtyRemainingElement.value = numeral(sisa).format("0,0.00");
+                qtyShipElement.value = numeral(
+                    fixValueQTYShip + (qtyReceivedValue - fixValueQTYReceived)
+                ).format("0,0.00");
             } else if (sisa < 0) {
-                qtyRemainingElement.value = "0.00";
-                qtyShipElement.value = (
+                qtyRemainingElement.value = numeral(0).format("0,0.00"); // Format 0.00
+                qtyShipElement.value = numeral(
                     qtyReceivedValue - fixValueQTYReceived
-                ).toFixed(2);
+                ).format("0,0.00");
             }
 
             // Update oldValue
@@ -1092,7 +1097,9 @@ $(document).ready(function () {
 
     qty_received.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
-            qty_received.value = parseFloat(qty_received.value).toFixed(2);
+            qty_received.value = numeral(
+                numeral(qty_received.value).value()
+            ).format("0,0.00");
             kurs.focus();
             kurs.select();
         }

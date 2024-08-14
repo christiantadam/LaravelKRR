@@ -171,8 +171,8 @@ btn_approve.addEventListener("click", function (event) {
             "X-CSRF-TOKEN": csrfToken,
         },
         data: {
-            Qty: qty_order.value,
-            QtyDelay: qty_delay.value,
+            Qty: numeral(qty_order.value).value(),
+            QtyDelay: numeral(qty_delay.value).value(),
             idsup: supplier_select.value,
             kurs: kurs.value,
             pUnit: numeral(harga_unit.value).value(),

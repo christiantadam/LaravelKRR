@@ -195,9 +195,9 @@ btn_transfer.addEventListener("click", function (event) {
         },
         data: {
             IdType: idType.value.trim(),
-            MasukPrimer: qty_premier.value,
-            MasukSekunder: qty_sekunder.value,
-            MasukTritier: qty_tertier.value,
+            MasukPrimer: numeral(qty_premier.value).value(),
+            MasukSekunder: numeral(qty_sekunder.value).value(),
+            MasukTritier: numeral(qty_tertier.value).value(),
             SubKel: ket_subKelompok.value,
             NoTerima: no_terima.value,
             ket: keterangan.value,
@@ -377,7 +377,7 @@ $(document).ready(function () {
                     /&gt;/g,
                     ">"
                 );
-                qty_terima.value = parseFloat(data.Qty_Terima);
+                qty_terima.value = numeral(numeral(data.Qty_Terima).value()).format("0,0.00");
                 ket_qtyTerima.value = data.Nama_satuan;
                 no_pib.value = data.NoPIBExt;
                 divisi(data.Kd_brg.trim());
@@ -387,6 +387,30 @@ $(document).ready(function () {
                 }
             });
         },
+    });
+
+    qty_tertier.addEventListener("keypress", function (event) {
+        if (event.key == "Enter") {
+            let numeralValue = numeral(qty_tertier.value).value();
+            this.value = numeral(numeralValue).format("0,0.00");
+            supplier_select.focus();
+        }
+    });
+
+    qty_sekunder.addEventListener("keypress", function (event) {
+        if (event.key == "Enter") {
+            let numeralValue = numeral(qty_sekunder.value).value();
+            this.value = numeral(numeralValue).format("0,0.00");
+            supplier_select.focus();
+        }
+    });
+
+    qty_premier.addEventListener("keypress", function (event) {
+        if (event.key == "Enter") {
+            let numeralValue = numeral(qty_premier.value).value();
+            this.value = numeral(numeralValue).format("0,0.00");
+            supplier_select.focus();
+        }
     });
 
     table.on("dblclick", "tbody tr", (e) => {
