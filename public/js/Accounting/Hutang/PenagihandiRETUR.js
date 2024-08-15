@@ -130,6 +130,17 @@ document.addEventListener("DOMContentLoaded", function () {
         initializeDataTable(urlSebagian);
     }
 
+    btn_sebagian.addEventListener("click", function (event) {
+        event.preventDefault();
+        isSebagian = !isSebagian;
+
+        let newUrl = isSebagian ? urlSebagian : urlDefault;
+        initializeDataTable(newUrl);
+        btn_sebagian.textContent = isSebagian
+            ? "Tampilkan Retur Semua"
+            : "Tampilkan Retur Sebagian";
+    });
+
     $("#tableatas tbody").off("change", 'input[name="penerimaCheckbox"]');
 
     $("#tableatas tbody").on(
@@ -186,14 +197,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
-    btn_sebagian.addEventListener("click", function (event) {
-        event.preventDefault();
-        isSebagian = !isSebagian;
-
-        let newUrl = isSebagian ? urlSebagian : urlDefault;
-        initializeDataTable(newUrl);
-        btn_sebagian.textContent = isSebagian
-            ? "Tampilkan Retur Semua"
-            : "Tampilkan Retur Sebagian";
-    });
 });

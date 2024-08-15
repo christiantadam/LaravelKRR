@@ -37,7 +37,8 @@
                                     <button type="button" class="btn btn-primary" id="btn_batal">Batal Serah Terima</button>
                                 </div>
                                 <div style="text-align: right;">
-                                    <input type="submit" id="btn_proses" name="proses" value="Proses" class="btn btn-success" style="width: 150px">
+                                    <button type="button" class="btn btn-success" id="btn_proses">Proses</button>
+                                    {{-- <input id="btn_proses" name="proses" value="Proses" class="btn btn-success" style="width: 150px"> --}}
                                     {{-- <input type="submit" name="keluar" value="Keluar" class="btn btn-primary"> --}}
                                 </div>
                             </div>
