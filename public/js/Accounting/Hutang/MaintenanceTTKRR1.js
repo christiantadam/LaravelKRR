@@ -1,68 +1,209 @@
-let namaSupplierSelect = document.getElementById('namaSupplierSelect');
-let idSupplier = document.getElementById('idSupplier');
-let tabelListDetailBrg = $("#tabelListDetailBrg").DataTable();
+$(document).ready(function () {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let btn_supplier = document.getElementById("btn_supplier");
+    let btn_proses = document.getElementById("btn_proses");
+    let id_supp = document.getElementById("id_supp");
+    let nama_supp = document.getElementById("nama_supp");
+    let id_penagihan = document.getElementById("id_penagihan");
+    let mata_uang = document.getElementById("mata_uang");
+    let id_inv = document.getElementById("id_inv");
+    let nofaktur_pajak = document.getElementById("nofaktur_pajak");
+    let nilai_pajak = document.getElementById("nilai_pajak");
+    let pajak = document.getElementById("pajak");
+    let nilai_penagihan = document.getElementById("nilai_penagihan");
+    let table_atas = $("#table_atas").DataTable();
+    let table_bawah = $("#table_bawah").DataTable();
+    let terbilang;
 
-let btnProses = document.getElementById('btnProses');
+    nilai_penagihan.style.fontWeight = "bold";
+    mata_uang.value = "RUPIAH";
 
-fetch("/getSupplierTTKRR1/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        namaSupplierSelect.innerHTML = "";
+    btn_supplier.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Supplier",
+                html: '<table id="supplierTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#supplierTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#supplierTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "MaintenanceTTKRR1/getSupplier",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [{ data: "NM_SUP" }, { data: "NO_SUP" }],
+                        });
+                        $("#supplierTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                table.$("tr.selected").removeClass("selected");
+                                $(this).addClass("selected");
+                            }
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    nama_supp.value = escapeHTML(selectedRow.NM_SUP.trim());
+                    id_supp.value = escapeHTML(selectedRow.NO_SUP.trim());
 
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Supplier";
-        namaSupplierSelect.appendChild(defaultOption);
+                    if ($.fn.DataTable.isDataTable("#table_atas")) {
+                        $("#table_atas").DataTable().clear().destroy();
+                    }
 
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.NoKodePerkiraan;
-            option.innerText = entry.NM_SUP + "|" + entry.NO_SUP;
-            namaSupplierSelect.appendChild(option);
+                    table_atas = $("#table_atas").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        returnFocus: true,
+                        ajax: {
+                            url: "MaintenanceTTKRR1/getPO",
+                            dataType: "json",
+                            type: "GET",
+                            data: function (d) {
+                                return $.extend({}, d, {
+                                    _token: csrfToken,
+                                    id_supp: id_supp.value,
+                                });
+                            },
+                        },
+                        columns: [
+                            {
+                                data: "Kd_div",
+                                render: function (data) {
+                                    return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                                },
+                            },
+                            { data: "NO_PO" },
+                            { data: "No_BTTB" },
+                            { data: "Harga_terbayar" },
+                            { data: "Kd_brg" },
+                            { data: "NAMA_BRG" },
+                            { data: "Qty_Terima" },
+                            { data: "SatTerima" },
+                            { data: "No_terima" },
+                            { data: "Hrg_trm" },
+                            { data: "Kurs_Rp" },
+                            { data: "Disc_trm" },
+                            { data: "Ppn_trm" },
+                            { data: "Harga_disc" },
+                            { data: "Harga_Ppn" },
+                            { data: "Sat_Terima" },
+                            { data: "hrg_murni" },
+                        ],
+                    });
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    let rowDataArray = [];
+    let totalHargaTerbayar = 0;
+
+    $("#table_atas tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#table_atas tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            let rowData = table_atas.row($(this).closest("tr")).data();
+            let hargaTerbayar = parseFloat(
+                rowData.Harga_terbayar.replace(/,/g, "")
+            );
+
+            if (this.checked) {
+                rowDataArray.push(rowData);
+                totalHargaTerbayar += hargaTerbayar;
+            } else {
+                const index = rowDataArray.findIndex(
+                    (row) => row.Kd_div === rowData.Kd_div
+                );
+                if (index > -1) {
+                    rowDataArray.splice(index, 1);
+                    totalHargaTerbayar -= hargaTerbayar;
+                }
+            }
+
+            nilai_penagihan.value = totalHargaTerbayar.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+
+        }
+    );
+
+    btn_proses.addEventListener("click", async function (event) {
+        event.preventDefault();
+        if (mata_uang.value == "RUPIAH") {
+            terbilang = convertNumberToWordsRupiah(totalHargaTerbayar);
+        } else {
+            terbilang = convertNumberToWordsDollar(totalHargaTerbayar);
+        }
+        console.log(terbilang);
+        $.ajax({
+            url: "MaintenanceTTKRR1",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                rowDataArray: rowDataArray,
+                terbilang: terbilang,
+                id_penagihan: id_penagihan.value,
+                id_supp: id_supp.value,
+                id_inv: id_inv.value,
+                mata_uang: mata_uang.value,
+                nilai_penagihan: nilai_penagihan.value,
+                nofaktur_pajak: nofaktur_pajak.value,
+                nilai_pajak: nilai_pajak.value,
+                pajak: pajak.value,
+            },
+            success: function (response) {
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
         });
+    });
 });
-namaSupplierSelect.addEventListener("change", function (event) {
-    event.preventDefault();
-    // console.log(idBank.value);
-    const selectedOption = namaSupplierSelect.options[namaSupplierSelect.selectedIndex];
-    if (selectedOption) {
-
-        const selectedValue = selectedOption.textContent; // Nilai dari opsi yang dipilih (format: "id | nama")
-        const idJenis = selectedValue.split("|")[1];
-        idSupplier.value = idJenis;
-    }
-
-    fetch("/getTabelListDetailBrg/" + idSupplier.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        tabelListDetailBrg = $("#tabelListDetailBrg").DataTable({
-            destroy: true,
-            data: options,
-            columns: [
-                { title: "Divisi", data: "Kd_div" },
-                { title: "PO", data: "NO_PO" },
-                { title: "No. BTTB", data: "No_BTTB" },
-                { title: "Nilai Tagih", data: "Harga_terbayar" },
-                { title: "Kd. Barang", data: "Kd_brg" },
-                { title: "Nama Barang", data: "NAMA_BRG" },
-                { title: "Qty", data: "Qty_Terima" },
-                { title: "Satuan", data: "SatTerima" },
-                { title: "No. Terima", data: "No_terima" },
-                { title: "Hrg. Satuan", data: "Hrg_trm" },
-                { title: "Kurs", data: "Kurs_Rp" },
-                { title: "Disc", data: "Disc_trm" },
-                { title: "PPN", data: "Ppn_trm" },
-                { title: "Hrg. Disc", data: "Harga_disc" },
-                { title: "Hrg. PPN", data: "Harga_Ppn" },
-                { title: "Sat. Terima", data: "Sat_Terima" },
-                { title: "Hrg. Murni", data: "Harga_murni" }
-            ]
-        });
-    })
-    btnProses.disabled = false;
-});
-
-

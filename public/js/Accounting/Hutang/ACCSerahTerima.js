@@ -127,15 +127,23 @@ $(document).ready(function () {
             type: "POST",
             data: formData,
             success: function (response) {
-                Swal.fire({
-                    title: "Success!",
-                    text: response.message,
-                    icon: "success",
-                    confirmButtonText: "OK",
-                }).then(() => {
-                    // Reload the DataTable
-                    $("#table_terima").DataTable().ajax.reload();
-                });
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        $("#table_terima").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
             },
             error: function (xhr) {
                 alert(xhr.responseJSON.message);

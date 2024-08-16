@@ -32,7 +32,7 @@ class ACCSerahTerimaPenagihanController extends Controller
         $adaProses = false;
         $jmlData = count($data);
         $ada = $jmlData > 0;
-
+        // dd($ada);
         if ($ada) {
             $adaProses = true;
         }
@@ -43,28 +43,25 @@ class ACCSerahTerimaPenagihanController extends Controller
                     if (!empty($item['Id_Penagihan'])) {
                         if (empty($item['Nilai_Penagihan'])) {
                             return response()->json([
-                                'message' => "Tolong diproses cetak dulu !!.. Untuk TT No=" . trim($item['Id_Penagihan']) . ". Krn Nilai Penagihan masih kosong!",
-                                'status' => 'error'
-                            ], 400);
+                                'message' => "Tolong diproses cetak dulu !!.. Untuk TT No=" . trim($item['Id_Penagihan']) . ". Krn Nilai Penagihan masih kosong!"
+                            ]);
                         } else {
                             $result = DB::connection('ConnAccounting')
                                 ->select('exec SP_1273_ACC_CHECK_TT_TERIMAGDG ?', [$item['Id_Penagihan']]);
-
-                            if ($result[0]->ada > 0) {
+                            // dd($result);
+                            if ($result[0]->Ada > 0) {
                                 $result = DB::connection('ConnAccounting')
                                     ->select('exec SP_1273_ACC_LIST_TT_MASUKGDG ?', [$item['Id_Penagihan']]);
-
+                                // dd($result);
                                 $tmpTrans = $result[0]->NoTransaksiTmp ?? '0';
                                 if ($tmpTrans == '0') {
                                     return response()->json([
-                                        'message' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITRANSFER PBL & DITERIMA GUDANG'', Kategori: " . trim($result[0]->Nama),
-                                        'status' => 'error'
-                                    ], 400);
+                                        'message' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITRANSFER PBL & DITERIMA GUDANG'', Kategori: " . trim($result[0]->Nama)
+                                    ]);
                                 } else {
                                     return response()->json([
-                                        'message' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITERIMA GUDANG'', Kategori: " . trim($result[0]->Nama) . ", IdTrans: " . trim($tmpTrans),
-                                        'status' => 'error'
-                                    ], 400);
+                                        'message' => "NmBrg: " . trim($result[0]->NAMA_BRG) . " ''BELUM DITERIMA GUDANG'', Kategori: " . trim($result[0]->Nama) . ", IdTrans: " . trim($tmpTrans)
+                                    ]);
                                 }
                             } else {
                                 DB::connection('ConnAccounting')
@@ -74,8 +71,8 @@ class ACCSerahTerimaPenagihanController extends Controller
                                     ->statement('exec SP_1273_ACC_INS_TT_IDBAYAR ?, ?, ?, ?', [
                                         trim($item['Id_Penagihan']),
                                         trim($item['Id_MataUang']),
+                                        $item['Nilai_Penagihan'],
                                         trim(Auth::user()->NomorUser),
-                                        $item['Nilai_Penagihan']
                                     ]);
                             }
                         }

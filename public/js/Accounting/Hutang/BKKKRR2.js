@@ -43,12 +43,6 @@ $(document).ready(function () {
     let kdPerkiraan2 = document.getElementById("kdPerkiraan2");
     let bg_b = document.getElementById("bg_b");
     let terbilang = document.getElementById("terbilang");
-    // let name_p = document.getElementById("name_p");
-    // let tanggal_p = document.getElementById("tanggal_p");
-    // let voucher_p = document.getElementById("voucher_p");
-    // let description_p = document.getElementById("description_p");
-    // let paid_p = document.getElementById("paid_p");
-    // let posted_p = document.getElementById("posted_p");
     let id_matauang = document.getElementById("id_matauang");
     let id_detailkanan = document.getElementById("id_detailkanan");
     let id_detailkiri = document.getElementById("id_detailkiri");
