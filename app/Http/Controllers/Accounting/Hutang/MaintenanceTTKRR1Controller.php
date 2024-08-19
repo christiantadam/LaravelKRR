@@ -54,55 +54,71 @@ class MaintenanceTTKRR1Controller extends Controller
         // dd($request->all());
         $simpan = false;
 
-        // Check if TIDPenagihan is empty
         if (empty($TIDPenagihan)) {
-            // Execute the stored procedure to insert and get the ID
-            $result = DB::connection('ConnAccounting')
-                ->statement('exec SP_1273_ACC_INS_BKK1_IDTT @IdSupplier = ?, @invSup = ?, @IdMataUang = ?, @UserId = ?', [
-                    $TIDSupplier,
-                    $txtInvSup,
-                    $TIdUang,
-                    $user_id
-                ]);
-            dd($result);
-            $TIDPenagihan = $result[0]->IDtt;
-            $simpan = true;
-        }
-        // Loop through ListPO items
-        foreach ($ListPO as $item) {
-            // Insert details into another table
+            $year = date('Y');
+
+            $mValue = DB::connection('ConnAccounting')
+                ->table('T_COUNTER_INVOICE')
+                ->where('Periode', $year)
+                ->value('NoTT');
+
+            $idTT = 'TT-' . substr($year, -2) . str_pad($mValue, 6, '0', STR_PAD_LEFT);
+
             DB::connection('ConnAccounting')
-                ->select('exec SP_1273_ACC_INS_BKK1_SPPB ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [
+                ->table('T_COUNTER_INVOICE')
+                ->where('Periode', $year)
+                ->update(['NoTT' => $mValue + 1]);
+
+            DB::connection('ConnAccounting')
+                ->table('T_Penagihan')
+                ->insert([
+                    'Id_Penagihan' => $idTT,
+                    'Waktu_Penagihan' => now()->format('m/d/Y'),
+                    'Id_Supplier' => $TIDSupplier,
+                    'Id_Jenis_Dokumen' => 2,
+                    'Jumlah_Dokumen' => 1,
+                    'Status_PPN' => 'N',
+                    'Id_MataUang' => $TIdUang,
+                    'UserId' => $user_id,
+                    'Lunas' => 'N',
+                    'Id_Inv_Supp' => $txtInvSup
+                ]);
+
+            $TIDPenagihan = $idTT;
+            $simpan = true;
+            // dd($TIDPenagihan);
+        }
+
+        foreach ($ListPO as $item) {
+            DB::connection('ConnAccounting')
+                ->statement('exec SP_1273_ACC_INS_BKK1_SPPB @IdPenagihan=?, @IdDivisi=?, @NoSppb=?, @NoBTTB=?, @NoTerima=?, @HrgSat=?, @Disc=?, @PPN=?, @Kurs=?, @HrgDisc=?, @HrgPpn=?, @QtyTagih=?, @SatTagih=?', [
                     $TIDPenagihan,
                     $item['Kd_div'],
                     $item['NO_PO'],
                     $item['No_BTTB'],
                     $item['No_terima'],
-                    $item['Hrg_trm'],
-                    $item['Disc_trm'],
-                    $item['Ppn_trm'],
-                    $item['Kurs_Rp'],
-                    $item['Harga_disc'],
-                    $item['Harga_Ppn'],
-                    $item['Qty_Terima'],
+                    (float) $item['Hrg_trm'],
+                    (float) $item['Disc_trm'],
+                    (float) $item['Ppn_trm'],
+                    (float) $item['Kurs_Rp'],
+                    (float) $item['Harga_disc'],
+                    (float) $item['Harga_Ppn'],
+                    (float) $item['Qty_Terima'],
                     $item['Sat_Terima']
                 ]);
         }
 
-        // Check if data was saved
         if (!$simpan) {
             return response()->json(['message' => 'TIDAK ADA Data yang diPROSES !!..']);
         } else {
-            // Update the main record with the total amount
             DB::connection('ConnAccounting')
                 ->select('exec SP_1273_ACC_UDT_BKK1_NILAI_TT ?, ?', [
                     $TIDPenagihan,
                     (float) $TNilaiTagih
                 ]);
 
-            // Save tax invoice
-            DB::connection('ConnAccounting')
-                ->select('exec SP_1273_ACC_INS_BKK1_PAJAK ?, ?, ?, ?, ?', [
+            $tes = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_INS_BKK1_PAJAK @IdPenagihan=?, @NoFaktur=?, @NilaiFaktur=?, @NilaiPajak=?, @Kode=?', [
                     $TIDPenagihan,
                     $TNoFaktur,
                     $TNilaiFaktur,

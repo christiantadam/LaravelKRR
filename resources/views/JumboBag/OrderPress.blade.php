@@ -94,7 +94,22 @@
                             <div class="form-group">
                                 <label for="halaman">Halaman</label>
                                 <input type="text" class="form-control" id="halaman" name="halaman" required>
-                                <input type="text" class="form-control" id="iner" name="iner" required style="display: none">
+                                <input type="text" class="form-control" id="iner" name="iner" required
+                                    style="display: none">
+                            </div>
+                            <div class="form-group">
+                                <label for="imageUpload">Upload Foto</label>
+                                <input type="file" class="form-control-file" id="imageUpload" name="image"
+                                    accept="image/*">
+                            </div>
+                            <div class="form-group" id="imagePreviewContainer" style="display: none;">
+                                <label>Preview Foto</label>
+                                <div id="imagePreview" style="border: 1px solid #ddd; padding: 10px; max-width: 200px;">
+                                    <img id="previewImg" src="#" alt="Preview Image"
+                                        style="width: 100%; display: none;">
+                                </div>
+                                <br>
+                                <button type="button" class="btn btn-secondary" id="clearImage" style="width:100px">Clear</button>
                             </div>
                             {{-- <button type="submit" class="btn btn-primary">View Print</button> --}}
                             <button id="btn_print" class="btn btn-success" style="width:100px">Print</button>
@@ -220,58 +235,47 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;KODE</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;KODE</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 30%" id="kode_tabel">&nbsp;-&nbsp;</td>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;TYPE</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;TYPE</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 50%" id="type_tabel">&nbsp;-&nbsp;</td>
                             </tr>
                             <tr>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;UKURAN</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;UKURAN</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 25%" id="ukuran_tabel">&nbsp;-&nbsp;</td>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;NO. SP</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;NO. SP</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 40%" id="nosp_tabel">&nbsp;-&nbsp;</td>
                             </tr>
                             <tr>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;RAJUTAN</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;RAJUTAN</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 25%" id="rajutan_tabel">&nbsp;-&nbsp;</td>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;QUANTITY</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;QUANTITY</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 40%" id="qty_tabel">&nbsp;-&nbsp;</td>
                             </tr>
                             <tr>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;DENIER</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;DENIER</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 25%" id="denier_tabel">&nbsp;-&nbsp;</td>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;DELIVERY</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;DELIVERY</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 40%" id="delivery_tabel">&nbsp;-&nbsp;</td>
                             </tr>
                             <tr>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;WARNA</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;WARNA</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 25%" id="warna_tabel">&nbsp;-&nbsp;</td>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;PACKING</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;PACKING</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 40%" id="packing_tabel">&nbsp;-&nbsp;</td>
                             </tr>
                             <tr>
-                                <td style="border:none !important;"
-                                    id="nomor_barangKolom">&nbsp;INNER</td>
+                                <td style="border:none !important;" id="nomor_barangKolom">&nbsp;INNER</td>
                                 <td style="border:none !important;">:&nbsp;</td>
                                 <td style="border:none !important; width: 25%" id="inner_tabel">&nbsp;-&nbsp;</td>
                             </tr>
@@ -307,12 +311,24 @@
                             <td
                                 style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
                             </td>
-                            <td style="border-right:none !important; border-top:none !important; text-align: center !important; width: 100px">&nbsp;</td>
-                            <td style="border-left:none !important; border-top:none !important; text-align: center !important; width: 100px"></td>
-                            <td style="border-right:none !important; border-top:none !important; text-align: center !important; width: 100px"></td>
-                            <td style="border-left:none !important; border-top:none !important; text-align: center !important; width: 100px"></td>
-                            <td style="border-right:none !important; border-top:none !important; text-align: center !important; width: 100px"></td>
-                            <td style="border-left:none !important; border-right:none !important; border-top:none !important; text-align: center !important; width: 100px"></td>
+                            <td
+                                style="border-right:none !important; border-top:none !important; text-align: center !important; width: 100px">
+                                &nbsp;</td>
+                            <td
+                                style="border-left:none !important; border-top:none !important; text-align: center !important; width: 100px">
+                            </td>
+                            <td
+                                style="border-right:none !important; border-top:none !important; text-align: center !important; width: 100px">
+                            </td>
+                            <td
+                                style="border-left:none !important; border-top:none !important; text-align: center !important; width: 100px">
+                            </td>
+                            <td
+                                style="border-right:none !important; border-top:none !important; text-align: center !important; width: 100px">
+                            </td>
+                            <td
+                                style="border-left:none !important; border-right:none !important; border-top:none !important; text-align: center !important; width: 100px">
+                            </td>
                             <td
                                 style="text-align: center !important; border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
                                 ( Per Bal )
@@ -937,8 +953,7 @@
                         <tr>
                             <td style="text-align: center !important; border:none !important;">
                                 Manajer Jumbo Bag</td>
-                            <td id="catatan_tabel"
-                                style="text-align: center !important; border:none !important;">
+                            <td id="catatan_tabel" style="text-align: center !important; border:none !important;">
                                 PPP Jumbo Bag
                             </td>
                         </tr>
@@ -946,9 +961,9 @@
                             <td style="text-align: center !important; border:none !important;">
                                 <br>
                                 <br>
-                                (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
-                            <td id="catatan_tabel"
-                                style="text-align: center !important; border:none !important;">
+                                (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+                            </td>
+                            <td id="catatan_tabel" style="text-align: center !important; border:none !important;">
                                 <br>
                                 <br>
                                 (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)

@@ -52,6 +52,46 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    const imageUpload = document.getElementById("imageUpload");
+    const previewImg = document.getElementById("previewImg");
+    const imagePreviewContainer = document.getElementById(
+        "imagePreviewContainer"
+    );
+    const clearImage = document.getElementById("clearImage");
+
+    imageUpload.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = "block";
+                imagePreviewContainer.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    clearImage.addEventListener("click", function () {
+        imageUpload.value = "";
+        previewImg.src = "#";
+        previewImg.style.display = "none";
+        imagePreviewContainer.style.display = "none";
+    });
+
+    // let imageBinary = "";
+
+    // if (imageUpload.files.length > 0) {
+    //     const reader = new FileReader();
+    //     reader.onload = function(e) {
+    //         const imageBinary = e.target.result.split(',')[1];  // Get the Base64 part of the image
+    //         sendAjaxRequest(imageBinary);  // Send the AJAX request after reading the image
+    //     };
+    //     reader.readAsDataURL(imageUpload.files[0]);
+    // } else {
+    //     sendAjaxRequest('');  // Send the AJAX request without an image
+    // }
+
     btn_print.addEventListener("click", function (event) {
         event.preventDefault();
         if (no_suratpesanan.value.trim() === "") {
@@ -76,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 packing: packing.value,
                 halaman: halaman.value,
                 iner: iner.value,
+                // image: imageBinary,
             },
             beforeSend: function () {
                 // Show loading screen
@@ -185,7 +226,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // document.getElementById("tanggal_tabel").innerHTML =
                 //     "&nbsp;" + formattedDate;
-
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -411,6 +451,15 @@ document.addEventListener("DOMContentLoaded", function () {
                             denier.value = data.data[0].denier.trim();
                             type.value = data.data[0].type.trim();
                             iner.value = data.data[0].iner.trim();
+                            // Display the photo
+                            if (data.data[0].foto) {
+                                previewImg.src = data.data[0].foto;
+                                previewImg.style.display = "block";
+                                imagePreviewContainer.style.display = "block";
+                            } else {
+                                previewImg.style.display = "none";
+                                imagePreviewContainer.style.display = "none";
+                            }
                         },
                         error: function (xhr, status, error) {
                             var err = eval("(" + xhr.responseText + ")");

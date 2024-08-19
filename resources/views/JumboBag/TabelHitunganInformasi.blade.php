@@ -971,7 +971,7 @@
                                 &nbsp;CATATAN :</td>
                             <td id="catatan_tabel"
                                 style="width: 900px;text-align: left !important; border:none !important;">
-                                </td>
+                            </td>
                         </tr>
                     </table>
                 </div>

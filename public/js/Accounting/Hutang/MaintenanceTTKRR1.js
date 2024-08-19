@@ -191,6 +191,7 @@ $(document).ready(function () {
                         showConfirmButton: true,
                     }).then(() => {
                         $("#table_atas").DataTable().ajax.reload();
+                        document.querySelectorAll('input').forEach(input => input.value = "");
                     });
                 } else if (response.error) {
                     Swal.fire({

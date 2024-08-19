@@ -121,7 +121,13 @@ class OrderPress extends Controller
                     $item['denier'] = trim($row->Denier);
                     $item['type'] = trim($row->ModelBB) . ' TOP ' . trim($row->ModelCA) . ' BOTTOM ' . trim($row->ModelCB);
                     $item['iner'] = trim($row->Iner);
+                    if ($row->Foto) {
+                        $item['foto'] = 'data:image/jpeg;base64,' . base64_encode($row->Foto);
+                    } else {
+                        $item['foto'] = null;
+                    }
                     $formattedResult[] = $item;
+                    // dd($formattedResult);
                 }
                 return datatables($formattedResult)->make(true);
             } else {
@@ -142,6 +148,7 @@ class OrderPress extends Controller
             }
             return datatables($dataColors)->make(true);
         } else if ($id == 'printReport') {
+            dd($request->all());
             // Fetch the necessary parameters from the request
             $noSP = trim($request->input('no_suratpesanan'));
             $kodeBarang = $request->input('kodeBarangAsal');
