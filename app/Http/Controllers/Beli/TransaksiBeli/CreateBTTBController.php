@@ -477,9 +477,58 @@ class CreateBTTBController extends Controller
             return Response()->json('Parameter harus di isi');
         }
     }
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        if ($id == 'setToleransi') {
+            $kodeBarang = $request->input('kode_barang');
+            $input = $request->input('inputValue');
+
+            // Validate the input to ensure it is numeric
+            if (!is_numeric($input)) {
+                return response()->json(['error' => 'Invalid input'], 400);
+            }
+
+            // Convert input to a float and format it to two decimal places
+            $formattedInput = number_format((float) $input, 2, '.', '');
+
+            // Ensure the formatted input does not exceed the decimal(4,2) limit
+            if ($formattedInput > 9999.99) {
+                return response()->json(['error' => 'Input exceeds allowed range for decimal(4,2)'], 400);
+            }
+
+            // Update the 'Toleransi' column in the 'Y_BARANG' table
+            try {
+                DB::connection('ConnPurchase')->table('Y_BARANG')
+                    ->where('KD_BRG', (string) $kodeBarang) // Ensure this matches the column name in your table
+                    ->update(['Toleransi' => (float) $formattedInput]);
+
+                // Retrieve the updated 'Toleransi' value
+                $updatedToleransi = DB::connection('ConnPurchase')->table('Y_BARANG')
+                    ->where('KD_BRG', (string) $kodeBarang)
+                    ->value('Toleransi');
+
+                // Return a success response with the updated value
+                return response()->json([
+                    'success' => 'Toleransi updated successfully',
+                    'toleransi' => $updatedToleransi,
+                ]);
+            } catch (\Exception $e) {
+                // Return error response in case of a database error
+                return response()->json(['error' => 'Database error: ' . $e->getMessage()], 500);
+            }
+        } else if ($id == 'getToleransi') {
+            $kodeBarang = $request->input('kode_barang');
+            $updatedToleransi = DB::connection('ConnPurchase')->table('Y_BARANG')
+                ->where('KD_BRG', (string) $kodeBarang)
+                ->value('Toleransi');
+            return response()->json([
+                'success' => 'Toleransi updated successfully',
+                'toleransi' => $updatedToleransi,
+            ]);
+        }
+
+        // Return an error response if the id does not match 'setToleransi'
+        return response()->json(['error' => 'Invalid request'], 400);
     }
 
     //Show the form for editing the specified resource.

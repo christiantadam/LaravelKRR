@@ -61,8 +61,107 @@ class OrderPress extends Controller
     }
     public function store(Request $request)
     {
-        //
+        if ($request->input('typeForm') == 'printReport') {
+            $noSP = trim($request->input('no_suratpesanan'));
+            $kodeBarang = $request->input('kodeBarangAsal');
+            $waktuDelivery = $request->input('delivery');
+            $referensi = $request->input('no_referensi');
+            $warna = trim($request->input('warna'));
+            $packing = $request->input('packing');
+            $hal = $request->input('halaman');
+            $binaryData = null;
+
+            if ($request->has('foto')) {
+                try {
+                    $base64Data = $request->input('foto');
+                    $binaryData = base64_decode($base64Data);
+                } catch (Exception $e) {
+                    return response()->json(['error' => 'Invalid image data'], 400);
+                }
+            }
+
+            try {
+                // Update the HEAD_TABEL_ORDER table
+                DB::connection('ConnJumboBag')
+                    ->table('HEAD_TABEL_ORDER')
+                    ->where('Kode_Barang', $kodeBarang)
+                    ->where('No_SuratPesanan', $noSP)
+                    ->whereDate('Waktu_Delivery', date('Y-m-d', strtotime($waktuDelivery)))
+                    ->update([
+                        'Warna' => $warna,
+                        'Packing' => $packing,
+                        'Referensi_Press' => $referensi,
+                        'Hal' => $hal,
+                        'Keterangan' => $request->input('cat', null), // Optional 'cat' parameter
+                        'Foto' => $binaryData ? DB::raw('0x' . bin2hex($binaryData)) : null,
+                    ]);
+
+                // Set the criteria based on 'iner' value
+                $tableName = $request->input('iner') === 'Y' ? 'VW_PRG_1273_JBB_CETAK_ORDPRESS1' : 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
+                $criteriaQuery = DB::connection('ConnJumboBag')
+                    ->table($tableName)
+                    ->where('Kode_Barang', 'like', "{$kodeBarang}%")
+                    ->where('No_SuratPesanan', $noSP)
+                    ->whereDate('Waktu_Delivery', date('Y-m-d', strtotime($waktuDelivery)));
+
+                // Execute the query
+                $criteria = $criteriaQuery->get();
+
+                // Check if criteria is empty
+                if ($criteria->isEmpty()) {
+                    return response()->json(['error' => 'No data found'], 404);
+                }
+
+                // Prepare data for DataTables response
+                $data = [];
+                foreach ($criteria as $row) {
+                    $data[] = [
+                        'Kode_Barang' => $row->Kode_Barang,
+                        'Panjang_BB' => $row->Panjang_BB,
+                        'Lebar_BB' => $row->Lebar_BB,
+                        'Tinggi_BB' => $row->Tinggi_BB,
+                        'Diameter_BB' => $row->Diameter_BB,
+                        'ModelBB' => $row->ModelBB,
+                        'ModelCA' => $row->ModelCA,
+                        'ModelCB' => $row->ModelCB,
+                        'No_SuratPesanan' => $row->No_SuratPesanan,
+                        'Tanggal' => $row->Tanggal,
+                        'Waktu_Delivery' => \Carbon\Carbon::parse($row->Waktu_Delivery)->format('m/d/Y'),
+                        'Jumlah_Order' => $row->Jumlah_Order,
+                        'Bentuk_BB' => $row->Bentuk_BB,
+                        'Keterangan' => $row->Keterangan,
+                        'Jumlah_Jahit' => $row->Jumlah_Jahit,
+                        'Referensi_Press' => $row->Referensi_Press,
+                        'Warna' => $row->Warna,
+                        'Packing' => $row->Packing,
+                        'Standart_Komponen' => $row->Standart_Komponen,
+                        'BufferStok' => $row->BufferStok,
+                        'WA_Rajutan' => $row->WA_Rajutan,
+                        'WE_Rajutan' => $row->WE_Rajutan,
+                        'Denier' => $row->Denier,
+                        'Hal' => $row->Hal,
+                        'A_Jml_Order' => $row->A_Jml_Order,
+                        'A_Tgl_Start' => $row->A_Tgl_Start,
+                        'A_Tgl_Finish' => $row->A_Tgl_Finish,
+                        'Tebal_Iner' => $row->Tebal_Iner,
+                        'Iner' => $row->Iner,
+                        'Catatan' => $row->Catatan,
+                        'IdBarang' => $row->IdBarang,
+                        'Foto' => $row->Foto,
+                        'StdWaktu' => $row->StdWaktu,
+                    ];
+                }
+
+                // Return the data in a format that DataTables can consume
+                return datatables()->of($data)->make(true);
+            } catch (Exception $e) {
+                \Log::error("Error: " . $e->getMessage());
+                return response()->json(['error' => 'An error occurred'], 500);
+            }
+        }
     }
+
+
     public function show(Request $request, $id)
     {
         if ($id == 'getListCustomer') {
@@ -147,84 +246,89 @@ class OrderPress extends Controller
                 ];
             }
             return datatables($dataColors)->make(true);
-        } else if ($id == 'printReport') {
-            dd($request->all());
-            // Fetch the necessary parameters from the request
-            $noSP = trim($request->input('no_suratpesanan'));
-            $kodeBarang = $request->input('kodeBarangAsal');
-            $waktuDelivery = $request->input('delivery');
-            $referensi = $request->input('no_referensi');
-            $warna = trim($request->input('warna'));
-            $packing = $request->input('packing');
-            $hal = $request->input('halaman');
-
-            try {
-                // Update no ref, warna, packing hal in the head order table
-                DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_PRESS_HEADTO @NoSP = ?, @KodeBarang = ?, @Waktu_Delivery = ?, @Referensi = ?, @warna = ?, @packing = ?, @hal = ?', [$noSP, $kodeBarang, $waktuDelivery, $referensi, $warna, $packing, $hal]);
-
-                // Set the criteria based on 'iner' value
-                $tableName = $request->input('iner') === 'Y' ? 'VW_PRG_1273_JBB_CETAK_ORDPRESS1' : 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
-                $criteriaQuery = DB::connection('ConnJumboBag')
-                    ->table($tableName)
-                    ->where('Kode_Barang', 'like', "{$kodeBarang}%")
-                    ->where('No_SuratPesanan', $noSP)
-                    ->whereDate('Waktu_Delivery', date('Y-m-d', strtotime($waktuDelivery)));
-
-                // Execute the query
-                $criteria = $criteriaQuery->get();
-                // dd($criteria);
-                // Check if criteria is empty
-                if ($criteria->isEmpty()) {
-                    return response()->json(['error' => 'No data found']);
-                }
-
-                // Prepare data for DataTables response
-                $data = [];
-                foreach ($criteria as $row) {
-                    $data[] = [
-                        'Kode_Barang' => $row->Kode_Barang,
-                        'Panjang_BB' => $row->Panjang_BB,
-                        'Lebar_BB' => $row->Lebar_BB,
-                        'Tinggi_BB' => $row->Tinggi_BB,
-                        'Diameter_BB' => $row->Diameter_BB,
-                        'ModelBB' => $row->ModelBB,
-                        'ModelCA' => $row->ModelCA,
-                        'ModelCB' => $row->ModelCB,
-                        'No_SuratPesanan' => $row->No_SuratPesanan,
-                        'Tanggal' => $row->Tanggal,
-                        'Waktu_Delivery' => \Carbon\Carbon::parse($row->Waktu_Delivery)->format('m/d/Y'),
-                        'Jumlah_Order' => $row->Jumlah_Order,
-                        'Bentuk_BB' => $row->Bentuk_BB,
-                        'Keterangan' => $row->Keterangan,
-                        'Jumlah_Jahit' => $row->Jumlah_Jahit,
-                        'Referensi_Press' => $row->Referensi_Press,
-                        'Warna' => $row->Warna,
-                        'Packing' => $row->Packing,
-                        'Standart_Komponen' => $row->Standart_Komponen,
-                        'BufferStok' => $row->BufferStok,
-                        'WA_Rajutan' => $row->WA_Rajutan,
-                        'WE_Rajutan' => $row->WE_Rajutan,
-                        'Denier' => $row->Denier,
-                        'Hal' => $row->Hal,
-                        'A_Jml_Order' => $row->A_Jml_Order,
-                        'A_Tgl_Start' => $row->A_Tgl_Start,
-                        'A_Tgl_Finish' => $row->A_Tgl_Finish,
-                        'Tebal_Iner' => $row->Tebal_Iner,
-                        'Iner' => $row->Iner,
-                        'Catatan' => $row->Catatan,
-                        'IdBarang' => $row->IdBarang,
-                        'Foto' => $row->Foto,
-                        'StdWaktu' => $row->StdWaktu,
-                    ];
-                }
-
-                // Return the data in a format that DataTables can consume
-                return datatables($data)->make(true);
-            } catch (Exception $e) {
-                \Log::error("Error: " . $e->getMessage());
-                return response()->json(['error' => $e->getMessage()]);
-            }
         }
+        // else if ($id == 'printReport') {
+        //     // dd($request->all());
+        //     // Fetch the necessary parameters from the request
+        //     $noSP = trim($request->input('no_suratpesanan'));
+        //     $kodeBarang = $request->input('kodeBarangAsal');
+        //     $waktuDelivery = $request->input('delivery');
+        //     $referensi = $request->input('no_referensi');
+        //     $warna = trim($request->input('warna'));
+        //     $packing = $request->input('packing');
+        //     $hal = $request->input('halaman');
+        //     if ($request->has('foto')) {
+        //         $base64Image = $request->input('foto');
+        //     }
+        //     dd($base64Image);
+
+        //     try {
+        //         // Update no ref, warna, packing hal in the head order table
+        //         DB::connection('ConnJumboBag')->statement('exec SP_1273_JBB_UDT_PRESS_HEADTO @NoSP = ?, @KodeBarang = ?, @Waktu_Delivery = ?, @Referensi = ?, @warna = ?, @packing = ?, @hal = ?, @Foto = ?', [$noSP, $kodeBarang, $waktuDelivery, $referensi, $warna, $packing, $hal, $base64Image]);
+
+        //         // Set the criteria based on 'iner' value
+        //         $tableName = $request->input('iner') === 'Y' ? 'VW_PRG_1273_JBB_CETAK_ORDPRESS1' : 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
+        //         $criteriaQuery = DB::connection('ConnJumboBag')
+        //             ->table($tableName)
+        //             ->where('Kode_Barang', 'like', "{$kodeBarang}%")
+        //             ->where('No_SuratPesanan', $noSP)
+        //             ->whereDate('Waktu_Delivery', date('Y-m-d', strtotime($waktuDelivery)));
+
+        //         // Execute the query
+        //         $criteria = $criteriaQuery->get();
+        //         // dd($criteria);
+        //         // Check if criteria is empty
+        //         if ($criteria->isEmpty()) {
+        //             return response()->json(['error' => 'No data found']);
+        //         }
+
+        //         // Prepare data for DataTables response
+        //         $data = [];
+        //         foreach ($criteria as $row) {
+        //             $data[] = [
+        //                 'Kode_Barang' => $row->Kode_Barang,
+        //                 'Panjang_BB' => $row->Panjang_BB,
+        //                 'Lebar_BB' => $row->Lebar_BB,
+        //                 'Tinggi_BB' => $row->Tinggi_BB,
+        //                 'Diameter_BB' => $row->Diameter_BB,
+        //                 'ModelBB' => $row->ModelBB,
+        //                 'ModelCA' => $row->ModelCA,
+        //                 'ModelCB' => $row->ModelCB,
+        //                 'No_SuratPesanan' => $row->No_SuratPesanan,
+        //                 'Tanggal' => $row->Tanggal,
+        //                 'Waktu_Delivery' => \Carbon\Carbon::parse($row->Waktu_Delivery)->format('m/d/Y'),
+        //                 'Jumlah_Order' => $row->Jumlah_Order,
+        //                 'Bentuk_BB' => $row->Bentuk_BB,
+        //                 'Keterangan' => $row->Keterangan,
+        //                 'Jumlah_Jahit' => $row->Jumlah_Jahit,
+        //                 'Referensi_Press' => $row->Referensi_Press,
+        //                 'Warna' => $row->Warna,
+        //                 'Packing' => $row->Packing,
+        //                 'Standart_Komponen' => $row->Standart_Komponen,
+        //                 'BufferStok' => $row->BufferStok,
+        //                 'WA_Rajutan' => $row->WA_Rajutan,
+        //                 'WE_Rajutan' => $row->WE_Rajutan,
+        //                 'Denier' => $row->Denier,
+        //                 'Hal' => $row->Hal,
+        //                 'A_Jml_Order' => $row->A_Jml_Order,
+        //                 'A_Tgl_Start' => $row->A_Tgl_Start,
+        //                 'A_Tgl_Finish' => $row->A_Tgl_Finish,
+        //                 'Tebal_Iner' => $row->Tebal_Iner,
+        //                 'Iner' => $row->Iner,
+        //                 'Catatan' => $row->Catatan,
+        //                 'IdBarang' => $row->IdBarang,
+        //                 'Foto' => $row->Foto,
+        //                 'StdWaktu' => $row->StdWaktu,
+        //             ];
+        //         }
+
+        //         // Return the data in a format that DataTables can consume
+        //         return datatables($data)->make(true);
+        //     } catch (Exception $e) {
+        //         \Log::error("Error: " . $e->getMessage());
+        //         return response()->json(['error' => $e->getMessage()]);
+        //     }
+        // }
 
     }
     public function edit($id)

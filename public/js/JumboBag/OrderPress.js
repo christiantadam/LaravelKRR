@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 previewImg.src = e.target.result;
                 previewImg.style.display = "block";
                 imagePreviewContainer.style.display = "block";
+                previewImg.dataset.base64 = e.target.result;
             };
             reader.readAsDataURL(file);
         }
@@ -79,19 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
         imagePreviewContainer.style.display = "none";
     });
 
-    // let imageBinary = "";
-
-    // if (imageUpload.files.length > 0) {
-    //     const reader = new FileReader();
-    //     reader.onload = function(e) {
-    //         const imageBinary = e.target.result.split(',')[1];  // Get the Base64 part of the image
-    //         sendAjaxRequest(imageBinary);  // Send the AJAX request after reading the image
-    //     };
-    //     reader.readAsDataURL(imageUpload.files[0]);
-    // } else {
-    //     sendAjaxRequest('');  // Send the AJAX request without an image
-    // }
-
     btn_print.addEventListener("click", function (event) {
         event.preventDefault();
         if (no_suratpesanan.value.trim() === "") {
@@ -103,27 +91,39 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             return;
         }
+
+        const formData = new FormData();
+
+        // Append other form data
+        formData.append("_token", csrfToken);
+        formData.append("no_suratpesanan", no_suratpesanan.value);
+        formData.append("kodeBarangAsal", kodeBarangAsal.value);
+        formData.append("delivery", delivery.value);
+        formData.append("no_referensi", no_referensi.value);
+        formData.append("warna", warna.value);
+        formData.append("packing", packing.value);
+        formData.append("halaman", halaman.value);
+        formData.append("iner", iner.value);
+        formData.append("typeForm", "printReport");
+
+        // Append the base64 encoded image, if available
+        if (previewImg.src && previewImg.src.startsWith('data:image/')) {
+            const base64Data = previewImg.src.split(',')[1];
+            formData.append("foto", base64Data); // Send base64 encoded data directly
+        }
+
         $.ajax({
-            url: "OrderPress/printReport",
-            type: "GET",
-            data: {
-                _token: csrfToken,
-                no_suratpesanan: no_suratpesanan.value,
-                kodeBarangAsal: kodeBarangAsal.value,
-                delivery: delivery.value,
-                no_referensi: no_referensi.value,
-                warna: warna.value,
-                packing: packing.value,
-                halaman: halaman.value,
-                iner: iner.value,
-                // image: imageBinary,
-            },
+            url: "OrderPress",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: formData,
             beforeSend: function () {
                 // Show loading screen
                 $("#loading-screen").css("display", "flex");
             },
             success: function (data) {
-                console.log(data.data[0]);
+                console.log(data);
                 var currentDate = new Date();
                 var formattedDate =
                     currentDate.getMonth() +
@@ -144,88 +144,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("halaman_print").textContent =
                     currentPage + " dari " + totalPages;
 
-                document.getElementById("kode_tabel").innerHTML =
-                    data.data[0].Kode_Barang;
-                document.getElementById("type_tabel").innerHTML =
-                    data.data[0].ModelBB +
-                    "&nbsp;TOP&nbsp;" +
-                    data.data[0].ModelCA +
-                    "&nbsp;BOTTOM&nbsp;" +
-                    data.data[0].ModelCB;
-                document.getElementById("ukuran_tabel").innerHTML =
-                    data.data[0].Lebar_BB +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    data.data[0].Panjang_BB +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    data.data[0].Tinggi_BB;
-                document.getElementById("nosp_tabel").innerHTML =
-                    data.data[0].No_SuratPesanan;
-                document.getElementById("rajutan_tabel").innerHTML =
-                    data.data[0].WA_Rajutan +
-                    "&nbsp;" +
-                    "X" +
-                    "&nbsp;" +
-                    data.data[0].WE_Rajutan;
-                // var jumlahOrder = data.data[0].Jumlah_Order;
-                // var formattedJumlahOrder = jumlahOrder.toLocaleString("en-US");
+                // Uncomment and handle DOM updates with response data
+                // document.getElementById("kode_tabel").innerHTML = data.data[0].Kode_Barang;
+                // document.getElementById("type_tabel").innerHTML =
+                //     data.data[0].ModelBB + "&nbsp;TOP&nbsp;" + data.data[0].ModelCA + "&nbsp;BOTTOM&nbsp;" + data.data[0].ModelCB;
+                // document.getElementById("ukuran_tabel").innerHTML =
+                //     data.data[0].Lebar_BB + "&nbsp;" + "X" + "&nbsp;" + data.data[0].Panjang_BB + "&nbsp;" + "X" + "&nbsp;" + data.data[0].Tinggi_BB;
+                // document.getElementById("nosp_tabel").innerHTML = data.data[0].No_SuratPesanan;
+                // document.getElementById("rajutan_tabel").innerHTML =
+                //     data.data[0].WA_Rajutan + "&nbsp;" + "X" + "&nbsp;" + data.data[0].WE_Rajutan;
                 // document.getElementById("qty_tabel").innerHTML =
-                //     "&nbsp;" + formattedJumlahOrder;
-                document.getElementById("qty_tabel").innerHTML =
-                    parseFloat(data.data[0].Jumlah_Order).toFixed(2) === ".00"
-                        ? "0.00"
-                        : parseFloat(data.data[0].Jumlah_Order).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
-                document.getElementById("denier_tabel").innerHTML =
-                    "&nbsp;" + parseFloat(data.data[0].Denier).toFixed(2) ===
-                    ".00"
-                        ? "0.00"
-                        : parseFloat(data.data[0].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
-                document.getElementById("delivery_tabel").innerHTML =
-                    data.data[0].Waktu_Delivery;
-                document.getElementById("warna_tabel").innerHTML =
-                    "&nbsp;" + data.data[0].Warna;
-                document.getElementById("packing_tabel").innerHTML =
-                    data.data[0].Packing;
-                var inerValue = data.data[0].Iner;
-
-                // Ubah nilai menjadi strip ("-") jika nilai adalah "N"
-                var innerHTMLValue =
-                    inerValue === "N" ? "&nbsp;-" : "&nbsp;" + inerValue;
-
-                // Masukkan nilai yang sudah diformat ke dalam elemen HTML
-                document.getElementById("inner_tabel").innerHTML =
-                    innerHTMLValue;
-
-                //Catatan
-                // Ambil teks Keterangan dari data
-                let keterangan = data.data[0].Keterangan;
-
-                // Ganti \r\n dengan <br> di depannya
-                keterangan = keterangan.replace(/\r\n/g, "<br>");
-
-                // Tambahkan non-breaking space di depan teks
-                keterangan = "&nbsp;" + keterangan;
-
-                // Tampilkan hasilnya dalam elemen HTML
-                document.getElementById("catatan_tabel").innerHTML = keterangan;
-
-                // document.getElementById("tanggal_tabel").innerHTML =
-                //     "&nbsp;" + formattedDate;
+                //     parseFloat(data.data[0].Jumlah_Order).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                // document.getElementById("denier_tabel").innerHTML =
+                //     parseFloat(data.data[0].Denier).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                // document.getElementById("delivery_tabel").innerHTML = data.data[0].Waktu_Delivery;
+                // document.getElementById("warna_tabel").innerHTML = "&nbsp;" + data.data[0].Warna;
+                // document.getElementById("packing_tabel").innerHTML = data.data[0].Packing;
+                // var inerValue = data.data[0].Iner;
+                // var innerHTMLValue = inerValue === "N" ? "&nbsp;-" : "&nbsp;" + inerValue;
+                // document.getElementById("inner_tabel").innerHTML = innerHTMLValue;
+                // let keterangan = data.data[0].Keterangan.replace(/\r\n/g, "<br>");
+                // keterangan = "&nbsp;" + keterangan;
+                // document.getElementById("catatan_tabel").innerHTML = keterangan;
+                // document.getElementById("tanggal_tabel").innerHTML = "&nbsp;" + formattedDate;
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -238,6 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
         });
     });
+
 
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();

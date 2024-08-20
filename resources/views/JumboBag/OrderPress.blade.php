@@ -104,9 +104,9 @@
                             </div>
                             <div class="form-group" id="imagePreviewContainer" style="display: none;">
                                 <label>Preview Foto</label>
-                                <div id="imagePreview" style="border: 1px solid #ddd; padding: 10px; max-width: 200px;">
+                                <div id="imagePreview" style="padding: 10px; max-width: 200px;">
                                     <img id="previewImg" src="#" alt="Preview Image"
-                                        style="width: 100%; display: none;">
+                                        style="width: 200%; display: none;">
                                 </div>
                                 <br>
                                 <button type="button" class="btn btn-secondary" id="clearImage" style="width:100px">Clear</button>

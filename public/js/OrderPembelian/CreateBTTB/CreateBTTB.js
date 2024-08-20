@@ -37,6 +37,7 @@ let idr_ppn = document.getElementById("idr_ppn");
 let harga_total = document.getElementById("harga_total");
 let idr_harga_total = document.getElementById("idr_harga_total");
 let post_btn = document.getElementById("post_btn");
+let btn_toleransi = document.getElementById("btn_toleransi");
 let fixValueQTYOrder;
 let fixValueQTYShip;
 let fixValueQTYReceived;
@@ -50,6 +51,9 @@ let tabelData = $("#tabelcreate").DataTable({
     paging: false,
 });
 let data;
+let toleransi;
+
+btn_toleransi.disabled = true;
 
 //#region Function
 
@@ -778,9 +782,98 @@ async function print(data) {
     printWindow.print();
 }
 
+function fetchToleransi(barangCode) {
+    $.ajax({
+        url: "CreateBTTB/getToleransi",
+        type: "GET",
+        data: {
+            kode_barang: barangCode,
+        },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
+        },
+    }).then(function (data) {
+        if (data.toleransi) {
+            toleransi = (100 + parseFloat(data.toleransi)) / 100;
+        } else {
+            // Return a default value if toleransi is not provided or invalid
+            toleransi = 1; // Default value (120%)
+        }
+    })
+}
+
 //#endregion
 
 //#region Add Event Listener
+
+btn_toleransi.addEventListener("click", function (event) {
+    event.preventDefault();
+
+    Swal.fire({
+        title: "Kode Barang " + kode_barang.value,
+        input: "number",
+        inputAttributes: {
+            autocapitalize: "off",
+            pattern: "\\d+", // Allow only digits
+            title: "Please enter only numbers",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Submit",
+        showLoaderOnConfirm: true,
+        preConfirm: (inputValue) => {
+            // Clear previous validation messages
+            const inputElement = Swal.getInput();
+            inputElement.setCustomValidity("");
+
+            // Check if the input is a number
+            if (!/^\d+$/.test(inputValue)) {
+                // Set custom validity and show validation message
+                inputElement.setCustomValidity("Input must be a number");
+                Swal.showValidationMessage("Input must be a number");
+                return false; // Prevents closing the Swal
+            }
+            // Return the input value if validation passes
+            return inputValue;
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: `Sudah diset toleransi sebesar ${result.value}%`,
+                // text: "Your input was successfully processed.",
+            });
+
+            const selectedRow = $("#tabelcreate tr.selected");
+            const inputValue = result.value;
+            $.ajax({
+                url: "CreateBTTB/setToleransi",
+                type: "GET",
+                data: {
+                    _token: csrfToken,
+                    kode_barang: kode_barang.value,
+                    inputValue: inputValue,
+                },
+                success: function (data) {
+                    console.log(data);
+                    // After successful AJAX request, trigger dblclick event on the selected row
+                    selectedRow.trigger("dblclick");
+
+                    // Re-select the previously selected row
+                    selectedRow.addClass("selected");
+                },
+                error: function (xhr, status, error) {
+                    var err = JSON.parse(xhr.responseText);
+                    alert(err.Message);
+                },
+            });
+        }
+    });
+});
 
 post_btn.addEventListener("click", function (event) {
     this.disabled = true;
@@ -853,10 +946,11 @@ $("#tabelcreate").on("dblclick", "tr", function () {
     $("#tabelcreate tr.selected").not(this).removeClass("selected");
     clear();
     $(this).toggleClass("selected");
-
+    btn_toleransi.disabled = false;
     let rowData = tabelData.row(this).data();
     no_po.value = rowData[0];
     kode_barang.value = rowData[1];
+    fetchToleransi(rowData[1]);
     nama_barang.value = rowData[2].replace(/&lt;/g, "<").replace(/&gt;/g, ">");
     sub_kategori.value = rowData[3];
     qty_ordered.value = numeral(numeral(rowData[4]).value()).format("0,0.00");
@@ -921,29 +1015,29 @@ $(document).ready(function () {
     const qtyShipElement = document.getElementById("qty_ship");
 
     // Daftar kode barang yang diizinkan untuk melebihi 15% dari QTY Order
-    const allowedCodes = [
-        "000093120",
-        "000112089",
-        "000125147",
-        "000128488",
-        "000128489",
-        "000128782",
-        "000130323",
-        "000131238",
-        "000137554",
-        "000137789",
-        "000139279",
-        "000140582",
-        "000136600",
-        "000131148",
-        "000079616",
-        "000081047",
-    ];
+    // const allowedCodes = [
+    //     "000093120",
+    //     "000112089",
+    //     "000125147",
+    //     "000128488",
+    //     "000128489",
+    //     "000128782",
+    //     "000130323",
+    //     "000131238",
+    //     "000137554",
+    //     "000137789",
+    //     "000139279",
+    //     "000140582",
+    //     "000136600",
+    //     "000131148",
+    //     "000079616",
+    //     "000081047",
+    // ];
 
-    // Fungsi untuk memeriksa apakah kode barang diizinkan
-    function isAllowedCode(barangCode) {
-        return allowedCodes.includes(barangCode);
-    }
+    // // Fungsi untuk memeriksa apakah kode barang diizinkan
+    // function isAllowedCode(barangCode) {
+    //     return allowedCodes.includes(barangCode);
+    // }
 
     qtyReceivedElement.addEventListener("input", function () {
         // Store previous valid value
@@ -951,11 +1045,11 @@ $(document).ready(function () {
             this.oldValue = this.value;
         }
 
-        const barangCode = kodeBarangElement.value;
-        const isAllowed = isAllowedCode(barangCode);
-        const maxLimit = isAllowed
-            ? Math.round(fixValueQTYOrder * 1.20) // Batas maksimum ditetapkan sebagai 115% dari QTY Order
-            : fixValueQTYOrder;
+        // const barangCode = kodeBarangElement.value;
+        // const isAllowed = isAllowedCode(barangCode);
+        console.log(toleransi);
+        const maxLimit = Math.round(fixValueQTYOrder * toleransi); // Batas maksimum ditetapkan sebagai 120% dari QTY Order
+        console.log(maxLimit);
 
         if (this.value === "") {
             // Jika input kosong, kosongkan field terkait dan reset oldValue
@@ -979,7 +1073,7 @@ $(document).ready(function () {
                     fixValueQTYShip + (qtyReceivedValue - fixValueQTYReceived)
                 ).format("0,0.00");
             } else if (sisa < 0) {
-                qtyRemainingElement.value = numeral(0).format("0,0.00"); // Format 0.00
+                qtyRemainingElement.value = numeral(0).format("0,0.00");
                 qtyShipElement.value = numeral(
                     qtyReceivedValue - fixValueQTYReceived
                 ).format("0,0.00");
