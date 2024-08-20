@@ -15,13 +15,6 @@ class TabelHitunganInformasi extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-        $binaryData = "..."; // Your binary data here
-
-        // Define the path and filename to save the image
-        $filePath = 'path/to/your/image.jpg';
-
-        // Write the binary data to the file
-        file_put_contents($filePath, $binaryData);
         return view('JumboBag.TabelHitunganInformasi', compact('access'));
     }
     public function create(Request $request)
