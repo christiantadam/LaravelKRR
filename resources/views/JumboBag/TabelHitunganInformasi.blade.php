@@ -52,8 +52,8 @@
                                     <div class="form-group">
                                         <label for="kodeBarang">Kode Barang</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="tanggal" name="tanggal" style="width: 10%"
-                                                required>
+                                            <input type="text" class="form-control" id="tanggal" name="tanggal"
+                                                style="width: 10%" required>
                                             <input type="text" class="form-control" style="width: 70%"
                                                 id="kodeBarangAsal" name="kodeBarangAsal" required>
                                             <button class="input" type="button" id="btn_kodebarang"
@@ -244,112 +244,44 @@
     <div class="acs-div-container" id="contoh_printDiv">
         <div class="cetak-prspdf-container">
             <div class="cetak-prspdf-container01">
-                <div class="cetak-prspdf-container02">
-                    <div class="cetak-prspdf-container03">
-                        <div class="cetak-prspdf-container04">
-                            <h2 style="margin-bottom: 0px;font-size:35px">
-                                <span>PT. KERTA RAJASA RAYA</span>
-                            </h2>
-                            <p style="margin-bottom: 0px;font-size:28px">
-                                <span>Woven Bag - Jumbo Bag Industrial</span>
-                                <br />
-                            </p>
-                            <p style="margin-bottom: 0px;font-size:25px">
-                                <span>No. Dokumen : FM-7.2-02-JB-01-01</span>
-                                <br />
-                            </p>
+                <div class="cetak-prspdf-container02 bordered">
+                    <div class="row">
+                        <div style="margin-top: 2px" class="col-sm-7 d-flex align-items-center justify-content-center">
+                            <div>
+                                <h1 style="margin: 0" class="text-center">PT. KERTA RAJASA RAYA</h1>
+                                <div class="text-center">
+                                    <h4> Woven Bag - Jumbo Bag Industrial<br>
+                                        No. Dokumen : FM-7.2-02-JB-01-01</h4>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                    <br>
-                    <div class="cetak-prspdf-container06">
-                        <div class="cetak-prspdf-container07">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td style="margin-bottom: 0px;font-size:22px">No Referensi
-                                        </td>
-                                        <td style="margin-bottom: 0px;font-size:22px">:</td>
-                                        <td style="margin-bottom: 0px;font-size:22px" id="no_referensi_print">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td style="margin-bottom: 0px;font-size:22px">Tanggal</td>
-                                        <td style="margin-bottom: 0px;font-size:22px">:</td>
-                                        <td style="margin-bottom: 0px;font-size:22px" id="tanggal_print"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td style="margin-bottom: 0px;font-size:22px">Halaman</td>
-                                        <td style="margin-bottom: 0px;font-size:22px">:</td>
-                                        <td style="margin-bottom: 0px;font-size:22px" id="halaman_print"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-sm-5 d-flex align-items-center justify-content-center">
+                            <div class="row">
+                                <div class="col-4">No. Referensi</div>
+                                <div class="col-1">:</div>
+                                <div class="col-7">
+                                    <span id="no_referensi_print">0</span>
+                                </div>
+                                <div class="col-4">Tangal</div>
+                                <div class="col-1">:</div>
+                                <div class="col-7">
+                                    <span id="tanggal_print"></span>
+                                </div>
+                                <div class="col-4">Halaman</div>
+                                <div class="col-1">:</div>
+                                <div class="col-7">
+                                    <span id="halaman_print">...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <br>
                 <div class="centered-text-container">
                     <h1 style="margin-bottom: 0px;font-size:23px;">
                         <span>TABEL HITUNGAN PERSIAPAN</span>
                     </h1>
                 </div>
-                <br>
                 <div class="cetak-prspdf-container08">
                     <table style="width: 100%;border-collapse: collapse; border: 1px solid black;" id="table_ket">
                         <thead>
@@ -412,555 +344,81 @@
                 </div>
                 <br>
                 <div class="cetak-prspdf-container08">
-                    <table style="width: 100%">
-                        <tr>
-                            <td
-                                style="width: 350px;text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important;border-right: 1px solid black !important">
-                                KOMPONEN</td>
-                            <td colspan="2"
-                                style="border:none !important; border-bottom: 1px solid black !important; border-top: 1px solid black !important; text-align: center; border-right: 1px solid black !important">
-                                POTONGAN
-                            </td>
-                            <td colspan="2"
-                                style="border:none !important; border-bottom: 1px solid black !important; border-top: 1px solid black !important; text-align: center; border-right: 1px solid black !important">
-                                RAJUTAN
-                            </td>
-                            <td
-                                style="text-align: center !important; border:none !important; border-top: 1px solid black !important;">
-                                DENIER</td>
-                            <td
-                                style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
-                                QTY</td>
-                            <td
-                                style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
-                                BERAT</td>
-                            <td
-                                style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
-                                HARGA / (KG)</td>
-                            <td
-                                style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important;border-right: 1px solid black !important">
-                                HARGA</td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
-                            </td>
-                            <td style="text-align: center !important; width: 60px">&nbsp;P</td>
-                            <td style="text-align: center !important; width: 60px">&nbsp;L</td>
-                            <td style="text-align: center !important; width: 60px">Warp</td>
-                            <td style="text-align: center !important; width: 60px">Weft</td>
-                            <td style="border:none !important;border-bottom: 1px solid black !important">
-                            </td>
-                            <td
-                                style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
-                            </td>
-                            <td
-                                style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
-                            </td>
-                            <td
-                                style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
-                            </td>
-                            <td
-                                style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;BODY BESAR</td>
-                            <td id="potonganP_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_bb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;TUTUP ATAS</td>
-                            <td id="potonganP_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_ta"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;TUTUP BAWAH</td>
-                            <td id="potonganP_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_tb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="ca_x"
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;CEROBONG ATAS</td>
-                            <td id="potonganP_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_ca"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="cb_x"
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;CEROBONG BAWAH</td>
-                            <td id="potonganP_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_cb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="lb_x"
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;LIFTING BELT</td>
-                            <td id="potonganP_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_lb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;DISCHARGING ROPE Diameter=6.00mm</td>
-                            <td id="potonganP_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_dr"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;RING TALI</td>
-                            <td id="potonganP_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_rt"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;SELANG TUTUP Diameter=15.00mm</td>
-                            <td id="potonganP_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;PITA PENGIKAT</td>
-                            <td id="potonganP_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_pp"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;COVER BAWAH</td>
-                            <td id="potonganP_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_cvb"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td id="lami_x"
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;LAMINATING</td>
-                            <td id="potonganP_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_lami"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;</td>
-                            <td id="potonganP_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_lami2"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;BENANG JAHIT</td>
-                            <td id="potonganP_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_bj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: left !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;ONGKOS JAHIT</td>
-                            <td id="potonganP_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="potonganL_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="warp_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="weft_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="denier_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="qty_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td
-                                style="text-align: center !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
-                                &nbsp;TOTAL</td>
-                            <td colspan="6" id="potonganP_oj"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="berat_total"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="hargakg_total"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                            <td id="harga_total"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
-                        </tr>
+                    <table style="width: 100%" id="tableHitung">
+                        <thead>
+                            <tr>
+                                <td
+                                    style="width: 350px;text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important;border-right: 1px solid black !important">
+                                    KOMPONEN</td>
+                                <td colspan="2"
+                                    style="border:none !important; border-bottom: 1px solid black !important; border-top: 1px solid black !important; text-align: center; border-right: 1px solid black !important">
+                                    POTONGAN
+                                </td>
+                                <td colspan="2"
+                                    style="border:none !important; border-bottom: 1px solid black !important; border-top: 1px solid black !important; text-align: center; border-right: 1px solid black !important">
+                                    RAJUTAN
+                                </td>
+                                <td
+                                    style="text-align: center !important; border:none !important; border-top: 1px solid black !important;">
+                                    DENIER</td>
+                                <td
+                                    style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
+                                    QTY</td>
+                                <td
+                                    style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
+                                    BERAT</td>
+                                <td
+                                    style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important">
+                                    HARGA / (KG)</td>
+                                <td
+                                    style="text-align: center !important; border:none !important; border-top: 1px solid black !important; border-left: 1px solid black !important;border-right: 1px solid black !important">
+                                    HARGA</td>
+                            </tr>
+                            <tr>
+                                <td
+                                    style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                </td>
+                                <td style="text-align: center !important; width: 60px">&nbsp;P</td>
+                                <td style="text-align: center !important; width: 60px">&nbsp;L</td>
+                                <td style="text-align: center !important; width: 60px">Warp</td>
+                                <td style="text-align: center !important; width: 60px">Weft</td>
+                                <td style="border:none !important;border-bottom: 1px solid black !important">
+                                </td>
+                                <td
+                                    style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                </td>
+                                <td
+                                    style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                </td>
+                                <td
+                                    style="border:none !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                </td>
+                                <td
+                                    style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td
+                                    style="text-align: center !important; border:none !important; border-left: 1px solid black !important;border-right: 1px solid black !important; border-bottom: 1px solid black !important">
+                                    &nbsp;TOTAL</td>
+                                <td colspan="6" id="potonganP_oj"
+                                    style="text-align: center !important; border-top:none !important; border-left:none !important;">
+                                </td>
+                                <td id="berat_total"
+                                    style="text-align: center !important; border-top:none !important; border-left:none !important;">
+                                </td>
+                                <td id="hargakg_total"
+                                    style="text-align: center !important; border-top:none !important; border-left:none !important;">
+                                </td>
+                                <td id="harga_total"
+                                    style="text-align: center !important; border-top:none !important; border-left:none !important;">
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <br>

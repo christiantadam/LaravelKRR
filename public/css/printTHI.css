@@ -69,10 +69,10 @@ h2 {
 }
 .cetak-prspdf-container02 {
     flex: 0 0 auto;
-    width: 97%;
+    width: 100%;
     display: flex;
     align-items: flex-start;
-    gap: 3%;
+    /* gap: 5%; */
 }
 .cetak-prspdf-container03 {
     flex: 0 0 auto;
@@ -123,15 +123,24 @@ h2 {
 .cetak-prspdf-container08 table,
 .cetak-prspdf-container09 table,
 .cetak-prspdf-container05 {
-    font-size: 17px;
+    font-size: 14px;
     padding: 0;
 }
+#tableHitung {
+    width: 100%;
+}
+
+#tableHitung td, #tableHitung th {
+    padding: 2px !important;
+    border-collapse: collapse; /* Ensures borders collapse into a single border */
+}
+
 .cetak-prspdf-container08 {
     flex: 0 0 auto;
-    width: 97%;
+    width: 98%;
     height: 100%;
     display: block;
-    margin-left: 8px;
+    margin: 0 1%;
     /* align-items: flex-start;
   flex-direction: column; */
 }
@@ -192,7 +201,8 @@ h2 {
     height: 800px;
     border: 1px solid black !important;
     background-color: white;
-    display: none;
+    padding: 0;
+    /* display: none; */
 }
 #table_sp table tr td,
 #table_sp table tr td:first-child {
@@ -224,6 +234,11 @@ h2 {
 .centered-text-container {
     text-align: center;
     width: 100%;
+    padding: 10px 0px;
+}
+
+.bordered {
+    border: 1px solid black;
 }
 
 @page {
@@ -239,7 +254,7 @@ h2 {
     .acs-div-container,
     .acs-div-container * {
         font-family: Arial, Helvetica, sans-serif;
-        border: none;
+        /* border: none; */
         visibility: visible;
     }
     .acs-div-container {
@@ -251,4 +266,6 @@ h2 {
         width: 100%;
         height: 100%;
     }
+
+
 }
