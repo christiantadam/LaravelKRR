@@ -52,7 +52,7 @@
                                     <div class="form-group">
                                         <label for="kodeBarang">Kode Barang</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="tanggal" name="tanggal"
+                                            <input type="text" class="form-control" id="tanggal" name="tanggal" style="width: 10%"
                                                 required>
                                             <input type="text" class="form-control" style="width: 70%"
                                                 id="kodeBarangAsal" name="kodeBarangAsal" required>

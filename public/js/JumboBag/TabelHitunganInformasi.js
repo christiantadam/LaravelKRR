@@ -384,20 +384,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[0].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[0].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_bb").innerHTML =
                     parseFloat(data.data[0].Quantity) ===
-                    parseInt(data.data[0].Quantity)
+                        parseInt(data.data[0].Quantity)
                         ? parseInt(data.data[0].Quantity)
                         : parseFloat(data.data[0].Quantity).toFixed(2);
                 document.getElementById("berat_bb").innerHTML =
                     parseFloat(data.data[0].Berat) ===
-                    parseInt(data.data[0].Berat)
+                        parseInt(data.data[0].Berat)
                         ? parseInt(data.data[0].Berat)
                         : parseFloat(data.data[0].Berat).toFixed(2);
                 document.getElementById("hargakg_bb").innerHTML =
@@ -428,20 +428,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[1].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[1].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_ta").innerHTML =
                     parseFloat(data.data[1].Quantity) ===
-                    parseInt(data.data[1].Quantity)
+                        parseInt(data.data[1].Quantity)
                         ? parseInt(data.data[1].Quantity)
                         : parseFloat(data.data[1].Quantity).toFixed(2);
                 document.getElementById("berat_ta").innerHTML =
                     parseFloat(data.data[1].Berat) ===
-                    parseInt(data.data[1].Berat)
+                        parseInt(data.data[1].Berat)
                         ? parseInt(data.data[1].Berat)
                         : parseFloat(data.data[1].Berat).toFixed(2);
                 document.getElementById("hargakg_ta").innerHTML =
@@ -472,20 +472,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[2].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[2].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_tb").innerHTML =
                     parseFloat(data.data[2].Quantity) ===
-                    parseInt(data.data[2].Quantity)
+                        parseInt(data.data[2].Quantity)
                         ? parseInt(data.data[2].Quantity)
                         : parseFloat(data.data[2].Quantity).toFixed(2);
                 document.getElementById("berat_tb").innerHTML =
                     parseFloat(data.data[2].Berat) ===
-                    parseInt(data.data[2].Berat)
+                        parseInt(data.data[2].Berat)
                         ? parseInt(data.data[2].Berat)
                         : parseFloat(data.data[2].Berat).toFixed(2);
                 document.getElementById("hargakg_tb").innerHTML =
@@ -516,20 +516,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[3].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[3].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_ca").innerHTML =
                     parseFloat(data.data[3].Quantity) ===
-                    parseInt(data.data[3].Quantity)
+                        parseInt(data.data[3].Quantity)
                         ? parseInt(data.data[3].Quantity)
                         : parseFloat(data.data[3].Quantity).toFixed(2);
                 document.getElementById("berat_ca").innerHTML =
                     parseFloat(data.data[3].Berat) ===
-                    parseInt(data.data[3].Berat)
+                        parseInt(data.data[3].Berat)
                         ? parseInt(data.data[3].Berat)
                         : parseFloat(data.data[3].Berat).toFixed(2);
                 document.getElementById("hargakg_ca").innerHTML =
@@ -560,20 +560,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[4].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[4].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_cb").innerHTML =
                     parseFloat(data.data[4].Quantity) ===
-                    parseInt(data.data[4].Quantity)
+                        parseInt(data.data[4].Quantity)
                         ? parseInt(data.data[4].Quantity)
                         : parseFloat(data.data[4].Quantity).toFixed(2);
                 document.getElementById("berat_cb").innerHTML =
                     parseFloat(data.data[4].Berat) ===
-                    parseInt(data.data[4].Berat)
+                        parseInt(data.data[4].Berat)
                         ? parseInt(data.data[4].Berat)
                         : parseFloat(data.data[4].Berat).toFixed(2);
                 document.getElementById("hargakg_cb").innerHTML =
@@ -604,20 +604,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[10].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[10].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_lb").innerHTML =
                     parseFloat(data.data[10].Quantity) ===
-                    parseInt(data.data[10].Quantity)
+                        parseInt(data.data[10].Quantity)
                         ? parseInt(data.data[10].Quantity)
                         : parseFloat(data.data[10].Quantity).toFixed(2);
                 document.getElementById("berat_lb").innerHTML =
                     parseFloat(data.data[10].Berat) ===
-                    parseInt(data.data[10].Berat)
+                        parseInt(data.data[10].Berat)
                         ? parseInt(data.data[10].Berat)
                         : parseFloat(data.data[10].Berat).toFixed(2);
                 document.getElementById("hargakg_lb").innerHTML =
@@ -664,20 +664,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[7].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[7].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_dr").innerHTML =
                     parseFloat(data.data[7].Quantity) ===
-                    parseInt(data.data[7].Quantity)
+                        parseInt(data.data[7].Quantity)
                         ? parseInt(data.data[7].Quantity)
                         : parseFloat(data.data[7].Quantity).toFixed(2);
                 document.getElementById("berat_dr").innerHTML =
                     parseFloat(data.data[7].Berat) ===
-                    parseInt(data.data[7].Berat)
+                        parseInt(data.data[7].Berat)
                         ? parseInt(data.data[7].Berat)
                         : parseFloat(data.data[7].Berat).toFixed(2);
                 document.getElementById("hargakg_dr").innerHTML =
@@ -708,20 +708,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[6].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[6].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_rt").innerHTML =
                     parseFloat(data.data[6].Quantity) ===
-                    parseInt(data.data[6].Quantity)
+                        parseInt(data.data[6].Quantity)
                         ? parseInt(data.data[6].Quantity)
                         : parseFloat(data.data[6].Quantity).toFixed(2);
                 document.getElementById("berat_rt").innerHTML =
                     parseFloat(data.data[6].Berat) ===
-                    parseInt(data.data[6].Berat)
+                        parseInt(data.data[6].Berat)
                         ? parseInt(data.data[6].Berat)
                         : parseFloat(data.data[6].Berat).toFixed(2);
                 document.getElementById("hargakg_rt").innerHTML =
@@ -759,20 +759,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[8].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[8].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_st").innerHTML =
                     parseFloat(data.data[8].Quantity) ===
-                    parseInt(data.data[8].Quantity)
+                        parseInt(data.data[8].Quantity)
                         ? parseInt(data.data[8].Quantity)
                         : parseFloat(data.data[8].Quantity).toFixed(2);
                 document.getElementById("berat_st").innerHTML =
                     parseFloat(data.data[8].Berat) ===
-                    parseInt(data.data[8].Berat)
+                        parseInt(data.data[8].Berat)
                         ? parseInt(data.data[8].Berat)
                         : parseFloat(data.data[8].Berat).toFixed(2);
                 document.getElementById("hargakg_st").innerHTML =
@@ -803,20 +803,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[5].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[5].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_pp").innerHTML =
                     parseFloat(data.data[5].Quantity) ===
-                    parseInt(data.data[5].Quantity)
+                        parseInt(data.data[5].Quantity)
                         ? parseInt(data.data[5].Quantity)
                         : parseFloat(data.data[5].Quantity).toFixed(2);
                 document.getElementById("berat_pp").innerHTML =
                     parseFloat(data.data[5].Berat) ===
-                    parseInt(data.data[5].Berat)
+                        parseInt(data.data[5].Berat)
                         ? parseInt(data.data[5].Berat)
                         : parseFloat(data.data[5].Berat).toFixed(2);
                 document.getElementById("hargakg_pp").innerHTML =
@@ -847,20 +847,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[9].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[9].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_cvb").innerHTML =
                     parseFloat(data.data[9].Quantity) ===
-                    parseInt(data.data[9].Quantity)
+                        parseInt(data.data[9].Quantity)
                         ? parseInt(data.data[9].Quantity)
                         : parseFloat(data.data[9].Quantity).toFixed(2);
                 document.getElementById("berat_cvb").innerHTML =
                     parseFloat(data.data[9].Berat) ===
-                    parseInt(data.data[9].Berat)
+                        parseInt(data.data[9].Berat)
                         ? parseInt(data.data[9].Berat)
                         : parseFloat(data.data[9].Berat).toFixed(2);
                 document.getElementById("hargakg_cvb").innerHTML =
@@ -891,20 +891,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[11].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[11].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_lami").innerHTML =
                     parseFloat(data.data[11].Quantity) ===
-                    parseInt(data.data[11].Quantity)
+                        parseInt(data.data[11].Quantity)
                         ? parseInt(data.data[11].Quantity)
                         : parseFloat(data.data[11].Quantity).toFixed(2);
                 document.getElementById("berat_lami").innerHTML =
                     parseFloat(data.data[11].Berat) ===
-                    parseInt(data.data[11].Berat)
+                        parseInt(data.data[11].Berat)
                         ? parseInt(data.data[11].Berat)
                         : parseFloat(data.data[11].Berat).toFixed(2);
                 document.getElementById("hargakg_lami").innerHTML =
@@ -937,20 +937,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[12].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[12].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_lami2").innerHTML =
                     parseFloat(data.data[12].Quantity) ===
-                    parseInt(data.data[12].Quantity)
+                        parseInt(data.data[12].Quantity)
                         ? parseInt(data.data[12].Quantity)
                         : parseFloat(data.data[12].Quantity).toFixed(2);
                 document.getElementById("berat_lami2").innerHTML =
                     parseFloat(data.data[12].Berat) ===
-                    parseInt(data.data[12].Berat)
+                        parseInt(data.data[12].Berat)
                         ? parseInt(data.data[12].Berat)
                         : parseFloat(data.data[12].Berat).toFixed(2);
                 document.getElementById("hargakg_lami2").innerHTML =
@@ -983,20 +983,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[13].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[13].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_bj").innerHTML =
                     parseFloat(data.data[13].Quantity) ===
-                    parseInt(data.data[13].Quantity)
+                        parseInt(data.data[13].Quantity)
                         ? parseInt(data.data[13].Quantity)
                         : parseFloat(data.data[13].Quantity).toFixed(2);
                 document.getElementById("berat_bj").innerHTML =
                     parseFloat(data.data[13].Berat) ===
-                    parseInt(data.data[13].Berat)
+                        parseInt(data.data[13].Berat)
                         ? parseInt(data.data[13].Berat)
                         : parseFloat(data.data[13].Berat).toFixed(2);
                 document.getElementById("hargakg_bj").innerHTML =
@@ -1009,6 +1009,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         : data.data[13].SubTotal;
 
                 //Ongkos Jahit
+                console.log(data.data[14]);
+
                 document.getElementById("potonganP_oj").innerHTML =
                     data.data[14].Panjang_Potongan === ".00"
                         ? "0.00"
@@ -1029,20 +1031,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     parseFloat(data.data[14].Denier).toFixed(2) === ".00"
                         ? "0.00"
                         : parseFloat(data.data[14].Denier).toLocaleString(
-                              undefined,
-                              {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                              }
-                          );
+                            undefined,
+                            {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                            }
+                        );
                 document.getElementById("qty_oj").innerHTML =
                     parseFloat(data.data[14].Quantity) ===
-                    parseInt(data.data[14].Quantity)
+                        parseInt(data.data[14].Quantity)
                         ? parseInt(data.data[14].Quantity)
                         : parseFloat(data.data[14].Quantity).toFixed(2);
                 document.getElementById("berat_oj").innerHTML =
                     parseFloat(data.data[14].Berat) ===
-                    parseInt(data.data[14].Berat)
+                        parseInt(data.data[14].Berat)
                         ? parseInt(data.data[14].Berat)
                         : parseFloat(data.data[14].Berat).toFixed(2);
                 document.getElementById("hargakg_oj").innerHTML =
@@ -1093,12 +1095,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     formattedTotalHarga === ".00"
                         ? "0.00"
                         : parseFloat(formattedTotalHarga)
-                              .toLocaleString("en-US", {
-                                  minimumFractionDigits: 2,
-                                  maximumFractionDigits: 2,
-                              })
-                              // Menghilangkan 3 karakter dari belakang nilai
-                              .slice(0, -3);
+                            .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })
+                            // Menghilangkan 3 karakter dari belakang nilai
+                            .slice(0, -3);
 
                 // Tampilkan hasil total harga
                 document.getElementById("hargakg_total").innerHTML =
@@ -1171,6 +1173,59 @@ document.addEventListener("DOMContentLoaded", function () {
         tinggi_body.value = "";
     });
 
+    // function unk memilih swal dengan arrow keyboard
+    function handleTableKeydown(e, tableId) {
+        const table = $(`#${tableId}`).DataTable();
+        const rows = $(`#${tableId} tbody tr`);
+        const rowCount = rows.length;
+
+        if (e.key === "Enter") {
+            e.preventDefault();
+            const selectedRow = table.row(".selected").data();
+            if (selectedRow) {
+                Swal.getConfirmButton().click();
+            } else {
+                const firstRow = $(`#${tableId} tbody tr:first-child`);
+                if (firstRow.length) {
+                    firstRow.click();
+                    Swal.getConfirmButton().click();
+                }
+            }
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (currentIndex === null) {
+                currentIndex = 0;
+            } else {
+                currentIndex = (currentIndex + 1) % rowCount;
+            }
+            rows.removeClass("selected");
+            $(rows[currentIndex]).addClass("selected");
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (currentIndex === null) {
+                currentIndex = rowCount - 1;
+            } else {
+                currentIndex = (currentIndex - 1 + rowCount) % rowCount;
+            }
+            rows.removeClass("selected");
+            $(rows[currentIndex]).addClass("selected");
+        } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            currentIndex = null;
+            const pageInfo = table.page.info();
+            if (pageInfo.page < pageInfo.pages - 1) {
+                table.page('next').draw('page');
+            }
+        } else if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            currentIndex = null;
+            const pageInfo = table.page.info();
+            if (pageInfo.page > 0) {
+                table.page('previous').draw('page');
+            }
+        }
+    }
+
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
         btn_ukuran.focus();
@@ -1224,6 +1279,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(this).addClass("selected");
                             }
                         );
+
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'customerTable'));
                     });
                 },
             }).then((result) => {
@@ -1280,6 +1338,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
                         });
+
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'ukuranTable'));
                     });
                 },
             }).then(async (result) => {
@@ -1345,6 +1406,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
                         });
+
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'barangTable'));
                     });
                 },
             }).then(async (result) => {
