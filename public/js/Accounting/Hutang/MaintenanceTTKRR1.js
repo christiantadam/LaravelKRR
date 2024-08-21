@@ -153,8 +153,6 @@ $(document).ready(function () {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             });
-
-
         }
     );
 
@@ -190,8 +188,11 @@ $(document).ready(function () {
                         text: response.message,
                         showConfirmButton: true,
                     }).then(() => {
+                        document
+                            .querySelectorAll("input")
+                            .forEach((input) => (input.value = ""));
+                        totalHargaTerbayar = 0;
                         $("#table_atas").DataTable().ajax.reload();
-                        document.querySelectorAll('input').forEach(input => input.value = "");
                     });
                 } else if (response.error) {
                     Swal.fire({

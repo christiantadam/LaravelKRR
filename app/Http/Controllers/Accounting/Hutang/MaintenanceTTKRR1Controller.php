@@ -117,8 +117,8 @@ class MaintenanceTTKRR1Controller extends Controller
                     (float) $TNilaiTagih
                 ]);
 
-            $tes = DB::connection('ConnAccounting')
-                ->select('exec SP_1273_ACC_INS_BKK1_PAJAK @IdPenagihan=?, @NoFaktur=?, @NilaiFaktur=?, @NilaiPajak=?, @Kode=?', [
+            DB::connection('ConnAccounting')
+                ->statement('exec SP_1273_ACC_INS_BKK1_PAJAK @IdPenagihan=?, @NoFaktur=?, @NilaiFaktur=?, @NilaiPajak=?, @Kode=?', [
                     $TIDPenagihan,
                     $TNoFaktur,
                     $TNilaiFaktur,
@@ -127,7 +127,7 @@ class MaintenanceTTKRR1Controller extends Controller
                 ]);
 
             DB::connection('ConnAccounting')
-                ->select('exec SP_1273_ACC_UDT_BKK1_TERBILANG ?, ?', [
+                ->statement('exec SP_1273_ACC_UDT_BKK1_TERBILANG ?, ?', [
                     $TIDPenagihan,
                     $terbilang,
                 ]);

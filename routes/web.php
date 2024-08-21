@@ -1050,6 +1050,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('MaintenanceBKKKRR2Print', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKKController@print');
 
     Route::resource('MaintenanceTTKRR1', App\Http\Controllers\Accounting\Hutang\MaintenanceTTKRR1Controller::class);
+    Route::resource('MaintenanceACCBayarTTKRR1', App\Http\Controllers\Accounting\Hutang\MaintenanceACCBayarTTKRR1Controller::class);
     Route::get('getSupplierTTKRR1', 'App\Http\Controllers\Accounting\Hutang\MaintenanceTTKRR1Controller@getSupplierTTKRR1');
     Route::get('getTabelListDetailBrg/{idSupplier}', 'App\Http\Controllers\Accounting\Hutang\MaintenanceTTKRR1Controller@getTabelListDetailBrg');
 
