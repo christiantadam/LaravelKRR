@@ -244,9 +244,9 @@
     <div class="acs-div-container" id="contoh_printDiv">
         <div class="cetak-prspdf-container">
             <div class="cetak-prspdf-container01">
-                <div class="cetak-prspdf-container02 bordered">
+                <div class="cetak-prspdf-container02">
                     <div class="row">
-                        <div style="margin-top: 2px" class="col-sm-7 d-flex align-items-center justify-content-center">
+                        <div style="padding-top: 3px" class="col-sm-7 d-flex align-items-center justify-content-center bordered">
                             <div>
                                 <h1 style="margin: 0" class="text-center">PT. KERTA RAJASA RAYA</h1>
                                 <div class="text-center">
@@ -256,7 +256,7 @@
                             </div>
 
                         </div>
-                        <div class="col-sm-5 d-flex align-items-center justify-content-center">
+                        <div class="col-sm-5 d-flex align-items-center justify-content-center bordered">
                             <div class="row">
                                 <div class="col-4">No. Referensi</div>
                                 <div class="col-1">:</div>
@@ -343,7 +343,7 @@
                     </table>
                 </div>
                 <br>
-                <div class="cetak-prspdf-container08">
+                <div class="cetak-prspdf-container08 bordered">
                     <table style="width: 100%" id="tableHitung">
                         <thead>
                             <tr>
@@ -378,8 +378,8 @@
                                 <td
                                     style="border:none !important; border-right: 1px solid black !important; border-left: 1px solid black !important;border-bottom: 1px solid black !important">
                                 </td>
-                                <td style="text-align: center !important; width: 60px">&nbsp;P</td>
-                                <td style="text-align: center !important; width: 60px">&nbsp;L</td>
+                                <td style="text-align: center !important; width: 70px">&nbsp;P</td>
+                                <td style="text-align: center !important; width: 70px">&nbsp;L</td>
                                 <td style="text-align: center !important; width: 60px">Warp</td>
                                 <td style="text-align: center !important; width: 60px">Weft</td>
                                 <td style="border:none !important;border-bottom: 1px solid black !important">

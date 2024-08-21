@@ -249,12 +249,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 return intVal(a) + intVal(b);
             }, 0);
 
+            beratTotal = formatNumber(beratTotal);
+            hargakgTotal = formatNumber(hargakgTotal);
+            hargaTotal = formatNumber(hargaTotal);
+
             // Update footer
             $(api.column(7).footer()).html(beratTotal);
             $(api.column(8).footer()).html(hargakgTotal);
             $(api.column(9).footer()).html(hargaTotal);
         }
     });
+
+    // format angka
+    function formatNumber(value) {
+        if (value === ".00" || value === 0) {
+            return "0.00";
+        }
+
+        // koma unk ribuan
+        let num = parseFloat(value).toFixed(2);
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
 
     btn_print.addEventListener("click", function (event) {
@@ -387,7 +402,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     var komponenDisplay;
                     var lebarPotonganDisplay;
 
-                    // Apply conditional logic to determine the display value for Nama_Komponen
                     if (item.Nama_Komponen === "LAMINATING") {
                         komponenDisplay = item.Nama_Komponen + " " + item.Tebal_Lami.trim() + " Mikron";
                     } else if (item.Nama_Komponen === "INNER LINER") {
@@ -426,29 +440,28 @@ document.addEventListener("DOMContentLoaded", function () {
                         komponenDisplay = item.Nama_Komponen;
                     }
 
-                    // Apply conditional logic to determine the display value for Lebar_Potongan
                     if (item.Nama_Komponen === "SELANG TUTUP") {
-                        lebarPotonganDisplay = item.Lebar_Potongan.trim() + " mm";  // Adjust as needed
+                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim()) + " mm";
                     } else if (["07HR00", "11CR00", "12DR00", "13RR00", "28AR00"].includes(item.Standart_Komponen)) {
-                        lebarPotonganDisplay = item.Lebar_Potongan.trim() + " mm";  // Adjust as needed
+                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim()) + " mm";
                     } else {
-                        lebarPotonganDisplay = item.Lebar_Potongan.trim() + " mm";  // Default case
+                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim()) + " mm";
                     }
 
-                    // Add the row to the table with the constructed komponenDisplay and lebarPotonganDisplay
                     tableHitung.row.add([
-                        komponenDisplay,   // Modified value for Nama_Komponen
-                        item.Panjang_Potongan,
-                        lebarPotonganDisplay, // Modified value for Lebar_Potongan
-                        item.WA_Rajutan,
-                        item.WE_Rajutan,
-                        item.Denier,
-                        item.Quantity,
-                        item.Berat,
-                        item.Harga,
-                        item.SubTotal
+                        komponenDisplay,
+                        formatNumber(item.Panjang_Potongan),
+                        lebarPotonganDisplay,
+                        formatNumber(item.WA_Rajutan),
+                        formatNumber(item.WE_Rajutan),
+                        formatNumber(item.Denier),
+                        formatNumber(item.Quantity),
+                        formatNumber(item.Berat),
+                        formatNumber(item.Harga),
+                        formatNumber(item.SubTotal)
                     ]).draw(false);
                 });
+
 
 
                 // //Total
