@@ -1555,5 +1555,11 @@ $(document).ready(function () {
         });
     });
 
+    tahun.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            btnOK.dispatchEvent(new Event("click"));
+        }
+    });
     //#endregion
 });
