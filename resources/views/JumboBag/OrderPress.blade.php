@@ -19,102 +19,108 @@
                     errorMessage = "{{ Session::get('error') }}";
                 </script>
             @endif
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-md-12 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">Order Press</div>
                     <div class="card-body">
                         <form id="ReturPenggantiForm" action="{{ route('OrderJahit.store') }}" method="POST">
                             @csrf
-                            <div class="form-group">
-                                <label for="customer">Customer</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="id_customer" name="id_customer" required>
-                                    <input type="text" class="form-control" style="width: 85%"id="customer"
-                                        name="customer" required>
-                                    <button class="btn" type="button" id="button-customer">...</button>
+                            <div class="row">
+                                <!-- Kolom Kiri -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="customer">Customer</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="id_customer" name="id_customer" required>
+                                            <input type="text" class="form-control" style="width: 75%" id="customer"
+                                                name="customer" required>
+                                            <button class="btn" type="button" id="button-customer">...</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="kodeBarang">Kode Barang</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="tanggal" name="tanggal" required>
+                                            <input type="text" class="form-control" style="width: 75%" id="kodeBarangAsal"
+                                                name="kodeBarangAsal" required>
+                                            <button class="btn" type="button" id="button-kode-barang">...</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="width: 88%" for="no_suratpesanan">No Surat Pesanan</label>
+                                        <label for="delivery">Delivery</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" style="width: 75%" id="no_suratpesanan"
+                                                name="no_suratpesanan" required>
+                                            <input type="text" class="form-control" id="delivery" name="delivery" required>
+                                            <button class="btn" type="button" id="button-pesanan">...</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="jumlah_order">Jumlah Order</label>
+                                        <input type="text" class="form-control" id="jumlah_order" name="jumlah_order" required>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                        <label for="ukuran">Ukuran</label>
+                                        <input type="text" class="form-control" id="ukuran" name="ukuran" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rajutan">Rajutan</label>
+                                        <input type="text" class="form-control" id="rajutan" name="rajutan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="denier">Denier</label>
+                                        <input type="text" class="form-control" id="denier" name="denier" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="type">Type</label>
+                                        <input type="text" class="form-control" id="type" name="type" required>
+                                    </div>
+                                </div>
+                                <!-- Kolom Kanan -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="warna">Warna</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="warna" name="warna" required>
+                                            <button class="btn" type="button" id="button-warna">...</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="packing">Packing</label>
+                                        <input type="text" class="form-control" id="packing" name="packing" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="no_referensi">No Referensi</label>
+                                        <input type="text" class="form-control" id="no_referensi" name="no_referensi" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="halaman">Halaman</label>
+                                        <input type="text" class="form-control" id="halaman" name="halaman" required>
+                                        <input type="text" class="form-control" id="iner" name="iner" required
+                                            style="display: none">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="imageUpload">Upload Foto</label>
+                                        <input type="file" class="form-control-file" id="imageUpload" name="image"
+                                            accept="image/*">
+                                    </div>
+                                    <div class="form-group" id="imagePreviewContainer" style="display: none;">
+                                        <label>Preview Foto</label>
+                                        <div id="imagePreview" style="padding: 10px; max-width: 200px;">
+                                            <img id="previewImg" src="#" alt="Preview Image"
+                                                style="width: 200%; display: none;">
+                                        </div>
+                                        <br>
+                                        <button type="button" class="btn btn-secondary" id="clearImage"
+                                            style="width:100px">Clear</button>
+                                    </div>
+                                    <button id="btn_print" class="btn btn-success" style="width:100px">Print</button>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="kodeBarang">Kode Barang</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="tanggal" name="tanggal" required>
-                                    <input type="text" class="form-control" style="width: 85%" id="kodeBarangAsal"
-                                        name="kodeBarangAsal" required>
-                                    <button class="btn" type="button" id="button-kode-barang">...</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label style="width: 88%" for="no_suratpesanan">No Surat Pesanan</label>
-                                <label for="delivery">Delivery</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" style="width: 80%" id="no_suratpesanan"
-                                        name="no_suratpesanan" required>
-                                    <input type="text" class="form-control" id="delivery" name="delivery" required>
-                                    <button class="btn" type="button" id="button-pesanan">...</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="jumlah_order">Jumlah Order</label>
-                                <input type="text" class="form-control" id="jumlah_order" name="jumlah_order" required>
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <label for="ukuran">Ukuran</label>
-                                <input type="text" class="form-control" id="ukuran" name="ukuran" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="rajutan">Rajutan</label>
-                                <input type="text" class="form-control" id="rajutan" name="rajutan" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="denier">Denier</label>
-                                <input type="text" class="form-control" id="denier" name="denier" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="type">Type</label>
-                                <input type="text" class="form-control" id="type" name="type" required>
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label for="warna">Warna</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="warna" name="warna" required>
-                                    <button class="btn" type="button" id="button-warna">...</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="packing">Packing</label>
-                                <input type="text" class="form-control" id="packing" name="packing" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="no_referensi">No Referensi</label>
-                                <input type="text" class="form-control" id="no_referensi" name="no_referensi"
-                                    required>
-                            </div>
-                            <div class="form-group">
-                                <label for="halaman">Halaman</label>
-                                <input type="text" class="form-control" id="halaman" name="halaman" required>
-                                <input type="text" class="form-control" id="iner" name="iner" required
-                                    style="display: none">
-                            </div>
-                            <div class="form-group">
-                                <label for="imageUpload">Upload Foto</label>
-                                <input type="file" class="form-control-file" id="imageUpload" name="image"
-                                    accept="image/*">
-                            </div>
-                            <div class="form-group" id="imagePreviewContainer" style="display: none;">
-                                <label>Preview Foto</label>
-                                <div id="imagePreview" style="padding: 10px; max-width: 200px;">
-                                    <img id="previewImg" src="#" alt="Preview Image"
-                                        style="width: 200%; display: none;">
-                                </div>
-                                <br>
-                                <button type="button" class="btn btn-secondary" id="clearImage" style="width:100px">Clear</button>
-                            </div>
-                            {{-- <button type="submit" class="btn btn-primary">View Print</button> --}}
-                            <button id="btn_print" class="btn btn-success" style="width:100px">Print</button>
+                        </form>
                     </div>
-                    </form>
                 </div>
                 <br>
             </div>
@@ -585,10 +591,13 @@
                             <td id="weft_st"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_st"
-                                style="text-align: center !important; border-top:none !important; border-left:none !important;">
+                            <td id="gambar_jb"
+                                style="text-align: center !important; border-top:none !important; border-left:none !important; width: 100px; height: 510px; overflow: hidden;"
+                                colspan="4" rowspan="12">
+                                <img id="gambar_print" src="#" alt="Preview Image"
+                                    style="width: 100%; height: 100%; object-fit: fill; display: block;">
                             </td>
-                            <td id="qty_st"
+                            {{-- <td id="qty_st"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="berat_st"
@@ -596,7 +605,7 @@
                             </td>
                             <td id="harga_st"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -614,7 +623,7 @@
                             <td id="weft_pp"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_pp"
+                            {{-- <td id="denier_pp"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_pp"
@@ -625,7 +634,7 @@
                             </td>
                             <td id="harga_pp"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -643,7 +652,7 @@
                             <td id="weft_cvb"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_cvb"
+                            {{-- <td id="denier_cvb"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_cvb"
@@ -654,7 +663,7 @@
                             </td>
                             <td id="harga_cvb"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td id="lami_x"
@@ -672,7 +681,7 @@
                             <td id="weft_lami"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_lami"
+                            {{-- <td id="denier_lami"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_lami"
@@ -683,7 +692,7 @@
                             </td>
                             <td id="harga_lami"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -701,7 +710,7 @@
                             <td id="weft_lami2"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_lami2"
+                            {{-- <td id="denier_lami2"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_lami2"
@@ -712,7 +721,7 @@
                             </td>
                             <td id="harga_lami2"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -730,7 +739,7 @@
                             <td id="weft_bj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_bj"
+                            {{-- <td id="denier_bj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_bj"
@@ -741,7 +750,7 @@
                             </td>
                             <td id="harga_bj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -759,7 +768,7 @@
                             <td id="weft_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_oj"
+                            {{-- <td id="denier_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_oj"
@@ -770,7 +779,7 @@
                             </td>
                             <td id="harga_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -788,7 +797,7 @@
                             <td id="weft_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_oj"
+                            {{-- <td id="denier_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_oj"
@@ -799,7 +808,7 @@
                             </td>
                             <td id="harga_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -817,7 +826,7 @@
                             <td id="weft_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_oj"
+                            {{-- <td id="denier_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_oj"
@@ -828,7 +837,7 @@
                             </td>
                             <td id="harga_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -846,7 +855,7 @@
                             <td id="weft_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_oj"
+                            {{-- <td id="denier_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_oj"
@@ -857,7 +866,7 @@
                             </td>
                             <td id="harga_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -875,7 +884,7 @@
                             <td id="weft_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_oj"
+                            {{-- <td id="denier_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_oj"
@@ -886,7 +895,7 @@
                             </td>
                             <td id="harga_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         <tr>
                             <td
@@ -904,7 +913,7 @@
                             <td id="weft_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
-                            <td id="denier_oj"
+                            {{-- <td id="denier_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
                             </td>
                             <td id="qty_oj"
@@ -915,7 +924,7 @@
                             </td>
                             <td id="harga_oj"
                                 style="text-align: center !important; border-top:none !important; border-left:none !important;">
-                            </td>
+                            </td> --}}
                         </tr>
                         {{-- <tr>
                             <td
@@ -943,7 +952,7 @@
                             <td style="text-align: left !important; border:none !important;">
                                 &nbsp;CATATAN :</td>
                             <td id="catatan_tabel"
-                                style="width: 900px;text-align: left !important; border:none !important;">
+                                style="width: 875px;text-align: left !important; border:none !important;">
                             </td>
                         </tr>
                     </table>

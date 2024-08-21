@@ -443,9 +443,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (item.Nama_Komponen === "SELANG TUTUP") {
                         lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim()) + " mm";
                     } else if (["07HR00", "11CR00", "12DR00", "13RR00", "28AR00"].includes(item.Standart_Komponen)) {
-                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim()) + " mm";
+                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim());
                     } else {
-                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim()) + " mm";
+                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim());
                     }
 
                     tableHitung.row.add([

@@ -147,7 +147,7 @@ class OrderPress extends Controller
                         'Iner' => $row->Iner,
                         'Catatan' => $row->Catatan,
                         'IdBarang' => $row->IdBarang,
-                        'Foto' => $row->Foto,
+                        'Foto' => $row->Foto ? 'data:image/jpeg;base64,' . base64_encode($row->Foto) : null,
                         'StdWaktu' => $row->StdWaktu,
                     ];
                 }

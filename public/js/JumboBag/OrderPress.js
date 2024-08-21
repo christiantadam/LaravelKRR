@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const imageUpload = document.getElementById("imageUpload");
     const previewImg = document.getElementById("previewImg");
+    const gambar_print = document.getElementById("gambar_print");
     const imagePreviewContainer = document.getElementById(
         "imagePreviewContainer"
     );
@@ -107,8 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("typeForm", "printReport");
 
         // Append the base64 encoded image, if available
-        if (previewImg.src && previewImg.src.startsWith('data:image/')) {
-            const base64Data = previewImg.src.split(',')[1];
+        if (previewImg.src && previewImg.src.startsWith("data:image/")) {
+            const base64Data = previewImg.src.split(",")[1];
             formData.append("foto", base64Data); // Send base64 encoded data directly
         }
 
@@ -145,28 +146,69 @@ document.addEventListener("DOMContentLoaded", function () {
                     currentPage + " dari " + totalPages;
 
                 // Uncomment and handle DOM updates with response data
-                // document.getElementById("kode_tabel").innerHTML = data.data[0].Kode_Barang;
-                // document.getElementById("type_tabel").innerHTML =
-                //     data.data[0].ModelBB + "&nbsp;TOP&nbsp;" + data.data[0].ModelCA + "&nbsp;BOTTOM&nbsp;" + data.data[0].ModelCB;
-                // document.getElementById("ukuran_tabel").innerHTML =
-                //     data.data[0].Lebar_BB + "&nbsp;" + "X" + "&nbsp;" + data.data[0].Panjang_BB + "&nbsp;" + "X" + "&nbsp;" + data.data[0].Tinggi_BB;
-                // document.getElementById("nosp_tabel").innerHTML = data.data[0].No_SuratPesanan;
-                // document.getElementById("rajutan_tabel").innerHTML =
-                //     data.data[0].WA_Rajutan + "&nbsp;" + "X" + "&nbsp;" + data.data[0].WE_Rajutan;
-                // document.getElementById("qty_tabel").innerHTML =
-                //     parseFloat(data.data[0].Jumlah_Order).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-                // document.getElementById("denier_tabel").innerHTML =
-                //     parseFloat(data.data[0].Denier).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-                // document.getElementById("delivery_tabel").innerHTML = data.data[0].Waktu_Delivery;
-                // document.getElementById("warna_tabel").innerHTML = "&nbsp;" + data.data[0].Warna;
-                // document.getElementById("packing_tabel").innerHTML = data.data[0].Packing;
-                // var inerValue = data.data[0].Iner;
-                // var innerHTMLValue = inerValue === "N" ? "&nbsp;-" : "&nbsp;" + inerValue;
-                // document.getElementById("inner_tabel").innerHTML = innerHTMLValue;
-                // let keterangan = data.data[0].Keterangan.replace(/\r\n/g, "<br>");
-                // keterangan = "&nbsp;" + keterangan;
-                // document.getElementById("catatan_tabel").innerHTML = keterangan;
-                // document.getElementById("tanggal_tabel").innerHTML = "&nbsp;" + formattedDate;
+                document.getElementById("kode_tabel").innerHTML =
+                    data.data[0].Kode_Barang;
+                document.getElementById("type_tabel").innerHTML =
+                    data.data[0].ModelBB +
+                    "&nbsp;TOP&nbsp;" +
+                    data.data[0].ModelCA +
+                    "&nbsp;BOTTOM&nbsp;" +
+                    data.data[0].ModelCB;
+                document.getElementById("ukuran_tabel").innerHTML =
+                    data.data[0].Lebar_BB +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    data.data[0].Panjang_BB +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    data.data[0].Tinggi_BB;
+                document.getElementById("nosp_tabel").innerHTML =
+                    data.data[0].No_SuratPesanan;
+                document.getElementById("rajutan_tabel").innerHTML =
+                    data.data[0].WA_Rajutan +
+                    "&nbsp;" +
+                    "X" +
+                    "&nbsp;" +
+                    data.data[0].WE_Rajutan;
+                document.getElementById("qty_tabel").innerHTML = parseFloat(
+                    data.data[0].Jumlah_Order
+                ).toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                });
+                document.getElementById("denier_tabel").innerHTML = parseFloat(
+                    data.data[0].Denier
+                ).toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                });
+                document.getElementById("delivery_tabel").innerHTML =
+                    data.data[0].Waktu_Delivery;
+                document.getElementById("warna_tabel").innerHTML =
+                    "&nbsp;" + data.data[0].Warna;
+                document.getElementById("packing_tabel").innerHTML =
+                    data.data[0].Packing;
+                var inerValue = data.data[0].Iner;
+                var innerHTMLValue =
+                    inerValue === "N" ? "&nbsp;-" : "&nbsp;" + inerValue;
+                document.getElementById("inner_tabel").innerHTML =
+                    innerHTMLValue;
+                let keterangan = data.data[0].Keterangan.replace(
+                    /\r\n/g,
+                    "<br>"
+                );
+                keterangan = "&nbsp;" + keterangan;
+                document.getElementById("catatan_tabel").innerHTML = keterangan;
+                if (data.data[0].Foto) {
+                    gambar_print.src = data.data[0].Foto;
+                    gambar_print.style.display = "block";
+                } else {
+                    gambar_print.style.display = "none";
+                }
+                // document.getElementById("tanggal_tabel").innerHTML =
+                //     "&nbsp;" + formattedDate;
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -179,7 +221,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
         });
     });
-
 
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
