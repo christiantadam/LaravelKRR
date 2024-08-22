@@ -988,7 +988,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('GetDataHeadTH/{kodeBarang}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataHeadTH');
     // Route::get('GetDataRincianTH/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataRincianTH');
     Route::get('GetDataKoreksiJBB/{kodeBarang}/{namaCustomer}', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@GetDataKoreksi');
-
+    Route::resource('PermohonanKonversiJBBPotong', App\Http\Controllers\JumboBag\PermohonanKonversiJBBPotongController::class);
     Route::resource('MaintenanceCustomer', App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class);
     Route::get('/api/customers', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'getCustomers']);
     Route::delete('/delete-customer/{idCustomer}', [App\Http\Controllers\JumboBag\MaintenanceCustomerJBB::class, 'deleteCustomer']);

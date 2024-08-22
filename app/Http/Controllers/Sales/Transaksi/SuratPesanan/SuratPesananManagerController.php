@@ -275,10 +275,9 @@ class SuratPesananManagerController extends Controller
         // dd($inv, $adaDo, $terkirim, $id_pesanan, $adaDo == 0, $terkirim < 1, $inv->isEmpty(), $inv[0]->IdPenagihan);
         for ($i = 0; $i < count($id_pesanan); $i++) {
             // dd($inv->isEmpty(), $adaDo == 0 or $terkirim < 1);
-            // dd($inv);
-            if ($inv[0]->IdPenagihan == null) {
-                // dd('masuk atas',$inv);
-                if ($adaDo == 0 or $terkirim < 1) {
+            if ($inv->isEmpty() || $inv[0]->IdPenagihan == null) {
+                // dd('masuk atas',$HargaSatuan);
+                if ($adaDo == 0 or (int)$terkirim < 1) {
                     if (is_null($id_pesanan[$i])) {
                         // dd($id_pesanan[$i]);
                         DB::connection('ConnSales')->statement(
