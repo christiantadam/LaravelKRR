@@ -48,46 +48,69 @@ class MaintenanceTTKRR1Controller extends Controller
         $TIdUang = 1;
         $user_id = trim(Auth::user()->NomorUser);
         $TNilaiTagih = $request->input('nilai_penagihan');
+        $TNilaiBayarTanpaKoma = str_replace(',', '', $request->input('nilai_penagihan'));
+        $TNilaiBayar = (float) $TNilaiBayarTanpaKoma;
         $TNoFaktur = $request->input('nofaktur_pajak');
         $TNilaiFaktur = $request->input('nilai_pajak');
         $TPajak = $request->input('pajak');
+        $cekHrg_tot_bttb = 0;
+        // dd($TNilaiBayar);
         // dd($request->all());
         $simpan = false;
 
         if (empty($TIDPenagihan)) {
-            $year = date('Y');
-
-            $mValue = DB::connection('ConnAccounting')
-                ->table('T_COUNTER_INVOICE')
-                ->where('Periode', $year)
-                ->value('NoTT');
-
-            $idTT = 'TT-' . substr($year, -2) . str_pad($mValue, 6, '0', STR_PAD_LEFT);
-
+            // Execute the stored procedure to insert and get the ID
             DB::connection('ConnAccounting')
-                ->table('T_COUNTER_INVOICE')
-                ->where('Periode', $year)
-                ->update(['NoTT' => $mValue + 1]);
-
-            DB::connection('ConnAccounting')
-                ->table('T_Penagihan')
-                ->insert([
-                    'Id_Penagihan' => $idTT,
-                    'Waktu_Penagihan' => now()->format('m/d/Y'),
-                    'Id_Supplier' => $TIDSupplier,
-                    'Id_Jenis_Dokumen' => 2,
-                    'Jumlah_Dokumen' => 1,
-                    'Status_PPN' => 'N',
-                    'Id_MataUang' => $TIdUang,
-                    'UserId' => $user_id,
-                    'Lunas' => 'N',
-                    'Id_Inv_Supp' => $txtInvSup
+                ->statement('exec SP_1273_ACC_INS_BKK1_IDTT @IdSupplier = ?, @invSup = ?, @IdMataUang = ?, @UserId = ?', [
+                    $TIDSupplier,
+                    $txtInvSup,
+                    $TIdUang,
+                    $user_id,
                 ]);
 
-            $TIDPenagihan = $idTT;
+            $TIDPenagihanqq = DB::connection('ConnAccounting')->table('T_Penagihan')
+                ->select('Id_Penagihan')
+                ->orderBy('Waktu_Penagihan', 'desc')
+                ->orderBy('Id_Penagihan', 'desc')
+                ->first();
+
+            $TIDPenagihan = trim($TIDPenagihanqq->Id_Penagihan);
             $simpan = true;
-            // dd($TIDPenagihan);
         }
+        // if (empty($TIDPenagihan)) {
+        //     $year = date('Y');
+
+        //     $mValue = DB::connection('ConnAccounting')
+        //         ->table('T_COUNTER_INVOICE')
+        //         ->where('Periode', $year)
+        //         ->value('NoTT');
+
+        //     $idTT = 'TT-' . substr($year, -2) . str_pad($mValue, 6, '0', STR_PAD_LEFT);
+
+        //     DB::connection('ConnAccounting')
+        //         ->table('T_COUNTER_INVOICE')
+        //         ->where('Periode', $year)
+        //         ->update(['NoTT' => $mValue + 1]);
+
+        //     DB::connection('ConnAccounting')
+        //         ->table('T_Penagihan')
+        //         ->insert([
+        //             'Id_Penagihan' => $idTT,
+        //             'Waktu_Penagihan' => now()->format('m/d/Y'),
+        //             'Id_Supplier' => $TIDSupplier,
+        //             'Id_Jenis_Dokumen' => 2,
+        //             'Jumlah_Dokumen' => 1,
+        //             'Status_PPN' => 'N',
+        //             'Id_MataUang' => $TIdUang,
+        //             'UserId' => $user_id,
+        //             'Lunas' => 'N',
+        //             'Id_Inv_Supp' => $txtInvSup ?? null,
+        //         ]);
+
+        //     $TIDPenagihan = $idTT;
+        //     $simpan = true;
+        //     // dd($TIDPenagihan);
+        // }
 
         foreach ($ListPO as $item) {
             DB::connection('ConnAccounting')
@@ -106,17 +129,26 @@ class MaintenanceTTKRR1Controller extends Controller
                     (float) $item['Qty_Terima'],
                     $item['Sat_Terima']
                 ]);
+            $hrgTotBttb = DB::connection('ConnPurchase')->table('Yterima')
+                ->where('No_terima', $item['No_terima'])
+                ->value('Hrg_tot_bttb');
+
+            $cekHrg_tot_bttb += (float) $hrgTotBttb;
         }
 
         if (!$simpan) {
-            return response()->json(['message' => 'TIDAK ADA Data yang diPROSES !!..']);
+            return response()->json(['error' => 'TIDAK ADA Data yang diPROSES !!..']);
         } else {
-            DB::connection('ConnAccounting')
-                ->select('exec SP_1273_ACC_UDT_BKK1_NILAI_TT ?, ?', [
-                    $TIDPenagihan,
-                    (float) $TNilaiTagih
-                ]);
+            // dd($cekHrg_tot_bttb, $TNilaiBayar);
+            if ($cekHrg_tot_bttb != $TNilaiBayar) {
+                return response()->json(['error' => 'Data Hrg_tot_bttb dan Nilai Bayar tidak sesuai!']);
+            }
 
+            DB::connection('ConnAccounting')
+                ->statement('exec SP_1273_ACC_UDT_BKK1_NILAI_TT ?, ?', [
+                    $TIDPenagihan,
+                    $TNilaiBayar
+                ]);
             DB::connection('ConnAccounting')
                 ->statement('exec SP_1273_ACC_INS_BKK1_PAJAK @IdPenagihan=?, @NoFaktur=?, @NilaiFaktur=?, @NilaiPajak=?, @Kode=?', [
                     $TIDPenagihan,

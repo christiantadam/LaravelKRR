@@ -16,12 +16,16 @@ $(document).ready(function () {
     let table_atas = $("#table_atas").DataTable();
     let table_bawah = $("#table_bawah").DataTable();
     let terbilang;
+    let rowDataArray = [];
+    let totalHargaTerbayar = 0;
 
     nilai_penagihan.style.fontWeight = "bold";
     mata_uang.value = "RUPIAH";
 
     btn_supplier.addEventListener("click", async function (event) {
         event.preventDefault();
+        totalHargaTerbayar = 0;
+        nilai_penagihan.value = 0;
         try {
             const result = await Swal.fire({
                 title: "Select a Supplier",
@@ -123,9 +127,6 @@ $(document).ready(function () {
         }
     });
 
-    let rowDataArray = [];
-    let totalHargaTerbayar = 0;
-
     $("#table_atas tbody").off("change", 'input[name="penerimaCheckbox"]');
     $("#table_atas tbody").on(
         "change",
@@ -149,10 +150,12 @@ $(document).ready(function () {
                 }
             }
 
-            nilai_penagihan.value = totalHargaTerbayar.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-            });
+            nilai_penagihan.value = numeral(
+                parseFloat(totalHargaTerbayar)
+            ).format("0,0.00");
+
+            console.log(rowDataArray);
+
         }
     );
 
@@ -207,5 +210,6 @@ $(document).ready(function () {
                 alert(xhr.responseJSON.message);
             },
         });
+    rowDataArray = [];
     });
 });

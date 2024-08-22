@@ -33,12 +33,20 @@ function dataPrint() {
         data: {
             No_BTTB: nobttb.value,
         },
+        beforeSend: function () {
+            // Show loading screen
+            $("#loading-screen").css("display", "flex");
+        },
         success: function (response) {
             console.log(response);
             print(response);
         },
         error: function (error) {
             console.error("Error Get Data:", error);
+        },
+        complete: function () {
+            // Hide loading screen
+            $("#loading-screen").css("display", "none");
         },
     });
 }
@@ -327,6 +335,10 @@ post_btn.addEventListener("click", function (event) {
                     NoReg: registrasi.value.trim(),
                     TglReg: tglRegFormatted,
                 },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
                 success: function (response) {
                     console.log(response);
                     Swal.fire({
@@ -348,6 +360,10 @@ post_btn.addEventListener("click", function (event) {
                         timer: "2000",
                     });
                     console.error("Error Send Data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
                 },
             });
         }

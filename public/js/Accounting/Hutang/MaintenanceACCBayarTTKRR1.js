@@ -7,6 +7,7 @@ $(document).ready(function () {
     let btn_refresh = document.getElementById("btn_refresh");
     let btn_ttditunai = document.getElementById("btn_ttditunai");
     let btn_proses = document.getElementById("btn_proses");
+    let btn_bayartunai = document.getElementById("btn_bayartunai");
     let tt_modal = document.getElementById("tt_modal");
     let supplier_modal = document.getElementById("supplier_modal");
     let nilai_tt = document.getElementById("nilai_tt");
@@ -47,7 +48,7 @@ $(document).ready(function () {
         const checkboxes = document.querySelectorAll(
             '#table_atas input[type="checkbox"][name="penerimaCheckbox"]'
         );
-        checkedRows = []; // Reset checkedRows when selecting/deselecting all
+        checkedRows = [];
 
         checkboxes.forEach(function (checkbox) {
             checkbox.checked = checkbox_all.checked;
@@ -57,6 +58,8 @@ $(document).ready(function () {
                 checkedRows.push(row);
             }
         });
+
+        console.log(checkedRows);
     });
 
     $("#table_atas tbody").off("change", 'input[name="penerimaCheckbox"]');
@@ -71,12 +74,50 @@ $(document).ready(function () {
                 checkedRows.push(rowData); // Add checked row data to the array
             } else {
                 checkedRows = checkedRows.filter(
-                    (row) => row.Waktu_Penagihan !== rowData.Waktu_Penagihan
+                    (row) => row.Id_Penagihan !== rowData.Id_Penagihan
                 ); // Remove unchecked row data
             }
             console.log(checkedRows); // Debugging output
         }
     );
+
+    btn_proses.addEventListener("click", async function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "MaintenanceACCBayarTTKRR1",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                checkedRows: checkedRows,
+            },
+            success: function (response) {
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        document
+                            .querySelectorAll("input")
+                            .forEach((input) => (input.value = ""));
+                        $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+        checkedRows=[]
+    });
 
     btn_refresh.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -107,7 +148,19 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response.length == 0) {
-                        alert("Data Tidak Ada");
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: "Data tidak ada",
+                            showConfirmButton: false,
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
                     } else {
                         supplier_modal.value = response.NM_SUP;
                         nilai_tt.value = response.Nilai_Pembayaran;
@@ -137,5 +190,42 @@ $(document).ready(function () {
         tt_modal.value = "";
         supplier_modal.value = "";
         nilai_tt.value = "";
+    });
+
+    btn_bayartunai.addEventListener("click", async function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "MaintenanceACCBayarTTKRR1/updateTT",
+            type: "PUT",
+            data: {
+                _token: csrfToken,
+                tt_modal: tt_modal.value,
+            },
+            success: function (response) {
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        tt_modal.value = "";
+                        supplier_modal.value = "";
+                        nilai_tt.value = "";
+                        $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
     });
 });

@@ -25,23 +25,35 @@ class MaintenanceACCBayarTTKRR1Controller extends Controller
 
     public function store(Request $request)
     {
-        //
+        $listPengajuan = $request->input('checkedRows');
+        // dd($listPengajuan); // Debugging output
+
+        if (empty($listPengajuan)) {
+            return response()->json(['error' => 'TIDAK DAPAT Proses Data, karena tidak ada Data!!!..']);
+        }
+
+        $adaProses = false;
+
+        foreach ($listPengajuan as $item) {
+            if (isset($item['Id_Penagihan']) && !empty($item['Id_Penagihan'])) {
+                $adaProses = true;
+
+                // Call the stored procedure for each item
+                DB::connection('ConnAccounting')
+                    ->statement('EXEC SP_1273_ACC_UDT_BKK1_TT_LUNAS @IdPenagihan = ?', [$item['Id_Penagihan']]);
+            }
+        }
+
+        if ($adaProses) {
+            return response()->json(['message' => 'Data sudah diACC untuk dibayar !!..']);
+        } else {
+            return response()->json(['error' => 'Pilih dulu datanya!!.. dengan memberi tanda cawang']);
+        }
     }
 
     public function show(Request $request, $id)
     {
-        if ($id == 'getSupplier') {
-            $supplierDetails = DB::connection('ConnAccounting')
-                ->select('exec SP_1273_ACC_LIST_SUPPLIER');
-            $response = [];
-            foreach ($supplierDetails as $row) {
-                $response[] = [
-                    'NM_SUP' => trim($row->NM_SUP),
-                    'NO_SUP' => trim($row->NO_SUP),
-                ];
-            }
-            return datatables($response)->make(true);
-        } else if ($id == 'getPengajuan') {
+        if ($id == 'getPengajuan') {
             $pengajuanDetails = DB::connection('ConnAccounting')
                 ->select('exec SP_1273_ACC_LIST_BKK1_TT');
             // dd($pengajuanDetails);
@@ -64,7 +76,7 @@ class MaintenanceACCBayarTTKRR1Controller extends Controller
                 ->select('exec SP_1273_ACC_CHECK_BKK1_IDTT @IdTT = ?', [$IdTT]);
 
             if ($checkData[0]->Ada == 0) {
-                return response()->json(['message' => 'Data Tidak Ada !!.., Hubungi Rus untuk Serah Terima TT !!..']);
+                return response()->json(['error' => 'Data Tidak Ada !!.., Hubungi Rus untuk Serah Terima TT !!..']);
             } else {
                 $detailData = DB::connection('ConnAccounting')
                     ->select('exec SP_1273_ACC_LIST_BKK1_IDTT @IdTT = ?', [$IdTT]);
@@ -76,14 +88,6 @@ class MaintenanceACCBayarTTKRR1Controller extends Controller
 
                 return response()->json($response);
             }
-        } else if ($id == 'updateTT') {
-            $IdTT = trim($request->input('tt_modal'));
-            $userId = trim($request->input('user_id'));
-
-            // Execute update stored procedure
-            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK1_USERTT @IdTT = ?, @UserId = ?', [$IdTT, $userId]);
-
-            return response()->json(['message' => 'Data sudah diPROSES!!..']);
         }
     }
 
@@ -94,7 +98,14 @@ class MaintenanceACCBayarTTKRR1Controller extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        if ($id == 'updateTT') {
+            $IdTT = trim($request->input('tt_modal'));
+            $userId = trim($request->input('user_id'));
+
+            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK1_USERTT @IDTT = ?, @UserId = ?', [$IdTT, $userId]);
+
+            return response()->json(['message' => 'Data sudah diPROSES!!..']);
+        }
     }
 
     public function destroy($id)
