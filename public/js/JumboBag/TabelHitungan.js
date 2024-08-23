@@ -1284,6 +1284,9 @@ function bodyBesar() {
         );
         let LebarPot = Rumus_LebarBB(body_bentuk.value, id_body_model.value);
 
+        PanjangPot = Math.round(PanjangPot);
+        LebarPot = Math.round(LebarPot);
+
         let Qty = 0;
         if (
             id_body_model.value == "01BB2M" ||
@@ -1325,6 +1328,9 @@ function BodySampingI() {
         id_body_model.value = "";
         id_body_model.value = "02BS" + karakterIdBodyModel;
 
+        PanjangPot = Math.round(PanjangPot);
+        LebarPot = Math.round(LebarPot);
+
         $.ajax({
             type: "POST", // or 'GET' depending on your server setup
             url: "TabelHitunganJBB", // Specify the URL of your controller
@@ -1360,6 +1366,9 @@ function BodySampingII() {
         id_body_model.value = "";
         id_body_model.value = "02BS" + karakterIdBodyModel;
 
+        PanjangPot = Math.round(PanjangPot);
+        LebarPot = Math.round(LebarPot);
+
         $.ajax({
             type: "POST", // or 'GET' depending on your server setup
             url: "TabelHitunganJBB", // Specify the URL of your controller
@@ -1391,6 +1400,9 @@ function TutupAtas() {
         SetVariabel();
         PanjangPot = Rumus_PanjangTA(body_bentuk.value, id_body_model.value);
         LebarPot = Rumus_LebarTA(body_bentuk.value, id_body_model.value);
+
+        PanjangPot = Math.round(PanjangPot);
+        LebarPot = Math.round(LebarPot);
 
         karakterIdBodyModel = id_body_model.value.slice(-2);
         id_body_model.value = "";
@@ -1427,6 +1439,9 @@ function TutupBawah() {
         SetVariabel();
         PanjangPot = Rumus_PanjangTB(body_bentuk.value, id_body_model.value);
         LebarPot = Rumus_LebarTB(body_bentuk.value, id_body_model.value);
+
+        PanjangPot = Math.round(PanjangPot);
+        LebarPot = Math.round(LebarPot);
 
         karakterIdBodyModel = id_body_model.value.slice(-2);
         id_body_model.value = "";
@@ -1471,6 +1486,9 @@ function CerobongAtas() {
             id_cerobongAtas_model.value
         );
 
+        PanjangPot = Math.round(PanjangPot);
+        LebarPot = Math.round(LebarPot);
+
         id_cerobongAtas_model.value = "";
         id_cerobongAtas_model.value =
             "05CA" + id_cerobongAtas_model.value.slice(-2);
@@ -1513,6 +1531,9 @@ function CerobongBawah() {
             cerobongBawah_bentuk.value,
             id_cerobongBawah_model.value
         );
+
+        PanjangPot = Math.round(PanjangPot);
+        LebarPot = Math.round(LebarPot);
 
         id_cerobongBawah_model.value = "";
         id_cerobongBawah_model.value =
@@ -3537,15 +3558,50 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         subtotalKomponenCircular.value = selectedData[10];
                         kounterKomponenCircular.value = selectedData[11];
                         if (Kode_Komponen.substring(0, 4) === "05CA") {
-                            diameterKomponenCircular.value =
-                                cerobongAtas_diameter.value;
-                            tinggiKomponenCircular.value =
-                                cerobongAtas_tinggi.value;
+                            if (
+                                diameterKomponenCircular &&
+                                cerobongAtas_diameter
+                            ) {
+                                diameterKomponenCircular.value =
+                                    cerobongAtas_diameter.value;
+                            } else {
+                                console.error(
+                                    "Element diameterKomponenCircular or cerobongAtas_diameter is not found"
+                                );
+                            }
+
+                            if (tinggiKomponenCircular && cerobongAtas_tinggi) {
+                                tinggiKomponenCircular.value =
+                                    cerobongAtas_tinggi.value;
+                            } else {
+                                console.error(
+                                    "Element tinggiKomponenCircular or cerobongAtas_tinggi is not found"
+                                );
+                            }
                         } else if (Kode_Komponen.substring(0, 4) === "06CB") {
-                            diameterKomponenCircular.value =
-                                cerobongBawah_diameter.value;
-                            tinggiKomponenCircular.value =
-                                cerobongBawah_tinggi.value;
+                            if (
+                                diameterKomponenCircular &&
+                                cerobongBawah_diameter
+                            ) {
+                                diameterKomponenCircular.value =
+                                    cerobongBawah_diameter.value;
+                            } else {
+                                console.error(
+                                    "Element diameterKomponenCircular or cerobongBawah_diameter is not found"
+                                );
+                            }
+
+                            if (
+                                tinggiKomponenCircular &&
+                                cerobongBawah_tinggi
+                            ) {
+                                tinggiKomponenCircular.value =
+                                    cerobongBawah_tinggi.value;
+                            } else {
+                                console.error(
+                                    "Element tinggiKomponenCircular or cerobongBawah_tinggi is not found"
+                                );
+                            }
                         }
 
                         $.ajax({
@@ -4523,7 +4579,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         rowIndex,
                         colIndex
                     ) {
-                        //editable tableKomponenLami
+                        // Editable tableKomponenLami
                         let original;
                         cell.setAttribute("contenteditable", true);
                         cell.setAttribute("spellcheck", false);
@@ -4535,7 +4591,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                         cell.addEventListener("blur", function (e) {
                             const newContent = e.target.textContent;
 
-                            if (original !== e.target.textContent) {
+                            if (original !== newContent) {
                                 const row = tableKomponenLami.row(
                                     e.target.parentElement
                                 );
@@ -4544,26 +4600,46 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
 
                                 // Invalidate and redraw the row to reflect the change
                                 row.invalidate().draw();
-                                console.log("Cell changed: ", e.target); // Logging the cell
-                                console.log(
-                                    "New content: ",
-                                    e.target.textContent
-                                ); // Logging the new content
-                                console.log("Column index: ", colIndex); // Logging the column index
+                                console.log("Cell changed: ", e.target);
+                                console.log("New content: ", newContent);
+                                console.log("Column index: ", colIndex);
                                 console.log(
                                     "Column name: ",
                                     tableKomponenLami.column(colIndex).header()
                                         .textContent
-                                ); // Logging the column name
-                                console.log("Row data: ", row.data()); // Logging the row data
+                                );
+                                console.log("Row data: ", row.data());
                                 console.log(
                                     cell,
                                     cellData,
                                     rowData,
                                     rowIndex,
                                     colIndex
-                                ); // Logging all parameters
+                                );
                                 hitungBerat();
+                            }
+                        });
+
+                        // Add keypress event listener for Enter key to move focus down
+                        cell.addEventListener("keypress", function (e) {
+                            if (e.key === "Enter") {
+                                e.preventDefault(); // Prevent the default action of Enter key (e.g., line break in contenteditable)
+
+                                const currentRow = e.target.parentElement;
+                                const currentCellIndex =
+                                    Array.prototype.indexOf.call(
+                                        currentRow.children,
+                                        e.target
+                                    );
+
+                                const nextRow = currentRow.nextElementSibling;
+                                if (nextRow) {
+                                    const nextCell =
+                                        nextRow.children[currentCellIndex];
+                                    if (nextCell) {
+                                        nextCell.focus(); // Move focus to the cell below
+                                    }
+                                }
                             }
                         });
                     };
@@ -6121,6 +6197,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             let nextElement = getNextFocusableElement(this);
                             if (nextElement) {
                                 nextElement.focus();
+                                nextElement.select();
                             }
                         }
                     });
@@ -6606,7 +6683,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             StandartKomponen:
                                 Kode_Komponen.substring(0, 4) + "00",
                             Panjang: panjangKomponenRope.value,
-                            Lebar: lebarKomponenRope.value,
+                            Lebar: diameterKomponenRope.value,
                             WA: 0,
                             WE: 0,
                             Denier: 0,
@@ -7951,7 +8028,7 @@ function tampilFormKomposisi(typeForm, Kode_Komponen, Nama_Komponen) {
                             Lebar: 0,
                             WA: 0,
                             WE: 0,
-                            Denier: denierKomponenBenang.value,
+                            Denier: denier2KomponenBenang.value,
                             Quantity: 0,
                             Berat: kebutuhanKomponenBenang.value,
                             BeratWA: 0,
