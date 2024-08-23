@@ -215,39 +215,49 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    const tableHitung = $('#tableHitung').DataTable({
-        "paging": false,
-        "ordering": false,
-        "searching": false,
-        "info": false,
-        "autoWidth": false,
-        "columnDefs": [
-            { "orderable": false, "targets": [0, 1, 2, 3, 4] } // Disable ordering on certain columns
+    const tableHitung = $("#tableHitung").DataTable({
+        paging: false,
+        ordering: false,
+        searching: false,
+        info: false,
+        autoWidth: false,
+        columnDefs: [
+            { orderable: false, targets: [0, 1, 2, 3, 4] }, // Disable ordering on certain columns
         ],
-        "footerCallback": function (row, data, start, end, display) {
+        footerCallback: function (row, data, start, end, display) {
             // Calculate the total in the footer
             var api = this.api();
 
             // Function to sum a column's data
             var intVal = function (i) {
-                return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '') * 1 :
-                    typeof i === 'number' ?
-                        i : 0;
+                return typeof i === "string"
+                    ? i.replace(/[\$,]/g, "") * 1
+                    : typeof i === "number"
+                    ? i
+                    : 0;
             };
 
             // Calculate totals for specific columns
-            var beratTotal = api.column(7).data().reduce(function (a, b) {
-                return intVal(a) + intVal(b);
-            }, 0);
+            var beratTotal = api
+                .column(7)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
 
-            var hargakgTotal = api.column(8).data().reduce(function (a, b) {
-                return intVal(a) + intVal(b);
-            }, 0);
+            var hargakgTotal = api
+                .column(8)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
 
-            var hargaTotal = api.column(9).data().reduce(function (a, b) {
-                return intVal(a) + intVal(b);
-            }, 0);
+            var hargaTotal = api
+                .column(9)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
 
             beratTotal = formatNumber(beratTotal);
             hargakgTotal = formatNumber(hargakgTotal);
@@ -257,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $(api.column(7).footer()).html(beratTotal);
             $(api.column(8).footer()).html(hargakgTotal);
             $(api.column(9).footer()).html(hargaTotal);
-        }
+        },
     });
 
     // format angka
@@ -270,7 +280,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let num = parseFloat(value).toFixed(2);
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-
 
     btn_print.addEventListener("click", function (event) {
         event.preventDefault();
@@ -396,73 +405,162 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("type_tabel").innerHTML =
                     "&nbsp;" + dataAll[0].Usage_type;
 
-
                 // untuk tbody
                 dataAll.forEach(function (item) {
                     var komponenDisplay;
                     var lebarPotonganDisplay;
 
                     if (item.Nama_Komponen === "LAMINATING") {
-                        komponenDisplay = item.Nama_Komponen + " " + item.Tebal_Lami.trim() + " Mikron";
+                        komponenDisplay =
+                            item.Nama_Komponen +
+                            " " +
+                            item.Tebal_Lami.trim() +
+                            " Mikron";
                     } else if (item.Nama_Komponen === "INNER LINER") {
-                        komponenDisplay = item.Nama_Komponen + " " + item.Tebal_Iner.trim() + " Mikron" + " (" + item.SEAL + ")";
-                    } else if (item.Nama_Komponen === "CEROBONG ATAS" && item.Bentuk_CA === "C") {
-                        if (item.Model_CA === '05CADM' || item.Model_CA === '05CADX') {
-                            komponenDisplay = item.Nama_Komponen + " " + item.Tinggi_CA.trim();
+                        komponenDisplay =
+                            item.Nama_Komponen +
+                            " " +
+                            item.Tebal_Iner.trim() +
+                            " Mikron" +
+                            " (" +
+                            item.SEAL +
+                            ")";
+                    } else if (
+                        item.Nama_Komponen === "CEROBONG ATAS" &&
+                        item.Bentuk_CA === "C"
+                    ) {
+                        if (
+                            item.Model_CA === "05CADM" ||
+                            item.Model_CA === "05CADX"
+                        ) {
+                            komponenDisplay =
+                                item.Nama_Komponen +
+                                " " +
+                                item.Tinggi_CA.trim();
                         } else {
-                            komponenDisplay = item.Nama_Komponen + " " + item.Diameter_CA.trim() + " X " + item.Tinggi_CA.trim();
+                            komponenDisplay =
+                                item.Nama_Komponen +
+                                " " +
+                                item.Diameter_CA.trim() +
+                                " X " +
+                                item.Tinggi_CA.trim();
                         }
-                    } else if (item.Nama_Komponen === "CEROBONG BAWAH" && item.Bentuk_CB === "C") {
-                        if (item.Model_CB === '06CBDM') {
-                            komponenDisplay = item.Nama_Komponen + " " + item.Tinggi_CB.trim();
+                    } else if (
+                        item.Nama_Komponen === "CEROBONG BAWAH" &&
+                        item.Bentuk_CB === "C"
+                    ) {
+                        if (item.Model_CB === "06CBDM") {
+                            komponenDisplay =
+                                item.Nama_Komponen +
+                                " " +
+                                item.Tinggi_CB.trim();
                         } else {
-                            komponenDisplay = item.Nama_Komponen + " " + item.Diameter_CB.trim() + " X " + item.Tinggi_CB.trim();
+                            komponenDisplay =
+                                item.Nama_Komponen +
+                                " " +
+                                item.Diameter_CB.trim() +
+                                " X " +
+                                item.Tinggi_CB.trim();
                         }
                     } else if (item.Nama_Komponen === "LIFTING BELT") {
-                        komponenDisplay = item.Nama_Komponen + " " + item.Tinggi_Loop + " Tinggi Loop";
+                        komponenDisplay =
+                            item.Nama_Komponen +
+                            " " +
+                            item.Tinggi_Loop +
+                            " Tinggi Loop";
                     } else if (item.Nama_Komponen === "SELANG TUTUP") {
-                        komponenDisplay = item.Nama_Komponen + " Diameter= " + item.Lebar_Potongan.trim() + " mm";
-                    } else if (["07HR00", "11CR00", "12DR00", "13RR00", "28AR00"].includes(item.Standart_Komponen)) {
-                        komponenDisplay = item.Nama_Komponen + " Diameter= " + item.Lebar_Potongan.trim() + " mm";
-                    } else if (item.Nama_Komponen === "CEROBONG ATAS" && item.Bentuk_CA === "S") {
-                        if (item.Model_CA === '05CADM' || item.Model_CA === '05CADX') {
-                            komponenDisplay = item.Nama_Komponen + " " + item.Tinggi_CA.trim();
+                        komponenDisplay =
+                            item.Nama_Komponen +
+                            " Diameter= " +
+                            item.Lebar_Potongan.trim() +
+                            " mm";
+                    } else if (
+                        [
+                            "07HR00",
+                            "11CR00",
+                            "12DR00",
+                            "13RR00",
+                            "28AR00",
+                        ].includes(item.Standart_Komponen)
+                    ) {
+                        komponenDisplay =
+                            item.Nama_Komponen +
+                            " Diameter= " +
+                            item.Lebar_Potongan.trim() +
+                            " mm";
+                    } else if (
+                        item.Nama_Komponen === "CEROBONG ATAS" &&
+                        item.Bentuk_CA === "S"
+                    ) {
+                        if (
+                            item.Model_CA === "05CADM" ||
+                            item.Model_CA === "05CADX"
+                        ) {
+                            komponenDisplay =
+                                item.Nama_Komponen +
+                                " " +
+                                item.Tinggi_CA.trim();
                         } else {
-                            komponenDisplay = item.Nama_Komponen + " " + item.Tinggi_CA.trim();
+                            komponenDisplay =
+                                item.Nama_Komponen +
+                                " " +
+                                item.Tinggi_CA.trim();
                         }
-                    } else if (item.Nama_Komponen === "CEROBONG BAWAH" && item.Bentuk_CB === "S") {
-                        if (item.Model_CB === '06CBDM') {
-                            komponenDisplay = item.Nama_Komponen + " " + item.Tinggi_CB.trim();
+                    } else if (
+                        item.Nama_Komponen === "CEROBONG BAWAH" &&
+                        item.Bentuk_CB === "S"
+                    ) {
+                        if (item.Model_CB === "06CBDM") {
+                            komponenDisplay =
+                                item.Nama_Komponen +
+                                " " +
+                                item.Tinggi_CB.trim();
                         } else {
-                            komponenDisplay = item.Nama_Komponen + " " + item.Tinggi_CB.trim();
+                            komponenDisplay =
+                                item.Nama_Komponen +
+                                " " +
+                                item.Tinggi_CB.trim();
                         }
                     } else {
                         komponenDisplay = item.Nama_Komponen;
                     }
 
                     if (item.Nama_Komponen === "SELANG TUTUP") {
-                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim()) + " mm";
-                    } else if (["07HR00", "11CR00", "12DR00", "13RR00", "28AR00"].includes(item.Standart_Komponen)) {
-                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim());
+                        lebarPotonganDisplay =
+                            formatNumber(item.Lebar_Potongan.trim()) + " mm";
+                    } else if (
+                        [
+                            "07HR00",
+                            "11CR00",
+                            "12DR00",
+                            "13RR00",
+                            "28AR00",
+                        ].includes(item.Standart_Komponen)
+                    ) {
+                        lebarPotonganDisplay = formatNumber(
+                            item.Lebar_Potongan.trim()
+                        );
                     } else {
-                        lebarPotonganDisplay = formatNumber(item.Lebar_Potongan.trim());
+                        lebarPotonganDisplay = formatNumber(
+                            item.Lebar_Potongan.trim()
+                        );
                     }
 
-                    tableHitung.row.add([
-                        komponenDisplay,
-                        formatNumber(item.Panjang_Potongan),
-                        lebarPotonganDisplay,
-                        formatNumber(item.WA_Rajutan),
-                        formatNumber(item.WE_Rajutan),
-                        formatNumber(item.Denier),
-                        formatNumber(item.Quantity),
-                        formatNumber(item.Berat),
-                        formatNumber(item.Harga),
-                        formatNumber(item.SubTotal)
-                    ]).draw(false);
+                    tableHitung.row
+                        .add([
+                            komponenDisplay,
+                            formatNumber(item.Panjang_Potongan),
+                            lebarPotonganDisplay,
+                            formatNumber(item.WA_Rajutan),
+                            formatNumber(item.WE_Rajutan),
+                            formatNumber(item.Denier),
+                            formatNumber(item.Quantity),
+                            formatNumber(item.Berat),
+                            formatNumber(item.Harga),
+                            formatNumber(item.SubTotal),
+                        ])
+                        .draw(false);
                 });
-
-
 
                 // //Total
                 // // Inisialisasi total berat
@@ -1270,10 +1368,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 //     data.data[14].SubTotal === ".00"
                 //         ? "0.00"
                 //         : data.data[14].SubTotal;
-
-
-
-
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -1310,57 +1404,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // function unk memilih swal dengan arrow keyboard
-    function handleTableKeydown(e, tableId) {
-        const table = $(`#${tableId}`).DataTable();
-        const rows = $(`#${tableId} tbody tr`);
-        const rowCount = rows.length;
-
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const selectedRow = table.row(".selected").data();
-            if (selectedRow) {
-                Swal.getConfirmButton().click();
-            } else {
-                const firstRow = $(`#${tableId} tbody tr:first-child`);
-                if (firstRow.length) {
-                    firstRow.click();
-                    Swal.getConfirmButton().click();
-                }
-            }
-        } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            if (currentIndex === null) {
-                currentIndex = 0;
-            } else {
-                currentIndex = (currentIndex + 1) % rowCount;
-            }
-            rows.removeClass("selected");
-            $(rows[currentIndex]).addClass("selected");
-        } else if (e.key === "ArrowUp") {
-            e.preventDefault();
-            if (currentIndex === null) {
-                currentIndex = rowCount - 1;
-            } else {
-                currentIndex = (currentIndex - 1 + rowCount) % rowCount;
-            }
-            rows.removeClass("selected");
-            $(rows[currentIndex]).addClass("selected");
-        } else if (e.key === "ArrowRight") {
-            e.preventDefault();
-            currentIndex = null;
-            const pageInfo = table.page.info();
-            if (pageInfo.page < pageInfo.pages - 1) {
-                table.page('next').draw('page');
-            }
-        } else if (e.key === "ArrowLeft") {
-            e.preventDefault();
-            currentIndex = null;
-            const pageInfo = table.page.info();
-            if (pageInfo.page > 0) {
-                table.page('previous').draw('page');
-            }
-        }
-    }
 
     btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -1417,7 +1460,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                         currentIndex = null;
-                        Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'customerTable'));
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customerTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -1476,7 +1521,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
 
                         currentIndex = null;
-                        Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'ukuranTable'));
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "ukuranTable")
+                        );
                     });
                 },
             }).then(async (result) => {
@@ -1544,7 +1591,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
 
                         currentIndex = null;
-                        Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'barangTable'));
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "barangTable")
+                        );
                     });
                 },
             }).then(async (result) => {

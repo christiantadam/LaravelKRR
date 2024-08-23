@@ -17,20 +17,20 @@
     <title style="font-size: 20px">@yield('title', 'Jumbo Bag')</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/jquery-3.1.0.js') }}"></script>
-    <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
-
+    <script src="{{ asset('js/jquery-3.5.1.js') }}" loading=lazy></script>
+    <script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/moment.min.js') }}"></script>
-    <script src="{{ asset('js/flatpickr.js') }}"></script>
-
     <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
+    <script src="{{ asset('js/jquery-1.12.1.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
-
-    <script src="{{ asset('js/User.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
+    <script src="{{ asset('js/User.js') }}"></script>
+    <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
+    <script src="{{ asset('js/flatpickr.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -334,12 +334,5 @@
         });
     });
 </script>
-<script src="{{ asset('js/popper.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
-<!-- Tambahkan ini untuk Bootstrap Selectpicker -->
-<script src="{{ asset('js/bootstrap@5.0.2.min.js') }}"></script>
-
-
 </body>
-
 </html>

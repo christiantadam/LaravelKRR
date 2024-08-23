@@ -20,58 +20,6 @@ $(document).ready(function () {
 
     list_customerButton.focus();
 
-    function handleTableKeydown(e, tableId) {
-        const table = $(`#${tableId}`).DataTable();
-        const rows = $(`#${tableId} tbody tr`);
-        const rowCount = rows.length;
-
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const selectedRow = table.row(".selected").data();
-            if (selectedRow) {
-                Swal.getConfirmButton().click();
-            } else {
-                const firstRow = $(`#${tableId} tbody tr:first-child`);
-                if (firstRow.length) {
-                    firstRow.click();
-                    Swal.getConfirmButton().click();
-                }
-            }
-        } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            if (currentIndex === null) {
-                currentIndex = 0;
-            } else {
-                currentIndex = (currentIndex + 1) % rowCount;
-            }
-            rows.removeClass("selected");
-            $(rows[currentIndex]).addClass("selected");
-        } else if (e.key === "ArrowUp") {
-            e.preventDefault();
-            if (currentIndex === null) {
-                currentIndex = rowCount - 1;
-            } else {
-                currentIndex = (currentIndex - 1 + rowCount) % rowCount;
-            }
-            rows.removeClass("selected");
-            $(rows[currentIndex]).addClass("selected");
-        } else if (e.key === "ArrowRight") {
-            e.preventDefault();
-            currentIndex = null;
-            const pageInfo = table.page.info();
-            if (pageInfo.page < pageInfo.pages - 1) {
-                table.page("next").draw("page");
-            }
-        } else if (e.key === "ArrowLeft") {
-            e.preventDefault();
-            currentIndex = null;
-            const pageInfo = table.page.info();
-            if (pageInfo.page > 0) {
-                table.page("previous").draw("page");
-            }
-        }
-    }
-
     list_customerButton.addEventListener("click", function (e) {
         try {
             Swal.fire({
@@ -117,7 +65,7 @@ $(document).ready(function () {
                         );
                         currentIndex = null;
                         Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydown(e, "customerTable")
+                            handleTableKeydownInSwal(e, "customerTable")
                         );
                     });
                 },
@@ -180,7 +128,7 @@ $(document).ready(function () {
                         );
                         currentIndex = null;
                         Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydown(e, "suratPesananTable")
+                            handleTableKeydownInSwal(e, "suratPesananTable")
                         );
                     });
                 },
@@ -240,7 +188,7 @@ $(document).ready(function () {
                         });
                         currentIndex = null;
                         Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydown(e, "jenisSJTable")
+                            handleTableKeydownInSwal(e, "jenisSJTable")
                         );
                     });
                 },
