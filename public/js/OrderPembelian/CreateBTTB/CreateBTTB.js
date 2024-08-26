@@ -1048,7 +1048,7 @@ $(document).ready(function () {
         // const barangCode = kodeBarangElement.value;
         // const isAllowed = isAllowedCode(barangCode);
         console.log(toleransi);
-        const maxLimit = Math.round(fixValueQTYOrder * toleransi); // Batas maksimum ditetapkan sebagai 120% dari QTY Order
+        const maxLimit = parseFloat((fixValueQTYOrder * toleransi).toFixed(2));
         console.log(maxLimit);
 
         if (this.value === "") {
