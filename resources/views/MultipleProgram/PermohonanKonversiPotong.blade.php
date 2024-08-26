@@ -1,18 +1,19 @@
 @extends('layouts.appJumboBag')
 @section('content')
 @section('title', 'Konversi JBB Potong')
-{{-- <style>
-    .py-4 {
-        padding-bottom: 30px !important
+<style>
+    .swal-wide {
+        width: 75% !important;
     }
-</style> --}}
+</style>
+
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">Konversi JBB Potong</div>
                 <div>
-                    <div style="margin: 0.5%;" class="card">
+                    <div style="margin: 0.5%;" class="card" id="div_asalKonversi">
                         <div class="card-body">
                             <div style="display: flex; flex-direction: row;gap:1%;margin-bottom: 8px;">
                                 <div style="width: 50%">
@@ -25,7 +26,8 @@
                                                 <input type="text" class="form-control"
                                                     style="width: 60%"id="nama_divisiAsal" name="nama_divisi"
                                                     placeholder="Nama Divisi">
-                                                <button class="btn" type="button" id="button_divisiAsal">...</button>
+                                                <button class="btn" type="button"
+                                                    id="button_divisiAsal">...</button>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -47,8 +49,8 @@
                                                 <input type="text" class="form-control" id="id_kelompokUtamaAsal"
                                                     name="id_kelompokUtama" placeholder="Id Kel. Utama">
                                                 <input type="text" class="form-control"
-                                                    style="width: 60%"id="nama_kelompokUtamaAsal" name="nama_kelompokUtama"
-                                                    placeholder="Nama Kelompok Utama">
+                                                    style="width: 60%"id="nama_kelompokUtamaAsal"
+                                                    name="nama_kelompokUtama" placeholder="Nama Kelompok Utama">
                                                 <button class="btn" type="button"
                                                     id="button_kelompokUtamaAsal">...</button>
                                             </div>
@@ -61,7 +63,8 @@
                                                 <input type="text" class="form-control"
                                                     style="width: 60%"id="nama_kelompokAsal" name="nama_kelompok"
                                                     placeholder="Nama Kelompok">
-                                                <button class="btn" type="button" id="button_kelompokAsal">...</button>
+                                                <button class="btn" type="button"
+                                                    id="button_kelompokAsal">...</button>
                                             </div>
                                         </div>
                                     </div>
@@ -154,7 +157,7 @@
                         </div>
                     </div>
                     <br>
-                    <div style="margin: 0.5%;" class="card">
+                    <div style="margin: 0.5%;" class="card" id="div_tabelTujuanKonversi">
                         <div style="margin: 0.5%;overflow:auto">
                             <table id="table_daftarTujuanKonversi">
                                 <thead>
@@ -169,6 +172,20 @@
                                         <th>Id Kelompok Utama</th>
                                         <th>Id Kelompok</th>
                                         <th>Id Sub Kelompok</th>
+                                        <th>Nama Divisi Tujuan</th>
+                                        <th>Nama Objek Tujuan</th>
+                                        <th>Nama Kelompok Utama Tujuan</th>
+                                        <th>Nama Kelompok Tujuan</th>
+                                        <th>Nama Sub Kelompok Tujuan</th>
+                                        <th>Saldo Terakhir Tujuan Primer</th>
+                                        <th>Saldo Terakhir Tujuan Sekunder</th>
+                                        <th>Saldo Terakhir Tujuan Tritier</th>
+                                        <th>Satuan Primer Tujuan</th>
+                                        <th>Satuan Sekunder Tujuan</th>
+                                        <th>Satuan Tritier Tujuan</th>
+                                        <th>Satuan Saldo Terakhir Tujuan Primer</th>
+                                        <th>Satuan Saldo Terakhir Tujuan Sekunder</th>
+                                        <th>Satuan Saldo Terakhir Tujuan Tritier</th>
                                         <th>Id Tmp Transaksi</th>
                                     </tr>
                                 </thead>
@@ -176,7 +193,7 @@
                         </div>
                     </div>
                     <br>
-                    <div style="margin: 0.5%;" class="card">
+                    <div style="margin: 0.5%;" class="card" id="div_tujuanKonversi">
                         <div class="card-body">
                             <div style="display: flex; flex-direction: row;gap:1%;margin-bottom: 8px;">
                                 <div style="width: 50%">
@@ -253,6 +270,16 @@
                                                 <input type="text" class="form-control" id="PIB_tujuan"
                                                     name="PIB_tujuan" placeholder="PIB">
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: row;gap:1%;">
+                                        <div class="form-group" style="width: 75%;">
+                                            <button class="btn btn-success" id="button_tambahTujuanKonversi">Tambah
+                                                Tujuan</button>
+                                            <button class="btn btn-info" id="button_updateTujuanKonversi">Update
+                                                Tujuan</button>
+                                            <button class="btn btn-danger" id="button_hapusTujuanKonversi">Hapus
+                                                Tujuan</button>
                                         </div>
                                     </div>
                                 </div>
@@ -338,5 +365,5 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('js/JumboBag/PermohonanKonversiJBBPotong.js') }}"></script>
+<script src="{{ asset('js/MultipleProgram/PermohonanKonversiPotong.js') }}"></script>
 @endsection

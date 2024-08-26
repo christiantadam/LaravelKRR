@@ -2516,7 +2516,7 @@ fieldset:disabled a.btn {
 
 .btn-success.disabled,
 .btn-success:disabled {
-    color: #fff;
+    color: #212529;
     background-color: #38c172;
     border-color: #38c172
 }
@@ -2630,7 +2630,7 @@ fieldset:disabled a.btn {
 
 .btn-danger.disabled,
 .btn-danger:disabled {
-    color: #fff;
+    color: #212529;
     background-color: #e3342f;
     border-color: #e3342f
 }
