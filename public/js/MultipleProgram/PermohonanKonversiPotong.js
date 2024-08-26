@@ -56,6 +56,7 @@ $(document).ready(function () {
     let div_PIBTujuan = document.getElementById("div_PIBTujuan"); // prettier-ignore
     let div_tabelTujuanKonversi = document.getElementById("div_tabelTujuanKonversi"); // prettier-ignore
     let div_tujuanKonversi = document.getElementById("div_tujuanKonversi"); // prettier-ignore
+    let divisiPotong = document.getElementById("divisiPotong");
     let id_divisiAsal = document.getElementById("id_divisiAsal"); // prettier-ignore
     let id_divisiTujuan = document.getElementById("id_divisiTujuan"); // prettier-ignore
     let id_kelompokAsal = document.getElementById("id_kelompokAsal"); // prettier-ignore
@@ -168,7 +169,7 @@ $(document).ready(function () {
                 try {
                     // Use fetch to make an AJAX request to your Laravel controller
                     const response = await fetch(
-                        `PermohonanKonversiJBBPotong/getDataKonversi?idKonversi=${input}`,
+                        `getDataKonversi?idKonversi=${input}`,
                         {
                             method: "GET",
                             headers: {
@@ -361,13 +362,6 @@ $(document).ready(function () {
         } else {
             kegiatanForm = "awal";
             setButton(kegiatanForm);
-            Swal.fire({
-                icon: "info",
-                title: "On Progress",
-                text: "Button Proses masih belum dibuat",
-                showConfirmButton: false,
-            });
-            console.log("hehe");
         }
     });
 
@@ -395,7 +389,7 @@ $(document).ready(function () {
         showSelectionModal(
             "Divisi",
             "table_divisiAsal",
-            "PermohonanKonversiJBBPotong/getDivisi",
+            "getDivisi",
             {},
             (selectedRow) => {
                 nama_divisiAsal.value = selectedRow.NamaDivisi
@@ -414,7 +408,7 @@ $(document).ready(function () {
         showSelectionModal(
             "objek",
             "table_objekAsal",
-            "PermohonanKonversiJBBPotong/getObjek",
+            "getObjek",
             { idDivisi: id_divisiAsal.value },
             (selectedRow) => {
                 nama_objekAsal.value = selectedRow.Namaobjek
@@ -433,7 +427,7 @@ $(document).ready(function () {
         showSelectionModal(
             "KelompokUtama",
             "table_kelompokUtamaAsal",
-            "PermohonanKonversiJBBPotong/getKelompokUtama",
+            "getKelompokUtama",
             { idObjek: id_objekAsal.value },
             (selectedRow) => {
                 nama_kelompokUtamaAsal.value = selectedRow.NamaKelompokUtama
@@ -452,7 +446,7 @@ $(document).ready(function () {
         showSelectionModal(
             "Kelompok",
             "table_kelompokAsal",
-            "PermohonanKonversiJBBPotong/getKelompok",
+            "getKelompok",
             { idKelompokUtama: id_kelompokUtamaAsal.value },
             (selectedRow) => {
                 nama_kelompokAsal.value = selectedRow.NamaKelompok
@@ -471,7 +465,7 @@ $(document).ready(function () {
         showSelectionModal(
             "SubKelompok",
             "table_subKelompokAsal",
-            "PermohonanKonversiJBBPotong/getSubKelompok",
+            "getSubKelompok",
             { idKelompok: id_kelompokAsal.value },
             (selectedRow) => {
                 nama_subKelompokAsal.value = selectedRow.NamaSubKelompok
@@ -490,7 +484,7 @@ $(document).ready(function () {
         showSelectionModal(
             "Type",
             "table_typeAsal",
-            "PermohonanKonversiJBBPotong/getType",
+            "getType",
             { IdSubKelompok: id_subKelompokAsal.value },
             (selectedRow) => {
                 nama_typeAsal.value = selectedRow.NamaType
@@ -503,7 +497,7 @@ $(document).ready(function () {
         )
             .then(() => {
                 $.ajax({
-                    url: "PermohonanKonversiJBBPotong/getDataType",
+                    url: "getDataType",
                     type: "GET",
                     data: {
                         _token: csrfToken,
@@ -686,7 +680,7 @@ $(document).ready(function () {
         showSelectionModal(
             "Divisi",
             "table_divisiTujuan",
-            "PermohonanKonversiJBBPotong/getDivisi",
+            "getDivisi",
             {},
             (selectedRow) => {
                 nama_divisiTujuan.value = selectedRow.NamaDivisi
@@ -705,7 +699,7 @@ $(document).ready(function () {
         showSelectionModal(
             "objek",
             "table_objekTujuan",
-            "PermohonanKonversiJBBPotong/getObjek",
+            "getObjek",
             { idDivisi: id_divisiTujuan.value },
             (selectedRow) => {
                 nama_objekTujuan.value = selectedRow.Namaobjek
@@ -724,7 +718,7 @@ $(document).ready(function () {
         showSelectionModal(
             "KelompokUtama",
             "table_kelompokUtamaTujuan",
-            "PermohonanKonversiJBBPotong/getKelompokUtama",
+            "getKelompokUtama",
             { idObjek: id_objekTujuan.value },
             (selectedRow) => {
                 nama_kelompokUtamaTujuan.value = selectedRow.NamaKelompokUtama
@@ -743,7 +737,7 @@ $(document).ready(function () {
         showSelectionModal(
             "Kelompok",
             "table_kelompokTujuan",
-            "PermohonanKonversiJBBPotong/getKelompok",
+            "getKelompok",
             { idKelompokUtama: id_kelompokUtamaTujuan.value },
             (selectedRow) => {
                 nama_kelompokTujuan.value = selectedRow.NamaKelompok
@@ -762,7 +756,7 @@ $(document).ready(function () {
         showSelectionModal(
             "SubKelompok",
             "table_subKelompokTujuan",
-            "PermohonanKonversiJBBPotong/getSubKelompok",
+            "getSubKelompok",
             { idKelompok: id_kelompokTujuan.value },
             (selectedRow) => {
                 nama_subKelompokTujuan.value = selectedRow.NamaSubKelompok
@@ -781,7 +775,7 @@ $(document).ready(function () {
         showSelectionModal(
             "Type",
             "table_typeTujuan",
-            "PermohonanKonversiJBBPotong/getType",
+            "getType",
             { IdSubKelompok: id_subKelompokTujuan.value },
             (selectedRow) => {
                 nama_typeTujuan.value = selectedRow.NamaType
@@ -794,7 +788,7 @@ $(document).ready(function () {
         )
             .then(() => {
                 $.ajax({
-                    url: "PermohonanKonversiJBBPotong/getDataType",
+                    url: "getDataType",
                     type: "GET",
                     data: {
                         _token: csrfToken,

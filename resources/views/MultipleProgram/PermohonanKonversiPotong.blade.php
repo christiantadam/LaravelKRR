@@ -11,6 +11,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
+                <input type="hidden" name="divisiPotong" id='divisiPotong' value={{ $id }}>
                 <div class="card-header">Konversi JBB Potong</div>
                 <div>
                     <div style="margin: 0.5%;" class="card" id="div_asalKonversi">
@@ -81,7 +82,8 @@
                                                     id="button_subKelompokAsal">...</button>
                                             </div>
                                         </div>
-                                        <div class="form-group" id="div_PIBAsal" style="width: 50%;visibility: hidden;">
+                                        <div class="form-group" id="div_PIBAsal"
+                                            style="width: 50%;visibility: hidden;">
                                             <label for="PIB_asal">PIB Type Asal</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="PIB_asal"

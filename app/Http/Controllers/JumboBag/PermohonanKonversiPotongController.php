@@ -31,7 +31,7 @@ class PermohonanKonversiPotongController extends Controller
     {
         if ($id == 'JBBPotong') {
             $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-            return view('MultipleProgram.PermohonanKonversiPotong', compact('access'));
+            return view('MultipleProgram.PermohonanKonversiPotong', compact('access', 'id'));
         } else if ($id == 'getDivisi') {
             $UserInput = trim(Auth::user()->NomorUser);
 
