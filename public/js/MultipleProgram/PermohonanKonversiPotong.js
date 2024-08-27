@@ -28,7 +28,8 @@ $(document).ready(function () {
                 { title: "Satuan Saldo Terakhir Tujuan Primer", visible: false } /* Hidden Column 21*/, // prettier-ignore
                 { title: "Satuan Saldo Terakhir Tujuan Sekunder", visible: false } /* Hidden Column 22 */, //prettier-ignore
                 { title: "Satuan Saldo Terakhir Tujuan Tritier", visible: false } /* Hidden Column 23 */, // prettier-ignore
-                { title: "Id Tmp Transaksi" }, // Column 24 // prettier-ignore
+                { title: "Uraian Transaksi Tujuan", visible: false } /* Hidden Column 24 */, // prettier-ignore
+                { title: "Id Tmp Transaksi" }, // Column 25 // prettier-ignore
             ],
         }
     );
@@ -69,6 +70,34 @@ $(document).ready(function () {
     let id_subKelompokTujuan = document.getElementById("id_subKelompokTujuan"); // prettier-ignore
     let id_typeAsal = document.getElementById("id_typeAsal"); // prettier-ignore
     let id_typeTujuan = document.getElementById("id_typeTujuan"); // prettier-ignore
+    // Array of input field IDs
+    const inputIds = [
+        "id_typeTujuan",
+        "nama_typeTujuan",
+        "pemakaian_primerTujuan",
+        "pemakaian_sekunderTujuan",
+        "pemakaian_tritierTujuan",
+        "id_divisiTujuan",
+        "id_objekTujuan",
+        "id_kelompokUtamaTujuan",
+        "id_kelompokTujuan",
+        "id_subKelompokTujuan",
+        "nama_divisiTujuan",
+        "nama_objekTujuan",
+        "nama_kelompokUtamaTujuan",
+        "nama_kelompokTujuan",
+        "nama_subKelompokTujuan",
+        "saldo_terakhirTujuanPrimer",
+        "saldo_terakhirTujuanSekunder",
+        "saldo_terakhirTujuanTritier",
+        "satuan_primerTujuan",
+        "satuan_sekunderTujuan",
+        "satuan_tritierTujuan",
+        "satuan_saldoTerakhirTujuanPrimer",
+        "satuan_saldoTerakhirTujuanSekunder",
+        "satuan_saldoTerakhirTujuanTritier",
+        "uraian_transaksiTujuan",
+    ];
     let nama_divisiAsal = document.getElementById("nama_divisiAsal"); // prettier-ignore
     let nama_divisiTujuan = document.getElementById("nama_divisiTujuan"); // prettier-ignore
     let nama_kelompokAsal = document.getElementById("nama_kelompokAsal"); // prettier-ignore
@@ -361,7 +390,42 @@ $(document).ready(function () {
             button_divisiAsal.focus();
         } else {
             kegiatanForm = "awal";
-            setButton(kegiatanForm);
+
+            // Create an object to store all input values
+            let asalKonversiInputValues = {};
+
+            // Select all input elements within the div with id 'div_asalKonversi'
+            $("#div_asalKonversi input").each(function () {
+                // Get the name attribute of the input element
+                let inputName = $(this).attr("name");
+
+                // Get the value of the input element
+                let inputValue = $(this).val();
+
+                // Store the input value in the object with the input name as the key
+                asalKonversiInputValues[inputName] = inputValue;
+            });
+            $.ajax({
+                type: "POST",
+                url: "/PermohonanKonversiPotong",
+                data: {
+                    _token: csrfToken,
+                    table_daftarTujuanKonversi: table_daftarTujuanKonversi
+                        .rows()
+                        .data()
+                        .toArray(),
+                    asalKonversiInputValues: asalKonversiInputValues,
+                },
+                success: function (response) {
+                    console.log(response);
+                    resolve(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    reject(error);
+                },
+            });
+            // setButton(kegiatanForm);
         }
     });
 
@@ -533,7 +597,7 @@ $(document).ready(function () {
                         pemakaian_primerAsal.focus();
                         pemakaian_primerAsal.select();
 
-                        const inputIds = [
+                        const buttonTypeAsalInputIds = [
                             "pemakaian_primerAsal",
                             "pemakaian_sekunderAsal",
                             "pemakaian_tritierAsal",
@@ -572,7 +636,7 @@ $(document).ready(function () {
                         }
 
                         // Loop through each input ID and apply the filter
-                        inputIds.forEach(function (id) {
+                        buttonTypeAsalInputIds.forEach(function (id) {
                             const inputElement = document.getElementById(id);
                             let element = document.getElementById(id);
                             if (inputElement) {
@@ -628,7 +692,7 @@ $(document).ready(function () {
 
                         function getNextFocusableElement(currentElement) {
                             // Check if the current element is pemakaian_tritierAsal
-                            if (currentElement.id === "pemakaian_tritierAsal") {
+                            if (currentElement.id === "uraian_transaksiAsal") {
                                 activateAll();
                                 return document.getElementById(
                                     "button_divisiTujuan"
@@ -825,7 +889,7 @@ $(document).ready(function () {
                         pemakaian_primerTujuan.focus();
                         pemakaian_primerTujuan.select();
 
-                        const inputIds = [
+                        const buttonTypeTujuanInputIds = [
                             "pemakaian_primerTujuan",
                             "pemakaian_sekunderTujuan",
                             "pemakaian_tritierTujuan",
@@ -864,7 +928,7 @@ $(document).ready(function () {
                         }
 
                         // Loop through each input ID and apply the filter
-                        inputIds.forEach(function (id) {
+                        buttonTypeTujuanInputIds.forEach(function (id) {
                             const inputElement = document.getElementById(id);
                             let element = document.getElementById(id);
                             if (inputElement) {
@@ -969,33 +1033,14 @@ $(document).ready(function () {
     button_tambahTujuanKonversi.addEventListener("click", function (e) {
         e.preventDefault();
 
-        // Array of input field IDs
-        const inputIds = [
-            "id_typeTujuan",
-            "nama_typeTujuan",
-            "pemakaian_primerTujuan",
-            "pemakaian_sekunderTujuan",
-            "pemakaian_tritierTujuan",
-            "id_divisiTujuan",
-            "id_objekTujuan",
-            "id_kelompokUtamaTujuan",
-            "id_kelompokTujuan",
-            "id_subKelompokTujuan",
-            "nama_divisiTujuan",
-            "nama_objekTujuan",
-            "nama_kelompokUtamaTujuan",
-            "nama_kelompokTujuan",
-            "nama_subKelompokTujuan",
-            "saldo_terakhirTujuanPrimer",
-            "saldo_terakhirTujuanSekunder",
-            "saldo_terakhirTujuanTritier",
-            "satuan_primerTujuan",
-            "satuan_sekunderTujuan",
-            "satuan_tritierTujuan",
-            "satuan_saldoTerakhirTujuanPrimer",
-            "satuan_saldoTerakhirTujuanSekunder",
-            "satuan_saldoTerakhirTujuanTritier",
-        ];
+        // Id type Asal dan Tujuan tidak boleh sama
+        if (id_typeAsal.value == id_typeTujuan.value) {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Id Type Asal dan Tujuan tidak boleh sama!",
+            });
+        }
 
         // Array to store the input values
         let inputData = [];
@@ -1067,34 +1112,6 @@ $(document).ready(function () {
 
     button_updateTujuanKonversi.addEventListener("click", function (e) {
         e.preventDefault();
-
-        // Array of input field IDs
-        const inputIds = [
-            "id_typeTujuan",
-            "nama_typeTujuan",
-            "pemakaian_primerTujuan",
-            "pemakaian_sekunderTujuan",
-            "pemakaian_tritierTujuan",
-            "id_divisiTujuan",
-            "id_objekTujuan",
-            "id_kelompokUtamaTujuan",
-            "id_kelompokTujuan",
-            "id_subKelompokTujuan",
-            "nama_divisiTujuan",
-            "nama_objekTujuan",
-            "nama_kelompokUtamaTujuan",
-            "nama_kelompokTujuan",
-            "nama_subKelompokTujuan",
-            "saldo_terakhirTujuanPrimer",
-            "saldo_terakhirTujuanSekunder",
-            "saldo_terakhirTujuanTritier",
-            "satuan_primerTujuan",
-            "satuan_sekunderTujuan",
-            "satuan_tritierTujuan",
-            "satuan_saldoTerakhirTujuanPrimer",
-            "satuan_saldoTerakhirTujuanSekunder",
-            "satuan_saldoTerakhirTujuanTritier",
-        ];
 
         // Array to store the updated input values
         let updatedData = [];

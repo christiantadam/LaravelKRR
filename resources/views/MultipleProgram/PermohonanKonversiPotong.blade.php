@@ -154,6 +154,11 @@
                                                 placeholder="Satuan Tritier">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="uraianTransaksi">Uraian Transaksi</label>
+                                        <input type="text" class="form-control" id="uraian_transaksiAsal"
+                                            name="uraian_transaksiAsal" placeholder="Uraian Transaksi">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -188,6 +193,7 @@
                                         <th>Satuan Saldo Terakhir Tujuan Primer</th>
                                         <th>Satuan Saldo Terakhir Tujuan Sekunder</th>
                                         <th>Satuan Saldo Terakhir Tujuan Tritier</th>
+                                        <th>Uraian Transaksi Tujuan</th>
                                         <th>Id Tmp Transaksi</th>
                                     </tr>
                                 </thead>
@@ -347,17 +353,17 @@
                                                 placeholder="Satuan Tritier">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="uraianTransaksi">Uraian Transaksi</label>
+                                        <input type="text" class="form-control" id="uraian_transaksiTujuan"
+                                            name="uraian_transaksiTujuan" placeholder="Uraian Transaksi">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div style="margin-left:0.5%; margin-right:0.5%" id="div_terakhir">
-                        <div class="form-group">
-                            <label for="uraianTransaksi">Uraian Transaksi</label>
-                            <input type="text" class="form-control" id="uraian_transaksi" name="uraian_transaksi"
-                                placeholder="Uraian Transaksi">
-                        </div>
                         <button class="btn btn-primary col-1" id="button_isi">Isi</button>
                         <button class="btn btn-warning col-1" id="button_koreksi">Koreksi</button>
                         <button class="btn btn-danger col-1" id="button_hapus">Hapus</button>

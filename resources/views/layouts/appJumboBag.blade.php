@@ -100,186 +100,115 @@
                                             style="margin: 10px">
                                             {{ $menuItem->NamaMenu }}
                                         </a>
-                                @endif
-                                @foreach ($access['AccessMenu'] as $cekSubMenu)
-                                    @if ($menuItem->IdMenu == $cekSubMenu->Parent_IdMenu)
-                                        <ul class="dropdown-menu" style="cursor: default;">
+                                        <ul class="dropdown-menu">
                                             @php
-                                                $cekSubMenuPrint = 1;
+                                                $filteredItemsMenu = $access['AccessMenu']->filter(function (
+                                                    $item,
+                                                ) use ($menuItem) {
+                                                    return $item->Parent_IdMenu == $menuItem->IdMenu;
+                                                });
+
+                                                $filteredArrayMenu = $filteredItemsMenu->all();
+
+                                                $filteredItemsFitur = $access['AccessFitur']->filter(function (
+                                                    $item,
+                                                ) use ($menuItem) {
+                                                    return $item->Id_Menu == $menuItem->IdMenu;
+                                                });
+
+                                                $filteredArrayFitur = $filteredItemsFitur->all();
+
+                                                $combinedArrayFiturMenu = [];
+                                                foreach ($filteredArrayFitur as $fitur) {
+                                                    $combinedArrayFiturMenu[] = [
+                                                        'Nama' => $fitur->NamaFitur,
+                                                        'Route' => $fitur->Route,
+                                                        'IdMenu' => null,
+                                                        'IdFitur' => $fitur->IdFitur,
+                                                        'NomorUrutDisplay' => $fitur->NomorUrutDisplay,
+                                                    ];
+                                                }
+
+                                                foreach ($filteredArrayMenu as $menu) {
+                                                    $combinedArrayFiturMenu[] = [
+                                                        'Nama' => $menu->NamaMenu,
+                                                        'Route' => null,
+                                                        'IdMenu' => $menu->IdMenu,
+                                                        'IdFitur' => null,
+                                                        'NomorUrutDisplay' => $menu->NomorUrutDisplay,
+                                                    ];
+                                                }
+                                                usort($combinedArrayFiturMenu, function ($a, $b) {
+                                                    return $a['NomorUrutDisplay'] <=> $b['NomorUrutDisplay'];
+                                                });
+
+                                                $itemCount = 0;
                                             @endphp
-                                        @break
-                                @endif
-                            @endforeach
-                            @foreach ($access['AccessMenu'] as $secondMenuItem)
-                                @php
-                                    $printSecond = 0;
-                                @endphp
-                                @if ($secondMenuItem->Parent_IdMenu !== null && $secondMenuItem->Parent_IdMenu == $menuItem->IdMenu)
-                                    @php
-                                        $printSecond = 1;
-                                    @endphp
-                                    <li>
-                                        <a class="" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false"
-                                            style="margin: 10px;cursor: default;">
-                                            {{ $secondMenuItem->NamaMenu }} &raquo;
-                                        </a>
-                                @endif
-                                @if ($printSecond == 1)
-                                    <ul class="dropdown-menu dropdown-submenu">
-                                        @foreach ($access['AccessFitur'] as $secondSubMenuItem)
-                                            @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
+
+                                            @foreach ($combinedArrayFiturMenu as $combinedArrayFiturMenus)
+                                                @php
+                                                    $itemCount++;
+                                                @endphp
+
                                                 <li>
-                                                    <a style="color: black;font-size: 15px;display: block"
-                                                        class="dropdown-item" tabindex="-1"
-                                                        href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
+                                                    <a class="dropdown-item" tabindex="-1"
+                                                        @if (isset($combinedArrayFiturMenus['Route']))
+                                                            href="{{ url($combinedArrayFiturMenus['Route']) }}" style="color: black;"
+                                                        @else
+                                                            style="color: black;cursor: default;" @endif>
+                                                        @if (!isset($combinedArrayFiturMenus['Route']))
+                                                            {{ $combinedArrayFiturMenus['Nama'] }}<span
+                                                                style="float: right;">🞂</span>
+                                                        @else
+                                                            {{ $combinedArrayFiturMenus['Nama'] }}
+                                                        @endif
                                                     </a>
+                                                    @if (!isset($combinedArrayFiturMenus['Route']))
+                                                        <ul class="dropdown-menu dropdown-submenu">
+                                                            @foreach ($access['AccessFitur'] as $fiturSubMenu)
+                                                                @if ($fiturSubMenu->Id_Menu == $combinedArrayFiturMenus['IdMenu'])
+                                                                    <li>
+                                                                        <a style="color: black;font-size: 14px;display: block;margin: 0;padding-left: 5%;padding-bottom: 1px;padding-top: 1px;"
+                                                                            class="dropdown-item" tabindex="-1"
+                                                                            href="{{ url($fiturSubMenu->Route) }}">{{ $fiturSubMenu->NamaFitur }}
+                                                                        </a>
+                                                                    </li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
                                                 </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                    </li>
-                                @endif
-                            @endforeach
-                            @if ($cekSubMenuPrint == 1)
-                                @foreach ($access['AccessFitur'] as $subMenuItem)
-                                    @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
-                                        <li>
-                                            <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
-                                                tabindex="-1"
-                                                href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endforeach
-                    </ul>
-                    @endif
-                    {{-- @php
-                        echo "<script>console.log('Menu: " . $menuItem->NamaMenu . " ".$print." ".$printSecond." ".$cekSubMenuPrint."');</script>"; //untuk debugging, jangan dihapus
-                    @endphp --}}
-                    @if ($print == 1 && $printSecond == 0 && $cekSubMenuPrint == 0)
-                        <ul class="dropdown-menu">
-                            @foreach ($access['AccessFitur'] as $subMenuItem)
-                                @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
-                                    <li>
-                                        <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
-                                            tabindex="-1"
-                                            href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
-                                        </a>
-                                    </li>
+
+                                                @if ($menuItem->IdMenu == 36 && $itemCount == 10)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 36 && $itemCount == 13)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 36 && $itemCount == 17)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    {{-- @dump($access['AccessMenu']) INI CARA DEBUGGING MANUAL --}}
                                 @endif
                             @endforeach
                         </ul>
-                </div>
-                @endif
-                @endforeach
-                </ul>
+                    @endguest
+                    <!-- Right Side Of Navbar -->
 
-                {{-- <ul class="navbar-nav mr-auto RDZNavContenCenter">
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
-                                    Master
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('Supplier') }}">Supplier</a></li>
-                                </ul>
-                            </div>
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
-                                    Transaksi Beli (Admin Pembelian)
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('ListOrderPembelian') }}">List Order Pembelian</a></li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block;cursor:default">Isi Supplier
-                                            - Harga
-                                            &raquo;</a>
-                                        <ul class="dropdown-menu dropdown-submenu">
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
-                                                    tabindex="-1" href="{{ url('IsiSupplierHarga', ['id' => 0]) }}">Beli
-                                                    Sendiri</a>
-                                            </li>
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
-                                                    tabindex="-1" href="{{ url('IsiSupplierHarga', ['id' => 1]) }}">Pengadaan
-                                                    Pembelian</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('FinalApprove') }}">Final Approve</a></li>
-                                    <li style="margin: 10px;"><a
-                                            class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
-                                            tabindex="-1">PO &raquo;</a>
-                                        <ul class="dropdown-menu dropdown-submenu">
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
-                                                    tabindex="-1" href="{{ url('PurchaseOrder/create') }}">Create PO</a>
-                                            </li>
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block"
-                                                    tabindex="-1" href="{{ url('PurchaseOrder') }}">List PO</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li style="margin: 10px;"><a
-                                            class="dropdown-item"style="margin: 10px;color: black;font-size: 15px;display: block;cursor: default"
-                                            tabindex="-1">BTTB &raquo;</a>
-                                        <ul class="dropdown-menu dropdown-submenu">
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
-                                                    tabindex="-1" href="{{ url('CreateBTTB') }}">Create BTTB</a>
-                                            </li>
-                                            <li><a style="margin: 10px;color: black;font-size: 15px;display: block;white-space:nowrap"
-                                                    tabindex="-1" href="{{ url('ReturBTTB') }}">Retur BTTB</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('TransferBarang') }}">Transfer Barang</a></li>
-                                </ul>
-                            </div>
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
-                                    Transaksi (User)
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('Approve') }}">Approve</a></li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('FinalApprove') }}">Final Approve</a></li>
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('ListOrder') }}">List Order</a></li>
-                                </ul>
-                            </div>
-                            <div class="dropdown">
-                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false" style="margin: 10px">
-                                    Informasi
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li style="margin: 10px;"><a class="dropdown-item"
-                                            style="color: black;font-size: 15px;display: block"
-                                            href="{{ url('DaftarHarga') }}">Daftar Harga</a></li>
-                                </ul>
-                            </div>
-                        </ul> --}}
-            @endguest
-            <!-- Right Side Of Navbar -->
-
-            <!-- Authentication Links -->
-            @guest
-            @else
-                <ul class="navbar-nav ml-auto">
-                    {{-- <li class="nav-item dropdown">
+                    <!-- Authentication Links -->
+                    @guest
+                    @else
+                        <ul class="navbar-nav ml-auto">
+                            {{-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->NamaUser }} <span class="caret"></span>
@@ -298,42 +227,43 @@
                                     </form>
                                 </div>
                             </li> --}}
-                    <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
-                        <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label id="greeting1"></label>,
-                            {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
-                    </div>
-                    <li><a class="RDZlogout" style="color: black;font-size: 15px;display: block;"
-                            href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
+                            <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
+                                <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label
+                                        id="greeting1"></label>,
+                                    {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
+                            </div>
+                            <li><a class="RDZlogout" style="color: black;font-size: 15px;display: block;"
+                                    href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
+                                    {{ __('Logout') }}
+                                </a>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                            style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                </ul>
-            @endguest
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
+                    @endguest
 
-        </div>
-</div>
-</nav>
+                </div>
+            </div>
+        </nav>
 
-<main class="py-4">
-    @yield('content')
-</main>
-</div>
-<script>
-    $(document).ready(function() {
-        $('.dropdown-submenu a.test').on("click", function(e) {
-            $(this).next('ul').toggle();
-            e.stopPropagation();
-            e.preventDefault();
+        <main class="py-4">
+            @yield('content')
+        </main>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-submenu a.test').on("click", function(e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>
