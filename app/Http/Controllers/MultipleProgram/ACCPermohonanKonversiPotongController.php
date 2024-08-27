@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\JumboBag;
+namespace App\Http\Controllers\MultipleProgram;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class ACCPermohonanKonversiPotongController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-        return view('JumboBag.ACCPermohonanKonversiPotong', compact('access'));
+        return view('MultipleProgram.ACCPermohonanKonversiPotong', compact('access'));
     }
     public function create()
     {

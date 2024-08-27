@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\JumboBag;
+namespace App\Http\Controllers\MultipleProgram;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

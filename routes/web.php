@@ -973,7 +973,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region Jumbo Bag
     Route::get('JumboBag', 'App\Http\Controllers\HomeController@JumboBag');
-    Route::resource('ACCPermohonanKonversiPotong', App\Http\Controllers\JumboBag\ACCPermohonanKonversiPotongController::class);
     Route::resource('TabelHitunganJBB', App\Http\Controllers\JumboBag\TabelHitunganJumboBag::class);
     Route::post('getDataCustomerJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataCustomerJBB');
     Route::post('getDataTambahKomponenJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataTambahKomponenJBB');
@@ -1328,6 +1327,7 @@ Route::group(['middleware' => ['auth']], function () {
     #endregion
 
     #region Multiple Program
-    Route::resource('PermohonanKonversiPotong', App\Http\Controllers\JumboBag\PermohonanKonversiPotongController::class);
+    Route::resource('PermohonanKonversiPotong', App\Http\Controllers\MultipleProgram\PermohonanKonversiPotongController::class);
+    Route::resource('ACCPermohonanKonversiPotong', App\Http\Controllers\MultipleProgram\ACCPermohonanKonversiPotongController::class);
     #endregion
 });
