@@ -252,11 +252,11 @@
                 </div>
                 <div class="form-group mt-3">
                     <label for="nilaiBkk">Nilai BKK:</label>
-                    <input type="text" id="nilaiBkk" class="form-control" value="0">
+                    <input type="text" id="nilaiBkk" class="form-control">
                 </div>
                 <div class="form-group mt-3">
                     <label for="nilaiPembulatan">Nilai Pembulatan:</label>
-                    <input type="text" id="nilaiPembulatan" class="form-control" value="0">
+                    <input type="text" id="nilaiPembulatan" name="nilaiPembulatan" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">
@@ -268,5 +268,6 @@
         </div>
     </div>
 </div>
+@include('Accounting.Hutang.PrintTampilBKKKRR1')
 <script src="{{ asset('js/Accounting/Hutang/MaintenanceBKKKRR1.js') }}"></script>
 @endsection

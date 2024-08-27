@@ -20,6 +20,8 @@ $(document).ready(function () {
     let btn_kodeperkiraan = document.getElementById("btn_kodeperkiraan");
     let btn_koreksidetail = document.getElementById("btn_koreksidetail");
     let btn_hapusdetail = document.getElementById("btn_hapusdetail");
+    let btn_cetakbkk = document.getElementById("btn_cetakbkk");
+    let btn_prosesbkk = document.getElementById("btn_prosesbkk");
     let tutup_modal = document.getElementById("tutup_modal");
     let close_modal = document.getElementById("close_modal");
     let id_bayar = document.getElementById("id_bayar");
@@ -39,9 +41,31 @@ $(document).ready(function () {
     let rowDataPertama;
     let rowDataBawah;
     let rowDataKedua;
+    let rowDataBKK;
     let proses;
     let TT;
     let bulatan;
+    let confirmPembulatan;
+
+    let currentDate = new Date();
+    let day = currentDate.getDate();
+    let monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+    let months = monthNames[currentDate.getMonth()];
+    let years = currentDate.getFullYear();
+    document.getElementById("posted_p").innerHTML = `${day}-${months}-${years}`;
 
     btn_isi.disabled = true;
     btn_hapusdetail.style.display = "none";
@@ -330,6 +354,7 @@ $(document).ready(function () {
                             TT: TT ? 1 : 0,
                             nilairincian_rp: nilairincian_rp.value,
                             id_bayar: id_bayar.value,
+                            id_detail: id_detail.value,
                             id_TT: id_TT.value,
                             rincinan_bayar: rincinan_bayar.value,
                             kode_kira: kode_kira.value,
@@ -343,7 +368,9 @@ $(document).ready(function () {
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        console.log(TT);
+                                        location.reload();
+                                    } else {
+                                        location.reload();
                                     }
                                 });
                             } else if (response.error) {
@@ -411,6 +438,9 @@ $(document).ready(function () {
                             showConfirmButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
+                                location.reload();
+                            } else {
+                                location.reload();
                             }
                         });
                     } else if (response.error) {
@@ -468,6 +498,9 @@ $(document).ready(function () {
                             showConfirmButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
+                                location.reload();
+                            } else {
+                                location.reload();
                             }
                         });
                     } else if (response.error) {
@@ -780,6 +813,10 @@ $(document).ready(function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableKira")
+                        );
                     });
                 },
             }).then((result) => {
@@ -801,6 +838,367 @@ $(document).ready(function () {
     btn_batal.addEventListener("click", function (event) {
         event.preventDefault();
         location.reload();
+    });
+
+    let rowDataBKKArray = [];
+
+    $("#tabletampilBKK tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#tabletampilBKK tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            // Clear the array before adding the new checked row
+            rowDataBKKArray = [];
+
+            if (this.checked) {
+                $('input[name="penerimaCheckbox"]')
+                    .not(this)
+                    .prop("checked", false);
+
+                rowDataBKK = tabletampilBKK.row($(this).closest("tr")).data();
+                rowDataBKKArray.push(rowDataBKK);
+
+                console.log(rowDataBKK, this, tabletampilBKK);
+            }
+        }
+    );
+
+    document
+        .getElementById("nilaiPembulatan")
+        .addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+
+                // Get the input value
+                let inputValue = this.value;
+
+                // Convert the value to a number and format it
+                let formattedValue = new Intl.NumberFormat("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                }).format(parseFloat(inputValue.replace(/,/g, "")));
+
+                // Set the formatted value back to the input field
+                this.value = formattedValue;
+            }
+        });
+
+    btn_cetakbkk.addEventListener("click", function (event) {
+        event.preventDefault();
+        bkk.value = rowDataBKK.Id_BKK;
+        nilaiBkk.value = rowDataBKK.NilaiBKK;
+        nilaiPembulatan.value = rowDataBKK.NilaiBKK;
+        Swal.fire({
+            title: "Merubah Nilai Pembulatannya ?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya",
+            cancelButtonText: "Tidak",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                confirmPembulatan = "yes";
+                btn_cetakbkk.style.display = "none";
+                btn_prosesbkk.style.display = "block";
+                setTimeout(() => {
+                    nilaiPembulatan.focus();
+                    nilaiPembulatan.select();
+                }, 300);
+            } else {
+                confirmPembulatan = "no";
+                document.getElementById("btn_prosesbkk").click();
+            }
+        });
+    });
+
+    btn_prosesbkk.addEventListener("click", function (event) {
+        event.preventDefault();
+        btn_cetakbkk.style.display = "block";
+        btn_prosesbkk.style.display = "none";
+
+        let nilaiTerbilang = nilaiPembulatan.value;
+        let nilaiNumerik = nilaiTerbilang.replace(/,/g, "");
+        nilaiNumerik = nilaiNumerik.split(".")[0];
+
+        let terbilang;
+        terbilang = convertNumberToWordsRupiah(nilaiNumerik);
+        console.log(terbilang, rowDataBKKArray);
+
+        $.ajax({
+            url: "MaintenanceBKKKRR1/cetakBKK",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                rowDataBKKArray: rowDataBKKArray,
+                nilaiPembulatan: nilaiPembulatan.value,
+                confirmPembulatan: confirmPembulatan,
+                terbilang: terbilang,
+            },
+            success: function (data) {
+                console.log(data);
+                if (data[0] == 8) {
+                    document.getElementById("name_p").innerHTML =
+                        data.data[0].Id_Bank;
+                    document.getElementById("matauang_p").innerHTML =
+                        "Amount &nbsp;" + data.data[0].Id_MataUang_BC;
+                    let tanggalInput = data.data[0].Tgl_Input;
+                    let tanggal = new Date(tanggalInput);
+                    let options = {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                    };
+                    let formattedDate = tanggal
+                        .toLocaleDateString("en-GB", options)
+                        .replace(" ", "-")
+                        .replace(" ", "-");
+                    document.getElementById("tanggal_p").innerHTML =
+                        formattedDate;
+                    document.getElementById("voucher_p").innerHTML =
+                        data.data[0].Id_BKK;
+                    document.getElementById("description_p").innerHTML =
+                        data.data[0].Nama_Bank;
+                    document.getElementById("paid_p").innerHTML =
+                        data.data[0].NM_SUP;
+                    //Tbody Array
+                    let kodePerkiraanHTML = "";
+                    data.data.forEach(function (item) {
+                        kodePerkiraanHTML += item.Kode_Perkiraan + "<br>";
+                    });
+                    document.getElementById("coa_p").innerHTML =
+                        kodePerkiraanHTML;
+
+                    let KeteranganHTML = "";
+                    data.data.forEach(function (item) {
+                        KeteranganHTML += item.Keterangan + "<br>";
+                    });
+                    document.getElementById("acc_p").innerHTML = KeteranganHTML;
+
+                    let Rincian_BayarHTML = "";
+                    data.data.forEach(function (item) {
+                        Rincian_BayarHTML += item.Rincian_Bayar + "<br>";
+                    });
+                    document.getElementById("desc_p").innerHTML =
+                        Rincian_BayarHTML;
+
+                    let No_BGCekHTML = "";
+                    data.data.forEach(function (item) {
+                        No_BGCekHTML += item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                    });
+                    document.getElementById("bgno_p").innerHTML = No_BGCekHTML;
+
+                    let Nilai_RincianHTML = "";
+                    let totalNilaiRincian = 0; // Variabel untuk menyimpan total nilai
+
+                    data.data.forEach(function (item) {
+                        let nilaiRincian = parseFloat(item.Nilai_Rincian);
+                        let formattedValue = nilaiRincian.toLocaleString(
+                            "en-US",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }
+                        );
+
+                        Nilai_RincianHTML += formattedValue + "<br>";
+                        totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
+                    });
+
+                    document.getElementById("amount_p").innerHTML =
+                        Nilai_RincianHTML;
+
+                    // Format total dan tampilkan di element dengan id "total_p"
+                    document.getElementById("total_p").innerHTML =
+                        totalNilaiRincian.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
+
+                    document.getElementById("alasan_p").innerHTML =
+                        data.data[0].Alasan;
+
+                    document.getElementById("batal_p").innerHTML =
+                        data.data[0].Batal;
+
+                    window.print();
+                } else if (data[0] == 2) {
+                    document.getElementById("nobg_p").innerHTML = "Invoice No.";
+                    document.getElementById("matauang_p").innerHTML =
+                        "Amount &nbsp;" + data.data[0].Id_MataUang_BC;
+                    document.getElementById("name_p").innerHTML =
+                        data.data[0].Id_Bank;
+                    let tanggalInput = data.data[0].Tgl_Input;
+                    let tanggal = new Date(tanggalInput);
+                    let options = {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                    };
+                    let formattedDate = tanggal
+                        .toLocaleDateString("en-GB", options)
+                        .replace(" ", "-")
+                        .replace(" ", "-");
+                    document.getElementById("tanggal_p").innerHTML =
+                        formattedDate;
+                    document.getElementById("voucher_p").innerHTML =
+                        data.data[0].Id_BKK;
+                    document.getElementById("description_p").innerHTML =
+                        data.data[0].Nama_Bank;
+                    document.getElementById("paid_p").innerHTML =
+                        data.data[0].NM_SUP;
+                    //Tbody Array
+                    let kodePerkiraanHTML = "";
+                    data.data.forEach(function (item) {
+                        kodePerkiraanHTML += item.Kode_Perkiraan + "<br>";
+                    });
+                    document.getElementById("coa_p").innerHTML =
+                        kodePerkiraanHTML;
+
+                    let KeteranganHTML = "";
+                    data.data.forEach(function (item) {
+                        KeteranganHTML += item.Keterangan + "<br>";
+                    });
+                    document.getElementById("acc_p").innerHTML = KeteranganHTML;
+
+                    let Rincian_BayarHTML = "";
+                    data.data.forEach(function (item) {
+                        Rincian_BayarHTML += item.Rincian_Bayar + "<br>";
+                    });
+                    document.getElementById("desc_p").innerHTML =
+                        Rincian_BayarHTML;
+
+                    let Id_PenagihanHTML = "";
+                    data.data.forEach(function (item) {
+                        Id_PenagihanHTML += item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                    });
+                    document.getElementById("bgno_p").innerHTML =
+                        Id_PenagihanHTML;
+
+                    let Nilai_RincianHTML = "";
+                    let totalNilaiRincian = 0;
+
+                    data.data.forEach(function (item) {
+                        let nilaiRincian = parseFloat(item.Nilai_Rincian);
+                        let formattedValue = nilaiRincian.toLocaleString(
+                            "en-US",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }
+                        );
+
+                        Nilai_RincianHTML += formattedValue + "<br>";
+                        totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
+                    });
+
+                    document.getElementById("amount_p").innerHTML =
+                        Nilai_RincianHTML;
+
+                    // Format total dan tampilkan di element dengan id "total_p"
+                    document.getElementById("total_p").innerHTML =
+                        totalNilaiRincian.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
+
+                    document.getElementById("alasan_p").innerHTML =
+                        data.data[0].Alasan;
+
+                    document.getElementById("batal_p").innerHTML =
+                        data.data[0].Batal;
+
+                    window.print();
+                } else {
+                    document.getElementById("name_p").innerHTML =
+                        data.data[0].Id_Bank;
+                    document.getElementById("matauang_p").innerHTML =
+                        "Amount &nbsp;" + data.data[0].Id_MataUang_BC;
+                    let tanggalInput = data.data[0].Tgl_Input;
+                    let tanggal = new Date(tanggalInput);
+                    let options = {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                    };
+                    let formattedDate = tanggal
+                        .toLocaleDateString("en-GB", options)
+                        .replace(" ", "-")
+                        .replace(" ", "-");
+                    document.getElementById("tanggal_p").innerHTML =
+                        formattedDate;
+                    document.getElementById("voucher_p").innerHTML =
+                        data.data[0].Id_BKK;
+                    document.getElementById("description_p").innerHTML =
+                        data.data[0].Nama_Bank;
+                    document.getElementById("paid_p").innerHTML =
+                        data.data[0].NM_SUP;
+                    //Tbody Array
+                    let kodePerkiraanHTML = "";
+                    data.data.forEach(function (item) {
+                        kodePerkiraanHTML += item.Kode_Perkiraan + "<br>";
+                    });
+                    document.getElementById("coa_p").innerHTML =
+                        kodePerkiraanHTML;
+
+                    let KeteranganHTML = "";
+                    data.data.forEach(function (item) {
+                        KeteranganHTML += item.Keterangan + "<br>";
+                    });
+                    document.getElementById("acc_p").innerHTML = KeteranganHTML;
+
+                    let Rincian_BayarHTML = "";
+                    data.data.forEach(function (item) {
+                        Rincian_BayarHTML += item.Rincian_Bayar + "<br>";
+                    });
+                    document.getElementById("desc_p").innerHTML =
+                        Rincian_BayarHTML;
+
+                    let No_BGCekHTML = "";
+                    data.data.forEach(function (item) {
+                        No_BGCekHTML += item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                    });
+                    document.getElementById("bgno_p").innerHTML = No_BGCekHTML;
+
+                    let Nilai_RincianHTML = "";
+                    let totalNilaiRincian = 0; // Variabel untuk menyimpan total nilai
+
+                    data.data.forEach(function (item) {
+                        let nilaiRincian = parseFloat(item.Nilai_Rincian);
+                        let formattedValue = nilaiRincian.toLocaleString(
+                            "en-US",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }
+                        );
+
+                        Nilai_RincianHTML += formattedValue + "<br>";
+                        totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
+                    });
+
+                    document.getElementById("amount_p").innerHTML =
+                        Nilai_RincianHTML;
+
+                    // Format total dan tampilkan di element dengan id "total_p"
+                    document.getElementById("total_p").innerHTML =
+                        totalNilaiRincian.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
+
+                    document.getElementById("alasan_p").innerHTML =
+                        data.data[0].Alasan;
+
+                    document.getElementById("batal_p").innerHTML =
+                        data.data[0].Batal;
+
+                    window.print();
+                }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
     });
 
     btn_okbkk.addEventListener("click", function (event) {

@@ -973,7 +973,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region Jumbo Bag
     Route::get('JumboBag', 'App\Http\Controllers\HomeController@JumboBag');
-
+    Route::resource('ACCPermohonanKonversiPotong', App\Http\Controllers\JumboBag\ACCPermohonanKonversiPotongController::class);
     Route::resource('TabelHitunganJBB', App\Http\Controllers\JumboBag\TabelHitunganJumboBag::class);
     Route::post('getDataCustomerJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataCustomerJBB');
     Route::post('getDataTambahKomponenJBB', 'App\Http\Controllers\JumboBag\TabelHitunganJumboBag@getDataTambahKomponenJBB');
@@ -1056,6 +1056,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('ACCBayarTT', 'App\Http\Controllers\Accounting\Hutang\ACCBayarTTController@ACCBayarTT');
     Route::resource('MaintenanceBKKKRR1', App\Http\Controllers\Accounting\Hutang\MaintenanceBKKKRR1Controller::class);
     // Route::get('MaintenanceBKKKRR1', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKKKRR1Controller@MaintenanceBKKKRR1');
+    Route::resource('MaintenanceBKMKRR1', App\Http\Controllers\Accounting\Hutang\MaintenanceBKMKRR1Controller::class);
     // Route::get('MaintenanceBKMKRR1', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKMKRR1Controller@MaintenanceBKMKRR1');
 
     Route::resource('MaintenanceKodePerkiraanBKK', App\Http\Controllers\Accounting\Hutang\KodePerkiraanBKKController::class);

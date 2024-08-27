@@ -124,13 +124,13 @@ class MaintenanceBKKKRR1Controller extends Controller
                     // Only update the code of Perkiraan
                     DB::connection('ConnAccounting')
                         ->statement('EXEC SP_1273_ACC_UDT_BKK1_TT ?, ?, ?, ?, ?', [
-                            (int)$request->input('id_detail'),
-                            (int)$tIdBayar,
+                            (int) $request->input('id_detail'),
+                            (int) $tIdBayar,
                             $tNilaiRincian,
                             $tKdKira,
                             $tRincian,
                         ]);
-                        // dd($tes);
+                    // dd($tes);
                     return response()->json(['message' => 'Data BKK berdasarkan data PENAGIHAN sudah diKOREKSI !!..']);
                 } else {
                     // DATA NO PENAGIHAN
@@ -147,20 +147,21 @@ class MaintenanceBKKKRR1Controller extends Controller
                 }
 
             case 3:
-                // DATA PENAGIHAN
-                if ($tt) {
-                    DB::connection('ConnAccounting')
-                        ->statement('EXEC SP_1273_ACC_DLT_BKK1_TT ?', [$tIdBayar]);
-                    return response()->json(['message' => 'Data BKK berdasarkan data PENAGIHAN sudah diHAPUS !!..']);
-                } else {
+                if (!$tt) {
                     // DATA NO PENAGIHAN
                     DB::connection('ConnAccounting')
                         ->statement('EXEC SP_1273_ACC_DLT_BKK1_NOTT ?, ?, ?', [
-                            $tIdBayar,
-                            $request->input('id_detail'),
+                            (int) $request->input('id_detail'),
+                            (int) $tIdBayar,
                             $tIdPenagihan
                         ]);
+                    // dd($tes);
                     return response()->json(['message' => 'Data BKK berdasarkan NON PENAGIHAN sudah diHAPUS !!..']);
+                } else {
+                    // DATA PENAGIHAN
+                    DB::connection('ConnAccounting')
+                        ->statement('EXEC SP_1273_ACC_DLT_BKK1_TT ?', [$tIdBayar]);
+                    return response()->json(['message' => 'Data BKK berdasarkan data PENAGIHAN sudah diHAPUS !!..']);
                 }
         }
 
@@ -289,10 +290,11 @@ class MaintenanceBKKKRR1Controller extends Controller
             $listPengajuan = $request->input('rowDataArray', []);
             $tanggal = $request->input('tanggalgrup', now()->toDateString());
             $user_id = trim(Auth::user()->NomorUser);
-            // dd($listPengajuan, $tanggal);
             $jmlData = count($listPengajuan);
             $adaBKK = $jmlData > 0;
-            // dd($jmlData, $adaBKK);
+            $periode = date('Y');
+            // dd($periode);
+            // dd($request->all());
             if (!$adaBKK) {
                 return response()->json(['error' => 'Tidak ada data yang diGROUP !!...']);
             }
@@ -327,23 +329,51 @@ class MaintenanceBKKKRR1Controller extends Controller
             $idbkk = null;
             foreach ($listPengajuan as $index => $item) {
                 if ($index == 0) {
-                    $createBKKResult = DB::connection('ConnAccounting')->select('exec SP_5409_ACC_INS_BKK1_IDBKK @UserId = ?, @IdPembayaran = ?, @StatusPenagihan = ?, @TglNow = ?', [
-                        $user_id,
-                        $item['Id_Pembayaran'],
-                        substr($item['Id_Penagihan'], 0, 1) !== 'Y' ? 'Y' : 'N',
-                        $tanggal,
-                    ]);
+                    // Call the stored procedure to create the initial BKK entry
+                    $createBKKResult = DB::connection('ConnAccounting')
+                        ->statement('exec SP_5409_ACC_INS_BKK1_IDBKK @UserId = ?, @IdPembayaran = ?, @StatusPenagihan = ?, @TglNow = ?', [
+                            $user_id,
+                            $item['Id_Pembayaran'],
+                            substr($item['Id_Penagihan'], 0, 1) !== 'Y' ? 'Y' : 'N',
+                            $tanggal,
+                        ]);
 
                     if (!empty($createBKKResult)) {
-                        $idbkk = trim($createBKKResult[0]->idbkk);
-                        $tNilaiBKK = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_NILAIBKK @BKK = ?', [$idbkk]);
+                        // Extract the year from the current date
+                        $periode = date('Y');
 
-                        if (!empty($tNilaiBKK)) {
-                            $totalBayar = $tNilaiBKK[0]->nilaibayar;
-                            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UPDATE_BKK1_NILAIBKK_WEWE @BKK = ?, @nilaibulat = ?', [
-                                $idbkk,
-                                $totalBayar,
-                            ]);
+                        // Retrieve the current value of Id_BKK_E_Rp
+                        $idBKK_E_Rp = DB::connection('ConnAccounting')
+                            ->table('T_COUNTER_BKK')
+                            ->where('Periode', $periode)
+                            ->value('Id_BKK_E_Rp');
+
+                        if ($idBKK_E_Rp !== null) {
+                            // Subtract 1 from the retrieved Id_BKK_E_Rp
+                            $idBKK_E_RpMinusOne = $idBKK_E_Rp - 1;
+
+                            // Format the idBKK as 'KKK-PYYxxxxx'
+                            $formattedIdBKK = 'KKK-P' . substr($periode, -2) . str_pad($idBKK_E_RpMinusOne, 5, '0', STR_PAD_LEFT);
+
+                            // Retrieve the IdBKK from the T_Pembayaran table
+                            $tPembayaranRecord = DB::connection('ConnAccounting')
+                                ->table('T_Pembayaran')
+                                ->where('Id_BKK', $formattedIdBKK)
+                                ->first();
+                            // dd($tPembayaranRecord);
+                            if ($tPembayaranRecord) {
+                                $idbkk = $tPembayaranRecord->Id_BKK;
+
+                                $tNilaiBKK = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_NILAIBKK @BKK = ?', [$idbkk]);
+                                // dd($tNilaiBKK);
+                                if (!empty($tNilaiBKK)) {
+                                    $totalBayar = $tNilaiBKK[0]->NilaiBayar;
+                                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UPDATE_BKK1_NILAIBKK_WEWE @BKK = ?, @nilaibulat = ?', [
+                                        $idbkk,
+                                        $totalBayar,
+                                    ]);
+                                }
+                            }
                         }
                     }
                 } else {
@@ -355,11 +385,10 @@ class MaintenanceBKKKRR1Controller extends Controller
                 }
             }
 
-            // Handle the supplier's currency and calculate debt
             if ($idbkk) {
                 $currencyCheck = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_SUPPLIER_UANG @IdSupp = ?', [$idSupp]);
-
-                if (!empty($currencyCheck) && $currencyCheck[0]->Id_MataUang == 1) {
+                // dd($currencyCheck);
+                if (!empty($currencyCheck) && $currencyCheck[0]->ID_MATAUANG == 1) {
                     DB::connection('ConnAccounting')->statement('exec Sp_1273_ACC_INS_HUTANG_BKK1 @BKK = ?, @UserInput = ?', [
                         $idbkk,
                         $user_id,
@@ -369,14 +398,60 @@ class MaintenanceBKKKRR1Controller extends Controller
                 }
 
                 $finalResult = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_NILAIBKK @BKK = ?', [$idbkk]);
-                $tNilaiBKK = $finalResult[0]->nilaibayar;
+                // dd($finalResult);
+                $tNilaiBKK = $finalResult[0]->NilaiBayar;
 
                 return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk, 'totalBayar' => $tNilaiBKK]);
             } else {
                 return response()->json(['error' => 'Failed to create BKK record.']);
             }
-        }
+        } else if ($id == 'cetakBKK') {
+            $selectedBKK = $request->input('rowDataBKKArray');
 
+            if (empty($selectedBKK)) {
+                return response()->json(['message' => 'Tidak Ada BKK yang diCETAK!!..'], 422);
+            }
+
+            $bkkItem = collect($selectedBKK)->first();
+            if (!$bkkItem) {
+                return response()->json(['message' => 'Tidak ada BKK yang diCETAK!!..'], 422);
+            }
+
+            $idBKK = $bkkItem['Id_BKK'];
+            $nilaiBKK = $bkkItem['NilaiBKK'];
+
+            $nilaiBKKFloat = (float) str_replace(',', '', $nilaiBKK);
+
+            if ($request->input('confirmPembulatan') == 'yes') {
+                $nilaiPembulatan = $request->input('nilaiPembulatan');
+            } else {
+                $nilaiPembulatan = number_format($nilaiBKKFloat, 2, '.', ',');
+            }
+
+            // First stored procedure call: update nilai BKK
+            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK1_NILAIBKK ?, ?', [
+                $idBKK,
+                $nilaiPembulatan,
+            ]);
+
+            // Convert to words
+            $konversi = $request->input('terbilang');
+
+            // Second stored procedure call: update Terbilang
+            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UDT_BKK1_TERBILANG_BKK ?, ?', [
+                $idBKK,
+                $konversi,
+            ]);
+
+            // Assuming you're using a reporting tool to generate and display the report
+            $data = DB::connection('ConnAccounting')
+                        ->select("SELECT * FROM VW_PRG_1273_ACC_Cetak_BAYAR_BKK1 WHERE Id_BKK = ?", [$idBKK]);
+            return response()->json([
+                'data' => $data,
+                'message' => 'Data sudah diSIMPAN!'
+            ]);
+
+        }
     }
 
     // Show the form for editing the specified resource.
