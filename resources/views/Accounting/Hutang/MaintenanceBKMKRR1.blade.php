@@ -33,6 +33,9 @@
                                         <input type="date" name="tanggal_input" class="form-control"
                                             style="width: 100%" id="tanggal_input">
                                     </div>
+                                    <div class="col-md-1">
+                                        <label for="id" style="color: blue;">Wajib Di-Enter</label>
+                                    </div>
                                 </div>
                             </div>
                             <br>
@@ -78,7 +81,7 @@
                                         <label for="id">Jumlah Uang</label>
                                     </div>
                                     <div class="col-md-5">
-                                        <input type="number" name="jumlah_uang" class="form-control"
+                                        <input type="text" name="jumlah_uang" class="form-control"
                                             style="width: 100%" id="jumlah_uang">
                                     </div>
                                 </div>
@@ -99,6 +102,23 @@
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-default" id="btn_bank">...</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label for="id">Jenis Pembayaran</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="jenis_pembayaran" class="form-control" style="width: 100%"
+                                            id="jenis_pembayaran">
+                                        <input type="text" name="id_jnsPem" class="form-control" style="width: 100%; display: none"
+                                            id="id_jnsPem">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-default" id="btn_jenispembayaran">...</button>
                                     </div>
                                     <button type="button" class="btn" id="btn_tambahbiaya">Tambah Biaya</button>
                                 </div>

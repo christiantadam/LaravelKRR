@@ -28,8 +28,7 @@ $(document).ready(function () {
                 { title: "Satuan Saldo Terakhir Tujuan Primer", visible: false } /* Hidden Column 21*/, // prettier-ignore
                 { title: "Satuan Saldo Terakhir Tujuan Sekunder", visible: false } /* Hidden Column 22 */, //prettier-ignore
                 { title: "Satuan Saldo Terakhir Tujuan Tritier", visible: false } /* Hidden Column 23 */, // prettier-ignore
-                { title: "Uraian Transaksi Tujuan", visible: false } /* Hidden Column 24 */, // prettier-ignore
-                { title: "Id Tmp Transaksi" }, // Column 25 // prettier-ignore
+                { title: "Id Tmp Transaksi" }, // Column 24 // prettier-ignore
             ],
         }
     );
@@ -96,7 +95,6 @@ $(document).ready(function () {
         "satuan_saldoTerakhirTujuanPrimer",
         "satuan_saldoTerakhirTujuanSekunder",
         "satuan_saldoTerakhirTujuanTritier",
-        "uraian_transaksiTujuan",
     ];
     let nama_divisiAsal = document.getElementById("nama_divisiAsal"); // prettier-ignore
     let nama_divisiTujuan = document.getElementById("nama_divisiTujuan"); // prettier-ignore
@@ -136,7 +134,7 @@ $(document).ready(function () {
     let satuan_sekunderTujuan = document.getElementById("satuan_sekunderTujuan"); // prettier-ignore
     let satuan_tritierAsal = document.getElementById("satuan_tritierAsal"); // prettier-ignore
     let satuan_tritierTujuan = document.getElementById("satuan_tritierTujuan"); // prettier-ignore
-    let uraian_transaksi = document.getElementById("uraian_transaksi"); // prettier-ignore
+    let proses;
     //#endregion
 
     //#region Function Mantap-mantap
@@ -233,6 +231,30 @@ $(document).ready(function () {
                 setButton(jenisKegiatan);
                 if (jenisKegiatan == "koreksi") {
                     activateAll();
+                    $.ajax({
+                        url: "/PermohonanKonversiPotong/getDataKoreksi",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            id_konversi: result.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            // id_bkm.value = data.idBKM;
+                            if (response.error) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
                 }
                 console.log("Data retrieved successfully:", result.value);
                 // You can add further processing of the data here if needed
@@ -385,6 +407,7 @@ $(document).ready(function () {
         e.preventDefault();
         if (this.innerHTML != "Proses") {
             kegiatanForm = "isi";
+            proses = 1;
             setButton(kegiatanForm);
             activateAll();
             button_divisiAsal.focus();
@@ -410,6 +433,7 @@ $(document).ready(function () {
                 url: "/PermohonanKonversiPotong",
                 data: {
                     _token: csrfToken,
+                    proses: proses,
                     table_daftarTujuanKonversi: table_daftarTujuanKonversi
                         .rows()
                         .data()
@@ -433,6 +457,7 @@ $(document).ready(function () {
         e.preventDefault();
         if (kegiatanForm != "koreksi") {
             kegiatanForm = "koreksi";
+            proses = 2;
             getDataKonversi(kegiatanForm);
         }
     });
@@ -441,6 +466,7 @@ $(document).ready(function () {
         e.preventDefault();
         if (this.innerHTML != "Cancel") {
             kegiatanForm = "hapus";
+            proses = 3;
             getDataKonversi(kegiatanForm);
         } else {
             kegiatanForm = "awal";
@@ -692,7 +718,7 @@ $(document).ready(function () {
 
                         function getNextFocusableElement(currentElement) {
                             // Check if the current element is pemakaian_tritierAsal
-                            if (currentElement.id === "uraian_transaksiAsal") {
+                            if (currentElement.id === "pemakaian_tritierAsal") {
                                 activateAll();
                                 return document.getElementById(
                                     "button_divisiTujuan"
@@ -1101,8 +1127,6 @@ $(document).ready(function () {
                 // Clear the input fields after adding data
                 clearAll("div_tujuanKonversi");
                 activateAll();
-                // Activate uraian_transaksi input text every time after adding data
-                uraian_transaksi.readOnly = false;
                 button_divisiTujuan.focus();
             }
         } else {
@@ -1152,8 +1176,6 @@ $(document).ready(function () {
                 // Clear the input fields after updating data
                 clearAll("div_tujuanKonversi");
                 activateAll();
-                // Activate uraian_transaksi input text every time after updating data
-                uraian_transaksi.readOnly = false;
                 button_divisiTujuan.focus();
             } else {
                 Swal.fire(
@@ -1191,10 +1213,6 @@ $(document).ready(function () {
                     clearAll("div_tujuanKonversi");
                     activateAll();
 
-                    // Activate uraian_transaksi input if table_daftarTujuanKonversi is not empty
-                    if (table_daftarTujuanKonversi.rows.count()) {
-                        uraian_transaksi.readOnly = false;
-                    }
                     button_divisiTujuan.focus();
 
                     // Remove the 'selected' class from any previously selected row

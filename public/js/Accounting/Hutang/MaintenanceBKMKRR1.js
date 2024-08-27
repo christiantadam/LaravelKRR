@@ -5,6 +5,7 @@ $(document).ready(function () {
     let btn_kodeperkiraan = document.getElementById("btn_kodeperkiraan");
     let btn_matauang = document.getElementById("btn_matauang");
     let btn_bank = document.getElementById("btn_bank");
+    let btn_jenispembayaran = document.getElementById("btn_jenispembayaran");
     let btn_tambahbiaya = document.getElementById("btn_tambahbiaya");
     let kode_kira = document.getElementById("kode_kira");
     let keterangan_kira = document.getElementById("keterangan_kira");
@@ -20,8 +21,98 @@ $(document).ready(function () {
     let jumlah_uang = document.getElementById("jumlah_uang");
     let no_bukti = document.getElementById("no_bukti");
     let uraian = document.getElementById("uraian");
+    let jenis_pembayaran = document.getElementById("jenis_pembayaran");
+    let id_jnsPem = document.getElementById("id_jnsPem");
 
+    id_bkm.readOnly = true;
     tanggal_input.valueAsDate = new Date();
+    tanggal_input.focus();
+
+    tanggal_input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            diterima_dari.focus();
+        }
+    });
+
+    diterima_dari.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_matauang.focus();
+        }
+    });
+
+    jumlah_uang.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let value = parseFloat(jumlah_uang.value.replace(/,/g, ""));
+            if (!isNaN(value)) {
+                jumlah_uang.value = value.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
+            }
+            btn_bank.focus();
+        }
+    });
+
+    no_bukti.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            uraian.focus();
+        }
+    });
+
+    uraian.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+
+            if (
+                diterima_dari !== "" &&
+                jumlah_uang !== "" &&
+                nama_bank !== "" &&
+                keterangan_kira !== "" &&
+                mata_uang !== "" &&
+                jenis_pembayaran !== ""
+            ) {
+                $.ajax({
+                    url: "MaintenanceBKMKRR1/processData",
+                    type: "GET",
+                    data: {
+                        _token: csrfToken,
+                        diterima_dari: diterima_dari.value,
+                        jumlah_uang: jumlah_uang.value,
+                        nama_bank: nama_bank.value,
+                        keterangan_kira: keterangan_kira.value,
+                        mata_uang: mata_uang.value,
+                        jenis_pembayaran: jenis_pembayaran.value,
+                        id_bank: id_bank.value,
+                        tanggal_input: tanggal_input.value,
+                        id_bkm: id_bkm.value,
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        id_bkm.value = data.idBKM;
+                        if (response.error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: response.error,
+                                showConfirmButton: false,
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    },
+                });
+            } else {
+                alert("Please fill in all required fields!");
+                jumlah_uang.focus();
+            }
+        }
+    });
 
     btn_kodeperkiraan.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -80,6 +171,9 @@ $(document).ready(function () {
                     keterangan_kira.value = escapeHTML(
                         selectedRow.Keterangan.trim()
                     );
+                    setTimeout(() => {
+                        no_bukti.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -144,6 +238,76 @@ $(document).ready(function () {
                     const selectedRow = result.value;
                     kode_matauang.value = selectedRow.Id_MataUang;
                     mata_uang.value = selectedRow.Nama_MataUang;
+                    setTimeout(() => {
+                        jumlah_uang.focus();
+                    }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_jenispembayaran.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Jenis Pembayaran",
+                html: '<table id="tableJenisPem" class="display" style="width:100%"><thead><tr><th>Jenis Pembayaran</th><th>ID. Pembayaran</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                // width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableJenisPem")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableJenisPem").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "MaintenanceBKMKRR1/getJenisBayar",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                { data: "Jenis_Pembayaran" },
+                                { data: "Id_Jenis_Bayar" },
+                            ],
+                        });
+                        $("#tableJenisPem tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                table.$("tr.selected").removeClass("selected");
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableJenisPem")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    jenis_pembayaran.value = selectedRow.Jenis_Pembayaran;
+                    id_jnsPem.value = selectedRow.Id_Jenis_Bayar;
+                    setTimeout(() => {
+                        btn_kodeperkiraan.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -189,14 +353,10 @@ $(document).ready(function () {
                                 { data: "Id_Bank" },
                             ],
                         });
-                        $("#tableBank tbody").on(
-                            "click",
-                            "tr",
-                            function () {
-                                table.$("tr.selected").removeClass("selected");
-                                $(this).addClass("selected");
-                            }
-                        );
+                        $("#tableBank tbody").on("click", "tr", function () {
+                            table.$("tr.selected").removeClass("selected");
+                            $(this).addClass("selected");
+                        });
                         currentIndex = null;
                         Swal.getPopup().addEventListener("keydown", (e) =>
                             handleTableKeydownInSwal(e, "tableBank")
@@ -208,6 +368,9 @@ $(document).ready(function () {
                     const selectedRow = result.value;
                     nama_bank.value = selectedRow.Nama_Bank;
                     id_bank.value = selectedRow.Id_Bank;
+                    setTimeout(() => {
+                        btn_jenispembayaran.focus();
+                    }, 300);
 
                     $.ajax({
                         url: "MaintenanceBKMKRR1/getBankDetail",
@@ -220,7 +383,6 @@ $(document).ready(function () {
                             console.log(data);
                             jenis_bank.value = data.JenisBank;
                             console.log(jenis_bank.value);
-
                         },
                         error: function (xhr, status, error) {
                             var err = eval("(" + xhr.responseText + ")");

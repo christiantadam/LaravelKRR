@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use DB;
 use App\Http\Controllers\HakAksesController;
 use Exception;
+use Carbon\Carbon;
+use Log;
 use Auth;
+use DateTime;
+use DateTimeZone;
 
 class PermohonanKonversiPotongController extends Controller
 {
@@ -24,31 +28,41 @@ class PermohonanKonversiPotongController extends Controller
 
     public function store(Request $request)
     {
-        $id_divisi = $request->input('asalKonversiInputValues')['id_divisi'];
-        $nama_divisi = $request->input('asalKonversiInputValues')['nama_divisi'];
-        $id_objek = $request->input('asalKonversiInputValues')['id_objek'];
-        $nama_objek = $request->input('asalKonversiInputValues')['nama_objek'];
-        $id_kelompokUtama = $request->input('asalKonversiInputValues')['id_kelompokUtama'];
-        $nama_kelompokUtama = $request->input('asalKonversiInputValues')['nama_kelompokUtama'];
-        $id_kelompok = $request->input('asalKonversiInputValues')['id_kelompok'];
-        $nama_kelompok = $request->input('asalKonversiInputValues')['nama_kelompok'];
+        $currentIdKonvPotongJBB = DB::connection('ConnInventory')
+            ->table('Counter')->value('IdKonvPotongJBB');
+        $newIdKonvPotongJBB = $currentIdKonvPotongJBB + 1;
+        DB::connection('ConnInventory')
+            ->table('Counter')->update(['IdKonvPotongJBB' => $newIdKonvPotongJBB]);
+        $idkonversi = "JBB" . str_pad($newIdKonvPotongJBB, 6, "0", STR_PAD_LEFT);
+        $date = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
+        // $id_divisi = $request->input('asalKonversiInputValues')['id_divisi'];
+        // $nama_divisi = $request->input('asalKonversiInputValues')['nama_divisi'];
+        // $id_objek = $request->input('asalKonversiInputValues')['id_objek'];
+        // $nama_objek = $request->input('asalKonversiInputValues')['nama_objek'];
+        // $id_kelompokUtama = $request->input('asalKonversiInputValues')['id_kelompokUtama'];
+        // $nama_kelompokUtama = $request->input('asalKonversiInputValues')['nama_kelompokUtama'];
+        // $id_kelompok = $request->input('asalKonversiInputValues')['id_kelompok'];
+        // $nama_kelompok = $request->input('asalKonversiInputValues')['nama_kelompok'];
         $id_subKelompok = $request->input('asalKonversiInputValues')['id_subKelompok'];
-        $nama_subKelompok = $request->input('asalKonversiInputValues')['nama_subKelompok'];
-        $PIB_asal = $request->input('asalKonversiInputValues')['PIB_asal'];
+        // $nama_subKelompok = $request->input('asalKonversiInputValues')['nama_subKelompok'];
+        // $PIB_asal = $request->input('asalKonversiInputValues')['PIB_asal'];
         $id_typeAsal = $request->input('asalKonversiInputValues')['id_typeAsal'];
-        $nama_typeAsal = $request->input('asalKonversiInputValues')['nama_typeAsal'];
-        $saldo_terakhirAsalPrimer = $request->input('asalKonversiInputValues')['saldo_terakhirAsalPrimer'];
-        $satuan_saldoTerakhirAsalPrimer = $request->input('asalKonversiInputValues')['satuan_saldoTerakhirAsalPrimer'];
-        $saldo_terakhirAsalSekunder = $request->input('asalKonversiInputValues')['saldo_terakhirAsalSekunder'];
-        $satuan_saldoTerakhirAsalSekunder = $request->input('asalKonversiInputValues')['satuan_saldoTerakhirAsalSekunder'];
-        $saldo_terakhirAsalTritier = $request->input('asalKonversiInputValues')['saldo_terakhirAsalTritier'];
-        $satuan_saldoTerakhirAsalTritier = $request->input('asalKonversiInputValues')['satuan_saldoTerakhirAsalTritier'];
+        // $nama_typeAsal = $request->input('asalKonversiInputValues')['nama_typeAsal'];
+        // $saldo_terakhirAsalPrimer = $request->input('asalKonversiInputValues')['saldo_terakhirAsalPrimer'];
+        // $satuan_saldoTerakhirAsalPrimer = $request->input('asalKonversiInputValues')['satuan_saldoTerakhirAsalPrimer'];
+        // $saldo_terakhirAsalSekunder = $request->input('asalKonversiInputValues')['saldo_terakhirAsalSekunder'];
+        // $satuan_saldoTerakhirAsalSekunder = $request->input('asalKonversiInputValues')['satuan_saldoTerakhirAsalSekunder'];
+        // $saldo_terakhirAsalTritier = $request->input('asalKonversiInputValues')['saldo_terakhirAsalTritier'];
+        // $satuan_saldoTerakhirAsalTritier = $request->input('asalKonversiInputValues')['satuan_saldoTerakhirAsalTritier'];
         $pemakaian_primerAsal = $request->input('asalKonversiInputValues')['pemakaian_primerAsal'];
-        $satuan_primerAsal = $request->input('asalKonversiInputValues')['satuan_primerAsal'];
+        // $satuan_primerAsal = $request->input('asalKonversiInputValues')['satuan_primerAsal'];
         $pemakaian_sekunderAsal = $request->input('asalKonversiInputValues')['pemakaian_sekunderAsal'];
-        $satuan_sekunderAsal = $request->input('asalKonversiInputValues')['satuan_sekunderAsal'];
+        // $satuan_sekunderAsal = $request->input('asalKonversiInputValues')['satuan_sekunderAsal'];
         $pemakaian_tritierAsal = $request->input('asalKonversiInputValues')['pemakaian_tritierAsal'];
-        $satuan_tritierAsal = $request->input('asalKonversiInputValues')['satuan_tritierAsal'];
+        // $satuan_tritierAsal = $request->input('asalKonversiInputValues')['satuan_tritierAsal'];
+        $uraian_asal = "Asal Konversi Potongan JBB";
+        $proses = $request->input('proses');
+        // dd($proses);
 
         $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
         // Initialize an array to store concatenated results for each index
@@ -70,36 +84,114 @@ class PermohonanKonversiPotongController extends Controller
             }
 
             // Concatenate the collected values with a pipe separator
-            $concatenatedResults[$i] = implode(' , ', $tempArray);
+            // $concatenatedResults[$i] = implode(' , ', $tempArray);
+            $concatenatedResults[$i] = $tempArray;
         }
 
         // Accessing specific variables
         $IdTypeTujuan = $concatenatedResults[0];
-        $NamaTypeTujuan = $concatenatedResults[1];
+        // $NamaTypeTujuan = $concatenatedResults[1];
         $SaldoPrimer = $concatenatedResults[2];
         $SaldoSekunder = $concatenatedResults[3];
         $SaldoTritier = $concatenatedResults[4];
-        $IdDivisi = $concatenatedResults[5];
-        $IdObjek = $concatenatedResults[6];
-        $IdKelompokUtama = $concatenatedResults[7];
-        $IdKelompok = $concatenatedResults[8];
+        // $IdDivisi = $concatenatedResults[5];
+        // $IdObjek = $concatenatedResults[6];
+        // $IdKelompokUtama = $concatenatedResults[7];
+        // $IdKelompok = $concatenatedResults[8];
         $IdSubKelompok = $concatenatedResults[9];
-        $NamaDivisiTujuan = $concatenatedResults[10];
-        $NamaObjekTujuan = $concatenatedResults[11];
-        $NamaKelompokUtamaTujuan = $concatenatedResults[12];
-        $NamaKelompokTujuan = $concatenatedResults[13];
-        $NamaSubKelompokTujuan = $concatenatedResults[14];
-        $SaldoTerakhirTujuanPrimer = $concatenatedResults[15];
-        $SaldoTerakhirTujuanSekunder = $concatenatedResults[16];
-        $SaldoTerakhirTujuanTritier = $concatenatedResults[17];
-        $SatuanPrimerTujuan = $concatenatedResults[18];
-        $SatuanSekunderTujuan = $concatenatedResults[19];
-        $SatuanTritierTujuan = $concatenatedResults[20];
-        $SatuanSaldoTerakhirTujuanPrimer = $concatenatedResults[21];
-        $SatuanSaldoTerakhirTujuanSekunder = $concatenatedResults[22];
-        $SatuanSaldoTerakhirTujuanTritier = $concatenatedResults[23];
-        $IdTmpTransaksi = $concatenatedResults[24];
-        dd($IdTypeTujuan);
+        // $NamaDivisiTujuan = $concatenatedResults[10];
+        // $NamaObjekTujuan = $concatenatedResults[11];
+        // $NamaKelompokUtamaTujuan = $concatenatedResults[12];
+        // $NamaKelompokTujuan = $concatenatedResults[13];
+        // $NamaSubKelompokTujuan = $concatenatedResults[14];
+        // $SaldoTerakhirTujuanPrimer = $concatenatedResults[15];
+        // $SaldoTerakhirTujuanSekunder = $concatenatedResults[16];
+        // $SaldoTerakhirTujuanTritier = $concatenatedResults[17];
+        // $SatuanPrimerTujuan = $concatenatedResults[18];
+        // $SatuanSekunderTujuan = $concatenatedResults[19];
+        // $SatuanTritierTujuan = $concatenatedResults[20];
+        // $SatuanSaldoTerakhirTujuanPrimer = $concatenatedResults[21];
+        // $SatuanSaldoTerakhirTujuanSekunder = $concatenatedResults[22];
+        // $SatuanSaldoTerakhirTujuanTritier = $concatenatedResults[23];
+        // $IdTmpTransaksi = $concatenatedResults[24];
+        $uraian_tujuan = "Tujuan Konversi Potongan JBB";
+
+        switch ($proses) {
+            case 1:
+                // Asal
+                DB::connection('ConnInventory')
+                    ->statement('EXEC SP_4384_JBB_Konversi_Potong
+                    @XKode = ?,
+                    @XIdTypeTransaksi = ?,
+                    @XUraianDetailTransaksi = ?,
+                    @XIdType = ?,
+                    @XIdPenerima = ?,
+                    @XIdPemberi = ?,
+                    @XSaatAwalTransaksi = ?,
+                    @XSaatLog = ?,
+                    @XJumlahPengeluaranPrimer = ?,
+                    @XJumlahPengeluaranSekunder = ?,
+                    @XJumlahPengeluaranTritier = ?,
+                    @XAsalIdSubkelompok = ?,
+                    @XIdKonversi = ?,
+                    @XTimeInput = ?,
+                    @XStatus = ?', [
+                        8,
+                        "04",
+                        $uraian_asal,
+                        $id_typeAsal,
+                        trim(Auth::user()->NomorUser),
+                        trim(Auth::user()->NomorUser),
+                        Carbon::now()->format('Y-m-d'),
+                        $date,
+                        $pemakaian_primerAsal,
+                        $pemakaian_sekunderAsal,
+                        $pemakaian_tritierAsal,
+                        $id_subKelompok,
+                        $idkonversi,
+                        $date,
+                        0,
+                    ]);
+
+                // Tujuan
+                for ($k = 0; $k < count($IdTypeTujuan); $k++) {
+                    DB::connection('ConnInventory')
+                        ->statement('EXEC SP_4384_JBB_Konversi_Potong
+                        @XKode = ?,
+                        @XIdTypeTransaksi = ?,
+                        @XUraianDetailTransaksi = ?,
+                        @XIdType = ?,
+                        @XIdPenerima = ?,
+                        @XIdPemberi = ?,
+                        @XSaatAwalTransaksi = ?,
+                        @XSaatLog = ?,
+                        @XJumlahMasukPrimer = ?,
+                        @XJumlahMasukSekunder = ?,
+                        @XJumlahMasukTritier = ?,
+                        @XTujuanIdSubKel = ?,
+                        @XIdKonversi = ?,
+                        @XTimeInput = ?,
+                        @XStatus = ?', [
+                            8,
+                            "04",
+                            $uraian_tujuan,
+                            $id_typeAsal,
+                            trim(Auth::user()->NomorUser),
+                            trim(Auth::user()->NomorUser),
+                            Carbon::now()->format('Y-m-d'),
+                            $date,
+                            $SaldoPrimer[$k],
+                            $SaldoSekunder[$k],
+                            $SaldoTritier[$k],
+                            $IdSubKelompok[$k],
+                            $idkonversi,
+                            $date,
+                            0,
+                        ]);
+                }
+                Log::info($idkonversi);
+                return response()->json(['message' => 'Data sudah diSIMPAN !!..']);
+        }
 
     }
 
@@ -212,6 +304,88 @@ class PermohonanKonversiPotongController extends Controller
             return response()->json($TypeConn);
         } else if ($id == 'getDataKonversi') {
             return response()->json($request->input('idKonversi'), 200);
+        } else if ($id == 'getDataKoreksi') {
+            $idKonversi = $request->input('id_konversi');
+            $results = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKonversi = ?', [9, $idKonversi]);
+            dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'IdTransaksi' => $row->IdTransaksi,
+                    'IdTypeTransaksi' => $row->IdTypeTransaksi,
+                    'UraianDetailTransaksi' => $row->UraianDetailTransaksi,
+                    'IdType' => $row->IdType,
+                    'IdPenerima' => $row->IdPenerima,
+                    'IdPemberi' => $row->IdPemberi,
+                    'SaatAwalTransaksi' => $row->SaatAwalTransaksi,
+                    'SaatAkhirTransaksi' => $row->SaatAkhirTransaksi,
+                    'SaatLog' => $row->SaatLog,
+                    'KomfirmasiPenerima' => $row->KomfirmasiPenerima,
+                    'KomfirmasiPemberi' => $row->KomfirmasiPemberi,
+                    'SaatAwalKomfirmasi' => $row->SaatAwalKomfirmasi,
+                    'SaatAkhirKomfirmasi' => $row->SaatAkhirKomfirmasi,
+                    'JumlahPemasukanPrimer' => $row->JumlahPemasukanPrimer,
+                    'JumlahPemasukanSekunder' => $row->JumlahPemasukanSekunder,
+                    'JumlahPemasukanTritier' => $row->JumlahPemasukanTritier,
+                    'JumlahPengeluaranPrimer' => $row->JumlahPengeluaranPrimer,
+                    'JumlahPengeluaranSekunder' => $row->JumlahPengeluaranSekunder,
+                    'JumlahPengeluaranTritier' => $row->JumlahPengeluaranTritier,
+                    'AsalIdSubkelompok' => $row->AsalIdSubkelompok,
+                    'TujuanIdSubkelompok' => $row->TujuanIdSubkelompok,
+                    'Posisi' => $row->Posisi,
+                    'idkonversi' => $row->idkonversi,
+                    'IdSubkontraktor' => $row->IdSubkontraktor,
+                    'TimeInput' => $row->TimeInput,
+                    'Status' => $row->Status,
+                    'idtrans' => $row->idtrans,
+                    'HargaSatuan' => $row->HargaSatuan,
+                    'Rack' => $row->Rack,
+                    'IdTypeTujuan' => $row->IdTypeTujuan,
+                    'NamaType' => $row->NamaType,
+                    'KodeBarang' => $row->KodeBarang,
+                    'nama_satuan' => $row->nama_satuan,
+                    'NamaSubKelompok' => $row->NamaSubKelompok,
+                    'NamaKelompok' => $row->NamaKelompok,
+                    'NamaKelompokUtama' => $row->NamaKelompokUtama,
+                    'NamaObjek' => $row->NamaObjek,
+                    'NamaDivisi' => $row->NamaDivisi,
+                    'IdDivisi' => $row->IdDivisi,
+                    'MinimumStock' => $row->MinimumStock,
+                    'SaldoPrimer' => $row->SaldoPrimer,
+                    'SaldoSekunder' => $row->SaldoSekunder,
+                    'SaldoTritier' => $row->SaldoTritier,
+                    'IdObjek' => $row->IdObjek,
+                    'IdKelompokUtama' => $row->IdKelompokUtama,
+                    'IdKelompok' => $row->IdKelompok,
+                    'IdSubkelompok' => $row->IdSubkelompok,
+                    'satPrimer' => $row->satPrimer,
+                    'satSekunder' => $row->satSekunder,
+                    'UnitPrimer' => $row->UnitPrimer,
+                    'UnitSekunder' => $row->UnitSekunder,
+                    'UnitTritier' => $row->UnitTritier,
+                    'Nonaktif' => $row->Nonaktif,
+                    'MaximumStock' => $row->MaximumStock,
+                    'SaatStockAwal' => $row->SaatStockAwal,
+                    'SatuanUmum' => $row->SatuanUmum,
+                    'SatUmum' => $row->SatUmum,
+                    'TotalPemasukanPrimer' => $row->TotalPemasukanPrimer,
+                    'TotalPengeluaranPrimer' => $row->TotalPengeluaranPrimer,
+                    'TotalPemasukanSekunder' => $row->TotalPemasukanSekunder,
+                    'TotalPengeluaranSekunder' => $row->TotalPengeluaranSekunder,
+                    'TotalPemasukanTritier' => $row->TotalPemasukanTritier,
+                    'TotalPengeluaranTritier' => $row->TotalPengeluaranTritier,
+                    'PakaiAturanKonversi' => $row->PakaiAturanKonversi,
+                    'KonvSekunderKePrimer' => $row->KonvSekunderKePrimer,
+                    'KonvTritierKeSekunder' => $row->KonvTritierKeSekunder,
+                    'PIB' => $row->PIB,
+                ];
+            }
+            if (!empty($results)) {
+                return response()->json($response);
+            } else {
+                return response()->json(['error' => (string) "Tidak ada data untuk Id Konversi " . $idKonversi]);
+            }
         }
 
     }
