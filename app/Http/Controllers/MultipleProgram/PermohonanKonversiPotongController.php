@@ -189,7 +189,6 @@ class PermohonanKonversiPotongController extends Controller
                             0,
                         ]);
                 }
-                Log::info($idkonversi);
                 return response()->json(['message' => 'Data sudah diSIMPAN !!..']);
         }
 
@@ -308,7 +307,7 @@ class PermohonanKonversiPotongController extends Controller
             $idKonversi = $request->input('id_konversi');
             $results = DB::connection('ConnInventory')
                 ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKonversi = ?', [9, $idKonversi]);
-            dd($results);
+            // dd($results);
             $response = [];
             foreach ($results as $row) {
                 $response[] = [

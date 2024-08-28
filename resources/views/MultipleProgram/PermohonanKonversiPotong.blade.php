@@ -352,6 +352,11 @@
                                                 placeholder="Satuan Tritier">
                                         </div>
                                     </div>
+                                    <div class="form-group" style="display: none">
+                                        <input type="text" class="form-control" id="id_tmpTransaksi"
+                                        name="id_tmpTransaksi" style='width:8%; display: none'
+                                        placeholder="Id Tmp Transaksi">
+                                    </div>
                                     {{-- <div class="form-group">
                                         <label for="uraianTransaksi">Uraian Transaksi</label>
                                         <input type="text" class="form-control" id="uraian_transaksiTujuan"
