@@ -242,120 +242,124 @@ $(document).ready(function () {
                         },
                         success: function (data) {
                             console.log(data);
-                            nama_divisiAsal.value = data[0].NamaDivisi;
-                            id_divisiAsal.value = data[0].IdDivisi;
-                            nama_objekAsal.value = data[0].NamaObjek;
-                            id_objekAsal.value = data[0].IdObjek;
-                            nama_typeAsal.value = data[0].NamaType;
-                            id_typeAsal.value = data[0].IdType;
-                            id_kelompokUtamaAsal.value =
-                                data[0].IdKelompokUtama;
-                            nama_kelompokUtamaAsal.value =
-                                data[0].NamaKelompokUtama;
-                            id_kelompokAsal.value = data[0].IdKelompok;
-                            nama_kelompokAsal.value = data[0].NamaKelompok;
-                            id_subKelompokAsal.value = data[0].IdSubkelompok;
-                            nama_subKelompokAsal.value =
-                                data[0].NamaSubKelompok;
-                            saldo_terakhirAsalPrimer.value = parseFloat(
-                                data[0].SaldoPrimer
-                            ).toFixed(2);
-                            satuan_saldoTerakhirAsalPrimer.value =
-                                data[0].satPrimer;
-                            saldo_terakhirAsalSekunder.value = parseFloat(
-                                data[0].SaldoSekunder
-                            ).toFixed(2);
-                            data[0].SaldoSekunder;
-                            satuan_saldoTerakhirAsalSekunder.value =
-                                data[0].satSekunder;
-                            saldo_terakhirAsalTritier.value = parseFloat(
-                                data[0].SaldoTritier
-                            ).toFixed(2);
-                            data[0].SaldoTritier;
-                            satuan_saldoTerakhirAsalTritier.value =
-                                data[0].nama_satuan;
-                            pemakaian_primerAsal.value = parseFloat(
-                                data[0].JumlahPengeluaranPrimer
-                            ).toFixed(2);
-                            satuan_primerAsal.value = data[0].satPrimer;
-                            pemakaian_sekunderAsal.value = parseFloat(
-                                data[0].JumlahPengeluaranSekunder
-                            ).toFixed(2);
-                            satuan_sekunderAsal.value = data[0].satSekunder;
-                            pemakaian_tritierAsal.value = parseFloat(
-                                data[0].JumlahPengeluaranTritier
-                            ).toFixed(2);
-                            satuan_tritierAsal.value = data[0].nama_satuan;
-
-                            // Filter data untuk DataTable, mulai dari indeks 1
-                            var dataForTable = data.slice(1);
-
-                            console.log(dataForTable);
-
-                            if (
-                                $.fn.DataTable.isDataTable(
-                                    "#table_daftarTujuanKonversi"
-                                )
-                            ) {
-                                var table = $(
-                                    "#table_daftarTujuanKonversi"
-                                ).DataTable();
-
-                                // Tambahkan setiap data pada `dataForTable` sebagai baris baru
-                                dataForTable.forEach(function (item) {
-                                    // Menyusun data sesuai dengan struktur kolom DataTable
-                                    var inputData = [
-                                        item.IdType,
-                                        item.NamaType,
-                                        parseFloat(item.SaldoPrimer).toFixed(2),
-                                        parseFloat(item.SaldoSekunder).toFixed(
-                                            2
-                                        ),
-                                        parseFloat(item.SaldoTritier).toFixed(
-                                            2
-                                        ),
-                                        item.IdDivisi,
-                                        item.IdObjek,
-                                        item.IdKelompokUtama,
-                                        item.IdKelompok,
-                                        item.IdSubkelompok,
-                                        item.NamaDivisi,
-                                        item.NamaObjek,
-                                        item.NamaKelompokUtama,
-                                        item.NamaKelompok,
-                                        item.NamaSubKelompok,
-                                        parseFloat(item.SaldoPrimer).toFixed(2),
-                                        parseFloat(item.SaldoSekunder).toFixed(
-                                            2
-                                        ),
-                                        parseFloat(item.SaldoTritier).toFixed(
-                                            2
-                                        ),
-                                        item.satPrimer,
-                                        item.satSekunder,
-                                        item.nama_satuan,
-                                        item.satPrimer,
-                                        item.satSekunder,
-                                        item.nama_satuan,
-                                        item.IdTransaksi,
-                                    ];
-
-                                    table.row.add(inputData).draw();
-                                });
-                            } else {
-                                console.error(
-                                    "DataTable belum diinisialisasi!"
-                                );
-                            }
-
-                            if (response.error) {
+                            if (data.error) {
                                 Swal.fire({
                                     icon: "error",
                                     title: "Error!",
-                                    text: response.error,
+                                    text: data.error,
                                     showConfirmButton: false,
                                 });
                             } else {
+                                nama_divisiAsal.value = data[0].NamaDivisi;
+                                id_divisiAsal.value = data[0].IdDivisi;
+                                nama_objekAsal.value = data[0].NamaObjek;
+                                id_objekAsal.value = data[0].IdObjek;
+                                nama_typeAsal.value = data[0].NamaType;
+                                id_typeAsal.value = data[0].IdType;
+                                id_kelompokUtamaAsal.value =
+                                    data[0].IdKelompokUtama;
+                                nama_kelompokUtamaAsal.value =
+                                    data[0].NamaKelompokUtama;
+                                id_kelompokAsal.value = data[0].IdKelompok;
+                                nama_kelompokAsal.value = data[0].NamaKelompok;
+                                id_subKelompokAsal.value =
+                                    data[0].IdSubkelompok;
+                                nama_subKelompokAsal.value =
+                                    data[0].NamaSubKelompok;
+                                saldo_terakhirAsalPrimer.value = parseFloat(
+                                    data[0].SaldoPrimer
+                                ).toFixed(2);
+                                satuan_saldoTerakhirAsalPrimer.value =
+                                    data[0].satPrimer;
+                                saldo_terakhirAsalSekunder.value = parseFloat(
+                                    data[0].SaldoSekunder
+                                ).toFixed(2);
+                                data[0].SaldoSekunder;
+                                satuan_saldoTerakhirAsalSekunder.value =
+                                    data[0].satSekunder;
+                                saldo_terakhirAsalTritier.value = parseFloat(
+                                    data[0].SaldoTritier
+                                ).toFixed(2);
+                                data[0].SaldoTritier;
+                                satuan_saldoTerakhirAsalTritier.value =
+                                    data[0].nama_satuan;
+                                pemakaian_primerAsal.value = parseFloat(
+                                    data[0].JumlahPengeluaranPrimer
+                                ).toFixed(2);
+                                satuan_primerAsal.value = data[0].satPrimer;
+                                pemakaian_sekunderAsal.value = parseFloat(
+                                    data[0].JumlahPengeluaranSekunder
+                                ).toFixed(2);
+                                satuan_sekunderAsal.value = data[0].satSekunder;
+                                pemakaian_tritierAsal.value = parseFloat(
+                                    data[0].JumlahPengeluaranTritier
+                                ).toFixed(2);
+                                satuan_tritierAsal.value = data[0].nama_satuan;
+
+                                // Filter data untuk DataTable, mulai dari indeks 1
+                                var dataForTable = data.slice(1);
+
+                                console.log(dataForTable);
+
+                                if (
+                                    $.fn.DataTable.isDataTable(
+                                        "#table_daftarTujuanKonversi"
+                                    )
+                                ) {
+                                    var table = $(
+                                        "#table_daftarTujuanKonversi"
+                                    ).DataTable();
+
+                                    // Tambahkan setiap data pada `dataForTable` sebagai baris baru
+                                    dataForTable.forEach(function (item) {
+                                        // Menyusun data sesuai dengan struktur kolom DataTable
+                                        var inputData = [
+                                            item.IdType,
+                                            item.NamaType,
+                                            parseFloat(
+                                                item.JumlahPemasukanPrimer
+                                            ).toFixed(2),
+                                            parseFloat(
+                                                item.JumlahPemasukanSekunder
+                                            ).toFixed(2),
+                                            parseFloat(
+                                                item.JumlahPemasukanTritier
+                                            ).toFixed(2),
+                                            item.IdDivisi,
+                                            item.IdObjek,
+                                            item.IdKelompokUtama,
+                                            item.IdKelompok,
+                                            item.IdSubkelompok,
+                                            item.NamaDivisi,
+                                            item.NamaObjek,
+                                            item.NamaKelompokUtama,
+                                            item.NamaKelompok,
+                                            item.NamaSubKelompok,
+                                            parseFloat(
+                                                item.SaldoPrimer
+                                            ).toFixed(2),
+                                            parseFloat(
+                                                item.SaldoSekunder
+                                            ).toFixed(2),
+                                            parseFloat(
+                                                item.SaldoTritier
+                                            ).toFixed(2),
+                                            item.satPrimer,
+                                            item.satSekunder,
+                                            item.nama_satuan,
+                                            item.satPrimer,
+                                            item.satSekunder,
+                                            item.nama_satuan,
+                                            item.IdTransaksi,
+                                        ];
+
+                                        table.row.add(inputData).draw();
+                                    });
+                                } else {
+                                    console.error(
+                                        "DataTable belum diinisialisasi!"
+                                    );
+                                }
                             }
                         },
                         error: function (xhr, status, error) {
@@ -550,11 +554,9 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     console.log(response);
-                    resolve(response);
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
-                    reject(error);
                 },
             });
             // setButton(kegiatanForm);
@@ -1271,8 +1273,6 @@ $(document).ready(function () {
         if (allInputsFilled) {
             // Get the selected row index
             const selectedRow = table_daftarTujuanKonversi.row(".selected");
-            console.log(updatedData);
-            console.log(selectedRow);
 
             if (selectedRow.any()) {
                 // Update the selected row with the new data
@@ -1359,7 +1359,6 @@ $(document).ready(function () {
 
         // Get data from the clicked row
         var data = table_daftarTujuanKonversi.row(this).data();
-        console.log(data);
 
         // If data exists, populate input fields
         if (Array.isArray(data) && data.length > 0) {
@@ -1389,14 +1388,13 @@ $(document).ready(function () {
             satuan_saldoTerakhirTujuanTritier.value = data[23];
             id_tmpTransaksi.value = data[24];
         } else {
+            Swal.fire(
+                "Pemberitahuan",
+                "Terjadi Kesalahan.",
+                "Terjadi kesalahan saat load table tujuan konversi, hubungi EDP!"
+            );
         }
 
-        button_divisiTujuan.disabled = true;
-        button_objekTujuan.disabled = true;
-        button_kelompokUtamaTujuan.disabled = true;
-        button_kelompokTujuan.disabled = true;
-        button_subKelompokTujuan.disabled = true;
-        button_typeTujuan.disabled = true;
         button_tambahTujuanKonversi.disabled = true;
         button_hapusTujuanKonversi.disabled = false;
         button_updateTujuanKonversi.disabled = false;

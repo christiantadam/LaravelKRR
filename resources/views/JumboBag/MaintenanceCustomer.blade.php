@@ -30,7 +30,6 @@
     </div>
 
     <!-- Modal untuk Tambah Customer -->
-    <!-- Modal untuk Tambah Customer -->
     <div class="modal fade" id="tambahCustomerModal" tabindex="-1" aria-labelledby="tambahCustomerModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
