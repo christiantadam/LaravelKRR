@@ -134,7 +134,6 @@ function AllData(tglAwal, tglAkhir) {
                                 return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
                             },
                         },
-                        // { title: "No. Order", data: "Id_Order" }, // Sesuaikan 'name' dengan properti kolom di data
                         { title: "Tgl. Order", data: "Tgl_Order" },
                         { title: "Tgl. ACC Direktur", data: "Tgl_Apv_2" },
                         { title: "Nama Barang", data: "Nama_Brg" },
@@ -153,6 +152,9 @@ function AllData(tglAwal, tglAkhir) {
                         { title: "Peng-Order", data: "NmUserOd" },
                         { title: "UserOd", data: "User_Order" },
                     ],
+                    paging: false,       // Nonaktifkan pagination
+                    scrollY: "500px",    // Aktifkan scroll vertikal dengan tinggi 500px
+                    scrollCollapse: true, // Aktifkan collapse scroll agar tabel tidak terlalu besar jika data sedikit
                 });
                 table_data.draw();
             }
