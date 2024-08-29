@@ -1327,7 +1327,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('KartuHutang', 'App\Http\Controllers\Accounting\Informasi\KartuHutangController@KartuHutang');
     #endregion
 
-    #region Multiple Program
+    #region Multiple Program PermohonanKonversiBarcodeJBBPotongController
+    Route::resource('PermohonanKonversiBarcodePotong', App\Http\Controllers\MultipleProgram\PermohonanKonversiBarcodePotongController::class);
     Route::resource('PermohonanKonversiPotong', App\Http\Controllers\MultipleProgram\PermohonanKonversiPotongController::class);
     Route::resource('ACCPermohonanKonversiPotong', App\Http\Controllers\MultipleProgram\ACCPermohonanKonversiPotongController::class);
     #endregion
