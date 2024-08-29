@@ -78,7 +78,7 @@ const formattedFirstDay = firstDayOfMonth.toISOString().slice(0, 10);
 const formattedCurrentDate = currentDate.toISOString().slice(0, 10);
 
 // Set the values of the input fields to the calculated dates
-tgl_awal.value = formattedFirstDay;
+// tgl_awal.value = formattedFirstDay;
 tgl_akhir.value = formattedCurrentDate;
 TanggalStart.value = formattedCurrentDate;
 TanggalFinish.value = formattedCurrentDate;
@@ -152,8 +152,8 @@ function AllData(tglAwal, tglAkhir) {
                         { title: "Peng-Order", data: "NmUserOd" },
                         { title: "UserOd", data: "User_Order" },
                     ],
-                    paging: false,       // Nonaktifkan pagination
-                    scrollY: "500px",    // Aktifkan scroll vertikal dengan tinggi 500px
+                    paging: false, // Nonaktifkan pagination
+                    scrollY: "500px", // Aktifkan scroll vertikal dengan tinggi 500px
                     scrollCollapse: true, // Aktifkan collapse scroll agar tabel tidak terlalu besar jika data sedikit
                 });
                 table_data.draw();
@@ -168,6 +168,7 @@ function AllData(tglAwal, tglAkhir) {
 refresh.addEventListener("click", function (event) {
     event.preventDefault();
     AllData(tgl_awal.value, tgl_akhir.value);
+    console.log(tgl_awal.value);
 });
 //#endregion
 
@@ -459,7 +460,7 @@ function koreksiklik() {
         var index;
 
         $("input[name='penerimaCheckbox']:checked").each(function () {
-            var tr = $(this).closest('tr')[0];
+            var tr = $(this).closest("tr")[0];
             var row = table_data.row(tr);
 
             no_order = this.value;
@@ -503,7 +504,11 @@ function koreksiklik() {
             alert("Pilih 1 Data Untuk DiPROSES");
             return;
         } else {
-            if (trselect && $(trselect).hasClass("red-color") && order_batal.checked == true) {
+            if (
+                trselect &&
+                $(trselect).hasClass("red-color") &&
+                order_batal.checked == true
+            ) {
                 alert("Proses Order Untuk Dikerjakan Dulu Atau Batal ACC");
                 return;
             }
@@ -512,7 +517,8 @@ function koreksiklik() {
                 return;
             }
             if (
-                trselect && $(trselect).hasClass("red-color") &&
+                trselect &&
+                $(trselect).hasClass("red-color") &&
                 order_selesai.checked == true
             ) {
                 alert("Proses Order Untuk Dikerjakan Dulu");
@@ -530,8 +536,10 @@ function koreksiklik() {
                 btnkoreksi.setAttribute("data-target", "");
             }
             if (
-                trselect && $(trselect).hasClass("red-color") ||
-                (trselect && $(trselect).hasClass("blue-color") && order_kerja.checked == true)
+                (trselect && $(trselect).hasClass("red-color")) ||
+                (trselect &&
+                    $(trselect).hasClass("blue-color") &&
+                    order_kerja.checked == true)
             ) {
                 fetch("/namauserPenerimaOrderKerja/" + user)
                     .then((response) => response.json())
@@ -589,7 +597,8 @@ function koreksiklik() {
                 });
             }
             if (
-                trselect && $(trselect).hasClass("blue-color") &&
+                trselect &&
+                $(trselect).hasClass("blue-color") &&
                 order_selesai.checked == true
             ) {
                 fetch("/namauserPenerimaOrderKerja/" + user)
@@ -647,7 +656,8 @@ function koreksiklik() {
                 });
             }
             if (
-                trselect && $(trselect).hasClass("blue-color") &&
+                trselect &&
+                $(trselect).hasClass("blue-color") &&
                 order_batal.checked == true
             ) {
                 let ada;
@@ -694,16 +704,20 @@ function prosesmodalklik() {
         if (Tsts.value == 1) {
             methodFormModalKoreksi.value = "PUT";
             FormKoreksiModal.action = "/PenerimaOrderKerja/" + NoOrder.value;
+            tgl_awal.value = document.getElementById('tgl_awal').value; // Set the value here
+            FormKoreksiModal.appendChild(tgl_awal);
             FormKoreksiModal.submit();
         }
+
         if (Tsts.value == 2) {
             if (JumlahOrderSelesai.value == "") {
                 alert("Isi Jumlah Order Selesai");
                 return;
             } else {
                 methodFormModalKoreksi.value = "PUT";
-                FormKoreksiModal.action =
-                    "/PenerimaOrderKerja/" + NoOrder.value;
+                FormKoreksiModal.action = "/PenerimaOrderKerja/" + NoOrder.value;
+                tgl_awal.value = document.getElementById('tgl_awal').value; // Set the value here
+                FormKoreksiModal.appendChild(tgl_awal);
                 FormKoreksiModal.submit();
             }
         }

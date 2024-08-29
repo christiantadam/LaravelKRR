@@ -18,6 +18,9 @@
         {{ Session::get('error') }}
     </div>
 @endif
+<?php
+$firstDayOfMonth = date('Y-m-01');
+?>
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
@@ -35,7 +38,8 @@
                         <div class="row" style="margin-bottom:10px">
                             <div class="col-lg-5 row">
                                 <div class="col-lg-5">
-                                    <input type="Date" class="form-control" name="tgl_awal" id="tgl_awal">
+                                    <input type="Date" class="form-control" name="tgl_awal" id="tgl_awal"
+                                        value="{{ session('tanggalAwal', $firstDayOfMonth) }}">
                                 </div>
                                 <div class="col-lg-2 d-flex justify-content-center">
                                     <span style="margin-top: 5px;">s/d</span>

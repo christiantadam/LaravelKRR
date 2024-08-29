@@ -218,6 +218,7 @@ $(document).ready(function () {
                                 { data: "Nama_MataUang" },
                                 { data: "Id_MataUang" },
                             ],
+                            order: [[1, "asc"]],
                         });
                         $("#tablematauang tbody").on(
                             "click",
