@@ -34,6 +34,14 @@ let saldo_tertier = document.getElementById("saldo_tertier");
 let ket_saldoTertier = document.getElementById("ket_saldoTertier");
 let btn_transfer = document.getElementById("btn_transfer");
 let btn_koreksi = document.getElementById("btn_koreksi");
+let btn_kelompokUtama = document.getElementById("btn_kelompokUtama");
+let btn_kelompok = document.getElementById("btn_kelompok");
+let btn_subKelompok = document.getElementById("btn_subKelompok");
+let btn_idType = document.getElementById("btn_idType");
+let btn_divisi = document.getElementById("btn_divisi");
+let btn_objek = document.getElementById("btn_objek");
+let divisi_tb = document.getElementById("divisi_tb");
+let objek_tb = document.getElementById("objek_tb");
 const container = document.getElementById("formContainer");
 const elements = Array.from(
     container.querySelectorAll("input, select, button")
@@ -44,102 +52,109 @@ let NoTransTmp;
 
 tanggal.valueAsDate = new Date();
 btn_koreksi.disabled = true;
+btn_kelompokUtama.disabled = true;
+btn_kelompok.disabled = true;
+btn_subKelompok.disabled = true;
+btn_idType.disabled = true;
+btn_divisi.disabled = true;
+btn_objek.disabled = true;
 
-function clearOptions(selectElement) {
-    let length = selectElement.options.length;
+// function clearOptions(selectElement) {
+//     let length = selectElement.options.length;
 
-    for (let i = length - 1; i > 0; i--) {
-        selectElement.remove(i);
-    }
-}
-function optionClr() {
-    divisi_select.selectedIndex = 0;
-    clearOptions(divisi_select);
-    objek_select.selectedIndex = 0;
-    clearOptions(objek_select);
-}
-objek_select.addEventListener("change", function (event) {
-    ket_objek.value = objek_select.value;
-    if (objek_select.selectedIndex != 0) {
-        let noPIBs = "";
-        if (no_pib.value !== "") {
-            noPIBs = no_pib.value.trim();
-        }
-        $.ajax({
-            url: "/TransferBarang/TransferBTTB/LoadKelomDLL",
-            type: "GET",
-            data: {
-                KodeBarang: kode_barang.value.trim(),
-                idObjek: ket_objek.value.trim(),
-                noPIB: noPIBs ?? null,
-            },
-            success: function (response) {
-                console.log(response);
-                kelompok_utama.value = response[0].NamaKelompokUtama;
-                ket_kelompokUtama.value = response[0].IdKelompokUtama;
-                kelompok.value = response[0].NamaKelompok;
-                ket_kelompok.value = response[0].IdKelompok;
-                sub_kelompok.value = response[0].NamaSubKelompok;
-                ket_subKelompok.value = response[0].IdSubkelompok;
-                idType.value = response[0].IdType;
-                saldo_premier.value = parseFloat(response[0].SaldoPrimer);
-                saldo_sekunder.value = parseFloat(response[0].SaldoSekunder);
-                saldo_tertier.value = parseFloat(response[0].SaldoTritier);
-                ket_saldoPremier.value = response[0].SatPrimer;
-                ket_saldoSekunder.value = response[0].SatSekunder;
-                ket_saldoTertier.value = response[0].SatTritier;
-                if (idType.value == "") {
-                    alert(
-                        "Kode barang" +
-                            kode_barang.value +
-                            " belum ada di Subkelompok: Item Pembelian divisi: " +
-                            ket_divisi.value +
-                            ". Hubungi admin divisi terkait untuk maintenance type terlebih dahulu di program Inventory."
-                    );
-                }
-                btn_koreksi.disabled = false;
-                btn_transfer.disabled = false;
-            },
-            error: function (error) {
-                console.error("Error Fetch Data:", error);
-            },
-        });
-    }
-});
+//     for (let i = length - 1; i > 0; i--) {
+//         selectElement.remove(i);
+//     }
+// }
+// function optionClr() {
+//     divisi_select.selectedIndex = 0;
+//     clearOptions(divisi_select);
+//     objek_select.selectedIndex = 0;
+//     clearOptions(objek_select);
+// }
+// objek_select.addEventListener("change", function (event) {
+//     ket_objek.value = objek_select.value;
+//     if (objek_select.selectedIndex != 0) {
+//         let noPIBs = "";
+//         if (no_pib.value !== "") {
+//             noPIBs = no_pib.value.trim();
+//         }
+//         $.ajax({
+//             url: "/TransferBarang/TransferBTTB/LoadKelomDLL",
+//             type: "GET",
+//             data: {
+//                 KodeBarang: kode_barang.value.trim(),
+//                 idObjek: ket_objek.value.trim(),
+//                 noPIB: noPIBs ?? null,
+//             },
+//             success: function (response) {
+//                 console.log(response);
 
-divisi_select.addEventListener("change", function (event) {
-    ket_divisi.value = divisi_select.value;
-    objek_select.selectedIndex = 0;
-    clearOptions(objek_select);
+//                 kelompok_utama.value = response[0].NamaKelompokUtama;
+//                 ket_kelompokUtama.value = response[0].IdKelompokUtama;
+//                 kelompok.value = response[0].NamaKelompok;
+//                 ket_kelompok.value = response[0].IdKelompok;
+//                 sub_kelompok.value = response[0].NamaSubKelompok;
+//                 ket_subKelompok.value = response[0].IdSubkelompok;
+//                 idType.value = response[0].IdType;
+//                 saldo_premier.value = parseFloat(response[0].SaldoPrimer);
+//                 saldo_sekunder.value = parseFloat(response[0].SaldoSekunder);
+//                 saldo_tertier.value = parseFloat(response[0].SaldoTritier);
+//                 ket_saldoPremier.value = response[0].SatPrimer;
+//                 ket_saldoSekunder.value = response[0].SatSekunder;
+//                 ket_saldoTertier.value = response[0].SatTritier;
+//                 if (idType.value == "") {
+//                     alert(
+//                         "Kode barang" +
+//                             kode_barang.value +
+//                             " belum ada di Subkelompok: Item Pembelian divisi: " +
+//                             ket_divisi.value +
+//                             ". Hubungi admin divisi terkait untuk maintenance type terlebih dahulu di program Inventory."
+//                     );
+//                 }
+//                 btn_koreksi.disabled = false;
+//                 btn_transfer.disabled = false;
+//             },
+//             error: function (error) {
+//                 console.error("Error Fetch Data:", error);
+//             },
+//         });
+//     }
+// });
 
-    if (divisi_select.selectedIndex != 0) {
-        $.ajax({
-            url: "/TransferBarang/TransferBTTB/DataObjek",
-            type: "GET",
-            data: {
-                KodeBarang: kode_barang.value.trim(),
-                XIdDivisi: ket_divisi.value.trim(),
-            },
-            success: function (response) {
-                if (response.length != 0) {
-                    response.forEach(function (data) {
-                        let option = document.createElement("option");
-                        option.value = data.IdObjek;
-                        option.text = data.NamaObjek;
-                        objek_select.add(option);
-                    });
-                } else {
-                    alert(
-                        "Kode Barang Belum di Maintenance Type Pada Divisi Tersebut !"
-                    );
-                }
-            },
-            error: function (error) {
-                console.error("Error Fetch Data:", error);
-            },
-        });
-    }
-});
+// divisi_select.addEventListener("change", function (event) {
+//     ket_divisi.value = divisi_select.value;
+//     objek_select.selectedIndex = 0;
+//     clearOptions(objek_select);
+
+//     if (divisi_select.selectedIndex != 0) {
+//         $.ajax({
+//             url: "/TransferBarang/TransferBTTB/DataObjek",
+//             type: "GET",
+//             data: {
+//                 KodeBarang: kode_barang.value.trim(),
+//                 XIdDivisi: ket_divisi.value.trim(),
+//             },
+//             success: function (response) {
+//                 if (response.length != 0) {
+//                     response.forEach(function (data) {
+//                         let option = document.createElement("option");
+//                         option.value = data.IdObjek;
+//                         option.text = data.NamaObjek;
+//                         objek_select.add(option);
+//                     });
+//                 } else {
+//                     alert(
+//                         "Kode Barang Belum di Maintenance Type Pada Divisi Tersebut !"
+//                     );
+//                 }
+//             },
+//             error: function (error) {
+//                 console.error("Error Fetch Data:", error);
+//             },
+//         });
+//     }
+// });
 
 btn_koreksi.addEventListener("click", function (event) {
     $.ajax({
@@ -266,7 +281,7 @@ function clearData() {
     ket_qtySekunder.value = "null";
     qty_tertier.value = "0";
     ket_qtyTertier.value = "null";
-    optionClr();
+    // optionClr();
     kelompok_utama.value = "";
     kelompok.value = "";
     sub_kelompok.value = "";
@@ -279,31 +294,31 @@ function clearData() {
     ket_saldoTertier.value = "";
 }
 
-function divisi(KodeBarang) {
-    $.ajax({
-        url: "/TransferBarang/TransferBTTB/DataDivisi",
-        type: "GET",
-        data: {
-            KodeBarang: KodeBarang,
-        },
-        success: function (response) {
-            if (response.length != 0) {
-                optionClr();
-                response.forEach(function (data) {
-                    let option = document.createElement("option");
-                    option.value = data.IdDivisi;
-                    option.text = data.NamaDivisi;
-                    divisi_select.add(option);
-                });
-            } else {
-                alert("Kode Barang Belum di Maintenance Type Oleh User Order");
-            }
-        },
-        error: function (error) {
-            console.error("Error Fetch Data:", error);
-        },
-    });
-}
+// function divisi(KodeBarang) {
+//     $.ajax({
+//         url: "/TransferBarang/TransferBTTB/DataDivisi",
+//         type: "GET",
+//         data: {
+//             KodeBarang: KodeBarang,
+//         },
+//         success: function (response) {
+//             if (response.length != 0) {
+//                 optionClr();
+//                 response.forEach(function (data) {
+//                     let option = document.createElement("option");
+//                     option.value = data.IdDivisi;
+//                     option.text = data.NamaDivisi;
+//                     divisi_select.add(option);
+//                 });
+//             } else {
+//                 alert("Kode Barang Belum di Maintenance Type Oleh User Order");
+//             }
+//         },
+//         error: function (error) {
+//             console.error("Error Fetch Data:", error);
+//         },
+//     });
+// }
 
 function loadSatuan(KodeBarang) {
     $.ajax({
@@ -377,10 +392,12 @@ $(document).ready(function () {
                     /&gt;/g,
                     ">"
                 );
-                qty_terima.value = numeral(numeral(data.Qty_Terima).value()).format("0,0.00");
+                qty_terima.value = numeral(
+                    numeral(data.Qty_Terima).value()
+                ).format("0,0.00");
                 ket_qtyTerima.value = data.Nama_satuan;
                 no_pib.value = data.NoPIBExt;
-                divisi(data.Kd_brg.trim());
+                // divisi(data.Kd_brg.trim());
                 loadSatuan(data.Kd_brg.trim());
                 if (koreksi == 1) {
                     NoTransTmp = data.NoTransaksiTmp;
@@ -418,12 +435,532 @@ $(document).ready(function () {
 
         if (classList.contains("selected")) {
             classList.remove("selected");
+
+            if (table.rows(".selected").nodes().length === 0) {
+                btn_kelompokUtama.disabled = true;
+                btn_kelompok.disabled = true;
+                btn_subKelompok.disabled = true;
+                btn_idType.disabled = true;
+                btn_divisi.disabled = true;
+                btn_objek.disabled = true;
+            }
         } else {
             table
                 .rows(".selected")
                 .nodes()
                 .each((row) => row.classList.remove("selected"));
             classList.add("selected");
+
+            let prefix_kode = kode_barang.value.substring(0, 2);
+            let validPrefixes = [
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "42",
+                "43",
+                "44",
+                "45",
+            ];
+
+            if (validPrefixes.includes(prefix_kode)) {
+                btn_divisi.disabled = false;
+                btn_objek.disabled = false;
+                btn_kelompokUtama.disabled = false;
+                btn_kelompok.disabled = false;
+                btn_subKelompok.disabled = false;
+                btn_idType.disabled = false;
+            } else {
+                btn_divisi.disabled = false;
+                btn_objek.disabled = false;
+                btn_kelompokUtama.disabled = true;
+                btn_kelompok.disabled = true;
+                btn_subKelompok.disabled = true;
+                btn_idType.disabled = true;
+            }
+        }
+    });
+
+    btn_divisi.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Divisi",
+                html: '<table id="tableDivisi" class="display" style="width:100%"><thead><tr><th>Divisi</th><th>ID. Divisi</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableDivisi")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableDivisi").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "/TransferBrg/Tampil/getDivisiBTTB",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    KodeBarang: kode_barang.value.trim(),
+                                },
+                            },
+                            columns: [
+                                { data: "NamaDivisi" },
+                                { data: "IdDivisi" },
+                            ],
+                        });
+                        $("#tableDivisi tbody").on("click", "tr", function () {
+                            table.$("tr.selected").removeClass("selected");
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableDivisi")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    // sub_kelompok.value = escapeHTML(
+                    //     selectedRow.NamaSubKelompok.trim()
+                    // );
+                    divisi_tb.value = escapeHTML(selectedRow.NamaDivisi.trim());
+                    ket_divisi.value = selectedRow.IdDivisi.trim();
+                    // setTimeout(() => {
+                    //     no_bukti.focus();
+                    // }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_objek.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Objek",
+                html: '<table id="tableObjek" class="display" style="width:100%"><thead><tr><th>Objek</th><th>ID. Objek</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableObjek")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableObjek").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "/TransferBrg/Tampil/getObjek",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    KodeBarang: kode_barang.value.trim(),
+                                    XIdDivisi: ket_divisi.value.trim(),
+                                },
+                            },
+                            columns: [
+                                { data: "NamaObjek" },
+                                { data: "IdObjek" },
+                            ],
+                        });
+                        $("#tableObjek tbody").on("click", "tr", function () {
+                            table.$("tr.selected").removeClass("selected");
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableObjek")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    objek_tb.value = escapeHTML(selectedRow.NamaObjek.trim());
+                    ket_objek.value = selectedRow.IdObjek.trim();
+
+                    let noPIBs = "";
+                    if (no_pib.value !== "") {
+                        noPIBs = no_pib.value.trim();
+                    }
+
+                    let prefix_kode = kode_barang.value.substring(0, 2);
+                    let validPrefixes = [
+                        "12",
+                        "13",
+                        "14",
+                        "15",
+                        "16",
+                        "17",
+                        "42",
+                        "43",
+                        "44",
+                        "45",
+                    ];
+
+                    if (validPrefixes.includes(prefix_kode)) {
+                        $.ajax({
+                            url: "/TransferBarang/TransferBTTB/LoadKelomDLL",
+                            type: "GET",
+                            data: {
+                                KodeBarang: kode_barang.value.trim(),
+                                idObjek: ket_objek.value.trim(),
+                                noPIB: noPIBs ?? null,
+                            },
+                            success: function (response) {
+                                console.log(response);
+
+                                kelompok_utama.value =
+                                    response[0].NamaKelompokUtama;
+                                ket_kelompokUtama.value =
+                                    response[0].IdKelompokUtama;
+                                kelompok.value = response[0].NamaKelompok;
+                                ket_kelompok.value = response[0].IdKelompok;
+                                sub_kelompok.value =
+                                    response[0].NamaSubKelompok;
+                                ket_subKelompok.value =
+                                    response[0].IdSubkelompok;
+                                idType.value = response[0].IdType;
+                                saldo_premier.value = parseFloat(
+                                    response[0].SaldoPrimer
+                                );
+                                saldo_sekunder.value = parseFloat(
+                                    response[0].SaldoSekunder
+                                );
+                                saldo_tertier.value = parseFloat(
+                                    response[0].SaldoTritier
+                                );
+                                ket_saldoPremier.value = response[0].SatPrimer;
+                                ket_saldoSekunder.value =
+                                    response[0].SatSekunder;
+                                ket_saldoTertier.value = response[0].SatTritier;
+                                if (idType.value == "") {
+                                    alert(
+                                        "Kode barang" +
+                                            kode_barang.value +
+                                            " belum ada di Subkelompok: Item Pembelian divisi: " +
+                                            ket_divisi.value +
+                                            ". Hubungi admin divisi terkait untuk maintenance type terlebih dahulu di program Inventory."
+                                    );
+                                }
+                                btn_koreksi.disabled = false;
+                                btn_transfer.disabled = false;
+                            },
+                            error: function (error) {
+                                console.error("Error Fetch Data:", error);
+                            },
+                        });
+                    }
+                    // setTimeout(() => {
+                    //     no_bukti.focus();
+                    // }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_kelompokUtama.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Kelompok Utama",
+                html: '<table id="tableKelompokUtama" class="display" style="width:100%"><thead><tr><th>Nama Kelompok Utama</th><th>ID. Kelompok Utama</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableKelompokUtama")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableKelompokUtama").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "/TransferBrg/Tampil/getKelompokUtama",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    ket_objek: ket_objek.value.trim(),
+                                },
+                            },
+                            columns: [
+                                { data: "NamaKelompokUtama" },
+                                { data: "IdKelompokUtama" },
+                            ],
+                        });
+                        $("#tableKelompokUtama tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                table.$("tr.selected").removeClass("selected");
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableKelompokUtama")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    kelompok_utama.value = escapeHTML(
+                        selectedRow.NamaKelompokUtama.trim()
+                    );
+                    ket_kelompokUtama.value =
+                        selectedRow.IdKelompokUtama.trim();
+                    // setTimeout(() => {
+                    //     no_bukti.focus();
+                    // }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_kelompok.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Kelompok Utama",
+                html: '<table id="tableKelompok" class="display" style="width:100%"><thead><tr><th>Kelompok</th><th>ID. Kelompok</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableKelompok")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableKelompok").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "/TransferBrg/Tampil/getKelompok",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    ket_kelompokUtama:
+                                        ket_kelompokUtama.value.trim(),
+                                },
+                            },
+                            columns: [
+                                { data: "NamaKelompok" },
+                                { data: "IdKelompok" },
+                            ],
+                        });
+                        $("#tableKelompok tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                table.$("tr.selected").removeClass("selected");
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableKelompok")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    kelompok.value = escapeHTML(
+                        selectedRow.NamaKelompok.trim()
+                    );
+                    ket_kelompok.value = selectedRow.IdKelompok.trim();
+                    // setTimeout(() => {
+                    //     no_bukti.focus();
+                    // }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_subKelompok.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Sub Kelompok",
+                html: '<table id="tableSubKelompok" class="display" style="width:100%"><thead><tr><th>Sub Kelompok</th><th>ID. Sub Kelompok</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableSubKelompok")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableSubKelompok").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "/TransferBrg/Tampil/getSubKelompok",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    ket_kelompok: ket_kelompok.value.trim(),
+                                },
+                            },
+                            columns: [
+                                { data: "NamaSubKelompok" },
+                                { data: "IdSubKelompok" },
+                            ],
+                        });
+                        $("#tableSubKelompok tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                table.$("tr.selected").removeClass("selected");
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableSubKelompok")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    sub_kelompok.value = escapeHTML(
+                        selectedRow.NamaSubKelompok.trim()
+                    );
+                    ket_subKelompok.value = selectedRow.IdSubKelompok.trim();
+                    // setTimeout(() => {
+                    //     no_bukti.focus();
+                    // }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_idType.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a ID Type",
+                html: '<table id="tableIdType" class="display" style="width:100%"><thead><tr><th>ID. Type</th><th>Nama Type</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableIdType")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableIdType").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "/TransferBrg/Tampil/getType",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    ket_subKelompok:
+                                        ket_subKelompok.value.trim(),
+                                },
+                            },
+                            columns: [{ data: "IdType" }, { data: "NamaType" }],
+                        });
+                        $("#tableIdType tbody").on("click", "tr", function () {
+                            table.$("tr.selected").removeClass("selected");
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableIdType")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    // sub_kelompok.value = escapeHTML(
+                    //     selectedRow.NamaSubKelompok.trim()
+                    // );
+                    idType.value = selectedRow.IdType.trim();
+                    // setTimeout(() => {
+                    //     no_bukti.focus();
+                    // }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
         }
     });
 });

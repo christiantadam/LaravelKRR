@@ -145,7 +145,7 @@
                                     <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4">
-                                                <label for="qty_premier">Qty Premier</label>
+                                                <label for="qty_premier">Qty Primer</label>
                                             </div>
                                             <div class="col-6">
                                                 <input type="text" name="qty_premier" id="qty_premier"
@@ -198,11 +198,16 @@
                                             <div class="col-4 col-md-2">
                                                 <label for="divisi">Divisi</label>
                                             </div>
-                                            <div class="col-6 col-md-8">
-                                                <select name="divisi_select" id="divisi_select"
+                                            <div class="col-6 col-md-7">
+                                                {{-- <select name="divisi_select" id="divisi_select"
                                                     class="w-100 input font-weight-bold">
                                                     <option class="w-100" selected disabled></option>
-                                                </select>
+                                                </select> --}}
+                                                <input type="text" name="divisi_tb" id="divisi_tb"
+                                                    class="form-control font-weight-bold" readonly>
+                                            </div>
+                                            <div class="col-1 d-flex align-items-center">
+                                                <button type="button" class="btn btn-default" id="btn_divisi">...</button>
                                             </div>
                                             <div class="col-2">
                                                 <input type="text" name="ket_divisi" id="ket_divisi"
@@ -216,11 +221,16 @@
                                                 <label for="objek">Objek</label>
                                             </div>
 
-                                            <div class="col-6 col-md-8">
-                                                <select name="objek_select" id="objek_select"
+                                            <div class="col-6 col-md-7">
+                                                {{-- <select name="objek_select" id="objek_select"
                                                     class="w-100 input font-weight-bold">
                                                     <option class="w-100" selected disabled></option>
-                                                </select>
+                                                </select> --}}
+                                                <input type="text" name="objek_tb" id="objek_tb"
+                                                    class="form-control font-weight-bold" readonly>
+                                            </div>
+                                            <div class="col-1 d-flex align-items-center">
+                                                <button type="button" class="btn btn-default" id="btn_objek">...</button>
                                             </div>
                                             <div class="col-2">
                                                 <input type="text" name="ket_objek" id="ket_objek"
@@ -234,10 +244,13 @@
                                                 <label for="kelompok_utama">Kelompok Utama</label>
                                             </div>
 
-                                            <div class="col-6 col-md-8">
+                                            <div class="col-6 col-md-7">
                                                 <input type="text" name="kelompok_utama" id="kelompok_utama"
                                                     class="form-control font-weight-bold" readonly>
 
+                                            </div>
+                                            <div class="col-1 d-flex align-items-center">
+                                                <button type="button" class="btn btn-default" id="btn_kelompokUtama">...</button>
                                             </div>
                                             <div class="col-2">
                                                 <input type="text" name="ket_kelompokUtama" id="ket_kelompokUtama"
@@ -251,10 +264,13 @@
                                                 <label for="kelompok">Kelompok</label>
                                             </div>
 
-                                            <div class="col-6 col-md-8">
+                                            <div class="col-6 col-md-7">
                                                 <input type="text" name="kelompok" id="kelompok"
                                                     class="form-control font-weight-bold" readonly>
 
+                                            </div>
+                                            <div class="col-1 d-flex align-items-center">
+                                                <button type="button" class="btn btn-default" id="btn_kelompok">...</button>
                                             </div>
                                             <div class="col-2">
                                                 <input type="text" name="ket_kelompok" id="ket_kelompok"
@@ -268,9 +284,12 @@
                                                 <label for="sub_kelompok">Sub Kelompok</label>
                                             </div>
 
-                                            <div class="col-6 col-md-8">
+                                            <div class="col-6 col-md-7">
                                                 <input type="text" name="sub_kelompok" id="sub_kelompok"
                                                     class="form-control font-weight-bold" readonly>
+                                            </div>
+                                            <div class="col-1 d-flex align-items-center">
+                                                <button type="button" class="btn btn-default" id="btn_subKelompok">...</button>
                                             </div>
                                             <div class="col-2">
                                                 <input type="text" name="ket_subKelompok" id="ket_subKelompok"
@@ -284,9 +303,12 @@
                                                 <label for="idType">Id Type</label>
                                             </div>
 
-                                            <div class="col-8 col-md-10">
+                                            <div class="col-8 col-md-7">
                                                 <input type="text" name="idType" id="idType"
                                                     class="form-control font-weight-bold" readonly>
+                                            </div>
+                                            <div class="col-1 d-flex align-items-center">
+                                                <button type="button" class="btn btn-default" id="btn_idType">...</button>
                                             </div>
 
                                         </div>
@@ -294,7 +316,7 @@
                                     <div class="col-12 mb-2">
                                         <div class="row align-items-center">
                                             <div class="col-4 col-md-2">
-                                                <label for="saldo_premier">Saldo Premier</label>
+                                                <label for="saldo_premier">Saldo Primer</label>
                                             </div>
                                             <div class="col-6 col-md-8">
                                                 <input type="text" name="saldo_premier" id="saldo_premier"

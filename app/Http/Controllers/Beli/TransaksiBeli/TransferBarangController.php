@@ -99,11 +99,12 @@ class TransferBarangController extends Controller
                         ->join('Y_KATEGORY', 'Y_KATEGORI_SUB.no_kategori', '=', 'Y_KATEGORY.no_kategori')
                         ->join('Y_KATEGORI_UTAMA', 'Y_KATEGORY.no_kat_utama', '=', 'Y_KATEGORI_UTAMA.no_kat_utama')
                         ->join('YSATUAN', 'YTRANSBL.NoSatuan', '=', 'YSATUAN.No_satuan')
-                        ->select('YTERIMA.No_terima', 'Y_KATEGORY.nama_kategori', 'Y_KATEGORI_SUB.nama_sub_kategori', 'YTRANSBL.Kd_brg', 'Y_BARANG.NAMA_BRG', 'YTERIMA.Qty_Terima', 'YSATUAN.Nama_satuan', 'YTERIMA.No_BTTB','YTERIMA.NoPIBExt')
+                        ->select('YTERIMA.No_terima', 'Y_KATEGORY.nama_kategori', 'Y_KATEGORI_SUB.nama_sub_kategori', 'YTRANSBL.Kd_brg', 'Y_BARANG.NAMA_BRG', 'YTERIMA.Qty_Terima', 'YSATUAN.Nama_satuan', 'YTERIMA.No_BTTB', 'YTERIMA.NoPIBExt')
                         ->whereNull('YTERIMA.NoTransaksiTmp')
                         ->where('YTERIMA.No_BTTB', '=', $noBTTB)
                         ->where('YTERIMA.Qty_Terima', '>', 0)
                         ->get();
+                    // dd($data);
                 }
 
                 return datatables($data)->make(true);
@@ -276,5 +277,114 @@ class TransferBarangController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function tampil(Request $request, $id)
+    {
+        if ($id == 'getKelompokUtama') {
+            // dd($request->all());
+            $UserInput = trim(Auth::user()->NomorUser);
+            $idObjek = $request->input('ket_objek');
+            $KelompokUtamaConn = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdObjek = ?', [3, $idObjek]);
+            // dd($KelompokUtamaConn);
+            $KelompokUtamaArr = array_map(function ($KelompokUtamaList) {
+                return [
+                    'NamaKelompokUtama' => $KelompokUtamaList->NamaKelompokUtama,
+                    'IdKelompokUtama' => $KelompokUtamaList->IdKelompokUtama,
+                ];
+            }, $KelompokUtamaConn);
+
+            return datatables($KelompokUtamaArr)->make(true);
+        } else if ($id == 'getKelompok') {
+            $UserInput = trim(Auth::user()->NomorUser);
+            $idKelompokUtama = $request->input('ket_kelompokUtama');
+            $KelompokConn = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $idKelompokUtama]);
+
+            $KelompokArr = array_map(function ($KelompokList) {
+                return [
+                    'NamaKelompok' => $KelompokList->namakelompok,
+                    'IdKelompok' => $KelompokList->idkelompok,
+                ];
+            }, $KelompokConn);
+
+            return datatables($KelompokArr)->make(true);
+        } else if ($id == 'getSubKelompok') {
+            $UserInput = trim(Auth::user()->NomorUser);
+            $idKelompok = $request->input('ket_kelompok');
+            $SubKelompokConn = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompok = ?', [5, $idKelompok]);
+
+            $SubKelompokArr = array_map(function ($SubKelompokList) {
+                return [
+                    'NamaSubKelompok' => $SubKelompokList->NamaSubKelompok,
+                    'IdSubKelompok' => $SubKelompokList->IdSubkelompok,
+                ];
+            }, $SubKelompokConn);
+
+            return datatables($SubKelompokArr)->make(true);
+        } else if ($id == 'getType') {
+            $UserInput = trim(Auth::user()->NomorUser);
+            $IdSubKelompok = $request->input('ket_subKelompok');
+            $TypeConn = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $IdSubKelompok]);
+
+            $TypeArr = array_map(function ($TypeList) {
+                return [
+                    'NamaType' => $TypeList->NamaType,
+                    'IdType' => $TypeList->IdType,
+                ];
+            }, $TypeConn);
+
+            return datatables($TypeArr)->make(true);
+        } else if ($id == 'getDivisiBTTB') {
+            $Type = 12;
+            $KodeBarang = $request->input('KodeBarang');
+            // dd($KodeBarang);
+            if ($KodeBarang != null) {
+                try {
+                    $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_UserDivisi @KodeBarang = ?, @Type = ?', [$KodeBarang, $Type]);
+                    $result = [];
+                    // dd($data);
+                    foreach ($data as $item) {
+                        $result[] = [
+                            'NamaDivisi' => $item->NamaDivisi,
+                            'IdDivisi' => $item->IdDivisi,
+                        ];
+                    }
+
+                    return datatables($result)->make(true);
+                } catch (\Throwable $Error) {
+                    return Response()->json($Error);
+                }
+            } else {
+                return Response()->json('Parameter harus di isi');
+            }
+        } else if ($id == 'getObjek') {
+            $Type = 6;
+            $KodeBarang = $request->input('KodeBarang');
+            $XIdDivisi = $request->input('XIdDivisi');
+            // dd($request->all());
+            if (($KodeBarang != null) && ($XIdDivisi != null)) {
+                try {
+                    $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_User_Objek @KodeBarang = ?, @Type = ?,@XIdDivisi=?', [$KodeBarang, $Type, $XIdDivisi]);
+                    $result = [];
+                    // dd($data);
+                    foreach ($data as $item) {
+                        $result[] = [
+                            'NamaObjek' => $item->NamaObjek,
+                            'IdObjek' => $item->IdObjek,
+                        ];
+                    }
+
+                    return datatables($result)->make(true);
+                } catch (\Throwable $Error) {
+                    return Response()->json($Error);
+                }
+            } else {
+                return Response()->json('Parameter harus di isi');
+            }
+        }
     }
 }
