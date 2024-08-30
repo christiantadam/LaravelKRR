@@ -8,6 +8,8 @@ $(document).ready(function () {
     let btn_jenispembayaran = document.getElementById("btn_jenispembayaran");
     let btn_tambahbiaya = document.getElementById("btn_tambahbiaya");
     let btn_tambahdata = document.getElementById("btn_tambahdata");
+    let btn_kodeperkiraanMBiaya = document.getElementById("btn_kodeperkiraanMBiaya");
+    let btn_prosesMBiaya = document.getElementById("btn_prosesMBiaya");
     let kode_kira = document.getElementById("kode_kira");
     let keterangan_kira = document.getElementById("keterangan_kira");
     let mata_uang = document.getElementById("mata_uang");
@@ -24,12 +26,20 @@ $(document).ready(function () {
     let uraian = document.getElementById("uraian");
     let jenis_pembayaran = document.getElementById("jenis_pembayaran");
     let id_jnsPem = document.getElementById("id_jnsPem");
+    let idDetail_MBiaya = document.getElementById("idDetail_MBiaya");
+    let kodePerkiraan1 = document.getElementById("kodePerkiraan1");
+    let kodePerkiraan2 = document.getElementById("kodePerkiraan2");
+    let jumlah_biayaMBiaya = document.getElementById("jumlah_biayaMBiaya");
+    let keterangan_MBiaya = document.getElementById("keterangan_MBiaya");
     let table_kiri = $("#table_kiri").DataTable({});
+    let table_kanan = $("#table_kanan").DataTable({});
+    let rowDataPertama;
 
     id_bkm.readOnly = true;
     tanggal_input.valueAsDate = new Date();
     tanggal_input.focus();
     btn_tambahdata.disabled = true;
+    kurs_rupiah.value = 0;
 
     tanggal_input.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -223,6 +233,160 @@ $(document).ready(function () {
         }
     });
 
+    let rowDataArray = [];
+
+    $("#table_kiri tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#table_kiri tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            if (this.checked) {
+                $('input[name="penerimaCheckbox"]')
+                    .not(this)
+                    .prop("checked", false);
+                rowDataPertama = table_kiri.row($(this).closest("tr")).data();
+                rowDataArray.push(rowDataPertama);
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_kiri);
+            } else {
+                // Kosongkan array saat checkbox tidak dicentang
+                rowDataArray = [];
+                rowDataPertama = null;
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_kiri);
+            }
+        }
+    );
+
+    btn_tambahbiaya.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (rowDataPertama == null) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih detail terlebih dahulu!",
+                showConfirmButton: true,
+            });
+        } else {
+            idDetail_MBiaya.value = rowDataPertama[0].match(/value="(\d+)"/)[1];
+            var myModal = new bootstrap.Modal(
+                document.getElementById("ModalTambah"),
+                {
+                    keyboard: false,
+                }
+            );
+            myModal.show();
+        }
+    });
+
+    btn_kodeperkiraanMBiaya.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Kode Perkiraan",
+                html: '<table id="tableKiraMB" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableKiraMB")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableKiraMB").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "MaintenanceBKMKRR1/getKira",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                { data: "NoKodePerkiraan" },
+                                { data: "Keterangan" },
+                            ],
+                        });
+                        $("#tableKiraMB tbody").on("click", "tr", function () {
+                            table.$("tr.selected").removeClass("selected");
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableKiraMB")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    kodePerkiraan1.value = escapeHTML(
+                        selectedRow.NoKodePerkiraan.trim()
+                    );
+                    kodePerkiraan2.value = escapeHTML(
+                        selectedRow.Keterangan.trim()
+                    );
+                    setTimeout(() => {
+                        no_bukti.focus();
+                    }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    let tableDataKanan = [];
+
+    btn_prosesMBiaya.addEventListener("click", async function (event) {
+        event.preventDefault();
+        const newRow = {
+            id_biaya: tableDataKanan.length + 1,
+            jumlah_biayaMBiaya: jumlah_biayaMBiaya.value,
+            kodePerkiraan1: kodePerkiraan1.value,
+            keterangan_MBiaya: keterangan_MBiaya.value,
+            idDetail_MBiaya: idDetail_MBiaya.value,
+        };
+
+        tableDataKanan.push(newRow);
+        console.log(tableDataKanan);
+
+        if ($.fn.DataTable.isDataTable("#table_kanan")) {
+            var table_kanan = $("#table_kanan").DataTable();
+
+            table_kanan.row
+                .add([
+                    `<input type="checkbox" name="penerimaCheckbox" value="${newRow.id_biaya}" /> ${newRow.id_biaya}`,
+                    newRow.keterangan_MBiaya,
+                    newRow.jumlah_biayaMBiaya,
+                    newRow.kodePerkiraan1,
+                    newRow.idDetail_MBiaya,
+                ])
+                .draw();
+            // diterima_dari.value = "";
+            // jumlah_uang.value = "";
+            // jenis_pembayaran.value = "";
+            // id_jnsPem.value = "";
+            // kode_kira.value = "";
+            // keterangan_kira.value = "";
+            // no_bukti.value = "";
+            // uraian.value = "";
+            // btn_matauang.disabled = true;
+            // btn_bank.disabled = true;
+            // document.activeElement.blur();
+        }
+    });
+
     btn_tambahdata.addEventListener("click", async function (event) {
         event.preventDefault();
         diterima_dari.focus();
@@ -361,7 +525,7 @@ $(document).ready(function () {
                             showCancelButton: true,
                             confirmButtonText: "Ya",
                             cancelButtonText: "Tidak",
-                            focusConfirm: true, // Fokuskan pada tombol "Ya" secara default
+                            focusConfirm: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 setTimeout(() => {

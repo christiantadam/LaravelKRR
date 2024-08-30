@@ -284,9 +284,10 @@ class TransferBarangController extends Controller
         if ($id == 'getKelompokUtama') {
             // dd($request->all());
             $UserInput = trim(Auth::user()->NomorUser);
+            $KodeBarang = $request->input('KodeBarang');
             $idObjek = $request->input('ket_objek');
             $KelompokUtamaConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdObjek = ?', [3, $idObjek]);
+                ->select('exec SP_4451_TRANSFER_BTTB @XKode = ?, @IdObjek = ?, @KodeBarang = ?', [1, $idObjek, $KodeBarang]);
             // dd($KelompokUtamaConn);
             $KelompokUtamaArr = array_map(function ($KelompokUtamaList) {
                 return [
@@ -298,23 +299,25 @@ class TransferBarangController extends Controller
             return datatables($KelompokUtamaArr)->make(true);
         } else if ($id == 'getKelompok') {
             $UserInput = trim(Auth::user()->NomorUser);
+            $KodeBarang = $request->input('KodeBarang');
             $idKelompokUtama = $request->input('ket_kelompokUtama');
             $KelompokConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $idKelompokUtama]);
-
+                ->select('exec SP_4451_TRANSFER_BTTB @XKode = ?, @IdKelompokUtama = ?, @KodeBarang = ?', [2, $idKelompokUtama, $KodeBarang]);
+            // dd($KelompokConn);
             $KelompokArr = array_map(function ($KelompokList) {
                 return [
-                    'NamaKelompok' => $KelompokList->namakelompok,
-                    'IdKelompok' => $KelompokList->idkelompok,
+                    'NamaKelompok' => $KelompokList->NamaKelompok,
+                    'IdKelompok' => $KelompokList->IdKelompok,
                 ];
             }, $KelompokConn);
 
             return datatables($KelompokArr)->make(true);
         } else if ($id == 'getSubKelompok') {
             $UserInput = trim(Auth::user()->NomorUser);
+            $KodeBarang = $request->input('KodeBarang');
             $idKelompok = $request->input('ket_kelompok');
             $SubKelompokConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompok = ?', [5, $idKelompok]);
+                ->select('exec SP_4451_TRANSFER_BTTB @XKode = ?, @IdKelompok = ?, @KodeBarang = ?', [3, $idKelompok, $KodeBarang]);
 
             $SubKelompokArr = array_map(function ($SubKelompokList) {
                 return [
@@ -326,9 +329,10 @@ class TransferBarangController extends Controller
             return datatables($SubKelompokArr)->make(true);
         } else if ($id == 'getType') {
             $UserInput = trim(Auth::user()->NomorUser);
+            $KodeBarang = $request->input('KodeBarang');
             $IdSubKelompok = $request->input('ket_subKelompok');
             $TypeConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $IdSubKelompok]);
+                ->select('exec SP_4451_TRANSFER_BTTB @XKode = ?, @IdSubKelompok = ?, @KodeBarang = ?', [4, $IdSubKelompok, $KodeBarang]);
 
             $TypeArr = array_map(function ($TypeList) {
                 return [

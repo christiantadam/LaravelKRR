@@ -635,6 +635,9 @@ $(document).ready(function () {
                                 idObjek: ket_objek.value.trim(),
                                 noPIB: noPIBs ?? null,
                             },
+                            beforeSend: function () {
+                                $("#loading-screen").css("display", "flex");
+                            },
                             success: function (response) {
                                 console.log(response);
 
@@ -677,6 +680,10 @@ $(document).ready(function () {
                             error: function (error) {
                                 console.error("Error Fetch Data:", error);
                             },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
+                            },
                         });
                     } else {
                         $.ajax({
@@ -686,6 +693,10 @@ $(document).ready(function () {
                                 KodeBarang: kode_barang.value.trim(),
                                 idObjek: ket_objek.value.trim(),
                                 noPIB: noPIBs ?? null,
+                            },
+                            beforeSend: function () {
+                                // Show loading screen
+                                $("#loading-screen").css("display", "flex");
                             },
                             success: function (response) {
                                 console.log(response);
@@ -728,6 +739,10 @@ $(document).ready(function () {
                             },
                             error: function (error) {
                                 console.error("Error Fetch Data:", error);
+                            },
+                            complete: function () {
+                                // Hide loading screen
+                                $("#loading-screen").css("display", "none");
                             },
                         });
                     }
@@ -780,6 +795,7 @@ $(document).ready(function () {
                                 data: {
                                     _token: csrfToken,
                                     ket_objek: ket_objek.value.trim(),
+                                    KodeBarang: kode_barang.value.trim(),
                                 },
                             },
                             columns: [
@@ -852,6 +868,7 @@ $(document).ready(function () {
                                     _token: csrfToken,
                                     ket_kelompokUtama:
                                         ket_kelompokUtama.value.trim(),
+                                    KodeBarang: kode_barang.value.trim(),
                                 },
                             },
                             columns: [
@@ -922,6 +939,7 @@ $(document).ready(function () {
                                 data: {
                                     _token: csrfToken,
                                     ket_kelompok: ket_kelompok.value.trim(),
+                                    KodeBarang: kode_barang.value.trim(),
                                 },
                             },
                             columns: [
@@ -993,6 +1011,7 @@ $(document).ready(function () {
                                     _token: csrfToken,
                                     ket_subKelompok:
                                         ket_subKelompok.value.trim(),
+                                    KodeBarang: kode_barang.value.trim(),
                                 },
                             },
                             columns: [{ data: "IdType" }, { data: "NamaType" }],
@@ -1021,6 +1040,13 @@ $(document).ready(function () {
             });
         } catch (error) {
             console.error("An error occurred:", error);
+        }
+    });
+
+    keterangan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_transfer.focus();
         }
     });
 });

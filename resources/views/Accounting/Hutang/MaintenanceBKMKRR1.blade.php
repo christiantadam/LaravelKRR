@@ -18,8 +18,8 @@
                                         <label for="id">Id. BKM</label>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" name="id_bkm" class="form-control"
-                                            style="width: 100%" id="id_bkm">
+                                        <input type="text" name="id_bkm" class="form-control" style="width: 100%"
+                                            id="id_bkm">
                                     </div>
                                 </div>
                             </div>
@@ -95,10 +95,10 @@
                                     <div class="col-md-2">
                                         <input type="text" name="nama_bank" class="form-control" style="width: 100%"
                                             id="nama_bank">
-                                        <input type="text" name="id_bank" class="form-control" style="width: 100%; display: none"
-                                            id="id_bank">
-                                        <input type="text" name="jenis_bank" class="form-control" style="width: 100%; display: none"
-                                            id="jenis_bank">
+                                        <input type="text" name="id_bank" class="form-control"
+                                            style="width: 100%; display: none" id="id_bank">
+                                        <input type="text" name="jenis_bank" class="form-control"
+                                            style="width: 100%; display: none" id="jenis_bank">
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-default" id="btn_bank">...</button>
@@ -112,13 +112,14 @@
                                         <label for="id">Jenis Pembayaran</label>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" name="jenis_pembayaran" class="form-control" style="width: 100%"
-                                            id="jenis_pembayaran">
-                                        <input type="text" name="id_jnsPem" class="form-control" style="width: 100%; display: none"
-                                            id="id_jnsPem">
+                                        <input type="text" name="jenis_pembayaran" class="form-control"
+                                            style="width: 100%" id="jenis_pembayaran">
+                                        <input type="text" name="id_jnsPem" class="form-control"
+                                            style="width: 100%; display: none" id="id_jnsPem">
                                     </div>
                                     <div class="col-md-1">
-                                        <button type="button" class="btn btn-default" id="btn_jenispembayaran">...</button>
+                                        <button type="button" class="btn btn-default"
+                                            id="btn_jenispembayaran">...</button>
                                     </div>
                                     <button type="button" class="btn" id="btn_tambahbiaya">Tambah Biaya</button>
                                 </div>
@@ -130,8 +131,8 @@
                                         <label for="id">Kode Perkiraan</label>
                                     </div>
                                     <div class="col-md-1">
-                                        <input type="text" name="kode_kira" class="form-control" style="width: 100%"
-                                            id="kode_kira">
+                                        <input type="text" name="kode_kira" class="form-control"
+                                            style="width: 100%" id="kode_kira">
                                     </div>
                                     <div class="col-md-4">
                                         <input type="text" name="keterangan_kira" class="form-control"
@@ -226,6 +227,7 @@
                                             <table style="width: 150%;" id="table_kanan">
                                                 <thead class="table-dark">
                                                     <tr>
+                                                        <th>Id. Biaya</th>
                                                         <th>Keterangan</th>
                                                         <th>Biaya</th>
                                                         <th>Kode Perkiraan</th>
@@ -263,6 +265,57 @@
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tampil BKK-->
+<div class="modal fade" id="ModalTambah" tabindex="-1" aria-labelledby="dataBKKModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataBKKModalLabel">Tambah Biaya</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="close_modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-8 d-flex align-items-center">
+                        <label for="bkk" class="col-form-label me-2" style="width: 100px;">Jumlah
+                            Biaya:</label>
+                        <input type="text" id="jumlah_biayaMBiaya" class="form-control" style="flex: 1;">
+                    </div>
+                    <div class="col-4 d-flex align-items-center">
+                        <label for="idDetail" class="col-form-label me-2" style="width: 80px;">Id.
+                            Detail:</label>
+                        <input type="text" id="idDetail_MBiaya" class="form-control" style="width: 60px;">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col d-flex align-items-center">
+                        <label for="kodePerkiraan" class="col-form-label me-2" style="width: 100px;">Kode Perkiraan:</label>
+                        <!-- Input pertama yang lebih sempit -->
+                        <input type="text" id="kodePerkiraan1" class="form-control me-2" style="flex: 0.3;">
+                        <!-- Input kedua yang lebih lebar -->
+                        <input type="text" id="kodePerkiraan2" class="form-control me-2" style="flex: 1.7;">
+                        <button type="button" class="btn btn-default" id="btn_kodeperkiraanMBiaya">...</button>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col d-flex align-items-center">
+                        <label for="keterangan" class="col-form-label me-2" style="width: 100px;">Keterangan:</label>
+                        <input type="text" id="keterangan_MBiaya" class="form-control" style="flex: 1;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn_prosesMBiaya" type="button" class="btn btn-success">Proses</button>
+                <button id="btn_prosesbkk" type="button" class="btn btn-success"
+                    style="display: none">Proses</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    id="tutup_modal">Tutup</button>
             </div>
         </div>
     </div>
