@@ -89,6 +89,7 @@ class IsiSupplierHargaController extends Controller
         $idsup = $request->input('idsup');
         try {
             $supplier = DB::connection('ConnPurchase')->select('exec SP_1273_PBL_LIST_SUPPLIER @kd = ?, @idsup = ?', [$kd, $idsup]);
+            // dd($supplier);
             return Response()->json($supplier);
         } catch (\Throwable $Error) {
             return Response()->json($Error);

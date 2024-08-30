@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
+        <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">Maintenance Bukti Kas Masuk Tunai</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
@@ -209,6 +209,9 @@
                                                         <th>Uraian</th>
                                                         <th>Jenis Pembayaran</th>
                                                         <th>No. Bukti</th>
+                                                        <th>Nama Pembayaran</th>
+                                                        <th>Nama Perkiraan</th>
+                                                        <th>Kurs</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -227,7 +230,7 @@
                                             <table style="width: 150%;" id="table_kanan">
                                                 <thead class="table-dark">
                                                     <tr>
-                                                        <th>Id. Biaya</th>
+                                                        {{-- <th style="display: none">Id. Biaya</th> --}}
                                                         <th>Keterangan</th>
                                                         <th>Biaya</th>
                                                         <th>Kode Perkiraan</th>

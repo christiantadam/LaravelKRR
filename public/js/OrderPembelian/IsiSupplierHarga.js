@@ -48,9 +48,9 @@ setInputFilter(
 
         return (
             value === "" ||
-            !isNaN(numericValue) &&
-            numericValue > 0 &&
-            numericValue <= fixValueQTYOrder
+            (!isNaN(numericValue) &&
+                numericValue > 0 &&
+                numericValue <= fixValueQTYOrder)
         );
     },
     "Tidak boleh ketik karakter dan angka di bawah 0, harus angka di atas 0 dan tidak boleh lebih dari angka awal."
@@ -550,7 +550,44 @@ $(document).ready(function () {
                             matauang_select.selectedIndex = i;
                         }
                     }
-                    jenisSupplier = response[0].JNS_SUP;
+                    let jenisSupplier = response[0].JNS_SUP;
+                    let prefix_kode = kode_barang.value.substring(1, 2);
+                    let validPrefixes = ["0", "1"];
+
+                    if (
+                        jenisSupplier == "01" &&
+                        validPrefixes.includes(prefix_kode)
+                    ) {
+                        // Kode yang dijalankan jika jenisSupplier adalah 1 dan prefix_kode valid
+                        // bisa pilih lokal
+                    } else if (
+                        jenisSupplier == "01" &&
+                        !validPrefixes.includes(prefix_kode)
+                    ) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: "Supplier Harus Impor",
+                            showConfirmButton: true,
+                        });
+                        supplier_select.selectedIndex = 0;
+                    } else if (
+                        jenisSupplier == "02" &&
+                        validPrefixes.includes(prefix_kode)
+                    ) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: "Supplier Harus Lokal",
+                            showConfirmButton: true,
+                        });
+                        supplier_select.selectedIndex = 0;
+                    } else if (
+                        jenisSupplier == "02" &&
+                        !validPrefixes.includes(prefix_kode)
+                    ) {
+
+                    }
                     console.log(response[0]);
                     // if (response[0].ID_MATAUANG != 1) {
                     //     kurs.focus();
