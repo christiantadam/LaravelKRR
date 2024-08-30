@@ -480,6 +480,7 @@ $(document).ready(function () {
                 btn_subKelompok.disabled = true;
                 btn_idType.disabled = true;
             }
+            btn_divisi.focus();
         }
     });
 
@@ -540,9 +541,9 @@ $(document).ready(function () {
                     // );
                     divisi_tb.value = escapeHTML(selectedRow.NamaDivisi.trim());
                     ket_divisi.value = selectedRow.IdDivisi.trim();
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_objek.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -625,7 +626,7 @@ $(document).ready(function () {
                         "45",
                     ];
 
-                    if (validPrefixes.includes(prefix_kode)) {
+                    if (!validPrefixes.includes(prefix_kode)) {
                         $.ajax({
                             url: "/TransferBarang/TransferBTTB/LoadKelomDLL",
                             type: "GET",
@@ -677,10 +678,69 @@ $(document).ready(function () {
                                 console.error("Error Fetch Data:", error);
                             },
                         });
+                    } else {
+                        $.ajax({
+                            url: "/TransferBarang/TransferBTTB/LoadKelomDLL",
+                            type: "GET",
+                            data: {
+                                KodeBarang: kode_barang.value.trim(),
+                                idObjek: ket_objek.value.trim(),
+                                noPIB: noPIBs ?? null,
+                            },
+                            success: function (response) {
+                                console.log(response);
+
+                                // kelompok_utama.value =
+                                //     response[0].NamaKelompokUtama;
+                                // ket_kelompokUtama.value =
+                                //     response[0].IdKelompokUtama;
+                                // kelompok.value = response[0].NamaKelompok;
+                                // ket_kelompok.value = response[0].IdKelompok;
+                                // sub_kelompok.value =
+                                //     response[0].NamaSubKelompok;
+                                // ket_subKelompok.value =
+                                //     response[0].IdSubkelompok;
+                                // idType.value = response[0].IdType;
+                                saldo_premier.value = parseFloat(
+                                    response[0].SaldoPrimer
+                                );
+                                saldo_sekunder.value = parseFloat(
+                                    response[0].SaldoSekunder
+                                );
+                                saldo_tertier.value = parseFloat(
+                                    response[0].SaldoTritier
+                                );
+                                ket_saldoPremier.value = response[0].SatPrimer;
+                                ket_saldoSekunder.value =
+                                    response[0].SatSekunder;
+                                ket_saldoTertier.value = response[0].SatTritier;
+                                // if (idType.value == "") {
+                                //     alert(
+                                //         "Kode barang" +
+                                //             kode_barang.value +
+                                //             " belum ada di Subkelompok: Item Pembelian divisi: " +
+                                //             ket_divisi.value +
+                                //             ". Hubungi admin divisi terkait untuk maintenance type terlebih dahulu di program Inventory."
+                                //     );
+                                // }
+                                btn_koreksi.disabled = false;
+                                btn_transfer.disabled = false;
+                            },
+                            error: function (error) {
+                                console.error("Error Fetch Data:", error);
+                            },
+                        });
                     }
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+
+                    if (btn_kelompokUtama.disabled == true) {
+                        setTimeout(() => {
+                            keterangan.focus();
+                        }, 300);
+                    } else {
+                        setTimeout(() => {
+                            btn_kelompokUtama.focus();
+                        }, 300);
+                    }
                 }
             });
         } catch (error) {
@@ -749,9 +809,9 @@ $(document).ready(function () {
                     );
                     ket_kelompokUtama.value =
                         selectedRow.IdKelompokUtama.trim();
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_kelompok.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -820,9 +880,9 @@ $(document).ready(function () {
                         selectedRow.NamaKelompok.trim()
                     );
                     ket_kelompok.value = selectedRow.IdKelompok.trim();
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_subKelompok.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -890,9 +950,9 @@ $(document).ready(function () {
                         selectedRow.NamaSubKelompok.trim()
                     );
                     ket_subKelompok.value = selectedRow.IdSubKelompok.trim();
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_idType.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -954,9 +1014,9 @@ $(document).ready(function () {
                     //     selectedRow.NamaSubKelompok.trim()
                     // );
                     idType.value = selectedRow.IdType.trim();
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        keterangan.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
