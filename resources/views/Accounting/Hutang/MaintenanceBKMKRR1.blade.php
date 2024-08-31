@@ -2,6 +2,13 @@
 @section('content')
 @section('title', 'Maintenance BKM KRR1')
 
+<style>
+    .custom-modal-width {
+        max-width: 65%;
+        /* Adjust the percentage as needed */
+    }
+</style>
+
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
@@ -235,6 +242,7 @@
                                                         <th>Biaya</th>
                                                         <th>Kode Perkiraan</th>
                                                         <th>Id. Detail</th>
+                                                        <th>Nama Perkiraan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -252,7 +260,7 @@
                                         <b><label for="id">Total Pelunasan</label></b>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" name="bankSelect" class="form-control"
+                                        <input id="total_pelunasan" type="text" name="total_pelunasan" class="form-control"
                                             style="width: 100%">
                                     </div>
                                     <div class="col-md-2"></div>
@@ -319,6 +327,56 @@
                     style="display: none">Proses</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                     id="tutup_modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tampil BKK-->
+<div class="modal fade" id="dataBKKModal" tabindex="-1" aria-labelledby="dataBKKModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-modal-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataBKKModalLabel">Data BKM</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="close_modalbkm">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-inline">
+                    <label for="month">Bln/Thn:&nbsp;</label>
+                    <input type="date" id="tgl_awalbkk" class="form-control" style="width: 160px">
+                    <span>&nbsp;S/D&nbsp;</span>
+                    <input type="date" id="tgl_akhirbkk" class="form-control" style="width: 160px">
+                    <span>&nbsp;&nbsp;</span>
+                    <button id="btn_okbkm" type="button" class="btn btn-primary">OK</button>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="bkm">Id. BKM:</label>
+                    <input type="text" id="bkm" class="form-control">
+                    <input type="text" id="terbilang" class="form-control" style="display: none">
+                    <input type="text" id="id_matauang" class="form-control" style="display: none">
+                </div>
+                <div class="table-responsive">
+                    <table id="tabletampilBKM">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Tanggal Input</th>
+                                <th>Id. BKM</th>
+                                <th>Nilai Pelunasan</th>
+                                <th>Terbilang</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn_cetakbkm" type="button" class="btn btn-success">Cetak</button>
+                <button id="btn_prosesbkm" type="button" class="btn btn-success"
+                    style="display: none">Proses</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="tutup_modalbkk">Tutup</button>
             </div>
         </div>
     </div>

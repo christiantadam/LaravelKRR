@@ -14,6 +14,9 @@ $(document).ready(function () {
     let btn_prosesMBiaya = document.getElementById("btn_prosesMBiaya");
     let btn_batal = document.getElementById("btn_batal");
     let btn_koreksi = document.getElementById("btn_koreksi");
+    let btn_hapus = document.getElementById("btn_hapus");
+    let btn_tampilbkk = document.getElementById("btn_tampilbkk");
+    let btn_okbkm = document.getElementById("btn_okbkm");
     let kode_kira = document.getElementById("kode_kira");
     let keterangan_kira = document.getElementById("keterangan_kira");
     let mata_uang = document.getElementById("mata_uang");
@@ -37,14 +40,23 @@ $(document).ready(function () {
     let keterangan_MBiaya = document.getElementById("keterangan_MBiaya");
     let tutup_modal = document.getElementById("tutup_modal");
     let close_modal = document.getElementById("close_modal");
+    let tgl_awalbkk = document.getElementById("tgl_awalbkk");
+    let tgl_akhirbkk = document.getElementById("tgl_akhirbkk");
+    let bkm = document.getElementById("bkm");
+    let total_pelunasan = document.getElementById("total_pelunasan");
     let table_kiri = $("#table_kiri").DataTable({
         columnDefs: [{ targets: [7, 8, 9], visible: false }],
     });
-    let table_kanan = $("#table_kanan").DataTable({});
+    let table_kanan = $("#table_kanan").DataTable({
+        columnDefs: [{ targets: [4], visible: false }],
+    });
     let rowDataPertama;
     let rowDataKedua;
+    let rowDataKetiga;
     let koreksi;
 
+    tgl_awalbkk.valueAsDate = new Date();
+    tgl_akhirbkk.valueAsDate = new Date();
     koreksi = 0;
     id_bkm.readOnly = true;
     tanggal_input.valueAsDate = new Date();
@@ -259,15 +271,98 @@ $(document).ready(function () {
 
     //#region Event Listener
 
-    btn_koreksi.addEventListener("click", function (event) {
+    btn_hapus.addEventListener("click", function (event) {
         event.preventDefault();
-        if (rowDataPertama == null) {
+
+        // Check if rowDataPertama is null
+        if (rowDataPertama == null || rowDataKedua == null) {
             Swal.fire({
                 icon: "info",
                 title: "Info!",
                 text: "Pilih detail terlebih dahulu!",
                 showConfirmButton: true,
             });
+        } else {
+            let checkedKiri = $(
+                '#table_kiri input[name="penerimaCheckbox"]:checked'
+            ).length;
+            let checkedKanan = $(
+                '#table_kanan input[name="penerimaCheckbox"]:checked'
+            ).length;
+
+            console.log(checkedKiri);
+            console.log(checkedKanan);
+
+            if (checkedKiri + checkedKanan !== 1) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Warning!",
+                    text: "Hanya boleh ada satu row yang ter-check, baik di tabel detail atau biaya, bukan keduanya!",
+                    showConfirmButton: true,
+                });
+                return;
+            }
+
+            if (
+                $.fn.DataTable.isDataTable("#table_kiri") &&
+                checkedKiri === 1
+            ) {
+                var table_kiri = $("#table_kiri").DataTable();
+                let selectedRowHapus = table_kiri.row(
+                    $('input[name="penerimaCheckbox"]:checked').closest("tr")
+                );
+
+                selectedRowHapus.remove().draw();
+            }
+
+            if (
+                $.fn.DataTable.isDataTable("#table_kanan") &&
+                checkedKanan === 1
+            ) {
+                var table_kanan = $("#table_kanan").DataTable();
+                let selectedRowHpsKn = table_kanan.row(
+                    $('input[name="penerimaCheckbox"]:checked').closest("tr")
+                );
+
+                selectedRowHpsKn.remove().draw();
+            }
+        }
+    });
+
+    btn_koreksi.addEventListener("click", function (event) {
+        event.preventDefault();
+        let checkedKiri = $(
+            '#table_kiri input[name="penerimaCheckbox"]:checked'
+        ).length;
+        let checkedKanan = $(
+            '#table_kanan input[name="penerimaCheckbox"]:checked'
+        ).length;
+
+        if (rowDataPertama == null || rowDataKedua == null) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih detail terlebih dahulu!",
+                showConfirmButton: true,
+            });
+        } else if (checkedKanan === 1) {
+            clearValMB();
+            btn_prosesMBiaya.textContent = "Koreksi";
+            koreksi = 2;
+            idDetail_MBiaya.value = rowDataPertama[0].match(/value="(\d+)"/)[1];
+            jumlah_biayaMBiaya.value = rowDataKedua[1];
+            kodePerkiraan1.value = rowDataKedua[2];
+            kodePerkiraan2.value = rowDataKedua[4];
+            keterangan_MBiaya.value =
+                rowDataKedua[0].match(/value="([^"]+)"/)[1];
+            var myModal = new bootstrap.Modal(
+                document.getElementById("ModalTambah"),
+                {
+                    keyboard: false,
+                }
+            );
+            myModal.show();
+            jumlah_biayaMBiaya.focus();
         } else {
             koreksi = 1;
             diterima_dari.value = rowDataPertama[1];
@@ -597,6 +692,116 @@ $(document).ready(function () {
         }
     });
 
+    //#region Modal Tampil BKK
+
+    btn_tampilbkk.addEventListener("click", async function (event) {
+        event.preventDefault();
+        var myModal = new bootstrap.Modal(
+            document.getElementById("dataBKKModal"),
+            {
+                keyboard: false,
+            }
+        );
+
+        let = tabletampilBKM = $("#tabletampilBKM").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "MaintenanceBKMKRR1/getPelunasanTunai",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                    });
+                },
+            },
+            columns: [
+                {
+                    data: "Tgl_Input",
+                    render: function (data) {
+                        return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    },
+                },
+                { data: "Id_BKM" },
+                { data: "Nilai_Pelunasan" },
+                { data: "Terjemahan" },
+            ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
+            // columnDefs: [{ targets: [5], visible: false }],
+        });
+
+        myModal.show();
+    });
+
+    btn_okbkm.addEventListener("click", async function (event) {
+        event.preventDefault();
+        tabletampilBKM = $("#tabletampilBKM").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "MaintenanceBKMKRR1/getOkBKM",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        tgl_awalbkk: tgl_awalbkk.value,
+                        tgl_akhirbkk: tgl_akhirbkk.value,
+                    });
+                },
+            },
+            columns: [
+                {
+                    data: "Tgl_Input",
+                    render: function (data) {
+                        return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    },
+                },
+                { data: "Id_BKM" },
+                { data: "Nilai_Pelunasan" },
+                { data: "Terjemahan" },
+            ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
+            // columnDefs: [{ targets: [3, 4], visible: false }],
+        });
+    });
+
+    let rowDataArrayKetiga = [];
+
+    $("#tabletampilBKM tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#tabletampilBKM tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            if (this.checked) {
+                $('input[name="penerimaCheckbox"]')
+                    .not(this)
+                    .prop("checked", false);
+                rowDataKetiga = tabletampilBKM.row($(this).closest("tr")).data();
+                rowDataArray.push(rowDataKetiga);
+                bkm.value = rowDataKetiga.Id_BKM;
+                console.log(rowDataArrayKetiga);
+                console.log(rowDataKetiga, this, tabletampilBKM);
+            } else {
+                // Kosongkan array saat checkbox tidak dicentang
+                rowDataArray = [];
+                rowDataKetiga = null;
+                bkm.value = "";
+                console.log(rowDataArrayKetiga);
+                console.log(rowDataKetiga, this, tabletampilBKM);
+            }
+        }
+    );
+
     //#region Modal Tambah Biaya
 
     jumlah_biayaMBiaya.addEventListener("keydown", function (event) {
@@ -728,47 +933,77 @@ $(document).ready(function () {
 
     btn_prosesMBiaya.addEventListener("click", async function (event) {
         event.preventDefault();
-        const newRow = {
-            id_biaya: tableDataKanan.length + 1,
-            jumlah_biayaMBiaya: jumlah_biayaMBiaya.value,
-            kodePerkiraan1: kodePerkiraan1.value,
-            keterangan_MBiaya: keterangan_MBiaya.value,
-            idDetail_MBiaya: idDetail_MBiaya.value,
-        };
+        if (koreksi == 2) {
+            // Update rowDataKedua dengan checkbox dan nilai keterangan
+            rowDataKedua[0] = `<input type="checkbox" name="penerimaCheckbox" value="${keterangan_MBiaya.value}" /> ${keterangan_MBiaya.value}`;
+            rowDataKedua[1] = jumlah_biayaMBiaya.value;
+            rowDataKedua[2] = kodePerkiraan1.value;
+            rowDataKedua[4] = kodePerkiraan2.value;
 
-        tableDataKanan.push(newRow);
-        console.log(tableDataKanan);
+            if ($.fn.DataTable.isDataTable("#table_kanan")) {
+                var table_kanan = $("#table_kanan").DataTable();
+                // Temukan baris yang dipilih berdasarkan checkbox yang dicentang
+                let selectedRow = table_kanan.row(
+                    $('input[name="penerimaCheckbox"]:checked').closest("tr")
+                );
+                // Perbarui data baris dengan checkbox dan keterangan yang disertakan
+                selectedRow.data(rowDataKedua).draw();
 
-        if ($.fn.DataTable.isDataTable("#table_kanan")) {
-            var table_kanan = $("#table_kanan").DataTable();
+                // Hapus semua centang dari checkbox di tabel #table_kanan
+                $('#table_kanan input[name="penerimaCheckbox"]').prop(
+                    "checked",
+                    false
+                );
+            }
 
-            table_kanan.row
-                .add([
-                    `<input type="checkbox" name="penerimaCheckbox" value="${newRow.keterangan_MBiaya}" /> ${newRow.keterangan_MBiaya}`,
-                    // newRow.keterangan_MBiaya,
-                    newRow.jumlah_biayaMBiaya,
-                    newRow.kodePerkiraan1,
-                    newRow.idDetail_MBiaya,
-                ])
-                .draw();
+            document.activeElement.blur();
+            tutup_modal.click();
+            koreksi = 0;
+        } else {
+            const newRow = {
+                id_biaya: tableDataKanan.length + 1,
+                jumlah_biayaMBiaya: jumlah_biayaMBiaya.value,
+                kodePerkiraan1: kodePerkiraan1.value,
+                keterangan_MBiaya: keterangan_MBiaya.value,
+                idDetail_MBiaya: idDetail_MBiaya.value,
+                kodePerkiraan2: kodePerkiraan2.value,
+            };
 
-            Swal.fire({
-                title: "Tambah Biaya Lagi ?",
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonText: "Ya",
-                cancelButtonText: "Tidak",
-                focusConfirm: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    clearValMB();
-                    setTimeout(() => {
-                        jumlah_biayaMBiaya.focus();
-                    }, 300);
-                } else {
-                    tutup_modal.click();
-                }
-            });
+            tableDataKanan.push(newRow);
+            console.log(tableDataKanan);
+
+            if ($.fn.DataTable.isDataTable("#table_kanan")) {
+                var table_kanan = $("#table_kanan").DataTable();
+
+                table_kanan.row
+                    .add([
+                        `<input type="checkbox" name="penerimaCheckbox" value="${newRow.keterangan_MBiaya}" /> ${newRow.keterangan_MBiaya}`,
+                        // newRow.keterangan_MBiaya,
+                        newRow.jumlah_biayaMBiaya,
+                        newRow.kodePerkiraan1,
+                        newRow.idDetail_MBiaya,
+                        newRow.kodePerkiraan2,
+                    ])
+                    .draw();
+
+                Swal.fire({
+                    title: "Tambah Biaya Lagi ?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya",
+                    cancelButtonText: "Tidak",
+                    focusConfirm: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        clearValMB();
+                        setTimeout(() => {
+                            jumlah_biayaMBiaya.focus();
+                        }, 300);
+                    } else {
+                        tutup_modal.click();
+                    }
+                });
+            }
         }
     });
 

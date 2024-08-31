@@ -146,6 +146,43 @@ class MaintenanceBKMKRR1Controller extends Controller
             } else {
                 return response()->json(['error' => 'Incomplete data!']);
             }
+        } else if ($id == 'getPelunasanTunai') {
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_PELUNASAN_TUNAI');
+            // dd($results);
+            $response = [];
+            $j = 0;
+
+            foreach ($results as $row) {
+                $j++;
+                $response[] = [
+                    'Tgl_Input' => \Carbon\Carbon::parse($row->Tgl_Input)->format('m/d/Y'),
+                    'Id_BKM' => $row->Id_BKM,
+                    'Nilai_Pelunasan' => number_format($row->Nilai_Pelunasan, 2, '.', ','),
+                    'Terjemahan' => $row->Terjemahan,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getOkBKM') {
+            // Extract the parameters from the request
+            $tgl1 = $request->input('tgl_awalbkk');
+            $tgl2 = $request->input('tgl_akhirbkk');
+            // dd($tgl1, $tgl2);
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_PELUNASAN_TUNAI_PERTGL ?, ?', [$tgl1, $tgl2]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Tgl_Input' => \Carbon\Carbon::parse($row->Tgl_Input)->format('m/d/Y'),
+                    'Id_BKM' => $row->Id_BKM,
+                    'Nilai_Pelunasan' => number_format($row->Nilai_Pelunasan, 2, '.', ','),
+                    'Terjemahan' => $row->Terjemahan,
+                ];
+            }
+
+            return datatables($response)->make(true);
         }
     }
 
