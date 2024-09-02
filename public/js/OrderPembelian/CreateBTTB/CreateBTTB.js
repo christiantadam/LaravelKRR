@@ -1013,6 +1013,7 @@ $(document).ready(function () {
     const kodeBarangElement = document.getElementById("kode_barang");
     const qtyRemainingElement = document.getElementById("qty_remaining");
     const qtyShipElement = document.getElementById("qty_ship");
+    let maxLimit;
 
     // Daftar kode barang yang diizinkan untuk melebihi 15% dari QTY Order
     // const allowedCodes = [
@@ -1048,7 +1049,17 @@ $(document).ready(function () {
         // const barangCode = kodeBarangElement.value;
         // const isAllowed = isAllowedCode(barangCode);
         console.log(toleransi);
-        const maxLimit = parseFloat((fixValueQTYOrder * toleransi).toFixed(2));
+        let qtyReceivedValue1 = parseFloat(this.value);
+        let cek = parseFloat(
+            fixValueQTYRemain -
+                (qtyReceivedValue1 - fixValueQTYReceived) -
+                fixValueQTYShip
+        );
+        if (fixValueQTYRemain > 0.00) {
+            maxLimit = parseFloat((fixValueQTYRemain).toFixed(2));
+        }else {
+            maxLimit = parseFloat((fixValueQTYOrder * toleransi).toFixed(2));
+        };
         console.log(maxLimit);
 
         if (this.value === "") {
@@ -1062,6 +1073,11 @@ $(document).ready(function () {
         ) {
             let qtyReceivedValue = parseFloat(this.value);
             let sisa = parseFloat(
+                fixValueQTYRemain -
+                    (qtyReceivedValue - fixValueQTYReceived) -
+                    fixValueQTYShip
+            );
+            let sisa2 = parseFloat(
                 fixValueQTYOrder -
                     (qtyReceivedValue - fixValueQTYReceived) -
                     fixValueQTYShip
@@ -1073,7 +1089,7 @@ $(document).ready(function () {
                     fixValueQTYShip + (qtyReceivedValue - fixValueQTYReceived)
                 ).format("0,0.00");
             } else if (sisa < 0) {
-                qtyRemainingElement.value = numeral(0).format("0,0.00");
+                qtyRemainingElement.value = numeral(sisa2).format("0,0.00");
                 qtyShipElement.value = numeral(
                     qtyReceivedValue - fixValueQTYReceived
                 ).format("0,0.00");

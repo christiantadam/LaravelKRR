@@ -257,7 +257,7 @@
                                 <div class="row">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-2">
-                                        <b><label for="id">Total Pelunasan</label></b>
+                                        <b><label for="id">Total Pelunasan Rp.</label></b>
                                     </div>
                                     <div class="col-md-2">
                                         <input id="total_pelunasan" type="text" name="total_pelunasan" class="form-control"

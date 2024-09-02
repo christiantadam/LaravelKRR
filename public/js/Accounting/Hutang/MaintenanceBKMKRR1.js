@@ -17,6 +17,7 @@ $(document).ready(function () {
     let btn_hapus = document.getElementById("btn_hapus");
     let btn_tampilbkk = document.getElementById("btn_tampilbkk");
     let btn_okbkm = document.getElementById("btn_okbkm");
+    let btn_proses = document.getElementById("btn_proses");
     let kode_kira = document.getElementById("kode_kira");
     let keterangan_kira = document.getElementById("keterangan_kira");
     let mata_uang = document.getElementById("mata_uang");
@@ -49,11 +50,14 @@ $(document).ready(function () {
     });
     let table_kanan = $("#table_kanan").DataTable({
         columnDefs: [{ targets: [4], visible: false }],
+        order: [[3, "asc"]],
     });
     let rowDataPertama;
     let rowDataKedua;
     let rowDataKetiga;
     let koreksi;
+    let terbilang;
+    let ada1;
 
     tgl_awalbkk.valueAsDate = new Date();
     tgl_akhirbkk.valueAsDate = new Date();
@@ -258,6 +262,23 @@ $(document).ready(function () {
                         btn_matauang.disabled = true;
                         btn_bank.disabled = true;
                         document.activeElement.blur();
+
+                        const totalPelunasan = tableData.reduce((sum, row) => {
+                            // Remove commas only and keep the decimal point
+                            const cleanValue = row.jumlah_uang.replace(
+                                /,/g,
+                                ""
+                            );
+                            return sum + parseFloat(cleanValue);
+                        }, 0);
+
+                        total_pelunasan.value = totalPelunasan.toLocaleString(
+                            "en-US",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            }
+                        );
                     } else {
                         var table_kiri = $("#table_kiri").DataTable();
                     }
@@ -271,15 +292,107 @@ $(document).ready(function () {
 
     //#region Event Listener
 
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+        const allRowsDataKiri = table_kiri.rows().data().toArray();
+        console.log(allRowsDataKiri);
+        const allRowsDataKanan = table_kanan.rows().data().toArray();
+        console.log(allRowsDataKanan);
+
+        let total = 0;
+
+        allRowsDataKiri.forEach((lunasItem) => {
+            let biaya = 0; // Initialize biaya for each lunasItem
+            ada1 = false; // Flag to check if there's a matching biaya
+
+            // Extract relevant values from lunasItem
+            const item = lunasItem[0]; // Assuming 'item' corresponds to 'kode_kira'
+            const subItem2 = lunasItem[2]; // Assuming 'subItem2' corresponds to 'jumlah_uang'
+
+            // Loop through each item in the right table data
+            allRowsDataKanan.forEach((biayaItem) => {
+                const subItem3 = biayaItem[3]; // Assuming 'subItem3' is in the 4th column
+                const subItem1 = biayaItem[1]; // Assuming 'subItem1' corresponds to the amount in the 2nd column
+
+                // Check if items match
+                if (item === subItem3) {
+                    // Remove commas from subItem1, convert to float, and add to biaya
+                    biaya += parseFloat(subItem1.replace(/,/g, ""));
+                    ada1 = true;
+                }
+            });
+
+            // Calculate nilai by subtracting biaya from subItem2
+            const nilai = parseFloat(subItem2.replace(/,/g, "")) - biaya;
+            total += nilai; // Add nilai to total
+        });
+
+        // Convert total to string if needed
+        const total1 = total.toString();
+        if (kode_matauang.value == 1) {
+            terbilang = convertNumberToWordsRupiah(total);
+        } else {
+            terbilang = convertNumberToWordsDollar(total);
+        }
+
+        console.log(terbilang);
+
+        console.log("Total:", total1);
+
+        $.ajax({
+            url: "MaintenanceBKMKRR1",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                id_bkm: id_bkm.value,
+                allRowsDataKiri: allRowsDataKiri,
+                allRowsDataKanan: allRowsDataKanan,
+                tanggal_input: tanggal_input.value,
+                id_bank: id_bank.value,
+                kurs_rupiah: kurs_rupiah.value,
+                kode_matauang: kode_matauang.value,
+                ada1: ada1,
+                jenis_bank: jenis_bank.value,
+                total: total,
+                // checkedRows: checkedRows,
+            },
+            success: function (response) {
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        document
+                            .querySelectorAll("input")
+                            .forEach((input) => (input.value = ""));
+                        $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+    });
+
     btn_hapus.addEventListener("click", function (event) {
         event.preventDefault();
 
         // Check if rowDataPertama is null
-        if (rowDataPertama == null || rowDataKedua == null) {
+        if (rowDataPertama == null && rowDataKedua == null) {
             Swal.fire({
                 icon: "info",
                 title: "Info!",
-                text: "Pilih detail terlebih dahulu!",
+                text: "Pilih data terlebih dahulu!",
                 showConfirmButton: true,
             });
         } else {
@@ -313,6 +426,21 @@ $(document).ready(function () {
                 );
 
                 selectedRowHapus.remove().draw();
+
+                const totalPelunasan = table_kiri
+                    .rows()
+                    .data()
+                    .toArray()
+                    .reduce((sum, row) => {
+                        let jumlahUang = row[2].replace(/,/g, "");
+                        return sum + parseInt(jumlahUang);
+                    }, 0);
+                console.log(totalPelunasan);
+
+                total_pelunasan.value = totalPelunasan.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
             }
 
             if (
@@ -338,18 +466,19 @@ $(document).ready(function () {
             '#table_kanan input[name="penerimaCheckbox"]:checked'
         ).length;
 
-        if (rowDataPertama == null || rowDataKedua == null) {
+        if (rowDataPertama == null && rowDataKedua == null) {
             Swal.fire({
                 icon: "info",
                 title: "Info!",
-                text: "Pilih detail terlebih dahulu!",
+                text: "Pilih data terlebih dahulu!",
                 showConfirmButton: true,
             });
         } else if (checkedKanan === 1) {
             clearValMB();
             btn_prosesMBiaya.textContent = "Koreksi";
             koreksi = 2;
-            idDetail_MBiaya.value = rowDataPertama[0].match(/value="(\d+)"/)[1];
+            // idDetail_MBiaya.value = rowDataPertama[0].match(/value="(\d+)"/)[1];
+            idDetail_MBiaya.value = rowDataKedua[3];
             jumlah_biayaMBiaya.value = rowDataKedua[1];
             kodePerkiraan1.value = rowDataKedua[2];
             kodePerkiraan2.value = rowDataKedua[4];
@@ -581,6 +710,7 @@ $(document).ready(function () {
                                 { data: "Jenis_Pembayaran" },
                                 { data: "Id_Jenis_Bayar" },
                             ],
+                            order: [[1, "asc"]],
                         });
                         $("#tableJenisPem tbody").on(
                             "click",
@@ -786,7 +916,9 @@ $(document).ready(function () {
                 $('input[name="penerimaCheckbox"]')
                     .not(this)
                     .prop("checked", false);
-                rowDataKetiga = tabletampilBKM.row($(this).closest("tr")).data();
+                rowDataKetiga = tabletampilBKM
+                    .row($(this).closest("tr"))
+                    .data();
                 rowDataArray.push(rowDataKetiga);
                 bkm.value = rowDataKetiga.Id_BKM;
                 console.log(rowDataArrayKetiga);
