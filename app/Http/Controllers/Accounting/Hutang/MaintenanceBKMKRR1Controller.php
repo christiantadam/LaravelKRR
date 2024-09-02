@@ -27,7 +27,109 @@ class MaintenanceBKMKRR1Controller extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
+        // Variabel untuk menampung data
+        $idbkm = intval(substr($request->id_bkm, 0, 3));
+        $konversi = $request->terbilang;
+        $total = (float) $request->total;
+        $nilai = 0;
+        $ada1 = $request->ada1;
+        $listdetail = $request->allRowsDataKiri;
+        $listbiaya = $request->allRowsDataKanan;
+        $bulantahun = \Carbon\Carbon::parse($request->tanggal_input)->format('my');
+        // dd($listdetail);
+        // foreach ($listdetail as $lunasItem) {
+        //     preg_match('/value="(\d+)"/', $lunasItem[0], $matches);
+        //     $itemValue = $matches[1] ?? null;
+        //     dd($itemValue);
+        //     $tes = trim($lunasItem[3]);
+        //     dd($tes);
+        // }
+
+        if (!empty($request->id_bkm)) {
+            DB::connection('ConnAccounting')
+                ->statement('EXEC SP_5298_ACC_INSERT_BKM_TPELUNASAN @idBKM = ?, @tglinput = ?, @userinput = ?, @terjemahan = ?, @nilaipelunasan = ?, @kode = ?', [
+                    trim($request->id_bkm),
+                    $request->tanggal_input,
+                    trim(Auth::user()->NomorUser),
+                    $konversi,
+                    $total,
+                    1
+                ]);
+
+            foreach ($listdetail as $lunasItem) {
+                $biaya = 0;
+                $ada = false;
+
+                preg_match('/value="(\d+)"/', $lunasItem[0], $matches);
+                $itemValue = $matches[1] ?? null;
+
+                DB::connection('ConnAccounting')
+                    ->statement('EXEC SP_5298_ACC_INSERT_BKM_TPELUNASAN_TAG_TUNAI @idBKM = ?, @tgl = ?, @idBank = ?, @idUang = ?, @idJenis = ?, @kodeperkiraan= ?, @uraian = ?, @keterangan = ?, @bukti = ?, @user = ?, @nilaipelunasan = ?, @kurs = ?', [
+                        trim($request->id_bkm),
+                        $request->tanggal_input,
+                        $request->id_bank,
+                        ($request->kurs_rupiah == "0") ? intval($request->kode_matauang) : 1,
+                        intval($lunasItem[5]), // Assuming subItem5 corresponds to index 5 (id_jnsPem)
+                        trim($lunasItem[3]),   // Assuming subItem3 corresponds to index 3 (kode_kira)
+                        trim($lunasItem[4]),   // Assuming subItem4 corresponds to index 4 (uraian)
+                        trim($lunasItem[1]),   // Assuming subItem1 corresponds to index 1 (diterima_dari)
+                        trim($lunasItem[6]),   // Assuming subItem6 corresponds to index 6 (no_bukti)
+                        trim(Auth::user()->NomorUser),
+                        floatval(str_replace(",", "", $lunasItem[2])), // Assuming subItem2 corresponds to index 2 (jumlah_uang)
+                        ($request->kurs_rupiah != "0") ? floatval($request->kurs_rupiah) : null
+                    ]);
+
+                if ($ada1) {
+                    foreach ($listbiaya as $biayaItem) {
+                        if ($itemValue == $biayaItem[3]) {
+                            $biaya += floatval(str_replace(",", "", $biayaItem[1]));
+                            $ada = true;
+                        }
+                    }
+
+                    $idPelunasan = DB::connection('ConnAccounting')
+                        ->select('EXEC SP_5298_ACC_GET_IDPELUNASAN');
+                    $IDPelunasan = $idPelunasan[0]->id_pelunasan;
+                    // dd($IDPelunasan);
+                    // dd($idPelunasan);
+                    if ($ada) {
+                        foreach ($listbiaya as $biayaItem) {
+                            preg_match('/value="([^"]+)"/', $biayaItem[0], $matches);
+                            $itemBiaya = $matches[1] ?? null;
+                            if ($itemValue == $biayaItem[3]) {
+                                DB::connection('ConnAccounting')
+                                    ->statement('EXEC SP_5298_ACC_INSERT_DETAIL_BIAYA @idpelunasan = ?, @keterangan = ?, @biaya = ?, @kodeperkiraan = ?', [
+                                        $IDPelunasan,
+                                        $itemBiaya,
+                                        floatval(str_replace(",", "", $biayaItem[1])),
+                                        $biayaItem[2]
+                                    ]);
+                            }
+                        }
+                    } else {
+                        DB::connection('ConnAccounting')
+                            ->statement('EXEC SP_5298_ACC_INSERT_DETAIL_BIAYA @idpelunasan = ?, @keterangan = ?, @biaya = ?, @kodeperkiraan = ?', [
+                                $IDPelunasan,
+                                '',
+                                $biaya,
+                                null
+                            ]);
+                    }
+                }
+            }
+
+            DB::connection('ConnAccounting')
+                ->statement('EXEC SP_5298_ACC_UPDATE_COUNTER_IDBKM ?, ?, ?, ?', [
+                    $idbkm,
+                    $request->id_bank,
+                    trim($request->jenis_bank),
+                    $bulantahun,
+                ]);
+
+            return response()->json(['message' => 'Data BKM No. ' . $request->id_bkm . ' TerSimpan']);
+        } else {
+            return response()->json(['message' => 'Tidak Ada Data Yg DiPROSES!']);
+        }
     }
 
     //Display the specified resource.
