@@ -18,6 +18,7 @@ $(document).ready(function () {
     let btn_tampilbkk = document.getElementById("btn_tampilbkk");
     let btn_okbkm = document.getElementById("btn_okbkm");
     let btn_proses = document.getElementById("btn_proses");
+    let btn_cetakbkm = document.getElementById("btn_cetakbkm");
     let kode_kira = document.getElementById("kode_kira");
     let keterangan_kira = document.getElementById("keterangan_kira");
     let mata_uang = document.getElementById("mata_uang");
@@ -58,6 +59,26 @@ $(document).ready(function () {
     let koreksi;
     let terbilang;
     let ada1;
+
+    let currentDate = new Date();
+    let day = currentDate.getDate();
+    let monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+    let months = monthNames[currentDate.getMonth()];
+    let years = currentDate.getFullYear();
+    document.getElementById("posted_p").innerHTML = `${day}-${months}-${years}`;
 
     tgl_awalbkk.valueAsDate = new Date();
     tgl_akhirbkk.valueAsDate = new Date();
@@ -823,6 +844,279 @@ $(document).ready(function () {
     });
 
     //#region Modal Tampil BKK
+
+    btn_cetakbkm.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: "MaintenanceBKMKRR1/cetakBKM",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                bkm: bkm.value,
+            },
+            success: function (data) {
+                console.log(data);
+                // if (data[0] == 8) {
+                //     document.getElementById("name_p").innerHTML =
+                //         data.data[0].Id_Bank;
+                //     document.getElementById("matauang_p").innerHTML =
+                //         "Amount &nbsp;" + data.data[0].Id_MataUang_BC;
+                //     let tanggalInput = data.data[0].Tgl_Input;
+                //     let tanggal = new Date(tanggalInput);
+                //     let options = {
+                //         day: "2-digit",
+                //         month: "short",
+                //         year: "numeric",
+                //     };
+                //     let formattedDate = tanggal
+                //         .toLocaleDateString("en-GB", options)
+                //         .replace(" ", "-")
+                //         .replace(" ", "-");
+                //     document.getElementById("tanggal_p").innerHTML =
+                //         formattedDate;
+                //     document.getElementById("voucher_p").innerHTML =
+                //         data.data[0].Id_BKK;
+                //     document.getElementById("description_p").innerHTML =
+                //         data.data[0].Nama_Bank;
+                //     document.getElementById("paid_p").innerHTML =
+                //         data.data[0].NM_SUP;
+                //     //Tbody Array
+                //     let kodePerkiraanHTML = "";
+                //     data.data.forEach(function (item) {
+                //         kodePerkiraanHTML += item.Kode_Perkiraan + "<br>";
+                //     });
+                //     document.getElementById("coa_p").innerHTML =
+                //         kodePerkiraanHTML;
+
+                //     let KeteranganHTML = "";
+                //     data.data.forEach(function (item) {
+                //         KeteranganHTML += item.Keterangan + "<br>";
+                //     });
+                //     document.getElementById("acc_p").innerHTML = KeteranganHTML;
+
+                //     let Rincian_BayarHTML = "";
+                //     data.data.forEach(function (item) {
+                //         Rincian_BayarHTML += item.Rincian_Bayar + "<br>";
+                //     });
+                //     document.getElementById("desc_p").innerHTML =
+                //         Rincian_BayarHTML;
+
+                //     let No_BGCekHTML = "";
+                //     data.data.forEach(function (item) {
+                //         No_BGCekHTML +=
+                //             item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                //     });
+                //     document.getElementById("bgno_p").innerHTML = No_BGCekHTML;
+
+                //     let Nilai_RincianHTML = "";
+                //     let totalNilaiRincian = 0; // Variabel untuk menyimpan total nilai
+
+                //     data.data.forEach(function (item) {
+                //         let nilaiRincian = parseFloat(item.Nilai_Rincian);
+                //         let formattedValue = nilaiRincian.toLocaleString(
+                //             "en-US",
+                //             {
+                //                 minimumFractionDigits: 2,
+                //                 maximumFractionDigits: 2,
+                //             }
+                //         );
+
+                //         Nilai_RincianHTML += formattedValue + "<br>";
+                //         totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
+                //     });
+
+                //     document.getElementById("amount_p").innerHTML =
+                //         Nilai_RincianHTML;
+
+                //     // Format total dan tampilkan di element dengan id "total_p"
+                //     document.getElementById("total_p").innerHTML =
+                //         totalNilaiRincian.toLocaleString("en-US", {
+                //             minimumFractionDigits: 2,
+                //             maximumFractionDigits: 2,
+                //         });
+
+                //     document.getElementById("alasan_p").innerHTML =
+                //         data.data[0].Alasan;
+
+                //     document.getElementById("batal_p").innerHTML =
+                //         data.data[0].Batal;
+
+                //     window.print();
+                // } else if (data[0] == 2) {
+                //     document.getElementById("nobg_p").innerHTML = "Invoice No.";
+                //     document.getElementById("matauang_p").innerHTML =
+                //         "Amount &nbsp;" + data.data[0].Id_MataUang_BC;
+                //     document.getElementById("name_p").innerHTML =
+                //         data.data[0].Id_Bank;
+                //     let tanggalInput = data.data[0].Tgl_Input;
+                //     let tanggal = new Date(tanggalInput);
+                //     let options = {
+                //         day: "2-digit",
+                //         month: "short",
+                //         year: "numeric",
+                //     };
+                //     let formattedDate = tanggal
+                //         .toLocaleDateString("en-GB", options)
+                //         .replace(" ", "-")
+                //         .replace(" ", "-");
+                //     document.getElementById("tanggal_p").innerHTML =
+                //         formattedDate;
+                //     document.getElementById("voucher_p").innerHTML =
+                //         data.data[0].Id_BKK;
+                //     document.getElementById("description_p").innerHTML =
+                //         data.data[0].Nama_Bank;
+                //     document.getElementById("paid_p").innerHTML =
+                //         data.data[0].NM_SUP;
+                //     //Tbody Array
+                //     let kodePerkiraanHTML = "";
+                //     data.data.forEach(function (item) {
+                //         kodePerkiraanHTML += item.Kode_Perkiraan + "<br>";
+                //     });
+                //     document.getElementById("coa_p").innerHTML =
+                //         kodePerkiraanHTML;
+
+                //     let KeteranganHTML = "";
+                //     data.data.forEach(function (item) {
+                //         KeteranganHTML += item.Keterangan + "<br>";
+                //     });
+                //     document.getElementById("acc_p").innerHTML = KeteranganHTML;
+
+                //     let Rincian_BayarHTML = "";
+                //     data.data.forEach(function (item) {
+                //         Rincian_BayarHTML += item.Rincian_Bayar + "<br>";
+                //     });
+                //     document.getElementById("desc_p").innerHTML =
+                //         Rincian_BayarHTML;
+
+                //     let Id_PenagihanHTML = "";
+                //     data.data.forEach(function (item) {
+                //         Id_PenagihanHTML +=
+                //             item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                //     });
+                //     document.getElementById("bgno_p").innerHTML =
+                //         Id_PenagihanHTML;
+
+                //     let Nilai_RincianHTML = "";
+                //     let totalNilaiRincian = 0;
+
+                //     data.data.forEach(function (item) {
+                //         let nilaiRincian = parseFloat(item.Nilai_Rincian);
+                //         let formattedValue = nilaiRincian.toLocaleString(
+                //             "en-US",
+                //             {
+                //                 minimumFractionDigits: 2,
+                //                 maximumFractionDigits: 2,
+                //             }
+                //         );
+
+                //         Nilai_RincianHTML += formattedValue + "<br>";
+                //         totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
+                //     });
+
+                //     document.getElementById("amount_p").innerHTML =
+                //         Nilai_RincianHTML;
+
+                //     // Format total dan tampilkan di element dengan id "total_p"
+                //     document.getElementById("total_p").innerHTML =
+                //         totalNilaiRincian.toLocaleString("en-US", {
+                //             minimumFractionDigits: 2,
+                //             maximumFractionDigits: 2,
+                //         });
+
+                //     document.getElementById("alasan_p").innerHTML =
+                //         data.data[0].Alasan;
+
+                //     document.getElementById("batal_p").innerHTML =
+                //         data.data[0].Batal;
+
+                //     window.print();
+                // } else {
+                document.getElementById("name_p").innerHTML =
+                    data.data[0].Id_bank;
+                let tanggalInput = data.data[0].Tgl_Input;
+                let tanggal = new Date(tanggalInput);
+                let options = {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                };
+                let formattedDate = tanggal
+                    .toLocaleDateString("en-GB", options)
+                    .replace(" ", "-")
+                    .replace(" ", "-");
+                document.getElementById("tanggal_p").innerHTML = formattedDate;
+                document.getElementById("voucher_p").innerHTML =
+                    data.data[0].Id_BKM;
+                document.getElementById("description_p").innerHTML =
+                    data.data[0].Nama_Bank;
+                document.getElementById("received_p").innerHTML =
+                    data.data[0].Keterangan || "";
+                //Tbody Array
+                let kodePerkiraanHTML = "";
+                data.data.forEach(function (item) {
+                    kodePerkiraanHTML += item.KodePerkiraan + "<br>";
+                });
+                document.getElementById("coa_p").innerHTML = kodePerkiraanHTML;
+
+                let KeteranganHTML = "";
+                data.data.forEach(function (item) {
+                    KeteranganHTML += item.DetailKdPerkiraan + "<br>";
+                });
+                document.getElementById("acc_p").innerHTML = KeteranganHTML;
+
+                let Rincian_BayarHTML = "";
+                data.data.forEach(function (item) {
+                    Rincian_BayarHTML += item.Keterangan + "<br>";
+                });
+                document.getElementById("desc_p").innerHTML = "";
+
+                // let No_BGCekHTML = "";
+                // data.data.forEach(function (item) {
+                //     No_BGCekHTML +=
+                //         item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                // });
+                // document.getElementById("bgno_p").innerHTML = No_BGCekHTML;
+
+                let Nilai_RincianHTML = "";
+                let totalNilaiRincian = 0; // Variabel untuk menyimpan total nilai
+
+                data.data.forEach(function (item) {
+                    let nilaiRincian = parseFloat(item.Nilai_Rincian);
+                    let formattedValue = nilaiRincian.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    });
+
+                    Nilai_RincianHTML += formattedValue + "<br>";
+                    totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
+                });
+
+                document.getElementById("amount_p").innerHTML =
+                    Nilai_RincianHTML;
+
+                // Format total dan tampilkan di element dengan id "total_p"
+                document.getElementById("total_p").innerHTML =
+                    totalNilaiRincian.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    });
+
+                // document.getElementById("alasan_p").innerHTML =
+                //     data.data[0].Alasan;
+
+                // document.getElementById("batal_p").innerHTML =
+                //     data.data[0].Batal;
+
+                window.print();
+                // }
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+    });
 
     btn_tampilbkk.addEventListener("click", async function (event) {
         event.preventDefault();

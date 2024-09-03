@@ -804,7 +804,7 @@ function fetchToleransi(barangCode) {
             // Return a default value if toleransi is not provided or invalid
             toleransi = 1; // Default value (120%)
         }
-    })
+    });
 }
 
 //#endregion
@@ -1055,11 +1055,15 @@ $(document).ready(function () {
                 (qtyReceivedValue1 - fixValueQTYReceived) -
                 fixValueQTYShip
         );
-        if (fixValueQTYRemain > 0.00) {
-            maxLimit = parseFloat((fixValueQTYRemain).toFixed(2));
-        }else {
+        if (fixValueQTYRemain > 0.0) {
+            maxLimit = parseFloat(fixValueQTYRemain.toFixed(2));
+        } else if (fixValueQTYShip > 0.0) {
+            maxLimit = parseFloat(
+                (fixValueQTYOrder - fixValueQTYShip).toFixed(2)
+            );
+        } else {
             maxLimit = parseFloat((fixValueQTYOrder * toleransi).toFixed(2));
-        };
+        }
         console.log(maxLimit);
 
         if (this.value === "") {
@@ -1072,15 +1076,14 @@ $(document).ready(function () {
             parseFloat(this.value) <= parseFloat(maxLimit)
         ) {
             let qtyReceivedValue = parseFloat(this.value);
+            // let qtyShipValue = qty_ship.value;
             let sisa = parseFloat(
                 fixValueQTYRemain -
                     (qtyReceivedValue - fixValueQTYReceived) -
                     fixValueQTYShip
             );
             let sisa2 = parseFloat(
-                fixValueQTYOrder -
-                    (qtyReceivedValue - fixValueQTYReceived) -
-                    fixValueQTYShip
+                fixValueQTYOrder - (fixValueQTYShip + qtyReceivedValue)
             );
 
             if (sisa <= maxLimit && sisa >= 0) {
@@ -1091,7 +1094,7 @@ $(document).ready(function () {
             } else if (sisa < 0) {
                 qtyRemainingElement.value = numeral(sisa2).format("0,0.00");
                 qtyShipElement.value = numeral(
-                    qtyReceivedValue - fixValueQTYReceived
+                    fixValueQTYShip + qtyReceivedValue
                 ).format("0,0.00");
             }
 
