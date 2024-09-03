@@ -381,5 +381,6 @@
         </div>
     </div>
 </div>
+@include('Accounting.Hutang.PrintTampilBKMKRR1')
 <script src="{{ asset('js/Accounting/Hutang/MaintenanceBKMKRR1.js') }}"></script>
 @endsection
