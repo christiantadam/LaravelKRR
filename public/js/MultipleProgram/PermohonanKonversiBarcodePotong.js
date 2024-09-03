@@ -1,6 +1,5 @@
 $(document).ready(function () {
     //#region Get element by ID
-
     let button_hapusTujuanKonversi = document.getElementById("button_hapusTujuanKonversi"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
     let button_tambahKonversi = document.getElementById("button_tambahKonversi"); // prettier-ignore
@@ -24,9 +23,9 @@ $(document).ready(function () {
     let nama_subKelompokTujuan = document.getElementById("nama_subKelompokTujuan"); // prettier-ignore
     let nama_typeTujuan = document.getElementById("nama_typeTujuan"); // prettier-ignore
     let nomorUser = document.getElementById("nomorUser").value; // prettier-ignore
-    let pemakaian_primerTujuan = document.getElementById("pemakaian_primerTujuan"); // prettier-ignore
-    let pemakaian_sekunderTujuan = document.getElementById("pemakaian_sekunderTujuan"); // prettier-ignore
-    let pemakaian_tritierTujuan = document.getElementById("pemakaian_tritierTujuan"); // prettier-ignore
+    let hasil_konversiPrimerTujuan = document.getElementById("hasil_konversiPrimerTujuan"); // prettier-ignore
+    let hasil_konversiSekunderTujuan = document.getElementById("hasil_konversiSekunderTujuan"); // prettier-ignore
+    let hasil_konversiTritierTujuan = document.getElementById("hasil_konversiTritierTujuan"); // prettier-ignore
     let PIB_tujuan = document.getElementById("PIB_tujuan"); // prettier-ignore
     let saldo_terakhirPrimerAsal = document.getElementById("saldo_terakhirPrimerAsal"); // prettier-ignore
     let saldo_terakhirSekunderAsal = document.getElementById("saldo_terakhirSekunderAsal"); // prettier-ignore
@@ -48,6 +47,7 @@ $(document).ready(function () {
     let select_kelompokUtamaTujuan = document.getElementById("select_kelompokUtamaTujuan"); // prettier-ignore
     let select_objekTujuan = document.getElementById("select_objekTujuan"); // prettier-ignore
     let select_subKelompokTujuan = document.getElementById("select_subKelompokTujuan"); // prettier-ignore
+    let select_typeTujuan = document.getElementById("select_typeTujuan"); // prettier-ignore
     let table_daftarAsalKonversi = $("#table_daftarAsalKonversi").DataTable({
         paging: false,
         searching: false,
@@ -60,166 +60,6 @@ $(document).ready(function () {
     let tambahTujuanModal = document.getElementById("tambahTujuanModal"); // prettier-ignore
     let kodeBarangAsal;
     let nomorIndeksBarangAsal;
-    //#endregion
-
-    //#region Function
-
-    function handleTableKeydownInSwal1(e, tableId) {
-        const table = $(`#${tableId}`).DataTable();
-        if (!table) return; // Ensure table is initialized
-
-        const rows = $(`#${tableId} tbody tr`);
-        const rowCount = rows.length;
-
-        if (rowCount === 0) return; // No rows to navigate
-
-        if (e.key === "Enter") {
-            e.preventDefault();
-            const selectedRow = table.row(".selected").data();
-            if (selectedRow) {
-                Swal.getConfirmButton().click();
-            } else {
-                const firstRow = $(`#${tableId} tbody tr:first-child`);
-                if (firstRow.length) {
-                    firstRow.click();
-                    Swal.getConfirmButton().click();
-                }
-            }
-        } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            if (currentIndex === null) {
-                currentIndex = 0;
-            } else {
-                currentIndex = (currentIndex + 1) % rowCount;
-            }
-            rows.removeClass("selected");
-            $(rows[currentIndex]).addClass("selected");
-        } else if (e.key === "ArrowUp") {
-            e.preventDefault();
-            if (currentIndex === null) {
-                currentIndex = rowCount - 1;
-            } else {
-                currentIndex = (currentIndex - 1 + rowCount) % rowCount;
-            }
-            rows.removeClass("selected");
-            $(rows[currentIndex]).addClass("selected");
-        } else if (e.key === "ArrowRight") {
-            e.preventDefault();
-            currentIndex = null;
-            const pageInfo = table.page.info();
-            if (pageInfo.page < pageInfo.pages - 1) {
-                table.page("next").draw("page");
-            }
-        } else if (e.key === "ArrowLeft") {
-            e.preventDefault();
-            currentIndex = null;
-            const pageInfo = table.page.info();
-            if (pageInfo.page > 0) {
-                table.page("previous").draw("page");
-            }
-        }
-    }
-
-    function showSelectionModal(
-        entityName,
-        tableId,
-        ajaxUrl,
-        ajaxData = {},
-        onConfirmCallback
-    ) {
-        return new Promise((resolve, reject) => {
-            // Return a new promise
-            try {
-                Swal.fire({
-                    title: `Pilih ${entityName}`,
-                    html: `<table id="${tableId}" class="display" style="width:100%; white-space: nowrap;">
-                            <thead>
-                                <tr>
-                                    <th>ID ${entityName}</th>
-                                    <th>Nama ${entityName}</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>`,
-                    showCancelButton: true,
-                    confirmButtonText: "Pilih",
-                    cancelButtonText: "Tutup",
-                    returnFocus: false,
-                    customClass: {
-                        popup: "swal-wide", // Apply the custom width class
-                    },
-                    preConfirm: () => {
-                        const table = $(`#${tableId}`).DataTable();
-                        const selectedData = table.row(".selected").data();
-                        if (!selectedData) {
-                            Swal.showValidationMessage("Please select a row");
-                            return false;
-                        }
-                        return selectedData;
-                    },
-                    didOpen: () => {
-                        const table = $(`#${tableId}`).DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            order: [[1, "asc"]],
-                            ajax: {
-                                url: ajaxUrl,
-                                data: ajaxData,
-                                dataType: "json",
-                                type: "GET",
-                                error: function (xhr, error, thrown) {
-                                    console.error(
-                                        "Error fetching data: ",
-                                        thrown
-                                    );
-                                },
-                            },
-                            columns: [
-                                { data: `Id${entityName}` },
-                                { data: `Nama${entityName}` },
-                            ],
-                        });
-
-                        $(`#${tableId} tbody`).on("click", "tr", function () {
-                            table.$("tr.selected").removeClass("selected");
-                            $(this).addClass("selected");
-                        });
-
-                        // Reset currentIndex when modal opens
-                        currentIndex = null;
-                        Swal.getPopup().addEventListener(
-                            "keydown",
-                            function (e) {
-                                console.log(tableId, e);
-                                handleTableKeydownInSwal1(e, tableId);
-                            }
-                        );
-
-                        // Set initial focus on table or first focusable element
-                        $(`#${tableId}`).focus();
-                    },
-                })
-                    .then((result) => {
-                        if (result.isConfirmed) {
-                            onConfirmCallback(result.value);
-                            resolve(); // Resolve the promise after modal is confirmed
-                        } else if (
-                            result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                            resolve(); // Also resolve the promise if the user cancels
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("An error occurred:", error);
-                        reject(error); // Reject the promise in case of an error
-                    });
-            } catch (error) {
-                console.error("An error occurred:", error);
-                reject(error); // Reject the promise if there's an error
-            }
-        });
-    }
     //#endregion
 
     //#region Add Event Listener
@@ -379,463 +219,87 @@ $(document).ready(function () {
         saldo_terakhirTujuanPrimer.readOnly = true;
         saldo_terakhirTujuanSekunder.readOnly = true;
         saldo_terakhirTujuanTritier.readOnly = true;
-        id_typeTujuan.readOnly = true;
-        nama_typeTujuan.readOnly = true;
-        id_divisiTujuan.readOnly = true;
-        nama_divisiTujuan.readOnly = true;
-        id_objekTujuan.readOnly = true;
-        nama_objekTujuan.readOnly = true;
-        id_kelompokUtamaTujuan.readOnly = true;
-        nama_kelompokUtamaTujuan.readOnly = true;
-        id_kelompokTujuan.readOnly = true;
-        nama_kelompokTujuan.readOnly = true;
-        id_subKelompokTujuan.readOnly = true;
-        nama_subKelompokTujuan.readOnly = true;
+        select_objekTujuan.disabled = true;
+        select_kelompokUtamaTujuan.disabled = true;
+        select_kelompokTujuan.disabled = true;
+        select_subKelompokTujuan.disabled = true;
+        select_typeTujuan.disabled = true;
         PIB_tujuan.readOnly = true;
         button_updateTujuanKonversi.disabled = true;
         button_hapusTujuanKonversi.disabled = true;
         button_modalProses.disabled = true;
 
-        // $("#tambahTujuanModal").on(
-        //     "keydown",
-        //     "input, button, select, textarea",
-        //     function (event) {
-        //         if (event.key === "Enter" || event.keyCode === 13) {
-        //             const idsToValidate = [
-        //                 "pemakaian_primerTujuan",
-        //                 "pemakaian_sekunderTujuan",
-        //                 "pemakaian_tritierTujuan",
-        //             ];
+        const buttonTypeTujuanInputIds = [
+            "hasil_konversiPrimerTujuan",
+            "hasil_konversiSekunderTujuan",
+            "hasil_konversiTritierTujuan",
+        ];
 
-        //             // Check if the current element's ID is one of the IDs that require setting the value to 0
-        //             if (idsToValidate.includes(this.id)) {
-        //                 $(this).val(0); // Set the value to 0
-        //             }
-
-        //             // Validate non-empty value only if not one of the specific IDs
-        //             if (
-        //                 !idsToValidate.includes(this.id) &&
-        //                 $(this).is("input, select, textarea") &&
-        //                 $(this).val().trim() === ""
-        //             ) {
-        //                 $(this).addClass("input-error"); // Optional: add a class to indicate an error
-        //                 this.setCustomValidity("Kolom tidak boleh kosong!"); // Set custom validity message
-        //                 this.reportValidity(); // Display the validity message
-        //                 return; // Stop here if the current input is empty
-        //             } else {
-        //                 $(this).removeClass("input-error"); // Remove error class if not empty
-        //                 this.setCustomValidity(""); // Clear any existing validity message
-        //             }
-
-        //             // Find the current element index among all focusable elements
-        //             var focusable = $("#tambahTujuanModal").find(
-        //                 "input:visible:enabled:not([readonly]), button:visible:enabled, select:visible:enabled:not([readonly]), textarea:visible:enabled:not([readonly])"
-        //             );
-        //             var currentIndex = focusable.index(this);
-
-        //             // Focus on the next focusable element if it exists
-        //             if (
-        //                 currentIndex > -1 &&
-        //                 currentIndex + 1 < focusable.length
-        //             ) {
-        //                 focusable.eq(currentIndex + 1).focus();
-        //             }
-        //         }
-        //     }
-        // );
-
-        select_divisiTujuan.addEventListener("change", function (e) {
-            // when change show validity telling the use to press 'ENTER' just like on program EDP feature hak akses
-        });
-
-        select_divisiTujuan.addEventListener("keypress", function (e) {
-            if (e.key == "Enter") {
-            }
-        });
-
-        select_kelompokTujuan.addEventListener("change", function (e) {
-            // when change show validity telling the use to press 'ENTER' just like on program EDP feature hak akses
-        });
-
-        select_kelompokTujuan.addEventListener("keypress", function (e) {
-            if (e.key == "Enter") {
-            }
-        });
-
-        select_kelompokUtamaTujuan.addEventListener("change", function (e) {
-            // when change show validity telling the use to press 'ENTER' just like on program EDP feature hak akses
-        });
-
-        select_kelompokUtamaTujuan.addEventListener("keypress", function (e) {
-            if (e.key == "Enter") {
-            }
-        });
-
-        select_objekTujuan.addEventListener("change", function (e) {
-            // when change show validity telling the use to press 'ENTER' just like on program EDP feature hak akses
-        });
-
-        select_objekTujuan.addEventListener("keypress", function (e) {
-            if (e.key == "Enter") {
-            }
-        });
-
-        select_subKelompokTujuan.addEventListener("change", function (e) {
-            // when change show validity telling the use to press 'ENTER' just like on program EDP feature hak akses
-        });
-
-        select_subKelompokTujuan.addEventListener("keypress", function (e) {
-            if (e.key == "Enter") {
-            }
-        });
-
-        button_tambahTujuanKonversi.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            // Id type Asal dan Tujuan tidak boleh sama
-            if (id_typeAsal.value == id_typeTujuan.value) {
-                Swal.fire({
-                    icon: "info",
-                    title: "Pemberitahuan",
-                    text: "Id Type Asal dan Tujuan tidak boleh sama!",
-                });
-            }
-
-            // Array to store the input values
-            let inputData = [];
-
-            // Boolean flag to check if all inputs are filled
-            let allInputsFilled = true;
-
-            // Iterate over inputIds to get values
-            inputIds.forEach(function (id) {
-                const value = document.getElementById(id).value.trim();
-
-                // Check if the input is empty
-                if (value === "") {
-                    allInputsFilled = false;
+        function getNextFocusableElement(currentElement) {
+            // Find the next focusable element in the form
+            if (currentElement.id === "hasil_konversiTritierTujuan") {
+                if (button_tambahTujuanKonversi.disabled) {
+                    return document.getElementById(
+                        "button_updateTujuanKonversi"
+                    );
+                } else {
+                    return document.getElementById(
+                        "button_tambahTujuanKonversi"
+                    );
                 }
+            }
 
-                // Push the value to inputData array
-                inputData.push(value);
-            });
+            let elements = document.querySelectorAll(
+                "input, select, textarea, button"
+            );
+            let currentIndex = Array.prototype.indexOf.call(
+                elements,
+                currentElement
+            );
 
-            // Append an empty value to the end of the inputData array
-            inputData.push("");
+            for (let i = currentIndex + 1; i < elements.length; i++) {
+                if (!elements[i].readOnly && !elements[i].disabled) {
+                    return elements[i];
+                }
+            }
+            return null;
+        }
 
-            // Check if all inputs are filled
-            if (allInputsFilled) {
-                // Check for duplicate entry in the first and second columns
-                let isDuplicate = false;
+        buttonTypeTujuanInputIds.forEach(function (id) {
+            const inputElement = document.getElementById(id);
+            let element = document.getElementById(id);
+            if (inputElement) {
+                setInputFilter(
+                    inputElement,
+                    function (value) {
+                        // Check if the value is a valid number with a period as a decimal separator and no commas, and not greater than saldo_terakhir
+                        return /^\d*[.]?\d*$/.test(value);
+                    },
+                    "Tidak boleh karakter atau koma, harus angka dengan titik desimal"
+                );
+                element.addEventListener("keypress", function (e) {
+                    if (e.key == "Enter") {
+                        e.preventDefault(); // Prevent the default action of the Enter key
 
-                table_daftarTujuanKonversi
-                    .rows()
-                    .every(function (rowIdx, tableLoop, rowLoop) {
-                        let rowData = this.data();
-
-                        // Only check the first and second columns
-                        if (
-                            rowData[0] == inputData[0] ||
-                            rowData[1] == inputData[1]
-                        ) {
-                            isDuplicate = true;
-                            return false; // Stop iteration if a match is found
+                        if (this.value == "") {
+                            this.value = 0;
                         }
-                    });
 
-                if (isDuplicate) {
-                    Swal.fire({
-                        icon: "info",
-                        title: "Pemberitahuan",
-                        text: "Barang sudah pernah diinput ke tabel!",
-                    });
-                } else {
-                    // Add a new row with all input data to the DataTable
-                    table_daftarTujuanKonversi.row.add(inputData).draw();
+                        var value = parseFloat(this.value);
+                        if (!isNaN(value)) {
+                            this.value = parseFloat(value).toFixed(2);
+                        }
 
-                    // Remove the 'selected' class from any previously selected row
-                    $("#table_daftarTujuanKonversi tbody tr").removeClass(
-                        "selected"
-                    );
-                    // Clear the input fields after adding data
-                    clearAll("div_tujuanKonversi");
-                    activateAll();
-                    button_divisiTujuan.focus();
-                }
-            } else {
-                Swal.fire("Pemberitahuan", "Harap isi semua kolom", "info");
-            }
-        });
-
-        button_updateTujuanKonversi.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            // Array to store the updated input values
-            let updatedData = [];
-
-            // Boolean flag to check if all inputs are filled
-            let allInputsFilled = true;
-
-            // Iterate over inputIds to get the updated values
-            inputIds.forEach(function (id) {
-                const value = document.getElementById(id).value.trim();
-
-                // Check if the input is empty
-                if (value === "") {
-                    allInputsFilled = false;
-                }
-
-                // Push the value to updatedData array
-                updatedData.push(value);
-            });
-
-            // Append an empty value to the end of the updatedData array
-            updatedData.push("");
-
-            // Check if all inputs are filled
-            if (allInputsFilled) {
-                // Get the selected row index
-                const selectedRow = table_daftarTujuanKonversi.row(".selected");
-
-                if (selectedRow.any()) {
-                    // Update the selected row with the new data
-                    selectedRow.data(updatedData).draw();
-
-                    // Remove the 'selected' class from any previously selected row
-                    $("#table_daftarTujuanKonversi tbody tr").removeClass(
-                        "selected"
-                    );
-
-                    // Clear the input fields after updating data
-                    clearAll("div_tujuanKonversi");
-                    activateAll();
-                    button_divisiTujuan.focus();
-                } else {
-                    Swal.fire(
-                        "Pemberitahuan",
-                        "Pilih baris yang ingin diubah",
-                        "info"
-                    );
-                }
-            } else {
-                Swal.fire("Pemberitahuan", "Harap isi semua kolom", "info");
-            }
-        });
-
-        button_hapusTujuanKonversi.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            // Get the selected row index
-            const selectedRow = table_daftarTujuanKonversi.row(".selected");
-
-            if (selectedRow.any()) {
-                // Use Swal.fire for confirmation
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "Do you really want to delete the selected row?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, keep it",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // If user confirms, delete the selected row
-                        selectedRow.remove().draw();
-
-                        // Clear the input fields after deleting data
-                        clearAll("div_tujuanKonversi");
-                        activateAll();
-
-                        button_divisiTujuan.focus();
-
-                        // Remove the 'selected' class from any previously selected row
-                        $("#table_daftarTujuanKonversi tbody tr").removeClass(
-                            "selected"
-                        );
-
-                        // Show success message
-                        Swal.fire(
-                            "Berhasil!",
-                            "Baris sudah dihapus.",
-                            "success"
-                        );
-                    } else if (result.isDismissed) {
-                        // If user cancels, show a message or do nothing
-                        Swal.fire(
-                            "Pemberitahuan",
-                            "Baris tidak jadi dihapus :)",
-                            "info"
-                        );
-                    }
-                });
-            } else {
-                Swal.fire(
-                    "Pemberitahuan",
-                    "Pilih baris yang ingin dihapus.",
-                    "info"
-                );
-            }
-        });
-
-        $("#table_daftarTujuanKonversi tbody").on("click", "tr", function () {
-            // Remove the 'selected' class from any previously selected row
-            $("#table_daftarTujuanKonversi tbody tr").removeClass("selected");
-
-            // Add the 'selected' class to the clicked row
-            $(this).addClass("selected");
-
-            // Get data from the clicked row
-            var data = table_daftarTujuanKonversi.row(this).data();
-
-            // If data exists, populate input fields
-            if (Array.isArray(data) && data.length > 0) {
-                id_typeTujuan.value = data[0];
-                nama_typeTujuan.value = data[1];
-                pemakaian_primerTujuan.value = data[2];
-                pemakaian_sekunderTujuan.value = data[3];
-                pemakaian_tritierTujuan.value = data[4];
-                id_divisiTujuan.value = data[5];
-                id_objekTujuan.value = data[6];
-                id_kelompokUtamaTujuan.value = data[7];
-                id_kelompokTujuan.value = data[8];
-                id_subKelompokTujuan.value = data[9];
-                nama_divisiTujuan.value = data[10];
-                nama_objekTujuan.value = data[11];
-                nama_kelompokUtamaTujuan.value = data[12];
-                nama_kelompokTujuan.value = data[13];
-                nama_subKelompokTujuan.value = data[14];
-                saldo_terakhirTujuanPrimer.value = data[15];
-                saldo_terakhirTujuanSekunder.value = data[16];
-                saldo_terakhirTujuanTritier.value = data[17];
-                satuan_primerTujuan.value = data[18];
-                satuan_sekunderTujuan.value = data[19];
-                satuan_tritierTujuan.value = data[20];
-                satuan_saldoTerakhirTujuanPrimer.value = data[21];
-                satuan_saldoTerakhirTujuanSekunder.value = data[22];
-                satuan_saldoTerakhirTujuanTritier.value = data[23];
-                id_tmpTransaksi.value = data[24];
-            } else {
-                Swal.fire(
-                    "Pemberitahuan",
-                    "Terjadi Kesalahan.",
-                    "Terjadi kesalahan saat load table tujuan konversi, hubungi EDP!"
-                );
-            }
-
-            button_tambahTujuanKonversi.disabled = true;
-            button_hapusTujuanKonversi.disabled = false;
-            button_updateTujuanKonversi.disabled = false;
-            pemakaian_primerTujuan.readOnly = false;
-            pemakaian_sekunderTujuan.readOnly = false;
-            pemakaian_tritierTujuan.readOnly = false;
-            pemakaian_primerTujuan.focus();
-            pemakaian_primerTujuan.select();
-
-            const buttonTypeTujuanInputIds = [
-                "pemakaian_primerTujuan",
-                "pemakaian_sekunderTujuan",
-                "pemakaian_tritierTujuan",
-            ];
-
-            // Function to get corresponding saldo_terakhir values
-            function getSaldoTerakhirValue(id) {
-                switch (id) {
-                    case "pemakaian_primerTujuan":
-                        return (
-                            parseFloat(
-                                document.getElementById(
-                                    "saldo_terakhirTujuanPrimer"
-                                ).value
-                            ) || 0
-                        );
-                    case "pemakaian_sekunderTujuan":
-                        return (
-                            parseFloat(
-                                document.getElementById(
-                                    "saldo_terakhirTujuanSekunder"
-                                ).value
-                            ) || 0
-                        );
-                    case "pemakaian_tritierTujuan":
-                        return (
-                            parseFloat(
-                                document.getElementById(
-                                    "saldo_terakhirTujuanTritier"
-                                ).value
-                            ) || 0
-                        );
-                    default:
-                        return 0;
-                }
-            }
-
-            // Loop through each input ID and apply the filter
-            buttonTypeTujuanInputIds.forEach(function (id) {
-                const inputElement = document.getElementById(id);
-                let element = document.getElementById(id);
-                if (inputElement) {
-                    setInputFilter(
-                        inputElement,
-                        function (value) {
-                            // Check if the value is a valid number with a period as a decimal separator and no commas, and not greater than saldo_terakhir
-                            return /^\d*[.]?\d*$/.test(value);
-                        },
-                        "Tidak boleh karakter atau koma, harus angka dengan titik desimal dan tidak boleh lebih besar dari saldo terakhir"
-                    );
-                    element.addEventListener("keypress", function (e) {
-                        if (e.key == "Enter") {
-                            e.preventDefault(); // Prevent the default action of the Enter key
-
-                            if (this.value == "") {
-                                this.value = 0;
-                            }
-
-                            var value = parseFloat(this.value);
-                            if (!isNaN(value)) {
-                                this.value = parseFloat(value).toFixed(2);
-                            }
-
-                            // Find the next input element that is not readonly or disabled
-                            let nextElement = getNextFocusableElement(this);
-                            if (nextElement) {
-                                nextElement.focus();
-                                if (nextElement.type == "text") {
-                                    nextElement.select();
-                                }
+                        // Find the next input element that is not readonly or disabled
+                        let nextElement = getNextFocusableElement(this);
+                        if (nextElement) {
+                            nextElement.focus();
+                            if (nextElement.type == "text") {
+                                nextElement.select();
                             }
                         }
-                    });
-                }
-            });
-
-            function getNextFocusableElement(currentElement) {
-                // Find the next focusable element in the form
-                if (currentElement.id === "pemakaian_tritierTujuan") {
-                    if (button_tambahTujuanKonversi.disabled) {
-                        return document.getElementById(
-                            "button_updateTujuanKonversi"
-                        );
-                    } else {
-                        return document.getElementById(
-                            "button_tambahTujuanKonversi"
-                        );
                     }
-                }
-
-                let elements = document.querySelectorAll(
-                    "input, select, textarea, button"
-                );
-                let currentIndex = Array.prototype.indexOf.call(
-                    elements,
-                    currentElement
-                );
-
-                for (let i = currentIndex + 1; i < elements.length; i++) {
-                    if (!elements[i].readOnly && !elements[i].disabled) {
-                        return elements[i];
-                    }
-                }
-                return null;
+                });
             }
         });
     });
@@ -874,6 +338,561 @@ $(document).ready(function () {
                 select_divisiTujuan.focus();
             }
         }
+    });
+
+    select_divisiTujuan.addEventListener("change", function (e) {
+        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+        this.reportValidity(); // Display the validity message
+        select_objekTujuan.disabled = true;
+        select_kelompokUtamaTujuan.disabled = true;
+        select_kelompokTujuan.disabled = true;
+        select_subKelompokTujuan.disabled = true;
+        select_typeTujuan.disabled = true;
+    });
+
+    select_divisiTujuan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter" && select_divisiTujuan.selectedIndex !== 0) {
+            e.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: "/PermohonanKonversiBarcodePotong/getObjek",
+                data: {
+                    _token: csrfToken,
+                    idDivisi: select_divisiTujuan.value,
+                },
+                success: function (response) {
+                    select_objekTujuan.disabled = false;
+                    response.forEach((item) => {
+                        // Create a new option element
+                        const option = document.createElement("option");
+                        // Set the value and text of the option
+                        option.value = item.IdObjek;
+                        option.textContent = item.NamaObjek;
+                        // Append the option to the select element
+                        select_objekTujuan.appendChild(option);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                },
+            }).then(() => {
+                select_objekTujuan.focus();
+            });
+        }
+    });
+
+    select_objekTujuan.addEventListener("change", function (e) {
+        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+        this.reportValidity(); // Display the validity message
+        select_kelompokUtamaTujuan.disabled = true;
+        select_kelompokTujuan.disabled = true;
+        select_subKelompokTujuan.disabled = true;
+        select_typeTujuan.disabled = true;
+    });
+
+    select_objekTujuan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter" && select_objekTujuan.selectedIndex !== 0) {
+            e.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: "/PermohonanKonversiBarcodePotong/getKelompokUtama",
+                data: {
+                    _token: csrfToken,
+                    idObjek: select_objekTujuan.value,
+                },
+                success: function (response) {
+                    select_kelompokUtamaTujuan.disabled = false;
+                    response.forEach((item) => {
+                        // Create a new option element
+                        const option = document.createElement("option");
+                        // Set the value and text of the option
+                        option.value = item.IdKelompokUtama;
+                        option.textContent = item.NamaKelompokUtama;
+                        // Append the option to the select element
+                        select_kelompokUtamaTujuan.appendChild(option);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                },
+            }).then(() => {
+                select_kelompokUtamaTujuan.focus();
+            });
+        }
+    });
+
+    select_kelompokUtamaTujuan.addEventListener("change", function (e) {
+        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+        this.reportValidity(); // Display the validity message
+        select_kelompokTujuan.disabled = true;
+        select_subKelompokTujuan.disabled = true;
+        select_typeTujuan.disabled = true;
+    });
+
+    select_kelompokUtamaTujuan.addEventListener("keypress", function (e) {
+        if (
+            e.key == "Enter" &&
+            select_kelompokUtamaTujuan.selectedIndex !== 0
+        ) {
+            e.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: "/PermohonanKonversiBarcodePotong/getKelompok",
+                data: {
+                    _token: csrfToken,
+                    idKelompokUtama: select_kelompokUtamaTujuan.value,
+                },
+                success: function (response) {
+                    select_kelompokTujuan.disabled = false;
+                    response.forEach((item) => {
+                        // Create a new option element
+                        const option = document.createElement("option");
+                        // Set the value and text of the option
+                        option.value = item.idkelompok;
+                        option.textContent = item.namakelompok;
+                        // Append the option to the select element
+                        select_kelompokTujuan.appendChild(option);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                },
+            }).then(() => {
+                select_kelompokTujuan.focus();
+            });
+        }
+    });
+
+    select_kelompokTujuan.addEventListener("change", function (e) {
+        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+        this.reportValidity(); // Display the validity message
+        select_subKelompokTujuan.disabled = true;
+        select_typeTujuan.disabled = true;
+    });
+
+    select_kelompokTujuan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter" && select_kelompokTujuan.selectedIndex !== 0) {
+            e.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: "/PermohonanKonversiBarcodePotong/getSubKelompok",
+                data: {
+                    _token: csrfToken,
+                    idKelompok: select_kelompokTujuan.value,
+                },
+                success: function (response) {
+                    select_subKelompokTujuan.disabled = false;
+                    console.log(response);
+
+                    response.forEach((item) => {
+                        // Create a new option element
+                        const option = document.createElement("option");
+                        // Set the value and text of the option
+                        option.value = item.IdSubkelompok;
+                        option.textContent = item.NamaSubKelompok;
+                        // Append the option to the select element
+                        select_subKelompokTujuan.appendChild(option);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                },
+            }).then(() => {
+                select_subKelompokTujuan.focus();
+            });
+        }
+    });
+
+    select_subKelompokTujuan.addEventListener("change", function (e) {
+        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+        this.reportValidity(); // Display the validity message
+        select_typeTujuan.disabled = true;
+    });
+
+    select_subKelompokTujuan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter" && select_subKelompokTujuan.selectedIndex !== 0) {
+            e.preventDefault();
+            console.log(select_subKelompokTujuan.value);
+
+            $.ajax({
+                type: "GET",
+                url: "/PermohonanKonversiBarcodePotong/getType",
+                data: {
+                    _token: csrfToken,
+                    idSubKelompok: select_subKelompokTujuan.value,
+                },
+                success: function (response) {
+                    console.log(response);
+                    select_typeTujuan.disabled = false;
+                    response.forEach((item) => {
+                        // Create a new option element
+                        const option = document.createElement("option");
+                        // Set the value and text of the option
+                        option.value = item.IdType;
+                        option.textContent =
+                            item.NamaType + " | " + item.IdType;
+                        // Append the option to the select element
+                        select_typeTujuan.appendChild(option);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                },
+            }).then(() => {
+                select_typeTujuan.focus();
+            });
+        }
+    });
+
+    select_typeTujuan.addEventListener("change", function (e) {
+        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+        this.reportValidity(); // Display the validity message
+    });
+
+    select_typeTujuan.addEventListener("keypress", function (e) {
+        if (e.key == "Enter" && select_typeTujuan.selectedIndex !== 0) {
+            e.preventDefault();
+            hasil_konversiPrimerTujuan.focus();
+            $.ajax({
+                type: "GET",
+                url: "/PermohonanKonversiBarcodePotong/getDataType",
+                data: {
+                    _token: csrfToken,
+                    IdType: select_typeTujuan.value,
+                },
+                success: function (data) {
+                    console.log(data);
+                    satuan_saldoTerakhirTujuanPrimer.value =
+                        data[0].satPrimer.trim();
+                    satuan_saldoTerakhirTujuanSekunder.value =
+                        data[0].satSekunder.trim();
+                    satuan_saldoTerakhirTujuanTritier.value =
+                        data[0].satTritier.trim();
+                    saldo_terakhirTujuanPrimer.value = parseFloat(
+                        data[0].SaldoPrimer
+                    );
+                    satuan_saldoTerakhirTujuanSekunder.value =
+                        data[0].satSekunder.trim();
+                    saldo_terakhirTujuanSekunder.value = parseFloat(
+                        data[0].SaldoSekunder
+                    );
+                    saldo_terakhirTujuanTritier.value = parseFloat(
+                        data[0].SaldoTritier
+                    );
+                    satuan_primerTujuan.value = data[0].satPrimer.trim();
+                    satuan_sekunderTujuan.value = data[0].satSekunder.trim();
+                    satuan_tritierTujuan.value = data[0].satTritier.trim();
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                },
+            }).then(() => {
+                hasil_konversiPrimerTujuan.focus();
+            });
+        }
+    });
+
+    button_tambahTujuanKonversi.addEventListener("click", function (e) {
+        e.preventDefault();
+        // Id type Asal dan Tujuan tidak boleh sama
+        let checkIdType = true;
+        let checkHasilKonversi = true;
+        let checkSelectInput = true;
+
+        if (table_daftarAsalKonversi.data()[0][0] == select_typeTujuan.value) {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Id Type Asal dan Tujuan tidak boleh sama!",
+            });
+            checkIdType = false;
+        }
+
+        if (
+            hasil_konversiPrimerTujuan.value == 0 &&
+            hasil_konversiSekunderTujuan.value == 0 &&
+            hasil_konversiTritierTujuan.value == 0
+        ) {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Hasil Konversi tidak boleh kosong!",
+            }).then(() => {
+                hasil_konversiTritierTujuan.focus();
+                hasil_konversiTritierTujuan.select();
+            });
+            checkHasilKonversi = false;
+        }
+
+        if (select_typeTujuan.selectedIndex == 0) {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Hasil Konversi tidak boleh kosong!",
+            }).then(() => {
+                select_divisiTujuan.focus();
+            });
+            checkSelectInput = false;
+        }
+
+        // Check if all inputs are filled
+        if (checkIdType && checkHasilKonversi && checkSelectInput) {
+            // Array to store the input values
+            let inputData = [
+                select_typeTujuan.value,
+                select_typeTujuan.options[
+                    select_typeTujuan.selectedIndex
+                ].textContent
+                    .split(" | ")[0]
+                    .trim(),
+                hasil_konversiPrimerTujuan.value,
+                hasil_konversiSekunderTujuan.value,
+                hasil_konversiTritierTujuan.value,
+            ];
+            // Check for duplicate entry in the first and second columns
+            let isDuplicate = false;
+
+            table_daftarTujuanKonversi
+                .rows()
+                .every(function (rowIdx, tableLoop, rowLoop) {
+                    let rowData = this.data();
+
+                    // Only check the first and second columns
+                    if (
+                        rowData[0] == inputData[0] ||
+                        rowData[1] == inputData[1]
+                    ) {
+                        isDuplicate = true;
+                        return false; // Stop iteration if a match is found
+                    }
+                });
+
+            if (isDuplicate) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Pemberitahuan",
+                    text: "Barang sudah pernah diinput ke tabel!",
+                });
+            } else {
+                // Add a new row with all input data to the DataTable
+                table_daftarTujuanKonversi.row.add(inputData).draw();
+
+                // Remove the 'selected' class from any previously selected row
+                $("#table_daftarTujuanKonversi tbody tr").removeClass(
+                    "selected"
+                );
+                // Array of select element IDs
+                const selectIds = [
+                    "#select_divisiTujuan",
+                    "#select_objekTujuan",
+                    "#select_kelompokUtamaTujuan",
+                    "#select_kelompokTujuan",
+                    "#select_subKelompokTujuan",
+                    "#select_typeTujuan",
+                ];
+
+                // Array of input text element IDs to clear
+                const inputTextIds = [
+                    "#saldo_terakhirTujuanPrimer",
+                    "#satuan_saldoTerakhirTujuanPrimer",
+                    "#saldo_terakhirTujuanSekunder",
+                    "#satuan_saldoTerakhirTujuanSekunder",
+                    "#saldo_terakhirTujuanTritier",
+                    "#satuan_saldoTerakhirTujuanTritier",
+                    "#hasil_konversiPrimerTujuan",
+                    "#satuan_primerTujuan",
+                    "#hasil_konversiSekunderTujuan",
+                    "#satuan_sekunderTujuan",
+                    "#hasil_konversiTritierTujuan",
+                    "#satuan_tritierTujuan",
+                ];
+
+                // Loop through each select element
+                selectIds.forEach((id) => {
+                    const $select = $(id);
+
+                    // Select the disabled option
+                    $select.val($select.find("option[disabled]").val());
+
+                    // Remove all options except the disabled one
+                    $select.find("option:not(:disabled)").remove();
+
+                    // Disable all selects except '#select_divisiTujuan'
+                    if (id !== "#select_divisiTujuan") {
+                        $select.prop("disabled", true);
+                    }
+                });
+
+                // Clear all input text fields
+                inputTextIds.forEach((id) => {
+                    $(id).val("");
+                });
+                button_divisiTujuan.focus();
+            }
+        } else {
+            Swal.fire("Pemberitahuan", "Harap isi semua kolom", "info");
+        }
+    });
+
+    button_updateTujuanKonversi.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Array to store the updated input values
+        let updatedData = [];
+
+        // Boolean flag to check if all inputs are filled
+        let allInputsFilled = true;
+
+        // Iterate over inputIds to get the updated values
+        inputIds.forEach(function (id) {
+            const value = document.getElementById(id).value.trim();
+
+            // Check if the input is empty
+            if (value === "") {
+                allInputsFilled = false;
+            }
+
+            // Push the value to updatedData array
+            updatedData.push(value);
+        });
+
+        // Append an empty value to the end of the updatedData array
+        updatedData.push("");
+
+        // Check if all inputs are filled
+        if (allInputsFilled) {
+            // Get the selected row index
+            const selectedRow = table_daftarTujuanKonversi.row(".selected");
+
+            if (selectedRow.any()) {
+                // Update the selected row with the new data
+                selectedRow.data(updatedData).draw();
+
+                // Remove the 'selected' class from any previously selected row
+                $("#table_daftarTujuanKonversi tbody tr").removeClass(
+                    "selected"
+                );
+
+                // Clear the input fields after updating data
+                clearAll("div_tujuanKonversi");
+                activateAll();
+                button_divisiTujuan.focus();
+            } else {
+                Swal.fire(
+                    "Pemberitahuan",
+                    "Pilih baris yang ingin diubah",
+                    "info"
+                );
+            }
+        } else {
+            Swal.fire("Pemberitahuan", "Harap isi semua kolom", "info");
+        }
+    });
+
+    button_hapusTujuanKonversi.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Get the selected row index
+        const selectedRow = table_daftarTujuanKonversi.row(".selected");
+
+        if (selectedRow.any()) {
+            // Use Swal.fire for confirmation
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you really want to delete the selected row?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, keep it",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, delete the selected row
+                    selectedRow.remove().draw();
+
+                    // Clear the input fields after deleting data
+                    clearAll("div_tujuanKonversi");
+                    activateAll();
+
+                    button_divisiTujuan.focus();
+
+                    // Remove the 'selected' class from any previously selected row
+                    $("#table_daftarTujuanKonversi tbody tr").removeClass(
+                        "selected"
+                    );
+
+                    // Show success message
+                    Swal.fire("Berhasil!", "Baris sudah dihapus.", "success");
+                } else if (result.isDismissed) {
+                    // If user cancels, show a message or do nothing
+                    Swal.fire(
+                        "Pemberitahuan",
+                        "Baris tidak jadi dihapus :)",
+                        "info"
+                    );
+                }
+            });
+        } else {
+            Swal.fire(
+                "Pemberitahuan",
+                "Pilih baris yang ingin dihapus.",
+                "info"
+            );
+        }
+    });
+
+    $("#table_daftarTujuanKonversi tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_daftarTujuanKonversi tbody tr").removeClass("selected");
+
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+
+        // Get data from the clicked row
+        var data = table_daftarTujuanKonversi.row(this).data();
+
+        // If data exists, populate input fields
+        if (Array.isArray(data) && data.length > 0) {
+            id_typeTujuan.value = data[0];
+            nama_typeTujuan.value = data[1];
+            hasil_konversiPrimerTujuan.value = data[2];
+            hasil_konversiSekunderTujuan.value = data[3];
+            hasil_konversiTritierTujuan.value = data[4];
+            id_divisiTujuan.value = data[5];
+            id_objekTujuan.value = data[6];
+            id_kelompokUtamaTujuan.value = data[7];
+            id_kelompokTujuan.value = data[8];
+            id_subKelompokTujuan.value = data[9];
+            nama_divisiTujuan.value = data[10];
+            nama_objekTujuan.value = data[11];
+            nama_kelompokUtamaTujuan.value = data[12];
+            nama_kelompokTujuan.value = data[13];
+            nama_subKelompokTujuan.value = data[14];
+            saldo_terakhirTujuanPrimer.value = data[15];
+            saldo_terakhirTujuanSekunder.value = data[16];
+            saldo_terakhirTujuanTritier.value = data[17];
+            satuan_primerTujuan.value = data[18];
+            satuan_sekunderTujuan.value = data[19];
+            satuan_tritierTujuan.value = data[20];
+            satuan_saldoTerakhirTujuanPrimer.value = data[21];
+            satuan_saldoTerakhirTujuanSekunder.value = data[22];
+            satuan_saldoTerakhirTujuanTritier.value = data[23];
+            id_tmpTransaksi.value = data[24];
+        } else {
+            Swal.fire(
+                "Pemberitahuan",
+                "Terjadi Kesalahan.",
+                "Terjadi kesalahan saat load table tujuan konversi, hubungi EDP!"
+            );
+        }
+
+        button_tambahTujuanKonversi.disabled = true;
+        button_hapusTujuanKonversi.disabled = false;
+        button_updateTujuanKonversi.disabled = false;
+        hasil_konversiPrimerTujuan.readOnly = false;
+        hasil_konversiSekunderTujuan.readOnly = false;
+        hasil_konversiTritierTujuan.readOnly = false;
+        hasil_konversiPrimerTujuan.focus();
+        hasil_konversiPrimerTujuan.select();
     });
     //#endregion
 

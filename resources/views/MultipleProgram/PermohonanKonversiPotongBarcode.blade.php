@@ -175,9 +175,9 @@
                                         <tr style="white-space: nowrap">
                                             <th>Id Type Tujuan</th>
                                             <th>Nama Type Tujuan</th>
-                                            <th>Pemasukan Primer</th>
-                                            <th>Pemasukan Sekunder</th>
-                                            <th>Pemasukan Tritier</th>
+                                            <th>Hasil Konversi Primer</th>
+                                            <th>Hasil Konversi Sekunder</th>
+                                            <th>Hasil Konversi Tritier</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -187,22 +187,30 @@
                             <div class="form-group" style="width: 32%">
                                 <label for="divisi">Divisi</label>
                                 <div class="input-group">
-                                    <select name="select_divisiTujuan" id="select_divisiTujuan"
-                                        class="form-control"></select>
+                                    <select name="select_divisiTujuan" id="select_divisiTujuan" class="form-control">
+                                        <option disabled selected>-- Pilih Divisi --</option>
+                                        @foreach ($divisi as $d)
+                                            <option value="{{ $d->IdDivisi }}">{{ $d->NamaDivisi }} |
+                                                {{ $d->IdDivisi }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group" style="width: 32%">
                                 <label for="objek">Objek</label>
                                 <div class="input-group">
-                                    <select name="select_objekTujuan" id="select_objekTujuan"
-                                        class="form-control"></select>
+                                    <select name="select_objekTujuan" id="select_objekTujuan" class="form-control">
+                                        <option disabled selected>-- Pilih Objek --</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group" style="width: 32%">
                                 <label for="kelompokUtama">Kelompok Utama</label>
                                 <div class="input-group">
                                     <select name="select_kelompokUtamaTujuan" id="select_kelompokUtamaTujuan"
-                                        class="form-control"></select>
+                                        class="form-control">
+                                        <option disabled selected>-- Pilih Kelompok Utama --</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -211,14 +219,18 @@
                                 <label for="kelompok">Kelompok</label>
                                 <div class="input-group">
                                     <select name="select_kelompokTujuan" id="select_kelompokTujuan"
-                                        class="form-control"></select>
+                                        class="form-control">
+                                        <option disabled selected>-- Pilih Kelompok --</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group" style="width: 32%">
                                 <label for="subKelompok">Sub Kelompok</label>
                                 <div class="input-group">
                                     <select name="select_subKelompokTujuan" id="select_subKelompokTujuan"
-                                        class="form-control"></select>
+                                        class="form-control">
+                                        <option disabled selected>-- Pilih Sub Kelompok --</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group" id="div_PIBTujuan" style="visibility:hidden;width: 32%">
@@ -232,8 +244,9 @@
                         <div class="form-group">
                             <label for="typeTujuan">Type Tujuan</label>
                             <div class="input-group">
-                                <select name="select_typeTujuan" id="select_typeTujuan"
-                                    class="form-control"></select>
+                                <select name="select_typeTujuan" id="select_typeTujuan" class="form-control">
+                                    <option disabled selected>-- Pilih Type --</option>
+                                </select>
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: row;gap:0.5%;">
@@ -262,19 +275,19 @@
                                 </div>
                             </div>
                             <div class="form-group" style="width: 49%;border:none;margin:0.5%;">
-                                <label for="pemakaianTujuan">Hasil Konversi</label>
+                                <label for="hasil_konversiTujuan">Hasil Konversi</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="pemakaian_primerTujuan"
-                                        name="pemakaian_primerTujuan" style='width:23%' placeholder="Jumlah Primer">
+                                    <input type="text" class="form-control" id="hasil_konversiPrimerTujuan"
+                                        name="hasil_konversiPrimerTujuan" style='width:23%' placeholder="Jumlah Primer">
                                     <input type="text" class="form-control" id="satuan_primerTujuan"
                                         name="satuan_primerTujuan" style='width:10%' placeholder="Satuan Primer">
-                                    <input type="text" class="form-control" id="pemakaian_sekunderTujuan"
-                                        name="pemakaian_sekunderTujuan" style='width:23%'
+                                    <input type="text" class="form-control" id="hasil_konversiSekunderTujuan"
+                                        name="hasil_konversiSekunderTujuan" style='width:23%'
                                         placeholder="Jumlah Sekunder">
                                     <input type="text" class="form-control" id="satuan_sekunderTujuan"
                                         name="satuan_sekunderTujuan" style='width:10%' placeholder="Satuan Sekunder">
-                                    <input type="text" class="form-control" id="pemakaian_tritierTujuan"
-                                        name="pemakaian_tritierTujuan" style='width:23%'
+                                    <input type="text" class="form-control" id="hasil_konversiTritierTujuan"
+                                        name="hasil_konversiTritierTujuan" style='width:23%'
                                         placeholder="Jumlah Tritier">
                                     <input type="text" class="form-control" id="satuan_tritierTujuan"
                                         name="satuan_tritierTujuan" style='width:8%' placeholder="Satuan Tritier">
