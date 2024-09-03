@@ -551,18 +551,26 @@ $(document).ready(function () {
                         }
                     }
                     let jenisSupplier = response[0].JNS_SUP;
-                    let prefix_kode = kode_barang.value.substring(1, 2);
-                    let validPrefixes = ["0", "1"];
 
+                    let firstChar = kode_barang.value.substring(0, 1);
+                    let validFirstPrefixes = ["4", "1"];
+
+                    if (!validFirstPrefixes.includes(firstChar)) {
+                        // Lanjutkan dengan logika lainnya jika diperlukan
+                        return;
+                    }
+
+                    let secondChar = kode_barang.value.substring(1, 2);
+                    let validSecondPrefixes = ["0", "1"];
                     if (
                         jenisSupplier == "01" &&
-                        validPrefixes.includes(prefix_kode)
+                        validSecondPrefixes.includes(secondChar)
                     ) {
-                        // Kode yang dijalankan jika jenisSupplier adalah 1 dan prefix_kode valid
-                        // bisa pilih lokal
+                        // Kode yang dijalankan jika jenisSupplier adalah "01" dan secondChar valid
+                        // Bisa memilih lokal
                     } else if (
                         jenisSupplier == "01" &&
-                        !validPrefixes.includes(prefix_kode)
+                        !validSecondPrefixes.includes(secondChar)
                     ) {
                         Swal.fire({
                             icon: "info",
@@ -573,7 +581,7 @@ $(document).ready(function () {
                         supplier_select.selectedIndex = 0;
                     } else if (
                         jenisSupplier == "02" &&
-                        validPrefixes.includes(prefix_kode)
+                        validSecondPrefixes.includes(secondChar)
                     ) {
                         Swal.fire({
                             icon: "info",
@@ -584,9 +592,9 @@ $(document).ready(function () {
                         supplier_select.selectedIndex = 0;
                     } else if (
                         jenisSupplier == "02" &&
-                        !validPrefixes.includes(prefix_kode)
+                        !validSecondPrefixes.includes(secondChar)
                     ) {
-
+                        // Tambahkan logika tambahan di sini jika diperlukan
                     }
                     console.log(response[0]);
                     // if (response[0].ID_MATAUANG != 1) {
