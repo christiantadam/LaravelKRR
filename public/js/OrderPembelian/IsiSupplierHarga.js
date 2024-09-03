@@ -556,7 +556,7 @@ $(document).ready(function () {
                     let validFirstPrefixes = ["4", "1"];
 
                     if (!validFirstPrefixes.includes(firstChar)) {
-                        // Lanjutkan dengan logika lainnya jika diperlukan
+                        harga_unit.focus();
                         return;
                     }
 
