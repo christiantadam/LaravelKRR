@@ -1038,7 +1038,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('PenagihandiRETUR', 'App\Http\Controllers\Accounting\Hutang\PenagihandiRETURController@PenagihandiRETUR');
     Route::get('PelunasanHutang', 'App\Http\Controllers\Accounting\Hutang\PelunasanHutangController@PelunasanHutang');
     Route::get('MaintenanceJurnalBeli', 'App\Http\Controllers\Accounting\Hutang\MaintenanceJurnalBeliController@MaintenanceJurnalBeli');
-    Route::get('RekapHutang', 'App\Http\Controllers\Accounting\Hutang\RekapHutangController@RekapHutang');
+    Route::resource('RekapHutang', App\Http\Controllers\Accounting\Hutang\RekapHutangController::class);
+    // Route::get('RekapHutang', 'App\Http\Controllers\Accounting\Hutang\RekapHutangController@RekapHutang');
     Route::resource('PenyesuaianSaldoSupplier', App\Http\Controllers\Accounting\Hutang\PenyesuaianSaldoSupplierController::class);
     // Route::get('PenyesuaianSaldoSupplier', 'App\Http\Controllers\Accounting\Hutang\PenyesuaianSaldoSupplierController@PenyesuaianSaldoSupplier');
     Route::resource('MaintenancePengajuanBKK', App\Http\Controllers\Accounting\Hutang\PengajuanBKKController::class);

@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Accounting\Hutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class RekapHutangController extends Controller
 {
-    public function RekapHutang()
+    public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Hutang.RekapHutang', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Hutang.RekapHutang', compact('access'));
     }
 
     //Show the form for creating a new resource.
@@ -26,7 +31,7 @@ class RekapHutangController extends Controller
     }
 
     //Display the specified resource.
-    public function show(cr $cr)
+    public function show(Request $request, $id)
     {
         //
     }

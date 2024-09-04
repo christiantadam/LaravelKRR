@@ -80,8 +80,8 @@
                                                     <label for="id">BKK</label>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <input type="text" id="bkk" name="bkk" class="form-control"
-                                                        style="width: 100%">
+                                                    <input type="text" id="bkk" name="bkk"
+                                                        class="form-control" style="width: 100%">
                                                 </div>
                                             </div>
                                             <br>
@@ -91,8 +91,8 @@
                                                     <label for="id">Nama Supplier</label>
                                                 </div>
                                                 <div class="col-md-9">
-                                                    <input type="text" id="nama_supplier" name="supplierSelect" class="form-control"
-                                                        style="width: 100%">
+                                                    <input type="text" id="nama_supplier" name="supplierSelect"
+                                                        class="form-control" style="width: 100%">
                                                 </div>
                                             </div>
                                             <b>Data Pembayaran</b>
@@ -121,7 +121,7 @@
                                                 <b>Data Rincian</b>
                                             </div>
                                             <div class="col-md-3">
-                                                <input type="submit" name="kurstt" value="KURS TT" class="btn">
+                                                <button id="btn_kurstt" type="button" class="btn">KURS TT</button>
                                             </div>
                                         </div>
 
@@ -151,8 +151,9 @@
                                                             <label for="id">KURS PEMBAYARAN</label>
                                                         </div>
                                                         <div class="col-md-12">
-                                                            <input type="number" name="supplierSelect"
-                                                                class="form-control" style="width: 100%">
+                                                            <input type="text" id="kurs_pembayaran"
+                                                                name="kurs_pembayaran" class="form-control"
+                                                                style="width: 100%">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -160,7 +161,7 @@
                                             <div style="width: 70%;">
                                                 <div class="row">
                                                     <div class="col-md-5">
-                                                        <button id="btn_prosesbkm" type="button"
+                                                        <button id="btn_proses" type="button"
                                                             class="btn btn-success"
                                                             style="width: 130px">Proses</button>
                                                     </div>
@@ -168,21 +169,21 @@
                                                         <label for="id">ID. Bayar</label>
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <input type="text" name="input2" class="form-control"
-                                                            style="width: 100%">
+                                                        <input type="text" id="id_bayar" name="id_bayar"
+                                                            class="form-control" style="width: 100%">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <label for="id">ID. Rincian</label>
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <input type="text" name="input3" class="form-control"
-                                                            style="width: 100%">
+                                                        <input type="text" id="id_rincian" name="id_rincian"
+                                                            class="form-control" style="width: 100%">
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-md-9">
-                                                        <button id="btn_prosesbkm" type="button"
+                                                        <button id="btn_prosesRincian" type="button"
                                                             class="btn btn-success" style="width: 130px">Proses
                                                             Rincian</button>
                                                     </div>
@@ -202,6 +203,47 @@
                         <br>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Kurs TT-->
+<div class="modal fade" id="dataBKKModal" tabindex="-1" aria-labelledby="dataBKKModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataBKKModalLabel">KURS TT</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="close_modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <br>
+                <div class="table-container">
+                    <table class="table table-bordered" id="table_kursTT">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>No. Terima</th>
+                                <th>Kurs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="bkk">TT</label>
+                    <input type="text" id="tt_modal" class="form-control">
+                </div>
+                <div class="form-group mt-3">
+                    <label for="nilaiBkk">Kurs Rata-rata</label>
+                    <input type="text" id="kurs_rrM" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    id="tutup_modal">Tutup</button>
             </div>
         </div>
     </div>

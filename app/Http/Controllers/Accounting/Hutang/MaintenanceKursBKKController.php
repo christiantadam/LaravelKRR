@@ -27,7 +27,78 @@ class MaintenanceKursBKKController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $proses = $request->input('proses');
+        $kurs_pembelian = floatval(str_replace(",", "", $request->input('kurs_pembayaran')));
+        // dd($kurs_pembelian);
+        switch ($proses) {
+            case 1:
+                DB::connection('ConnAccounting')
+                    ->statement('EXEC SP_1273_ACC_UDT_BKK_KURS ?, ?', [
+                        $request->input('id_bayar'),
+                        $kurs_pembelian,
+                    ]);
+
+                $checkBKK = DB::connection('ConnAccounting')
+                    ->select('EXEC SP_1273_ACC_CHECK_BKK_TRANSSUPP ?', [
+                        $request->input('bkk')
+                    ]);
+
+                $responseMessage = '';
+
+                if (!empty($checkBKK) && $checkBKK[0]->Ada > 0) {
+                    $responseMessage = 'Data sudah masuk pada Hutang Supplier!..Hubungi EDP!!..';
+                } else {
+                    DB::connection('ConnAccounting')
+                        ->statement('EXEC SP_1273_ACC_UDT_BKK_KURS ?, ?', [
+                            $request->input('id_bayar'),
+                            $kurs_pembelian,
+                        ]);
+
+                    $responseMessage = 'Data Kurs Bayar sudah diSIMPAN !!..';
+                }
+
+                $checkKursBKK = DB::connection('ConnAccounting')
+                    ->select('EXEC SP_1273_ACC_CHECK_KURSBKK ?', [
+                        $request->input('id_bayar')
+                    ]);
+
+                if (!empty($checkKursBKK) && $checkKursBKK[0]->Ada > 0) {
+                    return response()->json([
+                        'message' => $responseMessage,
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'message' => $responseMessage,
+                    ], 200);
+                }
+
+            case 2:
+                if (empty($request->input('id_bayar'))) {
+                    return response()->json([
+                        'error' => 'Tandai dulu'
+                    ]);
+                }
+
+                try {
+                    DB::connection('ConnAccounting')
+                        ->statement('EXEC Sp_1273_ACC_UDT_DTL_KURSBKK ?, ?, ?', [
+                            $request->input('id_rincian'),
+                            $request->input('id_bayar'),
+                            floatval(str_replace(",", "", $request->input('kurs_pembayaran'))),
+                        ]);
+
+                    return response()->json([
+                        'message' => 'Data sudah diSIMPAN !!..'
+                    ]);
+
+                } catch (Exception $e) {
+                    return response()->json([
+                        'error' => 'Failed to save data: ' . $e->getMessage()
+                    ]);
+                }
+        }
+
     }
 
     //Display the specified resource.
@@ -107,6 +178,35 @@ class MaintenanceKursBKKController extends Controller
             }
 
             return datatables($responseRincian)->make(true);
+        } else if ($id == 'processTT') {
+            $idTT = $request->input('idtt');
+            // dd($idTT);
+            $resultsTT = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_LIST_BKK_KURS_TT @IDPenagihan = ?', [$idTT]);
+            // dd($resultsTT);
+            $formattedResultsTT = [];
+            foreach ($resultsTT as $row) {
+                $formattedResultsTT[] = [
+                    'No_Terima' => $row->No_Terima,
+                    'Kurs_Tagih' => number_format($row->Kurs_Tagih, 2, '.', ','),
+                ];
+            }
+
+            $resultKursRata = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_LIST_BKK_KURSRATA @IDTT = ?', [$idTT]);
+            // dd($resultKursRata);
+            $kursRata = !empty($resultKursRata) ? number_format($resultKursRata[0]->Kurs_TT, 2, '.', ',') : null;
+
+            $response = [
+                'kursRata' => $kursRata,
+                'listTT' => $formattedResultsTT,
+            ];
+            // dd($response);
+
+            return response()->json([
+                'data' => $formattedResultsTT,  // This is for DataTables
+                'kursRata' => $kursRata,        // Additional variable
+            ]);
         }
     }
 

@@ -91,6 +91,7 @@
                                             <th scope="col">WBP</th>
                                             <th scope="col">KVAR</th>
                                             <th scope="col">Teknisi</th>
+                                            <th scope="col">Lokasi</th>
                                         </tr>
                                     </thead>
                                     <tbody>

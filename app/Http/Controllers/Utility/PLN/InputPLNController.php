@@ -72,9 +72,9 @@ class InputPLNController extends Controller
             //code...
             $date1 = $request->input('date1');
             $date2 = $request->input('date2');
-
+            // dd($date1, $date2);
             $data = DB::connection('ConnUtility')->select('exec SP_LIST_PLN_BLN_TAHUN2 @date1 = ?, @date2 = ?', [$date1, $date2]);
-
+            // dd($data);
             return datatables($data)->make(true);
         } catch (\Throwable $th) {
             throw $th;

@@ -318,6 +318,7 @@ $(document).ready(function () {
             { data: "wbp" },
             { data: "kvar" },
             { data: "teknisi" },
+            { data: "Lokasi" },
         ],
     });
 
