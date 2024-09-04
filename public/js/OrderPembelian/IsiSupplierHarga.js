@@ -557,6 +557,7 @@ $(document).ready(function () {
 
                     if (!validFirstPrefixes.includes(firstChar)) {
                         harga_unit.focus();
+                        harga_unit.select();
                         return;
                     }
 
@@ -610,6 +611,7 @@ $(document).ready(function () {
                     });
                     kurs.dispatchEvent(eventEnter);
                     harga_unit.focus();
+                    harga_unit.select();
                     // }
                 },
                 error: function (error) {
