@@ -34,7 +34,6 @@
                                     <th>Pemakaian Primer</th>
                                     <th>Pemakaian Sekunder</th>
                                     <th>Pemakaian Tritier</th>
-                                    <th>Id Type Asal</th>
                                     <th>Id Konversi</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -162,6 +161,8 @@
                                             <th>Pengeluaran Primer</th>
                                             <th>Pengeluaran Sekunder</th>
                                             <th>Pengeluaran Tritier</th>
+                                            <th>Barcode</th>
+                                            <th>IdSubKelompok</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -178,6 +179,7 @@
                                             <th>Hasil Konversi Primer</th>
                                             <th>Hasil Konversi Sekunder</th>
                                             <th>Hasil Konversi Tritier</th>
+                                            <th>Sub Kelompok Tujuan</th>
                                         </tr>
                                     </thead>
                                 </table>

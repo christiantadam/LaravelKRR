@@ -27,6 +27,7 @@ $(document).ready(function () {
     let hasil_konversiSekunderTujuan = document.getElementById("hasil_konversiSekunderTujuan"); // prettier-ignore
     let hasil_konversiTritierTujuan = document.getElementById("hasil_konversiTritierTujuan"); // prettier-ignore
     let PIB_tujuan = document.getElementById("PIB_tujuan"); // prettier-ignore
+    let proses = 0;
     let saldo_terakhirPrimerAsal = document.getElementById("saldo_terakhirPrimerAsal"); // prettier-ignore
     let saldo_terakhirSekunderAsal = document.getElementById("saldo_terakhirSekunderAsal"); // prettier-ignore
     let saldo_terakhirTritierAsal = document.getElementById("saldo_terakhirTritierAsal"); // prettier-ignore
@@ -52,14 +53,89 @@ $(document).ready(function () {
         paging: false,
         searching: false,
         info: false,
+        autoWidth: false,
+        columnDefs: [
+            {
+                target: 5,
+                visible: false,
+            },
+            {
+                target: 6,
+                visible: false,
+            },
+        ],
     }); // prettier-ignore
-    let table_daftarKonversi = $("#table_daftarKonversi").DataTable(); // prettier-ignore
+    let table_daftarKonversi = $("#table_daftarKonversi").DataTable({
+        processing: true, // Optional, as processing is more relevant for server-side
+        responsive: true,
+        ordering: false,
+        autoWidth: false,
+        data: [], // This will be populated with client-side data
+        columns: [
+            { data: "Barcode" },
+            { data: "NamaType" },
+            { data: "JumlahPengeluaranPrimer" },
+            { data: "JumlahPengeluaranSekunder" },
+            { data: "JumlahPengeluaranTritier" },
+            { data: "idkonversi" },
+            {
+                data: "idkonversi",
+                render: function (data, type, full, meta) {
+                    return (
+                        '<button class="btn btn-success btn-acc" data-id="' +
+                        data +
+                        '"id="button_accPermohonan">ACC</button> ' +
+                        '<button class="btn btn-primary btn-detail" data-id="' +
+                        data +
+                        '" data-bs-toggle="modal" data-bs-target="#detailPermohonanModal" id="button_modalDetailPermohonan">Lihat Detail</button> ' +
+                        '<button class="btn btn-danger btn-delete" data-id="' +
+                        data +
+                        '">Hapus</button>'
+                    );
+                },
+            },
+        ],
+        columnDefs: [{ width: "12%", targets: 0 },{ width: "25%", targets: 1 },{ width: "25%", targets: 6 }],
+    }); // prettier-ignore
     let table_daftarTujuanKonversi = $("#table_daftarTujuanKonversi").DataTable(
-        { paging: false, searching: false, info: false }
+        {
+            paging: false,
+            searching: false,
+            info: false,
+            autoWidth: false,
+            columnDefs: [
+                {
+                    target: 5,
+                    visible: false,
+                },
+            ],
+        }
     ); // prettier-ignore
     let tambahTujuanModal = document.getElementById("tambahTujuanModal"); // prettier-ignore
     let kodeBarangAsal;
     let nomorIndeksBarangAsal;
+    //#endregion
+
+    //#region Function
+
+    function getDataPermohonan() {
+        // Fetch the data from your server using an AJAX call
+        $.ajax({
+            url: "/PermohonanKonversiBarcodePotong/create",
+            type: "GET",
+            success: function (response) {
+                // Assuming your server returns an array of objects for the table data
+
+                table_daftarKonversi.clear().rows.add(response.data).draw();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data: ", error);
+            },
+        });
+    }
+
+    getDataPermohonan();
+
     //#endregion
 
     //#region Add Event Listener
@@ -113,6 +189,7 @@ $(document).ready(function () {
                                 showConfirmButton: false,
                             });
                         } else {
+                            proses = 1;
                             var dataAsalKonversi = data.success;
                             var dataAsalKonversiInput = [];
                             dataAsalKonversi.forEach((element) => {
@@ -122,16 +199,70 @@ $(document).ready(function () {
                                     element.Qty_Primer,
                                     element.Qty_sekunder,
                                     element.Qty,
+                                    result.value,
+                                    element.IdSubkelompok,
                                 ];
                             });
                             table_daftarAsalKonversi.row
                                 .add(dataAsalKonversiInput)
                                 .draw();
                             // Show Bootstrap modal after confirming SweetAlert2
-                            var myModal = new bootstrap.Modal(
-                                tambahTujuanModal
+                            var modalTambahTujuanModal = new bootstrap.Modal(tambahTujuanModal); // prettier-ignore
+                            modalTambahTujuanModal.show();
+                            button_modalProses.addEventListener(
+                                "click",
+                                function (e) {
+                                    e.preventDefault();
+                                    console.log(
+                                        table_daftarAsalKonversi
+                                            .rows()
+                                            .data()
+                                            .toArray()
+                                    );
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/PermohonanKonversiBarcodePotong",
+                                        data: {
+                                            _token: csrfToken,
+                                            table_daftarTujuanKonversi:
+                                                table_daftarTujuanKonversi
+                                                    .rows()
+                                                    .data()
+                                                    .toArray(),
+                                            asalKonversiInputValues:
+                                                table_daftarAsalKonversi
+                                                    .rows()
+                                                    .data()
+                                                    .toArray(),
+                                            proses: proses,
+                                            jenisStore: "permohonan",
+                                        },
+                                        success: function (response) {
+                                            if (response.error) {
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    title: "Error!",
+                                                    text: response.error,
+                                                    showConfirmButton: false,
+                                                });
+                                            } else {
+                                                getDataPermohonan();
+                                                modalTambahTujuanModal.hide();
+                                                Swal.fire({
+                                                    icon: "success",
+                                                    title: "Berhasil!",
+                                                    text: response.success,
+                                                    showConfirmButton: false,
+                                                });
+                                            }
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error(error);
+                                        },
+                                    });
+                                }
                             );
-                            myModal.show();
                             input_barcodeAsal.value = result.value;
                             saldo_terakhirPrimerAsal.value = dataAsalKonversi[0].SaldoPrimer // prettier-ignore
                             saldo_terakhirSekunderAsal.value = dataAsalKonversi[0].SaldoSekunder // prettier-ignore
@@ -648,6 +779,7 @@ $(document).ready(function () {
                 hasil_konversiPrimerTujuan.value,
                 hasil_konversiSekunderTujuan.value,
                 hasil_konversiTritierTujuan.value,
+                select_subKelompokTujuan.value,
             ];
             // Check for duplicate entry in the first and second columns
             let isDuplicate = false;
@@ -710,16 +842,12 @@ $(document).ready(function () {
                 // Loop through each select element
                 selectIds.forEach((id) => {
                     const $select = $(id);
-
                     // Select the disabled option
                     $select.val($select.find("option[disabled]").val());
 
-                    // Remove all options except the disabled one
-                    $select.find("option:not(:disabled)").remove();
-
-                    // Disable all selects except '#select_divisiTujuan'
                     if (id !== "#select_divisiTujuan") {
-                        $select.prop("disabled", true);
+                        $select.prop("disabled", true); // Disable all selects except '#select_divisiTujuan'
+                        $select.find("option:not(:disabled)").remove(); // Remove all options except the disabled one
                     }
                 });
 
@@ -727,7 +855,8 @@ $(document).ready(function () {
                 inputTextIds.forEach((id) => {
                     $(id).val("");
                 });
-                button_divisiTujuan.focus();
+                select_divisiTujuan.focus();
+                button_modalProses.disabled = false;
             }
         } else {
             Swal.fire("Pemberitahuan", "Harap isi semua kolom", "info");
@@ -893,6 +1022,42 @@ $(document).ready(function () {
         hasil_konversiTritierTujuan.readOnly = false;
         hasil_konversiPrimerTujuan.focus();
         hasil_konversiPrimerTujuan.select();
+    });
+
+    $(document).on("click", ".btn-acc", function (e) {
+        e.preventDefault();
+        let idkonversi = $(this).data("id");
+        $.ajax({
+            type: "POST",
+            url: "/PermohonanKonversiBarcodePotong",
+            data: {
+                _token: csrfToken,
+                idkonversi: idkonversi,
+                jenisStore: "accPermohonan",
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: response.success,
+                        showConfirmButton: false,
+                    });
+                    getDataPermohonan();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        });
     });
     //#endregion
 
