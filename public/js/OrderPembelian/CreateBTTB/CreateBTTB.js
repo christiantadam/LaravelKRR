@@ -1076,14 +1076,12 @@ $(document).ready(function () {
             parseFloat(this.value) <= parseFloat(maxLimit)
         ) {
             let qtyReceivedValue = parseFloat(this.value);
-            // let qtyShipValue = qty_ship.value;
+            let qtyShipValue = parseFloat(qty_ship.value);
             let sisa = parseFloat(
-                fixValueQTYRemain -
-                    (qtyReceivedValue - fixValueQTYReceived) -
-                    fixValueQTYShip
+                fixValueQTYOrder - fixValueQTYShip - qtyReceivedValue
             );
             let sisa2 = parseFloat(
-                fixValueQTYOrder - (fixValueQTYShip + qtyReceivedValue)
+                fixValueQTYOrder - qtyShipValue - qtyReceivedValue
             );
 
             if (sisa <= maxLimit && sisa >= 0) {
