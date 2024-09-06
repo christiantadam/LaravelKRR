@@ -233,6 +233,7 @@ function updateIDRDiscTotal() {
 
 function updateData() {
     let selectedRow = $("#tabelcreate tr.selected");
+    console.log();
 
     if (selectedRow.length > 0) {
         let noOrder = no_po.value;
@@ -1083,11 +1084,18 @@ $(document).ready(function () {
             let sisa2 = parseFloat(
                 fixValueQTYOrder - qtyShipValue - qtyReceivedValue
             );
+            console.log(sisa);
+            console.log(sisa2);
 
             if (sisa <= maxLimit && sisa >= 0) {
                 qtyRemainingElement.value = numeral(sisa).format("0,0.00");
                 qtyShipElement.value = numeral(
                     fixValueQTYShip + (qtyReceivedValue - fixValueQTYReceived)
+                ).format("0,0.00");
+            } else if (sisa.toString().startsWith("-")) {
+                qtyRemainingElement.value = numeral(0).format("0,0.00");
+                qtyShipElement.value = numeral(
+                    fixValueQTYShip + qtyReceivedValue
                 ).format("0,0.00");
             } else if (sisa < 0) {
                 qtyRemainingElement.value = numeral(sisa2).format("0,0.00");
@@ -1095,7 +1103,6 @@ $(document).ready(function () {
                     fixValueQTYShip + qtyReceivedValue
                 ).format("0,0.00");
             }
-
             // Update oldValue
             this.oldValue = this.value;
         } else {
