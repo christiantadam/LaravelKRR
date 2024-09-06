@@ -7,6 +7,11 @@ $(document).ready(function () {
     let btn_bkk = document.getElementById("btn_bkk");
     let btn_kodeperkiraan = document.getElementById("btn_kodeperkiraan");
     let btn_matauang = document.getElementById("btn_matauang");
+    let btn_proses = document.getElementById("btn_proses");
+    let btn_isi = document.getElementById("btn_isi");
+    let btn_koreksi = document.getElementById("btn_koreksi");
+    let btn_hapus = document.getElementById("btn_hapus");
+    let btn_batal = document.getElementById("btn_batal");
     let kode_supp = document.getElementById("kode_supp");
     let nama_supp = document.getElementById("nama_supp");
     let uang_supp = document.getElementById("uang_supp");
@@ -22,11 +27,17 @@ $(document).ready(function () {
     let pelunasan = document.getElementById("pelunasan");
     let keterangan = document.getElementById("keterangan");
     let id_jurnal = document.getElementById("id_jurnal");
+    let checkbox = document.getElementById("checkbox");
     let table_jurnal = $("#table_jurnal").DataTable({
         columnDefs: [{ targets: [6], visible: false }],
     });
     let rowDataPertama;
+    let proses;
+    let cek = false;
 
+    btn_proses.disabled = true;
+    // btn_supllier.disabled = true;
+    btn_batal.style.visibility = "hidden";
     tanggal.valueAsDate = new Date();
     hutang.style.fontWeight = "bold";
     pelunasan.style.fontWeight = "bold";
@@ -34,6 +45,16 @@ $(document).ready(function () {
     id_uang.value = 1;
 
     //#region Enter-enter
+
+    checkbox.addEventListener("change", function () {
+        if (this.checked) {
+            proses = 2;
+            cek = true;
+        } else {
+            proses = 1;
+            cek = false;
+        }
+    });
 
     hutang.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -60,6 +81,210 @@ $(document).ready(function () {
     });
 
     //#region Event Listener
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        if (proses == 1) {
+            $.ajax({
+                url: "MaintenanceJurnal",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    cek: cek,
+                    kode_supp: kode_supp.value,
+                    uang_supp: uang_supp.value,
+                    bkk: bkk.value,
+                    tanggal: tanggal.value,
+                    matauangbayar: matauangbayar.value,
+                    kode_perkiraan: kode_perkiraan.value,
+                    id_uang: id_uang.value,
+                    hutang: hutang.value,
+                    pelunasan: pelunasan.value,
+                    keterangan: keterangan.value,
+                },
+                success: function (response) {
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            document
+                                .querySelectorAll("input")
+                                .forEach((input) => {
+                                    // Check if the input is not 'tanggal', 'mata_uang', or 'id_uang' before clearing
+                                    if (
+                                        input.id !== "tanggal" &&
+                                        input.id !== "mata_uang" &&
+                                        input.id !== "id_uang"
+                                    ) {
+                                        input.value = "";
+
+                                        // If the input is a checkbox, uncheck it
+                                        if (input.type === "checkbox") {
+                                            input.checked = false;
+                                            // Reset related variables if needed
+                                            proses = 1;
+                                            cek = false;
+                                        }
+                                    }
+                                });
+                            $("#table_jurnal tbody").empty();
+                            rowDataPertama = null;
+                            btn_isi.disabled = false;
+                            btn_koreksi.disabled = false;
+                            btn_hapus.disabled = false;
+                            btn_proses.disabled = true;
+                            btn_batal.style.visibility = "hidden";
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else if (proses == 2) {
+            $.ajax({
+                url: "MaintenanceJurnal",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    cek: cek,
+                    kode_supp: kode_supp.value,
+                    uang_supp: uang_supp.value,
+                    bkk: bkk.value,
+                    tanggal: tanggal.value,
+                    matauangbayar: matauangbayar.value,
+                    kode_perkiraan: kode_perkiraan.value,
+                    id_uang: id_uang.value,
+                    hutang: hutang.value,
+                    pelunasan: pelunasan.value,
+                    keterangan: keterangan.value,
+                    id_jurnal: id_jurnal.value,
+                },
+                success: function (response) {
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            document
+                                .querySelectorAll("input")
+                                .forEach((input) => {
+                                    // Check if the input is not 'tanggal', 'mata_uang', or 'id_uang' before clearing
+                                    if (
+                                        input.id !== "tanggal" &&
+                                        input.id !== "mata_uang" &&
+                                        input.id !== "id_uang"
+                                    ) {
+                                        input.value = "";
+
+                                        // If the input is a checkbox, uncheck it
+                                        if (input.type === "checkbox") {
+                                            input.checked = false;
+                                            // Reset related variables if needed
+                                            proses = 1;
+                                            cek = false;
+                                        }
+                                    }
+                                });
+                            $("#table_jurnal tbody").empty();
+                            rowDataPertama = null;
+                            btn_isi.disabled = false;
+                            btn_koreksi.disabled = false;
+                            btn_hapus.disabled = false;
+                            btn_proses.disabled = true;
+                            btn_batal.style.visibility = "hidden";
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        }
+    });
+
+    btn_isi.addEventListener("click", function (event) {
+        event.preventDefault();
+        proses = 1;
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.style.visibility = "visible";
+    });
+
+    btn_koreksi.addEventListener("click", function (event) {
+        event.preventDefault();
+        proses = 2;
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.style.visibility = "visible";
+    });
+
+    btn_hapus.addEventListener("click", function (event) {
+        event.preventDefault();
+        proses = 3;
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.style.visibility = "visible";
+    });
+
+    btn_batal.addEventListener("click", function (event) {
+        event.preventDefault();
+        proses = 0;
+        btn_isi.disabled = false;
+        btn_koreksi.disabled = false;
+        btn_hapus.disabled = false;
+        btn_proses.disabled = true;
+        btn_batal.style.visibility = "hidden";
+        document.querySelectorAll("input").forEach((input) => {
+            // Check if the input is not 'tanggal', 'mata_uang', or 'id_uang' before clearing
+            if (
+                input.id !== "tanggal" &&
+                input.id !== "mata_uang" &&
+                input.id !== "id_uang"
+            ) {
+                input.value = "";
+
+                // If the input is a checkbox, uncheck it
+                if (input.type === "checkbox") {
+                    input.checked = false;
+                    // Reset related variables if needed
+                    proses = 1;
+                    cek = false;
+                }
+            }
+        });
+        $("#table_jurnal tbody").empty();
+        rowDataPertama = null;
+    });
 
     btn_supllier.addEventListener("click", async function (event) {
         event.preventDefault();

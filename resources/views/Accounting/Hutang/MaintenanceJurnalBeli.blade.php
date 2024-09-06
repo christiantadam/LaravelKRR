@@ -127,9 +127,9 @@
                                             <input type="text" id="hutang" name="tagihan"
                                                 class="form-control">
                                             <br>
-                                            <input class="form-check-input" type="checkbox" id="checkbox2"
+                                            <input class="form-check-input" type="checkbox" id="checkbox"
                                                 value="option1" style="margin-left: 2px">
-                                            <label class="form-check-label" for="checkbox2"
+                                            <label class="form-check-label" for="checkbox"
                                                 style="margin-left: 20px">Koreksi Pembelian</label>
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                                 <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus</button>
                                 <button class="btn btn-success" id="btn_proses" style="width: 130px">Proses</button>
                                 <button class="btn" id="btn_batal"
-                                    style="width: 130px; margin-left: auto; visibility: hidden">Batal</button>
+                                    style="width: 130px; margin-left: auto;">Batal</button>
                             </div>
                     </div>
                     </form>
