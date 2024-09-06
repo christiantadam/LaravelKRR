@@ -27,9 +27,15 @@ $(document).ready(function () {
                 { title: "Satuan Tritier Tujuan" }, // Hidden Column 20
                 { title: "Satuan Saldo Terakhir Tujuan Primer" } /* Hidden Column 21*/, // prettier-ignore
                 { title: "Satuan Saldo Terakhir Tujuan Sekunder" } /* Hidden Column 22 */, //prettier-ignore
-                { title: "Satuan Saldo Terakhir Tujuan Tritier" } /* Hidden Column 23 */, // prettier-ignore
+                { title: "Satuan Saldo Terakhir Tujuan Tritier", visibility: false } /* Hidden Column 23 */, // prettier-ignore
                 { title: "Id Tmp Transaksi" }, // Column 24 // prettier-ignore
             ],
+            columnDefs: [
+                {
+                    target: 23,
+                    visible: false
+                }
+            ]
         }
     );
     let button_divisiAsal = document.getElementById("button_divisiAsal"); // prettier-ignore
