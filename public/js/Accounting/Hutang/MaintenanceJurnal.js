@@ -36,13 +36,26 @@ $(document).ready(function () {
     let cek = false;
 
     btn_proses.disabled = true;
-    // btn_supllier.disabled = true;
+    btn_supllier.disabled = true;
+    btn_bulantahun.disabled = true;
+    btn_bkk.disabled = true;
+    btn_kodeperkiraan.disabled = true;
+    btn_matauang.disabled = true;
     btn_batal.style.visibility = "hidden";
     tanggal.valueAsDate = new Date();
     hutang.style.fontWeight = "bold";
     pelunasan.style.fontWeight = "bold";
     mata_uang.value = "RUPIAH";
     id_uang.value = 1;
+    btn_hapus.disabled = true;
+
+    function OnButton() {
+        btn_supllier.disabled = false;
+        btn_bulantahun.disabled = false;
+        btn_bkk.disabled = false;
+        btn_kodeperkiraan.disabled = false;
+        btn_matauang.disabled = false;
+    }
 
     //#region Enter-enter
 
@@ -223,6 +236,7 @@ $(document).ready(function () {
                     alert(xhr.responseJSON.message);
                 },
             });
+        } else if (proses == 3) {
         }
     });
 
@@ -231,9 +245,10 @@ $(document).ready(function () {
         proses = 1;
         btn_isi.disabled = true;
         btn_koreksi.disabled = true;
-        btn_hapus.disabled = true;
+        // btn_hapus.disabled = true;
         btn_proses.disabled = false;
         btn_batal.style.visibility = "visible";
+        OnButton();
     });
 
     btn_koreksi.addEventListener("click", function (event) {
@@ -244,21 +259,108 @@ $(document).ready(function () {
         btn_hapus.disabled = true;
         btn_proses.disabled = false;
         btn_batal.style.visibility = "visible";
+        OnButton();
     });
 
     btn_hapus.addEventListener("click", function (event) {
         event.preventDefault();
         proses = 3;
-        btn_isi.disabled = true;
-        btn_koreksi.disabled = true;
-        btn_hapus.disabled = true;
-        btn_proses.disabled = false;
-        btn_batal.style.visibility = "visible";
+        if (rowDataPertama == null) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data terlebih dahulu!",
+                showConfirmButton: true,
+            });
+        } else {
+            if (proses === 3) {
+                Swal.fire({
+                    title: "Apakah anda yakin menghapus?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya",
+                    cancelButtonText: "Tidak",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "MaintenanceJurnal",
+                            type: "POST",
+                            data: {
+                                _token: csrfToken,
+                                proses: proses,
+                                id_jurnal: rowDataPertama.ID_Jurnal,
+                            },
+                            success: function (response) {
+                                if (response.message) {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Success!",
+                                        text: response.message,
+                                        showConfirmButton: true,
+                                    }).then(() => {
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach((input) => {
+                                                // Check if the input is not 'tanggal', 'mata_uang', or 'id_uang' before clearing
+                                                if (
+                                                    input.id !== "tanggal" &&
+                                                    input.id !== "mata_uang" &&
+                                                    input.id !== "id_uang"
+                                                ) {
+                                                    input.value = "";
+
+                                                    if (
+                                                        input.type ===
+                                                        "checkbox"
+                                                    ) {
+                                                        input.checked = false;
+                                                        proses = 1;
+                                                        cek = false;
+                                                    }
+                                                }
+                                            });
+                                        $("#table_jurnal tbody").empty();
+                                        rowDataPertama = null;
+                                        btn_isi.disabled = false;
+                                        btn_koreksi.disabled = false;
+                                        btn_hapus.disabled = false;
+                                        btn_proses.disabled = true;
+                                        btn_batal.style.visibility = "hidden";
+                                        // $("#table_atas").DataTable().ajax.reload();
+                                    });
+                                } else if (response.error) {
+                                    Swal.fire({
+                                        icon: "info",
+                                        title: "Info!",
+                                        text: response.error,
+                                        showConfirmButton: false,
+                                    });
+                                }
+                            },
+                            error: function (xhr) {
+                                alert(xhr.responseJSON.message);
+                            },
+                        });
+                    }
+                });
+            }
+        }
+        // btn_isi.disabled = true;
+        // btn_koreksi.disabled = true;
+        // btn_hapus.disabled = true;
+        // btn_proses.disabled = false;
+        // btn_batal.style.visibility = "visible";
+        // OnButton();
     });
 
     btn_batal.addEventListener("click", function (event) {
         event.preventDefault();
         proses = 0;
+        btn_supllier.disabled = true;
+        btn_bulantahun.disabled = true;
+        btn_bkk.disabled = true;
+        btn_kodeperkiraan.disabled = true;
+        btn_matauang.disabled = true;
         btn_isi.disabled = false;
         btn_koreksi.disabled = false;
         btn_hapus.disabled = false;
@@ -724,6 +826,7 @@ $(document).ready(function () {
                 hutang.value = rowDataPertama.Nilai_Debet;
                 pelunasan.value = rowDataPertama.Nilai_Kredit;
                 keterangan.value = rowDataPertama.Keterangan;
+                btn_hapus.disabled = false;
 
                 console.log(rowDataArray);
                 console.log(rowDataPertama, this, table_jurnal);
@@ -737,6 +840,7 @@ $(document).ready(function () {
 
                 rowDataArray = [];
                 rowDataPertama = null;
+                btn_hapus.disabled = true;
                 console.log(rowDataArray);
                 console.log(rowDataPertama, this, table_jurnal);
             }

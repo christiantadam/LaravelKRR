@@ -316,12 +316,19 @@ class MaintenanceJurnalBeliController extends Controller
                     }
 
                 case 3:
-                    return response()->json(['message' => 'Data sudah diHAPUS!!...']);
+                    // dd($request->all());
+                    try {
+                        DB::connection('ConnAccounting')
+                            ->table('T_JURNAL_BELI')
+                            ->where('ID_Jurnal', $request->input('id_jurnal'))
+                            ->delete();
+
+                        return response()->json(['message' => 'Data sudah diHAPUS!!...']);
+                    } catch (Exception $e) {
+                        return response()->json(['error' => 'Tidak ada data yang dihapus' . $e->getMessage()]);
+                    }
                 // return back()->with('message', 'Data sudah diHAPUS!!...');
 
-                default:
-                    // Handle any other cases
-                    break;
             }
             return response()->json(['message' => 'Data sudah diPROSES!!..']);
             // return back()->with('message', 'Data sudah diSIMPAN!!..');

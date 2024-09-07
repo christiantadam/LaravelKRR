@@ -1033,7 +1033,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('UpdatePIB', App\Http\Controllers\Accounting\Hutang\UpdatePIBController::class);
     Route::resource('ACCSerahTerimaPenagihan', App\Http\Controllers\Accounting\Hutang\ACCSerahTerimaPenagihanController::class);
     Route::resource('MaintenancePenagihandiRETUR', App\Http\Controllers\Accounting\Hutang\PenagihandiRETURController::class);
-    Route::get('PelunasanHutang', 'App\Http\Controllers\Accounting\Hutang\PelunasanHutangController@PelunasanHutang');
+    Route::resource('MaintenancePelunasanHutang', App\Http\Controllers\Accounting\Hutang\PelunasanHutangController::class);
+    // Route::get('MaintenancePelunasanHutang', 'App\Http\Controllers\Accounting\Hutang\PelunasanHutangController@PelunasanHutang');
     Route::resource('MaintenanceJurnal', App\Http\Controllers\Accounting\Hutang\MaintenanceJurnalBeliController::class);
     Route::resource('RekapHutang', App\Http\Controllers\Accounting\Hutang\RekapHutangController::class);
     Route::resource('PenyesuaianSaldoSupplier', App\Http\Controllers\Accounting\Hutang\PenyesuaianSaldoSupplierController::class);
