@@ -29,6 +29,7 @@
                                 <tbody>
                                 </tbody>
                             </table>
+                            <br>
                             <div class="mb-3">
                                 <div class="row">
                                     <div class="col-2">
@@ -130,10 +131,13 @@
                                             <table style="width: 100%;" id="table_kiri">
                                                 <thead class="table-dark">
                                                     <tr>
-                                                        <th>Rincian Bayar</th>
+                                                        <th style="width: 250px;">Rincian Bayar</th>
                                                         <th>Nilai Rincian</th>
                                                         <th>Nilai Rincian $</th>
                                                         <th>Kurs</th>
+                                                        <th>Nilai Rincian Rp</th>
+                                                        <th>Perkiraan</th>
+                                                        {{-- <th>Symbol</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -154,6 +158,8 @@
                                                         <th>Tanda Terima</th>
                                                         <th>No. Terima</th>
                                                         <th>Kurs</th>
+                                                        <th>Harga Rp</th>
+                                                        <th>Harga $</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -222,6 +228,85 @@
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tampil BKK-->
+<div class="modal fade" id="dataBKKModal" tabindex="-1" aria-labelledby="dataBKKModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataBKKModalLabel">Data BKK</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="close_modalbkm">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="kdPerkiraan" class="col-sm-2 col-form-label">Kode Perkiraan</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="kode_kiraM">
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="ket_kiraM">
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="button" class="btn btn" id="btn_perkiraanM">...</button>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <label class="col-sm-2 col-form-label" style="visibility: hidden">Nilai Jurnal:</label>
+                        <div class="col-sm-4">
+                            <label class="col-sm-2 col-form-label" style="font-weight: bold">Hutang</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="col-sm-2 col-form-label" style="font-weight: bold">Pelunasan</label>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <label class="col-sm-2 col-form-label">Nilai Jurnal:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="hutangM">
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="pelunasanM">
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <label for="keterangan" class="col-sm-2 col-form-label">Keterangan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="keteranganM">
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-primary" id="btn_simpanM">Simpan</button>
+                            <button type="button" class="btn btn" id="btn_addM">Add</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table-responsive mt-3">
+                    <table class="table table-bordered" id="table_jurnal">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>BKK</th>
+                                <th>Kode Perkiraan</th>
+                                <th>Nilai Debit</th>
+                                <th>Nilai Kredit</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic rows will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>

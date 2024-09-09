@@ -3,11 +3,32 @@ $(document).ready(function () {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     let btn_proses = document.getElementById("btn_proses");
+    let btn_TT = document.getElementById("btn_TT");
+    let btn_TTppn = document.getElementById("btn_TTppn");
+    let btn_TTmurni = document.getElementById("btn_TTmurni");
+    let btn_TTnego = document.getElementById("btn_TTnego");
+    let btn_diJurnal = document.getElementById("btn_diJurnal");
     let bkk = document.getElementById("bkk");
     let tanggalS = document.getElementById("tanggalS");
     let id_uangS = document.getElementById("id_uangS");
     let supplierS = document.getElementById("supplierS");
     let bayarS = document.getElementById("bayarS");
+    let mata_uangKiri = document.getElementById("mata_uangKiri");
+    let totalBKK_rupiah = document.getElementById("totalBKK_rupiah");
+    let totalBKK_dollar = document.getElementById("totalBKK_dollar");
+    let totalTT_rupiah = document.getElementById("totalTT_rupiah");
+    let totalTT_dollar = document.getElementById("totalTT_dollar");
+    let mata_uangKanan = document.getElementById("mata_uangKanan");
+    let nilai_bkk = document.getElementById("nilai_bkk");
+    let kode_kiraM = document.getElementById("kode_kiraM");
+    let ket_kiraM = document.getElementById("ket_kiraM");
+    let btn_perkiraanM = document.getElementById("btn_perkiraanM");
+    let hutangM = document.getElementById("hutangM");
+    let pelunasanM = document.getElementById("pelunasanM");
+    let keteranganM = document.getElementById("keteranganM");
+    let btn_simpanM = document.getElementById("btn_simpanM");
+    let btn_addM = document.getElementById("btn_addM");
+    let bank = document.getElementById("bank");
     let table_atas = $("#table_atas").DataTable({
         columnDefs: [{ targets: [7, 8], visible: false }],
     });
@@ -17,7 +38,41 @@ $(document).ready(function () {
     let table_kanan = $("#table_kanan").DataTable({
         // columnDefs: [{ targets: [7, 8], visible: false }],
     });
+    let table_jurnal = $("#table_jurnal").DataTable({
+        // columnDefs: [{ targets: [7, 8], visible: false }],
+    });
     let rowDataPertama;
+    nilai_bkk.style.fontWeight = "bold";
+    hutangM.value = 0;
+    pelunasanM.value = 0;
+    btn_diJurnal.disabled = false;
+
+    hutangM.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let value = parseFloat(hutangM.value.replace(/,/g, ""));
+
+            hutangM.value = value.toLocaleString("en-US", {
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4,
+            });
+            pelunasanM.focus();
+            pelunasanM.select();
+        }
+    });
+
+    pelunasanM.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let value = parseFloat(pelunasanM.value.replace(/,/g, ""));
+
+            pelunasanM.value = value.toLocaleString("en-US", {
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4,
+            });
+            keteranganM.focus();
+        }
+    });
 
     table_atas = $("#table_atas").DataTable({
         responsive: true,
@@ -88,6 +143,348 @@ $(document).ready(function () {
         }
     );
 
+    btn_diJurnal.addEventListener("click", function (event) {
+        event.preventDefault();
+        var myModal = new bootstrap.Modal(
+            document.getElementById("dataBKKModal"),
+            {
+                keyboard: false,
+            }
+        );
+        myModal.show();
+    });
+
+    btn_perkiraanM.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Kode Perkiraan",
+                html: '<table id="tableKira" class="display" style="width:100%"><thead><tr><th>ID. Perkiraan</th><th>Nama Perkiraan</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#tableKira")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#tableKira").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            ajax: {
+                                url: "MaintenancePelunasanHutang/getKodePerkiraan",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                { data: "NoKodePerkiraan" },
+                                { data: "Keterangan" },
+                            ],
+                        });
+                        $("#tableKira tbody").on("click", "tr", function () {
+                            table.$("tr.selected").removeClass("selected");
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "tableKira")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    kode_kiraM.value = escapeHTML(
+                        selectedRow.NoKodePerkiraan.trim()
+                    );
+                    ket_kiraM.value = escapeHTML(selectedRow.Keterangan.trim());
+
+                    setTimeout(() => {
+                        hutangM.focus();
+                        hutangM.select();
+                    }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    });
+
+    btn_TT.addEventListener("click", function (event) {
+        event.preventDefault();
+        table_kanan = $("#table_kanan").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "MaintenancePelunasanHutang/getDataTT",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        bkk: bkk.value,
+                    });
+                },
+                complete: function (response) {
+                    if (response.responseJSON.data.length > 0) {
+                        // Get the Symbol value from the first item in the response data
+                        let symbol = response.responseJSON.data[0].Symbol;
+
+                        document.getElementById("mata_uangKanan").value =
+                            symbol;
+                    }
+                },
+            },
+            columns: [
+                {
+                    data: "Rincian_Bayar",
+                    // render: function (data) {
+                    //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    // },
+                },
+                { data: "No_Terima" },
+                { data: "Kurs_tagih" },
+                { data: "Sub3" },
+                { data: "Sub4" },
+            ],
+            // columnDefs: [
+            //     { targets: [7, 8], visible: false },
+            // ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
+        });
+
+        $.ajax({
+            url: "MaintenancePelunasanHutang/lanjutDataTT",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                bkk: bkk.value,
+                mata_uangKanan: mata_uangKanan.value,
+            },
+            success: function (response) {
+                console.log(response);
+                totalTT_rupiah.value = response.TTtlTTRp;
+                totalTT_dollar.value = response.TTtlTTDr;
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+    });
+
+    btn_TTppn.addEventListener("click", function (event) {
+        event.preventDefault();
+        table_kanan = $("#table_kanan").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "MaintenancePelunasanHutang/getDataTT_Ppn",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        bkk: bkk.value,
+                    });
+                },
+                complete: function (response) {
+                    if (response.responseJSON.data.length > 0) {
+                        // Get the Symbol value from the first item in the response data
+                        let symbol = response.responseJSON.data[0].Symbol;
+
+                        document.getElementById("mata_uangKanan").value =
+                            symbol;
+                    }
+                },
+            },
+            columns: [
+                {
+                    data: "Rincian_Bayar",
+                    // render: function (data) {
+                    //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    // },
+                },
+                { data: "No_Terima" },
+                { data: "Kurs_tagih" },
+                { data: "Sub4" },
+                { data: "Sub3" },
+            ],
+            // columnDefs: [
+            //     { targets: [7, 8], visible: false },
+            // ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
+        });
+
+        $.ajax({
+            url: "MaintenancePelunasanHutang/lanjutDataTT_Ppn",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                bkk: bkk.value,
+                mata_uangKanan: mata_uangKanan.value,
+            },
+            success: function (response) {
+                console.log(response);
+                totalTT_rupiah.value = response.TTtlTTRp;
+                totalTT_dollar.value = response.TTtlTTDr;
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+    });
+
+    btn_TTmurni.addEventListener("click", function (event) {
+        event.preventDefault();
+        table_kanan = $("#table_kanan").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "MaintenancePelunasanHutang/getDataTT_Murni",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        bkk: bkk.value,
+                    });
+                },
+                complete: function (response) {
+                    if (response.responseJSON.data.length > 0) {
+                        // Get the Symbol value from the first item in the response data
+                        let symbol = response.responseJSON.data[0].Symbol;
+
+                        document.getElementById("mata_uangKanan").value =
+                            symbol;
+                    }
+                },
+            },
+            columns: [
+                {
+                    data: "Rincian_Bayar",
+                    // render: function (data) {
+                    //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    // },
+                },
+                { data: "No_Terima" },
+                { data: "Kurs_tagih" },
+                { data: "Sub3" },
+                { data: "Sub4" },
+            ],
+            // columnDefs: [
+            //     { targets: [7, 8], visible: false },
+            // ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
+        });
+
+        $.ajax({
+            url: "MaintenancePelunasanHutang/lanjutDataTT_Murni",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                bkk: bkk.value,
+                mata_uangKanan: mata_uangKanan.value,
+            },
+            success: function (response) {
+                console.log(response);
+                totalTT_rupiah.value = response.TTtlTTRp;
+                totalTT_dollar.value = response.TTtlTTDr;
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+    });
+
+    btn_TTnego.addEventListener("click", function (event) {
+        event.preventDefault();
+        table_kanan = $("#table_kanan").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "MaintenancePelunasanHutang/getDataTT_MDisc",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        bkk: bkk.value,
+                    });
+                },
+                complete: function (response) {
+                    if (response.responseJSON.data.length > 0) {
+                        // Get the Symbol value from the first item in the response data
+                        let symbol = response.responseJSON.data[0].Symbol;
+
+                        document.getElementById("mata_uangKanan").value =
+                            symbol;
+                    }
+                },
+            },
+            columns: [
+                {
+                    data: "Rincian_Bayar",
+                    // render: function (data) {
+                    //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    // },
+                },
+                { data: "No_Terima" },
+                { data: "Kurs_tagih" },
+                { data: "Sub3" },
+                { data: "Sub4" },
+            ],
+            // columnDefs: [
+            //     { targets: [7, 8], visible: false },
+            // ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
+        });
+
+        $.ajax({
+            url: "MaintenancePelunasanHutang/lanjutDataTT_MDisc",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                bkk: bkk.value,
+                mata_uangKanan: mata_uangKanan.value,
+            },
+            success: function (response) {
+                console.log(response);
+                totalTT_rupiah.value = response.TTtlTTRp;
+                totalTT_dollar.value = response.TTtlTTDr;
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+    });
+
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
         if (rowDataPertama == null) {
@@ -120,7 +517,183 @@ $(document).ready(function () {
                             bayarS.value = rowDataPertama.IdUangTagih;
                             rowDataPertama = null;
                             rowDataArray = [];
+                            btn_diJurnal.disabled = false;
                             $("#table_atas").DataTable().ajax.reload();
+
+                            table_kiri = $("#table_kiri").DataTable({
+                                responsive: true,
+                                processing: true,
+                                serverSide: true,
+                                destroy: true,
+                                ajax: {
+                                    url: "MaintenancePelunasanHutang/getDataBKK",
+                                    dataType: "json",
+                                    type: "GET",
+                                    data: function (d) {
+                                        return $.extend({}, d, {
+                                            _token: csrfToken,
+                                            bkk: bkk.value,
+                                        });
+                                    },
+                                    complete: function (response) {
+                                        // Initialize the total variable
+                                        let totalNilaiRincian = 0;
+
+                                        if (
+                                            response.responseJSON.data.length >
+                                            0
+                                        ) {
+                                            // Get the Symbol and Id_Bank from the first item in the response data
+                                            let symbol =
+                                                response.responseJSON.data[0]
+                                                    .Symbol;
+                                            let id_bank =
+                                                response.responseJSON.data[0]
+                                                    .Id_Bank;
+
+                                            // Set the values to the respective elements
+                                            document.getElementById(
+                                                "mata_uangKiri"
+                                            ).value = symbol;
+                                            document.getElementById(
+                                                "bank"
+                                            ).value = id_bank;
+
+                                            // Iterate over the response data to calculate the sum of Nilai_Rincian
+                                            response.responseJSON.data.forEach(
+                                                (row) => {
+                                                    // Remove commas and convert to a float
+                                                    let nilaiRincian =
+                                                        parseFloat(
+                                                            row.Nilai_Rincian.replace(
+                                                                /,/g,
+                                                                ""
+                                                            )
+                                                        );
+
+                                                    // Sum or subtract based on the value
+                                                    if (!isNaN(nilaiRincian)) {
+                                                        totalNilaiRincian +=
+                                                            nilaiRincian;
+                                                    }
+                                                }
+                                            );
+
+                                            // Set the calculated total to the nilai_bkk input
+                                            document.getElementById(
+                                                "nilai_bkk"
+                                            ).value =
+                                                totalNilaiRincian.toLocaleString(
+                                                    "en-US",
+                                                    {
+                                                        minimumFractionDigits: 4,
+                                                        maximumFractionDigits: 4,
+                                                    }
+                                                );
+                                        }
+                                    },
+                                },
+                                columns: [
+                                    {
+                                        data: "Rincian_Bayar",
+                                    },
+                                    { data: "Nilai_Rincian" },
+                                    { data: "Sub2" },
+                                    { data: "Kurs_Bayar" },
+                                    { data: "Nilai_Rincian" },
+                                    { data: "Kode_Perkiraan" },
+                                ],
+                                paging: false,
+                                scrollY: "400px",
+                                scrollCollapse: true,
+                            });
+
+                            $.ajax({
+                                url: "MaintenancePelunasanHutang/lanjutDataBKK",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    bkk: bkk.value,
+                                    mata_uangKiri: mata_uangKiri.value,
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    totalBKK_rupiah.value = response.TTtlBKKRp;
+                                    totalBKK_dollar.value = response.TTtlBKKD;
+                                },
+                                error: function (xhr) {
+                                    alert(xhr.responseJSON.message);
+                                },
+                            });
+
+                            table_kanan = $("#table_kanan").DataTable({
+                                responsive: true,
+                                processing: true,
+                                serverSide: true,
+                                destroy: true,
+                                ajax: {
+                                    url: "MaintenancePelunasanHutang/getDataTT",
+                                    dataType: "json",
+                                    type: "GET",
+                                    data: function (d) {
+                                        return $.extend({}, d, {
+                                            _token: csrfToken,
+                                            bkk: bkk.value,
+                                        });
+                                    },
+                                    complete: function (response) {
+                                        if (
+                                            response.responseJSON.data.length >
+                                            0
+                                        ) {
+                                            // Get the Symbol value from the first item in the response data
+                                            let symbol =
+                                                response.responseJSON.data[0]
+                                                    .Symbol;
+
+                                            document.getElementById(
+                                                "mata_uangKanan"
+                                            ).value = symbol;
+                                        }
+                                    },
+                                },
+                                columns: [
+                                    {
+                                        data: "Rincian_Bayar",
+                                        // render: function (data) {
+                                        //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                                        // },
+                                    },
+                                    { data: "No_Terima" },
+                                    { data: "Kurs_tagih" },
+                                    { data: "Sub3" },
+                                    { data: "Sub4" },
+                                ],
+                                // columnDefs: [
+                                //     { targets: [7, 8], visible: false },
+                                // ],
+                                paging: false,
+                                scrollY: "400px",
+                                scrollCollapse: true,
+                            });
+
+                            $.ajax({
+                                url: "MaintenancePelunasanHutang/lanjutDataTT",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    bkk: bkk.value,
+                                    mata_uangKanan: mata_uangKanan.value,
+                                },
+                                success: function (response) {
+                                    console.log(response);
+                                    totalTT_rupiah.value = response.TTtlTTRp;
+                                    totalTT_dollar.value = response.TTtlTTDr;
+                                },
+                                error: function (xhr) {
+                                    alert(xhr.responseJSON.message);
+                                },
+                            });
                         });
                     } else if (response.question) {
                         Swal.fire({
@@ -159,9 +732,240 @@ $(document).ready(function () {
                                                     rowDataPertama.IdUangTagih;
                                                 rowDataPertama = null;
                                                 rowDataArray = [];
+                                                btn_diJurnal.disabled = false;
                                                 $("#table_atas")
                                                     .DataTable()
                                                     .ajax.reload();
+
+                                                table_kiri = $(
+                                                    "#table_kiri"
+                                                ).DataTable({
+                                                    responsive: true,
+                                                    processing: true,
+                                                    serverSide: true,
+                                                    destroy: true,
+                                                    ajax: {
+                                                        url: "MaintenancePelunasanHutang/getDataBKK",
+                                                        dataType: "json",
+                                                        type: "GET",
+                                                        data: function (d) {
+                                                            return $.extend(
+                                                                {},
+                                                                d,
+                                                                {
+                                                                    _token: csrfToken,
+                                                                    bkk: bkk.value,
+                                                                }
+                                                            );
+                                                        },
+                                                        complete: function (
+                                                            response
+                                                        ) {
+                                                            // Initialize the total variable
+                                                            let totalNilaiRincian = 0;
+
+                                                            if (
+                                                                response
+                                                                    .responseJSON
+                                                                    .data
+                                                                    .length > 0
+                                                            ) {
+                                                                // Get the Symbol and Id_Bank from the first item in the response data
+                                                                let symbol =
+                                                                    response
+                                                                        .responseJSON
+                                                                        .data[0]
+                                                                        .Symbol;
+                                                                let id_bank =
+                                                                    response
+                                                                        .responseJSON
+                                                                        .data[0]
+                                                                        .Id_Bank;
+
+                                                                // Set the values to the respective elements
+                                                                document.getElementById(
+                                                                    "mata_uangKiri"
+                                                                ).value =
+                                                                    symbol;
+                                                                document.getElementById(
+                                                                    "bank"
+                                                                ).value =
+                                                                    id_bank;
+
+                                                                // Iterate over the response data to calculate the sum of Nilai_Rincian
+                                                                response.responseJSON.data.forEach(
+                                                                    (row) => {
+                                                                        // Remove commas and convert to a float
+                                                                        let nilaiRincian =
+                                                                            parseFloat(
+                                                                                row.Nilai_Rincian.replace(
+                                                                                    /,/g,
+                                                                                    ""
+                                                                                )
+                                                                            );
+
+                                                                        // Sum or subtract based on the value
+                                                                        if (
+                                                                            !isNaN(
+                                                                                nilaiRincian
+                                                                            )
+                                                                        ) {
+                                                                            totalNilaiRincian +=
+                                                                                nilaiRincian;
+                                                                        }
+                                                                    }
+                                                                );
+
+                                                                // Set the calculated total to the nilai_bkk input
+                                                                document.getElementById(
+                                                                    "nilai_bkk"
+                                                                ).value =
+                                                                    totalNilaiRincian.toLocaleString(
+                                                                        "en-US",
+                                                                        {
+                                                                            minimumFractionDigits: 4,
+                                                                            maximumFractionDigits: 4,
+                                                                        }
+                                                                    );
+                                                            }
+                                                        },
+                                                    },
+                                                    columns: [
+                                                        {
+                                                            data: "Rincian_Bayar",
+                                                        },
+                                                        {
+                                                            data: "Nilai_Rincian",
+                                                        },
+                                                        { data: "Sub2" },
+                                                        { data: "Kurs_Bayar" },
+                                                        {
+                                                            data: "Nilai_Rincian",
+                                                        },
+                                                        {
+                                                            data: "Kode_Perkiraan",
+                                                        },
+                                                    ],
+                                                    paging: false,
+                                                    scrollY: "400px",
+                                                    scrollCollapse: true,
+                                                });
+
+                                                $.ajax({
+                                                    url: "MaintenancePelunasanHutang/lanjutDataBKK",
+                                                    type: "GET",
+                                                    data: {
+                                                        _token: csrfToken,
+                                                        bkk: bkk.value,
+                                                        mata_uangKiri:
+                                                            mata_uangKiri.value,
+                                                    },
+                                                    success: function (
+                                                        response
+                                                    ) {
+                                                        console.log(response);
+                                                        totalBKK_rupiah.value =
+                                                            response.TTtlBKKRp;
+                                                        totalBKK_dollar.value =
+                                                            response.TTtlBKKD;
+                                                    },
+                                                    error: function (xhr) {
+                                                        alert(
+                                                            xhr.responseJSON
+                                                                .message
+                                                        );
+                                                    },
+                                                });
+
+                                                table_kanan = $(
+                                                    "#table_kanan"
+                                                ).DataTable({
+                                                    responsive: true,
+                                                    processing: true,
+                                                    serverSide: true,
+                                                    destroy: true,
+                                                    ajax: {
+                                                        url: "MaintenancePelunasanHutang/getDataTT",
+                                                        dataType: "json",
+                                                        type: "GET",
+                                                        data: function (d) {
+                                                            return $.extend(
+                                                                {},
+                                                                d,
+                                                                {
+                                                                    _token: csrfToken,
+                                                                    bkk: bkk.value,
+                                                                }
+                                                            );
+                                                        },
+                                                        complete: function (
+                                                            response
+                                                        ) {
+                                                            if (
+                                                                response
+                                                                    .responseJSON
+                                                                    .data
+                                                                    .length > 0
+                                                            ) {
+                                                                // Get the Symbol value from the first item in the response data
+                                                                let symbol =
+                                                                    response
+                                                                        .responseJSON
+                                                                        .data[0]
+                                                                        .Symbol;
+
+                                                                document.getElementById(
+                                                                    "mata_uangKanan"
+                                                                ).value =
+                                                                    symbol;
+                                                            }
+                                                        },
+                                                    },
+                                                    columns: [
+                                                        {
+                                                            data: "Rincian_Bayar",
+                                                            // render: function (data) {
+                                                            //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                                                            // },
+                                                        },
+                                                        { data: "No_Terima" },
+                                                        { data: "Kurs_tagih" },
+                                                        { data: "Sub3" },
+                                                        { data: "Sub4" },
+                                                    ],
+                                                    // columnDefs: [
+                                                    //     { targets: [7, 8], visible: false },
+                                                    // ],
+                                                    paging: false,
+                                                    scrollY: "400px",
+                                                    scrollCollapse: true,
+                                                });
+
+                                                $.ajax({
+                                                    url: "MaintenancePelunasanHutang/lanjutDataTT",
+                                                    type: "GET",
+                                                    data: {
+                                                        _token: csrfToken,
+                                                        bkk: bkk.value,
+                                                        mata_uangKanan:
+                                                            mata_uangKanan.value,
+                                                    },
+                                                    success: function (
+                                                        response
+                                                    ) {
+                                                        console.log(response);
+                                                        totalTT_rupiah.value =
+                                                            response.TTtlTTRp;
+                                                        totalTT_dollar.value =
+                                                            response.TTtlTTDr;
+                                                    },
+                                                    error: function (xhr) {
+                                                        alert(
+                                                            xhr.responseJSON
+                                                                .message
+                                                        );
+                                                    },
+                                                });
                                             });
                                         } else if (response.error) {
                                             Swal.fire({

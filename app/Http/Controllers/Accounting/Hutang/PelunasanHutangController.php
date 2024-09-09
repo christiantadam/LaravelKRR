@@ -222,6 +222,336 @@ class PelunasanHutangController extends Controller
             } else {
                 return response()->json(['error' => 'Hubungi Edp untuk Saldo Hutang Supplier = ' . trim($supplier)]);
             }
+        } else if ($id == 'getDataBKK') {
+            // First Stored Procedure
+            $idBKK = trim($request->input('bkk'));
+            // dd($idBKK);
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_LUNAS_BKK @IDBKK = ?', [$idBKK]);
+            // dd($results);
+            $response = [];
+            $i = 0;
+
+            foreach ($results as $row) {
+                $i++;
+                $responseItem = [
+                    'Rincian_Bayar' => trim($row->Rincian_Bayar),
+                    'Nilai_Rincian' => number_format($row->Nilai_Rincian, 4, '.', ','),
+                    'Kurs_Bayar' => number_format($row->Kurs_Bayar, 4, '.', ','),
+                    'Kode_Perkiraan' => $row->Kode_Perkiraan,
+                    'Symbol' => trim($row->Symbol),
+                    'Id_Bank' => trim($row->Id_Bank),
+                ];
+
+                if (trim($row->Symbol) == '$') {
+                    $responseItem['Sub2'] = number_format($row->Nilai_Rincian, 4, '.', ',');
+                    $responseItem['Sub4'] = number_format($row->NilaiRp, 4, '.', ',');
+                } else {
+                    $responseItem['Sub2'] = number_format($row->NilaiD, 4, '.', ',');
+                    $responseItem['Sub3'] = number_format($row->Nilai_Rincian, 4, '.', ',');
+                    $responseItem['Sub4'] = number_format($row->Nilai_Rincian, 4, '.', ',');
+                }
+
+                $response[] = $responseItem;
+                // dd($response);
+            }
+            return datatables($response)->make(true);
+        } else if ($id == 'lanjutDataBKK') {
+            $idBKK = trim($request->input('bkk'));
+            $mataUang = trim($request->input('mata_uangKiri'));
+            // dd($idBKK);
+            $response = [];
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_JURNAL_TTL_BKK @IDBKK = ?', [$idBKK]);
+            // dd($results);
+            foreach ($results as $row) {
+                if ($mataUang == '$') {
+                    $response['TTtlBKKD'] = number_format($row->Nilai_Rincian, 4, '.', ',');
+                    $response['TTtlBKKRp'] = number_format($row->NilaiRp, 4, '.', ',');
+                } else {
+                    $response['TTtlBKKRp'] = number_format($row->Nilai_Rincian, 4, '.', ',');
+                    $response['TTtlBKKD'] = number_format($row->NilaiD, 4, '.', ',');
+                }
+            }
+
+            return response()->json($response);
+        } else if ($id == 'getDataTT') {
+            // First Stored Procedure
+            $idBKK = trim($request->input('bkk'));
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_LUNAS_TT @BKK = ?', [$idBKK]);
+            // dd($results);
+            $response = [];
+            $i = 0;
+
+            if (!empty($results)) {
+                foreach ($results as $row) {
+                    $i++;
+                    // Set values similar to VB.NET code
+                    $symbol = trim($row->Symbol);
+                    $idSupplier = trim($row->Id_Supplier);
+
+                    // Prepare the response for the DataTable
+                    $responseItem = [
+                        'Rincian_Bayar' => trim($row->Id_Penagihan),
+                        'No_Terima' => trim($row->No_Terima),
+                        'Kurs_tagih' => number_format($row->Kurs_Tagih, 4, '.', ','),
+                        'HrgByrRp' => number_format($row->HrgByrRp, 4, '.', ','),
+                        'Hrg_Terbayar' => number_format($row->Hrg_Terbayar, 4, '.', ','),
+                        'Symbol' => $symbol,
+                        'Id_Supplier' => $idSupplier,
+                    ];
+
+                    if ($symbol == '$') {
+                        $responseItem['Sub3'] = number_format($row->HrgByrRp, 4, '.', ',');
+                        $responseItem['Sub4'] = number_format($row->Hrg_Terbayar, 4, '.', ',');
+                    } else {
+                        $responseItem['Sub4'] = number_format($row->Hrg_Terbayar, 4, '.', ',');
+                        $responseItem['Sub3'] = number_format($row->HrgByrRp, 4, '.', ',');
+                    }
+
+                    $response[] = $responseItem;
+                    // dd($response);
+                }
+            }
+            return datatables($response)->make(true);
+        } else if ($id == 'lanjutDataTT') {
+            $idBKK = trim($request->input('bkk'));
+            $mataUang = trim($request->input('mata_uangKanan'));
+            $response = [];
+            // Second Stored Procedure
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_JURNAL_TTL @BKK = ?', [$idBKK]);
+
+            if (!empty($results)) {
+                foreach ($results as $row) {
+                    if ($mataUang == '$') {
+                        $response['TTtlTTDr'] = number_format($row->Hrg_Terbayar, 4, '.', ',');
+                        $response['TTtlTTRp'] = number_format($row->HrgByrRp, 4, '.', ',');
+                    } else {
+                        $response['TTtlTTDr'] = number_format($row->Hrg_Terbayar, 4, '.', ',');
+                        $response['TTtlTTRp'] = number_format($row->HrgByrRp, 4, '.', ',');
+                    }
+                }
+            }
+
+            return response()->json($response);
+        } else if ($id == 'getDataTT_Ppn') {
+            $response = [];
+            $bkk = trim($request->input('bkk'));
+
+            // Query pertama untuk SP_1273_ACC_TT_LUNAS_TT
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_LUNAS_TT @BKK = ?', [$bkk]);
+            // dd($results);
+            $i = 0;
+            foreach ($results as $row) {
+                $i++;
+                $symbol = trim($row->Symbol);
+                $id_supplier = trim($row->Id_Supplier);
+                $id_penagihan = trim($row->Id_Penagihan);
+                $no_terima = trim($row->No_Terima);
+                $kurs_tagih = number_format($row->Kurs_Tagih, 4, '.', ',');
+
+                $ppn_rp = number_format($row->PpnRp, 4, '.', ',');
+                $hrg_ppn = number_format($row->Hrg_Ppn, 4, '.', ',');
+
+                // Kondisi untuk mata uang
+                if ($symbol == '$') {
+                    $sub3 = $ppn_rp;
+                    $sub4 = $hrg_ppn;
+                } else {
+                    $sub3 = $hrg_ppn;
+                    $sub4 = $ppn_rp;
+                }
+
+                // Menambahkan data ke dalam response
+                $response[] = [
+                    'Symbol' => $symbol,
+                    'Id_Supplier' => $id_supplier,
+                    'Rincian_Bayar' => $id_penagihan,
+                    'No_Terima' => $no_terima,
+                    'Kurs_tagih' => $kurs_tagih,
+                    'Sub3' => $sub3,
+                    'Sub4' => $sub4,
+                ];
+                // dd($response);
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'lanjutDataTT_Ppn') {
+            $idBKK = trim($request->input('bkk'));
+            $mataUang = trim($request->input('mata_uangKanan'));
+            $response = [];
+            // Query kedua untuk SP_1273_ACC_TT_JURNAL_TTL
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_JURNAL_TTL @BKK = ?', [$idBKK]);
+            // dd($results);
+            if (!empty($results)) {
+                $row = $results[0];
+                $hrg_ppn = number_format($row->Hrg_ppn, 4, '.', ',');
+                $ppn_rp = number_format($row->ppnRp, 4, '.', ',');
+
+                if ($mataUang == '$') {
+                    $response['TTtlTTDr'] = $hrg_ppn;
+                    $response['TTtlTTRp'] = $ppn_rp;
+                } else {
+                    $response['TTtlTTDr'] = $hrg_ppn;
+                    $response['TTtlTTRp'] = $ppn_rp;
+                }
+            }
+
+            return response()->json($response);
+        } else if ($id == 'getDataTT_Murni') {
+            $response = [];
+            $bkk = trim($request->input('bkk'));
+
+            // Query pertama untuk SP_1273_ACC_TT_LUNAS_TT
+            $results1 = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_LUNAS_TT @BKK = ?', [$bkk]);
+            // dd($results1);
+            $i = 0;
+            foreach ($results1 as $row) {
+                $i++;
+                $symbol = trim($row->Symbol);
+                $id_supplier = trim($row->Id_Supplier);
+                $id_penagihan = trim($row->Id_Penagihan);
+                $no_terima = trim($row->No_Terima);
+                $kurs_tagih = number_format($row->Kurs_Tagih, 4, '.', ',');
+
+                $murni_rp = number_format($row->MurniRp, 4, '.', ',');
+                $hrg_murni = number_format($row->Hrg_Murni, 4, '.', ',');
+
+                // Kondisi untuk mata uang
+                if ($symbol == '$') {
+                    $sub3 = $murni_rp;
+                    $sub4 = $hrg_murni;
+                } else {
+                    $sub4 = $hrg_murni;
+                    $sub3 = $murni_rp;
+                }
+
+                // Menambahkan data ke dalam response
+                $response[] = [
+                    'Symbol' => $symbol,
+                    'Id_Supplier' => $id_supplier,
+                    'Rincian_Bayar' => $id_penagihan,
+                    'No_Terima' => $no_terima,
+                    'Kurs_tagih' => $kurs_tagih,
+                    'Sub3' => $sub3,
+                    'Sub4' => $sub4,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'lanjutDataTT_Murni') {
+            $idBKK = trim($request->input('bkk'));
+            $mataUang = trim($request->input('mata_uangKanan'));
+            $response = [];
+            // Query kedua untuk SP_1273_ACC_TT_JURNAL_TTL
+            $results2 = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_JURNAL_TTL @BKK = ?', [$idBKK]);
+            // dd($results2);
+            if (!empty($results2)) {
+                $row = $results2[0];
+                $hrg_murni = number_format($row->Hrg_Murni, 4, '.', ',');
+                $murni_rp = number_format($row->MurniRp, 4, '.', ',');
+
+                if ($mataUang == '$') {
+                    $response['TTtlTTDr'] = $hrg_murni;
+                    $response['TTtlTTRp'] = $murni_rp;
+                } else {
+                    $response['TTtlTTDr'] = $hrg_murni;
+                    $response['TTtlTTRp'] = $murni_rp;
+                }
+            }
+
+            return response()->json($response);
+        } else if ($id == 'getDataTT_MDisc') {
+            $response = [];
+            $bkk = trim($request->input('bkk'));
+
+            // Query pertama untuk SP_1273_ACC_TT_LUNAS_TT
+            $results1 = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_LUNAS_TT @BKK = ?', [$bkk]);
+            // dd($results1);
+            $i = 0;
+            foreach ($results1 as $row) {
+                $i++;
+                $symbol = trim($row->Symbol);
+                $id_supplier = trim($row->Id_Supplier);
+                $id_penagihan = trim($row->Id_Penagihan);
+                $no_terima = trim($row->No_Terima);
+                $kurs_tagih = number_format($row->Kurs_Tagih, 4, '.', ',');
+
+                $hrg_nego_rp = number_format($row->Hrg_NegoRp, 4, '.', ',');
+                $hrg_nego = number_format($row->Hrg_Nego, 4, '.', ',');
+
+                // Kondisi untuk mata uang
+                if ($symbol == '$') {
+                    $sub3 = $hrg_nego_rp;
+                    $sub4 = $hrg_nego;
+                } else {
+                    $sub4 = $hrg_nego;
+                    $sub3 = $hrg_nego_rp;
+                }
+
+                // Menambahkan data ke dalam response
+                $response[] = [
+                    'Symbol' => $symbol,
+                    'Id_Supplier' => $id_supplier,
+                    'Rincian_Bayar' => $id_penagihan,
+                    'No_Terima' => $no_terima,
+                    'Kurs_tagih' => $kurs_tagih,
+                    'Sub3' => $sub3,
+                    'Sub4' => $sub4,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'lanjutDataTT_MDisc') {
+            $idBKK = trim($request->input('bkk'));
+            $mataUang = trim($request->input('mata_uangKanan'));
+            // Query kedua untuk SP_1273_ACC_TT_JURNAL_TTL
+            $results2 = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_TT_JURNAL_TTL @BKK = ?', [$idBKK]);
+            // dd($results2);
+            if (!empty($results2)) {
+                $row = $results2[0];
+                $hrg_nego = number_format($row->Hrg_Nego, 4, '.', ',');
+                $hrg_nego_rp = number_format($row->Hrg_NegoRp, 4, '.', ',');
+
+                if ($mataUang == '$') {
+                    $response['TTtlTTDr'] = $hrg_nego;
+                    $response['TTtlTTRp'] = $hrg_nego_rp;
+                } else {
+                    $response['TTtlTTDr'] = $hrg_nego;
+                    $response['TTtlTTRp'] = $hrg_nego_rp;
+                }
+            }
+
+            return response()->json($response);
+        } else if ($id == 'getKodePerkiraan') {
+            try {
+                $results = DB::connection('ConnAccounting')
+                    ->select('exec SP_1273_ACC_LIST_TT_KODEPERKIRAAN');
+                // dd($results);
+                $response = [];
+                foreach ($results as $row) {
+                    $response[] = [
+                        'NoKodePerkiraan' => trim($row->NoKodePerkiraan),
+                        'Keterangan' => trim($row->Keterangan),
+                    ];
+                }
+
+                return datatables($response)->make(true);
+            } catch (Exception $e) {
+                // Handle any errors
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage()
+                ], 500);
+            }
         }
     }
 
