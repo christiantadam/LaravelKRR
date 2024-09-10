@@ -47,13 +47,12 @@
 </div>
 
 <!-- Modal untuk Detail Transaksi Konversi -->
-<div class="modal fade" id="detailKonversiModal" tabindex="-1" aria-labelledby="detailKonversiModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="detailKonversiModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 90%;">
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="detailKonversiModalLabel">Detail Konversi </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -280,7 +279,8 @@
                                 <label for="hasil_konversiTujuan">Hasil Konversi</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="hasil_konversiPrimerTujuan"
-                                        name="hasil_konversiPrimerTujuan" style='width:23%' placeholder="Jumlah Primer">
+                                        name="hasil_konversiPrimerTujuan" style='width:23%'
+                                        placeholder="Jumlah Primer">
                                     <input type="text" class="form-control" id="satuan_primerTujuan"
                                         name="satuan_primerTujuan" style='width:10%' placeholder="Satuan Primer">
                                     <input type="text" class="form-control" id="hasil_konversiSekunderTujuan"
@@ -308,7 +308,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success btn-acc" id="button_modalProses">Proses</button>
+                <button type="submit" class="btn btn-success" id="button_modalProses">Proses</button>
             </div>
         </div>
     </div>
