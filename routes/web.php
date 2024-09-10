@@ -1298,7 +1298,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getJenisBayarPenagajuan', 'App\Http\Controllers\Accounting\Piutang\MaintenanceBKKNotaKredit\PengajuanController@getJenisBayarPenagajuan');
     Route::get('getBankPengajuan', 'App\Http\Controllers\Accounting\Piutang\MaintenanceBKKNotaKredit\PengajuanController@getBankPengajuan');
 
-    Route::get('BKK', 'App\Http\Controllers\Accounting\TransBank\BKKController@BKK');
+    Route::resource('BKK', App\Http\Controllers\Accounting\TransBank\BKKController::class);
     Route::get('BKM', 'App\Http\Controllers\Accounting\TransBank\BKMController@BKM');
 
     Route::get('CekNotadanFaktur', 'App\Http\Controllers\Accounting\Informasi\CekNotadanFakturController@CekNotadanFaktur');

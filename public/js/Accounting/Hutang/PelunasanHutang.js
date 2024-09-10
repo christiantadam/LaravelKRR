@@ -8,6 +8,7 @@ $(document).ready(function () {
     let btn_TTmurni = document.getElementById("btn_TTmurni");
     let btn_TTnego = document.getElementById("btn_TTnego");
     let btn_diJurnal = document.getElementById("btn_diJurnal");
+    let btn_clear = document.getElementById("btn_clear");
     let bkk = document.getElementById("bkk");
     let tanggalS = document.getElementById("tanggalS");
     let id_uangS = document.getElementById("id_uangS");
@@ -39,7 +40,8 @@ $(document).ready(function () {
         // columnDefs: [{ targets: [7, 8], visible: false }],
     });
     let table_jurnal = $("#table_jurnal").DataTable({
-        // columnDefs: [{ targets: [7, 8], visible: false }],
+        autoWidth: false,
+        columnDefs: [{ targets: [0], visible: false }],
     });
     let rowDataPertama;
     nilai_bkk.style.fontWeight = "bold";
@@ -152,6 +154,121 @@ $(document).ready(function () {
             }
         );
         myModal.show();
+    });
+
+    let tableData = [];
+
+    btn_simpanM.addEventListener("click", function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "MaintenancePelunasanHutang",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                hutangM: hutangM.value,
+                pelunasanM: pelunasanM.value,
+                bkk: bkk.value,
+                tanggalS: tanggalS.value,
+                id_uangS: id_uangS.value,
+                supplierS: supplierS.value,
+                bayarS: bayarS.value,
+                kode_kiraM: kode_kiraM.value,
+                keteranganM: keteranganM.value,
+                // checkedRows: checkedRows,
+            },
+            success: function (response) {
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        const newRow = {
+                            id: tableData.length + 1,
+                            bkk: bkk.value,
+                            kode_kiraM: kode_kiraM.value,
+                            hutangM: hutangM.value,
+                            pelunasanM: pelunasanM.value,
+                            keteranganM: keteranganM.value,
+                        };
+
+                        tableData.push(newRow);
+                        console.log(tableData);
+
+                        if ($.fn.DataTable.isDataTable("#table_jurnal")) {
+                            var table_jurnal = $("#table_jurnal").DataTable();
+
+                            table_jurnal.row
+                                .add([
+                                    newRow.id,
+                                    newRow.bkk,
+                                    newRow.kode_kiraM,
+                                    newRow.hutangM,
+                                    newRow.pelunasanM,
+                                    newRow.keteranganM,
+                                ])
+                                .draw();
+                            // diterima_dari.value = "";
+                            // jumlah_uang.value = "";
+                            // jenis_pembayaran.value = "";
+                            // id_jnsPem.value = "";
+                            // kode_kira.value = "";
+                            // keterangan_kira.value = "";
+                            // no_bukti.value = "";
+                            // uraian.value = "";
+                            // btn_matauang.disabled = true;
+                            // btn_bank.disabled = true;
+                            // document.activeElement.blur();
+
+                            // const totalPelunasan = tableData.reduce(
+                            //     (sum, row) => {
+                            //         // Remove commas only and keep the decimal point
+                            //         const cleanValue = row.jumlah_uang.replace(
+                            //             /,/g,
+                            //             ""
+                            //         );
+                            //         return sum + parseFloat(cleanValue);
+                            //     },
+                            //     0
+                            // );
+
+                            // total_pelunasan.value =
+                            //     totalPelunasan.toLocaleString("en-US", {
+                            //         minimumFractionDigits: 2,
+                            //         maximumFractionDigits: 2,
+                            //     });
+                        } else {
+                            var table_jurnal = $("#table_jurnal").DataTable();
+                        }
+                        // document
+                        //     .querySelectorAll("input")
+                        //     .forEach((input) => (input.value = ""));
+                        // $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+    });
+
+    btn_addM.addEventListener("click", async function (event) {
+        event.preventDefault();
+        kode_kiraM.value = "";
+        ket_kiraM.value = "";
+        hutangM.value = 0;
+        pelunasanM.value = 0;
+        keteranganM.value = "";
+        btn_perkiraanM.focus();
     });
 
     btn_perkiraanM.addEventListener("click", async function (event) {
@@ -1001,5 +1118,10 @@ $(document).ready(function () {
                 },
             });
         }
+    });
+
+    btn_clear.addEventListener("click", function (event) {
+        event.preventDefault();
+        location.reload();
     });
 });

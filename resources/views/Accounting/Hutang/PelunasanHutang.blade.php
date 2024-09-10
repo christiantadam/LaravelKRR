@@ -197,7 +197,7 @@
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn" style="width: 100px"
-                                            id="btn_batal">Batal</button>
+                                            id="btn_clear">Clear</button>
                                     </div>
                                 </div>
                                 <div class="row align-items-center">
@@ -292,6 +292,7 @@
                     <table class="table table-bordered" id="table_jurnal">
                         <thead class="table-dark">
                             <tr>
+                                <th>ID</th>
                                 <th>BKK</th>
                                 <th>Kode Perkiraan</th>
                                 <th>Nilai Debit</th>

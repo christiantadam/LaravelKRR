@@ -27,7 +27,76 @@ class PelunasanHutangController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
+        $debet = floatval(str_replace(",", "", $request->input('hutangM')));
+        $kredit = floatval(str_replace(",", "", $request->input('pelunasanM')));
+        // dd($debet, $kredit);
+        if ($debet > 0 && $kredit > 0) {
+            return response()->json(['error' => 'Nilai Debet dan Nilai Kredit keduanya tidak boleh bernilai lebih dari 0(Nol) !!..']);
+        }
+
+        try {
+            DB::connection('ConnAccounting')->beginTransaction();
+
+            // Insert Jurnal
+            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_INS_TT_JURNAL ?, ?, ?, ?, ?, ?', [
+                $request->input('bkk'),
+                $request->input('supplierS'),
+                $request->input('keteranganM'),
+                $debet,
+                $kredit,
+                $request->input('kode_kiraM')
+            ]);
+
+            // Cek Saldo Hutang Supplier
+            $saldoSupplier = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_CHECK_TT_SALDOSUPP ?', [$request->input('supplierS')]);
+
+            if (count($saldoSupplier) > 0 && $saldoSupplier[0]->aDA > 0) {
+                if (trim($request->input('id_uangS')) == 1) { // Supplier = Rp
+                    if (trim($request->input('bayarS')) == 1) { // Bayar = Rp
+                        // Insert ke tabel T_Transaksi_Supplier
+                        DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_INS_TT_TRANS_SUPP ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [
+                            6,
+                            $request->input('tanggalS'),
+                            $request->input('supplierS'),
+                            'Jurnal',
+                            $request->input('id_uangS'),
+                            $debet,
+                            $kredit,
+                            1,
+                            $request->input('bkk'),
+                            trim(Auth::user()->NomorUser),
+                        ]);
+
+                        // Update Saldo Rp Supplier
+                        DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_TT_HITUNGSALDO_RP_SUPPLIER ?', [
+                            trim($request->input('bkk'))
+                        ]);
+                    }
+                } else { // Supplier = $
+                    // Cek Kurs sudah diisi
+                    $cekKurs = DB::connection('ConnAccounting')
+                        ->select('exec SP_1273_ACC_CHECK_TT_TRANS_SUPP_RP ?', [trim($request->input('bkk'))]);
+
+                    if (count($cekKurs) > 0 && $cekKurs[0]->Ada > 0) {
+                        // Kurs check and other necessary transactions for USD
+                        DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_TT_HITUNGSALDO_DOLLAR_SUPPLIER ?', [
+                            trim($request->input('bkk'))
+                        ]);
+                    } else {
+                        return response()->json(['error' => 'BKK : ' . trim($request->input('bkk')) . ' TIDAK DAPAT diPROSES, Karena Kurs Belum diisi!!..']);
+                    }
+                }
+            } else {
+                return response()->json(['error' => 'Hubungi Edp untuk Saldo Hutang Supplier = ' . trim($request->input('supplierS'))]);
+            }
+
+            DB::connection('ConnAccounting')->commit();
+            return response()->json(['message' => 'Data sudah diPROSES JURNAL !!..untuk BKK = ' . trim($request->input('bkk'))]);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'An error occurred while processing the journal data. Please try again.']);
+        }
     }
 
     //Display the specified resource.
