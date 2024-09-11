@@ -504,6 +504,7 @@ $(document).ready(function () {
     select_divisiTujuan.addEventListener("keypress", function (e) {
         if (e.key == "Enter" && select_divisiTujuan.selectedIndex !== 0) {
             e.preventDefault();
+            this.blur();
             $.ajax({
                 type: "GET",
                 url: "/PermohonanKonversiBarcodePotong/getObjek",
@@ -544,6 +545,7 @@ $(document).ready(function () {
     select_objekTujuan.addEventListener("keypress", function (e) {
         if (e.key == "Enter" && select_objekTujuan.selectedIndex !== 0) {
             e.preventDefault();
+            this.blur();
             $.ajax({
                 type: "GET",
                 url: "/PermohonanKonversiBarcodePotong/getKelompokUtama",
@@ -594,6 +596,7 @@ $(document).ready(function () {
             select_kelompokUtamaTujuan.selectedIndex !== 0
         ) {
             e.preventDefault();
+            this.blur();
             $.ajax({
                 type: "GET",
                 url: "/PermohonanKonversiBarcodePotong/getKelompok",
@@ -640,6 +643,7 @@ $(document).ready(function () {
     select_kelompokTujuan.addEventListener("keypress", function (e) {
         if (e.key == "Enter" && select_kelompokTujuan.selectedIndex !== 0) {
             e.preventDefault();
+            this.blur();
             $.ajax({
                 type: "GET",
                 url: "/PermohonanKonversiBarcodePotong/getSubKelompok",
@@ -686,6 +690,7 @@ $(document).ready(function () {
     select_subKelompokTujuan.addEventListener("keypress", function (e) {
         if (e.key == "Enter" && select_subKelompokTujuan.selectedIndex !== 0) {
             e.preventDefault();
+            this.blur();
             // Clear only non-disabled options
             Array.from(select_typeTujuan.options).forEach((option) => {
                 if (!option.disabled) {
@@ -764,7 +769,73 @@ $(document).ready(function () {
                     console.error(error);
                 },
             }).then(() => {
-                hasil_konversiPrimerTujuan.focus();
+                // check satuan_sekunderTujuan if null then hasil = 0
+                if (satuan_sekunderTujuan.value !== "NULL") {
+                    hasil_konversiSekunderTujuan.readOnly = false;
+                    hasil_konversiSekunderTujuan.focus();
+                } else {
+                    hasil_konversiSekunderTujuan.value = numeral(0).format("0.00"); // prettier-ignore
+                    hasil_konversiSekunderTujuan.readOnly = true;
+                    hasil_konversiTritierTujuan.focus();
+                }
+
+                // check satuan_primerTujuan if null then hasil = 0
+                if (satuan_primerTujuan.value !== "NULL") {
+                    hasil_konversiPrimerTujuan.readOnly = false;
+                    hasil_konversiPrimerTujuan.focus();
+                } else {
+                    hasil_konversiPrimerTujuan.value = numeral(0).format("0.00"); // prettier-ignore
+                    hasil_konversiPrimerTujuan.readOnly = true;
+                }
+
+                // let totalTritierHasilKonversi = 0.0;
+                let maxHasilKonversiTritier = 0;
+
+                // table_daftarTujuanKonversi
+                //     .rows()
+                //     .every(function (rowIdx, tableLoop, rowLoop) {
+                //         let rowData = this.data();
+
+                //         // Satuan hasil konversi dibandingkan dengan asal konversi
+                //         if (
+                //             satuan_tritierTujuan.value.trim() ==
+                //             satuan_saldoTerakhirTritierAsal.value.trim()
+                //         ) {
+                //             totalTritierHasilKonversi += parseFloat(rowData[4]);
+                //         }
+                //     });
+
+                if (table_daftarTujuanKonversi.column(4).data().sum() > 0) {
+                    maxHasilKonversiTritier =
+                        table_daftarAsalKonversi.data()[0][4] -
+                        table_daftarTujuanKonversi.column(4).data().sum();
+                } else {
+                    maxHasilKonversiTritier =
+                        table_daftarAsalKonversi.data()[0][4];
+                }
+
+                console.log(table_daftarTujuanKonversi.column(4).data().sum());
+                console.log(table_daftarAsalKonversi.data()[0][4]);
+                console.log(maxHasilKonversiTritier);
+
+                hasil_konversiTritierTujuan.addEventListener(
+                    "input",
+                    function (e) {
+                        let inputValue = parseFloat(e.target.value);
+
+                        // Check if the value exceeds the maximum allowed value
+                        if (inputValue > maxHasilKonversiTritier) {
+                            // Set the value to the maximum allowed
+                            e.target.value = maxHasilKonversiTritier;
+                            this.setCustomValidity(
+                                "Input exceeds the maximum allowed value."
+                            );
+                        } else {
+                            this.setCustomValidity("");
+                        }
+                        this.reportValidity();
+                    }
+                );
             });
         }
     });
@@ -785,19 +856,17 @@ $(document).ready(function () {
             checkIdType = false;
         }
 
+        // check quantity hasil konversi, apakah sesuai ketentuan
         if (
-            hasil_konversiPrimerTujuan.value == 0 &&
-            hasil_konversiSekunderTujuan.value == 0 &&
-            hasil_konversiTritierTujuan.value == 0
+            (hasil_konversiPrimerTujuan.value == 0 &&
+                hasil_konversiSekunderTujuan.value == 0 &&
+                hasil_konversiTritierTujuan.value == 0) ||
+            (hasil_konversiTritierTujuan.value == 0 &&
+                satuan_tritierTujuan.value.trim() ==
+                    satuan_saldoTerakhirTritierAsal.value.trim())
         ) {
-            Swal.fire({
-                icon: "info",
-                title: "Pemberitahuan",
-                text: "Hasil Konversi tidak boleh kosong!",
-            }).then(() => {
-                hasil_konversiTritierTujuan.focus();
-                hasil_konversiTritierTujuan.select();
-            });
+            hasil_konversiTritierTujuan.focus();
+            hasil_konversiTritierTujuan.select();
             checkHasilKonversi = false;
         }
 
@@ -827,7 +896,6 @@ $(document).ready(function () {
                 hasil_konversiTritierTujuan.value,
                 select_subKelompokTujuan.value,
             ];
-            // Check for duplicate entry in the first and second columns
             let isDuplicate = false;
 
             table_daftarTujuanKonversi
@@ -840,7 +908,7 @@ $(document).ready(function () {
                         rowData[0] == inputData[0] ||
                         rowData[1] == inputData[1]
                     ) {
-                        isDuplicate = true;
+                        isDuplicate = true; // Check for duplicate entry in the first and second columns
                         return false; // Stop iteration if a match is found
                     }
                 });
@@ -875,7 +943,7 @@ $(document).ready(function () {
                 button_modalProses.disabled = false;
             }
         } else {
-            Swal.fire("Pemberitahuan", "Harap isi semua kolom", "info");
+            Swal.fire("Pemberitahuan", "Harap isi sesuai ketentuan", "info");
         }
     });
     button_updateTujuanKonversi.addEventListener("click", function (e) {
@@ -1004,7 +1072,7 @@ $(document).ready(function () {
             }).then((result) => {
                 if (result.isConfirmed) {
                     // If user confirms, delete the selected row
-                    selectedRow.remove().draw();
+                    selectedRow.remove().draw(false);
 
                     selectIds.forEach((id) => {
                         const $select = $(id);
@@ -1034,6 +1102,8 @@ $(document).ready(function () {
                     if (table_daftarTujuanKonversi.data().length < 1) {
                         button_modalProses.disabled = true;
                     }
+                    // Force the table to refresh its internal data
+                    table_daftarTujuanKonversi.rows().invalidate().draw();
 
                     // Show success message
                     Swal.fire("Berhasil!", "Baris sudah dihapus.", "success");
@@ -1194,7 +1264,6 @@ $(document).ready(function () {
             },
             success: function (response) {
                 // Assuming your server returns an array of objects for the table data
-                console.log(response);
 
                 if (response && Array.isArray(response)) {
                     // Filter data for Asal Konversi Potong JBB
