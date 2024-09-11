@@ -105,11 +105,12 @@ $(document).ready(function () {
                         tanggal: selectedDate,
                     },
                     success: function (response) {
+                        console.log(response);
                         if (response.message) {
                             Swal.fire({
                                 icon: "success",
-                                title: "Success!",
-                                text: response.message,
+                                // title: "Success!",
+                                text: response.message[0],
                                 showConfirmButton: true,
                             }).then(() => {
                                 // document.querySelectorAll("input").forEach((input) => {
@@ -130,8 +131,8 @@ $(document).ready(function () {
                                 //         }
                                 //     }
                                 // });
-                                $("#table_jurnal tbody").empty();
-                                // $("#table_atas").DataTable().ajax.reload();
+                                $("#table_atas").DataTable().ajax.reload();
+                                $("#table_bawah tbody").empty();
                             });
                         } else if (response.error) {
                             Swal.fire({

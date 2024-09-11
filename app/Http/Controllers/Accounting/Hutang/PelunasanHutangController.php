@@ -174,7 +174,7 @@ class PelunasanHutangController extends Controller
                                 $bkk,
                                 $item['Id_MataUang'], // Corresponds to SubItems[5]
                                 0,
-                                floatval(str_replace(',', '', $item['NilaiRincian'])), // Remove commas
+                                floatval(str_replace(',', '', $item['NilaiRincian'])),
                                 1,
                                 $bkk,
                                 trim(Auth::user()->NomorUser),

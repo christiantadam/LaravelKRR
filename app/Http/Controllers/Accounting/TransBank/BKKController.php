@@ -55,30 +55,122 @@ class BKKController extends Controller
                 foreach ($listBKK as $item) {
                     $prosesSupp = false;
 
-                    // Execute the first stored procedure
-                    $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_BANK_PROSES_TRANSAKSIBANK2
-                    @IdBank = ?,
-                    @NilaiKeluar = ?,
-                    @TglTransaksi = ?,
-                    @UserInput = ?,
-                    @IdBKK = ?,
-                    @IdSupplier = ?,
-                    @Kurs = ?,
-                    @IdMataUang = ?', [
-                        $item['Id_Bank'],               // IdBank
-                        $item['Nilai_Pembulatan'],      // NilaiKeluar
-                        $tglTransaksi,                  // TglTransaksi
-                        $user_id,                       // UserInput
-                        $item['Id_BKK'],                // IdBKK
-                        $item['Id_Supplier'] ?? null,   // IdSupplier
-                        $item['Kurs_Rupiah'],           // Kurs
-                        $item['Id_MataUang']            // IdMataUang
-                    ]);
+                    // // Execute the first stored procedure
+                    // $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_BANK_PROSES_TRANSAKSIBANK2
+                    // @IdBank = ?,
+                    // @NilaiKeluar = ?,
+                    // @TglTransaksi = ?,
+                    // @UserInput = ?,
+                    // @IdBKK = ?,
+                    // @IdSupplier = ?,
+                    // @Kurs = ?,
+                    // @IdMataUang = ?', [
+                    //     $item['Id_Bank'],               // IdBank
+                    //     $item['Nilai_Pembulatan'],      // NilaiKeluar
+                    //     $tglTransaksi,                  // TglTransaksi
+                    //     $user_id,                       // UserInput
+                    //     $item['Id_BKK'],                // IdBKK
+                    //     $item['Id_Supplier'] ?? null,   // IdSupplier
+                    //     $item['Kurs_Rupiah'],           // Kurs
+                    //     $item['Id_MataUang']            // IdMataUang
+                    // ]);
 
-                    // Assuming the response is similar to RecPross!nmError
-                    $nmError = trim($result[0]->nmError ?? '');
+                    // // Assuming the response is similar to RecPross!nmError
+                    // $nmError = trim($result[0]->nmError ?? '');
 
-                    $messages[] = $nmError; // Collecting messages
+                    // $messages[] = $nmError; // Collecting messages
+
+                    // Fetch the initial SaldoBank and Plafon
+                    $bankData = DB::connection('ConnAccounting')
+                        ->table('T_BANK')
+                        ->select('SaldoBank', 'Plafon')
+                        ->where('Id_Bank', $item['Id_Bank'])
+                        ->first();
+
+                    $saldoBank = $bankData->SaldoBank;
+                    $plafon = $bankData->Plafon;
+                    $nilaiKeluar = floatval(str_replace(',', '', $item['Nilai_Pembulatan']));
+                    $saldoSkrg = $saldoBank - $nilaiKeluar;
+
+                    $nmError = 'B'; // Default error message
+
+                    // Check balance and update accordingly
+                    if ($saldoSkrg <= 0) {
+                        if ($plafon === 'Y') {
+                            // Update T_BANK table
+                            DB::connection('ConnAccounting')
+                                ->table('T_BANK')
+                                ->where('Id_Bank', $item['Id_Bank'])
+                                ->update(['SaldoBank' => $saldoSkrg]);
+
+                            // Insert into T_TRANSAKSI_BANK
+                            DB::connection('ConnAccounting')
+                                ->table('T_TRANSAKSI_BANK')
+                                ->insert([
+                                    'Id_TypeTransaksi' => 2,
+                                    'Id_Bank' => $item['Id_Bank'],
+                                    'Jumlah_Pemasukan' => 0,
+                                    'Jumlah_Pengeluaran' => $nilaiKeluar,
+                                    'Saldo_Bank' => $saldoSkrg,
+                                    'Tanggal_Transaksi' => $tglTransaksi,
+                                    'Tanggal_Input' => now(),
+                                    'User_Input' => $user_id,
+                                ]);
+
+                            // Get the latest Id_Transaksi
+                            $maxIdTransaksi = DB::connection('ConnAccounting')
+                                ->table('T_TRANSAKSI_BANK')
+                                ->where('Id_TypeTransaksi', 2)
+                                ->max('Id_Transaksi');
+
+                            // Update T_PEMBAYARAN table
+                            DB::connection('ConnAccounting')
+                                ->table('T_PEMBAYARAN')
+                                ->where('Id_BKK', $item['Id_BKK'])
+                                ->update(['Id_Transaksi' => $maxIdTransaksi]);
+
+                            $nmError = 'Proses sudah SELESAI..!!, untuk BKK : ' . $item['Id_BKK'];
+                        } else {
+                            $nmError = 'Saldo tidak mencukupi untuk dikeluarkan, Cek Saldo .....!!';
+                        }
+                    } else {
+                        // Update T_BANK table
+                        DB::connection('ConnAccounting')
+                            ->table('T_BANK')
+                            ->where('Id_Bank', $item['Id_Bank'])
+                            ->update(['SaldoBank' => $saldoSkrg]);
+
+                        // Insert into T_TRANSAKSI_BANK
+                        DB::connection('ConnAccounting')
+                            ->table('T_TRANSAKSI_BANK')
+                            ->insert([
+                                'Id_TypeTransaksi' => 2,
+                                'Id_Bank' => $item['Id_Bank'],
+                                'Jumlah_Pemasukan' => 0,
+                                'Jumlah_Pengeluaran' => $nilaiKeluar,
+                                'Saldo_Bank' => $saldoSkrg,
+                                'Tanggal_Transaksi' => $tglTransaksi,
+                                'Tanggal_Input' => now(),
+                                'User_Input' => $user_id,
+                            ]);
+
+                        // Get the latest Id_Transaksi
+                        $maxIdTransaksi = DB::connection('ConnAccounting')
+                            ->table('T_TRANSAKSI_BANK')
+                            ->where('Id_TypeTransaksi', 2)
+                            ->max('Id_Transaksi');
+
+                        // Update T_PEMBAYARAN table
+                        DB::connection('ConnAccounting')
+                            ->table('T_PEMBAYARAN')
+                            ->where('Id_BKK', $item['Id_BKK'])
+                            ->update(['Id_Transaksi' => $maxIdTransaksi]);
+
+                        $nmError = 'Proses sudah SELESAI..!!, untuk BKK : ' . $item['Id_BKK'];
+                    }
+
+                    // Collect the message
+                    $messages[] = trim($nmError);
 
                     if (str_starts_with($nmError, 'P')) {
                         if (!empty($item['Id_Supplier']) && $item['Id_Supplier'] !== '00000') {
@@ -124,7 +216,7 @@ class BKKController extends Controller
 
         // Return JSON response with collected messages
         return response()->json([
-            'messages' => $messages,
+            'message' => $messages,
         ]);
     }
 

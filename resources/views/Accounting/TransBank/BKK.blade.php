@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="IntRp">
-                                    <label for="radio_2">Bank Interen Rp</label>
+                                    <label for="radio_2">Bank Intern Rp</label>
                                 </div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="EksRp">
@@ -50,11 +50,11 @@
                                 </div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="IntUS">
-                                    <label for="radio_2">Bank Interen $</label>
+                                    <label for="radio_2">Bank Intern $</label>
                                 </div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="EksUS">
-                                    <label for="radio_2">Bank Interen $</label>
+                                    <label for="radio_2">Bank Ekstern $</label>
                                 </div>
                             </div>
                             <div class="d-flex">

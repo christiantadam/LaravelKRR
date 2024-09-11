@@ -1085,7 +1085,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getCetakBKMJumlahPelunasan/{idBKMInput}', 'App\Http\Controllers\Accounting\Piutang\MaintenanceBKMPenagihanController@getCetakBKMJumlahPelunasan');
     // Route::get('prosesSisaPiutang/{idPelunasan}', 'App\Http\Controllers\Accounting\Piutang\MaintenanceBKMPenagihanController@prosesSisaPiutang');
 
-    Route::resource('BKMNoPenagihan', App\Http\Controllers\Accounting\Piutang\BKMNoPenagihanController::class);
+    Route::resource('MaintenanceBKMNoPenagihan', App\Http\Controllers\Accounting\Piutang\BKMNoPenagihanController::class);
     Route::get('detailcustomer/{kode?}', 'App\Http\Controllers\Accounting\Piutang\BKMNoPenagihanController@getNamaCustomer');
     Route::get('detailmatauang/', 'App\Http\Controllers\Accounting\Piutang\BKMNoPenagihanController@getMataUang');
     Route::get('detailbank', 'App\Http\Controllers\Accounting\Piutang\BKMNoPenagihanController@getDataBank');
@@ -1299,7 +1299,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getBankPengajuan', 'App\Http\Controllers\Accounting\Piutang\MaintenanceBKKNotaKredit\PengajuanController@getBankPengajuan');
 
     Route::resource('BKK', App\Http\Controllers\Accounting\TransBank\BKKController::class);
-    Route::get('BKM', 'App\Http\Controllers\Accounting\TransBank\BKMController@BKM');
+    Route::resource('BKM', App\Http\Controllers\Accounting\TransBank\BKMController::class);
+    // Route::get('BKM', 'App\Http\Controllers\Accounting\TransBank\BKMController@BKM');
 
     Route::get('CekNotadanFaktur', 'App\Http\Controllers\Accounting\Informasi\CekNotadanFakturController@CekNotadanFaktur');
 
