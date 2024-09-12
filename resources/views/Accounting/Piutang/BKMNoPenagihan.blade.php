@@ -43,17 +43,41 @@
                                     <div class="col-md-1">
                                         <label for="id" style="color: blue;">Wajib Di-Enter</label>
                                     </div>
+                                    <div class="col-md-1">
+                                        <input type="radio" name="radio1" value="radio_1" id="radio_biaya">
+                                        <label for="radio_2">Biaya</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="radio" name="radio1" value="radio_2" id="radio_lain">
+                                        <label for="radio_2">Lain-lain</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="radio" name="radio1" value="radio_2" id="radio_nego">
+                                        <label for="radio_2">Nego Ekspor</label>
+                                    </div>
                                 </div>
                             </div>
                             <br>
                             <div>
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    {{-- <div class="col-md-2">
                                         <label for="id">Diterima Dari</label>
                                     </div>
                                     <div class="col-md-5">
                                         <input type="text" name="diterima_dari" class="form-control"
                                             style="width: 100%" id="diterima_dari">
+                                    </div> --}}
+                                    <div class="col-md-2">
+                                        <label for="id">Nama Customer</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" name="nama_customer" class="form-control"
+                                            style="width: 100%" id="nama_customer">
+                                        <input type="text" name="kode_customer" class="form-control"
+                                            style="width: 100%; display: none" id="kode_customer">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-default" id="btn_customer">...</button>
                                     </div>
                                 </div>
                             </div>
@@ -100,8 +124,8 @@
                                         <label for="id">Bank</label>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="text" name="nama_bank" class="form-control" style="width: 100%"
-                                            id="nama_bank">
+                                        <input type="text" name="nama_bank" class="form-control"
+                                            style="width: 100%" id="nama_bank">
                                         <input type="text" name="id_bank" class="form-control"
                                             style="width: 100%; display: none" id="id_bank">
                                         <input type="text" name="jenis_bank" class="form-control"
@@ -210,7 +234,7 @@
                                                 <thead class="table-dark">
                                                     <tr>
                                                         <th>Id. Detail</th>
-                                                        <th>Terima Dari</th>
+                                                        <th>Customer</th>
                                                         <th>Jumlah Uang</th>
                                                         <th>Kode Perkiraan</th>
                                                         <th>Uraian</th>
@@ -219,6 +243,7 @@
                                                         <th>Nama Pembayaran</th>
                                                         <th>Nama Perkiraan</th>
                                                         <th>Kurs</th>
+                                                        <th>Nama Customer</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -260,8 +285,8 @@
                                         <b><label for="id">Total Pelunasan Rp.</label></b>
                                     </div>
                                     <div class="col-md-2">
-                                        <input id="total_pelunasan" type="text" name="total_pelunasan" class="form-control"
-                                            style="width: 100%">
+                                        <input id="total_pelunasan" type="text" name="total_pelunasan"
+                                            class="form-control" style="width: 100%">
                                     </div>
                                     <div class="col-md-2"></div>
                                     <div class="col-md-2">
@@ -306,7 +331,8 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col d-flex align-items-center">
-                        <label for="kodePerkiraan" class="col-form-label me-2" style="width: 100px;">Kode Perkiraan:</label>
+                        <label for="kodePerkiraan" class="col-form-label me-2" style="width: 100px;">Kode
+                            Perkiraan:</label>
                         <!-- Input pertama yang lebih sempit -->
                         <input type="text" id="kodePerkiraan1" class="form-control me-2" style="flex: 0.3;">
                         <!-- Input kedua yang lebih lebar -->
@@ -338,7 +364,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="dataBKKModalLabel">Data BKM</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="close_modalbkm">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                    id="close_modalbkm">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -376,11 +403,12 @@
                 <button id="btn_cetakbkm" type="button" class="btn btn-success">Cetak</button>
                 <button id="btn_prosesbkm" type="button" class="btn btn-success"
                     style="display: none">Proses</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="tutup_modalbkk">Tutup</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    id="tutup_modalbkk">Tutup</button>
             </div>
         </div>
     </div>
 </div>
 @include('Accounting.Hutang.PrintTampilBKMKRR1')
-<script src="{{ asset('js/Accounting/Hutang/MaintenanceBKMKRR1.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/BKMNoPenagihan.js') }}"></script>
 @endsection

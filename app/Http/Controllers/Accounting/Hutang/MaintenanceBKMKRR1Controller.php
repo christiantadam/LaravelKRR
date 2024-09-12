@@ -280,7 +280,7 @@ class MaintenanceBKMKRR1Controller extends Controller
                     'Tgl_Input' => \Carbon\Carbon::parse($row->Tgl_Input)->format('m/d/Y'),
                     'Id_BKM' => $row->Id_BKM,
                     'Nilai_Pelunasan' => number_format($row->Nilai_Pelunasan, 2, '.', ','),
-                    'Terjemahan' => $row->Terjemahan,
+                    'Terjemahan' => $row->Terjemahan ?? "",
                 ];
             }
 
