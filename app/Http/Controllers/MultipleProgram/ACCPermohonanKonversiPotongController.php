@@ -12,10 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ACCPermohonanKonversiPotongController extends Controller
 {
-    public function index()
-    {
-
-    }
+    public function index() {}
     public function create()
     {
         // Fetch the Potong data
@@ -132,7 +129,8 @@ class ACCPermohonanKonversiPotongController extends Controller
 
                 //foreach $dataTmpTransaksi
                 foreach ($dataTmpTransaksi as $item) {
-                    DB::connection('ConnInventory')->statement('exec SP_1273_INV_PROSES_ACC_KONVERSI @XIdTransaksi = ?,
+                    DB::connection('ConnInventory')->statement(
+                        'exec SP_1273_INV_PROSES_ACC_KONVERSI @XIdTransaksi = ?,
                         @XIdType = ?,
                         @XUserACC = ?,
                         @XWaktuACC = ?,
@@ -163,6 +161,7 @@ class ACCPermohonanKonversiPotongController extends Controller
             }
         }
     }
+
     public function destroy($id, Request $request)
     {
         if ($id == 'BatalACCDataKonversi') {

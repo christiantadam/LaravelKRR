@@ -16,6 +16,7 @@ $(document).ready(function () {
     let id_subKelompokTujuan = document.getElementById("id_subKelompokTujuan"); // prettier-ignore
     let id_typeTujuan = document.getElementById("id_typeTujuan"); // prettier-ignore
     let input_barcodeAsal = document.getElementById("input_barcodeAsal"); // prettier-ignore
+    let input_warnaDominanAsal = document.getElementById('input_warnaDominanAsal'); // prettier-ignore
     let nama_divisiTujuan = document.getElementById("nama_divisiTujuan"); // prettier-ignore
     let nama_kelompokTujuan = document.getElementById("nama_kelompokTujuan"); // prettier-ignore
     let nama_kelompokUtamaTujuan = document.getElementById("nama_kelompokUtamaTujuan"); // prettier-ignore
@@ -144,6 +145,18 @@ $(document).ready(function () {
 
     //#region Function
 
+    // Setup global AJAX handlers
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
     function getDataPermohonan() {
         // Fetch the data from your server using an AJAX call
         $.ajax({
@@ -151,7 +164,6 @@ $(document).ready(function () {
             type: "GET",
             success: function (response) {
                 // Assuming your server returns an array of objects for the table data
-
                 table_daftarKonversi.clear().rows.add(response.data).draw();
             },
             error: function (xhr, status, error) {
@@ -160,6 +172,81 @@ $(document).ready(function () {
         });
     }
 
+    function clearTujuan(type) {
+        if (type == "divisi") {
+            select_objekTujuan.disabled = true;
+            select_objekTujuan.selectedIndex = 0;
+            select_kelompokUtamaTujuan.disabled = true;
+            select_kelompokUtamaTujuan.selectedIndex = 0;
+            select_kelompokTujuan.disabled = true;
+            select_kelompokTujuan.selectedIndex = 0;
+            select_subKelompokTujuan.disabled = true;
+            select_subKelompokTujuan.selectedIndex = 0;
+            select_typeTujuan.disabled = true;
+            select_typeTujuan.selectedIndex = 0;
+            saldo_terakhirTujuanPrimer.value = "";
+            saldo_terakhirTujuanSekunder.value = "";
+            saldo_terakhirTujuanTritier.value = "";
+            satuan_saldoTerakhirTujuanPrimer.value = "";
+            satuan_saldoTerakhirTujuanSekunder.value = "";
+            satuan_saldoTerakhirTujuanTritier.value = "";
+        } else if (type == "objek") {
+            select_kelompokUtamaTujuan.disabled = true;
+            select_kelompokUtamaTujuan.selectedIndex = 0;
+            select_kelompokTujuan.disabled = true;
+            select_kelompokTujuan.selectedIndex = 0;
+            select_subKelompokTujuan.disabled = true;
+            select_subKelompokTujuan.selectedIndex = 0;
+            select_typeTujuan.disabled = true;
+            select_typeTujuan.selectedIndex = 0;
+            saldo_terakhirTujuanPrimer.value = "";
+            saldo_terakhirTujuanSekunder.value = "";
+            saldo_terakhirTujuanTritier.value = "";
+            satuan_saldoTerakhirTujuanPrimer.value = "";
+            satuan_saldoTerakhirTujuanSekunder.value = "";
+            satuan_saldoTerakhirTujuanTritier.value = "";
+        } else if (type == "kelompokutama") {
+            select_kelompokTujuan.disabled = true;
+            select_kelompokTujuan.selectedIndex = 0;
+            select_subKelompokTujuan.disabled = true;
+            select_subKelompokTujuan.selectedIndex = 0;
+            select_typeTujuan.disabled = true;
+            select_typeTujuan.selectedIndex = 0;
+            saldo_terakhirTujuanPrimer.value = "";
+            saldo_terakhirTujuanSekunder.value = "";
+            saldo_terakhirTujuanTritier.value = "";
+            satuan_saldoTerakhirTujuanPrimer.value = "";
+            satuan_saldoTerakhirTujuanSekunder.value = "";
+            satuan_saldoTerakhirTujuanTritier.value = "";
+        } else if (type == "kelompok") {
+            select_subKelompokTujuan.disabled = true;
+            select_subKelompokTujuan.selectedIndex = 0;
+            select_typeTujuan.disabled = true;
+            select_typeTujuan.selectedIndex = 0;
+            saldo_terakhirTujuanPrimer.value = "";
+            saldo_terakhirTujuanSekunder.value = "";
+            saldo_terakhirTujuanTritier.value = "";
+            satuan_saldoTerakhirTujuanPrimer.value = "";
+            satuan_saldoTerakhirTujuanSekunder.value = "";
+            satuan_saldoTerakhirTujuanTritier.value = "";
+        } else if (type == "subkelompok") {
+            select_typeTujuan.disabled = true;
+            select_typeTujuan.selectedIndex = 0;
+            saldo_terakhirTujuanPrimer.value = "";
+            saldo_terakhirTujuanSekunder.value = "";
+            saldo_terakhirTujuanTritier.value = "";
+            satuan_saldoTerakhirTujuanPrimer.value = "";
+            satuan_saldoTerakhirTujuanSekunder.value = "";
+            satuan_saldoTerakhirTujuanTritier.value = "";
+        } else if (type == "type") {
+            saldo_terakhirTujuanPrimer.value = "";
+            saldo_terakhirTujuanSekunder.value = "";
+            saldo_terakhirTujuanTritier.value = "";
+            satuan_saldoTerakhirTujuanPrimer.value = "";
+            satuan_saldoTerakhirTujuanSekunder.value = "";
+            satuan_saldoTerakhirTujuanTritier.value = "";
+        }
+    }
     getDataPermohonan();
 
     //#endregion
@@ -241,6 +328,32 @@ $(document).ready(function () {
                             satuan_saldoTerakhirPrimerAsal.value = dataAsalKonversi[0].satPrimer // prettier-ignore
                             satuan_saldoTerakhirSekunderAsal.value = dataAsalKonversi[0].satSekunder // prettier-ignore
                             satuan_saldoTerakhirTritierAsal.value = dataAsalKonversi[0].satTritier // prettier-ignore
+                            input_warnaDominanAsal.value = dataAsalKonversi[0].warnaDominan // prettier-ignore
+                            if (dataAsalKonversi[0].warnaDominan) {
+                                // Diambil dari d_tek5 database purchase
+                                switch (
+                                    dataAsalKonversi[0].warnaDominan
+                                        .trim()
+                                        .charAt(0)
+                                ) {
+                                    case "G":
+                                        input_warnaDominanAsal.value = "Gading";
+                                        input_warnaDominanAsal.readOnly = true;
+                                        break;
+                                    case "H":
+                                        input_warnaDominanAsal.value = "Hitam";
+                                        input_warnaDominanAsal.readOnly = true;
+                                        break;
+                                    case "P":
+                                        input_warnaDominanAsal.value = "Putih";
+                                        input_warnaDominanAsal.readOnly = true;
+                                        break;
+                                    default:
+                                        input_warnaDominanAsal.value = "";
+                                }
+                            } else {
+                                input_warnaDominanAsal.value = "";
+                            }
                         }
                     },
                     error: function (xhr, status, error) {
@@ -485,20 +598,28 @@ $(document).ready(function () {
         if (e.key == "Enter") {
             if (id_shift.value == "") {
                 id_shift.classList.add("input-error");
+            } else if (input_warnaDominanAsal.value == "") {
+                input_warnaDominanAsal.focus();
             } else {
                 select_divisiTujuan.focus();
             }
         }
     });
 
+    input_warnaDominanAsal.addEventListener("input", function name(e) {
+        clearTujuan("kelompok");
+    });
+
+    input_warnaDominanAsal.addEventListener("keypress", function name(e) {
+        if (e.key == "Enter") {
+            select_divisiTujuan.focus();
+        }
+    });
+
     select_divisiTujuan.addEventListener("change", function (e) {
         this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
         this.reportValidity(); // Display the validity message
-        select_objekTujuan.disabled = true;
-        select_kelompokUtamaTujuan.disabled = true;
-        select_kelompokTujuan.disabled = true;
-        select_subKelompokTujuan.disabled = true;
-        select_typeTujuan.disabled = true;
+        clearTujuan("divisi");
     });
 
     select_divisiTujuan.addEventListener("keypress", function (e) {
@@ -536,10 +657,7 @@ $(document).ready(function () {
     select_objekTujuan.addEventListener("change", function (e) {
         this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
         this.reportValidity(); // Display the validity message
-        select_kelompokUtamaTujuan.disabled = true;
-        select_kelompokTujuan.disabled = true;
-        select_subKelompokTujuan.disabled = true;
-        select_typeTujuan.disabled = true;
+        clearTujuan("objek");
     });
 
     select_objekTujuan.addEventListener("keypress", function (e) {
@@ -585,9 +703,7 @@ $(document).ready(function () {
     select_kelompokUtamaTujuan.addEventListener("change", function (e) {
         this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
         this.reportValidity(); // Display the validity message
-        select_kelompokTujuan.disabled = true;
-        select_subKelompokTujuan.disabled = true;
-        select_typeTujuan.disabled = true;
+        clearTujuan("kelompokutama");
     });
 
     select_kelompokUtamaTujuan.addEventListener("keypress", function (e) {
@@ -636,8 +752,7 @@ $(document).ready(function () {
     select_kelompokTujuan.addEventListener("change", function (e) {
         this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
         this.reportValidity(); // Display the validity message
-        select_subKelompokTujuan.disabled = true;
-        select_typeTujuan.disabled = true;
+        clearTujuan("kelompok");
     });
 
     select_kelompokTujuan.addEventListener("keypress", function (e) {
@@ -661,16 +776,36 @@ $(document).ready(function () {
                             }
                         }
                     );
-
-                    response.forEach((item) => {
-                        // Create a new option element
-                        const option = document.createElement("option");
-                        // Set the value and text of the option
-                        option.value = item.IdSubkelompok;
-                        option.textContent = item.NamaSubKelompok;
-                        // Append the option to the select element
-                        select_subKelompokTujuan.appendChild(option);
-                    });
+                    if (input_warnaDominanAsal.value) {
+                        response.forEach((item) => {
+                            // If input_warnaDominanAsal is not empty and matches item.NamaSubKelompok
+                            if (
+                                input_warnaDominanAsal.value &&
+                                item.NamaSubKelompok.toLowerCase().includes(
+                                    input_warnaDominanAsal.value.toLowerCase()
+                                )
+                            ) {
+                                const matchedOption =
+                                    document.createElement("option");
+                                matchedOption.value = item.IdSubkelompok;
+                                matchedOption.textContent =
+                                    item.NamaSubKelompok;
+                                select_subKelompokTujuan.appendChild(
+                                    matchedOption
+                                );
+                            }
+                        });
+                    } else {
+                        response.forEach((item) => {
+                            // Create a new option element
+                            const option = document.createElement("option");
+                            // Set the value and text of the option
+                            option.value = item.IdSubkelompok;
+                            option.textContent = item.NamaSubKelompok;
+                            // Append the option to the select element
+                            select_subKelompokTujuan.appendChild(option);
+                        });
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
@@ -684,7 +819,7 @@ $(document).ready(function () {
     select_subKelompokTujuan.addEventListener("change", function (e) {
         this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
         this.reportValidity(); // Display the validity message
-        select_typeTujuan.disabled = true;
+        clearTujuan("subkelompok");
     });
 
     select_subKelompokTujuan.addEventListener("keypress", function (e) {
@@ -730,6 +865,7 @@ $(document).ready(function () {
     select_typeTujuan.addEventListener("change", function (e) {
         this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
         this.reportValidity(); // Display the validity message
+        clearTujuan("type");
     });
 
     select_typeTujuan.addEventListener("keypress", function (e) {
@@ -1393,16 +1529,5 @@ $(document).ready(function () {
     //#endregion
 
     //#region Lain-lain
-    // Setup global AJAX handlers
-    $.ajaxSetup({
-        beforeSend: function () {
-            // Show the loading screen before the AJAX request
-            $("#loading-screen").css("display", "flex");
-        },
-        complete: function () {
-            // Hide the loading screen after the AJAX request completes
-            $("#loading-screen").css("display", "none");
-        },
-    });
     //#endregion
 });

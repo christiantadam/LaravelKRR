@@ -118,7 +118,15 @@
                                         placeholder="[P] [S] [M]">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 30%">
+                            <div class="form-group" style="width: 15%">
+                                <label for="warna">Warna Dominan</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="input_warnaDominanAsal"
+                                        name="input_warnaDominanAsal"
+                                        placeholder="Warna Dominan">
+                                </div>
+                            </div>
+                            <div class="form-group" style="width: 15%">
                                 <label for="barcode">Barcode Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="input_barcodeAsal"
