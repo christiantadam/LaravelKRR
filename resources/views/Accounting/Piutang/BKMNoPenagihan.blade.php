@@ -409,6 +409,6 @@
         </div>
     </div>
 </div>
-@include('Accounting.Hutang.PrintTampilBKMKRR1')
+@include('Accounting.Piutang.PrintTampilBKMNoPenagihan')
 <script src="{{ asset('js/Accounting/Piutang/BKMNoPenagihan.js') }}"></script>
 @endsection

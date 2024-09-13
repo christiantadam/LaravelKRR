@@ -85,7 +85,7 @@ $(document).ready(function () {
     ];
     let months = monthNames[currentDate.getMonth()];
     let years = currentDate.getFullYear();
-    document.getElementById("posted_p").innerHTML = `${day}-${months}-${years}`;
+    // document.getElementById("posted_p").innerHTML = `${day}-${months}-${years}`;
 
     tgl_awalbkk.valueAsDate = new Date();
     tgl_akhirbkk.valueAsDate = new Date();
@@ -954,7 +954,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         $.ajax({
-            url: "MaintenanceBKMKRR1/cetakBKM",
+            url: "MaintenanceBKMNoPenagihan/cetakBKM",
             type: "GET",
             data: {
                 _token: csrfToken,
@@ -1137,44 +1137,81 @@ $(document).ready(function () {
 
                 //     window.print();
                 // } else {
-                document.getElementById("name_p").innerHTML =
-                    data.data[0].Id_bank;
-                let tanggalInput = data.data[0].Tgl_Input;
-                let tanggal = new Date(tanggalInput);
-                let options = {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                };
-                let formattedDate = tanggal
-                    .toLocaleDateString("en-GB", options)
-                    .replace(" ", "-")
-                    .replace(" ", "-");
-                document.getElementById("tanggal_p").innerHTML = formattedDate;
-                document.getElementById("voucher_p").innerHTML =
+
+                // #region Asli
+                document.getElementById("nomerP").innerHTML =
                     data.data[0].Id_BKM;
-                document.getElementById("description_p").innerHTML =
-                    data.data[0].Nama_Bank;
-                document.getElementById("received_p").innerHTML =
-                    data.data[0].Keterangan || "";
+                // Assume data.data[0].Tgl_Input is in the format "2012-01-02 00:00:00.000"
+                const rawDate = data.data[0].Tgl_Input.split(" ")[0]; // Extract the date part
+
+                // Create a Date object from the raw date
+                const dateObject = new Date(rawDate);
+
+                // Format the date using Flatpickr's formatDate utility
+                const formattedDate = flatpickr.formatDate(dateObject, "j/F/Y"); // "2/January/2012"
+
+                // Set the formatted date to the element
+                document.getElementById("tanggal_atasP").innerHTML =
+                    formattedDate;
+
+                // Get the current date
+                const currentDate = new Date();
+
+                // Format the current date using Flatpickr's formatDate function
+                const formattedDate1 = flatpickr.formatDate(
+                    currentDate,
+                    "d/F/Y"
+                ); // "13/September/2024"
+
+                // Set the formatted date to the element with the additional text "Sidoarjo, "
+                document.getElementById(
+                    "tanggal_bawahP"
+                ).innerHTML = `Sidoarjo, ${formattedDate1}`;
+
+                document.getElementById("rp_atasP").innerHTML =
+                    data.data[0].Symbol;
+
+                document.getElementById("rp_totalP").innerHTML =
+                    data.data[0].Symbol;
+
+                // Ensure the value is converted to a float first to remove extra zeros
+                const nilaiPelunasan = parseFloat(data.data[0].Nilai_Pelunasan);
+
+                // Format the number to two decimal places
+                document.getElementById("jumlah_diterimaP").innerHTML =
+                    nilaiPelunasan.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    });
+
+                document.getElementById("terbilangP").innerHTML =
+                    data.data[0].Terjemahan;
+
+                // document.getElementById("voucher_p").innerHTML =
+                //     data.data[0].Id_BKM;
+                // document.getElementById("description_p").innerHTML =
+                //     data.data[0].Nama_Bank;
+                // document.getElementById("received_p").innerHTML =
+                //     data.data[0].Keterangan || "";
                 //Tbody Array
                 let kodePerkiraanHTML = "";
                 data.data.forEach(function (item) {
                     kodePerkiraanHTML += item.KodePerkiraan + "<br>";
                 });
-                document.getElementById("coa_p").innerHTML = kodePerkiraanHTML;
+                document.getElementById("kode_perkiraanP").innerHTML =
+                    kodePerkiraanHTML;
 
                 let KeteranganHTML = "";
                 data.data.forEach(function (item) {
-                    KeteranganHTML += item.DetailKdPerkiraan + "<br>";
+                    KeteranganHTML += item.NamaCust + "<br>";
                 });
-                document.getElementById("acc_p").innerHTML = KeteranganHTML;
+                document.getElementById("rincianP").innerHTML = KeteranganHTML;
 
-                let Rincian_BayarHTML = "";
-                data.data.forEach(function (item) {
-                    Rincian_BayarHTML += item.Keterangan + "<br>";
-                });
-                document.getElementById("desc_p").innerHTML = "";
+                // let Rincian_BayarHTML = "";
+                // data.data.forEach(function (item) {
+                //     Rincian_BayarHTML += item.Keterangan + "<br>";
+                // });
+                // document.getElementById("desc_p").innerHTML = "";
 
                 // let No_BGCekHTML = "";
                 // data.data.forEach(function (item) {
@@ -1197,16 +1234,17 @@ $(document).ready(function () {
                     totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
                 });
 
-                document.getElementById("amount_p").innerHTML =
+                document.getElementById("jumlahP").innerHTML =
                     Nilai_RincianHTML;
 
                 // Format total dan tampilkan di element dengan id "total_p"
-                document.getElementById("total_p").innerHTML =
+                document.getElementById("grandP").innerHTML =
                     totalNilaiRincian.toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                     });
 
+                //#endregion Asli
                 // document.getElementById("alasan_p").innerHTML =
                 //     data.data[0].Alasan;
 

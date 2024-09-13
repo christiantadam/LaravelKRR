@@ -4,22 +4,26 @@ namespace App\Http\Controllers\Accounting\Piutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class AnalisaStatusPenjualanController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.AnalisaStatusPenjualan', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.AnalisaStatusPenjualan', compact('access'));
     }
 
-    public function getDisplaySuratJalan($tanggal, $tanggal2)
-    {
-        // dd("masuk");
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_STATUS_PENAGIHAN_PENJUALAN] @Kode = ?, @Tgl1 = ?, @Tgl2 = ?', [1, $tanggal, $tanggal2]);
-        return response()->json($tabel);
-    }
+    // public function getDisplaySuratJalan($tanggal, $tanggal2)
+    // {
+    //     // dd("masuk");
+    //     $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_STATUS_PENAGIHAN_PENJUALAN] @Kode = ?, @Tgl1 = ?, @Tgl2 = ?', [1, $tanggal, $tanggal2]);
+    //     return response()->json($tabel);
+    // }
 
     //Show the form for creating a new resource.
     public function create()
@@ -34,9 +38,38 @@ class AnalisaStatusPenjualanController extends Controller
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show(Request $request, $id)
     {
-        //
+        if ($id == 'displayData') {
+            // Get the dates from the request, default to current date if not provided
+            $sTanggal1 = $request->input('tanggal', now());
+            $sTanggal2 = $request->input('tanggal2', now());
+
+            // Execute the stored procedure
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_STATUS_PENAGIHAN_PENJUALAN @Kode = ?, @Tgl1 = ?, @Tgl2 = ?', [1, $sTanggal1, $sTanggal2]);
+
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Tgl_Pelunasan' => \Carbon\Carbon::parse($row->Tgl_Pelunasan)->format('m/d/Y'),
+                    'NamaCust' => $row->NamaCust,
+                    'Id_Penagihan' => $row->Id_Penagihan,
+                    'Jenis_Pembayaran' => $row->Jenis_Pembayaran,
+                    'NilaiPelunasan' => number_format($row->NilaiPelunasan, 2, '.', ','), // Format as "#,##0.00"
+                    'Nilai_Penagihan' => number_format($row->Nilai_Penagihan, 2, '.', ','), // Format as "#,##0.00"
+                    'Terbayar' => number_format($row->Terbayar, 2, '.', ','), // Format as "#,##0.00"
+                    'Lunas' => $row->Lunas,
+                    'Id_BKM' => $row->Id_BKM,
+                    // Add other fields if necessary
+                    // 'Status_tagihan' => $row->Status_tagihan ?? '', // Uncomment and add if needed
+                    // 'Id_Cust' => $row->Id_Cust ?? '', // Uncomment and add if needed
+                ];
+            }
+
+            return datatables($response)->make(true);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -48,21 +81,7 @@ class AnalisaStatusPenjualanController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-        //dd($request->all());
-        $no_Faktur = $request->no_Faktur;
-        $lunas = $request->lunas;
-        $idBKM = $request->idBKM;
-        $noFaktur = str_replace('.', '/', $no_Faktur);
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_UPDATE_LUNAS]
-        @id_Penagihan = ?,
-        @Lunas = ?,
-        @Id_BKM = ?
-        ', [
-            $noFaktur,
-            $lunas,
-            $idBKM
-        ]);
-        return response()->json('Data Telah TerSimpan');;
+
     }
 
     //Remove the specified resource from storage.
