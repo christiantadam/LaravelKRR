@@ -33,9 +33,31 @@ class AnalisaStatusPenjualanController extends Controller
 
     //Store a newly created resource in storage.
     public function store(Request $request)
-    {
+{
+    try {
+        // Check if the remaining balance is not zero
+        if ($request->input('sisaTagihan') != 0) {
+            return response()->json(['error' => 'Tidak boleh Proses, karena sisa tagihan tdk = Nol.']);
+        }
 
+        // Convert lunas to uppercase just in case
+        $lunas = $request->input('lunas');
+
+        // Call the stored procedure to update 'Lunas'
+        DB::connection('ConnAccounting')->statement('exec SP_1486_ACC_UPDATE_LUNAS @id_Penagihan = ?, @Lunas = ?, @Id_BKM = ?', [
+            $request->input('noFaktur'),
+            $lunas,
+            $request->input('idBKM'),
+        ]);
+
+        // Assuming the process updates the front-end, we can return success or JSON response
+        return response()->json(['message' => 'Data Telah Tersimpan', 'lunas' => $lunas]);
+
+    } catch (Exception $e) {
+        // Error handling
+        return response()->json(['error' => 'Error: ' . $e->getMessage()], 500);
     }
+}
 
     //Display the specified resource.
     public function show(Request $request, $id)
@@ -69,6 +91,20 @@ class AnalisaStatusPenjualanController extends Controller
             }
 
             return datatables($response)->make(true);
+        } else if ($id == 'DisplayNotaKredit') {
+
+            $sIdPenagihan = $request->input('Id_Penagihan');
+            // dd($sIdPenagihan);
+            $result = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_STATUS_PENAGIHAN_PENJUALAN @Kode = ?, @Id_Penagihan = ?', [2, $sIdPenagihan]);
+            // dd($result);
+            if (!empty($result)) {
+                $jumlah = $result[0]->jumlah;
+            } else {
+                $jumlah = 0.00;
+            }
+
+            return response()->json(['jumlah' => $jumlah]);
         }
     }
 

@@ -20,6 +20,8 @@ $(document).ready(function () {
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 2);
     tanggal.valueAsDate = firstDayOfMonth;
     tanggal2.valueAsDate = new Date();
+    sisaTagihan.style.backgroundColor = "#ffadff";
+    btn_proses.disabled = true;
 
     let = table_atas = $("#table_atas").DataTable({
         responsive: true,
@@ -112,5 +114,120 @@ $(document).ready(function () {
         noFaktur.value = data.Id_Penagihan;
         totalPenagihan.value = data.Nilai_Penagihan;
         totalPembayaran.value = data.Terbayar;
+        idBKM.value = data.Id_BKM;
+
+        // Remove commas from the values and convert them to numbers
+        const nilaiPenagihan = parseFloat(
+            data.Nilai_Penagihan.replace(/,/g, "")
+        );
+        const terbayar = parseFloat(data.Terbayar.replace(/,/g, ""));
+
+        // Calculate the remaining amount
+        const sisaTagihanH = nilaiPenagihan - terbayar;
+
+        // Assign the result to the appropriate element
+        sisaTagihan.value = sisaTagihanH.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+
+        // sisaTagihan.value = data.Nilai_Penagihan - data.Terbayar;
+
+        $.ajax({
+            url: "AnalisaStatusPelunasan/DisplayNotaKredit",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                Id_Penagihan: data.Id_Penagihan,
+            },
+            success: function (data) {
+                console.log(data);
+                // jenis_bank.value = data.JenisBank;
+                notaKredit.value = data.jumlah.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+        lunas.value = "";
+        lunas.focus();
+    });
+
+    lunas.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+
+            lunas.value = lunas.value.toUpperCase();
+
+            if (lunas.value == "Y") {
+                btn_proses.disabled = false;
+                btn_proses.focus();
+            } else if (lunas.value == "N") {
+                btn_proses.disabled = false;
+                btn_proses.focus();
+            } else {
+                btn_proses.disabled = true;
+            }
+        }
+    });
+
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        if (sisaTagihan.value !== "0.00") {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Tidak boleh Proses, karena sisa tagihan tdk = Nol",
+                showConfirmButton: true,
+            });
+        } else {
+            $.ajax({
+                url: "AnalisaStatusPelunasan",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    lunas: lunas.value,
+                    noFaktur: noFaktur.value,
+                    idBKM: idBKM.value,
+                    // checkedRows: checkedRows,
+                },
+                success: function (response) {
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        }
+    });
+
+    btn_proses.addEventListener("click", function (event) {
+        event.preventDefault();
+        location.reload();
     });
 });
