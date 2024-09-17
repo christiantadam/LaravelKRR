@@ -291,7 +291,7 @@
                                     <div class="col-md-2"></div>
                                     <div class="col-md-2">
                                         <button type="button" class="btn" id="btn_tampilbkk"
-                                            style="width: 130px;">Tampil BKK</button>
+                                            style="width: 130px;">Tampil BKM</button>
                                     </div>
                                     <div class="col-md-1">
                                         {{-- <input type="submit" name="tutup" value="TUTUP" class="btn btn-primary d-flex ml-auto"> --}}
