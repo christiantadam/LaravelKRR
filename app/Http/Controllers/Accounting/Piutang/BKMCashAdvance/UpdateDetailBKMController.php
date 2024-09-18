@@ -242,7 +242,7 @@ class UpdateDetailBKMController extends Controller
 
             // Kembalikan data dalam format yang dapat diproses oleh datatables
             return datatables($response)->make(true);
-        }else if ($id == 'getOkBKM') {
+        } else if ($id == 'getOkBKM') {
             // Ambil parameter tanggal dari request
             $tgl1 = $request->input('tgl_awalbkm');
             $tgl2 = $request->input('tgl_akhirbkm');
