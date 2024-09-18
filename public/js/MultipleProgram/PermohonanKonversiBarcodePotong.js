@@ -7,6 +7,9 @@ $(document).ready(function () {
     let button_updateTujuanKonversi = document.getElementById("button_updateTujuanKonversi"); // prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let detailKonversiModal = document.getElementById("detailKonversiModal"); // prettier-ignore
+    let d_tek1PanjangRoll;
+    let d_tek0PanjangPotongan;
+    let d_tek1LebarPotongan;
     let div_PIBTujuan = document.getElementById("div_PIBTujuan"); // prettier-ignore
     let id_divisiTujuan = document.getElementById("id_divisiTujuan"); // prettier-ignore
     let id_kelompokTujuan = document.getElementById("id_kelompokTujuan"); // prettier-ignore
@@ -329,6 +332,7 @@ $(document).ready(function () {
                             satuan_saldoTerakhirSekunderAsal.value = dataAsalKonversi[0].satSekunder // prettier-ignore
                             satuan_saldoTerakhirTritierAsal.value = dataAsalKonversi[0].satTritier // prettier-ignore
                             input_warnaDominanAsal.value = dataAsalKonversi[0].warnaDominan // prettier-ignore
+                            d_tek1PanjangRoll = dataAsalKonversi[0].panjangRoll // prettier-ignore
                             if (dataAsalKonversi[0].warnaDominan) {
                                 // Diambil dari d_tek5 database purchase
                                 switch (
@@ -338,15 +342,12 @@ $(document).ready(function () {
                                 ) {
                                     case "G":
                                         input_warnaDominanAsal.value = "Gading";
-                                        input_warnaDominanAsal.readOnly = true;
                                         break;
                                     case "H":
                                         input_warnaDominanAsal.value = "Hitam";
-                                        input_warnaDominanAsal.readOnly = true;
                                         break;
                                     case "P":
                                         input_warnaDominanAsal.value = "Putih";
-                                        input_warnaDominanAsal.readOnly = true;
                                         break;
                                     default:
                                         input_warnaDominanAsal.value = "";
@@ -776,7 +777,12 @@ $(document).ready(function () {
                             }
                         }
                     );
-                    if (input_warnaDominanAsal.value) {
+                    if (
+                        input_warnaDominanAsal.value &&
+                        select_kelompokUtamaTujuan.value == 1029
+                    ) {
+                        let itemsAdded = false; // Track if any item is added
+
                         response.forEach((item) => {
                             // If input_warnaDominanAsal is not empty and matches item.NamaSubKelompok
                             if (
@@ -793,8 +799,28 @@ $(document).ready(function () {
                                 select_subKelompokTujuan.appendChild(
                                     matchedOption
                                 );
+                                itemsAdded = true;
                             }
                         });
+
+                        if (!itemsAdded) {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Perhatian",
+                                text:
+                                    "Tidak ada warna " +
+                                    input_warnaDominanAsal.value.toLowerCase() +
+                                    " pada kelompok " +
+                                    select_kelompokTujuan.options[
+                                        select_kelompokTujuan.selectedIndex
+                                    ].text,
+                            }).then(() => {
+                                select_kelompokTujuan.focus();
+                                select_subKelompokTujuan.disabled = true;
+                            });
+                        } else {
+                            select_subKelompokTujuan.focus();
+                        }
                     } else {
                         response.forEach((item) => {
                             // Create a new option element
@@ -805,13 +831,12 @@ $(document).ready(function () {
                             // Append the option to the select element
                             select_subKelompokTujuan.appendChild(option);
                         });
+                        select_subKelompokTujuan.focus();
                     }
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
                 },
-            }).then(() => {
-                select_subKelompokTujuan.focus();
             });
         }
     });
@@ -842,16 +867,61 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     select_typeTujuan.disabled = false;
-                    response.forEach((item) => {
-                        // Create a new option element
-                        const option = document.createElement("option");
-                        // Set the value and text of the option
-                        option.value = item.IdType;
-                        option.textContent =
-                            item.NamaType + " | " + item.IdType;
-                        // Append the option to the select element
-                        select_typeTujuan.appendChild(option);
-                    });
+                    if (select_kelompokUtamaTujuan.value == 1029) {
+                        let itemsAdded = false; // Track if any item is added
+                        console.log(d_tek1PanjangRoll);
+
+                        response.forEach((item) => {
+                            console.log(item.PanjangPotongan);
+                            console.log(item.LebarPotongan);
+                            // If
+                            if (
+                                parseFloat(d_tek1PanjangRoll) !== "" &&
+                                (parseFloat(d_tek1PanjangRoll) >
+                                    parseFloat(item.PanjangPotongan) ||
+                                    parseFloat(d_tek1PanjangRoll) >
+                                        parseFloat(item.LebarPotongan))
+                            ) {
+                                const matchedOption =
+                                    document.createElement("option");
+                                matchedOption.value = item.IdType;
+                                matchedOption.textContent =
+                                    item.NamaType + " | " + item.IdType;
+                                select_typeTujuan.appendChild(matchedOption);
+                                itemsAdded = true;
+                            }
+                        });
+
+                        if (!itemsAdded) {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Perhatian",
+                                text:
+                                    "Tidak ukuran " +
+                                    d_tek1PanjangRoll +
+                                    " pada sub kelompok " +
+                                    select_subKelompokTujuan.options[
+                                        select_subKelompokTujuan.selectedIndex
+                                    ].text,
+                            }).then(() => {
+                                select_subKelompokTujuan.focus();
+                                select_typeTujuan.disabled = true;
+                            });
+                        } else {
+                            select_subKelompokTujuan.focus();
+                        }
+                    } else {
+                        response.forEach((item) => {
+                            // Create a new option element
+                            const option = document.createElement("option");
+                            // Set the value and text of the option
+                            option.value = item.IdType;
+                            option.textContent =
+                                item.NamaType + " | " + item.IdType;
+                            // Append the option to the select element
+                            select_typeTujuan.appendChild(option);
+                        });
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
@@ -880,6 +950,8 @@ $(document).ready(function () {
                     IdType: select_typeTujuan.value,
                 },
                 success: function (data) {
+                    console.log(data);
+
                     satuan_saldoTerakhirTujuanPrimer.value =
                         data[0].satPrimer.trim();
                     satuan_saldoTerakhirTujuanSekunder.value =
@@ -950,19 +1022,15 @@ $(document).ready(function () {
                         table_daftarAsalKonversi.data()[0][4];
                 }
 
-                console.log(table_daftarTujuanKonversi.column(4).data().sum());
-                console.log(table_daftarAsalKonversi.data()[0][4]);
-                console.log(maxHasilKonversiTritier);
-
                 hasil_konversiTritierTujuan.addEventListener(
                     "input",
                     function (e) {
                         let inputValue = parseFloat(e.target.value);
 
                         // Check if the value exceeds the maximum allowed value
-                        if (inputValue > maxHasilKonversiTritier) {
+                        if (inputValue > maxHasilKonversiTritier * 1.03) {
                             // Set the value to the maximum allowed
-                            e.target.value = maxHasilKonversiTritier;
+                            e.target.value = maxHasilKonversiTritier * 1.03;
                             this.setCustomValidity(
                                 "Input exceeds the maximum allowed value."
                             );
