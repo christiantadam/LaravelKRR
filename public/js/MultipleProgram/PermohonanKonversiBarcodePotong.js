@@ -525,47 +525,205 @@ $(document).ready(function () {
 
     button_modalProses.addEventListener("click", function (e) {
         // e.preventDefault();
+        let sisaRoll = 0;
+        sisaRoll =
+            table_daftarAsalKonversi.data()[0][4] -
+            table_daftarTujuanKonversi.column(4).data().sum();
         if (id_shift.value !== "") {
-            $.ajax({
-                type: "POST",
-                url: "/PermohonanKonversiBarcodePotong",
-                data: {
-                    _token: csrfToken,
-                    table_daftarTujuanKonversi: table_daftarTujuanKonversi
-                        .rows()
-                        .data()
-                        .toArray(),
-                    asalKonversiInputValues: table_daftarAsalKonversi
-                        .rows()
-                        .data()
-                        .toArray(),
-                    proses: proses,
-                    shift: id_shift.value,
-                    jenisStore: "permohonan",
-                },
-                success: function (response) {
-                    if (response.error) {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error!",
-                            text: response.error,
-                            showConfirmButton: false,
-                        });
-                    } else {
-                        getDataPermohonan();
-                        Swal.fire({
-                            icon: "success",
-                            title: "Berhasil!",
-                            text: response.success,
-                            showConfirmButton: false,
-                        });
-                        $("#tambahTujuanModal").modal("hide");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                },
+            if (sisaRoll < table_daftarAsalKonversi.data()[0][4] * 0.03) {
+                $.ajax({
+                    type: "POST",
+                    url: "/PermohonanKonversiBarcodePotong",
+                    data: {
+                        _token: csrfToken,
+                        table_daftarTujuanKonversi: table_daftarTujuanKonversi
+                            .rows()
+                            .data()
+                            .toArray(),
+                        asalKonversiInputValues: table_daftarAsalKonversi
+                            .rows()
+                            .data()
+                            .toArray(),
+                        proses: proses,
+                        shift: id_shift.value,
+                        jenisStore: "permohonan",
+                    },
+                    success: function (response) {
+                        if (response.error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: response.error,
+                                showConfirmButton: false,
+                            });
+                        } else {
+                            if (sisaRoll > 0) {
+                                // check apakah ada sisa tritier dari datatable asal konversi dikurangi total sum datatable tujuan konversi
+                                Swal.fire({
+                                    title: "Buat Barcode Baru?",
+                                    text: "Terdapat sisa roll pada kode barang asal yang dikonversi apakah anda ingin membuat barcode baru untuk sisa roll tersebut?",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Ya!",
+                                    cancelButtonText: "Tidak",
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        Swal.fire({
+                                            title: "Input Information",
+                                            html:
+                                                '<input id="barcode_nomorBarcodeBaru" class="swal2-input" readonly><br>' +
+                                                '<input id="barcode_saldoPrimer" class="swal2-input" readonly>' +
+                                                '<input id="barcode_saldoSekunder" class="swal2-input" placeholder="Saldo Sekunder">' +
+                                                '<input id="barcode_saldoTritier" class="swal2-input" readonly>',
+                                            focusConfirm: false,
+                                            preConfirm: () => {
+                                                if (
+                                                    !barcode_saldoSekunder.value
+                                                ) {
+                                                    Swal.showValidationMessage(
+                                                        "All fields must be filled"
+                                                    );
+                                                    return false;
+                                                }
+                                                return {
+                                                    barcode_nomorBarcodeBaru: barcode_nomorBarcodeBaru,
+                                                    barcode_saldoPrimer: barcode_saldoPrimer,
+                                                    barcode_saldoSekunder: barcode_saldoSekunder,
+                                                    barcode_saldoTritier: barcode_saldoTritier,
+                                                };
+                                            },
+                                            showCancelButton: false,
+                                            allowOutsideClick: false,
+                                            allowEscapeKey: false,
+                                            allowEnterKey: false,
+                                            confirmButtonText: "Submit",
+                                            didOpen: () => {
+                                                let barcode_nomorBarcodeBaru = document.getElementById("barcode_nomorBarcodeBaru"); // prettier-ignore
+                                                let barcode_saldoPrimer = document.getElementById("barcode_saldoPrimer"); // prettier-ignore
+                                                let barcode_saldoSekunder = document.getElementById("barcode_saldoSekunder"); // prettier-ignore
+                                                let barcode_saldoTritier = document.getElementById("barcode_saldoTritier"); // prettier-ignore
+
+                                                barcode_nomorBarcodeBaru.value = input_barcodeAsal.value;
+                                                barcode_saldoTritier.value = sisaRoll;
+                                                barcode_saldoPrimer.value = 1;
+
+                                                const inputs =
+                                                    document.querySelectorAll(
+                                                        ".swal2-input"
+                                                    );
+                                                inputs.forEach((input) => {
+                                                    input.addEventListener(
+                                                        "input",
+                                                        () => {
+                                                            const allFilled =
+                                                                Array.from(
+                                                                    inputs
+                                                                ).every(
+                                                                    (input) =>
+                                                                        input.value
+                                                                );
+                                                            Swal.getConfirmButton().disabled =
+                                                                !allFilled;
+                                                        }
+                                                    );
+                                                });
+                                            },
+                                            willOpen: () => {
+                                                Swal.getConfirmButton().disabled = true; // Initially disable button
+                                            },
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "/PermohonanKonversiBarcodePotong",
+                                                    data: {
+                                                        _token: csrfToken,
+                                                        jenisStore:
+                                                            "sisaBarcode",
+                                                        input1: result.value
+                                                            .input1,
+                                                        input2: result.value
+                                                            .input2,
+                                                        input3: result.value
+                                                            .input3,
+                                                    },
+                                                    success: function (
+                                                        response
+                                                    ) {
+                                                        if (response.error) {
+                                                            Swal.fire({
+                                                                icon: "error",
+                                                                title: "Error!",
+                                                                text: response.error,
+                                                                showConfirmButton: false,
+                                                            });
+                                                        } else {
+                                                            getDataPermohonan();
+                                                            Swal.fire({
+                                                                icon: "success",
+                                                                title: "Berhasil!",
+                                                                text: response.success,
+                                                                showConfirmButton: false,
+                                                            });
+                                                            $(
+                                                                "#tambahTujuanModal"
+                                                            ).modal("hide");
+                                                        }
+                                                    },
+                                                    error: function (
+                                                        xhr,
+                                                        status,
+                                                        error
+                                                    ) {
+                                                        console.error(error);
+                                                    },
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        getDataPermohonan();
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Berhasil!",
+                                            text: response.success,
+                                            showConfirmButton: false,
+                                        });
+                                        $("#tambahTujuanModal").modal("hide");
+                                    }
+                                });
+                            } else {
+                                getDataPermohonan();
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Berhasil!",
+                                    text: response.success,
+                                    showConfirmButton: false,
+                                });
+                                $("#tambahTujuanModal").modal("hide");
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    },
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Hasil konversi tidak sesuai ketentuan!",
+                    showConfirmButton: false,
+                });
+                select_divisiTujuan.focus();
+            }
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Kolom shift harus diisi!",
+                showConfirmButton: false,
             });
+            id_shift.focus();
         }
     });
 
@@ -869,11 +1027,11 @@ $(document).ready(function () {
                     select_typeTujuan.disabled = false;
                     if (select_kelompokUtamaTujuan.value == 1029) {
                         let itemsAdded = false; // Track if any item is added
-                        console.log(d_tek1PanjangRoll);
+                        // console.log(d_tek1PanjangRoll);
 
                         response.forEach((item) => {
-                            console.log(item.PanjangPotongan);
-                            console.log(item.LebarPotongan);
+                            // console.log(item.PanjangPotongan);
+                            // console.log(item.LebarPotongan);
                             // If
                             if (
                                 parseFloat(d_tek1PanjangRoll) !== "" &&
@@ -950,8 +1108,6 @@ $(document).ready(function () {
                     IdType: select_typeTujuan.value,
                 },
                 success: function (data) {
-                    console.log(data);
-
                     satuan_saldoTerakhirTujuanPrimer.value =
                         data[0].satPrimer.trim();
                     satuan_saldoTerakhirTujuanSekunder.value =
