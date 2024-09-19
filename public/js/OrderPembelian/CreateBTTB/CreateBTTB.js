@@ -47,7 +47,7 @@ let tabelData = $("#tabelcreate").DataTable({
     responsive: true,
     scrollX: true,
     searching: false,
-    scrollY: "200px",
+    scrollY: "250px",
     paging: false,
 });
 let data;
