@@ -194,7 +194,7 @@ class CreateBKMController extends Controller
 
             // Fetch and process selected records
             $selectedRows = $request->input('rowDataArray', []);
-            dd($selectedRows);
+            // dd($selectedRows);
             if (!empty($selectedRows)) {
                 $brs = 1;
                 $total = 0;
@@ -202,19 +202,19 @@ class CreateBKMController extends Controller
 
                 foreach ($selectedRows as $index => $row) {
                     // Ensure required fields are not empty
-                    if (!empty($row['SubItem8']) && !empty($row['SubItem7']) && !empty($row['SubItem2'])) {
-                        // Processing logic, e.g. updating Tgl, bank, etc.
-                        // $row['SubItem7'] is the date, $row['SubItem2'] is the bank, etc.
+                    if (!empty($row['Tgl_Pelunasan']) && !empty($row['Id_bank']) && !empty($row['Jenis_Pembayaran'])) {
+                        // Processing logic, e.g., updating Tgl, bank, etc.
+                        // $row['Tgl_Pelunasan'] is the date, $row['Id_bank'] is the bank, etc.
 
-                        $idBank = $row['SubItem2']; // Logic to set IdBank depending on conditions
+                        $idBank = $row['Id_bank']; // Logic to set IdBank depending on conditions
                         if ($idBank == 'KRR1') {
                             $idBank = 'KKM';
                         } elseif ($idBank == 'KRR2') {
                             $idBank = 'KI';
                         }
 
-                        $total = (float) str_replace(',', '', $row['SubItem5']);
-                        $uang = $row['SubItem4'];
+                        $total = (float) str_replace(',', '', $row['Nilai_Pelunasan']);
+                        $uang = $row['Nama_MataUang'];
                         $totalFormatted = number_format($total, 2, '.', ',');
                         $konversi = ($uang == 'RUPIAH') ? $this->convertToRupiah($totalFormatted) : $this->convertToDollar($totalFormatted);
 
@@ -231,7 +231,7 @@ class CreateBKMController extends Controller
                         $bkmResult = DB::connection('ConnAccounting')->select('exec SP_5409_ACC_COUNTER_BKM_BKK @bank = ?, @jenis = ?, @tgl = ?', [
                             $idBank,
                             'R', // Assuming the type is 'R'
-                            \Carbon\Carbon::parse($row['SubItem7'])->format('Y-m-d')
+                            \Carbon\Carbon::parse($row['Tgl_Pelunasan'])->format('Y-m-d')
                         ]);
 
                         $id = $bkmResult[0]->id ?? null;
@@ -241,7 +241,7 @@ class CreateBKMController extends Controller
                         // Insert into T_Pelunasan via SP_5298_ACC_INSERT_BKM_TPELUNASAN
                         DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_INSERT_BKM_TPELUNASAN @idBKM = ?, @tglinput = ?, @userinput = ?, @terjemahan = ?, @nilaipelunasan = ?, @IdBank = ?', [
                             $id,
-                            \Carbon\Carbon::parse($row['SubItem7'])->format('Y-m-d'),
+                            \Carbon\Carbon::parse($row['Tgl_Pelunasan'])->format('Y-m-d'),
                             auth()->user()->id, // Assuming you are using Laravel's Auth for user
                             $konversi,
                             $total,
@@ -250,27 +250,27 @@ class CreateBKMController extends Controller
 
                         // Update T_Pelunasan_Tagihan via SP_5298_ACC_UPDATE_IDBKM_1
                         DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_IDBKM_1 @idpelunasan = ?, @idBKM = ?, @idBank = ?, @kode = ?', [
-                            $row['SubItem1'],
+                            $row['Id_Pelunasan'],
                             $id,
                             $idBank,
-                            $row['SubItem8']
+                            $row['Tgl_Pelunasan']
                         ]);
 
                         // Optionally update status for BG or CEK
-                        if (in_array($row['SubItem3'], ['BG', 'CEK'])) {
+                        if (in_array($row['Jenis_Pembayaran'], ['BG', 'CEK'])) {
                             DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_STATUSBAYAR @idpelunasan = ?', [
-                                $row['SubItem1']
+                                $row['Id_Pelunasan']
                             ]);
                         }
 
                         // Return success message after processing
-                        return response()->json(['message' => 'Data BKM With No.' . $id . ' Saved Successfully']);
+                        return response()->json(['message' => (string) 'Data BKM With No.' . $id . ' Saved Successfully']);
                     } else {
-                        return response()->json(['message' => 'Please fill in the Tgl Pembuatan BKM and Id.Bank'], 400);
+                        return response()->json(['error' => 'Please fill in the Tgl Pembuatan BKM and Id.Bank'], 400);
                     }
                 }
             } else {
-                return response()->json(['message' => 'Please select pelunasan data to group'], 400);
+                return response()->json(['error' => 'Please select pelunasan data to group'], 400);
             }
         }
     }

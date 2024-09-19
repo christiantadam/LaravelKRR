@@ -194,6 +194,13 @@ h2 {
     background-color: white;
     display: none;
 }
+.acs-div-container2 {
+    width: 900px;
+    height: 800px;
+    border: 1px solid black !important;
+    background-color: white;
+    /* display: none; */
+}
 #table_sp table tr td,
 #table_sp table tr td:first-child {
     border: 1px solid black !important;
@@ -247,5 +254,24 @@ h2 {
         top: 0;
         width: 100%;
         height: 100%;
+    }
+    /* Format khusus halaman pertama */
+    .page:first-of-type {
+        /* Style untuk halaman pertama */
+        /* font-size: 14px;
+        padding: 20px; */
+        page-break-after: always; /* Pisahkan setelah halaman pertama */
+    }
+
+    /* Format khusus halaman kedua */
+    .page:nth-of-type(2) {
+        /* Style untuk halaman kedua */
+        /* font-size: 12px; */
+        padding: 0px;
+    }
+
+    /* Break halaman secara otomatis */
+    .page {
+        page-break-after: always; /* Tambahkan break setelah setiap halaman */
     }
 }

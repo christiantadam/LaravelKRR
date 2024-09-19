@@ -91,7 +91,7 @@ class OrderPress extends Controller
                         'Warna' => $warna,
                         'Packing' => $packing,
                         'Referensi_Press' => $referensi,
-                        'Hal' => $hal,
+                        // 'Hal' => $hal,
                         'Keterangan' => $request->input('cat', null), // Optional 'cat' parameter
                         'Foto' => $binaryData ? DB::raw('0x' . bin2hex($binaryData)) : null,
                     ]);
@@ -191,6 +191,7 @@ class OrderPress extends Controller
                 $dataDelivery[] = [
                     'No_SuratPesanan' => $delivery->No_SuratPesanan,
                     'Waktu_Delivery' => $delivery->Waktu_Delivery,
+                    // 'IdBarang' => $delivery->IdBarang,
                 ];
             }
             return datatables($dataDelivery)->make(true);
@@ -220,6 +221,7 @@ class OrderPress extends Controller
                     $item['denier'] = trim($row->Denier);
                     $item['type'] = trim($row->ModelBB) . ' TOP ' . trim($row->ModelCA) . ' BOTTOM ' . trim($row->ModelCB);
                     $item['iner'] = trim($row->Iner);
+                    $item['idBarang'] = trim($row->IdBarang);
                     if ($row->Foto) {
                         $item['foto'] = 'data:image/jpeg;base64,' . base64_encode($row->Foto);
                     } else {

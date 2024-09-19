@@ -32,40 +32,82 @@ $(document).ready(function () {
     let rowDataPertama;
     let rowDataKelima;
 
+    bulan.focus();
     tgl_awalbkm.valueAsDate = new Date();
     tgl_akhirbkm.valueAsDate = new Date();
 
     btn_group.addEventListener("click", async function (event) {
         event.preventDefault();
-        console.log(rowDataArray);
 
-        if (j > 1) {
-            let a = 0;
-            let brs = 0;
+        rowDataArray.forEach(function (row) {
+            // Remove commas from Nilai_Pelunasan and convert it to a float
+            let total = parseFloat(row.Nilai_Pelunasan.replace(/,/g, ""));
 
-            for (let i = 0; i < rowDataArray.length; i++) {
-                let item = rowDataArray[i];
-                if (item.checked === true) {
-                    if (item.subItems[8] !== "" && item.subItems[7] !== "" && item.subItems[2] !== "") {
-                        tgl[brs] = item.subItems[7];  // Assuming tgl is an array
-                        bank[brs] = item.subItems[2].trim();  // Assuming bank is an array
-                        indexL[brs] = i;  // Assuming indexL is an array
-                        brs++;
-                        a++;
-                    } else {
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'PESAN',
-                            text: 'Input Tgl Pembuatan BKM & Id.Bank, Klik Tombol Pilih Bank',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            // document.getElementById('cmdPilih').focus();
-                        });
-                        return;
-                    }
-                }
+            // Determine the currency
+            let uang = row.Nama_MataUang;
+
+            // Format the total to 2 decimal places
+            let totalFormatted = total.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+            // Initialize the terbilang variable
+            let terbilang = "";
+
+            // Check if the currency is RUPIAH or other
+            if (uang === "RUPIAH") {
+                // Call the Rupiah conversion function
+                terbilang = convertNumberToWordsRupiah(total);
+            } else {
+                // Call the Dollar conversion function
+                terbilang = convertNumberToWordsDollar(total);
             }
-        }
+
+            // Add terbilang as a new property to the current row
+            row.terbilang = terbilang;
+
+            // Optionally, log the formatted result and terbilang
+            console.log("Total Formatted: ", totalFormatted);
+            console.log("Terbilang: ", row.terbilang);
+        });
+
+        console.log(rowDataArray);
+        $.ajax({
+            url: "CreateBKM/getGroup",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                rowDataArray: rowDataArray,
+                // checkedRows: checkedRows,
+            },
+            success: function (response) {
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        // location.reload();
+                        // document
+                        //     .querySelectorAll("input")
+                        //     .forEach((input) => (input.value = ""));
+                        // $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
     });
 
     btn_ok.addEventListener("click", async function (event) {
@@ -174,7 +216,7 @@ $(document).ready(function () {
 
                 selectedRow.data(rowDataPertama).draw();
 
-                rowDataArray = []
+                rowDataArray = [];
             }
         }
     });

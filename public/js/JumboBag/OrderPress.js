@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let packing = document.getElementById("packing");
     let no_referensi = document.getElementById("no_referensi");
     let halaman = document.getElementById("halaman");
+    let id_barang = document.getElementById("id_barang");
 
     id_customer.readOnly = true;
     customer.readOnly = true;
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     type.readOnly = true;
     delivery.readOnly = true;
     warna.readOnly = true;
+    id_barang.readOnly = true;
 
     if (successMessage) {
         Swal.fire({
@@ -103,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("no_referensi", no_referensi.value);
         formData.append("warna", warna.value);
         formData.append("packing", packing.value);
-        formData.append("halaman", halaman.value);
+        formData.append("cat", halaman.value);
         formData.append("iner", iner.value);
         formData.append("typeForm", "printReport");
 
@@ -137,13 +139,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("tanggal_print").textContent =
                     formattedDate;
 
+                document.getElementById("tanggal2_print").textContent =
+                    formattedDate;
+
                 document.getElementById("no_referensi_print").innerHTML =
+                    no_referensi.value;
+
+                document.getElementById("no_referensi2_print").innerHTML =
                     no_referensi.value;
 
                 var currentPage = 1;
                 var totalPages = 1;
+                // document.getElementById("halaman_print").textContent =
+                //     currentPage + " dari " + totalPages;
                 document.getElementById("halaman_print").textContent =
-                    currentPage + " dari " + totalPages;
+                    data.data[0].IdBarang;
+
+                document.getElementById("halaman2_print").textContent =
+                    data.data[0].IdBarang;
 
                 // Uncomment and handle DOM updates with response data
                 document.getElementById("kode_tabel").innerHTML =
@@ -195,12 +208,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     inerValue === "N" ? "&nbsp;-" : "&nbsp;" + inerValue;
                 document.getElementById("inner_tabel").innerHTML =
                     innerHTMLValue;
-                let keterangan = data.data[0].Keterangan.replace(
-                    /\r\n/g,
-                    "<br>"
-                );
-                keterangan = "&nbsp;" + keterangan;
-                document.getElementById("catatan_tabel").innerHTML = keterangan;
+                // let keterangan = data.data[0].Catatan.replace(/\r\n/g, "<br>");s
+                // keterangan = "&nbsp;" + keterangan;
+                document.getElementById("catatan_tabel").innerHTML =
+                    "&nbsp;" + data.data[0].Catatan;
+                // let keterangan2 = data.data[0].StdWaktu.replace(/\r\n/g, "<br>");
+                // keterangan2 = "&nbsp;" + keterangan2;
+                document.getElementById("stdW_tabel").innerHTML =
+                    "&nbsp;" + data.data[0].StdWaktu;
                 if (data.data[0].Foto) {
                     gambar_print.src = data.data[0].Foto;
                     gambar_print.style.display = "block";
@@ -434,6 +449,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             denier.value = data.data[0].denier.trim();
                             type.value = data.data[0].type.trim();
                             iner.value = data.data[0].iner.trim();
+                            id_barang.value = data.data[0].idBarang.trim();
                             // Display the photo
                             if (data.data[0].foto) {
                                 previewImg.src = data.data[0].foto;
@@ -498,6 +514,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "Kode_Warna",
                                 },
                             ],
+                            order: [[1, "asc"]],
                         });
                         $("#warnaTable tbody").on("click", "tr", function () {
                             // Remove 'selected' class from all rows
