@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     customer.readOnly = true;
     tanggal.readOnly = true;
     kodeBarangAsal.readOnly = true;
-    tanggals.readOnly = true;
+    tanggals.readOnly = false;
     no_suratpesanan.readOnly = true;
     delivery.readOnly = true;
     jumlah_order.readOnly = true;
