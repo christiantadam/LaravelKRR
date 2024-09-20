@@ -307,20 +307,21 @@ class MaintenanceTabelOrder extends Controller
                 3,
                 $noSP . (in_array(substr($jenisBarang, -1), ['E', 'F', 'N']) ? '' : 'A'),
             ];
-
+            // dd($queryParams);
             $details = DB::connection('ConnJumboBag')
                 ->select('exec SP_1273_JBB_LIST_SALES @KodeBarangSLS = ?, @Kode = ?, @IdSuratPesanan = ?', $queryParams);
             // dd($details);
             if (!empty($details)) {
                 $detail = $details[0];
                 return response()->json([
-                    'IDSuratPesanan' => $detail->IDSuratPesanan,
-                    'Qty' => $detail->Qty,
-                    'TglRencanaKirim' => \Carbon\Carbon::parse($detail->TglRencanaKirim)->format('Y-m-d'),
+                    'IDSuratPesanan' => $detail->IDSuratPesanan ?? '',
+                    'Qty' => $detail->Qty ?? '',
+                    'TglRencanaKirim' => \Carbon\Carbon::parse($detail->TglRencanaKirim)->format('Y-m-d') ?? '',
                 ]);
-            } else {
-                return response()->json(['error' => 'No data found'], 404);
             }
+            // else {
+            //     return response()->json(['error' => 'No data found'], 404);
+            // }
         } else if ($id == 'getSuratPesananDetailsExtra') {
             $kodeBarangSLS = $request->input('kodebarangs');
             $jenisBarang = $request->input('jenis_barang');
@@ -338,13 +339,14 @@ class MaintenanceTabelOrder extends Controller
             if (!empty($details)) {
                 $detail = $details[0];
                 return response()->json([
-                    'IDPesanan' => $detail->IDPesanan,
-                    'Satuan' => $detail->Satuan,
-                    'TglRencanaKirim' => $detail->TglRencanaKirim,
+                    'IDPesanan' => $detail->IDPesanan ?? '',
+                    'Satuan' => $detail->Satuan ?? '',
+                    'TglRencanaKirim' => $detail->TglRencanaKirim ?? '',
                 ]);
-            } else {
-                return response()->json(['error' => 'No data found'], 404);
             }
+            // else {
+            //     return response()->json(['error' => 'No data found'], 404);
+            // }
         } else if ($id == 'checkSisaOrder') {
             $kodeBarang = $request->input('kodebarangs');
             $noSP = $request->input('IDSuratPesanan');

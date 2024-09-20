@@ -210,31 +210,45 @@ document.addEventListener("DOMContentLoaded", function () {
                 showConfirmButton: true,
             });
             return; // Prevent the form submission
-        }
-        $.ajax({
-            url: "MaintenanceTabelOrder/getTransfer",
-            type: "GET",
-            data: {
-                _token: csrfToken,
-                kodebarangs: kodebarangs.value,
-                jenis_barang: jenis_barang.value,
-                IDSuratPesanan: idsuratpesanan.value,
-            },
-            success: function (data) {
-                console.log(data);
-                no_pesanan.value = data.IDSuratPesanan.trim();
-                time_deliv.value = data.TglRencanaKirim.trim();
-                let originalQty = data.Qty.trim();
-                let formattedQty = parseInt(originalQty, 10);
-                jumlah_order.value = formattedQty;
+        } else {
+            if (rencana.value == "") {
+                time_deliv.valueAsDate = new Date();
+                jumlah_order.value = qty_produksi.value;
+                no_pesanan.value = idsuratpesanan.value;
                 tanggal_dikerjakan.readOnly = false;
                 tanggal_selesai.readOnly = false;
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err.Message);
-            },
-        });
+            } else {
+                time_deliv.value = rencana.value;
+                jumlah_order.value = qty_produksi.value;
+                no_pesanan.value = idsuratpesanan.value;
+                tanggal_dikerjakan.readOnly = false;
+                tanggal_selesai.readOnly = false;
+            }
+        }
+        // $.ajax({
+        //     url: "MaintenanceTabelOrder/getTransfer",
+        //     type: "GET",
+        //     data: {
+        //         _token: csrfToken,
+        //         kodebarangs: kodebarangs.value,
+        //         jenis_barang: jenis_barang.value,
+        //         IDSuratPesanan: idsuratpesanan.value,
+        //     },
+        //     success: function (data) {
+        //         console.log(data);
+        //         no_pesanan.value = data.IDSuratPesanan.trim();
+        //         time_deliv.value = data.TglRencanaKirim ?? "";
+        //         let originalQty = data.Qty.trim();
+        //         let formattedQty = parseInt(originalQty, 10);
+        //         jumlah_order.value = formattedQty;
+        //         tanggal_dikerjakan.readOnly = false;
+        //         tanggal_selesai.readOnly = false;
+        //     },
+        //     error: function (xhr, status, error) {
+        //         var err = eval("(" + xhr.responseText + ")");
+        //         alert(err.Message);
+        //     },
+        // });
         btn_isi.disabled = true;
         btn_koreksi.disabled = true;
         btn_hapus.disabled = true;
@@ -249,6 +263,9 @@ document.addEventListener("DOMContentLoaded", function () {
         btn_pesanan.disabled = false;
         btn_customer.focus();
         proses = 1;
+        setTimeout(() => {
+            tanggal_dikerjakan.focus();
+        }, 300);
     });
 
     btn_koreksi.addEventListener("click", function (event) {
@@ -560,6 +577,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customersTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -567,6 +588,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const selectedRow = result.value;
                     customers.value = selectedRow.NamaCust.trim();
                     id_customers.value = selectedRow.KodeCust.trim();
+                    setTimeout(() => {
+                        btn_kodebarang2.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -625,6 +649,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Add 'selected' class to the clicked row
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "barang2Table")
+                        );
                     });
                 },
             }).then((result) => {
@@ -639,6 +667,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         /[^a-zA-Z]/g,
                         ""
                     );
+                    setTimeout(() => {
+                        btn_pesanan.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -697,13 +728,17 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Add 'selected' class to the clicked row
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "pesananTable")
+                        );
                     });
                 },
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     idsuratpesanan.value = selectedRow.IDSuratPesanan.trim();
-                    idpesanan.value = selectedRow.IDPesanan.trim();
+                    idpesanan.value = selectedRow.IDPesanan ?? "";
                     let originalQty = selectedRow.Qty.trim();
                     let formattedQty = parseInt(originalQty, 10);
                     qty_sp.value = formattedQty;
@@ -719,12 +754,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         },
                         success: function (data) {
                             console.log(data);
-                            satuan.value = data.Satuan.trim();
-                            let originalDate = data.TglRencanaKirim.trim();
-                            let date = new Date(originalDate);
-                            let formattedDate =
-                                date.toLocaleDateString("en-US");
-                            rencana.value = formattedDate;
+                            satuan.value = data.Satuan ?? "";
+                            let originalDate = data.TglRencanaKirim ?? "";
+                            if (originalDate == "") {
+                                rencana.value = "";
+                            } else {
+                                let date = new Date(originalDate);
+                                let formattedDate =
+                                    date.toLocaleDateString("en-US");
+                                rencana.value = formattedDate;
+                            }
                         },
                         error: function (xhr, status, error) {
                             var err = eval("(" + xhr.responseText + ")");
@@ -743,12 +782,33 @@ document.addEventListener("DOMContentLoaded", function () {
                             console.log(data);
                             qty_sisa.value = data.SisaOrder;
                             qty_sisa.value = data.ada ? data.ada : 0;
-                            qty_sisa.focus();
+                            // qty_sisa.focus();
                         },
                         error: function (xhr, status, error) {
                             var err = eval("(" + xhr.responseText + ")");
                             alert(err.Message);
                         },
+                    });
+                    Swal.fire({
+                        icon: "question",
+                        title: "Question!",
+                        text: "Merubah Quantity",
+                        // showConfirmButton: true,
+                        confirmButtonText: "Ya",
+                        cancelButtonText: "Tidak",
+                        showCancelButton: true,
+                        focusConfirm: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            setTimeout(() => {
+                                qty_produksi.focus();
+                                qty_produksi.select();
+                            }, 300);
+                        } else {
+                            setTimeout(() => {
+                                btn_transfer.focus();
+                            }, 300);
+                        }
                     });
                 }
             });
@@ -756,6 +816,27 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("An error occurred:", error);
         }
         // console.log(selectedRow);
+    });
+
+    qty_produksi.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_transfer.focus();
+        }
+    });
+
+    tanggal_dikerjakan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tanggal_selesai.focus();
+        }
+    });
+
+    tanggal_selesai.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_proses.focus();
+        }
     });
 
     btn_nopesanan.addEventListener("click", async function (event) {

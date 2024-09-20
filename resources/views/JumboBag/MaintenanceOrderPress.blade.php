@@ -30,8 +30,8 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="id_customer" name="id_customer"
                                                 required>
-                                            <input type="text" class="form-control" style="width: 70%" id="customer" name="customer"
-                                                required>
+                                            <input type="text" class="form-control" style="width: 70%" id="customer"
+                                                name="customer" required>
                                             <button class="input" type="button" id="button-customer"
                                                 style="border-radius: 5px; width: 5%; cursor: pointer; border: 1px solid black;">...</button>
                                         </div>
@@ -84,23 +84,20 @@
                                     <div class="form-group">
                                         <label for="stok">Stok Order Sebelumnya</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="stok1" name="stok1"
-                                                required>
+                                            <input type="text" class="form-control" id="stok1" name="stok1">
                                             <input type="text" class="form-control" style="width: 70%" id="stok2"
-                                                name="stok2" required>
+                                                name="stok2">
                                             <button class="input" type="button" id="button_stok"
                                                 style="border-radius: 5px; width: 5%; cursor: pointer; border: 1px solid black;">...</button>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="sisa">Sisa Stok</label>
-                                        <input type="text" class="form-control" id="sisa" name="sisa"
-                                            required>
+                                        <input type="text" class="form-control" id="sisa" name="sisa">
                                     </div>
                                     <div class="form-group">
                                         <label for="jumlah">Jumlah</label>
-                                        <input type="text" class="form-control" id="jumlah" name="jumlah"
-                                            required>
+                                        <input type="text" class="form-control" id="jumlah" name="jumlah">
                                     </div>
                                     <div class="form-group text-right">
                                         <label for="jumlah" style="visibility: hidden;">a</label>
