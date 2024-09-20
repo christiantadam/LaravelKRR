@@ -279,8 +279,10 @@ class MaintenanceTabelOrder extends Controller
             } else {
                 $jnsBrg = '';
                 $queryParams[] = 2;
+                $queryParams[] = $jnsBrg;
             }
 
+            // dd($queryParams);
             $listSuratPesanan = DB::connection('ConnJumboBag')
                 ->select('exec SP_1273_JBB_LIST_SALES @KodeBarangSLS = ?, @Kode = ?, @JnsBrg = ?', $queryParams);
             // dd($listSuratPesanan);
@@ -290,7 +292,7 @@ class MaintenanceTabelOrder extends Controller
                 $dataSuratPesanan[] = [
                     'IDSuratPesanan' => $suratPesanan->IDSuratPesanan,
                     'Qty' => $suratPesanan->Qty,
-                    'IDPesanan' => $suratPesanan->IDPesanan,
+                    'IDPesanan' => $suratPesanan->IDPesanan ?? null,
                 ];
             }
 
