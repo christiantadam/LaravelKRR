@@ -86,25 +86,43 @@ class MaintenanceOrderPress extends Controller
                 $finish = 1;
             }
 
+            // Membuat array parameter untuk stored procedure
+            $parameters = [
+                $kodeBarang,
+                $noSP,
+                $jumlah,
+                $sisa,
+                $noSP2,
+                $delivery,
+                null,  // Untuk Delivery2, akan diisi jika tidak kosong
+                null,  // Untuk tglMulai, akan diisi jika jumlah press adalah 0
+                null   // Untuk tglSelesai, akan diisi jika finish = 1
+            ];
+
+            // Jika ada nilai untuk Delivery2, tambahkan ke parameter
+            if (!empty($delivery2)) {
+                $parameters[6] = $delivery2;
+            }
+
+            // Jika finish bernilai 1, tambahkan tglSelesai
+            if ($finish == 1) {
+                $parameters[8] = date('m/d/Y', strtotime($tglSelesai)); // Format tanggal
+            }
+
+            // Jika jumlah press adalah 0, tambahkan tglMulai
+            if ($jmlPress == 0) {
+                $parameters[7] = date('m/d/Y', strtotime($tglMulai)); // Format tanggal
+            }
+            // dd($parameters);
             // Memanggil stored procedure
             DB::connection('ConnJumboBag')->statement(
                 'exec SP_5409_JBB_UDT_STOK_PRESS @kodebarang = ?, @nosp = ?, @jumlah = ?, @sisa = ?, @nosp2 = ?, @delivery = ?, @Delivery2 = ?, @tglmulai = ?, @tglselesai = ?',
-                [
-                    $kodeBarang,
-                    $noSP,
-                    $jumlah,
-                    $sisa,
-                    $noSP2,
-                    $delivery,
-                    $delivery2,
-                    $tglMulai,
-                    $tglSelesai
-                ]
+                $parameters
             );
 
-            // Menampilkan pesan sukses
+            // Jika finish bernilai 1, tampilkan pesan sukses
             if ($finish == 1) {
-                return redirect()->back()->with(['success' => 'Data tersimpan, ada kelebihan stok sebesar ' . $sisa]);
+                return redirect()->back()->with(['success' => (string) 'Data tersimpan, ada kelebihan stok sebesar ' . $sisa]);
             } else {
                 return redirect()->back()->with(['success' => 'Data tersimpan, jumlah yang sudah terlunasi sebesar ' . ($jmlPress + $jumlah)]);
             }
