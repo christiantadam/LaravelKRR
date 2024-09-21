@@ -447,6 +447,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customerTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -454,6 +458,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     const selectedRow = result.value;
                     customer.value = selectedRow.Nama_Customer.trim();
                     id_customer.value = selectedRow.Kode_Customer.trim();
+
+                    setTimeout(() => {
+                        btn_kodebarang.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -506,6 +514,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "barangTable")
+                        );
                     });
                 },
             }).then(async (result) => {
@@ -516,7 +528,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (proses === 1) {
                         console.log(proses);
                         btn_nopesanan.disabled = true;
-                        btn_customers.focus();
+                        setTimeout(() => {
+                            btn_customers.focus();
+                        }, 300);
                     }
                 }
             });
