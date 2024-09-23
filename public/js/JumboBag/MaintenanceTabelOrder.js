@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
         btn_kodebarang2.disabled = false;
         btn_kodebarang.disabled = false;
         btn_pesanan.disabled = false;
-        btn_customer.focus();
+        btn_customers.focus();
         proses = 1;
         cleardata();
         btn_transfer.hidden = false;
@@ -261,10 +261,10 @@ document.addEventListener("DOMContentLoaded", function () {
         btn_kodebarang2.disabled = false;
         btn_kodebarang.disabled = false;
         btn_pesanan.disabled = false;
-        btn_customer.focus();
+        // btn_customer.focus();
         proses = 1;
         setTimeout(() => {
-            tanggal_dikerjakan.focus();
+            btn_customer.focus();
         }, 300);
     });
 
@@ -437,6 +437,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#customerTable_filter input").focus();
+                        }, 300);
                         $("#customerTable tbody").on(
                             "click",
                             "tr",
@@ -510,6 +513,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 { data: "tanggal" },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#barangTable_filter input").focus();
+                        }, 300);
                         $("#barangTable tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -529,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log(proses);
                         btn_nopesanan.disabled = true;
                         setTimeout(() => {
-                            btn_customers.focus();
+                            tanggal_dikerjakan.focus();
                         }, 300);
                     }
                 }
@@ -581,6 +587,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#customersTable_filter input").focus();
+                        }, 300);
                         $("#customersTable tbody").on(
                             "click",
                             "tr",
@@ -656,7 +665,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "IdBarang",
                                 },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#barang2Table_filter input").focus();
+                        }, 300);
                         $("#barang2Table tbody").on("click", "tr", function () {
                             // Remove 'selected' class from all rows
                             table.$("tr.selected").removeClass("selected");
@@ -736,6 +751,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#pesananTable_filter input").focus();
+                        }, 300);
                         $("#pesananTable tbody").on("click", "tr", function () {
                             // Remove 'selected' class from all rows
                             table.$("tr.selected").removeClass("selected");
@@ -904,6 +922,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#nopesananTable_filter input").focus();
+                        }, 300);
                         $("#nopesananTable tbody").on(
                             "click",
                             "tr",
