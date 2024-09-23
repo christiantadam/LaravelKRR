@@ -94,6 +94,7 @@ btnOK.addEventListener('click', function (event) {
             .then((options) => {
                 console.log(options);
                 dataTable = $("#tabelDataBKM").DataTable({
+                    destroy: true,
                     data: options,
                     columns: [
                         {

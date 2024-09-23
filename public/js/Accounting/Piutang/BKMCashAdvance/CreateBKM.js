@@ -26,6 +26,7 @@ $(document).ready(function () {
     let tgl_awalbkm = document.getElementById("tgl_awalbkm");
     let tgl_akhirbkm = document.getElementById("tgl_akhirbkm");
     let bkm = document.getElementById("bkm");
+    let tutup_TB = document.getElementById("tutup_TB");
     let table_pelunasan = $("#table_pelunasan").DataTable({
         // columnDefs: [{ targets: [7, 8, 9], visible: false }],
     });
@@ -39,13 +40,16 @@ $(document).ready(function () {
     btn_group.addEventListener("click", async function (event) {
         event.preventDefault();
 
+        let totalSemua = 0;
+        let uangSemua = "";
+
         rowDataArray.forEach(function (row) {
             // Remove commas from Nilai_Pelunasan and convert it to a float
             let total = parseFloat(row.Nilai_Pelunasan.replace(/,/g, ""));
-
+            totalSemua += parseFloat(row.Nilai_Pelunasan.replace(/,/g, ""));
             // Determine the currency
             let uang = row.Nama_MataUang;
-
+            uangSemua = row.Nama_MataUang;
             // Format the total to 2 decimal places
             let totalFormatted = total.toLocaleString("en-US", {
                 minimumFractionDigits: 2,
@@ -54,14 +58,17 @@ $(document).ready(function () {
 
             // Initialize the terbilang variable
             let terbilang = "";
+            let terbilangSemua = "";
 
             // Check if the currency is RUPIAH or other
             if (uang === "RUPIAH") {
                 // Call the Rupiah conversion function
                 terbilang = convertNumberToWordsRupiah(total);
+                terbilangSemua = convertNumberToWordsRupiah(totalSemua);
             } else {
                 // Call the Dollar conversion function
                 terbilang = convertNumberToWordsDollar(total);
+                terbilangSemua = convertNumberToWordsDollar(totalSemua);
             }
 
             // Add terbilang as a new property to the current row
@@ -71,6 +78,13 @@ $(document).ready(function () {
             console.log("Total Formatted: ", totalFormatted);
             console.log("Terbilang: ", row.terbilang);
         });
+        // Check if the currency is RUPIAH or other
+        if (uangSemua === "RUPIAH") {
+            terbilangSemua = convertNumberToWordsRupiah(totalSemua);
+        } else {
+            terbilangSemua = convertNumberToWordsDollar(totalSemua);
+        }
+        console.log(terbilangSemua);
 
         console.log(rowDataArray);
         $.ajax({
@@ -79,6 +93,7 @@ $(document).ready(function () {
             data: {
                 _token: csrfToken,
                 rowDataArray: rowDataArray,
+                terbilangSemua: terbilangSemua,
                 // checkedRows: checkedRows,
             },
             success: function (response) {
@@ -89,6 +104,9 @@ $(document).ready(function () {
                         text: response.message,
                         showConfirmButton: true,
                     }).then(() => {
+                        btn_ok.click();
+                        totalSemua = 0;
+                        uangSemua = "";
                         // location.reload();
                         // document
                         //     .querySelectorAll("input")
@@ -123,6 +141,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response) {
                 console.log(response.data);
+                rowDataArray = [];
 
                 table_pelunasan = $("#table_pelunasan").DataTable({
                     data: response.data, // Masukkan data ke DataTable
@@ -218,6 +237,8 @@ $(document).ready(function () {
 
                 rowDataArray = [];
             }
+
+            tutup_TB.click();
         }
     });
 

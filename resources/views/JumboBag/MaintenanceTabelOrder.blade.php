@@ -61,8 +61,8 @@
                                     <div class="input-group">
                                         <input type="date" class="form-control" id="time_deliv" name="time_deliv"
                                             required>
-                                        <input type="hidden" class="form-control" id="time_delivold"
-                                            name="time_delivold" required>
+                                        <input type="hidden" class="form-control" id="time_delivold" name="time_delivold"
+                                            required>
 
                                     </div>
                                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounting\Piutang\BKMCashAdvance;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Log;
 use App\Http\Controllers\HakAksesController;
 use Exception;
 use Illuminate\Support\Facades\Date;
@@ -191,88 +192,214 @@ class CreateBKMController extends Controller
             return datatables($response)->make(true);
         } else if ($id == 'getGroup') {
             // Migrated logic from CmdGroup_Click
-
-            // Fetch and process selected records
             $selectedRows = $request->input('rowDataArray', []);
-            // dd($selectedRows);
-            if (!empty($selectedRows)) {
-                $brs = 1;
-                $total = 0;
-                $a = 0;
+
+            $total = 0;
+
+            foreach ($selectedRows as $row) {
+                // Remove commas and convert to float, then add to total
+                $total += (float) str_replace(',', '', $row['Nilai_Pelunasan']);
+            }
+
+            if (count($selectedRows) > 1) {
+                $results = [];
+                if (!empty($selectedRows[0]['TglInput']) && !empty($selectedRows[0]['Id_bank']) && !empty($selectedRows[0]['KodePerkiraan'])) {
+
+                    $idBank = $selectedRows[0]['Id_bank'];
+                    if ($idBank == 'KRR1') {
+                        $idBank = 'KKM';
+                    } elseif ($idBank == 'KRR2') {
+                        $idBank = 'KI';
+                    }
+
+                    $bankResult = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BANK_1 @idBank = ?', [
+                        trim($idBank)
+                    ]);
+
+                    if (!empty($bankResult)) {
+                        $jenis = trim($bankResult[0]->jenis);
+                    }
+
+                    $month = date('m');
+                    $year = date('y');
+
+                    $getIdBKM = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_IDBKM @month = ?, @year = ?, @IdBank = ?, @jenis = ?, @tgl = ?', [
+                        $month,
+                        $year,
+                        $idBank,
+                        $jenis,
+                        (string) $month . $year,
+                    ]);
+
+                    if (!empty($getIdBKM)) {
+                        $idBKM = trim($getIdBKM[0]->id_BKM);
+                    }
+
+                    $id1 = substr($idBKM, 0, 3);
+
+                    $idbkm = intval($id1);
+                    // dd($idbkm);
+                    // dd($idBKM);
+                    $terbilangSemua = $request->input('terbilangSemua');
+
+                    DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_INSERT_BKM_TPELUNASAN @idBKM = ?, @tglinput = ?, @userinput = ?, @terjemahan = ?, @nilaipelunasan = ?, @IdBank = ?', [
+                        $idBKM,
+                        \Carbon\Carbon::parse($row['TglInput'])->format('Y-m-d'),
+                        trim(Auth::user()->NomorUser),
+                        $terbilangSemua,
+                        $total,
+                        $idBank
+                    ]);
+
+                    DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_COUNTER_IDBKM @idbkm = ?, @IdBank = ?, @jenis = ?, @tgl = ?', [
+                        $idbkm,
+                        $idBank,
+                        $jenis,
+                        (string) $month . $year,
+                    ]);
+
+                    Log::info(
+                        (string) $idBKM . ' ' .
+                        $idBank . ' ' .
+                        $jenis
+                    );
+                    // dd($tes);
+
+                    // $periode = date('my');
+                    // // dd($periode);
+                    // $bank = trim($selectedRows[0]['Id_bank']);
+                    // $noUrut = DB::connection('ConnAccounting')
+                    //     ->table('T_Counter_BKM')
+                    //     ->where('Periode', $periode)
+                    //     ->value('Id_BKM_E_Rp');
+
+                    // // Ensure $noUrut is always 3 digits
+                    // $noUrutFormatted = str_pad($noUrut, 3, '0', STR_PAD_LEFT);
+
+                    // $idBKM = $noUrutFormatted . $bank . $periode; // Example: 003ANZ0924
+                    // dd($idBKM);
+                    // $idBKM = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
+                    // $idBKM = $bank . '-R' . substr($periode, -2) . substr($idBKM, -5);
+                } else {
+                    return response()->json(['error' => 'Please fill in the Tgl Pembuatan BKM and Id.Bank']);
+                }
 
                 foreach ($selectedRows as $index => $row) {
-                    // Ensure required fields are not empty
-                    if (!empty($row['Tgl_Pelunasan']) && !empty($row['Id_bank']) && !empty($row['Jenis_Pembayaran'])) {
-                        // Processing logic, e.g., updating Tgl, bank, etc.
-                        // $row['Tgl_Pelunasan'] is the date, $row['Id_bank'] is the bank, etc.
+                    if (!empty($row['TglInput']) && !empty($row['Id_bank']) && !empty($row['KodePerkiraan'])) {
 
-                        $idBank = $row['Id_bank']; // Logic to set IdBank depending on conditions
+                        $idBank = $row['Id_bank'];
                         if ($idBank == 'KRR1') {
                             $idBank = 'KKM';
                         } elseif ($idBank == 'KRR2') {
                             $idBank = 'KI';
                         }
 
-                        $total = (float) str_replace(',', '', $row['Nilai_Pelunasan']);
-                        $uang = $row['Nama_MataUang'];
-                        $totalFormatted = number_format($total, 2, '.', ',');
-                        $konversi = ($uang == 'RUPIAH') ? $this->convertToRupiah($totalFormatted) : $this->convertToDollar($totalFormatted);
-
-                        // Call to stored procedure SP_5298_ACC_LIST_BANK_1
-                        $bankResult = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BANK_1 @idBank = ?', [
-                            trim($idBank)
-                        ]);
-
-                        if (!empty($bankResult)) {
-                            $jenis = trim($bankResult[0]->jenis);
-                        }
-
-                        // Call to stored procedure SP_5409_ACC_COUNTER_BKM_BKK
-                        $bkmResult = DB::connection('ConnAccounting')->select('exec SP_5409_ACC_COUNTER_BKM_BKK @bank = ?, @jenis = ?, @tgl = ?', [
-                            $idBank,
-                            'R', // Assuming the type is 'R'
-                            \Carbon\Carbon::parse($row['Tgl_Pelunasan'])->format('Y-m-d')
-                        ]);
-
-                        $id = $bkmResult[0]->id ?? null;
-                        $id1 = substr($id, 0, 3);
-                        $idbkm = (int) $id1;
-
-                        // Insert into T_Pelunasan via SP_5298_ACC_INSERT_BKM_TPELUNASAN
-                        DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_INSERT_BKM_TPELUNASAN @idBKM = ?, @tglinput = ?, @userinput = ?, @terjemahan = ?, @nilaipelunasan = ?, @IdBank = ?', [
-                            $id,
-                            \Carbon\Carbon::parse($row['Tgl_Pelunasan'])->format('Y-m-d'),
-                            auth()->user()->id, // Assuming you are using Laravel's Auth for user
-                            $konversi,
-                            $total,
-                            $idBank
-                        ]);
-
-                        // Update T_Pelunasan_Tagihan via SP_5298_ACC_UPDATE_IDBKM_1
                         DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_IDBKM_1 @idpelunasan = ?, @idBKM = ?, @idBank = ?, @kode = ?', [
                             $row['Id_Pelunasan'],
-                            $id,
+                            $idBKM,
                             $idBank,
-                            $row['Tgl_Pelunasan']
+                            $row['KodePerkiraan']
                         ]);
 
-                        // Optionally update status for BG or CEK
                         if (in_array($row['Jenis_Pembayaran'], ['BG', 'CEK'])) {
                             DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_STATUSBAYAR @idpelunasan = ?', [
                                 $row['Id_Pelunasan']
                             ]);
                         }
 
-                        // Return success message after processing
-                        return response()->json(['message' => (string) 'Data BKM With No.' . $id . ' Saved Successfully']);
+                        // Collect the success message for this row
+                        // $results[] = (string) 'Data BKM With No.' . $idBKM . ' Saved Successfully';
                     } else {
-                        return response()->json(['error' => 'Please fill in the Tgl Pembuatan BKM and Id.Bank'], 400);
+                        // If there are missing required fields
+                        $results[] = 'Please fill in the Tgl Pembuatan BKM and Id.Bank for row ' . ($index + 1);
                     }
                 }
+
+                // Return the accumulated results after processing all rows
+                return response()->json(['message' => (string) 'Data BKM With No.' . $idBKM . ' Saved Successfully']);
+            } elseif (count($selectedRows) === 1) {
+                $results = [];
+                if (!empty($selectedRows[0]['TglInput']) && !empty($selectedRows[0]['Id_bank']) && !empty($selectedRows[0]['KodePerkiraan'])) {
+
+                    $idBank = $selectedRows[0]['Id_bank'];
+                    if ($idBank == 'KRR1') {
+                        $idBank = 'KKM';
+                    } elseif ($idBank == 'KRR2') {
+                        $idBank = 'KI';
+                    }
+
+                    $getIdBKM = DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_COUNTER_BKM_BKK @bank = ?, @jenis = ?, @tgl = ?, @id = ?', [
+                        $idBank,
+                        'R',
+                        \Carbon\Carbon::parse($selectedRows[0]['TglInput'])->format('Y-m-d'),
+                        '',
+                    ]);
+                    // dd($tes);
+
+                    $periode = date('Y');
+                    // dd($periode);
+                    $bank = trim($selectedRows[0]['Id_bank']);
+                    $noUrut = DB::connection('ConnAccounting')
+                        ->table('T_Counter_BKM')
+                        ->where('Periode', $periode)
+                        ->value('Id_BKM_E_Rp');
+
+                    // $noUrutFormatted = str_pad($noUrut, 3, '0', STR_PAD_LEFT);
+                    // $idBKM = $noUrutFormatted . $bank . $periode;
+                    // dd($idBKM);
+                    $idBKM = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
+                    $idBKM = $bank . '-R' . substr($periode, -2) . substr($idBKM, -5);
+                    // dd($idBKM);
+                } else {
+                    return response()->json(['error' => 'Please fill in the Tgl Pembuatan BKM and Id.Bank']);
+                }
+
+                foreach ($selectedRows as $index => $row) {
+                    if (!empty($row['TglInput']) && !empty($row['Id_bank']) && !empty($row['KodePerkiraan'])) {
+
+                        $idBank = $row['Id_bank'];
+                        if ($idBank == 'KRR1') {
+                            $idBank = 'KKM';
+                        } elseif ($idBank == 'KRR2') {
+                            $idBank = 'KI';
+                        }
+
+                        DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_INSERT_BKM_TPELUNASAN @idBKM = ?, @tglinput = ?, @userinput = ?, @terjemahan = ?, @nilaipelunasan = ?, @IdBank = ?', [
+                            $idBKM,
+                            \Carbon\Carbon::parse($row['TglInput'])->format('Y-m-d'),
+                            trim(Auth::user()->NomorUser),
+                            $row['terbilang'],
+                            $total,
+                            $idBank
+                        ]);
+
+                        DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_IDBKM_1 @idpelunasan = ?, @idBKM = ?, @idBank = ?, @kode = ?', [
+                            $row['Id_Pelunasan'],
+                            $idBKM,
+                            $idBank,
+                            $row['KodePerkiraan']
+                        ]);
+
+                        if (in_array($row['Jenis_Pembayaran'], ['BG', 'CEK'])) {
+                            DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_STATUSBAYAR @idpelunasan = ?', [
+                                $row['Id_Pelunasan']
+                            ]);
+                        }
+
+                        // Collect the success message for this row
+                        // $results[] = (string) 'Data BKM With No.' . $idBKM . ' Saved Successfully';
+                    } else {
+                        // If there are missing required fields
+                        $results[] = 'Please fill in the Tgl Pembuatan BKM and Id.Bank for row ' . ($index + 1);
+                    }
+                }
+
+                return response()->json(['message' => (string) 'Data BKM With No.' . $idBKM . ' Saved Successfully']);
             } else {
-                return response()->json(['error' => 'Please select pelunasan data to group'], 400);
+                return response()->json(['error' => 'Please select pelunasan data to group']);
             }
         }
+
     }
 
     // Show the form for editing the specified resource.

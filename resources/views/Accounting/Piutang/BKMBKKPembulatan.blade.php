@@ -21,7 +21,7 @@
 
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-md-12 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">BKM-BKK Pembulatan</div>
                     @if (Session::has('success'))
@@ -58,13 +58,13 @@
                                             <div class="col-md-12">
                                                 <label for="radio_1">Data BKM</label>
                                             </div>
-                                            <div style="overflow-x: auto; overflow-y: auto; max-height: 250px;">
-                                                <table style="width: 180%; table-layout: fixed;" id="tabelDataBKM">
-                                                    <colgroup>
+                                            <div style="overflow-x: auto; overflow-y: auto;">
+                                                <table style="width: 100%;" id="tabelDataBKM">
+                                                    {{-- <colgroup>
                                                     <col style="width: 60%;">
                                                     <col style="width: 60%;">
                                                     <col style="width: 60%;">
-                                                    </colgroup>
+                                                    </colgroup> --}}
                                                     <thead class="table-dark">
                                                     <tr>
                                                         <th>No. BKM</th>
@@ -91,13 +91,13 @@
                                     </div>
 
                                     <!--CARD 2-->
-                                    <div class="card" style="width: 60%; overflow-y: auto; max-height: 250px;">
+                                    <div class="card" style="width: 60%; overflow-y: auto;">
                                         <div class="card-body">
                                             <div class="col-md-6">
                                                 <label for="radio_1">Rincian Data</label>
                                             </div>
                                             <div style="overflow-x: auto;">
-                                                <table style="width: 240%; table-layout: fixed;" id="tabelRincianData">
+                                                <table style="width: 100%; table-layout: fixed;" id="tabelRincianData">
                                                     <colgroup>
                                                     <col style="width: 40%;">
                                                     <col style="width: 35%;">
@@ -519,5 +519,5 @@ s
         </div>
     </div>
 </div>
-<script src="{{ asset('js/Piutang/BKMBKKPembulatan.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/BKMBKKPembulatan.js') }}"></script>
 @endsection

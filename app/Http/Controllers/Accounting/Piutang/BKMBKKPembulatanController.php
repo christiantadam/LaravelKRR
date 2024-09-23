@@ -4,14 +4,19 @@ namespace App\Http\Controllers\Accounting\Piutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class BKMBKKPembulatanController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.BKMBKKPembulatan', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
+        return view('Accounting.Piutang.BKMBKKPembulatan', compact('access'));
+        // $data = 'Accounting';
+        // return view('Accounting.Piutang.BKMBKKPembulatan', compact('data'));
     }
 
     public function getTabelPelunasan($bulan, $tahun)
