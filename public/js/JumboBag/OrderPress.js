@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let btn_kodebarang = document.getElementById("button-kode-barang");
     let btn_pesanan = document.getElementById("button-pesanan");
     let btn_warna = document.getElementById("button-warna");
+    let btn_print = document.getElementById("btn_print");
     let id_customer = document.getElementById("id_customer");
     let customer = document.getElementById("customer");
     let tanggal = document.getElementById("tanggal");
@@ -37,6 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
     delivery.readOnly = true;
     warna.readOnly = true;
     id_barang.readOnly = true;
+    btn_customer.focus();
+
 
     if (successMessage) {
         Swal.fire({
@@ -235,6 +238,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.print();
             },
         });
+
+        setTimeout(() => {
+            btn_customer.focus();
+        }, 300);
     });
 
     btn_customer.addEventListener("click", async function (event) {
@@ -278,7 +285,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "Kode_Customer",
                                 },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#customerTable_filter input").focus();
+                        }, 300);
                         $("#customerTable tbody").on(
                             "click",
                             "tr",
@@ -289,6 +302,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customerTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -296,6 +313,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const selectedRow = result.value;
                     customer.value = selectedRow.Nama_Customer.trim();
                     id_customer.value = selectedRow.Kode_Customer.trim();
+                    setTimeout(() => {
+                        btn_kodebarang.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -341,11 +361,21 @@ document.addEventListener("DOMContentLoaded", function () {
                                 { data: "Kode_Barang" },
                                 { data: "tanggal" },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#barangTable_filter input").focus();
+                        }, 300);
                         $("#barangTable tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "barangTable")
+                        );
                     });
                 },
             }).then(async (result) => {
@@ -354,6 +384,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     kodeBarangAsal.value = selectedRow.Kode_Barang.trim();
                     tanggal.value = selectedRow.tanggal.trim();
 
+                    setTimeout(() => {
+                        btn_pesanan.focus();
+                    }, 300);
                     // Mengisi kodeBarangDirubah dengan 6 karakter pertama dari kodeBarangAsal
                     // if (kodeBarangAsal.value !== "") {
                     //     kodeBarangDirubah.value =
@@ -413,7 +446,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "Waktu_Delivery",
                                 },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#nopesananTable_filter input").focus();
+                        }, 300);
                         $("#nopesananTable tbody").on(
                             "click",
                             "tr",
@@ -423,6 +462,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Add 'selected' class to the clicked row
                                 $(this).addClass("selected");
                             }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "nopesananTable")
                         );
                     });
                 },
@@ -465,6 +508,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             alert(err.Message);
                         },
                     });
+
+                    setTimeout(() => {
+                        btn_warna.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -516,12 +563,19 @@ document.addEventListener("DOMContentLoaded", function () {
                             ],
                             order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#warnaTable_filter input").focus();
+                        }, 300);
                         $("#warnaTable tbody").on("click", "tr", function () {
                             // Remove 'selected' class from all rows
                             table.$("tr.selected").removeClass("selected");
                             // Add 'selected' class to the clicked row
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "warnaTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -529,10 +583,34 @@ document.addEventListener("DOMContentLoaded", function () {
                     const selectedRow = result.value;
                     warna.value = selectedRow.Nama_Warna.trim();
                     // id_customer.value = selectedRow.Kode_Customer.trim();
+                    setTimeout(() => {
+                        packing.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
             console.error("An error occurred:", error);
+        }
+    });
+
+    packing.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            no_referensi.focus();
+        }
+    });
+
+    no_referensi.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            halaman.focus();
+        }
+    });
+
+    halaman.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_print.focus();
         }
     });
 });
