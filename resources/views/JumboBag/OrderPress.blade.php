@@ -108,8 +108,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="halaman">Catatan</label>
-                                        <input type="text" class="form-control" id="halaman" name="halaman"
-                                            required>
+                                        <textarea class="form-control" name="halaman" id="halaman" cols="20" rows="5"></textarea>
+                                        {{-- <input type="text" class="form-control" id="halaman" name="halaman"
+                                            required> --}}
                                         {{-- <textarea name="" id="halaman" cols="30" rows="10">Catatan</textarea> --}}
                                         <input type="text" class="form-control" id="iner" name="iner"
                                             required style="display: none">

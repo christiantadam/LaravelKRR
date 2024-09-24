@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tanggals.valueAsDate = new Date();
     tanggalf.valueAsDate = new Date();
+    btn_customer.focus();
 
     if (successMessage) {
         Swal.fire({
@@ -62,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 title: "Select a Customer",
                 html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>Id_Customer</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
+                width: "40%",
                 preConfirm: () => {
                     const selectedData = $("#customerTable")
                         .DataTable()
@@ -96,7 +98,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "Kode_Customer",
                                 },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#customerTable_filter input").focus();
+                        }, 300);
                         $("#customerTable tbody").on(
                             "click",
                             "tr",
@@ -107,6 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customerTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -114,6 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const selectedRow = result.value;
                     customer.value = selectedRow.Nama_Customer.trim();
                     id_customer.value = selectedRow.Kode_Customer.trim();
+                    setTimeout(() => {
+                        btn_kodebarang.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -160,11 +175,21 @@ document.addEventListener("DOMContentLoaded", function () {
                                 { data: "Kode_Barang" },
                                 { data: "tanggal" },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#barangTable_filter input").focus();
+                        }, 300);
                         $("#barangTable tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "barangTable")
+                        );
                     });
                 },
             }).then(async (result) => {
@@ -172,6 +197,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     const selectedRow = result.value;
                     kodeBarangAsal.value = selectedRow.Kode_Barang.trim();
                     tanggal.value = selectedRow.tanggal.trim();
+                    setTimeout(() => {
+                        btn_pesanan.focus();
+                    }, 300);
 
                     // Mengisi kodeBarangDirubah dengan 6 karakter pertama dari kodeBarangAsal
                     // if (kodeBarangAsal.value !== "") {
@@ -239,7 +267,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                     },
                                 },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#nopesananTable_filter input").focus();
+                        }, 300);
                         $("#nopesananTable tbody").on(
                             "click",
                             "tr",
@@ -249,6 +283,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Add 'selected' class to the clicked row
                                 $(this).addClass("selected");
                             }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "nopesananTable")
                         );
                     });
                 },
@@ -261,6 +299,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     jumlah_press.value = selectedRow.JumlahPress.trim();
                     tanggals.value = selectedRow.start.trim();
                     tanggalf.value = selectedRow.finish.trim();
+
+                    setTimeout(() => {
+                        tanggals.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -311,13 +353,23 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "Waktu_Delivery",
                                 },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#stokTable_filter input").focus();
+                        }, 300);
                         $("#stokTable tbody").on("click", "tr", function () {
                             // Remove 'selected' class from all rows
                             table.$("tr.selected").removeClass("selected");
                             // Add 'selected' class to the clicked row
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "stokTable")
+                        );
                     });
                 },
             }).then((result) => {

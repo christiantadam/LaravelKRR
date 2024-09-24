@@ -62,6 +62,7 @@ class OrderPress extends Controller
     public function store(Request $request)
     {
         if ($request->input('typeForm') == 'printReport') {
+            // dd($request->input('cat'));
             $noSP = trim($request->input('no_suratpesanan'));
             $kodeBarang = $request->input('kodeBarangAsal');
             $waktuDelivery = $request->input('delivery');

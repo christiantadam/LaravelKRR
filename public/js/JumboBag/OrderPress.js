@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
     id_barang.readOnly = true;
     btn_customer.focus();
 
-
     if (successMessage) {
         Swal.fire({
             icon: "success",
@@ -214,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // let keterangan = data.data[0].Catatan.replace(/\r\n/g, "<br>");s
                 // keterangan = "&nbsp;" + keterangan;
                 document.getElementById("catatan_tabel").innerHTML =
-                    "&nbsp;" + data.data[0].Catatan;
+                    "&nbsp;" + data.data[0].Catatan.replace(/\r\n/g, "<br>&nbsp;");
                 // let keterangan2 = data.data[0].StdWaktu.replace(/\r\n/g, "<br>");
                 // keterangan2 = "&nbsp;" + keterangan2;
                 document.getElementById("stdW_tabel").innerHTML =
@@ -608,7 +607,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     halaman.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
+        if (event.key === "Tab") {
             event.preventDefault();
             btn_print.focus();
         }
