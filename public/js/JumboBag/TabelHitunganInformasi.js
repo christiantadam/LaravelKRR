@@ -1447,7 +1447,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "Kode_Customer",
                                 },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#customerTable_filter input").focus();
+                        }, 300);
+                        $("#customerTable_filter input").on(
+                            "keyup",
+                            function () {
+                                table
+                                    .columns(1) // Kolom kedua (Kode_Customer)
+                                    .search(this.value) // Cari berdasarkan input pencarian
+                                    .draw(); // Perbarui hasil pencarian
+                            }
+                        );
                         $("#customerTable tbody").on(
                             "click",
                             "tr",
@@ -1514,7 +1529,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                             },
                             columns: [{ data: "Ukuran" }],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#ukuranTable_filter input").focus();
+                        }, 300);
                         $("#ukuranTable tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -1584,7 +1605,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                 { data: "Kode_Barang" },
                                 { data: "Tanggal" },
                             ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
                         });
+                        setTimeout(() => {
+                            $("#barangTable_filter input").focus();
+                        }, 300);
                         $("#barangTable tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
