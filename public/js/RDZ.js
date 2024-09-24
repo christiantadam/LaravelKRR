@@ -410,7 +410,14 @@ function handleTableKeydownInSwal(e, tableId) {
             currentIndex = (currentIndex + 1) % rowCount;
         }
         rows.removeClass("selected");
-        $(rows[currentIndex]).addClass("selected");
+        const selectedRow = $(rows[currentIndex]);
+        selectedRow.addClass("selected");
+
+        // Menambahkan fungsi scroll agar mengikuti baris yang dipilih
+        selectedRow[0].scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+        });
     } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (currentIndex === null) {
@@ -419,7 +426,14 @@ function handleTableKeydownInSwal(e, tableId) {
             currentIndex = (currentIndex - 1 + rowCount) % rowCount;
         }
         rows.removeClass("selected");
-        $(rows[currentIndex]).addClass("selected");
+        const selectedRow = $(rows[currentIndex]);
+        selectedRow.addClass("selected");
+
+        // Menambahkan fungsi scroll agar mengikuti baris yang dipilih
+        selectedRow[0].scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+        });
     } else if (e.key === "ArrowRight") {
         e.preventDefault();
         currentIndex = null;
