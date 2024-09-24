@@ -353,6 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         title: "Success!",
                         text: data.success,
                         showConfirmButton: false,
+                        timer: 1500
                     });
                 } else if (data.error) {
                     Swal.fire({

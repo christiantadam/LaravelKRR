@@ -371,7 +371,7 @@ class MaintenanceTabelOrder extends Controller
                 if (!empty($sisaDetails)) {
                     $sisaDetail = $sisaDetails[0];
                     return response()->json([
-                        'SisaOrder' => $sisaDetail->SisaOrder,
+                        'SisaOrder' => $sisaDetail->SisaOrder ?? 0,
                     ]);
                 } else {
                     return response()->json(['error' => 'No data found'], 404);
