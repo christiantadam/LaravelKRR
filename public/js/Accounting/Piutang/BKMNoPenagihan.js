@@ -1138,7 +1138,6 @@ $(document).ready(function () {
                 //     window.print();
                 // } else {
 
-                // #region Asli
                 document.getElementById("nomerP").innerHTML =
                     data.data[0].Id_BKM;
                 // Assume data.data[0].Tgl_Input is in the format "2012-01-02 00:00:00.000"

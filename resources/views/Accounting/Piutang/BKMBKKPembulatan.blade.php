@@ -102,16 +102,16 @@
                                         <strong>Rincian Data</strong>
                                     </div>
                                     <div style="overflow-x: auto;">
-                                        <table style="width: 130%; table-layout: fixed;" id="table_RincianData">
+                                        <table style="width: 100%; table-layout: fixed;" id="table_RincianData">
                                             <colgroup>
                                                 <col style="width: 40%;">
                                                 <col style="width: 35%;">
                                                 <col style="width: 35%;">
                                                 <col style="width: 30%;">
                                                 <col style="width: 40%;">
+                                                {{-- <col style="width: 20%;">
                                                 <col style="width: 20%;">
-                                                <col style="width: 20%;">
-                                                <col style="width: 20%;">
+                                                <col style="width: 20%;"> --}}
                                             </colgroup>
                                             <thead class="table-dark">
                                                 <tr>

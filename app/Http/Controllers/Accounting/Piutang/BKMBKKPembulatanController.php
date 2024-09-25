@@ -246,6 +246,30 @@ class BKMBKKPembulatanController extends Controller
             }
 
             return datatables($response)->make(true);
+        } else if ($id == 'getBKMDetails') {
+            $kode = 2;
+            $idBKM = trim($request->input('idBKM'));
+            // dd($idBKM);
+            // Execute the stored procedure
+            $bkmDetails = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_BKM_PEMBULATAN @kode = ?, @idBKM = ?', [$kode, $idBKM]);
+            // dd($bkmDetails);
+            // Prepare the response array for DataTables
+            $response = [];
+            foreach ($bkmDetails as $detail) {
+                $response[] = [
+                    'NamaCust' => $detail->NamaCust,
+                    'No_Bukti' => $detail->No_Bukti,
+                    'ID_Penagihan' => $detail->ID_Penagihan,
+                    'MataUang' => $detail->MataUang,
+                    'Rincian' => number_format($detail->Rincian, 2, '.', ','), // Format as ###,###,##0.00
+                    'Id_bank' => $detail->Id_bank,
+                    'Jenis_Bank' => $detail->Jenis_Bank,
+                    'Id_MataUang' => $detail->Id_MataUang,
+                ];
+            }
+
+            return datatables($response)->make(true);
         }
     }
 

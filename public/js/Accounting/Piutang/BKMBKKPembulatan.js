@@ -15,8 +15,9 @@ $(document).ready(function () {
         // columnDefs: [{ targets: [7, 8, 9], visible: false }],
     });
     let table_RincianData = $("#table_RincianData").DataTable({
-        // columnDefs: [{ targets: [7, 8, 9], visible: false }],
+        columnDefs: [{ targets: [5, 6, 7], visible: false }],
     });
+    let rowDataPertama;
 
     tanggal.valueAsDate = new Date();
 
@@ -54,6 +55,94 @@ $(document).ready(function () {
             scrollCollapse: true,
             // columnDefs: [{ targets: [5], visible: false }],
         });
+    });
+
+    let rowDataArray = [];
+
+    // Handle checkbox change events
+    $("#table_DataBKM tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#table_DataBKM tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            if (this.checked) {
+                $('input[name="penerimaCheckbox"]')
+                    .not(this)
+                    .prop("checked", false);
+                rowDataPertama = table_DataBKM
+                    .row($(this).closest("tr"))
+                    .data();
+
+                // Add the selected row data to the array
+                rowDataArray.push(rowDataPertama);
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_DataBKM);
+
+                table_RincianData = $("#table_RincianData").DataTable({
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    destroy: true,
+                    ajax: {
+                        url: "MaintenanceBKMxBKKPembulatan/getBKMDetails",
+                        dataType: "json",
+                        type: "GET",
+                        data: function (d) {
+                            return $.extend({}, d, {
+                                _token: csrfToken,
+                                idBKM: rowDataPertama.Id_BKM,
+                            });
+                        },
+                    },
+                    columns: [
+                        {
+                            data: "NamaCust",
+                            // render: function (data) {
+                            //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                            // },
+                        },
+                        { data: "No_Bukti" },
+                        { data: "ID_Penagihan" },
+                        { data: "MataUang" },
+                        { data: "Rincian" },
+                        { data: "Id_bank" },
+                        { data: "Jenis_Bank" },
+                        { data: "Id_MataUang" },
+                    ],
+                    paging: false,
+                    scrollY: "400px",
+                    scrollCollapse: true,
+                    columnDefs: [{ targets: [5, 6, 7], visible: false }],
+                });
+            } else {
+                // Remove the unchecked row data from the array
+                rowDataPertama = null;
+
+                // rowDataPertama = table_DataBKM
+                //     .row($(this).closest("tr"))
+                //     .data();
+
+                rowDataArray = rowDataArray.filter(
+                    (row) => row !== rowDataPertama
+                );
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_DataBKM);
+            }
+        }
+    );
+
+    $("#table_RincianData tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_RincianData tbody tr").removeClass("selected");
+
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+
+        // Get data from the clicked row
+        var data = table_RincianData.row(this).data();
+
     });
 
     btn_bank.addEventListener("click", async function (event) {
@@ -108,9 +197,7 @@ $(document).ready(function () {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     id_bank.value = escapeHTML(selectedRow.Id_Bank.trim());
-                    nama_bank.value = escapeHTML(
-                        selectedRow.Nama_Bank.trim()
-                    );
+                    nama_bank.value = escapeHTML(selectedRow.Nama_Bank.trim());
 
                     $.ajax({
                         url: "MaintenanceBKMxBKKPembulatan/getBankDetails",

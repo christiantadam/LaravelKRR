@@ -415,5 +415,5 @@
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Piutang/BKMDPPelunasan.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/BKMDPPelunasan.js') }}"></script>
 @endsection
