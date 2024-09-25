@@ -221,8 +221,8 @@ class TransferBarangController extends Controller
     {
         $kd = 1;
         $IdType = $request->input('IdType');
-        $MasukPrimer = $request->input('MasukPrimer');
-        $MasukSekunder = $request->input('MasukSekunder');
+        $MasukPrimer = $request->input('MasukPrimer') ?? 0;
+        $MasukSekunder = $request->input('MasukSekunder') ?? 0;
         $MasukTritier = $request->input('MasukTritier');
         $User_id = trim(Auth::user()->NomorUser);
         $SubKel = $request->input('SubKel');

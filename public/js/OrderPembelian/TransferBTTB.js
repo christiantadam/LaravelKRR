@@ -202,52 +202,111 @@ btn_koreksi.addEventListener("click", function (event) {
 });
 
 btn_transfer.addEventListener("click", function (event) {
-    $.ajax({
-        url: "/TransferBarang/TransferBTTB/Transfer",
-        type: "POST",
-        headers: {
-            "X-CSRF-TOKEN": csrfToken,
-        },
-        data: {
-            IdType: idType.value.trim(),
-            MasukPrimer: numeral(qty_premier.value).value(),
-            MasukSekunder: numeral(qty_sekunder.value).value(),
-            MasukTritier: numeral(qty_tertier.value).value(),
-            SubKel: ket_subKelompok.value,
-            NoTerima: no_terima.value,
-            ket: keterangan.value,
-            YTanggal: tanggal.value,
-            NoPib: no_pib.value,
-        },
-        beforeSend: function () {
-            // Show loading screen
-            $("#loading-screen").css("display", "flex");
-        },
-        success: function (response) {
+    if (ket_qtyTertier.value.trim() == ket_qtyTerima.value.trim()) {
+        if (numeral(qty_tertier.value).value() > numeral(qty_terima.value).value()) {
             Swal.fire({
-                icon: "success",
-                title: "Data Berhasil DiTransfer!",
-                showConfirmButton: false,
-                timer: "2000",
-            }).then(() => {
-                // Redirect after the timer expires
-                window.close();
+                icon: "info",
+                title: "Info",
+                text: "Tidak boleh lebih besar dari qty terima!",
+                showConfirmButton: true,
             });
-        },
-        error: function (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Data Tidak Berhasil DiTransfer!",
-                showConfirmButton: false,
-                timer: "2000",
+            qty_tertier.focus();
+        } else {
+            $.ajax({
+                url: "/TransferBarang/TransferBTTB/Transfer",
+                type: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                data: {
+                    IdType: idType.value.trim(),
+                    MasukPrimer: numeral(qty_premier.value).value(),
+                    MasukSekunder: numeral(qty_sekunder.value).value(),
+                    MasukTritier: numeral(qty_tertier.value).value(),
+                    SubKel: ket_subKelompok.value,
+                    NoTerima: no_terima.value,
+                    ket: keterangan.value,
+                    YTanggal: tanggal.value,
+                    NoPib: no_pib.value,
+                },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display", "flex");
+                },
+                success: function (response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data Berhasil DiTransfer!",
+                        showConfirmButton: false,
+                        timer: "2000",
+                    }).then(() => {
+                        // Redirect after the timer expires
+                        window.close();
+                    });
+                },
+                error: function (error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Data Tidak Berhasil DiTransfer!",
+                        showConfirmButton: false,
+                        timer: "2000",
+                    });
+                    console.error("Error Send Data:", error);
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none");
+                },
             });
-            console.error("Error Send Data:", error);
-        },
-        complete: function () {
-            // Hide loading screen
-            $("#loading-screen").css("display", "none");
-        },
-    });
+        }
+    } else {
+        $.ajax({
+            url: "/TransferBarang/TransferBTTB/Transfer",
+            type: "POST",
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            data: {
+                IdType: idType.value.trim(),
+                MasukPrimer: numeral(qty_premier.value).value(),
+                MasukSekunder: numeral(qty_sekunder.value).value(),
+                MasukTritier: numeral(qty_tertier.value).value(),
+                SubKel: ket_subKelompok.value,
+                NoTerima: no_terima.value,
+                ket: keterangan.value,
+                YTanggal: tanggal.value,
+                NoPib: no_pib.value,
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            success: function (response) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Data Berhasil DiTransfer!",
+                    showConfirmButton: false,
+                    timer: "2000",
+                }).then(() => {
+                    // Redirect after the timer expires
+                    window.close();
+                });
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Data Tidak Berhasil DiTransfer!",
+                    showConfirmButton: false,
+                    timer: "2000",
+                });
+                console.error("Error Send Data:", error);
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
+        });
+    }
 });
 
 container.addEventListener("keydown", function (event) {
@@ -274,13 +333,13 @@ function clearData() {
     nama_barang.value = "";
     keterangan.value = "";
     qty_terima.value = "0";
-    ket_qtyTerima.value = "null";
-    qty_premier.value = "0";
-    ket_qtyPremier.value = "null";
-    qty_sekunder.value = "0";
-    ket_qtySekunder.value = "null";
-    qty_tertier.value = "0";
-    ket_qtyTertier.value = "null";
+    ket_qtyTerima.value = "";
+    qty_premier.value = "";
+    ket_qtyPremier.value = "";
+    qty_sekunder.value = "";
+    ket_qtySekunder.value = "";
+    qty_tertier.value = "";
+    ket_qtyTertier.value = "";
     // optionClr();
     kelompok_utama.value = "";
     kelompok.value = "";
@@ -329,8 +388,14 @@ function loadSatuan(KodeBarang) {
         },
         success: function (response) {
             console.log(response);
-            qty_premier.value = parseFloat(response[0].ST_PRIM);
-            qty_sekunder.value = parseFloat(response[0].ST_SEK);
+            qty_premier.value =
+                parseFloat(response[0].ST_PRIM) === 0
+                    ? ""
+                    : parseFloat(response[0].ST_PRIM);
+            qty_sekunder.value =
+                parseFloat(response[0].ST_SEK) === 0
+                    ? ""
+                    : parseFloat(response[0].ST_SEK);
             ket_qtyPremier.value = response[0].Primer.replace(/\s/g, "");
             ket_qtySekunder.value = response[0].Sekunder.replace(/\s/g, "");
             ket_qtyTertier.value = response[0].Tertier.replace(/\s/g, "");
@@ -410,7 +475,7 @@ $(document).ready(function () {
         if (event.key == "Enter") {
             let numeralValue = numeral(qty_tertier.value).value();
             this.value = numeral(numeralValue).format("0,0.00");
-            supplier_select.focus();
+            // supplier_select.focus();
         }
     });
 
@@ -418,7 +483,7 @@ $(document).ready(function () {
         if (event.key == "Enter") {
             let numeralValue = numeral(qty_sekunder.value).value();
             this.value = numeral(numeralValue).format("0,0.00");
-            supplier_select.focus();
+            // supplier_select.focus();
         }
     });
 
@@ -426,7 +491,7 @@ $(document).ready(function () {
         if (event.key == "Enter") {
             let numeralValue = numeral(qty_premier.value).value();
             this.value = numeral(numeralValue).format("0,0.00");
-            supplier_select.focus();
+            // supplier_select.focus();
         }
     });
 
