@@ -203,7 +203,10 @@ btn_koreksi.addEventListener("click", function (event) {
 
 btn_transfer.addEventListener("click", function (event) {
     if (ket_qtyTertier.value.trim() == ket_qtyTerima.value.trim()) {
-        if (numeral(qty_tertier.value).value() > numeral(qty_terima.value).value()) {
+        if (
+            numeral(qty_tertier.value).value() >
+            numeral(qty_terima.value).value()
+        ) {
             Swal.fire({
                 icon: "info",
                 title: "Info",
@@ -388,14 +391,8 @@ function loadSatuan(KodeBarang) {
         },
         success: function (response) {
             console.log(response);
-            qty_premier.value =
-                parseFloat(response[0].ST_PRIM) === 0
-                    ? ""
-                    : parseFloat(response[0].ST_PRIM);
-            qty_sekunder.value =
-                parseFloat(response[0].ST_SEK) === 0
-                    ? ""
-                    : parseFloat(response[0].ST_SEK);
+            qty_premier.value = "";
+            qty_sekunder.value = "";
             ket_qtyPremier.value = response[0].Primer.replace(/\s/g, "");
             ket_qtySekunder.value = response[0].Sekunder.replace(/\s/g, "");
             ket_qtyTertier.value = response[0].Tertier.replace(/\s/g, "");
