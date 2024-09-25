@@ -147,6 +147,13 @@ document.addEventListener("DOMContentLoaded", function () {
     //     }
     // });
 
+    // tanggal_input.addEventListener("keydown", function (event) {
+    //     if (event.key === "Enter") {
+    //         event.preventDefault();
+    //         btn_customer.focus();
+    //     }
+    // });
+
     btn_cari.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(
@@ -204,6 +211,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         ])
                         .draw(false);
                 });
+
+                setTimeout(() => {
+                        btn_print.focus();
+                    }, 300);
             },
             error: function (xhr, status, error) {
                 console.error("Error:", status, error);

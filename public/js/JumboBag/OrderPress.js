@@ -212,8 +212,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     innerHTMLValue;
                 // let keterangan = data.data[0].Catatan.replace(/\r\n/g, "<br>");s
                 // keterangan = "&nbsp;" + keterangan;
-                document.getElementById("catatan_tabel").innerHTML =
-                    "&nbsp;" + data.data[0].Catatan.replace(/\r\n/g, "<br>&nbsp;");
+                document.getElementById("catatan_tabel").innerHTML = data
+                    .data[0].Catatan
+                    ? "&nbsp;" +
+                      data.data[0].Catatan.replace(/\r\n/g, "<br>&nbsp;")
+                    : "";
                 // let keterangan2 = data.data[0].StdWaktu.replace(/\r\n/g, "<br>");
                 // keterangan2 = "&nbsp;" + keterangan2;
                 document.getElementById("stdW_tabel").innerHTML =
