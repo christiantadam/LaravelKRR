@@ -183,13 +183,15 @@ class TransferBarangController extends Controller
     {
 
         $IdType = $request->input('IdType');
-        $MasukPrimer = $request->input('MasukPrimer');
-        $MasukSekunder = $request->input('MasukSekunder');
+        $MasukPrimer = $request->input('MasukPrimer') ?? 0.00;
+        $MasukSekunder = $request->input('MasukSekunder') ?? 0.00;
         $MasukTritier = $request->input('MasukTritier');
         $User_id = trim(Auth::user()->NomorUser);
         $SubKel = $request->input('SubKel');
         $NoTransTmp = $request->input('NoTransTmp');
         $ket = $request->input('ket');
+        // dd($request->all());
+        // dd($MasukPrimer, $MasukSekunder);
         if (
             $IdType !== null &&
             $MasukPrimer !== null &&
@@ -198,21 +200,17 @@ class TransferBarangController extends Controller
             $SubKel !== null &&
             $NoTransTmp !== null
         ) {
-            try {
-                $data = DB::connection('ConnPurchase')->statement('exec SP_1273_PBL_KOREKSI_TRANSFER_TMPTRANSAKSI @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTransTmp = ?, @ket = ?', [
-                    $IdType,
-                    $MasukPrimer,
-                    $MasukSekunder,
-                    $MasukTritier,
-                    $User_id,
-                    $SubKel,
-                    $NoTransTmp,
-                    $ket
-                ]);
-                return Response()->json(['message' => 'Data Berhasil Di Koreksi']);
-            } catch (\Throwable $Error) {
-                return Response()->json($Error);
-            }
+            $data = DB::connection('ConnInventory')->statement('exec SP_4384_PBL_KOREKSI_TRANSFER_TMPTRANSAKSI @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTransTmp = ?, @ket = ?', [
+                $IdType,
+                $MasukPrimer,
+                $MasukSekunder,
+                $MasukTritier,
+                $User_id,
+                $SubKel,
+                (int) $NoTransTmp,
+                $ket
+            ]);
+            return Response()->json(['message' => 'Data Berhasil Di Koreksi']);
         } else {
             return Response()->json('Parameter harus di isi');
         }
