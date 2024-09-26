@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
+        <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">Maintenance Kode Perkiraan BKM</div>
                 @if (Session::has('success'))
@@ -76,7 +76,8 @@
                                                     style="width: 100%">
                                             </div>
                                             <div class="col-md-1">
-                                                <button type="button" class="btn btn-primary" id="btn_ok">OK</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    id="btn_ok">OK</button>
                                             </div>
                                         </div>
                                     </div>
@@ -93,8 +94,9 @@
                                             <label for="rincianPembayaran">Rincian Pembayaran</label>
                                         </div>
                                         <div class="col-md-12">
-                                            <input type="text" id="rincianPembayaran" name="rincianPembayaran"
-                                                class="form-control" style="width: 100%">
+                                            <textarea type="text" id="rincianPembayaran" name="rincianPembayaran" class="form-control" style="width: 100%"> </textarea>
+                                            {{-- <input type="text" id="rincianPembayaran" name="rincianPembayaran"
+                                                class="form-control" style="width: 100%"> --}}
                                         </div>
                                         <p>
                                         <div class="col-md-6">
@@ -119,7 +121,7 @@
                                             </div>
                                             <div class="col-md-1">
                                                 <button type="button" class="btn btn-default"
-                                                    id="btn_bankTB">...</button>
+                                                    id="btn_perkiraan">...</button>
                                             </div>
                                         </div>
                                         <input type="hidden" name="idDetail" id="idDetail" class="form-control"
@@ -143,10 +145,10 @@
                                         <table style="width: 100%; table-layout: fixed;" id="table_bawah">
                                             <colgroup>
                                                 <col style="width: 30%;">
-                                                <col style="width: 30%;">
-                                                <col style="width: 30%;">
-                                                <col style="width: 30%;">
-                                                <col style="width: 30%;">
+                                                <col style="width: 25%;">
+                                                <col style="width: 20%;">
+                                                <col style="width: 15%;">
+                                                <col style="width: 20%;">
                                             </colgroup>
                                             <thead class="table-dark">
                                                 <tr>
@@ -167,12 +169,12 @@
                                 <div style="width: 40%;">
                                     <p>
                                     <div style="padding-left: 450px">
-                                        <input type="submit" id="btnProses" name="btnProses" value="PROSES"
-                                            class="btn btn-success">
+                                        <button type="button" class="btn btn-success" id="btn_proses"
+                                            style="width: 130px;">PROSES</button>
                                     </div>
                                     <div style="padding-left: 450px">
-                                        <input type="submit" name="keluar" value="KELUAR"
-                                            class="btn btn-primary d-flex ml-auto">
+                                        {{-- <input type="submit" name="keluar" value="KELUAR"
+                                            class="btn btn-primary d-flex ml-auto"> --}}
                                     </div>
                                 </div>
                             </div>

@@ -4,23 +4,19 @@ namespace App\Http\Controllers\Accounting\Piutang\InformasiBank;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-
+use DB;
+use Log;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class MaintenanceInformasiBankController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.InformasiBank.MaintenanceInformasiBank', compact('data'));
-    }
-
-    public function getTabelInfoBank($tanggal)
-    {
-        //dd($tanggal);
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Tanggal = ?', [1, $tanggal]);
-        return response()->json($tabel);
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.InformasiBank.MaintenanceInformasiBank', compact('access'));
     }
 
     //Show the form for creating a new resource.
@@ -32,47 +28,54 @@ class MaintenanceInformasiBankController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //dd($request->all());
-        $tanggal = $request->tanggal;
-        $idBank = $request->idBank;
-        $idMataUang = $request->idMataUang;
-        $totalNilai = $request->totalNilai;
-        $radiogrup1 = $request->radiogrup1;
-        $keterangan = $request->keterangan;
-        $idJenisPembayaran = $request->idJenisPembayaran;
-        $noBukti = $request->noBukti;
-
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_REFERENSI_BANK]
-        @Kode = ?,
-        @Tanggal = ?,
-        @Id_Bank = ?,
-        @Id_MataUang = ?,
-        @Nilai = ?,
-        @TypeTransaksi = ?,
-        @Keterangan = ?,
-        @Userid = ?,
-        @Id_Jenis_Bayar = ?,
-        @No_Bukti = ?', [
-            1,
-            $tanggal,
-            $idBank,
-            $idMataUang,
-            $totalNilai,
-            $radiogrup1,
-            $keterangan,
-            1,
-            $idJenisPembayaran,
-            $noBukti
-        ]);
-
-        // return redirect()->back()->with('success', 'Data sudah diSimpan');
-        return response()->json('Data sudah TerSimpan');
+        //
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show(Request $request, $id)
     {
-        //
+        if ($id == 'displayData') {
+            // Call the stored procedure SP_1486_ACC_LIST_REFERENSI_BANK
+            $sTanggal = $request->input('tanggal');
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_REFERENSI_BANK @Kode = 1, @Tanggal = ?', [$sTanggal]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'IdReferensi' => $row->IdReferensi,
+                    'Nama_Bank' => $row->Nama_Bank,
+                    'Nama_MataUang' => $row->Nama_MataUang,
+                    'Nilai' => number_format($row->Nilai, 2),
+                    'Keterangan' => $row->Keterangan,
+                    'NamaCust' => $row->NamaCust ?? '', // Handle null values
+                    'Id_Bank' => $row->Id_Bank,
+                    'Id_MataUang' => $row->Id_MataUang,
+                    'TypeTransaksi' => $row->TypeTransaksi,
+                    'Id_Jenis_Bayar' => $row->Id_Jenis_Bayar,
+                    'Jenis_Pembayaran' => $row->Jenis_Pembayaran,
+                    'No_Bukti' => $row->No_Bukti ?? '' // Handle null values
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getBank') {
+            // Call the stored procedure SP_1486_ACC_LIST_TBANK
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_TBANK @Kode = 4');
+
+            // Prepare response for the front-end
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Bank' => $row->Nama_Bank,
+                    'Id_Bank' => $row->Id_Bank,
+                ];
+            }
+
+            // Return the response as JSON
+            return datatables($response)->make(true);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -84,57 +87,12 @@ class MaintenanceInformasiBankController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request, $id)
     {
-        //Log::info('Request Data: ' .json_encode($request->all()));
-        //dd($request->all());
-        $idReferensi = $request->idReferensi;
-        $idBank = $request->idBank;
-        $idMataUang = $request->idMataUang;
-        $totalNilai = $request->totalNilai;
-        $radiogrup1 = $request->radiogrup1;
-        $keterangan = $request->keterangan;
-        $idJenisPembayaran = $request->idJenisPembayaran;
-        $noBukti = $request->noBukti;
-
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_LIST_REFERENSI_BANK]
-        @Kode = ?,
-        @IdReferensi = ?', [
-            2,
-            $idReferensi
-        ]);
-
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_REFERENSI_BANK]
-        @Kode = ?,
-        @IdReferensi = ?,
-        @Id_Bank = ?,
-        @Id_MataUang = ?,
-        @Nilai = ?,
-        @TypeTransaksi = ?,
-        @Keterangan = ?,
-        @Id_Jenis_Bayar = ?,
-        @No_Bukti = ?', [
-            2,
-            $idReferensi,
-            $idBank,
-            $idMataUang,
-            $totalNilai,
-            $radiogrup1,
-            $keterangan,
-            $idJenisPembayaran,
-            $noBukti
-        ]);
-        return response()->json('Data Telah Terupdate');
-        // return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
+        //
     }
 
     //Remove the specified resource from storage.
     public function destroy($idReferensi)
     {
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_REFERENSI_BANK]
-        @Kode = ?,
-        @IdReferensi = ?', [
-            3,
-            $idReferensi
-        ]);
-        return redirect()->back()->with('success', 'Data sudah diHAPUS');
+        //
     }
 }
