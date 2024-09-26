@@ -200,7 +200,7 @@ class TransferBarangController extends Controller
             $SubKel !== null &&
             $NoTransTmp !== null
         ) {
-            $data = DB::connection('ConnInventory')->statement('exec SP_4384_PBL_KOREKSI_TRANSFER_TMPTRANSAKSI @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTransTmp = ?, @ket = ?', [
+            $data = DB::connection('ConnPurchase')->statement('exec SP_1273_PBL_KOREKSI_TRANSFER_TMPTRANSAKSI @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTransTmp = ?, @ket = ?', [
                 $IdType,
                 $MasukPrimer,
                 $MasukSekunder,
