@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
+        <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">Maintenance Informasi Bank untuk Uang Masuk</div>
                 @if (Session::has('success'))
@@ -32,7 +32,7 @@
 
                         <br>
                         <div>
-                            <div style="overflow-y: auto;">
+                            <div style="overflow-x: auto;">
                                 <table style="width: 200%; table-layout: fixed;" id="table_atas">
                                     <colgroup>
                                         <col style="width: 25%;">
@@ -76,18 +76,18 @@
                             </div>
                             <div class="col-md-5">
                                 <input type="text" id="nama_bank" name="nama_bank" class="form-control"
-                                    style="width: 100%" readonly>
+                                    style="width: 100%">
                             </div>
                             <div class="col-md-1">
                                 <button type="button" class="btn btn-default" id="btn_bank">...</button>
                             </div>
                             <div class="col-md-2">
                                 <input type="hidden" id="idBank" name="idBank" class="form-control"
-                                    style="width: 100%" readonly>
+                                    style="width: 100%">
                             </div>
                             <div class="col-md-2">
                                 <input type="text" id="idReferensi" name="idReferensi" class="form-control"
-                                    style="width: 100%" readonly>
+                                    style="width: 100%">
                             </div>
                         </div>
                         <p>
@@ -97,14 +97,14 @@
                             </div>
                             <div class="col-md-5">
                                 <input type="text" id="mata_uang" name="mata_uang" class="form-control"
-                                    style="width: 100%" readonly>
+                                    style="width: 100%">
                             </div>
                             <div class="col-md-1">
-                                <button type="button" class="btn btn-default" id="btn_perkiraan">...</button>
+                                <button type="button" class="btn btn-default" id="btn_mataUang">...</button>
                             </div>
                             <div class="col-md-2">
                                 <input type="hidden" id="idMataUang" name="idMataUang" class="form-control"
-                                    style="width: 100%" readonly>
+                                    style="width: 100%">
                             </div>
                         </div>
                         <p>
@@ -114,7 +114,7 @@
                             </div>
                             <div class="col-md-5">
                                 <input type="text" id="totalNilai" name="totalNilai" class="form-control"
-                                    style="width: 100%" readonly>
+                                    style="width: 100%">
                             </div>
                         </div>
                         <p>
@@ -124,7 +124,7 @@
                             </div>
                             <div class="col-md-10">
                                 <input type="text" id="keterangan" name="keterangan" class="form-control"
-                                    style="width: 100%" readonly>
+                                    style="width: 100%">
                             </div>
                         </div>
                         <p>
@@ -147,14 +147,14 @@
                             </div>
                             <div class="col-md-5">
                                 <input type="text" id="jenis_pembayaran" name="jenis_pembayaran"
-                                    class="form-control" style="width: 100%" readonly>
+                                    class="form-control" style="width: 100%">
                             </div>
                             <div class="col-md-1">
-                                <button type="button" class="btn btn-default" id="btn_perkiraan">...</button>
+                                <button type="button" class="btn btn-default" id="btn_jenisPembayaran">...</button>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" id="idJenisPembayaran" name="idJenisPembayaran"
-                                    class="form-control" style="width: 100%; display: none" readonly>
+                                    class="form-control" style="width: 100%; display: none">
                             </div>
                         </div>
                         <p>
@@ -164,7 +164,7 @@
                             </div>
                             <div class="col-md-10">
                                 <input type="text" id="noBukti" name="noBukti" class="form-control"
-                                    style="width: 100%" readonly>
+                                    style="width: 100%">
                             </div>
                         </div>
                         <p><br>

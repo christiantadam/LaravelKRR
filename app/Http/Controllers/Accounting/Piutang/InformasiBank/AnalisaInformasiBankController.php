@@ -4,40 +4,49 @@ namespace App\Http\Controllers\Accounting\Piutang\InformasiBank;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use DB;
+use Log;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class AnalisaInformasiBankController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.InformasiBank.AnalisaInformasiBank', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.InformasiBank.AnalisaInformasiBank', compact('access'));
     }
 
     public function getTabelAnalisis($tanggal, $tanggal2, $radiogrup)
     {
         if ($radiogrup == 0) {
             // Handle ketika radio button "Belum Analisa" dipilih
-            $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Tanggal = ?, @Tanggal1 = ?, @analisa = ?',
-            [
-                8,
-                $tanggal,
-                $tanggal2,
-                0 // Menggunakan nilai "belum"
-            ]);
+            $tabel = DB::connection('ConnAccounting')->select(
+                'exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Tanggal = ?, @Tanggal1 = ?, @analisa = ?',
+                [
+                    8,
+                    $tanggal,
+                    $tanggal2,
+                    0 // Menggunakan nilai "belum"
+                ]
+            );
             return response()->json($tabel);
         } elseif ($radiogrup == 1) {
             // Handle ketika radio button "Sudah Analisa" dipilih
-            $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Tanggal = ?, @Tanggal1 = ?, @analisa = ?',
-            [
-                8,
-                $tanggal,
-                $tanggal2,
-                1 // Menggunakan nilai "sudah"
-            ]);
+            $tabel = DB::connection('ConnAccounting')->select(
+                'exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Tanggal = ?, @Tanggal1 = ?, @analisa = ?',
+                [
+                    8,
+                    $tanggal,
+                    $tanggal2,
+                    1 // Menggunakan nilai "sudah"
+                ]
+            );
             return response()->json($tabel);
-        };
+        }
+        ;
     }
 
     //Show the form for creating a new resource.
@@ -49,14 +58,77 @@ class AnalisaInformasiBankController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //dd($request->all());
+        // dd($request->all());
+        try {
+            $radiogrup2 = $request->input('radiogrup2');
 
+            if ($radiogrup2 == "T") {
+                $OptPiutang = true;
+                $OptTitip = false;
+            } else if ($radiogrup2 == "K") {
+                $OptPiutang = false;
+                $OptTitip = false;
+            } else if ($radiogrup2 == "U") {
+                $OptTitip = true;
+                $OptPiutang = false;
+            }
+
+            $referensi = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_REFERENSI_BANK @Kode = ?, @IdReferensi = ?', [2, $request->input('noReferensi')]);
+
+            if (!empty($referensi) && isset($referensi[0]->Id_Pelunasan) && $referensi[0]->Id_Pelunasan != '') {
+                return response()->json([
+                    'error' => 'Tidak Dapat Dikoreksi Karena Sudah ada Pelunasan'
+                ]);
+            }
+
+            DB::connection('ConnAccounting')
+                ->statement('exec SP_1486_ACC_UPDATE_REFERENSI_BANK ?, ?, ?, ?, ?, ?', [
+                    1, // @Kode
+                    $request->input('idCustomer'), // @Id_Cust
+                    $OptPiutang ? 'Y' : 'N', // @Status_tagihan
+                    $request->input('noReferensi'), // @IdReferensi
+                    trim(Auth::user()->NomorUser), // @UserId
+                    $OptTitip ? 'Uang Titipan' : $request->input('ketDariBank') // @Ket jika OptTitip bernilai true
+                ]);
+
+            $listData = [
+                'Customer' => $request->input('nama_customer'),
+                'Id_Cust' => $request->input('idCustomer'),
+                'Status_Tagihan' => $OptPiutang ? 'Y' : 'N'
+            ];
+
+            return response()->json([
+                'message' => 'Data Telah Tersimpan',
+                'listData' => $listData
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Error: ' . $e->getMessage(),
+            ]);
+        }
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show(Request $request, $id)
     {
-        //
+        if ($id == 'getCustomer') {
+            // Menjalankan stored procedure untuk mendapatkan data customer
+            $customers = DB::connection('ConnSales')
+                ->select('exec SP_1486_ACC_LIST_ALL_CUSTOMER ?', [1]);
+            // dd($customers);
+            // Mempersiapkan response data
+            $response = [];
+            foreach ($customers as $customer) {
+                $response[] = [
+                    'NAMACUST' => $customer->NAMACUST,
+                    'IDCust' => substr($customer->IDCust, -5),
+                ];
+            }
+
+            return datatables($response)->make(true);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -74,6 +146,7 @@ class AnalisaInformasiBankController extends Controller
         $radiogrup2 = $request->radiogrup2;
         $ketDariBank = $request->ketDariBank;
         $statusPenagihan = $request->statusPenagihan;
+        // dd($ketDariBank);
 
         $selectedValue = $request->input('radiogrup2');
 
@@ -81,7 +154,8 @@ class AnalisaInformasiBankController extends Controller
             $statusPenagihan = $statusPenagihan;
         } elseif ($selectedValue == 'U') {
             $ketDariBank = 'Uang Titipan'; // Atau nilai yang sesuai untuk 'U'
-        };
+        }
+        ;
 
         DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_LIST_REFERENSI_BANK]
         @Kode = ?,
@@ -90,7 +164,7 @@ class AnalisaInformasiBankController extends Controller
             $noReferensi
         ]);
         // Log::info('Request Data: ' .json_encode($ketDariBank));
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_UPDATE_REFERENSI_BANK]
+        DB::connection('ConnAccounting')->statement('exec SP_1486_ACC_UPDATE_REFERENSI_BANK
         @Kode = ?,
         @Id_Cust = ?,
         @Status_tagihan = ?,
