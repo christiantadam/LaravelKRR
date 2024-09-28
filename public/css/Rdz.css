@@ -783,6 +783,11 @@ table tr:last-child td:last-child {
     text-transform: uppercase;
     margin-bottom: 1%;
     object-fit: cover;
+    font-size: calc(12px + 1vw); /* This makes the font responsive */
+    white-space: normal; /* Ensure text wraps */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
 }
 
 /* Add grid layout */
