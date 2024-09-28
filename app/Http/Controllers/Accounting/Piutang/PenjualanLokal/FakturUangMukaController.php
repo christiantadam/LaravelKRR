@@ -127,35 +127,31 @@ class FakturUangMukaController extends Controller
             // } else {
             //     $CmdPajakEnabled = true;
             // }
-        }elseif ($id == 'getJenisCustomer') {
+        } else if ($id == 'getJenisCustomer') {
             $TIdCustomer = $request->input('idCustomer');
 
-            // Eksekusi SP untuk mengambil data customer
             $customerResults = DB::connection('ConnSales')
                 ->select('exec SP_1486_ACC_LIST_CUSTOMER @IDCUST = ?', [trim($TIdCustomer)]);
             // dd($customerResults);
             if (!empty($customerResults)) {
-                $customer = $customerResults[0]; // Ambil record pertama
+                $customer = $customerResults[0];
                 $TIdJnsCust = $customer->JnsCust;
 
-                // Tentukan TNamaCust dan TAlamat berdasarkan TIdJnsCust
                 if ($TIdJnsCust == 'PNX') {
                     $TNamaCust = $customer->NamaCust;
-                    $TAlamat = trim($customer->Alamat . ' ' . $customer->Kota);
+                    $TAlamat = trim((string) $customer->Alamat . ' ' . $customer->Kota);
                 } else {
                     $TNamaCust = $customer->NamaNPWP ?? '';
                     $TAlamat = $customer->AlamatNPWP ?? '';
                 }
 
-                // Eksekusi SP untuk mengambil jenis customer
                 $jenisCustResults = DB::connection('ConnSales')
                     ->select('exec SP_1486_ACC_LIST_JNSCUST @IDJNSCUST = ?', [trim($TIdJnsCust)]);
-                dd($jenisCustResults);
+                // dd($jenisCustResults);
                 if (!empty($jenisCustResults)) {
-                    $TJenisCust = $jenisCustResults[0]->namajnscust;
+                    $TJenisCust = $jenisCustResults[0]->NamaJnsCust;
                 }
 
-                // Return data sebagai response (sesuaikan sesuai kebutuhan Anda)
                 return response()->json([
                     'TIdJnsCust' => $TIdJnsCust,
                     'TNamaCust' => $TNamaCust,
@@ -163,11 +159,150 @@ class FakturUangMukaController extends Controller
                     'TJenisCust' => $TJenisCust,
                 ]);
             } else {
-                // Jika tidak ada hasil ditemukan
-                return response()->json([
-                    'error' => 'Customer not found',
-                ], 404);
+                return response()->json(['error' => 'Customer not found',]);
             }
+        } else if ($id == 'getPenagihan') {
+            // Call the stored procedure with the customer ID
+            $customerId = $request->input('TidCustomer');
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_TAGIHAN_DP @IDCustomer = ?', [$customerId]);
+            // dd($results);
+            // Processing the results for the lookup
+            $mLook = [];
+            foreach ($results as $row) {
+                $mLook[] = [
+                    'Tgl_Penagihan' => $row->Tgl_Penagihan,
+                    'Id_Penagihan' => $row->Id_Penagihan
+                ];
+            }
+
+            return datatables($mLook)->make(true);
+            // Assuming there's some way to return the selected `ID_PENAGIHAN`
+            // if (!empty($mLook)) {
+            //     $selectedPenagihan = $mLook[0]['ID_PENAGIHAN']; // Mock selecting the first row for now
+            //     // Continue with logic similar to VB.NET code
+            //     if (!empty($selectedPenagihan)) {
+            //         $this->lihatPenagihan($selectedPenagihan); // Assuming this is a method for viewing the invoice
+
+            //         if ($request->input('EditMode') == true) {
+            //             // Set focus on TglFakturPajak input
+            //             return response()->json(['focus' => 'TglFakturPajak']);
+            //         } elseif ($request->input('DelMode') == true) {
+            //             // Set focus on CmdISI button
+            //             return response()->json(['focus' => 'CmdISI']);
+            //         }
+            //     }
+            // }
+        } else if ($id == 'getPesanan') {
+            if (empty($request->input('IdPenagihan'))) {
+
+                $customerId = $request->input('idCustomer');
+                $results = DB::connection('ConnSales')
+                    ->select('exec SP_1486_ACC_LIST_HEADER_PESANAN @KODE = ?, @IdCust = ?', [4, $customerId]);
+                // dd($results);
+                $mLook = [];
+                foreach ($results as $row) {
+                    $mLook[] = [
+                        'IDSuratPesanan' => $row->IDSuratPesanan,
+                        'Tgl_Pesan' => \Carbon\Carbon::parse($row->Tgl_Pesan)->format('m/d/Y'),
+                    ];
+                }
+                return datatables($mLook)->make(true);
+
+            }
+        } else if ($id == 'getPesananDetails') {
+            // Initialize variables
+            $TPO = '';
+            $TIdMataUang = '';
+            $TMataUang = '';
+            $sNoSP = $request->input('no_sp');
+            // dd($sNoSP);
+            try {
+                // Fetch order details using SP_1486_ACC_LIST_HEADER_PESANAN
+                $orderResults = DB::connection('ConnSales')
+                    ->select('exec SP_1486_ACC_LIST_HEADER_PESANAN @Kode = ?, @IDSURATPESANAN = ?', [3, $sNoSP]);
+                // dd($orderResults);
+                if (count($orderResults) > 0) {
+                    $order = $orderResults[0];
+                    $TIdMataUang = $order->IDMataUang;
+                    $TsyaratPembayaran = $order->SyaratBayar ?? 0;
+                    $TPO = $order->NO_PO ?? '';
+
+                    // Map currency code to a numeric value
+                    if ($TIdMataUang == 'IDR') {
+                        $TIdMataUang = 1;
+                    } elseif ($TIdMataUang == 'USD') {
+                        $TIdMataUang = 2;
+                    }
+                }
+
+                // Fetch currency details using SP_1486_ACC_LIST_MATAUANG
+                $currencyResults = DB::connection('ConnAccounting')
+                    ->select('exec SP_1486_ACC_LIST_MATAUANG @Kode = ?, @IdMataUang = ?', [2, $TIdMataUang]);
+                // dd($currencyResults);
+                if (count($currencyResults) > 0) {
+                    $TMataUang = $currencyResults[0]->Nama_MataUang;
+                }
+
+                // Determine if 'TKurs' field should be enabled
+                // $TKursEnabled = ($TIdMataUang != 1);
+
+                return response()->json([
+                    'TPO' => $TPO,
+                    'TIdMataUang' => $TIdMataUang,
+                    'TMataUang' => $TMataUang,
+                    // 'TKursEnabled' => $TKursEnabled,
+                ]);
+            } catch (Exception $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+        } else if ($id == 'getPenagih') {
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_USER_PENAGIH @KODE = ?', [1]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama' => trim($row->Nama),
+                    'IdUser' => trim($row->IdUser),
+                ];
+            }
+
+            // Return as a datatable
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getPajak') {
+            // Execute the stored procedure to list jenis pajak
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_JENIS_PAJAK');
+            // dd($results);
+            // Prepare the response array
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Jns_PPN' => trim($row->Nama_Jns_PPN),
+                    'Jns_PPN' => trim($row->Jns_PPN),
+                ];
+            }
+
+            // Return the result as a datatable
+            return datatables($response)->make(true);
+        } else if ($id == 'getDokumen') {
+            $kode = trim($request->input('id_cust')) == 'NPX' ? 3 : 2;
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_JENIS_DOKUMEN @KODE = ?', [$kode]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Dokumen' => trim($row->Nama_Dokumen),
+                    'Id_Jenis_Dokumen' => trim($row->Id_Jenis_Dokumen),
+                ];
+            }
+
+            // Return the response as a datatable
+            return datatables($response)->make(true);
         }
     }
 

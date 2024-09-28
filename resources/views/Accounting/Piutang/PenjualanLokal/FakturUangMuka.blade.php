@@ -180,11 +180,11 @@
                                                 class="form-control" style="width: 100%">
                                         </div>
                                         <div class="col-md-1">
-                                            <button type="button" class="btn btn-default" id="btn_penagih">...</button>
+                                            <button type="button" class="btn btn-default" id="btn_userPenagih">...</button>
                                         </div>
                                         <div class="col-md-1">
                                             <input type="text" id="idUserPenagih" name="idUserPenagih"
-                                                class="form-control" style="width: 100%">
+                                                class="form-control" style="width: 100%; display: none">
                                         </div>
                                     </div>
                                     <p>
@@ -194,19 +194,23 @@
                                                 Pajak</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text" id="jenis_pajak" name="jenis_pajak" class="form-control"
+                                            <input type="text" id="nama_pajak" name="nama_pajak" class="form-control"
                                                 style="width: 100%">
                                         </div>
                                         <div class="col-md-1">
                                             <button type="button" class="btn btn-default" id="btn_pajak">...</button>
+                                        </div>
+                                        <div class="col-md-3" style="display: none">
+                                            <input type="text" id="jenis_pajak" name="jenis_pajak" class="form-control"
+                                                style="width: 100%; display: none">
                                         </div>
                                         <div class="col-md-1">
                                             <label for="PPN" style="margin-right: 10px;">PPN%</label>
                                         </div>
                                         <div class="col-md-1">
                                             <select id="Ppn" name="Ppn" class="form-control" style="width: 100%;">
-                                                <option value="10">10</option>
                                                 <option value="11">11</option>
+                                                <option value="10">10</option>
                                             </select>
                                         </div>
                                         <div class="col-md-1">
@@ -224,7 +228,7 @@
                                                 class="form-control" style="width: 100%;">
                                         </div>
                                         <div class="col-md-1">
-                                            <button type="button" class="btn btn-default" id="btn_pajak">...</button>
+                                            <button type="button" class="btn btn-default" id="btn_dokumen">...</button>
                                         </div>
                                         <div class="col-md-1">
                                             <input type="text" id="idJenisDokumen" name="idJenisDokumen"
