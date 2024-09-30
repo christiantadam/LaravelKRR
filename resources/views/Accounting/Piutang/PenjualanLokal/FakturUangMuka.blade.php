@@ -158,15 +158,15 @@
 
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="penagihanPajak" style="margin-right: 10px;">Syarat
+                                            <label for="penagihanPajak" style="margin-right: 10px; display: none">Syarat
                                                 Pembayaran</label>
                                         </div>
                                         <div class="col-md-1">
                                             <input type="text" id="syaratPembayaran" name="syaratPembayaran"
-                                                class="form-control" style="width: 100%">
+                                                class="form-control" style="width: 100%; display: none">
                                         </div>
                                         <div class="col-md-1">
-                                            <label for="penagihanPajak" style="margin-right: 10px;">Hari</label>
+                                            <label for="penagihanPajak" style="margin-right: 10px; display: none">Hari</label>
                                         </div>
                                     </div>
                                     <p>

@@ -93,7 +93,87 @@ class FakturUangMukaController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd((int) $request->input('nilaiKurs'));
+        dd($request->all());
+        try {
+            $user_id = trim(Auth::user()->NomorUser);
+            $saveData = false;
+            $proses = $request->input('proses');
 
+            if ($proses == 1) {
+                $penagihanResult = DB::connection('ConnAccounting')
+                    ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Tgl_Penagihan = ?, @Id_Customer = ?, @PO = ?, @id_Jenis_Dokumen = ?, @Nilai_Penagihan = ?, @Id_MataUang = ?, @Terbilang = ?, @UserInput = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?', [
+                        1,
+                        $request->input('tanggal'),
+                        $request->input('idCustomer'),
+                        $request->input('nomorPO'),
+                        (int) $request->input('idJenisDokumen'),
+                        (float) str_replace(',', '', $request->input('total')),
+                        (int) $request->input('idMataUang'),
+                        $request->input('terbilang'),
+                        $user_id,
+                        $request->input('idUserPenagih'),
+                        $request->input('penagihanPajak'),
+                        (int) $request->input('nilaiKurs') == 0 ? 1 : $request->input('nilaiKurs'),
+                        $request->input('jenis_pajak') == "" ? null : $request->input('jenis_pajak'),
+                        (int) trim($request->input('Ppn'))
+                    ]);
+
+                // dd($penagihanResult);
+
+                if ($penagihanResult) {
+                    // Retrieve the last inserted Id_Penagihan from the T_Penagihan table
+                    $Tid_Penagihan = DB::connection('ConnAccounting')
+                        ->table('T_Penagihan_SJ')
+                        ->where('Tgl_Penagihan', $request->input('tanggal'))
+                        ->where('Id_Customer', $request->input('idCustomer'))
+                        ->where('PO', $request->input('nomorPO'))
+                        ->orderBy('Id_Penagihan', 'desc')
+                        ->value('Id_Penagihan');
+
+                    // dd($Tid_Penagihan);
+                    DB::connection('ConnAccounting')
+                        ->statement('EXEC SP_1486_ACC_MAINT_DETAIL_TAGIHAN_DP @Kode = ?, @Id_Penagihan = ?, @SuratPesanan = ?', [
+                            1,
+                            $Tid_Penagihan,
+                            $request->input('no_sp')
+                        ]);
+
+                    $saveData = true;
+                }
+            }
+
+            if ($proses == 2) {
+                DB::connection('ConnAccounting')
+                    ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @Nilai_Penagihan = ?, @Discount = ?, @Id_MataUang = ?, @Terbilang = ?, @IdPenagih = ?, @NilaiKurs = ?, @Jns_PPN = ?', [
+                        4,
+                        $request->input('no_penagihan'),
+                        (float) str_replace(',', '', $request->input('total')),
+                        0,
+                        (int) $request->input('idMataUang'),
+                        $request->input('terbilang'),
+                        $request->input('idUserPenagih'),
+                        (int) $request->input('nilaiKurs') == 0 ? 1 : $request->input('nilaiKurs'),
+                        $request->input('jenis_pajak') == "" ? null : $request->input('jenis_pajak')
+                    ]);
+
+                $saveData = true;
+            }
+
+            if ($saveData) {
+                if ($proses == 2) {
+                    return response()->json(['message' => 'Data Telah Terkoreksi....']);
+                } elseif ($proses == 1) {
+                    return response()->json(['message' => 'Data Telah Tersimpan....']);
+                } elseif ($proses == 3) {
+                    return response()->json(['message' => 'Data Telah Terhapus....']);
+                }
+            } else {
+                return response()->json(['error' => 'Data belum lengkap terisi']);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     //Display the specified resource.
@@ -163,7 +243,7 @@ class FakturUangMukaController extends Controller
             }
         } else if ($id == 'getPenagihan') {
             // Call the stored procedure with the customer ID
-            $customerId = $request->input('TidCustomer');
+            $customerId = $request->input('idCustomer');
             $results = DB::connection('ConnAccounting')
                 ->select('exec SP_1486_ACC_LIST_TAGIHAN_DP @IDCustomer = ?', [$customerId]);
             // dd($results);
@@ -171,7 +251,7 @@ class FakturUangMukaController extends Controller
             $mLook = [];
             foreach ($results as $row) {
                 $mLook[] = [
-                    'Tgl_Penagihan' => $row->Tgl_Penagihan,
+                    'Tgl_Penagihan' => \Carbon\Carbon::parse($row->Tgl_Penagihan)->format('m/d/Y'),
                     'Id_Penagihan' => $row->Id_Penagihan
                 ];
             }
@@ -303,6 +383,74 @@ class FakturUangMukaController extends Controller
 
             // Return the response as a datatable
             return datatables($response)->make(true);
+        } else if ($id == 'GetPenagihanDetails') {
+            $sid_Penagihan = $request->input('no_penagihan');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?', [8, $sid_Penagihan]);
+            // dd($results);
+            if (!empty($results)) {
+                $row = $results[0];
+
+                $TIdCustomer = $row->Id_Customer;
+                $TNoSP = $row->NoSP ?? '';
+                $TIdMataUang = $row->Id_MataUang;
+                $TMataUang = $row->Nama_MataUang;
+                $Tanggal = \Carbon\Carbon::parse($row->Tgl_Penagihan)->format('Y-m-d');
+                $TglFakturPajak = \Carbon\Carbon::parse($row->TglFakturPajak)->format('Y-m-d');
+                $TPO = $row->PO;
+                $Tid_Penagihan = $row->Id_Penagihan;
+                $cbPPN = $row->PersenPPN;
+
+                if (in_array($row->Jns_PPN, [3, 4])) {
+                    $TNilai_Penagihan = $cbPPN == 11 ? $row->Nilai_Penagihan / 1.11 : $row->Nilai_Penagihan / 1.1;
+                    $TPPN = $row->Nilai_Penagihan - $row->Nilai_blm_Pajak;
+                } else {
+                    $TNilai_Penagihan = $row->Nilai_Penagihan;
+                }
+
+                $TTot = $row->Nilai_Penagihan;
+                $TTerbilang = $row->Terbilang;
+                $TKurs = $row->NilaiKurs;
+                $TDokumen = $row->Nama_Dokumen;
+                $TIdJnsDok = $row->Id_Jenis_Dokumen;
+                $TIdUser = $row->IdPenagih;
+                $TPenagih = $row->Nama;
+                $TJnsPajak = $row->Jns_PPN ?? '';
+
+                if ($TJnsPajak != '') {
+                    $pajakResults = DB::connection('ConnAccounting')
+                        ->select('exec SP_1486_ACC_LIST_JENIS_PAJAK @Kode = ?, @Jns_PPN = ?', [1, $TJnsPajak]);
+
+                    if (!empty($pajakResults)) {
+                        $TPajak = $pajakResults[0]->Nama_Jns_PPN;
+                    }
+                }
+                // dd($TPajak);
+
+                return response()->json([
+                    'TIdCustomer' => $TIdCustomer,
+                    'TNoSP' => $TNoSP,
+                    'TIdMataUang' => $TIdMataUang,
+                    'TMataUang' => $TMataUang,
+                    'Tanggal' => $Tanggal,
+                    'TglFakturPajak' => $TglFakturPajak,
+                    'TPO' => $TPO,
+                    'Tid_Penagihan' => $Tid_Penagihan,
+                    'cbPPN' => $cbPPN,
+                    'TNilai_Penagihan' => number_format($TNilai_Penagihan, 2, '.', ','),
+                    'TPPN' => $TPPN ?? null,
+                    'TTot' => number_format($TTot, 2, '.', ','),
+                    'TTerbilang' => $TTerbilang,
+                    'TKurs' => number_format($TKurs, 0),
+                    'TDokumen' => $TDokumen,
+                    'TIdJnsDok' => $TIdJnsDok,
+                    'TIdUser' => $TIdUser,
+                    'TPenagih' => $TPenagih,
+                    'TJnsPajak' => $TJnsPajak,
+                    'TPajak' => $TPajak ?? null,
+                ]);
+            }
         }
     }
 

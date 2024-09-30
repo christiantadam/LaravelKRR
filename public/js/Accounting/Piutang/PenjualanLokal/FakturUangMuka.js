@@ -2,6 +2,11 @@ $(document).ready(function () {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
+    let btn_isi = document.getElementById("btn_isi");
+    let btn_koreksi = document.getElementById("btn_koreksi");
+    let btn_hapus = document.getElementById("btn_hapus");
+    let btn_proses = document.getElementById("btn_proses");
+    let btn_batal = document.getElementById("btn_batal");
     let btn_customer = document.getElementById("btn_customer");
     let btn_penagihan = document.getElementById("btn_penagihan");
     let btn_noSP = document.getElementById("btn_noSP");
@@ -37,21 +42,221 @@ $(document).ready(function () {
     let table_atas = $("#table_atas").DataTable({
         // columnDefs: [{ targets: [5, 6, 7], visible: false }],
     });
+    let proses;
 
     tanggal.valueAsDate = new Date();
     penagihanPajak.valueAsDate = new Date();
     nilaiKurs.value = 0;
+    btn_proses.disabled = true;
+    btn_batal.disabled = true;
+    btn_customer.disabled = true;
+    btn_penagihan.disabled = true;
+    btn_noSP.disabled = true;
+    btn_userPenagih.disabled = true;
+    btn_pajak.disabled = true;
+    btn_dokumen.disabled = true;
+    btn_isi.focus();
 
-    // uangMasuk.addEventListener("keydown", function (event) {
-    //     if (event.key === "Enter") {
-    //         event.preventDefault();
-    //         let value = parseFloat(uangMasuk.value.replace(/,/g, ""));
-    //         uangMasuk.value = value.toLocaleString("en-US", {
-    //             minimumFractionDigits: 2,
-    //             maximumFractionDigits: 2,
-    //         });
-    //     }
-    // });
+    btn_isi.addEventListener("click", async function (event) {
+        event.preventDefault();
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.disabled = false;
+        btn_customer.disabled = false;
+        btn_penagihan.disabled = true;
+        btn_noSP.disabled = false;
+        btn_userPenagih.disabled = false;
+        btn_pajak.disabled = false;
+        btn_dokumen.disabled = false;
+        btn_customer.focus();
+        proses = 1;
+    });
+
+    btn_koreksi.addEventListener("click", async function (event) {
+        event.preventDefault();
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.disabled = false;
+        btn_customer.disabled = false;
+        btn_penagihan.disabled = false;
+        btn_noSP.disabled = false;
+        btn_userPenagih.disabled = false;
+        btn_pajak.disabled = false;
+        btn_customer.focus();
+        proses = 2;
+    });
+
+    btn_hapus.addEventListener("click", async function (event) {
+        event.preventDefault();
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.disabled = false;
+        btn_customer.disabled = false;
+        btn_penagihan.disabled = false;
+        btn_noSP.disabled = false;
+        btn_userPenagih.disabled = false;
+        btn_pajak.disabled = false;
+        btn_dokumen.disabled = false;
+        proses = 3;
+    });
+
+    btn_proses.addEventListener("click", async function (event) {
+        event.preventDefault();
+        if (proses == 1) {
+            $.ajax({
+                url: "FakturUangMuka",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    tanggal: tanggal.value,
+                    idCustomer: idCustomer.value,
+                    nomorPO: nomorPO.value,
+                    idJenisDokumen: idJenisDokumen.value,
+                    total: total.value,
+                    idMataUang: idMataUang.value,
+                    terbilang: terbilang.value,
+                    idUserPenagih: idUserPenagih.value,
+                    penagihanPajak: penagihanPajak.value,
+                    nilaiKurs: nilaiKurs.value,
+                    jenis_pajak: jenis_pajak.value,
+                    Ppn: Ppn.value,
+                    no_sp: no_sp.value,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                            // idReferensi.value = response.IdReferensi;
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_ok.click();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else if (proses == 2) {
+            $.ajax({
+                url: "MaintenanceInformasiBank",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                            // idReferensi.value = response.IdReferensi;
+                            btn_proses.disabled = true;
+                            btn_batal.disabled = true;
+                            btn_isi.disabled = false;
+                            btn_koreksi.disabled = false;
+                            btn_hapus.disabled = false;
+                            btn_ok.click();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else if (proses == 3) {
+            // $.ajax({
+            //     url: "MaintenanceInformasiBank",
+            //     type: "POST",
+            //     data: {
+            //         _token: csrfToken,
+            //         idReferensi: idReferensi.value,
+            //         proses: proses,
+            //     },
+            //     success: function (response) {
+            //         console.log(response);
+            //         if (response.message) {
+            //             Swal.fire({
+            //                 icon: "success",
+            //                 title: "Success!",
+            //                 text: response.message,
+            //                 showConfirmButton: true,
+            //             }).then(() => {
+            //                 // document
+            //                 //     .querySelectorAll("input")
+            //                 //     .forEach((input) => (input.value = ""));
+            //                 // $("#table_atas").DataTable().ajax.reload();
+            //                 // idReferensi.value = response.IdReferensi;
+            //                 btn_proses.disabled = true;
+            //                 btn_batal.disabled = true;
+            //                 btn_isi.disabled = false;
+            //                 btn_koreksi.disabled = false;
+            //                 btn_hapus.disabled = false;
+            //                 btn_ok.click();
+            //             });
+            //         } else if (response.error) {
+            //             Swal.fire({
+            //                 icon: "info",
+            //                 title: "Info!",
+            //                 text: response.error,
+            //                 showConfirmButton: false,
+            //             });
+            //         }
+            //     },
+            //     error: function (xhr) {
+            //         alert(xhr.responseJSON.message);
+            //     },
+            // });
+        }
+    });
+
+    btn_batal.addEventListener("click", async function (event) {
+        event.preventDefault();
+        location.reload();
+    });
 
     uangMasuk.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -98,7 +303,7 @@ $(document).ready(function () {
             if (idMataUang.value == "1") {
                 terbilangS = convertNumberToWordsRupiah(TTot);
             } else {
-                if (nilaiKurs <= 0) {
+                if (nilaiKurs.value <= 0) {
                     Swal.fire({
                         icon: "info",
                         title: "Info!",
@@ -226,9 +431,9 @@ $(document).ready(function () {
                         selectedRow.Id_Jenis_Dokumen.trim()
                     );
                     // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
-                    // setTimeout(() => {
-                    //     btn_kodebarang.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        uangMasuk.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -316,9 +521,9 @@ $(document).ready(function () {
                     );
                     jenis_pajak.value = escapeHTML(selectedRow.Jns_PPN.trim());
                     // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
-                    // setTimeout(() => {
-                    //     btn_kodebarang.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_dokumen.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -403,9 +608,9 @@ $(document).ready(function () {
                     user_penagih.value = escapeHTML(selectedRow.Nama.trim());
                     idUserPenagih.value = escapeHTML(selectedRow.IdUser.trim());
                     // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
-                    // setTimeout(() => {
-                    //     btn_kodebarang.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_pajak.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -510,9 +715,9 @@ $(document).ready(function () {
                             alert(err.Message);
                         },
                     });
-                    // setTimeout(() => {
-                    //     btn_kodebarang.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_userPenagih.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -600,11 +805,45 @@ $(document).ready(function () {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     no_penagihan.value = escapeHTML(
-                        selectedRow.Tgl_Penagihan.trim()
-                    );
-                    IdPenagihan.value = escapeHTML(
                         selectedRow.Id_Penagihan.trim()
                     );
+                    IdPenagihan.value = escapeHTML(
+                        selectedRow.Tgl_Penagihan.trim()
+                    );
+
+                    $.ajax({
+                        url: "FakturUangMuka/GetPenagihanDetails",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            no_penagihan: no_penagihan.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            tanggal.value = data.Tanggal;
+                            no_sp.value = data.TNoSP;
+                            namaMataUang.value = data.TMataUang;
+                            idMataUang.value = data.TIdMataUang;
+                            nomorPO.value = data.TPO;
+                            nilaiKurs.value = data.TKurs;
+                            penagihanPajak.value = data.TglFakturPajak;
+                            user_penagih.value = data.TPenagih;
+                            idUserPenagih.value = data.TIdUser;
+                            nama_pajak.value = data.TPajak;
+                            jenis_pajak.value = data.TJnsPajak;
+                            Ppn.value = data.cbPPN;
+                            dokumen.value = data.TDokumen;
+                            idJenisDokumen.value = data.TIdJnsDok;
+                            nilaiSblmPPN.value = data.TNilai_Penagihan;
+                            total.value = data.TTot;
+                            terbilang.value = data.TTerbilang;
+                            nilaiPpn.value = data.TPPN ?? 0;
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
                     // idCustomer.value = selectedRow.IDCust.trim().slice(-5);
                     // setTimeout(() => {
                     //     btn_kodebarang.focus();
@@ -624,7 +863,7 @@ $(document).ready(function () {
                 title: "Select a Customer",
                 html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>ID. Customer</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
-                width: "40%",
+                width: "50%",
                 preConfirm: () => {
                     const selectedData = $("#customerTable")
                         .DataTable()
@@ -717,9 +956,16 @@ $(document).ready(function () {
                             alert(err.Message);
                         },
                     });
-                    // setTimeout(() => {
-                    //     btn_kodebarang.focus();
-                    // }, 300);
+
+                    if (proses == 1) {
+                        setTimeout(() => {
+                            btn_noSP.focus();
+                        }, 300);
+                    } else if (proses == 2) {
+                        setTimeout(() => {
+                            btn_penagihan.focus();
+                        }, 300);
+                    }
                 }
             });
         } catch (error) {
