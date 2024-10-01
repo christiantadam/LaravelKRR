@@ -17,7 +17,7 @@
                     errorMessage = "{{ Session::get('error') }}";
                 </script>
             @endif
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-md-12 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">Maintenance Order Press</div>
                     <div class="card-body">
@@ -102,7 +102,7 @@
                                     <div class="form-group text-right">
                                         <label for="jumlah" style="visibility: hidden;">a</label>
                                         <br>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="submit" class="btn btn-primary" id="btn_simpan">Simpan</button>
                                     </div>
 
                                 </div>

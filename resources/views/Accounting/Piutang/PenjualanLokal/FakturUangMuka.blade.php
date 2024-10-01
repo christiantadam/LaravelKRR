@@ -251,7 +251,7 @@
                                         <input type="text" id="uangMasuk" name="uangMasuk" class="form-control"
                                             style="width: 100%">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="color: blue;">
                                         Enter
                                     </div>
                                     <div class="col-md-1">

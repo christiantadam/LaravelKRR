@@ -1,557 +1,880 @@
-let btnIsi = document.getElementById('btnIsi');
-let btnSimpan = document.getElementById('btnSimpan');
-let btnBatal = document.getElementById('btnBatal');
-let btnKoreksi = document.getElementById('btnKoreksi');
-
-let tanggal = document.getElementById('tanggal');
-let namaCustomerSelect = document.getElementById('namaCustomerSelect');
-let noPenagihanSelect = document.getElementById('noPenagihanSelect');
-let idCustomer = document.getElementById('idCustomer');
-let idJenisCustomer = document.getElementById('idJenisCustomer');
-let alamat = document.getElementById('alamat');
-let jnsCustomer = document.getElementById('jnsCustomer');
-let nomorSPSelect = document.getElementById('nomorSPSelect');
-let noSP = document.getElementById('noSP');
-let namaMataUang = document.getElementById('namaMataUang');
-let idMataUang = document.getElementById('idMataUang');
-let nomorPO  = document.getElementById('nomorPO');
-let syaratPembayaran = document.getElementById('syaratPembayaran');
-let nilaiKurs = document.getElementById('nilaiKurs');
-let userPenagihSelect = document.getElementById('userPenagihSelect');
-let idUserPenagih = document.getElementById('idUserPenagih');
-let jenisPajakSelect = document.getElementById('jenisPajakSelect');
-let idJenisPajak = document.getElementById('idJenisPajak');
-let Ppn = document.getElementById('Ppn');
-Ppn.value = 11;
-
-let suratJalanSelect = document.getElementById('suratJalanSelect');
-let nilaiPenagihan = document.getElementById('nilaiPenagihan');
-let nilaiUangMuka = document.getElementById('nilaiUangMuka');
-let idDokumen = document.getElementById('idDokumen');
-let noBC24 = document.getElementById('noBC24');
-let tanggalBC24 = document.getElementById('tanggalBC24');
-
-let selectcust = 0;
-let namacust;
-
-const tanggalPenagihan = new Date();
-const formattedDate2 = tanggalPenagihan.toISOString().substring(0, 10);
-tanggal.value = formattedDate2;
-
-const tanggalInput = new Date();
-const formattedDate = tanggalInput.toISOString().substring(0, 10);
-penagihanPajak.value = formattedDate;
-
-btnIsi.addEventListener("click", function (event) {
-    event.preventDefault();
-    btnIsi.style.display = "none";
-    btnSimpan.style.display = "block";
-    btnKoreksi.style.display = "none";
-    btnBatal.style.display = "block";
-
-    tanggal.removeAttribute("readonly");
-    namaCustomerSelect.removeAttribute("readonly");
-    idCustomer.removeAttribute("readonly");
-    jnsCustomer.removeAttribute("readonly");
-    alamat.removeAttribute("readonly");
-    nomorSPSelect.removeAttribute("readonly");
-    nomorPO.removeAttribute("readonly");
-    namaMataUang.removeAttribute("readonly");
-    idMataUang.removeAttribute("readonly");
-    nilaiKurs.removeAttribute("readonly");
-    syaratPembayaran.removeAttribute("readonly");
-    penagihanPajak.removeAttribute("readonly");
-    userPenagihSelect.removeAttribute("readonly");
-    Ppn.removeAttribute("readonly");
-
-    iniKlikIsi();
-});
-
-btnKoreksi.addEventListener("click", function (event) {
-    event.preventDefault();
-    btnIsi.style.display = "none";
-    btnSimpan.style.display = "block";
-    btnKoreksi.style.display = "none";
-    btnBatal.style.display = "block";
-
-    tanggal.removeAttribute("readonly");
-    namaCustomerSelect.removeAttribute("readonly");
-    idCustomer.removeAttribute("readonly");
-    jnsCustomer.removeAttribute("readonly");
-    alamat.removeAttribute("readonly");
-    nomorSPSelect.removeAttribute("readonly");
-    nomorPO.removeAttribute("readonly");
-    namaMataUang.removeAttribute("readonly");
-    idMataUang.removeAttribute("readonly");
-    nilaiKurs.removeAttribute("readonly");
-    syaratPembayaran.removeAttribute("readonly");
-    penagihanPajak.removeAttribute("readonly");
-    userPenagihSelect.removeAttribute("readonly");
-    Ppn.removeAttribute("readonly");
-
-    namaCustomerSelect.focus();
-    iniKlikKoreksi();
-});
-
-btnBatal.addEventListener("click", function (event) {
-    event.preventDefault();
-    tanggal.value = "";
-    namaCustomerSelect.selectedIndex = 0;
-    idCustomer.value = "";
-    idJenisCustomer.value = "";
-    noPenagihanSelect.selectedIndex = 0;
-    IdPenagihan.value = "";
-    id_Penagihan.value = "";
-    jnsCustomer.value = "";
-    alamat.value = "";
-    nomorSPSelect.selectedIndex = 0;
-    noSP.value = "";
-    nomorPO.value = "";
-    namaMataUang.value = "";
-    idMataUang.value = "";
-    nilaiKurs.value = "";
-    penagihanPajak.value = "";
-    syaratPembayaran.value = "";
-    userPenagihSelect.selectedIndex = 0;
-    idUserPenagih.value = "";
-    jenisPajakSelect.selectedIndex = 0;
-    idJenisPajak.value = "";
-    Ppn.value = "";
-    noPenagihanUMSelect.selectedIndex = 0;
-    suratJalanSelect.selectedIndex = 0;
-    dokumenSelect.selectedIndex = 0;
-    idDokumen.value = "";
-    noBC24.value = "";
-    tanggalBC24.value = "";
-    nilaiPenagihan.value = "";
-    nilaiUangMuka.value = "";
-    terbilang.value = "";
-})
-
-function iniKlikKoreksi() {
-    fetch("/getCustomerr/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        namaCustomerSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih Cust";
-        namaCustomerSelect.appendChild(defaultOption);
-
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.IDCust; // Gunakan entry.IdCust sebagai nilai opsi
-            option.innerText = entry.IDCust + "|" + entry.NAMACUST; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            namaCustomerSelect.appendChild(option);
-        });
+$(document).ready(function () {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let btn_isi = document.getElementById("btn_isi");
+    let btn_koreksi = document.getElementById("btn_koreksi");
+    let btn_hapus = document.getElementById("btn_hapus");
+    let btn_proses = document.getElementById("btn_proses");
+    let btn_batal = document.getElementById("btn_batal");
+    let btn_customer = document.getElementById("btn_customer");
+    let btn_penagihan = document.getElementById("btn_penagihan");
+    let btn_noSP = document.getElementById("btn_noSP");
+    let btn_userPenagih = document.getElementById("btn_userPenagih");
+    let btn_pajak = document.getElementById("btn_pajak");
+    let btn_dokumen = document.getElementById("btn_dokumen");
+    let btn_penagihanUM = document.getElementById("btn_penagihanUM");
+    let btn_suratJalan = document.getElementById("btn_suratJalan");
+    let btn_charge = document.getElementById("btn_charge");
+    let btn_add = document.getElementById("btn_add");
+    let tanggal = document.getElementById("tanggal");
+    let penagihanPajak = document.getElementById("penagihanPajak");
+    let nama_customer = document.getElementById("nama_customer");
+    let idCustomer = document.getElementById("idCustomer");
+    let id_cust = document.getElementById("id_cust");
+    let jenisCustomer = document.getElementById("jenisCustomer");
+    let alamat = document.getElementById("alamat");
+    let IdPenagihan = document.getElementById("IdPenagihan");
+    let no_penagihan = document.getElementById("no_penagihan");
+    let no_sp = document.getElementById("no_sp");
+    let namaMataUang = document.getElementById("namaMataUang");
+    let nomorPO = document.getElementById("nomorPO");
+    let user_penagih = document.getElementById("user_penagih");
+    let idUserPenagih = document.getElementById("idUserPenagih");
+    let nama_pajak = document.getElementById("nama_pajak");
+    let jenis_pajak = document.getElementById("jenis_pajak");
+    let dokumen = document.getElementById("dokumen");
+    let idJenisDokumen = document.getElementById("idJenisDokumen");
+    let uangMasuk = document.getElementById("uangMasuk");
+    let nilaiSblmPPN = document.getElementById("nilaiSblmPPN");
+    let nilaiPpn = document.getElementById("nilaiPpn");
+    let terbilang = document.getElementById("terbilang");
+    let total = document.getElementById("total");
+    let Ppn = document.getElementById("Ppn");
+    let idMataUang = document.getElementById("idMataUang");
+    let nilaiKurs = document.getElementById("nilaiKurs");
+    let tanggalBC24 = document.getElementById("tanggalBC24");
+    let no_penagihanUM = document.getElementById("no_penagihanUM");
+    let id_penagihanUM = document.getElementById("id_penagihanUM");
+    let surat_jalan = document.getElementById("surat_jalan");
+    let id_charge = document.getElementById("id_charge");
+    let x_charge = document.getElementById("x_charge");
+    let table_atas = $("#table_atas").DataTable({
+        // columnDefs: [{ targets: [5, 6, 7], visible: false }],
     });
+    let proses;
 
-    namaCustomerSelect.addEventListener("change", function (event) {
+    tanggal.valueAsDate = new Date();
+    penagihanPajak.valueAsDate = new Date();
+    tanggalBC24.valueAsDate = new Date();
+
+    btn_add.addEventListener("click", async function (event) {
         event.preventDefault();
-        const selectedOption = namaCustomerSelect.options[namaCustomerSelect.selectedIndex];
-        if (selectedOption) {
-            const selectedValue = selectedOption.textContent; // Atau selectedOption.innerText
-            const bagiansatu = selectedValue.split(/[-|]/);
-            const jenis = bagiansatu[0];
-            const idcust = bagiansatu[1];
-            namacust = bagiansatu[2];
-            idCustomer.value = idcust;
-            idJenisCustomer.value  = jenis;
+        const newRow = {
+            Id_Detail: tableData.length + 1,
+            kode_customer: kode_customer.value,
+            jumlah_uang: jumlah_uang.value,
+            kode_kira: kode_kira.value,
+            uraian: uraian.value,
+            id_jnsPem: id_jnsPem.value,
+            no_bukti: no_bukti.value,
+            jenis_pembayaran: jenis_pembayaran.value,
+            keterangan_kira: keterangan_kira.value,
+            kurs_rupiah: kurs_rupiah.value,
+            nama_customer: nama_customer.value,
+        };
 
-            lihatCustomer();
+        tableData.push(newRow);
+        console.log(tableData);
 
-            noPenagihanSelect.removeAttribute("readonly");
-            noPenagihanSelect.focus();
+        if ($.fn.DataTable.isDataTable("#table_kiri")) {
+            var table_kiri = $("#table_kiri").DataTable();
+
+            table_kiri.row
+                .add([
+                    `<input type="checkbox" name="penerimaCheckbox" value="${newRow.Id_Detail}" /> ${newRow.Id_Detail}`,
+                    newRow.kode_customer,
+                    newRow.jumlah_uang,
+                    newRow.kode_kira,
+                    newRow.uraian,
+                    newRow.id_jnsPem,
+                    newRow.no_bukti,
+                    newRow.jenis_pembayaran,
+                    newRow.keterangan_kira,
+                    newRow.kurs_rupiah,
+                    newRow.nama_customer,
+                ])
+                .draw();
         }
     });
-}
 
-function iniKlikIsi() {
-    fetch("/getCustomerr/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        namaCustomerSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih Cust";
-        namaCustomerSelect.appendChild(defaultOption);
-
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.IDCust; // Gunakan entry.IdCust sebagai nilai opsi
-            option.innerText = entry.IDCust + "|" + entry.NAMACUST; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            namaCustomerSelect.appendChild(option);
-        });
-    });
-
-    namaCustomerSelect.addEventListener("change", function (event) {
+    btn_customer.addEventListener("click", async function (event) {
         event.preventDefault();
-        const selectedOption = namaCustomerSelect.options[namaCustomerSelect.selectedIndex];
-        if (selectedOption) {
-            const selectedValue = selectedOption.textContent; // Atau selectedOption.innerText
-            const bagiansatu = selectedValue.split(/[-|]/);
-            const jenis = bagiansatu[0];
-            const idcust = bagiansatu[1];
-            namacust = bagiansatu[2];
-            idCustomer.value = idcust;
-            idJenisCustomer.value  = jenis;
-
-            lihatCustomer();
-        }
-        nomorSPSelect.focus();
-    });
-}
-
-function iniKlikKoreksi() {
-    fetch("/getCustomerr/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        namaCustomerSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih Cust";
-        namaCustomerSelect.appendChild(defaultOption);
-
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.IDCust; // Gunakan entry.IdCust sebagai nilai opsi
-            option.innerText = entry.IDCust + "|" + entry.NAMACUST; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            namaCustomerSelect.appendChild(option);
-        });
-    });
-
-    namaCustomerSelect.addEventListener("change", function (event) {
-        event.preventDefault();
-        const selectedOption = namaCustomerSelect.options[namaCustomerSelect.selectedIndex];
-        if (selectedOption) {
-            const selectedValue = selectedOption.textContent; // Atau selectedOption.innerText
-            const bagiansatu = selectedValue.split(/[-|]/);
-            const jenis = bagiansatu[0];
-            const idcust = bagiansatu[1];
-            namacust = bagiansatu[2];
-            idCustomer.value = idcust;
-            idJenisCustomer.value  = jenis;
-
-            lihatCustomer();
-        }
-        noPenagihanSelect.removeAttribute("readonly");
-        noPenagihanSelect.focus();
-
-        fetch("/getNoPenagihanPenjualan/" + idCustomer.value)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
-            noPenagihanSelect.innerHTML = "";
-
-            const defaultOption = document.createElement("option");
-            defaultOption.disabled = true;
-            defaultOption.selected = true;
-            defaultOption.innerText = "Pilih No. Penagihan";
-            noPenagihanSelect.appendChild(defaultOption);
-
-            options.forEach((entry) => {
-                const option = document.createElement("option");
-                option.value = entry.Id_Penagihan; // Gunakan entry.IdCust sebagai nilai opsi
-                option.innerText = entry.Id_Penagihan + "|" + entry.Tgl_Penagihan; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-                noPenagihanSelect.appendChild(option);
-            });
-        });
-
-        noPenagihanSelect.addEventListener("change", function (event) {
-            event.preventDefault();
-            const selectedOption = noPenagihanSelect.options[noPenagihanSelect.selectedIndex];
-            if (selectedOption) {
-                const selectedValue = selectedOption.textContent; // Atau selectedOption.innerText
-                const bagiansatu = selectedValue.split(/[-|]/);
-                const jenis = bagiansatu[0];
-                IdPenagihan.value = jenis;
-
-                id_Penagihan.value = IdPenagihan.value.replace(/\//g, '.');
-
-                fetch("/DataPenagihanPenjualan/" + id_Penagihan.value)
-                .then((response) => response.json())
-                .then((options) => {
-                    console.log(options);
-
-                    idMataUang.value = options[0].Id_MataUang;
-                    namaMataUang.value = options[0].Nama_MataUang;
-                    syaratPembayaran.value = options[0].SyaratBayar;
-                    nomorPO.value = options[0].PO;
-                    terbilang.value = options[0].Terbilang;
-                    nilaiKurs.value = options[0].NilaiKurs;
-
-                    idUserPenagih.value = options[0].IdPenagih;
-                    Ppn.value = options[0].PersenPPN;
-                    idDokumen.value = options[0].Id_Jenis_Dokumen;
-                    idJenisPajak.value = options[0].Jns_PPN;
-                    nilaiUangMuka.value = options[0].Nilai_Penagihan;
-                    nilaiPenagihan.value = options[0].Nilai_Penagihan;
-
-                    let UP = idUserPenagih.value;
-                    let opt = userPenagihSelect.options;
-                    console.log(opt);
-                    for (let i = 0; i < opt.length; i++) {
-                        if (opt[i].value == UP) {
-                            // Setel select option jenisPembayaranSelect sesuai dengan opsi yang cocok
-                            userPenagihSelect.selectedIndex = i;
-                            break;
-                        }
-                    };
-
-                    let JP = idJenisPajak.value;
-                    let opt2 = jenisPajakSelect.options;
-                    console.log(opt2);
-                    for (let i = 0; i < opt2.length; i++) {
-                        if (opt2[i].value == JP) {
-                            // Setel select option jenisPembayaranSelect sesuai dengan opsi yang cocok
-                            jenisPajakSelect.selectedIndex = i;
-                            break;
-                        }
-                    };
-
-                    fetch("/LihatPenagihan/" + id_Penagihan.value + "/" + idJenisPajak.value)
-                    .then((response) => response.json())
-                    .then((options) => {
-                        console.log(options);
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>ID. Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#customerTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#customerTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getCustomer",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NAMACUST",
+                                },
+                                {
+                                    data: "IDCust",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#customerTable_filter input").focus();
+                        }, 300);
+                        // $("#customerTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1)
+                        //             .search(this.value)
+                        //             .draw();
+                        //     }
+                        // );
+                        $("#customerTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customerTable")
+                        );
                     });
-                });
-            }
-        });
-    });
-};
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    nama_customer.value = escapeHTML(
+                        selectedRow.NAMACUST.trim()
+                    );
+                    id_cust.value = selectedRow.IDCust.trim().substring(0, 3);
+                    idCustomer.value = selectedRow.IDCust.trim().slice(-5);
 
-fetch("/getUserPenagih/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        userPenagihSelect.innerHTML = "";
+                    if (id_cust.value == "NPX") {
+                        btn_pajak.disabled = true;
+                    } else {
+                        btn_pajak.disabled = false;
+                    }
 
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih User Penagih";
-        userPenagihSelect.appendChild(defaultOption);
+                    $.ajax({
+                        url: "PenagihanPenjualanLokal/getJenisCustomer",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            idCustomer: idCustomer.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            jenisCustomer.value = data.TJenisCust;
+                            alamat.value = data.TAlamat;
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
 
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.IdUser; // Gunakan entry.IdCust sebagai nilai opsi
-            option.innerText = entry.IdUser + "|" + entry.Nama; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            userPenagihSelect.appendChild(option);
-        });
-});
-
-fetch("/getJenisPajak/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        jenisPajakSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih Jns Pajak";
-        jenisPajakSelect.appendChild(defaultOption);
-
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.Jns_PPN; // Gunakan entry.IdCust sebagai nilai opsi
-            option.innerText = entry.Nama_Jns_PPN + "|" + entry.Jns_PPN; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            jenisPajakSelect.appendChild(option);
-
-            // dokumenSelect.focus();
-        });
-});
-
-console.log(noSP.value);
-
-function lihatCustomer() {
-    if (idJenisCustomer.value === 'NPX') {
-        jenisPajakSelect.setAttribute("readonly", true);
-    } else {
-        jenisPajakSelect.removeAttribute("readonly");
-    }
-
-    fetch("/getJenisCustomer/" + idJenisCustomer.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        jnsCustomer.value = options[0].NamaJnsCust;
+                    if (proses == 1) {
+                        setTimeout(() => {
+                            btn_noSP.focus();
+                        }, 300);
+                    } else if (proses == 2) {
+                        setTimeout(() => {
+                            btn_penagihan.focus();
+                        }, 300);
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
     });
 
-    if (jnsCustomer.value == "PNX") {
-        fetch("/getAlamatCust/" + idCustomer.value)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
-            alamat.value = options[0].Alamat + " " + options[0].Kota;
-
-        });
-    } else {
-        fetch("/getAlamatCust/" + idCustomer.value)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
-            alamat.value = options[0].AlamatNPWP;
-
-        });
-    }
-
-    fetch("/getNoSP/" + idCustomer.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        nomorSPSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih No. SP";
-        nomorSPSelect.appendChild(defaultOption);
-
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.IDSuratPesanan; // Gunakan entry.IdCust sebagai nilai opsi
-            option.innerText = entry.IDSuratPesanan; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            nomorSPSelect.appendChild(option);
-        });
-    });
-
-    nomorSPSelect.addEventListener("change", function (event) {
+    btn_noSP.addEventListener("click", async function (event) {
         event.preventDefault();
-        const selectedOption = nomorSPSelect.options[nomorSPSelect.selectedIndex];
-        if (selectedOption) {
-            const selectedValue = selectedOption.textContent; // Atau selectedOption.innerText
-            noSP.value  = selectedValue.toString();
-
-            fetch("/getNomorPO/" + noSP.value)
-            .then((response) => response.json())
-            .then((options) => {
-                console.log(options);
-
-                if (options[0].IDMataUang == "IDR") {
-                    idMataUang.value = 1;
-                } else if (options[0].IDMataUang == "USD") {
-                    idMataUang.value = 2;
-                }
-                nomorPO.value = options[0].NO_PO;
-                syaratPembayaran.value = options[0].SyaratBayar;
-                namaMataUang.value = options[0].MataUang;
-
-                if (idMataUang.value == 1) {
-                    nilaiKurs.setAttribute("readonly", true);
-                } else {
-                    nilaiKurs.focus();
-                    nilaiKurs.removeAttribute("readonly");
+        try {
+            const result = await Swal.fire({
+                title: "Select a Surat Pesanan",
+                html: '<table id="PesananTable" class="display" style="width:100%"><thead><tr><th>Surat Pesanan</th><th>ID. Pesanan</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#PesananTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#PesananTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getPesanan",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    IdPenagihan: IdPenagihan.value,
+                                    idCustomer: idCustomer.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "IDSuratPesanan",
+                                },
+                                {
+                                    data: "Tgl_Pesan",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#PesananTable_filter input").focus();
+                        }, 300);
+                        // $("#PesananTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_Pesanan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#PesananTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "PesananTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    no_sp.value = escapeHTML(selectedRow.IDSuratPesanan.trim());
+                    // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
+                    $.ajax({
+                        url: "PenagihanPenjualanLokal/getPesananDetails",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            no_sp: no_sp.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            namaMataUang.value = data.TMataUang;
+                            idMataUang.value = data.TIdMataUang;
+                            nomorPO.value = data.TPO;
+                            // alamat.value = data.TAlamat;
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
+                    setTimeout(() => {
+                        btn_userPenagih.focus();
+                    }, 300);
                 }
             });
-
-            fetch("/getNoPenagihanUM/" + noSP.value)
-            .then((response) => response.json())
-            .then((options) => {
-                console.log(options);
-                noPenagihanUMSelect.innerHTML = "";
-
-                const defaultOption = document.createElement("option");
-                defaultOption.disabled = true;
-                defaultOption.selected = true;
-                defaultOption.innerText = "Pilih No Penagihan UM";
-                noPenagihanUMSelect.appendChild(defaultOption);
-
-                options.forEach((entry) => {
-                    const option = document.createElement("option");
-                    option.value = entry.Id_Penagihan; // Gunakan entry.IdCust sebagai nilai opsi
-                    option.innerText = entry.Id_Penagihan + "|" + entry.nilai_BLM_PAJAK; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-                    noPenagihanUMSelect.appendChild(option);
-                });
-            });
-
-            fetch("/getSuratJalan/" + noSP.value)
-            .then((response) => response.json())
-            .then((options) => {
-                console.log(options);
-                suratJalanSelect.innerHTML = "";
-
-                const defaultOption = document.createElement("option");
-                defaultOption.disabled = true;
-                defaultOption.selected = true;
-                defaultOption.innerText = "Pilih Jns Pajak";
-                suratJalanSelect.appendChild(defaultOption);
-
-                options.forEach((entry) => {
-                    const option = document.createElement("option");
-                    option.value = entry.IDPengiriman; // Gunakan entry.IdCust sebagai nilai opsi
-                    option.innerText = entry.IDPengiriman + "|" + entry.TanggalDiterima; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-                    suratJalanSelect.appendChild(option);
-
-                    // dokumenSelect.focus();
-                });
-        });
+        } catch (error) {
+            console.error("An error occurred:", error);
         }
-    })
-};
+        // console.log(selectedRow);
+    });
 
-function saveData() {
-    nilaiPenagihan.value = nilaiPenagihan.value - nilaiUangMuka.value;
-    if (jnsCustomer.value == "PWX" || jnsCustomer.value == "PNX" || jnsCustomer.value == "PXX") {
-        if (Ppn.value == 11) {
-            nilaiPenagihan.value = Math.round(nilaiPenagihan.value * 0.11);
-        } else {
-            nilaiPenagihan.value = Math.round(nilaiPenagihan.value * 0.1);
-        }
-    }
-
-    if (idMataUang.value == 1) {
-        terbilang.value = F_Rupiah(nilaiPenagihan.value);
-    } else {
-        if (nilaiKurs.value <= 0) {
-            alert("ISI DULU NILAI KURSNYA");
-            if ((jnsCustomer.value == "PWX" || jnsCustomer.value == "PNX" || jnsCustomer.value == "PXX") && (idJenisPajak.value == 3 || idJenisPajak.value == 4)) {
-                if (Ppn.value == 1) {
-                    nilaiPenagihan.value = nilaiPenagihan.value / 0.11;
-                }else {
-                    nilaiPenagihan.value = nilaiPenagihan.value / 0.1;
+    btn_userPenagih.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Penagih",
+                html: '<table id="PenagihTable" class="display" style="width:100%"><thead><tr><th>Penagih</th><th>ID. Penagih</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#PenagihTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#PenagihTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getPenagih",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Nama",
+                                },
+                                {
+                                    data: "IdUser",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#PenagihTable_filter input").focus();
+                        }, 300);
+                        // $("#PenagihTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_Penagih)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#PenagihTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "PenagihTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    user_penagih.value = escapeHTML(selectedRow.Nama.trim());
+                    idUserPenagih.value = escapeHTML(selectedRow.IdUser.trim());
+                    // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
+                    setTimeout(() => {
+                        btn_pajak.focus();
+                    }, 300);
                 }
-            }
-            nilaiKurs.focus();
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
         }
-        terbilang.value = F_Dollar(nilaiPenagihan.value);
-    }
+        // console.log(selectedRow);
+    });
 
-    if ((jnsCustomer.value == "PWX" || jnsCustomer.value == "PNX" || jnsCustomer.value == "PXX") && (idJenisPajak.value == 1 || idJenisPajak.value == 2 || idJenisPajak.value == 5)) {
-        if (Ppn.value == 11) {
-            nilaiPenagihan.value = nilaiPenagihan.value / 0.11;
-        } else {
-            nilaiPenagihan.value = nilaiPenagihan.value / 0.1;
+    btn_pajak.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Jenis Pajak",
+                html: '<table id="PajakTable" class="display" style="width:100%"><thead><tr><th>Nama Pajak</th><th>Jenis Pajak</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#PajakTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#PajakTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getPajak",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Nama_Jns_PPN",
+                                },
+                                {
+                                    data: "Jns_PPN",
+                                },
+                            ],
+                            order: [[1, "asc"]],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#PajakTable_filter input").focus();
+                        }, 300);
+                        // $("#PajakTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_Pajak)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#PajakTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "PajakTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    nama_pajak.value = escapeHTML(
+                        selectedRow.Nama_Jns_PPN.trim()
+                    );
+                    jenis_pajak.value = escapeHTML(selectedRow.Jns_PPN.trim());
+                    // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
+                    setTimeout(() => {
+                        btn_penagihanUM.focus();
+                    }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
         }
-    }
-}
+        // console.log(selectedRow);
+    });
 
-function F_Rupiah() {
-    var formatted = parseFloat(total.value).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, "$&,");
-    return formatted;
-}
-function F_Dollar() {
-    var formatted = parseFloat(total.value).toFixed(0);
-    return formatted;
-};
+    btn_penagihanUM.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Penagihan UM",
+                html: '<table id="PenagihanUMTable" class="display" style="width:100%"><thead><tr><th>ID. Penagihan</th><th>Jumlah</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#PenagihanUMTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#PenagihanUMTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getTagihanDP",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    no_sp: no_sp.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Id_Penagihan",
+                                },
+                                {
+                                    data: "nilai_BLM_PAJAK",
+                                },
+                            ],
+                            // order: [[1, "asc"]],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#PenagihanUMTable_filter input").focus();
+                        }, 300);
+                        // $("#PenagihanUMTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_PenagihanUM)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#PenagihanUMTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "PenagihanUMTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    // nama_pajak.value = escapeHTML(
+                    //     selectedRow.Nama_Jns_PPN.trim()
+                    // );
+                    // jenis_pajak.value = escapeHTML(selectedRow.Jns_PPN.trim());
+                    no_penagihanUM.value = escapeHTML(
+                        selectedRow.Id_Penagihan.trim()
+                    );
+                    setTimeout(() => {
+                        btn_dokumen.focus();
+                    }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
 
-btnLihatItem.addEventListener('click', function (event) {
-    event.preventDefault();
-    modalLihatItem = $("#modalLihatItem");
-    modalLihatItem.modal('show');
+    btn_suratJalan.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Surat Jalan",
+                html: '<table id="SuratJalanTable" class="display" style="width:100%"><thead><tr><th>ID. Pengiriman</th><th>Tanggal</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#SuratJalanTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#SuratJalanTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getSuratJalan",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    no_sp: no_sp.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "IDPengiriman",
+                                },
+                                {
+                                    data: "TanggalDiterima",
+                                },
+                            ],
+                            // order: [[1, "asc"]],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#SuratJalanTable_filter input").focus();
+                        }, 300);
+                        // $("#SuratJalanTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_SuratJalan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#SuratJalanTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "SuratJalanTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    // nama_pajak.value = escapeHTML(
+                    //     selectedRow.Nama_Jns_PPN.trim()
+                    // );
+                    // jenis_pajak.value = escapeHTML(selectedRow.Jns_PPN.trim());
+                    surat_jalan.value = escapeHTML(
+                        selectedRow.IDPengiriman.trim()
+                    );
+                    setTimeout(() => {
+                        btn_dokumen.focus();
+                    }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_dokumen.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Dokumen",
+                html: '<table id="DokumenTable" class="display" style="width:100%"><thead><tr><th>Dokumen</th><th>ID. Dokumen</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#DokumenTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#DokumenTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getDokumen",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    id_cust: id_cust.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Nama_Dokumen",
+                                },
+                                {
+                                    data: "Id_Jenis_Dokumen",
+                                },
+                            ],
+                            order: [[1, "asc"]],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#DokumenTable_filter input").focus();
+                        }, 300);
+                        // $("#DokumenTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_Dokumen)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#DokumenTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "DokumenTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    dokumen.value = escapeHTML(selectedRow.Nama_Dokumen.trim());
+                    idJenisDokumen.value = escapeHTML(
+                        selectedRow.Id_Jenis_Dokumen.trim()
+                    );
+                    // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
+                    setTimeout(() => {
+                        uangMasuk.focus();
+                    }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_charge.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Charge",
+                html: '<table id="ChargeTable" class="display" style="width:100%"><thead><tr><th>ID. Charge</th><th>Charge</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#ChargeTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#ChargeTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getCharge",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Id_Charge",
+                                },
+                                {
+                                    data: "Nama_Charge",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#ChargeTable_filter input").focus();
+                        }, 300);
+                        // $("#ChargeTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_Charge)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#ChargeTable tbody").on("click", "tr", function () {
+                            // Remove 'selected' class from all rows
+                            table.$("tr.selected").removeClass("selected");
+                            // Add 'selected' class to the clicked row
+                            $(this).addClass("selected");
+                        });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "ChargeTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    x_charge.value = escapeHTML(selectedRow.Nama_Charge.trim());
+                    id_charge.value = escapeHTML(selectedRow.Id_Charge.trim());
+                    // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
+                    // setTimeout(() => {
+                    //     uangMasuk.focus();
+                    // }, 300);
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
 });
-
-
-
-
-
-

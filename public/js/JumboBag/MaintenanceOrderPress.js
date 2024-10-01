@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let btn_customer = document.getElementById("button-customer");
     let btn_kodebarang = document.getElementById("button-kode-barang");
     let btn_pesanan = document.getElementById("button-pesanan");
+    let btn_simpan = document.getElementById("btn_simpan");
     let id_customer = document.getElementById("id_customer");
     let customer = document.getElementById("customer");
     let kodeBarangAsal = document.getElementById("kodeBarangAsal");
@@ -307,6 +308,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     jumlah_order.value = selectedRow.JumlahOrder.trim();
                     jumlah_press.value = selectedRow.JumlahPress.trim();
                     tanggals.value = selectedRow.start.trim();
+                    if (selectedRow.finish !== null) {
+                        button_stok.disabled = true;
+                        tanggals.readOnly = true;
+                        tanggalf.readOnly = true;
+                        jumlah.readOnly = true;
+                        btn_simpan.disabled = true;
+                    }else{
+                        button_stok.disabled = false;
+                        tanggals.readOnly = false;
+                        tanggalf.readOnly = false;
+                        jumlah.readOnly = false;
+                        btn_simpan.disabled = false;
+                    }
                     tanggalf.value = selectedRow.finish.trim();
 
                     setTimeout(() => {

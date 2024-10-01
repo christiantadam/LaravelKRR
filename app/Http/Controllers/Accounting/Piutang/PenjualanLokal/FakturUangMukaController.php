@@ -17,8 +17,6 @@ class FakturUangMukaController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
         return view('Accounting.Piutang.PenjualanLokal.FakturUangMuka', compact('access'));
-        // $data = 'Accounting';
-        // return view('Accounting.Piutang.PenjualanLokal.FakturUangMuka', compact('data'));
     }
 
     // public function getNoPenagihan($idCustomer)
@@ -94,7 +92,7 @@ class FakturUangMukaController extends Controller
     public function store(Request $request)
     {
         // dd((int) $request->input('nilaiKurs'));
-        dd($request->all());
+        // dd($request->all());
         try {
             $user_id = trim(Auth::user()->NomorUser);
             $saveData = false;

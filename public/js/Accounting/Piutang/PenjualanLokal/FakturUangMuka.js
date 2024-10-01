@@ -56,6 +56,20 @@ $(document).ready(function () {
     btn_pajak.disabled = true;
     btn_dokumen.disabled = true;
     btn_isi.focus();
+    id_cust.readOnly = true;
+    nama_customer.readOnly = true;
+    no_penagihan.readOnly = true;
+    jenisCustomer.readOnly = true;
+    alamat.readOnly = true;
+    no_sp.readOnly = true;
+    nomorPO.readOnly = true;
+    namaMataUang.readOnly = true;
+    user_penagih.readOnly = true;
+    nama_pajak.readOnly = true;
+    dokumen.readOnly = true;
+    nilaiSblmPPN.readOnly = true;
+    nilaiPpn.readOnly = true;
+    terbilang.readOnly = true;
 
     btn_isi.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -86,23 +100,30 @@ $(document).ready(function () {
         btn_noSP.disabled = false;
         btn_userPenagih.disabled = false;
         btn_pajak.disabled = false;
+        btn_dokumen.disabled = false;
         btn_customer.focus();
         proses = 2;
     });
 
     btn_hapus.addEventListener("click", async function (event) {
         event.preventDefault();
-        btn_isi.disabled = true;
-        btn_koreksi.disabled = true;
-        btn_hapus.disabled = true;
-        btn_proses.disabled = false;
-        btn_batal.disabled = false;
-        btn_customer.disabled = false;
-        btn_penagihan.disabled = false;
-        btn_noSP.disabled = false;
-        btn_userPenagih.disabled = false;
-        btn_pajak.disabled = false;
-        btn_dokumen.disabled = false;
+        Swal.fire({
+            icon: "error",
+            // title: "Error!",
+            text: "Penagihan tidak boleh dihapus. Jika ada salah pengisian mohon dikoreksi",
+            showConfirmButton: true,
+        });
+        // btn_isi.disabled = true;
+        // btn_koreksi.disabled = true;
+        // btn_hapus.disabled = true;
+        // btn_proses.disabled = false;
+        // btn_batal.disabled = false;
+        // btn_customer.disabled = false;
+        // btn_penagihan.disabled = false;
+        // btn_noSP.disabled = false;
+        // btn_userPenagih.disabled = false;
+        // btn_pajak.disabled = false;
+        // btn_dokumen.disabled = false;
         proses = 3;
     });
 
@@ -139,6 +160,7 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
+                            location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));
@@ -166,11 +188,18 @@ $(document).ready(function () {
             });
         } else if (proses == 2) {
             $.ajax({
-                url: "MaintenanceInformasiBank",
+                url: "FakturUangMuka",
                 type: "POST",
                 data: {
                     _token: csrfToken,
                     proses: proses,
+                    no_penagihan: no_penagihan.value,
+                    total: total.value,
+                    idMataUang: idMataUang.value,
+                    terbilang: terbilang.value,
+                    idUserPenagih: idUserPenagih.value,
+                    nilaiKurs: nilaiKurs.value,
+                    jenis_pajak: jenis_pajak.value,
                 },
                 success: function (response) {
                     console.log(response);
@@ -182,17 +211,18 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
+                            location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));
                             // $("#table_atas").DataTable().ajax.reload();
                             // idReferensi.value = response.IdReferensi;
-                            btn_proses.disabled = true;
-                            btn_batal.disabled = true;
-                            btn_isi.disabled = false;
-                            btn_koreksi.disabled = false;
-                            btn_hapus.disabled = false;
-                            btn_ok.click();
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_ok.click();
                         });
                     } else if (response.error) {
                         Swal.fire({
