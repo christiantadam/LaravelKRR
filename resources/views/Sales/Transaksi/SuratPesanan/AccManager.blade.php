@@ -47,14 +47,18 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="checkbox_all" value="option2">
+                            <label class="form-check-label" for="checkbox2">Pilih Semua</label>
+                        </div>
                         <div class="col" style="gap: 5px; grid-template-columns: auto ;display: grid;">
                             <form onsubmit="return confirm('Apakah Anda Yakin untuk menyetujui semua surat pesanan?');"
                                 id="form_submitAll" action="{{ url('/SuratPesananManager/upall') }}" method="POST"
                                 enctype="multipart/form-data">
                                 {{-- {{ url('/SuratPesananManager/upall') }} --}}
                                 {{ csrf_field() }}
-                                <button class="btn btn-sm btn-success" id="button_submitAll"><span>&#x2713;</span>
-                                    Setujui Semua</button>
+                                {{-- <button class="btn btn-sm btn-success" id="button_submitAll"><span>&#x2713;</span>
+                                    Setujui Semua</button> --}}
                             </form>
                             <form
                                 onsubmit="return confirm('Apakah Anda Yakin untuk menyetujui surat pesanan yang sudah dipilih?');"

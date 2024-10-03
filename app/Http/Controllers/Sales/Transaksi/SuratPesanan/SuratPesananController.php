@@ -17,8 +17,16 @@ class SuratPesananController extends Controller
 {
     public function index(Request $request)
     {
+        $jenis_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
+        $list_customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
+        $list_sales = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALES');
+        $jenis_bayar = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
+        $jenis_brg = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBRG');
+        $kategori_utama = DB::connection('ConnPurchase')->select('exec SP_1273_PRG_KATEGORI_UTAMA');
+        $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
+        $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Transaksi.SuratPesanan.Index', compact('access'));
+        return view('Sales.Transaksi.SuratPesanan.Index', compact('access', 'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
     }
     //get data SP dengan parameter sudah ACC manager, AKTIF dan Belum LUNAS.
     function splokal(Request $request)
@@ -104,13 +112,14 @@ class SuratPesananController extends Controller
                     $no_spValue = $datasp->IDSuratPesanan;
                 }
                 $csrfToken = Session::get('_token');
-                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">&#x270E; Penyesuaian</button>
-                <br> <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\"
-                                        action=\"/batalsplokal/" . $no_spValue . "\" method=\"POST\"
-                                        enctype=\"multipart/form-data\"> <button type=\"submit\"
-                                            class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span>Batal SP</button>
-                                            <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
-                                    </form>";
+                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-success\" id=\"btn_copy\" data-nosp=\"" . $no_spValue . "\">&#128196; Copy SP</button>
+<br>
+<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">&#x270E; Penyesuaian</button>
+<br>
+<form onsubmit=\"return confirm('Apakah Anda Yakin ?');\" action=\"/batalsplokal/" . $no_spValue . "\" method=\"POST\" enctype=\"multipart/form-data\">
+    <button type=\"submit\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Batal SP</button>
+    <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
+</form>";
 
                 $data[] = $nestedData;
             }
@@ -286,6 +295,7 @@ class SuratPesananController extends Controller
         @JnsFakturPjk = ?',
             [$kode, $jenis_sp, $tgl_pesan, $IdCust, $no_po, $tgl_po, $no_pi, $jenis_bayar, $list_sales, $mata_uang, $syarat_bayar, $user, $keterangan, $faktur_pjk],
         );
+
         //kita cari nomor SP yang baru saja dibuat..
         // dd($no_pi == null);
         // dd($jenis_sp, $tgl_pesan, $IdCust, $no_pi, $no_po, $tgl_po, $list_sales, $keterangan);
@@ -350,13 +360,17 @@ class SuratPesananController extends Controller
                 @UserId = \'' . trim($user) . '\''
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp->IDSuratPesanan . ' Sudah Dibuat!');
+        return response()->json(['message' => (string) 'Surat Pesanan ' . $no_sp->IDSuratPesanan . ' Sudah Dibuat!',]);
+        // return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp->IDSuratPesanan . ' Sudah Dibuat!');
     }
 
     //Display the specified resource.
-    public function show(SuratPesanan $suratPesanan)
+    public function show(Request $request, $id)
     {
-        //
+        if ($id == 'Copy') {
+            $no_sp = $request->query('no_sp');
+            dd($no_sp);
+        }
     }
 
     //Show the form for editing the specified resource.

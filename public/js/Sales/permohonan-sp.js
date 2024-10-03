@@ -17,7 +17,9 @@ let berat_standardTotal = document.getElementById("berat_standardTotal");
 let berat_standardTotalMeter = document.getElementById(
     "berat_standardTotalMeter"
 );
-
+let csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 let biaya_lain = document.getElementById("biaya_lain");
 let delete_button = document.getElementById("delete_button");
 let div_beratStandard = document.getElementById("div_beratStandard");
@@ -75,6 +77,10 @@ let tgl_pesan = document.getElementById("tgl_pesan");
 let tgl_po = document.getElementById("tgl_po");
 let total_cost = document.getElementById("total_cost");
 let update_button = document.getElementById("update_button");
+let createSPModal = document.getElementById("createSPModal");
+let btn_tambahModal = document.getElementById("btn_tambahModal");
+
+edit_button.style.display = "none";
 
 //#endregion
 
@@ -472,79 +478,172 @@ jenis_bayar.addEventListener("keypress", function (event) {
 
 //#region Add Event Listener
 
-isi_button.addEventListener("click", function (event) {
-    // console.log(proses);
-    event.preventDefault();
+// isi_button.addEventListener("click", function (event) {
+//     // console.log(proses);
+//     event.preventDefault();
+//     console.log(proses);
 
-    if (proses == 0) {
-        div_tabelSuratPesanan.classList.toggle("disabled");
-        div_detailSuratPesanan.classList.toggle("disabled");
-        div_beratStandard.classList.toggle("disabled");
-        div_saldoInventory.classList.toggle("disabled");
-        div_headerSuratPesanan.classList.toggle("disabled");
-        // enableElements();
-        proses = 1;
-        this.innerHTML = "Proses";
-        edit_button.innerHTML = "Batal";
-        hapus_button.style.display = "none";
-        mata_uang.value = "IDR";
-        jenis_sp.selectedIndex = 1;
+//     if (proses == 0) {
+//         edit_button.style.display = "block";
+//         div_tabelSuratPesanan.classList.toggle("disabled");
+//         div_detailSuratPesanan.classList.toggle("disabled");
+//         div_beratStandard.classList.toggle("disabled");
+//         div_saldoInventory.classList.toggle("disabled");
+//         div_headerSuratPesanan.classList.toggle("disabled");
+//         // enableElements();
+//         proses = 1;
+//         this.innerHTML = "Proses";
+//         edit_button.innerHTML = "Batal";
+//         hapus_button.style.display = "none";
+//         mata_uang.value = "IDR";
+//         jenis_sp.selectedIndex = 1;
+//         tgl_pesan.focus();
+//         list_noSP.disabled = true;
+//     } else if (proses == 1) {
+//         //isi
+//         funcDatatablesIntoInput();
+//         form_suratPesanan.submit();
+//         div_tabelSuratPesanan.classList.toggle("disabled");
+//         div_detailSuratPesanan.classList.toggle("disabled");
+//         div_beratStandard.classList.toggle("disabled");
+//         div_saldoInventory.classList.toggle("disabled");
+//         div_headerSuratPesanan.classList.toggle("disabled");
+//         // disableElements();
+//         proses = 0;
+//         this.innerHTML = "Isi";
+//         edit_button.innerHTML = "Koreksi";
+//         hapus_button.style.display = "block";
+//     } else if (proses == 2) {
+//         //edit
+//         funcDatatablesIntoInput();
+//         form_suratPesanan.action = "/SuratPesanan/" + no_spText.value + "/up";
+//         form_suratPesanan.submit();
+
+//         funcClearHeaderPesanan();
+//         funcClearInputBarang();
+//         // const table = document.getElementById("list_view");
+//         // for (let i = 1; i < table.rows.length; i++) {
+//         //     table.deleteRow(i);
+//         // }
+//         list_view.clear().draw();
+//         div_headerSuratPesanan.classList.toggle("disabled");
+//         div_tabelSuratPesanan.classList.toggle("disabled");
+//         div_detailSuratPesanan.classList.toggle("disabled");
+//         div_beratStandard.classList.toggle("disabled");
+//         div_saldoInventory.classList.toggle("disabled");
+//         // disableElements();
+//         proses = 0;
+//         edit_button.innerHTML = "Koreksi";
+//         this.innerHTML = "Isi";
+//         hapus_button.style.display = "block";
+//     } else if (proses == 3) {
+//         //delete
+//         form_suratPesanan.action = "/SuratPesanan/" + no_spText.value;
+//         form_suratPesanan.submit();
+//         list_view.clear().draw();
+//         div_headerSuratPesanan.classList.toggle("disabled");
+//         div_tabelSuratPesanan.classList.toggle("disabled");
+//         div_detailSuratPesanan.classList.toggle("disabled");
+//         div_beratStandard.classList.toggle("disabled");
+//         div_saldoInventory.classList.toggle("disabled");
+//         // disableElements();
+//         proses = 0;
+//         edit_button.innerHTML = "Koreksi";
+//         this.innerHTML = "Isi";
+//         hapus_button.style.display = "block";
+//     }
+
+// });
+
+edit_button.style.display = "block";
+div_tabelSuratPesanan.classList.toggle("disabled");
+div_detailSuratPesanan.classList.toggle("disabled");
+div_beratStandard.classList.toggle("disabled");
+div_saldoInventory.classList.toggle("disabled");
+div_headerSuratPesanan.classList.toggle("disabled");
+// enableElements();
+proses = 1;
+this.innerHTML = "Proses";
+edit_button.innerHTML = "Batal";
+hapus_button.style.display = "none";
+mata_uang.value = "IDR";
+jenis_sp.selectedIndex = 1;
+list_noSP.disabled = true;
+
+createSPModal.addEventListener("shown.bs.modal", function (event) {
+    setTimeout(() => {
         tgl_pesan.focus();
-        list_noSP.disabled = true;
-    } else if (proses == 1) {
-        //isi
-        funcDatatablesIntoInput();
-        form_suratPesanan.submit();
-        div_tabelSuratPesanan.classList.toggle("disabled");
-        div_detailSuratPesanan.classList.toggle("disabled");
-        div_beratStandard.classList.toggle("disabled");
-        div_saldoInventory.classList.toggle("disabled");
-        div_headerSuratPesanan.classList.toggle("disabled");
-        // disableElements();
-        proses = 0;
-        this.innerHTML = "Isi";
-        edit_button.innerHTML = "Koreksi";
-        hapus_button.style.display = "block";
-    } else if (proses == 2) {
-        //edit
-        funcDatatablesIntoInput();
-        form_suratPesanan.action = "/SuratPesanan/" + no_spText.value + "/up";
-        form_suratPesanan.submit();
-
-        funcClearHeaderPesanan();
-        funcClearInputBarang();
-        // const table = document.getElementById("list_view");
-        // for (let i = 1; i < table.rows.length; i++) {
-        //     table.deleteRow(i);
-        // }
-        list_view.clear().draw();
-        div_headerSuratPesanan.classList.toggle("disabled");
-        div_tabelSuratPesanan.classList.toggle("disabled");
-        div_detailSuratPesanan.classList.toggle("disabled");
-        div_beratStandard.classList.toggle("disabled");
-        div_saldoInventory.classList.toggle("disabled");
-        // disableElements();
-        proses = 0;
-        edit_button.innerHTML = "Koreksi";
-        this.innerHTML = "Isi";
-        hapus_button.style.display = "block";
-    } else if (proses == 3) {
-        //delete
-        form_suratPesanan.action = "/SuratPesanan/" + no_spText.value;
-        form_suratPesanan.submit();
-        list_view.clear().draw();
-        div_headerSuratPesanan.classList.toggle("disabled");
-        div_tabelSuratPesanan.classList.toggle("disabled");
-        div_detailSuratPesanan.classList.toggle("disabled");
-        div_beratStandard.classList.toggle("disabled");
-        div_saldoInventory.classList.toggle("disabled");
-        // disableElements();
-        proses = 0;
-        edit_button.innerHTML = "Koreksi";
-        this.innerHTML = "Isi";
-        hapus_button.style.display = "block";
-    }
+    }, 300);
 });
+
+btn_tambahModal.addEventListener("click", function (event) {
+    event.preventDefault();
+    $("#createSPModal").modal("show");
+});
+
+isi_button.addEventListener("click", function (event) {
+    event.preventDefault();
+    funcDatatablesIntoInput();
+    // Ambil form data menggunakan FormData
+    var formData = new FormData(form_suratPesanan);
+
+    $.ajax({
+        url: "SuratPesanan",
+        type: "POST",
+        data: formData,
+        processData: false, // Jangan proses data karena FormData sudah ter-serialize
+        contentType: false, // Biarkan jQuery menentukan content type
+        headers: {
+            'X-CSRF-TOKEN': csrfToken, // Kirim token CSRF secara manual
+        },
+        success: function (response) {
+            console.log(response);
+
+            if (response.message) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: response.message,
+                    showConfirmButton: true,
+                }).then(() => {
+                    // Lakukan tindakan setelah sukses
+                });
+            } else if (response.error) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Info!",
+                    text: response.error,
+                    showConfirmButton: false,
+                });
+            }
+        },
+        error: function (xhr) {
+            Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Something went wrong.",
+                showConfirmButton: true,
+            });
+        }
+    });
+});
+
+
+// isi_button.addEventListener("click", function (event) {
+//     event.preventDefault();
+//     funcDatatablesIntoInput();
+//     form_suratPesanan.submit();
+//     div_tabelSuratPesanan.classList.toggle("disabled");
+//     div_detailSuratPesanan.classList.toggle("disabled");
+//     div_beratStandard.classList.toggle("disabled");
+//     div_saldoInventory.classList.toggle("disabled");
+//     div_headerSuratPesanan.classList.toggle("disabled");
+//     // disableElements();
+//     proses = 0;
+//     // this.innerHTML = "Isi";
+//     // edit_button.innerHTML = "Koreksi";
+//     // hapus_button.style.display = "block";
+// });
 
 edit_button.addEventListener("click", function (event) {
     event.preventDefault();
@@ -564,26 +663,27 @@ edit_button.addEventListener("click", function (event) {
         no_spText.readOnly = false;
         funcHeaderDisabled(true);
     } else {
-        no_spSelect.style.display = "none";
-        no_spText.style.display = "block";
-        no_spText.readOnly = true;
-        no_spSelect.disabled = true;
+        // no_spSelect.style.display = "none";
+        // no_spText.style.display = "block";
+        // no_spText.readOnly = true;
+        // no_spSelect.disabled = true;
         funcClearHeaderPesanan();
         funcClearInputBarang();
-        funcHeaderDisabled(false);
+        // funcHeaderDisabled(false);
         list_view.clear().draw();
-        div_headerSuratPesanan.classList.toggle("disabled");
+        // div_headerSuratPesanan.classList.toggle("disabled");
         // div_tabelSuratPesanan.classList.toggle("disabled");
-        div_tabelSuratPesanan.classList.add("disabled");
-        div_detailSuratPesanan.classList.add("disabled");
-        div_beratStandard.classList.add("disabled");
-        div_saldoInventory.classList.add("disabled");
+        // div_tabelSuratPesanan.classList.add("disabled");
+        // div_detailSuratPesanan.classList.add("disabled");
+        // div_beratStandard.classList.add("disabled");
+        // div_saldoInventory.classList.add("disabled");
         // disableElements();
-        proses = 0;
-        this.innerHTML = "Koreksi";
-        isi_button.innerHTML = "Isi";
-        hapus_button.style.display = "block";
-        jenis_brg.selectedIndex = 0;
+        proses = 1;
+        // this.innerHTML = "Koreksi";
+        // isi_button.innerHTML = "Isi";
+        // hapus_button.style.display = "none";
+        // edit_button.style.display = "none";
+        // jenis_brg.selectedIndex = 0;
     }
 });
 
@@ -1471,8 +1571,7 @@ function funcBeratStandard(namaBarang) {
             //ambil data dari database masuk ke input text
             if (Array.isArray(data) && data.length === 0) {
                 alert("Data berat standard kosong, hubungi EDP.");
-            }
-            else{
+            } else {
                 berat_karung.value = data[0].BERAT_KARUNG3;
                 berat_inner.value = data[0].BERAT_INNER3;
                 berat_lami.value = data[0].BERAT_LAMI3;
