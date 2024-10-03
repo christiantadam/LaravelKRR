@@ -175,7 +175,8 @@ class MaintenanceOrderPress extends Controller
                         'JumlahOrder' => $SuratPesanan->Jumlah_Order,
                         'JumlahPress' => $SuratPesanan->A_Jml_Order,
                         'start' => \Carbon\Carbon::parse($SuratPesanan->A_Tgl_Start)->format('Y-m-d'),
-                        'finish' => \Carbon\Carbon::parse($SuratPesanan->A_Tgl_Finish)->format('Y-m-d'),
+                        'finish' => $SuratPesanan->A_Tgl_Finish ?? null,
+                        // 'finish' => \Carbon\Carbon::parse($SuratPesanan->A_Tgl_Finish)->format('Y-m-d') ?? 'null',
                     ];
                 }
 

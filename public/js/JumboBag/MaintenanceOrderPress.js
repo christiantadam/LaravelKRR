@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const result = await Swal.fire({
                 title: "Select a No Pesanan",
-                html: '<table id="nopesananTable" class="display" style="width:100%"><thead><tr><th>No Surat Pesanan</th><th>Waktu Delivery</th></tr></thead><tbody></tbody></table>',
+                html: '<table id="nopesananTable" class="display" style="width:100%"><thead><tr><th>No Surat Pesanan</th><th>Waktu Delivery</th><th>Finish</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 preConfirm: () => {
                     const selectedData = $("#nopesananTable")
@@ -276,7 +276,25 @@ document.addEventListener("DOMContentLoaded", function () {
                                         }
                                     },
                                 },
+                                {
+                                    data: "finish",
+                                    // render: function (data, type, row) {
+                                    //     if (data) {
+                                    //         // Buat objek Date dari data
+                                    //         var date = new Date(data);
+                                    //         // Ambil bulan, hari, dan tahun
+                                    //         var month = ("0" + (date.getMonth() + 1)).slice(-2); // getMonth() dimulai dari 0 (Jan = 0)
+                                    //         var day = ("0" + date.getDate()).slice(-2);
+                                    //         var year = date.getFullYear();
+                                    //         // Gabungkan dalam format m-d-Y
+                                    //         var formattedDate = month + '-' + day + '-' + year;
+                                    //         return formattedDate;
+                                    //     }
+                                    //     return "";
+                                    // }
+                                }
                             ],
+                            columnDefs: [{ targets: [2], visible: false }],
                             paging: false,
                             scrollY: "400px",
                             scrollCollapse: true,
@@ -303,6 +321,24 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
+                    if (selectedRow.finish) {
+                        // Buat objek Date dari selectedRow.finish
+                        var date = new Date(selectedRow.finish.trim());
+
+                        // Ambil tahun, bulan, dan hari dengan format yang benar (yyyy-MM-dd)
+                        var year = date.getFullYear();
+                        var month = ("0" + (date.getMonth() + 1)).slice(-2); // getMonth() dimulai dari 0
+                        var day = ("0" + date.getDate()).slice(-2);
+
+                        // Gabungkan menjadi format yyyy-MM-dd
+                        var formattedDate = year + '-' + month + '-' + day;
+
+                        // Set nilai ke tanggalf.value dengan format yyyy-MM-dd
+                        tanggalf.value = formattedDate;
+                    } else {
+                        tanggalf.value = null; // Atur menjadi kosong jika tidak ada tanggal
+                    }
+                    console.log(selectedRow.finish);
                     no_suratpesanan.value = selectedRow.NoSP.trim();
                     delivery.value = selectedRow.Delivery.trim();
                     jumlah_order.value = selectedRow.JumlahOrder.trim();
@@ -320,8 +356,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         tanggalf.readOnly = false;
                         jumlah.readOnly = false;
                         btn_simpan.disabled = false;
+                        tanggalf.valueAsDate = new Date();
                     }
-                    tanggalf.value = selectedRow.finish.trim();
+                    // tanggalf.value = selectedRow.finish.trim();
 
                     setTimeout(() => {
                         tanggals.focus();
