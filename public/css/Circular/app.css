@@ -1,0 +1,255 @@
+html {
+    overflow-x: hidden !important;
+    /* background-image: url("/images/background-circular.jpg");
+    background-position: -3vw 15vh;
+    background-size: 35%; */
+}
+
+.hidden {
+    display: none;
+}
+
+.aligned-text {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+label {
+    margin-bottom: 0%;
+    align-self: center;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.is-invalid {
+    border-color: red !important;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(1.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.custom-card-header {
+    position: absolute;
+    top: -25px;
+    background: white;
+    width: fit-content;
+    padding: 10px;
+}
+
+button:not(.btn-close, .btn-browse, .navbar-toggler) {
+    min-width: 100px;
+}
+
+.btn-browse {
+    max-width: 50px;
+    transition: 0.3s;
+    background: white;
+}
+.btn-browse:not([disabled]):hover {
+    background: lightgray;
+}
+
+.btn-clicked-isi {
+    background: white !important;
+    color: green !important;
+}
+.btn-clicked-koreksi {
+    background: white !important;
+    color: orange !important;
+}
+.btn-clicked-hapus {
+    background: white !important;
+    color: red !important;
+}
+
+.dropdown-item {
+    border-left: 3px solid #2f4f4f;
+    margin-bottom: 3px;
+    margin-left: 3px;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.invalid-text {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: var(--bs-form-invalid-color);
+}
+
+#logout-button-desktop {
+    position: absolute;
+    top: 0;
+    right: 7.5%;
+    margin-top: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.select2-container--open .select2-dropdown--below {
+    z-index: 100;
+}
+
+/* label {
+    display: block !important;
+} */
+
+.row.mt-2.justify-content-between {
+    height: 40px;
+}
+
+/* Tabel Prioritas Mesin Start */
+.table-wrapper {
+    height: 300px;
+    overflow-y: auto;
+}
+.table-wrapper table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.sticky-header tr:nth-child(1) th {
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-top: 2px solid #dee2e6;
+    border-bottom: 2px solid #dee2e6;
+}
+/* Tabel Prioritas Mesin End */
+
+/* Navbar Mobile Start */
+#header_mobile {
+    display: none;
+}
+.logo-mobile {
+    line-height: 45px;
+    color: #191a20;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-left: 3%;
+}
+/* Navbar Mobile End */
+
+/* DataTables Start */
+/* .dt-scroll-head,
+.dt-scroll-body {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+@media (max-width: 1400px) {
+    .dt-scroll-head,
+    .dt-scroll-body {
+        display: block;
+    }
+} */
+/* DataTables End */
+
+.swal2-checkbox {
+    display: none !important;
+}
+
+@media (max-width: 991px) {
+    .card {
+        margin-top: 1rem;
+    }
+
+    /* Navbar mobile start */
+    #header_mobile {
+        display: block;
+    }
+
+    #logout-button-desktop {
+        display: none;
+    }
+
+    a.logo {
+        display: none;
+    }
+
+    #header_desktop_container {
+        display: none;
+    }
+    /* Navbar mobile end */
+}
+@media (max-width: 768px) {
+    /* DataTables responsive */
+    .aligned-text {
+        justify-content: flex-start;
+    }
+}
+
+/* Bootstrap Column Extensions */
+/* https://stackoverflow.com/questions/30026855/can-i-give-the-col-md-1-5-in-bootstrap */
+/* 8,33333333% col-1 */
+.col-0-5 {
+    flex: 0 0 4.16666667%;
+    max-width: 4.16666667%;
+}
+
+.col-1-5 {
+    flex: 0 0 12.5%;
+    max-width: 12.5%;
+}
+
+.col-2-5 {
+    flex: 0 0 20.833333325%;
+    max-width: 20.833333325%;
+}
+
+.col-3-5 {
+    flex: 0 0 29.166666655%;
+    max-width: 29.166666655%;
+}
+
+.col-4-5 {
+    flex: 0 0 37.499999985%;
+    max-width: 37.499999985%;
+}
+
+.col-5-5 {
+    flex: 0 0 45.833333315%;
+    max-width: 45.833333315%;
+}
+
+.col-6-5 {
+    flex: 0 0 54.166666645%;
+    max-width: 54.166666645%;
+}
+
+.col-7-5 {
+    flex: 0 0 62.499999975%;
+    max-width: 62.499999975%;
+}
+
+.col-8-5 {
+    flex: 0 0 70.833333305%;
+    max-width: 70.833333305%;
+}
+
+.col-9-5 {
+    flex: 0 0 79.166666635%;
+    max-width: 79.166666635%;
+}
+
+.col-10-5 {
+    flex: 0 0 87.499999965%;
+    max-width: 87.499999965%;
+}
+
+.col-11-5 {
+    flex: 0 0 95.8333333%;
+    max-width: 95.8333333%;
+}

@@ -11,6 +11,10 @@ use App\Http\Controllers\Extruder\ExtruderNet\PencatatanController;
 use App\Http\Controllers\Extruder\BeratKomposisi\BeratController;
 use App\Http\Controllers\Extruder\BeratKomposisi\KomposisiController;
 use App\Http\Controllers\Extruder\WarehouseTerima\WarehouseController;
+use App\Http\Controllers\Circular\MasterCircularController;
+use App\Http\Controllers\Circular\OrderCircularController;
+use App\Http\Controllers\Circular\ProsesCircularController;
+use App\Http\Controllers\Circular\InformasiCircularController;
 use function PHPUnit\Framework\assertDirectoryIsReadable;
 
 /*
@@ -1325,5 +1329,61 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('PermohonanKonversiBarcodePotong', App\Http\Controllers\MultipleProgram\PermohonanKonversiBarcodePotongController::class);
     Route::resource('PermohonanKonversiPotong', App\Http\Controllers\MultipleProgram\PermohonanKonversiPotongController::class);
     Route::resource('ACCPermohonanKonversiPotong', App\Http\Controllers\MultipleProgram\ACCPermohonanKonversiPotongController::class);
+    #endregion
+
+    #region Circular
+    Route::get('Circular', 'App\Http\Controllers\HomeController@Circular');
+
+    Route::get('/master/{form_name}', [MasterCircularController::class, 'index'])->name('master.index');
+    Route::post('/proses-mesin', [MasterCircularController::class, 'prosesMesin']);
+    Route::get('/sp-mesin/{sp_str}/{sp_data?}', [MasterCircularController::class, 'spMesin']);
+
+    Route::get('/order/{form_name}', [OrderCircularController::class, 'index'])->name('order.index');
+    Route::post('/proses-order', [OrderCircularController::class, 'prosesOrder']);
+    Route::get('/sp-order/{sp_str}/{sp_data?}', [OrderCircularController::class, 'spOrder']);
+
+    Route::get('/proses/{form_name}', [ProsesCircularController::class, 'index'])->name('proses.index');
+    Route::get('/sp-proses/{sp_str}/{sp_data?}', [ProsesCircularController::class, 'spProses']);
+    Route::get('/proses/formHasilMeter', [ProsesCircularController::class, 'index'])->name('proses.formHasilMeter');
+
+    Route::get('/informasi/{form_name}', [InformasiCircularController::class, 'index'])->name('informasi.index');
+    Route::get('/sp-informasi/{sp_str}/{sp_data?}', [InformasiCircularController::class, 'spInformasi']);
+
+    //Form Order Aktif
+    Route::get('/pagination/get-mesin-aktif', [OrderCircularController::class, 'getMesinAktif']);
+    Route::get('/pagination/get-order-baru', [OrderCircularController::class, 'getOrderBaru']);
+    Route::post('/data-table/get-order-barang', [OrderCircularController::class, 'getOrderBarang']);
+    Route::post('/data-table/get-mesin-order-barang', [OrderCircularController::class, 'get_Mesin_Order_Barang']);
+
+    //Form Order Master
+    Route::get('/pagination/get-id-order', [OrderCircularController::class, 'getIdOrder']); // juga dipakai pada formOrderStop
+    Route::get('/pagination/get-barang', [OrderCircularController::class, 'getBarang']);
+    Route::get('/pagination/get-benang-warp', [OrderCircularController::class, 'getBenangWarp']);
+    Route::get('/pagination/get-benang-strip', [OrderCircularController::class, 'getBenangStrip']);
+
+    //Form Kegiatan Mesin
+    Route::get('/pagination/get-mesin-order', [OrderCircularController::class, 'getMesinOrder']);
+    Route::get('/pagination/get-pegawai', [OrderCircularController::class, 'getDaftarPegawai']);
+    Route::get('/pagination/get-log-mesin', [OrderCircularController::class, 'getLogMesin']);
+
+    //Form Transfer Hasil Meter
+    // Route::post('/hasil-konversi', [ProsesController::class, 'hasilKonversi']);
+    // Route::post('/data-table/get-hasil-meter', [ProsesController::class, 'getHasilMeter']);
+    // Route::get('/pagination/get-sub-kelompok', [ProsesController::class, 'getSubKelompok']);
+
+    //Form Job Assignment
+    Route::post('/data-table/get-pending-order', [ProsesCircularController::class, 'getPendingOrder']);
+    Route::post('/data-table/get-order-history', [ProsesCircularController::class, 'getOrderHistory']);
+    Route::post('/saw-order/get-avg-kecepatan-group', [ProsesCircularController::class, 'getKecepatanGroup']);
+    Route::post('/saw-mesin/get-avg-kecepatan-mesin', [ProsesCircularController::class, 'getKecepatanMesin']);
+    Route::post('/saw-mesin/get-umur-mesin', [ProsesCircularController::class, 'getUmurMesin']);
+
+    Route::get('/print/surat-perintah-kerja', function () {
+        return view('transaksi.printJobAssignment');
+    });
+
+    //Form Informasi
+    Route::get('/sp-informasi/SP_1273_CIR_CEK_MesinTidakAktif/{tgl_awal}/{tgl_akhir}', [InformasiCircularController::class, 'getMesinTidakAktif']);
+    Route::post('/data-table/get-history-cir', [InformasiCircularController::class, 'getLaporanHistory']);
     #endregion
 });

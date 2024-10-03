@@ -46,7 +46,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appSales', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Sales!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Sales!');
 
         }
     }
@@ -58,7 +58,7 @@ class HomeController extends Controller
             return view('layouts.appOrderPembelian', compact('access'));
         } else {
             // abort(403);
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Beli!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Beli!');
         }
     }
     public function EDP()
@@ -69,7 +69,7 @@ class HomeController extends Controller
             return view('layouts.appEDP', compact('access'));
         } else {
             // abort(403);
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program EDP!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program EDP!');
         }
     }
     public function GPS()
@@ -80,7 +80,7 @@ class HomeController extends Controller
             return view('layouts.appGPS', compact('access'));
         } else {
             // abort(403);
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses!');
         }
     }
     public function Workshop()
@@ -91,7 +91,7 @@ class HomeController extends Controller
             return view('layouts.appWorkshop', compact('access'));
         } else {
             // abort(403);
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Workshop!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Workshop!');
         }
     }
     public function Utility()
@@ -102,7 +102,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appUtility', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Utlity!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Utlity!');
 
         }
     }
@@ -114,7 +114,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appWovenBag', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Woven Bag!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Woven Bag!');
 
         }
     }
@@ -126,17 +126,29 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appJumboBag', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Jumbo Bag!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Jumbo Bag!');
         }
     }
-    function Accounting(){
+    function Accounting()
+    {
         $result = (new HakAksesController)->HakAksesProgram('Accounting');
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
         // dd($access);
         if ($result > 0) {
             return view('layouts.appAccounting', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Accounting!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Accounting!');
+        }
+    }
+
+    public function Circular()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('Circular');
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
+        if ($result > 0) {
+            return view('Circular.home', compact('access'));
+        } else {
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Circular!');
         }
     }
 }
