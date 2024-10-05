@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Accounting\Piutang;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HakAksesController;
 
 
@@ -14,97 +15,6 @@ class MaintenanceBKMTransistorisBankController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
         return view('Accounting.Piutang.MaintenanceBKMTransistorisBank', compact('access'));
-    }
-
-    function getMataUang()
-    {
-        $data =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_MATA_UANG]
-        @kode = ?', [1]);
-        return response()->json($data);
-    }
-
-    function getBank()
-    {
-        //dd("mau");
-        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK]');
-        return response()->json($kode);
-    }
-
-    function getJenisPembayaran()
-    {
-        //dd("mau");
-        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_JENIS_DOK]');
-        return response()->json($kode);
-    }
-
-    function getKodePerkiraan()
-    {
-        //dd("mau");
-        $kode =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = ?', [1]);
-        return response()->json($kode);
-    }
-
-    function getMataUang3($mataUangSelect)
-    {
-        $data =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_MATA_UANG]
-        @kode = ?, @nama', [3], $mataUangSelect);
-        return response()->json($data);
-    }
-
-    function getUraianEnter($id, $tanggal)
-    {
-        $idBank = $id;
-        $tanggal = $tanggal;
-        $jenis = 'P';
-
-        $result = DB::statement("EXEC [dbo].[SP_5409_ACC_COUNTER_BKM_BKK] ?, ?, ?, ?", [
-            $jenis,
-            $tanggal,
-            $idBank,
-            null
-            // Pass by reference for output parameter
-        ]);
-
-        $tahun = substr($tanggal, -10, 4);
-        $x = DB::connection('ConnAccounting')->table('T_COUNTER_BKK')->where('Periode', '=', $tahun)->first();
-        $nomorIdBKK = '00000' . str_pad($x->Id_BKK_E_Rp, 5, '0', STR_PAD_LEFT);
-        $idBKK = $idBank . '-P' . substr($tahun, -2) . substr($nomorIdBKK, -5);
-
-        return response()->json($idBKK);
-    }
-
-    function getUraianEnterBKM($id, $tanggal)
-    {
-        $idBank = $id;
-        $tanggal = $tanggal;
-        $jenis = 'R';
-
-        $result = DB::statement("EXEC [dbo].[SP_5409_ACC_COUNTER_BKM_BKK] ?, ?, ?, ?", [
-            $jenis,
-            $tanggal,
-            $idBank,
-            null
-            // Pass by reference for output parameter
-        ]);
-
-        $tahun = substr($tanggal, -10, 4);
-        $x = DB::connection('ConnAccounting')->table('T_COUNTER_BKM')->where('Periode', '=', $tahun)->first();
-        $nomorIdBKM = '00000' . str_pad($x->Id_BKM_E_Rp, 5, '0', STR_PAD_LEFT);
-        $idBKM = $idBank . '-R' . substr($tahun, -2) . substr($nomorIdBKM, -5);
-
-        return response()->json($idBKM);
-    }
-
-    public function getTabelTampilBKM($tanggalInputTampilBKM, $tanggalInputTampilBKM2)
-    {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BKM_TRANSITORIS_PERTGL] @tgl1 = ?, @tgl2 = ?', [$tanggalInputTampilBKM, $tanggalInputTampilBKM2]);
-        return response()->json($tabel);
-    }
-
-    public function getTabelTampilBKK($tanggalInputTampilBKK, $tanggalInputTampilBKK2)
-    {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BKK_TRANSITORIS_PERTGL] @tgl1 = ?, @tgl2 = ?', [$tanggalInputTampilBKK, $tanggalInputTampilBKK2]);
-        return response()->json($tabel);
     }
 
     //Show the form for creating a new resource.
@@ -120,9 +30,84 @@ class MaintenanceBKMTransistorisBankController extends Controller
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show($id, Request $request)
     {
-        //
+        $user = Auth::user()->NomorUser;
+
+        // get user id
+        if ($id === 'getUserId') {
+            return response()->json(['user' => $user]);
+        }
+
+        // get divisi
+        else if ($id === 'getMataUang') {
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_MATA_UANG @kode = ?', [1]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Id_MataUang' => $detail_divisi->Id_MataUang,
+                    'Nama_MataUang' => $detail_divisi->Nama_MataUang,
+                ];
+            }
+            return datatables($divisi)->make(true);
+        }
+
+        // get divisi
+        else if ($id === 'getBank') {
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BANK');
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Id_Bank' => $detail_divisi->Id_Bank,
+                    'Nama_Bank' => $detail_divisi->Nama_Bank,
+                ];
+            }
+            return datatables($divisi)->make(true);
+        }
+
+        // get divisi
+        else if ($id === 'getAccBank') {
+            $idBank = $request->input('idBank');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BANK_1 @idBank = ?', [$idBank]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'jenis' => $detail_divisi->jenis,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // get divisi
+        else if ($id === 'getJenisBayar') {
+            // $idBank = $request->input('idBank');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_JENIS_DOK');
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Id_Jenis_Bayar' => $detail_divisi->Id_Jenis_Bayar,
+                    'Jenis_Pembayaran' => $detail_divisi->Jenis_Pembayaran,
+                ];
+            }
+            return datatables($divisi)->make(true);
+        }
+
+        // get divisi
+        else if ($id === 'getPerkiraan') {
+            // $idBank = $request->input('idBank');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_KODE_PERKIRAAN @Kode = ?', [1]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'NoKodePerkiraan' => $detail_divisi->NoKodePerkiraan,
+                    'Keterangan' => $detail_divisi->Keterangan,
+                ];
+            }
+            return datatables($divisi)->make(true);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -134,20 +119,21 @@ class MaintenanceBKMTransistorisBankController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-        $proses =  $request->all();
+        $proses = $request->all();
         if ($proses['cetak'] == "tampilBKK") {
             //dd($request->all());
-            $idBKK = $request ->idTampilBKK;
+            $idBKK = $request->idTampilBKK;
             DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_TGLCETAK_BKK] @idBKK = ?', [
-                $idBKK]);
+                $idBKK
+            ]);
             return redirect()->back()->with('success', 'Tanggal cetak sudah terupdate');
 
-        }
-        else if ($proses['cetak'] == "tampilBKM") {
+        } else if ($proses['cetak'] == "tampilBKM") {
             //dd('masuk');
-            $idBKM = $request ->idTampilBKM;
+            $idBKM = $request->idTampilBKM;
             DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_TGLCETAK_BKM] @idBKM = ?', [
-                $idBKM]);
+                $idBKM
+            ]);
             return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
         }
 
