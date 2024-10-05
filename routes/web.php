@@ -1,21 +1,23 @@
 <?php
 use function foo\func;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Extruder\ExtruderController;
-use App\Http\Controllers\Extruder\ExtruderNet\BenangController;
-use App\Http\Controllers\Extruder\ExtruderNet\KonversiController;
-use App\Http\Controllers\Extruder\ExtruderNet\MasterController;
-use App\Http\Controllers\Extruder\ExtruderNet\OrderController;
-use App\Http\Controllers\Extruder\ExtruderNet\PencatatanController;
-use App\Http\Controllers\Extruder\BeratKomposisi\BeratController;
-use App\Http\Controllers\Extruder\BeratKomposisi\KomposisiController;
-use App\Http\Controllers\Extruder\WarehouseTerima\WarehouseController;
-use App\Http\Controllers\Circular\MasterCircularController;
+use function PHPUnit\Framework\assertDirectoryIsReadable;
 use App\Http\Controllers\Circular\OrderCircularController;
+use App\Http\Controllers\Circular\MasterCircularController;
 use App\Http\Controllers\Circular\ProsesCircularController;
 use App\Http\Controllers\Circular\InformasiCircularController;
-use function PHPUnit\Framework\assertDirectoryIsReadable;
+use App\Http\Controllers\Extruder\ExtruderNet\OrderController;
+use App\Http\Controllers\Extruder\ExtruderNet\BenangController;
+use App\Http\Controllers\Extruder\ExtruderNet\MasterController;
+use App\Http\Controllers\Extruder\BeratKomposisi\BeratController;
+use App\Http\Controllers\Extruder\ExtruderNet\KonversiController;
+use App\Http\Controllers\Extruder\ExtruderNet\PencatatanController;
+use App\Http\Controllers\Extruder\BeratKomposisi\KomposisiController;
+use App\Http\Controllers\Extruder\WarehouseTerima\WarehouseController;
+use App\Http\Controllers\Accounting\Piutang\BatalBKMTransistorisController;
+use App\Http\Controllers\Accounting\Piutang\MaintenanceBKMTransistorisBankController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1073,6 +1075,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getCheckBKKIdBKK/{idBKK}', 'App\Http\Controllers\Accounting\Hutang\UraianBKKController@getCheckBKKIdBKK');
     Route::get('getListBKK/{idBKK}', 'App\Http\Controllers\Accounting\Hutang\UraianBKKController@getListBKK');
     Route::get('getListBKKTotalIdBKK/{idBKK}', 'App\Http\Controllers\Accounting\Hutang\UraianBKKController@getListBKKTotalIdBKK');
+
+    //Piutang
+    Route::resource('MaintenanceBKMTransistorisBank', MaintenanceBKMTransistorisBankController::class);
+    Route::resource('BatalBKMTransistoris', BatalBKMTransistorisController::class);
+
 
     Route::resource('MaintenanceBKMPenagihan', App\Http\Controllers\Accounting\Piutang\MaintenanceBKMPenagihanController::class);
     Route::get('detailtabelpenagihan/{bulan}/{tahun}', 'App\Http\Controllers\Accounting\Piutang\MaintenanceBKMPenagihanController@getTabelPelunasan');
