@@ -50,26 +50,28 @@ checkbox_all.addEventListener("change", function () {
             checkedRows.push(rowData);
         }
     });
+    console.log(row);
+
 });
 
-button_submitAll.addEventListener("click", function (event) {
-    event.preventDefault();
-    let table = document.getElementById("table_SP"); // select the table element by its ID
-    let rows = table.getElementsByTagName("tr"); // get all table rows
+// button_submitAll.addEventListener("click", function (event) {
+//     event.preventDefault();
+//     let table = document.getElementById("table_SP"); // select the table element by its ID
+//     let rows = table.getElementsByTagName("tr"); // get all table rows
 
-    for (let i = 1; i < rows.length; i++) {
-        let cells = rows[i].innerText; // get all table cells (columns) in each row
-        let nomorSP = cells.split("\t")[0]; // get the value of the "Nomor SP" column
-        // array_nomorSP.push(nomorSP);
-        let input = document.createElement("input"); // create a new input element
-        input.type = "hidden"; // set the input type to 'hidden'
-        input.name = "nomorSPs[]"; // set the input name to 'nomorSPs[]'
-        input.value = nomorSP; // set the input value to the current nomorSP value
-        form_submitAll.appendChild(input); // append the input element to the form
-    }
-    // console.log(form_submitAll);
-    form_submitAll.submit();
-});
+//     for (let i = 1; i < rows.length; i++) {
+//         let cells = rows[i].innerText; // get all table cells (columns) in each row
+//         let nomorSP = cells.split("\t")[0]; // get the value of the "Nomor SP" column
+//         // array_nomorSP.push(nomorSP);
+//         let input = document.createElement("input"); // create a new input element
+//         input.type = "hidden"; // set the input type to 'hidden'
+//         input.name = "nomorSPs[]"; // set the input name to 'nomorSPs[]'
+//         input.value = nomorSP; // set the input value to the current nomorSP value
+//         form_submitAll.appendChild(input); // append the input element to the form
+//     }
+//     // console.log(form_submitAll);
+//     form_submitAll.submit();
+// });
 
 button_submitSelected.addEventListener("click", function (event) {
     event.preventDefault();
@@ -83,6 +85,8 @@ button_submitSelected.addEventListener("click", function (event) {
 
     // loop through all the rows of the table
     let table = document.getElementById("table_SP");
+    console.log(table);
+
     let rows = table.getElementsByTagName("tr");
     for (let i = 1; i < rows.length; i++) {
         let cells = rows[i].cells;
@@ -105,4 +109,6 @@ button_submitSelected.addEventListener("click", function (event) {
     // append the form to the document and submit it
     // document.body.appendChild(form_submitSelected);
     form_submitSelected.submit();
+
+    console.log(nomorSP);
 });

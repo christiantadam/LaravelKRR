@@ -415,7 +415,8 @@ class SuratPesananManagerController extends Controller
                                 'Informasi' => $informasiTambahan[$i]
                             ]);
                     }
-                    return redirect()->back()->with('error', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuatkan DO, Tidak bisa mengubah kode barang');
+                    return response()->json(['error' => (string) 'Surat Pesanan ' . $no_sp . ' Sudah Dibuatkan DO, Tidak bisa mengubah kode barang']);
+                    // return redirect()->back()->with('error', 'Surat Pesanan ' . $no_sp . ' Sudah Dibuatkan DO, Tidak bisa mengubah kode barang');
                 }
             } else {
                 // dd('Masuk sini', $inv);
@@ -423,7 +424,8 @@ class SuratPesananManagerController extends Controller
                     DB::connection('ConnSales')->table('T_DETAILPESANAN')->where('IDPesanan', $id_pesanan)
                         ->update(['Lunas' => $Lunas[$i]]);
                 }
-                return redirect()->back()->with('error', 'Status Lunas BISA diproses. Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya: ' . $inv[0]->IdPenagihan);
+                return response()->json(['error' => (string) 'Status Lunas BISA diproses. Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya: ' . $inv[0]->IdPenagihan]);
+                // return redirect()->back()->with('error', 'Status Lunas BISA diproses. Surat Pesanan ' . $no_sp . ' Sudah Ada ID Penagihannya: ' . $inv[0]->IdPenagihan);
             }
 
             // dd(count($bkarung));
@@ -458,7 +460,8 @@ class SuratPesananManagerController extends Controller
                 ],
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Disesuaikan!');
+        return response()->json(['message' => (string) 'Surat Pesanan ' . $no_sp . ' Sudah Disesuaikan!',]);
+        // return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Disesuaikan!');
         //SP_1486_SLS_MAINT_HEADERPESANAN @kode = 2
         //SP_1486_SLS_MAINT_DETAILPESANAN1 @kode = 4
         //SP_5409_SLS_UPDATE_BS

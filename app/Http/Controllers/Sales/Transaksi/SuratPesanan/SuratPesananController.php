@@ -112,12 +112,12 @@ class SuratPesananController extends Controller
                     $no_spValue = $datasp->IDSuratPesanan;
                 }
                 $csrfToken = Session::get('_token');
-                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-success\" id=\"btn_copy\" data-nosp=\"" . $no_spValue . "\">&#128196; Copy SP</button>
+                $nestedData['Actions'] = "<button class=\"btn btn-sm btn-success\" id=\"btn_copy\" style=\"width: 110px\" data-nosp=\"" . $no_spValue . "\">&#128196; Copy SP</button>
 <br>
-<button class=\"btn btn-sm btn-info\" onclick=\"openNewWindow('/penyesuaian/" . $no_spValue . "')\">&#x270E; Penyesuaian</button>
+<button class=\"btn btn-sm btn-info\" id=\"btn_penyesuaian\" style=\"width: 110px\" data-nosp=\"" . $no_spValue . "\">&#x270E; Penyesuaian</button>
 <br>
 <form onsubmit=\"return confirm('Apakah Anda Yakin ?');\" action=\"/batalsplokal/" . $no_spValue . "\" method=\"POST\" enctype=\"multipart/form-data\">
-    <button type=\"submit\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Batal SP</button>
+    <button type=\"submit\" style=\"width: 110px\" class=\"btn btn-sm btn-danger\"><span>&#x1F5D1;</span> Batal SP</button>
     <input type=\"hidden\" name=\"_token\" value=\"" . $csrfToken . "\">
 </form>";
 
@@ -228,6 +228,7 @@ class SuratPesananController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd($request->all());
         // $data = $request->all();
         // dd($data);
         $UraianPesanan = null;
@@ -247,33 +248,33 @@ class SuratPesananController extends Controller
         $keterangan = $request->keterangan ?? null;
         $barang0 = $request->barang0; //nama barang
         $KodeBarang = $request->barang1; //kode barang
-        $IdJnsBarang = $request->barang27; //jenis barang
+        $IdJnsBarang = $request->barang28; //jenis barang
         $Qty = $request->barang3; //qty pesan
         $Satuan = $request->barang4; //satuan
         $HargaSatuan = $request->barang2; //harga satuan
         $TglRencanaKirim = $request->barang5; //rencana kirim
-        $IdSuratPesanan = $request->barang28; //idsuratpesanan
-        $ppn = $request->barang6; //ppn
-        $bkarung = $request->barang7; //berat karung
-        $ikarung = $request->barang8; //index karung
-        $hkarung = $request->barang9; //berat index karung
-        $binner = $request->barang10; //berat inner
-        $iinner = $request->barang11; //index inner
-        $hinner = $request->barang12; //berat index inner
-        $blami = $request->barang13; //berat lami
-        $ilami = $request->barang14; //index lami
-        $hlami = $request->barang15; //berat index lami
-        $bkertas = $request->barang16; //berat kertas
-        $ikertas = $request->barang17; //index kertas
-        $hkertas = $request->barang18; //berat index kertas
-        $hlain = $request->barang19; //biaya lain2
-        $BeratStandart = $request->barang20; //berat standard total
-        $htotal = $request->barang21; //total cost
-        $bkarung2 = $request->barang22; //berat karung MTR
-        $binner2 = $request->barang23; //berat inner MTR
-        $blami2 = $request->barang24; //berat lami MTR
-        $bkertas2 = $request->barang25; //berat kertas MTR
-        $bs2 = $request->barang26; //berat standard total MTR
+        $IdSuratPesanan = $request->barang29; //idsuratpesanan
+        $ppn = $request->barang7; //ppn
+        $bkarung = $request->barang8; //berat karung
+        $ikarung = $request->barang9; //index karung
+        $hkarung = $request->barang10; //berat index karung
+        $binner = $request->barang11; //berat inner
+        $iinner = $request->barang12; //index inner
+        $hinner = $request->barang13; //berat index inner
+        $blami = $request->barang14; //berat lami
+        $ilami = $request->barang15; //index lami
+        $hlami = $request->barang16; //berat index lami
+        $bkertas = $request->barang17; //berat kertas
+        $ikertas = $request->barang18; //index kertas
+        $hkertas = $request->barang19; //berat index kertas
+        $hlain = $request->barang20; //biaya lain2
+        $BeratStandart = $request->barang21; //berat standard total
+        $htotal = $request->barang22; //total cost
+        $bkarung2 = $request->barang23; //berat karung MTR
+        $binner2 = $request->barang24; //berat inner MTR
+        $blami2 = $request->barang25; //berat lami MTR
+        $bkertas2 = $request->barang26; //berat kertas MTR
+        $bs2 = $request->barang27; //berat standard total MTR
         $kode = 1;
 
         //maintenance header dulu yaw..
@@ -369,8 +370,87 @@ class SuratPesananController extends Controller
     {
         if ($id == 'Copy') {
             $no_sp = $request->query('no_sp');
-            dd($no_sp);
+            // dd($no_sp);
+            $results = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_SDH_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_sp, 1]);
+            // dd($results);
+            // $response = [];
+            // foreach ($results as $row) {
+            //     $response[] = [
+            //         'Nama_Dokumen' => trim($row->Nama_Dokumen),
+            //         'Id_Jenis_Dokumen' => trim($row->Id_Jenis_Dokumen),
+            //     ];
+            // }
+
+            return response()->json($results);
+            // return datatables($response)->make(true);
+        } else if ($id == 'CopyDetails') {
+            $no_sp = $request->query('no_sp');
+            // dd($no_sp);
+            $results = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SESUAI_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_sp, 2]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'IDSuratPesanan' => $row->IDSuratPesanan,
+                    'Tgl_Pesan' => $row->Tgl_Pesan,
+                    'IDCust' => $row->IDCust,
+                    'NamaCust' => $row->NamaCust,
+                    'NO_PO' => $row->NO_PO,
+                    'Tgl_PO' => $row->Tgl_PO,
+                    'IDPembayaran' => $row->IDPembayaran,
+                    'NamaPembayaran' => $row->NamaPembayaran,
+                    'IDBill' => $row->IDBill,
+                    'NamaBill' => $row->NamaBill,
+                    'IDSales' => $row->IDSales,
+                    'NamaSales' => $row->NamaSales,
+                    'IDMataUang' => $row->IDMataUang,
+                    'MataUang' => $row->MataUang,
+                    'TglInput' => $row->TglInput,
+                    'AccManager' => $row->AccManager,
+                    'TglAccManager' => $row->TglAccManager,
+                    'IDPesanan' => $row->IDPesanan,
+                    'IDBarang' => $row->IDBarang,
+                    'IDJnsBarang' => $row->IDJnsBarang,
+                    'NamaJnsBrg' => $row->NamaJnsBrg,
+                    'Qty' => $row->Qty,
+                    'Satuan' => $row->Satuan,
+                    'HargaSatuan' => $row->HargaSatuan,
+                    'Discount' => $row->Discount,
+                    'UraianPesanan' => $row->UraianPesanan,
+                    'TglRencanaKirim' => $row->TglRencanaKirim,
+                    'Lunas' => $row->Lunas,
+                    'TerKirim' => $row->TerKirim,
+                    'SaldoAwal' => $row->SaldoAwal,
+                    'PPN' => $row->PPN,
+                    'namabarang' => $row->namabarang,
+                    'KodeHS' => $row->KodeHS,
+                    'HARGA_KARUNG' => $row->HARGA_KARUNG,
+                    'HARGA_INNER' => $row->HARGA_INNER,
+                    'HARGA_LAMI' => $row->HARGA_LAMI,
+                    'HARGA_KERTAS' => $row->HARGA_KERTAS,
+                    'HARGA_LAIN2' => $row->HARGA_LAIN2,
+                    'HARGA_TOTAL' => $row->HARGA_TOTAL,
+                    'BERAT_KARUNG' => $row->BERAT_KARUNG,
+                    'BERAT_KARUNG3' => $row->BERAT_KARUNG3,
+                    'BERAT_INNER' => $row->BERAT_INNER,
+                    'BERAT_INNER3' => $row->BERAT_INNER3,
+                    'BERAT_LAMI' => $row->BERAT_LAMI,
+                    'BERAT_LAMI3' => $row->BERAT_LAMI3,
+                    'BERAT_CONDUCTIVE' => $row->BERAT_CONDUCTIVE,
+                    'BERAT_KERTAS3' => $row->BERAT_KERTAS3,
+                    'BERAT_TOTAL' => $row->BERAT_TOTAL,
+                    'BERAT_TOTAL3' => $row->BERAT_TOTAL3,
+                    'INDEX_KARUNG' => $row->INDEX_KARUNG,
+                    'INDEX_INNER' => $row->INDEX_INNER,
+                    'INDEX_LAMI' => $row->INDEX_LAMI,
+                    'INDEX_KERTAS' => $row->INDEX_KERTAS,
+                    'Informasi' => $row->Informasi,
+                ];
+            }
+
+            return datatables($response)->make(true);
         }
+
     }
 
     //Show the form for editing the specified resource.
@@ -392,6 +472,7 @@ class SuratPesananController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
+        // dd($request->all());
         // $data = $request->all();
         // dd($request->all());
 
@@ -413,33 +494,33 @@ class SuratPesananController extends Controller
         $keterangan = $request->keterangan ?? "";
         $barang0 = $request->barang0; //nama barang
         $KodeBarang = $request->barang1; //kode barang
-        $IdJnsBarang = $request->barang27; //jenis barang
+        $IdJnsBarang = $request->barang28; //jenis barang
         $Qty = $request->barang3; //qty pesan
         $Satuan = $request->barang4; //satuan
         $HargaSatuan = $request->barang2; //harga satuan
         $TglRencanaKirim = $request->barang5; //rencana kirim
-        $id_pesanan = $request->barang28; //idsuratpesanan
-        $ppn = $request->barang6; //ppn
-        $bkarung = $request->barang7; //berat karung
-        $ikarung = $request->barang8; //index karung
-        $hkarung = $request->barang9; //berat index karung
-        $binner = $request->barang10; //berat inner
-        $iinner = $request->barang11; //index inner
-        $hinner = $request->barang12; //berat index inner
-        $blami = $request->barang13; //berat lami
-        $ilami = $request->barang14; //index lami
-        $hlami = $request->barang15; //berat index lami
-        $bkertas = $request->barang16; //berat kertas
-        $ikertas = $request->barang17; //index kertas
-        $hkertas = $request->barang18; //berat index kertas
-        $hlain = $request->barang19; //biaya lain2
-        $BeratStandart = $request->barang20; //berat standard total
-        $htotal = $request->barang21; //total cost
-        $bkarung2 = $request->barang22; //berat karung MTR
-        $binner2 = $request->barang23; //berat inner MTR
-        $blami2 = $request->barang24; //berat lami MTR
-        $bkertas2 = $request->barang25; //berat kertas MTR
-        $bs2 = $request->barang26; //berat standard total MTR
+        $id_pesanan = $request->barang29; //idsuratpesanan
+        $ppn = $request->barang7; //ppn
+        $bkarung = $request->barang8; //berat karung
+        $ikarung = $request->barang9; //index karung
+        $hkarung = $request->barang10; //berat index karung
+        $binner = $request->barang11; //berat inner
+        $iinner = $request->barang12; //index inner
+        $hinner = $request->barang13; //berat index inner
+        $blami = $request->barang14; //berat lami
+        $ilami = $request->barang15; //index lami
+        $hlami = $request->barang16; //berat index lami
+        $bkertas = $request->barang17; //berat kertas
+        $ikertas = $request->barang18; //index kertas
+        $hkertas = $request->barang19; //berat index kertas
+        $hlain = $request->barang20; //biaya lain2
+        $BeratStandart = $request->barang21; //berat standard total
+        $htotal = $request->barang22; //total cost
+        $bkarung2 = $request->barang23; //berat karung MTR
+        $binner2 = $request->barang24; //berat inner MTR
+        $blami2 = $request->barang25; //berat lami MTR
+        $bkertas2 = $request->barang26; //berat kertas MTR
+        $bs2 = $request->barang27; //berat standard total MTR
         $kode = 2;
         //update header dulu yaa..
 
@@ -556,7 +637,8 @@ class SuratPesananController extends Controller
                 ],
             );
         }
-        return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Diubah!');
+        return response()->json(['message' => (string) 'Surat Pesanan ' . $no_sp . ' Sudah Diubah!',]);
+        // return redirect()->back()->with('success', 'Surat Pesanan ' . $no_sp . ' Sudah Diubah!');
     }
 
     //Remove the specified resource from storage.
