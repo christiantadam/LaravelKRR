@@ -1,7 +1,12 @@
 @extends('layouts.appAccounting')
 @section('content')
 @section('title', 'Penagihan Penjualan')
-
+<style>
+    .custom-modal-width {
+        max-width: 70%;
+        /* Adjust the percentage as needed */
+    }
+</style>
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
@@ -245,10 +250,12 @@
                                         </colgroup> --}}
                                         <thead class="table-dark">
                                             <tr>
+                                                <th>ID</th>
                                                 <th>Uraian</th>
+                                                <th>Surat Jalan</th>
                                                 <th>Tanggal</th>
                                                 <th>Nilai Penagihan</th>
-                                                <th>Suat Pesanan</th>
+                                                <th>Surat Pesanan</th>
                                                 <th>Jenis</th>
                                             </tr>
                                         </thead>
@@ -274,6 +281,10 @@
                             <div class="d-flex">
                                 <div class="col-md-3">
                                     <label for="suratJalanSelect" style="margin-right: 10px;">Surat Jalan</label>
+                                </div>
+                                <div class="col-md-3" style="display: none">
+                                    <input type="text" id="tanggal_diterima" name="tanggal_diterima" class="form-control"
+                                        style="width: 100%">
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" id="surat_jalan" name="surat_jalan" class="form-control"
@@ -306,7 +317,7 @@
                                     <label for="noBC24" style="margin-right: 10px;">No. BC 2.4</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number" id="noBC24" name="noBC24" class="form-control"
+                                    <input type="text" id="noBC24" name="noBC24" class="form-control"
                                         style="width: 100%">
                                 </div>
                                 <div class="col-md-1">
@@ -362,7 +373,7 @@
                                     <label for="nilaiUangMuka" style="margin-right: 10px;">Nilai Uang Muka</label>
                                 </div>
                                 <div class="col-md-4">
-                                    <input type="number" id="nilaiUangMuka" name="nilaiUangMuka"
+                                    <input type="text" id="nilaiUangMuka" name="nilaiUangMuka"
                                         class="form-control" style="width: 100%">
                                 </div>
                             </div>
@@ -372,7 +383,7 @@
                                     <label for="terbilang" style="margin-right: 10px;">Terbilang</label>
                                 </div>
                                 <div class="col-md-9">
-                                    <input type="number" id="terbilang" name="terbilang" class="form-control"
+                                    <input type="text" id="terbilang" name="terbilang" class="form-control"
                                         style="width: 100%">
                                 </div>
                             </div>
@@ -410,60 +421,64 @@
                         <!--MODAL LIHAT ITEM-->
                         <div class="modal fade" id="modalLihatItem" tabindex="-1" role="dialog"
                             aria-labelledby="pilihBankModal" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-dialog custom-modal-width" role="document">
                                 <div class="modal-content" style="padding: 25px;">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Surat Jalan yang Ditagihkan</h5>
-                                        <button type="button" class="close" data-dismiss="modal"
+                                        <button type="button" class="close" data-bs-dismiss="modal"
                                             aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <form action="{{ url('PenagihanPenjualan') }}" id="formLihatItem" method="POST">
-                                        {{ csrf_field() }}
-                                        <input type="hidden" name="_method" id="methodLihatItem">
+                                    {{-- <form action="{{ url('PenagihanPenjualan') }}" id="formLihatItem" method="POST">
+                                        {{ csrf_field() }} --}}
+                                    <input type="hidden" name="_method" id="methodLihatItem">
+                                    <br>
+                                    <div style="overflow-x: auto; overflow-y: auto; ">
+                                        <table style="width: 100%; table-layout: fixed;"id="table_item">
+                                            <colgroup>
+                                                <col style="width: 30%;">
+                                                <col style="width: 30%;">
+                                                <col style="width: 30%;">
+                                                <col style="width: 15%;">
+                                                <col style="width: 30%;">
+                                            </colgroup>
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>Nama Type</th>
+                                                    <th>Kwantum</th>
+                                                    <th>Harga Satuan</th>
+                                                    <th>Satuan</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <div class="d-flex">
+                                        <div class="col-md-2">
+                                            <label for="idBKKTampil" style="margin-right: 10px;">Total</label>
+                                        </div>
+                                        <div class="col-md-6">
 
-                                        <div style="overflow-x: auto; overflow-y: auto; max-height: 250px;">
-                                            <table style="width: 120%; table-layout: fixed;"id="tabelTampilBKK">
-                                                <colgroup>
-                                                    <col style="width: 30%;">
-                                                    <col style="width: 30%;">
-                                                    <col style="width: 30%;">
-                                                    <col style="width: 30%;">
-                                                </colgroup>
-                                                <thead class="table-dark">
-                                                    <tr>
-                                                        <th>Nama Type</th>
-                                                        <th>Kwantum</th>
-                                                        <th>Harga Satuan</th>
-                                                        <th>Satuan</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
                                         </div>
-                                        <br>
-                                        <div class="d-flex">
-                                            <div class="col-md-2">
-                                                <label for="idBKKTampil" style="margin-right: 10px;">Total</label>
-                                            </div>
-                                            <div class="col-md-6">
-
-                                            </div>
-                                            <div class="col-md-2">
-                                                <button id="btnSimpanLihat" name="btnSimpanLihat">Simpan</button>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <button id="btnKeluarr" name="btnKeluarr">Keluar</button>
-                                            </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-success" id="btn_simpanM"
+                                                style="width: 100px;">Simpan</button>
                                         </div>
-                                        <div class="col-md-4">
-                                            <input type="text" id="totalLihat" name="totalLihat"
-                                                class="form-control" style="width: 100%">
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-danger" id="btn_keluarM"
+                                                style="width: 100px;" data-bs-dismiss="modal">Keluar</button>
                                         </div>
-                                        {{-- <input type="hidden" name="cetak" id="cetak" value="cetakBKK"> --}}
-                                    </form>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" id="totalLihat" name="totalLihat" class="form-control"
+                                            style="width: 100%">
+                                    </div>
+                                    {{-- <input type="hidden" name="cetak" id="cetak" value="cetakBKK"> --}}
+                                    {{-- </form> --}}
                                 </div>
                             </div>
                         </div>

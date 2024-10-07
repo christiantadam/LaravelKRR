@@ -290,7 +290,7 @@ class PenagihanPenjualanController extends Controller
             foreach ($results as $row) {
                 $response[] = [
                     'IDPengiriman' => $row->IDPengiriman,
-                    'TanggalDiterima' => $row->TanggalDiterima,
+                    'TanggalDiterima' => \Carbon\Carbon::parse($row->TanggalDiterima)->format('m/d/Y'),
                 ];
             }
 
@@ -348,6 +348,72 @@ class PenagihanPenjualanController extends Controller
             }
 
             return datatables($response)->make(true);
+        } else if ($id == 'LihatDetilSJ') {
+            // Parameters from request
+            $sSuratJalan = trim($request->input('surat_jalan'));
+            $sIdCust = trim($request->input('idCustomer'));
+            $sSuratPesanan = trim($request->input('no_sp'));
+            // dd($request->all());
+            // Execute the stored procedure
+            $results = DB::connection('ConnSales')
+                ->select(
+                    'exec SP_1486_ACC_LIST_PENGIRIMAN @Kode = ?, @IDPENGIRIMAN = ?, @IDCust = ?, @IdSuratPesanan = ?',
+                    [2, $sSuratJalan, $sIdCust, $sSuratPesanan]
+                );
+            // dd($results);
+            // Initialize variables
+            $response = [];
+            $total = 0;
+
+            foreach ($results as $row) {
+                // Build the response array similar to ListSJ in VB.NET
+                $response[] = [
+                    'NamaBarang' => $row->NamaBarang,
+                    'JmlTerimaUmum' => ($row->JmlTerimaUmum == floor($row->JmlTerimaUmum)) ? 0 : $row->JmlTerimaUmum,
+                    'HargaSatuan' => $row->HargaSatuan,
+                    'Satuan' => $row->Satuan,
+                    'Total' => number_format($row->Total, 2),
+                ];
+                // Calculate total
+                // $total += $row->total;
+            }
+
+            // Return the response with total amount
+            return datatables($response)->make(true);
+            // return response()->json([
+            //     'data' => $response,
+            //     'total' => number_format($total, 2)
+            // ]);
+        } else if ($id == 'TotalDetailSJ') {
+            // Parameters from request
+            $sSuratJalan = trim($request->input('surat_jalan'));
+            $sIdCust = trim($request->input('idCustomer'));
+            $sSuratPesanan = trim($request->input('no_sp'));
+            // dd($request->all());
+            // Execute the stored procedure
+            $results = DB::connection('ConnSales')
+                ->select(
+                    'exec SP_1486_ACC_LIST_PENGIRIMAN @Kode = ?, @IDPENGIRIMAN = ?, @IDCust = ?, @IdSuratPesanan = ?',
+                    [2, $sSuratJalan, $sIdCust, $sSuratPesanan]
+                );
+            // dd($results);
+            // Initialize variables
+            $response = [];
+            $total = 0;
+
+            foreach ($results as $row) {
+                // Build the response array similar to ListSJ in VB.NET
+                $response[] = [
+                    'Total' => number_format($row->Total, 2),
+                ];
+                // Calculate total
+                $total += $row->Total;
+            }
+
+            // Return the response with total amount
+            // return datatables($response)->make(true);
+            return response()->json(['total' => number_format($total, 2)
+            ]);
         }
     }
 

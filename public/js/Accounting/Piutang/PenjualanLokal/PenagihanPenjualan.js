@@ -17,6 +17,10 @@ $(document).ready(function () {
     let btn_suratJalan = document.getElementById("btn_suratJalan");
     let btn_charge = document.getElementById("btn_charge");
     let btn_add = document.getElementById("btn_add");
+    let btn_lihatItem = document.getElementById("btn_lihatItem");
+    let btn_simpanM = document.getElementById("btn_simpanM");
+    let btn_keluarM = document.getElementById("btn_keluarM");
+    let btn_hapusItem = document.getElementById("btn_hapusItem");
     let tanggal = document.getElementById("tanggal");
     let penagihanPajak = document.getElementById("penagihanPajak");
     let nama_customer = document.getElementById("nama_customer");
@@ -49,8 +53,15 @@ $(document).ready(function () {
     let surat_jalan = document.getElementById("surat_jalan");
     let id_charge = document.getElementById("id_charge");
     let x_charge = document.getElementById("x_charge");
+    let totalLihat = document.getElementById("totalLihat");
+    let tanggal_diterima = document.getElementById("tanggal_diterima");
+    let nilaiPenagihan = document.getElementById("nilaiPenagihan");
+    let nilaiUangMuka = document.getElementById("nilaiUangMuka");
     let table_atas = $("#table_atas").DataTable({
-        // columnDefs: [{ targets: [5, 6, 7], visible: false }],
+        columnDefs: [{ targets: [0], visible: false }],
+    });
+    let table_item = $("#table_item").DataTable({
+        // columnDefs: [{ targets: [0], visible: false }],
     });
     let proses;
 
@@ -58,44 +69,301 @@ $(document).ready(function () {
     penagihanPajak.valueAsDate = new Date();
     tanggalBC24.valueAsDate = new Date();
 
+    btn_proses.disabled = true;
+    btn_batal.disabled = true;
+    btn_customer.disabled = true;
+    btn_penagihan.disabled = true;
+    btn_noSP.disabled = true;
+    btn_userPenagih.disabled = true;
+    btn_pajak.disabled = true;
+    btn_penagihanUM.disabled = true;
+    btn_suratJalan.disabled = true;
+    btn_dokumen.disabled = true;
+    btn_charge.disabled = true;
+    btn_add.disabled = true;
+    btn_lihatItem.disabled = true;
+    btn_hapusItem.disabled = true;
+    id_cust.readOnly = true;
+    nama_customer.readOnly = true;
+    no_penagihan.readOnly = true;
+    jenisCustomer.readOnly = true;
+    alamat.readOnly = true;
+    no_sp.readOnly = true;
+    nomorPO.readOnly = true;
+    namaMataUang.readOnly = true;
+    user_penagih.readOnly = true;
+    nama_pajak.readOnly = true;
+    no_penagihanUM.readOnly = true;
+    surat_jalan.readOnly = true;
+    dokumen.readOnly = true;
+    noBC24.readOnly = true;
+    x_charge.readOnly = true;
+    nilaiPenagihan.readOnly = true;
+    nilaiUangMuka.readOnly = true;
+    terbilang.readOnly = true;
+
+    let tableData = [];
+
+    btn_simpanM.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        // Get the data from table_item
+        const table_item = $("#table_item").DataTable();
+        const rows = table_item.rows().data();
+        console.log(rows);
+
+        rows.each(function (rowData, index) {
+            const newRow = {
+                Id_Detail: tableData.length + 1,
+                x_charge: "",
+                surat_jalan: surat_jalan.value,
+                TanggalDiterima: tanggal_diterima.value,
+                change_amount: rowData.Total,
+                no_sp: no_sp.value,
+                jenis: "SJ",
+            };
+
+            tableData.push(newRow);
+            console.log(tableData);
+
+            if ($.fn.DataTable.isDataTable("#table_atas")) {
+                var table_atas = $("#table_atas").DataTable();
+
+                table_atas.row
+                    .add([
+                        newRow.Id_Detail,
+                        newRow.x_charge,
+                        newRow.surat_jalan,
+                        newRow.TanggalDiterima,
+                        newRow.change_amount,
+                        newRow.no_sp,
+                        newRow.jenis,
+                    ])
+                    .draw();
+            }
+        });
+
+        const totalPelunasan = table_atas
+            .rows()
+            .data()
+            .toArray()
+            .reduce((sum, row) => {
+                let jumlahUang = row[4].replace(/,/g, "");
+                return sum + parseInt(jumlahUang);
+            }, 0);
+        console.log(totalPelunasan);
+
+        nilaiPenagihan.value = totalPelunasan.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+
+        btn_keluarM.click();
+    });
+
+    btn_lihatItem.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        const selectedRow = $("#table_atas tbody tr.selected");
+        // Get DataTable instance
+        var table_atas = $("#table_atas").DataTable();
+
+        // Get data of the selected row
+        var rowData = table_atas.row(selectedRow).data();
+
+        if (selectedRow.length > 0) {
+            if (rowData[6] == "SJ") {
+                table_item = $("#table_item").DataTable({
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    destroy: true,
+                    autoWidth: false,
+                    ajax: {
+                        url: "PenagihanPenjualanLokal/LihatDetilSJ",
+                        dataType: "json",
+                        type: "GET",
+                        data: function (d) {
+                            return $.extend({}, d, {
+                                _token: csrfToken,
+                                no_sp: no_sp.value,
+                                idCustomer: idCustomer.value,
+                                surat_jalan: surat_jalan.value,
+                            });
+                        },
+                    },
+                    columns: [
+                        {
+                            data: "NamaBarang",
+                            // render: function (data) {
+                            //     return `<input type="checkbox" name="penerimaCheckboxM" value="${data}" /> ${data}`;
+                            // },
+                        },
+                        { data: "JmlTerimaUmum" },
+                        { data: "HargaSatuan" },
+                        { data: "Satuan" },
+                        { data: "Total" },
+                    ],
+                    paging: false,
+                    scrollY: "400px",
+                    scrollCollapse: true,
+                    // columnDefs: [{ targets: [3, 4], visible: false }],
+                });
+
+                $.ajax({
+                    url: "PenagihanPenjualanLokal/TotalDetailSJ",
+                    type: "GET",
+                    data: {
+                        _token: csrfToken,
+                        no_sp: no_sp.value,
+                        idCustomer: idCustomer.value,
+                        surat_jalan: surat_jalan.value,
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        totalLihat.value = data.total;
+                        // jenisCustomer.value = data.TJenisCust;
+                        // alamat.value = data.TAlamat;
+                    },
+                    error: function (xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    },
+                });
+
+                btn_simpanM.disabled = true;
+
+                var myModal = new bootstrap.Modal(
+                    document.getElementById("modalLihatItem"),
+                    {
+                        keyboard: false,
+                    }
+                );
+                myModal.show();
+            } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "Info!",
+                    text: "Bukan jenis SJ!",
+                    showConfirmButton: true,
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data terlebih dahulu!",
+                showConfirmButton: true,
+            });
+        }
+    });
+
+    btn_hapusItem.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        // Get the selected row
+        const selectedRow = $("#table_atas tbody tr.selected");
+
+        if (selectedRow.length > 0) {
+            // Get DataTable instance
+            var table_atas = $("#table_atas").DataTable();
+
+            // Get data of the selected row
+            var rowData = table_atas.row(selectedRow).data();
+
+            // Remove the row from DataTable
+            table_atas.row(selectedRow).remove().draw();
+
+            // Remove the row from tableData array
+            tableData = tableData.filter((row) => row.Id_Detail !== rowData[0]);
+            console.log(tableData);
+
+            const totalPelunasan = table_atas
+                .rows()
+                .data()
+                .toArray()
+                .reduce((sum, row) => {
+                    let jumlahUang = row[4].replace(/,/g, "");
+                    return sum + parseInt(jumlahUang);
+                }, 0);
+            console.log(totalPelunasan);
+
+            nilaiPenagihan.value = totalPelunasan.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data terlebih dahulu!",
+                showConfirmButton: true,
+            });
+        }
+    });
+
     btn_add.addEventListener("click", async function (event) {
         event.preventDefault();
         const newRow = {
             Id_Detail: tableData.length + 1,
-            kode_customer: kode_customer.value,
-            jumlah_uang: jumlah_uang.value,
-            kode_kira: kode_kira.value,
-            uraian: uraian.value,
-            id_jnsPem: id_jnsPem.value,
-            no_bukti: no_bukti.value,
-            jenis_pembayaran: jenis_pembayaran.value,
-            keterangan_kira: keterangan_kira.value,
-            kurs_rupiah: kurs_rupiah.value,
-            nama_customer: nama_customer.value,
+            x_charge: x_charge.value,
+            surat_jalan: surat_jalan.value,
+            TanggalDiterima: tanggal_diterima.value ?? "",
+            change_amount: numeral(parseFloat(change_amount.value)).format(
+                "0,0.00"
+            ),
+            no_sp: no_sp.value,
+            jenis: "XC",
         };
 
         tableData.push(newRow);
         console.log(tableData);
 
-        if ($.fn.DataTable.isDataTable("#table_kiri")) {
-            var table_kiri = $("#table_kiri").DataTable();
+        if ($.fn.DataTable.isDataTable("#table_atas")) {
+            var table_atas = $("#table_atas").DataTable();
 
-            table_kiri.row
+            table_atas.row
                 .add([
-                    `<input type="checkbox" name="penerimaCheckbox" value="${newRow.Id_Detail}" /> ${newRow.Id_Detail}`,
-                    newRow.kode_customer,
-                    newRow.jumlah_uang,
-                    newRow.kode_kira,
-                    newRow.uraian,
-                    newRow.id_jnsPem,
-                    newRow.no_bukti,
-                    newRow.jenis_pembayaran,
-                    newRow.keterangan_kira,
-                    newRow.kurs_rupiah,
-                    newRow.nama_customer,
+                    newRow.Id_Detail,
+                    newRow.x_charge,
+                    newRow.surat_jalan,
+                    newRow.TanggalDiterima,
+                    newRow.change_amount,
+                    newRow.no_sp,
+                    newRow.jenis,
                 ])
                 .draw();
         }
+
+        const totalPelunasan = table_atas
+            .rows()
+            .data()
+            .toArray()
+            .reduce((sum, row) => {
+                let jumlahUang = row[4].replace(/,/g, "");
+                return sum + parseInt(jumlahUang);
+            }, 0);
+        console.log(totalPelunasan);
+
+        nilaiPenagihan.value = totalPelunasan.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+    });
+
+    $("#table_atas tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_atas tbody tr").removeClass("selected");
+
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+
+        // Get data from the clicked row
+        var data = table_atas.row(this).data();
+        console.log(data);
+
+        x_charge.value = data[1];
+        change_amount.value = data[4];
     });
 
     btn_customer.addEventListener("click", async function (event) {
@@ -689,9 +957,78 @@ $(document).ready(function () {
                     surat_jalan.value = escapeHTML(
                         selectedRow.IDPengiriman.trim()
                     );
-                    setTimeout(() => {
-                        btn_dokumen.focus();
-                    }, 300);
+                    tanggal_diterima.value = selectedRow.TanggalDiterima;
+
+                    table_item = $("#table_item").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        destroy: true,
+                        autoWidth: false,
+                        ajax: {
+                            url: "PenagihanPenjualanLokal/LihatDetilSJ",
+                            dataType: "json",
+                            type: "GET",
+                            data: function (d) {
+                                return $.extend({}, d, {
+                                    _token: csrfToken,
+                                    no_sp: no_sp.value,
+                                    idCustomer: idCustomer.value,
+                                    surat_jalan: surat_jalan.value,
+                                });
+                            },
+                        },
+                        columns: [
+                            {
+                                data: "NamaBarang",
+                                // render: function (data) {
+                                //     return `<input type="checkbox" name="penerimaCheckboxM" value="${data}" /> ${data}`;
+                                // },
+                            },
+                            { data: "JmlTerimaUmum" },
+                            { data: "HargaSatuan" },
+                            { data: "Satuan" },
+                            { data: "Total" },
+                        ],
+                        paging: false,
+                        scrollY: "400px",
+                        scrollCollapse: true,
+                        // columnDefs: [{ targets: [3, 4], visible: false }],
+                    });
+
+                    $.ajax({
+                        url: "PenagihanPenjualanLokal/TotalDetailSJ",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            no_sp: no_sp.value,
+                            idCustomer: idCustomer.value,
+                            surat_jalan: surat_jalan.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            totalLihat.value = data.total;
+                            // jenisCustomer.value = data.TJenisCust;
+                            // alamat.value = data.TAlamat;
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
+
+                    btn_simpanM.disabled = false;
+
+                    var myModal = new bootstrap.Modal(
+                        document.getElementById("modalLihatItem"),
+                        {
+                            keyboard: false,
+                        }
+                    );
+                    myModal.show();
+                    // setTimeout(() => {
+                    //     btn_dokumen.focus();
+                    // }, 300);
                 }
             });
         } catch (error) {
@@ -780,9 +1117,9 @@ $(document).ready(function () {
                         selectedRow.Id_Jenis_Dokumen.trim()
                     );
                     // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
-                    setTimeout(() => {
-                        uangMasuk.focus();
-                    }, 300);
+                    // setTimeout(() => {
+                    //     uangMasuk.focus();
+                    // }, 300);
                 }
             });
         } catch (error) {
