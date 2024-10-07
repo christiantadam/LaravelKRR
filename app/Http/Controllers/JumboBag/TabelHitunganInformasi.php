@@ -230,6 +230,7 @@ class TabelHitunganInformasi extends Controller
             $criteria = DB::connection('ConnJumboBag')
                 ->table('VW_PRG_1273_JBB_CETAK_THITUNGAN')
                 ->where('Kode_Barang', $kdbarang)
+                ->orderBy('Kode_Komponen','asc')
                 ->get();
             // dd($criteria);
             $dataPrint = [];
