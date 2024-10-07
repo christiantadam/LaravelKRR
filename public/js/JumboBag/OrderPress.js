@@ -115,6 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (previewImg.src && previewImg.src.startsWith("data:image/")) {
             const base64Data = previewImg.src.split(",")[1];
             formData.append("foto", base64Data); // Send base64 encoded data directly
+        } else {
+            formData.delete("foto"); // Clear the image data if there is no image
         }
 
         $.ajax({
@@ -225,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     gambar_print.src = data.data[0].Foto;
                     gambar_print.style.display = "block";
                 } else {
+                    gambar_print.src = null;
                     gambar_print.style.display = "none";
                 }
                 // document.getElementById("tanggal_tabel").innerHTML =
@@ -287,9 +290,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "Kode_Customer",
                                 },
                             ],
-                            paging: false,
-                            scrollY: "400px",
-                            scrollCollapse: true,
+                            // paging: false,
+                            // scrollY: "400px",
+                            // scrollCollapse: true,
                         });
                         setTimeout(() => {
                             $("#customerTable_filter input").focus();
@@ -363,9 +366,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 { data: "Kode_Barang" },
                                 { data: "tanggal" },
                             ],
-                            paging: false,
-                            scrollY: "400px",
-                            scrollCollapse: true,
+                            // paging: false,
+                            // scrollY: "400px",
+                            // scrollCollapse: true,
                         });
                         setTimeout(() => {
                             $("#barangTable_filter input").focus();
@@ -448,9 +451,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                     data: "Waktu_Delivery",
                                 },
                             ],
-                            paging: false,
-                            scrollY: "400px",
-                            scrollCollapse: true,
+                            // paging: false,
+                            // scrollY: "400px",
+                            // scrollCollapse: true,
                         });
                         setTimeout(() => {
                             $("#nopesananTable_filter input").focus();
@@ -501,6 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 previewImg.style.display = "block";
                                 imagePreviewContainer.style.display = "block";
                             } else {
+                                previewImg.src = null;
                                 previewImg.style.display = "none";
                                 imagePreviewContainer.style.display = "none";
                             }
