@@ -62,7 +62,7 @@ class BatalBKMTransistorisController extends Controller
                     ORDER BY P.Id_BKM', ['KRR1', $bulanTahun, $bln, $thn]);
             }
 
-            dd($query, $bln, $thn);
+            // dd($query, $bln, $thn);
 
             return datatables($query)->make(true);
 

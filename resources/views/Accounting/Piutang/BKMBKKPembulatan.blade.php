@@ -141,32 +141,6 @@
                                     <p>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <label for="kodePerkiraan">Bank</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" id="id_bank" name="id_bank" class="form-control"
-                                                style="width: 100%">
-                                        </div>
-                                        <div class="col-md-5">
-                                            <input type="text" id="nama_bank" name="nama_bank" class="form-control"
-                                                style="width: 100%">
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button type="button" class="btn btn-default"
-                                                id="btn_bank">...</button>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="hidden" id="idBank" name="idBank" class="form-control"
-                                                style="width: 100%">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="hidden" id="jenis_bank" name="jenisBank"
-                                                class="form-control" style="width: 100%">
-                                        </div>
-                                    </div>
-                                    <p>
-                                    <div class="row">
-                                        <div class="col-md-3">
                                             <label for="tanggal">Tanggal</label>
                                         </div>
                                         <div class="col-md-5">
@@ -250,7 +224,7 @@
                                     <br>
                                     <div class="row" style="display: flex; justify-content: center;">
                                         <div>
-                                            <button type="submit" id="btnTampilBKK" name="btnTampilBKK"
+                                            <button type="submit" id="btn_tampilbkk" name="btn_tampilbkk"
                                                 class="btn btn-primary">Tampil BKK</button>
                                         </div>
                                         <div>
@@ -262,71 +236,60 @@
                             </div>
                         </div>
 
-                        <div class="modal fade" id="modalTampilBKK" tabindex="-1" role="dialog"
-                            aria-labelledby="pilihBankModal" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content" style="padding: 25px;">
+                        <!-- Modal Tampil BKK-->
+                        <div class="modal fade" id="dataBKKModal" tabindex="-1" aria-labelledby="dataBKKModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" style="max-width: 60%">
+                                <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Cetak BKK Nota Kredit</h5>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
+                                        <h5 class="modal-title" id="dataBKKModalLabel">Data BKM</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close" id="close_modalbkm">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <input type="hidden" name="_method" id="methodTampilBKK">
-                                    <div class="d-flex">
-                                        <div class="col-md-3">
-                                            <label for="tanggalInputTampilBKM" style="margin-right: 10px;">Tanggal
-                                                Input</label>
+                                    <div class="modal-body">
+                                        <div class="form-inline">
+                                            <label for="month">Bln/Thn:&nbsp;</label>
+                                            <input type="date" id="tgl_awalbkk" class="form-control"
+                                                style="width: 160px">
+                                            <span>&nbsp;S/D&nbsp;</span>
+                                            <input type="date" id="tgl_akhirbkk" class="form-control"
+                                                style="width: 160px">
+                                            <span>&nbsp;&nbsp;</span>
+                                            <button id="btn_okbkm" type="button" class="btn btn-primary">OK</button>
                                         </div>
-                                        <div class="col-md-3">
-                                            <input type="date" id="tanggalTampilBKK" name="tanggalTampilBKK"
-                                                class="form-control" style="width: 100%">
+                                        <div class="form-group mt-3">
+                                            <label for="bkk">Id. BKK:</label>
+                                            <input type="text" id="bkk" class="form-control">
+                                            <input type="text" id="terbilang" class="form-control"
+                                                style="display: none">
+                                            <input type="text" id="id_matauang" class="form-control"
+                                                style="display: none">
                                         </div>
-                                        <div class="col-md-1">
-                                            S/D
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input type="date" id="tanggalTampilBKK2" name="tanggalTampilBKK2"
-                                                class="form-control" style="width: 100%">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button id="btnOkTampilBKK" name="btnOkTampilBKK">OK</button>
+                                        <div class="table-responsive">
+                                            <table id="tabletampilBKM">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Tanggal Input</th>
+                                                        <th>Id. BKK</th>
+                                                        <th>Nilai Pelunasan</th>
+                                                        <th>Terbilang</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="d-flex">
-                                        <div class="col-md-3">
-                                            <label for="idBKKTampil" style="margin-right: 10px;">Id. BKK</label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="text" id="idBKKTampil" name="idBKKTampil"
-                                                class="form-control" style="width: 100%">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button id="btnCetakBKK" name="btnCetakBKK">CETAK</button>
-                                        </div>
+                                    <div class="modal-footer">
+                                        <button id="btn_cetakbkm" type="button"
+                                            class="btn btn-success">Cetak</button>
+                                        <button id="btn_prosesbkm" type="button" class="btn btn-success"
+                                            style="display: none">Proses</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            id="tutup_modalbkk">Tutup</button>
                                     </div>
-                                    <div style="overflow-x: auto; overflow-y: auto; max-height: 250px;">
-                                        <table style="width: 120%; table-layout: fixed;"id="table_TampilBKK">
-                                            <colgroup>
-                                                <col style="width: 30%;">
-                                                <col style="width: 30%;">
-                                                <col style="width: 30%;">
-                                                <col style="width: 30%;">
-                                            </colgroup>
-                                            <thead class="table-dark">
-                                                <tr>
-                                                    <th>Tgl. Input</th>
-                                                    <th>Id. BKM</th>
-                                                    <th>Nilai Pelunasan</th>
-                                                    <th>Terjemahan</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <input type="hidden" name="cetak" id="cetak" value="cetakBKK">
                                 </div>
                             </div>
                         </div>
