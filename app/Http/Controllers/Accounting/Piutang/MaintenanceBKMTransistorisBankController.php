@@ -80,6 +80,21 @@ class MaintenanceBKMTransistorisBankController extends Controller
         }
 
         // get divisi
+        else if ($id === 'getSymbol') {
+            $nama = $request->input('nama');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_MATA_UANG
+            @kode = ?, @nama = ?', [3,$nama]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Symbol' => $detail_divisi->Symbol,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // get divisi
         else if ($id === 'getJenisBayar') {
             // $idBank = $request->input('idBank');
 
@@ -107,6 +122,91 @@ class MaintenanceBKMTransistorisBankController extends Controller
                 ];
             }
             return datatables($divisi)->make(true);
+        }
+
+        // perkiraan
+        else if ($id === 'getPerkiraanChange') {
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_KODE_PERKIRAAN @Kode = ?', [2]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Keterangan' => $detail_divisi->Keterangan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // id bkk
+        else if ($id === 'getIdBKK') {
+            $tahun = $request->input('tahun');
+            $bank = $request->input('bank');
+
+            $ada = DB::connection('ConnAccounting')
+                ->table('T_COUNTER_BKK')
+                ->where('Periode', $tahun)
+                ->count();
+
+            if ($ada === 1) {
+                $noUrut = DB::connection('ConnAccounting')
+                    ->table('T_COUNTER_BKK')
+                    ->where('Periode', $tahun)
+                    ->value('Id_BKK_E_Rp');
+
+            } else if ($ada === 0) {
+                $noUrut = 1;
+                DB::connection('ConnAccounting')
+                    ->table('T_COUNTER_BKK')
+                    ->insert([
+                        'Periode' => $tahun,
+                        'Id_BKK_E_Rp' => $noUrut
+                    ]);
+            }
+
+            $idBKK = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
+            $idBKK = $bank . '-P' . substr($tahun, -2) . substr($idBKK, -5);
+
+            DB::connection('ConnAccounting')
+                ->table('T_COUNTER_BKK')
+                ->where('Periode', $tahun)
+                ->update(['Id_BKK_E_Rp' => $noUrut + 1]);
+
+            return response()->json(['IdBKK' => $idBKK]);
+        }
+
+        else if ($id === 'getIdBKM') {
+            $tahun = $request->input('tahun');
+            $bank = $request->input('bank');
+
+            $ada = DB::connection('ConnAccounting')
+                ->table('T_Counter_BKM')
+                ->where('Periode', $tahun)
+                ->count();
+
+            if ($ada === 1) {
+                $noUrut = DB::connection('ConnAccounting')
+                    ->table('T_Counter_BKM')
+                    ->where('Periode', $tahun)
+                    ->value('Id_BKM_E_Rp');
+
+            } else if ($ada === 0) {
+                $noUrut = 1;
+                DB::connection('ConnAccounting')
+                    ->table('T_Counter_BKM')
+                    ->insert([
+                        'Periode' => $tahun,
+                        'Id_BKM_E_Rp' => $noUrut
+                    ]);
+            }
+
+            $idBKM = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
+            $idBKM = $bank . '-R' . substr($tahun, -2) . substr($idBKM, -5);
+
+            DB::connection('ConnAccounting')
+                ->table('T_Counter_BKM')
+                ->where('Periode', $tahun)
+                ->update(['Id_BKM_E_Rp' => $noUrut + 1]);
+
+            return response()->json(['IdBKM' => $idBKM]);
         }
     }
 

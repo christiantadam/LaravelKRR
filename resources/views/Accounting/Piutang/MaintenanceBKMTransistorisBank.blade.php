@@ -113,7 +113,7 @@
                                         <div class="col-md-3">
                                             <input type="text" id="jenisBank1" class="form-control"
                                                 style="display: none">
-                                            <input type="number" id="uang1" name="uang1" class="form-control"
+                                            <input type="text" id="uang1" name="uang1" class="form-control"
                                                 style="width: 100%">
                                         </div>
                                     </div>
@@ -240,7 +240,7 @@
                                                 Uang</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="number" id="uang" name="uang" class="form-control"
+                                            <input type="text" id="uang" name="uang" class="form-control"
                                                 style="width: 100%" readonly>
                                         </div>
                                     </div>
@@ -256,7 +256,7 @@
                                             <input type="text" id="bank" class="form-control" readonly>
                                         </div>
                                         <div class="col-md-3">
-                                            <button id="btnBank1" name="btnBank" class="btn btn-primary"
+                                            <button id="btnBank" name="btnBank" class="btn btn-primary"
                                                 disabled>...</button>
                                         </div>
 
@@ -288,7 +288,7 @@
                                                 Perkiraan</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="text" id="idKodePerkiraan" name="idKodePerkiraan"
+                                            <input type="text" id="idPerkiraan" name="idPerkiraan"
                                                 class="form-control" style="width: 100%" readonly>
                                         </div>
                                         <div class="col-md-5">
@@ -305,7 +305,7 @@
                                             <label for="uraian" style="margin-right: 10px;">Uraian</label>
                                         </div>
                                         <div class="col-md-7">
-                                            <input type="text" id="uraian1" name="uraian1" readonly
+                                            <input type="text" id="uraian" name="uraian" readonly
                                                 class="form-control" style="width: 100%">
                                         </div>
                                     </div>
@@ -388,10 +388,10 @@
                         <div>
                             <div class="row">
                                 <div class="col-md-1">
-                                    <input type="submit" name="proses" value="PROSES" class="btn btn-primary">
+                                    <input type="submit" name="proses" id="btnProses" value="Proses" class="btn btn-primary">
                                 </div>
                                 <div class="col-md-1">
-                                    <input type="submit" id="btnKoreksi" name="btnKoreksi" value="KOREKSI"
+                                    <input type="submit" id="btnKoreksiForm" name="btnKoreksi" value="KOREKSI"
                                         class="btn btn-primary">
                                 </div>
                                 <div class="col-md-1">
@@ -474,6 +474,128 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- modal biaya --}}
+                        <div class="modal fade bd-example-modal-lg" id="modalBiaya" tabindex="-1" role="dialog"
+                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Maintenance Biaya BKK Transitoris</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="bankBg">Jumlah Biaya</label>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="text" id="nilaiPelunasanBiaya" name="bankBg"
+                                                    class="form-control">
+                                                <input type="text" id="KeA" name="bankBg" hidden readonly
+                                                    class="form-control">
+                                                <input type="text" id="formListBiaya" name="bankBg" hidden
+                                                    readonly class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="kodePerkiraan" style="margin-right: 10px;">Kode
+                                                    Perkiraan</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="text" id="idPerkiraanBiaya" name="idPerkiraanBiaya"
+                                                    class="form-control" style="width: 100%" readonly>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" id="perkiraanBiaya" name="perkiraanBiaya"
+                                                    class="form-control" style="width: 100%" readonly>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button id="btnPerkiraanBiaya" name="btnPerkiraanBiaya"
+                                                    class="btn btn-primary">...</button>
+                                            </div>
+                                        </div>
+                                        <div class="row pt-1">
+                                            <div class="col-sm-3">
+                                                <label for="noBg">keterangan</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input type="text" id="keteranganBiaya" name="keteranganBiaya"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnProsesBiaya"
+                                            class="btn btn-primary">PROSES</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">TUTUP</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {{-- modal biaya 1 --}}
+                        <div class="modal fade bd-example-modal-lg" id="modalBiaya1" tabindex="-1" role="dialog"
+                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Maintenance Biaya BKK Transitoris</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="bankBg">Jumlah Biaya</label>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="text" id="nilaiPelunasanBiaya1" name="bankBg"
+                                                    class="form-control">
+                                                <input type="text" id="KeA1" name="bankBg" hidden readonly
+                                                    class="form-control">
+                                                <input type="text" id="formListBiaya1" name="bankBg" hidden
+                                                    readonly class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="kodePerkiraan1" style="margin-right: 10px;">Kode
+                                                    Perkiraan</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="text" id="idPerkiraanBiaya1" name="idPerkiraanBiaya"
+                                                    class="form-control" style="width: 100%" readonly>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" id="perkiraanBiaya1" name="perkiraanBiaya"
+                                                    class="form-control" style="width: 100%" readonly>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button id="btnPerkiraanBiaya1" name="btnPerkiraanBiaya"
+                                                    class="btn btn-primary">...</button>
+                                            </div>
+                                        </div>
+                                        <div class="row pt-1">
+                                            <div class="col-sm-3">
+                                                <label for="noBg">keterangan</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <input type="text" id="keteranganBiaya1" name="keteranganBiaya"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnProsesBiaya1"
+                                            class="btn btn-primary">PROSES</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">TUTUP</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!--MODAL TAMBAH BIAYA BKK-->
                         <div class="modal fade" id="modalTambahBiaya" tabindex="-1" role="dialog"

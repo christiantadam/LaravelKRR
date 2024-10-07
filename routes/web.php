@@ -16,6 +16,7 @@ use App\Http\Controllers\Extruder\ExtruderNet\KonversiController;
 use App\Http\Controllers\Extruder\ExtruderNet\PencatatanController;
 use App\Http\Controllers\Extruder\BeratKomposisi\KomposisiController;
 use App\Http\Controllers\Extruder\WarehouseTerima\WarehouseController;
+use App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController;
 use App\Http\Controllers\Accounting\Piutang\BatalBKMTransistorisController;
 use App\Http\Controllers\Accounting\Piutang\MaintenanceBKMTransistorisBankController;
 
@@ -1144,7 +1145,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('cekBatalBKK/{idBKM}', 'App\Http\Controllers\Accounting\Piutang\BatalBKMTransitorisController@cekBatalBKK');
     Route::delete('deletedata/{idBKM}/{alasan}', 'App\Http\Controllers\Accounting\Piutang\BatalBKMTransitorisController@hapus');
 
-    Route::resource('MaintenanceBKMxBKKPembulatan', App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController::class);
+    Route::resource('MaintenanceBKMxBKKPembulatan', BKMBKKPembulatanController::class);
     Route::get('tabeldetailbkmbkk/{bulan}/{tahun}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController@getTabelPelunasan');
     Route::get('tabeldetbiayabkmbkk/{idBKM}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController@getTabelDetailBiaya');
     Route::get('getBankPembulatan', 'App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController@getBankPembulatan');
