@@ -386,9 +386,9 @@ var total;
 $('#kurs').on('keydown', function (e) {
     if (e.key === 'Enter') {
         e.preventDefault();
-        kurs.value = formatUang(kurs.value);
+        kurs.value = numeral(parseFloat(kurs.value)).format("0,0.00")
 
-        if (parseFloat(removeCommas(kurs.value)) === 0 || (kurs.value) === '') {
+        if (parseFloat((kurs.value)) === 0 || (kurs.value) === '') {
             Swal.fire({
                 icon: 'error',
                 text: 'Kurs TIDAK BOLEH = 0 !',
@@ -400,14 +400,17 @@ $('#kurs').on('keydown', function (e) {
         }
         else {
             if (parseInt(idUang1.value) === 1 && parseInt(idUang.value) !== 1) {
-                total = parseFloat(removeCommas(uang1.value)) / parseFloat(removeCommas(kurs.value));
+                let uang1Value = numeral(uang1.value).value(); // Parses "100,000.00" correctly to 100000
+                let kursValue = numeral(kurs.value).value();   // Parses "1.00" correctly to 1
+
+                total = uang1Value / kursValue;
                 uang.value = (total);
-                uang.value = formatUang(uang.value);
+                uang.value = numeral(parseFloat(uang.value)).format("0,0.00");
             }
             else {
-                total = parseFloat(removeCommas(uang1.value)) * parseFloat(removeCommas(kurs.value));
+                total = uang1Value * kursValue;
                 uang.value = (total);
-                uang.value = formatUang(uang.value);
+                uang.value = numeral(parseFloat(uang.value)).format("0,0.00")
             }
             btnBank.focus();
         }
@@ -417,9 +420,8 @@ $('#kurs').on('keydown', function (e) {
 $('#uang1').on('keydown', function (e) {
     if (e.key === 'Enter') {
         e.preventDefault();
-        // console.log(uang1.value);
 
-        const uang1Value = parseFloat(removeCommas(uang1.value)) || 0;
+        const uang1Value = parseFloat((uang1.value)) || 0;
 
         if (uang1Value === 0) {
             Swal.fire({
@@ -430,7 +432,7 @@ $('#uang1').on('keydown', function (e) {
             });
             return;
         } else {
-            uang1.value = formatUang((uang1.value));
+            uang1.value = numeral(parseFloat(uang1.value)).format("0,0.00");
             btnBank1.focus();
         }
     }
@@ -443,18 +445,18 @@ function formatNumber(value) {
     return value;
 }
 
-function formatUang(value) {
-    let number = parseFloat(value.replace(/,/g, ''));
-    if (isNaN(number)) {
-        return ''; // Return empty if not a valid number
-    }
-    return number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
+// function formatUang(value) {
+//     let number = parseFloat(value.replace(/,/g, ''));
+//     if (isNaN(number)) {
+//         return ''; // Return empty if not a valid number
+//     }
+//     return number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// }
 
-function removeCommas(formattedValue) {
-    let numericValue = parseFloat(formattedValue.replace(/,/g, ''));
-    return numericValue;
-}
+// function (formattedValue) {
+//     let numericValue = parseFloat(formattedValue.replace(/,/g, ''));
+//     return numericValue;
+// }
 
 btnBank1.addEventListener("click", function (e) {
     try {
@@ -1116,6 +1118,9 @@ btnBG.addEventListener("click", function (e) {
         jatuhTempo.value = today;
         noBg.value = '';
         cetak.value = '';
+        noBg.readOnly = false;
+        jatuhTempo.readOnly = false;
+        cetak.readOnly = false;
         noBg.focus();
     });
 
@@ -1254,10 +1259,10 @@ $('#uraian1').on('keydown', function (e) {
                                 else {
                                     enableBKM();
                                     disableBKK();
-                                    if (parseFloat(removeCommas(kurs.value)) !== 0) {
+                                    if (parseFloat((kurs.value)) !== 0) {
                                         let total;
-                                        const uang1Value = parseFloat(removeCommas(uang1.value));
-                                        const kursValue = parseFloat(removeCommas(kurs.value));
+                                        const uang1Value = parseFloat((uang1.value));
+                                        const kursValue = parseFloat((kurs.value));
 
                                         if (idUang1.value === "1" && idUang.value === "2") {
                                             total = uang1Value / kursValue;
@@ -1266,7 +1271,7 @@ $('#uraian1').on('keydown', function (e) {
                                             total = uang1Value * kursValue;
                                             uang.value = total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                                         } else if (idUang1.value === idUang.value) {
-                                            uang.value = parseFloat(removeCommas(uang1.value)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                            uang.value = parseFloat((uang1.value)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                                         }
                                     }
 
@@ -1383,6 +1388,7 @@ function enableBKM() {
     btnBank.disabled = false;
     btnJenisBayar.disabled = false;
     btnPerkiraan.disabled = false;
+    // kurs.readOnly = true;
 }
 
 function disableBKM() {
@@ -1391,6 +1397,9 @@ function disableBKM() {
     btnMataUang.disabled = true;
     btnBank.disabled = true;
     btnJenisBayar.disabled = true;
+    btnPerkiraan.disabled = true;
+    kurs.readOnly = true;
+    btnBiaya1.disabled = true;
     btnPerkiraan.disabled = true;
 }
 
@@ -1402,7 +1411,7 @@ function updateDataTable(data, angka) {
     if (angka === 1) {
         tableAsal.row.add([
             escapeHtml(data[0]),
-            escapeHtml(data[1]),
+            (data[1]),
             escapeHtml(data[2]),
         ]);
         tableAsal.draw();
@@ -1411,7 +1420,7 @@ function updateDataTable(data, angka) {
 
         table.row.add([
             escapeHtml(data[0]),
-            escapeHtml(data[1]),
+            (data[1]),
             escapeHtml(data[2]),
         ]);
         table.draw();
@@ -1419,7 +1428,7 @@ function updateDataTable(data, angka) {
     else if (angka === 3) {
         tableTujuan.row.add([
             escapeHtml(data[0]),
-            escapeHtml(data[1]),
+            (data[1]),
             escapeHtml(data[2]),
         ]);
         tableTujuan.draw();
@@ -1447,7 +1456,7 @@ btnBiaya1.addEventListener("click", function (e) {
         clearBiaya1();
         formListBiaya1.value = listBiaya.value;
         nilaiPelunasanBiaya1.readOnly = false;
-        nilaiPelunasanBiaya1.value = formatUang(0);
+        nilaiPelunasanBiaya1.value = (0);
         nilaiPelunasanBiaya1.focus();
         btnPerkiraan1.disabled = false;
         i = parseInt(formListBiaya1.value);
@@ -1457,7 +1466,7 @@ btnBiaya1.addEventListener("click", function (e) {
 $('#nilaiPelunasanBiaya1').on('keydown', function (e) {
     if (e.key === 'Enter') {
         e.preventDefault();
-        nilaiPelunasanBiaya1.value = formatUang(nilaiPelunasanBiaya1.value);
+        nilaiPelunasanBiaya1.value = numeral(parseFloat(nilaiPelunasanBiaya1.value)).format("0,0.00");
         btnPerkiraanBiaya1.focus();
     }
 });
@@ -1573,7 +1582,7 @@ btnProsesBiaya1.addEventListener("click", function (e) {
     if (proses === 1) {
         if (nilaiPelunasanBiaya1.value !== '' && idPerkiraanBiaya1.value !== '' && keteranganBiaya1.value !== '') {
             i += 1;
-            tmpArr = [keteranganBiaya1.value, formatUang(nilaiPelunasanBiaya1.value), idPerkiraanBiaya1.value];
+            tmpArr = [keteranganBiaya1.value, (nilaiPelunasanBiaya1.value), idPerkiraanBiaya1.value];
             updateDataTable(tmpArr, 3);
             $('#modalBiaya1').modal('hide');
             Swal.fire({
@@ -1589,7 +1598,7 @@ btnProsesBiaya1.addEventListener("click", function (e) {
                     $('#modalBiaya1').on('shown.bs.modal', function () {
                         formListBiaya1.value = listBiaya.value;
                         nilaiPelunasanBiaya1.readOnly = false;
-                        nilaiPelunasanBiaya1.value = formatUang(0);
+                        nilaiPelunasanBiaya1.value = (0);
                         nilaiPelunasanBiaya1.focus();
                         btnPerkiraan1.disabled = false;
                     });
@@ -1609,6 +1618,46 @@ btnProsesBiaya1.addEventListener("click", function (e) {
                 noBg.focus();
             });
         }
+    }
+    else if (proses === 2) {
+        if (nilaiPelunasanBiaya1.value !== '' && idPerkiraanBiaya1.value !== '' && keteranganBiaya1.value !== '') {
+            arrBKM[0] = decodeHtmlEntities(keteranganBiaya1.value);
+            arrBKM[1] = numeral(nilaiPelunasanBiaya1.value).value();
+            arrBKM[2] = idPerkiraanBiaya1.value;
+
+            var table = $('#tableDetailBiayaBKM').DataTable();
+            table.row(arrBKM[3]).data(arrBKM).draw();
+
+            Swal.fire({
+                icon: 'success',
+                text: 'Data Sudah TerKoreksi',
+                returnFocus: false
+            }).then(() => {
+                $('#modalBiaya1').modal('hide');
+            });
+        }
+        else {
+            Swal.fire({
+                icon: 'error',
+                text: 'Isi Datanya Yg Lengkap!',
+                returnFocus: false
+            }).then(() => {
+                nilaiPelunasanBiaya1.focus();
+            });
+        }
+    }
+
+    else if (proses === 3) {
+        var table = $('#tableDetailBiayaBKM').DataTable();
+        table.row(arrBKM[3]).remove().draw();
+
+        Swal.fire({
+            icon: 'success',
+            text: 'Data Sudah TerHapus',
+            returnFocus: false
+        }).then(() => {
+            $('#modalBiaya1').modal('hide');
+        });
     }
 });
 
@@ -1638,17 +1687,126 @@ btnBiaya.addEventListener("click", function (e) {
         clearBiaya();
         formListBiaya.value = listBiaya.value;
         nilaiPelunasanBiaya.readOnly = false;
-        nilaiPelunasanBiaya.value = formatUang(0);
+        nilaiPelunasanBiaya.value = (0);
         nilaiPelunasanBiaya.focus();
         btnPerkiraan.disabled = false;
+        keteranganBiaya.readOnly = false;
         i = parseInt(formListBiaya.value);
     });
+});
+
+btnKoreksi.addEventListener("click", function (e) {
+    var table = $('#tableDetailBiayaBKK').DataTable();
+    if (table.rows('.selected').any()) {
+        proses = 2;
+        $('#modalBiaya').modal('show');
+        $('#modalBiaya').on('shown.bs.modal', function () {
+            clearBiaya();
+            formListBiaya.value = listBiaya.value;
+            nilaiPelunasanBiaya.readOnly = false;
+            nilaiPelunasanBiaya.value = numeral(arrBKK[1]).value();
+            idPerkiraanBiaya.value = arrBKK[2];
+            keteranganBiaya.value = arrBKK[0];
+            KeA.value = arrBKK[3];
+            nilaiPelunasanBiaya.focus();
+            btnPerkiraan.disabled = false;
+            keteranganBiaya.readOnly = false;
+        });
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Detail Biaya U/ DiKoreksi!',
+            returnFocus: false
+        });
+    }
+});
+
+btnHapus.addEventListener("click", function (e) {
+    var table = $('#tableDetailBiayaBKK').DataTable();
+    if (table.rows('.selected').any()) {
+        proses = 3;
+        $('#modalBiaya').modal('show');
+        $('#modalBiaya').on('shown.bs.modal', function () {
+            clearBiaya();
+            formListBiaya.value = listBiaya.value;
+            nilaiPelunasanBiaya.readOnly = true;
+            nilaiPelunasanBiaya.value = numeral(arrBKK[1]).value();
+            idPerkiraanBiaya.value = arrBKK[2];
+            keteranganBiaya.value = arrBKK[0];
+            KeA.value = arrBKK[3];
+            btnProsesBiaya.focus();
+            btnPerkiraan.disabled = true;
+            keteranganBiaya.readOnly = true;
+        });
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Detail Biaya U/ DiHapus!',
+            returnFocus: false
+        });
+    }
+});
+
+btnKoreksi2.addEventListener("click", function (e) {
+    var table = $('#tableDetailBiayaBKM').DataTable();
+    if (table.rows('.selected').any()) {
+        proses = 2;
+        $('#modalBiaya1').modal('show');
+        $('#modalBiaya1').on('shown.bs.modal', function () {
+            clearBiaya();
+            formListBiaya1.value = listBiaya1.value;
+            nilaiPelunasanBiaya1.readOnly = false;
+            nilaiPelunasanBiaya1.value = numeral(arrBKM[1]).value();
+            idPerkiraanBiaya1.value = arrBKM[2];
+            keteranganBiaya1.value = arrBKM[0];
+            KeA1.value = arrBKM[3];
+            nilaiPelunasanBiaya1.focus();
+            btnPerkiraan1.disabled = false;
+            keteranganBiaya1.readOnly = false;
+        });
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Detail Biaya U/ DiKoreksi!',
+            returnFocus: false
+        });
+    }
+});
+
+btnHapus2.addEventListener("click", function (e) {
+    var table = $('#tableDetailBiayaBKM').DataTable();
+    if (table.rows('.selected').any()) {
+        proses = 3;
+        $('#modalBiaya1').modal('show');
+        $('#modalBiaya1').on('shown.bs.modal', function () {
+            clearBiaya();
+            formListBiaya1.value = listBiaya.value;
+            nilaiPelunasanBiaya1.readOnly = true;
+            nilaiPelunasanBiaya1.value = numeral(arrBKM[1]).value();
+            idPerkiraanBiaya1.value = arrBKM[2];
+            keteranganBiaya1.value = arrBKM[0];
+            KeA1.value = arrBKM[3];
+            btnProsesBiaya1.focus();
+            btnPerkiraan1.disabled = true;
+            keteranganBiaya1.readOnly = true;
+        });
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Detail Biaya U/ DiHapus!',
+            returnFocus: false
+        });
+    }
 });
 
 $('#nilaiPelunasanBiaya').on('keydown', function (e) {
     if (e.key === 'Enter') {
         e.preventDefault();
-        nilaiPelunasanBiaya.value = formatUang(nilaiPelunasanBiaya.value);
+        nilaiPelunasanBiaya.value = numeral(parseFloat(nilaiPelunasanBiaya.value)).format("0,0.00");
         btnPerkiraanBiaya.focus();
     }
 });
@@ -1764,7 +1922,8 @@ btnProsesBiaya.addEventListener("click", function (e) {
     if (proses === 1) {
         if (nilaiPelunasanBiaya.value !== '' && idPerkiraanBiaya !== '' && keteranganBiaya.value !== '') {
             i += 1;
-            tmpArr = [keteranganBiaya.value, formatUang(nilaiPelunasanBiaya.value), idPerkiraanBiaya.value];
+            tmpArr = [keteranganBiaya.value, (nilaiPelunasanBiaya.value), idPerkiraanBiaya.value];
+
             updateDataTable(tmpArr, 2);
             $('#modalBiaya').modal('hide');
             Swal.fire({
@@ -1780,7 +1939,7 @@ btnProsesBiaya.addEventListener("click", function (e) {
                     $('#modalBiaya').on('shown.bs.modal', function () {
                         formListBiaya.value = listBiaya.value;
                         nilaiPelunasanBiaya.readOnly = false;
-                        nilaiPelunasanBiaya.value = formatUang(0);
+                        nilaiPelunasanBiaya.value = (0);
                         nilaiPelunasanBiaya.focus();
                         btnPerkiraan.disabled = false;
                         // i = parseInt(formListBiaya.value);
@@ -1801,6 +1960,47 @@ btnProsesBiaya.addEventListener("click", function (e) {
                 noBg.focus();
             });
         }
+    }
+
+    else if (proses === 2) {
+        if (nilaiPelunasanBiaya.value !== '' && idPerkiraanBiaya.value !== '' && keteranganBiaya.value !== '') {
+            arrBKK[0] = decodeHtmlEntities(keteranganBiaya.value);
+            arrBKK[1] = numeral(nilaiPelunasanBiaya.value).value();
+            arrBKK[2] = (idPerkiraanBiaya.value);
+
+            var table = $('#tableDetailBiayaBKK').DataTable();
+            table.row(arrBKK[3]).data(arrBKK).draw();
+
+            Swal.fire({
+                icon: 'success',
+                text: 'Data Sudah TerKoreksi',
+                returnFocus: false
+            }).then(() => {
+                $('#modalBiaya').modal('hide');
+            });
+        }
+        else {
+            Swal.fire({
+                icon: 'error',
+                text: 'Isi Datanya Yg Lengkap!',
+                returnFocus: false
+            }).then(() => {
+                nilaiPelunasanBiaya.focus();
+            });
+        }
+    }
+
+    else if (proses === 3) {
+        var table = $('#tableDetailBiayaBKK').DataTable();
+        table.row(arrBKK[3]).remove().draw();
+
+        Swal.fire({
+            icon: 'success',
+            text: 'Data Sudah TerHapus',
+            returnFocus: false
+        }).then(() => {
+            $('#modalBiaya').modal('hide');
+        });
     }
 });
 
@@ -1850,30 +2050,250 @@ btnProsesBg.addEventListener("click", function (e) {
             });
         }
     }
+    else if (proses === 2) {
+        if (jatuhTempo.value !== '' && cetak.value !== '') {
+            arrBg[0] = ((noBg.value));
+            arrBg[1] = jatuhTempo.value;
+            arrBg[2] = cetak.value;
+
+            var table = $('#tableBg').DataTable();
+            table.row(arrBg[3]).data(arrBg).draw();
+
+            Swal.fire({
+                icon: 'success',
+                text: 'Data Sudah TerKoreksi',
+                returnFocus: false
+            }).then(() => {
+                $('#modalBg').modal('hide');
+            });
+        }
+        else {
+            Swal.fire({
+                icon: 'error',
+                text: 'Isi Datanya Yg Lengkap!',
+                returnFocus: false
+            }).then(() => {
+                noBg.focus();
+            });
+        }
+
+    }
+    else if (proses === 3) {
+        var table = $('#tableBg').DataTable();
+        table.row(arrBg[3]).remove().draw();
+
+        Swal.fire({
+            icon: 'success',
+            text: 'Data Sudah TerHapus',
+            returnFocus: false
+        }).then(() => {
+            $('#modalBg').modal('hide');
+            btnBG.disabled = false;
+        });
+    }
 });
 
-// btnKoreksiBg.addEventListener("click", function (e) {
-//     tmpArr = [noBg.value, jatuhTempo.value, cetak.value];
+var arrBKK, arrBg, arrBKM;
 
-//     if (proses === 1) {
-//         if (jatuhTempo.value !== '' && cetak.value !== '') {
-//             tmpArr = [noBg.value, jatuhTempo.value, cetak.value];
-//             updateDataTable(tmpArr, 1);
-//             $('#modalBg').modal('hide');
-//             btnBG.disabled = true;
-//             btnPerkiraan1.focus();
-//         }
-//         else {
-//             Swal.fire({
-//                 icon: 'error',
-//                 text: 'Isi Datanya Yg Lengkap!',
-//                 returnFocus: false
-//             }).then(() => {
-//                 noBg.focus();
-//             });
-//         }
-//     }
-// });
+$('#tableDetailBiayaBKK tbody').on('click', 'tr', function () {
+    var table = $('#tableDetailBiayaBKK').DataTable();
+    table.$('tr.selected').removeClass('selected');
+    $(this).addClass('selected');
+
+    var data = table.row(this).data();
+    var rowIndex = table.row(this).index();
+
+    arrBKK = [decodeHtmlEntities(data[0]), decodeHtmlEntities(data[1]), decodeHtmlEntities(data[2]), rowIndex];
+});
+
+$('#tableBg tbody').on('click', 'tr', function () {
+    var table = $('#tableBg').DataTable();
+    table.$('tr.selected').removeClass('selected');
+    $(this).addClass('selected');
+
+    var data = table.row(this).data();
+    var rowIndex = table.row(this).index();
+
+
+    arrBg = [decodeHtmlEntities(data[0]), decodeHtmlEntities(data[1]), decodeHtmlEntities(data[2]), rowIndex];
+});
+
+$('#tableDetailBiayaBKM tbody').on('click', 'tr', function () {
+    var table = $('#tableDetailBiayaBKM').DataTable();
+    table.$('tr.selected').removeClass('selected');
+    $(this).addClass('selected');
+
+    var data = table.row(this).data();
+    var rowIndex = table.row(this).index();
+
+    arrBKM = [decodeHtmlEntities(data[0]), decodeHtmlEntities(data[1]), decodeHtmlEntities(data[2]), rowIndex];
+});
+
+btnKoreksiBg.addEventListener("click", function (e) {
+    var table = $('#tableBg').DataTable();
+    if (table.rows('.selected').any()) {
+        $('#modalBg').modal('show');
+        $('#modalBg').on('shown.bs.modal', function () {
+            proses = 2;
+            noBg.value = arrBg[0];
+            jatuhTempo.value = arrBg[1];
+            cetak.value = arrBg[2];
+            bankBg.value = idBank1.value;
+            jenisBg.value = jenisBayar1.value;
+            noBg.readOnly = false;
+            jatuhTempo.readOnly = false;
+            cetak.readOnly = false;
+            noBg.focus();
+        });
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Detail Biaya U/ DiKoreksi!',
+            returnFocus: false
+        });
+    }
+});
+
+btnHapusBg.addEventListener("click", function (e) {
+    var table = $('#tableBg').DataTable();
+    if (table.rows('.selected').any()) {
+        $('#modalBg').modal('show');
+        $('#modalBg').on('shown.bs.modal', function () {
+            proses = 3;
+            noBg.value = arrBg[0];
+            jatuhTempo.value = arrBg[1];
+            cetak.value = arrBg[2];
+            bankBg.value = idBank1.value;
+            jenisBg.value = jenisBayar1.value;
+            noBg.readOnly = true;
+            jatuhTempo.readOnly = true;
+            cetak.readOnly = true;
+            btnProsesBg.focus();
+        });
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Detail Biaya U/ DiHapus!',
+            returnFocus: false
+        });
+    }
+});
+
+btnBatal.addEventListener("click", function (e) {
+    tanggalInput.value = today;
+    tgl.value = today;
+    idBKK.value = '';
+    mataUang1.value = '';
+    idUang1.value = '';
+    symbol1.value = '';
+    uang1.value = '0';
+    bank1.value = '';
+    idBank1.value = '';
+    jenisBank1.value = '';
+    jenisBayar1.value = '';
+    idPerkiraan1.value = '';
+    perkiraan1.value = '';
+    uraian1.value = '';
+    idBKM.value = '';
+    mataUang.value = '';
+    idUang.value = '';
+    symbol.value = '';
+    kurs.value = '0';
+    uang.value = '0';
+    bank.value = '';
+    idBank.value = '';
+    jenisBank.value = '';
+    jenisBayar.value = '';
+    idPerkiraan.value = '';
+    perkiraan.value = '';
+    uraian.value = '';
+    listBiaya.value = 0;
+    listBiaya1.value = 0;
+    var table = $('#tableDetailBiayaBKK').DataTable();
+    var tableAsal = $('#tableBg').DataTable();
+    var tableTujuan = $('#tableDetailBiayaBKM').DataTable();
+    table.clear().draw();
+    tableAsal.clear().draw();
+    tableTujuan.clear().draw();
+    enableBKK();
+    disableBKM();
+    btnBiaya.disabled = true;
+    btnBiaya1.disabled = true;
+    ModeKoreksi = false;
+    tanggalInput.focus();
+});
+
+btnProses.addEventListener("click", function (e) {
+    let idbkm = idBKM.value.substring(0, 3);
+    let idbkk = idBKK.value.substring(0, 3);
+    let nilai = 0, nilai1 = 0, ada1 = false, ada2 = false, ada3 = false, biaya = 0, biaya1 = 0;
+    let konversi;
+
+    if (idBKK.value !== '' && idBKM.value !== '') {
+
+        var tableBg = $('#tableBg').DataTable();
+        var tableBgLength = tableBg.data().length;
+        if (tableBgLength > 0) {
+            ada2 = true;
+        }
+
+        var tableBKK = $('#tableDetailBiayaBKK').DataTable();
+        var tableBKKLength = tableBKK.data().length;
+        if (tableBKKLength > 0) {
+            tableBKK.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var data = this.data();
+                biaya += numeral(data[1]).value();
+            });
+            ada1 = true;
+        }
+        nilai = biaya + numeral(uang1.value).value();
+        total = (nilai);
+
+        if (parseInt(idUang1.value) === 1) {
+            konversi = convertNumberToWordsRupiah(nilai);
+        }
+        else {
+            konversi = convertNumberToWordsDollar(nilai);
+        }
+
+        console.log(total, ' + ', konversi);
+
+        $.ajax({
+            type: 'PUT',
+            url: 'MaintenanceBKMTransistorisBank/insertBKK',
+            data: {
+                _token: csrfToken,
+                idBKK: idBKK.value.trim(),
+                tgl: tanggalInput.value,
+                terjemahan: konversi,
+                nilai: numeral(parseFloat(nilai)).value(),
+                IdBank: idBank1.value.trim(),
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
+        $.ajax({
+            type: 'PUT',
+            url: 'MaintenanceBKMTransistorisBank/insertTransBKK',
+            data: {
+                _token: csrfToken,
+                idBKK: idBKK.value.trim(),
+                idUang: idUang1.value,
+                idJenis: jenisBayar1,
+                idBank: idBank1.value.trim(),
+                nilai: numeral(parseFloat(nilai)).value(),
+                kurs: numeral(parseFloat(kurs.value)).value()
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+});
 
 $(document).ready(function () {
     $('#tableDetailBiayaBKK').DataTable({
@@ -1899,9 +2319,9 @@ $(document).ready(function () {
         info: false,
         ordering: false,
         columns: [
-            { title: 'Keterangan' },
-            { title: 'Biaya' },
-            { title: 'Kode Perkiraan' },
+            { title: 'Nomer' },
+            { title: 'Jatuh Tempo' },
+            { title: 'Status Cetak' },
         ],
         scrollY: '75px',
         autoWidth: false,

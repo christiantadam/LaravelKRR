@@ -84,7 +84,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
             $nama = $request->input('nama');
 
             $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_MATA_UANG
-            @kode = ?, @nama = ?', [3,$nama]);
+            @kode = ?, @nama = ?', [3, $nama]);
             $data_divisi = [];
             foreach ($divisi as $detail_divisi) {
                 $data_divisi[] = [
@@ -171,9 +171,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
                 ->update(['Id_BKK_E_Rp' => $noUrut + 1]);
 
             return response()->json(['IdBKK' => $idBKK]);
-        }
-
-        else if ($id === 'getIdBKM') {
+        } else if ($id === 'getIdBKM') {
             $tahun = $request->input('tahun');
             $bank = $request->input('bank');
 
@@ -217,7 +215,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $proses = $request->all();
         if ($proses['cetak'] == "tampilBKK") {
@@ -235,6 +233,16 @@ class MaintenanceBKMTransistorisBankController extends Controller
                 $idBKM
             ]);
             return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
+        }
+
+        if ($id === 'insertBKK') {
+            $idBKK = $request->input('idBKK');
+            $tgl = $request->input('tgl');
+            $terjemahan = $request->input('terjemahan');
+            $nilai = $request->input('nilai');
+            $IdBank = $request->input('IdBank');
+
+            
         }
 
         //dd($request->all());
