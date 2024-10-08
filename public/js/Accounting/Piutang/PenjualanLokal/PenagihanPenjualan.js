@@ -57,6 +57,8 @@ $(document).ready(function () {
     let tanggal_diterima = document.getElementById("tanggal_diterima");
     let nilaiPenagihan = document.getElementById("nilaiPenagihan");
     let nilaiUangMuka = document.getElementById("nilaiUangMuka");
+    let idJenisPajak = document.getElementById("idJenisPajak");
+    let syaratPembayaran = document.getElementById("syaratPembayaran");
     let table_atas = $("#table_atas").DataTable({
         columnDefs: [{ targets: [0], visible: false }],
     });
@@ -96,13 +98,159 @@ $(document).ready(function () {
     no_penagihanUM.readOnly = true;
     surat_jalan.readOnly = true;
     dokumen.readOnly = true;
-    noBC24.readOnly = true;
+    noBC24.readOnly = false;
     x_charge.readOnly = true;
     nilaiPenagihan.readOnly = true;
     nilaiUangMuka.readOnly = true;
     terbilang.readOnly = true;
+    btn_isi.focus();
 
     let tableData = [];
+
+    btn_isi.addEventListener("click", async function (event) {
+        event.preventDefault();
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.disabled = false;
+        btn_customer.disabled = false;
+        btn_penagihan.disabled = true;
+        btn_noSP.disabled = false;
+        btn_userPenagih.disabled = false;
+        btn_pajak.disabled = false;
+        btn_penagihanUM.disabled = false;
+        btn_suratJalan.disabled = false;
+        btn_dokumen.disabled = false;
+        btn_charge.disabled = false;
+        btn_add.disabled = false;
+        btn_lihatItem.disabled = false;
+        btn_hapusItem.disabled = false;
+        btn_customer.focus();
+        proses = 1;
+    });
+
+    btn_koreksi.addEventListener("click", async function (event) {
+        event.preventDefault();
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.disabled = false;
+        btn_customer.disabled = false;
+        btn_penagihan.disabled = false;
+        btn_noSP.disabled = true;
+        btn_userPenagih.disabled = false;
+        btn_pajak.disabled = false;
+        btn_penagihanUM.disabled = false;
+        btn_suratJalan.disabled = false;
+        btn_dokumen.disabled = false;
+        btn_charge.disabled = false;
+        btn_add.disabled = false;
+        btn_lihatItem.disabled = false;
+        btn_hapusItem.disabled = false;
+        btn_customer.focus();
+        proses = 2;
+    });
+
+    btn_hapus.addEventListener("click", async function (event) {
+        event.preventDefault();
+        // Swal.fire({
+        //     icon: "error",
+        //     // title: "Error!",
+        //     text: "Penagihan tidak boleh dihapus. Jika ada salah pengisian mohon dikoreksi",
+        //     showConfirmButton: true,
+        // });
+        btn_isi.disabled = true;
+        btn_koreksi.disabled = true;
+        btn_hapus.disabled = true;
+        btn_proses.disabled = false;
+        btn_batal.disabled = false;
+        btn_customer.disabled = false;
+        btn_penagihan.disabled = false;
+        btn_noSP.disabled = true;
+        btn_userPenagih.disabled = false;
+        btn_pajak.disabled = false;
+        btn_penagihanUM.disabled = false;
+        btn_suratJalan.disabled = false;
+        btn_dokumen.disabled = false;
+        btn_charge.disabled = false;
+        btn_add.disabled = false;
+        btn_lihatItem.disabled = false;
+        btn_hapusItem.disabled = false;
+        btn_customer.focus();
+        proses = 3;
+    });
+
+    btn_proses.addEventListener("click", async function (event) {
+        event.preventDefault();
+        const allRowsDataAtas = table_atas.rows().data().toArray();
+        console.log(allRowsDataAtas);
+        console.log(proses);
+
+        if (proses == 1) {
+            $.ajax({
+                url: "PenagihanPenjualanLokal",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    nilaiPenagihan: nilaiPenagihan.value,
+                    nilaiUangMuka: nilaiUangMuka.value,
+                    id_cust: id_cust.value,
+                    Ppn: Ppn.value,
+                    idMataUang: idMataUang.value,
+                    nilaiKurs: nilaiKurs.value,
+                    jenis_pajak: jenis_pajak.value,
+                    tanggal: tanggal.value,
+                    idCustomer: idCustomer.value,
+                    nomorPO: nomorPO.value,
+                    idJenisDokumen: idJenisDokumen.value,
+                    idUserPenagih: idUserPenagih.value,
+                    penagihanPajak: penagihanPajak.value,
+                    id_penagihanUM: id_penagihanUM.value,
+                    allRowsDataAtas: allRowsDataAtas.value,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                            // idReferensi.value = response.IdReferensi;
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_ok.click();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else if (proses == 2) {
+        } else if (proses == 3) {
+        }
+    });
 
     btn_simpanM.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -159,6 +307,10 @@ $(document).ready(function () {
         });
 
         btn_keluarM.click();
+
+        setTimeout(() => {
+            btn_dokumen.focus();
+        }, 300);
     });
 
     btn_lihatItem.addEventListener("click", async function (event) {
@@ -186,9 +338,9 @@ $(document).ready(function () {
                         data: function (d) {
                             return $.extend({}, d, {
                                 _token: csrfToken,
-                                no_sp: no_sp.value,
+                                no_sp: rowData[5],
                                 idCustomer: idCustomer.value,
-                                surat_jalan: surat_jalan.value,
+                                surat_jalan: rowData[2],
                             });
                         },
                     },
@@ -215,9 +367,9 @@ $(document).ready(function () {
                     type: "GET",
                     data: {
                         _token: csrfToken,
-                        no_sp: no_sp.value,
+                        no_sp: rowData[5],
                         idCustomer: idCustomer.value,
-                        surat_jalan: surat_jalan.value,
+                        surat_jalan: rowData[2],
                     },
                     success: function (data) {
                         console.log(data);
@@ -477,11 +629,198 @@ $(document).ready(function () {
                         setTimeout(() => {
                             btn_noSP.focus();
                         }, 300);
-                    } else if (proses == 2) {
+                    } else if (proses == 2 || proses == 3) {
                         setTimeout(() => {
                             btn_penagihan.focus();
                         }, 300);
                     }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+
+    btn_penagihan.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Penagihan",
+                html: '<table id="PenagihanTable" class="display" style="width:100%"><thead><tr><th>Tanggal</th><th>Penagihan</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "40%",
+                preConfirm: () => {
+                    const selectedData = $("#PenagihanTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#PenagihanTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanLokal/getPenagihan",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    idCustomer: idCustomer.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Tgl_Penagihan",
+                                },
+                                {
+                                    data: "Id_Penagihan",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#PenagihanTable_filter input").focus();
+                        }, 300);
+                        // $("#PenagihanTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_Penagihan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
+                        $("#PenagihanTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "PenagihanTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    no_penagihan.value = escapeHTML(
+                        selectedRow.Id_Penagihan.trim()
+                    );
+                    IdPenagihan.value = escapeHTML(
+                        selectedRow.Tgl_Penagihan.trim()
+                    );
+
+                    let terbilangS;
+
+                    $.ajax({
+                        url: "PenagihanPenjualanLokal/lihatPenagihan",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            no_penagihan: no_penagihan.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            namaMataUang.value = data.TMataUang;
+                            idMataUang.value = data.TIdMataUang;
+                            penagihanPajak.value = data.TglFakturPajak;
+                            user_penagih.value = data.TPenagih;
+                            idUserPenagih.value = data.TIdUser;
+                            nama_pajak.value = data.TPajak;
+                            jenis_pajak.value = data.TJnsPajak;
+                            nomorPO.value = data.TPO;
+                            nilaiKurs.value = data.TKurs;
+                            syaratPembayaran.value = data.TsyaratPembayaran;
+                            Ppn.value = data.cbPPN;
+                            id_penagihanUM.value = data.Tid_PenagihanUM;
+                            dokumen.value = data.TDokumen;
+                            idJenisDokumen.value = data.TIdJnsDok;
+                            nilaiPenagihan.value = data.TNilai_Penagihan;
+                            nilaiUangMuka.value = data.TNilai_UM;
+
+                            if (idMataUang.value == "1") {
+                                terbilangS = convertNumberToWordsRupiah(
+                                    nilaiPenagihan.value
+                                );
+                            } else {
+                                if (nilaiKurs.value <= 0) {
+                                    Swal.fire({
+                                        icon: "info",
+                                        title: "Info!",
+                                        text: "ISI DULU NILAI KURSNYA",
+                                        showConfirmButton: true,
+                                    }).then(() => {
+                                        nilaiKurs.focus();
+                                    });
+                                } else {
+                                    terbilangS = convertNumberToWordsDollar(
+                                        nilaiPenagihan.value
+                                    );
+                                }
+                            }
+
+                            terbilang.value = terbilangS;
+
+                            if (data.ListSJ && data.ListSJ.length > 0) {
+                                var table_atas = $("#table_atas").DataTable();
+
+                                data.ListSJ.forEach(function (item, index) {
+                                    const newRow = {
+                                        Id_Detail:
+                                            table_atas.rows().count() + 1,
+                                        x_charge: "", // Assuming you don't have a value for this field yet
+                                        surat_jalan: item.Surat_Jalan,
+                                        TanggalDiterima: item.Tgl_Surat_jalan,
+                                        change_amount: item.Total,
+                                        no_sp: item.IDSuratPesanan,
+                                        jenis: item.Type,
+                                    };
+
+                                    table_atas.row
+                                        .add([
+                                            newRow.Id_Detail,
+                                            newRow.x_charge,
+                                            newRow.surat_jalan,
+                                            newRow.TanggalDiterima,
+                                            parseFloat(
+                                                newRow.change_amount
+                                            ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            }),
+                                            newRow.no_sp,
+                                            newRow.jenis,
+                                        ])
+                                        .draw();
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
+                    // idCustomer.value = selectedRow.IDCust.trim().slice(-5);
+                    // setTimeout(() => {
+                    //     btn_kodebarang.focus();
+                    // }, 300);
                 }
             });
         } catch (error) {
@@ -1213,5 +1552,10 @@ $(document).ready(function () {
             console.error("An error occurred:", error);
         }
         // console.log(selectedRow);
+    });
+
+    btn_batal.addEventListener("click", async function (event) {
+        event.preventDefault();
+        location.reload();
     });
 });

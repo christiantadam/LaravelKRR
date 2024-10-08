@@ -778,83 +778,96 @@ $(document).ready(function () {
             type: "GET",
             success: function (response) {
                 console.log(response);
-                tgl_pesan.value = formatDate(response[0].Tgl_Pesan);
-                jenis_sp.value = response[0].IDJnsSuratPesanan;
-                no_spText.value = response[0].IDSuratPesanan;
-                list_customer.value = response[0].IDCust;
-                no_po.value = response[0].NO_PO;
-                tgl_po.value = formatDate(response[0].Tgl_PO);
-                no_pi.value = response[0].NO_PI;
-                list_sales.value = response[0].IDSales;
-                mata_uang.value = response[0].IDMataUang;
-                jenis_bayar.value = response[0].IDPembayaran;
-                syarat_bayar.value = response[0].SyaratBayar;
-                keterangan.value = response[0].Ket;
-                if (response[0].JnsFakturPjk == "0") {
-                    faktur_pjkBiasa.value = response[0].JnsFakturPjk;
+                console.log(response.length > 0);
+
+                if (response.length > 0) {
+                    tgl_pesan.value = formatDate(response[0].Tgl_Pesan);
+                    jenis_sp.value = response[0].IDJnsSuratPesanan;
+                    no_spText.value = response[0].IDSuratPesanan;
+                    list_customer.value = response[0].IDCust;
+                    no_po.value = response[0].NO_PO;
+                    tgl_po.value = formatDate(response[0].Tgl_PO);
+                    no_pi.value = response[0].NO_PI;
+                    list_sales.value = response[0].IDSales;
+                    mata_uang.value = response[0].IDMataUang;
+                    jenis_bayar.value = response[0].IDPembayaran;
+                    syarat_bayar.value = response[0].SyaratBayar;
+                    keterangan.value = response[0].Ket;
+                    if (response[0].JnsFakturPjk == "0") {
+                        faktur_pjkBiasa.value = response[0].JnsFakturPjk;
+                    } else {
+                        faktur_pjkSederhana.value = response[0].JnsFakturPjk;
+                    }
+
+                    $.ajax({
+                        url: "SuratPesanan/CopyDetails?no_sp=" + no_spValue,
+                        type: "GET",
+                        success: function (data) {
+                            console.log(data.data[0]);
+
+                            // Initialize arrayTabel
+                            var arrayTabel = [];
+
+                            // Iterate over data array using forEach and push formatted data to arrayTabel
+                            data.data.forEach(function (item) {
+                                arrayTabel.push([
+                                    item.namabarang,
+                                    item.IDBarang,
+                                    item.HargaSatuan,
+                                    item.Qty,
+                                    item.Satuan,
+                                    formatDate(item.TglRencanaKirim),
+                                    item.Lunas,
+                                    item.PPN,
+                                    item.BERAT_KARUNG3,
+                                    item.INDEX_KARUNG,
+                                    item.HARGA_KARUNG,
+                                    item.BERAT_INNER3,
+                                    item.INDEX_INNER,
+                                    item.HARGA_INNER,
+                                    item.BERAT_LAMI3,
+                                    item.INDEX_LAMI,
+                                    item.HARGA_LAMI,
+                                    item.BERAT_KERTAS3,
+                                    item.INDEX_KERTAS,
+                                    item.HARGA_KERTAS,
+                                    item.HARGA_LAIN2,
+                                    item.BERAT_TOTAL3,
+                                    item.HARGA_TOTAL,
+                                    item.BERAT_KARUNG,
+                                    item.BERAT_INNER,
+                                    item.BERAT_LAMI,
+                                    item.BERAT_CONDUCTIVE,
+                                    item.BERAT_TOTAL,
+                                    item.IDJnsBarang,
+                                    item.IDPesanan,
+                                    item.Informasi,
+                                ]);
+                            });
+
+                            for (
+                                let index = 0;
+                                index < arrayTabel.length;
+                                index++
+                            ) {
+                                funcInsertRow(arrayTabel[index]);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
                 } else {
-                    faktur_pjkSederhana.value = response[0].JnsFakturPjk;
+                    Swal.fire({
+                        icon: "error",
+                        title: "Kesalahan!",
+                        text: "Gagal mengambil data!",
+                        showConfirmButton: true,
+                    }).then(() => {
+                        $("#createSPModal").modal("hide");
+                    });
                 }
-
-                $.ajax({
-                    url: "SuratPesanan/CopyDetails?no_sp=" + no_spValue,
-                    type: "GET",
-                    success: function (data) {
-                        console.log(data.data[0]);
-
-                        // Initialize arrayTabel
-                        var arrayTabel = [];
-
-                        // Iterate over data array using forEach and push formatted data to arrayTabel
-                        data.data.forEach(function (item) {
-                            arrayTabel.push([
-                                item.namabarang,
-                                item.IDBarang,
-                                item.HargaSatuan,
-                                item.Qty,
-                                item.Satuan,
-                                formatDate(item.TglRencanaKirim),
-                                item.Lunas,
-                                item.PPN,
-                                item.BERAT_KARUNG3,
-                                item.INDEX_KARUNG,
-                                item.HARGA_KARUNG,
-                                item.BERAT_INNER3,
-                                item.INDEX_INNER,
-                                item.HARGA_INNER,
-                                item.BERAT_LAMI3,
-                                item.INDEX_LAMI,
-                                item.HARGA_LAMI,
-                                item.BERAT_KERTAS3,
-                                item.INDEX_KERTAS,
-                                item.HARGA_KERTAS,
-                                item.HARGA_LAIN2,
-                                item.BERAT_TOTAL3,
-                                item.HARGA_TOTAL,
-                                item.BERAT_KARUNG,
-                                item.BERAT_INNER,
-                                item.BERAT_LAMI,
-                                item.BERAT_CONDUCTIVE,
-                                item.BERAT_TOTAL,
-                                item.IDJnsBarang,
-                                item.IDPesanan,
-                                item.Informasi,
-                            ]);
-                        });
-
-                        for (
-                            let index = 0;
-                            index < arrayTabel.length;
-                            index++
-                        ) {
-                            funcInsertRow(arrayTabel[index]);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        alert(err.Message);
-                    },
-                });
             },
             error: function (xhr) {
                 Swal.fire({

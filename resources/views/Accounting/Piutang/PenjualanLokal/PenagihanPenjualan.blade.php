@@ -160,16 +160,16 @@
                                 <div class="col-md-1">
 
                                 </div>
-                                <div class="col-md-2">
-                                    <label for="penagihanPajak" style="margin-right: 10px; display: none">Syarat
+                                <div class="col-md-1">
+                                    <label for="penagihanPajak" style="margin-right: 10px;">Syarat
                                         Pembayaran</label>
                                 </div>
                                 <div class="col-md-1">
                                     <input type="text" id="syaratPembayaran" name="syaratPembayaran"
-                                        class="form-control" style="width: 100%; display: none">
+                                        class="form-control" style="width: 100%;">
                                 </div>
                                 <div class="col-md-1">
-                                    <label for="penagihanPajak" style="margin-right: 10px; display: none">Hari</label>
+                                    <label for="penagihanPajak" style="margin-right: 10px;">Hari</label>
                                 </div>
                             </div>
                             <p>
@@ -354,10 +354,10 @@
                                 <div class="col-md-1">
                                     <button type="button" class="btn btn-default" id="btn_add">Add</button>
                                 </div>
-                                <div class="col-md-1">
+                                {{-- <div class="col-md-1">
                                     <input type="text" id="id_charge" name="id_charge" class="form-control"
                                         style="width: 100%; display: none">
-                                </div>
+                                </div> --}}
                             </div>
                             <hr>
                             <div class="d-flex">

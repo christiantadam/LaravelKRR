@@ -80,7 +80,11 @@ class SuratPesananController extends Controller
                 ->whereNotNull('AccManager')
                 ->where('IDSuratPesanan', 'LIKE', "%{$search}%")
                 ->orWhere('Tgl_Pesan', 'LIKE', "%{$search}%")
+                ->whereNull('Deleted')
+                ->whereNotNull('AccManager')
                 ->orWhere('NamaCust', 'LIKE', "%{$search}%")
+                ->whereNull('Deleted')
+                ->whereNotNull('AccManager')
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -96,7 +100,11 @@ class SuratPesananController extends Controller
                 ->whereNotNull('AccManager')
                 ->where('IDSuratPesanan', 'LIKE', "%{$search}%")
                 ->orWhere('Tgl_Pesan', 'LIKE', "%{$search}%")
+                ->whereNull('Deleted')
+                ->whereNotNull('AccManager')
                 ->orWhere('NamaCust', 'LIKE', "%{$search}%")
+                ->whereNull('Deleted')
+                ->whereNotNull('AccManager')
                 ->count();
         }
 
