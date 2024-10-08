@@ -20,7 +20,7 @@ $(document).ready(function () {
     let uraian = document.getElementById("uraian");
     let tgl_awalbkk = document.getElementById("tgl_awalbkk");
     let tgl_akhirbkk = document.getElementById("tgl_akhirbkk");
-    let id_bank, id_bank1, idbkm, jenis_bank, idMtUang;
+    let id_bank, id_bank1, id_bkm, id_bkk, jenis_bank, idMtUang, nilai, Konversi, user_id;
 
 
     let table_DataBKM = $("#table_DataBKM").DataTable({
@@ -203,7 +203,7 @@ $(document).ready(function () {
             id_bank = data.Id_bank.trim();
             jenis_bank = data.Jenis_Bank.trim();
             idMtUang = data.Id_MataUang.trim();
-            idbkm = rowDataArray[0].Id_BKM.trim();
+            id_bkm = rowDataArray[0].Id_BKM.trim();
             jumlahUang.value = rowDataArray[0].Total.trim();
             tanggal.focus();
         });
@@ -430,9 +430,9 @@ $(document).ready(function () {
     });
 
     $('#dataBKKModal').on('hidden.bs.modal', function () {
-        let today = new Date().toISOString().split("T")[0]; /
-        tgl_awalbkk.value = today;
-        tgl_akhirbkk.value = today;
+        tgl_awalbkk.valueAsDate = new Date();
+        tgl_akhirbkk.valueAsDate = new Date();
+        bkk.value = '';
     });
 
     btn_okbkm.addEventListener("click", async function (event) {
@@ -487,14 +487,14 @@ $(document).ready(function () {
                     .row($(this).closest("tr"))
                     .data();
                 rowDataArray.push(rowDataKetiga);
-                bkm.value = rowDataKetiga.Id_BKK;
+                bkk.value = rowDataKetiga.Id_BKK;
                 console.log(rowDataArrayKetiga);
                 console.log(rowDataKetiga, this, tabletampilBKM);
             } else {
                 // Kosongkan array saat checkbox tidak dicentang
                 rowDataArray = [];
                 rowDataKetiga = null;
-                bkm.value = "";
+                bkk.value = "";
                 console.log(rowDataArrayKetiga);
                 console.log(rowDataKetiga, this, tabletampilBKM);
             }
@@ -513,11 +513,303 @@ $(document).ready(function () {
         jenis_bank = '';
     });
 
+    function getUserId() {
+        $.ajax({
+            type: 'GET',
+            url: 'MaintenanceBKMxBKKPembulatan/getUserId',
+            data: {
+                _token: csrfToken
+            },
+            success: function (result) {
+                user_id = result.user.trim();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+    getUserId();
+
+    function convertNumberToWordsRupiah(num) {
+        // Arrays to hold number words
+        const ones = [
+            "",
+            "SATU",
+            "DUA",
+            "TIGA",
+            "EMPAT",
+            "LIMA",
+            "ENAM",
+            "TUJUH",
+            "DELAPAN",
+            "SEMBILAN",
+        ];
+        const tens = [
+            "",
+            "",
+            "DUA PULUH",
+            "TIGA PULUH",
+            "EMPAT PULUH",
+            "LIMA PULUH",
+            "ENAM PULUH",
+            "TUJUH PULUH",
+            "DELAPAN PULUH",
+            "SEMBILAN PULUH",
+        ];
+        const teens = [
+            "SEPULUH",
+            "SEBELAS",
+            "DUA BELAS",
+            "TIGA BELAS",
+            "EMPAT BELAS",
+            "LIMA BELAS",
+            "ENAM BELAS",
+            "TUJUH BELAS",
+            "DELAPAN BELAS",
+            "SEMBILAN BELAS",
+        ];
+
+        function convert(num) {
+            if (num === 0) return "NOL RUPIAH";
+
+            const convertBillions = (num) => {
+                if (num >= 1000000000) {
+                    return (
+                        convertBillions(Math.floor(num / 1000000000)) +
+                        " MILYAR " +
+                        convertMillions(num % 1000000000)
+                    );
+                } else {
+                    return convertMillions(num);
+                }
+            };
+
+            const convertMillions = (num) => {
+                if (num >= 1000000) {
+                    return (
+                        convertMillions(Math.floor(num / 1000000)) +
+                        " JUTA " +
+                        convertThousands(num % 1000000)
+                    );
+                } else {
+                    return convertThousands(num);
+                }
+            };
+
+            const convertThousands = (num) => {
+                if (num >= 1000) {
+                    if (num >= 1000 && num < 2000) {
+                        return "SERIBU " + convertHundreds(num % 1000);
+                    } else {
+                        return (
+                            convertHundreds(Math.floor(num / 1000)) +
+                            " RIBU " +
+                            convertHundreds(num % 1000)
+                        );
+                    }
+                } else {
+                    return convertHundreds(num);
+                }
+            };
+
+            const convertHundreds = (num) => {
+                if (num > 99) {
+                    if (num >= 100 && num < 200) {
+                        return "SERATUS " + convertTens(num % 100);
+                    } else {
+                        return (
+                            ones[Math.floor(num / 100)] +
+                            " RATUS " +
+                            convertTens(num % 100)
+                        );
+                    }
+                } else {
+                    return convertTens(num);
+                }
+            };
+
+            const convertTens = (num) => {
+                if (num < 10) return ones[num];
+                else if (num >= 10 && num < 20) return teens[num - 10];
+                else {
+                    return tens[Math.floor(num / 10)] + " " + ones[num % 10];
+                }
+            };
+
+            let result = convertBillions(num).trim();
+            result = result.replace(/\s{2,}/g, " ");
+            return result + " RUPIAH";
+        }
+
+        return convert(num);
+    }
+
+    function convertNumberToWordsDollar(num) {
+        // Arrays to hold number words
+        const ones = [
+            "",
+            "ONE",
+            "TWO",
+            "THREE",
+            "FOUR",
+            "FIVE",
+            "SIX",
+            "SEVEN",
+            "EIGHT",
+            "NINE",
+        ];
+        const tens = [
+            "",
+            "",
+            "TWENTY",
+            "THIRTY",
+            "FORTY",
+            "FIFTY",
+            "SIXTY",
+            "SEVENTY",
+            "EIGHTY",
+            "NINETY",
+        ];
+        const teens = [
+            "TEN",
+            "ELEVEN",
+            "TWELVE",
+            "THIRTEEN",
+            "FOURTEEN",
+            "FIFTEEN",
+            "SIXTEEN",
+            "SEVENTEEN",
+            "EIGHTEEN",
+            "NINETEEN",
+        ];
+
+        function convert(num) {
+            if (num === 0) return "ZERO DOLLAR";
+
+            const convertBillions = (num) => {
+                if (num >= 1000000000) {
+                    return (
+                        convertBillions(Math.floor(num / 1000000000)) +
+                        " BILLION " +
+                        convertMillions(num % 1000000000)
+                    );
+                } else {
+                    return convertMillions(num);
+                }
+            };
+
+            const convertMillions = (num) => {
+                if (num >= 1000000) {
+                    return (
+                        convertMillions(Math.floor(num / 1000000)) +
+                        " MILLION " +
+                        convertThousands(num % 1000000)
+                    );
+                } else {
+                    return convertThousands(num);
+                }
+            };
+
+            const convertThousands = (num) => {
+                if (num >= 1000) {
+                    return (
+                        convertHundreds(Math.floor(num / 1000)) +
+                        " THOUSAND " +
+                        convertHundreds(num % 1000)
+                    );
+                } else {
+                    return convertHundreds(num);
+                }
+            };
+
+            const convertHundreds = (num) => {
+                if (num > 99) {
+                    return (
+                        ones[Math.floor(num / 100)] +
+                        " HUNDRED " +
+                        convertTens(num % 100)
+                    );
+                } else {
+                    return convertTens(num);
+                }
+            };
+
+            const convertTens = (num) => {
+                if (num < 10) return ones[num];
+                else if (num >= 10 && num < 20) return teens[num - 10];
+                else {
+                    return tens[Math.floor(num / 10)] + " " + ones[num % 10];
+                }
+            };
+
+            let result = convertBillions(num).trim();
+            result = result.replace(/\s{2,}/g, " ");
+            return result + " DOLLAR";
+        }
+
+        return convert(num);
+    }
+
     btnProses.addEventListener("click", async function (event) {
         event.preventDefault();
 
+        id1 = idBKK.value.substring(0, 3);
+        id_bkk = parseInt(id1) || 0;
+        nilai = 0;
 
+        if (idBKK.value !== '') {
+            nilai = numeral(parseFloat(jumlahUang.value)).format("0,0.0000");
+
+            if (idMtUang === 1) {
+                if (idMtUang === 1) {
+                    Konversi = convertNumberToWordsRupiah(nilai);
+                } else {
+                    Konversi = convertNumberToWordsDollar(nilai)
+                }
+            }
+
+            $.ajax({
+                type: 'PUT',
+                url: 'MaintenanceBKMxBKKPembulatan/proses',
+                data: {
+                    _token: csrfToken,
+                    idBKK: idBKK.value,
+                    tanggal: tanggal.valueAsDate,
+                    user_id: user_id,
+                    Konversi: Konversi,
+                    nilai: nilai,
+                    id_bank: id_bank,
+                    idMtUang: idMtUang,
+                    id_bkm: id_bkm,
+                    uraian: uraian.value,
+                    idKodePerkiraan: idKodePerkiraan.value,
+                    id_bkk: id_bkk,
+                    id_bank1: id_bank1,
+                    jenis_bank: jenis_bank
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            html: response.success,
+                            returnFocus: false
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            html: response.error,
+                            returnFocus: false
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     });
-
-
 });

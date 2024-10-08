@@ -291,16 +291,18 @@ btn_proses.addEventListener("click", function (e) {
                 mataUang.value = '';
                 nilaiBKM.value = '0';
 
+            } else if (response.error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.error,
+                    returnFocus: false
+                });
             }
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: response.error,
-                returnFocus: false
-            });
+
         }
     });
 });
