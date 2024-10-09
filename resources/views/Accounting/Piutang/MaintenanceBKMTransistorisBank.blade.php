@@ -208,7 +208,7 @@
 
                                     <div class="d-flex">
                                         <div class="col-md-3">
-                                            <label for="idBKK" style="margin-right: 10px;">Id. BKK</label>
+                                            <label for="idBKK" style="margin-right: 10px;">Id. BKM</label>
                                         </div>
                                         <div class="col-md-4">
                                             <input type="text" id="idBKM" name="idBKM" readonly

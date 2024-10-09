@@ -136,6 +136,45 @@ class MaintenanceBKMTransistorisBankController extends Controller
             return response()->json($data_divisi);
         }
 
+        // id pembayaran
+        else if ($id === 'getIdPembayaran') {
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_IDPEMBAYARAN');
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Id_Pembayaran' => $detail_divisi->id_pembayaran,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // id lunas
+        else if ($id === 'getIdPelunasan') {
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_IDPELUNASAN');
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'id_pelunasan' => $detail_divisi->id_pelunasan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // id cek bg
+        else if ($id === 'cekBg') {
+            $idpembayaran = $request->input('idpembayaran');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_DETAIL_BGCEK
+                @idpembayaran = ?', [$idpembayaran]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'IdBGCEK' => $detail_divisi->IdBGCEK,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
         // id bkk
         else if ($id === 'getIdBKK') {
             $tahun = $request->input('tahun');
@@ -218,22 +257,24 @@ class MaintenanceBKMTransistorisBankController extends Controller
     public function update(Request $request, $id)
     {
         $proses = $request->all();
-        if ($proses['cetak'] == "tampilBKK") {
-            //dd($request->all());
-            $idBKK = $request->idTampilBKK;
-            DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_TGLCETAK_BKK] @idBKK = ?', [
-                $idBKK
-            ]);
-            return redirect()->back()->with('success', 'Tanggal cetak sudah terupdate');
+        // if ($proses['cetak'] == "tampilBKK") {
+        //     //dd($request->all());
+        //     $idBKK = $request->idTampilBKK;
+        //     DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_TGLCETAK_BKK] @idBKK = ?', [
+        //         $idBKK
+        //     ]);
+        //     return redirect()->back()->with('success', 'Tanggal cetak sudah terupdate');
 
-        } else if ($proses['cetak'] == "tampilBKM") {
-            //dd('masuk');
-            $idBKM = $request->idTampilBKM;
-            DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_TGLCETAK_BKM] @idBKM = ?', [
-                $idBKM
-            ]);
-            return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
-        }
+        // } else if ($proses['cetak'] == "tampilBKM") {
+        //     //dd('masuk');
+        //     $idBKM = $request->idTampilBKM;
+        //     DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_TGLCETAK_BKM] @idBKM = ?', [
+        //         $idBKM
+        //     ]);
+        //     return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
+        // }
+
+        $user = Auth::user()->NomorUser;
 
         if ($id === 'insertBKK') {
             $idBKK = $request->input('idBKK');
@@ -242,7 +283,353 @@ class MaintenanceBKMTransistorisBankController extends Controller
             $nilai = $request->input('nilai');
             $IdBank = $request->input('IdBank');
 
-            
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN]
+                @idBKK = ?,
+                @tgl = ?,
+                @terjemahan = ?,
+                @nilai = ?,
+                @IdBank = ?,
+                @userinput = ?', [
+                        $idBKK,
+                        $tgl,
+                        $terjemahan,
+                        $nilai,
+                        $IdBank,
+                        $user,
+                    ]);
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        // trans bkk
+        else if ($id === 'insertTransBKK') {
+            $idBKK = $request->input('idBKK');
+            $idUang = $request->input('idUang');
+            $idJenis = $request->input('idJenis');
+            $idBank = $request->input('idBank');
+            $nilai = $request->input('nilai');
+            $kurs = $request->input('kurs');
+
+            if ($kurs === null) {
+                try {
+                    DB::connection('ConnAccounting')
+                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG_1 ]
+                    @idBKK = ?,
+                    @idUang = ?,
+                    @idJenis = ?,
+                    @idBank = ?,
+                    @nilai = ?,
+                    @user = ?', [
+                            $idBKK,
+                            $idUang,
+                            $idJenis,
+                            $idBank,
+                            $nilai,
+                            $user,
+                        ]);
+
+                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                }
+            } else if ($kurs !== null) {
+                try {
+                    DB::connection('ConnAccounting')
+                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG_1 ]
+                    @idBKK = ?,
+                    @idUang = ?,
+                    @idJenis = ?,
+                    @idBank = ?,
+                    @nilai = ?,
+                    @kurs = ?,
+                    @user = ?', [
+                            $idBKK,
+                            $idUang,
+                            $idJenis,
+                            $idBank,
+                            $nilai,
+                            $kurs,
+                            $user,
+                        ]);
+
+                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                }
+            }
+        }
+
+        // trans 2
+        else if ($id === 'insertTrans2BKK') {
+            $idpembayaran = $request->input('idpembayaran');
+            $keterangan = $request->input('keterangan');
+            $biaya = $request->input('biaya');
+            $kodeperkiraan = $request->input('kodeperkiraan');
+            $IdBank = $request->input('IdBank');
+
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement('exec [SP_5298_ACC_INSERT_BKK_TDETAILPEMB]
+                    @idpembayaran = ?,
+                    @keterangan = ?,
+                    @biaya = ?,
+                    @kodeperkiraan = ?', [
+                        $idpembayaran,
+                        $keterangan,
+                        $biaya,
+                        $kodeperkiraan,
+                    ]);
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        // biaya bkk
+        else if ($id === 'insertDetailBKK') {
+            $idpembayaran = $request->input('idpembayaran');
+            $detailBKK = $request->input('detailBKK');
+
+            try {
+                foreach ($detailBKK as $detail) {
+                    $keterangan = $detail[0];
+                    $biaya = $detail[1];
+                    $kodeperkiraan = $detail[2];
+
+                    DB::connection('ConnAccounting')
+                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TDETAILPEMB] 
+                @idpembayaran = ?, 
+                @keterangan = ?, 
+                @biaya = ?, 
+                @kodeperkiraan = ?', [
+                            $idpembayaran,
+                            $keterangan,
+                            $biaya,
+                            $kodeperkiraan,
+                        ]);
+                }
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        // biaya bkM
+        else if ($id === 'insertDetailBKM') {
+            $idpelunasan = $request->input('idpelunasan');
+            $detailBKM = $request->input('detailBKM');
+
+            try {
+                foreach ($detailBKM as $detail) {
+                    $keterangan = $detail[0];
+                    $biaya = $detail[1];
+                    $kodeperkiraan = $detail[2];
+
+                    DB::connection('ConnAccounting')
+                        ->statement('exec [SP_5298_ACC_INSERT_DETAIL_BIAYA] 
+                @idpelunasan = ?, 
+                @keterangan = ?, 
+                @biaya = ?, 
+                @kodeperkiraan = ?', [
+                            $idpelunasan,
+                            $keterangan,
+                            $biaya,
+                            $kodeperkiraan,
+                        ]);
+                }
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        // update bg
+        else if ($id === 'updateBg') {
+            $id = $request->input('id');
+            $idBG = $request->input('idBG');
+
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement('exec [SP_5298_ACC_UPDATE_TDETAILPEMB]
+                    @id = ?,
+                    @idBG = ?', [
+                        $id,
+                        $idBG,
+                    ]);
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        // insert bg
+        else if ($id === 'insertBg') {
+            $id = $request->input('id');
+            $no = $request->input('no');
+            $jthtempo = $request->input('jthtempo');
+            $status = $request->input('status');
+
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement('exec [SP_5298_ACC_INSERT_BGCEK]
+                    @id = ?,
+                    @no = ?,
+                    @jthtempo = ?,
+                    @status = ?', [
+                        $id,
+                        $no,
+                        $jthtempo,
+                        $status,
+                    ]);
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        // insert BKM
+        else if ($id === 'insertBKM') {
+            $idBKM = $request->input('idBKM');
+            $tglinput = $request->input('tglinput');
+            $terjemahan = $request->input('terjemahan');
+            $IdBank = $request->input('IdBank');
+            $nilaipelunasan = $request->input('nilai');
+
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN]
+                @idBKM = ?,
+                @tglinput = ?,
+                @terjemahan = ?,
+                @IdBank = ?,
+                @nilaipelunasan = ?,
+                @userinput = ?', [
+                        $idBKM,
+                        $tglinput,
+                        $terjemahan,
+                        $IdBank,
+                        $nilaipelunasan,
+                        $user,
+                    ]);
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        // update BKM
+        else if ($id === 'updateIdBKM') {
+            $idbkm = $request->input('idbkm');
+            $idBank = $request->input('idBank');
+            $jenis = $request->input('jenis');
+            $tgl = $request->input('tgl');
+
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement('exec [SP_5298_ACC_UPDATE_COUNTER_IDBKM]
+                @idbkm = ?,
+                @idBank = ?,
+                @jenis = ?,
+                @tgl = ?', [
+                        $idbkm,
+                        $idBank,
+                        $jenis,
+                        $tgl,
+                    ]);
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        // trans bkm
+        else if ($id === 'insertTransBKM') {
+            $idBKM = $request->input('idBKM');
+            $tgl = $request->input('tgl');
+            $idUang = $request->input('idUang');
+            $idJenis = $request->input('idJenis');
+            $idBank = $request->input('idBank');
+            $kodeperkiraan = $request->input('kodeperkiraan');
+            $uraian = $request->input('uraian');
+            $nilaipelunasan = $request->input('nilaipelunasan');
+            $idBKKAcuan = $request->input('idBKKAcuan');
+            $kurs = $request->input('kurs');
+
+            if ($kurs === null) {
+                try {
+                    DB::connection('ConnAccounting')
+                        ->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN_TAG_TRANSITORIS]
+                    @idBKM = ?,
+                    @tgl = ?,
+                    @idUang = ?,
+                    @idJenis = ?,
+                    @idBank = ?,
+                    @kodeperkiraan = ?,
+                    @uraian = ?,
+                    @nilaipelunasan = ?,
+                    @idBKKAcuan = ?,
+                    @user = ?', [
+                            $idBKM,
+                            $tgl,
+                            $idUang,
+                            $idJenis,
+                            $idBank,
+                            $kodeperkiraan,
+                            $uraian,
+                            $nilaipelunasan,
+                            $idBKKAcuan,
+                            $user,
+                        ]);
+
+                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                }
+            } else if ($kurs !== null) {
+                try {
+                    DB::connection('ConnAccounting')
+                        ->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN_TAG_TRANSITORIS]
+                    @idBKM = ?,
+                    @tgl = ?,
+                    @idUang = ?,
+                    @idJenis = ?,
+                    @idBank = ?,
+                    @kodeperkiraan = ?,
+                    @uraian = ?,
+                    @nilaipelunasan = ?,
+                    @idBKKAcuan = ?,
+                    @kurs = ?,
+                    @user = ?', [
+                            $idBKM,
+                            $tgl,
+                            $idUang,
+                            $idJenis,
+                            $idBank,
+                            $kodeperkiraan,
+                            $uraian,
+                            $nilaipelunasan,
+                            $idBKKAcuan,
+                            $kurs,
+                            $user,
+                        ]);
+
+                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                }
+            }
         }
 
         //dd($request->all());
