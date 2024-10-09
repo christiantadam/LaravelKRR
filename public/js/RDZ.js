@@ -195,7 +195,7 @@ function convertNumberToWordsRupiah(num) {
         "SEMBILAN BELAS",
     ];
 
-    function convert(num) {
+    function convertWholePart(num) {
         if (num === 0) return "NOL RUPIAH";
 
         const convertTrillions = (num) => {
@@ -279,6 +279,37 @@ function convertNumberToWordsRupiah(num) {
         return result + " RUPIAH";
     }
 
+    function convertFractionalPart(fraction) {
+        // If there are no cents or it's zero, return an empty string
+        if (fraction === 0 || fraction === null) {
+            return "";
+        }
+
+        const cents = Math.round(fraction * 100); // Get the fractional part as an integer representing cents
+        if (cents === 0) {
+            return "";
+        }
+
+        const convertCents = (num) => {
+            return convertWholePart(num).replace("RUPIAH", "") + "SEN";
+        };
+
+        return convertCents(cents);
+    }
+
+    function convert(num) {
+        const wholePart = Math.floor(num); // The integer part
+        const fractionalPart = num % 1; // The decimal part (fraction)
+
+        const wholePartWords = convertWholePart(wholePart);
+        const fractionalPartWords = convertFractionalPart(fractionalPart);
+
+        // If there is a fractional part, add it as "sen"
+        return fractionalPartWords
+            ? wholePartWords + " " + fractionalPartWords
+            : wholePartWords;
+    }
+
     return convert(num);
 }
 
@@ -321,8 +352,20 @@ function convertNumberToWordsDollar(num) {
         "NINETEEN",
     ];
 
-    function convert(num) {
+    function convertWholePart(num) {
         if (num === 0) return "ZERO DOLLAR";
+
+        const convertTrillions = (num) => {
+            if (num >= 1000000000000) {
+                return (
+                    convertTrillions(Math.floor(num / 1000000000000)) +
+                    " TRILLION " +
+                    convertBillions(num % 1000000000000)
+                );
+            } else {
+                return convertBillions(num);
+            }
+        };
 
         const convertBillions = (num) => {
             if (num >= 1000000000) {
@@ -380,9 +423,39 @@ function convertNumberToWordsDollar(num) {
             }
         };
 
-        let result = convertBillions(num).trim();
+        let result = convertTrillions(num).trim();
         result = result.replace(/\s{2,}/g, " ");
         return result + " DOLLAR";
+    }
+
+    function convertFractionalPart(fraction) {
+        if (fraction === 0 || fraction === null) {
+            return "";
+        }
+
+        const cents = Math.round(fraction * 100); // Get the fractional part as an integer representing cents
+        if (cents === 0) {
+            return "";
+        }
+
+        const convertCents = (num) => {
+            return convertWholePart(num).replace(" DOLLAR", "") + " CENTS";
+        };
+
+        return convertCents(cents);
+    }
+
+    function convert(num) {
+        const wholePart = Math.floor(num); // The integer part
+        const fractionalPart = num % 1; // The decimal part (fraction)
+
+        const wholePartWords = convertWholePart(wholePart);
+        const fractionalPartWords = convertFractionalPart(fractionalPart);
+
+        // If there is a fractional part, add it as "cents"
+        return fractionalPartWords
+            ? wholePartWords + " AND " + fractionalPartWords
+            : wholePartWords;
     }
 
     return convert(num);

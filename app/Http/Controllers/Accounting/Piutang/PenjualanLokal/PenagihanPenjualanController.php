@@ -103,90 +103,83 @@ class PenagihanPenjualanController extends Controller
     public function store(Request $request)
     {
         try {
-            dd($request->all());
+            // dd($request->all());
             // Set variables from request
-            $TNilaiPenagihan = $request->input('nilaiPenagihan');
-            $TNilaiUM = $request->input('nilaiUangMuka', 0);
+            $TNilaiPenagihan = (float) $request->input('TNilaiPenagihan');
+            $TNilaiUM = (float) $request->input('TNilaiUM', 0);
             $TIdJnsCust = $request->input('id_cust');
             $cbPPN = $request->input('Ppn');
-            $TIdMataUang = $request->input('idMataUang');
-            $TKurs = $request->input('nilaiKurs', 1);
+            $TIdMataUang = (int) $request->input('idMataUang');
+            $TKurs = (int) $request->input('nilaiKurs', 1);
             $TJnsPajak = $request->input('jenis_pajak');
             $proses = $request->input('proses');
-            // $Addmode = $request->input('Addmode', false);
-            // $Editmode = $request->input('Editmode', false);
-            // $Delmode = $request->input('Delmode', false);
+            $TTerbilang = $request->input('TTerbilang');
             $user_id = trim(Auth::user()->NomorUser);
             $saveData = false;
 
-            // Handle Nilai Penagihan logic
-            if ($TIdJnsCust == 'PWX' || $TIdJnsCust == 'PNX' || $TIdJnsCust == 'PXX') {
-                if ($cbPPN == '11') {
-                    $TNilaiPenagihan = round($TNilaiPenagihan * 1.11, 2);
-                } else {
-                    $TNilaiPenagihan = round($TNilaiPenagihan * 1.1, 2);
-                }
-
-                if (empty($TJnsPajak) && $proses == 1) {
-                    return response()->json(['error' => 'ISI JENIS PAJAKNYA']);
-                    // return redirect()->back()->withErrors(['message' => 'ISI JENIS PAJAKNYA']);
-                }
-            }
-
-            // Handle currency conversion
-            if ($TIdMataUang == 1) {
-                $TTerbilang = F_Rupiah($TNilaiPenagihan);  // Assuming you have this function
-            } else {
-                if ($TKurs <= 0) {
-                    return response()->json(['error' => 'ISI DULU NILAI KURSNYA']);
-                    // return redirect()->back()->withErrors(['message' => 'ISI DULU NILAI KURSNYA']);
-                }
-                $TTerbilang = F_DOLLAR($TNilaiPenagihan); // Assuming you have this function
-            }
-
             // Save data - AddMode
             if ($proses == 1) {
-                $idPenagihan = DB::select(
-                    'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?',
-                    [
-                        1,
-                        $request->tanggal,
-                        $request->idCustomer,
-                        $request->nomorPO,
-                        $request->idJenisDokumen,
-                        $TNilaiPenagihan,
-                        $TIdMataUang,
-                        $TTerbilang,
-                        $user_id,
-                        $request->idUserPenagih,
-                        $request->penagihanPajak,
-                        $TKurs,
-                        $TJnsPajak,
-                        $cbPPN,
-                        $request->Tid_PenagihanUM
-                    ]
-                );
+                DB::connection('ConnAccounting')
+                    ->statement(
+                        'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Tgl_penagihan = ?, @Id_Customer = ?, @PO = ?, @id_Jenis_Dokumen = ?, @Nilai_Penagihan = ?, @Id_MataUang = ?, @Terbilang = ?, @UserInput = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?, @Id_Penagihan_Acuan = ?',
+                        [
+                            1,
+                            $request->tanggal,
+                            $request->idCustomer,
+                            $request->nomorPO,
+                            (int) $request->idJenisDokumen,
+                            $TNilaiPenagihan,
+                            $TIdMataUang,
+                            $TTerbilang,
+                            $user_id,
+                            $request->idUserPenagih,
+                            $request->penagihanPajak,
+                            $TKurs === 0 ? 1 : $TKurs,
+                            $TJnsPajak === "" ? null : $TJnsPajak,
+                            $cbPPN,
+                            $request->Tid_PenagihanUM === "" ? null : $request->Tid_PenagihanUM,
+                        ]
+                    );
 
-                // Assuming ListSJ data comes from request
-                foreach ($request->ListSJ as $item) {
-                    if ($item['type'] == 'SJ') {
-                        DB::statement(
-                            'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ ?, ?, ?, ?, ?, ?, ?, ?',
-                            [
-                                2,
-                                $idPenagihan,
-                                $item['SuratJalan'],
-                                $item['JatuhTempo'],
-                                $request->TIdCustomer,
-                                $item['SuratPesanan'],
-                                $request->Tid_PenagihanUM
-                            ]
-                        );
-                    } elseif ($item['type'] == 'XC') {
-                        DB::statement(
-                            'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ ?, ?, ?, ?',
-                            [8, $item['Nilai_Penagihan'], $item['idXC']]
-                        );
+                $currentYear = date('Y');
+
+                $id_Penagihan = DB::connection('ConnAccounting')
+                    ->table('T_PENAGIHAN_SJ')
+                    ->select('Id_Penagihan')
+                    ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
+                    ->orderBy('Id_Penagihan', 'desc')
+                    ->first();
+                $idPenagihan = $id_Penagihan->Id_Penagihan;
+
+                foreach ($request->allRowsDataAtas as $item) {
+                    // Check if the type is 'SJ' or 'XC'
+                    if ($item[6] == 'SJ') {
+                        // Execute stored procedure for 'SJ' type
+                        DB::connection('ConnAccounting')
+                            ->statement(
+                                'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @SuratJalan = ?, @JatuhTempo = ?, @Id_Customer = ?, @SuratPesanan = ?, @Id_Penagihan_Acuan = ?',
+                                [
+                                    2,
+                                    $idPenagihan,
+                                    $item[2],  // SuratJalan (3rd element)
+                                    $item[3],  // JatuhTempo (4th element)
+                                    $request->TIdCustomer,
+                                    $item[5],  // SuratPesanan (5th element)
+                                    $request->Tid_PenagihanUM === "" ? null : $request->Tid_PenagihanUM  // Handle null case
+                                ]
+                            );
+                    } else if ($item[6] == 'XC') {
+                        // Execute stored procedure for 'XC' type
+                        DB::connection('ConnAccounting')
+                            ->statement(
+                                'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Nilai_Penagihan = ?, @idXC = ?, @Id_Penagihan = ?',
+                                [
+                                    8,
+                                    (float) str_replace(',', '', $item[4],),
+                                    $item[7],  // idXC (2nd element, assuming it corresponds to idXC)
+                                    $idPenagihan,
+                                ]
+                            );
                     }
                 }
 
@@ -195,9 +188,10 @@ class PenagihanPenjualanController extends Controller
 
             // EditMode
             if ($proses == 2) {
-                DB::statement(
-                    'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ ?, ?, ?, ?, ?, ?, ?',
-                    [6, $request->Tid_Penagihan, $request->TIdUser, $request->TglFakturPajak, $TKurs, $TJnsPajak, $cbPPN]
+                DB::connection('ConnAccounting')
+                            ->statement(
+                    'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @ID_Penagihan = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?',
+                    [6, $request->no_penagihan, $request->idUserPenagih, $request->penagihanPajak, $TKurs, $TJnsPajak, $cbPPN]
                 );
 
                 $saveData = true;
@@ -330,6 +324,7 @@ class PenagihanPenjualanController extends Controller
                     $TIdMataUang = $order->IDMataUang;
                     $TsyaratPembayaran = $order->SyaratBayar ?? 0;
                     $TPO = $order->NO_PO ?? '';
+                    // $Syarat$order->SyaratBayar
 
                     // Map currency code to a numeric value
                     if ($TIdMataUang == 'IDR') {
@@ -354,6 +349,7 @@ class PenagihanPenjualanController extends Controller
                     'TPO' => $TPO,
                     'TIdMataUang' => $TIdMataUang,
                     'TMataUang' => $TMataUang,
+                    'TsyaratPembayaran' => $TsyaratPembayaran,
                     // 'TKursEnabled' => $TKursEnabled,
                 ]);
             } catch (Exception $e) {

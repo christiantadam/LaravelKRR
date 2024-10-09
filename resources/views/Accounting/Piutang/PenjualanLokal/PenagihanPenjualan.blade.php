@@ -257,6 +257,7 @@
                                                 <th>Nilai Penagihan</th>
                                                 <th>Surat Pesanan</th>
                                                 <th>Jenis</th>
+                                                <th>ID XC</th>
                                             </tr>
                                         </thead>
                                         <tbody>

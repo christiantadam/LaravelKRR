@@ -60,7 +60,7 @@ $(document).ready(function () {
     let idJenisPajak = document.getElementById("idJenisPajak");
     let syaratPembayaran = document.getElementById("syaratPembayaran");
     let table_atas = $("#table_atas").DataTable({
-        columnDefs: [{ targets: [0], visible: false }],
+        columnDefs: [{ targets: [0, 7], visible: false }],
     });
     let table_item = $("#table_item").DataTable({
         // columnDefs: [{ targets: [0], visible: false }],
@@ -185,8 +185,122 @@ $(document).ready(function () {
     btn_proses.addEventListener("click", async function (event) {
         event.preventDefault();
         const allRowsDataAtas = table_atas.rows().data().toArray();
-        console.log(allRowsDataAtas);
-        console.log(proses);
+        let TTerbilang;
+        let TNilaiPenagihan = 0;
+        let TNilaiUM = 0;
+        let value = parseFloat(nilaiPenagihan.value.replace(/,/g, "")); // Remove commas and parse number
+        nilaiPenagihan.value = value.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+
+        if (nilaiUangMuka.value == "") {
+            TNilaiUM = 0;
+        } else {
+            let valueUM = parseFloat(nilaiUangMuka.value.replace(/,/g, "")); // Remove commas and parse number
+            nilaiUangMuka.value = valueUM.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+            TNilaiUM = valueUM;
+        }
+
+        TNilaiPenagihan = value;
+
+        if (idUserPenagih.value == "" || user_penagih.value == "") {
+            Swal.fire({
+                icon: "info",
+                title: "P E S A N",
+                text: "Isi User Penagihnya",
+            });
+            return;
+        }
+
+        if (idJenisDokumen.value == "") {
+            Swal.fire({
+                icon: "info",
+                title: "P E S A N",
+                text: "Isi Jenis Dokumennya",
+            });
+            return;
+        }
+
+        // Nilai Penagihan Ditambah PPN
+        TNilaiPenagihan -= TNilaiUM;
+
+        // Handle customer type and PPN
+        if (
+            id_cust.value == "PWX" ||
+            id_cust.value == "PNX" ||
+            id_cust.value == "PXX"
+        ) {
+            if (
+                jenis_pajak.value == "1" ||
+                jenis_pajak.value == "2" ||
+                jenis_pajak.value == "5"
+            ) {
+                if (Ppn.value == "11") {
+                    TNilaiPenagihan =
+                        Math.round((TNilaiPenagihan / 1.11) * 100) / 100;
+                } else {
+                    TNilaiPenagihan =
+                        Math.round((TNilaiPenagihan / 1.1) * 100) / 100;
+                }
+            } else {
+                if (Ppn.value == "11") {
+                    TNilaiPenagihan =
+                        Math.round(TNilaiPenagihan * 1.11 * 100) / 100;
+                } else {
+                    TNilaiPenagihan =
+                        Math.round(TNilaiPenagihan * 1.1 * 100) / 100;
+                }
+
+                if (jenis_pajak.value == "" && proses == 1) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "P E S A N",
+                        text: "ISI JENIS PAJAKNYA",
+                    });
+                    return;
+                }
+            }
+        }
+
+        // Handle currency conversion
+        if (idMataUang.value == "1") {
+            TTerbilang = convertNumberToWordsRupiah(TNilaiPenagihan);
+        } else {
+            if (nilaiKurs.value <= 0 || nilaiKurs.value == null) {
+                Swal.fire({
+                    icon: "info",
+                    title: "P E S A N",
+                    text: "ISI DULU NILAI KURSNYA",
+                });
+                return;
+            }
+            TTerbilang = convertNumberToWordsDollar(TNilaiPenagihan);
+        }
+
+        // Handle reversing PPN for other tax types
+        // if (
+        //     id_cust.value == "PWX" ||
+        //     id_cust.value == "PNX" ||
+        //     id_cust.value == "PXX"
+        // ) {
+        //     if (
+        //         jenis_pajak.value == "1" ||
+        //         jenis_pajak.value == "2" ||
+        //         jenis_pajak.value == "5"
+        //     ) {
+        //         if (Ppn.value == "11") {
+        //             TNilaiPenagihan =
+        //                 Math.round((TNilaiPenagihan / 1.11) * 100) / 100;
+        //         } else {
+        //             TNilaiPenagihan =
+        //                 Math.round((TNilaiPenagihan / 1.1) * 100) / 100;
+        //         }
+        //     }
+        // }
 
         if (proses == 1) {
             $.ajax({
@@ -195,8 +309,8 @@ $(document).ready(function () {
                 data: {
                     _token: csrfToken,
                     proses: proses,
-                    nilaiPenagihan: nilaiPenagihan.value,
-                    nilaiUangMuka: nilaiUangMuka.value,
+                    // nilaiPenagihan: nilaiPenagihan.value,
+                    // nilaiUangMuka: nilaiUangMuka.value,
                     id_cust: id_cust.value,
                     Ppn: Ppn.value,
                     idMataUang: idMataUang.value,
@@ -209,7 +323,10 @@ $(document).ready(function () {
                     idUserPenagih: idUserPenagih.value,
                     penagihanPajak: penagihanPajak.value,
                     id_penagihanUM: id_penagihanUM.value,
-                    allRowsDataAtas: allRowsDataAtas.value,
+                    TTerbilang: TTerbilang,
+                    TNilaiPenagihan: TNilaiPenagihan,
+                    TNilaiUM: TNilaiUM,
+                    allRowsDataAtas: allRowsDataAtas,
                 },
                 success: function (response) {
                     console.log(response);
@@ -221,7 +338,7 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
-                            // location.reload();
+                            location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));
@@ -248,6 +365,55 @@ $(document).ready(function () {
                 },
             });
         } else if (proses == 2) {
+            $.ajax({
+                url: "PenagihanPenjualanLokal",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    Ppn: Ppn.value,
+                    nilaiKurs: nilaiKurs.value,
+                    jenis_pajak: jenis_pajak.value,
+                    idUserPenagih: idUserPenagih.value,
+                    penagihanPajak: penagihanPajak.value,
+                    no_penagihan: no_penagihan.value,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                            // idReferensi.value = response.IdReferensi;
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_ok.click();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
         } else if (proses == 3) {
         }
     });
@@ -269,6 +435,7 @@ $(document).ready(function () {
                 change_amount: rowData.Total,
                 no_sp: no_sp.value,
                 jenis: "SJ",
+                id_xc: "",
             };
 
             tableData.push(newRow);
@@ -286,6 +453,7 @@ $(document).ready(function () {
                         newRow.change_amount,
                         newRow.no_sp,
                         newRow.jenis,
+                        newRow.id_xc,
                     ])
                     .draw();
             }
@@ -459,13 +627,15 @@ $(document).ready(function () {
         const newRow = {
             Id_Detail: tableData.length + 1,
             x_charge: x_charge.value,
-            surat_jalan: surat_jalan.value,
+            // surat_jalan: surat_jalan.value,
+            surat_jalan: "",
             TanggalDiterima: tanggal_diterima.value ?? "",
             change_amount: numeral(parseFloat(change_amount.value)).format(
                 "0,0.00"
             ),
             no_sp: no_sp.value,
             jenis: "XC",
+            id_xc: id_charge.value,
         };
 
         tableData.push(newRow);
@@ -483,6 +653,7 @@ $(document).ready(function () {
                     newRow.change_amount,
                     newRow.no_sp,
                     newRow.jenis,
+                    newRow.id_xc,
                 ])
                 .draw();
         }
@@ -782,33 +953,70 @@ $(document).ready(function () {
                                 var table_atas = $("#table_atas").DataTable();
 
                                 data.ListSJ.forEach(function (item, index) {
-                                    const newRow = {
-                                        Id_Detail:
-                                            table_atas.rows().count() + 1,
-                                        x_charge: "", // Assuming you don't have a value for this field yet
-                                        surat_jalan: item.Surat_Jalan,
-                                        TanggalDiterima: item.Tgl_Surat_jalan,
-                                        change_amount: item.Total,
-                                        no_sp: item.IDSuratPesanan,
-                                        jenis: item.Type,
-                                    };
+                                console.log(item);
+                                    if (item.Type == "SJ") {
+                                        const newRow = {
+                                            Id_Detail:
+                                                table_atas.rows().count() + 1,
+                                            x_charge: "", // Assuming you don't have a value for this field yet
+                                            surat_jalan: item.Surat_Jalan,
+                                            TanggalDiterima:
+                                                item.Tgl_Surat_jalan,
+                                            change_amount: item.Total,
+                                            no_sp: item.IDSuratPesanan,
+                                            jenis: item.Type,
+                                            id_xc: "",
+                                        };
 
-                                    table_atas.row
-                                        .add([
-                                            newRow.Id_Detail,
-                                            newRow.x_charge,
-                                            newRow.surat_jalan,
-                                            newRow.TanggalDiterima,
-                                            parseFloat(
-                                                newRow.change_amount
-                                            ).toLocaleString("en-US", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                            }),
-                                            newRow.no_sp,
-                                            newRow.jenis,
-                                        ])
-                                        .draw();
+                                        table_atas.row
+                                            .add([
+                                                newRow.Id_Detail,
+                                                newRow.x_charge,
+                                                newRow.surat_jalan,
+                                                newRow.TanggalDiterima,
+                                                parseFloat(
+                                                    newRow.change_amount
+                                                ).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }),
+                                                newRow.no_sp,
+                                                newRow.jenis,
+                                                newRow.id_xc,
+                                            ])
+                                            .draw();
+                                    } else {
+                                        const newRow = {
+                                            Id_Detail:
+                                                table_atas.rows().count() + 1,
+                                            x_charge: item.Nama_Charge, // Assuming you don't have a value for this field yet
+                                            surat_jalan: "",
+                                            TanggalDiterima:
+                                                item.Tgl_Surat_jalan ?? "",
+                                            change_amount: item.Storage == '.0000' ? item.Storage : (item.XCTranspor !== '.0000' ? item.XCTranspor : '.0000'),
+                                            no_sp: item.IDSuratPesanan ?? "",
+                                            jenis: item.Type,
+                                            id_xc: item.Jenis_Charge,
+                                        };
+
+                                        table_atas.row
+                                            .add([
+                                                newRow.Id_Detail,
+                                                newRow.x_charge,
+                                                newRow.surat_jalan,
+                                                newRow.TanggalDiterima,
+                                                parseFloat(
+                                                    newRow.change_amount
+                                                ).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }),
+                                                newRow.no_sp,
+                                                newRow.jenis,
+                                                newRow.id_xc,
+                                            ])
+                                            .draw();
+                                    }
                                 });
                             }
                         },
@@ -918,6 +1126,8 @@ $(document).ready(function () {
                             namaMataUang.value = data.TMataUang;
                             idMataUang.value = data.TIdMataUang;
                             nomorPO.value = data.TPO;
+                            syaratPembayaran.value = data.TsyaratPembayaran;
+                            nilaiKurs.value = 0;
                             // alamat.value = data.TAlamat;
                         },
                         error: function (xhr, status, error) {
