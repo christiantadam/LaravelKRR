@@ -198,6 +198,18 @@ function convertNumberToWordsRupiah(num) {
     function convert(num) {
         if (num === 0) return "NOL RUPIAH";
 
+        const convertTrillions = (num) => {
+            if (num >= 1000000000000) {
+                return (
+                    convertTrillions(Math.floor(num / 1000000000000)) +
+                    " TRILIUN " +
+                    convertBillions(num % 1000000000000)
+                );
+            } else {
+                return convertBillions(num);
+            }
+        };
+
         const convertBillions = (num) => {
             if (num >= 1000000000) {
                 return (
@@ -262,7 +274,7 @@ function convertNumberToWordsRupiah(num) {
             }
         };
 
-        let result = convertBillions(num).trim();
+        let result = convertTrillions(num).trim();
         result = result.replace(/\s{2,}/g, " ");
         return result + " RUPIAH";
     }
