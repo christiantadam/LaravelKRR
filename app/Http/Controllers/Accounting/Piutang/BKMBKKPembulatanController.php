@@ -85,7 +85,6 @@ class BKMBKKPembulatanController extends Controller
             }
 
             return datatables($response)->make(true);
-
         } else if ($id == 'getBKMDetails') {
             $kode = 2;
             $idBKM = trim($request->input('idBKM'));
@@ -112,7 +111,6 @@ class BKMBKKPembulatanController extends Controller
             // dd($response);
 
             return datatables($response)->make(true);
-
         } else if ($id == 'getPembulatan') {
             $results = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKK_DP');
             // dd($results);
@@ -149,7 +147,6 @@ class BKMBKKPembulatanController extends Controller
             }
 
             return datatables($response)->make(true);
-
         } else if ($id == 'cetakBKM') {
             $cetak = true;
             $brs = 0;
@@ -262,54 +259,96 @@ class BKMBKKPembulatanController extends Controller
         $id_bank1 = trim($request->input('id_bank1'));
         $jenis_bank = trim($request->input('jenis_bank'));
 
-        dd($request->all());
+        // dd($request->all());
 
         if ($id === 'proses') {
 
             // proses insert pada T_Pembayaran
-            $pembayaran = DB::connection('ConnAccounting')->statement('
+            $pembayaran = DB::connection('ConnAccounting')->statement(
+                '
                             exec SP_5298_ACC_INSERT_BKK_TPEMBAYARAN
                             @idBKK = ?, @tgl = ?, @userinput = ?, @terjemahan = ?, @nilai = ?, @IdBank=?',
-                            [$idBKK, $tanggal, $user_id, $Konversi, $nilai, $id_bank]);
-            dd($pembayaran);
+                [$idBKK, $tanggal, $user_id, $Konversi, $nilai, $id_bank]
+            );
+            // dd($pembayaran);
 
 
             // proses insert pada T_Pembayaran_Tagihan
-            $tagihan = DB::connection('ConnAccounting')->statement('
+            $tagihan = DB::connection('ConnAccounting')->statement(
+                '
                         exec SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG
                         @idBKK = ?, @idUang = ?, @idJenis = ?, @IdBank = ?, @nilai = ?, @user = ?, @idBKM_acuan = ?',
-                        [$idBKK, $idMtUang, 1, $id_bank, $nilai, $user_id, $id_bkm]);
-            dd($tagihan);
+                [$idBKK, $idMtUang, 1, $id_bank, $nilai, $user_id, $id_bkm]
+            );
+            // dd($tagihan);
 
-            if (!empty($tagihan)) {
-                $idPembayaran = $tagihan[0]->Id_Pembayaran;
-            }
+            $query = DB::connection('ConnAccounting')->select('
+                    select max(Id_Pembayaran) as Id_Pembayaran
+                    from T_Pembayaran_Tagihan');
 
-            $trans2 = DB::connection('ConnAccounting')->statement('
+            $idPembayaran = $query[0]->Id_Pembayaran;
+            // dd($idPembayaran);
+
+            // proses insert pada T_Detail_Pembayaran
+            $trans2 = DB::connection('ConnAccounting')->statement(
+                '
                         exec SP_5298_ACC_INSERT_BKK_TDETAILPEMB
                         @idpembayaran = ?, @keterangan = ?, @biaya = ?, @kodeperkiraan = ?',
-                        [$idPembayaran, $uraian, $nilai, $idKodePerkiraan]);
-            dd($trans2);
+                [$idPembayaran, $uraian, $nilai, $idKodePerkiraan]
+            );
 
 
             // proses update id_BKK pada T_Counter
-            $counter = DB::connection('ConnAccounting')->statement('
+            $counter = DB::connection('ConnAccounting')->statement(
+                '
                         exec SP_5298_ACC_UPDATE_COUNTER_IDBKK
                         @idbkk = ?, @idBank = ?, @jenis = ?, @tgl = ?',
-                        [$id_bkk, $id_bank1, $jenis_bank, $tanggal]);
-            dd($counter);
+                [$id_bkk, $id_bank1, $jenis_bank, $tanggal]
+            );
+
+            if ($id_bank1 === 'KKK' && $jenis_bank === 'E') {
+                // Retrieve the current Tgl_BKK_Tunai from T_Counter
+                $tglBKK = DB::connection('ConnAccounting')
+                    ->table('T_Counter')
+                    ->value('Tgl_BKK_Tunai');
+
+                // dd($tglBKK);
+
+                // Format both $tglBKK and $tgl
+                $tglBKKFormatted = \Carbon\Carbon::parse($tglBKK)->format('m-Y');
+                $tglFormatted = \Carbon\Carbon::parse($tanggal)->format('m-Y');
+
+                // dd($tglBKKFormatted, $tglFormatted);
+
+                if ($tglBKKFormatted === $tglFormatted) {
+                    // dd('sama');
+                    DB::connection('ConnAccounting')
+                        ->table('T_Counter')
+                        ->update(['Id_BKK_Tunai' => $id_bkk]);
+                } else {
+                    // dd('beda');
+                    DB::connection('ConnAccounting')
+                        ->table('T_Counter')
+                        ->update([
+                            'Id_BKK_Tunai' => $id_bkk,
+                            'Tgl_BKK_Tunai' => $tanggal
+                        ]);
+                }
+            }
+
+
 
             if (!($pembayaran || $tagihan || $trans2 || $counter)) {
                 return response()->json([
                     'error' => true,
                     'message' => 'Tidak Ada Yg diPROSES!'
                 ]);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'BKK No. ' . $idBKK . ' TerSimpan'
+                ]);
             }
-
-            return response()->json([
-                'success' => true,
-                'message' => 'BKK No. ' . $idBKK . ' TerSimpan'
-            ]);
         }
     }
 

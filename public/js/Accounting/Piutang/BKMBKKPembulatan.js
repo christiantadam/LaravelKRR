@@ -36,6 +36,19 @@ $(document).ready(function () {
     tgl_akhirbkk.valueAsDate = new Date();
     jumlahUang.value = "0";
 
+    bulan.focus();
+    bulan.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            tahun.focus();
+        }
+    });
+
+    tahun.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            btn_ok.focus();
+        }
+    });
+
     uraian.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             if (id_bank === "KRR1" || id_bank === "KRR2") {
@@ -47,24 +60,24 @@ $(document).ready(function () {
             } else {
                 id_bank1 = id_bank;
             }
-        }
 
-        $.ajax({
-            type: 'GET',
-            url: 'MaintenanceBKMxBKKPembulatan/getUraian',
-            data: {
-                _token: csrfToken,
-                id_bank1: id_bank1,
-                tanggal: tanggal.value
-            },
-            success: function (response) {
-                idBKK.value = response.IdBKK.trim();
-                btnProses.focus();
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
+            $.ajax({
+                type: 'GET',
+                url: 'MaintenanceBKMxBKKPembulatan/getUraian',
+                data: {
+                    _token: csrfToken,
+                    id_bank1: id_bank1,
+                    tanggal: tanggal.value
+                },
+                success: function (response) {
+                    idBKK.value = response.IdBKK.trim();
+                    btnProses.focus();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     });
 
     tanggal.addEventListener("keypress", function (event) {
@@ -76,6 +89,22 @@ $(document).ready(function () {
 
     btn_ok.addEventListener("click", async function (event) {
         event.preventDefault();
+        if (bulan.value === '' && tahun.value === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Isi Dulu Bulan & Tahun!!',
+                returnFocus: false
+            }).then(() => {
+                bulan.focus();
+            })
+        } else {
+            showDataBKM();
+        }
+
+    });
+
+    function showDataBKM() {
         table_DataBKM = $("#table_DataBKM").DataTable({
             responsive: true,
             processing: true,
@@ -108,7 +137,7 @@ $(document).ready(function () {
             scrollCollapse: true,
             // columnDefs: [{ targets: [5], visible: false }],
         });
-    });
+    }
 
     let rowDataArray = [];
 
@@ -569,6 +598,7 @@ $(document).ready(function () {
             "SEMBILAN BELAS",
         ];
 
+
         function convert(num) {
             if (num === 0) return "NOL RUPIAH";
 
@@ -750,6 +780,8 @@ $(document).ready(function () {
         return convert(num);
     }
 
+    //#region Proses
+
     btnProses.addEventListener("click", async function (event) {
         event.preventDefault();
 
@@ -760,13 +792,16 @@ $(document).ready(function () {
         if (idBKK.value !== '') {
             nilai = numeral(parseFloat(jumlahUang.value)).format("0,0.0000");
 
-            if (idMtUang === 1) {
-                if (idMtUang === 1) {
-                    Konversi = convertNumberToWordsRupiah(nilai);
-                } else {
-                    Konversi = convertNumberToWordsDollar(nilai)
-                }
+            if (parseFloat(nilai) === 0 || nilai === "0.00" || nilai === "0.000") {
+                nilai = 0;
             }
+
+            if (idMtUang === '1') {
+                Konversi = convertNumberToWordsRupiah(nilai);
+            } else {
+                Konversi = convertNumberToWordsDollar(nilai)
+            }
+            console.log('Konversi: ', Konversi);
 
             $.ajax({
                 type: 'PUT',
@@ -774,7 +809,7 @@ $(document).ready(function () {
                 data: {
                     _token: csrfToken,
                     idBKK: idBKK.value,
-                    tanggal: tanggal.valueAsDate,
+                    tanggal: tanggal.value,
                     user_id: user_id,
                     Konversi: Konversi,
                     nilai: nilai,
@@ -794,14 +829,26 @@ $(document).ready(function () {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
-                            html: response.success,
+                            html: response.message,
                             returnFocus: false
+                        }).then(() => {
+                            tanggal.valueAsDate = new Date();
+                            idBKK.value = '';
+                            idKodePerkiraan.value = '';
+                            ketKodePerkiraan.value = '';
+                            jumlahUang.value = '0';
+                            uraian.value = '';
+                            id_bank = '';
+                            id_bank1 = '';
+                            jenis_bank = '';
+
+                            showDataBKM();
                         });
                     } else if (response.error) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            html: response.error,
+                            html: response.message,
                             returnFocus: false
                         });
                     }
