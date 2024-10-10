@@ -985,7 +985,7 @@ $(document).ready(function () {
                                                 newRow.id_xc,
                                             ])
                                             .draw();
-                                    } else {
+                                    } else if (item.Type == "XC" && item.Nama_Charge == "Storage"){
                                         const newRow = {
                                             Id_Detail:
                                                 table_atas.rows().count() + 1,
@@ -993,7 +993,38 @@ $(document).ready(function () {
                                             surat_jalan: "",
                                             TanggalDiterima:
                                                 item.Tgl_Surat_jalan ?? "",
-                                            change_amount: item.Storage == '.0000' ? item.Storage : (item.XCTranspor !== '.0000' ? item.XCTranspor : '.0000'),
+                                            change_amount: item.Storage,
+                                            no_sp: item.IDSuratPesanan ?? "",
+                                            jenis: item.Type,
+                                            id_xc: item.Jenis_Charge,
+                                        };
+
+                                        table_atas.row
+                                            .add([
+                                                newRow.Id_Detail,
+                                                newRow.x_charge,
+                                                newRow.surat_jalan,
+                                                newRow.TanggalDiterima,
+                                                parseFloat(
+                                                    newRow.change_amount
+                                                ).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }),
+                                                newRow.no_sp,
+                                                newRow.jenis,
+                                                newRow.id_xc,
+                                            ])
+                                            .draw();
+                                    }else if (item.Type == "XC" && item.Nama_Charge == "Extra Charge Transport"){
+                                        const newRow = {
+                                            Id_Detail:
+                                                table_atas.rows().count() + 1,
+                                            x_charge: item.Nama_Charge, // Assuming you don't have a value for this field yet
+                                            surat_jalan: "",
+                                            TanggalDiterima:
+                                                item.Tgl_Surat_jalan ?? "",
+                                            change_amount: item.XCTranspor,
                                             no_sp: item.IDSuratPesanan ?? "",
                                             jenis: item.Type,
                                             id_xc: item.Jenis_Charge,

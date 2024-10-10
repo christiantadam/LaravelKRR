@@ -236,7 +236,7 @@ class SuratPesananController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         // $data = $request->all();
         // dd($data);
         $UraianPesanan = null;
@@ -464,11 +464,11 @@ class SuratPesananController extends Controller
     //Show the form for editing the specified resource.
     public function edit($id)
     {
-        $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC @IDSURATPESANAN = ?, @Kode = ?', [$id, 1]);
-        $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DETAIL_SP @IDSURATPESANAN = ?, @Kode = ?', [$id, 5]);
+        // $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC @IDSURATPESANAN = ?, @Kode = ?', [$id, 1]);
+        // $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DETAIL_SP @IDSURATPESANAN = ?, @Kode = ?', [$id, 5]);
 
-        $data = [$header_pesanan, $detail_pesanan];
-        return response()->json($data);
+        // $data = [$header_pesanan, $detail_pesanan];
+        // return response()->json($data);
     }
 
     public function deleteDetailPesanan($idPesanan)
@@ -478,7 +478,7 @@ class SuratPesananController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         // dd($request->all());
         // $data = $request->all();

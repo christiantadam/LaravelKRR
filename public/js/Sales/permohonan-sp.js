@@ -605,7 +605,7 @@ $(document).ready(function () {
     // enableElements();
     proses = 1;
     this.innerHTML = "Proses";
-    edit_button.innerHTML = "Batal";
+    edit_button.innerHTML = "Tutup";
     hapus_button.style.display = "none";
     mata_uang.value = "IDR";
     jenis_sp.selectedIndex = 1;
@@ -620,22 +620,24 @@ $(document).ready(function () {
     let lbl_sp = document.getElementById("lbl_sp");
     let createSPModalLabel = document.getElementById("createSPModalLabel");
 
-    btn_tambahModal.addEventListener("click", function (event) {
-        event.preventDefault();
-        funcClearHeaderPesanan();
-        funcClearInputBarang();
-        list_view.clear().draw();
-        mata_uang.value = "IDR";
-        jenis_sp.selectedIndex = 1;
-        lbl_sp.style.display = "none";
-        no_spText.style.display = "none";
-        lbl_lunas.style.display = "none";
-        lbl_informasi.style.display = "none";
-        lunas.style.display = "none";
-        informasi_tambahan.style.display = "none";
-        createSPModalLabel.innerHTML = "Tambah Surat Pesanan";
-        $("#createSPModal").modal("show");
-    });
+    if ($("#headerCard")[0].innerHTML !== "Surat Pesanan Belum ACC Manager") {
+        btn_tambahModal.addEventListener("click", function (event) {
+            event.preventDefault();
+            funcClearHeaderPesanan();
+            funcClearInputBarang();
+            list_view.clear().draw();
+            mata_uang.value = "IDR";
+            jenis_sp.selectedIndex = 1;
+            lbl_sp.style.display = "none";
+            no_spText.style.display = "none";
+            lbl_lunas.style.display = "none";
+            lbl_informasi.style.display = "none";
+            lunas.style.display = "none";
+            informasi_tambahan.style.display = "none";
+            createSPModalLabel.innerHTML = "Tambah Surat Pesanan";
+            $("#createSPModal").modal("show");
+        });
+    }
 
     function formatDate(dateString) {
         // Memecah datetime menjadi tanggal saja (ambil bagian tanggal sebelum spasi)
@@ -1096,6 +1098,7 @@ $(document).ready(function () {
             funcClearInputBarang();
             // funcHeaderDisabled(false);
             list_view.clear().draw();
+            $("#createSPModal").modal("hide");
             // div_headerSuratPesanan.classList.toggle("disabled");
             // div_tabelSuratPesanan.classList.toggle("disabled");
             // div_tabelSuratPesanan.classList.add("disabled");

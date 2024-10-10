@@ -213,15 +213,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/Customer/{id}/show', 'App\Http\Controllers\Sales\Master\CustomerController@show')->name('customer.show');
     Route::post('/Customer/{id}/up', 'App\Http\Controllers\Sales\Master\CustomerController@update')->name('customer.update');
     // Route::get('Sales/Master/Customer/getDetail/{idcust}', 'ControllerCustomer@getDetail');
-    Route::get('Customer/{IDCust}', 'CustomerController@show');
+    // Route::get('Customer/{IDCust}', 'CustomerController@show');
     Route::post('/Customer/{id}', 'App\Http\Controllers\Sales\Master\CustomerController@destroy')->name('customer.destroy');
     Route::get('/Billing/{id}/show', 'App\Http\Controllers\Sales\Master\BillingController@show')->name('billing.show');
     Route::post('/Billing/{id}/up', 'App\Http\Controllers\Sales\Master\BillingController@update')->name('billing.update');
-    Route::get('Billing/{IDCust}', 'BillingController@show');
+    // Route::get('Billing/{IDCust}', 'BillingController@show');
     Route::post('/Billing/{id}', 'App\Http\Controllers\Sales\Master\BillingController@destroy')->name('billing.destroy');
     Route::get('/Expeditor/{id}/show', 'App\Http\Controllers\Sales\Master\ExpeditorController@show')->name('expeditor.show');
     Route::post('/Expeditor/{id}/up', 'App\Http\Controllers\Sales\Master\ExpeditorController@update')->name('expeditor.update');
-    Route::get('Expeditor/{IDCust}', 'ExpeditorController@show');
+    // Route::get('Expeditor/{IDCust}', 'ExpeditorController@show');
     Route::post('/Expeditor/{id}', 'App\Http\Controllers\Sales\Master\ExpeditorController@destroy')->name('expeditor.destroy');
     // Route::resource('SuratPesananDirektur', SuratPesananDirekturController::class);
     //Route::get('SuratPesanan', [SuratPesananController::class, 'index'])->name('suratpesanan.index');
@@ -229,7 +229,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/SuratPesanan/{id}/up', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@update')->name('suratpesanan.update');
     Route::get('/editSP/{id}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@edit')->name('suratpesanan.edit');
     Route::get('/SuratPesanan/createRobby', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@createRobby');
-    Route::get('SuratPesanan/{IDCust}', 'SuratPesananController@show');
+    // Route::get('SuratPesanan/{IDCust}', 'SuratPesananController@show');
     Route::post('/SuratPesanan/{id}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@destroy')->name('suratpesanan.destroy');
     Route::post('/SuratPesananManager/{id}/up', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananManagerController@update')->name('suratpesananmanager.update');
     Route::post('/SuratPesananManager/upall', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananManagerController@updateAll');
@@ -1030,7 +1030,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceStatusSupplier', App\Http\Controllers\Accounting\Master\MaintenanceStatusSupplierController::class);
 
     Route::resource('MPIsiDetail', App\Http\Controllers\Accounting\Hutang\MPIsiDetailController::class);
-    Route::post('handle_form_submission_faktur', 'IsiDeatilFakturPajak@handleFormSubmission');
+    // Route::post('handle_form_submission_faktur', 'IsiDeatilFakturPajak@handleFormSubmission');
     Route::get('detaildivisi/{idDivisi}', 'App\Http\Controllers\Accounting\Hutang\MPIsiDetailController@getDataDivisi');
     Route::get('detailtabelpo/{noPO}', 'App\Http\Controllers\Accounting\Hutang\MPIsiDetailController@getTabelPO');
     Route::resource('MaintenancePenagihan', App\Http\Controllers\Accounting\Hutang\MaintenancePenagihanController::class);

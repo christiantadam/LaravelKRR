@@ -61,7 +61,7 @@
                 <div class="acs-btn-txt">Tambah SP</div>
             </button>
             <div class="card">
-                <div class="card-header">Surat Pesanan Sudah ACC Manager</div>
+                <div class="card-header" id="headerCard">Surat Pesanan Sudah ACC Manager</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div class="mb-2">
                     </div>
@@ -333,7 +333,7 @@
                         <div class="permohonan-s-p-container27"> <span>Qty Pesan</span> <span>Harga
                                 Satuan</span> <span>P P
                                 N</span> <span id="lbl_lunas">Status Lunas</span><span id="lbl_informasi">Informasi
-                                    Tambahan</span></div>
+                                Tambahan</span></div>
                         <div class="permohonan-s-p-container28">
                             <div class="permohonan-s-p-container29"> <input type="text" placeholder="Qty Pesan"
                                     class="permohonan-s-p-textinput18 input" id="qty_pesan" /> </div>

@@ -175,7 +175,7 @@ class PenagihanPenjualanController extends Controller
                                 'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Nilai_Penagihan = ?, @idXC = ?, @Id_Penagihan = ?',
                                 [
                                     8,
-                                    (float) str_replace(',', '', $item[4],),
+                                    (float) str_replace(',', '', $item[4], ),
                                     $item[7],  // idXC (2nd element, assuming it corresponds to idXC)
                                     $idPenagihan,
                                 ]
@@ -188,23 +188,29 @@ class PenagihanPenjualanController extends Controller
 
             // EditMode
             if ($proses == 2) {
-                DB::connection('ConnAccounting')
-                            ->statement(
-                    'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @ID_Penagihan = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?',
-                    [6, $request->no_penagihan, $request->idUserPenagih, $request->penagihanPajak, $TKurs, $TJnsPajak, $cbPPN]
-                );
+                // dd($request->all());
+                $koreksi = DB::connection('ConnAccounting')
+                    ->statement(
+                        'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @ID_Penagihan = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?',
+                        [6, $request->no_penagihan, $request->idUserPenagih, $request->penagihanPajak, $TKurs, $TJnsPajak, $cbPPN]
+                    );
 
-                $saveData = true;
+                if ($koreksi) {
+                    $saveData = true;
+                }
             }
 
             // DeleteMode
             if ($proses == 3) {
-                DB::statement(
-                    'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ ?, ?, ?, ?, ?',
-                    [7, $request->Tid_Penagihan, $request->Tanggal, $request->TIdJnsDok, $request->Tid_PenagihanUM]
-                );
+                $hapus = DB::connection('ConnAccounting')
+                    ->statement(
+                        'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @Tgl_Penagihan = ?, @id_Jenis_Dokumen = ?, @Id_Penagihan_Acuan = ?',
+                        [7, $request->Tid_Penagihan, $request->Tanggal, $request->TIdJnsDok, $request->Tid_PenagihanUM]
+                    );
 
-                $saveData = true;
+                if ($hapus) {
+                    $saveData = true;
+                }
             }
 
             // Success messages

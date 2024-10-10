@@ -15,9 +15,16 @@ class SuratPesananManagerController extends Controller
     public function index()
     {
         $data = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_HEADER_PESANAN_BLMACC @Kode = ?', [2]);
-        // dd($data);
+        $jenis_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP @Kode = ?', [1]);
+        $list_customer = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ALL_CUSTOMER @Kode = ?', [1]);
+        $list_sales = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SALES');
+        $jenis_bayar = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBAYAR');
+        $jenis_brg = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_JNSBRG');
+        $kategori_utama = DB::connection('ConnPurchase')->select('exec SP_1273_PRG_KATEGORI_UTAMA');
+        $list_satuan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SATUAN');
+        $list_sp = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC');
         $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
-        return view('Sales.Transaksi.SuratPesanan.AccManager', compact('data', 'access'));
+        return view('Sales.Transaksi.SuratPesanan.AccManager', compact('data', 'access', 'jenis_sp', 'list_customer', 'list_sales', 'jenis_bayar', 'jenis_brg', 'kategori_utama', 'list_satuan', 'list_sp'));
     }
 
     //Show the form for creating a new resource.
@@ -33,9 +40,78 @@ class SuratPesananManagerController extends Controller
     }
 
     //Display the specified resource.
-    public function show()
+    public function show(Request $request, $id)
     {
-        //
+        // $header_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC @IDSURATPESANAN = ?, @Kode = ?', [$id, 1]);
+        // $detail_pesanan = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DETAIL_SP @IDSURATPESANAN = ?, @Kode = ?', [$id, 5]);
+        if ($id == 'Copy') {
+            $no_sp = $request->query('no_sp');
+            // dd($no_sp);
+            $results = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_SP_BLM_ACC @IDSURATPESANAN = ?, @Kode = ?', [$no_sp, 1]);
+            // dd($results);
+            // $response = [];
+            // foreach ($results as $row) {
+            //     $response[] = [
+            //         'Nama_Dokumen' => trim($row->Nama_Dokumen),
+            //         'Id_Jenis_Dokumen' => trim($row->Id_Jenis_Dokumen),
+            //     ];
+            // }
+
+            return response()->json($results);
+            // return datatables($response)->make(true);
+        } else if ($id == 'CopyDetails') {
+            $no_sp = $request->query('no_sp');
+            // dd($no_sp);
+            $results = DB::connection('ConnSales')->select('exec SP_1486_SLS_LIST_DETAIL_SP @IDSURATPESANAN = ?, @Kode = ?', [$no_sp, 5]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'IDSuratPesanan' => $row->IDSuratPesanan,
+                    'IDBarang' => $row->IDBarang,
+                    'NamaBarang' => $row->NamaBarang,
+                    'IDJnsBarang' => $row->IDJnsBarang,
+                    'NamaJnsBrg' => $row->NamaJnsBrg,
+                    'SaldoAwal' => $row->SaldoAwal,
+                    'Qty' => $row->Qty,
+                    'Satuan' => $row->Satuan,
+                    'HargaSatuan' => $row->HargaSatuan,
+                    'Discount' => $row->Discount,
+                    'UraianPesanan' => $row->UraianPesanan,
+                    'TglRencanaKirim' => $row->TglRencanaKirim,
+                    'Lunas' => $row->Lunas,
+                    'TerKirim' => $row->TerKirim,
+                    'PPN' => $row->PPN,
+                    'IDPesanan' => $row->IDPesanan,
+                    'Indek' => $row->Indek,  // Mengganti field "Indek" sesuai dd
+                    'KodeHS' => $row->KodeHS,
+                    'HARGA_KARUNG' => $row->HARGA_KARUNG,
+                    'HARGA_INNER' => $row->HARGA_INNER,
+                    'HARGA_LAMI' => $row->HARGA_LAMI,
+                    'HARGA_KERTAS' => $row->HARGA_KERTAS,
+                    'HARGA_LAIN2' => $row->HARGA_LAIN2,
+                    'HARGA_TOTAL' => $row->HARGA_TOTAL,
+                    'BERAT_KARUNG' => $row->BERAT_KARUNG,
+                    'BERAT_KARUNG3' => $row->BERAT_KARUNG3,
+                    'BERAT_INNER' => $row->BERAT_INNER,
+                    'BERAT_INNER3' => $row->BERAT_INNER3,
+                    'BERAT_LAMI' => $row->BERAT_LAMI,
+                    'BERAT_LAMI3' => $row->BERAT_LAMI3,
+                    'BERAT_CONDUCTIVE' => $row->BERAT_CONDUCTIVE,
+                    'BERAT_KERTAS3' => $row->BERAT_KERTAS3,
+                    'BERAT_LAIN' => $row->BERAT_LAIN,  // Tambahkan field ini karena ada di dd
+                    'BERAT_TOTAL' => $row->BERAT_TOTAL,
+                    'BERAT_TOTAL3' => $row->BERAT_TOTAL3,
+                    'INDEX_KARUNG' => $row->INDEX_KARUNG,
+                    'INDEX_INNER' => $row->INDEX_INNER,
+                    'INDEX_LAMI' => $row->INDEX_LAMI,
+                    'INDEX_KERTAS' => $row->INDEX_KERTAS,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        }
+
     }
 
     // Show the form for editing the specified resource.
@@ -277,7 +353,7 @@ class SuratPesananManagerController extends Controller
             // dd($inv->isEmpty(), $adaDo == 0 or $terkirim < 1);
             if ($inv->isEmpty() || $inv[0]->IdPenagihan == null) {
                 // dd('masuk atas',$HargaSatuan);
-                if ($adaDo == 0 or (int)$terkirim < 1) {
+                if ($adaDo == 0 or (int) $terkirim < 1) {
                     if (is_null($id_pesanan[$i])) {
                         // dd($id_pesanan[$i]);
                         DB::connection('ConnSales')->statement(
@@ -662,8 +738,23 @@ class SuratPesananManagerController extends Controller
     }
 
     //Remove the specified resource from storage.
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        dd($request->all());
+        // Assuming the request contains an array of IDs
+        $ids = $request->input('idPesan');
+
+        try {
+            // Iterate through each IDPesanan and execute the stored procedure
+            foreach ($ids as $idPesanan) {
+                DB::connection('ConnSales')->statement('EXEC SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?, @IDPesanan = ?', [3, $idPesanan]);
+            }
+
+            DB::connection('ConnSales')->statement('EXEC SP_1486_SLS_DEL_HEADER_DETAIL_PESANAN @IDSuratPesanan = ?', [$ids[0]]); // Just an example, change as needed
+
+            return response()->json(['message' => 'Data deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
     }
 }
