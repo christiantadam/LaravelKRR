@@ -50,13 +50,13 @@ class MasterCircularController extends Controller
                 break;
             case 'formMaintenancePartMesin':
                 $form_data = [
-                    'listIdMesin' => $this->spMesin('Sp_List_Mesin'),
+                    'listIdMesin' => $this->spMesin('Sp_List_Mesin~10'),
                 ];
                 break;
             default:
                 return view('Circular.master.' . $form_name);
         }
-
+        // dd($form_data);
         return view('Circular.master.' . $form_name, $form_data);
     }
 
@@ -64,11 +64,12 @@ class MasterCircularController extends Controller
     {
         if ($sp_data != null) {
             $sp_data = explode('~', $sp_data);
-        } else $sp_data = [];
+        } else
+            $sp_data = [];
 
         switch ($sp_str) {
 
-                #region formMesinType
+            #region formMesinType
 
             case 'Sp_List_TypeMesin':
                 $sp_param = '@Kode = 1';
@@ -86,9 +87,9 @@ class MasterCircularController extends Controller
                 $sp_param = '@Kode = 3, @IdTypeMesin = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formMesinKelompok
+            #region formMesinKelompok
 
             case 'Sp_List_Group':
                 $sp_param = '@Kode = 1';
@@ -106,9 +107,9 @@ class MasterCircularController extends Controller
                 $sp_param = '@Kode = 3, @IdGroup = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formMesinMaster
+            #region formMesinMaster
 
             case 'Sp_List_Mesin':
                 $sp_param = '@Kode = 1';
@@ -116,6 +117,10 @@ class MasterCircularController extends Controller
 
             case 'Sp_List_Mesin~2':
                 $sp_param = '@Kode = 2, @IdMesin = ?';
+                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
+
+            case 'Sp_List_Mesin~10':
+                $sp_param = '@Kode = 10';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_List_PLC_Mesin':
@@ -129,7 +134,8 @@ class MasterCircularController extends Controller
                 if (count($sp_data) >= 19) {
                     // +3
                     $sp_param .= ', @StatusPLC = ?, @IdGroupPLC = ?, @IdPLC = ?';
-                } else $sp_param .= ', @StatusPLC = ?';
+                } else
+                    $sp_param .= ', @StatusPLC = ?';
 
                 // +1
                 $sp_param .= ', @IdUser = 4384';
@@ -142,7 +148,8 @@ class MasterCircularController extends Controller
                 if (count($sp_data) >= 20) {
                     // +3
                     $sp_param .= ', @StatusPLC = ?, @IdGroupPLC = ?, @IdPLC = ?';
-                } else $sp_param .= ', @StatusPLC = ?';
+                } else
+                    $sp_param .= ', @StatusPLC = ?';
 
                 // +1
                 $sp_param .= ', @IdUser = 4384';
@@ -152,9 +159,9 @@ class MasterCircularController extends Controller
                 $sp_param = '@Kode = 3, @IdMesin = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formKelompokRawat
+            #region formKelompokRawat
 
             case 'Sp_List_GroupPerawatan':
                 $sp_param = '@Kode = 1';
@@ -172,9 +179,9 @@ class MasterCircularController extends Controller
                 $sp_param = '@Kode = 3, @IdGroupPerawatan = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formKelompokLokasi
+            #region formKelompokLokasi
 
             case 'Sp_List_TGroupLokasi':
                 $sp_param = '@Kode = 1';
@@ -192,7 +199,7 @@ class MasterCircularController extends Controller
                 $sp_param = '@Kode = 3, @IdGroupLokasi = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
             default:
                 break;
