@@ -10,6 +10,20 @@
         outline: 1px solid red;
         text-decoration-color: red;
     }
+
+    @media print{
+        .container-fluid{
+            display: none;
+        }
+
+        #detailKonversiModal{
+            display: none;
+        }
+
+        #tambahTujuanModal{
+            display: none;
+        }
+    }
 </style>
 
 <div class="container-fluid">
@@ -320,6 +334,10 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="div_printBarcode" style="display: none">
+    hueheheheh
 </div>
 <script src="{{ asset('js/MultipleProgram/PermohonanKonversiBarcodePotong.js') }}"></script>
 @endsection

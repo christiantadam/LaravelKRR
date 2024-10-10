@@ -182,12 +182,6 @@ class PermohonanKonversiBarcodePotongController extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
-        } elseif ($jenisStore = 'sisaBarcode') {
-            try {
-
-            } catch (Exception $e) {
-                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
-            }
         }
     }
 
