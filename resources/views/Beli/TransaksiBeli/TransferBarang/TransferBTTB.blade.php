@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="col-10">
                                     <input type="date" name="tanggal" id="tanggal"
-                                        class="form-control font-weight-bold">
+                                        class="form-control font-weight-bold" value="{{ $tanggalValue }}">
                                 </div>
                             </div>
                         </div>

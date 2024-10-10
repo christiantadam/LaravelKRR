@@ -77,8 +77,15 @@ class TransferBarangController extends Controller
         $No_PO = $request->query('No_PO');
         $No_BTTB = $request->query('No_BTTB');
         $koreksi = $request->query('koreksi');
+        $Tanggal = DB::connection('ConnPurchase')->table('YTERIMA')
+            ->join('INVENTORY.dbo.Tmp_Transaksi', 'YTERIMA.NoTransaksiTmp', '=', 'INVENTORY.dbo.Tmp_Transaksi.IdTransaksi')
+            ->where('YTERIMA.No_BTTB', $No_BTTB)
+            ->select('INVENTORY.dbo.Tmp_Transaksi.SaatAwalTransaksi', 'YTERIMA.No_BTTB')
+            ->first();
+        $tanggalValue = isset($Tanggal) ? Carbon::parse($Tanggal->SaatAwalTransaksi)->format('Y-m-d') : Carbon::parse(now())->format('Y-m-d');
+        // dd($tanggalValue);
         // dd($No_BTTB,$No_PO,$koreksi);
-        return view('Beli.TransaksiBeli.TransferBarang.TransferBTTB', compact('access', 'No_PO', 'No_BTTB', 'koreksi'));
+        return view('Beli.TransaksiBeli.TransferBarang.TransferBTTB', compact('access', 'No_PO', 'No_BTTB', 'koreksi', 'tanggalValue'));
     }
 
     public function loadData(Request $request)
@@ -190,6 +197,7 @@ class TransferBarangController extends Controller
         $SubKel = $request->input('SubKel');
         $NoTransTmp = $request->input('NoTransTmp');
         $ket = $request->input('ket');
+        $tanggal = $request->input('tanggal');
         // dd($request->all());
         // dd($MasukPrimer, $MasukSekunder);
         if (
@@ -200,7 +208,7 @@ class TransferBarangController extends Controller
             $SubKel !== null &&
             $NoTransTmp !== null
         ) {
-            $data = DB::connection('ConnPurchase')->statement('exec SP_1273_PBL_KOREKSI_TRANSFER_TMPTRANSAKSI @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTransTmp = ?, @ket = ?', [
+            $data = DB::connection('ConnPurchase')->statement('exec SP_1273_PBL_KOREKSI_TRANSFER_TMPTRANSAKSI @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTransTmp = ?, @ket = ?, @Tanggal = ?', [
                 $IdType,
                 $MasukPrimer,
                 $MasukSekunder,
@@ -208,7 +216,8 @@ class TransferBarangController extends Controller
                 $User_id,
                 $SubKel,
                 (int) $NoTransTmp,
-                $ket
+                $ket,
+                $tanggal
             ]);
             return Response()->json(['message' => 'Data Berhasil Di Koreksi']);
         } else {

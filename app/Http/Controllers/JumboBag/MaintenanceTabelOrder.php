@@ -140,7 +140,7 @@ class MaintenanceTabelOrder extends Controller
                     ]);
 
                     DB::connection('ConnJumboBag')->commit();
-                    return response()->json(['succes' => 'Data sudah dihapus!']);
+                    return response()->json(['success' => 'Data sudah dihapus!']);
                 } catch (Exception $e) {
                     DB::connection('ConnJumboBag')->rollback();
                     return response()->json(['error' => 'Gagal menghapus data: ' . $e->getMessage()]);
