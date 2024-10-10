@@ -687,6 +687,7 @@
     <!-- Global Init -->
     <script src="{{ asset('js/Circular/app.js') }}"></script>
 
+    <script src="{{ asset('js/chart.js') }}"></script>
     @yield('custom_js')
 
 </body>

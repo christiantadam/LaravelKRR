@@ -50,7 +50,7 @@ const elements = Array.from(
 let csrfToken = $('meta[name="csrf-token"]').attr("content");
 let NoTransTmp;
 
-tanggal.valueAsDate = new Date();
+// tanggal.valueAsDate = new Date();
 btn_koreksi.disabled = true;
 btn_kelompokUtama.disabled = true;
 btn_kelompok.disabled = true;
@@ -171,6 +171,7 @@ btn_koreksi.addEventListener("click", function (event) {
             SubKel: ket_subKelompok.value,
             NoTransTmp: NoTransTmp,
             ket: keterangan.value,
+            tanggal: tanggal.value,
         },
         beforeSend: function () {
             // Show loading screen
@@ -330,7 +331,7 @@ container.addEventListener("keydown", function (event) {
 });
 
 function clearData() {
-    tanggal.valueAsDate = new Date();
+    // tanggal.valueAsDate = new Date();
     no_terima.value = "";
     kode_barang.value = "";
     nama_barang.value = "";

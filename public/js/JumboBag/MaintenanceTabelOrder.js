@@ -179,6 +179,11 @@ document.addEventListener("DOMContentLoaded", function () {
         rencana.readOnly = true;
     }
 
+    function formatTanggal(tanggal) {
+        const [bulan, hari, tahun] = tanggal.split('/');
+        return `${tahun}-${bulan.padStart(2, '0')}-${hari.padStart(2, '0')}`;
+    }
+
     //#region Event Listener
     btn_isi.addEventListener("click", function (event) {
         event.preventDefault();
@@ -218,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 tanggal_dikerjakan.readOnly = false;
                 tanggal_selesai.readOnly = false;
             } else {
-                time_deliv.value = rencana.value;
+                time_deliv.value = formatTanggal(rencana.value);
                 jumlah_order.value = qty_produksi.value;
                 no_pesanan.value = idsuratpesanan.value;
                 tanggal_dikerjakan.readOnly = false;
