@@ -14,6 +14,7 @@ use App\Http\Controllers\Extruder\ExtruderNet\MasterController;
 use App\Http\Controllers\Extruder\BeratKomposisi\BeratController;
 use App\Http\Controllers\Extruder\ExtruderNet\KonversiController;
 use App\Http\Controllers\Extruder\ExtruderNet\PencatatanController;
+use App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController;
 use App\Http\Controllers\Extruder\BeratKomposisi\KomposisiController;
 use App\Http\Controllers\Extruder\WarehouseTerima\WarehouseController;
 use App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController;
@@ -1155,7 +1156,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('insertUpdate', 'App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController@insertUpdate');
     Route::get('getCetakBKMBKKPembulatan/{idBKKTampil}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController@getCetakBKMBKKPembulatan');
 
-    Route::resource('MaintenanceBKMUntukDPPelunasan', App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController::class);
+    Route::resource('MaintenanceBKMUntukDPPelunasan', BKMDPPelunasanController::class);
     Route::get('getcust/', 'App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController@getNamaCustomer');
     Route::get('getTabelPelunasanBKMDP/{idCustomer}', 'App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController@getTabelDataPelunasan');
     Route::get('getidbkmBKMDP/{idBank}/{tanggal}', 'App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController@getUraianEnterBKM');

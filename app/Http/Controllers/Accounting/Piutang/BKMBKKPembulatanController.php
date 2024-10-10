@@ -148,31 +148,10 @@ class BKMBKKPembulatanController extends Controller
 
             return datatables($response)->make(true);
         } else if ($id == 'cetakBKM') {
-            $cetak = true;
-            $brs = 0;
-            $idArray = [];
-            // $tes = trim($request->input('bkm'));
-            // dd($tes);
+            $bkk = trim($request->input('bkk'));
 
-            $ada = false;
-
-            if ($brs != 0) {
-                foreach ($idArray as $idPelunasan) {
-                    $resultCount = DB::connection('ConnAccounting')
-                        ->select('exec SP_5298_ACC_COUNT_IDPELUNASAN @idpelunasan = ?', [$idPelunasan]);
-
-                    if (!empty($resultCount) && $resultCount[0]->ada > 0) {
-                        $ada = true;
-                        break;
-                    }
-                }
-            }
-
-            $sno = $ada
-                ? DB::connection('ConnAccounting')
-                ->select("SELECT * FROM VW_PRG_5298_ACC_CETAK_BKM_TUNAI WHERE Id_BKM = ?", [trim($request->input('bkm'))])
-                : DB::connection('ConnAccounting')
-                ->select("SELECT * FROM VW_PRG_5298_ACC_CETAK_BKM_TUNAI_1 WHERE Id_BKM = ?", [trim($request->input('bkm'))]);
+            $sno = DB::connection('ConnAccounting')
+                ->select("SELECT * FROM VW_PRG_5298_ACC_CETAK_BKK_DP WHERE Id_BKK = ?", [$bkk]);
 
             // dd($sno);
 
@@ -182,15 +161,14 @@ class BKMBKKPembulatanController extends Controller
             // Disesuaikan dengan mekanisme pencetakan laporan di Laravel
             // Misalnya menggunakan library reporting atau mencetak langsung
 
-            DB::connection('ConnAccounting')
-                ->statement('exec SP_5298_ACC_UPDATE_TGLCETAK_BKM @idBKM = ?', [trim($request->input('bkm'))]);
+            // DB::connection('ConnAccounting')
+            //     ->statement('exec SP_5298_ACC_UPDATE_TGLCETAK_BKK @idBKK = ?', [$bkk]);
             // dd($sno);
             return response()->json([
                 'data' => $sno,
                 'message' => 'Laporan telah dicetak dengan sukses'
             ]);
-            // return response()->json(['message' => 'Laporan telah dicetak dengan sukses']);
-            // return response()->json(['message' => 'Laporan telah dicetak dengan sukses', 'reportType' => $reportType, 'kriteria' => $sno]);
+
 
         } else if ($id === 'getUraian') {
             $bank = $request->input('id_bank1');
@@ -265,9 +243,8 @@ class BKMBKKPembulatanController extends Controller
 
             // proses insert pada T_Pembayaran
             $pembayaran = DB::connection('ConnAccounting')->statement(
-                '
-                            exec SP_5298_ACC_INSERT_BKK_TPEMBAYARAN
-                            @idBKK = ?, @tgl = ?, @userinput = ?, @terjemahan = ?, @nilai = ?, @IdBank=?',
+                'exec SP_5298_ACC_INSERT_BKK_TPEMBAYARAN
+                @idBKK = ?, @tgl = ?, @userinput = ?, @terjemahan = ?, @nilai = ?, @IdBank=?',
                 [$idBKK, $tanggal, $user_id, $Konversi, $nilai, $id_bank]
             );
             // dd($pembayaran);
@@ -275,9 +252,8 @@ class BKMBKKPembulatanController extends Controller
 
             // proses insert pada T_Pembayaran_Tagihan
             $tagihan = DB::connection('ConnAccounting')->statement(
-                '
-                        exec SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG
-                        @idBKK = ?, @idUang = ?, @idJenis = ?, @IdBank = ?, @nilai = ?, @user = ?, @idBKM_acuan = ?',
+                'exec SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG
+                @idBKK = ?, @idUang = ?, @idJenis = ?, @IdBank = ?, @nilai = ?, @user = ?, @idBKM_acuan = ?',
                 [$idBKK, $idMtUang, 1, $id_bank, $nilai, $user_id, $id_bkm]
             );
             // dd($tagihan);
@@ -291,18 +267,16 @@ class BKMBKKPembulatanController extends Controller
 
             // proses insert pada T_Detail_Pembayaran
             $trans2 = DB::connection('ConnAccounting')->statement(
-                '
-                        exec SP_5298_ACC_INSERT_BKK_TDETAILPEMB
-                        @idpembayaran = ?, @keterangan = ?, @biaya = ?, @kodeperkiraan = ?',
+                'exec SP_5298_ACC_INSERT_BKK_TDETAILPEMB
+                @idpembayaran = ?, @keterangan = ?, @biaya = ?, @kodeperkiraan = ?',
                 [$idPembayaran, $uraian, $nilai, $idKodePerkiraan]
             );
 
 
             // proses update id_BKK pada T_Counter
             $counter = DB::connection('ConnAccounting')->statement(
-                '
-                        exec SP_5298_ACC_UPDATE_COUNTER_IDBKK
-                        @idbkk = ?, @idBank = ?, @jenis = ?, @tgl = ?',
+                'exec SP_5298_ACC_UPDATE_COUNTER_IDBKK
+                @idbkk = ?, @idBank = ?, @jenis = ?, @tgl = ?',
                 [$id_bkk, $id_bank1, $jenis_bank, $tanggal]
             );
 

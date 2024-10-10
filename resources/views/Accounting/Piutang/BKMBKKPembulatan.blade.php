@@ -302,7 +302,7 @@
 </div>
 
 {{-- style="visibility: hidden; --}}
-<div class="print" style="visibility: hidden;">
+<div class="print" {{--style="visibility: hidden;"--}}>
     <div class="container">
         <div class="row">
             <div class="col-5" style="padding-right: 25px;">
@@ -360,7 +360,7 @@
                     </div>
                     <div class="col-12">
                         <span id="terbilangCetak"
-                            style="display: inline; margin-top: -5px; font-size: 17px; padding-left: 50px"></span>
+                            style="display: inline; margin-top: -5px; font-size: 13px; padding-left: 50px"></span>
                     </div>
                 </div>
             </div>
@@ -388,7 +388,7 @@
                 <div
                     class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
                     <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span style="font-size: 16px; ">Jenis Pembayaran</span>
+                        <span style="font-size: 16px;" id="jenisPembayaran"></span>
                     </div>
                 </div>
             </div>
@@ -427,43 +427,30 @@
         </div>
         <div class="row">
             <div class="col-2" style="padding-right: 25px;">
-                <div
-                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
-                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span id="jenispemb" style="font-size: 16px; ">jenispemb</span>
-                    </div>
+                <div class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div id="jenispemb"></div>
                 </div>
             </div>
             <div class="col-2" style="padding-right: 25px;">
-                <div
-                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
-                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span id="jatuhtempo" style="font-size: 16px;">jatuhtempo</span>
-                    </div>
+                <div class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div id="jatuhtempo"></div>
                 </div>
             </div>
             <div class="col-4" style="padding-right: 25px;">
-                <div
-                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
-                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span id="rincianbayar" style="font-size: 16px;">rincian</span>
+                <div class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div id="rincianBayar" style="justify-content: left;margin-right: -3.4vh;">
                     </div>
+
                 </div>
             </div>
             <div class="col-2" style="padding-right: 25px;">
-                <div
-                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
-                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span id="kodeperkiraan" style="font-size: 16px;">kodeperkiraan</span>
-                    </div>
+                <div class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div id="kodeperkiraan"></div>
                 </div>
             </div>
-            <div class="col-2" style="padding-right: 25px;">
-                <div
-                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
-                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span id="nilairincian" style="font-size: 16px;">jumlah</span>
-                    </div>
+            <div class="col-2" style="padding-right: 25px; text-align: right" >
+                <div class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
+                    <div id="nilairincian" style="text-align: right;"></div>
                 </div>
             </div>
         </div>
