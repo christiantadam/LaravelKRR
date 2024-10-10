@@ -175,6 +175,113 @@ class MaintenanceBKMTransistorisBankController extends Controller
             return response()->json($data_divisi);
         }
 
+        // list bkm
+        else if ($id === 'getListBKM') {
+            $tgl1 = $request->input('tgl1');
+            $tgl2 = $request->input('tgl2');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKM_TRANSITORIS_PERTGL
+            @tgl1 = ?, @tgl2 = ?', [$tgl1, $tgl2]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKM' => $detail_divisi->Id_BKM,
+                    'Nilai_Pelunasan' => $detail_divisi->Nilai_Pelunasan,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // list bkK
+        else if ($id === 'getListBKK') {
+            $tgl1 = $request->input('tgl1');
+            $tgl2 = $request->input('tgl2');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKK_TRANSITORIS_PERTGL
+            @tgl1 = ?, @tgl2 = ?', [$tgl1, $tgl2]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKK' => $detail_divisi->Id_BKK,
+                    'Nilai_Pembulatan' => $detail_divisi->Nilai_Pembulatan,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // cetak bkm
+        else if ($id === 'getCetakBKM') {
+            $id_bkm = $request->input('id_bkm');
+
+            $divisi = DB::connection('ConnAccounting')
+                ->table('VW_PRG_5298_ACC_CETAK_BKM_TUNAI_1')
+                ->where('Id_BKM', $id_bkm)
+                ->get();
+
+
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Id_bank' => $detail_divisi->Id_bank,
+                    'Nama_Bank' => $detail_divisi->Nama_Bank,
+                    'Nilai_Rincian' => $detail_divisi->Nilai_Rincian,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                    'KodePerkiraan' => $detail_divisi->KodePerkiraan,
+                    'Keterangan' => $detail_divisi->Keterangan,
+                    'Uraian' => $detail_divisi->Uraian,
+                    'Symbol' => $detail_divisi->Symbol,
+                    'DetailKdPerkiraan' => $detail_divisi->DetailKdPerkiraan,
+                    'Id_MataUang_BC' => $detail_divisi->Id_MataUang_BC,
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKM' => $detail_divisi->Id_BKM,
+                    'Nilai_Pelunasan' => $detail_divisi->Nilai_Pelunasan,
+                ];
+            }
+
+            return response()->json($data_divisi);
+        }
+
+        // cetak bkK
+        else if ($id === 'getCetakBKK') {
+            $id_bkk = $request->input('id_bkk');
+
+            $divisi = DB::connection('ConnAccounting')
+                ->table('Vw_PRG_1273_ACC_CETAK_BAYAR_BKK1')
+                ->where('Id_BKK', $id_bkk)
+                ->get();
+
+
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Id_bank' => $detail_divisi->Id_Bank,
+                    'NM_SUP' => $detail_divisi->NM_SUP,
+                    'Nama_Bank' => $detail_divisi->Nama_Bank,
+                    'Nilai_Rincian' => $detail_divisi->Nilai_Rincian,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                    'KodePerkiraan' => $detail_divisi->Kode_Perkiraan,
+                    'Keterangan' => $detail_divisi->Keterangan,
+                    'Rincian_Bayar' => $detail_divisi->Rincian_Bayar, // Added based on the SQL
+                    'Symbol' => $detail_divisi->Symbol,
+                    'Id_MataUang_BC' => $detail_divisi->Id_MataUang_BC,
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKK' => $detail_divisi->Id_BKK, // Adjust based on your requirement
+                    'Jenis_Pembayaran' => $detail_divisi->Jenis_Pembayaran, // Added based on the SQL
+                    'Nilai_Pembulatan' => $detail_divisi->Nilai_Pembulatan, // Added based on the SQL
+                    'No_BGCek' => $detail_divisi->No_BGCek, // Added based on the SQL
+                    'User_Batal' => $detail_divisi->User_Batal, // Added based on the SQL
+                    'Batal' => $detail_divisi->Batal, // Added based on the SQL
+                    'Alasan' => $detail_divisi->Alasan, // Added based on the SQL
+                ];
+            }
+
+            return response()->json($data_divisi);
+        }
+
         // id bkk
         else if ($id === 'getIdBKK') {
             $tahun = $request->input('tahun');
