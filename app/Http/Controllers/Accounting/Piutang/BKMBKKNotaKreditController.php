@@ -21,7 +21,8 @@ class BKMBKKNotaKreditController extends Controller
 
     public function getDataNotaKredit()
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_NOTA_KREDIT] ');
+        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_NOTA_KREDIT]');
+        // dd($tabel);
         return response()->json($tabel);
     }
 

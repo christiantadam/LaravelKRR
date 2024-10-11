@@ -1627,10 +1627,10 @@ $('#uraian1').on('keydown', function (e) {
         // jatuhTempo.focus();
         if (idBKK.value === '') {
             if (idBank1.value === 'KRR1' || idBank1.value === 'KRR2') {
-                if (idBank1.value === 'KRR1') {
+                if (idBank1.value === 'KRR2') {
                     IdBank1 = 'KI';
                 }
-                if (idBank1.value = 'KRR2') {
+                if (idBank1.value = 'KRR1') {
                     IdBank1 = 'KKK';
                 }
             }
@@ -1756,10 +1756,10 @@ $('#uraian').on('keydown', function (e) {
         // jatuhTempo.focus();
         if (idBKM.value === '') {
             if (idBank.value === 'KRR1' || idBank.value === 'KRR2') {
-                if (idBank.value === 'KRR1') {
+                if (idBank.value === 'KRR2') {
                     IdBank = 'KI';
                 }
-                if (idBank.value = 'KRR2') {
+                if (idBank.value = 'KRR1') {
                     IdBank = 'KKK';
                 }
             }
