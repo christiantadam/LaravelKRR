@@ -422,7 +422,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
             $nilai = $request->input('nilai');
             $kurs = $request->input('kurs');
 
-            if ($kurs === null) {
+            if (intval($kurs) === 0) {
                 try {
                     DB::connection('ConnAccounting')
                         ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG_1 ]
@@ -444,7 +444,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
                 }
-            } else if ($kurs !== null) {
+            } else if (intval($kurs) !== 0) {
                 try {
                     DB::connection('ConnAccounting')
                         ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG_1 ]
@@ -674,7 +674,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
             $idBKKAcuan = $request->input('idBKKAcuan');
             $kurs = $request->input('kurs');
 
-            if ($kurs === null) {
+            if (intval($kurs) === 0) {
                 try {
                     DB::connection('ConnAccounting')
                         ->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN_TAG_TRANSITORIS]
@@ -704,7 +704,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
                 }
-            } else if ($kurs !== null) {
+            } else if (intval($kurs) !== 0) {
                 try {
                     DB::connection('ConnAccounting')
                         ->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN_TAG_TRANSITORIS]
