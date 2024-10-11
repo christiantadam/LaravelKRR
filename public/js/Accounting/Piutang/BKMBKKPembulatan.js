@@ -318,10 +318,15 @@ $(document).ready(function () {
 
     function formatDate(dateString) {
         let dateObj = new Date(dateString);
+
+        let month = dateObj.getMonth() + 1;
+        let day = dateObj.getDate();
+        let year = dateObj.getFullYear();
+
         return (
-            ('0' + (dateObj.getMonth() + 1)).slice(-2) + '/' +
-            ('0' + dateObj.getDate()).slice(-2) + '/' +
-            dateObj.getFullYear()
+            (month < 10 ? month : month) + '/' +
+            (day < 10 ? day : day) + '/' +
+            year
         );
     }
 
@@ -374,7 +379,7 @@ $(document).ready(function () {
                     document.getElementById("jenisPembayaran").innerHTML = data.data[0].Jenis_Pembayaran.trim();
                     document.getElementById("idBKMAcuan").innerHTML = data.data[0].Id_BKM_Acuan.trim();
                     document.getElementById("tanggalBKM").innerHTML = formatDate(data.data[0].Tgl_BKM);
-                    document.getElementById("tglCetakForm").innerHTML = formatDateString(data.data[0].Tgl_BKM);
+                    document.getElementById("tglCetakForm").innerHTML = formatDateString(tanggal.valueAsDate);
 
                     document.getElementById("kodeperkiraan").innerHTML = "";
                     document.getElementById("jenispemb").innerHTML = "";
