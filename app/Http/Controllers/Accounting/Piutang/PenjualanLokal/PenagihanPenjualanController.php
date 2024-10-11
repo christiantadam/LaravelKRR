@@ -202,10 +202,63 @@ class PenagihanPenjualanController extends Controller
 
             // DeleteMode
             if ($proses == 3) {
+                $idJenisDokumen = $request->idJenisDokumen;
+                $no_penagihan = $request->no_penagihan;
+                $tgl_penagihan = $request->tanggal;
+                $noAkhir = null;
+                $periode = null;
+
+                if ($idJenisDokumen == "4") {
+                    $id = substr($no_penagihan, 0, 4);
+
+                    $noAkhir = DB::connection('ConnAccounting')
+                    ->table('T_Counter_Faktur')
+                        ->whereYear('Periode', date('Y', strtotime($tgl_penagihan)))
+                        ->value('nomer');
+                } else {
+                    $periode = str_pad(date('m', strtotime($tgl_penagihan)), 2, '0', STR_PAD_LEFT) . date('Y', strtotime($tgl_penagihan));
+
+                    if ($idJenisDokumen == "5") {  // AP
+                        // Ambil 3 karakter dari kiri
+                        $id = substr($no_penagihan, 0, 3);
+
+                        // Query untuk mengambil Nota_AP dari T_Counter_Nota berdasarkan periode
+                        $noAkhir = DB::connection('ConnAccounting')
+                        ->table('T_Counter_Nota')
+                            ->where('Periode', $periode)
+                            ->value('Nota_AP');
+                    } elseif ($idJenisDokumen == "6") {  // KP
+                        // Ambil 3 karakter dari kiri
+                        $id = substr($no_penagihan, 0, 3);
+
+                        // Query untuk mengambil Nota_KP dari T_Counter_Nota berdasarkan periode
+                        $noAkhir = DB::connection('ConnAccounting')
+                        ->table('T_Counter_Nota')
+                            ->where('Periode', $periode)
+                            ->value('Nota_KP');
+                    } elseif ($idJenisDokumen == "7") {  // LP
+                        // Ambil 3 karakter dari kiri
+                        $id = substr($no_penagihan, 0, 3);
+
+                        // Query untuk mengambil Nota_LP dari T_Counter_Nota berdasarkan periode
+                        $noAkhir = DB::connection('ConnAccounting')
+                        ->table('T_Counter_Nota')
+                            ->where('Periode', $periode)
+                            ->value('Nota_LP');
+                    }
+                }
+
+                // Cek apakah $id sama dengan $noAkhir
+                if ($id != $noAkhir) {
+                    return response()->json([
+                        'error' => 'Tidak Bisa Dihapus Krn Tidak Termasuk Data Terakhir'
+                    ]);
+                }
+
                 $hapus = DB::connection('ConnAccounting')
                     ->statement(
                         'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @Tgl_Penagihan = ?, @id_Jenis_Dokumen = ?, @Id_Penagihan_Acuan = ?',
-                        [7, $request->Tid_Penagihan, $request->Tanggal, $request->TIdJnsDok, $request->Tid_PenagihanUM]
+                        [7, $request->no_penagihan, $request->tanggal, $request->idJenisDokumen, $request->id_penagihanUM]
                     );
 
                 if ($hapus) {

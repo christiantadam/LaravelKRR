@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentYear = currentDate.getFullYear();
     bulan.value = currentMonth;
     tahun.value = currentYear;
+    bulan.focus();
 
     if (successMessage) {
         Swal.fire({
@@ -46,7 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 showConfirmButton: true,
             });
             return;
-        }if (tahun.value.trim() === "") {
+        }
+        if (tahun.value.trim() === "") {
             Swal.fire({
                 icon: "warning",
                 title: "Warning!",
@@ -94,10 +96,18 @@ document.addEventListener("DOMContentLoaded", function () {
                                 { data: "NM_SUP" },
                             ],
                         });
-                        $("#idpenagihanTable tbody").on("click", "tr", function () {
-                            table.$("tr.selected").removeClass("selected");
-                            $(this).addClass("selected");
-                        });
+                        $("#idpenagihanTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                table.$("tr.selected").removeClass("selected");
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "idpenagihanTable")
+                        );
                     });
                 },
             }).then(async (result) => {
@@ -144,10 +154,35 @@ document.addEventListener("DOMContentLoaded", function () {
                             alert(err.Message);
                         },
                     });
+
+                    setTimeout(() => {
+                        alasan.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
             console.error("An error occurred:", error);
+        }
+    });
+
+    bulan.addEventListener("keypress", function (event) {
+        if (event.key == "Enter") {
+            event.preventDefault();
+            tahun.focus();
+        }
+    });
+
+    tahun.addEventListener("keypress", function (event) {
+        if (event.key == "Enter") {
+            event.preventDefault();
+            btn_id.focus();
+        }
+    });
+
+    alasan.addEventListener("keypress", function (event) {
+        if (event.key == "Enter") {
+            event.preventDefault();
+            btn_proses.focus();
         }
     });
 

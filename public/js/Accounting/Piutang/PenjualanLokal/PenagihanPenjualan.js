@@ -415,6 +415,53 @@ $(document).ready(function () {
                 },
             });
         } else if (proses == 3) {
+            $.ajax({
+                url: "PenagihanPenjualanLokal",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    no_penagihan: no_penagihan.value,
+                    tanggal: tanggal.value,
+                    idJenisDokumen: idJenisDokumen.value,
+                    id_penagihanUM: id_penagihanUM.value,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                            // idReferensi.value = response.IdReferensi;
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_ok.click();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
         }
     });
 
@@ -952,6 +999,7 @@ $(document).ready(function () {
                             if (data.ListSJ && data.ListSJ.length > 0) {
                                 var table_atas = $("#table_atas").DataTable();
 
+                                table_atas.clear().draw()
                                 data.ListSJ.forEach(function (item, index) {
                                 console.log(item);
                                     if (item.Type == "SJ") {
@@ -1057,9 +1105,11 @@ $(document).ready(function () {
                         },
                     });
                     // idCustomer.value = selectedRow.IDCust.trim().slice(-5);
-                    // setTimeout(() => {
-                    //     btn_kodebarang.focus();
-                    // }, 300);
+                    if (proses == 3) {
+                        setTimeout(() => {
+                            btn_proses.focus();
+                        }, 300);
+                    }
                 }
             });
         } catch (error) {

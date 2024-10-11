@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     idpenagihan.readOnly = true;
     tanggal.readOnly = true;
     btn_update.disabled = true;
+    btn_supplier.focus();
 
     if (successMessage) {
         Swal.fire({
@@ -302,6 +303,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#supplierTable_filter input").focus();
+                        }, 300);
                         $("#supplierTable tbody").on(
                             "click",
                             "tr",
@@ -312,6 +316,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "supplierTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -319,6 +327,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     const selectedRow = result.value;
                     sp1.value = decodeHtml(selectedRow.Supplier).trim();
                     sp2.value = selectedRow.No_Supplier.trim();
+
+                    setTimeout(() => {
+                        btn_penagihan.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -381,6 +393,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "penagihanTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -391,6 +407,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     ).trim();
                     tanggal.value = selectedRow.Waktu_Penagihan.trim();
                     btn_update.disabled = false;
+
+                    setTimeout(() => {
+                        btn_update.focus();
+                    }, 300);
                 }
             });
         } catch (error) {

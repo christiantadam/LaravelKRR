@@ -21,6 +21,35 @@ $(document).ready(function () {
 
     nilai_penagihan.style.fontWeight = "bold";
     mata_uang.value = "RUPIAH";
+    btn_supplier.focus();
+
+    nofaktur_pajak.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            nilai_pajak.focus();
+        }
+    });
+
+    nilai_pajak.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let value = parseFloat(nilai_pajak.value.replace(/,/g, ""));
+
+            nilai_pajak.value = value.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+            pajak.focus();
+        }
+    });
+
+    pajak.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_proses.focus();
+        }
+    });
 
     btn_supplier.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -59,6 +88,9 @@ $(document).ready(function () {
                             },
                             columns: [{ data: "NM_SUP" }, { data: "NO_SUP" }],
                         });
+                        setTimeout(() => {
+                            $("#supplierTable_filter input").focus();
+                        }, 300);
                         $("#supplierTable tbody").on(
                             "click",
                             "tr",
@@ -66,6 +98,10 @@ $(document).ready(function () {
                                 table.$("tr.selected").removeClass("selected");
                                 $(this).addClass("selected");
                             }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "supplierTable")
                         );
                     });
                 },

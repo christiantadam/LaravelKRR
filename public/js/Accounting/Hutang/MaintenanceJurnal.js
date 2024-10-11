@@ -48,6 +48,7 @@ $(document).ready(function () {
     mata_uang.value = "RUPIAH";
     id_uang.value = 1;
     btn_hapus.disabled = true;
+    btn_isi.focus();
 
     function OnButton() {
         btn_supllier.disabled = false;
@@ -78,6 +79,15 @@ $(document).ready(function () {
                 minimumFractionDigits: 4,
                 maximumFractionDigits: 4,
             });
+
+            pelunasan.focus();
+        }
+    });
+
+    keterangan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_proses.focus();
         }
     });
 
@@ -90,6 +100,8 @@ $(document).ready(function () {
                 minimumFractionDigits: 4,
                 maximumFractionDigits: 4,
             });
+
+            keterangan.focus();
         }
     });
 
@@ -249,6 +261,7 @@ $(document).ready(function () {
         btn_proses.disabled = false;
         btn_batal.style.visibility = "visible";
         OnButton();
+        btn_supllier.focus();
     });
 
     btn_koreksi.addEventListener("click", function (event) {
@@ -423,6 +436,9 @@ $(document).ready(function () {
                             },
                             columns: [{ data: "Supplier" }, { data: "NO_SUP" }],
                         });
+                        setTimeout(() => {
+                            $("#tableSupplier_filter input").focus();
+                        }, 300);
                         $("#tableSupplier tbody").on(
                             "click",
                             "tr",
@@ -452,9 +468,9 @@ $(document).ready(function () {
                     nama_supp.value = escapeHTML(selectedRow.Supplier.trim());
                     uang_supp.value = TUangsupp;
 
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_bulantahun.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -498,7 +514,9 @@ $(document).ready(function () {
                             },
                             columns: [{ data: "BlnThn" }],
                         });
-
+                        setTimeout(() => {
+                            $("#tableBulanTahun_filter input").focus();
+                        }, 300);
                         $("#tableBulanTahun tbody").on(
                             "click",
                             "tr",
@@ -520,9 +538,9 @@ $(document).ready(function () {
                     // Handle the selected row as needed
                     bulantahun.value = selectedRow.BlnThn;
                     // nama_supp.value = escapeHTML(selectedRow.NM_SUP.trim());
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_bkk.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -568,6 +586,9 @@ $(document).ready(function () {
                                 { data: "Keterangan" },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#tableKira_filter input").focus();
+                        }, 300);
                         $("#tableKira tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -588,9 +609,9 @@ $(document).ready(function () {
                         selectedRow.Keterangan.trim()
                     );
 
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_matauang.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -637,6 +658,9 @@ $(document).ready(function () {
                             ],
                             order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#tableMataUang_filter input").focus();
+                        }, 300);
                         $("#tableMataUang tbody").on(
                             "click",
                             "tr",
@@ -657,9 +681,9 @@ $(document).ready(function () {
                     mata_uang.value = selectedRow.Nama_MataUang.trim();
                     id_uang.value = selectedRow.Id_MataUang.trim();
 
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        hutang.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -704,6 +728,9 @@ $(document).ready(function () {
                             },
                             columns: [{ data: "Referensi" }, { data: "Uang" }],
                         });
+                        setTimeout(() => {
+                            $("#tableBKK_filter input").focus();
+                        }, 300);
 
                         $("#tableBKK tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
@@ -723,9 +750,9 @@ $(document).ready(function () {
                     matauangbayar.value =
                         selectedRow.Uang.split("//")[0].trim();
                     // nama_supp.value = escapeHTML(selectedRow.NM_SUP.trim());
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_kodeperkiraan.focus();
+                    }, 300);
                     $.ajax({
                         url: "MaintenanceJurnal/checkBKK",
                         type: "GET",
