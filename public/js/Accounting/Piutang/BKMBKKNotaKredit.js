@@ -107,43 +107,129 @@ tanggal.addEventListener("keypress", function (event) {
     }
 });
 
-fetch("/getTabelNotaKredit/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
+var tableData = [];
 
-        dataTable = $("#tabelNotaKredit").DataTable({
-            data: options,
-            columns: [
-                {
-                    title: "Customer", data: "NamaCust",
-                    render: function (data) {
-                        return `<input type="checkbox" name="divisiCheckbox" value="${data}" /> ${data}`;
-                    },
-                },
-                { title: "Tgl. Nota Kredit", data: "Tanggal",
-                    render: function (data) {
-                        var date = new Date(data);
-                        return date.toLocaleDateString();
-                    }
-                },
-                { title: "No. Nota Kredit", data: "Id_NotaKredit" },
-                { title: "No. Penagihan", data: "Id_Penagihan" },
-                { title: "Jenis Nota Kredit ", data: "NamaNotaKredit" },
-                { title: "Jumlah Uang", data: "Nilai",
-                    render: function (data) {
-                        // Mengubah format angka ke format dengan koma
-                        return parseFloat(data).toLocaleString();
-                    },
-                },
-                { title: "Mata Uang", data: "Nama_MataUang" },
-                { title: "Id. Mata Uang", data: "Id_MataUang" },
-                { title: "Id. Customer", data: "Id_Customer"},
-            ],
-        });
+function initializeDataTable(data) {
+    if ($.fn.DataTable.isDataTable('#tabelNotaKredit')) {
+        $('#tabelNotaKredit').DataTable().clear().destroy();
+    }
+
+    table = $('#tabelNotaKredit').DataTable({
+        paging: false,
+        searching: false,
+        info: false,
+        ordering: false,
+        data: data,
+        scrollY: data.length > 0 ? '300px' : '',
+        autoWidth: false,
+        columns: [
+            { title: 'Customer' },
+            { title: 'Tgl. Nota Kredit' },
+            { title: 'No. Nota Kredit' },
+            { title: 'No. Penagihan' },
+            { title: 'Jenis Nota Kredit' },
+            { title: 'Jumlah Uang' },
+            { title: 'Mata Uang' }
+        ],
+        columnDefs: [
+            { targets: 0, width: '20%' },
+            { targets: 1, width: '20%' },
+            { targets: 2, width: '20%' },
+            { targets: 3, width: '20%' },
+            { targets: 4, width: '20%' },
+            { targets: 5, width: '20%' },
+            { targets: 6, width: '20%' }
+        ]
     });
+}
+initializeDataTable([]); // Initialize the DataTable with no data
 
-document.getElementById('tabelNotaKredit').addEventListener('change', function(event) {
+function tampilDataNota() {
+    fetch("/getDataNotaKredit/")
+        .then((response) => response.json())
+        .then((options) => handleResponse(options));
+
+    const handleResponse = (options) => {
+        if (options.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Tidak Ada Nota Kredit',
+                returnFocus: false
+            });
+        } else {
+            var tableData = options.map(function (item) {
+                var date = new Date(item.Tgl_Input);
+                var formattedDate = date.toLocaleDateString();
+                return [
+                    `<div>
+                        <input type="checkbox" name="divisiCheckbox" value="${escapeHtml(item.NamaCust)}" /> ${escapeHtml(item.NamaCust)}
+                    </div>`,
+                    escapeHtml(formattedDate),
+                    escapeHtml(item.Id_NotaKredit),
+                    escapeHtml(item.Id_Penagihan),
+                    escapeHtml(item.NamaNotaKredit),
+                    parseFloat(item.Nilai).toLocaleString(),
+                    escapeHtml(item.Nama_MataUang)
+                ];
+            });
+
+            initializeDataTable(tableData);
+        }
+    }
+}
+
+tampilDataNota();
+
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+// fetch("/getDataNotaKredit/")
+//     .then((response) => response.json())
+//     .then((options) => {
+//         console.log(options);
+
+//         dataTable = $("#tabelNotaKredit").DataTable({
+//             data: options,
+//             columns: [
+//                 {
+//                     title: "Customer", data: "NamaCust",
+//                     render: function (data) {
+//                         return `<input type="checkbox" name="divisiCheckbox" value="${data}" /> ${data}`;
+//                     },
+//                 },
+//                 {
+//                     title: "Tgl. Nota Kredit", data: "Tanggal",
+//                     render: function (data) {
+//                         var date = new Date(data);
+//                         return date.toLocaleDateString();
+//                     }
+//                 },
+//                 { title: "No. Nota Kredit", data: "Id_NotaKredit" },
+//                 { title: "No. Penagihan", data: "Id_Penagihan" },
+//                 { title: "Jenis Nota Kredit ", data: "NamaNotaKredit" },
+//                 {
+//                     title: "Jumlah Uang", data: "Nilai",
+//                     render: function (data) {
+//                         // Mengubah format angka ke format dengan koma
+//                         return parseFloat(data).toLocaleString();
+//                     },
+//                 },
+//                 { title: "Mata Uang", data: "Nama_MataUang" },
+//                 { title: "Id. Mata Uang", data: "Id_MataUang" },
+//                 { title: "Id. Customer", data: "Id_Customer" },
+//             ],
+//         });
+//     });
+
+document.getElementById('tabelNotaKredit').addEventListener('change', function (event) {
     if (event.target.getAttribute('name') === 'divisiCheckbox') {
         const checkbox = event.target;
 
@@ -183,7 +269,7 @@ document.getElementById('tabelNotaKredit').addEventListener('change', function(e
     }
 });
 
-btnPilihNotaKredit.addEventListener('click', function(event) {
+btnPilihNotaKredit.addEventListener('click', function (event) {
     event.preventDefault();
     if (lastCheckedCheckbox) {
         rowData = dataTable.row($(lastCheckedCheckbox).closest('tr')).data();
@@ -198,7 +284,7 @@ btnPilihNotaKredit.addEventListener('click', function(event) {
 
         nilaiUang.value = parseFloat(jmlUang);
         for (var i = 0; i < rowData.length; i++) {
-        nilaiUang.value += parseFloat(rowDataArray[i]['Nilai']);
+            nilaiUang.value += parseFloat(rowDataArray[i]['Nilai']);
         }
 
         const dateObject = new Date(tglNota);
@@ -263,7 +349,7 @@ fetch("/getmatauang/")
     .then((response) => response.json())
     .then((options) => {
         console.log(options);
-        mataUangBKMSelect.innerHTML="";
+        mataUangBKMSelect.innerHTML = "";
 
         const defaultOption = document.createElement("option");
         defaultOption.disabled = true;
@@ -277,7 +363,7 @@ fetch("/getmatauang/")
             option.innerText = entry.Id_MataUang + "|" + entry.Nama_MataUang;
             mataUangBKMSelect.appendChild(option);
         });
-});
+    });
 
 mataUangBKMSelect.addEventListener("change", function (event) {
     event.preventDefault();
@@ -311,7 +397,7 @@ fetch("/getbank/")
             namaBankBKMSelect.appendChild(option);
         });
 
-});
+    });
 
 namaBankBKMSelect.addEventListener("change", function (event) {
     event.preventDefault();
@@ -352,7 +438,7 @@ fetch("/getkodeperkiraan/")
             option.innerText = entry.NoKodePerkiraan + "|" + entry.Keterangan;
             kodePerkiraanSelectBKM.appendChild(option);
         });
-});
+    });
 
 kodePerkiraanSelectBKM.addEventListener("change", function (event) {
     event.preventDefault();
@@ -391,26 +477,26 @@ uraianBKM.addEventListener("keypress", function (event) {
                 console.log(id_bkm.value);
             });
 
-            tanggal.setAttribute("readonly", true);
-            idBKM.setAttribute("readonly", true);
-            mataUangBKMSelect.setAttribute("readonly", true);
-            kursRupiah.setAttribute("readonly", true);
-            mataUangBKMSelect.setAttribute("readonly", true);
-            jumlahUangBKM.setAttribute("readonly", true);
-            idBankBKM.setAttribute("readonly", true);
-            namaBankBKMSelect.setAttribute("readonly", true);
-            idKodePerkiraanBKM.setAttribute("readonly", true);
-            kodePerkiraanSelectBKM.setAttribute("readonly", true);
-            uraianBKM.setAttribute("readonly", true);
+        tanggal.setAttribute("readonly", true);
+        idBKM.setAttribute("readonly", true);
+        mataUangBKMSelect.setAttribute("readonly", true);
+        kursRupiah.setAttribute("readonly", true);
+        mataUangBKMSelect.setAttribute("readonly", true);
+        jumlahUangBKM.setAttribute("readonly", true);
+        idBankBKM.setAttribute("readonly", true);
+        namaBankBKMSelect.setAttribute("readonly", true);
+        idKodePerkiraanBKM.setAttribute("readonly", true);
+        kodePerkiraanSelectBKM.setAttribute("readonly", true);
+        uraianBKM.setAttribute("readonly", true);
 
-            //Untuk card bkk
-            jumlahUangBKK.removeAttribute("readonly");
-            namaBankBKKSelect.removeAttribute("readonly");
-            idBankBKK.removeAttribute("readonly");
-            jenisBankBKK.removeAttribute("readonly");
-            idKodePerkiraanBKK.removeAttribute("readonly");
-            kodePerkiraanBKKSelect.removeAttribute("readonly");
-            uraianBKK.removeAttribute("readonly");
+        //Untuk card bkk
+        jumlahUangBKK.removeAttribute("readonly");
+        namaBankBKKSelect.removeAttribute("readonly");
+        idBankBKK.removeAttribute("readonly");
+        jenisBankBKK.removeAttribute("readonly");
+        idKodePerkiraanBKK.removeAttribute("readonly");
+        kodePerkiraanBKKSelect.removeAttribute("readonly");
+        uraianBKK.removeAttribute("readonly");
     }
 });
 
@@ -457,7 +543,7 @@ fetch("/getbank/")
             namaBankBKKSelect.appendChild(option);
         });
 
-});
+    });
 
 namaBankBKKSelect.addEventListener("change", function (event) {
     event.preventDefault();
@@ -498,7 +584,7 @@ fetch("/getkodeperkiraan/")
             option.innerText = entry.NoKodePerkiraan + "|" + entry.Keterangan;
             kodePerkiraanBKKSelect.appendChild(option);
         });
-});
+    });
 
 kodePerkiraanBKKSelect.addEventListener("change", function (event) {
     event.preventDefault();
@@ -511,7 +597,7 @@ kodePerkiraanBKKSelect.addEventListener("change", function (event) {
 });
 //#endregion
 
-uraianBKK.addEventListener("keypress", function(event) {
+uraianBKK.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         event.preventDefault();
         jenis = 'P';
@@ -538,18 +624,18 @@ uraianBKK.addEventListener("keypress", function(event) {
                 console.log(id_bkk.value);
             });
 
-            jumlahUangBKK.setAttribute("readonly", true);
-            namaBankBKKSelect.setAttribute("readonly", true);
-            idBankBKK.setAttribute("readonly", true);
-            jenisBankBKK.setAttribute("readonly", true);
-            idKodePerkiraanBKK.setAttribute("readonly", true);
-            kodePerkiraanBKKSelect.setAttribute("readonly", true);
-            uraianBKK.setAttribute("readonly", true);
-            btnProses.focus();
+        jumlahUangBKK.setAttribute("readonly", true);
+        namaBankBKKSelect.setAttribute("readonly", true);
+        idBankBKK.setAttribute("readonly", true);
+        jenisBankBKK.setAttribute("readonly", true);
+        idKodePerkiraanBKK.setAttribute("readonly", true);
+        kodePerkiraanBKKSelect.setAttribute("readonly", true);
+        uraianBKK.setAttribute("readonly", true);
+        btnProses.focus();
     }
 });
 
-btnProses.addEventListener('click', function(event) {
+btnProses.addEventListener('click', function (event) {
     event.preventDefault();
     if (idBKM.value != "" || idBKK.value != "") {
         nilai1.value = parseFloat(jumlahUangBKM.value);
@@ -581,7 +667,7 @@ btnProses.addEventListener('click', function(event) {
             console.log(idPelunasan.value);
 
             //formkoreksi.submit();
-    });
+        });
 
     fetch("/getIdPembayaranNota/")
         .then((response) => response.json())
@@ -591,7 +677,7 @@ btnProses.addEventListener('click', function(event) {
             console.log(idPembayaran.value);
 
             //formkoreksi.submit();
-    });
+        });
     // console.log(idBKK.value);
     formkoreksi.submit();
 })
@@ -613,7 +699,7 @@ btnTampilBKM.addEventListener('click', function (event) {
     modalTampilBKM.modal('show');
 });
 
-btnOkTampilBKM.addEventListener('click', function(event) {
+btnOkTampilBKM.addEventListener('click', function (event) {
     event.preventDefault();
     fetch("/getTabelTampilBKMNota/" + tanggalTampilBKM.value + "/" + tanggalTampilBKM2.value)
         .then((response) => response.json())
@@ -635,7 +721,8 @@ btnOkTampilBKM.addEventListener('click', function(event) {
                         }
                     },
                     { title: "Id. BKM", data: "Id_BKM" },
-                    { title: "Nilai Pelunasan", data: "Nilai_Pelunasan",
+                    {
+                        title: "Nilai Pelunasan", data: "Nilai_Pelunasan",
                         render: function (data) {
                             // Mengubah format angka ke format dengan koma
                             return parseFloat(data).toLocaleString();
@@ -645,7 +732,7 @@ btnOkTampilBKM.addEventListener('click', function(event) {
                 ]
             });
 
-            tabelTampilBKM.on('change', 'input[name="dataCheckbox"]', function() {
+            tabelTampilBKM.on('change', 'input[name="dataCheckbox"]', function () {
                 $('input[name="dataCheckbox"]').not(this).prop('checked', false);
 
                 if ($(this).prop("checked")) {
@@ -658,7 +745,7 @@ btnOkTampilBKM.addEventListener('click', function(event) {
         });
 });
 
-btnCetakBKM.addEventListener('click', function(event) {
+btnCetakBKM.addEventListener('click', function (event) {
     event.preventDefault();
 
     fetch("/getCetakBKMBKKNotaKredit/" + idBKMTampil.value)
@@ -681,7 +768,7 @@ btnTampilBKK.addEventListener('click', function (event) {
     modalTampilBKK.modal('show');
 });
 
-btnOkTampilBKK.addEventListener('click', function(event) {
+btnOkTampilBKK.addEventListener('click', function (event) {
     event.preventDefault();
     fetch("/getTabelTampilBKKNota/" + tanggalTampilBKK.value + "/" + tanggalTampilBKK2.value)
         .then((response) => response.json())
@@ -703,7 +790,8 @@ btnOkTampilBKK.addEventListener('click', function(event) {
                         }
                     },
                     { title: "Id. BKK", data: "Id_BKK" },
-                    { title: "Nilai Pelunasan", data: "Nilai_Pembulatan",
+                    {
+                        title: "Nilai Pelunasan", data: "Nilai_Pembulatan",
                         render: function (data) {
                             // Mengubah format angka ke format dengan koma
                             return parseFloat(data).toLocaleString();
@@ -713,7 +801,7 @@ btnOkTampilBKK.addEventListener('click', function(event) {
                 ]
             });
 
-            tabelTampilBKK.on('change', 'input[name="dataCheckbox"]', function() {
+            tabelTampilBKK.on('change', 'input[name="dataCheckbox"]', function () {
                 $('input[name="dataCheckbox"]').not(this).prop('checked', false);
 
                 if ($(this).prop("checked")) {
@@ -726,21 +814,21 @@ btnOkTampilBKK.addEventListener('click', function(event) {
         });
 });
 
-btnCetakBKK.addEventListener('click', function(event) {
+btnCetakBKK.addEventListener('click', function (event) {
     event.preventDefault();
 
     if ($('input[name="dataCheckbox"]:checked').length === 0) {
         alert("Pilih 1 Id.BKK Untuk DiCetak!");
         return;
     }
-    methodTampilBKK.value="PUT";
+    methodTampilBKK.value = "PUT";
     formTampilBKK.action = "/BKMBKKNotaKredit/" + idBKKTampil.value;
     console.log(idBKKTampil.value);
     formTampilBKK.submit();
 });
 //#endregion
 
-btnKoreksi.addEventListener('click', function(event) {
+btnKoreksi.addEventListener('click', function (event) {
     event.preventDefault();
     if (idBKM.value != "") {
         tanggal.removeAttribute("readonly");
@@ -754,7 +842,7 @@ btnKoreksi.addEventListener('click', function(event) {
     }
 });
 
-btnBatal.addEventListener('click', function(event) {
+btnBatal.addEventListener('click', function (event) {
     tanggal.value = "";
     bulan.value = "";
     tahun.value = "";
