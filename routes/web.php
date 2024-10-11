@@ -232,6 +232,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('SuratPesanan/{IDCust}', 'SuratPesananController@show');
     Route::post('/SuratPesanan/{id}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananController@destroy')->name('suratpesanan.destroy');
     Route::post('/SuratPesananManager/{id}/up', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananManagerController@update')->name('suratpesananmanager.update');
+    Route::post('/SuratPesananManager/{id}/del', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananManagerController@destroy')->name('suratpesananmanager.destroy');
     Route::post('/SuratPesananManager/upall', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananManagerController@updateAll');
     Route::get('/SuratPesananManager/penyesuaian/suratpesanan', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananManagerController@penyesuaian');
     Route::get('/penyesuaian/{suratPesanan}', 'App\Http\Controllers\Sales\Transaksi\SuratPesanan\SuratPesananManagerController@getPenyesuaianSP');

@@ -35,28 +35,70 @@ $(document).ready(function () {
         event.preventDefault();
         let no_spValue = rowDataArray[0].nomorSP;
         var formData = new FormData(form_suratPesanan);
+        if (rowDataArray.length == 1) {
+            Swal.fire({
+                title: "Apakah anda yakin menghapus?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/SuratPesananManager/" + no_spValue,
+                        type: "DELETE",
+                        data: formData,
+                        data: {
+                            _token: csrfToken,
+                            no_spValue: no_spValue,
+                        },
+                        success: function (response) {
+                            console.log(response);
 
-        $.ajax({
-            url: "/SuratPesananManager/" + no_spValue,
-            type: "DELETE",
-            data: formData,
-            processData: false, // Jangan proses data karena FormData sudah ter-serialize
-            contentType: false,
-            headers: {
-                "X-CSRF-TOKEN": csrfToken, // Kirim token CSRF secara manual
-            },
-            success: function (data) {
-                console.log(data);
-                // location.reload();
-                // totalLihat.value = data.total;
-                // jenisCustomer.value = data.TJenisCust;
-                // alamat.value = data.TAlamat;
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err.Message);
-            },
-        });
+                            if (response.message) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success!",
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                }).then(() => {
+                                    location.reload();
+                                    // document
+                                    //     .querySelectorAll("input")
+                                    //     .forEach((input) => (input.value = ""));
+                                    // $("#table_atas").DataTable().ajax.reload();
+                                    // idReferensi.value = response.IdReferensi;
+                                    // btn_proses.disabled = true;
+                                    // btn_batal.disabled = true;
+                                    // btn_isi.disabled = false;
+                                    // btn_koreksi.disabled = false;
+                                    // btn_hapus.disabled = false;
+                                    // btn_ok.click();
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "info",
+                                    title: "Info!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title: "Warning!",
+                text: "Pilih 1 Surat Pesanan",
+                showConfirmButton: true,
+            });
+        }
     });
 
     btn_edit.addEventListener("click", async function (event) {
@@ -186,8 +228,8 @@ $(document).ready(function () {
             });
         } else {
             Swal.fire({
-                icon: "error",
-                title: "Kesalahan!",
+                icon: "warning",
+                title: "Warning!",
                 text: "Pilih 1 Surat Pesanan",
                 showConfirmButton: true,
             });

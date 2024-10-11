@@ -740,17 +740,15 @@ class SuratPesananManagerController extends Controller
     //Remove the specified resource from storage.
     public function destroy(Request $request)
     {
-        dd($request->all());
-        // Assuming the request contains an array of IDs
-        $ids = $request->input('idPesan');
+        // dd($request->all());
+        $no_sp = $request->input('no_spValue');
 
         try {
-            // Iterate through each IDPesanan and execute the stored procedure
-            foreach ($ids as $idPesanan) {
-                DB::connection('ConnSales')->statement('EXEC SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?, @IDPesanan = ?', [3, $idPesanan]);
-            }
+            DB::connection('ConnSales')->table('T_DetailPesanan')
+                ->where('IDSuratPesanan', $no_sp)
+                ->delete();
 
-            DB::connection('ConnSales')->statement('EXEC SP_1486_SLS_DEL_HEADER_DETAIL_PESANAN @IDSuratPesanan = ?', [$ids[0]]); // Just an example, change as needed
+            DB::connection('ConnSales')->statement('EXEC SP_1486_SLS_DEL_HEADER_DETAIL_PESANAN @IDSuratPesanan = ?', [$no_sp]);
 
             return response()->json(['message' => 'Data deleted successfully.']);
         } catch (\Exception $e) {

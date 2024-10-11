@@ -59,7 +59,7 @@
                         <input class="form-check-input" type="checkbox" id="checkbox_all" value="option2">
                         <label class="form-check-label" for="checkbox2">Pilih Semua</label>
                     </div>
-                    <div class="col" style="gap: 5px; grid-template-columns: auto ;display: grid;">
+                    <div style="gap: 5px; grid-template-columns: auto;">
                         {{-- <form onsubmit="return confirm('Apakah Anda Yakin untuk menyetujui semua surat pesanan?');"
                                 id="form_submitAll" action="{{ url('/SuratPesananManager/upall') }}" method="POST"
                                 enctype="multipart/form-data">
@@ -75,11 +75,11 @@
                             {{ csrf_field() }}
                             <button class="btn btn-sm btn-success" id="button_submitSelected"><span>&#x2713;</span>
                                 Setujui Surat Pesanan yang Dipilih</button>
+                            <button type="button" class="btn btn-sm btn-primary" id="btn_edit"
+                                style="width: 80px;"><span>&#x270E;</span> Edit</button>
+                            <button type="button" class="btn btn-sm btn-danger" id="btn_hapus"
+                                style="width: 80px;"><span>&#x1F5D1;</span> Hapus</button>
                         </form>
-                        <button type="button" class="btn btn-sm btn-primary" id="btn_edit"
-                            style="width: 80px;"><span>&#x270E;</span> Edit</button>
-                        <button type="button" class="btn btn-sm btn-danger" id="btn_hapus"
-                            style="width: 80px;"><span>&#x1F5D1;</span> Hapus</button>
                     </div>
                 </div>
             </div>
