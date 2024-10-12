@@ -1169,6 +1169,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getidbkmBKKDP/{idBankBKK}/{tanggal}', 'App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController@getUraianEnterBKK');
 
     Route::resource('MaintenanceBKMxBKKNotaKredit', App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController::class);
+    Route::get('getmatauang', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getMataUang');
     Route::get('getDataNotaKredit', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getDataNotaKredit');
     Route::get('getidBKMNota/{idBank}/{tanggal}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getUraianEnterBKM');
     Route::get('getidBKKNota/{idBank}/{tanggal}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getUraianEnterBKK');

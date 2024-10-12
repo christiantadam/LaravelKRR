@@ -26,6 +26,20 @@ class BKMBKKNotaKreditController extends Controller
         return response()->json($tabel);
     }
 
+    public function getMataUang()
+    {
+        $data = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_MATA_UANG] @Kode = ?', [1]);
+        $data_Uang = [];
+        foreach ($data as $detail_Uang) {
+            $data_Uang[] = [
+                'Id_MataUang' => $detail_Uang->Id_MataUang,
+                'Nama_MataUang' => $detail_Uang->Nama_MataUang
+            ];
+        }
+        return datatables()->of($data_Uang)->make(true);
+    }
+
+
     function getUraianEnterBKM($id, $tanggal)
     {
         $idBank = $id;
@@ -245,50 +259,73 @@ class BKMBKKNotaKreditController extends Controller
             1
         ]);
 
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKK_TDETAILPEMB]
+        DB::connection('ConnAccounting')->statement(
+            'exec [SP_5298_ACC_INSERT_BKK_TDETAILPEMB]
         @idpembayaran = ?,
         @keterangan = ?,
         @biaya = ?,
-        @kodeperkiraan = ?'
-        , [
-            $idPembayaran,
-            $noNotaKredit,
-            $jumlah,
-            $idKodePerkiraanBKK
-        ]);
+        @kodeperkiraan = ?',
+            [
+                $idPembayaran,
+                $noNotaKredit,
+                $jumlah,
+                $idKodePerkiraanBKK
+            ]
+        );
 
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_COUNTER_IDBKK]
+        DB::connection('ConnAccounting')->statement(
+            'exec [SP_5298_ACC_UPDATE_COUNTER_IDBKK]
         @idbkk = ?,
         @idBank = ?,
         @jenis = ?,
-        @tgl = ?'
-        , [
-            $id_bkk,
-            $idBankBKK,
-            $jenisBankBKK,
-            $tgl
-        ]);
+        @tgl = ?',
+            [
+                $id_bkk,
+                $idBankBKK,
+                $jenisBankBKK,
+                $tgl
+            ]
+        );
 
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_FIELD_IDBKK]
+        DB::connection('ConnAccounting')->statement(
+            'exec [SP_5298_ACC_UPDATE_FIELD_IDBKK]
         @idNotaKredit = ?,
         @idPenagihan = ?,
         @idBKK = ?,
-        @idBKM = ?'
-        , [
-            $noNotaKredit,
-            $idPenagihan,
-            $idBKK,
-            $idBKM
-        ]);
+        @idBKM = ?',
+            [
+                $noNotaKredit,
+                $idPenagihan,
+                $idBKK,
+                $idBKM
+            ]
+        );
 
-        return redirect()->back()->with('success', 'BKM No. '. $idBKM . ' & BKK No. ' . $idBKK . ' Tersimpan');
+        return redirect()->back()->with('success', 'BKM No. ' . $idBKM . ' & BKK No. ' . $idBKK . ' Tersimpan');
     }
 
 
     //Display the specified resource.
-    public function show($cr)
+    public function show($id, Request $request)
     {
-        //
+        $idBankBKM = trim($request->input('idBankBKM'));
+
+        if ($id === 'getbank') {
+            $data = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK]');
+            $data_isi = [];
+            foreach ($data as $detail_isi) {
+                $data_isi[] = [
+                    'Id_Bank' => $detail_isi->Id_Bank,
+                    'Nama_Bank' => $detail_isi->Nama_Bank
+                ];
+            }
+            return datatables()->of($data_isi)->make(true);
+        }
+
+        else if ($id === 'detailjenisbank') {
+            $data =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK_1] @idBank = ?', [$idBankBKM]);
+            return response()->json($data);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -303,16 +340,17 @@ class BKMBKKNotaKreditController extends Controller
         $proses =  $request->all();
         if ($proses['cetak'] == "cetakBKM") {
             //dd($request->all());
-            $idBKMTampil = $request ->idBKMTampil;
+            $idBKMTampil = $request->idBKMTampil;
             DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_TGLCETAK_BKM] @idBKM = ?', [
-                $idBKMTampil]);
+                $idBKMTampil
+            ]);
             return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
-        }
-        else if ($proses['cetak'] == "cetakBKK") {
+        } else if ($proses['cetak'] == "cetakBKK") {
             //dd($request->all());
-            $idBKKTampil = $request ->idBKKTampil;
+            $idBKKTampil = $request->idBKKTampil;
             DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_TGLCETAK_BKK] @idBKK = ?', [
-                $idBKKTampil]);
+                $idBKKTampil
+            ]);
             return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
         }
     }

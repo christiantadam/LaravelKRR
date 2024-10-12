@@ -1,3 +1,5 @@
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 let dataTable;
 let btnPilihNotaKredit = document.getElementById('btnPilihNotaKredit');
 let formkoreksi = document.getElementById('formkoreksi');
@@ -13,6 +15,8 @@ let btnKoreksi = document.getElementById('btnKoreksi');
 let btnBatal = document.getElementById('btnBatal');
 let btnProses = document.getElementById('btnProses');
 let btnTampilBKM = document.getElementById('btnTampilBKM');
+let btn_mtUang = document.getElementById('btn_mtUang');
+let btn_bank = document.getElementById('btn_bank');
 
 let jumlah = document.getElementById('jumlah');
 
@@ -46,6 +50,7 @@ let tahun = document.getElementById('tahun');
 let jmlUang;
 let id_bkm = document.getElementById('id_bkm');
 let id_bkk = document.getElementById('id_bkk');
+let idUang;
 
 let total1;
 let total2;
@@ -114,6 +119,11 @@ function initializeDataTable(data) {
         $('#tabelNotaKredit').DataTable().clear().destroy();
     }
 
+    // Create and append the checkbox container if it doesn't exist
+    if ($('#checkboxContainer').length === 0) {
+        $('.table-responsive').before('<div id="checkboxContainer"></div>');
+    }
+
     table = $('#tabelNotaKredit').DataTable({
         paging: false,
         searching: false,
@@ -142,7 +152,6 @@ function initializeDataTable(data) {
         ]
     });
 }
-initializeDataTable([]); // Initialize the DataTable with no data
 
 function tampilDataNota() {
     fetch("/getDataNotaKredit/")
@@ -158,20 +167,27 @@ function tampilDataNota() {
                 returnFocus: false
             });
         } else {
-            var tableData = options.map(function (item) {
-                var date = new Date(item.Tgl_Input);
+            tableData = [];
+            const checkboxContainer = $('#checkboxContainer');
+            checkboxContainer.empty();
+
+            options.forEach(function (item) {
+                var date = new Date(item.Tanggal);
                 var formattedDate = date.toLocaleDateString();
-                return [
-                    `<div>
-                        <input type="checkbox" name="divisiCheckbox" value="${escapeHtml(item.NamaCust)}" /> ${escapeHtml(item.NamaCust)}
-                    </div>`,
+
+                const checkboxHtml = `<input type="checkbox" name="divisiCheckbox" value="${escapeHtml(item.NamaCust.trim())}" /> ${escapeHtml(item.NamaCust.trim())}`;
+
+                tableData.push([
+                    checkboxHtml,
                     escapeHtml(formattedDate),
                     escapeHtml(item.Id_NotaKredit),
                     escapeHtml(item.Id_Penagihan),
                     escapeHtml(item.NamaNotaKredit),
                     parseFloat(item.Nilai).toLocaleString(),
-                    escapeHtml(item.Nama_MataUang)
-                ];
+                    escapeHtml(item.Nama_MataUang),
+                    escapeHtml(item.Id_MataUang),
+                    escapeHtml(item.Id_Customer)
+                ]);
             });
 
             initializeDataTable(tableData);
@@ -191,44 +207,6 @@ function escapeHtml(text) {
 }
 
 
-// fetch("/getDataNotaKredit/")
-//     .then((response) => response.json())
-//     .then((options) => {
-//         console.log(options);
-
-//         dataTable = $("#tabelNotaKredit").DataTable({
-//             data: options,
-//             columns: [
-//                 {
-//                     title: "Customer", data: "NamaCust",
-//                     render: function (data) {
-//                         return `<input type="checkbox" name="divisiCheckbox" value="${data}" /> ${data}`;
-//                     },
-//                 },
-//                 {
-//                     title: "Tgl. Nota Kredit", data: "Tanggal",
-//                     render: function (data) {
-//                         var date = new Date(data);
-//                         return date.toLocaleDateString();
-//                     }
-//                 },
-//                 { title: "No. Nota Kredit", data: "Id_NotaKredit" },
-//                 { title: "No. Penagihan", data: "Id_Penagihan" },
-//                 { title: "Jenis Nota Kredit ", data: "NamaNotaKredit" },
-//                 {
-//                     title: "Jumlah Uang", data: "Nilai",
-//                     render: function (data) {
-//                         // Mengubah format angka ke format dengan koma
-//                         return parseFloat(data).toLocaleString();
-//                     },
-//                 },
-//                 { title: "Mata Uang", data: "Nama_MataUang" },
-//                 { title: "Id. Mata Uang", data: "Id_MataUang" },
-//                 { title: "Id. Customer", data: "Id_Customer" },
-//             ],
-//         });
-//     });
-
 document.getElementById('tabelNotaKredit').addEventListener('change', function (event) {
     if (event.target.getAttribute('name') === 'divisiCheckbox') {
         const checkbox = event.target;
@@ -238,21 +216,22 @@ document.getElementById('tabelNotaKredit').addEventListener('change', function (
                 lastCheckedCheckbox.checked = false;
             }
             lastCheckedCheckbox = checkbox;
-            // Dapatkan elemen tr yang mengandung checkbox yang diperiksa
+
             const tableRow = checkbox.closest('tr');
-            // Dapatkan semua elemen <td> dalam baris tersebut
-            const tableCells = Array.from(tableRow.getElementsByTagName('td'));
-            const idCust = tableCells[8].textContent;
-            const noNota = tableCells[2].textContent;
-            const noPenagihan = tableCells[3].textContent;
+            const rowIndex = tableRow.rowIndex - 1;
+
+            let selectedData = tableData[rowIndex];
+            selectedData[0] = selectedData[0].match(/value="([^"]+)"/)[1];
+            // console.log('Selected Data after :', selectedData);
+
             if (idCustomer) {
-                idCustomer.value = idCust;
+                idCustomer.value = selectedData[8];
             }
             if (idPenagihan) {
-                idPenagihan.value = noPenagihan;
+                idPenagihan.value = selectedData[3];
             }
             if (noNotaKredit) {
-                noNotaKredit.value = noNota;
+                noNotaKredit.value = selectedData[2];
             }
         } else {
             if (idCustomer) {
@@ -264,46 +243,51 @@ document.getElementById('tabelNotaKredit').addEventListener('change', function (
             if (noNotaKredit) {
                 noNotaKredit.value = '';
             }
-
         }
     }
 });
 
+
 btnPilihNotaKredit.addEventListener('click', function (event) {
     event.preventDefault();
+
     if (lastCheckedCheckbox) {
-        rowData = dataTable.row($(lastCheckedCheckbox).closest('tr')).data();
+        const tableRow = lastCheckedCheckbox.closest('tr');
+        const rowIndex = tableRow.rowIndex - 1;
+        let selectedData = tableData[rowIndex];
 
-        // Assuming the order of columns is the same as you provided
-        NoNotaKredit = rowData['Id_NotaKredit'];
-        NoPenagihan = rowData['Id_Penagihan'];
-        idMtUang = rowData['Id_MataUang'];
-        IdCust = rowData['Id_Customer'];
-        tglNota = rowData['Tanggal'];
-        jmlUang = rowData['Nilai'];
+        console.log('Selected Data:', selectedData);
 
-        nilaiUang.value = parseFloat(jmlUang);
-        for (var i = 0; i < rowData.length; i++) {
-            nilaiUang.value += parseFloat(rowDataArray[i]['Nilai']);
+        NoNotaKredit = selectedData[2];
+        NoPenagihan = selectedData[3];
+        idMtUang = selectedData[7];
+        IdCust = selectedData[8];
+        tglNota = selectedData[1];
+        jmlUang = selectedData[5];
+
+        nilaiUang.value = numeral(jmlUang).value();
+
+        for (var i = 0; i < selectedData.length; i++) {
+            if (selectedData[i] && selectedData[i][5]) {
+                nilaiUang.value += numeral(selectedData[i][5]).value();
+            }
         }
 
-        const dateObject = new Date(tglNota);
+        nilaiUang.value = numeral(nilaiUang.value).format("0,0.00");
+        jumlahUangBKM.value = numeral(numeral(selectedData[5]).value()).format("0,0.00");
 
-        const tglInput = new Date(rowData['Tanggal']);
-        tglInput.setDate(tglInput.getDate() + 1);  // Mengurangi 1 hari
+        const dateObject = new Date();
+        const tglInput = new Date(dateObject);
+        tglInput.setDate(tglInput.getDate() + 1);
         const formattedDate = tglInput.toISOString().substr(0, 10);
-        tanggal.value = formattedDate;
+        tanggal.value = formattedDate2;
 
-        // Get month and year separately
-        bulan.value = dateObject.getMonth() + 1; // +1 karena bulan dimulai dari 0 (Januari) - 11 (Desember)
+        bulan.value = dateObject.getMonth() + 1;
         tahun.value = dateObject.getFullYear();
 
         console.log('Bulan:', bulan.value);
         console.log('Tahun:', tahun.value);
-        console.log(nilaiUang.value);
-
-        rowData['bulan'] = bulan.value;
-        rowData['tahun'] = tahun.value;
+        console.log('Nilai Uang:', nilaiUang.value);
 
         tanggal.removeAttribute("readonly");
         mataUangBKMSelect.removeAttribute("readonly");
@@ -311,12 +295,18 @@ btnPilihNotaKredit.addEventListener('click', function (event) {
         jumlahUangBKM.removeAttribute("readonly");
         namaBankBKMSelect.removeAttribute("readonly");
         idBankBKM.removeAttribute("readonly");
-        jenisBankBKM.removeAttribute("readonly");
+        // jenisBankBKM.removeAttribute("readonly");
         idKodePerkiraanBKM.removeAttribute("readonly");
         kodePerkiraanSelectBKM.removeAttribute("readonly");
         uraianBKM.removeAttribute("readonly");
+        btn_mtUang.removeAttribute("disabled");
+        btn_bank.removeAttribute("disabled");
+    } else {
+        // Handle case where no checkbox is selected (optional)
+        console.log('No row selected.');
     }
 });
+
 
 kursRupiah.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
@@ -344,40 +334,280 @@ kursRupiah.addEventListener("keypress", function (event) {
     }
 });
 
+
 //#region ambil list mata uang
-fetch("/getmatauang/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        mataUangBKMSelect.innerHTML = "";
+function handleTableKeydown(e, tableId) {
+    const table = $(`#${tableId}`).DataTable();
+    const rows = $(`#${tableId} tbody tr`);
+    const rowCount = rows.length;
 
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Mata Uang";
-        mataUangBKMSelect.appendChild(defaultOption);
+    if (e.key === "Enter") {
+        e.preventDefault();
+        const selectedRow = table.row(".selected").data();
+        if (selectedRow) {
+            Swal.getConfirmButton().click();
+        } else {
+            const firstRow = $(`#${tableId} tbody tr:first-child`);
+            if (firstRow.length) {
+                firstRow.click();
+                Swal.getConfirmButton().click();
+            }
+        }
+    }
+    else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (currentIndex === null || currentIndex >= rowCount - 1) {
+            currentIndex = 0;
+        } else {
+            currentIndex++;
+        }
+        rows.removeClass("selected");
+        const selectedRow = $(rows[currentIndex]).addClass("selected");
+        scrollRowIntoView(selectedRow[0]);
+    }
+    else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (currentIndex === null || currentIndex <= 0) {
+            currentIndex = rowCount - 1;
+        } else {
+            currentIndex--;
+        }
+        rows.removeClass("selected");
+        const selectedRow = $(rows[currentIndex]).addClass("selected");
+        scrollRowIntoView(selectedRow[0]);
+    }
+    else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        const pageInfo = table.page.info();
+        if (pageInfo.page < pageInfo.pages - 1) {
+            table.page('next').draw('page').on('draw', function () {
+                currentIndex = 0;
+                const newRows = $(`#${tableId} tbody tr`);
+                const selectedRow = $(newRows[currentIndex]).addClass("selected");
+                scrollRowIntoView(selectedRow[0]);
+            });
+        }
+    }
+    else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        const pageInfo = table.page.info();
+        if (pageInfo.page > 0) {
+            table.page('previous').draw('page').on('draw', function () {
+                currentIndex = 0;
+                const newRows = $(`#${tableId} tbody tr`);
+                const selectedRow = $(newRows[currentIndex]).addClass("selected");
+                scrollRowIntoView(selectedRow[0]);
+            });
+        }
+    }
+}
 
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.Id_MataUang;
-            option.innerText = entry.Id_MataUang + "|" + entry.Nama_MataUang;
-            mataUangBKMSelect.appendChild(option);
+function scrollRowIntoView(rowElement) {
+    rowElement.scrollIntoView({ block: 'nearest' });
+}
+
+btn_mtUang.addEventListener("click", function (e) {
+    e.preventDefault();
+    try {
+        Swal.fire({
+            title: 'Mata Uang',
+            html: `
+                <table id="table_list" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Mata Uang</th>
+                            <th scope="col">Nama Mata Uang</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            `,
+            preConfirm: () => {
+                const selectedData = $("#table_list")
+                    .DataTable()
+                    .row(".selected")
+                    .data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            width: '40%',
+            returnFocus: false,
+            showCloseButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Select',
+            didOpen: () => {
+                const table = $("#table_list").DataTable({
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    paging: false,
+                    scrollY: '400px',
+                    scrollCollapse: true,
+                    order: [0, "asc"],
+                    ajax: {
+                        url: "getmatauang",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken
+                        }
+                    },
+                    columns: [
+                        { data: "Id_MataUang" },
+                        { data: "Nama_MataUang" }
+                    ],
+                    columnDefs: [
+                        {
+                            targets: 0,
+                            width: '100px',
+                        }
+                    ]
+                });
+
+                $("#table_list tbody").on("click", "tr", function () {
+                    table.$("tr.selected").removeClass("selected");
+                    $(this).addClass("selected");
+                    scrollRowIntoView(this);
+                });
+
+                const searchInput = $('#table_list_filter input');
+                if (searchInput.length > 0) {
+                    searchInput.focus();
+                }
+
+                currentIndex = null;
+                Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(result);
+
+                idUang = result.value.Id_MataUang.trim();
+                mataUangBKMSelect.value = result.value.Nama_MataUang.trim();
+
+                if (result.value.Id_Mata_Uang !== idMtUang) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Karena mata uang yg dipilih tdk sama dgn mata uang BKM DP-nya, isikan nilai kurs-nya.',
+                        returnFocus: false
+                    }).then(() => {
+                        kursRupiah.focus();
+                    });
+                }
+            }
         });
-    });
-
-mataUangBKMSelect.addEventListener("change", function (event) {
-    event.preventDefault();
-    const selectedOption = mataUangBKMSelect.options[mataUangBKMSelect.selectedIndex];
-    if (selectedOption) {
-        const idKodeInput = document.getElementById('idMataUangBKM');
-        const selectedValue = selectedOption.textContent;
-        const idMU = selectedValue.split("|")[0];
-        idKodeInput.value = idMU;
+    } catch (error) {
+        console.error(error);
     }
 });
 //#endregion
 
 //#region untuk ambil LIST BANK BKM
+btn_bank.addEventListener("click", function (e) {
+    e.preventDefault();
+    try {
+        Swal.fire({
+            title: 'Bank',
+            html: `
+                <table id="table_list" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Bank</th>
+                            <th scope="col">Nama Bank</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            `,
+            preConfirm: () => {
+                const selectedData = $("#table_list")
+                    .DataTable()
+                    .row(".selected")
+                    .data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            width: '40%',
+            returnFocus: false,
+            showCloseButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Select',
+            didOpen: () => {
+                const table = $("#table_list").DataTable({
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    paging: false,
+                    scrollY: '400px',
+                    scrollCollapse: true,
+                    order: [0, "asc"],
+                    ajax: {
+                        url: "getbank",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken
+                        }
+                    },
+                    columns: [
+                        { data: "Id_Bank" },
+                        { data: "Nama_Bank" }
+                    ],
+                    columnDefs: [
+                        {
+                            targets: 0,
+                            width: '100px',
+                        }
+                    ]
+                });
+
+                $("#table_list tbody").on("click", "tr", function () {
+                    table.$("tr.selected").removeClass("selected");
+                    $(this).addClass("selected");
+                    scrollRowIntoView(this);
+                });
+
+                const searchInput = $('#table_list_filter input');
+                if (searchInput.length > 0) {
+                    searchInput.focus();
+                }
+
+                currentIndex = null;
+                Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                idBankBKM.value = result.value.Id_Bank.trim();
+                namaBankBKMSelect.value = result.value.Nama_Bank.trim();
+
+                if (idBankBKM.value !== '') {
+                    $.ajax({
+                        type: 'GET',
+                        url: "detailjenisbank",
+                        data: {
+                            _token: csrfToken,
+                            idBankBKM: idBankBKM.value
+                        },
+                        success: function (result) {
+                            jenisBankBKM.value = result.jenis.trim();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                }
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 fetch("/getbank/")
     .then((response) => response.json())
     .then((options) => {

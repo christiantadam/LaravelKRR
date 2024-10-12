@@ -86,11 +86,11 @@
                                                 <input type="date" id="tanggal" name="tanggal" class="form-control"
                                                     style="width: 100%" readonly>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" style="display: none">
                                                 <input type="text" id="bulan" name="bulan" class="form-control"
                                                     style="width: 100%">
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" style="display: none">
                                                 <input type="text" id="tahun" name="tahun" class="form-control"
                                                     style="width: 100%">
                                             </div>
@@ -116,10 +116,13 @@
                                                     Uang</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <select id="mataUangBKMSelect" name="mataUangBKMSelect"
-                                                    class="form-control" readonly>
-
-                                                </select>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="mataUangBKMSelect" name="mataUangBKMSelect"
+                                                        readonly>
+                                                    <div class="input-group-append">
+                                                        <button type="button" id="btn_mtUang" class="btn btn-default" disabled>...</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <label for="kursRupiah" style="margin-right: 10px;">Kurs Rupiah</label>
@@ -137,7 +140,7 @@
                                                     Uang</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="number" id="jumlahUangBKM" name="jumlahUangBKM"
+                                                <input type="text" id="jumlahUangBKM" name="jumlahUangBKM"
                                                     class="form-control" style="width: 100%" readonly>
                                             </div>
                                         </div>
@@ -147,10 +150,13 @@
                                                     style="margin-right: 10px;">Bank</label>
                                             </div>
                                             <div class="col-md-5">
-                                                <select id="namaBankBKMSelect" name="namaBankBKMSelect"
-                                                    class="form-control" readonly>
-
-                                                </select>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="namaBankBKMSelect" name="namaBankBKMSelect"
+                                                        readonly>
+                                                    <div class="input-group-append">
+                                                        <button type="button" id="btn_bank" class="btn btn-default" disabled>...</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <!--HIDDEN INPUT-->
                                             <div class="col-md-4">
@@ -168,7 +174,7 @@
                                                     Perkiraan</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <input type="number" id="idKodePerkiraanBKM"
+                                                <input type="text" id="idKodePerkiraanBKM"
                                                     name="idKodePerkiraanBKM" class="form-control"
                                                     style="width: 100%" readonly>
                                             </div>
@@ -212,7 +218,7 @@
                                                     Uang</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="number" id="jumlahUangBKK" name="jumlahUangBKK"
+                                                <input type="text" id="jumlahUangBKK" name="jumlahUangBKK"
                                                     class="form-control" style="width: 100%" readonly>
                                             </div>
                                         </div>
@@ -238,7 +244,7 @@
                                                     Perkiraan</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <input type="number" id="idKodePerkiraanBKK"
+                                                <input type="text" id="idKodePerkiraanBKK"
                                                     name="idKodePerkiraanBKK" class="form-control"
                                                     style="width: 100%" readonly>
                                             </div>
