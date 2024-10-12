@@ -377,8 +377,6 @@ btnOkBKK.addEventListener('click', function () {
         },
         success: function (result) {
             if (result.length !== 0) {
-                console.log('amma');
-
                 updateDataTable(result, 5);
             }
         },
@@ -437,7 +435,7 @@ btnCetakBKK.addEventListener('click', function () {
                     dateCetakBKK.textContent = ": " + formattedDate;
 
                     paidCetakBKK.textContent = ": " + decodeHtmlEntities(result[0].NM_SUP);
-                    
+
                     batalNote.textContent = 'BATAL: ' + decodeHtmlEntities(result[0].Batal);
                     alasanNote.textContent = 'ALASAN: ' + decodeHtmlEntities(result[0].Alasan);
 
@@ -507,7 +505,7 @@ btnCetakBKK.addEventListener('click', function () {
 
 function printPreview(previewClass) {
     // Hide all content first
-    document.querySelectorAll('.preview, .preview2').forEach(function(preview) {
+    document.querySelectorAll('.preview, .preview2').forEach(function (preview) {
         preview.style.display = "none"; // Hide both previews
     });
 
@@ -2711,8 +2709,9 @@ btnBatal.addEventListener("click", function (e) {
 });
 
 btnProses.addEventListener("click", function (e) {
-    let idbkm = parseInt(idBKM.value.substring(0, 3), 10);
-    let idbkk = idBKK.value.substring(0, 3);
+    let idbkm = isNaN(parseInt(idBKM.value.substring(0, 3))) ? 0 : parseInt(idBKM.value.substring(0, 3));
+    let idbkk = isNaN(parseInt(idBKK.value.substring(0, 3))) ? 0 : parseInt(idBKK.value.substring(0, 3));
+
     let nilai = 0, nilai1 = 0, ada1 = false, ada2 = false, ada3 = false, biaya = 0, biaya1 = 0;
     let konversi, konversi2, IdPembayaran, IdPelunasan;
     let allBKK = [], allBg = [], allBKM = [];

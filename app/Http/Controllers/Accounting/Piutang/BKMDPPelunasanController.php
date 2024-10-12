@@ -487,6 +487,44 @@ class BKMDPPelunasanController extends Controller
             return response()->json($data_divisi);
         }
 
+        // list bkm
+        else if ($id === 'getListBKM') {
+            $tgl1 = $request->input('tgl1');
+            $tgl2 = $request->input('tgl2');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKM_DP_PERTGL
+            @tgl1 = ?, @tgl2 = ?', [$tgl1, $tgl2]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKM' => $detail_divisi->Id_BKM,
+                    'Nilai_Pelunasan' => $detail_divisi->Nilai_Pelunasan,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // list bkK
+        else if ($id === 'getListBKK') {
+            $tgl1 = $request->input('tgl1');
+            $tgl2 = $request->input('tgl2');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKK_DP_PERTGL
+            @tgl1 = ?, @tgl2 = ?', [$tgl1, $tgl2]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKK' => $detail_divisi->Id_BKK,
+                    'Nilai_Pembulatan' => $detail_divisi->Nilai_Pembulatan,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
     }
 
     // Show the form for editing the specified resource.
@@ -518,11 +556,13 @@ class BKMDPPelunasanController extends Controller
         $user = Auth::user()->NomorUser;
 
         if ($id === 'insertBKK') {
+
             $idBKK = $request->input('idBKK');
             $tgl = $request->input('tgl');
             $terjemahan = $request->input('terjemahan');
             $nilai = $request->input('nilai');
             $IdBank = $request->input('IdBank');
+            // dd($request->all());
 
             try {
                 DB::connection('ConnAccounting')
@@ -555,22 +595,26 @@ class BKMDPPelunasanController extends Controller
             $idBank = $request->input('idBank');
             $nilai = $request->input('nilai');
             $kurs = $request->input('kurs');
+            $idBKM_acuan = $request->input('idBKM_acuan');
+            // dd($request->all());
 
             if (intval($kurs) === 0) {
                 try {
                     DB::connection('ConnAccounting')
-                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG_1 ]
+                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG]
                     @idBKK = ?,
                     @idUang = ?,
                     @idJenis = ?,
                     @idBank = ?,
                     @nilai = ?,
+                    @idBKM_acuan = ?,
                     @user = ?', [
                             $idBKK,
                             $idUang,
-                            $idJenis,
+                            1,
                             $idBank,
                             $nilai,
+                            $idBKM_acuan,
                             $user,
                         ]);
 
@@ -581,7 +625,7 @@ class BKMDPPelunasanController extends Controller
             } else if (intval($kurs) !== 0) {
                 try {
                     DB::connection('ConnAccounting')
-                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG_1 ]
+                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG]
                     @idBKK = ?,
                     @idUang = ?,
                     @idJenis = ?,
@@ -611,6 +655,7 @@ class BKMDPPelunasanController extends Controller
             $idBank = $request->input('idBank');
             $jenis = $request->input('jenis');
             $tgl = $request->input('tgl');
+            // dd($request->all());
 
             try {
                 DB::connection('ConnAccounting')
@@ -637,6 +682,7 @@ class BKMDPPelunasanController extends Controller
             $keterangan = $request->input('keterangan');
             $biaya = $request->input('biaya');
             $kodeperkiraan = $request->input('kodeperkiraan');
+            // dd($request->all());
 
             try {
                 DB::connection('ConnAccounting')
@@ -664,6 +710,7 @@ class BKMDPPelunasanController extends Controller
             $terjemahan = $request->input('terjemahan');
             $IdBank = $request->input('IdBank');
             $nilaipelunasan = $request->input('nilai');
+            // dd($request->all());
 
             try {
                 DB::connection('ConnAccounting')
@@ -702,6 +749,7 @@ class BKMDPPelunasanController extends Controller
             $kurs = $request->input('kurs');
             $saldo = $request->input('saldo');
             $idCust = $request->input('idCust');
+            // dd($request->all());
 
             if ($kurs === null) {
                 try {
@@ -782,6 +830,7 @@ class BKMDPPelunasanController extends Controller
             $idBank = $request->input('idBank');
             $jenis = $request->input('jenis');
             $tgl = $request->input('tgl');
+            // dd($request->all());
 
             try {
                 DB::connection('ConnAccounting')
@@ -807,6 +856,9 @@ class BKMDPPelunasanController extends Controller
             $idBKM = $request->input('idBKM');
             $idPelunasan = $request->input('idPelunasan');
             $nilai = $request->input('nilai');
+            // dd($request->all());
+
+            // dd($idBKM, $idPelunasan, $nilai);
 
             try {
                 DB::connection('ConnAccounting')

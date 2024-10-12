@@ -838,6 +838,24 @@ var btnBatal = document.getElementById("btnBatal");
 var btnTampilBKM = document.getElementById("btnTampilBKM");
 var btnTampilBKK = document.getElementById("btnTampilBKK");
 
+var tglAwalBKM = document.getElementById('tglAwalBKM');
+var tglAkhirBKM = document.getElementById('tglAkhirBKM');
+var btnOkBKM = document.getElementById('btnOkBKM');
+var idCetakBKM = document.getElementById('idCetakBKM');
+var btnCetakBKM = document.getElementById('btnCetakBKM');
+// var btnProsesBg = document.getElementById('btnProsesBg');
+var modalListBKM = document.getElementById('modalListBKM');
+var tableListBKM = document.getElementById('tableListBKM');
+
+var tglAwalBKK = document.getElementById('tglAwalBKK');
+var tglAkhirBKK = document.getElementById('tglAkhirBKK');
+var btnOkBKK = document.getElementById('btnOkBKK');
+var idCetakBKK = document.getElementById('idCetakBKK');
+var btnCetakBKK = document.getElementById('btnCetakBKK');
+// var btnProsesBg = document.getElementById('btnProsesBg');
+var modalListBKK = document.getElementById('modalListBKK');
+var tableListBKK = document.getElementById('tableListBKK');
+
 var dateNow = document.getElementById('tanggal');
 var today = new Date().toISOString().slice(0, 10);
 tglInput.value = today;
@@ -994,9 +1012,9 @@ function handleTableKeydown(e, tableId) {
 }
 
 function updateDataTable(data, angka) {
-    var tableData = $('#tableData').DataTable();
 
     if (angka === 1) {
+        var tableData = $('#tableData').DataTable();
         tableData.clear();
         data.forEach(function (item) {
             tableData.row.add([
@@ -1019,25 +1037,9 @@ function updateDataTable(data, angka) {
         });
         tableData.draw();
     }
-
-    else if (angka === 2) {
-
-        table.row.add([
-            escapeHtml(data[0]),
-            (data[1]),
-            escapeHtml(data[2]),
-        ]);
-        table.draw();
-    }
-    else if (angka === 3) {
-        tableTujuan.row.add([
-            escapeHtml(data[0]),
-            (data[1]),
-            escapeHtml(data[2]),
-        ]);
-        tableTujuan.draw();
-    }
     else if (angka === 4) {
+        var tableListBKM = $('#tableListBKM').DataTable();
+
         tableListBKM.clear();
         data.forEach(function (item) {
             tableListBKM.row.add([
@@ -1050,6 +1052,8 @@ function updateDataTable(data, angka) {
         tableListBKM.draw();
     }
     else if (angka === 5) {
+        var tableListBKK = $('#tableListBKK').DataTable();
+
         tableListBKK.clear();
         data.forEach(function (item) {
             tableListBKK.row.add([
@@ -1171,6 +1175,7 @@ btnCust.addEventListener("click", function (e) {
             if (result.isConfirmed) {
                 cust.value = decodeHtmlEntities(result.value.NamaCust.trim());
                 idCust.value = decodeHtmlEntities(result.value.IdCust.trim().slice(-5));
+
                 btnOk.focus();
             }
         });
@@ -1448,7 +1453,7 @@ $('#uang1').on('keydown', function (e) {
             }).then(() => {
                 uang1.focus();
             });
-            return;
+            return; 
         }
         else if (numeral(kurs.value).value() !== 0) {
             if (parseInt(idUang.value) === 1 && parseInt(dataSelected[0].idMtUang) === 2) {
@@ -2028,18 +2033,19 @@ btnBatal.addEventListener("click", function (e) {
     disableBKK();
     disableBKM();
     tampilBKM2();
+    dataSelected = [];
 });
 
 btnProses.addEventListener("click", function (e) {
-    let idbkm = idBKM.value.substring(0, 3);
-    let idbkk = idBKK.value.substring(0, 3);
+    let idbkk = isNaN(parseInt(idBKK.value.substring(0, 3))) ? 0 : parseInt(idBKK.value.substring(0, 3));
+    let id_bkm = isNaN(parseInt(idBKM.value.substring(0, 3))) ? 0 : parseInt(idBKM.value.substring(0, 3));
     let nilai = 0, nilai1 = 0, biaya = 0, biaya1 = 0;
-    let konversi, konversi2, IdPembayaran, IdPelunasan;
+    let konversi, konversi2, IdPembayaran;
 
     if (idBKK.value !== '' && idBKM.value !== '') {
 
         let total1;
-        nilai = biaya + numeral(uang1.value).value();
+        nilai = numeral(uang1.value).value();
         total1 = (nilai);
 
         if (parseInt(idUang.value) === 1) {
@@ -2072,10 +2078,11 @@ btnProses.addEventListener("click", function (e) {
             url: 'MaintenanceBKMUntukDPPelunasan/insertDpBKK',
             data: {
                 _token: csrfToken,
-                idBKK: idBKK.value,
+                idBKK: idBKK.value.trim(),
                 idUang: idUang.value,
                 idJenis: 1,
                 idBank: idBank1.value,
+                idBKM_acuan: dataSelected[0].idbkm.trim(),
                 nilai: numeral(parseFloat(nilai)).value(),
                 kurs: numeral(parseFloat(kurs.value)).value() === 0 ? numeral(parseFloat(kurs.value)).value() : null
             },
@@ -2178,7 +2185,7 @@ btnProses.addEventListener("click", function (e) {
                 nilaipelunasan: numeral(nilai1).value(),
                 saldo: numeral(nilai1).value(),
                 idBKKAcuan: idBKK.value,
-                idCust: idCust.value,
+                idCust: dataSelected[0].IdCust.trim(),
                 kurs: numeral(parseFloat(kurs.value)).value() === 0 ? numeral(parseFloat(kurs.value)).value() : null
             },
             error: function (xhr, status, error) {
@@ -2191,7 +2198,7 @@ btnProses.addEventListener("click", function (e) {
             url: 'MaintenanceBKMUntukDPPelunasan/updateIdBKM',
             data: {
                 _token: csrfToken,
-                idbkm: idbkm,
+                idbkm: id_bkm,
                 idBank: IdBank.trim(),
                 jenis: jenisBank.value.trim(),
                 tgl: String(bln1.value) + String(thn1.value),
@@ -2202,32 +2209,66 @@ btnProses.addEventListener("click", function (e) {
         });
 
         let nilaiBaru;
+        console.log(String(idUang.value), String(dataSelected[0].idMtUang));
+        
         if (String(idUang.value) !== String(dataSelected[0].idMtUang)) {
+            
             if (parseInt(idUang.value) === 1 && parseInt(dataSelected[0].idMtUang) === 2) {
-                if (numeral(kurs.value).value > 0) {
-                    nilaiBaru = nilai / numeral(kurs.value).value;
+                
+                if (numeral(kurs.value).value() > 0) {
+                    nilaiBaru = nilai / numeral(kurs.value).value();
+                    $.ajax({
+                        type: 'PUT',
+                        url: 'MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan',
+                        data: {
+                            _token: csrfToken,
+                            idBKM: dataSelected[0].idbkm.trim(),
+                            idPelunasan: dataSelected[0].IdPelunasan,
+                            nilai: nilaiBaru,
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
                 }
             }
             else if (parseInt(idUang.value) === 2 && parseInt(dataSelected[0].idMtUang) === 1) {
-                if (numeral(kurs.value).value > 0) {
-                    nilaiBaru = nilai * numeral(kurs.value).value;
+                console.log('hruse sini');
+                
+                if (numeral(kurs.value).value() > 0) {
+                    nilaiBaru = nilai * numeral(kurs.value).value();
+
+                    $.ajax({
+                        type: 'PUT',
+                        url: 'MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan',
+                        data: {
+                            _token: csrfToken,
+                            idBKM: dataSelected[0].idbkm.trim(),
+                            idPelunasan: dataSelected[0].IdPelunasan,
+                            nilai: nilaiBaru,
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
                 }
             }
         }
-
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan',
-            data: {
-                _token: csrfToken,
-                idBKM: idbkm.trim(),
-                idPelunasan: IdPelunasan,
-                nilai: nilaiBaru ? nilai : nilaiBaru,
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
+        else {
+            $.ajax({
+                type: 'PUT',
+                url: 'MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan',
+                data: {
+                    _token: csrfToken,
+                    idBKM: dataSelected[0].idbkm.trim(),
+                    idPelunasan: dataSelected[0].IdPelunasan,
+                    nilai: nilai,
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
 
         Swal.fire({
             icon: 'success',
@@ -2247,4 +2288,159 @@ btnProses.addEventListener("click", function (e) {
             tglInput.focus();
         });
     }
+});
+
+// Event listener for displaying BKK modal
+btnTampilBKK.addEventListener('click', function () {
+    tglAwalBKK.value = today;
+    tglAkhirBKK.value = today;
+    idCetakBKK.value = '';
+
+    $('#modalListBKK').on('shown.bs.modal', function () {
+        // Initialize both tables if not done already
+        initializeTables();
+
+        // Clear the BKK table when opening the modal
+        var tableBKK = $('#tableListBKK').DataTable();
+        tableBKK.clear().draw();
+        tglAwalBKK.focus();
+    });
+
+    $('#modalListBKK').modal('show');
+});
+
+// Event listener for displaying BKM modal
+btnTampilBKM.addEventListener('click', function () {
+    tglAwalBKM.value = today;
+    tglAkhirBKM.value = today;
+    idCetakBKM.value = '';
+
+    $('#modalListBKM').on('shown.bs.modal', function () {
+        // Initialize both tables if not done already
+        initializeTables();
+
+        // Clear the BKM table when opening the modal
+        var tableBKM = $('#tableListBKM').DataTable();
+        tableBKM.clear().draw();
+        tglAwalBKM.focus();
+    });
+
+    $('#modalListBKM').modal('show');
+});
+
+let isTableListBKKInitialized = false; // Flag for BKK table
+let isTableListBKMInitialized = false; // Flag for BKM table
+// Function to initialize both tables
+function initializeTables() {
+    if (!isTableListBKKInitialized) {
+        // Initialize tableListBKK
+        $('#tableListBKK').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            ordering: false,
+            scrollY: '200px',
+            scrollX: true,
+            autoWidth: false,
+            columns: [
+                { title: 'Tgl. Input' },
+                { title: 'Id. BKK' },
+                { title: 'Nilai Pembulatan' },
+                { title: 'Terbilang' },
+            ],
+            columnDefs: [
+                { targets: [0, 1, 2, 3], width: '25%', className: 'fixed-width' }
+            ]
+        });
+        isTableListBKKInitialized = true; // Mark as initialized
+    }
+
+    if (!isTableListBKMInitialized) {
+        // Initialize tableListBKM
+        $('#tableListBKM').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            ordering: false,
+            scrollY: '200px',
+            scrollX: true,
+            autoWidth: false,
+            columns: [
+                { title: 'Tgl. Input' },
+                { title: 'Id. BKM' },
+                { title: 'Nilai Pelunasan' },
+                { title: 'Terbilang' },
+            ],
+            columnDefs: [
+                { targets: [0, 1, 2, 3], width: '25%', className: 'fixed-width' }
+            ]
+        });
+        isTableListBKMInitialized = true; // Mark as initialized
+    }
+}
+
+btnOkBKM.addEventListener('click', function () {
+    var table = $('#tableListBKM').DataTable();
+    table.clear().draw();
+
+    $.ajax({
+        type: 'GET',
+        url: 'MaintenanceBKMUntukDPPelunasan/getListBKM',
+        data: {
+            _token: csrfToken,
+            tgl1: tglAwalBKM.value,
+            tgl2: tglAkhirBKM.value
+        },
+        success: function (result) {
+            if (result.length !== 0) {
+                updateDataTable(result, 4);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+});
+
+$('#tableListBKM tbody').on('click', 'tr', function () {
+    var table = $('#tableListBKM').DataTable();
+    table.$('tr.selected').removeClass('selected');
+    $(this).addClass('selected');
+
+    var data = table.row(this).data();
+
+    idCetakBKM.value = decodeHtmlEntities(data[1]);
+});
+
+btnOkBKK.addEventListener('click', function () {
+    var table = $('#tableListBKK').DataTable();
+    table.clear().draw();
+
+    $.ajax({
+        type: 'GET',
+        url: 'MaintenanceBKMUntukDPPelunasan/getListBKK',
+        data: {
+            _token: csrfToken,
+            tgl1: tglAwalBKK.value,
+            tgl2: tglAkhirBKK.value
+        },
+        success: function (result) {
+            if (result.length !== 0) {
+                updateDataTable(result, 5);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+});
+
+$('#tableListBKK tbody').on('click', 'tr', function () {
+    var table = $('#tableListBKK').DataTable();
+    table.$('tr.selected').removeClass('selected');
+    $(this).addClass('selected');
+
+    var data = table.row(this).data();
+
+    idCetakBKK.value = decodeHtmlEntities(data[1]);
 });

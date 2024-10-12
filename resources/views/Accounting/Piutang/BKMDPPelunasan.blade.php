@@ -566,6 +566,124 @@
     </div>
 </div> --}}
 
+{{-- modal tampil bkm --}}
+<div class="modal fade bd-example-modal-lg" id="modalListBKM" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cetak BKM Transitoris</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="bankBg">Tanggal Input</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="date" id="tglAwalBKM" class="form-control">
+                    </div>
+                    <div class="col-sm-1">
+                        <label>S/D</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="date" id="tglAkhirBKM" class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" id="btnOkBKM" value="OK" class="btn btn-primary d-flex ml-auto">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="bankBg">Id. BKM</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="idCetakBKM" readonly class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" id="btnCetakBKM" value="CETAK" class="btn btn-primary d-flex ml-auto">
+                    </div>
+                </div>
+
+                <div class="row mb-2" style="margin-top: 0.5%">
+                    <div class="col-sm-12">
+                        <div class="table-responsive fixed-height">
+                            <table class="table table-bordered no-wrap-header" id="tableListBKM">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">TUTUP</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- modal tampil bkk --}}
+<div class="modal fade bd-example-modal-lg" id="modalListBKK" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cetak BKK Transitoris</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="bankBg">Tanggal Input</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="date" id="tglAwalBKK" class="form-control">
+                    </div>
+                    <div class="col-sm-1">
+                        <label>S/D</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="date" id="tglAkhirBKK" class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" id="btnOkBKK" value="OK" class="btn btn-primary d-flex ml-auto">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="bankBg">Id. BKK</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="idCetakBKK" readonly class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" id="btnCetakBKK" value="CETAK" class="btn btn-primary d-flex ml-auto">
+                    </div>
+                </div>
+
+                <div class="row mb-2" style="margin-top: 0.5%">
+                    <div class="col-sm-12">
+                        <div class="table-responsive fixed-height">
+                            <table class="table table-bordered no-wrap-header" id="tableListBKK">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">TUTUP</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
@@ -631,12 +749,13 @@
                                                 <label for="idBKK" style="margin-right: 10px;">Id. BKK</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="text" id="idBKK" name="idBKK" class="form-control"
-                                                    style="width: 100%" readonly>
+                                                <input type="text" id="idBKK" name="idBKK"
+                                                    class="form-control" style="width: 100%" readonly>
                                             </div>
                                         </div>
 
-                                        <input type="text" id="idUang" class="form-control" style="display: none">
+                                        <input type="text" id="idUang" class="form-control"
+                                            style="display: none">
 
                                         <div class="d-flex">
                                             <div class="col-md-3">
@@ -659,13 +778,14 @@
                                         </div>
                                         <div class="d-flex">
                                             <div class="col-md-3">
-                                                <label for="jumlahUang" style="margin-right: 10px;">Jumlah Uang</label>
+                                                <label for="jumlahUang" style="margin-right: 10px;">Jumlah
+                                                    Uang</label>
                                             </div>
                                             <div class="col-md-3">
                                                 <input type="text" id="jenisBank1" class="form-control" readonly
                                                     style="display: none">
-                                                <input type="text" id="uang1" name="uang1" class="form-control"
-                                                    readonly style="width: 100%">
+                                                <input type="text" id="uang1" name="uang1"
+                                                    class="form-control" readonly style="width: 100%">
                                             </div>
                                         </div>
                                         <div class="d-flex">
