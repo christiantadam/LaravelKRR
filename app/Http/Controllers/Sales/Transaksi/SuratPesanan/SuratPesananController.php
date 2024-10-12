@@ -236,7 +236,7 @@ class SuratPesananController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         // $data = $request->all();
         // dd($data);
         $UraianPesanan = null;
