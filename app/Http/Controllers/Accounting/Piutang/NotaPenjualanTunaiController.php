@@ -248,6 +248,120 @@ class NotaPenjualanTunaiController extends Controller
             // Return as a datatable
             return datatables($response)->make(true);
 
+        } else if ($id == 'getDokumen') {
+            $kode = trim($request->input('id_cust')) == 'NPX' ? 3 : 2;
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_JENIS_DOKUMEN @KODE = ?', [$kode]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Dokumen' => trim($row->Nama_Dokumen),
+                    'Id_Jenis_Dokumen' => trim($row->Id_Jenis_Dokumen),
+                ];
+            }
+
+            // Return the response as a datatable
+            return datatables($response)->make(true);
+        } else if ($id == 'getPajak') {
+            // Execute the stored procedure to list jenis pajak
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_JENIS_PAJAK');
+            // dd($results);
+            // Prepare the response array
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama_Jns_PPN' => trim($row->Nama_Jns_PPN),
+                    'Jns_PPN' => trim($row->Jns_PPN),
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getTagihanDP') {
+            $suratPesanan = $request->input('no_sp');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_TAGIHAN_DP_1 @SuratPesanan = ?', [$suratPesanan]);
+
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_Penagihan' => $row->Id_Penagihan,
+                    'nilai_BLM_PAJAK' => $row->nilai_BLM_PAJAK,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'lihatSP') {
+            $sid_Penagihan = $request->input('no_sp');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ ?, ?', [15, trim($sid_Penagihan)]);
+            // dd($results);
+            // $total = 0;
+            $response = [];
+
+            foreach ($results as $row) {
+                $response[] = [
+                    'SuratPesanan' => $row->SuratPesanan,
+                    'total' => $row->total,
+                ];
+                // $total += $row->total;
+            }
+
+            // $formattedTotal = number_format($total, 2, ',', '.');
+            return datatables($response)->make(true);
+        } else if ($id == 'hitungPesanan') {
+            $sNoSP = $request->input('no_sp');
+            $cbUM = $request->input('potongUM');
+            // dd($request->all());
+            $j = 0;
+
+            if ($cbUM == "1") {
+                // Call stored procedure SP_1486_ACC_LIST_PENAGIHAN_SJ with @KODE = 22
+                $results = DB::connection('ConnAccounting')
+                    ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ @Kode = ?, @SuratPesanan = ?', [22, trim($sNoSP)]);
+                // dd($results);
+            } else {
+                // Call stored procedure SP_1486_ACC_LIST_PENAGIHAN_SJ with @KODE = 13
+                $results = DB::connection('ConnAccounting')
+                    ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ @Kode = ?, @SuratPesanan = ?', [13, trim($sNoSP)]);
+                // dd($results);
+            }
+
+            foreach ($results as $row) {
+                if (is_numeric($row->Total)) {
+                    $j += $row->Total;
+                } else {
+                    // If Total is not numeric, add 0 or handle it as needed
+                    $j += 0;
+                }
+            }
+
+            // Fetch and convert input values for 'nilaiSP' and 'nilaiUM' safely
+            $TNilai_Penagihan = (float) str_replace(',', '', $request->input('nilaiSP')) ?? 0;
+            $TNilai_UM = (float) str_replace(',', '', $request->input('nilaiUM')) ?? 0;
+
+            // Calculate the total Penagihan value and format it
+            $TNilai_Penagihan = $TNilai_Penagihan + $j;
+            $TNilai_PenagihanFormatted = number_format($TNilai_Penagihan, 2, '.', ',');
+
+            // Calculate the total billing (txtTotalPenagihan) and format it
+            $txtTotalPenagihan = $TNilai_Penagihan - $TNilai_UM;
+            $txtTotalPenagihanFormatted = number_format($txtTotalPenagihan, 2, '.', ',');
+
+            // Build the response data, including the formatted values and total
+            $response = [
+                'sNoSP' => $sNoSP,
+                'total' => $j,
+                'TNilai_Penagihan' => $TNilai_PenagihanFormatted,
+                'txtTotalPenagihan' => $txtTotalPenagihanFormatted
+            ];
+
+            // Return the response as JSON
+            return response()->json($response);
         }
     }
 

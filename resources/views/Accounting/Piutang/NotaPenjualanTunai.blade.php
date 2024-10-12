@@ -49,7 +49,7 @@
                                 <div class="col-1" style="margin-left: 20px">
                                     <div>
                                         <input class="form-check-input" type="checkbox" id="potongUM" name="potongUM"
-                                            value="0">
+                                            value="1">
                                     </div>
                                     <div style="white-space: nowrap;">
                                         Potong Uang Muka
@@ -130,7 +130,7 @@
                                     <input type="text" id="mata_uang" name="mata_uang" class="form-control"
                                         style="width: 100%;">
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1" style="visibility: hidden">
                                     <button type="button" class="btn btn-default" id="btn_mataUang">...</button>
                                 </div>
                                 <div class="col-md-1" style="display: none">
@@ -255,14 +255,16 @@
                             <!--CARD 2-->
                             <br>
                             <div>
-                                <div style="overflow-y: auto; max-height: 400px; text-align: center;">
-                                    <table style="width: 60%; table-layout: fixed; margin: auto;" id="table_atas">
-                                        <colgroup>
+                                <div style="overflow-y: auto; max-height: 400px;">
+                                    <table style="width: 100%;" id="table_atas">
+                                        {{-- <colgroup>
                                             <col style="width: 30%;">
                                             <col style="width: 30%;">
-                                        </colgroup>
+                                            <col style="width: 30%;">
+                                        </colgroup> --}}
                                         <thead class="table-dark">
                                             <tr>
+                                                <th>ID</th>
                                                 <th>Surat Pesanan</th>
                                                 <th>Total</th>
                                             </tr>
