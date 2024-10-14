@@ -32,4 +32,4 @@
     </div>
 </div>
 
-<script src="{{ asset('js/modal-table.js') }}"></script>
+<script src="{{ asset('js/circular/modal-table.js') }}"></script>

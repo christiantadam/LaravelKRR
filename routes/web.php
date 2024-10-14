@@ -1345,6 +1345,7 @@ Route::group(['middleware' => ['auth']], function () {
     #region Circular
     Route::get('Circular', 'App\Http\Controllers\HomeController@Circular');
 
+    Route::resource('SparepartMesin', App\Http\Controllers\Circular\MaintenanceMesinController::class);
     Route::get('/master/{form_name}', [MasterCircularController::class, 'index'])->name('master.index');
     Route::post('/proses-mesin', [MasterCircularController::class, 'prosesMesin']);
     Route::get('/sp-mesin/{sp_str}/{sp_data?}', [MasterCircularController::class, 'spMesin']);

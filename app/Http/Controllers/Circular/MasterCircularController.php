@@ -48,11 +48,6 @@ class MasterCircularController extends Controller
                     'listLokasi' => $this->spMesin('Sp_List_TGroupLokasi')
                 ];
                 break;
-            case 'formMaintenancePartMesin':
-                $form_data = [
-                    'listIdMesin' => $this->spMesin('Sp_List_Mesin~10'),
-                ];
-                break;
             default:
                 return view('Circular.master.' . $form_name);
         }
@@ -117,10 +112,6 @@ class MasterCircularController extends Controller
 
             case 'Sp_List_Mesin~2':
                 $sp_param = '@Kode = 2, @IdMesin = ?';
-                return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
-
-            case 'Sp_List_Mesin~10':
-                $sp_param = '@Kode = 10';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_List_PLC_Mesin':

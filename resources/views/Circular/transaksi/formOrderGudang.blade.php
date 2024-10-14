@@ -164,5 +164,5 @@
 @section('custom_js')
     <script src="{{ asset('js/Circular/transaksi/orderGudang.js') }}"></script>
 
-    @include('modal-table')
+    @include('Circular.modal-table')
 @endsection

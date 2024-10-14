@@ -13,7 +13,7 @@
         @yield('title')
     </title>
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" loading=lazy sizes="16x16">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css"
@@ -116,7 +116,7 @@
                                 <a href="#">Mesin</a>
                                 <ul>
                                     <li>
-                                        <a href="/master/formMaintenancePartMesin" class="menu-item">
+                                        <a href="/SparepartMesin" class="menu-item">
                                             Maintenance Part Mesin
                                         </a>
                                     </li>
@@ -368,7 +368,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/mesin/formMaintenancePartMesin" class="dropdown-item">
+                                    <a href="SparepartMesin" class="dropdown-item">
                                         Maintenance Part Mesin
                                     </a>
                                 </li>

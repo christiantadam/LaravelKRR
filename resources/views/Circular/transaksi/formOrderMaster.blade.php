@@ -364,5 +364,5 @@
     </script>
 
     <script src="{{ asset('js/Circular/transaksi/orderMaster.js') }}"></script>
-    @include('transaksi/modalBenang')
+    @include('Circular/transaksi/modalBenang')
 @endsection
