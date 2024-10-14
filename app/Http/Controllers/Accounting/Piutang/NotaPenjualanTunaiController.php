@@ -113,7 +113,96 @@ class NotaPenjualanTunaiController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd($request->all());
+        $proses = $request->input('proses');
+        $TotalPenagihan = (float) $request->input('totalPenagihan');
+        $discount = (float) $request->input('discount');
+        $terbilang = $request->input('TTerbilang');
+        try {
+            // Insert or update Penagihan data
+            // $penagihanParams = [
+            //     1,
+            //     $request->tanggalInput,
+            //     $request->idCustomer,
+            //     $request->nomorPO,
+            //     $request->idJenisDokumen,
+            //     (float) $TotalPenagihan,
+            //     (float) $discount,
+            //     $request->idMataUang,
+            //     $terbilang,
+            //     trim(Auth::user()->NomorUser),
+            //     $request->idUserPenagih,
+            //     $request->penagihanPajak,
+            //     (float) $request->nilaiKurs ?: 1,
+            //     $request->jenis_pajak ?: null,
+            //     (int) $request->Ppn,
+            //     $request->id_penagihanUM ?: null
+            // ];
+            // dd($penagihanParams);
+            // dd($request->idJenisDokumen);
+            // dd(array_column($request->allRowsDataAtas, 1));
 
+            if ($proses == "1") {
+                // Insert new record
+                $tes = DB::connection('ConnAccounting')
+                    ->statement(
+                        'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Tgl_penagihan = ?, @Id_Customer = ?, @PO = ?, @id_Jenis_Dokumen = ?, @Nilai_Penagihan = ?, @Discount = ?, @Id_MataUang = ?, @Terbilang = ?, @UserInput = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?, @Id_Penagihan_Acuan = ?',
+                        [
+                            1,
+                            $request->tanggalInput,
+                            $request->idCustomer,
+                            $request->nomorPO,
+                            $request->idJenisDokumen,
+                            (float) $TotalPenagihan,
+                            (float) $discount,
+                            (int) $request->idMataUang,
+                            $terbilang,
+                            trim(Auth::user()->NomorUser),
+                            $request->idUserPenagih,
+                            $request->penagihanPajak,
+                            (float) $request->nilaiKurs ?: 1,
+                            $request->jenis_pajak ?: null,
+                            (int) $request->Ppn,
+                            $request->id_penagihanUM ?: null
+                        ]
+                    );
+                // dd($tes);
+                // $idPenagihan = $result[0]->ID_Penagihan;
+                $currentYear = date('Y');
+
+                $id_Penagihan = DB::connection('ConnAccounting')
+                    ->table('T_PENAGIHAN_SJ')
+                    ->select('Id_Penagihan')
+                    ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
+                    ->orderBy('Id_Penagihan', 'desc')
+                    ->first();
+                $idPenagihan = $id_Penagihan->Id_Penagihan;
+                // dd($idPenagihan);
+                foreach (array_column($request->allRowsDataAtas, 1) as $suratPesanan) {
+                    DB::connection('ConnAccounting')
+                        ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = 3, @Id_Penagihan = ?, @SuratPesanan = ?', [$idPenagihan, $suratPesanan]);
+                }
+                // dd($tes);
+            } else if ($proses == "2") {
+                // Update existing record
+                $idPenagihan = $request->no_penagihan;
+                DB::connection('ConnAccounting')
+                    ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = 4, @Id_Penagihan = ?, @Nilai_Penagihan = ?, @Discount = ?, @Id_MataUang = ?, @Terbilang = ?, @IdPenagih = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?', [$idPenagihan, $TotalPenagihan, $discount, (int) $request->idMataUang, $terbilang, $request->idUserPenagih, (float) $request->nilaiKurs ?: 1, $request->jenis_pajak ?: null, (int) $request->Ppn]);
+
+                foreach (array_column($request->allRowsDataAtas, 1) as $suratPesanan) {
+                    DB::connection('ConnAccounting')
+                        ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = 5, @Id_Penagihan = ?, @SuratPesanan = ?', [$idPenagihan, $suratPesanan]);
+                }
+            }
+
+            return response()->json([
+                'message' => 'Data Berhasil Diproses!'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'Error: ' . $e->getMessage()
+            ]);
+        }
     }
 
     //Display the specified resource.
@@ -294,25 +383,6 @@ class NotaPenjualanTunaiController extends Controller
             }
 
             return datatables($response)->make(true);
-        } else if ($id == 'lihatSP') {
-            $sid_Penagihan = $request->input('no_sp');
-
-            $results = DB::connection('ConnAccounting')
-                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ ?, ?', [15, trim($sid_Penagihan)]);
-            // dd($results);
-            // $total = 0;
-            $response = [];
-
-            foreach ($results as $row) {
-                $response[] = [
-                    'SuratPesanan' => $row->SuratPesanan,
-                    'total' => $row->total,
-                ];
-                // $total += $row->total;
-            }
-
-            // $formattedTotal = number_format($total, 2, ',', '.');
-            return datatables($response)->make(true);
         } else if ($id == 'hitungPesanan') {
             $sNoSP = $request->input('no_sp');
             $cbUM = $request->input('potongUM');
@@ -362,6 +432,143 @@ class NotaPenjualanTunaiController extends Controller
 
             // Return the response as JSON
             return response()->json($response);
+
+        } else if ($id == 'getTotalPenagihan') {
+            // dd($request->all());
+            $totalPenagihan = (float) str_replace(',', '', $request->input('totalPenagihan'));
+            // dd($totalPenagihan);
+            $spArray = array_column($request->allRowsDataAtas, 1);
+            $sp = implode('/', $spArray);
+
+            // Tambahkan '/' di akhir jika hanya ada satu elemen
+            if (count($spArray) === 1) {
+                $sp .= '/';
+            }
+            // dd($sp);
+
+            $result = DB::connection('ConnAccounting')
+                ->select('EXEC SP_1486_ACC_CEK_SURATPESAN @kode = ?, @SP = ?', [1, trim($sp)]);
+            // dd($result);
+            if ($result[0]->Jumlah > 1) {
+                return response()->json([
+                    'error' => 'Data Tidak Dapat Disimpan. Cek Mata uang, syarat bayar dan jenis bayar Harus sama'
+                ]);
+            }
+
+            $result = DB::connection('ConnAccounting')
+                ->select('EXEC SP_1486_ACC_CEK_SURATPESAN @kode = ?, @SP = ?', [2, trim($sp)]);
+            // dd($result);
+            if (empty($result)) {
+                return response()->json([
+                    'error' => 'Discount Tidak sama dalam Surat Pesanan'
+                ]);
+            }
+
+            $discount = $result[0]->Discount;
+            $txtTotalPenagihan = $totalPenagihan - $totalPenagihan * $discount;
+
+            if (in_array($request->id_cust, ['PWX', 'PNX']) && empty($request->no_penagihanUM)) {
+                $ppnMultiplier = $request->Ppn == "11" ? 1.11 : 1.1;
+                $txtTotalPenagihan *= $ppnMultiplier;
+            }
+
+            return response()->json([
+                'txtTotalPenagihan' => $txtTotalPenagihan,
+                'discount' => $discount,
+            ]);
+        } else if ($id == 'getPenagihan') {
+            // Call stored procedure to get penagihan list (SP_1486_ACC_LIST_PENAGIHAN_SJ)
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ @KODE = ?', [14]);
+            // dd($results);
+            // Simulate the lookup like in VB.NET's mLook class
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'NamaCust' => trim($row->NamaCust),
+                    'Id_Penagihan' => trim($row->Id_Penagihan),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+            // if (count($response) > 0) {
+            //     $selectedPenagihan = $response[0]['ID_PENAGIHAN'];
+            //     $selectedCustomer = substr($response[0]['NAMACUST'], -5);
+
+            //     // Perform subsequent actions
+            //     $this->lihatCustomer($selectedCustomer);
+            //     $this->lihatSP($selectedPenagihan);
+            //     // Assuming ListSP contains some list data
+            //     $firstSPItem = isset($request->ListSP[0]) ? $request->ListSP[0] : null;
+            //     $this->lihatPesanan($firstSPItem);
+            //     $this->lihatPenagihan($selectedPenagihan);
+
+            //     return response()->json([
+            //         'message' => 'Penagihan processed successfully',
+            //         'penagihan' => $selectedPenagihan,
+            //         'customer' => $selectedCustomer
+            //     ]);
+            // } else {
+            //     return response()->json([
+            //         'error' => 'No penagihan data found',
+            //     ]);
+            // }
+        } else if ($id == 'lihatCustomer') {
+            $customerId = $request->get('idCustomer');
+            // Call stored procedure to get customer details
+            $customerResult = DB::connection('ConnSales')
+                ->select('exec SP_1486_ACC_LIST_CUSTOMER @IDCUST = ?', [trim($customerId)]);
+            // dd($customerResult);
+            if (count($customerResult) > 0) {
+                $customer = $customerResult[0];
+                $TIdJnsCust = $customer->JnsCust;
+                $TNamaCust = ($TIdJnsCust == 'NPX') ? $customer->NamaCust : ($customer->NamaNPWP ?? '');
+                $TAlamat = ($TIdJnsCust == 'NPX') ? trim((string) $customer->Alamat . ' ' . $customer->Kota) : ($customer->AlamatNPWP ?? '');
+
+                $jenisCustResult = DB::connection('ConnSales')
+                    ->select('exec SP_1486_ACC_LIST_JNSCUST @IDJNSCUST = ?', [trim($TIdJnsCust)]);
+                // dd($jenisCustResult);
+                $TJenisCust = count($jenisCustResult) > 0 ? $jenisCustResult[0]->NamaJnsCust : null;
+
+                return response()->json([
+                    'namaCust' => $TNamaCust,
+                    'alamat' => $TAlamat,
+                    'jenisCust' => $TJenisCust,
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Customer not found',
+                ]);
+            }
+        } else if ($id == 'lihatSP') {
+            // Migrasi kode VB "Lihat_SP" ke Laravel
+            $sidPenagihan = $request->input('no_penagihan');
+
+            // Execute stored procedure for "Lihat SP"
+            $results = DB::connection('ConnAccounting')
+                ->select('EXEC SP_1486_ACC_LIST_PENAGIHAN_SJ @KODE = ?, @ID_PENAGIHAN = ?', [15, trim($sidPenagihan)]);
+            // dd($results);
+            $listSP = [];
+            $totalPenagihan = 0;
+
+            // Iterasi hasil dan proses data
+            foreach ($results as $row) {
+                $listSP[] = [
+                    'SuratPesanan' => $row->SuratPesanan,
+                    'Total' => $row->Total,
+                ];
+                $totalPenagihan += $row->Total;
+            }
+
+            // Format nilai penagihan
+            $formattedPenagihan = number_format($totalPenagihan, 2, ',', '.');
+
+            // Return JSON response (or another appropriate format)
+            return response()->json([
+                'listSP' => $listSP,
+                'totalPenagihan' => $formattedPenagihan
+            ]);
         }
     }
 

@@ -73,7 +73,7 @@
                                         style="width: 100%">
                                 </div>
                                 <div class="col-md-1" style="display: none">
-                                    <input type="text" id="id_Penagihan" name="id_Penagihan" class="form-control"
+                                    <input type="text" id="IdPenagihan" name="IdPenagihan" class="form-control"
                                         style="width: 100%">
                                 </div>
                             </div>
