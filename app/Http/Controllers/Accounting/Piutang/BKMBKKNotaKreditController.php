@@ -8,6 +8,7 @@ use DB;
 use App\Http\Controllers\HakAksesController;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class BKMBKKNotaKreditController extends Controller
 {
@@ -53,6 +54,7 @@ class BKMBKKNotaKreditController extends Controller
             null
             // Pass by reference for output parameter
         ]);
+
 
         $tahun = substr($tanggal, -10, 4);
         $x = DB::connection('ConnAccounting')->table('T_COUNTER_BKM')->where('Periode', '=', $tahun)->first();
@@ -309,9 +311,14 @@ class BKMBKKNotaKreditController extends Controller
     public function show($id, Request $request)
     {
         $idBankBKM = trim($request->input('idBankBKM'));
+        $tanggal = trim($request->input('tanggal'));
+        $jenis = trim($request->input('jenis'));
+        $idBankBKM = trim($request->input('idBankBKM'));
+        $idBankBKM = trim($request->input('idBankBKM'));
 
         if ($id === 'getbank') {
             $data = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK]');
+            // dd($data);
             $data_isi = [];
             foreach ($data as $detail_isi) {
                 $data_isi[] = [
@@ -319,12 +326,62 @@ class BKMBKKNotaKreditController extends Controller
                     'Nama_Bank' => $detail_isi->Nama_Bank
                 ];
             }
-            return datatables()->of($data_isi)->make(true);
+            return datatables($data_isi)->make(true);
         }
 
         else if ($id === 'detailjenisbank') {
             $data =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK_1] @idBank = ?', [$idBankBKM]);
+            // dd($data, $request->all());
             return response()->json($data);
+        }
+
+        else if ($id === 'getkodeperkiraan') {
+            $data = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_KODE_PERKIRAAN] @Kode = 1');
+            // dd($data);
+            $data_isi = [];
+            foreach ($data as $detail_isi) {
+                $data_isi[] = [
+                    'NoKodePerkiraan' => $detail_isi->NoKodePerkiraan,
+                    'Keterangan' => $detail_isi->Keterangan
+                ];
+            }
+            return datatables($data_isi)->make(true);
+
+        }
+
+        else if ($id === 'getidBKMNota') {
+            $tanggal = trim($request->input('tanggal'));
+            // dd($request->all());
+            $tgl = Carbon::parse($tanggal);
+
+            $tahun = $tgl->year;
+            $noUrut = 0;
+            $ada = 0;
+
+            $ada = DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->count();
+
+            if ($ada == 1) {
+                $noUrut = DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->value('Id_BKM_E_Rp');
+            } else {
+                $noUrut = 1;
+
+                DB::connection('ConnAccounting')->table('T_Counter_BKM')->insert([
+                    'Periode' => $tahun,
+                    'Id_BKM_E_Rp' => $noUrut,
+                ]);
+            }
+
+            // Format the IdBKK
+            $idBKM = '00000' . (string)$noUrut;
+            $finalIdBKM = $idBankBKM . '-R' . substr($tahun, -2) . substr($idBKM, -5);
+
+            // Update the counter
+            DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->update([
+                'Id_BKM_E_Rp' => $noUrut + 1,
+            ]);
+
+            // Return the IdBKK
+            return response()->json(['IdBKM' => $finalIdBKM]);
         }
     }
 

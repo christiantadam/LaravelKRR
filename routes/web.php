@@ -17,6 +17,7 @@ use App\Http\Controllers\Extruder\ExtruderNet\PencatatanController;
 use App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController;
 use App\Http\Controllers\Extruder\BeratKomposisi\KomposisiController;
 use App\Http\Controllers\Extruder\WarehouseTerima\WarehouseController;
+use App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController;
 use App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController;
 use App\Http\Controllers\Accounting\Piutang\BatalBKMTransistorisController;
 use App\Http\Controllers\Accounting\Piutang\MaintenanceBKMTransistorisBankController;
@@ -1168,10 +1169,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getIdPelunasan', 'App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController@getIdPelunasan');
     Route::get('getidbkmBKKDP/{idBankBKK}/{tanggal}', 'App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController@getUraianEnterBKK');
 
-    Route::resource('MaintenanceBKMxBKKNotaKredit', App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController::class);
+    Route::resource('MaintenanceBKMxBKKNotaKredit', BKMBKKNotaKreditController::class);
     Route::get('getmatauang', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getMataUang');
     Route::get('getDataNotaKredit', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getDataNotaKredit');
-    Route::get('getidBKMNota/{idBank}/{tanggal}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getUraianEnterBKM');
+    // Route::get('getUraianEnterBKM/{idBank}/{tanggal}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getUraianEnterBKM');
     Route::get('getidBKKNota/{idBank}/{tanggal}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getUraianEnterBKK');
     Route::get('getTabelTampilBKKNota/{tanggalTampilBKK}/{tanggalTampilBKK2}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getTabelTampilBKK');
     Route::get('getTabelTampilBKMNota/{tanggalTampilBKM}/{tanggalTampilBKM2}', 'App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController@getTabelTampilBKM');

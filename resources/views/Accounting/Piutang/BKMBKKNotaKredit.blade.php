@@ -3,10 +3,24 @@
 @section('title', 'BKM BKK Nota Kredit')
 
 <style>
+    .table-responsive.fixed-height tbody {
+        background-color: white;
+    }
+
+    .underline {
+        border-bottom: 1px solid black;
+        /* Change the color as needed */
+        margin-bottom: 10px;
+        /* Space between labels and line */
+    }
+
     .table-responsive.fixed-height {
-        min-height: 50px;
+        /* overflow-y: auto; */
+        /* position: relative; */
         border-radius: 8px;
         border: 2px solid black;
+        /* width: 100%; */
+        /* table-layout: fixed; */
         background-color: white;
     }
 
@@ -23,19 +37,26 @@
 
     .fixed-width {
         white-space: nowrap;
+        /* Prevent text wrapping */
         overflow: hidden;
+        /* Hide overflow text */
         text-overflow: ellipsis;
+        /* Show "..." when the text overflows */
         padding: 0;
     }
 
-    .table-responsive.fixed-height table {
-        min-width: 100%;
+    table.dataTable {
         table-layout: fixed;
+        /* Ensure table uses fixed layout */
+        width: 100%;
+        /* Ensure the table takes up the full width */
     }
 
-    .table-responsive.fixed-height #tabelDataPelunasan.dataTable {
-        table-layout: fixed;
-        width: 100%;
+    #table_list th,
+    #table_list td {
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: 16px;
     }
 </style>
 
@@ -154,7 +175,7 @@
                                                     <input type="text" class="form-control" id="namaBankBKMSelect" name="namaBankBKMSelect"
                                                         readonly>
                                                     <div class="input-group-append">
-                                                        <button type="button" id="btn_bank" class="btn btn-default" disabled>...</button>
+                                                        <button type="button" id="btn_bankBKM" class="btn btn-default" disabled>...</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -165,7 +186,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <input type="text" id="jenisBankBKM" name="jenisBankBKM"
-                                                    class="form-control" style="width: 100%">
+                                                    class="form-control" style="width: 100%" readonly>
                                             </div>
                                         </div>
                                         <div class="d-flex">
@@ -173,26 +194,23 @@
                                                 <label for="kodePerkiraan" style="margin-right: 10px;">Kode
                                                     Perkiraan</label>
                                             </div>
-                                            <div class="col-md-3">
-                                                <input type="text" id="idKodePerkiraanBKM"
-                                                    name="idKodePerkiraanBKM" class="form-control"
-                                                    style="width: 100%" readonly>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <select id="kodePerkiraanSelectBKM" name="kodePerkiraanSelectBKM"
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control" id="idKodePerkiraanBKM" name="idKodePerkiraanBKM"
                                                     class="form-control" readonly>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="uraian" style="margin-right: 10px;">Uraian</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <input type="text" id="uraianBKM" name="uraianBKM"
-                                                    class="form-control" style="width: 100%" readonly>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="kodePerkiraanBKMSelect" name="kodePerkiraanBKMSelect"
+                                                        class="form-control" readonly>
+                                                    <div class="input-group-append">
+                                                        <button type="button" id="btn_kodeBKM" class="btn btn-default" disabled>...</button>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" id="uraianBKM" name="uraianBKM"
+                                                class="form-control" style="width: 100%; display:none" readonly>
                                         </div>
                                     </div>
 
@@ -228,11 +246,16 @@
                                                     style="margin-right: 10px;">Bank</label>
                                             </div>
                                             <div class="col-md-5">
-                                                <select id="namaBankBKKSelect" name="namaBankBKKSelect"
-                                                    class="form-control" readonly>
-
-                                                </select>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="namaBankBKKSelect" name="namaBankBKKSelect"
+                                                        readonly>
+                                                    <div class="input-group-append">
+                                                        <button type="button" id="btn_bankBKK" class="btn btn-default" disabled>...</button>
+                                                    </div>
+                                                </div>
                                             </div>
+
+
                                             <input type="hidden" id="idBankBKK" name="idBankBKK"
                                                 class="form-control" style="width: 100%">
                                             <input type="hidden" id="jenisBankBKK" name="jenisBankBKK"
@@ -243,26 +266,23 @@
                                                 <label for="kodePerkiraan" style="margin-right: 10px;">Kode
                                                     Perkiraan</label>
                                             </div>
-                                            <div class="col-md-3">
-                                                <input type="text" id="idKodePerkiraanBKK"
-                                                    name="idKodePerkiraanBKK" class="form-control"
-                                                    style="width: 100%" readonly>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <select id="kodePerkiraanBKKSelect" name="kodePerkiraanBKKSelect"
+                                            <div class="col-md-2">
+                                                <input type="text" class="form-control" id="idKodePerkiraanBKK" name="idKodePerkiraanBKK"
                                                     class="form-control" readonly>
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="uraianBKK" style="margin-right: 10px;">Uraian</label>
                                             </div>
                                             <div class="col-md-7">
-                                                <input type="text" id="uraianBKK" name="uraianBKK"
-                                                    class="form-control" style="width: 100%" readonly>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="kodePerkiraanBKKSelect" name="kodePerkiraanBKKSelect"
+                                                        class="form-control" readonly>
+                                                    <div class="input-group-append">
+                                                        <button type="button" id="btn_kodeBKK" class="btn btn-default" disabled>...</button>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input type="text" id="uraianBKK" name="uraianBKK"
+                                                class="form-control" style="width: 100%; display: none;" readonly>
                                         </div>
                                     </div>
                                 </div>
