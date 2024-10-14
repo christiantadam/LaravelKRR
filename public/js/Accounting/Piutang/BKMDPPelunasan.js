@@ -856,6 +856,37 @@ var btnCetakBKK = document.getElementById('btnCetakBKK');
 var modalListBKK = document.getElementById('modalListBKK');
 var tableListBKK = document.getElementById('tableListBKK');
 
+// cetak bkm
+var nomerBKM = document.getElementById('nomerBKM');
+var tanggalBKM = document.getElementById('tanggalBKM');
+var nilaiBKM = document.getElementById('nilaiBKM');
+var terbilangBKM = document.getElementById('terbilangBKM');
+var rincianBKM = document.getElementById('rincianBKM');
+var perkiraanBKM = document.getElementById('perkiraanBKM');
+var jumlahBKM = document.getElementById('jumlahBKM');
+var grandTotalBKM = document.getElementById('grandTotalBKM');
+var bkmAcuanBKK = document.getElementById('bkmAcuanBKK');
+var bkmTanggalBKK = document.getElementById('bkmTanggalBKK');
+var bkmAcuanBKM = document.getElementById('bkmAcuanBKM');
+var bkmTanggalBKM = document.getElementById('bkmTanggalBKM');
+var sidoarjoBKM = document.getElementById('sidoarjoBKM');
+var symbolBKM = document.getElementById('symbolBKM');
+var symbolgtBKM = document.getElementById('symbolgtBKM');
+var keteranganCetakBKM = document.getElementById('keteranganCetakBKM');
+
+// cetak bkk
+var nomerBKK = document.getElementById('nomerBKK');
+var tanggalBKK = document.getElementById('tanggalBKK');
+var symbolBKK = document.getElementById('symbolBKK');
+var nilaiBKK = document.getElementById('nilaiBKK');
+var terbilangBKK = document.getElementById('terbilangBKK');
+var jenisBayarBKK = document.getElementById('jenisBayarBKK');
+var symbolgtBKK = document.getElementById('symbolgtBKK');
+var grandTotalBKK = document.getElementById('grandTotalBKK');
+var pelunasanBKK = document.getElementById('pelunasanBKK');
+var bkkTanggalBKK = document.getElementById('bkkTanggalBKK');
+var sidoarjoBKK = document.getElementById('sidoarjoBKK');
+
 var dateNow = document.getElementById('tanggal');
 var today = new Date().toISOString().slice(0, 10);
 tglInput.value = today;
@@ -1453,7 +1484,7 @@ $('#uang1').on('keydown', function (e) {
             }).then(() => {
                 uang1.focus();
             });
-            return; 
+            return;
         }
         else if (numeral(kurs.value).value() !== 0) {
             if (parseInt(idUang.value) === 1 && parseInt(dataSelected[0].idMtUang) === 2) {
@@ -2210,11 +2241,11 @@ btnProses.addEventListener("click", function (e) {
 
         let nilaiBaru;
         console.log(String(idUang.value), String(dataSelected[0].idMtUang));
-        
+
         if (String(idUang.value) !== String(dataSelected[0].idMtUang)) {
-            
+
             if (parseInt(idUang.value) === 1 && parseInt(dataSelected[0].idMtUang) === 2) {
-                
+
                 if (numeral(kurs.value).value() > 0) {
                     nilaiBaru = nilai / numeral(kurs.value).value();
                     $.ajax({
@@ -2234,7 +2265,7 @@ btnProses.addEventListener("click", function (e) {
             }
             else if (parseInt(idUang.value) === 2 && parseInt(dataSelected[0].idMtUang) === 1) {
                 console.log('hruse sini');
-                
+
                 if (numeral(kurs.value).value() > 0) {
                     nilaiBaru = nilai * numeral(kurs.value).value();
 
@@ -2443,4 +2474,256 @@ $('#tableListBKK tbody').on('click', 'tr', function () {
     var data = table.row(this).data();
 
     idCetakBKK.value = decodeHtmlEntities(data[1]);
+});
+
+function printPreview(previewClass) {
+    // Hide all content first
+    document.querySelectorAll('.preview, .preview2').forEach(function (preview) {
+        preview.style.display = "none"; // Hide both previews
+    });
+
+    // Show the selected preview
+    const previewToPrint = document.querySelector(`.${previewClass}`);
+    previewToPrint.style.display = "block"; // Show the selected preview
+
+    // Print the current view
+    window.print();
+
+    // Reset the display after printing
+    previewToPrint.style.display = "none"; // Hide the preview again
+}
+
+btnCetakBKM.addEventListener('click', function () {
+    if (idCetakBKM.value === '') {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Id.BKM Untuk DiCetak!',
+            returnFocus: false
+        });
+        return;
+    }
+    else {
+        $.ajax({
+            type: 'GET',
+            url: 'MaintenanceBKMUntukDPPelunasan/getCetakBKM',
+            data: {
+                _token: csrfToken,
+                id_bkm: idCetakBKM.value
+            },
+            success: function (result) {
+                if (result.length !== 0) {
+                    if (result[0].Id_bank === 'KRR1' || result[0].Id_bank === 'KRR2') {
+                        keteranganCetakBKM.innerHTML = '<h5><b>BUKTI PENERIMAAN KAS</b></h5>';
+                    } else {
+                        keteranganCetakBKM.innerHTML = '<h5><b>BUKTI PENERIMAAN BANK</b></h5>';
+                    }
+
+                    nomerBKM.innerHTML = '<h5><b>Nomer: ' + decodeHtmlEntities(result[0].Id_BKM) + '</b></h5>';
+
+                    var date = new Date(result[0].Tgl_Input);
+
+                    var monthNames = [
+                        "January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var day = date.getDate();
+                    var month = monthNames[date.getMonth()];
+                    var year = date.getFullYear();
+                    var formattedDate = day + '/' + month + '/' + year;
+
+                    tanggalBKM.innerHTML = '<h5><b>Tanggal: ' + formattedDate + '</b></h5>';
+
+                    symbolBKM.textContent = decodeHtmlEntities(result[0].Symbol);
+                    nilaiBKM.textContent = numeral(parseFloat(result[0].Nilai_Pelunasan)).format("0,0.00");
+
+                    terbilangBKM.textContent = decodeHtmlEntities(result[0].Terjemahan);
+
+                    if (result[0].NamaCust === '-') {
+                        rincianBKM.textContent = decodeHtmlEntities(result[0].Uraian);
+                    }
+                    else {
+                        if (result[0].NamaCust !== '-') {
+                            rincianBKM.textContent = decodeHtmlEntities(result[0].NamaCust) + ' - ' + decodeHtmlEntities(result[0].Uraian);
+                        }
+                    }
+
+                    perkiraanBKM.textContent = decodeHtmlEntities(result[0].KodePerkiraan);
+                    jumlahBKM.textContent = numeral(parseFloat(result[0].Nilai_Pelunasan)).format("0,0.00");
+
+                    symbolgtBKM.textContent = decodeHtmlEntities(result[0].Symbol);
+                    grandTotalBKM.textContent = numeral(parseFloat(result[0].Nilai_Pelunasan)).format("0,0.00");
+
+                    bkmAcuanBKK.textContent = decodeHtmlEntities(result[0].Id_BKK_Acuan);
+                    bkmTanggalBKK.textContent = 'Tanggal: ' + formatDateToMMDDYYYY(result[0].Tgl_BKK);
+
+                    bkmAcuanBKM.textContent = decodeHtmlEntities(result[0].Id_BKM_Acuan);
+                    bkmTanggalBKM.textContent = 'Tanggal: ' + formatDateToMMDDYYYY(result[0].Tgl_BKM);
+
+                    var today = new Date();
+                    var day = today.getDate();
+                    var month = monthNames[today.getMonth()];
+                    var year = today.getFullYear();
+
+                    var formattedToday = day + '/' + month + '/' + year;
+
+                    sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
+
+                    printPreview('preview');
+                }
+                else {
+                    keteranganCetakBKM.innerHTML = '';
+
+                    nomerBKM.innerHTML = '<h5><b>Nomer:</b></h5>';
+
+                    var monthNames = [
+                        "January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    tanggalBKM.innerHTML = '<h5><b>Tanggal: ' + '</b></h5>';
+
+                    symbolBKM.textContent = '';
+                    nilaiBKM.textContent = '';
+
+                    terbilangBKM.textContent = '';
+
+                    rincianBKM.textContent = '';
+                    perkiraanBKM.textContent = '';
+                    jumlahBKM.textContent = '';
+
+                    symbolgtBKM.textContent = '';
+                    grandTotalBKM.textContent = '';
+
+                    bkmAcuanBKK.textContent = '';
+                    bkmTanggalBKK.textContent = 'Tanggal: ';
+
+                    bkmAcuanBKM.textContent = '';
+                    bkmTanggalBKM.textContent = 'Tanggal: ';
+
+                    var today = new Date();
+                    var day = today.getDate();
+                    var month = monthNames[today.getMonth()];
+                    var year = today.getFullYear();
+
+                    var formattedToday = day + '/' + month + '/' + year;
+
+                    sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
+
+                    printPreview('preview');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
+    }
+});
+
+btnCetakBKK.addEventListener('click', function () {
+    if (idCetakBKK.value === '') {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Id.BKK Untuk DiCetak!',
+            returnFocus: false
+        });
+        return;
+    }
+    else {
+        $.ajax({
+            type: 'GET',
+            url: 'MaintenanceBKMUntukDPPelunasan/getCetakBKK',
+            data: {
+                _token: csrfToken,
+                id_bkk: idCetakBKK.value
+            },
+            success: function (result) {
+                if (result.length !== 0) {
+                    let totalBKM = 0;
+                    var bkmDetailsContainer = document.getElementById("bkkDetailsContainer");
+
+                    bkmDetailsContainer.innerHTML = "";
+
+                    nomerBKK.textContent = 'Nomer: ' + decodeHtmlEntities(result[0].Id_BKK);
+                    namaCetakBKK.textContent = ': ' + decodeHtmlEntities(result[0].Id_bank);
+                    descriptionCetakBKK.textContent = ": " + decodeHtmlEntities(result[0].Nama_Bank);
+                    var today = new Date();
+
+                    var options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    var formattedToday = today.toLocaleDateString('en-GB', options).replace(/ /g, '-');
+                    postedCetakBKK.textContent = ": " + formattedToday;
+
+                    var date = new Date(result[0].Tgl_Input);
+                    var options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    var formattedDate = date.toLocaleDateString('en-GB', options).replace(/ /g, '-');
+                    dateCetakBKK.textContent = ": " + formattedDate;
+
+                    paidCetakBKK.textContent = ": " + decodeHtmlEntities(result[0].NM_SUP);
+
+                    batalNote.textContent = 'BATAL: ' + decodeHtmlEntities(result[0].Batal);
+                    alasanNote.textContent = 'ALASAN: ' + decodeHtmlEntities(result[0].Alasan);
+
+                    result.forEach(function (item, index) {
+                        var row = document.createElement("div");
+                        row.classList.add("row");
+
+                        // COA column
+                        var coaCol = document.createElement("div");
+                        coaCol.classList.add("col-sm-2", "text-left");
+                        coaCol.textContent = decodeHtmlEntities(item.KodePerkiraan);
+                        row.appendChild(coaCol);
+
+                        // Account Name column
+                        var accountCol = document.createElement("div");
+                        accountCol.classList.add("col-sm-3", "text-left");
+                        accountCol.textContent = decodeHtmlEntities(item.Keterangan);
+                        row.appendChild(accountCol);
+
+                        // Description column
+                        var descriptionCol = document.createElement("div");
+                        descriptionCol.classList.add("col-sm-3", "text-left");
+                        descriptionCol.textContent = decodeHtmlEntities(item.Rincian_Bayar);
+                        row.appendChild(descriptionCol);
+
+                        // Description column
+                        var cekBgCol = document.createElement("div");
+                        cekBgCol.classList.add("col-sm-2", "text-left");
+                        cekBgCol.textContent = decodeHtmlEntities(item.No_BGCek);
+                        row.appendChild(cekBgCol);
+
+                        // Amount column
+                        var amountCol = document.createElement("div");
+                        amountCol.classList.add("col-sm-2", "text-right");
+                        amountCol.textContent = numeral(parseFloat(item.Nilai_Rincian)).format("0,0.00");
+                        row.appendChild(amountCol);
+
+                        // Append the row to the container
+                        bkmDetailsContainer.appendChild(row);
+
+                        // Update the total
+                        totalBKM += parseFloat(item.Nilai_Rincian);
+
+                        // Add underline class only to the last row
+                        if (index === result.length - 1) {
+                            coaCol.classList.add("underline");
+                            accountCol.classList.add("underline");
+                            cekBgCol.classList.add("underline");
+                            descriptionCol.classList.add("underline");
+                            amountCol.classList.add("underline");
+                        }
+                    });
+
+                    amountBKK.textContent = 'Amount ' + decodeHtmlEntities(result[0].Id_MataUang_BC)
+                    totalAmountBKK.textContent = numeral(parseFloat(totalBKM)).format("0,0.00");
+
+                    printPreview('preview2')
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
+    }
 });

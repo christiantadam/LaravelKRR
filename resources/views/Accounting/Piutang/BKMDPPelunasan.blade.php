@@ -59,11 +59,13 @@
         font-size: 16px;
     }
 
-    .preview,
-    .preview2 {
+    .preview {
         display: none;
-        /* Initially hide both previews */
     }
+
+    /* .preview2 {
+        display: none;
+    } */
 
     @media print {
 
@@ -950,233 +952,316 @@
 
                         {{-- print voucher --}}
                         <div class="preview">
-                            <div class="row">
+                            <div class="row" style="font-weight: bold;">
+                                <div class="col-sm-5 text-center" style="border: 1px black solid">
+                                    <label>
+                                        <h5><b>P.T. Kerta Rajasa Raya</b></h5>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6 ml-3 text-center" style="border: 1px black solid">
+                                    <span id="keteranganCetakBKM">
+                                        <h5><b>Bukti Penerimaan Bank</b></h5>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row" style="font-weight: bold;">
+                                <div class="col-sm-5 text-center" style="border: 1px black solid">
+                                    <label>
+                                        <h5><b>Jl. Raya Tropodo No. 1</b></h5>
+                                    </label>
+                                    <br>
+                                    <label>
+                                        <h5><b>WARU - SIDOARJO</b></h5>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6 ml-3" style="border: 1px black solid">
+                                    <div class="row">
+                                        <div class="col-sm-8 offset-sm-3">
+                                            <span id="nomerBKM">
+                                                <h5><b>Nomer: di sini nomer</b></h5>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8 offset-sm-3">
+                                            <span id="tanggalBKM">
+                                                <h5><b>Tanggal: di sini tanggal</b></h5>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row mt-4" style="border: 1px black solid; width:95%">
+                                <div class="col-sm-11">
+                                    <div class="row">
+                                        <div class="col-sm-3 offset-sm-1">
+                                            <label>Jumlah Diterima :</label>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <span id="symbolBKM">Rp. </span>
+                                        </div>
+                                        <div class="col-sm-6" style="margin-left: -3%">
+                                            <span id="nilaiBKM">123123123</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2 offset-sm-1">
+                                            <label>Terbilang :</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-11 offset-sm-1">
+                                            <span id="terbilangBKM">ini jumlah angka ini jumlah angka ini jumlah angka
+                                                ini jumlah angka
+                                                ini jumlah angka ini jumlah angka<span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="width: 95%">
                                 <div class="col-sm-12">
-                                    <label><b>Receipt Voucher</b></label>
+                                    <div class="row">
+                                        <div class="col-sm-6 text-center" style="border: 1px black solid">
+                                            <label>RINCIAN PENERIMAAN</label>
+                                        </div>
+                                        <div class="col-sm-3 text-center" style="border: 1px black solid">
+                                            <label>KODE PERKIRAAN</label>
+                                        </div>
+                                        <div class="col-sm-3 text-center" style="border: 1px black solid">
+                                            <label>JUMLAH</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="width: 95%">
                                 <div class="col-sm-12">
-                                    <label><b>PT. Kerta Rajasa Raya</b></label>
+                                    <div class="row">
+                                        <div class="col-sm-6 text-left" style="border: 1px black solid">
+                                            <span id="rincianBKM">RINCIAN PENERIMAAN</span>
+                                        </div>
+                                        <div class="col-sm-3 text-center" style="border: 1px black solid">
+                                            <span id="perkiraanBKM">KODE PERKIRAAN</span>
+                                        </div>
+                                        <div class="col-sm-3 text-right" style="border: 1px black solid">
+                                            <span id="jumlahBKM">JUMLAH</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-1">
-                                    <label>Name</label>
+                            <div class="row" style="border: 1px black solid; width: 95%">
+                                <div class="col-sm-12">
+                                    <div class="row" style="font-weight: bold;">
+                                        <div class="col-sm-3 offset-sm-6 text-right">
+                                            <label>GRAND TOTAL :</label>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <span id="symbolgtBKM">Rp. </span>
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <span id="grandTotalBKM">123123112323</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <span id="namaCetakBKM">: Nama di sini</span>
+                            </div>
+
+                            <div class="row mt-3" style="width: 95%">
+                                <div class="col-sm-2 text-center">
+                                    <label>Disetujui,</label>
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <label>Kasir,</label>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <label>Acuan BKK DP Nomer: </label>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Voucher</label>
+                                    <span id="bkmAcuanBKK">no acuan bKK</span>
                                 </div>
-                                <div class="col-sm-3">
-                                    <span id="voucherCetakBKM">: Voucher di sini</span>
+                                <div class="col-sm-3 text-right">
+                                    <span id="bkmTanggalBKK">Tanggal: tgl bkk</span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-1">
-                                    <label>Description</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <span id="descriptionCetakBKM">: Description di sini</span>
+                            <div class="row" style="width: 95%">
+                                <div class="col-sm-3 offset-sm-4 text-right">
+                                    <label>Acuan BKM DP Nomer: </label>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Posted On</label>
+                                    <span id="bkmAcuanBKM">no acuan BKM</span>
                                 </div>
-                                <div class="col-sm-3">
-                                    <span id="postedCetakBKM">: Posted ON di sini</span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-1">
-                                    <label>Date</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <span id="dateCetakBKM">: Date di sini</span>
-                                </div>
-                                <div class="col-sm-2">
-                                    <label>Received From</label>
-                                </div>
-                                <div class="col-sm-3">
-                                    <span id="receivedCetakBKM">: Received From di sini</span>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-sm-2 text-center underline">
-                                    <label>C.O.A</label>
-                                </div>
-                                <div class="col-sm-4 text-center underline">
-                                    <label>Account Name</label>
-                                </div>
-                                <div class="col-sm-4 text-center underline">
-                                    <label>Description</label>
-                                </div>
-                                <div class="col-sm-2 text-right underline">
-                                    <span id="amountBKM">Amount</span>
-                                </div>
-                            </div>
-                            <div id="bkmDetailsContainer" style="margin-top: -0.5%"></div>
-                            {{-- <div class="row">
-                                <div class="col-sm-2 text-center underline">
-                                    <span id="coaListBKM">data coa</span>
-                                </div>
-                                <div class="col-sm-4 text-center underline">
-                                    <span id="accountListBKM">data account</span>
-                                </div>
-                                <div class="col-sm-4 text-center underline">
-                                    <span id="descriptionListBKM">data Description</span>
-                                </div>
-                                <div class="col-sm-2 text-right underline">
-                                    <span id="amountListBKM">data Amount</span>
-                                </div>
-                            </div> --}}
-                            <div class="row">
-                                <div class="col-sm-2 text-right offset-sm-8">
-                                    <label>TOTAL =</label>
-                                </div>
-                                <div class="col-sm-2 text-right">
-                                    <span id="totalAmountBKM">total amountBKM</span>
+                                <div class="col-sm-3 text-right">
+                                    <span id="bkmTanggalBKM">Tanggal: tanggal bkm</span>
                                 </div>
                             </div>
 
                             <div class="row mt-3">
-                                <div class="col-sm-4 text-center">
-                                    <label>Receiver</label>
+                                <div class="col-sm-2 text-center" style="width: 75%; position: relative;">
+                                    <span
+                                        style="display: inline-block; width: 75%; border-bottom: 2px solid black;"></span>
                                 </div>
-                                <div class="col-sm-4 text-center">
-                                    <label>Cashier</label>
-                                </div>
-                                <div class="col-sm-4 text-center">
-                                    <label>Responsible Person</label>
+                                <div class="col-sm-2 text-center" style="width: 75%; position: relative;">
+                                    <span
+                                        style="display: inline-block; width: 75%; border-bottom: 2px solid black;"></span>
                                 </div>
                             </div>
-
-                            <div class="row mt-5">
-                                <div class="col-sm-2 offset-sm-1 text-center underline">
-                                </div>
-                                <div class="col-sm-2 offset-sm-2 text-center underline">
-                                </div>
-                                <div class="col-sm-2 offset-sm-2 text-center underline">
+                            <div class="row" style="width: 95%">
+                                <div class="col-sm-4 offset-sm-6" style="font-weight: bold">
+                                    <span id="sidoarjoBKM">Sidoarjo, 17/October/2024</span>
                                 </div>
                             </div>
                         </div>
                         {{-- end tampil voucher --}}
 
-                        {{-- tampil bkk --}}
-                        {{-- print voucher --}}
+                        {{-- BKM print --}}
                         <div class="preview2">
-                            <div class="row">
+                            <div class="row" style="font-weight: bold;">
+                                <div class="col-sm-5 text-center" style="border: 1px black solid">
+                                    <label>
+                                        <h5><b>P.T. Kerta Rajasa Raya</b></h5>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6 ml-3 text-center" style="border: 1px black solid">
+                                    <label>
+                                        <h5><b>BUKTI PENGELUARAN KAS</b></h5>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row" style="font-weight: bold;">
+                                <div class="col-sm-5 text-center" style="border: 1px black solid">
+                                    <label>
+                                        <h5><b>Jl. Raya Tropodo No. 1</b></h5>
+                                    </label>
+                                    <br>
+                                    <label>
+                                        <h5><b>WARU - SIDOARJO</b></h5>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6 ml-3" style="border: 1px black solid">
+                                    <div class="row">
+                                        <div class="col-sm-8 offset-sm-3">
+                                            <span id="nomerBKK">
+                                                <h5><b>Nomer: di sini nomer</b></h5>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8 offset-sm-3">
+                                            <span id="tanggalBKK">
+                                                <h5><b>Tanggal: di sini tanggal</b></h5>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row mt-4" style="border: 1px black solid; width:95%">
+                                <div class="col-sm-11">
+                                    <div class="row">
+                                        <div class="col-sm-3 offset-sm-1">
+                                            <label>Jumlah Diterima :</label>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <span id="symbolBKK">Rp. </span>
+                                        </div>
+                                        <div class="col-sm-6" style="margin-left: -3%">
+                                            <span id="nilaiBKK">123123123</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2 offset-sm-1">
+                                            <label>Terbilang :</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-11 offset-sm-1">
+                                            <span id="terbilangBKK">ini jumlah angka ini jumlah angka ini jumlah angka
+                                                ini jumlah angka
+                                                ini jumlah angka ini jumlah angka<span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="width: 95%">
                                 <div class="col-sm-12">
-                                    <label><b>Payment Voucher</b></label>
+                                    <div class="row">
+                                        <div class="col-sm-4 text-center" style="border: 1px black solid">
+                                            <label>BENTUK PEMBAYARAN</label>
+                                        </div>
+                                        <div class="col-sm-8 text-center" style="border: 1px black solid">
+                                            <label>URAIAN PEMBAYARAN</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="width: 95%">
                                 <div class="col-sm-12">
-                                    <label><b>PT. Kerta Rajasa Raya</b></label>
+                                    <div class="row">
+                                        <div class="col-sm-2 text-center" style="border: 1px black solid">
+                                            <span id="jenisBayarBKK">JENIS PEMBAYARAN</span>
+                                        </div>
+                                        <div class="col-sm-2 text-center" style="border: 1px black solid">
+                                            <label>JATUH TEMPO</label>
+                                        </div>
+                                        <div class="col-sm-4 text-center" style="border: 1px black solid">
+                                            <label>RINCIAN</label>
+                                        </div>
+                                        <div class="col-sm-2 text-center" style="border: 1px black solid">
+                                            <label>KODE PERKIRAAN</label>
+                                        </div>
+                                        <div class="col-sm-2 text-center" style="border: 1px black solid">
+                                            <label>JUMLAH</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-1">
-                                    <label>Name</label>
-                                </div>
-                                <div class="col-sm-3">
-                                    <span id="namaCetakBKK">: Nama di sini</span>
-                                </div>
-                                <div class="col-sm-1">
-                                    <label>Date</label>
-                                </div>
-                                <div class="col-sm-3">
-                                    <span id="dateCetakBKK">: Date di sini</span>
-                                </div>
-                                <div class="col-sm-1">
-                                    <label>Voucher</label>
-                                </div>
-                                <div class="col-sm-3">
-                                    <span id="voucherCetakBKK">: Voucher di sini</span>
+                            <div class="row" id="bkkDetailsContainer" style="width: 95%;"></div>
+                            <div class="row" style="border: 1px black solid; width: 95%">
+                                <div class="col-sm-12">
+                                    <div class="row" style="font-weight: bold;">
+                                        <div class="col-sm-3 offset-sm-6 text-right">
+                                            <label>GRAND TOTAL :</label>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <span id="symbolgtBKK">Rp. </span>
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <span id="grandTotalBKK">123123112323</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-1">
-                                    <label>Description</label>
+                            <div class="row mt-3" style="width: 95%">
+                                <div class="col-sm-2 text-center">
+                                    <label>Disetujui,</label>
                                 </div>
-                                <div class="col-sm-3">
-                                    <span id="descriptionCetakBKK">: Description di sini</span>
+                                <div class="col-sm-2 text-center">
+                                    <label>Kasir,</label>
                                 </div>
-                                <div class="col-sm-1">
-                                    <label>Paid To</label>
+                                <div class="col-sm-4 text-right" style="margin-left: -5%">
+                                    <label>Untuk Pelunasan DP BKM Nomer: </label>
                                 </div>
-                                <div class="col-sm-3">
-                                    <span id="paidCetakBKK">: Paid To di sini</span>
-                                </div>
-                                <div class="col-sm-1">
-                                    <label>Posted On</label>
-                                </div>
-                                <div class="col-sm-3">
-                                    <span id="postedCetakBKK">: Posted On di sini</span>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-sm-2 text-center underline">
-                                    <label>C.O.A</label>
-                                </div>
-                                <div class="col-sm-3 text-center underline">
-                                    <label>Account Name</label>
-                                </div>
-                                <div class="col-sm-3 text-center underline">
-                                    <label>Description</label>
-                                </div>
-                                <div class="col-sm-2 text-center underline">
-                                    <label>CEK/BG No.</label>
-                                </div>
-                                <div class="col-sm-2 text-right underline">
-                                    <span id="amountBKK">Amount</span>
-                                </div>
-                            </div>
-                            <div id="bkkDetailsContainer" style="margin-top: -0.5%"></div>
-                            <div class="row">
-                                <div class="col-sm-2 text-right offset-sm-8">
-                                    <label>TOTAL =</label>
+                                <div class="col-sm-2">
+                                    <span id="pelunasanBKK">no acuan bKK</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
-                                    <span id="totalAmountBKK">total amount BKK</span>
+                                    <span id="bkkTanggalBKK">Tanggal: tgl bkk</span>
                                 </div>
                             </div>
 
                             <div class="row mt-3">
-                                <div class="col-sm-3 text-center">
-                                    <label>Receiver</label>
+                                <div class="col-sm-2 text-center" style="width: 75%; position: relative;">
+                                    <span
+                                        style="display: inline-block; width: 75%; border-bottom: 2px solid black;"></span>
                                 </div>
-                                <div class="col-sm-3 text-center">
-                                    <label>Cashier</label>
+                                <div class="col-sm-2 text-center" style="width: 75%; position: relative;">
+                                    <span
+                                        style="display: inline-block; width: 75%; border-bottom: 2px solid black;"></span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 text-left offset-sm-6">
-                                    <label>Note: </label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 offset-sm-6">
-                                    <span id="batalNote">batal</span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6 offset-sm-6">
-                                    <span id="alasanNote">alasan</span>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-1 offset-sm-1 text-center underline">
-                                </div>
-                                <div class="col-sm-1 offset-sm-2 text-center underline">
+                                <div class="col-sm-4 offset-sm-2" style="font-weight: bold">
+                                    <span id="sidoarjoBKK">Sidoarjo, 17/October/2024</span>
                                 </div>
                             </div>
                         </div>
-                        {{-- end tampil bkk --}}
-                        {{-- </form> --}}
-
 
                         {{-- modal tampil bkm --}}
                         <div class="modal fade bd-example-modal-lg" id="modalListBKM" tabindex="-1" role="dialog"

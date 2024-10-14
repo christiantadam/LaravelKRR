@@ -525,6 +525,74 @@ class BKMDPPelunasanController extends Controller
             return response()->json($data_divisi);
         }
 
+        // cetak bkm
+        else if ($id === 'getCetakBKM') {
+            $id_bkm = $request->input('id_bkm');
+
+            $divisi = DB::connection('ConnAccounting')
+                ->table('VW_PRG_5298_ACC_CETAK_BKM_DP')
+                ->where('Id_BKM', $id_bkm)
+                ->get();
+
+
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Id_BKM' => $detail_divisi->Id_BKM,
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                    'Nilai_Pelunasan' => $detail_divisi->Nilai_Pelunasan,
+                    'Symbol' => $detail_divisi->Symbol,
+                    'Nilai_Rincian' => $detail_divisi->Nilai_Rincian,
+                    'KodePerkiraan' => $detail_divisi->KodePerkiraan,
+                    'Uraian' => $detail_divisi->Uraian,
+                    'NamaCust' => $detail_divisi->NamaCust,
+                    'Id_bank' => $detail_divisi->Id_bank,
+                    'Id_BKK_Acuan' => $detail_divisi->Id_BKK_Acuan,
+                    'Tgl_BKK' => $detail_divisi->Tgl_BKK,
+                    'Id_BKM_Acuan' => $detail_divisi->Id_BKM_Acuan,
+                    'Tgl_BKM' => $detail_divisi->Tgl_BKM,
+                ];
+            }
+
+            return response()->json($data_divisi);
+        }
+
+        // cetak bkm
+        else if ($id === 'getCetakBKK') {
+            $id_bkk = $request->input('id_bkk');
+
+            $divisi = DB::connection('ConnAccounting')
+                ->table('VW_PRG_5298_ACC_CETAK_BKK_DP')
+                ->where('Id_BKK', $id_bkk)
+                ->get();
+
+
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Uraian' => $detail_divisi->Terjemahan,
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKK' => $detail_divisi->Id_BKK,
+                    'Nilai_Pembulatan' => $detail_divisi->Nilai_Pembulatan,
+                    'Symbol' => $detail_divisi->Symbol,
+                    'Rincian_Bayar' => $detail_divisi->Rincian_Bayar,
+                    'Nilai_Rincian' => $detail_divisi->Nilai_Rincian,
+                    'Kode_Perkiraan' => $detail_divisi->Kode_Perkiraan,
+                    'Id_Detail_Bayar' => $detail_divisi->Id_Detail_Bayar,
+                    'Id_Bank' => $detail_divisi->Id_Bank,
+                    'Jenis_Pembayaran' => $detail_divisi->Jenis_Pembayaran,
+                    'No_BGCek' => $detail_divisi->No_BGCek,
+                    'Jatuh_Tempo' => $detail_divisi->Jatuh_Tempo,
+                    'Id_BKM_Acuan' => $detail_divisi->Id_BKM_Acuan,
+                    'Tgl_BKM' => $detail_divisi->Tgl_BKM,
+
+                ];
+            }
+
+            return response()->json($data_divisi);
+        }
+
     }
 
     // Show the form for editing the specified resource.
