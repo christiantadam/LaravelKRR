@@ -27,7 +27,12 @@ class PascaKirimController extends Controller
 
     public function getBarangPesanan($suratPesanan, $suratJalan)
     {
+        if (strpos($suratPesanan, '.')) {
+            $suratPesanan = str_replace('.', '/', $suratPesanan);
+            // dd($suratPesanan);
+        }
         $barang = db::connection('ConnSales')->select('exec SP_1486_SLS_LIST_ITEM_PASCA_KIRIM @SP = ?, @SJ = ?', [$suratPesanan, $suratJalan]);
+
         return response()->json($barang);
     }
     public function getReturKirim($kodeBarang)
