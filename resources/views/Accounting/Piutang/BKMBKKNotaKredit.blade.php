@@ -138,15 +138,17 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="mataUangBKMSelect" name="mataUangBKMSelect"
-                                                        readonly>
+                                                    <input type="text" class="form-control" id="mataUangBKMSelect"
+                                                        name="mataUangBKMSelect" readonly>
                                                     <div class="input-group-append">
-                                                        <button type="button" id="btn_mtUang" class="btn btn-default" disabled>...</button>
+                                                        <button type="button" id="btn_mtUang" class="btn btn-default"
+                                                            disabled>...</button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
-                                                <label for="kursRupiah" style="margin-right: 10px;">Kurs Rupiah</label>
+                                                <label for="kursRupiah" style="margin-right: 10px;">Kurs
+                                                    Rupiah</label>
                                             </div>
                                             <div class="col-md-3">
                                                 <input type="text" id="kursRupiah" name="kursRupiah"
@@ -172,20 +174,21 @@
                                             </div>
                                             <div class="col-md-5">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="namaBankBKMSelect" name="namaBankBKMSelect"
-                                                        readonly>
+                                                    <input type="text" class="form-control" id="namaBankBKMSelect"
+                                                        name="namaBankBKMSelect" readonly>
                                                     <div class="input-group-append">
-                                                        <button type="button" id="btn_bankBKM" class="btn btn-default" disabled>...</button>
+                                                        <button type="button" id="btn_bankBKM"
+                                                            class="btn btn-default" disabled>...</button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!--HIDDEN INPUT-->
                                             <div class="col-md-4">
-                                                <input type="text" id="idBankBKM" name="idBankBKM"
+                                                <input type="hidden" id="idBankBKM" name="idBankBKM"
                                                     class="form-control" style="width: 100%">
                                             </div>
                                             <div class="col-md-3">
-                                                <input type="text" id="jenisBankBKM" name="jenisBankBKM"
+                                                <input type="hidden" id="jenisBankBKM" name="jenisBankBKM"
                                                     class="form-control" style="width: 100%" readonly>
                                             </div>
                                         </div>
@@ -195,23 +198,25 @@
                                                     Perkiraan</label>
                                             </div>
                                             <div class="col-md-2">
-                                                <input type="text" class="form-control" id="idKodePerkiraanBKM" name="idKodePerkiraanBKM"
-                                                    class="form-control" readonly>
+                                                <input type="text" class="form-control" id="idKodePerkiraanBKM"
+                                                    name="idKodePerkiraanBKM" class="form-control" readonly>
                                             </div>
                                             <div class="col-md-7">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="kodePerkiraanBKMSelect" name="kodePerkiraanBKMSelect"
+                                                    <input type="text" class="form-control"
+                                                        id="kodePerkiraanBKMSelect" name="kodePerkiraanBKMSelect"
                                                         class="form-control" readonly>
                                                     <div class="input-group-append">
-                                                        <button type="button" id="btn_kodeBKM" class="btn btn-default" disabled>...</button>
+                                                        <button type="button" id="btn_kodeBKM"
+                                                            class="btn btn-default" disabled>...</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        {{-- <div class="col-md-3">
                                             <input type="text" id="uraianBKM" name="uraianBKM"
                                                 class="form-control" style="width: 100%; display:none" readonly>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <!--CARD 2-->
@@ -247,19 +252,28 @@
                                             </div>
                                             <div class="col-md-5">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="namaBankBKKSelect" name="namaBankBKKSelect"
-                                                        readonly>
+                                                    <input type="text" class="form-control" id="namaBankBKKSelect"
+                                                        name="namaBankBKKSelect" readonly>
                                                     <div class="input-group-append">
-                                                        <button type="button" id="btn_bankBKK" class="btn btn-default" disabled>...</button>
+                                                        <button type="button" id="btn_bankBKK"
+                                                            class="btn btn-default" disabled>...</button>
                                                     </div>
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-4">
+                                                <input type="hidden" id="idBankBKK" name="idBankBKK"
+                                                    class="form-control" style="width: 100%">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="hidden" id="jenisBankBKK" name="jenisBankBKK"
+                                                    class="form-control" style="width: 100%" readonly>
+                                            </div>
 
-                                            <input type="hidden" id="idBankBKK" name="idBankBKK"
-                                                class="form-control" style="width: 100%">
-                                            <input type="hidden" id="jenisBankBKK" name="jenisBankBKK"
-                                                class="form-control" style="width: 100%">
+                                            {{-- <input type="text" id="idBankBKK" name="idBankBKK"
+                                                class="form-control" style="width: 100%" readonly>
+                                            <input type="text" id="jenisBankBKK" name="jenisBankBKK"
+                                                class="form-control" style="width: 100%"> --}}
                                         </div>
                                         <div class="d-flex">
                                             <div class="col-md-3">
@@ -267,23 +281,25 @@
                                                     Perkiraan</label>
                                             </div>
                                             <div class="col-md-2">
-                                                <input type="text" class="form-control" id="idKodePerkiraanBKK" name="idKodePerkiraanBKK"
-                                                    class="form-control" readonly>
+                                                <input type="text" class="form-control" id="idKodePerkiraanBKK"
+                                                    name="idKodePerkiraanBKK" class="form-control" readonly>
                                             </div>
                                             <div class="col-md-7">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="kodePerkiraanBKKSelect" name="kodePerkiraanBKKSelect"
+                                                    <input type="text" class="form-control"
+                                                        id="kodePerkiraanBKKSelect" name="kodePerkiraanBKKSelect"
                                                         class="form-control" readonly>
                                                     <div class="input-group-append">
-                                                        <button type="button" id="btn_kodeBKK" class="btn btn-default" disabled>...</button>
+                                                        <button type="button" id="btn_kodeBKK"
+                                                            class="btn btn-default" disabled>...</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-7">
+                                        {{-- <div class="col-md-7">
                                             <input type="text" id="uraianBKK" name="uraianBKK"
                                                 class="form-control" style="width: 100%; display: none;" readonly>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
 
@@ -339,7 +355,128 @@
                                 style="width: 100%">
                         </form>
 
-                        <!--MODAL TAMPIL BKM-->
+                        {{-- modal tampil bkk --}}
+                        <div class="modal fade" id="dataBKKModal" tabindex="-1" aria-labelledby="dataBKKModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" style="max-width: 60%">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="dataBKKModalLabel">Cetak BKK Nota Kredit</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close" id="close_modalbkm">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-inline">
+                                            <label for="month">Tanggal Input&nbsp;</label>
+                                            <input type="date" id="tgl_awalbkk" class="form-control"
+                                                style="width: 160px">
+                                            <span>&nbsp;S/D&nbsp;</span>
+                                            <input type="date" id="tgl_akhirbkk" class="form-control"
+                                                style="width: 160px">
+                                            <span>&nbsp;&nbsp;</span>
+                                            <button id="btn_okbkk" type="button" class="btn btn-primary">OK</button>
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <label for="bkk">Id. BKK:</label>
+                                            <input type="text" id="bkk" class="form-control">
+                                            <input type="text" id="terbilang" class="form-control"
+                                                style="display: none">
+                                            <input type="text" id="id_matauang" class="form-control"
+                                                style="display: none">
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table id="tabletampilBKM">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Tanggal Input</th>
+                                                        <th>Id. BKK</th>
+                                                        <th>Nilai Pelunasan</th>
+                                                        <th>Terbilang</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="btn_cetakbkm" type="button"
+                                            class="btn btn-success">Cetak</button>
+                                        <button id="btn_prosesbkm" type="button" class="btn btn-success"
+                                            style="display: none">Proses</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            id="tutup_modalbkk">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- modal tampil bkk --}}
+                        <div class="modal fade bd-example-modal-lg" id="modalListBKK" tabindex="-1" role="dialog"
+                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Cetak BKK Transitoris</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="bankBg">Tanggal Input</label>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="date" id="tglAwalBKK" class="form-control">
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <label>S/D</label>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="date" id="tglAkhirBKK" class="form-control">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="submit" id="btnOkBKK" value="OK"
+                                                    class="btn btn-primary d-flex ml-auto">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="bankBg">Id. BKK</label>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="text" id="idCetakBKK" readonly class="form-control">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="submit" id="btnCetakBKK" value="CETAK"
+                                                    class="btn btn-primary d-flex ml-auto">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-2" style="margin-top: 0.5%">
+                                            <div class="col-sm-12">
+                                                <div class="table-responsive fixed-height">
+                                                    <table class="table table-bordered no-wrap-header"
+                                                        id="tableListBKK">
+                                                        <thead>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">TUTUP</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- <!--MODAL TAMPIL BKM-->
                         <div class="modal fade" id="modalTampilBKM" tabindex="-1" role="dialog"
                             aria-labelledby="pilihBankModal" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
@@ -483,7 +620,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>

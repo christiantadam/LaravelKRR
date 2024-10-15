@@ -313,8 +313,8 @@ class BKMBKKNotaKreditController extends Controller
         $idBankBKM = trim($request->input('idBankBKM'));
         $tanggal = trim($request->input('tanggal'));
         $jenis = trim($request->input('jenis'));
-        $idBankBKM = trim($request->input('idBankBKM'));
-        $idBankBKM = trim($request->input('idBankBKM'));
+        $idBankBKK = trim($request->input('idBankBKK'));
+        $idBankBKKtemp = trim($request->input('idBankBKKtemp'));
 
         if ($id === 'getbank') {
             $data = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK]');
@@ -330,7 +330,9 @@ class BKMBKKNotaKreditController extends Controller
         }
 
         else if ($id === 'detailjenisbank') {
-            $data =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK_1] @idBank = ?', [$idBankBKM]);
+            $idBank = trim($request->input('idBank'));
+
+            $data =  DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK_1] @idBank = ?', [$idBank]);
             // dd($data, $request->all());
             return response()->json($data);
         }
@@ -346,11 +348,12 @@ class BKMBKKNotaKreditController extends Controller
                 ];
             }
             return datatables($data_isi)->make(true);
-
         }
 
-        else if ($id === 'getidBKMNota') {
+        else if ($id === 'getidNota') {
             $tanggal = trim($request->input('tanggal'));
+            $jenis = trim($request->input('jenis'));
+
             // dd($request->all());
             $tgl = Carbon::parse($tanggal);
 
@@ -358,30 +361,65 @@ class BKMBKKNotaKreditController extends Controller
             $noUrut = 0;
             $ada = 0;
 
-            $ada = DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->count();
+            if ($jenis === 'R') {
+                $ada = DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->count();
 
-            if ($ada == 1) {
-                $noUrut = DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->value('Id_BKM_E_Rp');
-            } else {
-                $noUrut = 1;
+                if ($ada == 1) {
+                    $noUrut = DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->value('Id_BKM_E_Rp');
+                } else {
+                    $noUrut = 1;
 
-                DB::connection('ConnAccounting')->table('T_Counter_BKM')->insert([
-                    'Periode' => $tahun,
-                    'Id_BKM_E_Rp' => $noUrut,
+                    DB::connection('ConnAccounting')->table('T_Counter_BKM')->insert([
+                        'Periode' => $tahun,
+                        'Id_BKM_E_Rp' => $noUrut,
+                    ]);
+                }
+
+                $idBKM = '00000' . (string)$noUrut;
+                $finalIdBKM = $idBankBKM . '-R' . substr($tahun, -2) . substr($idBKM, -5);
+
+                DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->update([
+                    'Id_BKM_E_Rp' => $noUrut + 1,
                 ]);
+
+                return response()->json(['IdBKM' => $finalIdBKM]);
+
+            } else {
+                $ada = DB::connection('ConnAccounting')->table('T_Counter_BKK')->where('Periode', $tahun)->count();
+
+                if ($ada == 1) {
+                    $noUrut = DB::connection('ConnAccounting')->table('T_Counter_BKK')->where('Periode', $tahun)->value('Id_BKK_E_Rp');
+                } else {
+                    $noUrut = 1;
+
+                    DB::connection('ConnAccounting')->table('T_Counter_BKK')->insert([
+                        'Periode' => $tahun,
+                        'Id_BKK_E_Rp' => $noUrut,
+                    ]);
+                }
+
+                $idBKK = '00000' . (string)$noUrut;
+                $finalIdBKK = $idBankBKK . '-R' . substr($tahun, -2) . substr($idBKK, -5);
+
+                DB::connection('ConnAccounting')->table('T_Counter_BKK')->where('Periode', $tahun)->update([
+                    'Id_BKK_E_Rp' => $noUrut + 1,
+                ]);
+
+                return response()->json(['IdBKK' => $finalIdBKK]);
             }
 
-            // Format the IdBKK
-            $idBKM = '00000' . (string)$noUrut;
-            $finalIdBKM = $idBankBKM . '-R' . substr($tahun, -2) . substr($idBKM, -5);
+        } else if ($id == 'cetakBKK') {
+            $bkk = trim($request->input('bkk'));
 
-            // Update the counter
-            DB::connection('ConnAccounting')->table('T_Counter_BKM')->where('Periode', $tahun)->update([
-                'Id_BKM_E_Rp' => $noUrut + 1,
+            $sno = DB::connection('ConnAccounting')
+                ->select("SELECT * FROM VW_PRG_5298_ACC_CETAK_BKK_NOTA_KREDIT WHERE Id_BKK = ?", [$bkk]);
+
+            return response()->json([
+                'data' => $sno,
+                'message' => 'Laporan telah dicetak dengan sukses'
             ]);
 
-            // Return the IdBKK
-            return response()->json(['IdBKM' => $finalIdBKM]);
+
         }
     }
 

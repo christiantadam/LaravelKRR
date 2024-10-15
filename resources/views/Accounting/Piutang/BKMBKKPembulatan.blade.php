@@ -242,7 +242,7 @@
                             <div class="modal-dialog" style="max-width: 60%">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="dataBKKModalLabel">Data BKM</h5>
+                                        <h5 class="modal-title" id="dataBKKModalLabel">Cetak BKK Pembulatan</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal"
                                             aria-label="Close" id="close_modalbkm">
                                             <span aria-hidden="true">&times;</span>
@@ -250,7 +250,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-inline">
-                                            <label for="month">Bln/Thn:&nbsp;</label>
+                                            <label for="month">Tanggal Input&nbsp;</label>
                                             <input type="date" id="tgl_awalbkk" class="form-control"
                                                 style="width: 160px">
                                             <span>&nbsp;S/D&nbsp;</span>

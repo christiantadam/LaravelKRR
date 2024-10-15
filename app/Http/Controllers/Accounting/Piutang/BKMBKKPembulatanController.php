@@ -153,17 +153,6 @@ class BKMBKKPembulatanController extends Controller
             $sno = DB::connection('ConnAccounting')
                 ->select("SELECT * FROM VW_PRG_5298_ACC_CETAK_BKK_DP WHERE Id_BKK = ?", [$bkk]);
 
-            // dd($sno);
-
-            // $reportType = $ada ? 5 : 4;
-
-            // Tampilkan laporan sesuai kriteria yang ditentukan
-            // Disesuaikan dengan mekanisme pencetakan laporan di Laravel
-            // Misalnya menggunakan library reporting atau mencetak langsung
-
-            // DB::connection('ConnAccounting')
-            //     ->statement('exec SP_5298_ACC_UPDATE_TGLCETAK_BKK @idBKK = ?', [$bkk]);
-            // dd($sno);
             return response()->json([
                 'data' => $sno,
                 'message' => 'Laporan telah dicetak dengan sukses'
