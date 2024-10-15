@@ -2640,71 +2640,73 @@ btnCetakBKK.addEventListener('click', function () {
             },
             success: function (result) {
                 if (result.length !== 0) {
-                    let totalBKM = 0;
+                    let totalBKK = 0;
                     var bkmDetailsContainer = document.getElementById("bkkDetailsContainer");
 
                     bkmDetailsContainer.innerHTML = "";
 
-                    nomerBKK.textContent = 'Nomer: ' + decodeHtmlEntities(result[0].Id_BKK);
-                    namaCetakBKK.textContent = ': ' + decodeHtmlEntities(result[0].Id_bank);
-                    descriptionCetakBKK.textContent = ": " + decodeHtmlEntities(result[0].Nama_Bank);
-                    var today = new Date();
-
-                    var options = { year: 'numeric', month: 'short', day: 'numeric' };
-                    var formattedToday = today.toLocaleDateString('en-GB', options).replace(/ /g, '-');
-                    postedCetakBKK.textContent = ": " + formattedToday;
+                    nomerBKK.innerHTML = '<h5><b>Nomer: ' + decodeHtmlEntities(result[0].Id_BKK) +"</b></h5>";
 
                     var date = new Date(result[0].Tgl_Input);
-                    var options = { year: 'numeric', month: 'short', day: 'numeric' };
-                    var formattedDate = date.toLocaleDateString('en-GB', options).replace(/ /g, '-');
-                    dateCetakBKK.textContent = ": " + formattedDate;
 
-                    paidCetakBKK.textContent = ": " + decodeHtmlEntities(result[0].NM_SUP);
+                    var monthNames = [
+                        "January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                    ];
 
-                    batalNote.textContent = 'BATAL: ' + decodeHtmlEntities(result[0].Batal);
-                    alasanNote.textContent = 'ALASAN: ' + decodeHtmlEntities(result[0].Alasan);
+                    tanggalBKK.innerHTML = '<h5><b>Tanggal: ' + formatDateToMMDDYYYY(date) + '</b></h5>';
+
+                    symbolBKK.textContent = decodeHtmlEntities(result[0].Symbol);
+                    nilaiBKK.textContent = numeral(parseFloat(result[0].Nilai_Pembulatan)).format("0,0.00");
+
+                    terbilangBKK.textContent = decodeHtmlEntities(result[0].Terjemahan);
+
+                    jenisBayarBKK.textContent = decodeHtmlEntities(result[0].Jenis_Pembayaran);
 
                     result.forEach(function (item, index) {
                         var row = document.createElement("div");
                         row.classList.add("row");
+                        row.style.width = "95%";
 
-                        // COA column
                         var coaCol = document.createElement("div");
                         coaCol.classList.add("col-sm-2", "text-left");
-                        coaCol.textContent = decodeHtmlEntities(item.KodePerkiraan);
+                        coaCol.textContent = item.No_BGCek ? decodeHtmlEntities(item.No_BGCek) : '';
+                        coaCol.style.borderLeft = "1px solid black";  // Border kiri
+                        coaCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(coaCol);
 
-                        // Account Name column
                         var accountCol = document.createElement("div");
-                        accountCol.classList.add("col-sm-3", "text-left");
-                        accountCol.textContent = decodeHtmlEntities(item.Keterangan);
+                        accountCol.classList.add("col-sm-2", "text-left");
+                        accountCol.textContent = item.Jatuh_Tempo ? formatDateToMMDDYYYY(item.No_BGCek) : '';
+                        accountCol.style.borderLeft = "1px solid black";  // Border kiri
+                        accountCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(accountCol);
 
-                        // Description column
                         var descriptionCol = document.createElement("div");
-                        descriptionCol.classList.add("col-sm-3", "text-left");
-                        descriptionCol.textContent = decodeHtmlEntities(item.Rincian_Bayar);
+                        descriptionCol.classList.add("col-sm-4", "text-left");
+                        descriptionCol.textContent = item.Rincian_Bayar ? decodeHtmlEntities(item.Rincian_Bayar) : '';
+                        descriptionCol.style.borderLeft = "1px solid black";  // Border kiri
+                        descriptionCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(descriptionCol);
 
-                        // Description column
                         var cekBgCol = document.createElement("div");
-                        cekBgCol.classList.add("col-sm-2", "text-left");
-                        cekBgCol.textContent = decodeHtmlEntities(item.No_BGCek);
+                        cekBgCol.classList.add("col-sm-2", "text-center");
+                        cekBgCol.textContent = item.Kode_Perkiraan ? decodeHtmlEntities(item.Kode_Perkiraan) : '';
+                        cekBgCol.style.borderLeft = "1px solid black";  // Border kiri
+                        cekBgCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(cekBgCol);
 
-                        // Amount column
                         var amountCol = document.createElement("div");
                         amountCol.classList.add("col-sm-2", "text-right");
-                        amountCol.textContent = numeral(parseFloat(item.Nilai_Rincian)).format("0,0.00");
+                        amountCol.textContent = item.Nilai_Rincian ? numeral(item.Nilai_Rincian).format("0,0.00") : '';
+                        amountCol.style.borderLeft = "1px solid black";  // Border kiri
+                        amountCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(amountCol);
 
-                        // Append the row to the container
                         bkmDetailsContainer.appendChild(row);
 
-                        // Update the total
-                        totalBKM += parseFloat(item.Nilai_Rincian);
+                        totalBKK += parseFloat(item.Nilai_Rincian);
 
-                        // Add underline class only to the last row
                         if (index === result.length - 1) {
                             coaCol.classList.add("underline");
                             accountCol.classList.add("underline");
@@ -2714,10 +2716,24 @@ btnCetakBKK.addEventListener('click', function () {
                         }
                     });
 
-                    amountBKK.textContent = 'Amount ' + decodeHtmlEntities(result[0].Id_MataUang_BC)
-                    totalAmountBKK.textContent = numeral(parseFloat(totalBKM)).format("0,0.00");
 
-                    printPreview('preview2')
+                    symbolgtBKK.textContent = decodeHtmlEntities(result[0].Symbol);
+                    grandTotalBKK.textContent = numeral(parseFloat(totalBKK)).format("0,0.00");
+
+                    pelunasanBKK.textContent = decodeHtmlEntities(result[0].Id_BKM_Acuan);
+
+                    bkkTanggalBKK.textContent = 'Tanggal: ' + formatDateToMMDDYYYY(result[0].Tgl_BKM);
+
+                    var today = new Date();
+                    var day = today.getDate();
+                    var month = monthNames[today.getMonth()];
+                    var year = today.getFullYear();
+
+                    var formattedToday = day + '/' + month + '/' + year;
+
+                    sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
+
+                    printPreview('preview2');
                 }
             },
             error: function (xhr, status, error) {

@@ -63,9 +63,9 @@
         display: none;
     }
 
-    /* .preview2 {
+    .preview2 {
         display: none;
-    } */
+    }
 
     @media print {
 
@@ -1214,7 +1214,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="bkkDetailsContainer" style="width: 95%;"></div>
+                            <div id="bkkDetailsContainer"></div>
                             <div class="row" style="border: 1px black solid; width: 95%">
                                 <div class="col-sm-12">
                                     <div class="row" style="font-weight: bold;">

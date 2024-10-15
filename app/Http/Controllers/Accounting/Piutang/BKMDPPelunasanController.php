@@ -571,7 +571,8 @@ class BKMDPPelunasanController extends Controller
             $data_divisi = [];
             foreach ($divisi as $detail_divisi) {
                 $data_divisi[] = [
-                    'Uraian' => $detail_divisi->Terjemahan,
+                    // 'Uraian' => $detail_divisi->Uraian,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
                     'Tgl_Input' => $detail_divisi->Tgl_Input,
                     'Id_BKK' => $detail_divisi->Id_BKK,
                     'Nilai_Pembulatan' => $detail_divisi->Nilai_Pembulatan,
