@@ -1,6 +1,8 @@
 //#region get element by id
 
-let jenis_pascaPengembalian = document.getElementById("jenis_pascaPengembalian");
+let jenis_pascaPengembalian = document.getElementById(
+    "jenis_pascaPengembalian"
+);
 let jenis_pascaKurangLebih = document.getElementById("jenis_pascaKurangLebih");
 let customer = document.getElementById("customer");
 let surat_pesanan = document.getElementById("surat_pesanan");
@@ -188,6 +190,9 @@ surat_pesanan.addEventListener("change", function () {
         surat_pesanan.options[surat_pesanan.selectedIndex].text.split(" | ");
     surat_jalan.value = nomorSurat[1];
     let suratPesanan = nomorSurat[0];
+    if (suratPesanan.includes("/")) {
+        suratPesanan = suratPesanan.replace(/\//g, '.');
+    }
     barang_pesanan.focus();
     fetch("/options/barangpesanan/" + suratPesanan + "/" + surat_jalan.value)
         .then((response) => response.json())
