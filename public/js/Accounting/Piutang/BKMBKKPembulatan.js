@@ -310,12 +310,6 @@ $(document).ready(function () {
         }
     });
 
-
-    btn_cetakbkm.addEventListener("click", async function (event) {
-        event.preventDefault();
-
-    });
-
     function formatDate(dateString) {
         let dateObj = new Date(dateString);
 
@@ -337,12 +331,15 @@ $(document).ready(function () {
             "July", "August", "September", "October", "November", "December"
         ];
 
+        let day = dateObj.getDate(); // Get the day without leading zero
+
         return (
-            ('0' + dateObj.getDate()).slice(-2) + '/' +
+            day + '/' +  // No need to add a leading zero manually
             monthNames[dateObj.getMonth()] + '/' +
             dateObj.getFullYear()
         );
     }
+
 
     //#region Modal Tampil BKK
     btn_cetakbkm.addEventListener("click", async function (event) {

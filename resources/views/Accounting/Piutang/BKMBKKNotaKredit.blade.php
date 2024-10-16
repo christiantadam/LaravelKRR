@@ -58,6 +58,24 @@
         padding-bottom: 0;
         font-size: 16px;
     }
+
+    @media print {
+        .card {
+            display: none;
+        }
+
+        .print {
+            visibility: visible !important;
+        }
+
+        .modal {
+            display: none !important;
+        }
+
+        .fade {
+            opacity: 0 !important;
+        }
+    }
 </style>
 
 <div class="container-fluid">
@@ -72,277 +90,278 @@
                 @endif
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div class="form-container col-md-12">
-                        <form method="POST" action="{{ url('BKMBKKNotaKredit') }}" id="formkoreksi">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="_method" id="methodkoreksi">
-                            <div>
+                        <input type="hidden" name="_method" id="methodkoreksi">
+                        <div>
 
-                                <b>Data Nota Kredit</b>
-                                <div class="table-responsive fixed-height">
-                                    <table class="table table-bordered no-wrap-header" id="tabelNotaKredit">
-                                        <thead></thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
-
-
-                                <input type="hidden" id="idCustomer" name="idCustomer" class="form-control"
-                                    style="width: 100%">
-                                <input type="hidden" id="idPenagihan" name="idPenagihan" class="form-control"
-                                    style="width: 100%">
-                                <input type="hidden" id="noNotaKredit" name="noNotaKredit" class="form-control"
-                                    style="width: 100%">
-                                <input type="hidden" id="jumlah" name="jumlah" class="form-control"
-                                    style="width: 100%">
+                            <b>Data Nota Kredit</b>
+                            <div class="table-responsive fixed-height">
+                                <table class="table table-bordered no-wrap-header" id="tabelNotaKredit">
+                                    <thead></thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
-                            <div class="card-container" style="display: flex;">
-                                <div style="width: 60%;">
-                                    <div class="card" style>
-                                        <b>BKM</b>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="tanggal" style="margin-right: 10px;">Tanggal</label>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <input type="date" id="tanggal" name="tanggal" class="form-control"
-                                                    style="width: 100%" readonly>
-                                            </div>
-                                            <div class="col-md-2" style="display: none">
-                                                <input type="text" id="bulan" name="bulan" class="form-control"
-                                                    style="width: 100%">
-                                            </div>
-                                            <div class="col-md-2" style="display: none">
-                                                <input type="text" id="tahun" name="tahun" class="form-control"
-                                                    style="width: 100%">
-                                            </div>
+
+
+                            <input type="hidden" id="idCustomer" name="idCustomer" class="form-control"
+                                style="width: 100%">
+                            <input type="hidden" id="idPenagihan" name="idPenagihan" class="form-control"
+                                style="width: 100%">
+                            <input type="hidden" id="noNotaKredit" name="noNotaKredit" class="form-control"
+                                style="width: 100%">
+                            <input type="hidden" id="jumlah" name="jumlah" class="form-control"
+                                style="width: 100%">
+                        </div>
+                        <div class="card-container" style="display: flex;">
+                            <div style="width: 60%;">
+                                <div class="card" style>
+                                    <b>BKM</b>
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="tanggal" style="margin-right: 10px;">Tanggal</label>
                                         </div>
-                                        <input type="hidden" name="idPembayaran" id="idPembayaran">
-                                        <input type="hidden" name="idPelunasan" id="idPelunasan">
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="idBKM" style="margin-right: 10px;">Id. BKM</label>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" id="idBKM" name="idBKM" class="form-control"
-                                                    style="width: 100%" readonly>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="hidden" id="id_bkm" name="id_bkm" class="form-control"
-                                                    style="width: 100%">
-                                            </div>
+                                        <div class="col-md-5">
+                                            <input type="date" id="tanggal" name="tanggal" class="form-control"
+                                                style="width: 100%" readonly>
                                         </div>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="mataUangBKMSelect" style="margin-right: 10px;">Mata
-                                                    Uang</label>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="mataUangBKMSelect"
-                                                        name="mataUangBKMSelect" readonly>
-                                                    <div class="input-group-append">
-                                                        <button type="button" id="btn_mtUang" class="btn btn-default"
-                                                            disabled>...</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label for="kursRupiah" style="margin-right: 10px;">Kurs
-                                                    Rupiah</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="text" id="kursRupiah" name="kursRupiah"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
+                                        <div class="col-md-2" style="display: none">
+                                            <input type="text" id="bulan" name="bulan" class="form-control"
+                                                style="width: 100%">
                                         </div>
-                                        <input type="hidden" name="idMataUangBKM" id="idMataUangBKM"
-                                            class="form-control" style="width: 100%">
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="jumlahUangBKM" style="margin-right: 10px;">Jumlah
-                                                    Uang</label>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" id="jumlahUangBKM" name="jumlahUangBKM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
+                                        <div class="col-md-2" style="display: none">
+                                            <input type="text" id="tahun" name="tahun" class="form-control"
+                                                style="width: 100%">
                                         </div>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="namaBankBKMSelect"
-                                                    style="margin-right: 10px;">Bank</label>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="namaBankBKMSelect"
-                                                        name="namaBankBKMSelect" readonly>
-                                                    <div class="input-group-append">
-                                                        <button type="button" id="btn_bankBKM"
-                                                            class="btn btn-default" disabled>...</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--HIDDEN INPUT-->
-                                            <div class="col-md-4">
-                                                <input type="hidden" id="idBankBKM" name="idBankBKM"
-                                                    class="form-control" style="width: 100%">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="hidden" id="jenisBankBKM" name="jenisBankBKM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
+                                    </div>
+                                    <input type="hidden" name="idPembayaran" id="idPembayaran">
+                                    <input type="hidden" name="idPelunasan" id="idPelunasan">
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="idBKM" style="margin-right: 10px;">Id. BKM</label>
                                         </div>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="kodePerkiraan" style="margin-right: 10px;">Kode
-                                                    Perkiraan</label>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <input type="text" class="form-control" id="idKodePerkiraanBKM"
-                                                    name="idKodePerkiraanBKM" class="form-control" readonly>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control"
-                                                        id="kodePerkiraanBKMSelect" name="kodePerkiraanBKMSelect"
-                                                        class="form-control" readonly>
-                                                    <div class="input-group-append">
-                                                        <button type="button" id="btn_kodeBKM"
-                                                            class="btn btn-default" disabled>...</button>
-                                                    </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="idBKM" name="idBKM" class="form-control"
+                                                style="width: 100%" readonly>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="hidden" id="id_bkm" name="id_bkm" class="form-control"
+                                                style="width: 100%">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="mataUangBKMSelect" style="margin-right: 10px;">Mata
+                                                Uang</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="mataUangBKMSelect"
+                                                    name="mataUangBKMSelect" readonly>
+                                                <div class="input-group-append">
+                                                    <button type="button" id="btn_mtUang" class="btn btn-default"
+                                                        disabled>...</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- <div class="col-md-3">
+                                        <div class="col-md-2">
+                                            <label for="kursRupiah" style="margin-right: 10px;">Kurs
+                                                Rupiah</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" id="kursRupiah" name="kursRupiah"
+                                                class="form-control" style="width: 100%" readonly>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="idMataUangBKM" id="idMataUangBKM"
+                                        class="form-control" style="width: 100%">
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="jumlahUangBKM" style="margin-right: 10px;">Jumlah
+                                                Uang</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="jumlahUangBKM" name="jumlahUangBKM"
+                                                class="form-control" style="width: 100%" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="namaBankBKMSelect" style="margin-right: 10px;">Bank</label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="namaBankBKMSelect"
+                                                    name="namaBankBKMSelect" readonly>
+                                                <div class="input-group-append">
+                                                    <button type="button" id="btn_bankBKM" class="btn btn-default"
+                                                        disabled>...</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--HIDDEN INPUT-->
+                                        <div class="col-md-4">
+                                            <input type="hidden" id="idBankBKM" name="idBankBKM"
+                                                class="form-control" style="width: 100%">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="hidden" id="jenisBankBKM" name="jenisBankBKM"
+                                                class="form-control" style="width: 100%" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="kodePerkiraan" style="margin-right: 10px;">Kode
+                                                Perkiraan</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" id="idKodePerkiraanBKM"
+                                                name="idKodePerkiraanBKM" class="form-control" readonly>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                    id="kodePerkiraanBKMSelect" name="kodePerkiraanBKMSelect"
+                                                    class="form-control" readonly>
+                                                <div class="input-group-append">
+                                                    <button type="button" id="btn_kodeBKM" class="btn btn-default"
+                                                        disabled>...</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-3">
                                             <input type="text" id="uraianBKM" name="uraianBKM"
                                                 class="form-control" style="width: 100%; display:none" readonly>
                                         </div> --}}
-                                    </div>
+                                </div>
 
-                                    <!--CARD 2-->
-                                    <div class="card">
-                                        <b>BKK</b>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="idBKK" style="margin-right: 10px;">Id. BKK</label>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" id="idBKK" name="idBKK"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="hidden" id="id_bkk" name="id_bkk"
-                                                    class="form-control" style="width: 100%">
-                                            </div>
+                                <!--CARD 2-->
+                                <div class="card">
+                                    <b>BKK</b>
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="idBKK" style="margin-right: 10px;">Id. BKK</label>
                                         </div>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="jumlahUangBKK" style="margin-right: 10px;">Jumlah
-                                                    Uang</label>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" id="jumlahUangBKK" name="jumlahUangBKK"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="idBKK" name="idBKK" class="form-control"
+                                                style="width: 100%" readonly>
                                         </div>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="namaBankBKKSelect"
-                                                    style="margin-right: 10px;">Bank</label>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="namaBankBKKSelect"
-                                                        name="namaBankBKKSelect" readonly>
-                                                    <div class="input-group-append">
-                                                        <button type="button" id="btn_bankBKK"
-                                                            class="btn btn-default" disabled>...</button>
-                                                    </div>
+                                        <div class="col-md-3">
+                                            <input type="hidden" id="id_bkk" name="id_bkk" class="form-control"
+                                                style="width: 100%">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="jumlahUangBKK" style="margin-right: 10px;">Jumlah
+                                                Uang</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="jumlahUangBKK" name="jumlahUangBKK"
+                                                class="form-control" style="width: 100%" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="namaBankBKKSelect" style="margin-right: 10px;">Bank</label>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="namaBankBKKSelect"
+                                                    name="namaBankBKKSelect" readonly>
+                                                <div class="input-group-append">
+                                                    <button type="button" id="btn_bankBKK" class="btn btn-default"
+                                                        disabled>...</button>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="col-md-4">
-                                                <input type="hidden" id="idBankBKK" name="idBankBKK"
-                                                    class="form-control" style="width: 100%">
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="hidden" id="jenisBankBKK" name="jenisBankBKK"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
+                                        <div class="col-md-4">
+                                            <input type="hidden" id="idBankBKK" name="idBankBKK"
+                                                class="form-control" style="width: 100%">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="hidden" id="jenisBankBKK" name="jenisBankBKK"
+                                                class="form-control" style="width: 100%" readonly>
+                                        </div>
 
-                                            {{-- <input type="text" id="idBankBKK" name="idBankBKK"
+                                        {{-- <input type="text" id="idBankBKK" name="idBankBKK"
                                                 class="form-control" style="width: 100%" readonly>
                                             <input type="text" id="jenisBankBKK" name="jenisBankBKK"
                                                 class="form-control" style="width: 100%"> --}}
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="col-md-3">
+                                            <label for="kodePerkiraan" style="margin-right: 10px;">Kode
+                                                Perkiraan</label>
                                         </div>
-                                        <div class="d-flex">
-                                            <div class="col-md-3">
-                                                <label for="kodePerkiraan" style="margin-right: 10px;">Kode
-                                                    Perkiraan</label>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <input type="text" class="form-control" id="idKodePerkiraanBKK"
-                                                    name="idKodePerkiraanBKK" class="form-control" readonly>
-                                            </div>
-                                            <div class="col-md-7">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control"
-                                                        id="kodePerkiraanBKKSelect" name="kodePerkiraanBKKSelect"
-                                                        class="form-control" readonly>
-                                                    <div class="input-group-append">
-                                                        <button type="button" id="btn_kodeBKK"
-                                                            class="btn btn-default" disabled>...</button>
-                                                    </div>
+                                        <div class="col-md-2">
+                                            <input type="text" class="form-control" id="idKodePerkiraanBKK"
+                                                name="idKodePerkiraanBKK" class="form-control" readonly>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                    id="kodePerkiraanBKKSelect" name="kodePerkiraanBKKSelect"
+                                                    class="form-control" readonly>
+                                                <div class="input-group-append">
+                                                    <button type="button" id="btn_kodeBKK" class="btn btn-default"
+                                                        disabled>...</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- <div class="col-md-7">
+                                    </div>
+                                    {{-- <div class="col-md-7">
                                             <input type="text" id="uraianBKK" name="uraianBKK"
                                                 class="form-control" style="width: 100%; display: none;" readonly>
                                         </div> --}}
-                                    </div>
                                 </div>
+                            </div>
 
-                                <!--CARD 3 KANAN-->
-                                <div style="width: 40%;">
-                                    <div class="card-body">
-                                        <div style="display: flex; justify-content: center;">
-                                            <input type="submit" id="btnPilihNotaKredit" name="btnPilihNotaKredit"
-                                                value="Pilih Nota Kredit" class="btn btn-primary d-flex ml-auto">
+                            <!--CARD 3 KANAN-->
+                            <div style="width: 40%;">
+                                <div class="card-body">
+                                    <div style="display: flex; justify-content: center;">
+                                        <input type="submit" id="btnPilihNotaKredit" name="btnPilihNotaKredit"
+                                            value="Pilih Nota Kredit" class="btn btn-primary d-flex ml-auto">
+                                    </div>
+                                    <div class="row"
+                                        style="display: flex; justify-content: center; margin-top: 150px">
+                                        <div style="margin-right: 10px;">
+                                            <button type="submit" id="btnProses" name="btnProses"
+                                                class="btn btn-primary">PROSES</button>
                                         </div>
-                                        <div class="row"
-                                            style="display: flex; justify-content: center; margin-top: 150px">
-                                            <div style="margin-right: 10px;">
-                                                <button type="submit" id="btnProses" name="btnProses"
-                                                    class="btn btn-primary">PROSES</button>
-                                            </div>
-                                            <div style="margin-right: 10px;">
-                                                <input type="submit" id="btnKoreksi" name="btnKoreksi"
-                                                    value="Koreksi" class="btn btn-primary">
-                                            </div>
-                                            <div>
-                                                <input type="submit" id="btnBatal" name="btnBatal" value="Batal"
-                                                    class="btn btn-primary">
-                                            </div>
+                                        <div style="margin-right: 10px;">
+                                            <input type="submit" id="btnKoreksi" name="btnKoreksi" value="Koreksi"
+                                                class="btn btn-primary">
                                         </div>
-                                        <br>
-                                        <div class="row" style="display: flex; justify-content: center;">
-                                            <div style="margin-right: 10px;">
-                                                <input type="submit" id="btnTampilBKM" name="btnTampilBKM"
-                                                    value="Tampil BKM" class="btn btn-primary">
-                                            </div>
-                                            <div style="margin-right: 10px;">
-                                                <input type="submit" id="btnTampilBKK" name="btnTampilBKK"
-                                                    value="Tampil BKK" class="btn btn-primary">
-                                            </div>
-                                            <div>
+                                        <div>
+                                            <input type="submit" id="btnBatal" name="btnBatal" value="Batal"
+                                                class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="display: flex; justify-content: center;">
+                                        <div style="margin-right: 10px;">
+                                            <button type="submit" id="btnTampilBKM" name="btnTampilBKM"
+                                                class="btn btn-primary">Tampil BKM</button>
+                                            {{-- <input type="submit" id="btnTampilBKM" name="btnTampilBKM"
+                                                value="Tampil BKM" class="btn btn-primary"> --}}
+                                        </div>
+                                        <div style="margin-right: 10px;">
+                                            {{-- <input type="submit" id="btnTampilBKK" name="btnTampilBKK"
+                                                value="Tampil BKK" class="btn btn-primary"> --}}
+                                            <button type="submit" id="btnTampilBKK" name="btnTampilBKK"
+                                                class="btn btn-primary">Tampil BKK</button>
+                                        </div>
+                                        {{-- <div>
                                                 <input type="submit" name="tutup" value="TUTUP"
                                                     class="btn btn-primary">
-                                            </div>
-                                        </div>
+                                            </div> --}}
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-sm-6 d-flex">
                             <input type="text" id="nilaiUang" name="nilaiUang" class="form-control"
                                 style="width: 100%">
                             <input type="text" id="konversi" name="konversi" class="form-control"
@@ -353,7 +372,7 @@
                                 style="width: 100%">
                             <input type="text" id="nilai1" name="nilai1" class="form-control"
                                 style="width: 100%">
-                        </form>
+                        </div>
 
                         {{-- modal tampil bkk --}}
                         <div class="modal fade" id="dataBKKModal" tabindex="-1" aria-labelledby="dataBKKModalLabel"
@@ -361,7 +380,7 @@
                             <div class="modal-dialog" style="max-width: 60%">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="dataBKKModalLabel">Cetak BKK Nota Kredit</h5>
+                                        <h5 class="modal-title" id="dataBKKModalLabel">Cetak BKKkkk Nota Kredit</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal"
                                             aria-label="Close" id="close_modalbkm">
                                             <span aria-hidden="true">&times;</span>
@@ -387,7 +406,7 @@
                                                 style="display: none">
                                         </div>
                                         <div class="table-responsive">
-                                            <table id="tabletampilBKM">
+                                            <table id="tabletampilBKK">
                                                 <thead class="table-dark">
                                                     <tr>
                                                         <th>Tanggal Input</th>
@@ -402,10 +421,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button id="btn_cetakbkm" type="button"
+                                        <button id="btn_cetakbkk" type="button"
                                             class="btn btn-success">Cetak</button>
-                                        <button id="btn_prosesbkm" type="button" class="btn btn-success"
-                                            style="display: none">Proses</button>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                                             id="tutup_modalbkk">Tutup</button>
                                     </div>
@@ -413,68 +430,63 @@
                             </div>
                         </div>
 
-                        {{-- modal tampil bkk --}}
-                        <div class="modal fade bd-example-modal-lg" id="modalListBKK" tabindex="-1" role="dialog"
-                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
+                        {{-- modal tampil bkm --}}
+                        <div class="modal fade" id="dataBKMModal" tabindex="-1" aria-labelledby="dataBKMModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" style="max-width: 60%">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Cetak BKK Transitoris</h5>
+                                        <h5 class="modal-title" id="dataBKMModalLabel">Cetak BKM Nota Kredit</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close" id="close_modalbkm">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <label for="bankBg">Tanggal Input</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="date" id="tglAwalBKK" class="form-control">
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <label>S/D</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="date" id="tglAkhirBKK" class="form-control">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input type="submit" id="btnOkBKK" value="OK"
-                                                    class="btn btn-primary d-flex ml-auto">
-                                            </div>
+                                        <div class="form-inline">
+                                            <label for="month">Tanggal Input&nbsp;</label>
+                                            <input type="date" id="tgl_awalBKM" class="form-control"
+                                                style="width: 160px">
+                                            <span>&nbsp;S/D&nbsp;</span>
+                                            <input type="date" id="tgl_akhirBKM" class="form-control"
+                                                style="width: 160px">
+                                            <span>&nbsp;&nbsp;</span>
+                                            <button id="btn_okBKM" type="button" class="btn btn-primary">OK</button>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <label for="bankBg">Id. BKK</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <input type="text" id="idCetakBKK" readonly class="form-control">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input type="submit" id="btnCetakBKK" value="CETAK"
-                                                    class="btn btn-primary d-flex ml-auto">
-                                            </div>
+                                        <div class="form-group mt-3">
+                                            <label for="bkm">Id. BKM:</label>
+                                            <input type="text" id="bkm" class="form-control">
+                                            <input type="text" id="terbilang" class="form-control"
+                                                style="display: none">
+                                            <input type="text" id="id_matauang" class="form-control"
+                                                style="display: none">
                                         </div>
-
-                                        <div class="row mb-2" style="margin-top: 0.5%">
-                                            <div class="col-sm-12">
-                                                <div class="table-responsive fixed-height">
-                                                    <table class="table table-bordered no-wrap-header"
-                                                        id="tableListBKK">
-                                                        <thead>
-                                                        </thead>
-                                                        <tbody>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
+                                        <div class="table-responsive">
+                                            <table id="tabletampilBKM">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Tanggal Input</th>
+                                                        <th>Id. BKM</th>
+                                                        <th>Nilai Pelunasan</th>
+                                                        <th>Terbilang</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">TUTUP</button>
+                                        <button id="btn_cetakbkm" type="button"
+                                            class="btn btn-success">Cetak</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            id="tutup_modalBKM">Tutup</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
 
                         {{-- <!--MODAL TAMPIL BKM-->
                         <div class="modal fade" id="modalTampilBKM" tabindex="-1" role="dialog"
@@ -629,8 +641,8 @@
     </div>
 </div>
 
-
-<div class="print">
+{{-- CETAK BKK --}}
+<div class="printBKK" style="display: none;">
     <div class="container">
         <div class="row">
             <div class="col-5" style="padding-right: 25px;">
@@ -640,7 +652,7 @@
             </div>
             <div class="col-7">
                 <div class="row" style="border: solid 1px; justify-content: center; border-bottom: 0px">
-                    <h4 style="font-weight: bold">...</h4>
+                    <h4 style="font-weight: bold">BUKTI PENGELUARAN KAS</h4>
                 </div>
             </div>
         </div>
@@ -677,36 +689,73 @@
                 <div
                     class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
                     <div class="col-12" style="height: 2.5vh;">
-                        <span style="display: inline; font-size: 18px; padding-left: 50px">Jumlah Diterima:
+                        <span style="display: inline; font-size: 17px; padding-left: 50px">Jumlah Diterima:
                         </span><span id="symbol"
-                            style="display: inline; margin-top: -5px; font-size: 18px; padding-left: 15px"></span><span
-                            id="jumlahDiterima" name="jumlahDiterima"
-                            style="display: inline; margin-top: -5px; font-size: 18px; padding-left: 15px"></span>
+                            style="display: inline; margin-top: -5px; font-size: 17px; padding-left: 15px"></span><span
+                            id="nilaiPembulatan" name="nilaiPembulatan"
+                            style="display: inline; margin-top: -5px; font-size: 17px; padding-left: 15px"></span>
                     </div>
                     <div class="col-12">
-                        <span style="display: inline; font-size: 18px; padding-left: 50px">Terbilang: </span>
+                        <span style="display: inline; font-size: 17px; padding-left: 50px">Terbilang: </span>
                     </div>
                     <div class="col-12">
                         <span id="terbilangCetak"
-                            style="display: inline; margin-top: -5px; font-size: 18px; padding-left: 50px"></span>
+                            style="display: inline; margin-top: -5px; font-size: 12px; padding-left: 50px"></span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-7" style="padding-right: 25px;">
+            <div class="col-4" style="padding-right: 25px;">
                 <div
                     class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
                     <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span style="font-size: 18px; ">RINCIAN PENERIMAAN</span>
+                        <span style="font-size: 17px; ">BENTUK PEMBAYARAN</span>
                     </div>
                 </div>
             </div>
-            <div class="col-3" style="padding-right: 25px;">
+            <div class="col-8" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
+                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
+                        <span style="font-size: 17px;">URAIAN PEMBAYARAN</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: center; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
+                        <span style="font-size: 16px;" id="jenisPembayaran"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: center; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
+                        <span style="font-size: 16px;">JATUH TEMPO</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4" style="padding-right: 25px;">
                 <div
                     class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div class="col-6" style="height: 2.5vh; text-align-last: left;">
+                        <span style="font-size: 16px;">NOTA KREDIT</span>
+                    </div>
+                    <div class="col-6" style="height: 2.5vh; text-align-last: left;">
+                        <span style="font-size: 16px;">PENAGIHAN</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -2.3vh;">
                     <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span style="font-size: 18px;">KODE PERKIRAAN</span>
+                        <span style="font-size: 16px;">KODE PERKIRAAN</span>
                     </div>
                 </div>
             </div>
@@ -714,83 +763,42 @@
                 <div
                     class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
                     <div class="col-12" style="height: 2.5vh; text-align-last: center;">
-                        <span style="font-size: 18px;">JUMLAH</span>
+                        <span style="font-size: 16px;">JUMLAH</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-7" style="padding-right: 25px;">
+            <div class="col-2" style="padding-right: 25px;">
                 <div
                     class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
-                    <div class="col-12" style="height: 4vh;">
-                        <div class="row">
-                            <div class="col-7" style="text-align-last: left;">
-                                <span id="rincianPenerimaan" style="font-size: 18px;">BB</span>
-                            </div>
-                            <div class="col-2" style="text-align-last: right;">
-                                <span id="keterangan2" style="font-size: 18px;">AA</span>
-                            </div>
-                            <div class="col-3" style="text-align-last: right;">
-                                <span id="biaya" style="font-size: 18px;">CC</span>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="jenispemb"></div>
                 </div>
             </div>
-            <div class="col-3" style="padding-right: 25px;">
+            <div class="col-2" style="padding-right: 25px;">
                 <div
                     class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
-                    <div class="col-12" style="height: 4vh; text-align-last: center;">
-                        <span id="kodePerkiraanCetak" style="font-size: 18px;"></span>
+                    <div id="jatuhtempo"></div>
+                </div>
+            </div>
+            <div class="col-4" style="padding-right: 25px;">
+                <div class="row"style="border: solid 1px; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div id="rincianBayar" style="justify-content: left;margin-right: -2.4vh; padding-left: 1%; margin-right: 10%">
+                    </div>
+                    <div id="penagihan" style="justify-content: right;margin-right: -2.4vh; padding-left: 1%">
                     </div>
                 </div>
             </div>
             <div class="col-2" style="padding-right: 25px;">
                 <div
-                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
-                    <div class="col-12" style="height: 4vh; text-align-last: right;">
-                        <span id="jum1" style="font-size: 18px;">jum1</span>
-                    </div>
+                    class="row"style="border: solid 1px; justify-content: center; border-bottom: 0px; border-right: 0px; margin-right: -2.0vh;">
+                    <div id="kodeperkiraan"></div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-7">
-                <div class="row" style="border: solid 1px; border-bottom: 0px; border-right: 0px;">
-                    <div class="col-12" style="height: 4vh; text-align-last: left;">
-                        <span id="ket" style="font-size: 18px; "></span><br> <!--KET-->
-                    </div>
-                    <div class="col-12" style="height: 4vh; text-align-last: left;"><!--KET1-->
-                        <span id="ket1" style="font-size: 18px; "></span><br>
-                    </div>
-                    <div class="col-12" style="height: 4vh; text-align-last: left;"><!--KET5-->
-                        <span id="ket5" style="font-size: 18px;"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-3" style="padding-right: 25px;">
+            <div class="col-2" style="padding-right: 25px; text-align: right">
                 <div
-                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
-                    <div class="col-12" style="height: 12vh; text-align-last: center;">
-                        <span id="kodePerkiraanCetak" style="font-size: 18px;"></span> <!--KD-->
-                    </div>
-                </div>
-            </div>
-            <div class="col-2" style="padding-right: 25px;">
-                <div
-                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
-                    <div class="col-12" style="height: 4vh; text-align-last: right;">
-                        <span id="totalK" style="font-size: 18px;">totalK</span>
-                    </div>
-                    <div class="col-12" style="height: 4vh; text-align-last: right;">
-                        <span id="ket3" style="font-size: 18px;">ket3</span><span id="jum"
-                            style="font-size: 18px;">jum</span>
-                    </div>
-                    <div class="col-12" style="height: 4vh; text-align-last: right;">
-                        <span id="ket6" style="font-size: 18px;">ket6<span id="jum2"
-                                style="font-size: 18px;">jum2</span>
-                    </div>
+                    class="row"style="border: solid 1px; justify-content: right; border-bottom: 0px; margin-right: -2vh; padding-right: 12%">
+                    <div id="nilairincian"></div>
                 </div>
             </div>
         </div>
@@ -799,15 +807,16 @@
                 <div
                     class="row"style="border: solid 1px; justify-content: left; border-right: 0px; margin-right: -3.4vh;">
                     <div class="col-12" style="height: 2.5vh; text-align-last: right;">
-                        <span style="font-size: 18px; font-weight: bold; padding-left: 45px">GRAND TOTAL: </span><span
-                            id="symbol2" style="font-size: 18px; padding-right: 20px"></span>
+                        <span style="font-size: 16px; font-weight: bold; padding-left: 45px">GRAND TOTAL: </span><span
+                            id="symbol2"
+                            style="display: inline; margin-top: -5px; font-size: 16px; padding-right: 20px"></span>
                     </div>
                 </div>
             </div>
             <div class="col-2" style="padding-right: 25px;">
                 <div class="row"style="border: solid 1px; justify-content: left; margin-right: -2vh;">
                     <div class="col-12" style="height: 2.5vh; text-align-last: right;">
-                        <span id="grandTotal" style="font-size: 18px;"></span>
+                        <span id="grandTotal" style="font-size: 16px;"></span>
                     </div>
                 </div>
             </div>
@@ -815,27 +824,258 @@
 
         <br><br>
         <div class="row">
-            <div class="col-3" style="margin-right: 25px;">
+            <div class="col-2" style="margin-right: 20px;">
                 <div class="row"
-                    style="border: solid 1px; border-left: 0px; border-top: 0px; border-right: 0px; text-align-last: center;">
+                    style="border: solid 1px; border-left: 0px; border-top: 0px; border-bottom: 0px; border-right: 0px; text-align-last: center;">
                     <div class="col-12" style="height: 10vh; ">
-                        <span id="disetujui" style="font-size: 18px;">Disetujui,</span>
+                        <span id="disetujui" style="font-size: 16px;">Penerima,</span>
                     </div>
                 </div>
             </div>
-            <div class="col-3" style="margin-left: 50px">
+            <div class="col-2" style="margin-left: 40px">
                 <div class="row"
-                    style="border: solid 1px; border-left: 0px; border-top: 0px; border-right: 0px; text-align-last: center;">
+                    style="border: solid 1px; border-left: 0px; border-top: 0px; border-bottom: 0px; border-right: 0px; text-align-last: center;">
                     <div class="col-12" style="height: 10vh; ">
-                        <span id="kasir" style="font-size: 18px;">Kasir,</span>
+                        <span id="kasir" style="font-size: 16px;">Kasir,</span>
                     </div>
                 </div>
             </div>
-            <div class="col-4" style="margin-right: 25px;">
+            <div class="col-7" style="margin-right: 20px;">
+                <div class="row" style="text-align-last: left;">
+                    <div class="col-sm-7 offset-sm-1" style="height: 3vh; ">
+                        <span style="font-size: 15px;">Acuan BKM no.&nbsp;</span><span id="idBKMAcuan"
+                            style="font-size: 15px;"></span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span style="font-size: 15px;"> Tanggal: </span>
+                        <span id="tanggalBKM" style="font-size: 15px;"></span>
+                    </div>
+                </div>
+                <div class="row" style="text-align-last: left;">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-7">
+                        <span style="font-size: 15px;">Customer :</span>
+                        <span id="customer" style="font-size: 15px;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2" style="margin-right: 20px;">
+                <div class="row"
+                    style="text-align-last: center; border: solid 1px; border-left: 0px; border-top: 0px; border-right: 0px;">
+                    <div class="col-12" style="height: 4vh; ">
+                        <span id="disetujui" style="font-size: 16px;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="margin-left: 40px">
+                <div class="row"
+                    style="border: solid 1px; border-left: 0px; border-top: 0px; border-right: 0px; text-align-last: center;">
+                    <div class="col-12" style="height: 4vh; ">
+                        <span id="kasir" style="font-size: 16px;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4" style="margin-right: 20px;">
                 <div class="row" style="text-align-last: right;">
+                    <div class="col-12" style="height: 4vh; ">
+                        <span style="font-size: 16px;">Sidoarjo, </span><span id="tglCetakForm"
+                            style="font-size: 17px;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- CETAK BKM --}}
+<div class="printBKM" style="display: none;">
+    <div class="container">
+        <div class="row">
+            <div class="col-5" style="padding-right: 25px;">
+                <div class="row" style="border: solid 1px; justify-content: center; border-bottom: 0px">
+                    <h4 style="font-weight: bold">P.T. KERTA RAJASA RAYA</h4>
+                </div>
+            </div>
+            <div class="col-7">
+                <div class="row" style="border: solid 1px; justify-content: center; border-bottom: 0px">
+                    <h4 style="font-weight: bold">BUKTI PENERIMAAN KAS</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5" style="padding-right: 25px;">
+                <div class="row" style="border: solid 1px; text-align-last: center;">
+                    <div class="col-12" style="height: 3vh; ">
+                        <span style="font-weight: bold; font-size: 22px;">Jl. Raya Tropodo No. 1</span><br>
+                    </div>
+                    <div class="col-12">
+                        <span style="font-weight: bold; font-size: 22px;">WARU - SIDOARJO</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-7">
+                <div class="row" style="border: solid 1px; text-align-last: center;">
+                    <div id="id_BKM" class="col-12" style="height: 3vh;">
+                        <span style="display: inline; font-size: 22px; font-weight: bold">NOMER: </span> <span
+                            id="nomer"
+                            style="display: inline; margin-top: -5px; font-size: 22px; font-weight: bold;"></span>
+                    </div>
+                    <div class="col-12">
+                        <span style="display: inline; font-size: 22px; font-weight: bold">TANGGAL: </span><span
+                            id="tglCetak"
+                            style="display: inline; margin-top: -5px; font-size: 22px; font-weight: bold;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="row">
+            <div class="col-12" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
+                    <div class="col-12" style="height: 2.5vh;">
+                        <span style="display: inline; font-size: 17px; padding-left: 50px">Jumlah Diterima:
+                        </span><span id="symbol"
+                            style="display: inline; margin-top: -5px; font-size: 17px; padding-left: 15px"></span><span
+                            id="nilaiPembulatan" name="nilaiPembulatan"
+                            style="display: inline; margin-top: -5px; font-size: 17px; padding-left: 15px"></span>
+                    </div>
+                    <div class="col-12">
+                        <span style="display: inline; font-size: 17px; padding-left: 50px">Terbilang: </span>
+                    </div>
+                    <div class="col-12">
+                        <span id="terbilangCetak"
+                            style="display: inline; margin-top: -5px; font-size: 12px; padding-left: 50px"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-8" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: center; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div class="col-6" style="height: 2.5vh; text-align-last: center;">
+                        <span style="font-size: 16px;">RINCIAN PENERIMAAN</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-2" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; border-right: 0px; margin-right: -2.3vh;">
+                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
+                        <span style="font-size: 16px;">KODE PERKIRAAN</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: left; border-bottom: 0px; margin-right: -2vh;">
+                    <div class="col-12" style="height: 2.5vh; text-align-last: center;">
+                        <span style="font-size: 16px;">JUMLAH</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8" style="padding-right: 25px;">
+                <div class="row"style="border: solid 1px; border-bottom: 0px; border-right: 0px; margin-right: -3.4vh;">
+                    <div id="rincianBayar" style="justify-content: left;margin-right: -2.4vh; padding-left: 1%; margin-right: 10%">
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: center; border-bottom: 0px; border-right: 0px; margin-right: -2.0vh;">
+                    <div id="kodeperkiraan"></div>
+                </div>
+            </div>
+            <div class="col-2" style="padding-right: 25px; text-align: right">
+                <div
+                    class="row"style="border: solid 1px; justify-content: right; border-bottom: 0px; margin-right: -2vh; padding-right: 12%">
+                    <div id="nilairincian"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10" style="padding-right: 25px;">
+                <div
+                    class="row"style="border: solid 1px; justify-content: left; border-right: 0px; margin-right: -3.4vh;">
+                    <div class="col-12" style="height: 2.5vh; text-align-last: right;">
+                        <span style="font-size: 16px; font-weight: bold; padding-left: 45px">GRAND TOTAL: </span><span
+                            id="symbol2"
+                            style="display: inline; margin-top: -5px; font-size: 16px; padding-right: 20px"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="padding-right: 25px;">
+                <div class="row"style="border: solid 1px; justify-content: left; margin-right: -2vh;">
+                    <div class="col-12" style="height: 2.5vh; text-align-last: right;">
+                        <span id="grandTotal" style="font-size: 16px;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+        <div class="row">
+            <div class="col-2" style="margin-right: 20px;">
+                <div class="row"
+                    style="border: solid 1px; border-left: 0px; border-top: 0px; border-bottom: 0px; border-right: 0px; text-align-last: center;">
                     <div class="col-12" style="height: 10vh; ">
-                        <span style="font-size: 18px;">Sidoarjo, </span><span id="tglCetakForm"
-                            style="font-size: 18px;"></span>
+                        <span id="disetujui" style="font-size: 16px;">Disetujui,</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="margin-left: 40px">
+                <div class="row"
+                    style="border: solid 1px; border-left: 0px; border-top: 0px; border-bottom: 0px; border-right: 0px; text-align-last: center;">
+                    <div class="col-12" style="height: 10vh; ">
+                        <span id="kasir" style="font-size: 16px;">Kasir,</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-7" style="margin-right: 20px;">
+                <div class="row" style="text-align-last: left;">
+                    <div class="col-sm-7 offset-sm-1" style="height: 3vh; ">
+                        <span style="font-size: 15px;">Acuan BKM no. :&nbsp;</span><span id="idBKMAcuan"
+                            style="font-size: 15px;"></span>
+                    </div>
+                    <div class="col-sm-4">
+                        <span style="font-size: 15px;"> Tanggal: </span>
+                        <span id="tanggalBKM" style="font-size: 15px;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2" style="margin-right: 20px;">
+                <div class="row"
+                    style="text-align-last: center; border: solid 1px; border-left: 0px; border-top: 0px; border-right: 0px;">
+                    <div class="col-12" style="height: 4vh; ">
+                        <span id="disetujui" style="font-size: 16px;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2" style="margin-left: 40px">
+                <div class="row"
+                    style="border: solid 1px; border-left: 0px; border-top: 0px; border-right: 0px; text-align-last: center;">
+                    <div class="col-12" style="height: 4vh; ">
+                        <span id="kasir" style="font-size: 16px;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4" style="margin-right: 20px;">
+                <div class="row" style="text-align-last: right;">
+                    <div class="col-12" style="height: 4vh; ">
+                        <span style="font-size: 16px;">Sidoarjo, </span><span id="tglCetakForm"
+                            style="font-size: 17px;"></span>
                     </div>
                 </div>
             </div>

@@ -109,8 +109,8 @@ class BKMBKKPembulatanController extends Controller
             }
 
             // dd($response);
-
             return datatables($response)->make(true);
+
         } else if ($id == 'getPembulatan') {
             $results = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKK_DP');
             // dd($results);
