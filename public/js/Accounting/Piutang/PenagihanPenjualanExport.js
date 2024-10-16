@@ -1,120 +1,154 @@
-let tanggal = document.getElementById('tanggal');
-let namaCustomerSelect = document.getElementById('namaCustomerSelect');
-let noPenagihanSelect = document.getElementById('noPenagihanSelect');
-let suratJalanSelect = document.getElementById('suratJalanSelect');
-let mataUang = document.getElementById('mataUang');
-let nilaiKurs = document.getElementById('nilaiKurs');
-let dokumen = document.getElementById('dokumen');
-let userPenagihSelect = document.getElementById('userPenagihSelect');
-let tabelPenagihanPenjualanEx = document.getElementById('tabelPenagihanPenjualanEx');
-let noPEB = document.getElementById('noPEB');
-let tanggalPEB = document.getElementById('tanggalPEB');
-let noBL = document.getElementById('noBL');
-let tanggalBL = document.getElementById('tanggalBL');
-let nilaiDitagihkan = document.getElementById('nilaiDitagihkan');
-let terbilang = document.getElementById('terbilang');
+$(document).ready(function () {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let btn_proses = document.getElementById("btn_proses");
+    let btn_customer = document.getElementById("btn_customer");
+    let tanggal = document.getElementById("tanggal");
+    let tanggalPEB = document.getElementById("tanggalPEB");
+    let tanggalBL = document.getElementById("tanggalBL");
+    let nama_customer = document.getElementById("nama_customer");
+    let idCustomer = document.getElementById("idCustomer");
+    let idJenisCustomer = document.getElementById("idJenisCustomer");
+    let fakturPajak = document.getElementById("fakturPajak");
+    let table_atas = $("#table_atas").DataTable({
+        // columnDefs: [{ targets: [6, 7, 8, 9, 10, 11], visible: false }],
+    });
 
-let btnLihatItem = document.getElementById('btnLihatItem');
-let btnHapusItem = document.getElementById('btnHapusItem');
-let modalLihatItem = document.getElementById('modalLihatItem');
+    tanggal.valueAsDate = new Date();
+    tanggalPEB.valueAsDate = new Date();
+    tanggalBL.valueAsDate = new Date();
 
-let idCustomer = document.getElementById('idCustomer');
-let idJenisCustomer = document.getElementById('idJenisCustomer');
+    btn_customer.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>ID. Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#customerTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#customerTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PenagihanPenjualanEksport/getCustomer",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NamaCust",
+                                },
+                                {
+                                    data: "Kode",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#customerTable_filter input").focus();
+                        }, 300);
+                        // $("#customerTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1)
+                        //             .search(this.value)
+                        //             .draw();
+                        //     }
+                        // );
+                        $("#customerTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customerTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    nama_customer.value = escapeHTML(
+                        selectedRow.NamaCust.trim()
+                    );
+                    // id_cust.value = selectedRow.IDCust.trim().substring(0, 3);
+                    idCustomer.value = selectedRow.TIdCustomer.trim();
+                    idJenisCustomer.value = selectedRow.TIdJnsCust.trim();
 
-let btnIsi = document.getElementById('btnIsi');
-let btnSimpan = document.getElementById('btnSimpan');
-let btnKoreksi = document.getElementById('btnKoreksi');
-let btnBatal = document.getElementById('btnBatal');
+                    console.log(idCustomer.value);
+                    console.log(idJenisCustomer.value);
 
-const tanggalPenagihan = new Date();
-const formattedDate2 = tanggalPenagihan.toISOString().substring(0, 10);
-tanggal.value = formattedDate2;
 
-btnIsi.addEventListener('click', function(event) {
-    event.preventDefault();
+                    // if (id_cust.value == "NPX") {
+                    //     btn_pajak.disabled = true;
+                    // } else {
+                    //     btn_pajak.disabled = false;
+                    // }
 
-    btnIsi.style.display = "none";
-    btnSimpan.style.display = "block";
-    btnKoreksi.style.display = "none";
-    btnBatal.style.display = "block";
+                    // $.ajax({
+                    //     url: "MaintenanceNotaPenjualanTunai/getJenisCustomer",
+                    //     type: "GET",
+                    //     data: {
+                    //         _token: csrfToken,
+                    //         idCustomer: idCustomer.value,
+                    //     },
+                    //     success: function (data) {
+                    //         console.log(data);
+                    //         jenisCustomer.value = data.TJenisCust;
+                    //         alamat.value = data.TAlamat;
+                    //     },
+                    //     error: function (xhr, status, error) {
+                    //         var err = eval("(" + xhr.responseText + ")");
+                    //         alert(err.Message);
+                    //     },
+                    // });
 
-    tanggal.removeAttribute("readonly");
-    namaCustomerSelect.removeAttribute("readonly");
-    suratJalanSelect.removeAttribute("readonly");
-    // jenisCustomer.removeAttribute("readonly");
-    // alamat.removeAttribute("readonly");
-    // nomorSPSelect.removeAttribute("readonly");
-    // nomorPO.removeAttribute("readonly");
-    // mataUangSelect.removeAttribute("readonly");
-    // nilaiKurs.removeAttribute("readonly");
-    // syaratPembayaran.removeAttribute("readonly");
-    // userPenagihSelect.removeAttribute("readonly");
-    // dokumenSelect.removeAttribute("readonly");
-    // jenisPajakSelect.removeAttribute("readonly");
-    // Ppn.removeAttribute("readonly");
+                    // setTimeout(() => {
+                    //     btn_noSP.focus();
+                    // }, 300);
 
-    namaCustomerSelect.focus();
-});
-
-fetch("/getCustomerEx/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        namaCustomerSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih Cust";
-        namaCustomerSelect.appendChild(defaultOption);
-
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.Kode; // Gunakan entry.IdCust sebagai nilai opsi
-            option.innerText = entry.Kode + "|" + entry.NamaCust; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            namaCustomerSelect.appendChild(option);
-        });
-});
-
-namaCustomerSelect.addEventListener("change", function (event) {
-    event.preventDefault();
-    const selectedOption = namaCustomerSelect.options[namaCustomerSelect.selectedIndex];
-    if (selectedOption) {
-        const selectedValue = selectedOption.textContent; // Atau selectedOption.innerText
-        const bagiansatu = selectedValue.split(/[-|]/);
-        const jenis = bagiansatu[0];
-        const idcust = bagiansatu[1];
-        namacust = bagiansatu[2];
-        idCustomer.value = idcust;
-        idJenisCustomer.value  = jenis;
-
-        suratJalanSelect.focus();
-    }
-
-    fetch("/getSuratJalanEx/" + idCustomer.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        suratJalanSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih Cust";
-        suratJalanSelect.appendChild(defaultOption);
-
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.IDPengiriman; // Gunakan entry.IdCust sebagai nilai opsi
-            option.innerText = entry.IDPengiriman + "|" + entry.Tanggal; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            suratJalanSelect.appendChild(option);
-        });
-
-    })
-});
-
-btnLihatItem.addEventListener('click', function (event) {
-    event.preventDefault();
-    modalLihatItem = $("#modalLihatItem");
-    modalLihatItem.modal('show');
+                    // if (proses == 1) {
+                    //     setTimeout(() => {
+                    //         btn_noSP.focus();
+                    //     }, 300);
+                    // } else if (proses == 2 || proses == 3) {
+                    //     setTimeout(() => {
+                    //         btn_penagihan.focus();
+                    //     }, 300);
+                    // }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
 });

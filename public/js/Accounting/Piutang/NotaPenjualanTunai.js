@@ -114,7 +114,8 @@ $(document).ready(function () {
         btn_dokumen.disabled = false;
         btn_hapusItem.disabled = false;
         btn_penagih.disabled = false;
-        btn_customer.focus();
+        btn_noSP.disabled = true;
+        btn_penagihan.focus();
         proses = 2;
     });
 
@@ -212,7 +213,7 @@ $(document).ready(function () {
                                     text: response.message,
                                     showConfirmButton: true,
                                 }).then(() => {
-                                    // location.reload();
+                                    location.reload();
                                     // document
                                     //     .querySelectorAll("input")
                                     //     .forEach((input) => (input.value = ""));
@@ -290,6 +291,7 @@ $(document).ready(function () {
                         data: {
                             _token: csrfToken,
                             proses: proses,
+                            no_penagihan: no_penagihan.value,
                             totalPenagihan: response.txtTotalPenagihan,
                             discount: response.discount,
                             // nilaiPenagihan: nilaiPenagihan.value,
@@ -321,7 +323,7 @@ $(document).ready(function () {
                                     text: response.message,
                                     showConfirmButton: true,
                                 }).then(() => {
-                                    // location.reload();
+                                    location.reload();
                                     // document
                                     //     .querySelectorAll("input")
                                     //     .forEach((input) => (input.value = ""));
@@ -495,6 +497,59 @@ $(document).ready(function () {
                             }
 
                             nilaiSP.value = data.totalPenagihan;
+                            no_sp.value = data.listSP[0].SuratPesanan;
+
+                            $.ajax({
+                                url: "MaintenanceNotaPenjualanTunai/LihatPesanan",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    no_sp: no_sp.value,
+                                },
+                                success: function (data) {
+                                    console.log(data);
+
+                                    idMataUang.value = data.IdMataUang;
+                                    mata_uang.value = data.MataUang;
+                                    nomorPO.value = data.PO;
+                                    syaratPembayaran.value =
+                                        data.SyaratPembayaran;
+                                },
+                                error: function (xhr, status, error) {
+                                    var err = eval(
+                                        "(" + xhr.responseText + ")"
+                                    );
+                                    alert(err.Message);
+                                },
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
+
+                    $.ajax({
+                        url: "MaintenanceNotaPenjualanTunai/LihatPenagihan",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            no_penagihan: no_penagihan.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+
+                            user_penagih.value = data.Nama;
+                            idUserPenagih.value = data.Idpenagih;
+                            dokumen.value = data.nama_dokumen;
+                            idJenisDokumen.value = data.Id_Jenis_Dokumen;
+                            nilaiUM.value = data.Nilai_UM;
+                            nama_pajak.value = data.Nama_Jns_PPN;
+                            jenis_pajak.value = data.jenis_pajak;
+                            discount.value = data.Discount;
+                            terbilang.value = data.Terbilang;
+                            nilaiSdhBayar.value = 0;
+                            // nilaiSP.value = data.totalPenagihan;
 
                             // if (idMataUang.value == "1") {
                             //     terbilangS = convertNumberToWordsRupiah(
@@ -524,12 +579,11 @@ $(document).ready(function () {
                             alert(err.Message);
                         },
                     });
+
                     // idCustomer.value = selectedRow.IDCust.trim().slice(-5);
-                    // if (proses == 3) {
-                    //     setTimeout(() => {
-                    //         btn_proses.focus();
-                    //     }, 300);
-                    // }
+                    setTimeout(() => {
+                        btn_penagih.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -646,6 +700,10 @@ $(document).ready(function () {
                             alert(err.Message);
                         },
                     });
+
+                    setTimeout(() => {
+                        btn_noSP.focus();
+                    }, 300);
 
                     // if (proses == 1) {
                     //     setTimeout(() => {
@@ -808,9 +866,9 @@ $(document).ready(function () {
                             alert(err.Message);
                         },
                     });
-                    // setTimeout(() => {
-                    //     btn_userPenagih.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_userPenagih.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -895,9 +953,9 @@ $(document).ready(function () {
                     user_penagih.value = escapeHTML(selectedRow.Nama.trim());
                     idUserPenagih.value = escapeHTML(selectedRow.IdUser.trim());
                     // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
-                    // setTimeout(() => {
-                    //     btn_pajak.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_dokumen.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -986,9 +1044,9 @@ $(document).ready(function () {
                         selectedRow.Id_Jenis_Dokumen.trim()
                     );
                     // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
-                    // setTimeout(() => {
-                    //     uangMasuk.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_pajak.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -1076,9 +1134,9 @@ $(document).ready(function () {
                     );
                     jenis_pajak.value = escapeHTML(selectedRow.Jns_PPN.trim());
                     // IdPenagihan.value = escapeHTML(selectedRow.Id_Penagihan.trim());
-                    // setTimeout(() => {
-                    //     btn_penagihanUM.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_penagihanUM.focus();
+                    }, 300);
                 }
             });
         } catch (error) {

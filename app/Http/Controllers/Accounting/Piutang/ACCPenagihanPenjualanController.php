@@ -4,52 +4,57 @@ namespace App\Http\Controllers\Accounting\Piutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
+use Log;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class ACCPenagihanPenjualanController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.ACCPenagihanPenjualan', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.ACCPenagihanPenjualan', compact('access'));
     }
 
-    public function getDisplayHeader()
-    {
-        $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ] @Kode = ?',[1]);
-        return response()->json($jenis);
-    }
+    // public function getDisplayHeader()
+    // {
+    //     $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ] @Kode = ?',[1]);
+    //     return response()->json($jenis);
+    // }
 
-    public function getDisplayDetail($id_Penagihan)
-    {
-        //dd("mask");
-        $idPenagihan = str_replace('.', '/', $id_Penagihan);
-        $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ] @Kode = ?, @ID_Penagihan = ?', [2, $idPenagihan]);
-        return response()->json($jenis);
-    }
+    // public function getDisplayDetail($id_Penagihan)
+    // {
+    //     //dd("mask");
+    //     $idPenagihan = str_replace('.', '/', $id_Penagihan);
+    //     $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ] @Kode = ?, @ID_Penagihan = ?', [2, $idPenagihan]);
+    //     return response()->json($jenis);
+    // }
 
-    public function getDisplaySuratJalan($id_Penagihan)
-    {
-        $idPenagihan = str_replace('.', '/', $id_Penagihan);
-        $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ] @Kode = ?, @ID_PENAGIHAN = ?',[11, $idPenagihan]);
-        return response()->json($jenis);
-    }
+    // public function getDisplaySuratJalan($id_Penagihan)
+    // {
+    //     $idPenagihan = str_replace('.', '/', $id_Penagihan);
+    //     $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ] @Kode = ?, @ID_PENAGIHAN = ?',[11, $idPenagihan]);
+    //     return response()->json($jenis);
+    // }
 
-    public function accCheckCtkSJ($id_Penagihan)
-    {
+    // public function accCheckCtkSJ($id_Penagihan)
+    // {
 
-        $idPenagihan = str_replace('.', '/', $id_Penagihan);
-        $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_CHECK_CTK_SJ] @IdPenagihan = ?',[$idPenagihan]);
-        return response()->json($jenis);
-    }
+    //     $idPenagihan = str_replace('.', '/', $id_Penagihan);
+    //     $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_CHECK_CTK_SJ] @IdPenagihan = ?',[$idPenagihan]);
+    //     return response()->json($jenis);
+    // }
 
-    public function accCheckCtkSP($id_Penagihan)
-    {
+    // public function accCheckCtkSP($id_Penagihan)
+    // {
 
-        $idPenagihan = str_replace('.', '/', $id_Penagihan);
-        $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_CHECK_CTK_SP] @IdPenagihan = ?',[$idPenagihan]);
-        return response()->json($jenis);
-    }
+    //     $idPenagihan = str_replace('.', '/', $id_Penagihan);
+    //     $jenis =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_CHECK_CTK_SP] @IdPenagihan = ?',[$idPenagihan]);
+    //     return response()->json($jenis);
+    // }
 
     //Show the form for creating a new resource.
     public function create()
@@ -82,13 +87,54 @@ class ACCPenagihanPenjualanController extends Controller
             $nilaiTagihan,
             $kurs
         ]);
-        return redirect()->back()->with('success', 'Proses Acc Penagihan Surat Jalan Selesai !!');
+        return response()->json([
+            'message' => 'Data Berhasil Diproses!'
+        ]);
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show(Request $request, $id)
     {
-        //
+        if ($id == 'getPenagihan') {
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ ?', [1]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Tgl_Penagihan' => \Carbon\Carbon::parse($row->Tgl_Penagihan)->format('m/d/Y'),
+                    'Id_Penagihan' => $row->Id_Penagihan,
+                    'NamaCust' => $row->NamaCust,
+                    'PO' => $row->PO ?? '',
+                    'Nilai_Penagihan' => number_format($row->Nilai_Penagihan, 2, '.', ','),
+                    'Nama_MataUang' => $row->Nama_MataUang,
+                    'Id_Customer' => $row->Id_Customer,
+                    'Id_MataUang' => $row->Id_MataUang,
+                    'NilaiKurs' => $row->NilaiKurs,
+                    'NamaNPWP' => $row->NamaNPWP ?? '',
+                    'JnsCust' => $row->JnsCust ?? '',
+                    'IdFakturPajak' => $row->IdFakturPajak ?? '',
+                    'Nama_Jns_PPN' => $row->Nama_Jns_PPN ?? '',
+                ];
+            }
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getDetailPenagihan') {
+            $sIdPenagihan = $request->input('ID_Penagihan');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?', [2, $sIdPenagihan]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Surat_Jalan' => $row->Surat_Jalan,
+                    'Tgl_Surat_jalan' => \Carbon\Carbon::parse($row->Tgl_Surat_jalan)->format('m/d/Y'),
+                ];
+            }
+            return datatables($response)->make(true);
+
+        }
     }
 
     // Show the form for editing the specified resource.

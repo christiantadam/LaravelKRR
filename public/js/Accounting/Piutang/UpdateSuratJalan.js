@@ -1,61 +1,125 @@
-let tabelSuratJalan = document.getElementById('tabelSuratJalan');
-let btnProses = document.getElementById('btnProses');
+$(document).ready(function () {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let btn_proses = document.getElementById("btn_proses");
+    let table_atas = $("#table_atas").DataTable({
+        // columnDefs: [{ targets: [0], visible: false }],
+    });
 
-let idPenagihan = document.getElementById('idPenagihan');
-let suratJalan = document.getElementById('suratJalan');
-let idCustomer = document.getElementById('idCustomer');
-let jatuhTempo = document.getElementById('jatuhTempo');
-let suratPesanan = document.getElementById('suratPesanan');
+    table_atas = $("#table_atas").DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        destroy: true,
+        autoWidth: false,
+        ajax: {
+            url: "UpdateSuratJalanUntukJualTunai/DisplayData",
+            dataType: "json",
+            type: "GET",
+            data: function (d) {
+                return $.extend({}, d, {
+                    _token: csrfToken,
+                });
+            },
+        },
+        columns: [
+            {
+                data: "Id_Penagihan",
+                // render: function (data) {
+                //     return `<input type="checkbox" name="penerimaCheckboxM" value="${data}" /> ${data}`;
+                // },
+            },
+            { data: "IDPengiriman" },
+            { data: "Tgl_Penagihan" },
+            { data: "NamaCust" },
+            { data: "Nilai_Penagihan" },
+            { data: "Nama_MataUang" },
+            { data: "IDCust" },
+            { data: "TanggalDiterima" },
+            { data: "JmlTerimaUmum" },
+        ],
+        paging: false,
+        scrollY: "400px",
+        scrollCollapse: true,
+        // columnDefs: [{ targets: [3, 4], visible: false }],
+    });
 
-let dataTable;
-let formkoreksi = document.getElementById('formkoreksi');
-let methodkoreksi = document.getElementById('methodkoreksi');
+    $("#table_atas tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_atas tbody tr").removeClass("selected");
 
-fetch("/getTabelSuratJalan/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
 
-        dataTable = $("#tabelSuratJalan").DataTable({
-            data: options,
-            columns: [
-                {
-                    title: "Id. Penagihan", data: "Id_Penagihan"
+        // Get data from the clicked row
+        var data = table_atas.row(this).data();
+        console.log(data);
+    });
+
+    btn_proses.addEventListener("click", async function (event) {
+        event.preventDefault();
+        const selectedRow = $("#table_atas tbody tr.selected");
+
+        if (selectedRow.length > 0) {
+            var table_atas = $("#table_atas").DataTable();
+
+            var rowData = table_atas.row(selectedRow).data();
+            console.log(rowData);
+
+            $.ajax({
+                url: "UpdateSuratJalanUntukJualTunai",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    suratJalan: rowData.IDPengiriman,
+                    idPenagihan: rowData.Id_Penagihan,
+                    jatuhTempo: rowData.TanggalDiterima,
+                    idCustomer: rowData.IDCust,
                 },
-                { title: "Id. Pengiriman", data: "IDPengiriman" },
-                { title: "Tgl.Jual", data: "Tgl_Penagihan" },
-                { title: "Customer", data: "NamaCust" },
-                { title: "Nilai Jual", data: "Nilai_Penagihan" },
-                { title: "Mata Uang", data: "Nama_MataUang" },
-                { title: "Id. Customer", data: "IDCust"},
-                { title: "Tgl. Diterima", data: "TanggalDiterima"},
-                { title: "Jlh. Diterima Umum", data: "JmlTerimaUmum"}
-            ],
-        });
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            $("#table_atas").DataTable().ajax.reload();
+                            // idReferensi.value = response.IdReferensi;
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_ok.click();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data terlebih dahulu!",
+                showConfirmButton: true,
+            });
+        }
+    });
 });
-
-$("#tabelSuratJalan tbody").off("click", "tr");
-$("#tabelSuratJalan tbody").on("click", "tr", function () {
-    let checkSelectedRows = $("#tabelSuratJalan tbody tr.selected");
-
-    if (checkSelectedRows.length > 0) {
-        // Remove "selected" class from previously selected rows
-        checkSelectedRows.removeClass("selected");
-    }
-    $(this).toggleClass("selected");
-    const table = $("#tabelSuratJalan").DataTable();
-    let selectedRows = table.rows(".selected").data().toArray();
-    console.log(selectedRows[0]);
-    idPenagihan.value = selectedRows[0].Id_Penagihan;
-    suratJalan.value = selectedRows[0].IDPengiriman;
-    jatuhTempo.value = selectedRows[0].TanggalDiterima;
-    idCustomer.value = selectedRows[0].IDCust;
-    // suratPesanan.value = selectedRows[0].Keterangan;
-
-    btnProses.disabled = false;
-});
-
-btnProses.addEventListener('click', function(event) {
-    event.preventDefault();
-    formkoreksi.submit();
-})

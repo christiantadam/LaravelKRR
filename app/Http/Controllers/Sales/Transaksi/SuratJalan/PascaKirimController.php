@@ -55,6 +55,7 @@ class PascaKirimController extends Controller
         // dd($data);
         $user = Auth::user()->NomorUser;
         $jenis_pasca = $request->jenis_pasca;
+        // dd($jenis_pasca);
         $customer = $request->customer;
         $surat_pesanan = $request->surat_pesanan;
         $surat_jalan = $request->surat_jalan;

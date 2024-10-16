@@ -1050,21 +1050,57 @@ $(document).ready(function () {
         // const barangCode = kodeBarangElement.value;
         // const isAllowed = isAllowedCode(barangCode);
         console.log(toleransi);
-        let qtyReceivedValue1 = parseFloat(this.value);
-        let cek = parseFloat(
-            fixValueQTYRemain -
-                (qtyReceivedValue1 - fixValueQTYReceived) -
-                fixValueQTYShip
-        );
-        if (fixValueQTYRemain > 0.0) {
-            maxLimit = parseFloat(fixValueQTYRemain.toFixed(2));
-        } else if (fixValueQTYShip > 0.0) {
+        // let qtyReceivedValue1 = parseFloat(this.value);
+        // let cek = parseFloat(
+        //     fixValueQTYRemain -
+        //         (qtyReceivedValue1 - fixValueQTYReceived) -
+        //         fixValueQTYShip
+        // );
+        // if (fixValueQTYRemain > 0.0) {
+        //     maxLimit = parseFloat(fixValueQTYRemain.toFixed(2));
+        // } else if (fixValueQTYShip > 0.0) {
+        //     maxLimit = parseFloat(
+        //         (fixValueQTYOrder - fixValueQTYShip).toFixed(2)
+        //     );
+        // }
+        // else {
+        //     maxLimit = parseFloat((fixValueQTYOrder * toleransi).toFixed(2));
+        // }
+        // let qtyReceivedValue1 = parseFloat(this.value);
+        // let cek = parseFloat(
+        //     fixValueQTYRemain -
+        //         (qtyReceivedValue1 - fixValueQTYReceived) -
+        //         fixValueQTYShip
+        // );
+
+        // if (fixValueQTYRemain > 0.0 && fixValueQTYShip == 0.0) {
+
+        // }else if (fixValueQTYShip > 0.0 && fixValueQTYRemain == 0.0) {
+
+        // }else if (fixValueQTYRemain > 0.0) {
+        //     maxLimit = parseFloat(fixValueQTYRemain.toFixed(2));
+        // } else if (fixValueQTYShip > 0.0) {
+        //     maxLimit = parseFloat(
+        //         (fixValueQTYOrder - fixValueQTYShip).toFixed(2)
+        //     );
+        // }else {
+        //     maxLimit = parseFloat((fixValueQTYOrder * toleransi).toFixed(2));
+        // }
+        if (fixValueQTYShip > 0.0) {
             maxLimit = parseFloat(
-                (fixValueQTYOrder - fixValueQTYShip).toFixed(2)
+                (fixValueQTYOrder * toleransi - fixValueQTYShip).toFixed(2)
+            );
+        } else if (fixValueQTYShip == 0.0 && fixValueQTYRemain > 0.0) {
+            let shipS = parseFloat(
+                (fixValueQTYOrder - fixValueQTYRemain).toFixed(2)
+            );
+            maxLimit = parseFloat(
+                (fixValueQTYOrder * toleransi - shipS).toFixed(2)
             );
         } else {
             maxLimit = parseFloat((fixValueQTYOrder * toleransi).toFixed(2));
         }
+
         console.log(maxLimit);
 
         if (this.value === "") {
@@ -1088,20 +1124,78 @@ $(document).ready(function () {
             console.log(sisa2);
 
             if (sisa <= maxLimit && sisa >= 0) {
-                qtyRemainingElement.value = numeral(sisa).format("0,0.00");
-                qtyShipElement.value = numeral(
-                    fixValueQTYShip + (qtyReceivedValue - fixValueQTYReceived)
-                ).format("0,0.00");
+                if (toleransi > 1) {
+                    console.log("hehe");
+                    if (fixValueQTYRemain == 0.0) {
+                        console.log("hehe");
+                        qtyShipElement.value = numeral(
+                            fixValueQTYShip + qtyReceivedValue
+                        ).format("0,0.00");
+                        qtyRemainingElement.value = numeral(
+                            fixValueQTYOrder -
+                                numeral(qtyShipElement.value).value()
+                        ).format("0,0.00");
+                    } else {
+                        console.log("hehe");
+                        let shipQ = (
+                            fixValueQTYOrder - fixValueQTYRemain
+                        ).toFixed(2);
+                        qtyShipElement.value = numeral(
+                            numeral(shipQ).value() + qtyReceivedValue
+                        ).format("0,0.00");
+                        qtyRemainingElement.value = numeral(
+                            fixValueQTYOrder -
+                                numeral(qtyShipElement.value).value()
+                        ).format("0,0.00");
+                    }
+                    if (qtyRemainingElement.value.toString().startsWith("-")) {
+                        qtyRemainingElement.value = numeral(0).format("0,0.00");
+                    }
+                } else {
+                    if (fixValueQTYShip == 0.0 && fixValueQTYRemain > 0.0) {
+                        let shipQ = (
+                            fixValueQTYOrder - fixValueQTYRemain
+                        ).toFixed(2);
+                        qtyShipElement.value = numeral(
+                            numeral(shipQ).value() + qtyReceivedValue
+                        ).format("0,0.00");
+                        qtyRemainingElement.value = numeral(
+                            fixValueQTYOrder -
+                                numeral(qtyShipElement.value).value()
+                        ).format("0,0.00");
+                    } else {
+                        qtyRemainingElement.value =
+                            numeral(sisa).format("0,0.00");
+                        qtyShipElement.value = numeral(
+                            fixValueQTYShip +
+                                (qtyReceivedValue - fixValueQTYReceived)
+                        ).format("0,0.00");
+                    }
+                }
             } else if (sisa.toString().startsWith("-")) {
+                console.log("hehe");
                 qtyRemainingElement.value = numeral(0).format("0,0.00");
                 qtyShipElement.value = numeral(
                     fixValueQTYShip + qtyReceivedValue
                 ).format("0,0.00");
             } else if (sisa < 0) {
+                console.log("hehe");
                 qtyRemainingElement.value = numeral(sisa2).format("0,0.00");
                 qtyShipElement.value = numeral(
                     fixValueQTYShip + qtyReceivedValue
                 ).format("0,0.00");
+            } else if (sisa > 0) {
+                console.log("hehe");
+                qtyShipElement.value = numeral(
+                    fixValueQTYRemain + qtyReceivedValue
+                ).format("0,0.00");
+                qtyRemainingElement.value = numeral(
+                    fixValueQTYOrder - numeral(qtyShipElement.value).value()
+                ).format("0,0.00");
+                if (qtyRemainingElement.value.toString().startsWith("-")) {
+                    qtyRemainingElement.value = numeral(0).format("0,0.00");
+                }
+                // qtyRemainingElement.value = numeral(0).format("0,0.00");
             }
             // Update oldValue
             this.oldValue = this.value;

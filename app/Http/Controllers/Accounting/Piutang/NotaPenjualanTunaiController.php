@@ -186,8 +186,19 @@ class NotaPenjualanTunaiController extends Controller
             } else if ($proses == "2") {
                 // Update existing record
                 $idPenagihan = $request->no_penagihan;
+                dd($idPenagihan);
                 DB::connection('ConnAccounting')
-                    ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = 4, @Id_Penagihan = ?, @Nilai_Penagihan = ?, @Discount = ?, @Id_MataUang = ?, @Terbilang = ?, @IdPenagih = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?', [$idPenagihan, $TotalPenagihan, $discount, (int) $request->idMataUang, $terbilang, $request->idUserPenagih, (float) $request->nilaiKurs ?: 1, $request->jenis_pajak ?: null, (int) $request->Ppn]);
+                    ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = 4, @Id_Penagihan = ?, @Nilai_Penagihan = ?, @Discount = ?, @Id_MataUang = ?, @Terbilang = ?, @IdPenagih = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?', [
+                        $idPenagihan,
+                        $TotalPenagihan,
+                        $discount,
+                        (int) $request->idMataUang,
+                        $terbilang,
+                        $request->idUserPenagih,
+                        (float) $request->nilaiKurs ?: 1,
+                        $request->jenis_pajak ?: null,
+                        (int) $request->Ppn
+                    ]);
 
                 foreach (array_column($request->allRowsDataAtas, 1) as $suratPesanan) {
                     DB::connection('ConnAccounting')
@@ -556,7 +567,7 @@ class NotaPenjualanTunaiController extends Controller
             foreach ($results as $row) {
                 $listSP[] = [
                     'SuratPesanan' => $row->SuratPesanan,
-                    'Total' => $row->Total,
+                    'Total' => number_format($row->Total, 2, ',', '.'),
                 ];
                 $totalPenagihan += $row->Total;
             }
@@ -568,6 +579,110 @@ class NotaPenjualanTunaiController extends Controller
             return response()->json([
                 'listSP' => $listSP,
                 'totalPenagihan' => $formattedPenagihan
+            ]);
+        } else if ($id == 'LihatPesanan') {
+            // Stored procedure to get header pesanan details
+            $sNoSP = $request->input('no_sp');
+            // dd($sNoSP);
+            $headerPesanan = DB::connection('ConnSales')
+                ->select('exec SP_1486_ACC_LIST_HEADER_PESANAN @KODE = ?, @IDSURATPESANAN = ?', [3, $sNoSP]);
+            // dd($headerPesanan);
+            if (!empty($headerPesanan)) {
+                $header = $headerPesanan[0]; // Assuming single result row
+
+                // Mapping values from the recordset
+                $TIdMataUang = $header->IDMataUang;
+                $TsyaratPembayaran = !empty($header->SyaratBayar) ? $header->SyaratBayar : 0;
+                $TPO = !empty($header->NO_PO) ? $header->NO_PO : "";
+
+                // Mapping currency to ID (1 for IDR, 2 for USD)
+                if ($TIdMataUang == 'IDR') {
+                    $TIdMataUang = 1;
+                } else if ($TIdMataUang == 'USD') {
+                    $TIdMataUang = 2;
+                }
+
+                // Fetch currency name from another stored procedure
+                $mataUangResults = DB::connection('ConnAccounting')
+                    ->select('exec SP_1486_ACC_LIST_MATAUANG ?, ?', [2, $TIdMataUang]);
+                // dd($mataUangResults);
+                $TMataUang = !empty($mataUangResults) ? $mataUangResults[0]->Nama_MataUang : '';
+
+                // Conditional to enable/disable the kurs field (assumed based on VB code)
+                $kursEnabled = $TIdMataUang != 1 ? true : false;
+
+                // Response data (you can return this in the way you need it, JSON or view)
+                return response()->json([
+                    'IdMataUang' => $TIdMataUang,
+                    'SyaratPembayaran' => $TsyaratPembayaran,
+                    'PO' => $TPO,
+                    'MataUang' => $TMataUang,
+                    'KursEnabled' => $kursEnabled
+                ]);
+            }
+        } else if ($id == 'LihatPenagihan') {
+            // Getting 'ID_PENAGIHAN' from request
+            $sid_Penagihan = trim($request->input('no_penagihan'));
+
+            // Call stored procedure to get Penagihan details
+            $penagihanResults = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ ?, ?', [7, $sid_Penagihan]);
+            // dd($penagihanResults);
+            // Initialize variables for storing results
+            $TIdJnsDok = '';
+            $TDokumen = '';
+            $TIdUser = '';
+            $TPenagih = '';
+            $TTerbilang = '';
+            $TDiscount = '';
+            $TJnsPajak = '';
+            $cbPPN = '10';
+            $Tid_PenagihanUM = '';
+            $TNilai_UM = '0';
+
+            if (!empty($penagihanResults)) {
+                $penagihan = $penagihanResults[0]; // Assuming single result row
+
+                // Mapping values from the recordset
+                $TIdJnsDok = $penagihan->Id_Jenis_Dokumen;
+                $TDokumen = $penagihan->Nama_Dokumen;
+                $TIdUser = $penagihan->IdPenagih;
+                $TPenagih = $penagihan->Nama;
+                $TTerbilang = $penagihan->Terbilang;
+                $TDiscount = $penagihan->Discount;
+                $TJnsPajak = $penagihan->Jns_PPN ?? '';
+                $cbPPN = $penagihan->PersenPPN ?? '10';
+                $Tid_PenagihanUM = $penagihan->Id_Penagihan_Acuan ?? '';
+                $TNilai_UM = $penagihan->Nilai_UM ?? '0';
+            }
+
+            // Set 'cbUM' value
+            $cbUM = !empty($Tid_PenagihanUM) ? 1 : 0;
+
+            // Fetch Pajak details if 'TJnsPajak' is not empty
+            if (!empty($TJnsPajak)) {
+                $pajakResults = DB::connection('ConnAccounting')
+                    ->select('exec SP_1486_ACC_LIST_JENIS_PAJAK ?, ?', [1, $TJnsPajak]);
+                // dd($pajakResults);
+                $TPajak = !empty($pajakResults) ? $pajakResults[0]->Nama_Jns_PPN : '';
+            } else {
+                $TPajak = '';
+            }
+
+            // Prepare response data
+            return response()->json([
+                'Id_Jenis_Dokumen' => $TIdJnsDok,
+                'nama_dokumen' => $TDokumen,
+                'Idpenagih' => $TIdUser,
+                'Nama' => $TPenagih,
+                'Terbilang' => $TTerbilang,
+                'Discount' => (float) $TDiscount,
+                'Jns_PPN' => $TJnsPajak,
+                'PersenPPN' => $cbPPN,
+                'Id_Penagihan_Acuan' => $Tid_PenagihanUM,
+                'Nilai_UM' => $TNilai_UM,
+                'UM_Checked' => $cbUM,
+                'Nama_Jns_PPN' => trim($TPajak),
             ]);
         }
     }

@@ -1241,7 +1241,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getDataSP/{noSP}', 'App\Http\Controllers\Accounting\Piutang\NotaPenjualanTunaiController@getDataSP');
     Route::get('getLihatPenagihan/{idNoPenagihan}', 'App\Http\Controllers\Accounting\Piutang\NotaPenjualanTunaiController@getLihatPenagihan');
 
-    Route::resource('UpdateSuratJalan', App\Http\Controllers\Accounting\Piutang\UpdateSuratJalanController::class);
+    Route::resource('UpdateSuratJalanUntukJualTunai', App\Http\Controllers\Accounting\Piutang\UpdateSuratJalanController::class);
     Route::get('getTabelSuratJalan', 'App\Http\Controllers\Accounting\Piutang\UpdateSuratJalanController@getTabelSuratJalan');
 
     Route::resource('ACCPenagihanPenjualan', App\Http\Controllers\Accounting\Piutang\ACCPenagihanPenjualanController::class);
@@ -1260,7 +1260,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getTabelPenagihanEx', 'App\Http\Controllers\Accounting\Piutang\ACCPenagihanPenjualanExportController@getTabelPenagihanEx');
     Route::get('getDetailPenagihanEx/{idPenagihan}', 'App\Http\Controllers\Accounting\Piutang\ACCPenagihanPenjualanExportController@getDetailPenagihanEx');
 
-    Route::resource('PenagihanPenjualanExport', App\Http\Controllers\Accounting\Piutang\PenagihanPenjualanExportController::class);
+    Route::resource('PenagihanPenjualanEksport', App\Http\Controllers\Accounting\Piutang\PenagihanPenjualanExportController::class);
     Route::get('getCustomerEx', 'App\Http\Controllers\Accounting\Piutang\PenagihanPenjualanExportController@getCustomerEx');
     Route::get('getSuratJalanEx/{idCustomer}', 'App\Http\Controllers\Accounting\Piutang\PenagihanPenjualanExportController@getSuratJalanEx');
 

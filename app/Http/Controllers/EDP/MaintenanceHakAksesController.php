@@ -15,7 +15,7 @@ class MaintenanceHakAksesController extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster('EDP');
         $pegawai = DB::connection('ConnEDP')->table('UserMaster')->select('NomorUser', 'NamaUser')->orderBy('NamaUser', 'asc')->get();
         $program = DB::connection('ConnEDP')->table('ProgramMaster')->select('*')->get();
-        // dd($program);
+        // dd($pegawai);
         return view('EDP.Master.MaintenanceHakAkses', compact('access', 'pegawai', 'program'));
     }
 

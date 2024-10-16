@@ -4,7 +4,7 @@
 
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-md-12 RDZMobilePaddingLR0">
                 <div class="card">
                     <div class="card-header">ACC Penagihan Penjualan</div>
                     @if (Session::has('success'))
@@ -18,9 +18,9 @@
                                 {{csrf_field()}}
                                 <input type="hidden" name="_method" id="methodkoreksi">
                                 <!-- Form fields go here -->
-                                <div style="overflow-y: auto; overflow-x: auto; max-height: 400px;">
-                                    <table style="width: 260%; table-layout: fixed;" id="tabelListHeader">
-                                        <colgroup>
+                                <div style="overflow-y: auto; overflow-x: auto;">
+                                    <table style="width: 100%;" id="table_atas">
+                                        {{-- <colgroup>
                                             <col style="width: 15%;">
                                             <col style="width: 15%;">
                                             <col style="width: 30%;">
@@ -34,7 +34,7 @@
                                             <col style="width: 15%;">
                                             <col style="width: 20%;">
                                             <col style="width: 10%;">
-                                        </colgroup>
+                                        </colgroup> --}}
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>Tanggal</th>
@@ -67,11 +67,12 @@
                                             <input type="text" id="idPenagihan" name="idPenagihan" class="form-control" style="width: 100%">
                                         </div>
                                         <div class="col-7">
-                                            <input type="submit" id="btnProses" name="btnProses" value="Proses" class="btn btn-success d-flex ml-auto">
+                                            <button type="button" class="btn btn-success d-flex ml-auto" id="btn_proses"
+                                                style="100px; text-align: center">Proses</button>
                                         </div>
-                                        <div class="col-1">
+                                        {{-- <div class="col-1" style="visibility: hidden">
                                             <input type="submit" id="btnKeluar" name="btnKeluar" value="Keluar" class="btn btn-primary d-flex ml-auto">
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                                 <p><div>
@@ -110,12 +111,12 @@
                                 </div>
 
                                 <br>
-                                <div style="overflow-y: auto; max-height: 400px;">
-                                    <table style="width: 60%; table-layout: fixed;" id="tabelDisplayDetail">
-                                        <colgroup>
+                                <div style="overflow-y: auto;">
+                                    <table style="width: 100%;" id="table_bawah">
+                                        {{-- <colgroup>
                                             <col style="width: 30%;">
                                             <col style="width: 30%;">
-                                        </colgroup>
+                                        </colgroup> --}}
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>Surat Jalan</th>
@@ -133,5 +134,5 @@
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Piutang/ACCPenagihanPenjualan.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/ACCPenagihanPenjualan.js') }}"></script>
 @endsection

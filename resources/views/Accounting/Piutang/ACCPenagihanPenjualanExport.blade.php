@@ -113,5 +113,5 @@
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Piutang/ACCPenagihanPenjualanExport.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/ACCPenagihanPenjualanExport.js') }}"></script>
 @endsection

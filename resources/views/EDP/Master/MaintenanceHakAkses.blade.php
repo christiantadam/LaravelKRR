@@ -25,7 +25,7 @@
                                     <select name="namaPegawai" id="namaPegawai" class="input">
                                         <option selected disabled>-- Pilih Pegawai--</option>
                                         @foreach ($pegawai as $data)
-                                            <option value="{{ $data->NomorUser }}">{{ $data->NamaUser }}</option>
+                                            <option value="{{ $data->NomorUser }}">{{$data->NamaUser . " - " . $data->NomorUser}}</option>
                                         @endforeach
                                     </select>
                                     <input type="hidden" name="namaPegawaiText" id="namaPegawaiText">

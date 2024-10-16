@@ -1,141 +1,144 @@
-let tabelListHeader = document.getElementById('tabelListHeader');
-let idPenagihan = document.getElementById('idPenagihan');
-let fakturPajak = document.getElementById('fakturPajak');
-let idMataUang = document.getElementById('idMataUang');
-let id_Penagihan = document.getElementById('id_Penagihan');
-let tabelDisplayDetail = document.getElementById('tabelDisplayDetail');
-
-let jenisCustomer = document.getElementById('jenisCustomer');
-let namaNPWP = document.getElementById('namaNPWP');
-let kurs = document.getElementById('kurs');
-let idCustomer = document.getElementById('idCustomer');
-let nilaiTagihan = document.getElementById('nilaiTagihan');
-let YNomor;
-let surat;
-let adaSJ = false;
-let adaSP = false;
-
-let btnProses = document.getElementById('btnProses');
-let formkoreksi = document.getElementById('formkoreksi');
-
-
-fetch("/getDisplayHeader/")
-.then((response) => response.json())
-.then((options) => {
-    console.log(options);
-
-    tabelListHeader = $("#tabelListHeader").DataTable({
-        data: options,
-        columns: [
-            { title: "Tanggal", data: "Tgl_Penagihan" },
-            { title: "Id. Penagihan", data: "Id_Penagihan" },
-            { title: "Customer", data: "NamaCust" },
-            { title: "PO", data: "PO" },
-            { title: "Nilai Tagihan", data: "Nilai_Penagihan" },
-            { title: "Mata Uang", data: "Nama_MataUang" },
-            { title: "Id. Customer", data: "Id_Customer" },
-            { title: "Id. Mata Uang", data: "Id_MataUang" },
-            { title: "Kurs", data: "NilaiKurs" },
-            { title: "Nama NPWP", data: "NamaNPWP" },
-            { title: "Jenis Customer", data: "JnsCust" },
-            { title: "Id. Faktur Pajak", data: "IdFakturPajak" },
-            { title: "Jenis PPN", data: "Nama_Jns_PPN" },
-        ]
+$(document).ready(function () {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let btn_proses = document.getElementById("btn_proses");
+    let idPenagihan = document.getElementById("idPenagihan");
+    let fakturPajak = document.getElementById("fakturPajak");
+    let table_atas = $("#table_atas").DataTable({
+        columnDefs: [{ targets: [6, 7, 8, 9, 10, 11], visible: false }],
     });
-});
+    let table_bawah = $("#table_bawah").DataTable({
+        // columnDefs: [{ targets: [0], visible: false }],
+    });
 
-    $("#tabelListHeader tbody").off("click", "tr");
-    $("#tabelListHeader tbody").on("click", "tr", function () {
-        let checkSelectedRows = $("#tabelListHeader tbody tr.selected");
+    table_atas = $("#table_atas").DataTable({
+        responsive: false,
+        processing: true,
+        serverSide: true,
+        destroy: true,
+        scrollX: true,
+        // width: "150%",
+        ajax: {
+            url: "ACCPenagihanPenjualan/getPenagihan",
+            dataType: "json",
+            type: "GET",
+            data: function (d) {
+                return $.extend({}, d, {
+                    _token: csrfToken,
+                });
+            },
+        },
+        columns: [
+            {
+                data: "Tgl_Penagihan",
+                render: function (data) {
+                    return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                },
+            },
+            { data: "Id_Penagihan" },
+            { data: "NamaCust" },
+            { data: "PO" },
+            { data: "Nilai_Penagihan" },
+            { data: "Nama_MataUang" },
+            { data: "Id_Customer" },
+            { data: "Id_MataUang" },
+            { data: "NilaiKurs" },
+            { data: "NamaNPWP" },
+            { data: "JnsCust" },
+            { data: "IdFakturPajak" },
+            { data: "Nama_Jns_PPN" },
+        ],
+        paging: false,
+        scrollY: "400px",
+        scrollCollapse: true,
+        columnDefs: [{ targets: [6, 7, 8, 9, 10, 11], visible: false }],
+    });
 
-        if (checkSelectedRows.length > 0) {
-            // Remove "selected" class from previously selected rows
-            checkSelectedRows.removeClass("selected");
-        }
-        $(this).toggleClass("selected");
-        const table = $("#tabelListHeader").DataTable();
-        let selectedRows = table.rows(".selected").data().toArray();
-        console.log(selectedRows[0]);
+    $("#table_atas tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_atas tbody tr").removeClass("selected");
 
-        idPenagihan.value = selectedRows[0].Id_Penagihan;
-        fakturPajak.value = selectedRows[0].IdFakturPajak;
-        idMataUang.value = selectedRows[0].Id_MataUang;
-        jenisCustomer.value = selectedRows[0].JnsCust;
-        namaNPWP.value = selectedRows[0].NamaNPWP;
-        idCustomer.value = selectedRows[0].Id_Customer;
-        nilaiTagihan.value = selectedRows[0].Nilai_Penagihan;
-        kurs.value = selectedRows[0].NilaiKurs;
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
 
-        id_Penagihan.value = idPenagihan.value.replace(/\//g, '.');
+        // Get data from the clicked row
+        var data = table_atas.row(this).data();
+        console.log(data);
 
-        fetch("/getDisplayDetail/" + id_Penagihan.value)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
+        idPenagihan.value = data.Id_Penagihan;
+        fakturPajak.value = data.IdFakturPajak;
 
-            surat = options[0].Tgl_Surat_jalan;
-            // let sp = options[0].Surat_Jalan;
-
-            tabelDisplayDetail = $("#tabelDisplayDetail").DataTable({
-                data: options,
-                columns: [
-                    { title: "Surat Jalan", data: "Surat_Jalan" },
-                    { title: "Tanggal Terima Barang", data: "Tgl_Surat_jalan" }
-                ]
-            });
+        table_bawah = $("#table_bawah").DataTable({
+            responsive: false,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            scrollX: true,
+            // width: "150%",
+            ajax: {
+                url: "ACCPenagihanPenjualan/getDetailPenagihan",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        ID_Penagihan: data.Id_Penagihan,
+                    });
+                },
+            },
+            columns: [
+                {
+                    data: "Tgl_Surat_jalan",
+                    // render: function (data) {
+                    //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    // },
+                },
+                { data: "Surat_Jalan" },
+            ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
+            // columnDefs: [{ targets: [6, 7, 8, 9, 10, 11], visible: false }],
         });
     });
 
+    let rowDataArray = [];
+    let rowDataPertama;
 
-btnProses.addEventListener('click', function(event) {
-    event.preventDefault();
+    // Handle checkbox change events
+    $("#table_atas tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#table_atas tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            if (this.checked) {
+                $('input[name="penerimaCheckbox"]')
+                .not(this)
+                .prop("checked", false);
+                rowDataPertama = table_atas.row($(this).closest("tr")).data();
 
-    if (jenisCustomer.value == "PNX" || jenisCustomer.value == "PWX") {
-        if(namaNPWP.value == "") {
-            alert('Data Tidak dapat di-ACC, Isi dulu Nama dan Alamat NPWPnya !')
+                // Add the selected row data to the array
+                // rowDataArray.push(rowDataPertama);
+                rowDataArray = [rowDataPertama];
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_atas);
+            } else {
+                // rowDataPertama = null;
+                // Remove the unchecked row data from the array
+                rowDataPertama = table_atas.row($(this).closest("tr")).data();
+
+                // Filter out the row with matching Id_Penagihan
+                rowDataArray = rowDataArray.filter(
+                    (row) => row.Id_Penagihan !== rowDataPertama.Id_Penagihan
+                );
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_atas);
+            }
         }
-    };
+    );
 
-    //formkoreksi.submit();
-
-    DisplaySuratJalan();
-
-    fetch("/accCheckCtkSJ/" + id_Penagihan.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-
-        if (options[0].Ada > 0) {
-            adaSJ = true;
-        };
-    });
-
-    fetch("/accCheckCtkSP/" + id_Penagihan.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-
-        if (options[0].Ada > 0) {
-            adaSP = true;
-        };
-    });
-
-    // if (adaSP == true) {
-
-    // }
 
 });
-
-function DisplaySuratJalan() {
-    YNomor = "";
-    fetch("/getDisplaySuratJalan/" + id_Penagihan.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-
-        if (YNomor != "") {
-            YNomor + ", ";
-            YNomor = YNomor + surat.toString();
-        }
-    });
-}

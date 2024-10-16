@@ -4,20 +4,25 @@ namespace App\Http\Controllers\Accounting\Piutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
+use Log;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateSuratJalanController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.UpdateSuratJalan', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.UpdateSuratJalan', compact('access'));
     }
 
     public function getTabelSuratJalan()
     {
         //dd("masuk");
-        $data =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ]
+        $data = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ]
         @Kode = ?', [21]);
         return response()->json($data);
     }
@@ -31,48 +36,63 @@ class UpdateSuratJalanController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd($request->all());
         $suratJalan = $request->suratJalan;
         $idPenagihan = $request->idPenagihan;
         $jatuhTempo = $request->jatuhTempo;
         $idCustomer = $request->idCustomer;
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_LIST_PENAGIHAN_SJ]
-        @Kode = ?,
-        @Surat_jalan = ?'
-        , [
-            17,
-            $suratJalan
+        $tes = DB::connection('ConnAccounting')->select(
+            'exec SP_1486_ACC_LIST_PENAGIHAN_SJ @Kode = ?, @Surat_jalan = ?',
+            [
+                17,
+                $suratJalan
+            ]
+        );
+        // dd($tes);
+        $idSuratPesanan = $tes[0]->IDSuratPesanan;
+
+        DB::connection('ConnAccounting')->statement(
+            'exec SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @SuratJalan = ?, @JatuhTempo = ?, @Id_customer = ?, @SuratPesanan = ?',
+            [
+                2,
+                $idPenagihan,
+                $suratJalan,
+                $jatuhTempo,
+                $idCustomer,
+                $idSuratPesanan
+            ]
+        );
+
+        return response()->json([
+            'message' => 'Data Berhasil Diproses!'
         ]);
-
-        $idSuratPesanan = DB::connection('ConnSales')->table('VW_PRG_1486_ACC_ID_DETAILPENGIRIMAN')
-        ->where('IDPengiriman', $suratJalan)
-        ->value('IDSuratPesanan');
-        //return response()->json($idSuratPesanan);
-
-        // dd($idSuratPesanan);
-
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_PENAGIHAN_SJ]
-        @Kode = ?,
-        @Id_Penagihan = ?,
-        @SuratJalan = ?,
-        @JatuhTempo = ?,
-        @Id_customer = ?,
-        @SuratPesanan = ?'
-        , [
-            2,
-            $idPenagihan,
-            $suratJalan,
-            $jatuhTempo,
-            $idCustomer,
-            $idSuratPesanan
-        ]);
-
-        return redirect()->back()->with('success', 'Data Sudah Tersimpan');
+        // return redirect()->back()->with('success', 'Data Sudah Tersimpan');
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show(Request $request, $id)
     {
-        //
+        if ($id == 'DisplayData') {
+            $penagihanResults = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ ?', [21]);
+            // dd($penagihanResults);
+            $response = [];
+            foreach ($penagihanResults as $row) {
+                $response[] = [
+                    'Id_Penagihan' => $row->Id_Penagihan,
+                    'IDPengiriman' => $row->IDPengiriman,
+                    'Tgl_Penagihan' => \Carbon\Carbon::parse($row->Tgl_Penagihan)->format('m/d/Y'),
+                    'NamaCust' => $row->NamaCust,
+                    'Nilai_Penagihan' => number_format($row->Nilai_Penagihan, 2, ',', '.'),
+                    'Nama_MataUang' => $row->Nama_MataUang,
+                    'IDCust' => $row->IDCust,
+                    'TanggalDiterima' => \Carbon\Carbon::parse($row->TanggalDiterima)->format('m/d/Y'),
+                    'JmlTerimaUmum' => ($row->JmlTerimaUmum == '.00' ? 0 : $row->JmlTerimaUmum),
+                ];
+            }
+
+            return datatables($response)->make(true);
+        }
     }
 
     // Show the form for editing the specified resource.
