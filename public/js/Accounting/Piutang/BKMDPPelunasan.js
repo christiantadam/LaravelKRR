@@ -2331,6 +2331,22 @@ btnTampilBKK.addEventListener('click', function () {
         // Initialize both tables if not done already
         initializeTables();
 
+        $.ajax({
+            type: 'GET',
+            url: 'MaintenanceBKMUntukDPPelunasan/getListFullBKK',
+            data: {
+                _token: csrfToken,
+            },
+            success: function (result) {
+                if (result.length !== 0) {
+                    updateDataTable(result, 5);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
         // Clear the BKK table when opening the modal
         var tableBKK = $('#tableListBKK').DataTable();
         tableBKK.clear().draw();
@@ -2350,6 +2366,22 @@ btnTampilBKM.addEventListener('click', function () {
         // Initialize both tables if not done already
         initializeTables();
 
+        $.ajax({
+            type: 'GET',
+            url: 'MaintenanceBKMUntukDPPelunasan/getListFullBKM',
+            data: {
+                _token: csrfToken,
+            },
+            success: function (result) {
+                if (result.length !== 0) {
+                    updateDataTable(result, 4);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
         // Clear the BKM table when opening the modal
         var tableBKM = $('#tableListBKM').DataTable();
         tableBKM.clear().draw();
@@ -2367,7 +2399,7 @@ function initializeTables() {
         // Initialize tableListBKK
         $('#tableListBKK').DataTable({
             paging: false,
-            searching: false,
+            searching: true,
             info: false,
             ordering: false,
             scrollY: '200px',
@@ -2390,7 +2422,7 @@ function initializeTables() {
         // Initialize tableListBKM
         $('#tableListBKM').DataTable({
             paging: false,
-            searching: false,
+            searching: true,
             info: false,
             ordering: false,
             scrollY: '200px',
@@ -2570,6 +2602,7 @@ btnCetakBKM.addEventListener('click', function () {
                     sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
 
                     printPreview('preview');
+                    updateDateBKM();
                 }
                 else {
                     keteranganCetakBKM.innerHTML = '';
@@ -2611,6 +2644,7 @@ btnCetakBKM.addEventListener('click', function () {
                     sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
 
                     printPreview('preview');
+                    updateDateBKM();
                 }
             },
             error: function (xhr, status, error) {
@@ -2645,7 +2679,7 @@ btnCetakBKK.addEventListener('click', function () {
 
                     bkmDetailsContainer.innerHTML = "";
 
-                    nomerBKK.innerHTML = '<h5><b>Nomer: ' + decodeHtmlEntities(result[0].Id_BKK) +"</b></h5>";
+                    nomerBKK.innerHTML = '<h5><b>Nomer: ' + decodeHtmlEntities(result[0].Id_BKK) + "</b></h5>";
 
                     var date = new Date(result[0].Tgl_Input);
 
@@ -2734,6 +2768,7 @@ btnCetakBKK.addEventListener('click', function () {
                     sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
 
                     printPreview('preview2');
+                    updateDateBKK();
                 }
             },
             error: function (xhr, status, error) {
@@ -2743,3 +2778,31 @@ btnCetakBKK.addEventListener('click', function () {
 
     }
 });
+
+function updateDateBKK(){
+    $.ajax({
+        type: 'PUT',
+        url: 'BKMLC/updateDateBKK',
+        data: {
+            _token: csrfToken,
+            idBKK: idCetakBKK.value.trim(),
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+function updateDateBKM(){
+    $.ajax({
+        type: 'PUT',
+        url: 'BKMLC/updateDateBKM',
+        data: {
+            _token: csrfToken,
+            idBKM: idCetakBKM.value.trim(),
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}

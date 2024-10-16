@@ -506,6 +506,22 @@ class BKMDPPelunasanController extends Controller
             return response()->json($data_divisi);
         }
 
+        // list bkm
+        else if ($id === 'getListFullBKM') {
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKM_DP');
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKM' => $detail_divisi->Id_BKM,
+                    'Nilai_Pelunasan' => $detail_divisi->Nilai_Pelunasan,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
         // list bkK
         else if ($id === 'getListBKK') {
             $tgl1 = $request->input('tgl1');
@@ -513,6 +529,22 @@ class BKMDPPelunasanController extends Controller
 
             $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKK_DP_PERTGL
             @tgl1 = ?, @tgl2 = ?', [$tgl1, $tgl2]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Tgl_Input' => $detail_divisi->Tgl_Input,
+                    'Id_BKK' => $detail_divisi->Id_BKK,
+                    'Nilai_Pembulatan' => $detail_divisi->Nilai_Pembulatan,
+                    'Terjemahan' => $detail_divisi->Terjemahan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // list bkm
+        else if ($id === 'getListFullBKK') {
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKK_DP');
             $data_divisi = [];
             foreach ($divisi as $detail_divisi) {
                 $data_divisi[] = [

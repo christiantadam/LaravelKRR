@@ -324,7 +324,7 @@ btnCetakBKM.addEventListener('click', function () {
                     totalAmountBKM.textContent = numeral(parseFloat(totalBKM)).format("0,0.00");
 
                     printPreview('preview')
-
+                    updateDateBKM();
                 }
             },
             error: function (xhr, status, error) {
@@ -436,8 +436,20 @@ btnCetakBKK.addEventListener('click', function () {
 
                     paidCetakBKK.textContent = ": " + decodeHtmlEntities(result[0].NM_SUP);
 
-                    batalNote.textContent = 'BATAL: ' + decodeHtmlEntities(result[0].Batal);
-                    alasanNote.textContent = 'ALASAN: ' + decodeHtmlEntities(result[0].Alasan);
+                    if (result[0].Batal && result[0].Batal.trim() !== '') {
+                        batalNote.textContent = 'BATAL: ' + decodeHtmlEntities(result[0].Batal);
+                        batalNote.style.display = 'inline'; 
+                    } else {
+                        batalNote.style.display = 'none'; 
+                    }
+
+                    if (result[0].Alasan && result[0].Alasan.trim() !== '') {
+                        alasanNote.textContent = 'ALASAN: ' + decodeHtmlEntities(result[0].Alasan);
+                        alasanNote.style.display = 'inline';
+                    } else {
+                        alasanNote.style.display = 'none';
+                    }
+
 
                     result.forEach(function (item, index) {
                         var row = document.createElement("div");
@@ -492,7 +504,8 @@ btnCetakBKK.addEventListener('click', function () {
                     amountBKK.textContent = 'Amount ' + decodeHtmlEntities(result[0].Id_MataUang_BC)
                     totalAmountBKK.textContent = numeral(parseFloat(totalBKM)).format("0,0.00");
 
-                    printPreview('preview2')
+                    printPreview('preview2');
+                    updateDateBKK();
                 }
             },
             error: function (xhr, status, error) {
@@ -3061,3 +3074,31 @@ $(document).ready(function () {
         ]
     });
 });
+
+function updateDateBKK(){
+    $.ajax({
+        type: 'PUT',
+        url: 'BKMLC/updateDateBKK',
+        data: {
+            _token: csrfToken,
+            idBKK: idCetakBKK.value.trim(),
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+function updateDateBKM(){
+    $.ajax({
+        type: 'PUT',
+        url: 'BKMLC/updateDateBKM',
+        data: {
+            _token: csrfToken,
+            idBKM: idCetakBKM.value.trim(),
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
