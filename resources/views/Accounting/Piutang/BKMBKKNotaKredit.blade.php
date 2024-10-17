@@ -132,8 +132,8 @@
                                                 style="width: 100%">
                                         </div>
                                     </div>
-                                    <input type="hidden" name="idPembayaran" id="idPembayaran">
-                                    <input type="hidden" name="idPelunasan" id="idPelunasan">
+                                    <input type="text" name="idPembayaran" id="idPembayaran">
+                                    <input type="text" name="idPelunasan" id="idPelunasan">
                                     <div class="d-flex">
                                         <div class="col-md-3">
                                             <label for="idBKM" style="margin-right: 10px;">Id. BKM</label>
@@ -361,7 +361,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 d-flex">
+                        <div class="col-sm-4">
                             <input type="text" id="nilaiUang" name="nilaiUang" class="form-control"
                                 style="width: 100%">
                             <input type="text" id="konversi" name="konversi" class="form-control"

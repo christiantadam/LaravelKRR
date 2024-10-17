@@ -9,7 +9,7 @@ let noNotaKredit = document.getElementById('noNotaKredit');
 let idPenagihan = document.getElementById('idPenagihan');
 let methodTampilBKK = document.getElementById('methodTampilBKK');
 let formTampilBKK = document.getElementById('formTampilBKK');
-let idPelunasan = document.getElementById('idPelunasan');
+// let idPelunasan = document.getElementById('idPelunasan');
 let idPembayaran = document.getElementById('idPembayaran');
 
 let btnKoreksi = document.getElementById('btnKoreksi');
@@ -58,7 +58,7 @@ let id_bkm = document.getElementById('id_bkm');
 let id_bkk = document.getElementById('id_bkk');
 let idUang;
 
-let bankbkk, bankbkm, tabletampilBKK, tabletampilBKM;
+let bankbkk, bankbkm, tabletampilBKK, tabletampilBKM, id, id1, idbkktemp, idbkmtemp;
 
 let total1;
 let total2;
@@ -905,6 +905,7 @@ btn_kodeBKK.addEventListener("click", function (e) {
     }
 });
 //#endregion
+let blnthnn = tanggal.valueAsDate ? (tanggal.valueAsDate.getMonth() + 1).toString().padStart(2, '0') + tanggal.valueAsDate.getFullYear().toString().slice(-2) : '';
 
 //#region proses
 btnProses.addEventListener('click', function (event) {
@@ -914,18 +915,27 @@ btnProses.addEventListener('click', function (event) {
     id1 = idBKK.value.substring(0, 3);
     idbkmtemp = parseInt(id) || 0;
     idbkktemp = parseInt(id1) || 0;
-    nilai = 0;
 
+    // console.log(id, id1, idbkmtemp, idbkktemp);
 
     if (idBKM.value !== '' || idBKK.value !== '') {
-        nilai1.value = parseFloat(jumlahUangBKM.value);
-        // total2 = nilai1.toString();
-        // console.log("masuk");
+        nilai1.value = numeral(numeral(jumlahUangBKM.value).value()).format("0,0.00");
+        nilai.value = numeral(numeral(jumlahUangBKK.value).value()).format("0,0.00");
+
+        // console.log(idBKM.value, idBKK.value, jumlahUangBKM.value, jumlahUangBKK.value, nilai1.value, nilai.value, idMataUangBKM.value);
+
         if (parseInt(idMataUangBKM.value) === 1) {
-            konversi.value = convertNumberToWordsRupiah(nilai1.value);
+            konversi.value = convertNumberToWordsRupiah(numeral(nilai1.value).value());
         } else {
-            konversi.value = convertNumberToWordsDollar(nilai1.value);
+            konversi.value = convertNumberToWordsDollar(numeral(nilai1.value).value());
         }
+
+        if (parseInt(idMataUangBKM.value) === 1) {
+            konversi1.value = convertNumberToWordsRupiah(numeral(nilai.value).value());
+        } else {
+            konversi1.value = convertNumberToWordsRupiah(numeral(nilai.value).value());
+        }
+
 
         $.ajax({
             type: 'PUT',
@@ -934,35 +944,69 @@ btnProses.addEventListener('click', function (event) {
                 _token: csrfToken,
                 idBKM: idBKM.value.trim(),
                 tgl: tanggal.value,
-                terjemahan: konversi,
+                terjemahan: konversi.value,
                 nilai: numeral(parseFloat(nilai1.value)).value(),
                 IdBank: idBankBKM.value.trim(),
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMxBKKNotaKredit/insertTLunasTagihan',
-            data: {
-                _token: csrfToken,
-                idBKM: idBKM.value.trim(),
-                tgl: tanggal.value,
-                noMtUang: idBKM.value,
-                IdBank: idBankBKM.value.trim(),
-                nilai1: nilai1,
+                noMtUang: idMtUang,
                 idCust: idCustomer.value,
                 idBKK: idBKK.value,
-                konversi: konversi,
-                nilai: numeral(parseFloat(nilai1.value)).value(),
-                kursRupiah: numeral(parseFloat(kursRupiah.value)).value() || 0
+                kursRupiah: numeral(parseFloat(kursRupiah.value)).value() || 0,
+                NoPenagihan: NoPenagihan,
+                jmlUang: jmlUang,
+                idKodePerkiraanBKM: idKodePerkiraanBKM.value,
+                idbkmtemp: idbkmtemp,
+                jenisBankBKM: jenisBankBKM.value.trim(),
+                blnthnn: blnthnn,
+                bankbkm: bankbkm,
             },
             success: function (response) {
                 if (response.success) {
-                    let maxIdPelunasan = response.maxIdPelunasan;
-                    console.log('Max ID Pelunasan:', maxIdPelunasan);
+                    console.log(response);
+                    idPelunasan.value = response.id_pelunasan.trim();
+
+                    $.ajax({
+                        type: 'PUT',
+                        url: 'MaintenanceBKMxBKKNotaKredit/insertTPembayaran',
+                        data: {
+                            _token: csrfToken,
+                            idBKM: idBKM.value.trim(),
+                            tgl: tanggal.value,
+                            terjemahan: konversi.value,
+                            nilai: nilai.value.trim(),
+                            IdBank: idBankBKK.value.trim(),
+                            noMtUang: idMtUang,
+                            idCust: idCustomer.value,
+                            idBKK: idBKK.value.trim(),
+                            kursRupiah: numeral(parseFloat(kursRupiah.value)).value() || 0,
+                            NoNotaKredit: NoNotaKredit,
+                            NoPenagihan: NoPenagihan,
+                            jmlUang: jmlUang,
+                            idKodePerkiraanBKK: idKodePerkiraanBKK.value,
+                            idbkktemp: idbkktemp,
+                            jenisBankBKK: jenisBankBKK.value.trim(),
+                            bankbkk: bankbkk,
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                idPembayaran.value = response.id_pembayaran.trim();
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    html: response.message,
+                                    returnFocus: false
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Data Gagal DiProses!!',
+                            });
+                        }
+                    });
+
                 } else {
                     console.error('Error:', response.error);
                 }
@@ -971,61 +1015,10 @@ btnProses.addEventListener('click', function (event) {
                 console.error('Error:', error);
             }
         });
-
-        // belommmmm
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMxBKKNotaKredit/insertTDetilLunasTagihan',
-            data: {
-                _token: csrfToken,
-                idBKM: idBKM.value.trim(),
-                tgl: tanggal.value,
-                noMtUang: idBKM.value,
-                IdBank: idBankBKM.value.trim(),
-                nilai1: nilai1,
-                idCust: idCustomer.value,
-                idBKK: idBKK.value,
-                konversi: konversi,
-                nilai: numeral(parseFloat(nilai1.value)).value(),
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-
-        nilai.value = parseFloat(jumlahUangBKK.value);
-        // total1 = nilai.toString();
-        if (parseInt(idMataUangBKM.value) === 1) {
-            konversi1.value = convertNumberToWordsRupiah(nilai.value);
-        } else {
-            konversi1.value = convertNumberToWordsDollar(nilai.value);
-        }
     }
     else {
         console.log("Tidak Ada Yg diPROSES!");
     }
-
-    // fetch("/getIdPelunasanNota/")
-    //     .then((response) => response.json())
-    //     .then((options) => {
-    //         console.log(options);
-    //         idPelunasan.value = options.Id_Pelunasan;
-    //         console.log(idPelunasan.value);
-
-    //         //formkoreksi.submit();
-    //     });
-
-    // fetch("/getIdPembayaranNota/")
-    //     .then((response) => response.json())
-    //     .then((options) => {
-    //         console.log(options);
-    //         idPembayaran.value = options.Id_Pembayaran;
-    //         console.log(idPembayaran.value);
-
-    //         //formkoreksi.submit();
-    //     });
-    // // console.log(idBKK.value);
-    // formkoreksi.submit();
 })
 //#endregion
 

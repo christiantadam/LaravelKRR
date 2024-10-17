@@ -786,41 +786,68 @@ btnGroup.addEventListener('click', function () {
     var selectedRow = table.$('tr.selected');
 
     if (selectedRow.length > 0) {
-        if (table.cell(rowIndex, 7) !== '' && table.cell(rowIndex, 2) !== '') {
-            if (table.cell(rowIndex, 2) === 'KRR1' || table.cell(rowIndex, 2) === 'KRR2') {
-                if (table.cell(rowIndex, 2) === 'KRR2') {
+        if (table.cell(rowIndex, 7).data() !== '' && table.cell(rowIndex, 2).data() !== '') {
+            if (table.cell(rowIndex, 2).data() === 'KRR1' || table.cell(rowIndex, 2).data() === 'KRR2') {
+                if (table.cell(rowIndex, 2).data() === 'KRR2') {
                     IdBank = 'KI';
-                }
-                else if (table.cell(rowIndex, 2) === 'KRR1') {
-                    IdBank = 'KKM';
-                }
-                else {
-                    IdBank = table.cell(rowIndex, 2);
-                }
-            }
+                    proses(IdBank);
 
-            total = numeral(table.cell(rowIndex, 5)).value();
-            uang = table.cell(rowIndex, 4);
-            total1 = numeral(total).format("0,0.00");
-            if (uang === 'RUPIAH') {
-                Konversi = convertNumberToWordsRupiah(total);
+                }
+                else if (table.cell(rowIndex, 2).data() === 'KRR1') {
+                    IdBank = 'KKM';
+                    proses(IdBank);
+
+                }
             }
             else {
-                Konversi = convertNumberToWordsDollar(total);
+                IdBank = table.cell(rowIndex, 2).data();
+                proses(IdBank);
+
             }
 
-            $.ajax({
-                type: 'GET',
-                url: 'BKMLC/cekJmlRincian',
-                data: {
-                    _token: csrfToken,
-                },
-                success: function (result) {
-                    if (result.length !== 0) {
-                        if (numeral(result[0].Pelunasan).value() < total) {
-                            let sisa = 0;
-                            let x1;
+            function proses(IdBank) {
+                total = numeral(table.cell(rowIndex, 5).data()).value();
+                uang = table.cell(rowIndex, 4).data();
+                total1 = numeral(total).format("0,0.00");
+                if (uang === 'RUPIAH') {
+                    Konversi = convertNumberToWordsRupiah(total);
+                }
+                else {
+                    Konversi = convertNumberToWordsDollar(total);
+                }
 
+                $.ajax({
+                    type: 'GET',
+                    url: 'BKMLC/cekJmlRincian',
+                    data: {
+                        _token: csrfToken,
+                        idpelunasan: table.cell(rowIndex, 1).data(),
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            if (numeral(result[0].Pelunasan).value() < total) {
+                                let sisa = 0;
+                                let x1;
+
+                                sisa = total - numeral(result[0].Pelunasan).value();
+
+                                $.ajax({
+                                    type: 'PUT',
+                                    url: 'BKMLC/insertSisaBKM',
+                                    data: {
+                                        _token: csrfToken,
+                                        idpelunasan: table.cell(rowIndex, 1).data(),
+                                        sisa: numeral(sisa).value(),
+                                        jenisBayar: table.cell(rowIndex, 3).data(),
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error:', error);
+                                    }
+                                });
+
+                            }
+                        }
+                        else {
                             sisa = total - numeral(result[0].Pelunasan).value();
 
                             $.ajax({
@@ -828,130 +855,264 @@ btnGroup.addEventListener('click', function () {
                                 url: 'BKMLC/insertSisaBKM',
                                 data: {
                                     _token: csrfToken,
-                                    idpelunasan: table.cell(rowIndex, 1),
+                                    idpelunasan: table.cell(rowIndex, 1).data(),
                                     sisa: numeral(sisa).value(),
-                                    jenisBayar: table.cell(rowIndex, 3),
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error('Error:', error);
-                                }
-                            });
-
-                        }
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            $.ajax({
-                type: 'GET',
-                url: 'BKMLC/getAccBank',
-                data: {
-                    _token: csrfToken,
-                    idBank: table.cell(rowIndex, 2)
-                },
-                success: function (result) {
-                    if (result.length !== 0) {
-                        jenis = result[0].jenis ? decodeHtmlEntities(result[0].jenis.trim()) : '';
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            $.ajax({
-                type: 'GET',
-                url: 'BKMLC/accCounterBKKBKM',
-                data: {
-                    _token: csrfToken,
-                    bank: IdBank,
-                    jenis: 'R',
-                    tgl: table.cell(rowIndex, 7),
-                },
-                success: function (result) {
-                    if (result.length !== 0) {
-                        id = result.IdBKM ? decodeHtmlEntities(result.IdBKM) : '';
-
-                        idbkm = isNaN(parseInt(id.substring(0, 3))) ? 0 : parseInt(id.substring(0, 3));
-
-                        $.ajax({
-                            type: 'PUT',
-                            url: 'BKMLC/insertTagihBKM',
-                            data: {
-                                _token: csrfToken,
-                                idBKM: id,
-                                tglinput: table.cell(rowIndex, 7),
-                                terjemahan: Konversi,
-                                nilaipelunasan: total,
-                                IdBank: IdBank.trim(),
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
-
-                        $.ajax({
-                            type: 'PUT',
-                            url: 'BKMLC/insertTagih1BKM',
-                            data: {
-                                _token: csrfToken,
-                                idBKM: id,
-                                idpelunasan: isNaN(parseInt(table.cell(rowIndex, 1))) ? 0 : parseInt(table.cell(rowIndex, 1)),
-                                idBank: table.cell(rowIndex, 2),
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
-
-                        var dateValue = new Date(table.cell(rowIndex, 7));
-
-                        var month = String(dateValue.getMonth() + 1).padStart(2, '0');
-                        var year = String(dateValue.getFullYear()).slice(-2);
-
-                        $.ajax({
-                            type: 'PUT',
-                            url: 'BKMLC/updateIdBKM',
-                            data: {
-                                _token: csrfToken,
-                                idbkm: idbkm,
-                                idBank: IdBank.trim(),
-                                jenis: jenis,
-                                tgl: String(month) + String(year),
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
-
-                        if (table.cell(rowIndex, 3) === 'BG' || table.cell(rowIndex, 3) === 'CEK') {
-                            $.ajax({
-                                type: 'PUT',
-                                url: 'BKMLC/updateStatusBKM',
-                                data: {
-                                    _token: csrfToken,
-                                    idpelunasan: isNaN(parseInt(table.cell(rowIndex, 1))) ? 0 : parseInt(table.cell(rowIndex, 1)),
+                                    jenisBayar: table.cell(rowIndex, 3).data(),
                                 },
                                 error: function (xhr, status, error) {
                                     console.error('Error:', error);
                                 }
                             });
                         }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    url: 'BKMLC/getAccBank',
+                    data: {
+                        _token: csrfToken,
+                        idBank: table.cell(rowIndex, 2).data()
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            jenis = result[0].jenis ? decodeHtmlEntities(result[0].jenis.trim()) : '';
+
+                            prosesBKM(jenis);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+
+                function prosesBKM(jenis) {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'BKMLC/getIdBKM',
+                        data: {
+                            _token: csrfToken,
+                            bank: IdBank,
+                            jenis: 'R',
+                            tahun: new Date(table.cell(rowIndex, 7).data()).getFullYear(),
+                            tgl: table.cell(rowIndex, 7).data(),
+                        },
+                        success: function (result) {
+                            if (result.length !== 0) {
+                                id = result.IdBKM ? decodeHtmlEntities(result.IdBKM) : '';
+
+                                idbkm = isNaN(parseInt(id.substring(0, 3))) ? 0 : parseInt(id.substring(0, 3));
+
+                                prosesIdBKM(id);
+
+                                function prosesIdBKM(id) {
+                                    $.ajax({
+                                        type: 'PUT',
+                                        url: 'BKMLC/insertTagihBKM',
+                                        data: {
+                                            _token: csrfToken,
+                                            idBKM: id,
+                                            tglinput: table.cell(rowIndex, 7).data(),
+                                            terjemahan: Konversi,
+                                            nilaipelunasan: total,
+                                            IdBank: IdBank.trim(),
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error('Error:', error);
+                                        }
+                                    });
+
+                                    $.ajax({
+                                        type: 'PUT',
+                                        url: 'BKMLC/insertTagih1BKM',
+                                        data: {
+                                            _token: csrfToken,
+                                            idBKM: id,
+                                            idpelunasan: isNaN(parseInt(table.cell(rowIndex, 1).data())) ? 0 : parseInt(table.cell(rowIndex, 1).data()),
+                                            idBank: table.cell(rowIndex, 2).data(),
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error('Error:', error);
+                                        }
+                                    });
+
+                                    var dateValue = new Date(table.cell(rowIndex, 7).data());
+
+                                    var month = String(dateValue.getMonth() + 1).padStart(2, '0');
+                                    var year = String(dateValue.getFullYear()).slice(-2);
+
+                                    $.ajax({
+                                        type: 'PUT',
+                                        url: 'BKMLC/updateIdBKM',
+                                        data: {
+                                            _token: csrfToken,
+                                            idbkm: idbkm,
+                                            idBank: IdBank.trim(),
+                                            jenis: jenis,
+                                            tgl: String(month) + String(year),
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error('Error:', error);
+                                        }
+                                    });
+
+                                    if (table.cell(rowIndex, 3).data() === 'BG' || table.cell(rowIndex, 3).data() === 'CEK') {
+                                        $.ajax({
+                                            type: 'PUT',
+                                            url: 'BKMLC/updateStatusBKM',
+                                            data: {
+                                                _token: csrfToken,
+                                                idpelunasan: isNaN(parseInt(table.cell(rowIndex, 1).data())) ? 0 : parseInt(table.cell(rowIndex, 1).data()),
+                                            },
+                                            error: function (xhr, status, error) {
+                                                console.error('Error:', error);
+                                            }
+                                        });
+                                    }
+
+                                    prosesBKK(id);
+                                }
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
                 }
+
+                function prosesBKK(id) {
+                    let TIdBKK = '';
+                    $.ajax({
+                        type: 'GET',
+                        url: 'BKMLC/accBKK',
+                        data: {
+                            _token: csrfToken,
+                            IdBank: IdBank.trim(),
+                            jenis: jenis.trim(),
+                            tgl: table.cell(rowIndex, 7).data(),
+                        },
+                        success: function (result) {
+                            if (result.length !== 0) {
+                                TIdBKK = result[0].id_BKK ? decodeHtmlEntities(result[0].id_BKK.trim()) : '';
+                                id2 = TIdBKK.substring(0, 3);
+
+                                idbkk = isNaN(parseInt(id2.substring(0, 3))) ? 0 : parseInt(id2.substring(0, 3));
+
+                                $.ajax({
+                                    type: 'PUT',
+                                    url: 'BKMLC/insertTransBKK',
+                                    data: {
+                                        _token: csrfToken,
+                                        idBKK: TIdBKK.trim(),
+                                        tgl: table.cell(rowIndex, 7).data(),
+                                        terjemahan: Konversi,
+                                        nilai: total,
+                                        IdBank: IdBank.trim(),
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error:', error);
+                                    }
+                                });
+
+                                $.ajax({
+                                    type: 'PUT',
+                                    url: 'BKMLC/insertLCBKK',
+                                    data: {
+                                        _token: csrfToken,
+                                        idBKK: TIdBKK.trim(),
+                                        idBank: IdBank.trim(),
+                                        nilai: total,
+                                        idBKM_acuan: id.trim()
+                                    },
+                                    success: function (response) {
+                                        if (response.success) {
+                                            $.ajax({
+                                                type: 'GET',
+                                                url: 'BKMLC/getIdPelunasanBKK',
+                                                data: {
+                                                    _token: csrfToken,
+                                                },
+                                                success: function (result) {
+                                                    if (result.length !== 0) {
+                                                        IdPembayaran = parseInt(result.id_pembayaran);
+
+                                                        let ketrg = [];
+                                                        let nilai_pel = [];
+
+                                                        // get dan insert langsung
+                                                        $.ajax({
+                                                            type: 'PUT',
+                                                            url: 'BKMLC/insertLCDetail',
+                                                            data: {
+                                                                _token: csrfToken,
+                                                                // idpembayaran: IdPembayaran,
+                                                                idpelunasan: table.cell(rowIndex, 1).data(),
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                console.error('Error:', error);
+                                                            }
+                                                        });
+                                                    }
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    console.error('Error:', error);
+                                                }
+                                            });
+                                        }
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error:', error);
+                                    }
+                                });
+
+                                $.ajax({
+                                    type: 'PUT',
+                                    url: 'BKMLC/updateIdBKK',
+                                    data: {
+                                        _token: csrfToken,
+                                        idbkk: idbkk,
+                                        idBank: IdBank.trim(),
+                                        jenis: jenis.trim(),
+                                        tgl: table.cell(rowIndex, 7).data(),
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Error:', error);
+                                    }
+                                });
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    text: "Data BKM Dengan No." + id + " & BKK No. " + TIdBKK + " TerSimpan",
+                                    returnFocus: false
+                                }).then(() => {
+                                    tampilPelunasan();
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            Swal.fire({
+                icon: 'error',
+                text: 'Input Tgl Pembuatan BKM & Id.Bank, Klik Tombol Pilih Bank',
+                returnFocus: false
+            }).then(() => {
+                btnPilih.focus();
             });
         }
     }
     else {
         Swal.fire({
             icon: 'error',
-            text: 'Pilih 1 Data Pelunasan',
+            text: 'Pilih Data Pelunasan Yg Mau DiGroup!',
             returnFocus: false
         });
     }
@@ -1222,8 +1383,6 @@ btnCetakBKM.addEventListener('click', function () {
                             numeral(item.Nilai_Rincian).value() !== 0 ||
                             item.Keterangan !== null) {
                             coaCol.textContent = decodeHtmlEntities(item.Keterangan);
-                        } else {
-                            coaCol.textContent = '';
                         }
                         row.appendChild(coaCol);
 
@@ -1232,14 +1391,12 @@ btnCetakBKM.addEventListener('click', function () {
                         if (item.ID_Penagihan !== null && numeral(item.totalBiaya).value() > 0 ||
                             (item.ID_Penagihan !== null && numeral(item.totalKurangLebih).value() !== 0)) {
                             accountCol.textContent = '(+)';
-                        } else if (item.ID_Penagihan === null && numeral(item.Biaya).value() !== 0) {
+                        } if (item.ID_Penagihan === null && numeral(item.Biaya).value() !== 0) {
                             accountCol.textContent = '(-)';
-                        } else if (item.ID_Penagihan === null && numeral(item.KurangLebih).value() > 0) {
+                        } if (item.ID_Penagihan === null && numeral(item.KurangLebih).value() > 0) {
                             accountCol.textContent = '(+)';
-                        } else if (item.ID_Penagihan !== null && numeral(item.totalBiaya).value() === 0 ||
+                        } if (item.ID_Penagihan !== null && numeral(item.totalBiaya).value() === 0 ||
                             (item.ID_Penagihan !== null && numeral(item.totalKurangLebih).value() === 0)) {
-                            accountCol.textContent = '';
-                        } else {
                             accountCol.textContent = '';
                         }
                         row.appendChild(accountCol);
@@ -1249,18 +1406,16 @@ btnCetakBKM.addEventListener('click', function () {
                         descriptionCol.style.borderRight = "1px solid black"; // Border kanan
                         if (numeral(item.totalBiaya).value() === 0 && numeral(item.totalKurangLebih).value() === 0) {
                             descriptionCol.textContent = '0';
-                        } else if (item.ID_Penagihan !== null && (numeral(item.totalBiaya).value() !== 0 || numeral(item.totalKurangLebih).value() !== 0)) {
+                        } if (item.ID_Penagihan !== null && (numeral(item.totalBiaya).value() !== 0 || numeral(item.totalKurangLebih).value() !== 0)) {
                             descriptionCol.textContent = numeral(item.Nilai_Rincian).format("0,0.00");
-                        } else if (item.ID_Penagihan === null && (numeral(item.totalBiaya).value() !== 0 || numeral(item.totalKurangLebih).value() !== 0)) {
+                        } if (item.ID_Penagihan === null && (numeral(item.totalBiaya).value() !== 0 || numeral(item.totalKurangLebih).value() !== 0)) {
                             if (numeral(item.Biaya).value() !== 0 && numeral(item.KurangLebih).value() === 0) {
                                 descriptionCol.textContent = numeral(item.Biaya).format("0,0.00");
                             } else if (numeral(item.KurangLebih).value() !== 0 && numeral(item.Biaya).value() === 0) {
                                 descriptionCol.textContent = numeral(item.KurangLebih).format("0,0.00");
                             }
-                        } else if (item.ID_Penagihan === null && item.Keterangan !== null) {
+                        } if (item.ID_Penagihan === null && item.Keterangan !== null) {
                             descriptionCol.textContent = numeral(item.Nilai_Rincian).format("0,0.00");
-                        } else {
-                            descriptionCol.textContent = '';
                         }
                         row.appendChild(descriptionCol);
 
