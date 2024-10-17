@@ -96,7 +96,266 @@ class PenagihanPenjualanExportController extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
+        } else if ($id == 'getSuratJalan') {
+            $results = DB::connection('ConnSales')
+                ->select('exec SP_1486_SLS_LIST_PENGIRIMAN_EXPORT ?, ?', [1, $request->input('idCustomer')]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'IDPengiriman' => $row->IDPengiriman,
+                    'Tanggal' => \Carbon\Carbon::parse($row->Tanggal)->format('m/d/Y'),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getPengirimanDetails') {
+            // dd($request->all());
+            $results = DB::connection('ConnSales')
+                ->select('exec SP_1486_SLS_LIST_PENGIRIMAN_EXPORT @Kode = ?, @IDPengiriman = ?, @IDCust = ?', [2, $request->input('surat_jalan'), $request->input('idCustomer')]);
+            // dd($results);
+            // Assume the first record provides the currency information
+            if (!empty($results)) {
+                $TIdMataUang = $results[0]->IDMataUang ?? '';
+                $TMataUang = $results[0]->MataUang ?? '';
+            }
+
+            // Map currency to ID
+            if ($TIdMataUang === 'IDR')
+                $TIdMataUang = 1;
+            if ($TIdMataUang === 'USD')
+                $TIdMataUang = 2;
+
+            // Get detailed items list
+            $items = DB::connection('ConnSales')
+                ->select('exec SP_1486_SLS_LIST_PENGIRIMAN_EXPORT @Kode = ?, @IDPengiriman = ?, @IDCust = ?', [3, $request->input('surat_jalan'), $request->input('idCustomer')]);
+            // dd($items);
+            $response = [];
+            // $total = 0;
+
+            foreach ($items as $item) {
+                $response[] = [
+                    'NamaBarang' => $item->NamaBarang,
+                    'JmlTerimaUmum' => number_format($item->JmlTerimaUmum, 2, '.', ','),
+                    'HargaSatuan' => number_format($item->HargaSatuan, 6, '.', ','),
+                    'Satuan' => $item->Satuan,
+                    'Total' => number_format($item->Total, 2, '.', ','),
+                    'StatusRetur' => is_null($item->StatusRetur) ? 'N' : 'Y',
+                    'TotalFOB' => is_null($item->TotalFOB) ? '0' : number_format($item->TotalFOB, 2, '.', ','),
+                    'IdPesanan' => $item->IdPesanan,
+                ];
+                // $total += (float) $item->Total;
+            }
+
+            return datatables($response)->make(true);
+
+            // Returning datatables response with total amount
+            // return datatables([
+            //     'listSJ' => $response,
+            //     'total' => number_format($total, 2, '.', ',')
+            // ])->make(true);
+        } else if (($id == 'getMataUang')) {
+            $results = DB::connection('ConnSales')
+                ->select('exec SP_1486_SLS_LIST_PENGIRIMAN_EXPORT @Kode = ?, @IDPengiriman = ?, @IDCust = ?', [2, $request->input('surat_jalan'), $request->input('idCustomer')]);
+            // dd($results);
+            // Assume the first record provides the currency information
+            if (!empty($results)) {
+                $TIdMataUang = $results[0]->IDMataUang ?? '';
+                $TMataUang = $results[0]->MataUang ?? '';
+            }
+
+            // Map currency to ID
+            if ($TIdMataUang === 'IDR')
+                $TIdMataUang = 1;
+            if ($TIdMataUang === 'USD')
+                $TIdMataUang = 2;
+
+            return response()->json([
+                'TIdMataUang' => $TIdMataUang,
+                'TMataUang' => $TMataUang,
+            ]);
+        } else if ($id == 'insFOB') {
+            // Ambil parameter dari request
+            $idPesanan = $request->input('idPesananM');
+            $totalFOB = $request->input('harga_fob');
+
+            // Jalankan stored procedure dengan parameter
+            DB::connection('ConnSales')
+                ->statement('exec SP_1486_SLS_MAINT_DETAILPESANAN1 @Kode = ?, @IdPesanan = ?, @TotalFOB = ?', [7, $idPesanan, $totalFOB]);
+
+            // Berikan respons jika diperlukan
+            return response()->json(['message' => 'Data successfully updated!']);
+
+        } else if ($id == 'insSimpan') {
+            // Fetch data from request
+            $idPengiriman = $request->input('surat_jalan');
+            $idCust = $request->input('idCustomer');
+            $listItems = $request->input('ListItems');
+
+            // Validation to check if 'totalFOB' is filled in each list item
+            foreach ($listItems as $item) {
+                if (empty($item['totalFOB'])) {
+                    return response()->json(['error' => 'Isi Harga Satuan FOB Terlebih Dahulu!'], 400);
+                }
+            }
+
+            // Initialize variables for total calculation
+            $totalSum = 0;
+            $totalFOBSum = 0;
+
+            // Sum up 'total' and 'totalFOB' from all items
+            foreach ($listItems as $item) {
+                // Remove commas from 'total' and 'totalFOB', convert them to floats for summation
+                $totalSum += (float) str_replace(',', '', $item['total']);
+                $totalFOBSum += (float) str_replace(',', '', $item['totalFOB']);
+            }
+
+            // Run the stored procedure to update data
+            $totalFOB = null;
+            $results = DB::connection('ConnSales')
+                ->select('exec SP_1486_SLS_LIST_PENGIRIMAN_EXPORT ?, ?, ?', [4, $idPengiriman, $idCust]);
+
+            if (count($results) > 0) {
+                $totalFOB = $results[0]->TotalFOB;
+            }
+
+            // Create a single updated list item with the summed values
+            $updatedListItems = [
+                [
+                    'SuratJalan' => $idPengiriman,
+                    'TanggalSJ' => \Carbon\Carbon::now()->format('m/d/Y'),  // Set current date
+                    'Total' => number_format($totalSum, 2, '.', ','),  // Format summed total
+                    'TotalFOB' => number_format($totalFOBSum, 2, '.', ','),  // Format summed totalFOB
+                ]
+            ];
+
+            // Return the updated list as response
+            return datatables($updatedListItems)->make(true);
+        } else if ($id == 'getPenagih') {
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_USER_PENAGIH @KODE = ?', [1]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Nama' => trim($row->Nama),
+                    'IdUser' => trim($row->IdUser),
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getPenagihanExport') {
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ_EXPORT ?', [1]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'NamaCust' => $row->NamaCust,
+                    'Id_Penagihan' => $row->Id_Penagihan
+                ];
+            }
+            return datatables($response)->make(true);
+
+        }else if ($id == 'getPenagihanDetails') {
+            try {
+                // Jalankan stored procedure pertama (SP_1486_ACC_LIST_PENAGIHAN_SJ_EXPORT)
+                $idPenagihan = $request->input('no_penagihan');
+                $resultPenagihan = DB::connection('ConnAccounting')
+                    ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ_EXPORT ?, ?', [2, trim($idPenagihan)]);
+                // dd($resultPenagihan);
+                if (count($resultPenagihan) > 0) {
+                    // Ambil data dari hasil stored procedure pertama
+                    $penagihanData = $resultPenagihan[0];
+                    $response = [
+                        'Id_Customer' => $penagihanData->Id_Customer,
+                        'Id_MataUang' => $penagihanData->Id_MataUang,
+                        'Nama_MataUang' => $penagihanData->Nama_MataUang,
+                        'Nilai_Penagihan' => number_format($penagihanData->Nilai_Penagihan, 2, '.', ','),
+                        'Terbilang' => $penagihanData->Terbilang,
+                        'NilaiKurs' => $penagihanData->NilaiKurs,
+                        'Dokumen' => 'Invoice',
+                        'IdJnsDok' => '8',
+                        'NamaPenagih' => $penagihanData->NamaPenagih,
+                        'IdPenagih' => $penagihanData->IdPenagih,
+                        'Tgl_Penagihan' => \Carbon\Carbon::parse($penagihanData->Tgl_Penagihan)->format('Y-m-d'),
+                    ];
+                }
+
+                // Jalankan stored procedure kedua (SP_1486_ACC_LIST_PENAGIHAN_SJ_EXPORT2)
+                $listItems = DB::connection('ConnAccounting')
+                    ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ_EXPORT2 ?', [$idPenagihan]);
+                // dd($listItems);
+                // Siapkan list item dari stored procedure kedua
+                $listSJ = [];
+                foreach ($listItems as $item) {
+                    $listSJ[] = [
+                        'Surat_Jalan' => $item->Surat_Jalan,
+                        'Tgl_Surat_Jalan' => \Carbon\Carbon::parse($item->Tgl_Surat_jalan)->format('m/d/Y'),
+                        'Total' => number_format($item->Total, 2, '.', ','),
+                        'ID_Detail_Penagihan' => $item->ID_Detail_Penagihan,
+                    ];
+                }
+
+                // Mengirimkan hasil sebagai response JSON
+                return response()->json([
+                    'penagihanData' => $response,
+                    'listSJ' => $listSJ
+                ]);
+
+            } catch (Exception $e) {
+                // Menangkap error dan mengembalikan pesan error
+                return response()->json([
+                    'error' => 'Error: ' . $e->getMessage()
+                ], 500);
+            }
         }
+
+        // else if ($id == 'insSimpan') {
+        //     // dd($request->all());
+        //     // Fetch data from request
+        //     $idPengiriman = $request->input('surat_jalan');
+        //     $idCust = $request->input('idCustomer');
+        //     $listItems = $request->input('ListItems');
+
+        //     // Validation to check if 'totalFOB' is filled in each list item
+        //     foreach ($listItems as $item) {
+        //         // Check if totalFOB is empty or null (handle formatted values if needed)
+        //         if (empty($item['totalFOB'])) {
+        //             return response()->json(['error' => 'Isi Harga Satuan FOB Terlebih Dahulu!']);
+        //         }
+        //     }
+
+        //     // Run the stored procedure to update data
+        //     $totalFOB = null;
+        //     $results = DB::connection('ConnSales')
+        //         ->select('exec SP_1486_SLS_LIST_PENGIRIMAN_EXPORT @Kode = ?, @IDPengiriman = ?, @IDCust = ?', [4, $idPengiriman, $idCust]);
+
+        //     if (count($results) > 0) {
+        //         $totalFOB = $results[0]->TotalFOB;
+        //     }
+
+        //     // Update front-end data (simulating FrmTagihanSJexport behavior)
+        //     $updatedListItems = [];
+        //     foreach ($listItems as $item) {
+        //         $updatedListItems[] = [
+        //             'SuratJalan' => $idPengiriman,
+        //             'TanggalSJ' => \Carbon\Carbon::now()->format('m/d/Y'),  // Example of setting current date
+        //             'Total' => $item['total'],  // Using 'total' from listItems
+        //             'TotalFOB' => number_format((float) str_replace(',', '', $item['totalFOB']), 2, '.', ''), // Formatting totalFOB correctly
+        //         ];
+        //     }
+
+        //     return datatables($updatedListItems)->make(true);
+        //     // Assuming the updated list items will be returned as a response
+        //     // return response()->json([
+        //     //     'message' => 'Data successfully saved!',
+        //     //     'updatedListItems' => $updatedListItems,
+        //     //     'totalFOB' => $totalFOB,
+        //     // ]);
+        // }
     }
 
     // Show the form for editing the specified resource.

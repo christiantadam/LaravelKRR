@@ -1,7 +1,12 @@
 @extends('layouts.appAccounting')
 @section('content')
 @section('title', 'Maint Penagihan Surat Jalan Export')
-
+<style>
+    .custom-modal-width {
+        max-width: 70%;
+        /* Adjust the percentage as needed */
+    }
+</style>
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
@@ -81,6 +86,10 @@
                                     <input type="text" id="mataUang" name="mataUang" class="form-control"
                                         style="width: 100%">
                                 </div>
+                                <div class="col-md-2" style="display: none">
+                                    <input type="text" id="idMataUang" name="idMataUang" class="form-control"
+                                        style="width: 100%">
+                                </div>
                             </div>
                             <br>
                             <div class="d-flex">
@@ -101,6 +110,10 @@
                                     <input type="text" id="dokumen" name="dokumen" class="form-control"
                                         style="width: 100%">
                                 </div>
+                                <div class="col-md-2" style="display: none">
+                                    <input type="text" id="idJenisDokumen" name="idJenisDokumen" class="form-control"
+                                        style="width: 100%">
+                                </div>
                             </div>
                             <br>
                             <div class="d-flex">
@@ -111,18 +124,22 @@
                                     <input type="text" id="user_penagih" name="user_penagih" class="form-control"
                                         style="width: 100%">
                                 </div>
+                                <div class="col-md-2" style="display: none">
+                                    <input type="text" id="idUserPenagih" name="idUserPenagih"
+                                        class="form-control" style="width: 100%">
+                                </div>
                                 <div class="col-md-1">
                                     <button type="button" class="btn btn-default" id="btn_penagih">...</button>
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn d-flex ml-auto" id="btn_lihatItem"
-                                                style="">Lihat Item</button>
+                                        style="">Lihat Item</button>
                                     {{-- <input type="submit" id="btnLihatItem" name="btnLihatItem" value="Lihat Item"
                                         class="btn btn-primary d-flex ml-auto"> --}}
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn d-flex ml-auto" id="btn_hapusItem"
-                                                style="">Hapus Item</button>
+                                        style="">Hapus Item</button>
                                     {{-- <input type="submit" id="btnHapusItem" name="btnHapusItem" value="Hapus Item"
                                         class="btn btn-primary d-flex ml-auto"> --}}
                                 </div>
@@ -157,7 +174,7 @@
                                 <label for="noPEB" style="margin-right: 10px;">No. PEB</label>
                             </div>
                             <div class="col-md-3">
-                                <input type="number" id="noPEB" name="noPEB" class="form-control"
+                                <input type="text" id="noPEB" name="noPEB" class="form-control"
                                     style="width: 100%">
                             </div>
                             <div class="col-md-2">
@@ -174,7 +191,7 @@
                                 <label for="noBL" style="margin-right: 10px;">No. BL</label>
                             </div>
                             <div class="col-md-3">
-                                <input type="number" id="noBL" name="noBL" class="form-control"
+                                <input type="text" id="noBL" name="noBL" class="form-control"
                                     style="width: 100%">
                             </div>
                             <div class="col-md-2">
@@ -238,18 +255,19 @@
                         <!--MODAL LIHAT ITEM-->
                         <div class="modal fade" id="modalLihatItem" tabindex="-1" role="dialog"
                             aria-labelledby="pilihBankModal" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-dialog custom-modal-width" role="document">
                                 <div class="modal-content" style="padding: 25px;">
                                     <div class="modal-header">
                                         <h5 class="modal-title">Detail Surat Jalan Export</h5>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close" id="tutup_modal">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div style="overflow-x: auto; overflow-y: auto; max-height: 250px;">
-                                        <table style="width: 210%; table-layout: fixed;"id="tabelTampilBKK">
-                                            <colgroup>
+                                    <br>
+                                    <div style="overflow-x: auto; overflow-y: auto;">
+                                        <table style="width: 100%;" id="table_tampilBKK">
+                                            {{-- <colgroup>
                                                 <col style="width: 30%;">
                                                 <col style="width: 30%;">
                                                 <col style="width: 30%;">
@@ -257,7 +275,7 @@
                                                 <col style="width: 30%;">
                                                 <col style="width: 30%;">
                                                 <col style="width: 30%;">
-                                            </colgroup>
+                                            </colgroup> --}}
                                             <thead class="table-dark">
                                                 <tr>
                                                     <th>Nama Type</th>
@@ -267,6 +285,7 @@
                                                     <th>Total</th>
                                                     <th>Retur</th>
                                                     <th>Total FOB</th>
+                                                    <th>ID. Pesanan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -282,47 +301,41 @@
                                             <input type="text" id="totalLihat" name="totalLihat"
                                                 class="form-control" style="width: 100%">
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3" style="display: none">
                                             <input type="text" id="totalFOB" name="totalFOB"
                                                 class="form-control" style="width: 100%">
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3" style="display: none">
                                             <input type="text" id="idPengiriman" name="idPengiriman"
                                                 class="form-control" style="width: 100%">
                                         </div>
-                                        {{-- <div class="col-md-2">
-                                                    <button id="btnSimpanLihat" name="btnSimpanLihat" >Simpan</button>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <button id="btnKeluarr" name="btnKeluarr">Keluar</button>
-                                                </div> --}}
                                     </div>
                                     <br>
                                     <div class="d-flex">
                                         <div class="col-md-2">
                                             <label for="totalLihat" style="margin-right: 10px;">Harga FOB</label>
                                         </div>
-                                        <div class="col-md-2">
-                                            <input type="text" id="totalLihat" name="totalLihat"
+                                        <div class="col-md-3">
+                                            <input type="number" id="harga_fob" name="harga_fob"
                                                 class="form-control" style="width: 100%">
                                         </div>
-                                        <div class="col-md-2">
-                                            <button class="btn btn-primary" id="btnInsert"
-                                                name="btnInsert">Insert</button>
+                                        <div class="col-md-1">
+                                            <button class="btn btn-primary" id="btn_insert"
+                                                name="btn_insert">Insert</button>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text" id="idPesanan" name="idPesanan"
+                                            <input type="text" id="idPesananM" name="idPesananM"
                                                 class="form-control" style="width: 100%">
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3" style="display: none">
                                             <input type="text" id="idCust" name="idCust" class="form-control"
                                                 style="width: 100%">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="col-md-2">
-                                        <button class="btn btn-success" id="btnSimpanLihat"
-                                            name="btnSimpanLihat">Simpan</button>
+                                        <button class="btn btn-success" id="btn_simpanM"
+                                            name="btn_simpanM">Simpan</button>
                                     </div>
                                 </div>
                             </div>
