@@ -31,6 +31,7 @@
     <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
     <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/flatpickr.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -44,6 +45,7 @@
     <!-- Tambahkan ini untuk Bootstrap Selectpicker -->
     <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('css/bootstrap@5.0.1.min.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
 

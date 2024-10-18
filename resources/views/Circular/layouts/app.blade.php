@@ -56,9 +56,10 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="{{ Request::is('Circular') ? url('/') : url('Circular') }}" class="logo">
+                        {{-- <a href="{{ Request::is('Circular') ? url('/') : url('Circular') }}" class="logo">
                             {{ Request::is('Circular') ? 'Kerta Rajasa Raya' : 'Circular.Net' }}
-                        </a>
+                        </a> --}}
+                        <a href="{{ url('/') }}" class="logo"> {{ 'Kerta Rajasa Raya' }} </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">

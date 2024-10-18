@@ -170,9 +170,11 @@ $(document).ready(function () {
     function getDataPermohonan() {
         // Fetch the data from your server using an AJAX call
         $.ajax({
-            url: "/PermohonanKonversiBarcodePotong/create",
+            url: "/KonversiRollBarcode/create",
             type: "GET",
             success: function (response) {
+                console.log(response.data);
+
                 // Assuming your server returns an array of objects for the table data
                 table_daftarKonversi.clear().rows.add(response.data).draw();
             },
@@ -261,7 +263,7 @@ $(document).ready(function () {
     function submitPermohonan() {
         $.ajax({
             type: "POST",
-            url: "/PermohonanKonversiBarcodePotong",
+            url: "/KonversiRollBarcode",
             data: {
                 _token: csrfToken,
                 table_daftarTujuanKonversi: table_daftarTujuanKonversi
@@ -334,7 +336,7 @@ $(document).ready(function () {
                 kodeBarangAsal = result.value.split("-")[1].trim();
 
                 $.ajax({
-                    url: "/PermohonanKonversiBarcodePotong/getDataAsalKonversi",
+                    url: "/KonversiRollBarcode/getDataAsalKonversi",
                     type: "GET",
                     data: {
                         _token: csrfToken,
@@ -687,7 +689,7 @@ $(document).ready(function () {
             this.blur();
             $.ajax({
                 type: "GET",
-                url: "/PermohonanKonversiBarcodePotong/getObjek",
+                url: "/KonversiRollBarcode/getObjek",
                 data: {
                     _token: csrfToken,
                     idDivisi: select_divisiTujuan.value,
@@ -725,7 +727,7 @@ $(document).ready(function () {
             this.blur();
             $.ajax({
                 type: "GET",
-                url: "/PermohonanKonversiBarcodePotong/getKelompokUtama",
+                url: "/KonversiRollBarcode/getKelompokUtama",
                 data: {
                     _token: csrfToken,
                     idObjek: select_objekTujuan.value,
@@ -774,7 +776,7 @@ $(document).ready(function () {
             this.blur();
             $.ajax({
                 type: "GET",
-                url: "/PermohonanKonversiBarcodePotong/getKelompok",
+                url: "/KonversiRollBarcode/getKelompok",
                 data: {
                     _token: csrfToken,
                     idKelompokUtama: select_kelompokUtamaTujuan.value,
@@ -820,7 +822,7 @@ $(document).ready(function () {
             this.blur();
             $.ajax({
                 type: "GET",
-                url: "/PermohonanKonversiBarcodePotong/getSubKelompok",
+                url: "/KonversiRollBarcode/getSubKelompok",
                 data: {
                     _token: csrfToken,
                     idKelompok: select_kelompokTujuan.value,
@@ -918,7 +920,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: "GET",
-                url: "/PermohonanKonversiBarcodePotong/getType",
+                url: "/KonversiRollBarcode/getType",
                 data: {
                     _token: csrfToken,
                     idSubKelompok: select_subKelompokTujuan.value,
@@ -1002,7 +1004,7 @@ $(document).ready(function () {
             hasil_konversiPrimerTujuan.focus();
             $.ajax({
                 type: "GET",
-                url: "/PermohonanKonversiBarcodePotong/getDataType",
+                url: "/KonversiRollBarcode/getDataType",
                 data: {
                     _token: csrfToken,
                     IdType: select_typeTujuan.value,
@@ -1393,7 +1395,7 @@ $(document).ready(function () {
         if (Array.isArray(data) && data.length > 0) {
             $.ajax({
                 type: "GET",
-                url: "/PermohonanKonversiBarcodePotong/getDataType",
+                url: "/KonversiRollBarcode/getDataType",
                 data: {
                     _token: csrfToken,
                     IdType: data[0],
@@ -1476,7 +1478,7 @@ $(document).ready(function () {
         let idkonversi = $(this).data("id");
         $.ajax({
             type: "POST",
-            url: "/PermohonanKonversiBarcodePotong",
+            url: "/KonversiRollBarcode",
             data: {
                 _token: csrfToken,
                 idkonversi: idkonversi,
@@ -1512,7 +1514,7 @@ $(document).ready(function () {
         document.getElementById("detailKonversiModalLabel").innerHTML =
             "Detail Permohonan Konversi " + rowID;
         $.ajax({
-            url: "/PermohonanKonversiBarcodePotong/getDetailKonversi",
+            url: "/KonversiRollBarcode/getDetailKonversi",
             type: "GET",
             data: {
                 idKonversi: rowID,
@@ -1609,7 +1611,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/PermohonanKonversiBarcodePotong/BatalACCDataKonversi",
+                    url: "/KonversiRollBarcode/BatalACCDataKonversi",
                     type: "DELETE",
                     data: {
                         _token: csrfToken,

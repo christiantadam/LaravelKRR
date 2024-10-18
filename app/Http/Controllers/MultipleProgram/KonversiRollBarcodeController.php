@@ -10,9 +10,11 @@ use DB;
 use Auth;
 use DateTime;
 use DateTimeZone;
+use Log;
 use Carbon\Carbon;
+use function PHPUnit\Framework\isEmpty;
 
-class PermohonanKonversiBarcodePotongController extends Controller
+class KonversiRollBarcodeController extends Controller
 {
     public function index()
     {
@@ -54,6 +56,19 @@ class PermohonanKonversiBarcodePotongController extends Controller
             $pemakaian_tritierAsal = $request->input('asalKonversiInputValues')[0][4];
             $uraian_asal = "Asal Konversi Potongan JBB";
             $proses = $request->input('proses');
+            $shift = $request->input('shift');
+
+            switch ($shift) {
+                case 'P':
+                    $shift = 'Pagi';
+                    break;
+                case 'S':
+                    $shift = 'Siang';
+                    break;
+                case 'M':
+                    $shift = 'Malam';
+                    break;
+            }
 
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
             // Initialize an array to store concatenated results for each index
@@ -88,7 +103,6 @@ class PermohonanKonversiBarcodePotongController extends Controller
                         // Asal
                         $currentIdKonvPotongJBB = DB::connection('ConnInventory')
                             ->table('Counter')->value('IdKonvPotongJBB');
-                        $shift = $request->input('id_shift');
                         $newIdKonvPotongJBB = $currentIdKonvPotongJBB + 1;
                         DB::connection('ConnInventory')
                             ->table('Counter')->update(['IdKonvPotongJBB' => $newIdKonvPotongJBB]);
@@ -178,6 +192,13 @@ class PermohonanKonversiBarcodePotongController extends Controller
                 $nomorUser = trim(Auth::user()->NomorUser);
                 DB::connection('ConnInventory')
                     ->statement('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [10, $idkonversi, $nomorUser]);
+                $adaSisa = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [13, $idkonversi]);
+                // dd($adaSisa);
+                Log::info(end($adaSisa)->idtrans);
+                if (!isEmpty($adaSisa)) {
+                    $barcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdTrans = ?', [14, end($adaSisa)->idtrans]);
+                }
+                dd($barcode);
                 return response()->json(['success' => (string) 'Permohonan konversi dengan Id Konversi: ' . $idkonversi . ' berhasil disetujui!']);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
@@ -192,7 +213,7 @@ class PermohonanKonversiBarcodePotongController extends Controller
             $nomorUser = trim(Auth::user()->NomorUser);
             $divisi = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Barcode_Potong @XKdUser = ?, @XKode = ?', [$nomorUser, 1]);
-            return view('MultipleProgram.PermohonanKonversiPotongBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
+            return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
         } elseif ($id == 'ABMPotong') {
             $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
             return view('MultipleProgram.PermohonanKonversiPotongBarcode', compact('access', 'id'));

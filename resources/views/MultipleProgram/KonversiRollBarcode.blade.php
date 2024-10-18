@@ -11,17 +11,21 @@
         text-decoration-color: red;
     }
 
-    @media print{
-        .container-fluid{
+    @media print {
+        .container-fluid {
             display: none;
         }
 
-        #detailKonversiModal{
+        #detailKonversiModal {
             display: none;
         }
 
-        #tambahTujuanModal{
+        #tambahTujuanModal {
             display: none;
+        }
+
+        #div_printBarcode {
+            visibility: visible;
         }
     }
 </style>
@@ -36,7 +40,7 @@
                 </button>
                 <input type="hidden" name="divisiPotong" id='divisiPotong' value={{ $id }}>
                 <input type="hidden" name="nomorUser" id="nomorUser" value={{ $nomorUser }}>
-                <div class="card-header">Konversi JBB Potong</div>
+                <div class="card-header">Konversi Roll Barcode ke JBB Potong</div>
                 <div id="div_tabelDaftarKonversi" style="margin:0.5%">
                     <h3>Tabel Daftar Konversi</h3>
                     <div style="overflow:auto">
@@ -136,8 +140,7 @@
                                 <label for="warna">Warna Dominan</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="input_warnaDominanAsal"
-                                        name="input_warnaDominanAsal"
-                                        placeholder="Warna Dominan">
+                                        name="input_warnaDominanAsal" placeholder="Warna Dominan">
                                 </div>
                             </div>
                             <div class="form-group" style="width: 15%">
@@ -152,7 +155,8 @@
                                 <label for="saldo_terakhirAsal">Saldo Terakhir Type Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="saldo_terakhirPrimerAsal"
-                                        name="saldo_terakhirPrimerAsal" style='width:23%' placeholder="Jumlah Primer">
+                                        name="saldo_terakhirPrimerAsal" style='width:23%'
+                                        placeholder="Jumlah Primer">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirPrimerAsal"
                                         name="satuan_saldoTerakhirPrimerAsal" style='width:10%'
                                         placeholder="Satuan Primer">
@@ -336,8 +340,45 @@
     </div>
 </div>
 
-<div id="div_printBarcode" style="display: none">
+<div id="div_printBarcode" style="visibility: hidden">
     hueheheheh
 </div>
-<script src="{{ asset('js/MultipleProgram/PermohonanKonversiBarcodePotong.js') }}"></script>
+<div>
+    <input type="text" id="rs232-data" placeholder="RS232 Data">
+    <button id="fetch-data">Get RS232 Data</button>
+</div>
+<script>
+    $('#fetch-data').on('click', function() {
+        $.ajax({
+            url: 'http://127.0.0.1:8011/get-rs232-data', // Adjust the URL based on your server's address
+            method: 'GET',
+            success: function(response) {
+                console.log(response);
+
+                if (response.data) {
+                    $('#rs232-data').val(response.data);
+                } else {
+                    alert('Error: ' + response.error);
+                }
+            },
+            error: function() {
+                alert('Failed to fetch RS232 data');
+            }
+        });
+    });
+</script>
+
+@if ($id == 'JBBPotong')
+    <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeJBBPotong.js') }}"></script>
+@elseif ($id == 'ABMPotong')
+    <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeABMPotong.js') }}"></script>
+@elseif ($id == 'ADSPotong')
+    <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeADSPotong.js') }}"></script>
+@else
+    <script>
+        console.log('Belum ada file .js');
+    </script>
+@endif
+
+
 @endsection

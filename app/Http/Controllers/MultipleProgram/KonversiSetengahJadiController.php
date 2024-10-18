@@ -13,12 +13,11 @@ use Auth;
 use DateTime;
 use DateTimeZone;
 
-class PermohonanKonversiPotongController extends Controller
+class KonversiSetengahJadiController extends Controller
 {
     public function index()
     {
-        $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-        return view('MultipleProgram.PermohonanKonversiPotong', compact('access'));
+
     }
 
     public function create()
@@ -191,14 +190,14 @@ class PermohonanKonversiPotongController extends Controller
                 }
                 return response()->json(['message' => 'Data sudah diSIMPAN !!..']);
         }
-
     }
 
     public function show($id, Request $request)
     {
         if ($id == 'JBBPotong') {
             $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-            return view('MultipleProgram.PermohonanKonversiPotong', compact('access', 'id'));
+            $nomorUser = trim(Auth::user()->NomorUser);
+            return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser'));
         } else if ($id == 'getDivisi') {
             $UserInput = trim(Auth::user()->NomorUser);
 

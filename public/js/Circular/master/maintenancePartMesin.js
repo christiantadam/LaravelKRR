@@ -51,7 +51,6 @@ $(document).ready(function () {
             // Clear the DataTable and add the new data
             table_mesin.clear().rows.add(response.data).draw();
             console.log(response);
-
         },
         error: function (xhr, status, error) {
             console.error("Error fetching data: ", error);
@@ -67,7 +66,12 @@ $(document).ready(function () {
         columns: [
             { data: "Nama_mesin" }, // Machine Name
             { data: "SparepartCount" }, // Spare Part Count
-            { data: "DurabilityPercentage" }, // Durability Percentage
+            {
+                data: "DurabilityPercentage",
+                render: function (data, type, row) {
+                    return parseFloat(data).toFixed(2); // Format to two decimal places
+                },
+            }, // Durability Percentage
             { data: null }, // Column for the Chart.js canvas
         ],
         columnDefs: [
