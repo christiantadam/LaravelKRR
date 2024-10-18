@@ -85,6 +85,8 @@ let btn_okBKM = document.getElementById('btn_okBKM');
 let tgl_awalBKM = document.getElementById("tgl_awalBKM");
 let tgl_akhirBKM = document.getElementById("tgl_akhirBKM");
 
+var allInputs = document.querySelectorAll('input');
+
 kursRupiah.value = 0;
 jumlahUangBKM.value = 0;
 
@@ -484,10 +486,10 @@ kursRupiah.addEventListener("keypress", function (event) {
 
             if (idMataUangBKM.value === '1' && idMtUang === '2') {
                 let nilaipelunasan = numeral(kursRupiah.value).value() * numeral(jumlahUangBKM.value).value();
-                jumlahUangBKM.value = nilaipelunasan.toFixed(2);
+                jumlahUangBKM.value = numeral(numeral(nilaipelunasan.toFixed(2)).value()).format("0,0.00");
             } else if (idMataUangBKM.value === '2' && idMtUang === '1') {
                 let nilaipelunasan = numeral(jumlahUangBKM.value).value() / numeral(kursRupiah.value).value();
-                jumlahUangBKM.value = nilaipelunasan.toFixed(2);
+                jumlahUangBKM.value = numeral(numeral(nilaipelunasan.toFixed(2)).value()).format("0,0.00");
             }
             btn_bankBKM.focus();
         }
@@ -936,7 +938,6 @@ btnProses.addEventListener('click', function (event) {
             konversi1.value = convertNumberToWordsRupiah(numeral(nilai.value).value());
         }
 
-
         $.ajax({
             type: 'PUT',
             url: 'MaintenanceBKMxBKKNotaKredit/insertTLunas',
@@ -945,7 +946,7 @@ btnProses.addEventListener('click', function (event) {
                 idBKM: idBKM.value.trim(),
                 tgl: tanggal.value,
                 terjemahan: konversi.value,
-                nilai: numeral(parseFloat(nilai1.value)).value(),
+                nilai1: nilai1.value.trim(),
                 IdBank: idBankBKM.value.trim(),
                 noMtUang: idMtUang,
                 idCust: idCustomer.value,
@@ -977,7 +978,7 @@ btnProses.addEventListener('click', function (event) {
                             noMtUang: idMtUang,
                             idCust: idCustomer.value,
                             idBKK: idBKK.value.trim(),
-                            kursRupiah: numeral(parseFloat(kursRupiah.value)).value() || 0,
+                            kursRupiah: kursRupiah.value || 0,
                             NoNotaKredit: NoNotaKredit,
                             NoPenagihan: NoPenagihan,
                             jmlUang: jmlUang,
@@ -994,16 +995,21 @@ btnProses.addEventListener('click', function (event) {
                                     title: 'Success',
                                     html: response.message,
                                     returnFocus: false
+                                }).then(() => {
+                                    tampilDataNota();
+                                    clearInputs();
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    html: response.error,
                                 });
                             }
                         },
                         error: function (xhr, status, error) {
                             console.error('Error:', xhr.responseText);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Data Gagal DiProses!!',
-                            });
+
                         }
                     });
 
@@ -1513,35 +1519,22 @@ btnKoreksi.addEventListener('click', function (event) {
         idBankBKM.removeAttribute("readonly");
         jenisBankBKM.removeAttribute("readonly");
         idKodePerkiraanBKM.removeAttribute("readonly");
-        kodePerkiraanSelectBKM.removeAttribute("readonly");
+        // kodePerkiraanSelectBKM.removeAttribute("readonly");
         uraianBKM.removeAttribute("readonly");
+        tanggal.focus();
+
     }
 });
 
 btnBatal.addEventListener('click', function (event) {
-    tanggal.value = "";
-    bulan.value = "";
-    tahun.value = "";
-    idBKM.value = "";
-    id_bkm.value = "";
-    idMataUangBKM.value = "";
-    mataUangBKMSelect.selectedIndex = 0;
-    kursRupiah.value = "";
-    jumlahUangBKM.value = "";
-    namaBankBKMSelect.selectedIndex = 0;
-    idBankBKM.value = "";
-    jenisBankBKM.value = "";
-    kodePerkiraanSelectBKM.selectedIndex = 0;
-    idKodePerkiraanBKM.value = "";
-    uraianBKM.value = "";
+    clearInputs();
+});
 
-    idBKK.value = "";
-    id_bkk.value = "";
-    jumlahUangBKK.value = "";
-    namaBankBKKSelect.selectedIndex = 0;
-    idBankBKK.value = "";
-    jenisBankBKK.value = "";
-    kodePerkiraanBKKSelect.selectedIndex = 0;
-    idKodePerkiraanBKK.value = "";
-    uraianBKK.value = "";
-})
+function clearInputs() {
+    allInputs.forEach(function (input) {
+        if (input.id && input.id !== 'tanggal') {
+            input.value = '';
+        }
+    });
+}
+

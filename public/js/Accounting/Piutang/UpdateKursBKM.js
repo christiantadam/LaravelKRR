@@ -1,16 +1,11 @@
 let tahun = document.getElementById('tahun');
 let bulan = document.getElementById('bulan');
-let tabelDataPelunasan = document.getElementById('tabelDataPelunasan');
-let btnPilihBKM = document.getElementById('btnPilihBKM');
 let kursRupiah = document.getElementById('kursRupiah');
-
-let dataTable;
-let rowData = [];
-let lastCheckedCheckbox = null;
 let idbkm = document.getElementById('idbkm');
 let IdPelunasan = document.getElementById('IdPelunasan');
 
 let btnOK = document.getElementById("btnOK");
+let btnPilihBKM = document.getElementById('btnPilihBKM');
 let btnProses = document.getElementById("btnProses");
 
 let formkoreksi = document.getElementById("formkoreksi");

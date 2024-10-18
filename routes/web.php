@@ -14,6 +14,7 @@ use App\Http\Controllers\Extruder\ExtruderNet\MasterController;
 use App\Http\Controllers\Extruder\BeratKomposisi\BeratController;
 use App\Http\Controllers\Extruder\ExtruderNet\KonversiController;
 use App\Http\Controllers\Extruder\ExtruderNet\PencatatanController;
+use App\Http\Controllers\Accounting\Piutang\UpdateKursBKMController;
 use App\Http\Controllers\Accounting\Piutang\BKMDPPelunasanController;
 use App\Http\Controllers\Extruder\BeratKomposisi\KomposisiController;
 use App\Http\Controllers\Extruder\WarehouseTerima\WarehouseController;
@@ -1193,7 +1194,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getIdPembayaranKE', 'App\Http\Controllers\Accounting\Piutang\BKMPengembalianKEController@getIdPembayaran');
     Route::get('getCetakPengembalianKE/{idBKMTampil}', 'App\Http\Controllers\Accounting\Piutang\BKMPengembalianKEController@getCetakPengembalianKE');
 
-    Route::resource('UpdateKursBKM', App\Http\Controllers\Accounting\Piutang\UpdateKursBKMController::class);
+    Route::resource('MaintenanceUpdateKursBKM', UpdateKursBKMController::class);
     Route::get('tabelpelunasankurs/{bulan}/{tahun}', 'App\Http\Controllers\Accounting\Piutang\UpdateKursBKMController@getTabelPelunasan');
 
     Route::resource('MaintenanceKodePerkiraanBKM', App\Http\Controllers\Accounting\Piutang\KodePerkiraanBKMController::class);

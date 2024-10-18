@@ -132,8 +132,8 @@
                                                 style="width: 100%">
                                         </div>
                                     </div>
-                                    <input type="text" name="idPembayaran" id="idPembayaran">
-                                    <input type="text" name="idPelunasan" id="idPelunasan">
+                                    <input type="hidden" name="idPembayaran" id="idPembayaran">
+                                    <input type="hidden" name="idPelunasan" id="idPelunasan">
                                     <div class="d-flex">
                                         <div class="col-md-3">
                                             <label for="idBKM" style="margin-right: 10px;">Id. BKM</label>
@@ -321,8 +321,8 @@
                             <div style="width: 40%;">
                                 <div class="card-body">
                                     <div style="display: flex; justify-content: center;">
-                                        <input type="submit" id="btnPilihNotaKredit" name="btnPilihNotaKredit"
-                                            value="Pilih Nota Kredit" class="btn btn-primary d-flex ml-auto">
+                                        <button type="submit" id="btnPilihNotaKredit" name="btnPilihNotaKredit"
+                                                class="btn btn-primary d-flex ml-auto">Pilih Nota Kredit</button>
                                     </div>
                                     <div class="row"
                                         style="display: flex; justify-content: center; margin-top: 150px">
@@ -331,12 +331,12 @@
                                                 class="btn btn-primary">PROSES</button>
                                         </div>
                                         <div style="margin-right: 10px;">
-                                            <input type="submit" id="btnKoreksi" name="btnKoreksi" value="Koreksi"
-                                                class="btn btn-primary">
+                                            <button type="submit" id="btnKoreksi" name="btnKoreksi"
+                                                class="btn btn-primary" style="display: none;">Koreksi</button>
                                         </div>
                                         <div>
-                                            <input type="submit" id="btnBatal" name="btnBatal" value="Batal"
-                                                class="btn btn-primary">
+                                            <button type="submit" id="btnBatal" name="btnBatal"
+                                                class="btn btn-primary">Batal</button>
                                         </div>
                                     </div>
                                     <br>
@@ -362,15 +362,15 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <input type="text" id="nilaiUang" name="nilaiUang" class="form-control"
+                            <input type="hidden" id="nilaiUang" name="nilaiUang" class="form-control"
                                 style="width: 100%">
-                            <input type="text" id="konversi" name="konversi" class="form-control"
+                            <input type="hidden" id="konversi" name="konversi" class="form-control"
                                 style="width: 100%">
-                            <input type="text" id="konversi1" name="konversi1" class="form-control"
+                            <input type="hidden" id="konversi1" name="konversi1" class="form-control"
                                 style="width: 100%">
-                            <input type="text" id="nilai" name="nilai" class="form-control"
+                            <input type="hidden" id="nilai" name="nilai" class="form-control"
                                 style="width: 100%">
-                            <input type="text" id="nilai1" name="nilai1" class="form-control"
+                            <input type="hidden" id="nilai1" name="nilai1" class="form-control"
                                 style="width: 100%">
                         </div>
 
