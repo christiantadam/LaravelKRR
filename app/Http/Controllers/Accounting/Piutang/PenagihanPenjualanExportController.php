@@ -42,7 +42,130 @@ class PenagihanPenjualanExportController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        try {
+            $allRowsDataAtas = $request->input('allRowsDataAtas', []);
+            $allRowsDataHapus = $request->input('allRowsDataHapus', []);
+            $proses = $request->input('proses');
+            $terbilang = $request->input('TTerbilang', "");
+
+            if (count($allRowsDataAtas) == 0) {
+                return response()->json(['error' => 'Pengisian SJ Belum Ada']);
+            }
+
+            // Assume addMode and stored procedure
+            if ($proses == 1) {
+                DB::connection('ConnAccounting')
+                    ->statement('exec SP_1486_ACC_MAINT_PENAGIHANSJ_EXPORT @Kode = ?, @Tgl_Penagihan = ?, @Id_Customer = ?, @id_Jenis_Dokumen = ?, @Nilai_Penagihan = ?, @Id_MataUang = ?, @Terbilang = ?, @UserInput = ?, @IdPenagih = ?, @NilaiKurs = ?, @NoPEB = ?, @TglPEB = ?, @NoBL = ?, @TglBL = ?, @NilaiTotalFOB = ?', [
+                        1,
+                        $request->input('tanggal'),
+                        $request->input('idCustomer'),
+                        (int) $request->input('idJenisDokumen'),
+                        (float) str_replace(',', '', $request->input('nilaiDitagihkan')),
+                        (int) $request->input('idMataUang'),
+                        (string) $terbilang,
+                        trim(Auth::user()->NomorUser),
+                        (string) $request->input('idUserPenagih'),
+                        (float) $request->input('nilaiKurs'),
+                        $request->input('noPEB'),
+                        $request->input('tanggalPEB'),
+                        $request->input('noBL'),
+                        $request->input('tanggalBL'),
+                        (float) $request->input('totalFOB'),
+                    ]);
+
+                // dd($tes);
+
+                $currentYear = date('y');
+
+                $idPenagihan = DB::connection('ConnAccounting')
+                    ->table('T_PENAGIHAN_SJ')
+                    ->select('Id_Penagihan')
+                    ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
+                    ->orderBy('Id_Penagihan', 'desc')
+                    ->orderBy('Tgl_Penagihan', 'desc')
+                    ->first();
+                $id_Penagihan = $idPenagihan->Id_Penagihan;
+                // dd($id_Penagihan);
+
+                // $id_penagihan = DB::connection('ConnAccounting')
+                //     ->select('SELECT SCOPE_IDENTITY() AS id_penagihan');
+
+                foreach ($allRowsDataAtas as $list_sj) {
+                    DB::connection('ConnAccounting')
+                        ->statement('exec SP_1486_ACC_MAINT_PENAGIHANSJ_EXPORT @Kode = ?, @Id_Penagihan = ?, @SuratJalan = ?, @JatuhTempo = ?, @Id_Customer = ?', [
+                            2,
+                            $id_Penagihan,
+                            $list_sj[0],
+                            $list_sj[1],
+                            $request->input('idCustomer')
+                        ]);
+                }
+
+                return response()->json(['message' => 'Data Telah Tersimpan'], 200);
+            }
+
+            // EditMode logic
+            if ($proses == 2) {
+                $id_penagihan = $request->input('no_penagihan');
+                // Hapus data ListHapus (Kode = 3)
+                if ($allRowsDataHapus) {
+                    foreach ($allRowsDataHapus as $list_hapus) {
+                        DB::connection('ConnAccounting')
+                            ->statement('exec SP_1486_ACC_MAINT_PENAGIHANSJ_EXPORT @Kode = ?, @id_detail_penagihan = ?, @Id_Penagihan = ?, @SuratJalan = ?, @Id_Customer = ?', [
+                                3,
+                                $list_hapus[4],  // id_detail_penagihan
+                                $id_penagihan,                       // Id_Penagihan
+                                $list_hapus[0],          // Surat Jalan
+                                $request->input('idCustomer')       // Id_Customer
+                            ]);
+                    }
+                }
+
+                // Update Data ListSJ jika ada tambahan (Kode = 2)
+                foreach ($allRowsDataAtas as $list_sj) {
+                    if (empty($list_sj[3])) {
+                        DB::connection('ConnAccounting')
+                            ->statement('exec SP_1486_ACC_MAINT_PENAGIHANSJ_EXPORT @Kode = ?, @Id_Penagihan = ?, @SuratJalan = ?, @JatuhTempo = ?, @Id_Customer = ?', [
+                                2,
+                                $id_penagihan,                  // Id_Penagihan
+                                $list_sj[0],        // Surat Jalan
+                                $list_sj[1],        // Jatuh Tempo
+                                $request->input('idCustomer')  // Id_Customer
+                            ]);
+                    }
+                }
+
+                // Update Penagihan Data (Kode = 4)
+                DB::connection('ConnAccounting')
+                    ->statement('exec SP_1486_ACC_MAINT_PENAGIHANSJ_EXPORT @Kode = ?, @Id_Penagihan = ?, @Nilai_Penagihan = ?, @Terbilang = ?, @IdPenagih = ?, @NilaiKurs = ?, @NilaiTotalFOB = ?', [
+                        4,
+                        $id_penagihan,                         // Id_Penagihan
+                        (float) str_replace(',', '', $request->input('nilaiDitagihkan')),    // Nilai_Penagihan
+                        (string) $terbilang,                            // Terbilang
+                        $request->input('idUserPenagih'),            // IdPenagih
+                        (float) $request->input('nilaiKurs'),               // NilaiKurs
+                        (float) $request->input('totalFOB'),    // NilaiTotalFOB
+                    ]);
+
+                return response()->json(['message' => 'Data Telah Terkoreksi']);
+
+            }
+
+            // DelMode logic
+            if ($proses == 3) {
+                DB::connection('ConnAccounting')
+                    ->statement('exec SP_1486_ACC_MAINT_PENAGIHANSJ_EXPORT @Kode = ?, @Id_Penagihan = ?, @Tgl_Penagihan = ?', [
+                        5,
+                        $request->input('no_penagihan'),
+                        $request->input('tanggal'),
+                    ]);
+
+                return response()->json(['message' => 'Data Telah Terhapus'], 200);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Error: ' . $e->getMessage()], 500);
+        }
     }
 
     //Display the specified resource.
@@ -259,7 +382,7 @@ class PenagihanPenjualanExportController extends Controller
             }
             return datatables($response)->make(true);
 
-        }else if ($id == 'getPenagihanDetails') {
+        } else if ($id == 'getPenagihanDetails') {
             try {
                 // Jalankan stored procedure pertama (SP_1486_ACC_LIST_PENAGIHAN_SJ_EXPORT)
                 $idPenagihan = $request->input('no_penagihan');

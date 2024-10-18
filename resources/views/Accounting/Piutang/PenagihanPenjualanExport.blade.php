@@ -162,6 +162,29 @@
                                             <th>Tanggal</th>
                                             <th>Nilai Penagihan</th>
                                             <th>Nilai FOB</th>
+                                            <th>ID. Detail Pesann</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="display: none">
+                            <div style="overflow-y: auto;">
+                                <table style="width: 100%;" id="table_hapus">
+                                    {{-- <colgroup>
+                                        <col style="width: 25%;">
+                                        <col style="width: 25%;">
+                                        <col style="width: 25%;">
+                                        <col style="width: 25%;"> --}}
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Surat Jalan</th>
+                                            <th>Tanggal</th>
+                                            <th>Nilai Penagihan</th>
+                                            <th>Nilai FOB</th>
+                                            <th>ID. Detail Pesann</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -301,7 +324,7 @@
                                             <input type="text" id="totalLihat" name="totalLihat"
                                                 class="form-control" style="width: 100%">
                                         </div>
-                                        <div class="col-md-3" style="display: none">
+                                        <div class="col-md-3" style="">
                                             <input type="text" id="totalFOB" name="totalFOB"
                                                 class="form-control" style="width: 100%">
                                         </div>

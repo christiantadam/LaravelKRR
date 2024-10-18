@@ -36,12 +36,19 @@ $(document).ready(function () {
     let idUserPenagih = document.getElementById("idUserPenagih");
     let no_penagihan = document.getElementById("no_penagihan");
     let terbilang = document.getElementById("terbilang");
+    let totalFOB = document.getElementById("totalFOB");
+    let noPEB = document.getElementById("noPEB");
+    let noBL = document.getElementById("noBL");
     let table_atas = $("#table_atas").DataTable({
-        // columnDefs: [{ targets: [6, 7, 8, 9, 10, 11], visible: false }],
+        // columnDefs: [{ targets: [4], visible: false }],
     });
     let table_tampilBKK = $("#table_tampilBKK").DataTable({
         // columnDefs: [{ targets: [6, 7, 8, 9, 10, 11], visible: false }],
     });
+    let table_hapus = $("#table_hapus").DataTable({
+        // columnDefs: [{ targets: [4], visible: false }],
+    });
+    $("#table_hapus_wrapper").hide();
     let proses;
 
     tanggal.valueAsDate = new Date();
@@ -49,7 +56,7 @@ $(document).ready(function () {
     tanggalBL.valueAsDate = new Date();
     nilaiKurs.value = 0;
     dokumen.value = "Invoice";
-    idJenisDokumen = "8";
+    idJenisDokumen.value = "8";
     btn_customer.disabled = true;
     btn_penagih.disabled = true;
     btn_suratJalan.disabled = true;
@@ -124,6 +131,203 @@ $(document).ready(function () {
         //     showConfirmButton: true,
         // });
         proses = 3;
+    });
+
+    btn_proses.addEventListener("click", async function (event) {
+        event.preventDefault();
+        const allRowsDataAtas = table_atas.rows().data().toArray();
+        const allRowsDataHapus = table_hapus.rows().data().toArray();
+        let TTerbilang;
+
+        if (proses == 1) {
+            idUserPenagih.required = true;
+            idJenisDokumen.required = true;
+            nilaiDitagihkan.required = true;
+            idMataUang.required = true;
+
+            let nilaiDitagihkanValue = parseFloat(
+                nilaiDitagihkan.value.replace(/,/g, "")
+            );
+
+            if (idMataUang.value == "1") {
+                TTerbilang = convertNumberToWordsRupiah(nilaiDitagihkanValue);
+            } else {
+                if (nilaiKurs.value <= 0 || nilaiKurs.value == null) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "P E S A N",
+                        text: "ISI DULU NILAI KURSNYA",
+                    });
+                    return;
+                }
+                TTerbilang = convertNumberToWordsDollar(nilaiDitagihkanValue);
+            }
+
+            $.ajax({
+                url: "PenagihanPenjualanEksport",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    allRowsDataAtas: allRowsDataAtas,
+                    allRowsDataHapus: allRowsDataHapus,
+                    TTerbilang: TTerbilang,
+                    tanggal: tanggal.value,
+                    idCustomer: idCustomer.value,
+                    idJenisDokumen: idJenisDokumen.value,
+                    nilaiDitagihkan: nilaiDitagihkan.value,
+                    idMataUang: idMataUang.value,
+                    idUserPenagih: idUserPenagih.value,
+                    nilaiKurs: nilaiKurs.value,
+                    noPEB: noPEB.value,
+                    tanggalPEB: tanggalPEB.value,
+                    noBL: noBL.value,
+                    tanggalBL: tanggalBL.value,
+                    totalFOB: totalFOB.value,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else if (proses == 2) {
+            idUserPenagih.required = true;
+            idJenisDokumen.required = true;
+            nilaiDitagihkan.required = true;
+            idMataUang.required = true;
+
+            let nilaiDitagihkanValue = parseFloat(
+                nilaiDitagihkan.value.replace(/,/g, "")
+            );
+
+            if (idMataUang.value == "1") {
+                TTerbilang = convertNumberToWordsRupiah(nilaiDitagihkanValue);
+            } else {
+                if (nilaiKurs.value <= 0 || nilaiKurs.value == null) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "P E S A N",
+                        text: "ISI DULU NILAI KURSNYA",
+                    });
+                    return;
+                }
+                TTerbilang = convertNumberToWordsDollar(nilaiDitagihkanValue);
+            }
+
+            $.ajax({
+                url: "PenagihanPenjualanEksport",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    allRowsDataAtas: allRowsDataAtas,
+                    allRowsDataHapus: allRowsDataHapus,
+                    TTerbilang: TTerbilang,
+                    no_penagihan: no_penagihan.value,
+                    nilaiDitagihkan: nilaiDitagihkan.value,
+                    idUserPenagih: idUserPenagih.value,
+                    nilaiKurs: nilaiKurs.value,
+                    totalFOB: totalFOB.value,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else if (proses == 3) {
+            $.ajax({
+                url: "PenagihanPenjualanEksport",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    allRowsDataAtas: allRowsDataAtas,
+                    allRowsDataHapus: allRowsDataHapus,
+                    TTerbilang: TTerbilang,
+                    no_penagihan: no_penagihan.value,
+                    nilaiDitagihkan: nilaiDitagihkan.value,
+                    idUserPenagih: idUserPenagih.value,
+                    nilaiKurs: nilaiKurs.value,
+                    totalFOB: totalFOB.value,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        }
     });
 
     btn_batal.addEventListener("click", async function (event) {
@@ -370,6 +574,8 @@ $(document).ready(function () {
                                         tanggal: item.Tgl_Surat_Jalan,
                                         nilaiPenagihan: item.Total,
                                         nilaiFOB: "",
+                                        idDetailPesanan:
+                                            item.ID_Detail_Penagihan,
                                     };
 
                                     table_atas.row
@@ -378,6 +584,7 @@ $(document).ready(function () {
                                             newRow.tanggal,
                                             newRow.nilaiPenagihan,
                                             newRow.nilaiFOB,
+                                            newRow.idDetailPesanan,
                                         ])
                                         .draw();
                                 });
@@ -385,12 +592,15 @@ $(document).ready(function () {
 
                             mataUang.value = data.penagihanData.Nama_MataUang;
                             idMataUang.value = data.penagihanData.Id_MataUang;
-                            nilaiKurs.value = numeral(data.penagihanData.NilaiKurs).format('0');
+                            nilaiKurs.value = numeral(
+                                data.penagihanData.NilaiKurs
+                            ).format("0");
                             dokumen.value = data.penagihanData.Dokumen;
                             idJenisDokumen.value = data.penagihanData.IdJnsDok;
                             user_penagih.value = data.penagihanData.NamaPenagih;
                             idUserPenagih.value = data.penagihanData.IdPenagih;
-                            nilaiDitagihkan.value = data.penagihanData.Nilai_Penagihan;
+                            nilaiDitagihkan.value =
+                                data.penagihanData.Nilai_Penagihan;
                             terbilang.value = data.penagihanData.Terbilang;
                             tanggal.value = data.penagihanData.Tgl_Penagihan;
                         },
@@ -530,17 +740,33 @@ $(document).ready(function () {
                                 table_tampilBKK.clear().draw();
 
                                 let totalAmount = 0; // Initialize total for all items
+                                let totalFOBAmount = 0;
 
                                 data.data.forEach(function (item, index) {
                                     console.log(item);
 
                                     // Convert 'item.Total' from format '0.0,00' to a number
                                     let totalValue = parseFloat(
-                                        item.Total.replace(/\./g, "").replace(
+                                        item.Total.replace(/\./g, ".").replace(
                                             ",",
-                                            "."
+                                            ""
                                         )
                                     );
+
+                                    let totalFOBValue;
+
+                                    if (item.TotalFOB.includes(",")) {
+                                        totalFOBValue = parseFloat(
+                                            item.TotalFOB.replace(
+                                                /\./g,
+                                                "."
+                                            ).replace(",", "")
+                                        );
+                                    } else {
+                                        totalFOBValue = parseFloat(
+                                            item.TotalFOB
+                                        );
+                                    }
 
                                     const newRow = {
                                         namaType: item.NamaBarang,
@@ -568,10 +794,13 @@ $(document).ready(function () {
                                         .draw();
 
                                     totalAmount += totalValue;
+                                    totalFOBAmount += totalFOBValue;
                                 });
 
                                 totalLihat.value =
                                     numeral(totalAmount).format("0,0.00");
+
+                                totalFOB.value = totalFOBAmount;
                             }
 
                             var myModal = new bootstrap.Modal(
@@ -642,10 +871,12 @@ $(document).ready(function () {
         if (selectedRow.length > 0) {
             // Get DataTable instance
             var table_atas = $("#table_atas").DataTable();
-
+            var table_hapus = $("#table_hapus").DataTable();
             // Get data of the selected row
             var rowData = table_atas.row(selectedRow).data();
+            console.log(rowData);
 
+            table_hapus.row.add(rowData).draw();
             // Remove the row from DataTable
             table_atas.row(selectedRow).remove().draw();
 
@@ -785,6 +1016,7 @@ $(document).ready(function () {
                                 tanggal: item.TanggalSJ,
                                 nilaiPenagihan: item.Total,
                                 nilaiFOB: item.TotalFOB,
+                                idDetailPesanan: "",
                             };
 
                             // Add row to the DataTable
@@ -794,6 +1026,7 @@ $(document).ready(function () {
                                     newRow.tanggal,
                                     newRow.nilaiPenagihan,
                                     newRow.nilaiFOB,
+                                    newRow.idDetailPesanan,
                                 ])
                                 .draw();
 
