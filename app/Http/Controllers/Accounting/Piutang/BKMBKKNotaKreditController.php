@@ -8,8 +8,7 @@ use DB;
 use App\Http\Controllers\HakAksesController;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 
 class BKMBKKNotaKreditController extends Controller
 {
@@ -130,181 +129,7 @@ class BKMBKKNotaKreditController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //dd($request->all());
-        $idBKM = $request->idBKM;
-        $tanggal = $request->tanggal;
-        $konversi = $request->konversi;
-        $konversi1 = $request->konversi1;
-        $nilai1 = $request->nilai1;
-        $nilai = $request->nilai;
-        $idBankBKM = $request->idBankBKM;
-        $idBankBKK = $request->idBankBKK;
-        $idMataUang = $request->idMataUangBKM;
-        $idBKK = $request->idBKK;
-        $idCustomer = $request->idCustomer;
-        $kursRupiah = $request->kursRupiah;
-        $jenisBankBKM = $request->jenisBankBKM;
-        $bulan = $request->bulan;
-        $tahun = $request->tahun;
-
-        $tgl = $tahun . '-' . $bulan . '-01';
-        $id_bkm = $request->id_bkm;
-        $id_bkk = $request->id_bkk;
-        $jumlahUangBKM = $request->jumlahUangBKM;
-        $idPelunasan = $request->idPelunasan;
-        $idPenagihan = $request->idPenagihan;
-        $idKodePerkiraanBKM = $request->idKodePerkiraanBKM;
-        $idPembayaran = $request->idPembayaran;
-        $noNotaKredit = $request->noNotaKredit;
-        $jumlah = $request->jumlah;
-        $idKodePerkiraanBKK = $request->idKodePerkiraanBKK;
-        $jenisBankBKK = $request->jenisBankBKK;
-
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN]
-        @idBKM = ?,
-        @tglinput = ?,
-        @userinput = ?,
-        @terjemahan = ?,
-        @nilaipelunasan = ?,
-        @IdBank= ?,
-        @kode = ?', [
-            $idBKM,
-            $tanggal,
-            null,
-            $konversi,
-            $nilai1,
-            $idBankBKM,
-            1
-        ]);
-
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN_TAG]
-        @idBKM = ?,
-        @tgl = ?,
-        @idBKKAcuan = ?,
-        @idUang = ?,
-        @idJenis = ?,
-        @idBank = ?,
-        @nilaipelunasan = ?,
-        @user = ?,
-        @idCust = ?,
-        @Kurs = ?,
-        @status = ?', [
-            $idBKM,
-            $tanggal,
-            $idBKK,
-            $idMataUang,
-            1,
-            $idBankBKM,
-            $nilai1,
-            1,
-            $idCustomer,
-            $kursRupiah,
-            'Y'
-        ]);
-
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKM_TDETAILPEL]
-        @idpelunasan = ?,
-        @idpenagihan = ?,
-        @sisa = ?,
-        @kodePerk = ?,
-        @kode = ?', [
-            $idPelunasan,
-            $idPenagihan,
-            $jumlahUangBKM,
-            $idKodePerkiraanBKM,
-            1
-        ]);
-
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_COUNTER_IDBKM]
-        @idbkm = ?,
-        @idbank = ?,
-        @jenis = ?,
-        @tgl = ?', [
-            $id_bkm,
-            $idBankBKK,
-            $jenisBankBKM,
-            $tgl
-        ]);
-
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN]
-        @idBKK = ?,
-        @tgl = ?,
-        @userinput = ?,
-        @terjemahan = ?,
-        @nilai = ?,
-        @IdBank =  ?,
-        @kode = ?', [
-            $idBKK,
-            $tanggal,
-            null,
-            $konversi1,
-            $nilai,
-            $idBankBKK,
-            1
-        ]);
-
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG]
-        @idBKK = ?,
-        @idUang = ?,
-        @idJenis = ?,
-        @idBank = ?,
-        @nilai = ?,
-        @idBKM_acuan =  ?,
-        @kurs = ?,
-        @user = ?', [
-            $idBKK,
-            $idMataUang,
-            1,
-            $idBankBKK,
-            $nilai,
-            $idBKM,
-            $kursRupiah,
-            1
-        ]);
-
-        DB::connection('ConnAccounting')->statement(
-            'exec [SP_5298_ACC_INSERT_BKK_TDETAILPEMB]
-        @idpembayaran = ?,
-        @keterangan = ?,
-        @biaya = ?,
-        @kodeperkiraan = ?',
-            [
-                $idPembayaran,
-                $noNotaKredit,
-                $jumlah,
-                $idKodePerkiraanBKK
-            ]
-        );
-
-        DB::connection('ConnAccounting')->statement(
-            'exec [SP_5298_ACC_UPDATE_COUNTER_IDBKK]
-        @idbkk = ?,
-        @idBank = ?,
-        @jenis = ?,
-        @tgl = ?',
-            [
-                $id_bkk,
-                $idBankBKK,
-                $jenisBankBKK,
-                $tgl
-            ]
-        );
-
-        DB::connection('ConnAccounting')->statement(
-            'exec [SP_5298_ACC_UPDATE_FIELD_IDBKK]
-        @idNotaKredit = ?,
-        @idPenagihan = ?,
-        @idBKK = ?,
-        @idBKM = ?',
-            [
-                $noNotaKredit,
-                $idPenagihan,
-                $idBKK,
-                $idBKM
-            ]
-        );
-
-        return redirect()->back()->with('success', 'BKM No. ' . $idBKM . ' & BKK No. ' . $idBKK . ' Tersimpan');
+        //
     }
 
 
@@ -519,7 +344,7 @@ class BKMBKKNotaKreditController extends Controller
             $idBKM = $request->input('idBKM');
             $tgl = $request->input('tgl');
             $terjemahan = $request->input('terjemahan');
-            $nilai = $request->input('nilai');
+            // $nilai = $request->input('nilai');
             $IdBank = $request->input('IdBank');
             $idBKK = $request->input('idBKK');
             $noMtUang = $request->input('noMtUang');
@@ -538,29 +363,29 @@ class BKMBKKNotaKreditController extends Controller
 
             try {
                 // Insert into T_Pelunasan
-                Log::info('Inserting into T_Pelunasan started.');
+                // Log::info('Inserting into T_Pelunasan started.');
                 DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN]
-                            @idBKM = ?,
-                            @tglinput = ?,
-                            @userinput = ?,
-                            @terjemahan = ?,
-                            @nilaipelunasan = ?,
-                            @IdBank = ?,
-                            @kode = 1', [
+                    @idBKM = ?,
+                    @tglinput = ?,
+                    @userinput = ?,
+                    @terjemahan = ?,
+                    @nilaipelunasan = ?,
+                    @IdBank = ?,
+                    @kode = 1', [
                     $idBKM,
                     $tgl,
                     $user,
                     $terjemahan,
-                    $nilai,
+                    $nilai1,
                     $IdBank,
                 ]);
-                Log::info('Inserting into T_Pelunasan finished successfully.');
+                // Log::info('Inserting into T_Pelunasan finished successfully.');
 
                 // Insert into T_Pelunasan_Tagihan
-                Log::info('Inserting into T_Pelunasan_Tagihan started.');
+                // Log::info('Inserting into T_Pelunasan_Tagihan started.');
                 $data = [
                     'Id_BKM' => $idBKM,
-                    'Tgl_Pelunasan' => $tgl,
+                    'Tgl_Pelunasan' => now(),
                     'Id_Bank' => $IdBank,
                     'Id_MataUang' => $noMtUang,
                     'Id_Jenis_Bayar' => 1,
@@ -578,10 +403,10 @@ class BKMBKKNotaKreditController extends Controller
 
                 $insertedId = DB::connection('ConnAccounting')->table('T_Pelunasan_Tagihan')->insertGetId($data);
                 $idPelunasan = DB::connection('ConnAccounting')->table('T_Pelunasan_Tagihan')->max('Id_Pelunasan');
-                Log::info('Inserting into T_Pelunasan_Tagihan finished successfully.');
+                // Log::info('Inserting into T_Pelunasan_Tagihan finished successfully.');
 
                 // Insert into T_Detail_Pelunasan_Tagihan
-                Log::info('Inserting into T_Detail_Pelunasan_Tagihan started.');
+                // Log::info('Inserting into T_Detail_Pelunasan_Tagihan started.');
                 DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKM_TDETAILPEL]
                     @idpelunasan = ?,
                     @idpenagihan = ?,
@@ -593,10 +418,10 @@ class BKMBKKNotaKreditController extends Controller
                     $jmlUang,
                     $idKodePerkiraanBKM
                 ]);
-                Log::info('Inserting into T_Detail_Pelunasan_Tagihan finished successfully.');
+                // Log::info('Inserting into T_Detail_Pelunasan_Tagihan finished successfully.');
 
                 // Update id_BKM pada T_Counter_BKM
-                Log::info('Updating T_Counter_IdBKM started.');
+                // Log::info('Updating T_Counter_IdBKM started.');
                 DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_COUNTER_IDBKM]
                         @idBKM = ?,
                         @idBank = ?,
@@ -607,23 +432,24 @@ class BKMBKKNotaKreditController extends Controller
                     $jenisBankBKM,
                     $blnthnn
                 ]);
-                Log::info('Updating T_Counter_IdBKM finished successfully.');
+                // Log::info('Updating T_Counter_IdBKM finished successfully.');
 
                 return response()->json([
                     'success' => 'Data sudah diSIMPAN',
                     'id_pelunasan' => $idPelunasan
                 ], 200);
             } catch (\Exception $e) {
-                Log::error('Error occurred: ' . $e->getMessage());
+                // Log::error('Error occurred: ' . $e->getMessage());
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
+
         } else if ($id === 'insertTPembayaran') {
             $user = Auth::user()->NomorUser;
             $idBKK = $request->input('idBKK');
             $idBKM = $request->input('idBKM');
             $tgl = $request->input('tgl');
             $terjemahan = $request->input('terjemahan');
-            $nilai = floatval($request->input('nilai'));
+            $nilai = $request->input('nilai');
             $IdBank = $request->input('IdBank');
             $noMtUang = $request->input('noMtUang');
             $idCust = $request->input('idCust');
@@ -641,7 +467,7 @@ class BKMBKKNotaKreditController extends Controller
 
             try {
                 // Log request inputs
-                Log::info('Inserting into T_Pembayaran started.');
+                // Log::info('Inserting into T_Pembayaran started.');
 
                 // Insert pada T_Pembayaran
                 DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN]
@@ -659,7 +485,7 @@ class BKMBKKNotaKreditController extends Controller
                     $nilai,
                     $IdBank,
                 ]);
-                Log::info('Inserting into T_Pembayaran finished successfully.');
+                // Log::info('Inserting into T_Pembayaran finished successfully.');
 
                 // Insert pada T_Pembayaran_Tagihan
                 $data = [
@@ -685,7 +511,7 @@ class BKMBKKNotaKreditController extends Controller
 
                 $insertedId = DB::connection('ConnAccounting')->table('T_Pembayaran_Tagihan')->insertGetId($data);
                 $idPembayaran = DB::connection('ConnAccounting')->table('T_Pembayaran_Tagihan')->max('id_pembayaran');
-                Log::info('Inserting into T_Pembayaran_Tagihan finished successfully.');
+                // Log::info('Inserting into T_Pembayaran_Tagihan finished successfully.');
 
                 // Insert pada T_Detail_Pelunasan_Tagihan
                 DB::connection('ConnAccounting')->statement(
@@ -701,7 +527,7 @@ class BKMBKKNotaKreditController extends Controller
                         $idKodePerkiraanBKK
                     ]
                 );
-                Log::info('Inserted into T_Detail_Pelunasan_Tagihan finished successfully.');
+                // Log::info('Inserted into T_Detail_Pelunasan_Tagihan finished successfully.');
 
                 // Update id_BKK pada T_Counter_BKK
                 DB::connection('ConnAccounting')->statement(
@@ -717,7 +543,7 @@ class BKMBKKNotaKreditController extends Controller
                         $tgl
                     ]
                 );
-                Log::info('Updated T_Counter_BKK finished successfully.');
+                // Log::info('Updated T_Counter_BKK finished successfully.');
 
                 // Update no BKK di T_Nota_Kredit dan T_Kartu_Piutang
                 DB::connection('ConnAccounting')->statement(
@@ -733,159 +559,19 @@ class BKMBKKNotaKreditController extends Controller
                         $idBKM
                     ]
                 );
-                Log::info('Updated T_Nota_Kredit dan T_Kartu_Piutang finished successfully.');
+                // Log::info('Updated T_Nota_Kredit dan T_Kartu_Piutang finished successfully.');
 
                 return response()->json([
-                    'success' => 'BKM No. ' .$idBKM. ' & BKK No. ' .$idBKK.' TerSimpan.',
+                    'success' => true,
+                    'message' => 'BKM No. ' . $idBKM . ' & BKK No. ' . $idBKK . ' TerSimpan.',
                     'id_pembayaran' => $idPembayaran
                 ], 200);
+
             } catch (\Exception $e) {
-                Log::error('Error during insert process:', ['error' => $e->getMessage()]);
+                // Log::error('Error during insert process:', ['error' => $e->getMessage()]);
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
         }
-
-
-
-        // if ($id === 'insertTLunas') {
-        //     $user = Auth::user()->NomorUser;
-        //     $idBKM = $request->input('idBKM');
-        //     $tgl = $request->input('tgl');
-        //     $terjemahan = $request->input('terjemahan');
-        //     $nilai = $request->input('nilai');
-        //     $IdBank = $request->input('IdBank');
-
-        //     // dd($request->all());
-
-        //     try {
-        //         // insert pada T_Pelunasan
-        //         DB::connection('ConnAccounting')
-        //             ->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN]
-        //             @idBKM = ?,
-        //             @tglinput = ?,
-        //             @userinput = ?,
-        //             @terjemahan = ?,
-        //             @nilaipelunasan = ?,
-        //             @IdBank = ?,
-        //             @kode = 1', [
-        //                 $idBKM,
-        //                 $tgl,
-        //                 $terjemahan,
-        //                 $nilai,
-        //                 $IdBank,
-        //                 $user,
-        //             ]);
-
-        //         return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-        //     } catch (\Exception $e) {
-        //         return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
-        //     }
-        // } else if ($id === 'insertTLunasTagihan') {
-        //     $user = Auth::user()->NomorUser;
-        //     $idBKK = $request->input('idBKK');
-        //     $idBKM = $request->input('idBKM');
-        //     $tgl = $request->input('tgl');
-        //     $IdBank = $request->input('IdBank');
-        //     $noMtUang = $request->input('noMtUang');
-        //     $nilai1 = $request->input('nilai1');
-        //     $idCust = $request->input('idCust');
-        //     $idBKK = $request->input('idBKK');
-        //     $kursRupiah = $request->input('kursRupiah');
-
-        //     // dd($request->all());
-
-        //     try {
-        //         // Insert into T_Pelunasan_Tagihan
-        //         $data = [
-        //             'Id_BKM' => $idBKM,
-        //             'Tgl_Pelunasan' => $tgl,
-        //             'Id_Bank' => $IdBank,
-        //             'Id_MataUang' => $noMtUang,
-        //             'Id_Jenis_Bayar' => 1,
-        //             'Nilai_Pelunasan' => $nilai1,
-        //             'TglInput' => now(),
-        //             'UserInput' => $user,
-        //             'Id_BKK_Acuan' => $idBKK,
-        //             'Id_Cust' => $idCust,
-        //             'Status_Penagihan' => "Y",
-        //         ];
-
-        //         if ($kursRupiah > 0) {
-        //             $data['Kurs_RPH'] = $kursRupiah;
-        //         }
-
-        //         $insertedId = DB::connection('ConnAccounting')->table('T_Pelunasan_Tagihan')->insertGetId($data);
-
-        //         $maxIdPelunasan = DB::connection('ConnAccounting')->table('T_Pelunasan_Tagihan')
-        //             ->max('Id_Pelunasan');
-
-        //         return response()->json(['id_pelunasan' => $maxIdPelunasan], 200);
-        //     } catch (\Exception $e) {
-        //         return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
-        //     }
-        // } else if ($id === 'insertTDetilLunasTagihan') {
-        //     $idPelunasan = $request->input('idPelunasan');
-        //     $NoPenagihan = $request->input('NoPenagihan');
-        //     $jmlUang = $request->input('jmlUang');
-        //     $idKodePerkiraanBKM = $request->input('idKodePerkiraanBKM');
-
-        //     try {
-        //         if (is_array($NoPenagihan) && is_array($jmlUang) && count($NoPenagihan) === count($jmlUang)) {
-        //             for ($i = 0; $i < count($NoPenagihan); $i++) {
-        //                 DB::connection('ConnAccounting')
-        //                     ->statement('exec [SP_5298_ACC_INSERT_BKM_TDETAILPEL]
-        //                     @idpelunasan = ?,
-        //                     @idpenagihan = ?,
-        //                     @sisa = ?,
-        //                     @kodePerk = ?,
-        //                     @kode = 1', [
-        //                         $idPelunasan,
-        //                         $NoPenagihan[$i],
-        //                         $jmlUang[$i],
-        //                         $idKodePerkiraanBKM
-        //                     ]);
-        //             }
-
-        //             return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-        //         } else {
-        //             return response()->json(['error' => 'Invalid input data. NoPenagihan and jmlUang must be arrays of the same length.'], 400);
-        //         }
-        //     } catch (\Exception $e) {
-        //         return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
-        //     }
-        // } else if ($id === 'updateTCounter') {
-        //     $idbkmtemp = $request->input('idbkmtemp');
-        //     $IdBank = $request->input('IdBank');
-        //     $tgl = $request->input('tgl');
-        //     $jenisBankBKM = $request->input('jenisBankBKM');
-        //     $nilai = $request->input('nilai');
-
-        //     // dd($request->all());
-
-        //     try {
-        //         // update id_BKM pada T_Counter_IdBKM
-        //         DB::connection('ConnAccounting')
-        //             ->statement('exec [SP_5298_ACC_UPDATE_COUNTER_IDBKM]
-        //             @idBKM = ?,
-        //             @idBank = ?,
-        //             @jenis = ?,
-        //             @tgl = ?', [
-        //                 $idbkmtemp,
-        //                 $IdBank,
-        //                 $jenisBankBKM,
-        //                 $tgl
-        //             ]);
-
-        //         return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-        //     } catch (\Exception $e) {
-        //         return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
-        //     }
-        // }
-
-
-
-
-
     }
 
     //Remove the specified resource from storage.
