@@ -499,7 +499,7 @@
                             <div class="row" style="width: 95%">
                                 <div class="col-sm-12">
                                     <div class="row">
-                                        <div class="col-sm-7 text-left" style="border: 1px black solid">
+                                        <div class="col-sm-7 text-center" style="border: 1px black solid">
                                             <label>RINCIAN PENERIMAAN</label>
                                         </div>
                                         <div class="col-sm-2 text-center" style="border: 1px black solid">
