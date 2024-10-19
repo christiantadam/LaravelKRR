@@ -1,202 +1,149 @@
-let tanggalInput = document.getElementById('tanggalInput');
-let namaCustomerSelect = document.getElementById('namaCustomerSelect');
-
-let noNotaKreditSelect = document.getElementById('noNotaKreditSelect');
-let suratJalanSelect = document.getElementById('suratJalanSelect');
-let namaBarang = document.getElementById('namaBarang');
-let noPenagihan = document.getElementById('noPenagihan');
-let mataUang = document.getElementById('mataUang');
-let idMataUang = document.getElementById('idMataUang');
-let nilaiKurs = document.getElementById('nilaiKurs');
-let jumlahRetur = document.getElementById('jumlahRetur');
-let satuan = document.getElementById('satuan');
-let harga = document.getElementById('harga');
-let total = document.getElementById('total');
-let statusPelunasan = document.getElementById('statusPelunasan');
-let discount = document.getElementById('discount');
-let grandTotalRetur = document.getElementById('grandTotalRetur');
-let terbilang = document.getElementById('terbilang');
-let tabelNotaKreditRetur = $('#tabelNotaKreditRetur').DataTable();
-
-//HIDDEN
-let suratjalan = document.getElementById('suratjalan');
-let idbarang = document.getElementById('idbarang');
-let jenisPPN = document.getElementById('jenisPPN');
-let statusPPN = document.getElementById('statusPPN');
-
-let proses = 1;
-let MIdRetur = document.getElementById('MIdRetur');
-
-let btnSimpan = document.getElementById('btnSimpan');
-let btnIsi = document.getElementById('btnIsi');
-let btnBatal = document.getElementById('btnBatal');
-let btnKoreksi = document.getElementById('btnKoreksi');
-let btnTambahItem = document.getElementById('btnTambahItem');
-
-const tanggal = new Date();
-const formattedDate = tanggal.toISOString().substring(0, 10);
-tanggalInput.value = formattedDate;
-
-btnIsi.addEventListener('click', function(event) {
-    event.preventDefault();
-
-    btnIsi.style.display = "none";
-    btnSimpan.style.display = "block";
-    btnKoreksi.style.display = "none";
-    btnBatal.style.display = "block";
-
-    tanggalInput.removeAttribute("readonly");
-    namaCustomerSelect.removeAttribute("readonly");
-    noNotaKreditSelect.removeAttribute("readonly");
-    suratJalanSelect.removeAttribute("readonly");
-    namaBarang.removeAttribute("readonly");
-    noPenagihan.removeAttribute("readonly");
-    mataUang.removeAttribute("readonly");
-    nilaiKurs.removeAttribute("readonly");
-    jumlahRetur.removeAttribute("readonly");
-    satuan.removeAttribute("readonly");
-    harga.removeAttribute("readonly");
-    total.removeAttribute("readonly");
-    statusPelunasan.removeAttribute("readonly");
-    discount.removeAttribute("readonly");
-    grandTotalRetur.removeAttribute("readonly");
-    terbilang.removeAttribute("readonly");
-
-    namaCustomerSelect.focus();
-
-    proses = 1;
-});
-
-fetch("/getCustNotaKredit/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        namaCustomerSelect.innerHTML = "";
-
-        const defaultOption = document.createElement("option");
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.innerText = "Pilih Cust";
-        namaCustomerSelect.appendChild(defaultOption);
-
-        options.forEach((entry) => {
-            const option = document.createElement("option");
-            option.value = entry.IDCust; // Gunakan entry.Id_Pelunasan sebagai nilai opsi
-            option.innerText = entry.IDCust + "|" + entry.NamaCust; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-            namaCustomerSelect.appendChild(option);
-        });
-
-        namaCustomerSelect.addEventListener("change", function (event) {
-            event.preventDefault();
-            const selectedOption = namaCustomerSelect.options[namaCustomerSelect.selectedIndex];
-            if (selectedOption) {
-                const selectedValue = selectedOption.textContent; // Atau selectedOption.innerText
-                const bagiansatu = selectedValue.split(/[-|]/);
-                const jeniscust = bagiansatu[0];
-                const idcust = bagiansatu[1];
-                idCustomer.value = idcust;
-                jenisCustomer.value  = jeniscust;
-            }
-            if (proses == 1) {
-                suratJalanSelect.focus();
-                fetch("/getListSJNotaKredit/" + idCustomer.value)
-                .then((response) => response.json())
-                .then((options) => {
-                    console.log(options);
-                    suratJalanSelect.innerHTML = "";
-
-                    const defaultOption = document.createElement("option");
-                    defaultOption.disabled = true;
-                    defaultOption.selected = true;
-                    defaultOption.innerText = "Pilih SJ";
-                    suratJalanSelect.appendChild(defaultOption);
-
-                    options.forEach((entry) => {
-                        const option = document.createElement("option");
-                        option.value = entry.IDPengiriman; // Gunakan entry.Id_Pelunasan sebagai nilai opsi
-                        option.innerText = entry.IDPengiriman + "|" + entry.NamaBarang; // Gunakan entry.IdCust dan entry.NamaCust untuk teks opsi
-                        suratJalanSelect.appendChild(option);
-                    });
-
-                });
-
-                suratJalanSelect.addEventListener("change", function (event) {
-                    event.preventDefault();
-                    const selectedOption = suratJalanSelect.options[suratJalanSelect.selectedIndex];
-                    if (selectedOption) {
-                        const selectedValue = selectedOption.textContent; // Atau selectedOption.innerText
-                        const bagiansatu = selectedValue.split("|");
-                        const idpengiriman = bagiansatu[0];
-                        const namabarang = bagiansatu[1];
-
-                        idbarang.value = namabarang.slice(-20);
-                        suratjalan.value = idpengiriman.slice(-10);
-                        namaBarang.value = namabarang.substring(0, namabarang.length - 22);
-
-                        MIdRetur.value = idpengiriman.substring(0, idpengiriman.length - 11).trim();
-                        console.log(MIdRetur.value);
-                    }
-
-                    if (suratJalanSelect.selectedIndex != 0) {
-                        Lihat_Penagihan();
-                    }
-                });
-            } else {
-                noNotaKreditSelect.focus();
-            }
-        });
-});
-
-function Lihat_Penagihan() {
-    fetch("/getLihat_PenagihanNotaKredit/" + idCustomer.value + "/" + MIdRetur.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-        // console.log("masuk");
-
-        harga.value = options[0].HargaSatuan;
-        mataUang.value = options[0].MataUang;
-        if (mataUang.value.toUpperCase() == "RUPIAH") {
-            idMataUang.value = 1;
-        } else if (mataUang.value.toUpperCase() == "US DOLLAR") {
-            idMataUang.value == 2;
-        } else if (mataUang.value.toUpperCase() == "YEN") {
-            idMataUang.value == 3;
-        }
-        nilaiKurs.value = options[0].NilaiKurs;
-        noPenagihan.value = options[0].IdPenagihan;
-        jenisPPN.value = options[0].Jns_PPN;
-        satuan.value = options[0].SatuanJual;
-        statusPPN.value = options[0].Status_PPN;
-        discount.value = options[0].Discount;
-        statusPelunasan.value = options[0].Lunas;
-        if (options[0].Lunas == 'Y') {
-            statusPelunasan.value = "Lunas";
-        } else {
-            statusPelunasan.value = "Belum";
-            alert("Harap Dibuatkan BKK");
-        };
-
-        if (options[0].SatuanJual == options[0].SatuanPrimer) {
-            total.value = (options[0].QtyPrimer * options[0].HargaSatuan) - (options[0].QtyPrimer * options[0].HargaSatuan * options[0].Discount);
-            jumlahRetur.value = options[0].QtyPrimer;
-        } else if (options[0].SatuanJual == options[0].SatuanSekunder) {
-            total.value = (options[0].QtySekunder * options[0].HargaSatuan) - (options[0].QtySekunder * options[0].HargaSatuan * options[0].Discount);
-            jumlahRetur.value = options[0].QtySekunder;
-        } else if (options[0].SatuanJual == options[0].SatuanTritier) {
-            total.value = (options[0].QtyTritier * options[0].HargaSatuan) - (options[0].QtyTritier * options[0].HargaSatuan * options[0].Discount);
-            jumlahRetur.value = options[0].QtyTritier;
-        } else {
-            total.value == (options[0].QTyKonversi * options[0].HargaSatuan) - (options[0].QTyKonversi * options[0].HargaSatuan * options[0].Discount);
-            jumlahRetur.value = options[0].QTyKonversi;
-        }
-
-        btnTambahItem.focus();
+$(document).ready(function () {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let btn_proses = document.getElementById("btn_proses");
+    let tanggalInput = document.getElementById("tanggalInput");
+    let nama_customer = document.getElementById("nama_customer");
+    let idCustomer = document.getElementById("idCustomer");
+    let idJenisCustomer = document.getElementById("idJenisCustomer");
+    let table_bawah = $("#table_bawah").DataTable({
+        // columnDefs: [{ targets: [4], visible: false }],
     });
-};
 
-btnTambahItem.addEventListener('click', function(event) {
-    event.preventDefault();
-})
+    tanggalInput.valueAsDate = new Date();
 
+    btn_customer.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>ID. Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#customerTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#customerTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "NotaKreditRetur/getCustomer",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "NamaCust",
+                                },
+                                {
+                                    data: "IDCust",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#customerTable_filter input").focus();
+                        }, 300);
+                        // $("#customerTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1)
+                        //             .search(this.value)
+                        //             .draw();
+                        //     }
+                        // );
+                        $("#customerTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customerTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    nama_customer.value = escapeHTML(
+                        selectedRow.NamaCust.trim()
+                    );
+                    idJenisCustomer.value = selectedRow.IDCust.trim().substring(
+                        0,
+                        3
+                    );
+                    idCustomer.value = selectedRow.IDCust.trim().slice(-5);
 
+                    // console.log(idCustomer.value);
+                    // console.log(idJenisCustomer.value);
+
+                    // if (id_cust.value == "NPX") {
+                    //     btn_pajak.disabled = true;
+                    // } else {
+                    //     btn_pajak.disabled = false;
+                    // }
+
+                    // $.ajax({
+                    //     url: "MaintenanceNotaPenjualanTunai/getJenisCustomer",
+                    //     type: "GET",
+                    //     data: {
+                    //         _token: csrfToken,
+                    //         idCustomer: idCustomer.value,
+                    //     },
+                    //     success: function (data) {
+                    //         console.log(data);
+                    //         jenisCustomer.value = data.TJenisCust;
+                    //         alamat.value = data.TAlamat;
+                    //     },
+                    //     error: function (xhr, status, error) {
+                    //         var err = eval("(" + xhr.responseText + ")");
+                    //         alert(err.Message);
+                    //     },
+                    // });
+
+                    // setTimeout(() => {
+                    //     btn_noSP.focus();
+                    // }, 300);
+
+                    // if (proses == 1) {
+                    //     setTimeout(() => {
+                    //         btn_suratJalan.focus();
+                    //     }, 300);
+                    // } else if (proses == 2 || proses == 3) {
+                    //     setTimeout(() => {
+                    //         btn_penagihan.focus();
+                    //     }, 300);
+                    // }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
+});

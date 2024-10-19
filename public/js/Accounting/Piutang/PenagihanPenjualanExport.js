@@ -2,10 +2,10 @@ $(document).ready(function () {
     let csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
+    let btn_proses = document.getElementById("btn_proses");
     let btn_isi = document.getElementById("btn_isi");
     let btn_koreksi = document.getElementById("btn_koreksi");
     let btn_hapus = document.getElementById("btn_hapus");
-    let btn_proses = document.getElementById("btn_proses");
     let btn_batal = document.getElementById("btn_batal");
     let btn_customer = document.getElementById("btn_customer");
     let btn_suratJalan = document.getElementById("btn_suratJalan");
@@ -58,13 +58,20 @@ $(document).ready(function () {
     dokumen.value = "Invoice";
     idJenisDokumen.value = "8";
     btn_customer.disabled = true;
-    btn_penagih.disabled = true;
+    btn_penagihan.disabled = true;
     btn_suratJalan.disabled = true;
     btn_penagih.disabled = true;
     btn_lihatItem.disabled = true;
     btn_hapusItem.disabled = true;
     btn_proses.disabled = true;
     btn_batal.disabled = true;
+    nama_customer.readOnly = true;
+    no_penagihan.readOnly = true;
+    surat_jalan.readOnly = true;
+    mataUang.readOnly = true;
+    dokumen.readOnly = true;
+    user_penagih.readOnly = true;
+    terbilang.readOnly = true;
     btn_isi.focus();
 
     btn_isi.addEventListener("click", async function (event) {
@@ -97,7 +104,7 @@ $(document).ready(function () {
         btn_customer.disabled = true;
         btn_penagihan.disabled = false;
         btn_penagih.disabled = false;
-        btn_suratJalan.disabled = false;
+        btn_suratJalan.disabled = true;
         btn_penagih.disabled = false;
         btn_lihatItem.disabled = false;
         btn_hapusItem.disabled = false;
@@ -117,7 +124,7 @@ $(document).ready(function () {
         btn_customer.disabled = true;
         btn_penagihan.disabled = false;
         btn_penagih.disabled = false;
-        btn_suratJalan.disabled = false;
+        btn_suratJalan.disabled = true;
         btn_penagih.disabled = false;
         btn_lihatItem.disabled = false;
         btn_hapusItem.disabled = false;
@@ -131,6 +138,17 @@ $(document).ready(function () {
         //     showConfirmButton: true,
         // });
         proses = 3;
+    });
+
+    nilaiDitagihkan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let value = parseFloat(nilaiDitagihkan.value.replace(/,/g, ""));
+            nilaiDitagihkan.value = value.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+        }
     });
 
     btn_proses.addEventListener("click", async function (event) {
@@ -195,7 +213,7 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
-                            // location.reload();
+                            location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));
@@ -263,7 +281,7 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
-                            // location.reload();
+                            location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));
@@ -289,14 +307,8 @@ $(document).ready(function () {
                 data: {
                     _token: csrfToken,
                     proses: proses,
-                    allRowsDataAtas: allRowsDataAtas,
-                    allRowsDataHapus: allRowsDataHapus,
-                    TTerbilang: TTerbilang,
                     no_penagihan: no_penagihan.value,
-                    nilaiDitagihkan: nilaiDitagihkan.value,
-                    idUserPenagih: idUserPenagih.value,
-                    nilaiKurs: nilaiKurs.value,
-                    totalFOB: totalFOB.value,
+                    tanggal: tanggal.value,
                 },
                 success: function (response) {
                     console.log(response);
@@ -308,7 +320,7 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
-                            // location.reload();
+                            location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));
@@ -590,6 +602,7 @@ $(document).ready(function () {
                                 });
                             }
 
+                            idCustomer.value = data.penagihanData.Id_Customer;
                             mataUang.value = data.penagihanData.Nama_MataUang;
                             idMataUang.value = data.penagihanData.Id_MataUang;
                             nilaiKurs.value = numeral(
@@ -739,7 +752,7 @@ $(document).ready(function () {
 
                                 table_tampilBKK.clear().draw();
 
-                                let totalAmount = 0; // Initialize total for all items
+                                let totalAmount = 0;
                                 let totalFOBAmount = 0;
 
                                 data.data.forEach(function (item, index) {
@@ -910,6 +923,7 @@ $(document).ready(function () {
     btn_insert.addEventListener("click", async function (event) {
         event.preventDefault();
         const selectedRow = $("#table_tampilBKK tbody tr.selected");
+        const selectedRowAtas = $("#table_atas tbody tr.selected");
 
         if (selectedRow.length > 0) {
             // Get DataTable instance
@@ -952,6 +966,110 @@ $(document).ready(function () {
                 title: "Info!",
                 text: "Pilih data terlebih dahulu!",
                 showConfirmButton: true,
+            });
+        }
+
+        if (selectedRowAtas.length > 0) {
+            // Get DataTable instance
+            var table_atas = $("#table_atas").DataTable();
+
+            // Get data of the selected row
+            var rowData = table_atas.row(selectedRowAtas).data();
+            console.log(rowData);
+
+            $.ajax({
+                url: "PenagihanPenjualanEksport/getPengirimanDetails",
+                type: "GET",
+                data: {
+                    _token: csrfToken,
+                    surat_jalan: rowData[0],
+                    idCustomer: idCustomer.value,
+                },
+                success: function (data) {
+                    console.log(data);
+
+                    if (data.data && data.data.length > 0) {
+                        // var table_tampilBKK = $("#table_tampilBKK").DataTable();
+
+                        // table_tampilBKK.clear().draw();
+
+                        let totalAmount = 0;
+                        let totalFOBAmount = 0;
+
+                        data.data.forEach(function (item, index) {
+                            console.log(item);
+
+                            // Convert 'item.Total' from format '0.0,00' to a number
+                            let totalValue = parseFloat(
+                                item.Total.replace(/\./g, ".").replace(",", "")
+                            );
+
+                            let totalFOBValue;
+
+                            if (item.TotalFOB.includes(",")) {
+                                totalFOBValue = parseFloat(
+                                    item.TotalFOB.replace(/\./g, ".").replace(
+                                        ",",
+                                        ""
+                                    )
+                                );
+                            } else {
+                                totalFOBValue = parseFloat(item.TotalFOB);
+                            }
+
+                            // const newRow = {
+                            //     namaType: item.NamaBarang,
+                            //     kwantum: item.JmlTerimaUmum,
+                            //     hargaSatuan: item.HargaSatuan,
+                            //     satuan: item.Satuan,
+                            //     total: item.Total,
+                            //     retur: item.StatusRetur,
+                            //     totalFOB: item.TotalFOB,
+                            //     idPesanan: item.IdPesanan,
+                            // };
+
+                            // Add row to the DataTable
+                            // table_tampilBKK.row
+                            //     .add([
+                            //         newRow.namaType,
+                            //         newRow.kwantum,
+                            //         newRow.hargaSatuan,
+                            //         newRow.satuan,
+                            //         newRow.total,
+                            //         newRow.retur,
+                            //         newRow.totalFOB,
+                            //         newRow.idPesanan,
+                            //     ])
+                            //     .draw();
+
+                            totalAmount += totalValue;
+                            totalFOBAmount += totalFOBValue;
+                        });
+
+                        totalLihat.value =
+                            numeral(totalAmount).format("0,0.00");
+
+                        totalFOB.value = totalFOBAmount;
+                    }
+
+                    // var myModal = new bootstrap.Modal(
+                    //     document.getElementById("modalLihatItem"),
+                    //     {
+                    //         keyboard: false,
+                    //     }
+                    // );
+                    // myModal.show();
+
+                    console.log(totalFOB.value);
+
+                    setTimeout(() => {
+                        btn_simpanM.focus();
+                    }, 300);
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                },
             });
         }
     });
@@ -1052,76 +1170,114 @@ $(document).ready(function () {
 
     btn_lihatItem.addEventListener("click", async function (event) {
         event.preventDefault();
-        $.ajax({
-            url: "PenagihanPenjualanEksport/getPengirimanDetails",
-            type: "GET",
-            data: {
-                _token: csrfToken,
-                surat_jalan: surat_jalan.value,
-                idCustomer: idCustomer.value,
-            },
-            success: function (data) {
-                console.log(data);
+        console.log(idCustomer.value);
 
-                if (data.data && data.data.length > 0) {
-                    var table_tampilBKK = $("#table_tampilBKK").DataTable();
+        const selectedRow = $("#table_atas tbody tr.selected");
 
-                    table_tampilBKK.clear().draw();
+        if (selectedRow.length > 0) {
+            // Get DataTable instance
+            var table_atas = $("#table_atas").DataTable();
 
-                    let totalAmount = 0; // Initialize total for all items
+            // Get data of the selected row
+            var rowData = table_atas.row(selectedRow).data();
+            console.log(rowData);
 
-                    data.data.forEach(function (item, index) {
-                        console.log(item);
+            $.ajax({
+                url: "PenagihanPenjualanEksport/getPengirimanDetails",
+                type: "GET",
+                data: {
+                    _token: csrfToken,
+                    surat_jalan: rowData[0],
+                    idCustomer: idCustomer.value,
+                },
+                success: function (data) {
+                    console.log(data);
 
-                        // Convert 'item.Total' from format '0.0,00' to a number
-                        let totalValue = parseFloat(
-                            item.Total.replace(/\./g, "").replace(",", ".")
-                        );
+                    if (data.data && data.data.length > 0) {
+                        var table_tampilBKK = $("#table_tampilBKK").DataTable();
 
-                        const newRow = {
-                            namaType: item.NamaBarang,
-                            kwantum: item.JmlTerimaUmum,
-                            hargaSatuan: item.HargaSatuan,
-                            satuan: item.Satuan,
-                            total: item.Total,
-                            retur: item.StatusRetur,
-                            totalFOB: item.TotalFOB,
-                            idPesanan: item.IdPesanan,
-                        };
+                        table_tampilBKK.clear().draw();
 
-                        // Add row to the DataTable
-                        table_tampilBKK.row
-                            .add([
-                                newRow.namaType,
-                                newRow.kwantum,
-                                newRow.hargaSatuan,
-                                newRow.satuan,
-                                newRow.total,
-                                newRow.retur,
-                                newRow.totalFOB,
-                                newRow.idPesanan,
-                            ])
-                            .draw();
+                        let totalAmount = 0; // Initialize total for all items
+                        let totalFOBAmount = 0;
 
-                        totalAmount += totalValue;
-                    });
+                        data.data.forEach(function (item, index) {
+                            console.log(item);
 
-                    totalLihat.value = numeral(totalAmount).format("0,0.00");
-                }
+                            // Convert 'item.Total' from format '0.0,00' to a number
+                            let totalValue = parseFloat(
+                                item.Total.replace(/\./g, ".").replace(",", "")
+                            );
 
-                var myModal = new bootstrap.Modal(
-                    document.getElementById("modalLihatItem"),
-                    {
-                        keyboard: false,
+                            let totalFOBValue;
+
+                            if (item.TotalFOB.includes(",")) {
+                                totalFOBValue = parseFloat(
+                                    item.TotalFOB.replace(/\./g, ".").replace(
+                                        ",",
+                                        ""
+                                    )
+                                );
+                            } else {
+                                totalFOBValue = parseFloat(item.TotalFOB);
+                            }
+
+                            const newRow = {
+                                namaType: item.NamaBarang,
+                                kwantum: item.JmlTerimaUmum,
+                                hargaSatuan: item.HargaSatuan,
+                                satuan: item.Satuan,
+                                total: item.Total,
+                                retur: item.StatusRetur,
+                                totalFOB: item.TotalFOB,
+                                idPesanan: item.IdPesanan,
+                            };
+
+                            // Add row to the DataTable
+                            table_tampilBKK.row
+                                .add([
+                                    newRow.namaType,
+                                    newRow.kwantum,
+                                    newRow.hargaSatuan,
+                                    newRow.satuan,
+                                    newRow.total,
+                                    newRow.retur,
+                                    newRow.totalFOB,
+                                    newRow.idPesanan,
+                                ])
+                                .draw();
+
+                            totalAmount += totalValue;
+                            totalFOBAmount += totalFOBValue;
+                        });
+
+                        totalLihat.value =
+                            numeral(totalAmount).format("0,0.00");
+
+                        totalFOB.value = totalFOBAmount;
                     }
-                );
-                myModal.show();
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err.Message);
-            },
-        });
+
+                    var myModal = new bootstrap.Modal(
+                        document.getElementById("modalLihatItem"),
+                        {
+                            keyboard: false,
+                        }
+                    );
+                    myModal.show();
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                },
+            });
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data terlebih dahulu!",
+                showConfirmButton: true,
+            });
+        }
     });
 
     btn_penagih.addEventListener("click", async function (event) {

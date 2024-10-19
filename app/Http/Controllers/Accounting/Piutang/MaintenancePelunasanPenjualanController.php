@@ -4,14 +4,21 @@ namespace App\Http\Controllers\Accounting\Piutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
+use Log;
+use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 class MaintenancePelunasanPenjualanController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.MaintenancePelunasanPenjualan', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.MaintenancePelunasanPenjualan', compact('access'));
+        // $data = 'Accounting';
+        // return view('Accounting.Piutang.MaintenancePelunasanPenjualan', compact('data'));
     }
 
     public function getCustIsi()
