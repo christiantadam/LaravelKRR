@@ -478,9 +478,15 @@ kursRupiah.addEventListener("keypress", function (event) {
         event.preventDefault();
         kursRupiah.value = parseFloat(kursRupiah.value.replace(/[^0-9.]/g, '')).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
-        if (kursRupiah.value === 0 || kursRupiah.value === '0') {
-            alert('Kurs TIDAK BOLEH = 0 !');
-            kursRupiah.focus();
+        if (kursRupiah.value === 0.00 || kursRupiah.value === '0.00') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Kurs TIDAK BOLEH = 0 !',
+                returnFocus: false
+            }).then(() => {
+                kursRupiah.select();
+            });
         } else {
             console.log('else ', idMataUangBKM.value, idMtUang);
 

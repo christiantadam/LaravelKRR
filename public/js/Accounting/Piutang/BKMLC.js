@@ -58,6 +58,17 @@ var symbolgtBKM = document.getElementById('symbolgtBKM');
 var grandTotalBKM = document.getElementById('grandTotalBKM');
 var sidoarjoBKM = document.getElementById('sidoarjoBKM');
 
+// Assign all IDs to variables
+var namaCetakBKK = document.getElementById('namaCetakBKK');
+var dateCetakBKK = document.getElementById('dateCetakBKK');
+var voucherCetakBKK = document.getElementById('voucherCetakBKK');
+var descriptionCetakBKK = document.getElementById('descriptionCetakBKK');
+var paidCetakBKK = document.getElementById('paidCetakBKK');
+var postedCetakBKK = document.getElementById('postedCetakBKK');
+var amountBKK = document.getElementById('amountBKK');
+var totalAmountBKK = document.getElementById('totalAmountBKK');
+var batalNote = document.getElementById('batalNote');
+var alasanNote = document.getElementById('alasanNote');
 
 var today = new Date().toISOString().slice(0, 10);
 

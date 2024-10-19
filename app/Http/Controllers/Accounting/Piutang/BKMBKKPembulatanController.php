@@ -82,9 +82,11 @@ class BKMBKKPembulatanController extends Controller
                         'Total' => number_format($bkm->Total, 2, '.', ','),
                     ];
                 }
+                return datatables($response)->make(true);
+            } else {
+                return datatables([])->make(true);
             }
 
-            return datatables($response)->make(true);
         } else if ($id == 'getBKMDetails') {
             $kode = 2;
             $idBKM = trim($request->input('idBKM'));
@@ -110,7 +112,6 @@ class BKMBKKPembulatanController extends Controller
 
             // dd($response);
             return datatables($response)->make(true);
-
         } else if ($id == 'getPembulatan') {
             $results = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BKK_DP');
             // dd($results);
@@ -157,8 +158,6 @@ class BKMBKKPembulatanController extends Controller
                 'data' => $sno,
                 'message' => 'Laporan telah dicetak dengan sukses'
             ]);
-
-
         } else if ($id === 'getUraian') {
             $bank = $request->input('id_bank1');
             $tanggal = $request->input('tanggal');

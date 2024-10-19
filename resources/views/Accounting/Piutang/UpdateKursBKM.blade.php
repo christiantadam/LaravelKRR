@@ -1,6 +1,82 @@
 @extends('layouts.appAccounting')
 @section('content')
 @section('title', 'Maintenance Update Kurs BKM')
+<style>
+    .table-responsive.fixed-height tbody {
+        background-color: white;
+    }
+
+    .underline {
+        border-bottom: 1px solid black;
+        /* Change the color as needed */
+        margin-bottom: 10px;
+        /* Space between labels and line */
+    }
+
+    .table-responsive.fixed-height {
+        /* overflow-y: auto; */
+        /* position: relative; */
+        border-radius: 8px;
+        border: 2px solid black;
+        /* width: 100%; */
+        /* table-layout: fixed; */
+        background-color: white;
+    }
+
+    .no-wrap-header thead th {
+        white-space: nowrap;
+        background-color: lightgoldenrodyellow;
+        padding: 0;
+    }
+
+    .table-responsive.fixed-height tbody td {
+        background-color: white;
+        padding: 4px 5px;
+    }
+
+    .fixed-width {
+        white-space: nowrap;
+        /* Prevent text wrapping */
+        overflow: hidden;
+        /* Hide overflow text */
+        text-overflow: ellipsis;
+        /* Show "..." when the text overflows */
+        padding: 0;
+    }
+
+    table.dataTable {
+        table-layout: fixed;
+        /* Ensure table uses fixed layout */
+        width: 100%;
+        /* Ensure the table takes up the full width */
+    }
+
+    #table_list th,
+    #table_list td {
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: 16px;
+    }
+
+    @media print {
+        .card {
+            display: none;
+        }
+
+        .print {
+            visibility: visible !important;
+        }
+
+        .modal {
+            display: none !important;
+        }
+
+        .fade {
+            opacity: 0 !important;
+        }
+    }
+</style>
+
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -36,9 +112,8 @@
                                 </div>
                             </div>
 
-                            <br>
+                            <br>    
                             <div>
-                                Data Pelunasan
                                 <div class="table-responsive fixed-height">
                                     <table class="table table-bordered no-wrap-header" id="tableData">
                                         <thead></thead>
@@ -46,10 +121,12 @@
                                     </table>
                                 </div>
                             </div>
-                            <input type="text" id="idPelunasan" name="idPelunasan" class="form-control"
-                                style="width: 100%">
-                            <input type="text" id="idbkm" name="idbkm" class="form-control"
-                                style="width: 100%">
+                            <div class="col-sm-3 d-flex">
+                                <input type="hidden" id="idPelunasan" name="idPelunasan" class="form-control"
+                                    style="width: 100%">
+                                <input type="hidden" id="idbkm" name="idbkm" class="form-control"
+                                    style="width: 100%">
+                            </div>
 
                             <br>
                             <div class="mb-3">
@@ -62,12 +139,14 @@
                                             style="width: 100%">
                                     </div>
                                     <div class="col-2">
-                                        <button type="button" id="btnProses" class="btn btn-primary d-flex ml-auto"><strong>PROSES</strong></button>
+                                        <button type="button" id="btnProses"
+                                            class="btn btn-primary d-flex ml-auto"><strong>PROSES</strong></button>
                                     </div>
                                     <div class="col-3">
                                     </div>
                                     <div class="col-3">
-                                        <button type="button" id="btnPilihBKM" class="btn btn-primary d-flex ml-auto">Pilih BKM</button>
+                                        <button type="button" id="btnPilihBKM"
+                                            class="btn btn-primary d-flex ml-auto">Pilih BKM</button>
                                     </div>
                                 </div>
                             </div>
@@ -79,5 +158,5 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('js/Piutang/UpdateKursBKM.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/UpdateKursBKM.js') }}"></script>
 @endsection

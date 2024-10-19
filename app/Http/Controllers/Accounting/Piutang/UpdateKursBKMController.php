@@ -36,9 +36,37 @@ class UpdateKursBKMController extends Controller
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show($id, Request $request)
     {
-        //
+        if ($id === 'getDataPelunasan') {
+            $bulan = $request->input('bulan');
+            $tahun = $request->input('tahun');
+
+            $lunasResults = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_BKM_TUNAI @bln = ?, @thn = ?', [$bulan, $tahun]);
+            // dd($lunasResults);
+            $response = [];
+            $index = 0;
+
+            if (!empty($lunasResults)) {
+                foreach ($lunasResults as $data) {
+                    $index++;
+                    $response[] = [
+                        'Tgl_Input' => \Carbon\Carbon::parse($data->Tgl_Input)->format('m/d/Y'),
+                        'Id_BKM' => $data->Id_BKM,
+                        'Id_bank' => $data->Id_bank,
+                        'Nilai_Pelunasan' => number_format($data->Nilai_Pelunasan, 2, '.', ','),
+                        'RincianPelunasan' => number_format($data->RincianPelunasan, 2, '.', ','),
+                        'KodePerkiraan' => $data->KodePerkiraan,
+                        'Uraian' => $data->Uraian,
+                        'Id_Pelunasan' => $data->Id_Pelunasan
+                    ];
+                }
+                return datatables($response)->make(true);
+            } else {
+                return datatables([])->make(true);
+            }
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -48,23 +76,29 @@ class UpdateKursBKMController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $IdPelunasan = $request->IdPelunasan;
-        $idbkm = $request->idbkm;
-        $kursRupiah = $request->kursRupiah;
+        if ($id === 'proses') {
+            $idPelunasan = $request->input('idPelunasan');
+            $idbkm = $request->input('idbkm');
+            $kursRupiah = $request->input('kursRupiah');
 
-        DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_KURS_BKM]
-        @idPel = ?,
-        @idBKM = ?,
-        @kurs = ?',
-        [
-            $IdPelunasan,
-            $idbkm,
-            $kursRupiah
-        ]);
+            // dd($request->all());
 
-        return redirect()->back()->with('success', 'Data Tersimpan');
+            DB::connection('ConnAccounting')->statement(
+                'exec [SP_5298_ACC_UPDATE_KURS_BKM]
+                @idPel = ?,
+                @idBKM = ?,
+                @kurs = ?',
+                [
+                    $idPelunasan,
+                    $idbkm,
+                    $kursRupiah
+                ]
+            );
+
+            return response()->json(['success' => 'Data Tersimpan'], 200);
+        }
     }
 
     //Remove the specified resource from storage.

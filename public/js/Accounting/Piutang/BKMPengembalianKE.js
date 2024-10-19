@@ -68,6 +68,30 @@ document.addEventListener('DOMContentLoaded', function () {
     tgl.focus();
 });
 
+// Assign all IDs to variables
+var namaCetakBKK = document.getElementById('namaCetakBKK');
+var dateCetakBKK = document.getElementById('dateCetakBKK');
+var voucherCetakBKK = document.getElementById('voucherCetakBKK');
+var descriptionCetakBKK = document.getElementById('descriptionCetakBKK');
+var paidCetakBKK = document.getElementById('paidCetakBKK');
+var postedCetakBKK = document.getElementById('postedCetakBKK');
+var amountBKK = document.getElementById('amountBKK');
+var totalAmountBKK = document.getElementById('totalAmountBKK');
+var batalNote = document.getElementById('batalNote');
+var alasanNote = document.getElementById('alasanNote');
+
+var ket1BKM = document.getElementById('ket1BKM');
+var nomerBKM = document.getElementById('nomerBKM');
+var tanggalBKM = document.getElementById('tanggalBKM');
+var symbolBKM = document.getElementById('symbolBKM');
+var nilaiBKM = document.getElementById('nilaiBKM');
+var terbilangBKM = document.getElementById('terbilangBKM');
+// var bkmDetailsContainer = document.getElementById('bkmDetailsContainer');
+var symbolgtBKM = document.getElementById('symbolgtBKM');
+var grandTotalBKM = document.getElementById('grandTotalBKM');
+var sidoarjoBKM = document.getElementById('sidoarjoBKM');
+
+
 function scrollRowIntoView(rowElement) {
     rowElement.scrollIntoView({ block: 'nearest' });
 }
@@ -905,5 +929,644 @@ $('#uraian1').on('keydown', function (e) {
                 });
             }
         }
+    }
+});
+
+function updateDateBKK() {
+    $.ajax({
+        type: 'PUT',
+        url: 'BKMLC/updateDateBKK',
+        data: {
+            _token: csrfToken,
+            idBKK: idCetakBKK.value.trim(),
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+function updateDateBKM() {
+    $.ajax({
+        type: 'PUT',
+        url: 'BKMLC/updateDateBKM',
+        data: {
+            _token: csrfToken,
+            idBKM: idCetakBKM.value.trim(),
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+function updateDataTable(data, angka) {
+
+    if (angka === 1) {
+        var tableData = $('#tableData').DataTable();
+        tableData.clear();
+        data.forEach(function (item) {
+            tableData.row.add([
+                `<div>
+                <input type="checkbox" name="divisiCheckbox" value="${formatDateToMMDDYYYY(item.Tgl_Input)}" />
+                <span>${formatDateToMMDDYYYY(item.Tgl_Input)}</span>
+            </div>`,
+                escapeHtml(item.Id_BKM),
+                escapeHtml(item.Id_bank),
+                escapeHtml(item.Bank),
+                escapeHtml(item.MataUang),
+                escapeHtml(item.NamaCust),
+                numeral(parseFloat(item.Nilai_Pelunasan)).format("0,0.00"),
+                numeral(parseFloat(item.SaldoPelunasan)).format("0,0.00"),
+                escapeHtml(item.Id_Pelunasan),
+                escapeHtml(item.Jenis_Bank),
+                escapeHtml(item.Id_MataUang),
+                escapeHtml(item.ID_Cust),
+            ]);
+        });
+        tableData.draw();
+    }
+    else if (angka === 4) {
+        var tableListBKM = $('#tableListBKM').DataTable();
+
+        tableListBKM.clear();
+        data.forEach(function (item) {
+            tableListBKM.row.add([
+                formatDateToMMDDYYYY(item.Tgl_Input),
+                escapeHtml(item.Id_BKM),
+                numeral(parseFloat(item.Nilai_Pelunasan)).format("0,0.00"),
+                item.Terjemahan ? escapeHtml(item.Terjemahan) : '',
+            ]);
+        });
+        tableListBKM.draw();
+    }
+    else if (angka === 5) {
+        var tableListBKK = $('#tableListBKK').DataTable();
+
+        tableListBKK.clear();
+        data.forEach(function (item) {
+            tableListBKK.row.add([
+                formatDateToMMDDYYYY(item.Tgl_Input),
+                escapeHtml(item.Id_BKK),
+                numeral(parseFloat(item.Nilai_Pembulatan)).format("0,0.00"),
+                escapeHtml(item.Terjemahan),
+            ]);
+        });
+        tableListBKK.draw();
+    }
+}
+
+function printPreview(previewClass) {
+    // Hide all content first
+    document.querySelectorAll('.preview, .preview2').forEach(function (preview) {
+        preview.style.display = "none"; // Hide both previews
+    });
+
+    // Show the selected preview
+    const previewToPrint = document.querySelector(`.${previewClass}`);
+    previewToPrint.style.display = "block"; // Show the selected preview
+
+    // Print the current view
+    window.print();
+
+    // Reset the display after printing
+    previewToPrint.style.display = "none"; // Hide the preview again
+}
+
+let isTableListBKKInitialized = false; // Flag for BKK table
+let isTableListBKMInitialized = false; // Flag for BKM table
+// Function to initialize both tables
+function initializeTables() {
+    if (!isTableListBKKInitialized) {
+        // Initialize tableListBKK
+        $('#tableListBKK').DataTable({
+            paging: false,
+            searching: true,
+            info: false,
+            ordering: false,
+            scrollY: '200px',
+            scrollX: true,
+            autoWidth: false,
+            columns: [
+                { title: 'Tgl. Input' },
+                { title: 'Id. BKK' },
+                { title: 'Nilai Pembulatan' },
+                { title: 'Terbilang' },
+            ],
+            columnDefs: [
+                { targets: [0, 1, 2, 3], width: '25%', className: 'fixed-width' }
+            ]
+        });
+        isTableListBKKInitialized = true; // Mark as initialized
+    }
+
+    if (!isTableListBKMInitialized) {
+        // Initialize tableListBKM
+        $('#tableListBKM').DataTable({
+            paging: false,
+            searching: true,
+            info: false,
+            ordering: false,
+            scrollY: '200px',
+            scrollX: true,
+            autoWidth: false,
+            columns: [
+                { title: 'Tgl. Input' },
+                { title: 'Id. BKM' },
+                { title: 'Nilai Pelunasan' },
+                { title: 'Terbilang' },
+            ],
+            columnDefs: [
+                { targets: [0, 1, 2, 3], width: '25%', className: 'fixed-width' }
+            ]
+        });
+        isTableListBKMInitialized = true; // Mark as initialized
+    }
+}
+
+// Event listener for displaying BKM modal
+btnTampilBKM.addEventListener('click', function () {
+    tglAwalBKM.value = today;
+    tglAkhirBKM.value = today;
+    idCetakBKM.value = '';
+
+    $('#modalListBKM').on('shown.bs.modal', function () {
+        // Initialize both tables if not done already
+        initializeTables();
+
+        $.ajax({
+            type: 'GET',
+            url: 'BKMPengembalianKE/getListFullBKM',
+            data: {
+                _token: csrfToken,
+            },
+            success: function (result) {
+                if (result.length !== 0) {
+                    updateDataTable(result, 4);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Clear the BKM table when opening the modal
+        var tableBKM = $('#tableListBKM').DataTable();
+        tableBKM.clear().draw();
+        tglAwalBKM.focus();
+    });
+
+    $('#modalListBKM').modal('show');
+});
+
+btnOkBKM.addEventListener('click', function () {
+    var table = $('#tableListBKM').DataTable();
+    table.clear().draw();
+
+    $.ajax({
+        type: 'GET',
+        url: 'BKMPengembalianKE/getListBKM',
+        data: {
+            _token: csrfToken,
+            tgl1: tglAwalBKM.value,
+            tgl2: tglAkhirBKM.value
+        },
+        success: function (result) {
+            if (result.length !== 0) {
+                updateDataTable(result, 4);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+});
+
+$('#tableListBKM tbody').on('click', 'tr', function () {
+    var table = $('#tableListBKM').DataTable();
+    table.$('tr.selected').removeClass('selected');
+    $(this).addClass('selected');
+
+    var data = table.row(this).data();
+
+    idCetakBKM.value = decodeHtmlEntities(data[1]);
+});
+
+btnCetakBKM.addEventListener('click', function () {
+    if (idCetakBKM.value === '') {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Id.BKM Untuk DiCetak!',
+            returnFocus: false
+        });
+        return;
+    }
+    else {
+        $.ajax({
+            type: 'GET',
+            url: 'BKMPengembalianKE/getCetakBKM',
+            data: {
+                _token: csrfToken,
+                id_bkm: idCetakBKM.value
+            },
+            success: function (result) {
+                if (result.length !== 0) {
+                    let totalBKM = 0;
+                    var bkmDetailsContainer = document.getElementById("bkmDetailsContainer");
+
+                    bkmDetailsContainer.innerHTML = "";
+
+                    if (result[0].Id_Bank === 'KRR2' || result[0].Id_Bank === 'KRR1') {
+                        ket1BKM.innerHTML = '<h5><b>BUKTI PENERIMAAN KAS</b></h5>';
+                    }
+                    else {
+                        ket1BKM.innerHTML = '<h5><b>BUKTI PENERIMAAN BANK</b></h5>';
+                    }
+
+                    nomerBKM.innerHTML = '<h5><b>Nomer: ' + decodeHtmlEntities(result[0].Id_BKM) + '</b></h5>';
+
+                    var date = new Date(result[0].Tgl_Input);
+
+                    var monthNames = [
+                        "January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                    ];
+
+                    var day = date.getDate();
+                    var month = monthNames[date.getMonth()];
+                    var year = date.getFullYear();
+                    var formattedDate = day + '/' + month + '/' + year;
+
+                    tanggalBKM.innerHTML = '<h5><b>Tanggal: ' + formattedDate + '</b></h5>';
+
+                    symbolBKM.textContent = decodeHtmlEntities(result[0].Symbol);
+                    nilaiBKM.textContent = numeral(parseFloat(result[0].Nilai_Pelunasan)).format("0,0.00");
+
+                    terbilangBKM.textContent = decodeHtmlEntities(result[0].Terjemahan);
+
+                    result.forEach(function (item, index) {
+                        var row = document.createElement("div");
+                        row.classList.add("row");
+                        row.style.width = "95%";
+
+                        // COA column
+                        var coaCol = document.createElement("div");
+                        coaCol.classList.add("col-sm-7", "text-left");
+                        coaCol.style.borderLeft = "1px solid black";  // Border kiri
+
+                        // Variabel item yang berisi properti yang akan digunakan
+                        var namaCust = item.NamaCust;
+                        var uraian = item.Uraian;
+
+                        if (namaCust === '-') {
+                            coaCol.textContent = decodeHtmlEntities(uraian);
+                        } else if (namaCust !== '-' && uraian !== 'UANG MUKA (DP)') {
+                            coaCol.textContent = decodeHtmlEntities(namaCust + ' - ' + uraian);
+                        } else if (namaCust !== '-' && uraian === 'UANG MUKA (DP)') {
+                            coaCol.textContent = decodeHtmlEntities(namaCust + ' - UANG TITIPAN');
+                        }
+
+                        row.appendChild(coaCol);
+
+                        // Account Name column
+                        var accountCol = document.createElement("div");
+                        accountCol.classList.add("col-sm-2", "text-center");
+                        accountCol.style.borderLeft = "1px solid black";  // Border kiri
+                        accountCol.style.borderRight = "1px solid black";  // Border kiri
+                        accountCol.textContent = decodeHtmlEntities(item.KodePerkiraan);
+                        row.appendChild(accountCol);
+
+                        // Description column
+                        var descriptionCol = document.createElement("div");
+                        descriptionCol.classList.add("col-sm-3", "text-right");
+                        descriptionCol.style.borderRight = "1px solid black"; // Border kanan
+                        descriptionCol.textContent = numeral(item.Nilai_Rincian).format("0,0.00");
+                        row.appendChild(descriptionCol);
+
+                        bkmDetailsContainer.appendChild(row);
+
+                        if (index === result.length - 1) {
+                            coaCol.style.borderBottom = "1px solid black";         // Border bawah
+                            accountCol.style.borderBottom = "1px solid black";     // Border bawah
+                            descriptionCol.style.borderBottom = "1px solid black";
+                        }
+                    });
+
+                    symbolgtBKM.textContent = decodeHtmlEntities(result[0].Symbol);
+                    grandTotalBKM.textContent = numeral(parseFloat(result[0].totalNilaiRincian)).format("0,0.00");
+
+                    var today = new Date();
+                    var day = today.getDate();
+                    var month = monthNames[today.getMonth()];
+                    var year = today.getFullYear();
+
+                    var formattedToday = day + '/' + month + '/' + year;
+
+                    sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
+
+                    printPreview('preview');
+                    updateDateBKM();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
+    }
+});
+
+btnTampilBKK.addEventListener('click', function () {
+    tglAwalBKK.value = today;
+    tglAkhirBKK.value = today;
+    idCetakBKK.value = '';
+
+    $('#modalListBKK').on('shown.bs.modal', function () {
+        initializeTables();
+
+        $.ajax({
+            type: 'GET',
+            url: 'BKMPengembalianKE/getListFullBKK',
+            data: {
+                _token: csrfToken,
+            },
+            success: function (result) {
+                if (result.length !== 0) {
+                    updateDataTable(result, 5);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
+        var tableBKK = $('#tableListBKK').DataTable();
+        tableBKK.clear().draw();
+        tglAwalBKK.focus();
+    });
+
+    $('#modalListBKK').modal('show');
+});
+
+btnOkBKK.addEventListener('click', function () {
+    var table = $('#tableListBKK').DataTable();
+    table.clear().draw();
+
+    $.ajax({
+        type: 'GET',
+        url: 'BKMPengembalianKE/getListBKK',
+        data: {
+            _token: csrfToken,
+            tgl1: tglAwalBKK.value,
+            tgl2: tglAkhirBKK.value
+        },
+        success: function (result) {
+            if (result.length !== 0) {
+                updateDataTable(result, 5);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+});
+
+$('#tableListBKK tbody').on('click', 'tr', function () {
+    var table = $('#tableListBKK').DataTable();
+    table.$('tr.selected').removeClass('selected');
+    $(this).addClass('selected');
+
+    var data = table.row(this).data();
+
+    idCetakBKK.value = decodeHtmlEntities(data[1]);
+});
+
+btnCetakBKK.addEventListener('click', function () {
+    if (idCetakBKK.value === '') {
+        Swal.fire({
+            icon: 'error',
+            text: 'Pilih 1 Id.BKK Untuk DiCetak!',
+            returnFocus: false
+        });
+        return;
+    }
+    else {
+        $.ajax({
+            type: 'GET',
+            url: 'BKMPengembalianKE/getCetakBKK',
+            data: {
+                _token: csrfToken,
+                id_bkk: idCetakBKK.value
+            },
+            success: function (result) {
+                if (result.length !== 0) {
+                    let totalBKM = 0;
+                    var bkmDetailsContainer = document.getElementById("bkkDetailsContainer");
+
+                    bkmDetailsContainer.innerHTML = "";
+
+                    namaCetakBKK.textContent = ': ' + decodeHtmlEntities(result[0].Id_bank);
+                    voucherCetakBKK.textContent = ': ' + decodeHtmlEntities(result[0].Id_BKK);
+                    descriptionCetakBKK.textContent = ": " + decodeHtmlEntities(result[0].Nama_Bank);
+                    var today = new Date();
+
+                    var options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    var formattedToday = today.toLocaleDateString('en-GB', options).replace(/ /g, '-');
+                    postedCetakBKK.textContent = ": " + formattedToday;
+
+                    var date = new Date(result[0].Tgl_Input);
+                    var options = { year: 'numeric', month: 'short', day: 'numeric' };
+                    var formattedDate = date.toLocaleDateString('en-GB', options).replace(/ /g, '-');
+                    dateCetakBKK.textContent = ": " + formattedDate;
+
+                    paidCetakBKK.textContent = ": " + result[0].NM_SUP ? decodeHtmlEntities(result[0].NM_SUP) : '';
+
+                    if (result[0].Batal && result[0].Batal.trim() !== '') {
+                        batalNote.textContent = 'BATAL: ' + decodeHtmlEntities(result[0].Batal);
+                        batalNote.style.display = 'inline';
+                    } else {
+                        batalNote.style.display = 'none';
+                    }
+
+                    if (result[0].Alasan && result[0].Alasan.trim() !== '') {
+                        alasanNote.textContent = 'ALASAN: ' + decodeHtmlEntities(result[0].Alasan);
+                        alasanNote.style.display = 'inline';
+                    } else {
+                        alasanNote.style.display = 'none';
+                    }
+
+                    result.forEach(function (item, index) {
+                        var row = document.createElement("div");
+                        row.classList.add("row");
+
+                        // COA column
+                        var coaCol = document.createElement("div");
+                        coaCol.classList.add("col-sm-2", "text-left");
+                        coaCol.textContent = decodeHtmlEntities(item.KodePerkiraan);
+                        row.appendChild(coaCol);
+
+                        // Account Name column
+                        var accountCol = document.createElement("div");
+                        accountCol.classList.add("col-sm-3", "text-left");
+                        accountCol.textContent = decodeHtmlEntities(item.Keterangan);
+                        row.appendChild(accountCol);
+
+                        // Description column
+                        var descriptionCol = document.createElement("div");
+                        descriptionCol.classList.add("col-sm-3", "text-left");
+                        descriptionCol.textContent = decodeHtmlEntities(item.Rincian_Bayar);
+                        row.appendChild(descriptionCol);
+
+                        // Description column
+                        var cekBgCol = document.createElement("div");
+                        cekBgCol.classList.add("col-sm-2", "text-left");
+                        cekBgCol.textContent = decodeHtmlEntities(item.No_BGCek);
+                        row.appendChild(cekBgCol);
+
+                        // Amount column
+                        var amountCol = document.createElement("div");
+                        amountCol.classList.add("col-sm-2", "text-right");
+                        amountCol.textContent = numeral(parseFloat(item.Nilai_Rincian)).format("0,0.00");
+                        row.appendChild(amountCol);
+
+                        // Append the row to the container
+                        bkmDetailsContainer.appendChild(row);
+
+                        // Update the total
+                        totalBKM += parseFloat(item.Nilai_Rincian);
+
+                        // Add underline class only to the last row
+                        if (index === result.length - 1) {
+                            coaCol.classList.add("underline");
+                            accountCol.classList.add("underline");
+                            cekBgCol.classList.add("underline");
+                            descriptionCol.classList.add("underline");
+                            amountCol.classList.add("underline");
+                        }
+                    });
+
+                    amountBKK.textContent = 'Amount ' + decodeHtmlEntities(result[0].Id_MataUang_BC)
+                    totalAmountBKK.textContent = numeral(parseFloat(totalBKM)).format("0,0.00");
+
+                    printPreview('preview2');
+                    updateDateBKK();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
+    }
+});
+
+btnProses.addEventListener('click', function () {
+    var id_bkm, idbkk, nilai, nilai1;
+    var id, id1, Konversi, Konversi2;
+    var IdPembayaran;
+    var total1, total2;
+
+    // Assign values
+    id = idBKM.value.substring(0, 3);
+    id1 = idBKK.value.substring(0, 3);
+    id_bkm = isNaN(parseInt(id.substring(0, 3))) ? 0 : parseInt(id.substring(0, 3));
+    idbkk = isNaN(parseInt(id1.substring(0, 3))) ? 0 : parseInt(id1.substring(0, 3));
+    nilai = 0;
+    nilai1 = 0;
+
+    if (idBKK.value !== '' && idBKM.value !== '') {
+        nilai1 = numeral(uang.value).value();
+
+        if (parseInt(idUang.value) === 1) {
+            Konversi = convertNumberToWordsRupiah(nilai1);
+        }
+        else {
+            Konversi = convertNumberToWordsDollar(nilai1);
+        }
+
+        nilai = numeral(uang1.value).value();
+
+        if (parseInt(idUang1.value) === 1) {
+            Konversi2 = convertNumberToWordsRupiah(nilai);
+        }
+        else {
+            Konversi2 = convertNumberToWordsDollar(nilai);
+        }
+
+        prosesBKM();
+        prosesBKK();
+
+        Swal.fire({
+            icon: 'success',
+            text: "Data BKM Dengan No." + idBKM.value + " & BKK No. " + idBKK.value + " TerSimpan",
+            returnFocus: false
+        }).then(() => {
+            // tampilPelunasan();
+        });
+    }
+    else {
+        Swal.fire({
+            icon: 'error',
+            text: "Tidak Ada Yg diPROSES!",
+            returnFocus: false
+        });
+    }
+
+    function prosesBKM() {
+        $.ajax({
+            type: 'PUT',
+            url: 'BKMLC/insertBKM',
+            data: {
+                _token: csrfToken,
+                idBKM: idBKM.value,
+                tglinput: tgl.value,
+                terjemahan: Konversi,
+                nilaipelunasan: nilai1,
+                IdBank: idBank.value,
+                tgl: tgl.value,
+                idUang: idUang.value,
+                idJenis: idJenisBayar.value,
+                idBank: idBank.value,
+                kodeperkiraan: idPerkiraan.value,
+                uraian: uraian.value,
+                Kurs: numeral(kurs.value).value(),
+                idCust: idCust.value,
+                idbkm: id_bkm,
+                jenis: jenisBank.value,
+                tgl2: String(bln.value) + String(thn.value),
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    function prosesBKK() {
+        $.ajax({
+            type: 'PUT',
+            url: 'BKMLC/insertBKK',
+            data: {
+                _token: csrfToken,
+                idBKK: idBKK.value,
+                tgl: tgl.value,
+                terjemahan: Konversi,
+                nilaipelunasan: nilai,
+                IdBank: idBank1.value,
+                idUang: idUang.value,
+                idJenis: idJenisBayar.value,
+                idBank: idBank1.value,
+                nilai: nilai,
+                kurs: numeral(kurs.value).value(),
+                idBKM_acuan: idBKM.value,
+                keterangan: uraian1.value,
+                biaya: nilai,
+                kodeperkiraan: idPerkiraan1.value,
+                idbkk: idbkk,
+                jenis: jenisBank1.value,
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
     }
 });

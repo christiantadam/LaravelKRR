@@ -20,6 +20,8 @@ use App\Http\Controllers\Extruder\BeratKomposisi\KomposisiController;
 use App\Http\Controllers\Extruder\WarehouseTerima\WarehouseController;
 use App\Http\Controllers\Accounting\Piutang\BKMBKKNotaKreditController;
 use App\Http\Controllers\Accounting\Piutang\BKMBKKPembulatanController;
+use App\Http\Controllers\Accounting\Informasi\CetakNotaKreditController;
+use App\Http\Controllers\Accounting\Informasi\CetakNotaDanFakturController;
 use App\Http\Controllers\Accounting\Piutang\BatalBKMTransistorisController;
 use App\Http\Controllers\Accounting\Piutang\MaintenanceBKMTransistorisBankController;
 
@@ -1195,7 +1197,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getCetakPengembalianKE/{idBKMTampil}', 'App\Http\Controllers\Accounting\Piutang\BKMPengembalianKEController@getCetakPengembalianKE');
 
     Route::resource('MaintenanceUpdateKursBKM', UpdateKursBKMController::class);
-    Route::get('tabelpelunasankurs/{bulan}/{tahun}', 'App\Http\Controllers\Accounting\Piutang\UpdateKursBKMController@getTabelPelunasan');
 
     Route::resource('MaintenanceKodePerkiraanBKM', App\Http\Controllers\Accounting\Piutang\KodePerkiraanBKMController::class);
     Route::get('getIdBKMBatal5/{BlnThn}', 'App\Http\Controllers\Accounting\Piutang\KodePerkiraanBKMController@getIdBKM5');
@@ -1396,7 +1397,10 @@ Route::group(['middleware' => ['auth']], function () {
         return view('transaksi.printJobAssignment');
     });
 
-    //Form Informasi
+    #region Informasi
+    Route::resource('CetakNotaDanFaktur', CetakNotaDanFakturController::class);
+    Route::resource('CetakNotaKredit', CetakNotaKreditController::class);
+
     Route::get('/sp-informasi/SP_1273_CIR_CEK_MesinTidakAktif/{tgl_awal}/{tgl_akhir}', [InformasiCircularController::class, 'getMesinTidakAktif']);
     Route::post('/data-table/get-history-cir', [InformasiCircularController::class, 'getLaporanHistory']);
     #endregion

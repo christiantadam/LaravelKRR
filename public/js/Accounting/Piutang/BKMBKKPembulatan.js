@@ -121,6 +121,26 @@ $(document).ready(function () {
                         tahun: tahun.value,
                     });
                 },
+                error: function (xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat mengambil data.',
+                        returnFocus: false
+                    });
+                    table_DataBKM.clear().draw();
+                },
+                dataSrc: function (json) {
+                    if (json.data.length === 0) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Tidak Ada BKM Pembulatan',
+                            returnFocus: false
+                        });
+                    }
+                    return json.data; 
+                },
             },
             columns: [
                 {
@@ -135,9 +155,9 @@ $(document).ready(function () {
             paging: false,
             scrollY: "400px",
             scrollCollapse: true,
-            // columnDefs: [{ targets: [5], visible: false }],
         });
     }
+
 
     let rowDataArray = [];
 
