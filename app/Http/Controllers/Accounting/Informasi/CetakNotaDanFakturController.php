@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Accounting\Informasi;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HakAksesController;
 
-class CekNotadanFakturController extends Controller
+
+class CetakNotaDanFaktur extends Controller
 {
-    public function CekNotadanFaktur()
+    public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Informasi.CekNotadanFaktur', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.CetakNotaDanFaktur', compact('access'));
     }
 
     //Show the form for creating a new resource.
