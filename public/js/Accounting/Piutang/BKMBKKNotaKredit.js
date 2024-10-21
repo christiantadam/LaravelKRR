@@ -812,10 +812,6 @@ function getIdNota(jenis, tipe) {
             } else if (result.IdBKK) {
                 idBKK.value = result.IdBKK.trim();
             }
-
-
-
-
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);

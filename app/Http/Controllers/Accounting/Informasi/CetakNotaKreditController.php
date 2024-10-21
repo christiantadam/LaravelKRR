@@ -13,7 +13,7 @@ class CetakNotaKreditController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Piutang.CetakNotaKredit', compact('access'));
+        return view('Accounting.Informasi.CetakNotaKredit', compact('access'));
     }
 
     public function getListCetakNotaKredit($tanggal)
@@ -38,8 +38,8 @@ class CetakNotaKreditController extends Controller
     {
         //dd($idBKM);
         $data = DB::connection('ConnAccounting')->table('vw_prg_cetak_nota_kredit')
-        ->where('Id_NotaKredit', $notaKredit)
-        ->get();
+            ->where('Id_NotaKredit', $notaKredit)
+            ->get();
         return $data;
     }
 
@@ -47,8 +47,8 @@ class CetakNotaKreditController extends Controller
     {
         //dd($idBKM);
         $data = DB::connection('ConnAccounting')->table('vw_Prg_Cetak_Pot_Harga')
-        ->where('Id_NotaKredit', $notaKredit)
-        ->get();
+            ->where('Id_NotaKredit', $notaKredit)
+            ->get();
         return $data;
     }
 
@@ -56,8 +56,8 @@ class CetakNotaKreditController extends Controller
     {
         //dd($idBKM);
         $data = DB::connection('ConnAccounting')->table('vw_prg_Cetak_Nota_Kredit_Free')
-        ->where('Id_NotaKredit', $notaKredit)
-        ->get();
+            ->where('Id_NotaKredit', $notaKredit)
+            ->get();
         return $data;
     }
 
@@ -65,8 +65,8 @@ class CetakNotaKreditController extends Controller
     {
         //dd($idBKM);
         $data = DB::connection('ConnAccounting')->table('vw_prg_Cetak_Selisih_Timbang')
-        ->where('Id_NotaKredit', $notaKredit)
-        ->get();
+            ->where('Id_NotaKredit', $notaKredit)
+            ->get();
         return $data;
     }
 
@@ -83,9 +83,39 @@ class CetakNotaKreditController extends Controller
     }
 
     //Display the specified resource.
-    public function show(cr $cr)
+    public function show($id, Request $request)
     {
-        //
+        $id_penagihan = trim($request->input('id_penagihan'));
+
+        if ($id === 'getCustomer') {
+            $tanggal = trim($request->input('tanggal'));
+
+            $data = DB::connection('ConnAccounting')->select('exec [SP_LIST_CETAK_NotaKredit] @Kode = 5, @Tanggal = ?', [$tanggal]);
+            // dd($data);
+            $data_isi = [];
+            foreach ($data as $detail_isi) {
+                $data_isi[] = [
+                    'Id_NotaKredit' => $detail_isi->Id_NotaKredit,
+                    'NamaCust' => $detail_isi->NamaCust
+                ];
+            }
+            return datatables($data_isi)->make(true);
+        } else if ($id === 'getSuratJalan') {
+            $data =  DB::connection('ConnAccounting')->select('exec [SP_LIST_CETAK_NOTAKREDIT] @Kode = 6, @ @ID_NOTAKREDIT = ?', [$id_penagihan]);
+            return response()->json($data);
+        } else if ($id === 'getDetil') {
+            $data =  DB::connection('ConnAccounting')->select('exec [SP_LIST_CETAK_NOTAKREDIT] @Kode = 12, @ @ID_NOTAKREDIT = ?', [$id_penagihan]);
+            dd($data);
+
+            $data_isi = [];
+            foreach ($data as $detail_isi) {
+                $data_isi[] = [
+                    'Status_PPN' => $detail_isi->Status_PPN,
+                    'JnsNotaKredit' => $detail_isi->JnsNotaKredit
+                ];
+            }
+            return response()->json($data);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -95,9 +125,83 @@ class CetakNotaKreditController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        $tanggal = trim($request->input('tanggal'));
+        $id_penagihan = trim($request->input('id_penagihan'));
+
+        if ($id === 'notaKreditPPN') {
+            $data = DB::connection('ConnAccounting')->select("SELECT * FROM vw_prg_cetak_nota_kredit} WHERE Id_NotaKredit = ?", [$id_penagihan]);
+            dd($data);
+
+            $data_isi = [];
+            foreach ($data as $detail_isi) {
+                $data_isi[] = [
+                    'Status_PPN' => $detail_isi->Status_PPN,
+                    'JnsNotaKredit' => $detail_isi->JnsNotaKredit
+                ];
+            }
+            return response()->json($data);
+        }
+
+        else if ($id === 'notaKredit') {
+
+        }
+
+        else if ($id === 'notaPotHargaPPN') {
+            $data = DB::connection('ConnAccounting')->select("SELECT * FROM vw_Prg_Cetak_Pot_Harga} WHERE Id_NotaKredit = ?", [$id_penagihan]);
+            dd($data);
+
+            $data_isi = [];
+            foreach ($data as $detail_isi) {
+                $data_isi[] = [
+                    'Status_PPN' => $detail_isi->Status_PPN,
+                    'JnsNotaKredit' => $detail_isi->JnsNotaKredit
+                ];
+            }
+            return response()->json($data);
+        }
+
+        else if ($id === 'notaPotHarga') {
+
+        }
+
+        else if ($id === 'notaFreePPN') {
+            $data = DB::connection('ConnAccounting')->select("SELECT * FROM vw_prg_Cetak_Nota_Kredit_Free} WHERE Id_NotaKredit = ?", [$id_penagihan]);
+            dd($data);
+
+            $data_isi = [];
+            foreach ($data as $detail_isi) {
+                $data_isi[] = [
+                    'Status_PPN' => $detail_isi->Status_PPN,
+                    'JnsNotaKredit' => $detail_isi->JnsNotaKredit
+                ];
+            }
+            return response()->json($data);
+        }
+
+        else if ($id === 'notaFree') {
+
+        }
+
+        else if ($id === 'notaSelisihPPN') {
+            $data = DB::connection('ConnAccounting')->select("SELECT * FROM vw_prg_Cetak_Selisih_Timbang} WHERE Id_NotaKredit = ?", [$id_penagihan]);
+            dd($data);
+
+            $data_isi = [];
+            foreach ($data as $detail_isi) {
+                $data_isi[] = [
+                    'Status_PPN' => $detail_isi->Status_PPN,
+                    'JnsNotaKredit' => $detail_isi->JnsNotaKredit
+                ];
+            }
+            return response()->json($data);
+        }
+
+        else if ($id === 'notaSelisih') {
+
+        }
+
     }
 
     //Remove the specified resource from storage.
