@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\HakAksesController;
 
 
-class CetakNotaDanFaktur extends Controller
+class CetakNotaDanFakturController extends Controller
 {
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Piutang.CetakNotaDanFaktur', compact('access'));
+        return view('Accounting.Informasi.CetakNotadanFaktur', compact('access'));
     }
 
     //Show the form for creating a new resource.

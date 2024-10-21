@@ -392,10 +392,10 @@ btnMataUang.addEventListener("click", function (e) {
                     }
                 });
 
-                if (idUang.value.trim() !== 1) {
+                if (parseInt(idUang.value) !== 1) {
                     kurs.readOnly = false;
                 }
-                else if (idUang.value.trim() === 1) {
+                else if (parseInt(idUang.value) === 1) {
                     kurs.readOnly = true;
                 }
 
@@ -423,7 +423,7 @@ $('#uang').on('keydown', function (e) {
             return;
         }
         else {
-            if (kurs.disabled === false) {
+            if (kurs.readOnly === false) {
                 kurs.focus();
             }
             else {
@@ -770,7 +770,7 @@ $('#uraian').on('keydown', function (e) {
                             enableBKK();
 
                             mataUang1.value = mataUang.value;
-                            uang1.value = mataUang.value;
+                            uang1.value = uang.value;
                             bank1.value = bank.value;
                             idBank1.value = idBank.value;
                             jenisBank1.value = jenisBank.value;
@@ -1469,42 +1469,44 @@ btnProses.addEventListener('click', function () {
     // Assign values
     id = idBKM.value.substring(0, 3);
     id1 = idBKK.value.substring(0, 3);
-    id_bkm = isNaN(parseInt(id.substring(0, 3))) ? 0 : parseInt(id.substring(0, 3));
-    idbkk = isNaN(parseInt(id1.substring(0, 3))) ? 0 : parseInt(id1.substring(0, 3));
+    id_bkm = isNaN(parseInt(id)) ? 0 : parseInt(id);
+    idbkk = isNaN(parseInt(id1)) ? 0 : parseInt(id1);
     nilai = 0;
     nilai1 = 0;
 
     if (idBKK.value !== '' && idBKM.value !== '') {
-        nilai1 = numeral(uang.value).value();
+        async function konversiDanProses() {
+            nilai1 = numeral(uang.value).value();
 
-        if (parseInt(idUang.value) === 1) {
-            Konversi = convertNumberToWordsRupiah(nilai1);
+            if (parseInt(idUang.value) === 1) {
+                Konversi = await convertNumberToWordsRupiah(nilai1);
+            } else {
+                Konversi = await convertNumberToWordsDollar(nilai1);
+            }
+
+            nilai = numeral(uang1.value).value();
+
+            if (parseInt(idUang1.value) === 1) {
+                Konversi2 = await convertNumberToWordsRupiah(nilai);
+            } else {
+                Konversi2 = await convertNumberToWordsDollar(nilai);
+            }
+
+            // Make sure AJAX requests run only after the conversions
+            await prosesBKM();
+            await prosesBKK();
         }
-        else {
-            Konversi = convertNumberToWordsDollar(nilai1);
-        }
 
-        nilai = numeral(uang1.value).value();
-
-        if (parseInt(idUang1.value) === 1) {
-            Konversi2 = convertNumberToWordsRupiah(nilai);
-        }
-        else {
-            Konversi2 = convertNumberToWordsDollar(nilai);
-        }
-
-        prosesBKM();
-        prosesBKK();
-
-        Swal.fire({
-            icon: 'success',
-            text: "Data BKM Dengan No." + idBKM.value + " & BKK No. " + idBKK.value + " TerSimpan",
-            returnFocus: false
-        }).then(() => {
-            // tampilPelunasan();
+        // Panggil function utama
+        konversiDanProses().then(() => {
+            Swal.fire({
+                icon: 'success',
+                text: "Data BKM Dengan No." + idBKM.value + " & BKK No. " + idBKK.value + " TerSimpan",
+                returnFocus: false
+            });
         });
-    }
-    else {
+
+    } else {
         Swal.fire({
             icon: 'error',
             text: "Tidak Ada Yg diPROSES!",
@@ -1512,10 +1514,12 @@ btnProses.addEventListener('click', function () {
         });
     }
 
-    function prosesBKM() {
-        $.ajax({
+    async function prosesBKM() {
+        console.log(Konversi); // Make sure Konversi is logged
+
+        return $.ajax({
             type: 'PUT',
-            url: 'BKMLC/insertBKM',
+            url: 'BKMPengembalianKE/insertBKM',
             data: {
                 _token: csrfToken,
                 idBKM: idBKM.value,
@@ -1541,15 +1545,15 @@ btnProses.addEventListener('click', function () {
         });
     }
 
-    function prosesBKK() {
-        $.ajax({
+    async function prosesBKK() {
+        return $.ajax({
             type: 'PUT',
-            url: 'BKMLC/insertBKK',
+            url: 'BKMPengembalianKE/insertBKK',
             data: {
                 _token: csrfToken,
                 idBKK: idBKK.value,
                 tgl: tgl.value,
-                terjemahan: Konversi,
+                terjemahan: Konversi2,
                 nilaipelunasan: nilai,
                 IdBank: idBank1.value,
                 idUang: idUang.value,

@@ -517,6 +517,8 @@ class BKMPengembalianKEController extends Controller
             $jenis = $request->input('jenis');
             $tgl2 = $request->input('tgl2');
 
+            // dd($request->all());
+
             try {
                 DB::connection('ConnAccounting')
                     ->statement('exec [SP_5298_ACC_INSERT_BKM_TPELUNASAN]
@@ -596,6 +598,7 @@ class BKMPengembalianKEController extends Controller
             $kodeperkiraan = $request->input('kodeperkiraan');
             $idbkk = $request->input('idbkk');
             $jenis = $request->input('jenis');
+            // dd($request->all());
 
             try {
                 DB::connection('ConnAccounting')
@@ -611,10 +614,11 @@ class BKMPengembalianKEController extends Controller
 
                 DB::connection('ConnAccounting')
                     ->statement('exec [SP_5298_ACC_INSERT_BKK_TPEMBAYARAN_TAG]
-                @idBKK = ?, @idUang = ?, @idJenis = ?, @nilai = ?, @user = ?, @kurs = ?, @idBKM_acuan = ?', [
+                @idBKK = ?, @idUang = ?, @idJenis = ?, @idBank = ?, @nilai = ?, @user = ?, @kurs = ?, @idBKM_acuan = ?', [
                         $idBKK,
                         $idUang,
                         $idJenis,
+                        $idBank,
                         $nilai,
                         $user,
                         $kurs,
