@@ -7,12 +7,23 @@ let statusPPN = document.getElementById('statusPPN');
 let jnsNotaKredit = document.getElementById('jnsNotaKredit');
 let btnCetak = document.getElementById('btnCetak');
 let btn_cust = document.getElementById('btn_cust');
-
 let id_penagihan = '';
 let xnomor = '';
 
+var notaKreditPPN = document.querySelector(".notaKreditPPN");
+
+
+// nota kredit ppn
+
+
 tanggal.valueAsDate = new Date();
 btn_cust.focus();
+
+tanggal.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        btn_cust.focus();
+    }
+});
 
 function handleTableKeydown(e, tableId) {
     const table = $(`#${tableId}`).DataTable();
@@ -162,6 +173,9 @@ btn_cust.addEventListener("click", function (e) {
                 namaCustomer.value = result.value.NamaCust.trim();
 
                 if (id_penagihan !== '') {
+                    DisplaySuratJalan(id_penagihan);
+                    DisplayDetail(id_penagihan);
+
                     btnCetak.focus();
                 }
             }
@@ -222,54 +236,163 @@ function DisplayDetail(idtagih) {
     });
 }
 
+function formatDate(dateStr) {
+    var date = new Date(dateStr);
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    return day + '/' + month + '/' + year;
+}
+
+function printPreview(previewClass) {
+    document.querySelectorAll('.printBKK, .printBKM').forEach(function (preview) {
+        preview.style.display = "none";
+    });
+
+    const previewToPrint = document.querySelector(`.${previewClass}`);
+    previewToPrint.style.display = "block";
+
+    window.print();
+
+    previewToPrint.style.display = "none";
+}
 
 btnCetak.addEventListener('click', function (event) {
     event.preventDefault();
 
-    DisplaySuratJalan(id_penagihan);
-    DisplayDetail(id_penagihan);
-
     if (jnsNotaKredit.value === '1') {
-        if (statusPPN.value === 'Y') {
-            $.ajax({
-                type: 'PUT',
-                url: 'CetakNotaKredit/notaKreditPPN',
-                data: {
-                    _token: csrfToken,
-                    id_penagihan: id_penagihan
-                },
-                success: function (result) {
-                    console.log(result);
+        $.ajax({
+            type: 'GET',
+            url: 'CetakNotaKredit/notaKreditPPN',
+            data: {
+                _token: csrfToken,
+                id_penagihan: id_penagihan
+            },
+            success: function (result) {
+                console.log(result);
+                
+                let data = result[0];
+                var npwp = data.NPWP.trim();
+                var formattedNpwp = npwp.substring(0, 2) + ' . ' +
+                    npwp.substring(2, 5) + ' . ' +
+                    npwp.substring(5, 8) + ' . ' +
+                    npwp.substring(8, 9) + ' - ' +
+                    npwp.substring(9, 12) + ' . ' +
+                    npwp.substring(12, 15);
+
+                if (statusPPN.value === 'Y') {
+                    notaKreditPPN.querySelector("#nama").innerHTML = data.NamaNPWP.trim();
+                    notaKreditPPN.querySelector("#alamat").innerHTML = data.AlamatNPWP.trim();
+                    notaKreditPPN.querySelector("#npwp").innerHTML = formattedNpwp;
+                    notaKreditPPN.querySelector("#nomor").innerHTML = 'NO. : ' + data.Id_NotaKredit.trim();
+                    notaKreditPPN.querySelector("#ketPajak").innerHTML =
+                    '( Atas Faktur Pajak No. 010.000.09-' + data.IdFakturPajak.trim() + ' &nbsp; &nbsp; Tgl. ' + formatDate(data.Tgl_Penagihan.trim()) + ' )';
+
+                    // notaKreditPPN.querySelector("#idFakturPajak").innerHTML = data.IdFakturPajak.trim();
+                    // notaKreditPPN.querySelector("#pajak1").innerHTML = 'Tgl. ' + formatDate(data.Tgl_Penagihan.trim()) + ')';
+
+                    let totalRetur = 0;
+
+                    data.forEach(function (item, index) {
+                        let nomer = document.createElement("div");
+                        nomer.innerHTML = index + 1;
+                        notaKreditPPN.querySelector("#no").appendChild(nomer);
+
+                        // nama type barang
+                        let namatypebarang = document.createElement("div");
+                        namatypebarang.innerHTML = item.NAMATYPEBARANG.trim();
+                        notaKreditPPN.querySelector("#namaTypeBarang").appendChild(namatypebarang);
+
+                        // nama barang
+                        let namabarang = document.createElement("div");
+                        namabarang.innerHTML = item.NamaBarang.trim();
+                        notaKreditPPN.querySelector("#namaBarang").appendChild(namabarang);
+
+                        // nama barang
+                        let no_po = document.createElement("div");
+                        no_po.innerHTML = '( PO. No : ' + item.NO_PO.trim() + ')';
+                        notaKreditPPN.querySelector("#no_po").appendChild(no_po);
+
+                        // qty konversi
+                        let qty = parseFloat(item.QTyKonversi.trim());
+                        let qtyDiv = document.createElement("div");
+                        qtyDiv.innerHTML = qty.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
+                        notaKreditPPN.querySelector("#qtyKonversi").appendChild(qtyDiv);
+
+                        // satuan jual
+                        let satuan = parseFloat(item.SatuanJual.trim());
+                        let satuanjualDiv = document.createElement("div");
+                        satuanjualDiv.innerHTML = satuan.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
+                        notaKreditPPN.querySelector("#satuanJual").appendChild(satuanjualDiv);
+
+                        // harga satuan
+                        let hargasatuan = parseFloat(item.HargaSatuan.trim());
+                        let hargasatuanDiv = document.createElement("div");
+                        hargasatuanDiv.innerHTML = hargasatuan.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
+                        notaKreditPPN.querySelector("#hargaSatuan").appendChild(hargasatuanDiv);
+
+                        // total
+                        let totalValue = Number(item.QTyKonversi) * Number(item.HargaSatuan) * Number(item.NilaiKurs);
+                        let total = document.createElement("div");
+                        total.innerHTML = totalValue.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });;
+                        notaKreditPPN.querySelector("#total").appendChild(total);
+
+                        // Update total
+                        totalRetur += totalValue;
+                    });
+
+                    notaKreditPPN.querySelector("#grandTotal1").innerHTML =
+                        totalRetur.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
+                    notaKreditPPN.querySelector("#grandTotal2").innerHTML =
+                        totalRetur.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
 
 
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    let pajak = Number(totalRetur) * 0.1
+                    notaKreditPPN.querySelector("#nilaiPajak").innerHTML =
+                        pajak.toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });;
+
+                    notaKreditPPN.querySelector("#idPenagihan").innerHTML = data.Id_Penagihan.trim();
+                    notaKreditPPN.querySelector("#tanggal").innerHTML = formatDate(data.Tanggal.trim());
+                    notaKreditPPN.querySelector("#nama").innerHTML = data.NamaNPWP.trim();
+
+                    printPreview('notaKreditPPN');
+                } else {
+
                 }
-            });
-        } else {
-            $.ajax({
-                type: 'PUT',
-                url: 'CetakNotaKredit/notaKredit',
-                data: {
-                    _token: csrfToken,
-                    id_penagihan: id_penagihan
-                },
-                success: function (result) {
-                    console.log(result);
 
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
 
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
-            });
-        }
 
     } else if (jnsNotaKredit.value === '2') {
         if (statusPPN.value === 'Y') {
             $.ajax({
-                type: 'PUT',
+                type: 'GET',
                 url: 'CetakNotaKredit/notaPotHargaPPN',
                 data: {
                     _token: csrfToken,
@@ -286,7 +409,7 @@ btnCetak.addEventListener('click', function (event) {
             });
         } else {
             $.ajax({
-                type: 'PUT',
+                type: 'GET',
                 url: 'CetakNotaKredit/notaPotHarga',
                 data: {
                     _token: csrfToken,
@@ -378,33 +501,31 @@ btnCetak.addEventListener('click', function (event) {
         }
 
     }
+});
 
+// let suratJalanArray = [];
+// function DisplaySuratJalan() {
+//     fetch("/getIdSuratJalanNotaKredit/" + notaKredit.value)
+//         .then((response) => response.json())
+//         .then((options) => {
+//             console.log(options);
+//             xnomor = "";
+//             if (xnomor !== "") {
+//                 xnomor = xnomor + ", ";
+//             }
+//             xnomor = xnomor + options[0].SuratJalan;
 
-})
+//             console.log(xnomor);
+//         })
+// };
 
-let suratJalanArray = [];
-function DisplaySuratJalan() {
-    fetch("/getIdSuratJalanNotaKredit/" + notaKredit.value)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
-            xnomor = "";
-            if (xnomor !== "") {
-                xnomor = xnomor + ", ";
-            }
-            xnomor = xnomor + options[0].SuratJalan;
+// function DisplayDetail() {
+//     fetch("/getDisplayDetailNotaKredit/" + notaKredit.value)
+//         .then((response) => response.json())
+//         .then((options) => {
+//             console.log(options);
 
-            console.log(xnomor);
-        })
-};
-
-function DisplayDetail() {
-    fetch("/getDisplayDetailNotaKredit/" + notaKredit.value)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
-
-            statusPPN.value = options[0].Status_PPN;
-            jnsNotaKredit.value = options[0].JnsNotaKredit;
-        })
-}
+//             statusPPN.value = options[0].Status_PPN;
+//             jnsNotaKredit.value = options[0].JnsNotaKredit;
+//         })
+// }

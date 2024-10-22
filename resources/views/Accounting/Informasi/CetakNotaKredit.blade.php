@@ -156,7 +156,7 @@
 
 <div class="notaKreditPPN">
     <div class="container">
-        <div class="row">
+        <div class="row" style="margin-top: 10%">
             <div class="col-sm-12" style="text-align-last: center">
                 <div class="col-sm-12" style="text-align: center;">
                     <strong><u>LAMPIRAN KEPUTUSAN MENTERI KEUANGAN R.I</u></strong>
@@ -166,36 +166,39 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-1 mb-1" style="border: solid 1px; font: 16px">
+        <div class="row" style="border: solid 1px; font: 16px">
             <div class="col-sm-12"><strong><u>PEMBELI</u></strong></div>
             <div class="col-sm-2"></div>
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-sm-2">NAMA :</div>
-                    <div class="col-sm-10" id="nama"></div>
+                    <div class="col-sm-8" id="nama"></div>
+                    <div class="col-sm-2"></div>
                 </div>
                 <div class="row">
                     <div class="col-sm-2">ALAMAT :</div>
-                    <div class="col-sm-10" id="alamat"></div>
+                    <div class="col-sm-8" id="alamat"></div>
+                    <div class="col-sm-2"></div>
                 </div>
                 <div class="row">
                     <div class="col-sm-2">NPWP :</div>
-                    <div class="col-sm-10" id="npwp"></div>
+                    <div class="col-sm-8" id="npwp"></div>
+                    <div class="col-sm-2"></div>
                 </div>
             </div>
         </div>
-        <div class="row mt-1 mb-1" style="border: solid 1px; font: 16px">
+        <div class="row" style="border: solid 1px; font: 16px">
             <div class="col-sm-12">
                 <strong>
                     <center><u>NOTA RETUR</u></center>
                 </strong>
             </div>
-            <div class="col-sm-12" style="text-align: center; font: 16px" id="nomor">&nbsp;</div>
-            <div class="col-sm-3" id="pajak">&nbsp;</div>
-            <div class="col-sm-1" id="idFakturPajak">&nbsp;</div>
-            <div class="col-sm-2" id="pajak1">&nbsp;</div>
+            <div class="col-sm-12" style="text-align: center; font: 16px" id="nomor"><center></center></div>
+            <div class="col-sm-5" id="ketPajak"></div>
+            {{-- <div class="col-sm-1" id="idFakturPajak" style="text-align: left; padding: 0px"></div>
+            <div class="col-sm-1" id="pajak1" style="text-align: left; padding-left: 0px"></div> --}}
         </div>
-        <div class="row mt-1 mb-1" style="border: solid 1px; font: 16px">
+        <div class="row" style="border: solid 1px; font: 16px">
             <div class="col-sm-12"><strong><u>Kepada P E N J U A L</u></strong></div>
             <div class="col-sm-4"></div>
             <div class="col-sm-6">
@@ -214,48 +217,66 @@
             </div>
         </div>
 
-        <div class="row mt-1">
-            <div class="col-sm-1" style="border: solid 1px; font: 16px">No</div>
-            <div class="col-sm-5" style="border: solid 1px; font: 16px">Nama Barang Kena Pajak / Barang Mewah Yang Retur</div>
-            <div class="col-sm-2" style="border: solid 1px; font: 16px">Kuantum</div>
-            <div class="col-sm-2" style="border: solid 1px; font: 16px">Harga Satuan Faktur Pajak (Rp. )</div>
-            <div class="col-sm-2" style="border: solid 1px; font: 16px">Harga Jual Yang Diretur (Rp. )</div>
+        <div class="row">
+            <div class="col-sm-1" style="border: solid 1px; font: 16px"><center>No</center></div>
+            <div class="col-sm-5" style="border: solid 1px; font: 16px"><center>Nama Barang Kena Pajak / Barang Mewah Yang Retur</center></div>
+            <div class="col-sm-2" style="border: solid 1px; font: 16px"><center>Kuantum</center></div>
+            <div class="col-sm-2" style="border: solid 1px; font: 16px"><center>Harga Satuan Faktur Pajak (Rp. )</center></div>
+            <div class="col-sm-2" style="border: solid 1px; font: 16px"><center>Harga Jual Yang DiRetur (Rp. )</center></div>
         </div>
         <div class="row">
-            <div class="col-sm-1" id="no" style="border: solid 1px; font: 16px">No</div>
+            <div class="col-sm-1" id="no" style="border: solid 1px; font: 16px"><center>&nbsp;</center></div>
             <div class="col-sm-5" id="namaTypeBarang" style="border: solid 1px; font: 16px"></div>
-            <div class="col-sm-2" id="qtyKonversi" style="border: solid 1px; font: 16px"><div id="satuanJual"></div></div>
+            <div class="col-sm-2 d-flex" style="border: solid 1px; font: 16px; text-align: center;">
+                <div id="qtyKonversi" style="padding-right: 3%">bbbb</div>
+                <div id="satuanJual">aaa</div>
+            </div>
             <div class="col-sm-2" id="hargaSatuan" style="border: solid 1px; font: 16px"></div>
             <div class="col-sm-2" id="total" style="border: solid 1px; font: 16px"></div>
+
+            <div class="col-sm-5 offset-sm-1" id="namaBarang"></div><div class="col-sm-6"></div>
+            <div class="col-sm-5 offset-sm-1" id="no_po"></div><div class="col-sm-6"></div>
+
         </div>
         <div class="row" style="border: solid 1px; font: 16px">
             <div class="col-sm-2" style="font: 14px">Surat Jalan :</div>
             <div class="col-sm-6" id="suratJalan"></div>
-            <div class="col-sm-2">Harga Jual</div>
-            <div class="col-sm-2" id="grandTotal" style="border: solid 1px; font: 16px"></div>
+            <div class="col-sm-2" style="text-align: right;">Harga Jual</div>
+            <div class="col-sm-2" id="grandTotal1" style="border: solid 1px; font: 16px; text-align: right;"></div>
 
-            <div class="col-sm-2 offset-sm-8">Potongan Harga</div>
-            <div class="col-sm-2" style="border: solid 1px; font: 16px"> - </div>
+            <div class="col-sm-2 offset-sm-8" style="text-align: right;">Potongan Harga</div>
+            <div class="col-sm-2" style="border: solid 1px; font: 16px; text-align: right"> - </div>
         </div>
         <div class="row" style="border: solid 1px; font: 16px">
             <div class="col-sm-10"><center>Jumlah Harga Jual Barang yang diretur</center></div>
-            <div class="col-sm-2" id="grandTotal" style="border: solid 1px; font: 16px"></div>
+            <div class="col-sm-2" id="grandTotal2" style="border: solid 1px; font: 16px; text-align: right;"></div>
         </div>
 
 
-        <div class="row mt-1 mb-1" style="border: solid 1px; font: 16px">
-            <div class="col-sm-12">Jumlah Pajak Yang Dikurangkan :</div>
-            <div class="col-sm-5 offset-sm-6">a. Pajak Pertambahan Nilai (PPN) ...................................</div>
-            <div class="col-sm-2" id="nilaiPajak"></div>
-            <div class="col-sm-5 offset-sm-6">b. Pajak Penjualan atas Barang Mewah (PPN) ................</div>
-            {{-- <div class="col-sm-2"></div> --}}
+        <div class="row" style="border: solid 1px; font: 16px">
+            <div class="col-sm-10">Jumlah Pajak Yang Dikurangkan :</div>
+            <div class="col-sm-2"  style="border: solid 1px; border-bottom: 0px;"></div>
+            <div class="col-sm-5 offset-sm-5">a. Pajak Pertambahan Nilai (PPN) .......................................................</div>
+            <div class="col-sm-2" id="nilaiPajak" style="border: solid 1px; border-top: 0px; "></div>
+            <div class="col-sm-5 offset-sm-5">b. Pajak Penjualan atas Barang Mewah (PPN) ....................................</div>
+            <div class="col-sm-2" style="border: solid 1px;">&nbsp;</div>
 
         </div>
-        <div class="row mt-1 mb-1" style="border: solid 1px; font: 16px">
-        </div>
-        <div class="row mt-1 mb-1" style="border: solid 1px; font: 16px">
-        </div>
+        <div class="row" style="border: solid 1px; font: 16px">
+            <div class="col-sm-12"></div>
+            <div class="col-sm-2">Faktur No. :</div>
+            <div class="col-sm-2 offset-sm-4" id="idPenagihan"></div>
+            <div class="col-sm-1">Sidorarjo, </div>
+            <div class="col-sm-3" id="tanggal" style="border: solid 1px; border-left: 0px; border-top: 0px; border-right: 0px;"><center></center></div>
+            <div class="col-sm-3 offset-sm-9"><center>Pembeli</center></div>
+            <div class="col-sm-3 offset-sm-9"><center>Cap & ttd</center></div>
 
+            <div class="col-sm-5" style="margin-top: 7%">Lembar Ke-1 : Untuk PKP yang menerbitkan Faktur Pajak</div>
+            <div class="col-sm-3 offset-sm-4" style="border: solid 1px; border-left: 0px; border-top: 0px; border-right: 0px;"></div>
+            <div class="col-sm-12">Lembar Ke-2 : Untuk Pembeli Yang Meretur Barang</div>
+            <div class="col-sm-12">Lembar Ke-3 : Untuk Kantor Pelayanan Pajak</div>
+
+        </div>
 
     </div>
 </div>

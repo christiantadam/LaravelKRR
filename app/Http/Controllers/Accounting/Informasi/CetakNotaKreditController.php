@@ -100,12 +100,15 @@ class CetakNotaKreditController extends Controller
                 ];
             }
             return datatables($data_isi)->make(true);
+
         } else if ($id === 'getSuratJalan') {
-            $data =  DB::connection('ConnAccounting')->select('exec [SP_LIST_CETAK_NOTAKREDIT] @Kode = 6, @ @ID_NOTAKREDIT = ?', [$id_penagihan]);
+            $data =  DB::connection('ConnAccounting')->select('exec [SP_LIST_CETAK_NOTAKREDIT] @Kode = 6, @ID_NOTAKREDIT = ?', [$id_penagihan]);
+            // dd($data);
             return response()->json($data);
+
         } else if ($id === 'getDetil') {
-            $data =  DB::connection('ConnAccounting')->select('exec [SP_LIST_CETAK_NOTAKREDIT] @Kode = 12, @ @ID_NOTAKREDIT = ?', [$id_penagihan]);
-            dd($data);
+            $data =  DB::connection('ConnAccounting')->select('exec [SP_LIST_CETAK_NOTAKREDIT] @Kode = 12, @ID_NOTAKREDIT = ?', [$id_penagihan]);
+            // dd($data);
 
             $data_isi = [];
             foreach ($data as $detail_isi) {
@@ -116,31 +119,40 @@ class CetakNotaKreditController extends Controller
             }
             return response()->json($data);
         }
-    }
 
-    // Show the form for editing the specified resource.
-    public function edit($id)
-    {
-        //
-    }
-
-    //Update the specified resource in storage.
-    public function update(Request $request, $id)
-    {
-        $tanggal = trim($request->input('tanggal'));
-        $id_penagihan = trim($request->input('id_penagihan'));
-
-        if ($id === 'notaKreditPPN') {
-            $data = DB::connection('ConnAccounting')->select("SELECT * FROM vw_prg_cetak_nota_kredit} WHERE Id_NotaKredit = ?", [$id_penagihan]);
-            dd($data);
+        else if ($id === 'notaKreditPPN') {
+            $data = DB::connection('ConnAccounting')->select("SELECT * FROM vw_prg_cetak_nota_kredit WHERE Id_NotaKredit = ?", [$id_penagihan]);
+            // dd($data);
 
             $data_isi = [];
             foreach ($data as $detail_isi) {
                 $data_isi[] = [
-                    'Status_PPN' => $detail_isi->Status_PPN,
-                    'JnsNotaKredit' => $detail_isi->JnsNotaKredit
+                    'Id_NotaKredit' => $detail_isi->Id_NotaKredit,
+                    'Tanggal' => $detail_isi->Tanggal,
+                    'NamaNPWP' => $detail_isi->NamaNPWP,
+                    'AlamatNPWP' => $detail_isi->AlamatNPWP,
+                    'NPWP' => $detail_isi->NPWP,
+                    'NamaCust' => $detail_isi->NamaCust,
+                    'Alamat' => $detail_isi->Alamat,
+                    'Kota' => $detail_isi->Kota,
+                    'Id_Penagihan' => $detail_isi->Id_Penagihan,
+                    'IdFakturPajak' => $detail_isi->IdFakturPajak,
+                    'IDSuratPesanan' => $detail_isi->IDSuratPesanan,
+                    'NamaBarang' => $detail_isi->NamaBarang,
+                    'QTyKonversi' => $detail_isi->QTyKonversi,
+                    'SatuanJual' => $detail_isi->SatuanJual,
+                    'HargaSatuan' => $detail_isi->HargaSatuan,
+                    'NO_PO' => $detail_isi->NO_PO,
+                    'NAMATYPEBARANG' => $detail_isi->NAMATYPEBARANG,
+                    'Tgl_Penagihan' => $detail_isi->Tgl_Penagihan,
+                    'NilaiKurs' => $detail_isi->NilaiKurs,
+                    'Terbilang' => $detail_isi->Terbilang,
+                    'Nilai' => $detail_isi->Nilai,
+                    'SuratJalan' => $detail_isi->SuratJalan,
+                    'TglFakturPajak' => $detail_isi->TglFakturPajak
                 ];
             }
+
             return response()->json($data);
         }
 
@@ -201,7 +213,18 @@ class CetakNotaKreditController extends Controller
         else if ($id === 'notaSelisih') {
 
         }
+    }
 
+    // Show the form for editing the specified resource.
+    public function edit($id)
+    {
+        //
+    }
+
+    //Update the specified resource in storage.
+    public function update(Request $request, $id)
+    {
+        //
     }
 
     //Remove the specified resource from storage.
