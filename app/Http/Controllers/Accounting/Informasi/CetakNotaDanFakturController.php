@@ -29,9 +29,56 @@ class CetakNotaDanFakturController extends Controller
     }
 
     //Display the specified resource.
-    public function show(cr $cr)
+    public function show($id, Request $request)
     {
-        //
+        if ($id === 'getCust') {
+            $Tgl_Penagihan = $request->input('Tgl_Penagihan');
+
+            $divisi = DB::connection('ConnAccounting')->select(
+                'exec SP_LIST_PENAGIHAN_SJ @Kode = ?, @Tgl_Penagihan = ?'
+                ,
+                [10, $Tgl_Penagihan]
+            );
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'NamaCust' => $detail_divisi->NamaCust,
+                    'Id_Penagihan' => $detail_divisi->Id_Penagihan,
+                ];
+            }
+            return datatables($divisi)->make(true);
+        }
+
+        // get divisi
+        else if ($id === 'getSuratJalan') {
+            $Id_Penagihan = $request->input('Id_Penagihan');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_LIST_PENAGIHAN_SJ
+            @Kode = ?, @Id_Penagihan = ?', [11, $Id_Penagihan]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'Surat_Jalan' => $detail_divisi->Surat_Jalan,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
+
+        // get divisi
+        else if ($id === 'getPajak') {
+            $Id_Penagihan = $request->input('Id_Penagihan');
+
+            $divisi = DB::connection('ConnAccounting')->select('exec SP_LIST_PENAGIHAN_SJ
+                    @Kode = ?, @Id_Penagihan = ?', [12, $Id_Penagihan]);
+            $data_divisi = [];
+            foreach ($divisi as $detail_divisi) {
+                $data_divisi[] = [
+                    'IdFakturPajak' => $detail_divisi->IdFakturPajak,
+                    'Id_MataUang' => $detail_divisi->Id_MataUang,
+                ];
+            }
+            return response()->json($data_divisi);
+        }
     }
 
     // Show the form for editing the specified resource.

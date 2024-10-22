@@ -40,5 +40,5 @@
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Informasi/RekapPiutang.js') }}"></script>
+<script src="{{ asset('js/Accounting/Informasi/RekapPiutang.js') }}"></script>
 @endsection

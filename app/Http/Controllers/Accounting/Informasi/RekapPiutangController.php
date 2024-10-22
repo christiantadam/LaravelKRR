@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Accounting\Informasi;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\HakAksesController;
 
 class RekapPiutangController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Informasi.RekapPiutang', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+
+        return view('Accounting.Informasi.RekapPiutang', compact('access'));
     }
 
     public function getCekRekPiutang($tglAkhirLaporan)

@@ -1336,6 +1336,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('RekapPiutang', App\Http\Controllers\Accounting\Informasi\RekapPiutangController::class);
     Route::get('getCekRekPiutang/{tglAkhirLaporan}', 'App\Http\Controllers\Accounting\Informasi\RekapPiutangController@getCekRekPiutang');
 
+    Route::resource('KartuHutang', App\Http\Controllers\Accounting\Informasi\KartuHutangController::class);
     Route::get('KartuHutang', 'App\Http\Controllers\Accounting\Informasi\KartuHutangController@KartuHutang');
     #endregion
 
