@@ -1110,7 +1110,7 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: "info",
                         title: "Info!",
-                        text: response.error,
+                        text: data.error,
                         showConfirmButton: false,
                     });
                 } else {
@@ -1119,7 +1119,7 @@ $(document).ready(function () {
 
                         table_atas.clear().draw();
 
-                        let totalAmount = 0; // Initialize total for all items
+                        let totalAmount = 0;
 
                         data.data.forEach(function (item, index) {
                             console.log(item);

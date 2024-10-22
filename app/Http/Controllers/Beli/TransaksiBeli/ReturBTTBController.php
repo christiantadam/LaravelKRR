@@ -82,7 +82,7 @@ class ReturBTTBController extends Controller
         $IdType = $request->input('IdType');
         $IdTypeTransaksi = '06';
         try {
-            $check = DB::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_transaksi @IdType = ?, @IdTypeTransaksi = ?', [$IdType, $IdTypeTransaksi]);
+            $check = DB::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_transaks1 @IdType = ?, @IdTypeTransaksi = ?', [$IdType, $IdTypeTransaksi]);
             return response()->json($check);
         } catch (\Throwable $Error) {
             return Response()->json($Error);

@@ -23,14 +23,14 @@
                                 <input type="date" id="tanggalInput" name="tanggalInput" class="form-control"
                                     style="width: 100%">
                             </div>
-                            {{-- <div class="col-md-2" style="">
+                            <div class="col-md-2" style="display: none">
                                 <input type="text" id="jenisPPN" name="jenisPPN" class="form-control"
                                     style="width: 100%">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2" style="display: none">
                                 <input type="text" id="statusPPN" name="statusPPN" class="form-control"
                                     style="width: 100%">
-                            </div> --}}
+                            </div>
                         </div>
                         <p>
                         <div class="d-flex">
@@ -97,6 +97,10 @@
                                     class="form-control" style="width: 100%">
                             </div>
                             <div class="col-md-2" style="display: none">
+                                <input type="text" id="idbarang" name="idbarang" class="form-control"
+                                    style="width: 100%">
+                            </div>
+                            <div class="col-md-2" style="display: none">
                                 <input type="text" id="MIdRetur" name="MIdRetur" class="form-control"
                                     style="width: 100%">
                             </div>
@@ -138,7 +142,7 @@
                                 <label for="jumlahRetur" style="margin-right: 10px;">Jumlah Retur</label>
                             </div>
                             <div class="col-md-2">
-                                <input type="number" id="jumlahRetur" name="jumlahRetur" class="form-control"
+                                <input type="text" id="jumlahRetur" name="jumlahRetur" class="form-control"
                                     style="width: 100%">
                             </div>
                             <div class="col-md-1">
@@ -149,7 +153,7 @@
                                 <label for="harga" style="margin-right: 10px;">Harga</label>
                             </div>
                             <div class="col-md-2">
-                                <input type="number" id="harga" name="harga" class="form-control"
+                                <input type="text" id="harga" name="harga" class="form-control"
                                     style="width: 100%">
                             </div>
                             <div class="col-md-1 form-check">
@@ -169,12 +173,14 @@
                                 <input type="text" id="statusPelunasan" name="statusPelunasan"
                                     class="form-control" style="width: 100%">
                             </div>
-                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <label for="statusPelunasan" style="margin-right: 10px; color: blue" id="lblStatusPelunasan"></label>
+                            </div>
                             <div class="col-md-1">
                                 <label for="discount" style="margin-right: 10px;">Discount</label>
                             </div>
                             <div class="col-md-2">
-                                <input type="number" id="discount" name="discount" class="form-control"
+                                <input type="text" id="discount" name="discount" class="form-control"
                                     style="width: 100%">
                             </div>
                         </div>
@@ -229,7 +235,31 @@
                                             <th>Surat Jalan</th>
                                             <th>Nama Barang</th>
                                             <th>No. Penagihan</th>
-                                            <th>Totak retur</th>
+                                            <th>Total Retur</th>
+                                            <th>ID. Retur</th>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="display: none">
+                            <div style="overflow-y: auto; overflow-x: auto;">
+                                <table style="width: 100%;" id="table_hapus">
+                                    {{-- <colgroup>
+                                        <col style="width: 20%;">
+                                        <col style="width: 20%;">
+                                        <col style="width: 20%;">
+                                        <col style="width: 20%;">
+                                        <col style="width: 20%;"> --}}
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>Surat Jalan</th>
+                                            <th>Nama Barang</th>
+                                            <th>No. Penagihan</th>
+                                            <th>Total Retur</th>
+                                            <th>ID. Retur</th>
                                     </thead>
                                     <tbody>
                                     </tbody>
