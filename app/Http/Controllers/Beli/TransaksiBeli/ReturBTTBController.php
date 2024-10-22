@@ -90,6 +90,7 @@ class ReturBTTBController extends Controller
     }
     public function invInsertTmp(Request $request)
     {
+        // dd($request->all());
         $XIdTypeTransaksi = '05';
         $XIdType = $request->input('XIdType');
         $XIdPenerima = trim(Auth::user()->NomorUser);
@@ -132,6 +133,7 @@ class ReturBTTBController extends Controller
     }
     public function accHangus(Request $request)
     {
+        // dd($request->all());
         $IdTransaksi = $request->input('IdTransaksi');
         $idpenerima = trim(Auth::user()->NomorUser);
         $JumlahKeluarPrimer = $request->input('JumlahKeluarPrimer');
@@ -139,7 +141,7 @@ class ReturBTTBController extends Controller
         $JumlahKeluarTritier = $request->input('JumlahKeluarTritier');
         try {
             $data = DB::connection('ConnInventory')->statement('exec SP_1003_INV_Insert_05_TmpTransaksi @IdTransaksi = ?,@idpenerima = ?, @JumlahKeluarPrimer = ?,@JumlahKeluarSekunder = ?, @JumlahKeluarTritier = ?', [
-                $IdTransaksi,
+                $IdTransaksi['IdTransaksi'],
                 $idpenerima,
                 $JumlahKeluarPrimer,
                 $JumlahKeluarSekunder,
@@ -152,12 +154,13 @@ class ReturBTTBController extends Controller
     }
     public function retur(request $request)
     {
+        // dd($request->all());
         $Terima = $request->input('Terima');
         $TglRetur = Carbon::parse($request->input('tglRetur'));
         $alasan = $request->input('alasan');
         $Operator = trim(Auth::user()->NomorUser);
         $kd = 14;
-        $qtyRetur = $request->input('qtyRetur');
+        $qtyRetur = (float) $request->input('qtyRetur');
         try {
             $returbttb = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd=?, @Terima=?, @TglRetur=?, @alasan=?, @Operator=?, @qtyRetur=?', [$kd, $Terima, $TglRetur, $alasan, $Operator, $qtyRetur]);
             return response()->json($returbttb);
