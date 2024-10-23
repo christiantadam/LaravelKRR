@@ -79,10 +79,12 @@ class ReturBTTBController extends Controller
     }
     public function checkInvPenyesuaian(Request $request)
     {
+        // dd($request->all());
         $IdType = $request->input('IdType');
+        // dd($IdType);
         $IdTypeTransaksi = '06';
         try {
-            $check = DB::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_transaks1 @IdType = ?, @IdTypeTransaksi = ?', [$IdType, $IdTypeTransaksi]);
+            $check = DB::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_transaksi @idtype = ?, @idtypetransaksi = ?', [$IdType, $IdTypeTransaksi]);
             return response()->json($check);
         } catch (\Throwable $Error) {
             return Response()->json($Error);
@@ -118,6 +120,7 @@ class ReturBTTBController extends Controller
                 $XUraianDetailTransaksi,
                 $kd
             ]);
+            // dd($check);
             $idTransaksi = DB::connection('ConnInventory')
                 ->table('Tmp_Transaksi')
                 ->select("IdTransaksi")
@@ -126,6 +129,7 @@ class ReturBTTBController extends Controller
                 ->where('IdPemberi', $XIdPemberi)
                 ->where('SaatAwalTransaksi', $XSaatawalTransaksi)
                 ->first();
+            // dd($idTransaksi);
             return response()->json(['data' => $idTransaksi, "status" => $check]);
         } catch (\Throwable $Error) {
             return Response()->json($Error);
@@ -139,8 +143,15 @@ class ReturBTTBController extends Controller
         $JumlahKeluarPrimer = $request->input('JumlahKeluarPrimer');
         $JumlahKeluarSekunder = $request->input('JumlahKeluarSekunder');
         $JumlahKeluarTritier = $request->input('JumlahKeluarTritier');
+        // dd(
+        //     $IdTransaksi['IdTransaksi'],
+        //     $idpenerima,
+        //     $JumlahKeluarPrimer,
+        //     $JumlahKeluarSekunder,
+        //     $JumlahKeluarTritier
+        // );
         try {
-            $data = DB::connection('ConnInventory')->statement('exec SP_1003_INV_Insert_05_TmpTransaksi @IdTransaksi = ?,@idpenerima = ?, @JumlahKeluarPrimer = ?,@JumlahKeluarSekunder = ?, @JumlahKeluarTritier = ?', [
+            $data = DB::connection('ConnInventory')->statement('exec SP_1003_INV_Proses_ACC_Hangus @IdTransaksi = ?,@idpenerima = ?, @JumlahKeluarPrimer = ?,@JumlahKeluarSekunder = ?, @JumlahKeluarTritier = ?', [
                 $IdTransaksi['IdTransaksi'],
                 $idpenerima,
                 $JumlahKeluarPrimer,
@@ -156,11 +167,12 @@ class ReturBTTBController extends Controller
     {
         // dd($request->all());
         $Terima = $request->input('Terima');
-        $TglRetur = Carbon::parse($request->input('tglRetur'));
+        $TglRetur = $request->input('tglRetur');
         $alasan = $request->input('alasan');
         $Operator = trim(Auth::user()->NomorUser);
         $kd = 14;
         $qtyRetur = (float) $request->input('qtyRetur');
+        // dd($kd, $Terima, $TglRetur, $alasan, $Operator, $qtyRetur);
         try {
             $returbttb = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd=?, @Terima=?, @TglRetur=?, @alasan=?, @Operator=?, @qtyRetur=?', [$kd, $Terima, $TglRetur, $alasan, $Operator, $qtyRetur]);
             return response()->json($returbttb);
