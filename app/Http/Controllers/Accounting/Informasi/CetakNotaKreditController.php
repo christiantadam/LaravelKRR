@@ -156,11 +156,8 @@ class CetakNotaKreditController extends Controller
             return response()->json($data);
         }
 
-        else if ($id === 'notaKredit') {
-
-        }
-
         else if ($id === 'notaPotHargaPPN') {
+            // VIEW TIDAK DAPAT DI AKSES
             $data = DB::connection('ConnAccounting')->select("SELECT * FROM vw_Prg_Cetak_Pot_Harga} WHERE Id_NotaKredit = ?", [$id_penagihan]);
             dd($data);
 
@@ -174,11 +171,9 @@ class CetakNotaKreditController extends Controller
             return response()->json($data);
         }
 
-        else if ($id === 'notaPotHarga') {
-
-        }
 
         else if ($id === 'notaFreePPN') {
+            // VIEW TIDAK DAPAT DI AKSES
             $data = DB::connection('ConnAccounting')->select("SELECT * FROM vw_prg_Cetak_Nota_Kredit_Free} WHERE Id_NotaKredit = ?", [$id_penagihan]);
             dd($data);
 
@@ -190,10 +185,6 @@ class CetakNotaKreditController extends Controller
                 ];
             }
             return response()->json($data);
-        }
-
-        else if ($id === 'notaFree') {
-
         }
 
         else if ($id === 'notaSelisihPPN') {
@@ -208,10 +199,6 @@ class CetakNotaKreditController extends Controller
                 ];
             }
             return response()->json($data);
-        }
-
-        else if ($id === 'notaSelisih') {
-
         }
     }
 
