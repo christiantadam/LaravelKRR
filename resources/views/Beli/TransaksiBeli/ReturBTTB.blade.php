@@ -6,7 +6,7 @@
 
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-10 RDZMobilePaddingLR0">
+            <div class="col-md-11 RDZMobilePaddingLR0">
                 @if (Session::has('success'))
                     <div class="alert alert-success">
                         {{ Session::get('success') }}

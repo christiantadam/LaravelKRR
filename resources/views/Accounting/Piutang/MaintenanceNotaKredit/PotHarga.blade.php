@@ -1,6 +1,12 @@
 @extends('layouts.appAccounting')
 @section('content')
 @section('title', 'Maint Pot Harga Penjualan')
+<style>
+    .custom-modal-width {
+        max-width: 70%;
+        /* Adjust the percentage as needed */
+    }
+</style>
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -118,6 +124,33 @@
                                                 <th>Harga Lama</th>
                                                 <th>Harga Baru</th>
                                                 <th>ID</th>
+                                                <th>Total Pot</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="display: none">
+                                <div style="overflow-y: auto; overflow-x: auto;">
+                                    <table style="width: 100%;" id="table_hapus">
+                                        {{-- <colgroup>
+                                            <col style="width: 25%;">
+                                            <col style="width: 15%;">
+                                            <col style="width: 15%;">
+                                            <col style="width: 15%;">
+                                            <col style="width: 15%;">
+                                            <col style="width: 15%;"> --}}
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Surat Jalan</th>
+                                                <th>Kode Barang</th>
+                                                <th>Jumlah Kirim</th>
+                                                <th>Harga Lama</th>
+                                                <th>Harga Baru</th>
+                                                <th>ID</th>
+                                                <th>Total Pot</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -131,7 +164,7 @@
                                     <label for="totalPemakaian" style="margin-right: 10px;">Total Potongan</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number" id="totalPemakaian" class="form-control"
+                                    <input type="text" id="totalPotongan" class="form-control"
                                         style="width: 100%">
                                 </div>
                             </div>
@@ -150,7 +183,16 @@
                                     <label for="totalBiaya" style="margin-right: 10px;">Mata Uang</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number" id="mataUang" class="form-control" style="width: 100%">
+                                    <input type="text" id="mataUang" class="form-control" style="width: 100%">
+                                </div>
+                                <div class="col-md-3" style="display: none">
+                                    <input type="text" id="idMataUang" class="form-control" style="width: 100%">
+                                </div>
+                                <div class="col-md-3" style="display: none">
+                                    <input type="text" id="statusPPN" class="form-control" style="width: 100%">
+                                </div>
+                                <div class="col-md-3" style="display: none">
+                                    <input type="text" id="jnsPPN" class="form-control" style="width: 100%">
                                 </div>
                             </div>
                             <br>
@@ -159,11 +201,11 @@
                                     <label for="totalBiaya" style="margin-right: 10px;">Status Pelunasan</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number" id="statusPelunasan" class="form-control"
+                                    <input type="text" id="statusPelunasan" class="form-control"
                                         style="width: 100%">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="number" id="statusPelunasan2" class="form-control"
+                                    <input type="text" id="statusPelunasan2" class="form-control"
                                         style="width: 100%">
                                 </div>
                             </div>
@@ -199,6 +241,74 @@
                         <br>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLihatItem" tabindex="-1" role="dialog" aria-labelledby="pilihBankModal"
+    aria-hidden="true">
+    <div class="modal-dialog custom-modal-width" role="document">
+        <div class="modal-content" style="padding: 25px;">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Item</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="tutup_modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <br>
+            <div style="overflow-x: auto; overflow-y: auto;">
+                <table style="width: 100%;" id="table_tampilModal">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Surat Jalan</th>
+                            <th>Jumlah Kirim</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="d-flex">
+                <div class="col-md-2">
+                    <label for="idBKKTampil" style="margin-right: 10px;">Harga Setelah Dipotong</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="number" id="hargaStlPotong" name="hargaStlPotong" class="form-control"
+                        style="width: 100%">
+                </div>
+                {{-- <div class="col-md-3" style="">
+                    <input type="text" id="totalFOB" name="totalFOB" class="form-control" style="width: 100%">
+                </div>
+                <div class="col-md-3" style="display: none">
+                    <input type="text" id="idPengiriman" name="idPengiriman" class="form-control"
+                        style="width: 100%">
+                </div> --}}
+            </div>
+            <br>
+            <div class="d-flex">
+                <div class="col-md-2">
+                    <label for="totalLihat" style="margin-right: 10px;">Total Pot Harga</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" id="totalPot" name="totalPot" class="form-control" style="width: 100%">
+                </div>
+                {{-- <div class="col-md-1">
+                    <button class="btn btn-primary" id="btn_insert" name="btn_insert">Insert</button>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="idPesananM" name="idPesananM" class="form-control"
+                        style="width: 100%">
+                </div>
+                <div class="col-md-3" style="display: none">
+                    <input type="text" id="idCust" name="idCust" class="form-control" style="width: 100%">
+                </div> --}}
+            </div>
+            <br>
+            <div class="col-md-2">
+                <button class="btn btn-success" id="btn_simpanM" name="btn_simpanM">Simpan</button>
             </div>
         </div>
     </div>
