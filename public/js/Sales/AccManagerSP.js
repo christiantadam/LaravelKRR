@@ -2045,6 +2045,27 @@ $(document).ready(function () {
             } else {
                 alert("Tidak ada data yang dihapus");
             }
+        }else if (
+            createSPModalLabel.innerHTML == "Edit Surat Pesanan"
+        ) {
+            if (selectedRow.length > 0) {
+                if (selectedRow.find("td").eq(29).text() !== "") {
+                    // console.log(input[7].value);
+                    fetch(
+                        "/deletedetail/" + selectedRow.find("td").eq(29).text()
+                    )
+                        .then((response) => response.json())
+                        .then((data) => {
+                            alert(data);
+                        });
+                    table.row(selectedRow).remove().draw();
+                } else {
+                    table.row(selectedRow).remove().draw();
+                }
+                alert("Data sudah terhapus dari tabel!");
+            } else {
+                alert("Tidak ada data yang dihapus");
+            }
         }
         funcClearInputBarang();
         jenis_brg.selectedIndex = 0;
