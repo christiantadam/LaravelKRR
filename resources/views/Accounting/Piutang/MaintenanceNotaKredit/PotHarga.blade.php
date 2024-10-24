@@ -206,7 +206,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <input type="text" id="statusPelunasan2" class="form-control"
-                                        style="width: 100%">
+                                        style="width: 100%; color: blue">
                                 </div>
                             </div>
 

@@ -28,9 +28,99 @@ class PotHargaController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
-    }
+        try {
+            $proses = $request->proses;
+            $TTotal = (float) $request->grandTotal;
+            $TTerbilang = $request->TTerbilang;
 
+            // Mode tambah data
+            if ($proses == 1) {
+                // Panggil stored procedure SP_INSERT_NotaKredit
+                DB::connection('ConnAccounting')->statement('EXEC SP_INSERT_NotaKredit @Tanggal = ?, @JnsNotaKredit = ?, @Id_MataUang = ?, @Status_PPN = ?, @Nilai = ?, @Terbilang = ?, @Id_Penagihan = ?, @Status_Pelunasan = ?, @UserInput = ?', [
+                    $request->tanggalInput,
+                    '2',
+                    $request->idMataUang,
+                    $request->statusPPN,
+                    $TTotal,
+                    $TTerbilang,
+                    $request->no_penagihan,
+                    $request->statusPelunasan == 'Lunas' ? 'Y' : 'N',
+                    trim(Auth::user()->NomorUser),
+                ]);
+
+                $nota_KreditId = DB::connection('ConnAccounting')
+                    ->table('T_NOTA_KREDIT')
+                    ->select('Id_NotaKredit')
+                    ->where('Id_Penagihan', $request->no_penagihan)
+                    ->orderBy('TglInput', 'desc')
+                    ->first();
+                $idNotaKredit = $nota_KreditId->Id_NotaKredit;
+                // dd($idNotaKredit);
+
+                // Panggil stored procedure SP_INSERT_DETAIL_NotaKredit untuk setiap item di ListView1
+                foreach ($request->allRowsDataAtas as $item) {
+                    DB::connection('ConnAccounting')->statement('EXEC SP_INSERT_DETAIL_NotaKredit @Id_NotaKredit = ?, @SuratJalan = ?, @HargaSP = ?, @HargaPot = ?, @KdBrg = ?, @QtyBrg = ?', [
+                        $idNotaKredit,
+                        $item[0],
+                        $item[3],
+                        $item[4],
+                        $item[1],
+                        $item[2]
+                    ]);
+                }
+
+                return response()->json(['message' => 'Data Telah Tersimpan']);
+
+                // Mode edit data
+            } else if ($proses == 2) {
+                // Hapus detail dengan stored procedure SP_DEl_DEtail_NotaKredit
+                foreach ($request->allRowsDataHapus as $item) {
+                    DB::connection('ConnAccounting')->statement('EXEC SP_DEl_DEtail_NotaKredit @IdDetail = ?', [
+                        $item[5]
+                    ]);
+                }
+
+                // Tambahkan atau update detail dengan stored procedure SP_INSERT_DETAIL_NotaKredit
+                foreach ($request->allRowsDataAtas as $item) {
+                    DB::connection('ConnAccounting')->statement('EXEC SP_INSERT_DETAIL_NotaKredit @Id_NotaKredit = ?, @SuratJalan = ?, @HargaSP = ?, @HargaPot = ?, @KdBrg = ?, @QtyBrg = ?, @IdDEtail = ?', [
+                        $request->no_notaKredit,
+                        $item[0],
+                        $item[3],
+                        $item[4],
+                        $item[1],
+                        $item[2],
+                        $item[5] == "" ? null : $item[5]
+                    ]);
+                }
+
+                // Update Nota Kredit dengan stored procedure SP_UPDATE_NOTAKREDIT
+                DB::connection('ConnAccounting')->statement('EXEC SP_UPDATE_NOTAKREDIT @ID_NOtaKRedit = ?, @Nilai = ?, @Terbilang = ?', [
+                    $request->no_notaKredit,
+                    $TTotal,
+                    $TTerbilang
+                ]);
+
+                return response()->json(['message' => 'Data Telah Terkoreksi']);
+
+                // Mode delete data
+            } else if ($proses == 3) {
+                // Hapus Nota Kredit dengan stored procedure SP_DEL_NOTAKREDIT
+                $result = DB::connection('ConnAccounting')->statement('EXEC SP_DEL_NOTAKREDIT @Id_NotaKredit = ?', [
+                    $request->no_notaKredit
+                ]);
+
+                // Cek error dari SP
+                if ($result === false) {
+                    return response()->json(['message' => 'Data Gagal Terhapus']);
+                } else {
+                    return response()->json(['message' => 'Data Telah Terhapus']);
+                }
+            }
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     //Display the specified resource.
     public function show(Request $request, $id)
     {
@@ -159,38 +249,64 @@ class PotHargaController extends Controller
 
             foreach ($results as $row) {
                 $response[] = [
-                    'Id_NotaKRedit' => $row->Id_NotaKRedit,
+                    'Id_NotaKredit' => $row->Id_NotaKredit,
                     'Tanggal' => \Carbon\Carbon::parse($row->Tanggal)->format('m/d/Y'),
                 ];
             }
 
             return datatables($response)->make(true);
 
-        } else if ($id == 'getNotaKreditDetails') {
-            // Memanggil prosedur tersimpan untuk mendapatkan data Nota Kredit
-            $results = DB::connection('ConnSales')
-                ->select('exec SP_LIST_POT_HARGA1 @id_NotaKredit = ?', [$request->no_nota_kredit]);
-
-            // Menginisialisasi variabel untuk response
+        } else if ($id == 'displayNotaKredit') {
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_LIST_POT_HARGA1 @id_NotaKredit = ?', [$request->no_notaKredit]);
+            // dd($results);
             $response = [];
             if (!empty($results)) {
-                $nota = $results[0];  // Asumsikan ada satu hasil yang diambil
+                $nota = $results[0];
 
-                // Menyiapkan data yang akan dikirim ke response
                 $response = [
-                    'IDPenagihan' => $nota->Id_Penagihan,
+                    'Id_Penagihan' => $nota->Id_Penagihan,
                     'Terbilang' => $nota->Terbilang,
-                    'IdMataUang' => $nota->Id_MataUang,
+                    'Id_MataUang' => $nota->Id_MataUang,
                     'Nama_MataUang' => $nota->Nama_MataUang,
                     'Status_PPN' => $nota->Status_PPN,
                     'Jns_PPN' => $nota->Jns_PPN ?? '',
                     'Lunas' => $nota->Lunas == 'Y' ? 'Lunas' : 'Belum',
-                    'Message' => $nota->Lunas == 'Y' ? 'Harap Dibuatkan BKK' : '',
+                    // 'Message' => $nota->Lunas == 'Y' ? 'Harap Dibuatkan BKK' : '',
                 ];
             }
 
             // Mengembalikan response dalam format JSON
             return response()->json($response);
+        } else if ($id == 'displayNotaKreditDetails') {
+            $idNotaKredit = $request->input('no_notaKredit');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec   @id_NotaKredit = ?', [$idNotaKredit]);
+            // dd($results);
+            $response = [];
+            $TTotal = 0;
+
+            foreach ($results as $row) {
+                $rowData = [
+                    'SuratJalan' => $row->SuratJalan,
+                    'KdBrg' => $row->KdBrg,
+                    'QtyBrg' => $row->QtyBrg,
+                    'HargaSP' => $row->HargaSP,
+                    'HargaPot' => $row->HargaPot,
+                    'IdDetail' => $row->IdDetail,
+                ];
+                $response[] = $rowData;
+
+                // Hitung total
+                $TTotal += ($row->Qtybrg * ($row->HargaSP - $row->HargaPot));
+            }
+
+            // Return hasil dan total
+            return response()->json([
+                'data' => $response,
+                'TTotal' => $TTotal,
+            ]);
         }
     }
 

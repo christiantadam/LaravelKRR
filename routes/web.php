@@ -1297,7 +1297,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('getLihat_PenagihanNotaKredit/{idCustomer}/{MIdRetur}', 'App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\NotaKreditReturController@getLihat_PenagihanNotaKredit');
 
     Route::resource('PotHarga', App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\PotHargaController::class);
-    Route::get('Free', 'App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\FreeController@Free');
+    Route::resource('Free', App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\FreeController::class);
 
     Route::resource('KelebihanBayarJualTunai', App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\KelebihanBayarJualTunaiController::class);
     Route::get('getCustKelebihanBayar', 'App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\KelebihanBayarJualTunaiController@getCustKelebihanBayar');

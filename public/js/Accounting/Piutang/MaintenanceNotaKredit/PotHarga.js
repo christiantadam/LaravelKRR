@@ -30,6 +30,8 @@ $(document).ready(function () {
     let jnsPPN = document.getElementById("jnsPPN");
     let statusPelunasan = document.getElementById("statusPelunasan");
     let statusPelunasan2 = document.getElementById("statusPelunasan2");
+    let no_notaKredit = document.getElementById("no_notaKredit");
+    let terbilang = document.getElementById("terbilang");
     let tutup_modal = document.getElementById("tutup_modal");
     let table_atas = $("#table_atas").DataTable({
         columnDefs: [{ targets: [6], visible: false }],
@@ -44,6 +46,16 @@ $(document).ready(function () {
 
     tanggalInput.valueAsDate = new Date();
     totalPotongan.value = 0;
+    nama_customer.readOnly = true;
+    no_notaKredit.readOnly = true;
+    no_penagihan.readOnly = true;
+    kodeBarang.readOnly = true;
+    namaBarang.readOnly = true;
+    totalPotongan.readOnly = true;
+    terbilang.readOnly = true;
+    mataUang.readOnly = true;
+    statusPelunasan.readOnly = true;
+    statusPelunasan2.readOnly = true;
     btn_customer.disabled = true;
     btn_notaKredit.disabled = true;
     btn_penagihan.disabled = true;
@@ -135,37 +147,237 @@ $(document).ready(function () {
     hargaStlPotong.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
+            var table_tampilModal = $("#table_tampilModal").DataTable();
+            table_tampilModal
+                .rows()
+                .every(function (rowIdx, tableLoop, rowLoop) {
+                    var data = this.data();
+                    if (
+                        numeral(hargaStlPotong.value).value() >
+                        numeral(data[2]).value()
+                    ) {
+                        Swal.fire({
+                            icon: "info",
+                            // title: "Error!",
+                            text: "Tidak boleh lebih besar dari harga",
+                            showConfirmButton: true,
+                        });
+                        return;
+                    } else {
+                        // Pastikan hargaStlPotong tidak kosong
+                        if (hargaStlPotong.value.trim() !== "") {
+                            // Mengambil nilai dari tabel DataTable
+                            var table_tampilModal =
+                                $("#table_tampilModal").DataTable();
+                            var totalKirim = 0;
+                            var hargaSatuan = 0;
 
-            // Pastikan hargaStlPotong tidak kosong
-            if (hargaStlPotong.value.trim() !== "") {
-                // Mengambil nilai dari tabel DataTable
-                var table_tampilModal = $("#table_tampilModal").DataTable();
-                var totalKirim = 0;
-                var hargaSatuan = 0;
+                            // Loop untuk menghitung total pengiriman dan mengambil harga satuan dari baris pertama
+                            table_tampilModal
+                                .rows()
+                                .every(function (rowIdx, tableLoop, rowLoop) {
+                                    var data = this.data();
+                                    totalKirim += numeral(data[1]).value(); // Ambil jumlah kirim
+                                    if (rowIdx === 0) {
+                                        hargaSatuan = numeral(data[2]).value(); // Ambil harga satuan dari baris pertama
+                                    }
+                                });
 
-                // Loop untuk menghitung total pengiriman dan mengambil harga satuan dari baris pertama
-                table_tampilModal
-                    .rows()
-                    .every(function (rowIdx, tableLoop, rowLoop) {
-                        var data = this.data();
-                        totalKirim += numeral(data[1]).value(); // Ambil jumlah kirim
-                        if (rowIdx === 0) {
-                            hargaSatuan = numeral(data[2]).value(); // Ambil harga satuan dari baris pertama
+                            // Hitung total sesuai dengan logika VB
+                            var tTotal =
+                                totalKirim *
+                                (hargaSatuan -
+                                    numeral(hargaStlPotong.value).value());
+
+                            // Optional: Tampilkan hasil hitung di console atau di mana pun diperlukan
+                            // console.log("Total Pengurangan Harga: ", tTotal);
+                            hargaStlPotong.value = numeral(
+                                hargaStlPotong.value
+                            ).format("0.00");
+                            totalPot.value = numeral(tTotal).format("0,0.00");
+
+                            setTimeout(() => {
+                                btn_simpanM.focus();
+                            }, 300);
                         }
-                    });
+                    }
+                });
+        }
+    });
 
-                // Hitung total sesuai dengan logika VB
-                var tTotal =
-                    totalKirim *
-                    (hargaSatuan - numeral(hargaStlPotong.value).value());
+    btn_proses.addEventListener("click", async function (event) {
+        event.preventDefault();
+        const allRowsDataAtas = table_atas.rows().data().toArray();
+        const allRowsDataHapus = table_hapus.rows().data().toArray();
 
-                // Optional: Tampilkan hasil hitung di console atau di mana pun diperlukan
-                // console.log("Total Pengurangan Harga: ", tTotal);
-                hargaStlPotong.value = numeral(hargaStlPotong.value).format(
-                    "0.00"
-                );
-                totalPot.value = numeral(tTotal).format("0,0.00");
-            }
+        let grandTotal = parseFloat(totalPotongan.value.replace(/,/g, ""));
+        console.log(grandTotal);
+
+        if (statusPPN.value == "Y") {
+            grandTotal *= 1.1;
+        }
+
+        let TTerbilang;
+        if (mataUang.value.trim().toUpperCase() == "RUPIAH") {
+            TTerbilang = convertNumberToWordsRupiah(grandTotal);
+        } else {
+            TTerbilang = convertNumberToWordsDollar(grandTotal);
+        }
+
+        if (statusPPN.value == "Y" && ["1", "2", "5"].includes(jnsPPN.value)) {
+            grandTotal /= 1.1;
+        }
+
+        if (proses == 1) {
+            $.ajax({
+                url: "PotHarga",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    grandTotal: grandTotal,
+                    TTerbilang: TTerbilang,
+                    tanggalInput: tanggalInput.value,
+                    idMataUang: idMataUang.value,
+                    statusPPN: statusPPN.value,
+                    no_penagihan: no_penagihan.value,
+                    statusPelunasan: statusPelunasan.value,
+                    allRowsDataAtas: allRowsDataAtas,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // grandTotalRetur.value = grandTotal;
+                            // terbilang.value = TTerbilang;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else if (proses == 2) {
+            $.ajax({
+                url: "PotHarga",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    grandTotal: grandTotal,
+                    TTerbilang: TTerbilang,
+                    no_notaKredit: no_notaKredit.value,
+                    allRowsDataAtas: allRowsDataAtas,
+                    allRowsDataHapus: allRowsDataHapus,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // grandTotalRetur.value = grandTotal;
+                            // terbilang.value = TTerbilang;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
+        } else if (proses == 3) {
+            $.ajax({
+                url: "PotHarga",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    grandTotal: grandTotal,
+                    TTerbilang: TTerbilang,
+                    no_notaKredit: no_notaKredit.value,
+                    allRowsDataAtas: allRowsDataAtas,
+                    allRowsDataHapus: allRowsDataHapus,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then(() => {
+                            // grandTotalRetur.value = grandTotal;
+                            // terbilang.value = TTerbilang;
+                            // btn_isi.disabled = false;
+                            // btn_koreksi.disabled = false;
+                            // btn_hapus.disabled = false;
+                            // btn_proses.disabled = true;
+                            // btn_batal.disabled = true;
+                            // location.reload();
+                            // document
+                            //     .querySelectorAll("input")
+                            //     .forEach((input) => (input.value = ""));
+                            // $("#table_atas").DataTable().ajax.reload();
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "info",
+                            title: "Info!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                },
+            });
         }
     });
 
@@ -211,6 +423,9 @@ $(document).ready(function () {
         $("#totalPotongan").val(numeral(totalPotongan).format("0,0.00"));
 
         tutup_modal.click();
+        setTimeout(() => {
+            btn_proses.focus();
+        }, 300);
     });
 
     tutup_modal.addEventListener("click", async function (event) {
@@ -262,6 +477,14 @@ $(document).ready(function () {
                 keyboard: false,
             }
         );
+
+        // Event listener untuk memastikan fokus terjadi setelah modal ditampilkan sepenuhnya
+        document
+            .getElementById("modalLihatItem")
+            .addEventListener("shown.bs.modal", function () {
+                hargaStlPotong.focus(); // Fokuskan input
+            });
+
         myModal.show();
     });
 
@@ -314,6 +537,197 @@ $(document).ready(function () {
                 showConfirmButton: true,
             });
         }
+    });
+
+    btn_notaKredit.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Nota Kredit",
+                html: '<table id="notaKreditTable" class="display" style="width:100%"><thead><tr><th>ID. Nota Kredit</th><th>Nama Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#notaKreditTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#notaKreditTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "PotHarga/getNotaKredit",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                    idCustomer: idCustomer.value,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Id_NotaKredit",
+                                },
+                                {
+                                    data: "Tanggal",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#notaKreditTable_filter input").focus();
+                        }, 300);
+                        // $("#notaKreditTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1)
+                        //             .search(this.value)
+                        //             .draw();
+                        //     }
+                        // );
+                        $("#notaKreditTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "notaKreditTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    no_notaKredit.value = escapeHTML(
+                        selectedRow.Id_NotaKredit.trim()
+                    );
+
+                    $.ajax({
+                        url: "PotHarga/displayNotaKredit",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            no_notaKredit: no_notaKredit.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+
+                            no_penagihan.value = data.Id_Penagihan;
+                            mataUang.value = data.Nama_MataUang;
+                            idMataUang.value = data.Id_MataUang;
+                            statusPPN.value = data.Status_PPN;
+                            jnsPPN.value = data.Jns_PPN;
+                            statusPelunasan.value = data.Lunas;
+                            terbilang.value = data.Terbilang;
+
+                            if (statusPelunasan.value == "Lunas") {
+                                statusPelunasan2.value = "Harap Dibuatkan BKK";
+                            } else {
+                                statusPelunasan2.value = "";
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
+
+                    $.ajax({
+                        url: "PotHarga/displayNotaKreditDetails",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            no_notaKredit: no_notaKredit.value,
+                        },
+                        success: function (data) {
+                            console.log(data);
+
+                            var table_atas = $("#table_atas").DataTable();
+                            // table_tampilModal.clear().draw();
+                            data.data.forEach(function (item, index) {
+                                console.log(item);
+                                const newRow = {
+                                    suratJalan: item.SuratJalan,
+                                    kodeBarang: item.KdBrg,
+                                    jumlahKirim: item.QtyBrg,
+                                    hargaLama: item.HargaPot,
+                                    hargaBaru: item.HargaSP,
+                                    id: item.IdDetail,
+                                    totalPot: numeral(data.TTotal).format("0"),
+                                };
+
+                                table_atas.row
+                                    .add([
+                                        newRow.suratJalan,
+                                        newRow.kodeBarang,
+                                        newRow.jumlahKirim,
+                                        newRow.hargaLama,
+                                        newRow.hargaBaru,
+                                        newRow.id,
+                                        newRow.totalPot,
+                                    ])
+                                    .draw();
+                            });
+
+                            var totalPotongan = 0;
+                            table_atas
+                                .rows()
+                                .every(function (rowIdx, tableLoop, rowLoop) {
+                                    var rowData = this.data();
+                                    totalPotongan += parseFloat(
+                                        numeral(rowData[6]).value()
+                                    );
+                                });
+
+                            // Tampilkan hasil total pada elemen totalPotongan
+                            $("#totalPotongan").val(
+                                numeral(totalPotongan).format("0,0.00")
+                            );
+                        },
+                        error: function (xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        },
+                    });
+
+                    // setTimeout(() => {
+                    //     btn_suratJalan.focus();
+                    // }, 300);
+
+                    // if (proses == 1) {
+                    //     setTimeout(() => {
+                    //         btn_suratJalan.focus();
+                    //     }, 300);
+                    // } else if (proses == 2 || proses == 3) {
+                    //     setTimeout(() => {
+                    //         btn_penagihan.focus();
+                    //     }, 300);
+                    // }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
     });
 
     btn_customer.addEventListener("click", async function (event) {
@@ -628,9 +1042,9 @@ $(document).ready(function () {
                         selectedRow.NamaBarang.trim()
                     );
                     kodeBarang.value = escapeHTML(selectedRow.KdBrg.trim());
-                    // setTimeout(() => {
-                    //     btn_penagih.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_tambahItem.focus();
+                    }, 300);
                 }
             });
         } catch (error) {

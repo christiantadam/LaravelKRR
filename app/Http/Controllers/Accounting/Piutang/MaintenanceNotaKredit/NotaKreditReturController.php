@@ -80,7 +80,7 @@ class NotaKreditReturController extends Controller
                     ->table('T_NOTA_KREDIT')
                     ->select('Id_NotaKredit')
                     ->where('Id_Penagihan', $request->no_penagihan)
-                    ->orderBy('Tanggal', 'desc')
+                    ->orderBy('TglInput', 'desc')
                     ->first();
                 $notaKreditId = $nota_KreditId->Id_NotaKredit;
                 // dd($notaKreditId);
