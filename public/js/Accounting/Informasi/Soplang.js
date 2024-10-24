@@ -29,7 +29,8 @@ btnProses.addEventListener("click", function (e) {
             if (response.success) {
                 Swal.fire({
                     icon: 'success',
-                    text: "Data Selesai Diproses. Silakan Lihat Di Excell",
+                    title: 'Success',
+                    html: response.success,
                     returnFocus: false
                 });
             }
