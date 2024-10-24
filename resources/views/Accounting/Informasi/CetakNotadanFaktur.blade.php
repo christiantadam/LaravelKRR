@@ -66,6 +66,18 @@
         display: none;
     }
 
+    .nota {
+        display: none;
+    }
+
+    .fakturPajak1 {
+        display: none;
+    }
+
+    .fakturPajak {
+        display: none;
+    }
+
     @media print {
 
         /* Hide everything by default */
@@ -85,9 +97,27 @@
             visibility: visible;
         }
 
+        .nota,
+        .nota * {
+            visibility: visible;
+        }
+
+        .fakturPajak1,
+        .fakturPajak1 * {
+            visibility: visible;
+        }
+
+        .fakturPajak,
+        .fakturPajak * {
+            visibility: visible;
+        }
+
         /* Ensure that the elements are positioned correctly */
         .faktur,
-        .fakturXC {
+        .fakturXC,
+        .nota,
+        .fakturPajak1,
+        .fakturPajak {
             position: absolute;
             left: 0;
             top: 0;
@@ -182,6 +212,7 @@
                             </div>
                         </div>
 
+                        {{-- nota dan faktur --}}
                         <div class="faktur">
 
                             <div class="row">
@@ -285,7 +316,8 @@
 
                             <div class="row">
                                 <div class="col-sm-8 text-left offset-sm-1">
-                                    <span id="faktur_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span
+                                        id="faktur_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                                 <div class="col-sm-1 text-right" style="font-weight: bold">
                                     <span id="faktur_SymbolTerbayar">xxxx</span>
@@ -318,13 +350,15 @@
 
                             <div class="row" style="font-weight: bold">
                                 <div class="col-sm-12 text-left">
-                                    <span id="faktur_SuratJalan">Surat Jalan: &emsp;&emsp; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span id="faktur_SuratJalan">Surat Jalan: &emsp;&emsp;
+                                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                             </div>
 
                             <div class="row" style="font-weight: bold">
                                 <div class="col-sm-8 text-left">
-                                    <span id="faktur_SJ">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span
+                                        id="faktur_SJ">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                                 <div class="col-sm-3 text-center">
                                     <span id="faktur_SJ">RUDY SANTOSO</span>
@@ -460,7 +494,8 @@
 
                             <div class="row">
                                 <div class="col-sm-8 text-left offset-sm-1">
-                                    <span id="fakturXC_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span
+                                        id="fakturXC_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                                 <div class="col-sm-1 text-right" style="font-weight: bold">
                                     <span id="fakturXC_SymbolTerbayar">xxxx</span>
@@ -493,13 +528,15 @@
 
                             <div class="row" style="font-weight: bold">
                                 <div class="col-sm-12 text-left">
-                                    <span id="fakturXC_SuratJalan">Surat Jalan: &emsp;&emsp; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span id="fakturXC_SuratJalan">Surat Jalan: &emsp;&emsp;
+                                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                             </div>
 
                             <div class="row" style="font-weight: bold">
                                 <div class="col-sm-8 text-left">
-                                    <span id="fakturXC_SJ">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span
+                                        id="fakturXC_SJ">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                                 <div class="col-sm-3 text-center">
                                     <span id="fakturXC_SJ">RUDY SANTOSO</span>
@@ -507,6 +544,355 @@
                             </div>
 
                         </div>
+
+                        <div class="nota">
+
+                            <div class="row" style="font-weight: bold">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="nota_IdPenagihan">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXIdPenagihanXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="nota_NamaCust">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMACUStXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span id="nota_Alamat">XXXXXXXXXXXXXXalamatXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15%">
+                                <div class="col-sm-10 offset-sm-1 text-left">
+                                    <span
+                                        id="nota_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div id="nota_Detail" style="margin-bottom: 25%"></div>
+
+                            <div class="row mt-4" style="font-weight: bold">
+                                <div class="col-sm-8 text-left offset-sm-1">
+                                    <span
+                                        id="nota_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                </div>
+                                <div class="col-sm-1 text-right">
+                                    <span id="nota_SymbolGrand">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="nota_Grand">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4 text-left">
+                                    <span id="nota_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
+                                </div>
+                                <div class="col-sm-2 text-center offset-sm-3">
+                                    <span>Sidoarjo</span>
+                                </div>
+                                <div class="col-sm-2 text-left">
+                                    <span id="nota_TglBln">3 Januari</span>
+                                </div>
+                                <div class="col-sm-1 text-center">
+                                    <span id="nota_Thn">11</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span id="nota_Tempo">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span id="nota_SuratJalan">Surat Jalan: &emsp;&emsp;
+                                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8 text-left">
+                                    <span
+                                        id="nota_SJ">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                </div>
+                                <div class="col-sm-3 text-center">
+                                    <span id="nota_SJ">YUDI SANTOSO</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        {{-- faktur pajak --}}
+                        <div class="fakturPajak1">
+
+                            <div class="row" style="font-weight: bold">
+                                <div class="col-sm-12 text-center">
+                                    <span id="fakturPajak1_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25%">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturPajak1_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturPajak1_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span id="fakturPajak1_NPWP">XXXXXXXXXXXXXXNPWPXXXXX</span>
+                                </div>
+                                <div class="col-sm-4 offset-sm-1 text-left">
+                                    <span id="fakturPajak1_NPWP2">XXXXXXXXXXXXXXNPWPXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15%">
+                                <div class="col-sm-10 offset-sm-1 text-left">
+                                    <span
+                                        id="fakturPajak1_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div id="fakturPajak1_Detail"></div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturPajak1_SymbolGrand">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak1_Grand">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturPajak1_Symbol0">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span>0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturPajak1_SymbolUM">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak1_UM">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturPajak1_SymbolGrandTot">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak1_GrandTot">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturPajak1_SymbolPajak">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak1_Pajak">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-2 text-center offset-sm-7">
+                                    <span>Sidoarjo</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak1_TglBln">3 Januari</span>
+                                </div>
+                                <div class="col-sm-1 text-center">
+                                    <span id="fakturPajak1_Thn">11</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <label>YUDI SANTOSO</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <label>MARKETING MANAGER</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fakturPajak">
+
+                            <div class="row" style="font-weight: bold">
+                                <div class="col-sm-12 text-center">
+                                    <span id="fakturPajak_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25%">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturPajak_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturPajak_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span id="fakturPajak_NPWP">XXXXXXXXXXXXXXNPWPXXXXX</span>
+                                </div>
+                                <div class="col-sm-4 offset-sm-1 text-left">
+                                    <span id="fakturPajak_NPWP2">XXXXXXXXXXXXXXNPWPXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15%">
+                                <div class="col-sm-10 offset-sm-1 text-left">
+                                    <span
+                                        id="fakturPajak_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div id="fakturPajak_Detail"></div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-1 offset-sm-7 text-right">
+                                    <span id="fakturPajak_SymbolGrand">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak_Grand">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2 offset-sm-8 text-right">
+                                    <span>0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-7 text-right">
+                                    <span id="fakturPajak_SymbolUM">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak_UM">-5.555.555,00</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak_UMRupiah">Rp. -5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-7 text-right">
+                                    <span id="fakturPajak_SymbolGrandTot">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak_GrandTot">-5.555.555,00</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajak_TotalRupiah">Rp. -5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2 offset-sm-10 text-right">
+                                    <span id="fakturPajak_Pajak">Rp. -5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-2 offset-sm-9 text-right">
+                                    <span id="fakturPajak_TglBln">3 Januari</span>
+                                </div>
+                                <div class="col-sm-1 text-center">
+                                    <span id="fakturPajak_Thn">11</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <label>YUDI SANTOSO</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <label>MARKETING MANAGER</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8 offset-sm-1">
+                                    <span id="fakturPajak_Kurs">Kurs /1 Rp.</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        {{-- Faktur Tunai UM --}}
+                        
+
                     </div>
                 </div>
             </div>
