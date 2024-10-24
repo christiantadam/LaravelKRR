@@ -246,7 +246,7 @@ function formatDate(dateStr) {
 }
 
 function printPreview(previewClass) {
-    document.querySelectorAll('.notaKreditPPN, .notaKredit, .notanotaSelisihPPN, .notanotaSelisih').forEach(function (preview) {
+    document.querySelectorAll('.notaKreditPPN, .notaKredit, .notanotaSelisihPPN, .notanotaSelisih   ').forEach(function (preview) {
         preview.style.display = "none";
     });
 
