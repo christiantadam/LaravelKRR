@@ -297,6 +297,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         setTimeout(() => {
                             $("#customerTable_filter input").focus();
                         }, 300);
+                        $("#customerTable_filter input").on(
+                            "keyup",
+                            function () {
+                                table
+                                    .columns(1)
+                                    .search(this.value)
+                                    .draw();
+                            }
+                        );
                         $("#customerTable tbody").on(
                             "click",
                             "tr",
