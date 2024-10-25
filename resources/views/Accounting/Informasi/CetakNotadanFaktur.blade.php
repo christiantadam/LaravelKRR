@@ -78,6 +78,22 @@
         display: none;
     }
 
+    .fakturTunai {
+        display: none;
+    }
+
+    .nota1 {
+        display: none;
+    }
+
+    .fakturPajakTunai {
+        display: none;
+    }
+
+    .fakturUangMuka {
+        display: none;
+    }
+
     @media print {
 
         /* Hide everything by default */
@@ -112,12 +128,36 @@
             visibility: visible;
         }
 
+        .fakturTunai,
+        .fakturTunai * {
+            visibility: visible;
+        }
+
+        .nota1,
+        .nota1 * {
+            visibility: visible;
+        }
+
+        .fakturPajakTunai,
+        .fakturPajakTunai * {
+            visibility: visible;
+        }
+
+        .fakturUangMuka,
+        .fakturUangMuka * {
+            visibility: visible;
+        }
+
         /* Ensure that the elements are positioned correctly */
         .faktur,
         .fakturXC,
         .nota,
         .fakturPajak1,
-        .fakturPajak {
+        .fakturPajak,
+        .fakturTunai,
+        .nota1,
+        .fakturPajakTunai,
+        .fakturUangMuka {
             position: absolute;
             left: 0;
             top: 0;
@@ -891,7 +931,598 @@
 
 
                         {{-- Faktur Tunai UM --}}
-                        
+                        <div class="fakturTunai">
+
+                            <div class="row" style="font-weight: bold">
+                                <div class="col-sm-12 text-right">
+                                    <span id="fakturTunai_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25%">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturTunai_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturTunai_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span id="fakturTunai_NPWP">XXXXXXXXXXXXXXNPWPXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15%; text-decoration: underline">
+                                <div class="col-sm-10 offset-sm-1 text-left">
+                                    <span
+                                        id="fakturTunai_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div id="fakturTunai_Detail"></div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunai_SymbolGrand">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunai_Grand">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunai_SymbolDiscount">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunai_Discount">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunai_SymbolUM">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunai_UM">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunai_SymbolDPP">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunai_DPP">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunai_SymbolPajak">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunai_Pajak">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8 offset-sm-1 text-left">
+                                    <span id="fakturTunai_Terbilang">xxxx</span>
+                                </div>
+                                <div class="col-sm-1 text-right">
+                                    <span id="fakturTunai_SymbolTerbayar">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunai_Terbayar">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-4 text-left">
+                                    <span id="fakturTunai_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
+                                </div>
+                                <div class="col-sm-2 text-center offset-sm-3">
+                                    <span>Sidoarjo</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunai_TglBln">3 Januari</span>
+                                </div>
+                                <div class="col-sm-1 text-center">
+                                    <span id="fakturTunai_Thn">11</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span id="fakturTunai_Tempo">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span id="fakturTunai_SuratJalan">Surat Jalan: &emsp;&emsp;
+                                        -</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-10 text-right">
+                                    <label>YUDI SANTOSO</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="nota1">
+
+                            <div class="row" style="margin-top: 10%">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="nota1_IdPenagihan">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXidpenagihanXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 offset-sm-3 text-left">
+                                    <span
+                                        id="nota1_NamaCust">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span id="nota1_Alamat">XXXXXXXXXXXXXXNPWPXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15%; text-decoration: underline">
+                                <div class="col-sm-10 offset-sm-1 text-left">
+                                    <span
+                                        id="nota1_NamaTypeBarang">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div id="nota1_Detail"></div>
+
+                            <div class="row mt-5">
+                                <div class="col-sm-8 offset-sm-1 text-left">
+                                    <span id="nota1_Terbilang">xxxx</span>
+                                </div>
+                                <div class="col-sm-1 text-right">
+                                    <span id="nota1_SymbolTerbayar">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="nota1_Terbayar">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-4 text-left">
+                                    <span>Syarat Pembayaran: &emsp;&emsp; CASH</span>
+                                </div>
+                                <div class="col-sm-2 text-center offset-sm-3">
+                                    <span>Sidoarjo</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="nota1_TglBln">3 Januari</span>
+                                </div>
+                                <div class="col-sm-1 text-center">
+                                    <span id="nota1_Thn">11</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span>Jatuh Tempo: &emsp;&emsp; -</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span>Surat Jalan: &emsp;&emsp;
+                                        0</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-10 text-right">
+                                    <label>YUDI SANTOSO</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        {{-- faktur pajak tunai --}}
+                        <div class="fakturPajakTunai">
+
+                            <div class="row" style="font-weight: bold">
+                                <div class="col-sm-12 text-center">
+                                    <span id="fakturPajakTunai_AreaPPNThnIdFakturPajak">XX . 000 - 07. XXXXXXXXX
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25%">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturPajakTunai_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturPajakTunai_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 offset-sm-3 text-left">
+                                    <span id="fakturPajakTunai_NPWP">XXXXXXXXXXXXXXNPWPXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15%">
+                                <div class="col-sm-10 offset-sm-1 text-left">
+                                    <span
+                                        id="fakturPajakTunai_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div id="fakturPajakTunai_Detail"></div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-2 offset-sm-10 text-right">
+                                    <span id="fakturPajakTunai_Grand">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturPajakTunai_SymbolDiscount">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajakTunai_Discount">0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span>-</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturPajakTunai_SymbolDPP">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajakTunai_DPP">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturPajakTunai_SymbolPajak">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajakTunai_Pajak">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-2 text-center offset-sm-7">
+                                    <span>Sidoarjo</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturPajakTunai_TglBln">3 Januari</span>
+                                </div>
+                                <div class="col-sm-1 text-center">
+                                    <span id="fakturPajakTunai_Thn">11</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <label>YUDI SANTOSO</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-center">
+                                    <label>-</label>
+                                </div>
+                                <div class="col-sm-4 text-center">
+                                    <label>MARKETING MANAGER</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {{-- faktur uang muka --}}
+                        <div class="fakturUangMuka">
+
+                            <div class="row">
+                                <div class="col-sm-12 text-right">
+                                    <span id="fakturUangMuka_IdPenagihan">Id Penagihan</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-sm-8 text-right">
+                                    <label>Nomor Seri Faktur Pajak</label>
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    <span id="fakturUangMuka_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15%">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturUangMuka_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturUangMuka_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span id="fakturUangMuka_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div id="fakturUangMuka_Detail" style="margin-top: 12%"></div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturUangMuka_SymbolNilaiBlmPajak">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturUangMuka_NilaiBlmPajak">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturUangMuka_SymbolDiscount">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturUangMuka_Discount">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-11 text-right">
+                                    <span>-</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturUangMuka_SymbolDPP">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturUangMuka_DPP">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2 text-left offset-sm-1">
+                                    <span><b>11%</b></span>
+                                </div>
+                                <div class="col-sm-1 offset-sm-6 text-right">
+                                    <span id="fakturUangMuka_SymbolPajak">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturUangMuka_Pajak">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8 text-left offset-sm-1">
+                                    <span
+                                        id="fakturUangMuka_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                </div>
+                                <div class="col-sm-1 text-right" style="font-weight: bold">
+                                    <span id="fakturUangMuka_SymbolTerbayar">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right" style="font-weight: bold">
+                                    <span id="fakturUangMuka_Terbayar">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2 text-center offset-sm-7">
+                                    <span>Sidoarjo</span>
+                                </div>
+                                <div class="col-sm-2 text-left">
+                                    <span id="fakturUangMuka_TglBln">3 Januari</span>
+                                </div>
+                                <div class="col-sm-1 text-center">
+                                    <span id="fakturUangMuka_Thn">11</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 text-left">
+                                    <span id="fakturUangMuka_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span id="fakturUangMuka_Tempo">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span>Surat Jalan: &emsp;&emsp;
+                                        -</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-sm-3 offset-sm-8 text-center">
+                                    <span id="fakturUangMuka_SJ">RUDY SANTOSO</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {{-- faktur uang tunai um --}}
+                        <div class="fakturTunaiUM">
+
+                            <div class="row">
+                                <div class="col-sm-12 text-right">
+                                    <span id="fakturTunaiUM_IdPenagihan">Id Penagihan</span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15%">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturTunaiUM_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="fakturTunaiUM_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span id="fakturTunaiUM_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div id="fakturTunaiUM_Detail" style="margin-top: 12%"></div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunaiUM_SymbolNilaiBlmPajak">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunaiUM_NilaiBlmPajak">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunaiUM_SymbolDiscount">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunaiUM_Discount">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-11 text-right">
+                                    <span>-</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunaiUM_SymbolUM">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunaiUM_UM">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunaiUM_SymbolDPP">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunaiUM_DPP">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="fakturTunaiUM_SymbolPajak">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunaiUM_Pajak">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-8 text-left offset-sm-1">
+                                    <span
+                                        id="fakturTunaiUM_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                </div>
+                                <div class="col-sm-1 text-right" style="font-weight: bold">
+                                    <span id="fakturTunaiUM_SymbolTerbayar">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right" style="font-weight: bold">
+                                    <span id="fakturTunaiUM_Terbayar">-5.555.555,00</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2 text-center offset-sm-7">
+                                    <span>Sidoarjo</span>
+                                </div>
+                                <div class="col-sm-2 text-left">
+                                    <span id="fakturTunaiUM_TglBln">3 Januari</span>
+                                </div>
+                                <div class="col-sm-1 text-center">
+                                    <span id="fakturTunaiUM_Thn">11</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 text-left">
+                                    <span id="fakturTunaiUM_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span id="fakturTunaiUM_Tempo">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 text-left">
+                                    <span>Surat Jalan: &emsp;&emsp;
+                                        -</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-sm-3 offset-sm-8 text-center">
+                                    <span id="fakturTunaiUM_SJ">YUDI SANTOSO</span>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
