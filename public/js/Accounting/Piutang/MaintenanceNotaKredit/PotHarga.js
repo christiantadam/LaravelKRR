@@ -68,14 +68,14 @@ $(document).ready(function () {
 
     btn_isi.addEventListener("click", async function (event) {
         event.preventDefault();
-        // document.querySelectorAll("input").forEach((input) => {
-        //     if (input !== tanggalInput) {
-        //         input.value = "";
-        //     }
-        // });
-        // document.getElementById("lblStatusPelunasan").textContent = "";
-        // table_bawah.clear().draw();
-        // table_hapus.clear().draw();
+        document.querySelectorAll("input").forEach((input) => {
+            if (input !== tanggalInput) {
+                input.value = "";
+            }
+        });
+        statusPelunasan2.value= "";
+        table_atas.clear().draw();
+        table_hapus.clear().draw();
         btn_isi.disabled = true;
         btn_koreksi.disabled = true;
         btn_hapus.disabled = true;
@@ -93,14 +93,14 @@ $(document).ready(function () {
 
     btn_koreksi.addEventListener("click", async function (event) {
         event.preventDefault();
-        // document.querySelectorAll("input").forEach((input) => {
-        //     if (input !== tanggalInput) {
-        //         input.value = "";
-        //     }
-        // });
-        // document.getElementById("lblStatusPelunasan").textContent = "";
-        // table_bawah.clear().draw();
-        // table_hapus.clear().draw();
+        document.querySelectorAll("input").forEach((input) => {
+            if (input !== tanggalInput) {
+                input.value = "";
+            }
+        });
+        statusPelunasan2.value = "";
+        table_atas.clear().draw();
+        table_hapus.clear().draw();
         btn_isi.disabled = true;
         btn_koreksi.disabled = true;
         btn_hapus.disabled = true;
@@ -254,13 +254,13 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
-                            // grandTotalRetur.value = grandTotal;
-                            // terbilang.value = TTerbilang;
-                            // btn_isi.disabled = false;
-                            // btn_koreksi.disabled = false;
-                            // btn_hapus.disabled = false;
-                            // btn_proses.disabled = true;
-                            // btn_batal.disabled = true;
+                            totalPotongan.value = grandTotal;
+                            terbilang.value = TTerbilang;
+                            btn_isi.disabled = false;
+                            btn_koreksi.disabled = false;
+                            btn_hapus.disabled = false;
+                            btn_proses.disabled = true;
+                            btn_batal.disabled = true;
                             // location.reload();
                             // document
                             //     .querySelectorAll("input")
@@ -303,13 +303,13 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
-                            // grandTotalRetur.value = grandTotal;
-                            // terbilang.value = TTerbilang;
-                            // btn_isi.disabled = false;
-                            // btn_koreksi.disabled = false;
-                            // btn_hapus.disabled = false;
-                            // btn_proses.disabled = true;
-                            // btn_batal.disabled = true;
+                            totalPotongan.value = grandTotal;
+                            terbilang.value = TTerbilang;
+                            btn_isi.disabled = false;
+                            btn_koreksi.disabled = false;
+                            btn_hapus.disabled = false;
+                            btn_proses.disabled = true;
+                            btn_batal.disabled = true;
                             // location.reload();
                             // document
                             //     .querySelectorAll("input")
@@ -359,7 +359,7 @@ $(document).ready(function () {
                             // btn_hapus.disabled = false;
                             // btn_proses.disabled = true;
                             // btn_batal.disabled = true;
-                            // location.reload();
+                            location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));

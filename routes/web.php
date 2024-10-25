@@ -1299,11 +1299,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('PotHarga', App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\PotHargaController::class);
     Route::resource('Free', App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\FreeController::class);
 
-    Route::resource('KelebihanBayarJualTunai', App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\KelebihanBayarJualTunaiController::class);
+    Route::resource('KelebihanBayarUntukJualTunai', App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\KelebihanBayarJualTunaiController::class); //Kode 9 SP
     Route::get('getCustKelebihanBayar', 'App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\KelebihanBayarJualTunaiController@getCustKelebihanBayar');
     Route::get('getListNotaKreditKelebihanBayar', 'App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\KelebihanBayarJualTunaiController@getListNotaKreditKelebihanBayar');
 
-    Route::get('SelisihTimbang', 'App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\SelisihTimbangController@SelisihTimbang');
+    Route::resource('SelisihTimbang', App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\SelisihTimbangController::class); //Kode 9 SP
+    // Route::get('SelisihTimbang', 'App\Http\Controllers\Accounting\Piutang\MaintenanceNotaKredit\SelisihTimbangController@SelisihTimbang');
 
     Route::resource('ACCNotaKredit', App\Http\Controllers\Accounting\Piutang\ACCNotaKreditController::class);
 

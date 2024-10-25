@@ -1,6 +1,6 @@
 @extends('layouts.appAccounting')
 @section('content')
-@section('title', 'Maint Pot Harga Penjualan')
+@section('title', 'Maint Nota Kredit (FREE)')
 <style>
     .custom-modal-width {
         max-width: 70%;
@@ -12,7 +12,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
-                <div class="card-header">Maint Pot Harga Penjualan</div>
+                <div class="card-header">Maint Nota Kredit (FREE)</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div class="form-container col-md-12">
                         <form method="POST" action="">
@@ -31,7 +31,7 @@
                                 <div class="col-md-2">
                                     <label for="namaCustomer" style="margin-right: 10px;">Nama Customer</label>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-8">
                                     <input type="text" id="nama_customer" name="nama_customer" class="form-control"
                                         style="width: 100%">
                                 </div>
@@ -82,7 +82,7 @@
                                     <input type="text" id="kodeBarang" value="" class="form-control"
                                         style="width: 100%">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-7">
                                     <input type="text" id="namaBarang" name="namaBarang" class="form-control"
                                         style="width: 100%">
                                 </div>
@@ -271,7 +271,7 @@
                 </table>
             </div>
             <br>
-            <div class="d-flex">
+            {{-- <div class="d-flex">
                 <div class="col-md-2">
                     <label for="idBKKTampil" style="margin-right: 10px;">Harga Setelah Dipotong</label>
                 </div>
@@ -279,32 +279,15 @@
                     <input type="number" id="hargaStlPotong" name="hargaStlPotong" class="form-control"
                         style="width: 100%">
                 </div>
-                {{-- <div class="col-md-3" style="">
-                    <input type="text" id="totalFOB" name="totalFOB" class="form-control" style="width: 100%">
-                </div>
-                <div class="col-md-3" style="display: none">
-                    <input type="text" id="idPengiriman" name="idPengiriman" class="form-control"
-                        style="width: 100%">
-                </div> --}}
-            </div>
+            </div> --}}
             <br>
-            <div class="d-flex">
+            <div class="d-flex" style="display: none">
                 <div class="col-md-2">
                     <label for="totalLihat" style="margin-right: 10px;">Total Pot Harga</label>
                 </div>
                 <div class="col-md-4">
                     <input type="text" id="totalPot" name="totalPot" class="form-control" style="width: 100%">
                 </div>
-                {{-- <div class="col-md-1">
-                    <button class="btn btn-primary" id="btn_insert" name="btn_insert">Insert</button>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" id="idPesananM" name="idPesananM" class="form-control"
-                        style="width: 100%">
-                </div>
-                <div class="col-md-3" style="display: none">
-                    <input type="text" id="idCust" name="idCust" class="form-control" style="width: 100%">
-                </div> --}}
             </div>
             <br>
             <div class="col-md-2">

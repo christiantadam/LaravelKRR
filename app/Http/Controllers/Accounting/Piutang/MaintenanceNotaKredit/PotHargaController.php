@@ -282,7 +282,7 @@ class PotHargaController extends Controller
             $idNotaKredit = $request->input('no_notaKredit');
 
             $results = DB::connection('ConnAccounting')
-                ->select('exec   @id_NotaKredit = ?', [$idNotaKredit]);
+                ->select('exec SP_LIST_POT_HARGA2 @id_NotaKredit = ?', [$idNotaKredit]);
             // dd($results);
             $response = [];
             $TTotal = 0;
@@ -299,7 +299,7 @@ class PotHargaController extends Controller
                 $response[] = $rowData;
 
                 // Hitung total
-                $TTotal += ($row->Qtybrg * ($row->HargaSP - $row->HargaPot));
+                $TTotal += (floatval($row->QtyBrg) * (floatval($row->HargaSP) - floatval($row->HargaPot)));
             }
 
             // Return hasil dan total

@@ -31,7 +31,7 @@
                                 <div class="col-md-2">
                                     <label for="namaCustomer" style="margin-right: 10px;">Nama Customer</label>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-8">
                                     <input type="text" id="nama_customer" name="nama_customer" class="form-control"
                                         style="width: 100%">
                                 </div>
@@ -82,7 +82,7 @@
                                     <input type="text" id="kodeBarang" value="" class="form-control"
                                         style="width: 100%">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-7">
                                     <input type="text" id="namaBarang" name="namaBarang" class="form-control"
                                         style="width: 100%">
                                 </div>

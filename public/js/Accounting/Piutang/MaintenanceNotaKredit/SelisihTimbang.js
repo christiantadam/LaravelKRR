@@ -23,7 +23,7 @@ $(document).ready(function () {
     let kodeBarang = document.getElementById("kodeBarang");
     let hargaStlPotong = document.getElementById("hargaStlPotong");
     let totalPot = document.getElementById("totalPot");
-    let totalFree = document.getElementById("totalFree");
+    let totalPotongan = document.getElementById("totalPotongan");
     let mataUang = document.getElementById("mataUang");
     let idMataUang = document.getElementById("idMataUang");
     let statusPPN = document.getElementById("statusPPN");
@@ -32,8 +32,12 @@ $(document).ready(function () {
     let statusPelunasan2 = document.getElementById("statusPelunasan2");
     let no_notaKredit = document.getElementById("no_notaKredit");
     let terbilang = document.getElementById("terbilang");
+    let tutup_modal = document.getElementById("tutup_modal");
     let table_atas = $("#table_atas").DataTable({
-        // columnDefs: [{ targets: [6], visible: false }],
+        columnDefs: [{ targets: [6], visible: false }],
+    });
+    let table_tampilModal = $("#table_tampilModal").DataTable({
+        // columnDefs: [{ targets: [4], visible: false }],
     });
     let table_hapus = $("#table_hapus").DataTable({
         // columnDefs: [{ targets: [4], visible: false }],
@@ -69,7 +73,7 @@ $(document).ready(function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "KelebihanBayarUntukJualTunai/getCustomer",
+                                url: "SelisihTimbang/getCustomer",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -182,7 +186,7 @@ $(document).ready(function () {
                             serverSide: true,
                             returnFocus: true,
                             ajax: {
-                                url: "KelebihanBayarUntukJualTunai/getPenagihan",
+                                url: "SelisihTimbang/getPenagihan",
                                 dataType: "json",
                                 type: "GET",
                                 data: {
@@ -238,7 +242,7 @@ $(document).ready(function () {
                     );
 
                     $.ajax({
-                        url: "KelebihanBayarUntukJualTunai/cekPelunasan",
+                        url: "SelisihTimbang/cekPelunasan",
                         type: "GET",
                         data: {
                             _token: csrfToken,
@@ -253,34 +257,32 @@ $(document).ready(function () {
                                     text: data.error,
                                     showConfirmButton: false,
                                 });
-                            }else{
-                                $.ajax({
-                                    url: "KelebihanBayarUntukJualTunai/displayPenagihan",
-                                    type: "GET",
-                                    data: {
-                                        _token: csrfToken,
-                                        no_penagihan: no_penagihan.value,
-                                    },
-                                    success: function (data) {
-                                        console.log(data);
-
-                                        // mataUang.value = data.Nama_MataUang;
-                                        // idMataUang.value = data.Id_MataUang;
-                                        // statusPPN.value = data.Status_PPN;
-                                        // jnsPPN.value = data.Jns_PPN;
-                                        // statusPelunasan.value = data.Lunas;
-
-                                        // if (statusPelunasan.value == "Lunas") {
-                                        //     statusPelunasan2.value = "Harap Dibuatkan BKK";
-                                        // } else {
-                                        //     statusPelunasan2.value = "";
-                                        // }
-                                    },
-                                    error: function (xhr, status, error) {
-                                        var err = eval("(" + xhr.responseText + ")");
-                                        alert(err.Message);
-                                    },
-                                });
+                            } else {
+                                // $.ajax({
+                                //     url: "KelebihanBayarUntukJualTunai/displayPenagihan",
+                                //     type: "GET",
+                                //     data: {
+                                //         _token: csrfToken,
+                                //         no_penagihan: no_penagihan.value,
+                                //     },
+                                //     success: function (data) {
+                                //         console.log(data);
+                                //         // mataUang.value = data.Nama_MataUang;
+                                //         // idMataUang.value = data.Id_MataUang;
+                                //         // statusPPN.value = data.Status_PPN;
+                                //         // jnsPPN.value = data.Jns_PPN;
+                                //         // statusPelunasan.value = data.Lunas;
+                                //         // if (statusPelunasan.value == "Lunas") {
+                                //         //     statusPelunasan2.value = "Harap Dibuatkan BKK";
+                                //         // } else {
+                                //         //     statusPelunasan2.value = "";
+                                //         // }
+                                //     },
+                                //     error: function (xhr, status, error) {
+                                //         var err = eval("(" + xhr.responseText + ")");
+                                //         alert(err.Message);
+                                //     },
+                                // });
                             }
                         },
                         error: function (xhr, status, error) {
