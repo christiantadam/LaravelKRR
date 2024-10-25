@@ -31,9 +31,31 @@ class SoplangController extends Controller
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show($id, Request $request)
     {
-        //
+        $tglAkhir = $request->input('tglAkhir');
+        $date = Carbon::parse($tglAkhir);
+
+        if ($id === 'lihat') {
+            $results = DB::connection('ConnAccounting')->select('exec [SP_PROSES_SALDOPIUTANG2] @TglAkhir = ?', [$date]);
+
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_Customer'      => $row->Id_Customer,    // Map @idcust
+                    'NamaCust'         => $row->NamaCust,       // Map @NamaCust
+                    'Id_Penagihan'     => $row->Id_Penagihan,   // Map @IdPenagihan
+                    'Tgl_Penagihan'    => $row->Tgl_Penagihan,  // Map @TglPenagihan
+                    'Nama_MataUang'    => $row->Nama_MataUang,  // Map @Nama_MataUang
+                    'NilaiKurs'        => $row->NilaiKurs,      // Map @NilaiKurs
+                    'Nilai_Penagihan'  => $row->Nilai_Penagihan, // Map @Nilai_Penagihan
+                    'Dokumen'          => $row->Nama_Dokumen,   // Map @Dokumen
+                    'Id_Detail_Pelunasan' => $row->Id_Detail_Pelunasan,  // Map @IdDetail
+                ];
+            }
+
+            return datatables($response)->make(true);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -45,16 +67,51 @@ class SoplangController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request, $id)
     {
-        $tglAkhir = $request->input('tglAkhir');
-        $date = Carbon::parse($tglAkhir);
+        $tglAkhirLaporan = $request->input('tglAkhirLaporan');
+        $date = Carbon::parse($tglAkhirLaporan);
         $bln = $date->format('m');
         $thn = $date->format('Y');
         $periode = $bln . $thn;
 
-        // dd($request->all(), $bln, $thn, $periode);
+        // dd($request->all(), $bln, $thn, $periode, $date);
+
+        if ($id === 'proses1') {
+            $results = DB::connection('ConnAccounting')->select('exec [SP_PROSES_SALDOPIUTANG2] @TglAkhir = ?', [$date]);
+
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_Customer'      => $row->Id_Customer,    // Map @idcust
+                    'NamaCust'         => $row->NamaCust,       // Map @NamaCust
+                    'Id_Penagihan'     => $row->Id_Penagihan,   // Map @IdPenagihan
+                    'Tgl_Penagihan'    => $row->Tgl_Penagihan,  // Map @TglPenagihan
+                    'Nama_MataUang'    => $row->Nama_MataUang,  // Map @Nama_MataUang
+                    'NilaiKurs'        => $row->NilaiKurs,      // Map @NilaiKurs
+                    'Nilai_Penagihan'  => $row->Nilai_Penagihan, // Map @Nilai_Penagihan
+                    'Dokumen'          => $row->Dokumen,   // Map @Dokumen
+                    'Id_Detail_Pelunasan' => $row->Id_Detail_Pelunasan,  // Map @IdDetail
+                ];
+            }
+
+            dd($response);
+
+            $sw = 0;
+
+            foreach ($response as $detail) {
+                $sw++;
+
+                $pelunasanData = DB::connection('ConnAccounting')->select(
+                    'SELECT Pelunasan_Curency, Sisa_Nilai_Tagihan, Id_BKM, TglCair, Id_Pelunasan
+                    FROM dbo.vw_prg_t_detail_pelunasan_tagihan1
+                    WHERE ID_Detail_Pelunasan = ?',
+                    [$response[0]['Id_Detail_Pelunasan']]
+                );
+                dd($pelunasanData);
+            }
+        }
 
 
-        if ($id === 'proses') {
+        if ($id === 'proses2') {
             try {
                 DB::connection('ConnAccounting')->table('T_Saldo_Piutang')->delete();
 
@@ -413,19 +470,24 @@ class SoplangController extends Controller
             }
         }
 
-        // $tglAkhirLaporan = $request->input('tglAkhirLaporan');
+        // $startTime = microtime(true);
 
-        // try {
-        //     DB::connection('ConnAccounting')
-        //         ->statement('exec [SP_PROSES_SALDOPIUTANG]
-        //     @TglAkhir = ?', [
-        //             $tglAkhirLaporan,
-        //         ]);
+        // set_time_limit(300); // Increase execution time limit to 300 seconds
 
-        //     return response()->json(['success' => 'Data Selesai Diproses. Silakan Lihat Di Excell'], 200);
-        // } catch (\Exception $e) {
-        //     return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
-        // }
+        // $endTime = microtime(true);
+        // $elapsedTime = $endTime - $startTime;
+        // Log::info((string) 'Elapsed Time for post BTTB: ' . $elapsedTime . ' | NoTrans: ');
+
+        if ($id === 'proses') {
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement('exec [SP_PROSES_SALDOPIUTANG] @TglAkhir = ?', [$tglAkhirLaporan]);
+
+                return response()->json(['success' => 'Data Selesai Diproses. Silakan Lihat Di Excell'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
     }
 
 

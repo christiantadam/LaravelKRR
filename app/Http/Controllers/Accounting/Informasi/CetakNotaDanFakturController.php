@@ -13,7 +13,7 @@ class CetakNotaDanFakturController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Informasi.CetakNotadanFaktur', compact('access'));
+        return view('Accounting.Informasi.CetakNotaDanFaktur', compact('access'));
     }
 
     //Show the form for creating a new resource.
