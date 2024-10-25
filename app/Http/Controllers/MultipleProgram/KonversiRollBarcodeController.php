@@ -106,7 +106,7 @@ class KonversiRollBarcodeController extends Controller
                         $newIdKonvPotongJBB = $currentIdKonvPotongJBB + 1;
                         DB::connection('ConnInventory')
                             ->table('Counter')->update(['IdKonvPotongJBB' => $newIdKonvPotongJBB]);
-                        $idkonversi = "JBB" . str_pad($newIdKonvPotongJBB, 6, "0", STR_PAD_LEFT);
+                        $idkonversi = "JBP" . str_pad($newIdKonvPotongJBB, 6, "0", STR_PAD_LEFT);
                         DB::connection('ConnInventory')
                             ->statement('EXEC SP_4384_Konversi_Barcode_Potong
                     @XKode = ?,
@@ -193,13 +193,21 @@ class KonversiRollBarcodeController extends Controller
                 DB::connection('ConnInventory')
                     ->statement('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [10, $idkonversi, $nomorUser]);
                 $adaSisa = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [13, $idkonversi]);
-                // dd($adaSisa);
-                Log::info(end($adaSisa)->idtrans);
-                if (!isEmpty($adaSisa)) {
-                    $barcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdTrans = ?', [14, end($adaSisa)->idtrans]);
+                // dd($adaSisa, $idkonversi);
+
+                if (!empty($adaSisa)) {
+                    $firstData = $adaSisa[0]->IdType;
+                    $lastData = $adaSisa[count($adaSisa) - 1]->IdType;
+
+                    if ($firstData === $lastData) {
+                        $barcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdTrans = ?', [14, end($adaSisa)->idtrans]);
+                    }
                 }
-                dd($barcode);
-                return response()->json(['success' => (string) 'Permohonan konversi dengan Id Konversi: ' . $idkonversi . ' berhasil disetujui!']);
+                // dd($barcode);
+                return response()->json([
+                    'success' => (string) 'Permohonan konversi dengan Id Konversi: ' . $idkonversi . ' berhasil disetujui!',
+                    'barcode' => $barcode
+                ]);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }

@@ -4,6 +4,7 @@ $(document).ready(function () {
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
     let button_tambahKonversi = document.getElementById("button_tambahKonversi"); // prettier-ignore
     let button_tambahTujuanKonversi = document.getElementById("button_tambahTujuanKonversi"); // prettier-ignore
+    let button_timbangTujuanKonversi = document.getElementById("button_timbangTujuanKonversi"); // prettier-ignore
     let button_updateTujuanKonversi = document.getElementById("button_updateTujuanKonversi"); // prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let d_tek0PanjangPotongan;
@@ -496,6 +497,9 @@ $(document).ready(function () {
         button_updateTujuanKonversi.disabled = true;
         button_hapusTujuanKonversi.disabled = true;
         button_modalProses.disabled = true;
+        if (nomorUser == "4384") {
+            hasil_konversiTritierTujuan.readOnly = false;
+        }
 
         const buttonTypeTujuanInputIds = [
             "hasil_konversiPrimerTujuan",
@@ -1096,6 +1100,26 @@ $(document).ready(function () {
         this.reportValidity();
     });
 
+    button_timbangTujuanKonversi.addEventListener("click", function (e) {
+        $.ajax({
+            url: "http://127.0.0.1:8011/get-rs232-data",
+            method: "GET",
+            success: function (response) {
+                // console.log(response);
+                if (response.data) {
+                    $("#hasil_konversiTritierTujuan").val(response.data);
+                } else {
+                    alert("Error: " + response.error);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error Status: " + textStatus);
+                console.log("Error Thrown: " + errorThrown);
+                alert("Failed to fetch RS232 data");
+            },
+        });
+    });
+
     button_tambahTujuanKonversi.addEventListener("click", function (e) {
         e.preventDefault();
         // Id type Asal dan Tujuan tidak boleh sama
@@ -1199,7 +1223,7 @@ $(document).ready(function () {
                 button_modalProses.disabled = false;
             }
         } else {
-            Swal.fire("Pemberitahuan", "Harap isi sesuai ketentuan", "info");
+            Swal.fire("Pemberitahuan", "Ada kolom yang belum terisi", "info");
         }
     });
     button_updateTujuanKonversi.addEventListener("click", function (e) {
@@ -1499,7 +1523,26 @@ $(document).ready(function () {
                         text: response.success,
                         showConfirmButton: false,
                     });
-                    getDataPermohonan();
+                    // Extract values from the response
+                    let Kode_barang = response.barcode[0].Kode_barang;
+                    let NoIndeks = response.barcode[0].NoIndeks;
+
+                    // Pad NoIndeks to 9 digits
+                    let paddedNoIndeks = NoIndeks.padStart(9, "0");
+
+                    // Concatenate NoIndeks and Kode_barang
+                    let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;
+
+                    // Generate the barcode with JsBarcode
+                    JsBarcode("#div_printBarcode", barcodeValue, {
+                        format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
+                        width: 4, // Width of a single barcode unit
+                        height: 200, // Height of the barcode
+                        displayValue: true, // Display the value below the barcode
+                    });
+                    getDataPermohonan().then(() => {
+                        window.print();
+                    });
                 }
             },
             error: function (xhr, status, error) {

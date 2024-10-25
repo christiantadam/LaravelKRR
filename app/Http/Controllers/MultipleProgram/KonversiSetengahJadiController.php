@@ -198,6 +198,15 @@ class KonversiSetengahJadiController extends Controller
             $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
             $nomorUser = trim(Auth::user()->NomorUser);
             return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser'));
+        } else if ($id == 'selectCustomerTH') {
+            $customer_list = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_CUSTOMER');
+            return response()->json($customer_list, 200);
+        } else if ($id == 'selectKodeBarangTH') {
+            $kode_barangList = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG @KodeCustomer = ?', [$request->input('Kode_Customer')]);
+            return response()->json($kode_barangList, 200);
+        } else if ($id == 'selectKomponenBarangTH') {
+            $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
+            return response()->json($dataRincianTH, 200);
         } else if ($id == 'getDivisi') {
             $UserInput = trim(Auth::user()->NomorUser);
 

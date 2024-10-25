@@ -25,6 +25,7 @@
         }
 
         #div_printBarcode {
+            display: block !important;
             visibility: visible;
         }
     }
@@ -277,7 +278,7 @@
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: row;gap:0.5%;">
-                            <div class="form-group" style="width: 49%;border:none;margin:0.5%;">
+                            <div class="form-group" style="width: 39%;border:none;margin:0.5%;">
                                 <label for="saldo_terakhirTujuan">Saldo Terakhir Type Tujuan</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="saldo_terakhirTujuanPrimer"
@@ -301,24 +302,26 @@
                                         placeholder="Satuan Tritier">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 49%;border:none;margin:0.5%;">
+                            <div class="form-group" style="width: 59%;border:none;margin:0.5%;">
                                 <label for="hasil_konversiTujuan">Hasil Konversi</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="hasil_konversiPrimerTujuan"
-                                        name="hasil_konversiPrimerTujuan" style='width:23%'
+                                        name="hasil_konversiPrimerTujuan" style='width:18%'
                                         placeholder="Jumlah Primer">
                                     <input type="text" class="form-control" id="satuan_primerTujuan"
                                         name="satuan_primerTujuan" style='width:10%' placeholder="Satuan Primer">
                                     <input type="text" class="form-control" id="hasil_konversiSekunderTujuan"
-                                        name="hasil_konversiSekunderTujuan" style='width:23%'
+                                        name="hasil_konversiSekunderTujuan" style='width: 18%'
                                         placeholder="Jumlah Sekunder">
                                     <input type="text" class="form-control" id="satuan_sekunderTujuan"
                                         name="satuan_sekunderTujuan" style='width:10%' placeholder="Satuan Sekunder">
                                     <input type="text" class="form-control" id="hasil_konversiTritierTujuan"
-                                        name="hasil_konversiTritierTujuan" style='width:23%'
-                                        placeholder="Jumlah Tritier">
+                                        name="hasil_konversiTritierTujuan" style='width:18%'
+                                        placeholder="Jumlah Tritier" readonly>
                                     <input type="text" class="form-control" id="satuan_tritierTujuan"
-                                        name="satuan_tritierTujuan" style='width:8%' placeholder="Satuan Tritier">
+                                        name="satuan_tritierTujuan" style='width:10%' placeholder="Satuan Tritier">
+                                    <button class="btn btn-info" id="button_timbangTujuanKonversi"
+                                        style='width:13%;margin:0 0 0 1%'>Timbang</button>
                                 </div>
                             </div>
                         </div>
@@ -326,7 +329,7 @@
                             <div class="form-group" style="width: 75%;">
                                 <button class="btn btn-success" id="button_tambahTujuanKonversi">Tambah
                                     Tujuan</button>
-                                <button class="btn btn-info" id="button_updateTujuanKonversi">Update
+                                <button class="btn btn-primary" id="button_updateTujuanKonversi">Update
                                     Tujuan</button>
                                 <button class="btn btn-danger" id="button_hapusTujuanKonversi">Hapus
                                     Tujuan</button>
@@ -340,33 +343,9 @@
     </div>
 </div>
 
-<div id="div_printBarcode" style="visibility: hidden">
+<svg id="div_printBarcode" style="visibility: hidden">
     hueheheheh
-</div>
-<div>
-    <input type="text" id="rs232-data" placeholder="RS232 Data">
-    <button id="fetch-data">Get RS232 Data</button>
-</div>
-<script>
-    $('#fetch-data').on('click', function() {
-        $.ajax({
-            url: 'http://127.0.0.1:8011/get-rs232-data', // Adjust the URL based on your server's address
-            method: 'GET',
-            success: function(response) {
-                console.log(response);
-
-                if (response.data) {
-                    $('#rs232-data').val(response.data);
-                } else {
-                    alert('Error: ' + response.error);
-                }
-            },
-            error: function() {
-                alert('Failed to fetch RS232 data');
-            }
-        });
-    });
-</script>
+</svg>
 
 @if ($id == 'JBBPotong')
     <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeJBBPotong.js') }}"></script>

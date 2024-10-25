@@ -29,6 +29,7 @@
     <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/User.js') }}"></script>
     <script src="{{ asset('js/jspdf.umd.min.js') }}"></script>
+    <script src="{{ asset('js/JSbarcode.all.min.js') }}"></script>
     <script src="{{ asset('js/moment.min.js') }}"></script>
     <script src="{{ asset('js/flatpickr.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
