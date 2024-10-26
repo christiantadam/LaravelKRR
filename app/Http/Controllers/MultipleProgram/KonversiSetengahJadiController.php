@@ -197,7 +197,9 @@ class KonversiSetengahJadiController extends Controller
         if ($id == 'JBBPotong') {
             $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
             $nomorUser = trim(Auth::user()->NomorUser);
-            return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser'));
+            $divisi = DB::connection('ConnInventory')
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?', [$nomorUser, 1]);
+            return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi'));
         } else if ($id == 'selectCustomerTH') {
             $customer_list = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_CUSTOMER');
             return response()->json($customer_list, 200);
@@ -205,6 +207,12 @@ class KonversiSetengahJadiController extends Controller
             $kode_barangList = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG @KodeCustomer = ?', [$request->input('Kode_Customer')]);
             return response()->json($kode_barangList, 200);
         } else if ($id == 'selectKomponenBarangTH') {
+            $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
+            return response()->json($dataRincianTH, 200);
+        } else if ($id == 'getInventoryTypes') {
+            $panjang = (float) explode('X', $request->input('panjangLebar'))[0];
+            $lebar = (float) explode('X', $request->input('panjangLebar'))[1];
+            dd($request->all(), $panjang, $lebar);
             $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
             return response()->json($dataRincianTH, 200);
         } else if ($id == 'getDivisi') {

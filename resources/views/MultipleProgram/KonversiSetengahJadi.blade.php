@@ -123,6 +123,18 @@
                     <div class="card" style="display: flex; flex-direction: column;margin: 0.5%;padding:0.5%;">
                         <div style="display: flex; flex-direction: row;gap:1%;">
                             <div class="form-group" style="width: 32%">
+                                <label for="divisiAsal">Divisi Asal</label>
+                                <div class="input-group">
+                                    <select name="select_divisiAsal" id="select_divisiAsal" class="form-control">
+                                        <option disabled selected>Pilih Divisi Asal</option>
+                                        @foreach ($divisi as $d)
+                                            <option value="{{ $d->IdDivisi }}">{{ $d->NamaDivisi }} |
+                                                {{ $d->IdDivisi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="width: 32%">
                                 <label for="customerSelect">Customer</label>
                                 <div class="input-group">
                                     <select name="customerSelect" id="customerSelect" style="width: 100%;"
@@ -147,27 +159,21 @@
                                 <table id="table_daftarAsalKonversi">
                                     <thead>
                                         <tr style="white-space: nowrap">
-                                            <th>Id Type Asal</th>
-                                            <th>Nama Type Asal</th>
-                                            <th>Pengeluaran Primer</th>
-                                            <th>Pengeluaran Sekunder</th>
-                                            <th>Pengeluaran Tritier</th>
-                                            <th>Barcode</th>
-                                            <th>IdSubKelompok</th>
+                                            <th>Kode Komponen</th>
+                                            <th>Nama Komponen</th>
+                                            <th>Panjang x Lebar</th>
+                                            <th>Quantity</th>
+                                            <th>Id Type Inventory</th>
+                                            <th>Nama Type Inventory</th>
+                                            <th>Jumlah Pemakaian Primer</th>
+                                            <th>Jumlah Pemakaian Sekunder</th>
+                                            <th>Jumlah Pemakaian Tritier</th>
                                         </tr>
                                     </thead>
                                 </table>
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: row;gap:1%;">
-                            <div class="form-group" style="width: 32%">
-                                <label for="divisi">Divisi</label>
-                                <div class="input-group">
-                                    <select name="select_divisiTujuan" id="select_divisiTujuan" class="form-control">
-                                        <option disabled selected>-- Pilih Divisi --</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="form-group" style="width: 32%">
                                 <label for="objek">Objek</label>
                                 <div class="input-group">
@@ -283,6 +289,10 @@
                                 <div class="input-group">
                                     <select name="select_divisiTujuan" id="select_divisiTujuan" class="form-control">
                                         <option disabled selected>Pilih Divisi</option>
+                                        @foreach ($divisi as $d)
+                                            <option value="{{ $d->IdDivisi }}">{{ $d->NamaDivisi }}
+                                                |{{ $d->IdDivisi }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

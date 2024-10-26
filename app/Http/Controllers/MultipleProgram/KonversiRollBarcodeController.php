@@ -23,7 +23,7 @@ class KonversiRollBarcodeController extends Controller
 
     public function create()
     {
-        $listPotong = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Barcode_Potong @XKode = ?', [0]);
+        $listPotong = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?', [0]);
         // Convert the data into an array that DataTables can consume
         $dataPotong = [];
         foreach ($listPotong as $Potong) {
@@ -108,7 +108,7 @@ class KonversiRollBarcodeController extends Controller
                             ->table('Counter')->update(['IdKonvPotongJBB' => $newIdKonvPotongJBB]);
                         $idkonversi = "JBP" . str_pad($newIdKonvPotongJBB, 6, "0", STR_PAD_LEFT);
                         DB::connection('ConnInventory')
-                            ->statement('EXEC SP_4384_Konversi_Barcode_Potong
+                            ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong
                     @XKode = ?,
                     @XIdTypeTransaksi = ?,
                     @XUraianDetailTransaksi = ?,
@@ -148,7 +148,7 @@ class KonversiRollBarcodeController extends Controller
                         // Tujuan
                         for ($k = 0; $k < count($IdTypeTujuan); $k++) {
                             DB::connection('ConnInventory')
-                                ->statement('EXEC SP_4384_Konversi_Barcode_Potong
+                                ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong
                         @XKode = ?,
                         @XIdTypeTransaksi = ?,
                         @XUraianDetailTransaksi = ?,
@@ -191,8 +191,8 @@ class KonversiRollBarcodeController extends Controller
                 $idkonversi = $request->input('idkonversi');
                 $nomorUser = trim(Auth::user()->NomorUser);
                 DB::connection('ConnInventory')
-                    ->statement('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [10, $idkonversi, $nomorUser]);
-                $adaSisa = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [13, $idkonversi]);
+                    ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [10, $idkonversi, $nomorUser]);
+                $adaSisa = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [13, $idkonversi]);
                 // dd($adaSisa, $idkonversi);
 
                 if (!empty($adaSisa)) {
@@ -200,7 +200,7 @@ class KonversiRollBarcodeController extends Controller
                     $lastData = $adaSisa[count($adaSisa) - 1]->IdType;
 
                     if ($firstData === $lastData) {
-                        $barcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdTrans = ?', [14, end($adaSisa)->idtrans]);
+                        $barcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdTrans = ?', [14, end($adaSisa)->idtrans]);
                     }
                 }
                 // dd($barcode);
@@ -220,7 +220,7 @@ class KonversiRollBarcodeController extends Controller
             $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
             $nomorUser = trim(Auth::user()->NomorUser);
             $divisi = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Barcode_Potong @XKdUser = ?, @XKode = ?', [$nomorUser, 1]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?', [$nomorUser, 1]);
             return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
         } elseif ($id == 'ABMPotong') {
             $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
@@ -236,7 +236,7 @@ class KonversiRollBarcodeController extends Controller
             // 000000003-000140864
             // 000000004-000140864
             try {
-                $dataBarcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Barcode_Potong @XKode = ?, @XKodeBarang = ?, @XNomorIndeks = ?', [8, $kodeBarangAsal, $nomorIndeksBarangAsal]);
+                $dataBarcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XKodeBarang = ?, @XNomorIndeks = ?', [8, $kodeBarangAsal, $nomorIndeksBarangAsal]);
                 if (!str_contains($dataBarcode[0]->NamaDivisi, 'Jumbo Bag')) {
                     return response()->json(['error' => (string) "Barcode yang dimasukkan milik divisi " . $dataBarcode[0]->NamaDivisi]);
                 }
@@ -251,47 +251,47 @@ class KonversiRollBarcodeController extends Controller
             $UserInput = trim(Auth::user()->NomorUser);
             $idDivisi = $request->input('idDivisi');
             $objekConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $idDivisi]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $idDivisi]);
 
             return response()->json($objekConn);
         } elseif ($id == 'getKelompokUtama') {
             $UserInput = trim(Auth::user()->NomorUser);
             $idObjek = $request->input('idObjek');
             $KelompokUtamaConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdObjek = ?', [3, $idObjek]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdObjek = ?', [3, $idObjek]);
 
             return response()->json($KelompokUtamaConn);
         } elseif ($id == 'getKelompok') {
             $UserInput = trim(Auth::user()->NomorUser);
             $idKelompokUtama = $request->input('idKelompokUtama');
             $KelompokConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $idKelompokUtama]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $idKelompokUtama]);
 
             return response()->json($KelompokConn);
         } elseif ($id == 'getSubKelompok') {
             $UserInput = trim(Auth::user()->NomorUser);
             $idKelompok = $request->input('idKelompok');
             $SubKelompokConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKelompok = ?', [5, $idKelompok]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKelompok = ?', [5, $idKelompok]);
 
             return response()->json($SubKelompokConn);
         } elseif ($id == 'getType') {
             $UserInput = trim(Auth::user()->NomorUser);
             $idSubKelompok = $request->input('idSubKelompok');
             $TypeConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $idSubKelompok]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $idSubKelompok]);
 
             return response()->json($TypeConn);
         } elseif ($id == 'getDataType') {
             $UserInput = trim(Auth::user()->NomorUser);
             $IdType = $request->input('IdType');
             $TypeConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
 
             return response()->json($TypeConn);
         } else if ($id == 'getDetailKonversi') {
             $idKonversi = $request->input('idKonversi');
-            $data = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [11, (string) $idKonversi]);
+            $data = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [11, (string) $idKonversi]);
             return response()->json($data);
         } else {
             return response()->json(['error' => (string) "Undefined request \$id: " . $id]);
@@ -314,7 +314,7 @@ class KonversiRollBarcodeController extends Controller
             try {
                 $idKonversi = $request->input('idKonversi');
                 $nomorUser = trim(Auth::user()->NomorUser);
-                DB::connection('ConnInventory')->statement('exec SP_4384_Konversi_Barcode_Potong @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [12, $idKonversi, $nomorUser]);
+                DB::connection('ConnInventory')->statement('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [12, $idKonversi, $nomorUser]);
                 return response()->json(['success' => (string) 'Data Konversi ' . $idKonversi . ' Berhasil Dihapus'], 200);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
