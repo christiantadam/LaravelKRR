@@ -1,142 +1,196 @@
-let tabelatas = $("#tabelatas").DataTable();
-let tabelbawah = $("#tabelbawah").DataTable();
-let idNotaKredit = document.getElementById('idNotaKredit');
-let idCustomer = document.getElementById('idCustomer');
-let idMataUang = document.getElementById('idMataUang');
-let kredit = document.getElementById('kredit');
-let kurs = document.getElementById('kurs');
-let statusP = document.getElementById('statusP');
-let idnotakredit = document.getElementById('idnotakredit');
-
-let btnProses = document.getElementById('btnProses');
-let formkoreksi = document.getElementById('formkoreksi');
-
-
-
-fetch("ACCNotaKredit/getTabelHeaderACCNotaKredit/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
-
-        tabelatas = $("#tabelatas").DataTable({
-            destroy: true,
-            data: options,
-            columns: [
-                { title: "Jenis Nota", data: "NamaNotaKredit" },
-                { title: "Tanggal", data: "Tanggal" },
-                { title: "Customer", data: "NamaCust" },
-                { title: "Nota Kredit", data: "Id_NotaKredit" },
-                { title: "No. Penagihan", data: "Id_Penagihan" },
-                { title: "Nilai Retur", data: "Nilai" },
-                { title: "Mata Uang", data: "Nama_MataUang" },
-                { title: "Id Customer", data: "Id_Customer" },
-                { title: "Id Mata Uang", data: "Id_MataUang" },
-                { title: "Nilai Kurs", data: "NilaiKurs" },
-                { title: "Status Pelunasan", data: "Status_Pelunasan" },
-            ]
-        });
-});
-
-$("#tabelatas tbody").off("click", "tr");
-    $("#tabelatas tbody").on("click", "tr", function () {
-        let checkSelectedRows = $("#tabelatas tbody tr.selected");
-
-        if (checkSelectedRows.length > 0) {
-            // Remove "selected" class from previously selected rows
-            checkSelectedRows.removeClass("selected");
-        }
-        $(this).toggleClass("selected");
-        const table = $("#tabelatas").DataTable();
-        let selectedRows = table.rows(".selected").data().toArray();
-        console.log(selectedRows[0]);
-        idNotaKredit.value = selectedRows[0].Id_NotaKredit;
-        idCustomer.value = selectedRows[0].Id_Customer;
-        idMataUang.value = selectedRows[0].Id_MataUang;
-        kredit.value = selectedRows[0].Nilai;
-        kurs.value = selectedRows[0].NilaiKurs;
-        statusP.value = selectedRows[0].Status_Pelunasan;
-
-        idnotakredit.value = idNotaKredit.value.replace(/\//g, '.');
-
-        fetch("/getDetailHeaderACCNotaKredit/" + idnotakredit.value)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
-
-            if (options[0].IdRetur != null) {
-                tabelbawah = $("#tabelbawah").DataTable({
-                    destroy: true,
-                    data: options,
-                    columns: [
-                        { title: "Surat Jalan", data: "SuratJalan" },
-                        { title: "No. Retur", defaultContent: "" },
-                        { title: "Qty", data: "QtyBrg" },
-                        { title: "Harga", data: "HargaSP" },
-                        { title: "Satuan", defaultContent: "" },
-                        { title: "Harga Baru", data: "HargaPot" }
-                    ]
-                });
-            } else {
-                fetch("/getDetailHeaderACCNotaKredit2/" + idNotaKredit.value)
-                .then((response) => response.json())
-                .then((options) => {
-                    console.log(options);
-
-                    tabelbawah = $("#tabelbawah").DataTable({
-                        destroy: true,
-                        data: options,
-                        columns: [
-                            { title: "Surat Jalan", data: "SuratJalan" },
-                            { title: "No. Retur", data: "IdRetur" },
-                            { title: "Qty", data: "QtyKonversi" },
-                            { title: "Harga", data: "HargaSatuan" },
-                            { title: "Satuan", data: "SatuanJual" },
-                            { title: "Harga Baru", defaultContent: "" }
-                        ]
-                    });
-                })
-
-            }
-        })
-});
-
-btnProses.addEventListener('click', function(event) {
-    event.preventDefault();
-
-    $.ajax({
-        url: "ACCNotaKredit",
-        method: "POST",
-        data: new FormData(formkoreksi),
-        dataType: "JSON",
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function (response) {
-            alert(response);
-        },
+$(document).ready(function () {
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let btn_proses = document.getElementById("btn_proses");
+    let table_atas = $("#table_atas").DataTable({
+        columnDefs: [{ targets: [7, 8, 9, 10], visible: false }],
+    });
+    let table_bawah = $("#table_bawah").DataTable({
+        // columnDefs: [{ targets: [4], visible: false }],
     });
 
-    fetch("/getTabelHeaderACCNotaKredit/")
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
+    table_atas = $("#table_atas").DataTable({
+        responsive: false,
+        processing: true,
+        serverSide: true,
+        destroy: true,
+        scrollX: true,
+        // width: "150%",
+        ajax: {
+            url: "ACCNotaKredit/getNotaKredit",
+            dataType: "json",
+            type: "GET",
+            data: function (d) {
+                return $.extend({}, d, {
+                    _token: csrfToken,
+                });
+            },
+        },
+        columns: [
+            {
+                data: "NamaNotaKredit",
+                render: function (data) {
+                    return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                },
+            },
+            { data: "Tanggal" },
+            { data: "NamaCust" },
+            { data: "Id_NotaKredit" },
+            { data: "Id_Penagihan" },
+            { data: "Nilai" },
+            { data: "Nama_MataUang" },
+            { data: "Id_Customer" },
+            { data: "Id_MataUang" },
+            { data: "NilaiKurs" },
+            { data: "Status_Pelunasan" },
+        ],
+        paging: false,
+        scrollY: "400px",
+        scrollCollapse: true,
+        columnDefs: [{ targets: [7, 8, 9, 10], visible: false }],
+    });
 
-        tabelatas = $("#tabelatas").DataTable({
+    $("#table_atas tbody").on("click", "tr", function () {
+        // Remove the 'selected' class from any previously selected row
+        $("#table_atas tbody tr").removeClass("selected");
+
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+
+        // Get data from the clicked row
+        var data = table_atas.row(this).data();
+        console.log(data);
+
+        table_bawah = $("#table_bawah").DataTable({
+            responsive: false,
+            processing: true,
+            serverSide: true,
             destroy: true,
-            data: options,
+            scrollX: true,
+            // width: "150%",
+            ajax: {
+                url: "ACCNotaKredit/getNotaKreditDetail",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        Id_NotaKredit: data.Id_NotaKredit,
+                    });
+                },
+            },
             columns: [
-                { title: "Jenis Nota", data: "NamaNotaKredit" },
-                { title: "Tanggal", data: "Tanggal" },
-                { title: "Customer", data: "NamaCust" },
-                { title: "Nota Kredit", data: "Id_NotaKredit" },
-                { title: "No. Penagihan", data: "Id_Penagihan" },
-                { title: "Nilai Retur", data: "Nilai" },
-                { title: "Mata Uang", data: "Nama_MataUang" },
-                { title: "Id Customer", data: "Id_Customer" },
-                { title: "Id Mata Uang", data: "Id_MataUang" },
-                { title: "Nilai Kurs", data: "NilaiKurs" },
-                { title: "Status Pelunasan", data: "Status_Pelunasan" },
-            ]
+                {
+                    data: "SuratJalan",
+                    // render: function (data) {
+                    //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    // },
+                },
+                { data: "IdRetur" },
+                {
+                    data: "QtyBrg",
+                    render: function (data) {
+                        return numeral(data).format("0");
+                    },
+                },
+                {
+                    data: "HargaSP",
+                    render: function (data) {
+                        return numeral(data).format("0");
+                    },
+                },
+                { data: "SatuanJual" },
+                {
+                    data: "HargaPot",
+                    render: function (data) {
+                        return numeral(data).format("0");
+                    },
+                },
+            ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
+            // columnDefs: [{ targets: [6, 7, 8, 9, 10, 11], visible: false }],
         });
+    });
+
+    let rowDataArray = [];
+    let rowDataPertama;
+
+    // Handle checkbox change events
+    $("#table_atas tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#table_atas tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            if (this.checked) {
+                $('input[name="penerimaCheckbox"]');
+                // .not(this)
+                // .prop("checked", false);
+                rowDataPertama = table_atas.row($(this).closest("tr")).data();
+
+                // Add the selected row data to the array
+                rowDataArray.push(rowDataPertama);
+                // rowDataArray = [rowDataPertama];
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_atas);
+            } else {
+                // rowDataPertama = null;
+                // Remove the unchecked row data from the array
+                rowDataPertama = table_atas.row($(this).closest("tr")).data();
+
+                // Filter out the row with matching Id_NotaKredit
+                rowDataArray = rowDataArray.filter(
+                    (row) => row.Id_NotaKredit !== rowDataPertama.Id_NotaKredit
+                );
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_atas);
+            }
+        }
+    );
+
+    btn_proses.addEventListener("click", async function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: "ACCNotaKredit",
+            type: "POST",
+            data: {
+                _token: csrfToken,
+                rowDataArray: rowDataArray,
+            },
+            success: function (response) {
+                console.log(response);
+
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        btn_proses.disabled = true;
+                        location.reload();
+                        // document
+                        //     .querySelectorAll("input")
+                        //     .forEach((input) => (input.value = ""));
+                        // $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
+    });
 });
-})

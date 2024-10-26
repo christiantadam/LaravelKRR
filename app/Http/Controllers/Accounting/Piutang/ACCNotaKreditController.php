@@ -46,47 +46,103 @@ class ACCNotaKreditController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        $idNotaKredit = $request->idNotaKredit;
-        $idCustomer = $request->idCustomer;
-        $idMataUang = $request->idMataUang;
-        $kredit = $request->kredit;
-        $kurs = $request->kurs;
-        $statusP = $request->statusP;
+        try {
+            $ada = false;
+            $userId = trim(Auth::user()->NomorUser);
+            $items = $request->input('rowDataArray');
+            // dd($items);
 
-        DB::connection('ConnAccounting')->statement('exec [SP_ACC_NOTA_KREDIT]
-        @UserAcc = ?,
-        @Id_NotaKredit = ?,
-        @IdCust = ?,
-        @IdMtUang = ?,
-        @kredit = ?,
-        @kurs = ?,
-        @status = ?', [
-            trim(Auth::user()->NomorUser),
-            $idNotaKredit,
-            $idCustomer,
-            $idMataUang,
-            $kredit,
-            $kurs,
-            $statusP
-        ]);
+            if (count($items) === 0) {
+                return response()->json(['error' => 'Tidak Ada Data Yang Disimpan']);
+            }
+
+            foreach ($items as $item) {
+                // Execute stored procedure for each checked item
+                DB::connection('ConnAccounting')->statement('exec SP_ACC_NOTA_KREDIT @UserAcc = ?, @Id_NotaKredit = ?, @IdCust = ?, @IdMtUang = ?, @kredit = ?, @kurs = ?, @status = ?', [
+                    $userId,
+                    trim($item['Id_NotaKredit']),
+                    trim($item['Id_Customer']),
+                    $item['Id_MataUang'],
+                    (float) str_replace(',', '', $item['Nilai']),
+                    $item['NilaiKurs'],
+                    trim($item['Status_Pelunasan']),
+                ]);
+
+                $ada = true;
+            }
+
+            if ($ada) {
+                return response()->json(['message' => 'Proses Acc Penagihan Surat Jalan Selesai !!.']);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     //Display the specified resource.
     public function show($id, Request $request)
     {
-        try {
-            if ($id == 'getTabelHeaderACCNotaKredit') {
-                $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?', [3]);
-                return response()->json($tabel);
-            } else if ($id == 'getDetailHeaderACCNotaKredit') {
-                $idNotaKredit = str_replace('.', '/', $request->input('idnotakredit'));
-                $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_NOTA_KREDIT] @Kode = ?, @ID_NotaKredit = ?', [4, $idNotaKredit]);
-                return response()->json($tabel);
-            } else {
-                return response()->json(['error' => 'Invalid Show $id']);
+        if ($id == 'getNotaKredit') {
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_LIST_NOTA_KREDIT ?', [3]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'NamaNotaKredit' => $row->NamaNotaKredit,
+                    'Tanggal' => \Carbon\Carbon::parse($row->Tanggal)->format('m/d/Y'),
+                    'NamaCust' => $row->NamaCust,
+                    'Id_NotaKredit' => $row->Id_NotaKredit,
+                    'Id_Penagihan' => $row->Id_Penagihan,
+                    'Nilai' => number_format($row->Nilai, 2, '.', ','),
+                    'Nama_MataUang' => $row->Nama_MataUang,
+                    'Id_Customer' => $row->Id_Customer,
+                    'Id_MataUang' => $row->Id_MataUang,
+                    'NilaiKurs' => $row->NilaiKurs,
+                    'Status_Pelunasan' => $row->Status_Pelunasan,
+                ];
             }
-        } catch (Exception $ex) {
-            return response()->json(['error' => $ex->getMessage()]);
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getNotaKreditDetail') {
+            $sIdNota = $request->input('Id_NotaKredit');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_LIST_NOTA_KREDIT @kode = ?, @ID_NotaKredit = ?', [4, $sIdNota]);
+
+            $response = [];
+            foreach ($results as $row) {
+                if (is_null($row->IdRetur)) {
+                    $response[] = [
+                        'SuratJalan' => $row->SuratJalan ?? '',
+                        'IdRetur' => '',
+                        'QtyBrg' => $row->QtyBrg,
+                        'HargaSP' => $row->HargaSP,
+                        'SatuanJual' => '',
+                        'HargaPot' => $row->HargaPot,
+                    ];
+                } else {
+                    $response = [];
+                    break;
+                }
+            }
+
+            if (empty($response)) {
+                $results = DB::connection('ConnAccounting')
+                    ->select('exec SP_LIST_NOTA_KREDIT @kode = ?, @ID_NotaKredit = ?', [10, $sIdNota]);
+                foreach ($results as $row) {
+                    $response[] = [
+                        'SuratJalan' => $row->SuratJalan,
+                        'IdRetur' => $row->IdRetur,
+                        'QtyBrg' => $row->QTyKonversi,
+                        'HargaSP' => $row->HargaSatuan,
+                        'SatuanJual' => $row->SatuanJual,
+                        'HargaPot' => '',
+                    ];
+                }
+            }
+
+            return datatables($response)->make(true);
         }
     }
 
