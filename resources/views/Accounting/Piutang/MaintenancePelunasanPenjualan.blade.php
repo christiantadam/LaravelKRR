@@ -30,10 +30,14 @@
                                     <div class="col-md-3">
                                         <label for="namaCustomerSelect" style="margin-right: 10px;">Nama Customer</label>
                                     </div>
-                                    <div class="col-md-6">
-                                        <select id="namaCustomerSelect" name="namaCustomerSelect" class="form-control" readonly>
 
-                                        </select>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="namaCustomerSelect" name="namaCustomerSelect" readonly>
+                                            <div class="input-group-append">
+                                                <button type="button" id="btn_cust" class="btn btn-default">...</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-1">
                                         <input type="text" id="idCustomer" name="idCustomer" class="form-control" style="width: 100%" readonly>
@@ -47,32 +51,38 @@
                                         <label for="noPelunasanSelect" style="margin-right: 10px;">No. Pelunasan</label>
                                     </div>
                                     <div class="col-md-5">
-                                        <select id="noPelunasanSelect" name="noPelunasanSelect" class="form-control" readonly>
-
-                                        </select>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="noPelunasanSelect" name="noPelunasanSelect" readonly>
+                                            <div class="input-group-append">
+                                                <button type="button" id="btn_pelunasan" class="btn btn-default">...</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    {{-- <div class="col-md-2">
                                         <input type="text" id="IdPelunasan" name="IdPelunasan" class="form-control" style="width: 100%" readonly>
                                     </div>
                                     <div class="col-md-2">
                                         <input type="text" id="Id_Pelunasan" name="Id_Pelunasan" class="form-control" style="width: 100%" readonly>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <p><div class="d-flex">
                                     <div class="col-md-3">
                                         <label for="jenisPembayaranSelect" style="margin-right: 10px;">Jenis Pembayaran</label>
                                     </div>
                                     <div class="col-md-5">
-                                        <select id="jenisPembayaranSelect" name="jenisPembayaranSelect" class="form-control" readonly>
-
-                                        </select>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="jenisPembayaranSelect" name="jenisPembayaranSelect" readonly>
+                                            <div class="input-group-append">
+                                                <button type="button" id="btn_jenisPmb" class="btn btn-default">...</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-1">
                                         <input type="text" id="idJenisPembayaran" name="idJenisPembayaran" class="form-control" style="width: 100%" readonly>
                                     </div>
-                                    <div class="col-md-1">
+                                    {{-- <div class="col-md-1">
                                         <input type="text" id="statusBayar" name="statusBayar" class="form-control" style="width: 100%" readonly>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <p><div class="d-flex">
                                     <div class="col-md-3">
@@ -92,9 +102,12 @@
                                         <label for="mataUangSelect" style="margin-right: 10px;">Mata Uang</label>
                                     </div>
                                     <div class="col-md-5">
-                                        <select id="mataUangSelect" name="mataUangSelect" class="form-control" readonly>
-
-                                        </select>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="mataUangSelect" name="mataUangSelect" readonly>
+                                            <div class="input-group-append">
+                                                <button type="button" id="btn_mtUang" class="btn btn-default">...</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-1">
                                         <input type="text" id="idMataUang" name="idMataUang" class="form-control" style="width: 100%" readonly>
@@ -105,7 +118,7 @@
                                         <label for="nilaiMasukKas" style="margin-right: 10px;">Nilai Masuk Kas</label>
                                     </div>
                                     <div class="col-md-5">
-                                        <input type="number" id="nilaiMasukKas" name="nilaiMasukKas" class="form-control" style="width: 100%" readonly>
+                                        <input type="text" id="nilaiMasukKas" name="nilaiMasukKas" class="form-control" style="width: 100%" readonly>
                                     </div>
                                 </div>
                                 <p><div class="d-flex">
@@ -133,7 +146,7 @@
 
                                 <br><div>
                                     <div style="overflow-y: auto; overflow-x: auto; max-height: 400px;">
-                                        <table style="width: 165%; table-layout: fixed;" id="tabelPelunasanPenjualan">
+                                        <table style="width: 135%; table-layout: fixed;" id="tabelPelunasanPenjualan">
                                             <colgroup>
                                                 <col style="width: 15%;">
                                                 <col style="width: 15%;">
@@ -290,16 +303,19 @@
                                                         <label for="noPenagihan" style="margin-right: 10px;">No. Penagihan</label>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <select id="noPenagihan" name="noPenagihan" class="form-control" readonly>
-
-                                                        </select>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="noPenagihan" name="noPenagihan" readonly>
+                                                            <div class="input-group-append">
+                                                                <button type="button" id="btn_noPenagihan" class="btn btn-default">...</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-2">
+                                                    {{-- <div class="col-md-2">
                                                         <input type="text" id="noPen" name="noPen" class="form-control"style="width: 100%" readonly>
                                                     </div>
                                                     <div class="col-md-2">
                                                         <input type="text" id="no_Pen" name="no_Pen" class="form-control"style="width: 100%" readonly>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                                 <p><div class="d-flex">
                                                     <div class="col-md-4">
