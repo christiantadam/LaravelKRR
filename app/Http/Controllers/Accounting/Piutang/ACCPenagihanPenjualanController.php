@@ -135,6 +135,54 @@ class ACCPenagihanPenjualanController extends Controller
             return datatables($response)->make(true);
 
         }
+
+        // sj
+        else if ($id == 'displaySuratJalan') {
+            $ID_PENAGIHAN = $request->input('ID_PENAGIHAN');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1486_ACC_LIST_PENAGIHAN_SJ @Kode = ?, @ID_PENAGIHAN = ?', [11, $ID_PENAGIHAN]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Surat_Jalan' => $row->Surat_Jalan,
+                ];
+            }
+            return response()->json($response);
+        }
+
+        // cek sj
+        else if ($id == 'cekCtkSJ') {
+            $IdPenagihan = $request->input('IdPenagihan');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_CHECK_CTK_SJ @IdPenagihan = ?', [$IdPenagihan]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Ada' => $row->Ada,
+                ];
+            }
+            return response()->json($response);
+        }
+
+        // cek sp
+        else if ($id == 'cekCtkSP') {
+            $IdPenagihan = $request->input('IdPenagihan');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_CHECK_CTK_SP @IdPenagihan = ?', [$IdPenagihan]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Ada' => $row->Ada,
+                ];
+            }
+            return response()->json($response);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -144,9 +192,40 @@ class ACCPenagihanPenjualanController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        $user = Auth::user()->NomorUser;
+
+        if ($id === 'proses') {
+            $Id_Penagihan = $request->input('Id_Penagihan');
+            $IdCust = $request->input('IdCust');
+            $IdMtUang = $request->input('IdMtUang');
+            $debet = $request->input('debet');
+            $kurs = $request->input('kurs');
+
+            // dd($request->all());
+            try {
+                DB::connection('ConnAccounting')
+                    ->statement('exec [SP_1486_ACC_PENAGIHAN_SJ]
+                    @Id_Penagihan = ?,
+                @IdCust = ?,
+                @IdMtUang = ?,
+                @debet = ?,
+                @kurs = ?,
+                @UserAcc = ?', [
+                        $Id_Penagihan,
+                        $IdCust,
+                        $IdMtUang,
+                        $debet,
+                        $kurs,
+                        $user,
+                    ]);
+
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
     }
 
     //Remove the specified resource from storage.
