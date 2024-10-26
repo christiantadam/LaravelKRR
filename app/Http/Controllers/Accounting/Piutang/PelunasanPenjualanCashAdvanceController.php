@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Accounting\Piutang;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\HakAksesController;
 
 class PelunasanPenjualanCashAdvanceController extends Controller
 {
     public function index()
     {
-        $data = 'Accounting';
-        return view('Accounting.Piutang.PelunasanPenjualanCashAdvance', compact('data'));
+        $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
+        return view('Accounting.Piutang.PelunasanPenjualanCashAdvance', compact('access'));
     }
 
     public function getCustIsiCashAdvance()

@@ -450,5 +450,5 @@
             </div>
         </div>
     </div>
-<script src="{{ asset('js/Piutang/PelunasanPenjualanCashAdvance.js') }}"></script>
+<script src="{{ asset('js/Accounting/Piutang/PelunasanPenjualanCashAdvance.js') }}"></script>
 @endsection
