@@ -73,6 +73,21 @@ class PengajuanController extends Controller
             }
 
             return datatables($response)->make(true);
+        } else if ($id == 'getJenisBayar') {
+            // Execute the stored procedure
+            $results = DB::connection('ConnAccounting')
+                ->select('exec sp_jenis_dok');
+            // dd($results);
+
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Id_Jenis_Bayar' => $row->Id_Jenis_Bayar,
+                    'Jenis_Pembayaran' => $row->Jenis_Pembayaran,
+                ];
+            }
+
+            return datatables($response)->make(true);
         }
     }
 

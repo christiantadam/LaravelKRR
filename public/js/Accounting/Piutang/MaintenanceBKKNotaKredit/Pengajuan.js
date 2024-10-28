@@ -7,6 +7,7 @@ $(document).ready(function () {
     let btn_koreksi = document.getElementById("btn_koreksi");
     let btn_hapus = document.getElementById("btn_hapus");
     let btn_batal = document.getElementById("btn_batal");
+    let btn_jenisBayar = document.getElementById("btn_jenisBayar");
     let noPenagihan = document.getElementById("noPenagihan");
     let idNotaKredit = document.getElementById("idNotaKredit");
     let namaCustomer = document.getElementById("namaCustomer");
@@ -14,6 +15,7 @@ $(document).ready(function () {
     let idMataUang = document.getElementById("idMataUang");
     let jumlahUang = document.getElementById("jumlahUang");
     let jenisBayar = document.getElementById("jenisBayar");
+    let idJenisBayar = document.getElementById("idJenisBayar");
     let idBank = document.getElementById("idBank");
     let namaBank = document.getElementById("namaBank");
     let rincianBKK = document.getElementById("rincianBKK");
@@ -93,6 +95,88 @@ $(document).ready(function () {
         }
     });
 
+    btn_koreksi.addEventListener("click", async function (event) {
+        event.preventDefault();
+        console.log(rowDataPertama);
+
+        if (rowDataPertama !== null && rowDataPertama !== undefined) {
+            if (
+                rowDataPertama.Id_Bank !== "" &&
+                rowDataPertama.Jenis_Pembayaran !== ""
+            ) {
+                proses = 2;
+                noPenagihan.value = rowDataPertama.Id_Penagihan;
+                idNotaKredit.value = rowDataPertama.Id_NotaKredit;
+                namaCustomer.value = rowDataPertama.NamaCust;
+                mataUang.value = rowDataPertama.Nama_MataUang;
+                jenisBayar.value = rowDataPertama.Jenis_Pembayaran;
+                idBank.value = rowDataPertama.Id_Bank;
+                rincianBKK.value = rowDataPertama.Rincian_Bayar;
+                jumlahUang.value = rowDataPertama.Nilai;
+                btn_proses.disabled = false;
+                btn_batal.disabled = false;
+                btn_isi.disabled = true;
+                btn_koreksi.disabled = true;
+                btn_hapus.disabled = true;
+            } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "Info!",
+                    text: "Data Belum Diisi",
+                    showConfirmButton: false,
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data dahulu !",
+                showConfirmButton: false,
+            });
+        }
+    });
+
+    btn_hapus.addEventListener("click", async function (event) {
+        event.preventDefault();
+        console.log(rowDataPertama);
+
+        if (rowDataPertama !== null && rowDataPertama !== undefined) {
+            if (
+                rowDataPertama.Id_Bank !== "" &&
+                rowDataPertama.Jenis_Pembayaran !== ""
+            ) {
+                proses = 3;
+                noPenagihan.value = rowDataPertama.Id_Penagihan;
+                idNotaKredit.value = rowDataPertama.Id_NotaKredit;
+                namaCustomer.value = rowDataPertama.NamaCust;
+                mataUang.value = rowDataPertama.Nama_MataUang;
+                jenisBayar.value = rowDataPertama.Jenis_Pembayaran;
+                idBank.value = rowDataPertama.Id_Bank;
+                rincianBKK.value = rowDataPertama.Rincian_Bayar;
+                jumlahUang.value = rowDataPertama.Nilai;
+                btn_proses.disabled = false;
+                btn_batal.disabled = false;
+                btn_isi.disabled = true;
+                btn_koreksi.disabled = true;
+                btn_hapus.disabled = true;
+            } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "Info!",
+                    text: "Data Belum Diisi",
+                    showConfirmButton: false,
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data dahulu !",
+                showConfirmButton: false,
+            });
+        }
+    });
+
     btn_batal.addEventListener("click", async function (event) {
         event.preventDefault();
         location.reload();
@@ -135,4 +219,111 @@ $(document).ready(function () {
             }
         }
     );
+
+    btn_jenisBayar.addEventListener("click", async function (event) {
+        event.preventDefault();
+        try {
+            const result = await Swal.fire({
+                title: "Select a Customer",
+                html: '<table id="customerTable" class="display" style="width:100%"><thead><tr><th>Nama Customer</th><th>ID. Customer</th></tr></thead><tbody></tbody></table>',
+                showCancelButton: true,
+                // width: "50%",
+                preConfirm: () => {
+                    const selectedData = $("#customerTable")
+                        .DataTable()
+                        .row(".selected")
+                        .data();
+                    if (!selectedData) {
+                        Swal.showValidationMessage("Please select a row");
+                        return false;
+                    }
+                    return selectedData;
+                },
+                didOpen: () => {
+                    $(document).ready(function () {
+                        const table = $("#customerTable").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            returnFocus: true,
+                            ajax: {
+                                url: "Pengajuan/getJenisBayar",
+                                dataType: "json",
+                                type: "GET",
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Id_Jenis_Bayar",
+                                },
+                                {
+                                    data: "Jenis_Pembayaran",
+                                },
+                            ],
+                            paging: false,
+                            scrollY: "400px",
+                            scrollCollapse: true,
+                        });
+                        setTimeout(() => {
+                            $("#customerTable_filter input").focus();
+                        }, 300);
+                        // $("#customerTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1)
+                        //             .search(this.value)
+                        //             .draw();
+                        //     }
+                        // );
+                        $("#customerTable tbody").on(
+                            "click",
+                            "tr",
+                            function () {
+                                // Remove 'selected' class from all rows
+                                table.$("tr.selected").removeClass("selected");
+                                // Add 'selected' class to the clicked row
+                                $(this).addClass("selected");
+                            }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "customerTable")
+                        );
+                    });
+                },
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const selectedRow = result.value;
+                    jenisBayar.value = escapeHTML(
+                        selectedRow.Jenis_Pembayaran.trim()
+                    );
+                    idJenisBayar.value = escapeHTML(
+                        selectedRow.Id_Jenis_Bayar.trim()
+                    );
+
+                    // idJenisCustomer.value = selectedRow.IDCust.trim().substring(
+                    //     0,
+                    //     3
+                    // );
+                    // idCustomer.value = selectedRow.IDCust.trim().slice(-5);
+
+                    // if (proses == 1) {
+                    //     setTimeout(() => {
+                    //         btn_penagihan.focus();
+                    //     }, 300);
+                    // } else {
+                    //     setTimeout(() => {
+                    //         btn_notaKredit.focus();
+                    //     }, 300);
+                    // }
+                }
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+        // console.log(selectedRow);
+    });
 });

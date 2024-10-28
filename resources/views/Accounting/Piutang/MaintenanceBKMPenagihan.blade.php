@@ -25,7 +25,7 @@
 
 <div class="container-fluid inti">
     <div class="row justify-content-center">
-        <div class="col-md-11 RDZMobilePaddingLR0">
+        <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">Maintenance BKM Penagihan</div>
                 @if (Session::has('success'))
@@ -45,22 +45,23 @@
                                     <label for="bulanTahun" style="margin-right: 10px;">Bulan/Tahun</label>
                                 </div>
                                 <div style="width: 15%;margin-right: 1%">
-                                    <input type="text" id="bulan" name="bulan" placeholder="Bulan"
-                                        class="form-control" style="width: 100%">
+                                    <input type="text" id="bulan" name="bulan" class="form-control"
+                                        style="width: 100%">
                                 </div>
                                 <div style="width: 20%;margin-right: 2%">
-                                    <input type="text" id="tahun" name="tahun" placeholder="Tahun"
-                                        class="form-control" style="width: 100%">
+                                    <input type="text" id="tahun" name="tahun" class="form-control"
+                                        style="width: 100%">
                                 </div>
                                 <div>
-                                    <input type="submit" id="btnOK" value="OK" class="form-control">
+                                    <button type="button" class="btn btn" id="btn_ok"
+                                        style="width:50px;">OK</button>
                                 </div>
                             </div>
                             <div style="display: flex; flex-direction: row;width:50%">
-                                <input type="submit" id="btnPilihBank" name="btnPilihBank" value="Pilih Bank"
-                                    class="form-control">
-                                <input type="submit" id="btnGroupBKM" name="btnGroupBKM" value="Group BKM"
-                                    class="form-control">
+                                <button type="button" class="btn btn" id="btn_pilihBank" style="width:150px;">Pilih
+                                    Bank</button>
+                                <button type="button" class="btn btn" id="btn_group" style="width:150px;">Group
+                                    BKM</button>
                             </div>
                         </div>
                         <input type="hidden" id="tglInputNew" name="tglInputNew" class="form-control">
@@ -69,7 +70,7 @@
                         <div>
                             <h5 style="font-weight: bold">Data Pelunasan</h5>
                             <div style="overflow-y: auto;">
-                                <table id="tabelDataPelunasan">
+                                <table id="table_atas">
                                     <thead class="table-dark">
                                         <tr>
                                             <th>Tgl Pelunasan</th>
@@ -109,13 +110,13 @@
                             <div class="card" style="width: 40%;">
                                 <div class="card-body">
                                     <div class="col-md-12">
-                                        <input type="radio" name="radiogrupDetail" value="Detail Pelunasan"
-                                            id="radioDetailPelunasan" disabled>
+                                        <input type="radio" name="radiogrupDetail" value="radio1"
+                                            id="radioDetailPelunasan">
                                         <label for="radioDetailPelunasan">Detail Pelunasan</label>
                                     </div>
                                     <div style="overflow-x: auto; overflow-y: auto; max-height: 250px;">
-                                        <table style="width: 280%; table-layout: fixed;"id="tabelDetailPelunasan">
-                                            <colgroup>
+                                        <table style="width: 280%; table-layout: fixed;"id="table_detailPelunasan">
+                                            {{-- <colgroup>
                                                 <col style="width: 40%;">
                                                 <col style="width: 40%;">
                                                 <col style="width: 40%;">
@@ -123,7 +124,7 @@
                                                 <col style="width: 40%;">
                                                 <col style="width: 40%;">
                                                 <col style="width: 40%;">
-                                            </colgroup>
+                                            </colgroup> --}}
                                             <thead class="table-dark">
                                                 <tr>
                                                     <th>Id. Penagihan</th>
@@ -143,15 +144,15 @@
                             </div>
 
                             <!--CARD 2-->
-                            <div class="card" style="width: 30%; overflow-y: auto; max-height: 250px;">
+                            <div class="card" style="width: 30%; overflow-y: auto;">
                                 <div class="card-body">
                                     <div class="col-md-12">
-                                        <input type="radio" name="radiogrupDetail" value="Detail Biaya"
-                                            id="radioDetailBiaya" disabled>
+                                        <input type="radio" name="radiogrupDetail" value="radio2"
+                                            id="radioDetailBiaya">
                                         <label for="radioDetailBiaya">Detail Biaya</label>
                                     </div>
                                     <div style="overflow-x: auto;">
-                                        <table style="width: 200%; table-layout: fixed;" id="tabelDetailBiaya">
+                                        <table style="width: 200%; table-layout: fixed;" id="table_detailBiaya">
                                             <colgroup>
                                                 <col style="width: 50%;">
                                                 <col style="width: 50%;">
@@ -172,16 +173,17 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!--CARD 3-->
-                            <div class="card" style="width: 30%; overflow-y: auto; max-height: 250px;">
+                            <div class="card" style="width: 30%; overflow-y: auto;">
                                 <div class="card-body">
                                     <div class="col-md-12">
-                                        <input type="radio" name="radiogrupDetail" value="Detail Kurang/Lebih"
-                                            id="radioDetailKurangLebih" disabled>
+                                        <input type="radio" name="radiogrupDetail" value="radio3"
+                                            id="radioDetailKurangLebih">
                                         <label for="radioDetailKurangLebih">Detail Kurang/Lebih</label>
                                     </div>
                                     <div style="overflow-x: auto;">
-                                        <table style="width: 240%; table-layout: fixed;" id="tabelDetailKurangLebih">
+                                        <table style="width: 240%; table-layout: fixed;" id="table_kurangLebih">
                                             <colgroup>
                                                 <col style="width: 60%;">
                                                 <col style="width: 60%;">
@@ -207,18 +209,22 @@
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col-5">
-                                    <input type="submit" id="btnKoreksiDetail" name="koreksidetail"
+                                    <button type="button" class="btn btn-warning d-flex ml-auto"
+                                        id="btn_koreksiDetail">Koreksi Detail</button>
+                                    {{-- <input type="submit" id="btnKoreksiDetail" name="koreksidetail"
                                         value="Koreksi Detail" class="btn btn-warning d-flex ml-auto"
-                                        onclick="validateTabel()">
+                                        onclick="validateTabel()"> --}}
                                 </div>
                                 <div class="col-3">
-                                    <input type="submit" id="btnTampilBKM" name="btnTampilBKM" value="Tampil BKM"
-                                        class="btn btn-primary d-flex ml-auto">
+                                    <button type="button" class="btn btn d-flex ml-auto" id="btn_tampilBKM">Tampil
+                                        BKM</button>
+                                    {{-- <input type="submit" id="btnTampilBKM" name="btnTampilBKM" value="Tampil BKM"
+                                        class="btn btn-primary d-flex ml-auto"> --}}
                                 </div>
-                                <div class="col-4">
+                                {{-- <div class="col-4">
                                     <input type="submit" id="btnTutup" name="tutup" value="TUTUP"
-                                        class="btn btn-dark d-flex ml-auto" disabled>
-                                </div>
+                                        class="btn btn-dark d-flex ml-auto">
+                                </div> --}}
                             </div>
                         </div>
 

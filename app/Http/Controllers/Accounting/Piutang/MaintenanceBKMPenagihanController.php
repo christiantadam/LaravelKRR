@@ -211,12 +211,175 @@ class MaintenanceBKMPenagihanController extends Controller
     //Display the specified resource.
     public function show($id, Request $request)
     {
-        if ($id == 'getTabelPelunasan') {
-            $tabel = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_PELUNASAN_TAGIHAN] @bln = ?, @thn = ?', [$request->input('bulan'), $request->input('tahun')]);
-            return response()->json($tabel);
-        } else if ($id == 'getDataBank') {
-            $bank = DB::connection('ConnAccounting')->select('exec [SP_5298_ACC_LIST_BANK]');
-            return response()->json($bank);
+        if ($id == 'cekPelunasan') {
+            $bulan = $request->input('bulan');
+            $tahun = $request->input('tahun');
+
+            if (empty($bulan) || empty($tahun)) {
+                return response()->json([
+                    'error' => 'Isi Dulu Bulan & Tahun!!'
+                ]);
+            }
+
+            // Calculate `bln` and `thn`
+            if ((int) $bulan == 1) {
+                $bln = 12;
+                $thn = (int) $tahun - 1;
+            } else {
+                $bln = (int) $bulan - 1;
+                $thn = (int) $tahun;
+            }
+
+            // Execute the stored procedure
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_CEK_PELUNASAN @bln = ?, @thn = ?', [$bln, $thn]);
+            // dd($results);
+            // Check if 'ada' field in the result is greater than 0
+            if (count($results) > 0 && $results[0]->ada > 0) {
+                return response()->json([
+                    'error' => "TIDAK BOLEH CREATE BKM U/ BLN INI!!!\nCREATE BKM U/ BLN SBLMNYA DULU. SAMPAI TUNTAS... KHUSUS TUNAI & TRANSFER"
+                ], 400);
+            } else {
+                return response()->json([
+                    'message' => "Tampil Pelunasan"
+                ]);
+            }
+        } else if ($id == 'getPelunasan') {
+            // dd($request->all());
+            $bulan = $request->input('bulan');
+            $tahun = $request->input('tahun');
+
+            if (empty($bulan) || empty($tahun)) {
+                return response()->json(['error' => 'Isi Dulu Bulan & Tahun!!']);
+            }
+
+            // Main Pelunasan list query
+            $pelunasanResults = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_PELUNASAN_TAGIHAN @bln = ?, @thn = ?', [$bulan, $tahun]);
+            // dd($pelunasanResults);
+            $pelunasanList = [];
+            $j = 0;
+
+            foreach ($pelunasanResults as $pelunasan) {
+                $j++;
+                $biaya = 0;
+                $krglbh = 0;
+
+                // Get `biaya` using SP_5298_ACC_CEK_BIAYA if 'ada' > 0
+                $biayaResults = DB::connection('ConnAccounting')
+                    ->select('exec SP_5298_ACC_CEK_BIAYA @idPelunasan = ?', [$pelunasan->Id_Pelunasan]);
+
+                if (isset($biayaResults[0]) && $biayaResults[0]->ada > 0) {
+                    $biayaItems = DB::connection('ConnAccounting')
+                        ->select('exec SP_5298_ACC_CEK_BIAYA_1 @idPelunasan = ?', [$pelunasan->Id_Pelunasan]);
+
+                    foreach ($biayaItems as $item) {
+                        $biaya += $item->Biaya;
+                    }
+                }
+
+                // Get `krglbh` using SP_5298_ACC_CEK_KRGLBH if 'ada' > 0
+                $krglbhResults = DB::connection('ConnAccounting')
+                    ->select('exec SP_5298_ACC_CEK_KRGLBH @idPelunasan = ?', [$pelunasan->Id_Pelunasan]);
+
+                if (isset($krglbhResults[0]) && $krglbhResults[0]->ada > 0) {
+                    $krglbhItems = DB::connection('ConnAccounting')
+                        ->select('exec SP_5298_ACC_CEK_KRGLBH_1 @idPelunasan = ?', [$pelunasan->Id_Pelunasan]);
+
+                    foreach ($krglbhItems as $item) {
+                        $krglbh += $item->KurangLebih;
+                    }
+                }
+
+                // Calculate final `nilai` for each pelunasan entry
+                $nilai = (float) $pelunasan->Nilai_Pelunasan - $biaya + $krglbh;
+
+                $pelunasanList[] = [
+                    'Tgl_Pelunasan' => \Carbon\Carbon::parse($pelunasan->Tgl_Pelunasan)->format('m/d/Y'),
+                    'Id_Pelunasan' => $pelunasan->Id_Pelunasan,
+                    'Id_Bank' => $pelunasan->Id_Bank ?? '',
+                    'Jenis_Pembayaran' => $pelunasan->Jenis_Pembayaran,
+                    'Nama_MataUang' => $pelunasan->Nama_MataUang,
+                    'Nilai' => number_format($nilai, 2, '.', ','),
+                    'No_Bukti' => $pelunasan->No_Bukti ?? '',
+                    'ID_Cust' => $pelunasan->ID_Cust,
+                    'Id_Jenis_Bayar' => $pelunasan->Id_Jenis_Bayar,
+                ];
+            }
+
+            if ($j == 0) {
+                return response()->json(['error' => 'Tidak Ada Pelunasan']);
+            }
+
+            return response()->json($pelunasanList);
+
+        } else if ($id == 'getDetailPelunasan') {
+            $idPelunasan = $request->input('idPelunasan');
+
+            $pelunasanDetails = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_DETAIL_PELUNASAN @idPelunasan = ?', [$idPelunasan]);
+            // dd($pelunasanDetails);
+            $listPelunasan = [];
+            $j = 0;
+            foreach ($pelunasanDetails as $pelunasan) {
+                $j++;
+                $listPelunasan[] = [
+                    'ID_Penagihan' => $pelunasan->ID_Penagihan,
+                    'Nilai_Pelunasan' => number_format($pelunasan->Nilai_Pelunasan, 2, '.', ','),
+                    'Pelunasan_Rupiah' => number_format($pelunasan->Pelunasan_Rupiah, 2, '.', ','),
+                    'Kode_Perkiraan' => $pelunasan->Kode_Perkiraan ?? '0.00.00',
+                    'NamaCust' => $pelunasan->NamaCust,
+                    'ID_Detail_Pelunasan' => $pelunasan->ID_Detail_Pelunasan,
+                    'Tgl_Penagihan' => \Carbon\Carbon::parse($pelunasan->Tgl_Penagihan)->format('m/d/Y'),
+                ];
+            }
+
+            return datatables($listPelunasan)->make(true);
+
+        } else if ($id == 'getDetailBiaya') {
+            $idPelunasan = $request->input('idPelunasan');
+
+            $biayaDetails = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_DETAIL_BIAYA @idPelunasan = ?', [$idPelunasan]);
+            // dd($biayaDetails);
+            $listBiaya = [];
+            $k = 0;
+            foreach ($biayaDetails as $biaya) {
+                if ($biaya->Biaya != 0) {
+                    $k++;
+                    $listBiaya[] = [
+                        'Keterangan' => $biaya->Keterangan ?? '',
+                        'Biaya' => number_format($biaya->Biaya, 2, '.', ','),
+                        'Kode_Perkiraan' => $biaya->Kode_Perkiraan ?? '0.00.00',
+                        'Id_Detail_Pelunasan' => $biaya->Id_Detail_Pelunasan,
+                    ];
+                }
+            }
+
+            return datatables($listBiaya)->make(true);
+
+        } else if ($id == 'getDetailKrgLbh') {
+            $idPelunasan = $request->input('idPelunasan');
+
+            $krglbhDetails = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_DETAIL_KRGLBH @idPelunasan = ?', [$idPelunasan]);
+            // dd($krglbhDetails);
+            $listKrgLbh = [];
+            $l = 0;
+            foreach ($krglbhDetails as $krglbh) {
+                if ($krglbh->KurangLebih != 0) {
+                    $l++;
+                    $listKrgLbh[] = [
+                        'Keterangan' => $krglbh->Keterangan ?? '',
+                        'KurangLebih' => number_format($krglbh->KurangLebih, 2, '.', ','),
+                        'Kode_Perkiraan' => $krglbh->Kode_Perkiraan ?? '0.00.00',
+                        'Id_Detail_Pelunasan' => $krglbh->Id_Detail_Pelunasan,
+                    ];
+                }
+            }
+
+            return datatables($listKrgLbh)->make(true);
+
         }
     }
 

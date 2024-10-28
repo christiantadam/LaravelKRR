@@ -17,7 +17,6 @@
                         {{-- <form method="POST" action="{{ url('Pengajuan') }}" id="formkoreksi">
                                 {{csrf_field()}} --}}
                         <!-- Form fields go here -->
-                        <br>
                         <div>
                             <b>Data Nota Kredit untuk Create BKK</b>
                             <div style="overflow-y: auto;">
@@ -115,6 +114,10 @@
                         </div>
                         <div class="col-md-3">
                             <input type="text" id="jenisBayar" name="jenisBayar" class="form-control"
+                                style="width: 100%">
+                        </div>
+                        <div class="col-md-1" style="display: none">
+                            <input type="text" id="idJenisBayar" name="idJenisBayar" class="form-control"
                                 style="width: 100%">
                         </div>
                         <div class="col-md-1">
