@@ -17,39 +17,39 @@ class PelunasanPenjualanCashAdvanceController extends Controller
 
     public function getCustIsiCashAdvance()
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?', [7]);
-        return response()->json($tabel);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?', [7]);
+        return datatables($tabel)->make(true);
     }
 
     public function getNoPelunasanCashAdvance($idCustomer)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Customer = ?', [6, $idCustomer]);
-        return response()->json($tabel);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Customer = ?', [6, $idCustomer]);
+        return datatables($tabel)->make(true);
     }
 
     public function LihatHeaderPelunasanCashAdvance($noPelunasan)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Pelunasan = ?', [2, $noPelunasan]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Pelunasan = ?', [2, $noPelunasan]);
         return response()->json($tabel);
     }
 
     public function LihatDetailPelunasanCashAdvance($noPelunasan)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Pelunasan = ?', [3, $noPelunasan]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Pelunasan = ?', [3, $noPelunasan]);
         return response()->json($tabel);
     }
 
     public function getLihat_PenagihanCashAdvance($no_Pen)
     {
         $noPen = str_replace('.', '/', $no_Pen);
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [5, $noPen]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [5, $noPen]);
         return response()->json($tabel);
     }
 
     public function getLihat_PenagihanCashAdvance2($no_Pen)
     {
         $noPen = str_replace('.', '/', $no_Pen);
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $noPen]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $noPen]);
         return response()->json($tabel);
     }
 
@@ -168,9 +168,30 @@ class PelunasanPenjualanCashAdvanceController extends Controller
     }
 
     //Display the specified resource.
-    public function show($cr)
+    public function show($id, Request $request)
     {
-        //
+        if ($id === 'getPenagihan') {
+            $IdCustomer = $request->input('IdCustomer');
+
+            $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $IdCustomer]);
+            return datatables($tabel)->make(true);
+        }
+
+        // lihat penaghihan
+        else if ($id === 'lihatPenagihan') {
+            $Id_Penagihan = $request->input('Id_Penagihan');
+
+            $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [5, $Id_Penagihan]);
+            return response()->json($tabel);
+        }
+        
+        // lihat penaghihan2
+        else if ($id === 'lihatPenagihan2') {
+            $Id_Penagihan = $request->input('Id_Penagihan');
+
+            $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $Id_Penagihan]);
+            return response()->json($tabel);
+        }
     }
 
     // Show the form for editing the specified resource.
