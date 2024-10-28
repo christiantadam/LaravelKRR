@@ -49,31 +49,31 @@ class MaintenancePelunasanPenjualanController extends Controller
         return response()->json($tabel);
     }
 
-    public function getListPenagihanSJ($idCustomer)
-    {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $idCustomer]);
-        // dd($tabel);
-        return datatables($tabel)->make(true);
-    }
+    // public function getListPenagihanSJ($idCustomer)
+    // {
+    //     $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $idCustomer]);
+    //     // dd($tabel);
+    //     return datatables($tabel)->make(true);
+    // }
 
-    public function getLihatDetailPelunasan($noPenagihan)
-    {
-        $noPen = str_replace('.', '/', $noPenagihan);
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $noPen]);
-        return response()->json($tabel);
-    }
+    // public function getLihatDetailPelunasan($noPenagihan)
+    // {
+    //     $noPen = str_replace('.', '/', $noPenagihan);
+    //     $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $noPen]);
+    //     return response()->json($tabel);
+    // }
 
-    public function getListPelunasanTagihan($noPenagihan)
-    {
-        $noPen = str_replace('.', '/', $noPenagihan);
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [5, $noPen]);
-        return response()->json($tabel);
-    }
+    // public function getListPelunasanTagihan($noPenagihan)
+    // {
+    //     $noPen = str_replace('.', '/', $noPenagihan);
+    //     $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [5, $noPen]);
+    //     return response()->json($tabel);
+    // }
 
     public function getKdPerkiraan()
     {
         $tabel =  DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1]);
-        return response()->json($tabel);
+        return datatables($tabel)->make(true);
     }
 
     public function getListPelunasan($idCustomer)
@@ -202,16 +202,38 @@ class MaintenancePelunasanPenjualanController extends Controller
     //Display the specified resource.
     public function show($id, Request $request)
     {
-        if ($id === 'getMataUang') {
+        $user = Auth::user()->NomorUser;
+        $idCustomer = $request->input('idCustomer');
+        $noPenagihan = $request->input('noPenagihan');
+        $IdPelunasan = $request->input('IdPelunasan');
+
+        if ($id === 'getUserId') {
+            return response()->json(['user' => $user]);
+        } else if ($id === 'getMataUang') {
             $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_MATAUANG] @Kode = ?', [1]);
             return datatables($tabel)->make(true);
-        }
-
-        else if ($id === 'getPerkiraan') {
+        } else if ($id === 'getPerkiraan') {
             $idPelunasan = $request->input('idPelunasan');
             $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_KODEPERKIRAAN] @Kode = ?, @IdPerkiraan = ?', [2, $idPelunasan]);
             return response()->json($tabel);
-
+        } else if ($id === 'getListPenagihanSJ') {
+            $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $idCustomer]);
+            // dd($tabel);
+            return datatables($tabel)->make(true);
+        } else if ($id === 'getLihatDetailPelunasan') {
+            $noPen = str_replace('.', '/', $noPenagihan);
+            $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $noPen]);
+            // dd($tabel);
+            return response()->json($tabel);
+        } else if ($id === 'getListPelunasanTagihan') {
+            $noPen = str_replace('.', '/', $noPenagihan);
+            $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [5, $noPen]);
+            // dd($tabel);
+            return response()->json($tabel);
+        } else if ($id === 'getCekReferensiPelunasan') {
+            $IdPelunasan = str_replace('.', '/', $IdPelunasan);
+            $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Id_pelunasan = ?', [5, $IdPelunasan]);
+            return response()->json($tabel);
         }
     }
 

@@ -31,6 +31,7 @@ let btnSimpanModal = document.getElementById('btnSimpanModal');
 let btn_cust = document.getElementById('btn_cust');
 let btn_pelunasan = document.getElementById('btn_pelunasan');
 let btn_jenisPmb = document.getElementById('btn_jenisPmb');
+let btn_bank = document.getElementById('btn_bank');
 let btn_mtUang = document.getElementById('btn_mtUang');
 let btnSimpan = document.getElementById('btnSimpan');
 let btnKoreksi = document.getElementById('btnKoreksi');
@@ -47,10 +48,10 @@ let idReferensi = document.getElementById('idReferensi');
 let cust;
 let proses;
 let prosesmodal;
-let noPen = document.getElementById('noPen');
-let no_Pen = document.getElementById('no_Pen');
-let noPen1 = document.getElementById('noPen1');
-let no_Pen1 = document.getElementById('no_Pen1');
+// let noPen = document.getElementById('noPen');
+// let no_Pen = document.getElementById('no_Pen');
+// let noPen1 = document.getElementById('noPen1');
+// let no_Pen1 = document.getElementById('no_Pen1');
 let arrayDetail = document.getElementById('arrayDetail');
 let arrayPenagihan = document.getElementById('arrayPenagihan');
 let hAtauB = document.getElementById('hAtauB');
@@ -87,6 +88,8 @@ let nilaiKurangLebih = document.getElementById('nilaiKurangLebih');
 let noPenagihan1 = document.getElementById('noPenagihan1');
 let lunas = document.getElementById('lunas');
 let btn_noPenagihan = document.getElementById('btn_noPenagihan');
+let btn_noPenagihan1 = document.getElementById('btn_noPenagihan1');
+let btn_kodePerkiraan = document.getElementById('btn_kodePerkiraan');
 
 let matauang;
 let Z = 0;
@@ -97,16 +100,32 @@ let sPelunasan_Rupiah = 0;
 let sPelunasan_curency = 0;
 let listHapus = [];
 let listHapusPenagihan = [];
-let sUser;
+let sUser, user_id;
 let sMasukKas;
 
 nilaiMasukKas.value = 0;
 
-const tanggalPenagihan = new Date();
-const formattedDate2 = tanggalPenagihan.toISOString().substring(0, 10);
+const formattedDate2 = new Date().toISOString().substring(0, 10);
 tanggalInput.value = formattedDate2;
 
 btnIsi.focus();
+
+// fungsi dapetin user id
+function getUserId() {
+    $.ajax({
+        type: 'GET',
+        url: 'MaintenancePelunasanPenjualan/getUserId',
+        data: {
+            _token: csrfToken
+        },
+        success: function (result) {
+            user_id = result.user.trim();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
 
 btnIsi.addEventListener('click', function (event) {
     event.preventDefault();
@@ -411,7 +430,8 @@ btn_pelunasan.addEventListener("click", function (e) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                noPelunasanSelect.value = result.value.ID_Pelunasan.trim();
+                noPelunasanSelect.value = result.value.Nilai_Pelunasan.trim();
+                IdPelunasan.value = result.value.ID_Pelunasan.trim();
 
                 if (noPelunasanSelect.value !== '') {
                     LihatHeaderPelunasan(noPelunasanSelect.value);
@@ -481,7 +501,7 @@ function LihatDetailPelunasan(idPelunasan) {
             nilaiMasukKas.value = parseFloat(nilaiPiutang.value) - parseFloat(nilaiBiaya.value) + parseFloat(kurangLebih.value);
         });
 
-    // cek referensi
+    // CekReferensi
     fetch("/getCekReferensiPelunasan/" + idPelunasan)
         .then((response) => response.json())
         .then((options) => {
@@ -598,6 +618,100 @@ btn_jenisPmb.addEventListener("click", function (e) {
     }
 });
 
+btn_bank.addEventListener("click", function (e) {
+    try {
+        Swal.fire({
+            title: 'Bank',
+            html: `
+                <table id="table_list" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            `,
+            preConfirm: () => {
+                const selectedData = $("#table_list").DataTable().row(".selected").data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            width: '40%',
+            returnFocus: false,
+            showCloseButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Select',
+            didOpen: () => {
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        paging: false,
+                        scrollY: '400px',
+                        scrollCollapse: true,
+                        order: [0, "asc"],
+                        ajax: {
+                            url: "MaintenancePelunasanPenjualan/getCekReferensiPelunasan",
+                            dataType: "json",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                IdPelunasan: IdPelunasan.value
+                            }
+                        },
+                        columns: [
+                            { data: "IdReferensi" },
+                            { data: "Ket"}
+                        ],
+                        columnDefs: [
+                            {
+                                targets: 0,
+                                width: '100px',
+                            }
+                        ]
+                    });
+
+                    $("#table_list tbody").on("click", "tr", function () {
+                        table.$("tr.selected").removeClass("selected");
+                        $(this).addClass("selected");
+                        scrollRowIntoView(this);
+                    });
+
+                    const searchInput = $('#table_list_filter input');
+                    if (searchInput.length > 0) {
+                        searchInput.focus();
+                    }
+
+                    currentIndex = null;
+                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(result);
+
+                informasiBankSelect.value = result[0].value.Ket.trim();
+                idReferensi.value = result[0].value.idReferensi.trim();
+
+                if (idReferensi.value !== '') {
+                    LihatReferensi();
+                    buktiPelunasan.focus();
+                } else {
+                    btn_bank.focus();
+                }
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 // button mata uang
 btn_mtUang.addEventListener("click", function (e) {
     try {
@@ -699,6 +813,7 @@ buktiPelunasan.addEventListener("keypress", function (event) {
     }
 });
 
+
 // button no penagihan
 btn_noPenagihan.addEventListener("click", function (e) {
     try {
@@ -709,7 +824,7 @@ btn_noPenagihan.addEventListener("click", function (e) {
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Mata Uang</th>
+                            <th scope="col">Tgl Penagihan</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -739,7 +854,395 @@ btn_noPenagihan.addEventListener("click", function (e) {
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
-                            url: "/getListPenagihanSJ/" + idCustomer.value,
+                            url: "MaintenancePelunasanPenjualan/getListPenagihanSJ",
+                            dataType: "json",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                idCustomer: idCustomer.value
+                            }
+                        },
+                        columns: [
+                            { data: "Id_Penagihan" },
+                            {
+                                data: "Tgl_Penagihan",
+                                render: function (data) {
+                                    if (data) {
+                                        const date = new Date(data);
+                                        const month = date.getMonth() + 1;
+                                        const day = String(date.getDate()).padStart(2, '0');
+                                        const year = date.getFullYear();
+                                        return `${month}/${day}/${year}`;
+                                    }
+                                    return ''; // Return empty string if date is not available
+                                }
+                            }
+                        ],
+                        columnDefs: [
+                            {
+                                targets: 1,
+                                width: '100px',
+                            }
+                        ]
+                    });
+
+                    $("#table_list tbody").on("click", "tr", function () {
+                        table.$("tr.selected").removeClass("selected");
+                        $(this).addClass("selected");
+                        scrollRowIntoView(this);
+                    });
+
+                    const searchInput = $('#table_list_filter input');
+                    if (searchInput.length > 0) {
+                        searchInput.focus();
+                    }
+
+                    currentIndex = null;
+                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(result);
+
+                noPenagihan.value = result.value.Id_Penagihan.trim();
+
+                if (noPenagihan.value !== '') {
+                    // Lihat_Penagihan
+                    $.ajax({
+                        type: 'GET',
+                        url: "MaintenancePelunasanPenjualan/getListPelunasanTagihan",
+                        data: {
+                            _token: csrfToken,
+                            noPenagihan: noPenagihan.value
+                        },
+                        success: function (result) {
+                            console.log(result);
+                            totalKembalian = parseFloat(result[0].TotalKembalian.trim());
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                    $.ajax({
+                        type: 'GET',
+                        url: "MaintenancePelunasanPenjualan/getLihatDetailPelunasan",
+                        data: {
+                            _token: csrfToken,
+                            noPenagihan: noPenagihan.value
+                        },
+                        success: function (result) {
+                            console.log(result);
+
+                            if (result[0]) {
+                                nilaiPenagihan.value = (parseFloat(result[0].Nilai_Penagihan.trim()) - parseFloat(totalKembalian)).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                );;
+                                mataUangPenagihan.value = result[0].Nama_MataUang.trim();
+                                nilaiKurs.value = parseFloat(result[0].NilaiKurs.trim()).toFixed(2);
+
+                                if (result[0].Tot_Pelunasan_Rupiah === null) {
+                                    terbayarRupiah.value = 0;
+                                    terbayar.value = 0;
+                                } else {
+                                    var rows = tabelPelunasanPenjualan.getElementsByTagName('tr');
+                                    console.log(rows.length);
+
+                                    let TotPelunasan = result[0].Tot_Pelunasan_Rupiah ? result[0].Tot_Pelunasan_Rupiah.trim() : 0;
+                                    let TotNilai = result[0].Tot_Nilai_Pelunasan ? result[0].Tot_Nilai_Pelunasan.trim() : 0;
+
+                                    if (rows.length >= 1) {
+                                        var rowCount = rows.length;
+
+                                        if (tabelIdDetailPelunasan.value === '') {
+                                            terbayarRupiah.value = TotPelunasan;
+                                            terbayar.value = TotNilai;
+                                        } else {
+                                            terbayarRupiah.value = numeral(TotPelunasan).value() - numeral(pelunasanRupiah.value.value());
+                                            terbayar.value = numeral(TotNilai).value() - numeral(pelunasanCurrency.value.value());
+                                        }
+                                    } else {
+                                        terbayarRupiah.value = TotPelunasan;
+                                        terbayar.value = TotNilai;
+                                    }
+                                }
+
+                                if (jumlahYangDibayar.value === '0') {
+                                    jumlahYangDibayar.value = (numeral(nilaiPenagihan.value).value() - numeral(terbayar.value).value()).toLocaleString(
+                                        "en-US",
+                                        {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        }
+                                    );
+                                }
+                                sisa.value = numeral(nilaiPenagihan.value).value() - numeral(terbayar.value).value();
+                                sisaRupiah.value = (numeral(nilaiPenagihan.value).value() * numeral(nilaiKurs.value).value()) - (numeral(terbayar.value).value() * numeral(nilaiKurs.value).value());
+                                sisa.value = numeral(sisa.value).value().toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                );
+                                sisaRupiah.value = numeral(sisaRupiah.value).value().toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                );
+
+                                jumlahYangDibayar.focus();
+
+                                jumlahYangDibayar.addEventListener("keypress", function (event) {
+                                    if (event.key == "Enter") {
+                                        event.preventDefault();
+                                        matauang = mataUangPenagihan.value.trim().toUpperCase();
+                                        if (matauang !== "RUPIAH" && idMataUang.value == 1) {
+                                            pelunasanCurrency.value = (numeral(jumlahYangDibayar.value).value() / numeral(nilaiKurs.value).value()).toLocaleString(
+                                                "en-US",
+                                                {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }
+                                            );
+                                            pelunasanRupiah.value = numeral(jumlahYangDibayar.value).value().toLocaleString(
+                                                "en-US",
+                                                {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }
+                                            );
+                                        } else {
+                                            pelunasanCurrency.value = (numeral(jumlahYangDibayar.value).value() * numeral(nilaiKurs.value).value()).toLocaleString(
+                                                "en-US",
+                                                {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }
+                                            );
+                                            pelunasanRupiah.value = numeral(pelunasanCurrency.value).value().toLocaleString(
+                                                "en-US",
+                                                {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                }
+                                            );
+                                        }
+                                    } else {
+                                        if (idMataUang != 1) {
+                                            pelunasanRupiah.value = numeral(jumlahYangDibayar.value).value() * numeral(nilaiKurs.value).value();
+                                        } else {
+                                            pelunasanRupiah.value = numeral(jumlahYangDibayar.value).value();
+                                        }
+                                        pelunasanCurrency.value = numeral(jumlahYangDibayar.value).value().toLocaleString(
+                                            "en-US",
+                                            {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            }
+                                        );
+                                    }
+                                    pelunasanCurrency.focus();
+                                });
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+
+                }
+
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+pelunasanCurrency.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        btn_kodePerkiraan.focus();
+    }
+});
+
+function LihatReferensi() {
+    fetch("/getDataRefBank/" + idReferensi.value)
+        .then((response) => response.json())
+        .then((options) => {
+            console.log(options);
+
+            options.forEach((option) => {
+                //Ambil nilai Tgl_Order dari setiap objek data
+                const tglInput = option.Tanggal;
+                const [tanggal, waktu] = tglInput.split(" ");
+                option.Tanggal = tanggal;
+                tanggalInput.value = tanggal;
+            });
+            mataUangSelect.value = options[0].Nama_MataUang;
+            idMataUang.value = options[0].Id_MataUang;
+            nilaiMasukKas.value = options[0].Nilai;
+            buktiPelunasan.value = options[0].No_Bukti;
+            tanggalInput.value = options[0].Tanggal;
+
+            let MU = idMataUang.value;
+            let opt = mataUangSelect.options;
+            for (let i = 0; i < opt.length; i++) {
+                if (opt[i].value == MU) {
+                    mataUangSelect.selectedIndex = i;
+                    break;
+                }
+            };
+        })
+}
+
+btn_noPenagihan1.addEventListener("click", function (e) {
+    try {
+        Swal.fire({
+            title: 'Penagihan',
+            html: `
+                <table id="table_list" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Tgl Penagihan</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            `,
+            preConfirm: () => {
+                const selectedData = $("#table_list").DataTable().row(".selected").data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            width: '40%',
+            returnFocus: false,
+            showCloseButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Select',
+            didOpen: () => {
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        paging: false,
+                        scrollY: '400px',
+                        scrollCollapse: true,
+                        order: [0, "asc"],
+                        ajax: {
+                            url: "MaintenancePelunasanPenjualan/getListPenagihanSJ",
+                            dataType: "json",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                idCustomer: idCustomer.value
+                            }
+                        },
+                        columns: [
+                            { data: "Id_Penagihan" },
+                            {
+                                data: "Tgl_Penagihan",
+                                render: function (data) {
+                                    if (data) {
+                                        const date = new Date(data);
+                                        const month = date.getMonth() + 1;
+                                        const day = String(date.getDate()).padStart(2, '0');
+                                        const year = date.getFullYear();
+                                        return `${month}/${day}/${year}`;
+                                    }
+                                    return ''; // Return empty string if date is not available
+                                }
+                            }
+                        ],
+                        columnDefs: [
+                            {
+                                targets: 1,
+                                width: '100px',
+                            }
+                        ]
+                    });
+
+                    $("#table_list tbody").on("click", "tr", function () {
+                        table.$("tr.selected").removeClass("selected");
+                        $(this).addClass("selected");
+                        scrollRowIntoView(this);
+                    });
+
+                    const searchInput = $('#table_list_filter input');
+                    if (searchInput.length > 0) {
+                        searchInput.focus();
+                    }
+
+                    currentIndex = null;
+                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(result);
+
+                noPenagihan1.value = result[0].Id_Penagihan.trim();
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+// button kode perkiraan
+btn_kodePerkiraan.addEventListener("click", function (e) {
+    try {
+        Swal.fire({
+            title: 'Kode Perkiraan',
+            html: `
+                <table id="table_list" class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">No Kode</th>
+                            <th scope="col">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            `,
+            preConfirm: () => {
+                const selectedData = $("#table_list").DataTable().row(".selected").data();
+                if (!selectedData) {
+                    Swal.showValidationMessage("Please select a row");
+                    return false;
+                }
+                return selectedData;
+            },
+            width: '40%',
+            returnFocus: false,
+            showCloseButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Select',
+            didOpen: () => {
+                $(document).ready(function () {
+                    const table = $("#table_list").DataTable({
+                        responsive: true,
+                        processing: true,
+                        serverSide: true,
+                        paging: false,
+                        scrollY: '400px',
+                        scrollCollapse: true,
+                        order: [0, "asc"],
+                        ajax: {
+                            url: "/getKdPerkiraan/",
                             dataType: "json",
                             type: "GET",
                             data: {
@@ -747,8 +1250,8 @@ btn_noPenagihan.addEventListener("click", function (e) {
                             }
                         },
                         columns: [
-                            { data: "Id_Penagihan" },
-                            { data: "Tgl_Penagihan" }
+                            { data: "NoKodePerkiraan" },
+                            { data: "Keterangan" }
                         ],
                         columnDefs: [
                             {
@@ -775,98 +1278,10 @@ btn_noPenagihan.addEventListener("click", function (e) {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                noPenagihan.value = result[0].value.Id_Penagihan.trim();
+                console.log(result);
 
-                if (noPenagihan.value !== '') {
-                    // lihat penagihan
-                    $.ajax({
-                        type: 'GET',
-                        url: "/getListPelunasanTagihan/" + noPenagihan.value,
-                        data: {
-                            _token: csrfToken,
-
-                        },
-                        success: function (result) {
-                            console.log(result);
-                            totalKembalian = result[0].value.TotalKembalian ? parseFloat(result[0].value.TotalKembalian.trim()) : 0;
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-                    });
-                    $.ajax({
-                        type: 'GET',
-                        url: "/getLihatDetailPelunasan/" + noPenagihan.value,
-                        data: {
-                            _token: csrfToken
-                        },
-                        success: function (result) {
-                            console.log(result);
-
-                            nilaiPenagihan.value = result[0].value.Nilai_Penagihan.trim();
-                            nilaiPenagihan.value = nilaiPenagihan.value - totalKembalian
-                            mataUangPenagihan.value = result[0].value.Nama_MataUang.trim();
-                            nilaiKurs.value = result[0].value.NilaiKurs.trim();
-
-                            if (result[0].value.Tot_Pelunasan_Rupiah.trim() === null) {
-                                terbayarRupiah.value = 0;
-                                terbayar.value = 0;
-                            } else {
-                                var rows = tabelPelunasanPenjualan.getElementsByTagName('tr');
-                                if (rows.length > 0) {
-                                    var rowCount = rows.length;
-                                    if (condition) {
-
-                                    } else {
-                                        terbayarRupiah.value = result[0].value.Tot_Pelunasan_Rupiah.trim() - pelunasanRupiah.value;
-                                        terbayar.value = result[0].value.Tot_Nilai_Pelunasan.trim() - pelunasanCurrency.value;
-                                    }
-                                } else {
-                                    terbayarRupiah.value = result[0].value.Tot_Pelunasan_Rupiah.trim();
-                                    terbayar.value = result[0].value.Tot_Nilai_Pelunasan.trim();
-                                }
-
-                                if (jumlahYangDibayar.value == 0) {
-                                    jumlahYangDibayar.value = nilaiPenagihan.value - terbayar.value;
-                                }
-                                sisa.value = nilaiPenagihan.value - terbayar.value;
-                                sisaRupiah.value = (nilaiPenagihan.value * nilaiKurs.value) - (terbayar.value - nilaiKurs.value)
-                                sisa.value = parseFloat(sisa.value).toFixed(2).replace(/\d(?=(\d{10})+\.)/g, '$&,');
-                                sisaRupiah.value = parseFloat(sisaRupiah.value).toFixed(2).replace(/\d(?=(\d{10})+\.)/g, '$&,');
-
-                                jumlahYangDibayar.focus();
-                            }
-
-                            jumlahYangDibayar.addEventListener("keypress", function (event) {
-                                if (event.key == "Enter") {
-                                    event.preventDefault();
-                                    matauang = mataUangPenagihan.value.trim().toUpperCase();
-                                    if (matauang !== "RUPIAH" && idMataUang.value == 1) {
-                                        pelunasanCurrency.value = jumlahYangDibayar.value / nilaiKurs.value;
-                                        pelunasanRupiah.value = jumlahYangDibayar.value;
-                                    } else {
-                                        pelunasanCurrency.value = jumlahYangDibayar.value * nilaiKurs.value;
-                                        pelunasanRupiah.value = pelunasanCurrency.value;
-                                    }
-                                } else {
-                                    if (idMataUang != 1) {
-                                        pelunasanRupiah.value = jumlahYangDibayar.value * nilaiKurs.value;
-                                    } else {
-                                        pelunasanRupiah.value = jumlahYangDibayar.value;
-                                    }
-                                    pelunasanCurrency.value = jumlahYangDibayar.value;
-                                }
-                                pelunasanCurrency.focus();
-                            });
-
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-                    });
-
-                }
-
+                idKodePerkiraan.value = result.value.NoKodePerkiraan.trim();
+                kodePerkiraanSelect.value = decodeHtmlEntities(result.value.Keterangan.trim());
             }
         });
     } catch (error) {
@@ -1081,35 +1496,7 @@ informasiBankSelect.addEventListener("change", function (event) {
     }
 });
 
-function LihatReferensi() {
-    fetch("/getDataRefBank/" + idReferensi.value)
-        .then((response) => response.json())
-        .then((options) => {
-            console.log(options);
 
-            options.forEach((option) => {
-                //Ambil nilai Tgl_Order dari setiap objek data
-                const tglInput = option.Tanggal;
-                const [tanggal, waktu] = tglInput.split(" ");
-                option.Tanggal = tanggal;
-                tanggalInput.value = tanggal;
-            });
-
-            idMataUang.value = options[0].Id_MataUang;
-            nilaiMasukKas.value = options[0].Nilai;
-            buktiPelunasan.value = options[0].No_Bukti;
-            tanggalInput.value = options[0].Tanggal;
-
-            let MU = idMataUang.value;
-            let opt = mataUangSelect.options;
-            for (let i = 0; i < opt.length; i++) {
-                if (opt[i].value == MU) {
-                    mataUangSelect.selectedIndex = i;
-                    break;
-                }
-            };
-        })
-}
 
 nilaiMasukKas.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
@@ -1130,6 +1517,17 @@ btnAddItem.addEventListener('click', function (event) {
     modalLihatPenagihan = $("#modalLihatPenagihan");
     modalLihatPenagihan.modal('show');
     prosesmodal = 1;
+
+    terbayar.value = 0;
+    terbayarRupiah.value = 0;
+    sisa.value = 0;
+    sisaRupiah.value = 0;
+    jumlahYangDibayar.value = 0;
+    pelunasanCurrency.value = 0;
+    pelunasanRupiah.value = 0;
+    lunas.value = 'N';
+    nilaiBiaya.value = 0;
+    nilaiKurangLebih.value = 0;
 });
 
 // function LihatDetailPelunasan() {
@@ -1146,8 +1544,12 @@ function handleRadioChange() {
     var selectedValue = document.querySelector('input[name="radiogrup1"]:checked').value;
     kodePerkiraanSelect.removeAttribute("readonly", true);
 
+
+
     // Cek nilai yang terpilih dan lakukan sesuatu berdasarkan nilai tersebut
     if (selectedValue === "1") {
+        console.log("Anda memilih Pelunasan");
+
         noPenagihan.removeAttribute("readonly", true);
         nilaiPenagihan.removeAttribute("readonly", true);
         nilaiKurs.removeAttribute("readonly", true);
@@ -1158,7 +1560,8 @@ function handleRadioChange() {
         terbayar.removeAttribute("readonly", true);
         terbayarRupiah.removeAttribute("readonly", true);
         lunas.removeAttribute("readonly", true);
-        console.log("Anda memilih Pelunasan");
+
+
         fetch("/getListPenagihanSJ/" + idCustomer.value)
             .then((response) => response.json())
             .then((options) => {
@@ -1400,8 +1803,8 @@ btnSimpanModal.addEventListener('click', function (event) {
         alert("Nilai Kurang, Nomor Tagihan Harus Diisi");
     };
 
-    if ((lunas.value === "" || lunas.value === " " || (lunas.value.toUpperCase() != "Y" && lunas.value.toUpperCase() != "N"))
-        && selectedValue === 1 || (idJenisPembayaran.value == 2 || idJenisPembayaran.value == 3) || lunas.value.toUpperCase() == "Y") {
+    if ((lunas.value === "" || lunas.value === " " || (lunas.value.toUpperCase() !== "Y" && lunas.value.toUpperCase() !== "N"))
+        && selectedValue === 1 || (idJenisPembayaran.value === 2 || idJenisPembayaran.value === 3) || lunas.value.toUpperCase() === "Y") {
         alert("Salah Input Kolom Lunas");
         lunas.focus();
     };
@@ -1421,14 +1824,14 @@ btnSimpanModal.addEventListener('click', function (event) {
     //     }
     // });
 
-    if (prosesmodal == 1) {
-        if (rowCount == 0) {
-            totalPelunasan.value = totalPelunasan.value + nilaiPiutang.value;
-            totalBiaya.value = totalBiaya.value + nilaiBiaya.value;
-            kurangLebih.value = kurangLebih.value + nilaiKurangLebih.value;
+    if (prosesmodal === 1) {
+        if (rowCount === 0) {
+            totalPelunasan.value = numeral(totalPelunasan.value).value() + numeral(nilaiPiutang.value).value();
+            totalBiaya.value = numeral(totalBiaya.value).value() + numeral(nilaiBiaya.value).value();
+            kurangLebih.value =numeral( kurangLebih.value).value() + numeral(nilaiKurangLebih.value).value();
 
             tabelPelunasanPenjualan.row.add([
-                noPen.value,
+                noPenagihan.value,
                 jumlahYangDibayar.value,
                 nilaiBiaya.value,
                 lunas.value.toUpperCase(),
@@ -1438,15 +1841,15 @@ btnSimpanModal.addEventListener('click', function (event) {
                 pelunasanCurrency.value,
                 nilaiKurangLebih.value,
                 idKodePerkiraan.value,
-                noPen1.value
+                noPenagihan1.value
             ]).draw().node();
         } else {
-            totalPelunasan.value = totalPelunasan.value - sNilai_Pelunasan + nilaiPiutang.value;
-            totalBiaya.value = totalBiaya.value - sBiaya + nilaiBiaya.value;
-            kurangLebih.value = kurangLebih.value - sKurangLebih + nilaiKurangLebih.value;
+            totalPelunasan.value = numeral(totalPelunasan.value).value() - numeral(sNilai_Pelunasan).value() + numeral(nilaiPiutang.value).value();
+            totalBiaya.value = numeral(totalBiaya.value).value() - numeral(sBiaya).value() + numeral(nilaiBiaya.value).value();
+            kurangLebih.value = numeral(kurangLebih.value).value() - numeral(sKurangLebih).value() + numeral( nilaiKurangLebih.value).value();
 
             tabelPelunasanPenjualan.row.add([
-                noPen.value,
+                noPenagihan.value,
                 jumlahYangDibayar.value,
                 nilaiBiaya.value,
                 lunas.value.toUpperCase(),
@@ -1456,10 +1859,10 @@ btnSimpanModal.addEventListener('click', function (event) {
                 idMataUang.value,
                 nilaiKurangLebih.value,
                 idKodePerkiraan.value,
-                noPen1.value
+                noPenagihan1.value
             ]).draw().node();
         }
-    } else if (prosesmodal == 2) {
+    } else if (prosesmodal === 2) {
         updatedData.ID_Penagihan = noPenagihan.value;
         updatedData.Lunas = lunas.value;
         updatedData.Nilai_Pelunasan = jumlahYangDibayar.value;
@@ -1651,41 +2054,59 @@ btnDeleteItem.addEventListener('click', function (event) {
 btnSimpan.addEventListener('click', function (event) {
     event.preventDefault();
 
-    var tanggalHariIni = new Date();
+    var tanggalHariIni = new Date().toISOString().substring(0, 10);
+    // console.log(tanggalInput.value, tanggalHariIni);
+
     if (tanggalInput.value > tanggalHariIni) {
         alert("Tanggal input melebihi tanggal sekarang");
     }
 
-    if (sUser != 1 && proses == 2) {
+    console.log(sUser, user_id, proses);
+    if ((sUser !== user_id) && proses == 2) {
         alert("Anda Tidak Berhak Mengoreksi Data milik User")
     }
 
-    if (nilaiMasukKas.value < (totalPelunasan.value - totalBiaya.value + kurangLebih.value)) {
+    console.log(nilaiMasukKas.value, totalPelunasan.value, totalBiaya.value, kurangLebih.value);
+    if (parseFloat(nilaiMasukKas.value) < (parseFloat(totalPelunasan.value) - parseFloat(totalBiaya.value) + parseFloat(kurangLebih.value))) {
         alert("Uang Yang Masuk Tidak Balance dg Pelunasan dan biaya");
     }
 
-    if (tabelPelunasanPenjualan.rows().count() == 0) {
+    if (tabelPelunasanPenjualan.rows().count() === 0) {
         alert("Data Yang Anda Masukan Belum Lengkap. Harap di cek lagi");
     }
 
-    if (idMataUang.value != (selectedRows[0].Id_MataUang || selectedRows[0][6])) {
+    if (idMataUang.value !== (selectedRows[0].Id_MataUang || selectedRows[0][6])) {
         alert("Mata Uang Tidak Boleh DiGanti");
         // console.log("MASUK IF ELSE TIDAK JELAS");
     }
 
-    if (idJenisPembayaran == 2 || idJenisPembayaran == 3) {
+    if (idJenisPembayaran === 2 || idJenisPembayaran === 3) {
         statusBayar.value = "B";
     } else {
         statusBayar.value = "";
     }
 
     nilaiPiutang.value = totalPelunasan.value;
-    sisa.value = totalPelunasan.value - totalBiaya.value + kurangLebih.value;
-    sisa.value = nilaiMasukKas.value - sisa.value;
-    sMasukKas = 0;
-    sMasukKas = totalPelunasan.value - totalBiaya.value + kurangLebih.value;
-    if (sMasukKas != parseFloat(nilaiMasukKas.value)) {
+    sisa.value = parseFloat(totalPelunasan.value) - parseFloat(totalBiaya.value) + parseFloat(kurangLebih.value);
+    sisa.value = parseFloat(nilaiMasukKas.value) - parseFloat(sisa.value);
+    // sMasukKas = 0;
+    sMasukKas = parseFloat(totalPelunasan.value) - parseFloat(totalBiaya.value) + parseFloat(kurangLebih.value);
+    if (sMasukKas !== parseFloat(nilaiMasukKas.value)) {
         nilaiPiutang.value = nilaiMasukKas.value;
+        Swal.fire({
+            icon: 'question',
+            text: 'Akan muncul uang muka hasil dari sisa uang masuk.' < br > 'Anda Setuju ?',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+            returnFocus: false,
+        }).then((confirmResult) => {
+            if (confirmResult.isConfirmed) {
+
+            } else {
+
+            }
+        });
     }
     var HapusDet = listHapus.join(", ");
     arrayDetail.value = HapusDet;
@@ -1810,7 +2231,7 @@ function koreksi() {
                             tanggalInput.value = tanggal;
                         });
 
-                        idJenisPembayaran.value = options[0].Id_Jenis_Bayar;
+                        idJenisPembayaran.value = options[0].Id_Jenis_Bayar.trim();
 
                         let UM = idJenisPembayaran.value;
                         let opt = jenisPembayaranSelect.options;
@@ -1821,7 +2242,7 @@ function koreksi() {
                             }
                         };
 
-                        idMataUang.value = options[0].Id_MataUang;
+                        idMataUang.value = options[0].Id_MataUang.trim();
 
                         let MU = idMataUang.value;
                         let opt2 = mataUangSelect.options;
@@ -1831,9 +2252,9 @@ function koreksi() {
                                 break;
                             }
                         };
-                        nilaiPiutang.value = options[0].Nilai_Pelunasan;
-                        buktiPelunasan.value = options[0].No_Bukti;
-                        sUser = options[0].UserInput;
+                        nilaiPiutang.value = options[0].Nilai_Pelunasan.trim();
+                        buktiPelunasan.value = options[0].No_Bukti.trim();
+                        sUser = options[0].UserInput.trim();
 
                     });
 
