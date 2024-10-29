@@ -380,6 +380,99 @@ class MaintenanceBKMPenagihanController extends Controller
 
             return datatables($listKrgLbh)->make(true);
 
+        } else if ($id == 'getBank') {
+            // Eksekusi prosedur tersimpan SP_5298_ACC_LIST_BANK untuk mengambil data bank
+            $banks = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_BANK');
+            // dd($banks);
+            // Respons pertama dari stored procedure untuk `TBank` dan `TNamaBank`
+            $response = [];
+            foreach ($banks as $bank) {
+                $response[] = [
+                    'Id_Bank' => $bank->Id_Bank,
+                    'Nama_Bank' => $bank->Nama_Bank,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getBankDetails') {
+            $bankId = $request->input('idBankM');
+            // Eksekusi prosedur tersimpan SP_5298_ACC_LIST_BANK untuk mengambil data bank
+            $bankDetails = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_BANK_1 ?', [$bankId]);
+            // dd($bankDetails);
+            // Respons pertama dari stored procedure untuk `TBank` dan `TNamaBank`
+            $response = [];
+            foreach ($bankDetails as $bank) {
+                $response[] = [
+                    'Id_Bank' => $bank->jenis,
+                ];
+            }
+
+            return response()->json($response);
+        } else if ($id == 'getBankAda') {
+            $idBank = $request->input('idBankM');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_BANK_2 ?', [trim($idBank)]);
+            // dd($results);
+            $bankDetails = [];
+            foreach ($results as $row) {
+                $bankDetails = [
+                    'jenis' => trim($row->jenis),
+                    'Nama' => trim($row->Nama),
+                ];
+            }
+            return response()->json($bankDetails);
+
+        } else if ($id == 'getPerkiraanDetails') {
+            $idPerkiraan = $request->input('id_perkiraanMP');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_KODE_PERKIRAAN ?, ?', [2, trim($idPerkiraan)]);
+            // dd($results);
+            $perkiraanDetails = [];
+            foreach ($results as $row) {
+                $perkiraanDetails = [
+                    'Keterangan' => trim($row->Keterangan),
+                ];
+            }
+            return response()->json($perkiraanDetails);
+
+        } else if ($id == 'getKodePerkiraan') {
+            // Menjalankan prosedur `SP_5298_ACC_LIST_KODE_PERKIRAAN` dengan parameter Kode = 1
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_KODE_PERKIRAAN ?', [1]);
+
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'NoKodePerkiraan' => $row->NoKodePerkiraan,
+                    'Keterangan' => $row->Keterangan,
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'updateDetailPelunasan') {
+            // Memastikan `iddetail` dan `kode` diterima dalam request
+            $iddetail = (int)$request->input('ID_Detail_Pelunasan');
+            $kode = $request->input('id_perkiraanMP');
+            // dd($iddetail, $kode);
+
+            if ($iddetail && $kode) {
+                // Menjalankan prosedur `SP_5298_ACC_UPDATE_DETAIL_PELUNASAN`
+                DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_DETAIL_PELUNASAN @iddetail = ?, @kode = ?', [
+                    $iddetail,
+                    $kode,
+                ]);
+
+                // Respons sukses
+                return response()->json(['message' => 'Detail sudah terkoreksi']);
+            } else {
+                // Jika parameter tidak valid
+                return response()->json(['error' => 'Parameter tidak valid']);
+            }
         }
     }
 
