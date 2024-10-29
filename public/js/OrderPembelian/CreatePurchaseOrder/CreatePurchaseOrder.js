@@ -556,7 +556,7 @@ function LoadPermohonan(proses, stbeli) {
                             : item.Ket_Internal.trim(),
                         item.AppMan.trim(),
                         item.AppPBL.trim(),
-                        item.AppDir.trim() + " " + item.Tgl_Direktur.trim(),
+                        item.AppDir.trim() + " " + item.Tgl_Direktur,
                     ];
                 });
                 table.clear();
