@@ -1,8 +1,8 @@
 @extends('layouts.appAccounting')
 @section('content')
 @section('title', 'Maintenance BKM Penagihan')
-
-@include('Accounting.Piutang.ModalMaintenanceBKMPenagihanPilihBank')
+@include('Accounting.Piutang.PrintMaintenanceBKMPenagihan')
+{{-- @include('Accounting.Piutang.ModalMaintenanceBKMPenagihanPilihBank') --}}
 <style>
     @media print {
         .card {
@@ -25,6 +25,11 @@
 <style>
     .custom-modal-width {
         max-width: 50%;
+        /* Adjust the percentage as needed */
+    }
+
+    .custom-modal-widthBKM {
+        max-width: 70%;
         /* Adjust the percentage as needed */
     }
 </style>
@@ -477,7 +482,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="pilihBankModal">Maintenance Kurang/Lebih BKM</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal"
-                                            aria-label="Close">
+                                            aria-label="Close" id="tutup_modalMK">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -492,7 +497,7 @@
                                             <input type="text" id="jumlahUang_MK" name="jumlahUang_MK"
                                                 class="form-control" style="width: 100%">
                                         </div>
-                                        <input type="hidden" name="idcoba" id="idcoba" value="idcoba">
+                                        <input type="hidden" name="id_detailMK" id="id_detailMK">
                                     </div>
                                     <br>
                                     <div class="d-flex">
@@ -530,8 +535,8 @@
                                                 style="width: 100px;">Proses</button>
                                         </div>
                                         <div class="col-1 text-end">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                                id="tutup_kuranglebih">Tutup</button>
+                                            {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                id="tutup_kuranglebih">Tutup</button> --}}
                                         </div>
                                     </div>
                                     <br>
@@ -550,7 +555,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="pilihBankModal">Maintenance Kurang/Lebih BKM</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal"
-                                            aria-label="Close">
+                                            aria-label="Close" id="tutup_modalB">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -562,7 +567,7 @@
                                                 Biaya</label>
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="text" id="jumlahBiaya_MB" name="jumlahBiaya_MB"
+                                            <input type="text" id="jumlahBiaya_MBia" name="jumlahBiaya_MBia"
                                                 class="form-control" style="width: 100%">
                                         </div>
                                         <div class="col-md-3">
@@ -570,8 +575,8 @@
                                                 Detail</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="text" id="id_detailMB"
-                                                name="id_detailMB"class="form-control" style="width: 100%">
+                                            <input type="text" id="id_detailMBia"
+                                                name="id_detailMBia"class="form-control" style="width: 100%">
                                         </div>
                                     </div>
                                     <br>
@@ -581,16 +586,16 @@
                                                 Perkiraan</label>
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="text" id="id_perkiraanMB" name="id_perkiraanMB"
+                                            <input type="text" id="id_perkiraanMBia" name="id_perkiraanMBia"
                                                 class="form-control" style="width: 100%">
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" id="ket_perkiraanMB" name="ket_perkiraanMB"
+                                            <input type="text" id="ket_perkiraanMBia" name="ket_perkiraanMBia"
                                                 class="form-control" style="width: 100%">
                                         </div>
                                         <div class="col-md-1">
                                             <button type="button" class="btn btn-default"
-                                                id="btn_perkiraanMB">...</button>
+                                                id="btn_perkiraanMBia">...</button>
                                         </div>
                                     </div>
                                     <br>
@@ -599,19 +604,19 @@
                                             <label for="keterangan" style="margin-right: 10px;">Keterangan</label>
                                         </div>
                                         <div class="col-md-8">
-                                            <input type="text" id="keterangan_MB" name="keterangan_MB"
+                                            <input type="text" id="keterangan_MBia" name="keterangan_MBia"
                                                 class="form-control" style="width: 100%">
                                         </div>
                                     </div>
                                     <br>
                                     <div class="d-flex">
                                         <div class="col-10">
-                                            <button type="button" class="btn btn-success" id="btn_prosesMB"
+                                            <button type="button" class="btn btn-success" id="btn_prosesMBia"
                                                 style="width: 100px;">Proses</button>
                                         </div>
                                         <div class="col-1 text-end">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                                id="tutup_biaya">Tutup</button>
+                                            {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                id="tutup_biaya">Tutup</button> --}}
                                         </div>
                                     </div>
                                     <br>
@@ -623,8 +628,61 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal Tampil BKM-->
+        <div class="modal fade" id="dataBKMModal" tabindex="-1" aria-labelledby="dataBKMModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog custom-modal-widthBKM">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dataBKMModalLabel">Data BKM</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                            id="close_modalbkm">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-inline">
+                            <label for="month">Bln/Thn:&nbsp;</label>
+                            <input type="date" id="tgl_awalbkk" class="form-control" style="width: 160px">
+                            <span>&nbsp;S/D&nbsp;</span>
+                            <input type="date" id="tgl_akhirbkk" class="form-control" style="width: 160px">
+                            <span>&nbsp;&nbsp;</span>
+                            <button id="btn_okbkm" type="button" class="btn btn-primary">OK</button>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="bkm">Id. BKM:</label>
+                            <input type="text" id="bkm" class="form-control">
+                            <input type="text" id="terbilang" class="form-control" style="display: none">
+                            <input type="text" id="id_matauang" class="form-control" style="display: none">
+                        </div>
+                        <div class="table-responsive">
+                            <table style="width: 100%;" id="table_tampilBKM">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Tanggal Input</th>
+                                        <th>Id. BKM</th>
+                                        <th>Nilai Pelunasan</th>
+                                        <th>Terbilang</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn_cetakbkm" type="button" class="btn btn-success">Cetak</button>
+                        <button id="btn_prosesbkm" type="button" class="btn btn-success"
+                            style="display: none">Proses</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="tutup_modalbkk">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         {{--  --}}
-        <div class="print" style="visibility: hidden;">
+        {{-- <div class="print" style="visibility: hidden;">
             <div class="container">
                 <div class="row">
                     <div class="col-5" style="padding-right: 25px;">
@@ -835,7 +893,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <script src="{{ asset('js/Accounting/Piutang/MaintenanceBKMPenagihan.js') }}"></script>
     @endsection

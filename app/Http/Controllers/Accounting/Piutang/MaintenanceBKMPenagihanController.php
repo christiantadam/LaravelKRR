@@ -456,7 +456,7 @@ class MaintenanceBKMPenagihanController extends Controller
 
         } else if ($id == 'updateDetailPelunasan') {
             // Memastikan `iddetail` dan `kode` diterima dalam request
-            $iddetail = (int)$request->input('ID_Detail_Pelunasan');
+            $iddetail = (int) $request->input('ID_Detail_Pelunasan');
             $kode = $request->input('id_perkiraanMP');
             // dd($iddetail, $kode);
 
@@ -473,6 +473,123 @@ class MaintenanceBKMPenagihanController extends Controller
                 // Jika parameter tidak valid
                 return response()->json(['error' => 'Parameter tidak valid']);
             }
+        } else if ($id == 'updateDetailBiaya') {
+            // Retrieve parameters from request
+            $iddetail = $request->input('ID_Detail_Pelunasan');
+            $keterangan = $request->input('keterangan_MBia');
+            $kode = $request->input('id_perkiraanMBia');
+
+            // Execute stored procedure with parameters
+            DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_DETAIL_BIAYA @iddetail = ?, @keterangan = ?, @kode = ?', [
+                $iddetail,
+                $keterangan,
+                $kode
+            ]);
+
+            // Update ListBiaya in the response or session data as needed
+            $response = [
+                'message' => 'Detail Sudah TerKoreksi',
+                'uraian' => $keterangan,
+                'idPerkiraan' => $kode
+            ];
+
+            return response()->json($response);
+
+        } else if ($id == 'updateDetailKrgLbh') {
+            // Retrieve parameters from request
+            $iddetail = $request->input('id_detailMK');
+            $keterangan = $request->input('keterangan_MK');
+            $kode = $request->input('id_perkiraanMK');
+
+            // Execute stored procedure with parameters
+            DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_DETAIL_KRGLBH @iddetail = ?, @keterangan = ?, @kode = ?', [
+                $iddetail,
+                $keterangan,
+                $kode
+            ]);
+
+            // Respond with success message
+            $response = [
+                'message' => 'Detail Sudah TerKoreksi',
+                'uraian' => $keterangan,
+                'idPerkiraan' => $kode
+            ];
+
+            return response()->json($response);
+
+        } else if ($id == 'getBKMTagih') {
+            // Execute the stored procedure to fetch BKM Tagih records
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_BKM_TAGIH');
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Tgl_Input' => \Carbon\Carbon::parse($row->Tgl_Input)->format('m/d/Y'),
+                    'Id_BKM' => $row->Id_BKM,
+                    'Nilai_Pelunasan' => number_format($row->Nilai_Pelunasan, 2, '.', ','),
+                    'Terjemahan' => $row->Terjemahan,
+                ];
+            }
+
+            return datatables($response)->make(true);
+
+        } else if ($id == 'getBKMTagihByDate') {
+            // Retrieve date parameters from the request
+            $tgl1 = $request->input('tgl_awalbkk');
+            $tgl2 = $request->input('tgl_akhirbkk');
+
+            // Execute the stored procedure with date parameters
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_LIST_BKM_TAGIH_PERTGL @tgl1 = ?, @tgl2 = ?', [$tgl1, $tgl2]);
+
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'Tgl_Input' => \Carbon\Carbon::parse($row->Tgl_Input)->format('m/d/Y'),
+                    'Id_BKM' => $row->Id_BKM,
+                    'Nilai_Pelunasan' => number_format($row->Nilai_Pelunasan, 2, '.', ','),
+                    'Terjemahan' => $row->Terjemahan,
+                ];
+            }
+
+            return response()->json($response);
+
+        } else if ($id == 'cetakBKM') {
+            // dd($request->all());
+            $selectedIdBKM = $request->input('bkm');
+            $jml = (float) $request->input('Nilai_Pelunasan');
+
+            // Retrieve the total `Pelunasan` amount using stored procedure
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5298_ACC_JML_PELUNASAN @IdBKM = ?', [trim($selectedIdBKM)]);
+            // dd($results);
+            $pelunasan = !empty($results) ? (float) $results[0]->Pelunasan : 0;
+
+            // Compare jml to pelunasan and set status
+            $status = ($jml !== $pelunasan) ? '1' : '2';
+
+            // Define criteria for the report selection
+            $sno = "WHERE Id_BKM = '" . trim($selectedIdBKM) . "'";
+            $reportType = 3; // Specific report type in the VB code
+
+            // Fetch the report data
+            $reportData = DB::connection('ConnAccounting')
+                ->select("SELECT * FROM VW_PRG_5298_ACC_CETAK_BKM_TAGIH $sno");
+            // dd($reportData);
+            // Update the print date
+            DB::connection('ConnAccounting')
+                ->statement('exec SP_5298_ACC_UPDATE_TGLCETAK_BKM @idBKM = ?', [trim($selectedIdBKM)]);
+
+            return response()->json([
+                'data' => $reportData,
+                'status' => $status,
+                'message' => 'Laporan telah dicetak dengan sukses',
+                'reportType' => $reportType
+            ]);
+
+        } else {
+            return response()->json(['message' => 'ID tidak valid!']);
         }
     }
 
@@ -487,45 +604,45 @@ class MaintenanceBKMPenagihanController extends Controller
     {
         $proses = $request->all();
         //dd("masuk");
-        if ($proses['detpelunasan'] == "datpelunasan") {
-            $idBank = $request->idBank;
-            DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_LIST_BANK_1]
-            @idBank = ?', [$idBank]);
-            return redirect()->back()->with('success', 'Data sudah diKOREKSI');
+        // if ($proses['detpelunasan'] == "datpelunasan") {
+        //     $idBank = $request->idBank;
+        //     DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_LIST_BANK_1]
+        //     @idBank = ?', [$idBank]);
+        //     return redirect()->back()->with('success', 'Data sudah diKOREKSI');
 
-        } else if ($proses['detpelunasan'] == "detpelunasan") {
-            //dd("masuk else if");
-            $idDetail = $request->iddetail;
-            $kode = $request->idKodePerkiraan;
-            DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_PELUNASAN] @iddetail = ?, @kode = ?', [
-                $idDetail,
-                $kode
-            ]);
-            return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
+        // } else if ($proses['detpelunasan'] == "detpelunasan") {
+        //     //dd("masuk else if");
+        //     $idDetail = $request->iddetail;
+        //     $kode = $request->idKodePerkiraan;
+        //     DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_PELUNASAN] @iddetail = ?, @kode = ?', [
+        //         $idDetail,
+        //         $kode
+        //     ]);
+        //     return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
 
-        } else if ($proses['detpelunasan'] == "detkuranglebih") {
-            //dd($request->all());
-            $idcoba = $request->idcoba;
-            $kode = $request->idKodePerkiraanKrgLbh;
-            $keterangan = $request->keterangan;
-            DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_KRGLBH] @iddetail = ?, @keterangan = ?, @kode = ?', [
-                $idcoba,
-                $keterangan,
-                $kode
-            ]);
-            return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
-        } else if ($proses['detpelunasan'] == "detbiaya") {
-            //dd($request->all());
-            $idDetailBiaya = $request->idDetailBiaya;
-            $kode = $request->idKodePerkiraanBiaya;
-            $keterangan = $request->keteranganBiaya;
-            DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_BIAYA] @iddetail = ?, @keterangan = ?, @kode = ?', [
-                $idDetailBiaya,
-                $keterangan,
-                $kode
-            ]);
-            return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
-        }
+        // } else if ($proses['detpelunasan'] == "detkuranglebih") {
+        //     //dd($request->all());
+        //     $idcoba = $request->idcoba;
+        //     $kode = $request->idKodePerkiraanKrgLbh;
+        //     $keterangan = $request->keterangan;
+        //     DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_KRGLBH] @iddetail = ?, @keterangan = ?, @kode = ?', [
+        //         $idcoba,
+        //         $keterangan,
+        //         $kode
+        //     ]);
+        //     return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
+        // } else if ($proses['detpelunasan'] == "detbiaya") {
+        //     //dd($request->all());
+        //     $idDetailBiaya = $request->idDetailBiaya;
+        //     $kode = $request->idKodePerkiraanBiaya;
+        //     $keterangan = $request->keteranganBiaya;
+        //     DB::connection('ConnAccounting')->statement('exec [SP_5298_ACC_UPDATE_DETAIL_BIAYA] @iddetail = ?, @keterangan = ?, @kode = ?', [
+        //         $idDetailBiaya,
+        //         $keterangan,
+        //         $kode
+        //     ]);
+        //     return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
+        // }
         // else if ($proses['detpelunasan'] == "dettampilbkm") {
         //     //dd($request->all());
         //     $idcoba = $request->idcoba;

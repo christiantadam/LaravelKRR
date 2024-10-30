@@ -358,7 +358,7 @@
     </div>
 </div>
 
-<!-- Modal Tampil BKK-->
+<!-- Modal Tampil BKM-->
 <div class="modal fade" id="dataBKKModal" tabindex="-1" aria-labelledby="dataBKKModalLabel" aria-hidden="true">
     <div class="modal-dialog custom-modal-width">
         <div class="modal-content">
