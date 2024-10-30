@@ -14,7 +14,7 @@
                 @endif
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div class="form-container col-md-12">
-                        <form method="POST" action="{{ url('PelunasanPenjualanCashAdvance') }}" id="formkoreksi">
+                        {{-- <form method="POST" action="{{ url('PelunasanPenjualanCashAdvance') }}" id="formkoreksi"> --}}
                             {{ csrf_field() }}
                             <input type="hidden" name="_method" id="methodkoreksi">
                             <!-- Form fields go here -->
@@ -165,16 +165,15 @@
                             <div>
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <input type="submit" id="btnAddItem" name="btnAddItem" value="Add Item"
-                                            class="btn btn-primary">
+                                        <button id="btnAddItem" name="btnAddItem" value="Add Item"
+                                            class="btn btn-primary">Add Item</button>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="submit" id="btnEditItem" name="btnEditItem" value="Edit Item"
-                                            class="btn btn-primary">
+                                        <button id="btnEditItem" name="btnEditItem"
+                                            class="btn btn-primary">Edit Item</button>
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="submit" id="btnDeleteItem" name="btnDeleteItem"
-                                            value="Delete Item" class="btn btn-primary">
+                                        <button id="btnDeleteItem" name="btnDeleteItem" class="btn btn-primary">Delete Item</button>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +184,7 @@
                                     <div class="row mb-2" style="margin-top: 0.5%">
                                         <div class="col-sm-12">
                                             <div class="table-responsive fixed-height">
-                                                <table class="table table-bordered no-wrap-header" id="tabelPelunasanPenjualan">
+                                                <table class="table table-bordered no-wrap-header" id="tableData">
                                                     <thead>
                                                     </thead>
                                                     <tbody>
@@ -295,7 +294,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        {{-- </form> --}}
 
                         <div class="modal fade" id="modalLihatPenagihan" tabindex="-1" role="dialog"
                             aria-labelledby="pilihBankModal" aria-hidden="true">
@@ -452,7 +451,7 @@
                                             </div>
                                         </div>
                                         <p>
-                                        <div class="d-flex">
+                                        <div class="d-flex mb-3">
                                             <div class="col-md-4">
                                                 <label for="lunas" style="margin-right: 10px;">Lunas
                                                     (Y/N)</label>
@@ -464,9 +463,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="card" style>
+                                    <div class="card mt-1">
                                         <b>Biaya Ditanggung</b>
-                                        <div class="d-flex">
+                                        <div class="d-flex mb-3">
                                             <div class="col-md-4">
                                                 <label for="nilaiBiaya" style="margin-right: 10px;">Nilai
                                                     Biaya</label>
@@ -477,8 +476,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card" style>
-                                        <div class="d-flex">
+                                    <div class="card mt-1">
+                                        <div class="d-flex mt-1">
                                             <div class="col-md-4">
                                                 <label for="nilaiKurangLebih" style="margin-right: 10px;">Nilai
                                                     Kurang/Lebih</label>
@@ -489,7 +488,7 @@
                                             </div>
                                         </div>
                                         <p>
-                                        <div class="d-flex">
+                                        <div class="d-flex mb-3">
                                             <div class="col-md-4">
                                                 <label for="noPenagihan1" style="margin-right: 10px;">No.
                                                     Penagihan</label>
@@ -515,7 +514,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="d-flex">
+                                    <div class="d-flex mt-3">
                                         <div class="col-md-4">
                                             <label for="kodePerkiraanSelect" style="margin-right: 10px;">Kode
                                                 Perkiraan</label>
