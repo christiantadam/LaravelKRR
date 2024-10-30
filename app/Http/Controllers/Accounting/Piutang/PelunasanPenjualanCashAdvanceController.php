@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounting\Piutang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HakAksesController;
 
 class PelunasanPenjualanCashAdvanceController extends Controller
@@ -24,6 +25,12 @@ class PelunasanPenjualanCashAdvanceController extends Controller
     public function getNoPelunasanCashAdvance($idCustomer)
     {
         $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Customer = ?', [6, $idCustomer]);
+        return datatables($tabel)->make(true);
+    }
+
+    public function getKdPerkiraan()
+    {
+        $tabel = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1]);
         return datatables($tabel)->make(true);
     }
 
@@ -170,6 +177,13 @@ class PelunasanPenjualanCashAdvanceController extends Controller
     //Display the specified resource.
     public function show($id, Request $request)
     {
+        $user = Auth::user()->NomorUser;
+
+        if ($id === 'getUser') {
+            return response()->json($user);
+        }
+
+        // penagihan
         if ($id === 'getPenagihan') {
             $IdCustomer = $request->input('IdCustomer');
 
@@ -184,12 +198,23 @@ class PelunasanPenjualanCashAdvanceController extends Controller
             $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [5, $Id_Penagihan]);
             return response()->json($tabel);
         }
-        
+
         // lihat penaghihan2
         else if ($id === 'lihatPenagihan2') {
             $Id_Penagihan = $request->input('Id_Penagihan');
 
             $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $Id_Penagihan]);
+            return response()->json($tabel);
+        }
+
+        // kd perk
+        else if ($id === 'getKdPerkiraan') {
+            $tabel = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1]);
+            return datatables($tabel)->make(true);
+        } else if ($id === 'Perkiraan') {
+            $IdPerkiraan = $request->input('IdPerkiraan');
+
+            $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_KODEPERKIRAAN] @Kode = ?, @IdPerkiraan = ?', [2, $IdPerkiraan]);
             return response()->json($tabel);
         }
     }
@@ -201,9 +226,37 @@ class PelunasanPenjualanCashAdvanceController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        if ($id === 'insertHapus') {
+            $arrHapus = $request->input('arrHapus');
+            $Tid_Pelunasan = $request->input('Tid_Pelunasan');
+
+            try {
+                foreach ($arrHapus as $item) {
+                    $idDetailPelunasan = $item[0]; // Adjust according to your data structure
+                    $idPenagihan = $item[1]; // Adjust according to your data structure
+
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN 
+                    @Kode = ?, 
+                    @Id_Pelunasan = ?, 
+                    @Id_Detail_Pelunasan = ?, 
+                    @Id_Penagihan = ?', [
+                        4, // Kode
+                        $Tid_Pelunasan, // Adjust this variable based on your context
+                        $idDetailPelunasan,
+                        $idPenagihan
+                    ]);
+                }
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+        }
+
+        else if($id === 'insertTable'){
+            
+        }
     }
 
     //Remove the specified resource from storage.
