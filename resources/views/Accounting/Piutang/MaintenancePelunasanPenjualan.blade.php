@@ -2,6 +2,83 @@
 @section('content')
 @section('title', 'Maintenance Pelunasan Penjualan')
 
+<style>
+    .table-responsive.fixed-height tbody {
+        background-color: white;
+    }
+
+    .underline {
+        border-bottom: 1px solid black;
+        /* Change the color as needed */
+        margin-bottom: 10px;
+        /* Space between labels and line */
+    }
+
+    .table-responsive.fixed-height {
+        /* overflow-y: auto; */
+        /* position: relative; */
+        border-radius: 8px;
+        border: 2px solid black;
+        /* width: 100%; */
+        /* table-layout: fixed; */
+        background-color: white;
+    }
+
+    .no-wrap-header thead th {
+        white-space: nowrap;
+        background-color: lightgoldenrodyellow;
+        padding: 0;
+    }
+
+    .table-responsive.fixed-height tbody td {
+        background-color: white;
+        padding: 4px 5px;
+    }
+
+    .fixed-width {
+        white-space: nowrap;
+        /* Prevent text wrapping */
+        overflow: hidden;
+        /* Hide overflow text */
+        text-overflow: ellipsis;
+        /* Show "..." when the text overflows */
+        padding: 0;
+    }
+
+    table.dataTable {
+        table-layout: fixed;
+        /* Ensure table uses fixed layout */
+        width: 100%;
+        /* Ensure the table takes up the full width */
+    }
+
+    #table_list th,
+    #table_list td {
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: 16px;
+    }
+
+    @media print {
+        .card {
+            display: none;
+        }
+
+        .print {
+            visibility: visible !important;
+        }
+
+        .modal {
+            display: none !important;
+        }
+
+        .fade {
+            opacity: 0 !important;
+        }
+    }
+</style>
+
+
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 RDZMobilePaddingLR0">
@@ -186,7 +263,7 @@
                                         <col style="width: 15%;">
                                         <col style="width: 15%;">
                                         <col style="width: 15%;">
-                                        <col style="width: 20%;">
+                                        <col style="width: 15%;">
                                     <thead class="table-dark">
                                         <tr>
                                             <th>Id. Penagihan</th>
@@ -334,8 +411,8 @@
                                         </div>
                                         <div class="col-md-4">
                                             <input type="radio" name="radiogrup1" value="2"
-                                                id="biayaditanggung">
-                                            <label for="biayaditanggung">Biaya Ditanggung</label>
+                                                id="biayaditanggung" disabled>
+                                            <label for="biayaditanggung" >Biaya Ditanggung</label>
                                         </div>
                                         <div class="col-md-4">
                                             <input type="radio" name="radiogrup1" value="3" id="kuranglebih">
