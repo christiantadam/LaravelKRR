@@ -215,6 +215,7 @@ class MaintenancePelunasanPenjualanController extends Controller
         } else if ($id === 'getPerkiraan') {
             $idPelunasan = $request->input('idPelunasan');
             $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_KODEPERKIRAAN] @Kode = ?, @IdPerkiraan = ?', [2, $idPelunasan]);
+            // dd($tabel);
             return response()->json($tabel);
         } else if ($id === 'getListPenagihanSJ') {
             $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $idCustomer]);
