@@ -232,30 +232,131 @@ class PelunasanPenjualanCashAdvanceController extends Controller
             $arrHapus = $request->input('arrHapus');
             $Tid_Pelunasan = $request->input('Tid_Pelunasan');
 
-            try {
-                foreach ($arrHapus as $item) {
-                    $idDetailPelunasan = $item[0]; // Adjust according to your data structure
-                    $idPenagihan = $item[1]; // Adjust according to your data structure
+            // dd($request->all());
 
-                    DB::connection('ConnAccounting')->statement('EXEC SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN 
+            if ($arrHapus) {
+                try {
+                    foreach ($arrHapus as $item) {
+                        $idDetailPelunasan = $item[0]; // Adjust according to your data structure
+                        $idPenagihan = $item[1]; // Adjust according to your data structure
+
+                        DB::connection('ConnAccounting')->statement('EXEC SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN 
                     @Kode = ?, 
                     @Id_Pelunasan = ?, 
                     @Id_Detail_Pelunasan = ?, 
                     @Id_Penagihan = ?', [
-                        4, // Kode
-                        $Tid_Pelunasan, // Adjust this variable based on your context
-                        $idDetailPelunasan,
-                        $idPenagihan
-                    ]);
+                            4, // Kode
+                            $Tid_Pelunasan, // Adjust this variable based on your context
+                            $idDetailPelunasan,
+                            $idPenagihan
+                        ]);
+                    }
+                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
                 }
+            }
+        }
+        
+        // sp ke 4
+        else if ($id === 'insertPeluanasanAkhir') {
+            $Id_Pelunasan = $request->input('Id_Pelunasan');
+            $SaldoPelunasan = $request->input('SaldoPelunasan');
+            $Nilai_Pelunasan = $request->input('Nilai_Pelunasan');
+            // dd($request->all());
+
+
+            try {
+                DB::connection('ConnAccounting')->statement('EXEC SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN 
+                    @Kode = ?, 
+                    @Id_Pelunasan = ?, 
+                    @SaldoPelunasan = ?, 
+                    @Nilai_Pelunasan = ?', [
+                    6, // Kode
+                    $Id_Pelunasan,
+                    $SaldoPelunasan, // Adjust this variable based on your context
+                    $Nilai_Pelunasan,
+                ]);
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
         }
+        
+        // sp ke 2 dan 3
+        else if ($id === 'insertIsiTable') {
+            $Id_Pelunasan = $request->input('Id_Pelunasan');
+            $IdCust = $request->input('IdCust');
+            $noBKM = $request->input('noBKM');
+            $arrTable = $request->input('arrTable');
+            // dd($request->all());
 
-        else if($id === 'insertTable'){
-            
+            try {
+                foreach ($arrTable as $item) {
+                    $Id_Detail_Pelunasan = $item[4] === null ? null : $item[4];
+                    $Id_Penagihan = $item[0] === null ? null : $item[0];
+                    $Nilai_Pelunasan = $item[1] === null ? 0 : $item[1];
+                    $Pelunasan_Rupiah = $item[5] === null ? 0 : $item[5];
+                    $Biaya = $item[2];
+                    $Lunas = $item[3];
+                    $Pelunasan_Curency = $item[7];
+                    $KurangLebih = $item[8];
+                    $Kode_Perkiraan = $item[9];
+                    $Id_Penagihan_Pembulatan = $item[11] === null ? null : $item[11];
+
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN 
+                    @Kode = ?, 
+                    @Id_Pelunasan = ?, 
+                    @Id_Detail_Pelunasan = ?, 
+                    @Id_Penagihan = ?, 
+                    @Pelunasan_Rupiah = ?, 
+                    @Biaya = ?, 
+                    @Lunas = ?, 
+                    @Pelunasan_Curency = ?, 
+                    @KurangLebih = ?, 
+                    @Kode_Perkiraan = ?, 
+                    @Id_Penagihan_Pembulatan = ?', [
+                        5, // Kode
+                        $Id_Pelunasan, // Adjust this variable based on your context
+                        $Id_Detail_Pelunasan,
+                        $Id_Penagihan,
+                        $Pelunasan_Rupiah,
+                        $Biaya,
+                        $Lunas,
+                        $Pelunasan_Curency,
+                        $KurangLebih,
+                        $Kode_Perkiraan,
+                        $Id_Penagihan_Pembulatan,
+                    ]);
+
+                    if ($Id_Penagihan !== '') {
+                        $IdMtUang = $item[6];
+                        $kreditRp = $item[5];
+                        $kreditCur = $item[7];
+                        $kurs = $item[10];
+
+                        DB::connection('ConnAccounting')->statement('EXEC SP_5298_ACC_INSERT_KARTU_PIUTANG 
+                        @IdPenagihan = ?, 
+                        @IdCust = ?, 
+                        @IdMtUang = ?, 
+                        @kreditRp = ?, 
+                        @kreditCur = ?, 
+                        @kurs = ?, 
+                        @noBKM = ?', [
+                            $Id_Penagihan, // Adjust this variable based on your context
+                            $IdCust,
+                            $IdMtUang,
+                            $kreditRp,
+                            $kreditCur,
+                            $kurs,
+                            $noBKM,
+                        ]);
+                    }
+                }
+                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
         }
     }
 

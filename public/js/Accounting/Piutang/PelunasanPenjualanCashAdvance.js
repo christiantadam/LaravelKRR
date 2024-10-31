@@ -1328,6 +1328,12 @@ btnSimpan.addEventListener('click', function (e) {
     e.preventDefault();
 
     var tableData = $('#tableData').DataTable();
+    let allRowData = [];
+
+    tableData.rows().every(function () {
+        let rowData = this.data();
+        allRowData.push(rowData);
+    });
 
     sMasukKas = 0;
     let err_ok = true;
@@ -1343,8 +1349,8 @@ btnSimpan.addEventListener('click', function (e) {
         });
     }
 
-    let coba1 = numeral(nilai_Pelunasan.value).value();
-    let coba2 = numeral(totalPemakaian.value).value() - numeral(nilaiBiaya.value).value() + numeral(nilaiKurangLebih.value).value();
+    let coba1 = numeral(sisaPelunasan.value).value();
+    let coba2 = numeral(totalPemakaian.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value();
 
     if (numeral(coba1).value() < numeral(coba2).value()) {
         Swal.fire({
@@ -1369,7 +1375,8 @@ btnSimpan.addEventListener('click', function (e) {
     }
 
     let rowData = tableData.row(1).data();
-    if (idMataUang.value !== rowData[6]) {
+
+    if (rowData && rowData[6] !== undefined && idMataUang.value !== rowData[6]) {
         Swal.fire({
             icon: 'error',
             text: 'Mata Uang Tidak Boleh DiGanti',
@@ -1381,10 +1388,10 @@ btnSimpan.addEventListener('click', function (e) {
     }
 
     nilaiPelunasan.value = numeral(totalPemakaian.value).value();
-    sisa.value = numeral(totalPemakaian.value).value() - numeral(nilaiBiaya.value).value() + numeral(nilaiKurangLebih.value).value();
-    sisa.value = numeral(nilaiMasukKas.value).value() - numeral(sisa.value).value();
+    sisaPelunasan.value = numeral(totalPemakaian.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value();
+    sisaPelunasan.value = numeral(nilaiMasukKas.value).value() - numeral(sisaPelunasan.value).value();
 
-    sMasukKas = numeral(totalPemakaian.value).value() - numeral(nilaiBiaya.value).value() + numeral(nilaiKurangLebih.value).value();
+    sMasukKas = numeral(totalPemakaian.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value();
 
     if (numeral(sMasukKas).value() !== numeral(nilaiMasukKas.value).value()) {
         Swal.fire({
@@ -1400,34 +1407,88 @@ btnSimpan.addEventListener('click', function (e) {
                 err_ok = false;
                 return;
             }
-        });
-    }
+            else {
+                if (numeral(sisaPelunasan.value).value() !== 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'Total Nilai Pelunasan Tidak Sama Dg Uang Masuk',
+                        returnFocus: false,
+                    }).then(() => {
+                        err_ok = false;
+                        return;
+                    });
+                }
+                else {
+                    if (err_ok) {
+                        $.ajax({
+                            type: 'PUT',
+                            url: 'PelunasanPenjualanCashAdvance/insertHapus',
+                            data: {
+                                _token: csrfToken,
+                                arrHapus: ListHapus,
+                                Tid_Pelunasan: noPelunasanSelect.value,
+                            },
+                            error: function (xhr, status, error) {
+                                err_ok = false;
+                                console.error('Error:', error);
+                            }
+                        });
 
-    if (numeral(sisa.value).value() !== 0) {
-        Swal.fire({
-            icon: 'error',
-            text: 'Total Nilai Pelunasan Tidak Sama Dg Uang Masuk',
-            returnFocus: false,
-        }).then(() => {
-            err_ok = false;
-            return;
-        });
-    }
+                        $.ajax({
+                            type: 'PUT',
+                            url: 'PelunasanPenjualanCashAdvance/insertPeluanasanAkhir',
+                            data: {
+                                _token: csrfToken,
+                                Id_Pelunasan: noPelunasanSelect.value,
+                                SaldoPelunasan: numeral(sisaPelunasan.value).value(),
+                                Nilai_Pelunasan: numeral(nilaiPelunasan.value).value(),
+                            },
+                            error: function (xhr, status, error) {
+                                err_ok = false;
+                                console.error('Error:', error);
+                            }
+                        });
 
-    if (err_ok) {
-        $.ajax({
-            type: 'PUT',
-            url: 'PelunasanPenjualanCashAdvance/insertHapus',
-            data: {
-                _token: csrfToken,
-                arrHapus: ListHapus,
-                Tid_Pelunasan: noPelunasan.value,
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
+                        $.ajax({
+                            type: 'PUT',
+                            url: 'PelunasanPenjualanCashAdvance/insertIsiTable',
+                            data: {
+                                _token: csrfToken,
+                                Id_Pelunasan: noPelunasanSelect.value,
+                                arrTable: allRowData,
+                                IdCust: idCustomer.value,
+                                noBKM: idBKM.value,
+                            },
+                            error: function (xhr, status, error) {
+                                err_ok = false;
+                                console.error('Error:', error);
+                            }
+                        });
+
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Data Telah Tersimpan....',
+                            returnFocus: false,
+                        });
+                    }
+                }
             }
         });
     }
+
+
+});
+
+btnBatal.addEventListener("click", function (e) {
+    let tableData = $("#tableData").DataTable();
+    let allRowData = [];
+
+    tableData.rows().every(function () {
+        let rowData = this.data();
+        allRowData.push(rowData);
+    });
+
+    console.log(allRowData);
 });
 
 
