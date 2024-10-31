@@ -251,37 +251,18 @@
                         <br>
                         <div>
                             <div style="overflow-y: auto; overflow-x: auto; max-height: 400px;">
-                                <table style="width: 135%; table-layout: fixed;" id="tabelPelunasanPenjualan">
-                                    <colgroup>
-                                        <col style="width: 18%;">
-                                        <col style="width: 15%;">
-                                        <col style="width: 15%;">
-                                        <col style="width: 9%;">
-                                        <col style="width: 15%;">
-                                        <col style="width: 15%;">
-                                        {{-- <col style="width: 8%;"> --}}
-                                        <col style="width: 15%;">
-                                        <col style="width: 15%;">
-                                        <col style="width: 15%;">
-                                        <col style="width: 15%;">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>Id. Penagihan</th>
-                                            <th>Nilai Pelunasan</th>
-                                            <th>Biaya</th>
-                                            <th>Lunas</th>
-                                            <th>Id. Detail Pelunasan</th>
-                                            <th>Pelunasan Rupiah</th>
-                                            {{-- <th>Mata Uang</th> --}}
-                                            <th>Pelunasan Currency</th>
-                                            <th>Kurang Lebih</th>
-                                            <th>Perkiraan</th>
-                                            <th>ID Tagihan Pembulatan</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                                <div class="row mb-2" style="margin-top: 0.5%">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive fixed-height">
+                                            <table class="table table-bordered no-wrap-header" id="tabelPelunasanPenjualan">
+                                                <thead>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-2">
                                 <input type="hidden" id="tabelIdDetailPelunasan" name="tabelIdDetailPelunasan"
@@ -406,17 +387,17 @@
                                     <input type="hidden" name="_method" id="methodLihatPenagihan">
                                     <div class="row" style="padding-left: 20px">
                                         <div class="col-md-4">
-                                            <input type="radio" name="radiogrup1" value="1" id="pelunasan" checked>
-                                            <label for="pelunasan">Pelunasan</label>
+                                            <input type="radio" name="radiogrup1" value="opt1" id="opt1">
+                                            <label for="opt1">Pelunasan</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="radio" name="radiogrup1" value="2"
-                                                id="biayaditanggung" disabled>
-                                            <label for="biayaditanggung" >Biaya Ditanggung</label>
+                                            <input type="radio" name="radiogrup1" value="opt2"
+                                                id="opt2" disabled>
+                                            <label for="opt2" >Biaya Ditanggung</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="radio" name="radiogrup1" value="3" id="kuranglebih">
-                                            <label for="kuranglebih">Kurang/Lebih</label>
+                                            <input type="radio" name="radiogrup1" value="opt3" id="opt3">
+                                            <label for="opt3">Kurang/Lebih</label>
                                         </div>
                                     </div>
 

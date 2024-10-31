@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Accounting\Piutang;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use DB;
-use Log;
-use App\Http\Controllers\HakAksesController;
 use Exception;
-use Illuminate\Support\Facades\Date;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
+use App\Http\Controllers\HakAksesController;
 
 class MaintenancePelunasanPenjualanController extends Controller
 {
@@ -112,91 +111,91 @@ class MaintenancePelunasanPenjualanController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //dd($request->all());
-        $tanggalInput = $request->tanggalInput;
-        $idJenisPembayaran = $request->idJenisPembayaran;
-        $nilaiPiutang = $request->nilaiPiutang;
-        $idMataUang = $request->idMataUang;
-        $buktiPelunasan = $request->buktiPelunasan;
-        $idCustomer = $request->idCustomer;
-        $sisa = $request->sisa;
-        $idReferensi = $request->idReferensi;
-        $statusBayar = $request->statusBayar;
-        $IdPelunasan = $request->IdPelunasan;
+        // //dd($request->all());
+        // $tanggalInput = $request->tanggalInput;
+        // $idJenisPembayaran = $request->idJenisPembayaran;
+        // $nilaiPiutang = $request->nilaiPiutang;
+        // $idMataUang = $request->idMataUang;
+        // $buktiPelunasan = $request->buktiPelunasan;
+        // $idCustomer = $request->idCustomer;
+        // $sisa = $request->sisa;
+        // $idReferensi = $request->idReferensi;
+        // $statusBayar = $request->statusBayar;
+        // $IdPelunasan = $request->IdPelunasan;
 
-        $tabelIdPenagihan = $request->tabelIdPenagihan;
-        $tabelNilaiPelunasan = $request->tabelNilaiPelunasan;
-        $tabelPelunasanRupiah = $request->tabelPelunasanRupiah;
-        $tabelBiaya = $request->tabelBiaya;
-        $tabelLunas = $request->tabelLunas;
-        $tabelPelunasanCurrency = $request->tabelPelunasanCurrency;
-        $tabelKurangLebih = $request->tabelKurangLebih;
-        $tabelKodePerkiraan = $request->tabelKodePerkiraan;
-        $tabelIdDetail = $request->tabelIdDetail;
+        // $tabelIdPenagihan = $request->tabelIdPenagihan;
+        // $tabelNilaiPelunasan = $request->tabelNilaiPelunasan;
+        // $tabelPelunasanRupiah = $request->tabelPelunasanRupiah;
+        // $tabelBiaya = $request->tabelBiaya;
+        // $tabelLunas = $request->tabelLunas;
+        // $tabelPelunasanCurrency = $request->tabelPelunasanCurrency;
+        // $tabelKurangLebih = $request->tabelKurangLebih;
+        // $tabelKodePerkiraan = $request->tabelKodePerkiraan;
+        // $tabelIdDetail = $request->tabelIdDetail;
 
-        DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
-        @Kode = ?,
-        @Tgl_Pelunasan = ?,
-        @id_Jenis_Bayar = ?,
-        @Nilai_Pelunasan = ?,
-        @Id_MataUang = ?,
-        @No_Bukti = ?,
-        @Status_Penagihan = ?,
-        @Id_Cust = ?,
-        @SaldoPelunasan = ?,
-        @UserInput = ?,
-        @Status_Bayar = ?,
-        @IdReferensi = ?
-        ', [
-            1,
-            $tanggalInput,
-            $idJenisPembayaran,
-            $nilaiPiutang,
-            $idMataUang,
-            $buktiPelunasan,
-            "Y",
-            $idCustomer,
-            $sisa,
-            1,
-            $statusBayar,
-            $idReferensi
-        ]);
+        // DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
+        // @Kode = ?,
+        // @Tgl_Pelunasan = ?,
+        // @id_Jenis_Bayar = ?,
+        // @Nilai_Pelunasan = ?,
+        // @Id_MataUang = ?,
+        // @No_Bukti = ?,
+        // @Status_Penagihan = ?,
+        // @Id_Cust = ?,
+        // @SaldoPelunasan = ?,
+        // @UserInput = ?,
+        // @Status_Bayar = ?,
+        // @IdReferensi = ?
+        // ', [
+        //     1,
+        //     $tanggalInput,
+        //     $idJenisPembayaran,
+        //     $nilaiPiutang,
+        //     $idMataUang,
+        //     $buktiPelunasan,
+        //     "Y",
+        //     $idCustomer,
+        //     $sisa,
+        //     1,
+        //     $statusBayar,
+        //     $idReferensi
+        // ]);
 
-        // Lakukan operasi UPDATE
-        $IdPelunasan = DB::connection('ConnAccounting')->table('T_Referensi_Bank')
-            ->where('IdReferensi', '=', $idReferensi)
-            ->value('Id_Pelunasan');
+        // // Lakukan operasi UPDATE
+        // $IdPelunasan = DB::connection('ConnAccounting')->table('T_Referensi_Bank')
+        //     ->where('IdReferensi', '=', $idReferensi)
+        //     ->value('Id_Pelunasan');
 
-        //dd($IdPelunasan);
-        DB::connection('ConnAccounting')->statement(
-            'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
-        @Kode = ?,
-        @Id_Pelunasan = ?,
-        @Id_Penagihan = ?,
-        @Nilai_Pelunasan = ?,
-        @Pelunasan_Rupiah = ?,
-        @Biaya = ?,
-        @Lunas = ?,
-        @Pelunasan_Curency = ?,
-        @KurangLebih = ?,
-        @Kode_Perkiraan = ?,
-        @ID_Penagihan_Pembulatan = ?',
-            [
-                2,
-                $IdPelunasan,
-                $tabelIdPenagihan,
-                $tabelNilaiPelunasan,
-                $tabelPelunasanRupiah,
-                $tabelBiaya,
-                $tabelLunas,
-                $tabelPelunasanCurrency,
-                $tabelKurangLebih,
-                $tabelKodePerkiraan,
-                $tabelIdDetail
-            ]
-        );
+        // //dd($IdPelunasan);
+        // DB::connection('ConnAccounting')->statement(
+        //     'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
+        // @Kode = ?,
+        // @Id_Pelunasan = ?,
+        // @Id_Penagihan = ?,
+        // @Nilai_Pelunasan = ?,
+        // @Pelunasan_Rupiah = ?,
+        // @Biaya = ?,
+        // @Lunas = ?,
+        // @Pelunasan_Curency = ?,
+        // @KurangLebih = ?,
+        // @Kode_Perkiraan = ?,
+        // @ID_Penagihan_Pembulatan = ?',
+        //     [
+        //         2,
+        //         $IdPelunasan,
+        //         $tabelIdPenagihan,
+        //         $tabelNilaiPelunasan,
+        //         $tabelPelunasanRupiah,
+        //         $tabelBiaya,
+        //         $tabelLunas,
+        //         $tabelPelunasanCurrency,
+        //         $tabelKurangLebih,
+        //         $tabelKodePerkiraan,
+        //         $tabelIdDetail
+        //     ]
+        // );
 
-        return redirect()->back()->with('success', 'Sudah TerSimpan');
+        // return redirect()->back()->with('success', 'Sudah TerSimpan');
     }
 
     //Display the specified resource.
@@ -245,150 +244,259 @@ class MaintenancePelunasanPenjualanController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $Id_Pelunasan = $request->Id_Pelunasan;
-        $IdPelunasan = str_replace('.', '/', $Id_Pelunasan);
+        $user = Auth::user()->NomorUser;
 
-        $tabelIdDetailPelunasan = $request->tabelIdDetailPelunasan;
-        $tabelIdPenagihan = $request->tabelIdPenagihan;
-        $tabelNilaiPelunasan = $request->tabelNilaiPelunasan;
-        $tabelPelunasanRupiah = $request->tabelPelunasanRupiah;
-        $tabelBiaya = $request->tabelBiaya;
-        $tabelLunas = $request->tabelLunas;
-        $tabelPelunasanCurrency = $request->tabelPelunasanCurrency;
-        $tabelKurangLebih = $request->tabelKurangLebih;
-        $tabelKodePerkiraan = $request->tabelKodePerkiraan;
+        $tanggalInput = $request->input('tanggalInput');
+        $idJenisPembayaran = $request->input('idJenisPembayaran');
+        $nilaiPiutang = $request->input('nilaiPiutang');
+        $idMataUang = $request->input('idMataUang');
+        $buktiPelunasan = $request->input('buktiPelunasan') === null ? null : $request->input('buktiPelunasan');
+        $idCustomer = $request->input('idCustomer');
+        $sisa = $request->input('sisa');
+        $idReferensi = $request->input('idReferensi');
+        $statusBayar = $request->input('statusBayar');
+        $IdPelunasan = $request->input('IdPelunasan');
 
-        $nilaiPiutang = $request->nilaiPiutang;
-        $tanggalInput = $request->tanggalInput;
-        $idJenisPembayaran = $request->idJenisPembayaran;
-        $buktiPelunasan = $request->buktiPelunasan;
-        $sisa = $request->sisa;
+        // $tabelIdPenagihan = $request->input('tabelIdPenagihan');
+        // $tabelNilaiPelunasan = $request->input('tabelNilaiPelunasan');
+        // $tabelPelunasanRupiah = $request->input('tabelPelunasanRupiah');
+        // $tabelBiaya = $request->input('tabelBiaya');
+        // $tabelLunas = $request->input('tabelLunas');
+        // $tabelPelunasanCurrency = $request->input('tabelPelunasanCurrency');
+        // $tabelKurangLebih = $request->input('tabelKurangLebih');
+        // $tabelKodePerkiraan = $request->input('tabelKodePerkiraan');
+        // $tabelIdDetail = $request->input('tabelIdDetail');
+        $arrTable = $request->input('arrTable');
+        //dd($request->all());
 
-        $arrayDetail = $request->arrayDetail;
-        $arrayNew = explode(",", $arrayDetail);
+        if ($id === 'insertData') {
 
-        $arrayPenagihan = $request->arrayPenagihan;
-        $arrayNewPenagihan = explode(",", $arrayPenagihan);
+            try {
+                DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
+                @Kode = ?,
+                @Tgl_Pelunasan = ?,
+                @id_Jenis_Bayar = ?,
+                @Nilai_Pelunasan = ?,
+                @Id_MataUang = ?,
+                @No_Bukti = ?,
+                @Status_Penagihan = ?,
+                @Id_Cust = ?,
+                @SaldoPelunasan = ?,
+                @UserInput = ?,
+                @Status_Bayar = ?,
+                @IdReferensi = ?
+                ', [
+                    1,
+                    $tanggalInput,
+                    $idJenisPembayaran,
+                    $nilaiPiutang,
+                    $idMataUang,
+                    $buktiPelunasan,
+                    "Y",
+                    $idCustomer,
+                    $sisa,
+                    $user,
+                    $statusBayar,
+                    $idReferensi
+                ]);
 
-        for ($i = 0; $i < count($arrayNew); $i++) {
-            DB::connection('ConnAccounting')->statement(
-                'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
-        @Kode = ?,
-        @Id_Pelunasan = ?,
-        @Id_Detail_Pelunasan = ?,
-        @Id_Penagihan = ?',
-                [
-                    4,
-                    $IdPelunasan,
-                    $arrayNew[$i],
-                    $arrayNewPenagihan[$i]
-                ]
-            );
+                $lastInsertId = DB::connection('ConnAccounting')->getPdo()->lastInsertId();
+                // Lakukan operasi UPDATE
+                $IdPelunasan = DB::connection('ConnAccounting')->table('T_Referensi_Bank')
+                    ->where('IdReferensi', '=', $idReferensi)
+                    ->update(['Id_Pelunasan' => $lastInsertId]);
+
+
+                foreach ($arrTable as $item) {
+                    $Id_Detail_Pelunasan = $item[4] === null ? null : $item[4];
+                    $Id_Penagihan = $item[0] === null ? null : $item[0];
+                    $Nilai_Pelunasan = $item[1] === null ? 0 : $item[1];
+                    $Pelunasan_Rupiah = $item[5] === null ? 0 : $item[5];
+                    $Biaya = $item[2];
+                    $Lunas = $item[3];
+                    $Pelunasan_Curency = $item[7];
+                    $KurangLebih = $item[8];
+                    $Kode_Perkiraan =  $item[9] === null ? null : $item[9];
+                    $Id_Penagihan_Pembulatan = $item[10] === null ? null : $item[10];
+
+                    DB::connection('ConnAccounting')->statement(
+                        'EXEC SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN
+                        @Kode = ?,
+                        @Id_Pelunasan = ?,
+                        @Id_Penagihan = ?,
+                        @Nilai_Pelunasan = ?,
+                        @Pelunasan_Rupiah = ?,
+                        @Biaya = ?,
+                        @Lunas = ?,
+                        @Pelunasan_Curency = ?,
+                        @KurangLebih = ?,
+                        @Kode_Perkiraan = ?,
+                        @ID_Penagihan_Pembulatan = ?',
+                        [
+                            2,
+                            $lastInsertId,
+                            $Id_Detail_Pelunasan,
+                            $Id_Penagihan,
+                            $Nilai_Pelunasan,
+                            $Pelunasan_Rupiah,
+                            $Biaya,
+                            $Lunas,
+                            $Pelunasan_Curency,
+                            $KurangLebih,
+                            $Kode_Perkiraan,
+                            $Id_Penagihan_Pembulatan
+                        ]
+                    );
+                }
+
+                return response()->json([
+                    'success' => 'Data sudah diSIMPAN',
+                    'Id_Pelunasan' => $lastInsertId
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+            }
+
+
+        } else if ($id === 'updateData') {
+            $arrHapus = $request->input('arrHapus');
+            // $noPelunasanSelect = $request->input('noPelunasanSelect');
+
+            try {
+                foreach ($arrHapus as $item) {
+                    $idDetailPelunasan = $item[0];
+                    $idPenagihan = $item[1];
+
+                    DB::connection('ConnAccounting')->statement('EXEC SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN
+                    @Kode = ?,
+                    @Id_Pelunasan = ?,
+                    @Id_Detail_Pelunasan = ?,
+                    @Id_Penagihan = ?', [
+                        4, // Kode
+                        $IdPelunasan, // Adjust this variable based on your context
+                        $idDetailPelunasan,
+                        $idPenagihan
+                    ]);
+                }
+
+                // update di T_Detail_Pelunasan_Tagihan
+                foreach ($arrTable as $item) {
+                    $Id_Detail_Pelunasan = $item[4] === null ? null : $item[4];
+                    $Id_Penagihan = $item[0] === null ? null : $item[0];
+                    $Nilai_Pelunasan = $item[1] === null ? 0 : $item[1];
+                    $Pelunasan_Rupiah = $item[5] === null ? 0 : $item[5];
+                    $Biaya = $item[2];
+                    $Lunas = $item[3];
+                    $Pelunasan_Curency = $item[7];
+                    $KurangLebih = $item[8];
+                    $Kode_Perkiraan =  $item[9] === null ? null : $item[9];
+                    $Id_Penagihan_Pembulatan = $item[10] === null ? null : $item[10];
+
+                    DB::connection('ConnAccounting')->statement(
+                        'EXEC SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN
+                        @Kode = ?,
+                        @Id_Pelunasan = ?,
+                        @Id_Detail_Pelunasan = ?,
+                        @Id_Penagihan = ?,
+                        @Nilai_Pelunasan = ?,
+                        @Pelunasan_Rupiah = ?,
+                        @Biaya = ?,
+                        @Lunas = ?,
+                        @Pelunasan_Curency = ?,
+                        @KurangLebih = ?,
+                        @Kode_Perkiraan = ?,',
+                        [
+                            5,
+                            $IdPelunasan,
+                            $Id_Detail_Pelunasan,
+                            $Id_Penagihan,
+                            $Nilai_Pelunasan,
+                            $Pelunasan_Rupiah,
+                            $Biaya,
+                            $Lunas,
+                            $Pelunasan_Curency,
+                            $KurangLebih,
+                            $Kode_Perkiraan,
+                        ]
+                    );
+                }
+
+                // Update di T_Pelunasan_Tagihan
+                DB::connection('ConnAccounting')->statement(
+                    'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
+                @Kode = ?,
+                @Id_Pelunasan = ?,
+                @Nilai_Pelunasan = ?,
+                @Tgl_Pelunasan = ?,
+                @id_Jenis_Bayar = ?,
+                @No_Bukti = ?,
+                @SaldoPelunasan = ?',
+                    [
+                        3,
+                        $IdPelunasan,
+                        $nilaiPiutang,
+                        $tanggalInput,
+                        $idJenisPembayaran,
+                        $buktiPelunasan,
+                        $sisa
+                    ]
+                );
+                return response()->json(['success' => 'Data sudah Terkoreksi'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diKOREKSI: ' . $e->getMessage()], 500);
+            }
         }
-
-        DB::connection('ConnAccounting')->statement(
-            'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
-        @Kode = ?,
-        @Id_Pelunasan = ?,
-        @Id_Detail_Pelunasan = ?,
-        @Id_Penagihan = ?,
-        @Nilai_Pelunasan = ?,
-        @Pelunasan_Rupiah = ?,
-        @Biaya = ?,
-        @Lunas = ?,
-        @Pelunasan_Curency = ?,
-        @KurangLebih = ?,
-        @Kode_Perkiraan = ?',
-            [
-                5,
-                $IdPelunasan,
-                $tabelIdDetailPelunasan,
-                $tabelIdPenagihan,
-                $tabelNilaiPelunasan,
-                $tabelPelunasanRupiah,
-                $tabelBiaya,
-                $tabelLunas,
-                $tabelPelunasanCurrency,
-                $tabelKurangLebih,
-                $tabelKodePerkiraan
-            ]
-        );
-
-        DB::connection('ConnAccounting')->statement(
-            'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
-        @Kode = ?,
-        @Id_Pelunasan = ?,
-        @Nilai_Pelunasan = ?,
-        @Tgl_Pelunasan = ?,
-        @id_Jenis_Bayar = ?,
-        @No_Bukti = ?,
-        @SaldoPelunasan = ?',
-            [
-                3,
-                $IdPelunasan,
-                $nilaiPiutang,
-                $tanggalInput,
-                $idJenisPembayaran,
-                $buktiPelunasan,
-                $tabelBiaya,
-                $tabelLunas,
-                $tabelPelunasanCurrency,
-                $tabelKurangLebih,
-                $sisa
-            ]
-        );
-        return redirect()->back()->with('success', 'Detail Sudah Terkoreksi');
     }
 
     //Remove the specified resource from storage.
     public function destroy(Request $request, $id)
     {
-        $hAtauB = $request->hAtauB;
-        $Id_Pelunasan = $request->Id_Pelunasan;
-        $IdPelunasan = str_replace('.', '/', $Id_Pelunasan);
-        $tabelIdDetailPelunasan = $request->tabelIdDetailPelunasan;
-        $tabelIdPenagihan = $request->tabelIdPenagihan;
+        $IdPelunasan = $request->input('IdPelunasan');
+        $arrTable = $request->input('arrTable');
 
-        if ($hAtauB == 'H') {
-            DB::connection('ConnAccounting')->statement(
-                'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
-            @Kode = ?,
-            @Id_Pelunasan = ?',
-                [
-                    3,
-                    $IdPelunasan
-                ]
-            );
-        } elseif ($hAtauB == 'B') {
-            DB::connection('ConnAccounting')->statement(
-                'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
-            @Kode = ?,
-            @Id_Pelunasan = ?,
-            @Id_Detail_Pelunasan = ?',
-                [
-                    8,
-                    $IdPelunasan,
-                    $tabelIdDetailPelunasan
-                ]
-            );
+        if ($id === 'deleteH') {
+            try {
+                DB::connection('ConnAccounting')->statement(
+                    'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Pelunasan = ?',
+                    [
+                        9, $IdPelunasan
+                    ]
+                );
+                return response()->json(['success' => 'Data sudah Terhapus'], 200);
 
-            DB::connection('ConnAccounting')->statement(
-                'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
-            @Kode = ?,
-            @Id_Pelunasan = ?,
-            @Id_Detail_Pelunasan = ?,
-            @Id_Penagihan = ?',
-                [
-                    4,
-                    $IdPelunasan,
-                    $tabelIdDetailPelunasan,
-                    $tabelIdPenagihan
-                ]
-            );
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diHAPUS: ' . $e->getMessage()], 500);
+            }
         }
 
-        return redirect()->back()->with('success', 'Data Sudah Terhapus');
+        else if ($id === 'deleteB') {
+            try {
+                foreach ($arrTable as $item) {
+                    $Id_Detail_Pelunasan = $item[4] === null ? null : $item[4];
+                    $Id_Penagihan = $item[0] === null ? null : $item[0];
+
+                    DB::connection('ConnAccounting')->statement(
+                        'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Pelunasan = ?, @Id_Detail_Pelunasan = ?',
+                        [
+                            8, $IdPelunasan, $Id_Detail_Pelunasan
+                        ]
+                    );
+
+                    DB::connection('ConnAccounting')->statement(
+                        'exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Pelunasan = ?, @Id_Detail_Pelunasan = ?, @Id_Penagihan = ?',
+                        [
+                            4, $IdPelunasan, $Id_Detail_Pelunasan, $Id_Penagihan
+                        ]
+                    );
+                }
+
+                return response()->json(['success' => 'Data sudah Terhapus'], 200);
+
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diHAPUS: ' . $e->getMessage()], 500);
+            }
+        }
     }
 }
