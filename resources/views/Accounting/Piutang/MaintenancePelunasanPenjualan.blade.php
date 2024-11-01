@@ -142,10 +142,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            {{-- <div class="col-md-2">
                                 <input type="text" id="IdPelunasan" name="IdPelunasan" class="form-control"
                                     style="width: 100%" readonly>
-                            </div>
+                            </div> --}}
                             {{-- <div class="col-md-2">
                                         <input type="text" id="Id_Pelunasan" name="Id_Pelunasan" class="form-control" style="width: 100%" readonly>
                                     </div> --}}

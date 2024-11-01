@@ -2012,20 +2012,20 @@ function LihatDetailPelunasan(idPelunasan) {
             if (options.length !== 0) {
                 tableData.clear();
 
-                data.forEach(function (item) {
+                options.forEach(function (item) {
                     tableData.row.add([
-                        escapeHtml(item.ID_Penagihan),
-                        numeral(parseFloat(item.Nilai_Pelunasan)).format("0,0.00"),
-                        numeral(parseFloat(item.Biaya)).format("0,0.00"),
-                        escapeHtml(item.Lunas),
-                        escapeHtml(item.ID_Detail_Pelunasan),
-                        numeral(parseFloat(item.Pelunasan_Rupiah)).format("0,0.00"),
-                        escapeHtml(item.Id_MataUang),
-                        numeral(parseFloat(item.Pelunasan_Curency)).format("0,0.00"),
-                        numeral(parseFloat(item.KurangLebih)).format("0,0.00"),
-                        escapeHtml(item.Kode_Perkiraan),
-                        numeral(parseFloat(item.Kurs)).format("0,0.0000"),
-                        escapeHtml(item.ID_Penagihan_Pembulatan),
+                        escapeHtml(item.ID_Penagihan) ?? '',
+                        numeral(parseFloat(item.Nilai_Pelunasan ?? 0)).format("0,0.00"),
+                        numeral(parseFloat(item.Biaya ?? 0)).format("0,0.00"),
+                        escapeHtml(item.Lunas) ?? '',
+                        escapeHtml(item.ID_Detail_Pelunasan) ?? '',
+                        numeral(parseFloat(item.Pelunasan_Rupiah ?? 0)).format("0,0.00"),
+                        escapeHtml(item.Id_MataUang) ?? '',
+                        numeral(parseFloat(item.Pelunasan_Curency ?? 0)).format("0,0.00"),
+                        numeral(parseFloat(item.KurangLebih ?? 0)).format("0,0.00"),
+                        escapeHtml(item.Kode_Perkiraan) ?? '',
+                        numeral(parseFloat(item.Kurs)).format("0,0.00"),
+                        (item.ID_Penagihan_Pembulatan) ?? ''
                     ]);
                 });
 
