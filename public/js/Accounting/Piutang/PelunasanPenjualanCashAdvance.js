@@ -1278,11 +1278,11 @@ btnDeleteItem.addEventListener('click', function (e) {
     if (table.$('tr.selected').length > 0) {
         var rowData = table.rows('.selected').data();
 
-        totalPemakaian.value = numeral(totalPemakaian.value).value() - numeral(rowData[1]).value() + numeral(rowData[2]).value();
+        totalPemakaian.value = numeral(totalPemakaian.value).value() - numeral(rowData[0][1]).value() + numeral(rowData[0][2]).value();
         totalPemakaian.value = numeral(totalPemakaian.value).format("0,0.00");
 
         if (rowData[4] !== '') {
-            ListHapus.push(rowData[4], rowData[0]);
+            ListHapus.push(rowData[0][4], rowData[0][0]);
         }
 
         table.rows('.selected').remove().draw();
