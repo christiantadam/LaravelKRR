@@ -640,9 +640,18 @@ $(document).ready(function () {
     }
 
     function formatDate(dateString) {
-        // Memecah datetime menjadi tanggal saja (ambil bagian tanggal sebelum spasi)
-        let datePart = dateString.split(" ")[0];
-        return datePart; // Mengembalikan hanya tanggal dalam format yyyy-MM-dd
+        let datePart;
+
+        if (dateString !== null) {
+            // Split the date string and get the date part
+            datePart = dateString.split(" ")[0];
+        } else {
+            // If dateString is null, use the current date and format it as yyyy-MM-dd
+            const currentDate = new Date();
+            datePart = currentDate.toISOString().split("T")[0];
+        }
+
+        return datePart; // Returns only the date in yyyy-MM-dd format
     }
 
     let arrayTabel = [];
