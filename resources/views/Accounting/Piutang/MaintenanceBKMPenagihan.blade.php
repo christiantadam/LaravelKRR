@@ -375,7 +375,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Maintenance Pilih Bank BKM</h5>
+                                        <h5 class="modal-title">Maintenance Pelunasan</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal"
                                             aria-label="Close" id="tutup_modalMP">
                                             <span aria-hidden="true">&times;</span>
@@ -390,7 +390,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <input type="text" id="id_penagihanMP" name="id_penagihanMP"
-                                                    class="form-control" style="width: 100%">
+                                                    class="form-control" style="width: 100%" readonly>
                                             </div>
                                             <div class="col-md-3">
                                                 <label for="iddetail" style="margin-right: 10px;">Id.
@@ -398,7 +398,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <input type="text" id="id_pelunasanMP" name="id_penagihanMP"
-                                                    class="form-control" style="width: 100%">
+                                                    class="form-control" style="width: 100%" readonly>
                                             </div>
                                         </div>
                                         <br>
@@ -409,7 +409,7 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <input type="text" id="namaCustomer_MP" name="namaCustomer_MP"
-                                                    class="form-control" style="width: 100%">
+                                                    class="form-control" style="width: 100%" readonly>
                                             </div>
                                         </div>
                                         <br>
@@ -420,7 +420,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <input type="text" id="nilai_pelunasanMP" name="nilai_pelunasanMP"
-                                                    class="form-control" style="width: 100%">
+                                                    class="form-control" style="width: 100%" readonly>
                                             </div>
                                         </div>
                                         <br>
@@ -432,7 +432,7 @@
                                             <div class="col-md-3">
                                                 <input type="text" id="pelunasanRupiah_MP"
                                                     name="pelunasanRupiah_MP" class="form-control"
-                                                    style="width: 100%">
+                                                    style="width: 100%" readonly>
                                             </div>
                                             <input type="hidden" id="TDet" name="TDet" class="form-control"
                                                 style="width: 100%">
@@ -445,11 +445,11 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <input type="text" id="id_perkiraanMP" name="id_perkiraanMP"
-                                                    class="form-control" style="width: 100%">
+                                                    class="form-control" style="width: 100%" readonly>
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" id="ket_perkiraanMP" name="ket_perkiraanMP"
-                                                    class="form-control" style="width: 100%">
+                                                    class="form-control" style="width: 100%" readonly   >
                                             </div>
                                             <div class="col-md-1">
                                                 <button type="button" class="btn btn-default"
@@ -480,7 +480,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="pilihBankModal">Maintenance Kurang/Lebih BKM</h5>
+                                        <h5 class="modal-title" id="pilihBankModal">Maintenance Kurang/Lebih</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal"
                                             aria-label="Close" id="tutup_modalMK">
                                             <span aria-hidden="true">&times;</span>
@@ -495,7 +495,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <input type="text" id="jumlahUang_MK" name="jumlahUang_MK"
-                                                class="form-control" style="width: 100%">
+                                                class="form-control" style="width: 100%" readonly>
                                         </div>
                                         <input type="hidden" name="id_detailMK" id="id_detailMK">
                                     </div>
@@ -507,11 +507,11 @@
                                         </div>
                                         <div class="col-md-2">
                                             <input type="text" id="id_perkiraanMK" name="id_perkiraanMK"
-                                                class="form-control" style="width: 100%">
+                                                class="form-control" style="width: 100%" readonly>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" id="ket_perkiraanMK" name="ket_perkiraanMK"
-                                                class="form-control" style="width: 100%">
+                                                class="form-control" style="width: 100%" readonly>
                                         </div>
                                         <div class="col-md-1">
                                             <button type="button" class="btn btn-default"
@@ -553,7 +553,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="pilihBankModal">Maintenance Kurang/Lebih BKM</h5>
+                                        <h5 class="modal-title" id="pilihBankModal">Maintenance Biaya</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal"
                                             aria-label="Close" id="tutup_modalB">
                                             <span aria-hidden="true">&times;</span>
@@ -568,7 +568,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <input type="text" id="jumlahBiaya_MBia" name="jumlahBiaya_MBia"
-                                                class="form-control" style="width: 100%">
+                                                class="form-control" style="width: 100%" readonly>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="idDetailBiaya" style="margin-right: 10px;">Id.
@@ -576,7 +576,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <input type="text" id="id_detailMBia"
-                                                name="id_detailMBia"class="form-control" style="width: 100%">
+                                                name="id_detailMBia"class="form-control" style="width: 100%" readonly>
                                         </div>
                                     </div>
                                     <br>
@@ -587,11 +587,11 @@
                                         </div>
                                         <div class="col-md-2">
                                             <input type="text" id="id_perkiraanMBia" name="id_perkiraanMBia"
-                                                class="form-control" style="width: 100%">
+                                                class="form-control" style="width: 100%" readonly>
                                         </div>
                                         <div class="col-md-6">
                                             <input type="text" id="ket_perkiraanMBia" name="ket_perkiraanMBia"
-                                                class="form-control" style="width: 100%">
+                                                class="form-control" style="width: 100%" readonly>
                                         </div>
                                         <div class="col-md-1">
                                             <button type="button" class="btn btn-default"

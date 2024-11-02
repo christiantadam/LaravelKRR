@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Accounting\Piutang;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
+use Log;
 use App\Http\Controllers\HakAksesController;
+use Exception;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
 
 
 class MaintenanceBKMPenagihanController extends Controller
@@ -587,9 +591,371 @@ class MaintenanceBKMPenagihanController extends Controller
                 'message' => 'Laporan telah dicetak dengan sukses',
                 'reportType' => $reportType
             ]);
+            #region Group
+        } else if ($id == 'CmdGroup') {
+            // dd($request->all());
+            $checkedItems = $request->input('rowDataArray', []);
+            // dd($checkedItems);
+            $countChecked = count($checkedItems);
+            // dd($countChecked);
 
-        } else {
-            return response()->json(['message' => 'ID tidak valid!']);
+            if ($countChecked === 1) {
+                $singleItem = $checkedItems[0];
+                dd($singleItem);
+                $pelunasanId = intval($singleItem[1]);
+                $idCust = trim($singleItem[8]);
+
+                $checkResults = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_CEK_NO_PELUNASAN @idpelunasan = ?, @idcust = ?', [$pelunasanId, $idCust]);
+
+                if (!empty($checkResults) && $checkResults[0]->ada > 0) {
+                    return response()->json(['error' => "Buat BKM utk Id.Pelunasan yg lebih kecil dulu."]);
+                }
+
+                $bankCode = trim($singleItem[2]);
+                if ($bankCode === "KRR1" || $bankCode === "KRR2") {
+                    if ($bankCode === "KRR2") {
+                        $bankCode = "KI";
+                    } elseif ($bankCode === "KRR1") {
+                        $bankCode = "KKM";
+                    }
+                } else {
+                    $bankCode = trim($singleItem[2]);
+                }
+
+                $tgl = date('Y-m-d', strtotime($singleItem[7]));
+                $jenisBayar = $singleItem[3];
+                $uang = $singleItem[4];
+                $total = (float) str_replace(',', '', $singleItem[5]);
+                $konversi = $singleItem[10];
+
+                // Check pelunasan vs invoice
+                $checkPelunasan = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_CEK_JML_RINCIAN @idpelunasan = ?', [$pelunasanId]);
+                if (!empty($checkPelunasan) && floatval($checkPelunasan[0]->Pelunasan) < $total) {
+                    $sisa = $total - floatval($checkPelunasan[0]->Pelunasan);
+
+                    DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_INSERT_BKM_TDETAILPEL @idpelunasan = ?, @sisa = ?, @jenisBayar = ?', [
+                        $pelunasanId,
+                        $sisa,
+                        $jenisBayar
+                    ]);
+                }
+
+                // $bankResult = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BANK_1 @idBank = ?', [$bankCode]);
+                // $jenis = !empty($bankResult) ? trim($bankResult[0]->jenis) : null;
+
+                #region perlu attention
+                // $outputId = DB::connection('ConnAccounting')->select('exec SP_5409_ACC_COUNTER_BKM_BKK @bank = ?, @jenis = ?, @tgl = ?', [
+                //     $bankCode,
+                //     "R",
+                //     $tgl,
+                // ]);
+                // $idBKM = !empty($outputId) ? $outputId[0]->id : null;
+
+                $periode = date('Y');
+                // dd($periode);
+                // $bank = trim($selectedRows[0]['Id_bank']);
+                $noUrut = DB::connection('ConnAccounting')
+                    ->table('T_Counter_BKM')
+                    ->where('Periode', $periode)
+                    ->value('Id_BKM_E_Rp');
+
+                DB::connection('ConnAccounting')
+                    ->table('T_Counter_BKM')
+                    ->where('Periode', $periode)
+                    ->update(['Id_BKM_E_Rp' => DB::raw('Id_BKM_E_Rp + 1')]);
+
+                // $noUrutFormatted = str_pad($noUrut, 3, '0', STR_PAD_LEFT);
+                // $idBKM = $noUrutFormatted . $bank . $periode;
+                $idBKM = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
+                $idBKM = $bankCode . '-R' . substr($periode, -2) . substr($idBKM, -5);
+
+                // dd($idBKM);
+
+                // Insert to T_Pelunasan
+                DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_INSERT_BKM_TPELUNASAN @idBKM = ?, @tglinput = ?, @userinput = ?, @terjemahan = ?, @nilaipelunasan = ?, @IdBank = ?', [
+                    $idBKM,
+                    $tgl,
+                    trim(Auth::user()->NomorUser),
+                    $konversi,
+                    $total,
+                    $bankCode
+                ]);
+
+                // Update T_Pelunasan_Tagihan
+                DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_IDBKM_1 @idpelunasan = ?, @idBKM = ?, @idBank = ?', [
+                    $pelunasanId,
+                    $idBKM,
+                    $bankCode
+                ]);
+
+                // Process remaining piutang
+                $remainingPiutang = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_IDPENAGIHAN_PIUTANG @idpelunasan = ?', [$pelunasanId]);
+                foreach ($remainingPiutang as $piutang) {
+                    $penagihanId = trim($piutang->Id_Penagihan);
+                    if (!empty($penagihanId)) {
+                        DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_PROSES_SISA_PIUTANG @idpelunasan = ?, @idPenagihan = ?', [
+                            $pelunasanId,
+                            $penagihanId
+                        ]);
+                    }
+                }
+
+                // Additional commands for "BG" or "CEK" payment type
+                if ($jenisBayar == 'BG' || $jenisBayar == 'CEK') {
+                    DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_STATUSBAYAR @idpelunasan = ?', [$pelunasanId]);
+                }
+
+                // Additional data handling
+                $details = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_DATA_DETAIL_PELUNASAN @idpelunasan = ?', [$pelunasanId]);
+                foreach ($details as $detail) {
+                    DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_INSERT_KARTU_PIUTANG @IdPenagihan = ?, @IdCust = ?, @IdMtUang = ?, @kreditRp = ?, @kreditCur = ?, @kurs = ?, @noBKM = ?', [
+                        trim($detail->ID_Penagihan),
+                        trim($detail->ID_Cust),
+                        ($detail->Id_MataUang == $detail->MtUang_Invoice) ? $detail->Id_MataUang : $detail->MtUang_Invoice,
+                        $detail->NilaiRp,
+                        $detail->NilaiCur,
+                        $detail->NilaiKurs,
+                        trim($detail->Id_BKM)
+                    ]);
+                }
+
+                return response()->json(['message' => "Data BKM Dengan No. {$idBKM} TerSimpan"]);
+
+                #region lebih dari 1 group
+            } else if ($countChecked > 1) {
+                // dd($checkedItems);
+                // Initializing variables
+                $idk_noCust = 0;
+                $idk_noCust_cek = 1;
+                $total = 0;
+                $j = 1;
+                $k = 1;
+                $l = 1;
+                $noCust1 = [];
+                $noCust_cek = [];
+                $noJnsBayar = [];
+                $noJnsBayar_cek = [];
+                $noLunas = [];
+                $noLunas_cek = [];
+
+                // Iterate through the ListLunas to process checked items
+                foreach ($checkedItems as $item) {
+                    if ($countChecked > 1) {
+                        $idk_noCust++;
+                        $noCust1[$idk_noCust] = trim($item[8]);
+                        $noJnsBayar[$idk_noCust] = intval($item[9]);
+                        $noLunas[$idk_noCust] = floatval($item[1]);
+                    }
+                }
+
+                $cek_noCust = $noCust1[1];
+                $cek_jnsbayar = $noJnsBayar[1];
+                $noCust_cek[1] = $noCust1[1];
+                $noJnsBayar_cek[1] = $noJnsBayar[1];
+                $noLunas_cek[1] = $noLunas[1];
+
+                for ($i = 2; $i <= $idk_noCust; $i++) {
+                    if ($cek_noCust !== $noCust1[$i] || $cek_jnsbayar !== $noJnsBayar[$i]) {
+                        $idk_noCust_cek++;
+                        $noCust_cek[$idk_noCust_cek] = $noCust1[$i];
+                        $noJnsBayar_cek[$idk_noCust_cek] = $noJnsBayar[$i];
+                        $noLunas_cek[$idk_noCust_cek] = $noLunas[$i];
+                        $cek_noCust = $noCust1[$i];
+                        $cek_jnsbayar = $noJnsBayar[$i];
+                    }
+                }
+
+                // Checking each entry in noJnsBayar_cek and processing according to stored procedures
+                for ($i = 1; $i <= $idk_noCust_cek; $i++) {
+                    if (in_array($noJnsBayar_cek[$i], [1, 4])) {
+                        $result = DB::connection('ConnAccounting')->select("EXEC SP_5298_ACC_CEK_NO_PELUNASAN @idpelunasan = ?, @idcust = ?", [
+                            $noLunas_cek[$i],
+                            trim($noCust_cek[$i])
+                        ]);
+
+                        if ($result[0]->ada > 0) {
+                            return response()->json(['error' => 'Buat BKM utk Id.Pelunasan yg lebih kecil dulu.']);
+                        }
+                    }
+                }
+
+                $referenceBank = $checkedItems[0][2];
+                $referenceTgl = $checkedItems[0][7];
+                // dd($referenceTgl);
+                $isSame = true;
+                // dd($checkedItems);
+                foreach ($checkedItems as $item) {
+                    if ($item[2] !== $referenceBank || $item[7] !== $referenceTgl) {
+                        $isSame = false;
+                        break;
+                    }
+                }
+
+                if (!$isSame) {
+                    return response()->json(['error' => 'Nama Bank & Tgl Pembuatan Harus SAMA!']);
+                }
+                dd($isSame);
+                // dd($referenceValue);
+
+                // Calculate total for checked items in ListLunas
+                foreach ($checkedItems as $item) {
+                    if ($countChecked > 1) {
+                        (float) str_replace(',', '', $item[5]);
+                        $total += (float) str_replace(',', '', $item[5]);
+                        $total2 = (float) str_replace(',', '', $item[5]);
+                        $uang = $item[4];
+
+                        // Checking if pelunasan equals nilai_invoice
+                        $result = DB::connection('ConnAccounting')->select("EXEC SP_5298_ACC_CEK_JML_RINCIAN @idpelunasan = ?", [
+                            intval($item[1])
+                        ]);
+
+                        if ($result[0]->Pelunasan < $total2) {
+                            $sisa = $total2 - $result[0]->Pelunasan;
+                            DB::connection('ConnAccounting')->statement("EXEC SP_5298_ACC_INSERT_BKM_TDETAILPEL @idpelunasan = ?, @sisa = ?, @jenisBayar = ?", [
+                                intval($item[1]),
+                                $sisa,
+                                trim($item[3])
+                            ]);
+                        }
+                    }
+                }
+
+                $Konversi = $checkedItems[0][11];
+                $bankCode = trim($checkedItems[0][2]);
+                if ($bankCode === "KRR1" || $bankCode === "KRR2") {
+                    if ($bankCode === "KRR2") {
+                        $bankCode = "KI";
+                    } elseif ($bankCode === "KRR1") {
+                        $bankCode = "KKM";
+                    }
+                } else {
+                    $bankCode = trim($checkedItems[0][2]);
+                }
+
+                // Retrieve additional details based on bank and date
+                $jenis = DB::connection('ConnAccounting')->select("EXEC SP_5298_ACC_LIST_BANK_1 @idBank", [$bankCode])[0]->jenis;
+
+                $result = DB::connection('ConnAccounting')->select("EXEC SP_5298_ACC_IDBKM @month = ? ,@year = ?, @IdBank = ?, @jenis = ?, @tgl = ?", [
+                    date('m', strtotime($checkedItems[0][7])),
+                    date('y', strtotime($checkedItems[0][7])),
+                    $bankCode,
+                    $jenis,
+                    date('my', strtotime($checkedItems[0][7]))
+                ]);
+
+                $id = $result[0]->id_BKM;
+                $idbkm = intval(substr($id, 0, 3));
+
+                // Insert into T_Pelunasan
+                DB::connection('ConnAccounting')->statement("EXEC SP_5298_ACC_INSERT_BKM_TPELUNASAN @idBKM = ?, @tglinput = ?, @userinput = ?, @terjemahan = ?, @nilaipelunasan = ?", [
+                    $id,
+                    date('Y-m-d', strtotime($checkedItems[0][7])),
+                    trim(Auth::user()->NomorUser),
+                    $Konversi,
+                    $total
+                ]);
+
+                // Continue inserting/updating details per selected item in ListLunas
+                foreach ($checkedItems as $item) {
+                    if ($countChecked > 1) {
+                        DB::connection('ConnAccounting')->statement("EXEC SP_5298_ACC_UPDATE_IDBKM @idpelunasan = ?, @idBKM = ?, @idBank = ?", [
+                            intval($item[1]),
+                            $id,
+                            $item[2]
+                        ]);
+
+                        if (in_array($item[3], ['BG', 'CEK'])) {
+                            DB::connection('ConnAccounting')->statement("EXEC SP_5298_ACC_UPDATE_STATUSBAYAR @idpelunasan = ?", [
+                                intval($item[1])
+                            ]);
+                        }
+                    }
+                }
+
+                foreach ($checkedItems as $item) {
+                    if ($countChecked > 1) {
+                        $idPelunasan = intval($item[1]);
+
+                        $result = DB::connection('ConnAccounting')->select("EXEC SP_5298_ACC_GET_IDPENAGIHAN_PIUTANG @idpelunasan = ?", [$idPelunasan]);
+
+                        foreach ($result as $row) {
+                            $pen = trim($row->Id_Penagihan ?? '');
+
+                            if ($pen !== '') {
+                                DB::connection('ConnAccounting')->statement("EXEC SP_5298_ACC_PROSES_SISA_PIUTANG @idpelunasan = ?, @idPenagihan = ?", [
+                                    $idPelunasan,
+                                    $pen
+                                ]);
+                            }
+                        }
+                    }
+                }
+
+                // Update Counter IDBKM
+                DB::connection('ConnAccounting')->statement("EXEC SP_5298_ACC_UPDATE_COUNTER_IDBKM @idbkm = ?, @idBank = ?, @jenis = ?, @tgl = ?", [
+                    $idbkm,
+                    $bankCode,
+                    $jenis,
+                    date('my', strtotime($checkedItems[0][7]))
+                ]);
+
+                foreach ($checkedItems as $item) {
+                    if ($countChecked > 1) {
+                        $noGet = 0;
+
+                        // Retrieve data details for each checked item
+                        $result = DB::connection('ConnAccounting')->select("EXEC SP_5298_ACC_GET_DATA_DETAIL_PELUNASAN @idpelunasan = ?", [intval($item[1])]);
+
+                        // Initialize arrays to store the results
+                        $noCust = [];
+                        $noInvoice = [];
+                        $noMtUang = [];
+                        $noMtUang_Invoice = [];
+                        $nilaiRp = [];
+                        $nilaiCur = [];
+                        $kurs = [];
+                        $noBKM = '';
+
+                        // Populate arrays with data from the result set
+                        foreach ($result as $row) {
+                            $noGet++;
+                            $noBKM = trim($row->Id_BKM);
+                            $noCust[] = trim($row->ID_Cust);
+                            $noInvoice[] = trim($row->ID_Penagihan);
+                            $noMtUang[] = $row->Id_MataUang;
+                            $noMtUang_Invoice[] = $row->MtUang_Invoice;
+                            $nilaiRp[] = $row->NilaiRp;
+                            $nilaiCur[] = $row->NilaiCur;
+                            $kurs[] = $row->NilaiKurs;
+                        }
+
+                        // Insert data into Kartu Piutang for each retrieved item
+                        foreach ($noInvoice as $index => $idPenagihan) {
+                            $idCust = $noCust[$index];
+                            $idMtUang = ($noMtUang[$index] === $noMtUang_Invoice[$index]) ? $noMtUang[$index] : $noMtUang_Invoice[$index];
+                            $kreditRp = $nilaiRp[$index];
+                            $kreditCur = $nilaiCur[$index];
+                            $nilaiKurs = $kurs[$index];
+
+                            DB::connection('ConnAccounting')->statement("EXEC SP_5298_ACC_INSERT_KARTU_PIUTANG @IdPenagihan = ?, @IdCust = ?, @IdMtUang = ?, @kreditRp = ?, @kreditCur = ?, @kurs = ?, @noBKM = ?", [
+                                $idPenagihan,
+                                $idCust,
+                                $idMtUang,
+                                $kreditRp,
+                                $kreditCur,
+                                $nilaiKurs,
+                                $noBKM
+                            ]);
+                        }
+                    }
+                }
+
+                return response()->json(['message' => "Data BKM Dengan No. {$idbkm} TerSimpan"]);
+
+            } else {
+                return response()->json(['error' => "Pilih Data Pelunasan Yg Mau Di'Group!"]);
+            }
         }
     }
 

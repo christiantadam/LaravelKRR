@@ -162,45 +162,45 @@
                 <tr>
                     <td id="rincianP" style="border-right:none !important;">BIAYA ADM,BUNGA,DLL - BUNGA</td>
                     <td id="symbolP"
-                        style="text-align: center; border-left:none !important; border-right:none !important;">(-)</td>
-                    <td id="nilaiRincianP" style="text-align: center; border-left:none !important;">429,000,000.00</td>
+                        style="text-align: right; border-left:none !important; border-right:none !important;">(-)</td>
+                    <td id="nilaiRincianP" style="text-align: right; border-left:none !important;">429,000,000.00</td>
                     <td id="kode_perkiraanP"
                         style="text-align: center; border-left:none !important; border:right !important">711.1100</td>
-                    <td id="jumlahP" style="text-align: right !important" colspan="2">40,292.66</td>
+                    <td id="jumlahP" style="text-align: right !important" colspan="2"></td>
                 </tr>
                 <tr>
-                    <td colspan="3"
+                    <td colspan="3" id="ketP"
                         style="width: 60%;text-align: left; border:none !important; border-right: 1px solid black !important">
                         Jumlah Tagihan :</td>
                     <td style="text-align: center; border:none !important; border-right: 1px solid black !important;">
                     </td>
-                    <td colspan="2" id="nilaiRincianP"
+                    <td colspan="2" id="totalKP"
                         style="text-align: right; border-left:none !important; border-top:none !important; border-bottom:none !important;">
                         429,000,000.00</td>
                 </tr>
                 <tr>
-                    <td colspan="3"
+                    <td colspan="3" id="ket2P"
                         style="width: 60%;text-align: left; border:none !important; border-right: 1px solid black !important">
                         Lain-lain :</td>
                     <td style="text-align: center; border:none !important; border-right: 1px solid black !important;">
                     </td>
-                    <td id="nilaiRincianP"
+                    <td id="Symbol2P"
                         style="text-align: center; border-left:none !important; border-top:none !important; border-right:none !important; border-bottom:none !important;">
                         (-)</td>
-                    <td id="nilaiRincianP"
+                    <td id="jumP"
                         style="text-align: right; border-left:none !important; border-top:none !important; border-bottom:none !important;">
                         429,000,000.00</td>
                 </tr>
                 <tr>
-                    <td colspan="3"
+                    <td colspan="3" id="ket3P"
                         style="width: 60%;text-align: left; border:none !important; border-right: 1px solid black !important; border-bottom: 1px solid black !important">
                         Kekurangan :</td>
                     <td style="text-align: center; border:none !important; border-right: 1px solid black !important; border-bottom: 1px solid black !important">
                     </td>
-                    <td id="nilaiRincianP"
+                    <td id="Symbol3P"
                         style="text-align: center; border-left:none !important; border-top:none !important; border-right:none !important; border-bottom:none !important; border-bottom: 1px solid black !important">
                         (-)</td>
-                    <td id="nilaiRincianP"
+                    <td id="jum2P"
                         style="text-align: right; border-left:none !important; border-top:none !important; border-bottom:none !important; border-bottom: 1px solid black !important">
                         429,000,000.00</td>
                 </tr>
