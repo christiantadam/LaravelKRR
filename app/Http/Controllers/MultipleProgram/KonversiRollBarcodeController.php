@@ -255,35 +255,30 @@ class KonversiRollBarcodeController extends Controller
 
             return response()->json($objekConn);
         } elseif ($id == 'getKelompokUtama') {
-            $UserInput = trim(Auth::user()->NomorUser);
             $idObjek = $request->input('idObjek');
             $KelompokUtamaConn = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdObjek = ?', [3, $idObjek]);
 
             return response()->json($KelompokUtamaConn);
         } elseif ($id == 'getKelompok') {
-            $UserInput = trim(Auth::user()->NomorUser);
             $idKelompokUtama = $request->input('idKelompokUtama');
             $KelompokConn = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $idKelompokUtama]);
 
             return response()->json($KelompokConn);
         } elseif ($id == 'getSubKelompok') {
-            $UserInput = trim(Auth::user()->NomorUser);
             $idKelompok = $request->input('idKelompok');
             $SubKelompokConn = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKelompok = ?', [5, $idKelompok]);
 
             return response()->json($SubKelompokConn);
         } elseif ($id == 'getType') {
-            $UserInput = trim(Auth::user()->NomorUser);
             $idSubKelompok = $request->input('idSubKelompok');
             $TypeConn = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $idSubKelompok]);
 
             return response()->json($TypeConn);
         } elseif ($id == 'getDataType') {
-            $UserInput = trim(Auth::user()->NomorUser);
             $IdType = $request->input('IdType');
             $TypeConn = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);

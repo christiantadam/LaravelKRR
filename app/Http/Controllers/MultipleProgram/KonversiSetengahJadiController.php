@@ -194,9 +194,9 @@ class KonversiSetengahJadiController extends Controller
 
     public function show($id, Request $request)
     {
+        $nomorUser = trim(Auth::user()->NomorUser);
         if ($id == 'JBBPotong') {
             $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-            $nomorUser = trim(Auth::user()->NomorUser);
             $divisi = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?', [$nomorUser, 1]);
             return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi'));
@@ -209,12 +209,34 @@ class KonversiSetengahJadiController extends Controller
         } else if ($id == 'selectKomponenBarangTH') {
             $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
             return response()->json($dataRincianTH, 200);
+        } else if ($id == 'getObjek') {
+            $divisi = $request->input('divisi');
+            $dataObjek = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XKdUser = ?, @XIdDivisi = ?', [2, $nomorUser, $divisi]);
+            return response()->json($dataObjek, 200);
+        } else if ($id == 'getKelompokUtama') {
+            $objek = $request->input('objek');
+            $dataKelompokUtama = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdObjek = ?', [3, $objek]);
+            return response()->json($dataKelompokUtama, 200);
+        } else if ($id == 'getKelompok') {
+            $kelompokUtama = $request->input('kelompokUtama');
+            $dataKelompok = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompokUtama = ?', [4, $kelompokUtama]);
+            return response()->json($dataKelompok, 200);
+        } else if ($id == 'getSubKelompok') {
+            $kelompok = $request->input('kelompok');
+            $dataSubKelompok = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompok = ?', [5, $kelompok]);
+            return response()->json($dataSubKelompok, 200);
+        } else if ($id == 'getType') {
+            $subKelompok = $request->input('subKelompok');
+            $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdSubKelompok = ?', [6, $subKelompok]);
+            return response()->json($dataType, 200);
         } else if ($id == 'getInventoryTypes') {
             $panjang = (float) explode('X', $request->input('panjangLebar'))[0];
             $lebar = (float) explode('X', $request->input('panjangLebar'))[1];
-            dd($request->all(), $panjang, $lebar);
-            $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
-            return response()->json($dataRincianTH, 200);
+            $namaKomponen = $request->input('namaKomponen');
+            $divisi = $request->input('divisi');
+
+            $dataInventory = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XPanjang = ?, @XLebar = ?, @XNamaKomponen = ?, @XIdDivisi = ?', [1, (float) $panjang, (float) $lebar, $namaKomponen, $divisi]);
+            return response()->json($dataInventory, 200);
         } else if ($id == 'getDivisi') {
             $UserInput = trim(Auth::user()->NomorUser);
 
