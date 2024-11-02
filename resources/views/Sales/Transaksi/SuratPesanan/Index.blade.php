@@ -524,6 +524,4 @@
     </div>
     <script type="text/javascript" src="{{ asset('js/Sales/permohonan-sp.js') }}"></script>
 </div>
-
-<script src="{{ asset('js/Sales/SuratPesanan.js') }}"></script>
 @endsection
