@@ -94,6 +94,10 @@
         display: none;
     }
 
+    .fakturTunaiUM {
+        display: none;
+    }
+
     @media print {
 
         /* Hide everything by default */
@@ -147,6 +151,11 @@
         .fakturUangMuka * {
             visibility: visible;
         }
+        
+        .fakturTunaiUM,
+        .fakturTunaiUM * {
+            visibility: visible;
+        }
 
         /* Ensure that the elements are positioned correctly */
         .faktur,
@@ -157,7 +166,8 @@
         .fakturTunai,
         .nota1,
         .fakturPajakTunai,
-        .fakturUangMuka {
+        .fakturUangMuka,
+        .fakturTunaiUM {
             position: absolute;
             left: 0;
             top: 0;

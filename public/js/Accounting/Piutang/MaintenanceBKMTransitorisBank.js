@@ -438,9 +438,9 @@ btnCetakBKK.addEventListener('click', function () {
 
                     if (result[0].Batal && result[0].Batal.trim() !== '') {
                         batalNote.textContent = 'BATAL: ' + decodeHtmlEntities(result[0].Batal);
-                        batalNote.style.display = 'inline'; 
+                        batalNote.style.display = 'inline';
                     } else {
-                        batalNote.style.display = 'none'; 
+                        batalNote.style.display = 'none';
                     }
 
                     if (result[0].Alasan && result[0].Alasan.trim() !== '') {
@@ -1581,9 +1581,10 @@ var tableDetailBiayaBKM = document.getElementById("tableDetailBiayaBKM");
 var proses;
 
 btnBG.addEventListener("click", function (e) {
-    proses = 1;
     $('#modalBg').modal('show');
     $('#modalBg').on('shown.bs.modal', function () {
+        proses = 1;
+
         bankBg.value = bank1.value;
         jenisBg.value = jenisBayar1.value;
         jatuhTempo.value = today;
@@ -1875,13 +1876,10 @@ function disableBKM() {
 }
 
 function updateDataTable(data, angka) {
-    var table = $('#tableDetailBiayaBKK').DataTable();
-    var tableAsal = $('#tableBg').DataTable();
-    var tableTujuan = $('#tableDetailBiayaBKM').DataTable();
-    var tableListBKM = $('#tableListBKM').DataTable();
-    var tableListBKK = $('#tableListBKK').DataTable();
 
     if (angka === 1) {
+        var tableAsal = $('#tableBg').DataTable();
+
         tableAsal.row.add([
             escapeHtml(data[0]),
             (data[1]),
@@ -1890,6 +1888,7 @@ function updateDataTable(data, angka) {
         tableAsal.draw();
     }
     else if (angka === 2) {
+        var table = $('#tableDetailBiayaBKK').DataTable();
 
         table.row.add([
             escapeHtml(data[0]),
@@ -1899,6 +1898,8 @@ function updateDataTable(data, angka) {
         table.draw();
     }
     else if (angka === 3) {
+        var tableTujuan = $('#tableDetailBiayaBKM').DataTable();
+
         tableTujuan.row.add([
             escapeHtml(data[0]),
             (data[1]),
@@ -1907,6 +1908,8 @@ function updateDataTable(data, angka) {
         tableTujuan.draw();
     }
     else if (angka === 4) {
+        var tableListBKM = $('#tableListBKM').DataTable();
+
         tableListBKM.clear();
         data.forEach(function (item) {
             tableListBKM.row.add([
@@ -1919,6 +1922,8 @@ function updateDataTable(data, angka) {
         tableListBKM.draw();
     }
     else if (angka === 5) {
+        var tableListBKK = $('#tableListBKK').DataTable();
+
         tableListBKK.clear();
         data.forEach(function (item) {
             tableListBKK.row.add([
@@ -2528,6 +2533,8 @@ btnKoreksiForm.addEventListener("click", function (e) {
 
 btnProsesBg.addEventListener("click", function (e) {
 
+    console.log(proses);
+
     if (proses === 1) {
         if (jatuhTempo.value !== '' && cetak.value !== '') {
             tmpArr = [noBg.value, jatuhTempo.value, cetak.value];
@@ -3075,7 +3082,7 @@ $(document).ready(function () {
     });
 });
 
-function updateDateBKK(){
+function updateDateBKK() {
     $.ajax({
         type: 'PUT',
         url: 'BKMLC/updateDateBKK',
@@ -3089,7 +3096,7 @@ function updateDateBKK(){
     });
 }
 
-function updateDateBKM(){
+function updateDateBKM() {
     $.ajax({
         type: 'PUT',
         url: 'BKMLC/updateDateBKM',

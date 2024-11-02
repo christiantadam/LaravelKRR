@@ -1445,7 +1445,7 @@ btnCetakBKK.addEventListener('click', function () {
                         }
                     });
 
-                    amountBKK.textContent = 'Amount ' + decodeHtmlEntities(result[0].Id_MataUang_BC)
+                    amountBKK.textContent = 'Amount ' + decodeHtmlEntities(result[0].Symbol)
                     totalAmountBKK.textContent = numeral(parseFloat(totalBKM)).format("0,0.00");
 
                     printPreview('preview2');

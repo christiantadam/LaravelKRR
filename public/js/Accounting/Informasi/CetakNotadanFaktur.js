@@ -924,7 +924,7 @@ function rpt_cetakNotaTunai(result) {
         faktur_NPWP.textContent = formattedNPWP;
         fakturTunai_NPWP.textContent = formattedNPWP;
 
-        fakturTunai_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
+        fakturTunai_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NAMATYPEBARANG);
 
         // detail
         let totalGrand = 0;
