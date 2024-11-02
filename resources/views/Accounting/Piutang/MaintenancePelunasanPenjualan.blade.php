@@ -115,7 +115,7 @@
                                     <input type="text" class="form-control" id="namaCustomerSelect"
                                         name="namaCustomerSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_cust" class="btn btn-default">...</button>
+                                        <button type="button" id="btn_cust" class="btn btn-default" disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
                                     <input type="text" class="form-control" id="noPelunasanSelect"
                                         name="noPelunasanSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_pelunasan" class="btn btn-default">...</button>
+                                        <button type="button" id="btn_pelunasan" class="btn btn-default" disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
                                     <input type="text" class="form-control" id="jenisPembayaranSelect"
                                         name="jenisPembayaranSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_jenisPmb" class="btn btn-default">...</button>
+                                        <button type="button" id="btn_jenisPmb" class="btn btn-default" disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +184,7 @@
                                     <input type="text" class="form-control" id="informasiBankSelect"
                                         name="informasiBankSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_bank" class="btn btn-default">...</button>
+                                        <button type="button" id="btn_bank" class="btn btn-default" disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@
                                     <input type="text" class="form-control" id="mataUangSelect"
                                         name="mataUangSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_mtUang" class="btn btn-default">...</button>
+                                        <button type="button" id="btn_mtUang" class="btn btn-default" disabled>...</button>
                                     </div>
                                 </div>
                             </div>
