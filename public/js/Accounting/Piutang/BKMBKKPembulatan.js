@@ -139,7 +139,7 @@ $(document).ready(function () {
                             returnFocus: false
                         });
                     }
-                    return json.data; 
+                    return json.data;
                 },
             },
             columns: [
@@ -265,8 +265,8 @@ $(document).ready(function () {
     btn_perkiraan.addEventListener("click", async function (event) {
         event.preventDefault();
         try {
-            const result = await Swal.fire({
-                title: "Select a Kode Perkiraan",
+            Swal.fire({
+                title: "Kode Perkiraan",
                 html: '<table id="tableKira" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 returnFocus: false,

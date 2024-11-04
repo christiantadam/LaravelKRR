@@ -40,9 +40,9 @@ class BatalBKMTransistorisController extends Controller
         if ($id === 'getBKM') {
             $bln = substr($bulanTahun, 0, 2);
             $thn = substr($bulanTahun, -2);
-            // $BlnThn = $bln . $thn;
+            // dd($request->all(), $kode);
 
-            if ($kode === 3) {
+            if ($kode === '3') {
                 $query = DB::connection('ConnAccounting')->select('
                     SELECT P.Id_BKM
                     FROM T_PELUNASAN P

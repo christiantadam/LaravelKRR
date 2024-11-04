@@ -1446,8 +1446,8 @@ btn_okBKM.addEventListener("click", async function (event) {
             data: function (d) {
                 return $.extend({}, d, {
                     _token: csrfToken,
-                    tgl_awalBKM: tgl_awalBKM.valueAsDate,
-                    tgl_akhirBKM: tgl_akhirBKM.valueAsDate,
+                    tgl_awalBKM: tgl_awalBKM.value,
+                    tgl_akhirBKM: tgl_akhirBKM.value,
                 });
             },
         },
@@ -1538,5 +1538,9 @@ function clearInputs() {
             input.value = '';
         }
     });
+    tgl_awalBKM.valueAsDate = new Date();
+    tgl_akhirBKM.valueAsDate = new Date();
+    tgl_awalbkk.valueAsDate = new Date();
+    tgl_akhirbkk.valueAsDate = new Date();
 }
 

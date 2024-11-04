@@ -380,7 +380,7 @@
                             <div class="modal-dialog" style="max-width: 60%">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="dataBKKModalLabel">Cetak BKKkkk Nota Kredit</h5>
+                                        <h5 class="modal-title" id="dataBKKModalLabel">Cetak BKK Nota Kredit</h5>
                                         <button type="button" class="close" data-bs-dismiss="modal"
                                             aria-label="Close" id="close_modalbkm">
                                             <span aria-hidden="true">&times;</span>

@@ -307,9 +307,10 @@ class BKMBKKNotaKreditController extends Controller
             }
 
             return datatables($response)->make(true);
+
         } else if ($id == 'getOkBKM') {
-            $tgl1 = $request->input('tgl_awalbBKM');
-            $tgl2 = $request->input('tgl_akhirbBKM');
+            $tgl1 = $request->input('tgl_awalBKM');
+            $tgl2 = $request->input('tgl_akhirBKM');
             // dd($tgl1, $tgl2);
 
             $results = DB::connection('ConnAccounting')
@@ -321,7 +322,7 @@ class BKMBKKNotaKreditController extends Controller
                 $response[] = [
                     'Tgl_Input' => \Carbon\Carbon::parse($row->Tgl_Input)->format('m/d/Y'),
                     'Id_BKM' => $row->Id_BKM,
-                    'Nilai_Pembulatan' => number_format($row->Nilai_Pembulatan, 2, '.', ','),
+                    'Nilai_Pelunasan' => number_format($row->Nilai_Pelunasan, 2, '.', ','),
                     'Terjemahan' => $row->Terjemahan ?? "",
                 ];
             }

@@ -16,7 +16,6 @@ var btn_proses = document.getElementById('btn_proses');
 let kode = 0;
 
 
-
 // var methodkoreksi = document.getElementById("methodkoreksi");
 // var formkoreksi = document.getElementById("formkoreksi");
 
@@ -51,6 +50,8 @@ bulanTahun.addEventListener("keypress", function (event) {
 // fungsi update kode sesuai pilihan
 function updateKode() {
     kode = kasBesar.checked ? 4 : kasKecil.checked ? 3 : null;
+    console.log(kode);
+
 }
 
 kasBesar.addEventListener('change', updateKode);
