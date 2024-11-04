@@ -162,7 +162,7 @@ $(document).ready(function () {
             {
                 data: "Id_Pembayaran",
                 render: function (data) {
-                    return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    return `<input type="checkbox" name="penerimaCheckboxA" value="${data}" /> ${data}`;
                 },
             },
             { data: "Id_Penagihan" },
@@ -182,24 +182,60 @@ $(document).ready(function () {
         columnDefs: [{ targets: [10, 11, 12, 13], visible: false }],
     });
 
+    // let rowDataArray = [];
+
+    // $("#tableatas tbody").off("change", 'input[name="penerimaCheckboxA"]');
+    // $("#tableatas tbody").on(
+    //     "change",
+    //     'input[name="penerimaCheckboxA"]',
+    //     function () {
+    //         if (this.checked) {
+    //             rowData = tableatas.row($(this).closest("tr")).data();
+    //             rowDataArray.push(rowData);
+    //             console.log(rowData, this, tableatas);
+    //         } else {
+    //             const index = rowDataArray.findIndex(
+    //                 (row) => row.Id_Pembayaran === rowData.Id_Pembayaran
+    //             );
+    //             if (index > -1) {
+    //                 rowDataArray.splice(index, 1);
+    //             }
+    //         }
+    //     }
+    // );
+
     let rowDataArray = [];
 
-    $("#tableatas tbody").off("change", 'input[name="penerimaCheckbox"]');
+    // Handle checkbox change events
+    $("#tableatas tbody").off("change", 'input[name="penerimaCheckboxA"]');
     $("#tableatas tbody").on(
         "change",
-        'input[name="penerimaCheckbox"]',
+        'input[name="penerimaCheckboxA"]',
         function () {
             if (this.checked) {
+                $('input[name="penerimaCheckboxA"]');
+                // .not(this)
+                // .prop("checked", false);
                 rowData = tableatas.row($(this).closest("tr")).data();
+
+                // Add the selected row data to the array
                 rowDataArray.push(rowData);
+                // rowDataArray = [rowData];
+
+                console.log(rowDataArray);
                 console.log(rowData, this, tableatas);
             } else {
-                const index = rowDataArray.findIndex(
-                    (row) => row.Id_Pembayaran === rowData.Id_Pembayaran
+                // rowData = null;
+                // Remove the unchecked row data from the array
+                rowData = tableatas.row($(this).closest("tr")).data();
+
+                // Filter out the row with matching Id_Penagihan
+                rowDataArray = rowDataArray.filter(
+                    (row) => row[1] !== rowData[0]
                 );
-                if (index > -1) {
-                    rowDataArray.splice(index, 1);
-                }
+
+                console.log(rowDataArray);
+                console.log(rowData, this, tableatas);
             }
         }
     );
@@ -644,6 +680,8 @@ $(document).ready(function () {
 
     btn_prosesBG.addEventListener("click", function (event) {
         event.preventDefault();
+        console.log(proses);
+
         if (proses == 3) {
             Swal.fire({
                 title: "Apakah anda yakin menghapus?",
@@ -682,14 +720,14 @@ $(document).ready(function () {
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        tableatas.ajax.reload();
+                                        // tableatas.ajax.reload();
                                         tablekiri.ajax.reload();
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
                                         id_pembayaran.value = "";
                                     } else {
-                                        tableatas.ajax.reload();
+                                        // tableatas.ajax.reload();
                                         tablekiri.ajax.reload();
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
@@ -766,14 +804,14 @@ $(document).ready(function () {
                             showConfirmButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                tableatas.ajax.reload();
+                                // tableatas.ajax.reload();
                                 tablekiri.ajax.reload();
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
                                 id_pembayaran.value = "";
                             } else {
-                                tableatas.ajax.reload();
+                                // tableatas.ajax.reload();
                                 tablekiri.ajax.reload();
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
@@ -869,7 +907,10 @@ $(document).ready(function () {
             id_jnsByr.value = rowData.Id_Jenis_Bayar;
             noJnsByr.value = rowDataKiri.No_BGCek;
             jumlahJnsByr.value = rowDataKiri.Nilai_BGCek;
-            jatuhTempo.value = rowDataKiri.Jatuh_Tempo;
+            // jatuhTempo.value = rowDataKiri.Jatuh_Tempo;
+            var jatuhTempoDate = new Date(rowDataKiri.Jatuh_Tempo);
+            jatuhTempoDate.setDate(jatuhTempoDate.getDate() + 1);
+            jatuhTempo.valueAsDate = jatuhTempoDate;
             statusCetak.value = rowDataKiri.Status_Cetak;
             setTimeout(() => {
                 noJnsByr.focus();
@@ -1425,6 +1466,8 @@ $(document).ready(function () {
 
     btn_isi.addEventListener("click", function (event) {
         event.preventDefault();
+        console.log(rowData);
+
         bg_b.value = null;
         proses = 1;
         if (rowData == null && rowData == undefined) {

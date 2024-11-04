@@ -49,6 +49,9 @@ $(document).ready(function () {
                 { data: "Id_MataUang" },
             ],
             // columnDefs: [{ targets: [7], visible: false }],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
         });
     }
 

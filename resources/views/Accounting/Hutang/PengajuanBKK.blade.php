@@ -17,13 +17,13 @@
                                 <div style="float: left;">
                                     <input type="radio" name="radiogrup_penagihan" value="radio_penagihan"
                                         id="radiogrup_penagihan">
-                                    <label for="radio_1">Penagihan</label>
+                                    <label for="radiogrup_penagihan">Penagihan</label>
                                     <label style="visibility: hidden">AAAAA</label>
                                 </div>
                                 <div style="display: inline-block; margin: 0 auto;">
                                     <input type="radio" name="radiogrup_penagihan" value="radio_nopenagihan"
                                         id="radiogrup_nopenagihan">
-                                    <label for="radio_1">No Penagihan</label>
+                                    <label for="radiogrup_nopenagihan">No Penagihan</label>
                                 </div>
                             </div>
 
@@ -92,10 +92,10 @@
                                     <label for="penagihan">PENAGIHAN&nbsp;&nbsp;</label>
                                     <input type="radio" name="radiogrup" value="ada_dp" id="radiogrup_adadp"
                                         style="margin-bottom: 8px">
-                                    <label for="radio_2">&nbsp;ADA DP&nbsp;&nbsp;</label>
+                                    <label for="radiogrup_adadp">&nbsp;ADA DP&nbsp;&nbsp;</label>
                                     <input type="radio" name="radiogrup" value="tidak_dp" id="radiogrup_tidakdp"
                                         style="margin-bottom: 8px">
-                                    <label for="radio_3">&nbsp;TIDAK ADA DP</label>
+                                    <label for="radiogrup_tidakdp">&nbsp;TIDAK ADA DP</label>
                                     <label style="visibility: hidden">AAAAAAAAAAAAAAAAAAA</label>
                                     <label for="supplierSelect">BKK Uang Muka&nbsp;&nbsp;</label>
                                     <input id="bkk_uangmuka" type="text" name="bkk_uangmuka"
@@ -135,10 +135,10 @@
                                             </div>
                                         </div>
                                         <div style="display: flex;">
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label for="id">Bank</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <input id="id_bank" type="text" name="id_bank"
                                                     class="form-control" style="width: 100%">
                                             </div>
@@ -156,10 +156,10 @@
                                             </div>
                                         </div>
                                         <div style="display: flex;">
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label for="id">Jenis Pembayaran</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <input id="jns_pembayaran" type="text" name="jns_pembayaran"
                                                     class="form-control" style="width: 100%">
                                             </div>
@@ -178,10 +178,10 @@
                                             </div>
                                         </div>
                                         <div style="display: flex;">
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label for="id">Mata Uang</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <input id="mata_uang" type="text" name="mata_uang"
                                                     class="form-control" style="width: 100%">
                                             </div>
@@ -199,10 +199,10 @@
                                         </div>
 
                                         <div style="display: flex;">
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label for="id">Nilai Pembayaran</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-4">
                                                 <input id="nilai_pembayaran" type="text" name="nilai_pembayaran"
                                                     class="form-control" style="width: 100%">
                                             </div>
@@ -226,7 +226,7 @@
                                             <div class="col-md-5">
                                                 <label for="id">ID. Pembayaran</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <input id="id_pembayaran" type="text" name="id_pembayaran"
                                                     class="form-control" style="width: 100%">
                                             </div>
@@ -235,7 +235,7 @@
                                             <div class="col-md-5">
                                                 <label for="id">Pembayaran Sebelumnya</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <input type="text" name="supplierSelect" class="form-control"
                                                     style="width: 100%">
                                             </div>

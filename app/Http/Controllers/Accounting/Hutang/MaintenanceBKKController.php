@@ -222,7 +222,9 @@ class MaintenanceBKKController extends Controller
             $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_BGCEK @IdPembayaran = ?', [$idPembayaran]);
             // dd($result);
             if (!empty($result) && $result[0]->Ada == 0) {
-                return response()->json(['message' => 'No records found']);
+                $response = [];
+                return datatables($response)->make(true);
+                // return response()->json(['message' => 'No records found']);
             } else {
                 $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_IDBAYAR_BGCEK @IdPembayaran = ?', [$idPembayaran]);
                 $response = [];
