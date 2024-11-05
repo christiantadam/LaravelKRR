@@ -1,23 +1,24 @@
-let kasKecil = document.getElementById('kasKecil');
-let kasBesar = document.getElementById('kasBesar');
-let btnOK = document.getElementById('btnOK');
-let bulan = document.getElementById('bulan');
-let tahun = document.getElementById('tahun');
-let BlnThn = document.getElementById('BlnThn');
+let kasKecil = document.getElementById("kasKecil");
+let kasBesar = document.getElementById("kasBesar");
+let btnOK = document.getElementById("btnOK");
+let bulan = document.getElementById("bulan");
+let tahun = document.getElementById("tahun");
+let BlnThn = document.getElementById("BlnThn");
 let tabelatas = $("#tabelatas").DataTable();
 let tabelbawah = $("#tabelbawah").DataTable();
-let rincianPembayaran = document.getElementById('rincianPembayaran');
-let nilaiRincian = document.getElementById('nilaiRincian');
-let kodePerkiraanSelect = document.getElementById('kodePerkiraanSelect');
-let idKodePerkiraan = document.getElementById('idKodePerkiraan');
-let idDetail = document.getElementById('idDetail');
-let idBayar = document.getElementById('idBayar');
-let idBKK = document.getElementById('idBKK');
+let rincianPembayaran = document.getElementById("rincianPembayaran");
+let nilaiRincian = document.getElementById("nilaiRincian");
+let kodePerkiraanSelect = document.getElementById("kodePerkiraanSelect");
+let kodePerkiraanSelect2 = $("#kodePerkiraanSelect");
+let idKodePerkiraan = document.getElementById("idKodePerkiraan");
+let idDetail = document.getElementById("idDetail");
+let idBayar = document.getElementById("idBayar");
+let idBKK = document.getElementById("idBKK");
 
-let btnProses = document.getElementById('btnProses');
+let btnProses = document.getElementById("btnProses");
 
-let methodkoreksi = document.getElementById('methodkoreksi');
-let formkoreksi = document.getElementById('formkoreksi');
+let methodkoreksi = document.getElementById("methodkoreksi");
+let formkoreksi = document.getElementById("formkoreksi");
 
 let currentDate = new Date();
 let currentMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
@@ -43,21 +44,33 @@ fetch("/getkodeperkiraan/")
             option.innerText = entry.NoKodePerkiraan + "|" + entry.Keterangan;
             kodePerkiraanSelect.appendChild(option);
         });
+    });
+
+$(document).ready(function () {
+    // Inisialisasi Select2
+    kodePerkiraanSelect2.select2({
+        placeholder:
+            $("#kodePerkiraanSelect").children().length > 0
+                ? "Pilih kode perkiraan"
+                : "Tidak ada kode perkiraan",
+        width: "100%",
+    });
+
+    // Event listener untuk Select2
+    $("#kodePerkiraanSelect").on("select2:select", function (event) {
+        event.preventDefault();
+        const selectedOption = $(this).find(":selected");
+        if (selectedOption.length) {
+            const selectedValue = selectedOption.val(); // Mendapatkan nilai dari opsi yang dipilih
+            const idkp = selectedValue.split(" | ")[0];
+            $("#idKodePerkiraan").val(idkp);
+        }
+    });
 });
 
-kodePerkiraanSelect.addEventListener("change", function (event) {
+btnOK.addEventListener("click", function (event) {
     event.preventDefault();
-    const selectedOption = kodePerkiraanSelect.options[kodePerkiraanSelect.selectedIndex];
-    if (selectedOption) {
-        const selectedValue = selectedOption.value; // Nilai dari opsi yang dipilih (format: "id | nama")
-        const idkp = selectedValue.split(" | ")[0];
-        idKodePerkiraan.value = idkp;
-    }
-});
-
-btnOK.addEventListener('click', function(event) {
-    event.preventDefault();
-    BlnThn.value = (bulan.value).toString() + (tahun.value).substring(2).toString();
+    BlnThn.value = bulan.value.toString() + tahun.value.substring(2).toString();
 
     // Hapus data yang ada dalam tabel sebelum menambahkan data baru
     if (tabelatas) {
@@ -73,27 +86,34 @@ btnOK.addEventListener('click', function(event) {
 });
 
 function fetchData(url) {
-console.log(url);
+    console.log(url);
     fetch(url)
-    .then((response) => response.json())
-    .then((options) => {
-        // // Filter data berdasarkan ID_BKM yang dipilih
-        // // const filteredOptions = options.filter(option => selectedIdBKKs.includes(option.Id_BKK));
-        console.log(options);
-        // Menambahkan data ke dalam tabel
-        tabelatas = $("#tabelatas").DataTable({
-            destroy:true,
-            data: options,
-            columns: [
-                { title: "Id. BKK", data: "Id_BKK" },
-                { title: "Bank", data: "Id_Bank" },
-                { title: "Jns.Bayar", data: "Jenis_Pembayaran" },
-                { title: "Mata Uang", data: "Symbol" },
-                { title: "Nilai Pembayaran", data: "Nilai_Pembulatan" }
-            ]
+        .then((response) => response.json())
+        .then((options) => {
+            // // Filter data berdasarkan ID_BKM yang dipilih
+            // // const filteredOptions = options.filter(option => selectedIdBKKs.includes(option.Id_BKK));
+            console.log(options);
+            // Menambahkan data ke dalam tabel
+            tabelatas = $("#tabelatas").DataTable({
+                destroy: true,
+                data: options,
+                columns: [
+                    { title: "Id. BKK", data: "Id_BKK" },
+                    { title: "Bank", data: "Id_Bank" },
+                    { title: "Jns.Bayar", data: "Jenis_Pembayaran" },
+                    { title: "Mata Uang", data: "Symbol" },
+                    {
+                        title: "Nilai Pembayaran",
+                        data: function (row) {
+                            return numeral(row.Nilai_Pembulatan).format(
+                                "0,0.00"
+                            );
+                        },
+                    },
+                ],
+            });
         });
-    });
-};
+}
 
 $("#tabelatas tbody").off("click", "tr");
 $("#tabelatas tbody").on("click", "tr", function () {
@@ -109,23 +129,28 @@ $("#tabelatas tbody").on("click", "tr", function () {
     console.log(selectedRows[0]);
     idBKK.value = selectedRows[0].Id_BKK;
     fetch("/getTabelRincianBKK/" + idBKK.value)
-    .then((response) => response.json())
-    .then((options) => {
-        console.log(options);
+        .then((response) => response.json())
+        .then((options) => {
+            console.log(options);
 
-        tabelbawah = $("#tabelbawah").DataTable({
-            destroy: true,
-            data: options,
-            columns: [
-                { title: "Rincian Bayar", data: "Rincian_Bayar" },
-                { title: "Nilai Rincian", data: "Nilai_Rincian" },
-                { title: "Kd. Perkiraan", data: "Kode_Perkiraan" },
-                { title: "Id. Detail", data: "Id_Detail_Bayar" },
-                { title: "Id. Bayar", data: "Id_Pembayaran" }
-            ]
+            tabelbawah = $("#tabelbawah").DataTable({
+                destroy: true,
+                data: options,
+                columns: [
+                    { title: "Rincian Bayar", data: "Rincian_Bayar" },
+                    {
+                        title: "Nilai Rincian",
+                        data: function (row) {
+                            return numeral(row.Nilai_Rincian).format("0,0.00");
+                        },
+                    },
+                    { title: "Kd. Perkiraan", data: "Kode_Perkiraan" },
+                    { title: "Id. Detail", data: "Id_Detail_Bayar" },
+                    { title: "Id. Bayar", data: "Id_Pembayaran" },
+                ],
+            });
         });
-    })
-})
+});
 
 $("#tabelbawah tbody").off("click", "tr");
 $("#tabelbawah tbody").on("click", "tr", function () {
@@ -141,34 +166,37 @@ $("#tabelbawah tbody").on("click", "tr", function () {
     console.log(selectedRows[0]);
 
     rincianPembayaran.value = selectedRows[0].Rincian_Bayar;
-    nilaiRincian.value = selectedRows[0].Nilai_Rincian;
+    nilaiRincian.value = numeral(selectedRows[0].Nilai_Rincian).format(
+        "0,0.00"
+    );
     idDetail.value = selectedRows[0].Id_Detail_Bayar;
     idBayar.value = selectedRows[0].Id_Pembayaran;
 
     const kodePerkiraan = selectedRows[0].Kode_Perkiraan;
     const options2 = kodePerkiraanSelect.options;
-        for (let i = 0; i < options2.length; i++) {
-            if (options2[i].value === kodePerkiraan) {
-                // Setel select option jenisPembayaranSelect sesuai dengan opsi yang cocok
-                kodePerkiraanSelect.selectedIndex = i;
-                const selectedOption = kodePerkiraanSelect.options[kodePerkiraanSelect.selectedIndex];
-                if (selectedOption) {
-                    const selectedValue = selectedOption.value; // Nilai dari opsi yang dipilih (format: "id | nama")
-                    const idkp = selectedValue.split(" | ")[0];
-                    idKodePerkiraan.value = idkp;
-                }
-                break;
+    for (let i = 0; i < options2.length; i++) {
+        if (options2[i].value === kodePerkiraan) {
+            // Setel select option jenisPembayaranSelect sesuai dengan opsi yang cocok
+            kodePerkiraanSelect.selectedIndex = i;
+            const selectedOption =
+                kodePerkiraanSelect.options[kodePerkiraanSelect.selectedIndex];
+            if (selectedOption) {
+                const selectedValue = selectedOption.value; // Nilai dari opsi yang dipilih (format: "id | nama")
+                const idkp = selectedValue.split(" | ")[0];
+                idKodePerkiraan.value = idkp;
             }
-        };
+            break;
+        }
+    }
 
     kodePerkiraanSelect.focus();
     btnProses.disabled = false;
 });
 
-btnProses.addEventListener('click', function(event) {
+btnProses.addEventListener("click", function (event) {
     event.preventDefault();
 
-    methodkoreksi.value="PUT";
+    methodkoreksi.value = "PUT";
     //console.log(methodkoreksi.value);
     formkoreksi.action = "/KodePerkiraanBKK/" + idDetail.value;
     // console.log(idBayar.value);

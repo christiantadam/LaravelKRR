@@ -126,8 +126,8 @@
                                         </div>
                                         <br>
                                         <div style="overflow-x: auto;">
-                                            <table style="width: 150%; table-layout: fixed;" id="tablekanan">
-                                                <colgroup>
+                                            <table style="width: 100%;" id="tablekanan">
+                                                {{-- <colgroup>
                                                     <col style="width: 20%;">
                                                     <col style="width: 25%;">
                                                     <col style="width: 25%;">
@@ -135,7 +135,7 @@
                                                     <col style="width: 25%;">
                                                     <col style="width: 25%;">
                                                     <col style="width: 25%;">
-                                                </colgroup>
+                                                </colgroup> --}}
                                                 <thead class="table-dark">
                                                     <tr>
                                                         <th>ID. Detail</th>
@@ -324,6 +324,7 @@
                     <label for="noBg">No BG:</label>
                     <div class="d-flex">
                         <input type="text" id="noBg" class="form-control">
+                        <input type="text" id="IdDetailBGCek" class="form-control" style="display: none">
                         <button class="btn" type="button" id="btn_noBg">...</button>
                     </div>
                 </div>

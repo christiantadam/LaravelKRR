@@ -47,7 +47,7 @@ class MaintenanceBKKController extends Controller
         $nilaiRincianTanpaKoma = str_replace(',', '', $request->input('nilaiRincian'));
         $nilaiRincian = (float) str_replace('.', ',', $nilaiRincianTanpaKoma);
         $idKira = $request->input('kdPerkiraan1');
-        $idDetailBG_B = (int) $request->input('bg_b');
+        $idDetailBG_B = (int) $request->input('IdDetailBGCek');
         $detailByr = $request->input('id_detailkanan');
         $dp = $request->input('dp');
         // dd($detailBG);
@@ -159,7 +159,9 @@ class MaintenanceBKKController extends Controller
             $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_BKK2_DETAILBAYAR ?', [$idPembayaran]);
             // dd($result);
             if ($result && $result[0]->Ada == 0) {
-                return response()->json(['message' => 'No records found']);
+                $response = [];
+                return datatables($response)->make(true);
+                // return response()->json(['message' => 'No records found']);
             } else {
                 $details = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_DETAILBAYAR ?', [$idPembayaran]);
                 // dd($details);
@@ -177,6 +179,7 @@ class MaintenanceBKKController extends Controller
 
                     if ($item['Id_Detail_BGCek'] != '') {
                         $bgcek = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_IDBGCEK ?', [$item['Id_Detail_BGCek']]);
+                        // dd($bgcek);
                         $item['No_BGCek'] = $bgcek ? $bgcek[0]->No_BGCek : '';
                     } else {
                         $item['No_BGCek'] = '';
@@ -270,16 +273,12 @@ class MaintenanceBKKController extends Controller
                 return response()->json(['error' => 'Isi dulu Detail BG/Cek/Transfernya !!..']);
             } else {
                 $detailBG = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_IDBAYAR_BGCEK @IdPembayaran = ?', [$IdPembayaran]);
-
+                // dd($detailBG);
                 foreach ($detailBG as $bg) {
                     $response[] = [
                         'No_BGCek' => $bg->No_BGCek,
                         'Id_Detail_BGCek' => $bg->Id_Detail_BGCek,
                     ];
-                }
-
-                if (empty($response)) {
-                    return response()->json(['error' => 'Pilih dulu No BG/CEK/TRANSFERnya !!..']);
                 }
 
                 return datatables($response)->make(true);
@@ -306,12 +305,12 @@ class MaintenanceBKKController extends Controller
 
                     if ($brs['Id_Supplier'] != '00000') {
                         $saldoSuppResult = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_TT_SALDOSUPP @IdSupplier = ?', [$brs['Id_Supplier']]);
-                        if (count($saldoSuppResult) == 0 || $saldoSuppResult[0]->ada == 0) {
+                        if (count($saldoSuppResult) == 0 || $saldoSuppResult[0]->aDA == 0) {
                             return response()->json(['error' => 'Saldo Supplier disesuaikan dulu ya...!!..']);
                         }
                     }
 
-                    $createBKKResult = DB::connection('ConnAccounting')->select('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?', [
+                    DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?', [
                         $brs['Id_Bank'],
                         $brs['Id_MataUang'],
                         $brs['Id_Jenis_Bayar'],
@@ -323,9 +322,16 @@ class MaintenanceBKKController extends Controller
                         substr($brs['Id_Penagihan'], 0, 1) != 'X' ? 'Y' : 'N'
                     ]);
 
-                    if (count($createBKKResult) > 0) {
-                        $idbkk = trim($createBKKResult[0]->idbkk);
-                        return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk]);
+                    $idBkk = DB::connection('ConnAccounting')->table('T_PEMBAYARAN')
+                        ->orderBy('Time_Update', 'desc')
+                        ->value('Id_BKK');
+
+                    if ($idBkk) {
+                        return response()->json([
+                            'message' => 'Proses Group BKK Selesai',
+                            'idbkk' => $idBkk,
+                            'idBKK' => $idBkk
+                        ]);
                     } else {
                         return response()->json(['error' => 'Failed to create BKK record.']);
                     }
@@ -475,7 +481,8 @@ class MaintenanceBKKController extends Controller
             }
         }
         return response()->json([
-            'data' => $data, $reporttype,
+            'data' => $data,
+            $reporttype,
             'message' => 'Data retrieved successfully!'
         ]);
     }

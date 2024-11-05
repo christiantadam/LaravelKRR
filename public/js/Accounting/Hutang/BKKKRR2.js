@@ -46,7 +46,10 @@ $(document).ready(function () {
     let id_matauang = document.getElementById("id_matauang");
     let id_detailkanan = document.getElementById("id_detailkanan");
     let id_detailkiri = document.getElementById("id_detailkiri");
-    let tablekanan = $("#tablekanan").DataTable();
+    let IdDetailBGCek = document.getElementById("IdDetailBGCek");
+    let tablekanan = $("#tablekanan").DataTable({
+        columnDefs: [{ targets: [5, 6], visible: false }],
+    });
     let tablekiri = $("#tablekiri").DataTable();
     let tabletampilBKK = $("#tabletampilBKK").DataTable();
     let bg;
@@ -240,18 +243,17 @@ $(document).ready(function () {
         }
     );
 
-    $("#tableatas tbody").off("click", "tr");
     $("#tableatas tbody").on("click", "tr", function () {
-        let checkSelectedRows = $("#tableatas tbody tr.selected");
+        // Remove the 'selected' class from any previously selected row
+        $("#tableatas tbody tr").removeClass("selected");
 
-        if (checkSelectedRows.length > 0) {
-            // Remove "selected" class from previously selected rows
-            checkSelectedRows.removeClass("selected");
-        }
-        $(this).toggleClass("selected");
-        const tableatas = $("#tableatas").DataTable();
-        let selectedRows = tableatas.rows(".selected").data().toArray();
-        id_pembayaran.value = selectedRows[0].Id_Pembayaran;
+        // Add the 'selected' class to the clicked row
+        $(this).addClass("selected");
+
+        // Get data from the clicked row
+        var data = tableatas.row(this).data();
+        console.log(data);
+        id_pembayaran.value = data.Id_Pembayaran;
 
         tablekiri = $("#tablekiri").DataTable({
             responsive: true,
@@ -311,13 +313,92 @@ $(document).ready(function () {
                 { data: "Rincian_Bayar" },
                 { data: "Nilai_Rincian" },
                 { data: "Kode_Perkiraan" },
-                { data: "Id_Detail_BGCek" },
+                { data: "No_BGCek" },
                 { data: "Id_Pembayaran" },
                 { data: "Keterangan" },
             ],
             columnDefs: [{ targets: [5, 6], visible: false }],
         });
     });
+
+    // $("#tableatas tbody").off("click", "tr");
+    // $("#tableatas tbody").on("click", "tr", function () {
+    //     let checkSelectedRows = $("#tableatas tbody tr.selected");
+
+    //     if (checkSelectedRows.length > 0) {
+    //         // Remove "selected" class from previously selected rows
+    //         checkSelectedRows.removeClass("selected");
+    //     }
+    //     $(this).toggleClass("selected");
+    //     const tableatas = $("#tableatas").DataTable();
+    //     let selectedRows = tableatas.rows(".selected").data().toArray();
+    //     id_pembayaran.value = selectedRows[0].Id_Pembayaran;
+
+    //     tablekiri = $("#tablekiri").DataTable({
+    //         responsive: true,
+    //         processing: true,
+    //         serverSide: true,
+    //         destroy: true,
+    //         ajax: {
+    //             url: "MaintenanceBKKKRR2/getBGCek",
+    //             dataType: "json",
+    //             type: "GET",
+    //             data: function (d) {
+    //                 return $.extend({}, d, {
+    //                     _token: csrfToken,
+    //                     id_pembayaran: id_pembayaran.value,
+    //                 });
+    //             },
+    //         },
+    //         columns: [
+    //             {
+    //                 data: "Id_Detail_BGCek",
+    //                 render: function (data) {
+    //                     return `<input type="checkbox" name="penerimaCheckboxkiri" value="${data}" /> ${data}`;
+    //                 },
+    //             },
+    //             { data: "No_BGCek" },
+    //             { data: "Jatuh_Tempo" },
+    //             { data: "Status_Cetak" },
+    //             { data: "Id_Pembayaran" },
+    //             { data: "Nilai_BGCek" },
+    //         ],
+    //         // columnDefs: [{ targets: [5, 6], visible: false }],
+    //     });
+
+    //     tablekanan = $("#tablekanan").DataTable({
+    //         responsive: true,
+    //         processing: true,
+    //         serverSide: true,
+    //         destroy: true,
+    //         ajax: {
+    //             url: "MaintenanceBKKKRR2/getPembayaran",
+    //             dataType: "json",
+    //             type: "GET",
+    //             data: function (d) {
+    //                 return $.extend({}, d, {
+    //                     _token: csrfToken,
+    //                     id_pembayaran: id_pembayaran.value,
+    //                 });
+    //             },
+    //         },
+    //         columns: [
+    //             {
+    //                 data: "Id_Detail_Bayar",
+    //                 render: function (data) {
+    //                     return `<input type="checkbox" name="penerimaCheckboxkanan" value="${data}" /> ${data}`;
+    //                 },
+    //             },
+    //             { data: "Rincian_Bayar" },
+    //             { data: "Nilai_Rincian" },
+    //             { data: "Kode_Perkiraan" },
+    //             { data: "Id_Detail_BGCek" },
+    //             { data: "Id_Pembayaran" },
+    //             { data: "Keterangan" },
+    //         ],
+    //         columnDefs: [{ targets: [5, 6], visible: false }],
+    //     });
+    // });
 
     $("#tablekiri tbody").off("change", 'input[name="penerimaCheckboxkiri"]');
     $("#tablekiri tbody").on(
@@ -441,19 +522,48 @@ $(document).ready(function () {
                                         showConfirmButton: true,
                                     }).then((result) => {
                                         if (result.isConfirmed) {
-                                            tableatas.ajax.reload();
-                                            tablekiri.ajax.reload();
-                                            tablekanan.ajax.reload();
-                                            id_detailkanan.value = "";
-                                            id_detailkiri.value = "";
-                                            id_pembayaran.value = "";
+                                            bkk.value = response.idBKK;
+                                            var myModal = new bootstrap.Modal(
+                                                document.getElementById(
+                                                    "dataBKKModal"
+                                                ),
+                                                {
+                                                    keyboard: false,
+                                                }
+                                            );
+                                            myModal.show();
+                                            // btn_cetakbkk.click();
+                                            // tableatas.ajax.reload();
+                                            // tablekiri.ajax.reload();
+                                            // tablekanan.ajax.reload();
+                                            // id_detailkanan.value = "";
+                                            // id_detailkiri.value = "";
+                                            // id_pembayaran.value = "";
                                         } else {
-                                            tableatas.ajax.reload();
-                                            tablekiri.ajax.reload();
-                                            tablekanan.ajax.reload();
-                                            id_detailkanan.value = "";
-                                            id_detailkiri.value = "";
-                                            id_pembayaran.value = "";
+                                            bkk.value = response.idBKK;
+                                            var myModal = new bootstrap.Modal(
+                                                document.getElementById(
+                                                    "dataBKKModal"
+                                                ),
+                                                {
+                                                    keyboard: false,
+                                                }
+                                            );
+                                            // document
+                                            //     .getElementById("dataBKKModal")
+                                            //     .addEventListener(
+                                            //         "shown.bs.modal",
+                                            //         function () {
+                                            //             btn_cetakbkk.click();
+                                            //         }
+                                            //     );
+                                            myModal.show();
+                                            // tableatas.ajax.reload();
+                                            // tablekiri.ajax.reload();
+                                            // tablekanan.ajax.reload();
+                                            // id_detailkanan.value = "";
+                                            // id_detailkiri.value = "";
+                                            // id_pembayaran.value = "";
                                         }
                                     });
                                 } else if (response.error) {
@@ -551,14 +661,14 @@ $(document).ready(function () {
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
-                                        id_pembayaran.value = "";
+                                        // id_pembayaran.value = "";
                                     } else {
                                         tableatas.ajax.reload();
                                         tablekiri.ajax.reload();
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
-                                        id_pembayaran.value = "";
+                                        // id_pembayaran.value = "";
                                     }
                                 });
                             } else if (response.error) {
@@ -601,6 +711,8 @@ $(document).ready(function () {
                 }
             });
         } else {
+            // console.log(bg_b.value);
+
             $.ajax({
                 url: "MaintenanceBKKKRR2",
                 type: "POST",
@@ -620,6 +732,7 @@ $(document).ready(function () {
                     bg_b: bg_b.value,
                     id_detailkanan: id_detailkanan.value,
                     dp: dp,
+                    IdDetailBGCek: IdDetailBGCek.value,
                 },
                 success: function (response) {
                     if (response.message) {
@@ -630,19 +743,19 @@ $(document).ready(function () {
                             showConfirmButton: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                tableatas.ajax.reload();
+                                // tableatas.ajax.reload();
                                 tablekiri.ajax.reload();
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
-                                id_pembayaran.value = "";
+                                // id_pembayaran.value = "";
                             } else {
-                                tableatas.ajax.reload();
+                                // tableatas.ajax.reload();
                                 tablekiri.ajax.reload();
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
-                                id_pembayaran.value = "";
+                                // id_pembayaran.value = "";
                             }
                         });
                     } else if (response.error) {
@@ -725,14 +838,14 @@ $(document).ready(function () {
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
-                                        id_pembayaran.value = "";
+                                        // id_pembayaran.value = "";
                                     } else {
                                         // tableatas.ajax.reload();
                                         tablekiri.ajax.reload();
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
-                                        id_pembayaran.value = "";
+                                        // id_pembayaran.value = "";
                                     }
                                 });
                             } else if (response.error) {
@@ -809,14 +922,14 @@ $(document).ready(function () {
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
-                                id_pembayaran.value = "";
+                                // id_pembayaran.value = "";
                             } else {
                                 // tableatas.ajax.reload();
                                 tablekiri.ajax.reload();
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
-                                id_pembayaran.value = "";
+                                // id_pembayaran.value = "";
                             }
                         });
                     } else if (response.error) {
@@ -944,7 +1057,7 @@ $(document).ready(function () {
 
     btn_koreksi.addEventListener("click", function (event) {
         event.preventDefault();
-        bg_b.value = rowData.Nilai_Pembayaran;
+
         proses = 2;
         if (rowData == null && rowData == undefined) {
             Swal.fire({
@@ -1022,7 +1135,7 @@ $(document).ready(function () {
             modalPem.show();
             bank_pembayaran.value = rowData.Id_Bank;
             jnsByr_pembayaran.value = rowData.Jenis_Pembayaran;
-            rincian.value = rowDataKanan.Rincian_Bayar;
+            rincian.value = rowData.NM_SUP + " " + rowDataKanan.Rincian_Bayar;
             nilaiRincian.value = rowDataKanan.Nilai_Rincian;
             kdPerkiraan1.value = rowDataKanan.Kode_Perkiraan;
             kdPerkiraan2.value = escapeHTML(rowDataKanan.Keterangan);
@@ -1084,6 +1197,9 @@ $(document).ready(function () {
                 { data: "Id_Jenis_Bayar" },
             ],
             columnDefs: [{ targets: [3, 4], visible: false }],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
         });
     });
 
@@ -1112,9 +1228,17 @@ $(document).ready(function () {
 
     btn_cetakbkk.addEventListener("click", function (event) {
         event.preventDefault();
-        bkk.value = rowDataBKK.Id_BKK;
-        nilaiBkk.value = rowDataBKK.NilaiBKK;
-        nilaiPembulatan.value = rowDataBKK.NilaiBKK;
+        console.log(rowDataBKK);
+        console.log(rowData);
+
+        if (rowDataBKK == null || rowDataBKK == undefined) {
+            nilaiBkk.value = rowData.Nilai_Pembayaran;
+            nilaiPembulatan.value = rowData.Nilai_Pembayaran;
+        } else {
+            bkk.value = rowDataBKK.Id_BKK;
+            nilaiBkk.value = rowDataBKK.NilaiBKK;
+            nilaiPembulatan.value = rowDataBKK.NilaiBKK;
+        }
         Swal.fire({
             title: "Merubah Nilai Pembulatannya ?",
             icon: "warning",
@@ -1129,7 +1253,7 @@ $(document).ready(function () {
                     nilaiPembulatan.focus();
                 }, 300);
             } else {
-                document.getElementById("btn_prosesbkk").click();
+                btn_prosesbkk.click();
                 // const newWindow = window.open(
                 //     "MaintenanceBKKKRR2Print",
                 //     "_blank"
@@ -1321,7 +1445,8 @@ $(document).ready(function () {
 
                             let Id_PenagihanHTML = "";
                             data.data.forEach(function (item) {
-                                Id_PenagihanHTML += item.Id_Penagihan ?? "" + "<br>";
+                                Id_PenagihanHTML +=
+                                    item.Id_Penagihan ?? "" + "<br>";
                             });
                             document.getElementById("bgno_p").innerHTML =
                                 Id_PenagihanHTML;
@@ -1467,7 +1592,6 @@ $(document).ready(function () {
     btn_isi.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(rowData);
-
         bg_b.value = null;
         proses = 1;
         if (rowData == null && rowData == undefined) {
@@ -1574,7 +1698,7 @@ $(document).ready(function () {
         try {
             const result = await Swal.fire({
                 title: "Select a No BG",
-                html: '<table id="btnBGTable" class="display" style="width:100%"><thead><tr><th>No BG</th><th>ID Detail BG</th></tr></thead><tbody></tbody></table>',
+                html: '<table id="btnBGTable" class="display" style="width:100%"><thead><tr><th>No BG</th><th>No BG</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
                 // width: "50%",
                 preConfirm: () => {
@@ -1602,31 +1726,32 @@ $(document).ready(function () {
                                     _token: csrfToken,
                                     id_pembayaran: id_pembayaran.value,
                                 },
-                                success: function (response) {
-                                    if (response.message) {
-                                        Swal.fire({
-                                            icon: "success",
-                                            title: "Success!",
-                                            text: response.message,
-                                            showConfirmButton: true,
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                            }
-                                        });
-                                    } else if (response.error) {
-                                        Swal.fire({
-                                            icon: "info",
-                                            title: "Info!",
-                                            text: response.error,
-                                            showConfirmButton: false,
-                                        });
-                                    }
-                                },
+                                // success: function (response) {
+                                //     if (response.message) {
+                                //         Swal.fire({
+                                //             icon: "success",
+                                //             title: "Success!",
+                                //             text: response.message,
+                                //             showConfirmButton: true,
+                                //         }).then((result) => {
+                                //             if (result.isConfirmed) {
+                                //             }
+                                //         });
+                                //     } else if (response.error) {
+                                //         Swal.fire({
+                                //             icon: "info",
+                                //             title: "Info!",
+                                //             text: response.error,
+                                //             showConfirmButton: false,
+                                //         });
+                                //     }
+                                // },
                             },
                             columns: [
                                 { data: "No_BGCek" },
                                 { data: "Id_Detail_BGCek" },
                             ],
+                            columnDefs: [{ targets: [1], visible: false }],
                         });
                         $("#btnBGTable tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
@@ -1637,6 +1762,10 @@ $(document).ready(function () {
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
+                    noBg.value = escapeHTML(selectedRow.No_BGCek.trim());
+                    IdDetailBGCek.value = escapeHTML(
+                        selectedRow.Id_Detail_BGCek.trim()
+                    );
                     // kdPerkiraan1.value = selectedRow.NoKodePerkiraan.trim();
                     // kdPerkiraan2.value = selectedRow.Keterangan.trim();
                 }
