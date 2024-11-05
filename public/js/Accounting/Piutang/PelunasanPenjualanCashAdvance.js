@@ -860,7 +860,7 @@ function Lihat_Penagihan(sid_Penagihan) {
                     }
 
                     if (numeral(nilai_Pelunasan.value).value() === 0 || nilai_Pelunasan.value === '') {
-                        nilai_Pelunasan.value = numeral(nilaiPenagihan.value).value() - numeral(totalPemakaian.value).value();
+                        nilai_Pelunasan.value = numeral(nilaiPelunasan.value).value() - numeral(totalPemakaian.value).value();
                     }
                     sisa.value = numeral(nilaiPenagihan.value).value() - numeral(terbayar.value).value();
                     sisaRupiah.value = (numeral(nilaiPenagihan.value).value() * numeral(nilaiKurs.value).value()) - (numeral(terbayar.value).value() * numeral(nilaiKurs.value).value());
@@ -1308,20 +1308,20 @@ function Perkiraan(sid_perkiraan) {
     });
 }
 
-let userId = '';
-$.ajax({
-    type: 'GET',
-    url: 'PelunasanPenjualanCashAdvance/getUser',
-    data: {
-        _token: csrfToken,
-    },
-    success: function (result) {
-        userId = decodeHtmlEntities(result);
-    },
-    error: function (xhr, status, error) {
-        console.error('Error:', error);
-    }
-});
+// let userId = '';
+// $.ajax({
+//     type: 'GET',
+//     url: 'PelunasanPenjualanCashAdvance/getUser',
+//     data: {
+//         _token: csrfToken,
+//     },
+//     success: function (result) {
+//         userId = decodeHtmlEntities(result);
+//     },
+//     error: function (xhr, status, error) {
+//         console.error('Error:', error);
+//     }
+// });
 
 let sMasukKas, Pelunasan_Rupiah, IdPelunasan;
 btnSimpan.addEventListener('click', function (e) {
@@ -1329,16 +1329,17 @@ btnSimpan.addEventListener('click', function (e) {
 
     var tableData = $('#tableData').DataTable();
     let allRowData = [];
+    let err_ok = true;
+    let sMasukKas = 0;
 
+    // Collect all table data
     tableData.rows().every(function () {
         let rowData = this.data();
         allRowData.push(rowData);
     });
 
-    sMasukKas = 0;
-    let err_ok = true;
-
-    if (sUser.trim() === userId.trim()) {
+    // Check if user is allowed to make corrections
+    if (sUser.trim() !== userId.trim()) {
         Swal.fire({
             icon: 'error',
             text: 'Anda Tidak Berhak Mengoreksi Data milik User ' + sUser.trim(),
@@ -1349,9 +1350,17 @@ btnSimpan.addEventListener('click', function (e) {
         });
     }
 
-    let coba1 = numeral(sisaPelunasan.value).value();
-    let coba2 = numeral(totalPemakaian.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value();
+    // Calculate values using Numeral.js
+    let coba1 = numeral(numeral(sisaPelunasan.value).value()).format("0,0.00");
+    let coba2 = numeral(
+        numeral(totalPemakaian.value).value() - 
+        numeral(totalBiaya.value).value() + 
+        numeral(kurangLebih.value).value()
+    ).format("0,0.00");
 
+    console.log(numeral(coba1).value(), numeral(coba2).value());
+
+    // Check if entered amount is valid
     if (numeral(coba1).value() < numeral(coba2).value()) {
         Swal.fire({
             icon: 'error',
@@ -1363,6 +1372,7 @@ btnSimpan.addEventListener('click', function (e) {
         });
     }
 
+    // Check if table data is complete
     if (tableData.data().count() === 0) {
         Swal.fire({
             icon: 'error',
@@ -1374,8 +1384,8 @@ btnSimpan.addEventListener('click', function (e) {
         });
     }
 
+    // Check if currency has been altered
     let rowData = tableData.row(1).data();
-
     if (rowData && rowData[6] !== undefined && idMataUang.value !== rowData[6]) {
         Swal.fire({
             icon: 'error',
@@ -1387,27 +1397,38 @@ btnSimpan.addEventListener('click', function (e) {
         });
     }
 
+    // Update values and calculate 'sisaPelunasan' and 'sMasukKas'
     nilaiPelunasan.value = numeral(totalPemakaian.value).value();
-    sisaPelunasan.value = numeral(totalPemakaian.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value();
-    sisaPelunasan.value = numeral(nilaiMasukKas.value).value() - numeral(sisaPelunasan.value).value();
+    sisaPelunasan.value = 
+        numeral(totalPemakaian.value).value() - 
+        numeral(totalBiaya.value).value() + 
+        numeral(kurangLebih.value).value();
+    sisaPelunasan.value = 
+        numeral(nilaiMasukKas.value).value() - 
+        numeral(sisaPelunasan.value).value();
 
-    sMasukKas = numeral(totalPemakaian.value).value() - numeral(totalBiaya.value).value() + numeral(kurangLebih.value).value();
+    sMasukKas = 
+        numeral(totalPemakaian.value).value() - 
+        numeral(totalBiaya.value).value() + 
+        numeral(kurangLebih.value).value();
 
+    console.log(sMasukKas, nilaiMasukKas.value, sisaPelunasan.value);
+
+    // Check if 'sMasukKas' and 'nilaiMasukKas' are equal
     if (numeral(sMasukKas).value() !== numeral(nilaiMasukKas.value).value()) {
         Swal.fire({
             icon: 'info',
             text: 'Akan muncul uang muka hasil dari sisa uang masuk. Anda Setuju ?',
             showConfirmButton: true,
-            confirmButtonText: 'Ya',         // Text for confirm button
-            showCancelButton: true,           // Show the cancel button
-            cancelButtonText: 'Tidak',       // Text for cancel button
+            confirmButtonText: 'Ya',
+            showCancelButton: true,
+            cancelButtonText: 'Tidak',
             returnFocus: false,
         }).then((result) => {
             if (result.isDismissed) {
                 err_ok = false;
                 return;
-            }
-            else {
+            } else {
                 if (numeral(sisaPelunasan.value).value() !== 0) {
                     Swal.fire({
                         icon: 'error',
@@ -1417,67 +1438,79 @@ btnSimpan.addEventListener('click', function (e) {
                         err_ok = false;
                         return;
                     });
-                }
-                else {
-                    if (err_ok) {
-                        $.ajax({
-                            type: 'PUT',
-                            url: 'PelunasanPenjualanCashAdvance/insertHapus',
-                            data: {
-                                _token: csrfToken,
-                                arrHapus: ListHapus,
-                                Tid_Pelunasan: noPelunasanSelect.value,
-                            },
-                            error: function (xhr, status, error) {
-                                err_ok = false;
-                                console.error('Error:', error);
-                            }
-                        });
-
-                        $.ajax({
-                            type: 'PUT',
-                            url: 'PelunasanPenjualanCashAdvance/insertPeluanasanAkhir',
-                            data: {
-                                _token: csrfToken,
-                                Id_Pelunasan: noPelunasanSelect.value,
-                                SaldoPelunasan: numeral(sisaPelunasan.value).value(),
-                                Nilai_Pelunasan: numeral(nilaiPelunasan.value).value(),
-                            },
-                            error: function (xhr, status, error) {
-                                err_ok = false;
-                                console.error('Error:', error);
-                            }
-                        });
-
-                        $.ajax({
-                            type: 'PUT',
-                            url: 'PelunasanPenjualanCashAdvance/insertIsiTable',
-                            data: {
-                                _token: csrfToken,
-                                Id_Pelunasan: noPelunasanSelect.value,
-                                arrTable: allRowData,
-                                IdCust: idCustomer.value,
-                                noBKM: idBKM.value,
-                            },
-                            error: function (xhr, status, error) {
-                                err_ok = false;
-                                console.error('Error:', error);
-                            }
-                        });
-
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'Data Telah Tersimpan....',
-                            returnFocus: false,
-                        });
-                    }
+                } else {
+                    if (err_ok) saveData(allRowData);
                 }
             }
         });
+    } else {
+        if (numeral(sisaPelunasan.value).value() !== 0) {
+            Swal.fire({
+                icon: 'error',
+                text: 'Total Nilai Pelunasan Tidak Sama Dg Uang Masuk',
+                returnFocus: false,
+            }).then(() => {
+                err_ok = false;
+                return;
+            });
+        } else {
+            if (err_ok) saveData(allRowData);
+        }
     }
-
-
 });
+
+// Function to save data using AJAX
+function saveData(allRowData) {
+    $.ajax({
+        type: 'PUT',
+        url: 'PelunasanPenjualanCashAdvance/insertHapus',
+        data: {
+            _token: csrfToken,
+            arrHapus: ListHapus,
+            Tid_Pelunasan: noPelunasanSelect.value,
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+
+    $.ajax({
+        type: 'PUT',
+        url: 'PelunasanPenjualanCashAdvance/insertPeluanasanAkhir',
+        data: {
+            _token: csrfToken,
+            Id_Pelunasan: noPelunasanSelect.value,
+            SaldoPelunasan: numeral(sisaPelunasan.value).value(),
+            Nilai_Pelunasan: numeral(nilaiPelunasan.value).value(),
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+
+    $.ajax({
+        type: 'PUT',
+        url: 'PelunasanPenjualanCashAdvance/insertIsiTable',
+        data: {
+            _token: csrfToken,
+            Id_Pelunasan: noPelunasanSelect.value,
+            arrTable: allRowData,
+            IdCust: idCustomer.value,
+            noBKM: idBKM.value,
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+
+    Swal.fire({
+        icon: 'success',
+        text: 'Data Telah Tersimpan....',
+        returnFocus: false,
+    }).then(() => {
+        window.location.reload(true);
+    });
+}
 
 btnBatal.addEventListener("click", function (e) {
     let tableData = $("#tableData").DataTable();
@@ -1826,7 +1859,22 @@ function decodeHtmlEntities(text) {
     return txt.value;
 }
 
+let userId = '';
 $(document).ready(function () {
+    $.ajax({
+        type: 'GET',
+        url: 'PelunasanPenjualanCashAdvance/getUser',
+        data: {
+            _token: csrfToken,
+        },
+        success: function (result) {
+            userId = decodeHtmlEntities(result);
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+
     $('#tableData').DataTable({
         paging: false,
         searching: false,
