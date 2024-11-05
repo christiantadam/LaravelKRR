@@ -86,6 +86,7 @@ class CetakNotaKreditController extends Controller
     public function show($id, Request $request)
     {
         $id_penagihan = trim($request->input('id_penagihan'));
+        // dd($request->all());
 
         if ($id === 'getCustomer') {
             $tanggal = trim($request->input('tanggal'));

@@ -95,6 +95,12 @@ function scrollRowIntoView(rowElement) {
     rowElement.scrollIntoView({ block: 'nearest' });
 }
 
+function decodeHtmlEntities(text) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = text;
+    return txt.value;
+}
+
 btn_cust.addEventListener("click", function (e) {
     e.preventDefault();
     try {
@@ -170,7 +176,7 @@ btn_cust.addEventListener("click", function (e) {
                 console.log(result);
 
                 id_penagihan.value = result.value.Id_NotaKredit.trim();
-                namaCustomer.value = result.value.NamaCust.trim();
+                namaCustomer.value = decodeHtmlEntities(result.value.NamaCust.trim());
 
                 if (id_penagihan.value !== '') {
                     DisplaySuratJalan(id_penagihan.value);
@@ -228,6 +234,8 @@ function DisplayDetail(idtagih) {
                 statusPPN.value = '';
                 jnsNotaKredit.value = '';
             }
+            console.log(jnsNotaKredit.value, statusPPN.value);
+
 
         },
         error: function (xhr, status, error) {
@@ -260,6 +268,8 @@ function printPreview(previewClass) {
 
 btnCetak.addEventListener('click', function (event) {
     event.preventDefault();
+    console.log(jnsNotaKredit.value, statusPPN.value);
+
 
     if (jnsNotaKredit.value === '1') {
         $.ajax({

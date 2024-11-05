@@ -345,11 +345,11 @@
                         </div>
 
                         <div class="col-md-3">
-                            <input type="text" id="arrayDetail" name="arrayDetail" class="form-control"
+                            <input type="hidden" id="arrayDetail" name="arrayDetail" class="form-control"
                                 style="width: 100%" readonly>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" id="arrayPenagihan" name="arrayIdPen" class="form-control"
+                            <input type="hidden" id="arrayPenagihan" name="arrayIdPen" class="form-control"
                                 style="width: 100%" readonly>
                         </div>
 
