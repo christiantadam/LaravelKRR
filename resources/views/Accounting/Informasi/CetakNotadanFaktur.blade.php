@@ -151,7 +151,7 @@
         .fakturUangMuka * {
             visibility: visible;
         }
-        
+
         .fakturTunaiUM,
         .fakturTunaiUM * {
             visibility: visible;
@@ -943,8 +943,17 @@
                         {{-- Faktur Tunai UM --}}
                         <div class="fakturTunai">
 
-                            <div class="row" style="font-weight: bold">
+                            <div class="row">
                                 <div class="col-sm-12 text-right">
+                                    <span id="fakturTunai_IdPenagihan">Id Penagihan</span>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-sm-8 text-right">
+                                    <label>Nomor Seri Faktur Pajak</label>
+                                </div>
+                                <div class="col-sm-4 text-right">
                                     <span id="fakturTunai_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
                                     </span>
                                 </div>
@@ -1302,7 +1311,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-9 offset-sm-3 text-left">
-                                    <span id="fakturUangMuka_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                    <span
+                                        id="fakturUangMuka_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
 
@@ -1379,7 +1389,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 text-left">
-                                    <span id="fakturUangMuka_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
+                                    <span id="fakturUangMuka_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx
+                                        Hari</span>
                                 </div>
                             </div>
 
@@ -1413,6 +1424,16 @@
                                 </div>
                             </div>
 
+                            <div class="row mt-5">
+                                <div class="col-sm-8 text-right">
+                                    <label>Nomor Seri Faktur Pajak</label>
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    <span id="fakturTunaiUM_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
+                                    </span>
+                                </div>
+                            </div>
+
                             <div class="row" style="margin-top: 15%">
                                 <div class="col-sm-9 offset-sm-3 text-left">
                                     <span
@@ -1427,7 +1448,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-9 offset-sm-3 text-left">
-                                    <span id="fakturTunaiUM_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                    <span
+                                        id="fakturTunaiUM_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
 
@@ -1510,7 +1532,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-4 text-left">
-                                    <span id="fakturTunaiUM_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
+                                    <span id="fakturTunaiUM_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx
+                                        Hari</span>
                                 </div>
                             </div>
 

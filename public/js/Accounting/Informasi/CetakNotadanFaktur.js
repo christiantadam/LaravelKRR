@@ -874,6 +874,7 @@ function rpt_cetakFakturPajak(result) {
 function rpt_cetakNotaTunai(result) {
     if (idPenagihan.value.length > 14) {
         var fakturTunai_AreaPPNThnIdFakturPajak = document.getElementById('fakturTunai_AreaPPNThnIdFakturPajak');
+        var fakturTunai_IdPenagihan = document.getElementById('fakturTunai_IdPenagihan');
         var fakturTunai_NamaNPWP = document.getElementById('fakturTunai_NamaNPWP');
         var fakturTunai_AlamatNPWP = document.getElementById('fakturTunai_AlamatNPWP');
         var fakturTunai_NPWP = document.getElementById('fakturTunai_NPWP');
@@ -908,7 +909,9 @@ function rpt_cetakNotaTunai(result) {
         var bulan = namaBulan[date2.getMonth()];
         var tahunLengkap = date2.getFullYear();
         var duaDigitTahun = tahunLengkap.toString().slice(-2);
-        fakturTunai_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
+        fakturTunai_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
+        fakturTunai_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+            + ' 010 ' + duaDigitTahun + decodeHtmlEntities(result[0].IdFakturPajak);
 
         fakturTunai_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
         fakturTunai_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
@@ -1215,6 +1218,8 @@ function rpt_CetakFakturPajakTunai(result) {
 }
 
 function rpt_CetakFakturUM(result) {
+    console.log(result);
+
     if (idPenagihan.value.length > 14) {
         // Declare variables matching the element IDs
         var fakturUangMuka_IdPenagihan = document.getElementById("fakturUangMuka_IdPenagihan");
@@ -1276,18 +1281,25 @@ function rpt_CetakFakturUM(result) {
         fakturUangMuka_Detail.innerHTML = '';
 
         result.forEach(function (item, index) {
+            console.log(item);
+
             var row = document.createElement("div");
             row.classList.add("row");
 
             var coaCol = document.createElement("div");
             coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
+            // coaCol.textContent = count;
             row.appendChild(coaCol);
 
             var accountCol = document.createElement("div");
             accountCol.classList.add("col-sm-6", "text-left");
-            accountCol.textContent = item.NAMATYPEBARANG ? decodeHtmlEntities(item.NAMATYPEBARANG) : '';
+
+            var boldText = document.createElement("strong");
+            boldText.textContent = item.NAMATYPEBARANG ? decodeHtmlEntities(item.NAMATYPEBARANG) : '';
+
+            accountCol.appendChild(boldText);
             row.appendChild(accountCol);
+
 
             fakturUangMuka_Detail.appendChild(row);
 
@@ -1361,6 +1373,8 @@ function rpt_CetakFakturUM(result) {
         let resultDate = new Date(date3);
         resultDate.setDate(date3.getDate() + syaratBayarNumber);
         fakturUangMuka_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+
+        printPreview('fakturUangMuka');
     }
 }
 
@@ -1368,6 +1382,7 @@ function rpt_CetakFakturPajakUM(result) {
     if (parseInt(sIdMataUang) === 1 && idPenagihan.value.length > 14) {
         // Declare variables using the same names as HTML element IDs
         var fakturTunaiUM_IdPenagihan = document.getElementById("fakturTunaiUM_IdPenagihan");
+        var fakturTunaiUM_AreaPPNThnIdFakturPajak = document.getElementById("fakturTunaiUM_AreaPPNThnIdFakturPajak");
         var fakturTunaiUM_NamaNPWP = document.getElementById("fakturTunaiUM_NamaNPWP");
         var fakturTunaiUM_AlamatNPWP = document.getElementById("fakturTunaiUM_AlamatNPWP");
         var fakturTunaiUM_NPWP = document.getElementById("fakturTunaiUM_NPWP");
@@ -1390,10 +1405,25 @@ function rpt_CetakFakturPajakUM(result) {
         var fakturTunaiUM_SyaratBayar = document.getElementById("fakturTunaiUM_SyaratBayar");
         var fakturTunaiUM_Tempo = document.getElementById("fakturTunaiUM_Tempo");
 
+        var date2 = new Date(result[0].Tgl_Penagihan);
+
+        var namaBulan = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+
+        var tanggal = date2.getDate();
+        var bulan = namaBulan[date2.getMonth()];
+        var tahunLengkap = date2.getFullYear();
+        var duaDigitTahun = tahunLengkap.toString().slice(-2);
+
         fakturTunaiUM_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
 
         fakturTunaiUM_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
         fakturTunaiUM_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+
+        fakturTunaiUM_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+            + ' 004 ' + duaDigitTahun + decodeHtmlEntities(result[0].IdFakturPajak);
 
         let npwp = result[0].NPWP;
         let formattedNPWP =
@@ -1484,7 +1514,7 @@ function rpt_CetakFakturPajakUM(result) {
 
         let tempdpp = numeral(totalGrand).value() - numeral(result[0].Discount).value() - numeral(result[0].Nilai_UM).value();
         fakturTunaiUM_DPP.textContent = numeral(tempdpp).format("0,0.00");
-        
+
         let tempPajak = numeral(tempdpp).value() * numeral(result[0].PersenPPN).value() / 100;
         fakturTunaiUM_Pajak.textContent = numeral(tempPajak).format("0,0.00");
 
@@ -1522,6 +1552,8 @@ function rpt_CetakFakturPajakUM(result) {
         let resultDate = new Date(date3);
         resultDate.setDate(date3.getDate() + syaratBayarNumber);
         fakturTunaiUM_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+
+        printPreview('fakturTunaiUM')
     }
 }
 
@@ -1602,7 +1634,7 @@ btnBrowse.addEventListener("click", function (e) {
                 idPenagihan.value = decodeHtmlEntities(result.value.Id_Penagihan.trim());
 
                 if (idPenagihan.value !== ''
-                    && (optNotaFaktur.checked || optPajak.checked || optPajakTunai.checked || optTunai.checked || optPajakUM.checked)) {
+                    && (optNotaFaktur.checked || optPajak.checked || optPajakTunai.checked || optTunai.checked || optPajakUM.checked || optUM.checked)) {
                     Promise.all([DisplaySuratJalan(idPenagihan.value), DisplayPajak(idPenagihan.value)])
                         .then(() => {
                             btnPrev.click();
