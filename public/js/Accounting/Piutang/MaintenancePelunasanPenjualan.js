@@ -1813,9 +1813,10 @@ btnEditItem.addEventListener('click', function (event) {
                     nilaiBiaya.removeAttribute("readonly", true);
                 }
             } else {
-                console.log("masuk value 3");
+                console.log("masuk value");
                 var radiobutton = document.querySelector('input[type="radio"][value="opt3"]');
-                nilaiKurangLebih.value = numeral(data[8]).format("0,0.00");
+
+                nilaiKurangLebih.value = numeral(numeral(data[8]).value()).format("0,0.00");
                 sKurangLebih = nilaiKurangLebih.value;
 
                 // Memeriksa apakah elemen radiobutton ada dan bukan null
@@ -1902,9 +1903,11 @@ btnEditItem.addEventListener('click', function (event) {
             } else {
                 console.log("masuk value 3");
                 // console.log('c');
+                nilaiKurangLebih.value = numeral(numeral(data[8]).value()).format("0,0.00");
+                sKurangLebih = nilaiKurangLebih.value;
 
-                kurangLebih.value = numeral(data[8]).format("0,0.00");
-                sKurangLebih = kurangLebih.value;
+                // kurangLebih.value = numeral(numeral(data[8]).value()).format("0,0.00");
+                // sKurangLebih = kurangLebih.value;
                 var radiobutton = document.querySelector('input[type="radio"][value="opt3"]');
 
                 if (radiobutton) {
