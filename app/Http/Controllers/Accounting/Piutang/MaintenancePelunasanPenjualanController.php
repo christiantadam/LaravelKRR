@@ -40,7 +40,8 @@ class MaintenancePelunasanPenjualanController extends Controller
     public function getReferensiBank($idCustomer)
     {
         $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Id_Cust = ?', [4, $idCustomer]);
-        return response()->json($tabel);
+        // dd($tabel);
+        return datatables($tabel)->make(true);
     }
 
     public function getDataRefBank($idReferensi)
@@ -237,11 +238,12 @@ class MaintenancePelunasanPenjualanController extends Controller
             $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [5, $noPen]);
             // dd($tabel);
             return response()->json($tabel);
-        } else if ($id === 'getCekReferensiPelunasan') {
-            $IdPelunasan = str_replace('.', '/', $IdPelunasan);
-            $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Id_pelunasan = ?', [5, $IdPelunasan]);
-            return response()->json($tabel);
         }
+        //  else if ($id === 'getCekReferensiPelunasan') {
+        //     $IdPelunasan = str_replace('.', '/', $IdPelunasan);
+        //     $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Id_pelunasan = ?', [5, $IdPelunasan]);
+        //     return response()->json($tabel);
+        // }
     }
 
     // Show the form for editing the specified resource.
