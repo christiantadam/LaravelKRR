@@ -229,6 +229,10 @@ class KonversiSetengahJadiController extends Controller
             $subKelompok = $request->input('subKelompok');
             $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdSubKelompok = ?', [6, $subKelompok]);
             return response()->json($dataType, 200);
+        } else if ($id == 'getTypeSaldo') {
+            $idType = $request->input('idType');
+            $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdType = ?', [7, $idType]);
+            return response()->json($dataType, 200);
         } else if ($id == 'getInventoryTypes') {
             $panjang = (float) explode('X', $request->input('panjangLebar'))[0];
             $lebar = (float) explode('X', $request->input('panjangLebar'))[1];

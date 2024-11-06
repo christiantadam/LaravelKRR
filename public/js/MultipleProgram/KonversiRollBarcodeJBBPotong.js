@@ -510,15 +510,18 @@ $(document).ready(function () {
         function getNextFocusableElement(currentElement) {
             // Find the next focusable element in the form
             if (currentElement.id === "hasil_konversiTritierTujuan") {
-                if (button_tambahTujuanKonversi.disabled) {
-                    return document.getElementById(
-                        "button_updateTujuanKonversi"
-                    );
-                } else {
-                    return document.getElementById(
-                        "button_tambahTujuanKonversi"
-                    );
-                }
+                return button_tambahTujuanKonversi.disabled
+                    ? document.getElementById("button_updateTujuanKonversi")
+                    : document.getElementById("button_tambahTujuanKonversi");
+                // if (button_tambahTujuanKonversi.disabled) {
+                //     return document.getElementById(
+                //         "button_updateTujuanKonversi"
+                //     );
+                // } else {
+                //     return document.getElementById(
+                //         "button_tambahTujuanKonversi"
+                //     );
+                // }
             }
 
             let elements = document.querySelectorAll(
