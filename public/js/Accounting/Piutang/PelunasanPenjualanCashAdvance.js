@@ -1278,11 +1278,23 @@ btnDeleteItem.addEventListener('click', function (e) {
     if (table.$('tr.selected').length > 0) {
         var rowData = table.rows('.selected').data();
 
-        totalPemakaian.value = numeral(totalPemakaian.value).value() - numeral(rowData[0][1]).value() + numeral(rowData[0][2]).value();
-        totalPemakaian.value = numeral(totalPemakaian.value).format("0,0.00");
-
-        if (rowData[4] !== '') {
+        if (rowData[0][4] !== '') {
             ListHapus.push(rowData[0][4], rowData[0][0]);
+        }
+
+        if (rowData[0][0] !== '') {
+            totalPemakaian.value = numeral(totalPemakaian.value).value() - numeral(rowData[0][1]).value() + numeral(rowData[0][2]).value();
+            totalPemakaian.value = numeral(totalPemakaian.value).format("0,0.00");
+        }
+
+        else if (numeral(rowData[0][2]).value() !== 0) {
+            totalBiaya.value = numeral(totalBiaya.value).value() - numeral(rowData[0][2]).value();
+            totalBiaya.value = numeral(totalBiaya.value).format("0,0.00");
+        }
+
+        else if (numeral(rowData[0][8]).value() !== 0) {
+            kurangLebih.value = numeral(kurangLebih.value).value() - numeral(rowData[0][8]).value();
+            kurangLebih.value = numeral(kurangLebih.value).format("0,0.00");
         }
 
         table.rows('.selected').remove().draw();
@@ -1353,8 +1365,8 @@ btnSimpan.addEventListener('click', function (e) {
     // Calculate values using Numeral.js
     let coba1 = numeral(numeral(sisaPelunasan.value).value()).format("0,0.00");
     let coba2 = numeral(
-        numeral(totalPemakaian.value).value() - 
-        numeral(totalBiaya.value).value() + 
+        numeral(totalPemakaian.value).value() -
+        numeral(totalBiaya.value).value() +
         numeral(kurangLebih.value).value()
     ).format("0,0.00");
 
@@ -1399,17 +1411,17 @@ btnSimpan.addEventListener('click', function (e) {
 
     // Update values and calculate 'sisaPelunasan' and 'sMasukKas'
     nilaiPelunasan.value = numeral(totalPemakaian.value).value();
-    sisaPelunasan.value = 
-        numeral(totalPemakaian.value).value() - 
-        numeral(totalBiaya.value).value() + 
+    sisaPelunasan.value =
+        numeral(totalPemakaian.value).value() -
+        numeral(totalBiaya.value).value() +
         numeral(kurangLebih.value).value();
-    sisaPelunasan.value = 
-        numeral(nilaiMasukKas.value).value() - 
+    sisaPelunasan.value =
+        numeral(nilaiMasukKas.value).value() -
         numeral(sisaPelunasan.value).value();
 
-    sMasukKas = 
-        numeral(totalPemakaian.value).value() - 
-        numeral(totalBiaya.value).value() + 
+    sMasukKas =
+        numeral(totalPemakaian.value).value() -
+        numeral(totalBiaya.value).value() +
         numeral(kurangLebih.value).value();
 
     console.log(sMasukKas, nilaiMasukKas.value, sisaPelunasan.value);
