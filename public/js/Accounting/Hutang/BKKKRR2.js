@@ -461,6 +461,15 @@ $(document).ready(function () {
     btn_group.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(rowDataArray);
+        if (rowDataArray.length < 1) {
+            Swal.fire({
+                icon: "warning",
+                title: "Warning!",
+                text: "Pilih data yang mau di Group",
+                showConfirmButton: true,
+            });
+            return;
+        }
         const totalPayment = calculateTotalPayment(rowDataArray);
         Swal.fire({
             title: "Isikan Tanggal Pembuatan BKK",
@@ -523,15 +532,17 @@ $(document).ready(function () {
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             bkk.value = response.idBKK;
+                                            month.value =
+                                                selectedDate.substring(5, 7);
+
                                             var myModal = new bootstrap.Modal(
                                                 document.getElementById(
                                                     "dataBKKModal"
                                                 ),
-                                                {
-                                                    keyboard: false,
-                                                }
+                                                { keyboard: false }
                                             );
                                             myModal.show();
+                                            btn_okbkk.click();
                                             // btn_cetakbkk.click();
                                             // tableatas.ajax.reload();
                                             // tablekiri.ajax.reload();
@@ -541,29 +552,17 @@ $(document).ready(function () {
                                             // id_pembayaran.value = "";
                                         } else {
                                             bkk.value = response.idBKK;
+                                            month.value =
+                                                selectedDate.substring(5, 7);
+
                                             var myModal = new bootstrap.Modal(
                                                 document.getElementById(
                                                     "dataBKKModal"
                                                 ),
-                                                {
-                                                    keyboard: false,
-                                                }
+                                                { keyboard: false }
                                             );
-                                            // document
-                                            //     .getElementById("dataBKKModal")
-                                            //     .addEventListener(
-                                            //         "shown.bs.modal",
-                                            //         function () {
-                                            //             btn_cetakbkk.click();
-                                            //         }
-                                            //     );
                                             myModal.show();
-                                            // tableatas.ajax.reload();
-                                            // tablekiri.ajax.reload();
-                                            // tablekanan.ajax.reload();
-                                            // id_detailkanan.value = "";
-                                            // id_detailkiri.value = "";
-                                            // id_pembayaran.value = "";
+                                            btn_okbkk.click();
                                         }
                                     });
                                 } else if (response.error) {
@@ -1198,9 +1197,42 @@ $(document).ready(function () {
             ],
             columnDefs: [{ targets: [3, 4], visible: false }],
             paging: false,
-            scrollY: "400px",
+            scrollY: "250px",
             scrollCollapse: true,
         });
+
+        if (bkk.value !== "") {
+            // Check the checkbox in the DataTable that has a matching value to bkk.value
+            tabletampilBKK.on("draw", function () {
+                rowDataBKKArray = []; // Clear the array to avoid duplicate entries
+
+                // Iterate over each checkbox in the DataTable
+                tabletampilBKK
+                    .$('input[name="penerimaCheckbox"]')
+                    .each(function () {
+                        // Check if the checkbox value matches bkk.value
+                        if (this.value === bkk.value) {
+                            this.checked = true; // Check the checkbox
+
+                            // Get the row data for the checked checkbox and push it to the array
+                            const rowDataBKK = tabletampilBKK
+                                .row($(this).closest("tr"))
+                                .data();
+                            rowDataBKKArray.push(rowDataBKK);
+                        }
+                    });
+            });
+            setTimeout(() => {
+                btn_cetakbkk.click();
+            }, 300);
+            // document
+            //     .getElementById("modalDetailPelunasan")
+            //     .addEventListener("shown.bs.modal", function () {
+            //         setTimeout(() => {
+            //             btn_cetakbkk.click();
+            //         }, 300);
+            //     });
+        }
     });
 
     let rowDataBKKArray = [];
@@ -1245,6 +1277,7 @@ $(document).ready(function () {
             showCancelButton: true,
             confirmButtonText: "Ya",
             cancelButtonText: "Tidak",
+            focusCancel: true,
         }).then((result) => {
             if (result.isConfirmed) {
                 btn_cetakbkk.style.display = "none";

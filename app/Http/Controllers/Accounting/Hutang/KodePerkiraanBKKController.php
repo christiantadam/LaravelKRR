@@ -20,18 +20,18 @@ class KodePerkiraanBKKController extends Controller
 
     public function getIdBKKKdPrk($BlnThn)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_UDT_BKK_KDKIRA] @Kode = ?, @BlnThn = ?', [2, $BlnThn]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_UDT_BKK_KDKIRA] @Kode = ?, @BlnThn = ?', [2, $BlnThn]);
         return response()->json($tabel);
     }
     public function getIdBKKKdPrk2($BlnThn)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_UDT_BKK_KDKIRA] @Kode = ?, @BlnThn = ?', [3, $BlnThn]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_UDT_BKK_KDKIRA] @Kode = ?, @BlnThn = ?', [3, $BlnThn]);
         return response()->json($tabel);
     }
 
     public function getTabelRincianBKK($idBKK)
     {
-        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BKK_KDKIRA] @IdBKK = ?', [$idBKK]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_1273_ACC_LIST_BKK_KDKIRA] @IdBKK = ?', [$idBKK]);
         return response()->json($tabel);
     }
 
@@ -44,7 +44,23 @@ class KodePerkiraanBKKController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //
+        $idDetail = $request->idDetail;
+        $idKodePerkiraan = $request->idKodePerkiraan;
+        try {
+            DB::connection('ConnAccounting')->statement("EXEC SP_1273_ACC_UDT_BKK_KDKIRA_DETAIL @IdDetailBayar = ?, @Perkiraan = ?", [
+                $idDetail,
+                $idKodePerkiraan,
+            ]);
+
+            return response()->json([
+                'message' => 'Data sudah diKOREKSI!!..'
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     //Display the specified resource.
@@ -62,16 +78,16 @@ class KodePerkiraanBKKController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-
-        //dd($request->all());
+        // dd($request->all());
         $idDetail = $request->idDetail;
         $idKodePerkiraan = $request->idKodePerkiraan;
 
         DB::connection('ConnAccounting')->statement('exec [SP_1273_ACC_UDT_BKK_KDKIRA_DETAIL]
             @IdDetailBayar = ?,
             @Perkiraan = ?', [
-                $idDetail,
-                $idKodePerkiraan]);
+            $idDetail,
+            $idKodePerkiraan
+        ]);
 
         return redirect()->back()->with('success', 'Data sudah diKOREKSI');
     }

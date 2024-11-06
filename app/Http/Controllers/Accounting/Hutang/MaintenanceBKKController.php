@@ -295,7 +295,7 @@ class MaintenanceBKKController extends Controller
                 return response()->json(['error' => 'Tidak ada data yang diGROUP !!...']);
             }
 
-            if ($jmlData == 1) {
+            if ($jmlData === 1) {
                 $brs = $listPengajuan[0];
                 $result = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK2_TOTALBYR @IdPembayaran = ?', [$brs['Id_Pembayaran']]);
 
