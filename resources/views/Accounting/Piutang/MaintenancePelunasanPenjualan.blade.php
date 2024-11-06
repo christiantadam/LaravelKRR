@@ -319,7 +319,7 @@
                                     style="width: 100%" readonly>
                             </div>
                             <div class="col-md-2">
-                                <label for="nilaiPiutang" style="margin-right: 10px;">Nilai Piutang</label>
+                                <label for="nilaiPiutang" style="margin-right: 10px;"></label>
                             </div>
                             <div class="col-md-2">
                                 <input type="text" id="nilaiPiutang" name="nilaiPiutang" class="form-control"
@@ -392,7 +392,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <input type="radio" name="radiogrup1" value="opt2"
-                                                id="opt2" disabled>
+                                                id="opt2">
                                             <label for="opt2" >Biaya Ditanggung</label>
                                         </div>
                                         <div class="col-md-4">
