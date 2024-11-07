@@ -180,7 +180,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8 RDZMobilePaddingLR0">
             <div class="card">
-                <div class="card-header">Cek Nota dan Faktur</div>
+                <div class="card-header">Cetak Nota dan Faktur</div>
                 <div class="card-body RDZOverflow RDZMobilePaddingLR0">
                     <div class="form-container col-md-12">
                         <!-- Form fields go here -->

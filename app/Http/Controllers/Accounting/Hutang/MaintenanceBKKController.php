@@ -400,7 +400,12 @@ class MaintenanceBKKController extends Controller
                             }
                         }
 
-                        return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk]);
+                        // return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk]);
+                        return response()->json([
+                            'message' => 'Proses Group BKK Selesai',
+                            'idbkk' => $idbkk,
+                            'idBKK' => $idbkk
+                        ]);
                     } else {
                         return response()->json(['error' => 'Failed to create BKK record.']);
                     }
