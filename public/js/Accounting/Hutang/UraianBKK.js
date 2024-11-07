@@ -17,15 +17,18 @@ document.addEventListener("DOMContentLoaded", function () {
     let btn_batal = document.getElementById("btn_batal");
 
     let btnIsi = document.getElementById("btnIsi");
-    let btnProses = document.getElementById("btnProses");
+    // let btnProses = document.getElementById("btnProses");
 
     let proses;
 
+    btn_proses.disabled = true;
+    btn_batal.disabled = true;
+
     function escapeHTML(text) {
         return text
-            .replace(/&amp;/g, '&')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
             .replace(/&quot;/g, '"')
             .replace(/&#039;/g, "'");
     }
@@ -42,6 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
         kodePerkiraanSelect.value = "";
         idKodePerkiraan.value = "";
         total.value = "";
+
+        btn_proses.disabled = true;
+        btn_batal.disabled = true;
         // kodeBarangAsal.value = "";
         // tanggal.value = "";
     });
@@ -60,16 +66,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 rincian: rincian.value,
                 nilaiRincian: nilaiRincian.value,
                 idKodePerkiraan: idKodePerkiraan.value,
-
             },
             success: function (response) {
                 console.log(response);
-                Swal.fire({
-                    title: "Success!",
-                    text: response.message,
-                    icon: "success",
-                    confirmButtonText: "OK",
-                });
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        location.reload();
+                        // document
+                        //     .querySelectorAll("input")
+                        //     .forEach((input) => (input.value = ""));
+                        // $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
             },
             error: function (xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -101,7 +121,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             .then((data) => {
                                 console.log(data);
 
-                                nilai.value = data[0].Nilai_Pembulatan;
+                                nilai.value = numeral(
+                                    data[0].Nilai_Pembulatan
+                                ).format("0,0.0000");
 
                                 tabelListBKK = $("#tabelListBKK").DataTable({
                                     destroy: true,
@@ -118,6 +140,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                         {
                                             title: "Nilai Rincian",
                                             data: "Nilai_Rincian",
+                                            render: function (data, type, row) {
+                                                return numeral(data).format(
+                                                    "0,0.0000"
+                                                );
+                                            },
                                         },
                                         {
                                             title: "Kd. Perkiraan",
@@ -136,7 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             .then((list) => {
                                 console.log(list);
 
-                                total.value = list[0].Nilai;
+                                total.value = numeral(list[0].Nilai).format(
+                                    "0,0.0000"
+                                );
                             });
                     }
                 });
@@ -166,6 +195,9 @@ document.addEventListener("DOMContentLoaded", function () {
         idBayar.value = selectedRows[0].Id_Pembayaran;
         rincian.focus();
         proses = 1;
+
+        btn_proses.disabled = false;
+        btn_batal.disabled = false;
     });
 
     rincian.addEventListener("keypress", function (event) {
@@ -259,6 +291,18 @@ document.addEventListener("DOMContentLoaded", function () {
                                 },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#kodeperkiraanTable_filter input").focus();
+                        }, 300);
+                        // $("#kodeperkiraanTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#kodeperkiraanTable tbody").on(
                             "click",
                             "tr",
@@ -269,13 +313,19 @@ document.addEventListener("DOMContentLoaded", function () {
                                 $(this).addClass("selected");
                             }
                         );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "kodeperkiraanTable")
+                        );
                     });
                 },
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     idKodePerkiraan.value = selectedRow.NoKodePerkiraan.trim();
-                    kodePerkiraanSelect.value = escapeHTML(selectedRow.Keterangan.trim());
+                    kodePerkiraanSelect.value = escapeHTML(
+                        selectedRow.Keterangan.trim()
+                    );
                 }
             });
         } catch (error) {
@@ -287,6 +337,9 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         proses = 2;
         console.log(selectedRows[0]);
+
+        btn_proses.disabled = false;
+        btn_batal.disabled = false;
 
         idDetail.value = selectedRows[0].Id_Detail_Bayar;
         rincian.value = selectedRows[0].Rincian_Bayar;

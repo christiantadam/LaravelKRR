@@ -100,13 +100,14 @@ class BKMNoPenagihanController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd($request->all());
         // Initialize variables
         $idbkm = intval(substr($request->id_bkm, 0, 3));
         $total = (float) $request->total;
         // $nilai = 0;
         $ada1 = false;
-        $listdetail = $request->allRowsDataKiri;
-        $listbiaya = $request->allRowsDataKanan;
+        $listdetail = $request->input('allRowsDataKiri', []);
+        $listbiaya = $request->input('allRowsDataKanan', []);
         $bulantahun = \Carbon\Carbon::parse($request->tanggal_input)->format('my');
         $konversi = $request->terbilang;
 

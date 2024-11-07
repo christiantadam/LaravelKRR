@@ -84,7 +84,7 @@ class UraianBKKController extends Controller
 
         } catch (Exception $e) {
             DB::connection('ConnAccounting')->rollBack();
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 

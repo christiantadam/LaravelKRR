@@ -45,15 +45,15 @@
                                     </div>
                                     <div class="col-md-1">
                                         <input type="radio" name="radio1" value="radio_1" id="radio_biaya">
-                                        <label for="radio_2">Biaya</label>
+                                        <label for="radio_biaya">Biaya</label>
                                     </div>
                                     <div class="col-md-1">
                                         <input type="radio" name="radio1" value="radio_2" id="radio_lain">
-                                        <label for="radio_2">Lain-lain</label>
+                                        <label for="radio_lain">Lain-lain</label>
                                     </div>
                                     <div class="col-md-1">
                                         <input type="radio" name="radio1" value="radio_2" id="radio_nego">
-                                        <label for="radio_2">Nego Ekspor</label>
+                                        <label for="radio_nego">Nego Ekspor</label>
                                     </div>
                                 </div>
                             </div>
@@ -404,7 +404,7 @@
                 <button id="btn_prosesbkm" type="button" class="btn btn-success"
                     style="display: none">Proses</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                    id="tutup_modalbkk">Tutup</button>
+                    id="tutup_modalbkm">Tutup</button>
             </div>
         </div>
     </div>

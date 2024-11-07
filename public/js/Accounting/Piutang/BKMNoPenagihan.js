@@ -52,6 +52,8 @@ $(document).ready(function () {
     let tgl_akhirbkk = document.getElementById("tgl_akhirbkk");
     let bkm = document.getElementById("bkm");
     let total_pelunasan = document.getElementById("total_pelunasan");
+    let tutup_modalbkm = document.getElementById("tutup_modalbkm");
+    let close_modalbkm = document.getElementById("close_modalbkm");
     let table_kiri = $("#table_kiri").DataTable({
         columnDefs: [{ targets: [7, 8, 9], visible: false }],
     });
@@ -218,7 +220,7 @@ $(document).ready(function () {
 
                             // Set the value of id_bkm only once
                             id_bkm.value = data.idBKM;
-
+                            // bkm.value = data.idBKM;
                             // Mark AJAX as processed
                             isAjaxProcessed = true;
 
@@ -340,9 +342,27 @@ $(document).ready(function () {
     });
 
     //#region Event Listener
+    close_modalbkm.addEventListener("click", function (event) {
+        event.preventDefault();
+        bkm.value = "";
+    });
+
+    tutup_modalbkm.addEventListener("click", function (event) {
+        event.preventDefault();
+        bkm.value = "";
+    });
 
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
+        if (radio === 0) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih pelunasan biaya, lain-lain, atau DP",
+                showConfirmButton: true,
+            });
+            return;
+        }
         const allRowsDataKiri = table_kiri.rows().data().toArray();
         console.log(allRowsDataKiri);
         const allRowsDataKanan = table_kanan.rows().data().toArray();
@@ -405,6 +425,7 @@ $(document).ready(function () {
                 total: total,
                 total_pelunasan: total_pelunasan.value,
                 radio: radio,
+                terbilang: terbilang,
                 // checkedRows: checkedRows,
             },
             success: function (response) {
@@ -415,10 +436,20 @@ $(document).ready(function () {
                         text: response.message,
                         showConfirmButton: true,
                     }).then(() => {
-                        document
-                            .querySelectorAll("input")
-                            .forEach((input) => (input.value = ""));
-                        $("#table_atas").DataTable().ajax.reload();
+                        // console.log(id_bkm.value);
+                        bkm.value = id_bkm.value;
+                        // location.reload();
+                        document.querySelectorAll("input").forEach((input) => {
+                            if (input.type !== "date" && input.id !== "bkm") {
+                                input.value = "";
+                            }
+                        });
+                        $("#table_kiri").DataTable().clear().draw();
+                        $("#table_kanan").DataTable().clear().draw();
+                        btn_tambahdata.disabled = true;
+                        btn_tampilbkk.click();
+                        // tanggal_input.focus();
+                        // $("#table_kiri").DataTable().ajax.reload();
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -608,6 +639,18 @@ $(document).ready(function () {
                                 { data: "Keterangan" },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#tableKira_filter input").focus();
+                        }, 300);
+                        // $("#tableKira_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableKira tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -672,6 +715,18 @@ $(document).ready(function () {
                             },
                             columns: [{ data: "NamaCust" }, { data: "IdCust" }],
                         });
+                        setTimeout(() => {
+                            $("#tableCustomer_filter input").focus();
+                        }, 300);
+                        // $("#tableCustomer_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableCustomer tbody").on(
                             "click",
                             "tr",
@@ -750,6 +805,18 @@ $(document).ready(function () {
                             ],
                             order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#tablematauang_filter input").focus();
+                        }, 300);
+                        // $("#tablematauang_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tablematauang tbody").on(
                             "click",
                             "tr",
@@ -838,6 +905,18 @@ $(document).ready(function () {
                             ],
                             order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#tableJenisPem_filter input").focus();
+                        }, 300);
+                        // $("#tableJenisPem_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableJenisPem tbody").on(
                             "click",
                             "tr",
@@ -905,6 +984,18 @@ $(document).ready(function () {
                                 { data: "Id_Bank" },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#tableBank_filter input").focus();
+                        }, 300);
+                        // $("#tableBank_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableBank tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -1302,6 +1393,11 @@ $(document).ready(function () {
         });
 
         myModal.show();
+        if (bkm.value !== "") {
+            setTimeout(() => {
+                btn_cetakbkm.click();
+            }, 500);
+        }
     });
 
     btn_okbkm.addEventListener("click", async function (event) {

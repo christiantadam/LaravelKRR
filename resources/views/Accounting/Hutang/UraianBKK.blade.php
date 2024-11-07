@@ -19,7 +19,7 @@
             @endif
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-md-8 RDZMobilePaddingLR0">
+                    <div class="col-md-12 RDZMobilePaddingLR0">
                         <div class="card">
                             <div class="card-header">Uraian BKK</div>
                             @if (Session::has('success'))
@@ -59,14 +59,14 @@
                                         <br>
                                         <div>
                                             <div style="overflow-y: auto; max-height: 400px;">
-                                                <table style="width: 115%; table-layout: fixed;" id="tabelListBKK">
-                                                    <colgroup>
+                                                <table style="width: 100%;" id="tabelListBKK">
+                                                    {{-- <colgroup>
                                                         <col style="width: 15%;">
                                                         <col style="width: 50%;">
                                                         <col style="width: 20%;">
                                                         <col style="width: 15%;">
                                                         <col style="width: 15%;">
-                                                    </colgroup>
+                                                    </colgroup> --}}
                                                     <thead class="table-dark">
                                                         <tr>
                                                             <th>Id. Detail</th>

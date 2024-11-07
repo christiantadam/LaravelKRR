@@ -265,7 +265,7 @@ class PengajuanBKKController extends Controller
                 $item['Lunas'] = trim($row->Lunas);
                 $item['IdUangTT'] = trim($row->IdUangTT);
                 $item['Id_Pembayaran'] = $row->Id_Pembayaran;
-                $item['TT_NoLunas'] = "";
+                $item['TT_NOLunas'] = "";
                 $response[] = $item;
             }
 
@@ -277,11 +277,11 @@ class PengajuanBKKController extends Controller
                 $item['Id_Penagihan'] = trim($row->Id_Penagihan);
                 $item['Status_PPN'] = ($row->Status_PPN == 'N') ? 'Tidak Ada' : 'Ada Pajak';
                 $item['UangTT'] = trim($row->UangTT);
-                $item['Nilai_Penagihan'] = number_format($row->Nilai_Penagihan, 2, ',', '.');
+                $item['Nilai_Penagihan'] = number_format($row->Nilai_Penagihan, 2, '.', ',');
                 $item['Lunas'] = trim($row->Lunas);
                 $item['IdUangTT'] = trim($row->IdUangTT);
                 $item['Id_Pembayaran'] = $row->Id_Pembayaran;
-                $item['TT_NoLunas'] = $row->TT_NoLunas;
+                $item['TT_NOLunas'] = $row->TT_NOLunas;
                 $item['isRed'] = true;
                 $response[] = $item;
             }
