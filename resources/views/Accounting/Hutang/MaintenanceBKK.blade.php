@@ -273,7 +273,7 @@
                 </div>
                 <div class="form-group">
                     <label for="statusCetak">Status Cetak :</label>
-                    <input type="text" id="statusCetak" class="form-control"> <p>[ T, O, S ]</p>
+                    <input type="text" id="statusCetak" class="form-control" placeholder="[ T, O, S ]">
                 </div>
             </div>
             <div class="modal-footer">

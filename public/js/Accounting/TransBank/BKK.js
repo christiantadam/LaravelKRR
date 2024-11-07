@@ -27,6 +27,20 @@ $(document).ready(function () {
     bulan.value = new Date().getMonth() + 1;
     tahun.value = new Date().getFullYear();
 
+    bulan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tahun.focus();
+        }
+    });
+
+    tahun.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_ok.focus();
+        }
+    });
+
     OptBesar.addEventListener("click", function (event) {
         nama_bank.value = "KRR2";
         JnsBank = null;

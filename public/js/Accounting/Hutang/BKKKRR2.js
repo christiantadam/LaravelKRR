@@ -457,6 +457,76 @@ $(document).ready(function () {
     );
 
     //#region Event Listener
+    noJnsByr.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            jumlahJnsByr.focus();
+        }
+    });
+
+    jumlahJnsByr.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            jatuhTempo.focus();
+        }
+    });
+
+    jatuhTempo.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            statusCetak.focus();
+        }
+    });
+
+    statusCetak.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_prosesBG.focus();
+        }
+    });
+
+    rincian.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            nilaiRincian.focus();
+        }
+    });
+
+    statusCetak.addEventListener("input", function (e) {
+        // Automatically convert the input to uppercase
+        this.value = this.value.toUpperCase();
+
+        // Allow only 'P', 'M', or 'S'
+        const allowedCharacters = ["T", "O", "S"];
+
+        // If the input is more than one character or not one of the allowed characters
+        if (this.value.length > 1 || !allowedCharacters.includes(this.value)) {
+            this.value = this.value.slice(0, 1);
+            if (!allowedCharacters.includes(this.value)) {
+                this.value = "";
+            }
+
+            this.classList.add("input-error");
+            this.setCustomValidity("Silahkan pilih [T], [O], atau [S]");
+        } else {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+        }
+        this.reportValidity();
+    });
+
+    nilaiRincian.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let value = parseFloat(nilaiRincian.value.replace(/,/g, ""));
+            nilaiRincian.value = value.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+            btn_kodePerkiraan.focus();
+        }
+    });
 
     btn_group.addEventListener("click", function (event) {
         event.preventDefault();
@@ -655,19 +725,39 @@ $(document).ready(function () {
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        tableatas.ajax.reload();
+                                        // tableatas.ajax.reload();
                                         tablekiri.ajax.reload();
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
-                                        // id_pembayaran.value = "";
+                                        rowDataKiri = null;
+                                        rowDataKanan = null;
+                                        var modalElement =
+                                            document.getElementById(
+                                                "formModalPembayaran"
+                                            );
+                                        var myModal =
+                                            bootstrap.Modal.getInstance(
+                                                modalElement
+                                            );
+                                        myModal.hide();
                                     } else {
-                                        tableatas.ajax.reload();
+                                        // tableatas.ajax.reload();
                                         tablekiri.ajax.reload();
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
-                                        // id_pembayaran.value = "";
+                                        rowDataKiri = null;
+                                        rowDataKanan = null;
+                                        var modalElement =
+                                            document.getElementById(
+                                                "formModalPembayaran"
+                                            );
+                                        var myModal =
+                                            bootstrap.Modal.getInstance(
+                                                modalElement
+                                            );
+                                        myModal.hide();
                                     }
                                 });
                             } else if (response.error) {
@@ -747,6 +837,14 @@ $(document).ready(function () {
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
+                                rowDataKiri = null;
+                                rowDataKanan = null;
+                                var modalElement = document.getElementById(
+                                    "formModalPembayaran"
+                                );
+                                var myModal =
+                                    bootstrap.Modal.getInstance(modalElement);
+                                myModal.hide();
                                 // id_pembayaran.value = "";
                             } else {
                                 // tableatas.ajax.reload();
@@ -754,6 +852,14 @@ $(document).ready(function () {
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
+                                rowDataKiri = null;
+                                rowDataKanan = null;
+                                var modalElement = document.getElementById(
+                                    "formModalPembayaran"
+                                );
+                                var myModal =
+                                    bootstrap.Modal.getInstance(modalElement);
+                                myModal.hide();
                                 // id_pembayaran.value = "";
                             }
                         });
@@ -837,14 +943,34 @@ $(document).ready(function () {
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
-                                        // id_pembayaran.value = "";
+                                        rowDataKiri = null;
+                                        rowDataKanan = null;
+                                        var modalElement =
+                                            document.getElementById(
+                                                "formBGModal"
+                                            );
+                                        var myModal =
+                                            bootstrap.Modal.getInstance(
+                                                modalElement
+                                            );
+                                        myModal.hide();
                                     } else {
                                         // tableatas.ajax.reload();
                                         tablekiri.ajax.reload();
                                         tablekanan.ajax.reload();
                                         id_detailkanan.value = "";
                                         id_detailkiri.value = "";
-                                        // id_pembayaran.value = "";
+                                        rowDataKiri = null;
+                                        rowDataKanan = null;
+                                        var modalElement =
+                                            document.getElementById(
+                                                "formBGModal"
+                                            );
+                                        var myModal =
+                                            bootstrap.Modal.getInstance(
+                                                modalElement
+                                            );
+                                        myModal.hide();
                                     }
                                 });
                             } else if (response.error) {
@@ -914,6 +1040,7 @@ $(document).ready(function () {
                             title: "Success!",
                             text: response.message,
                             showConfirmButton: true,
+                            timer: 1500,
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 // tableatas.ajax.reload();
@@ -921,13 +1048,28 @@ $(document).ready(function () {
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
-                                // id_pembayaran.value = "";
+                                rowDataKiri = null;
+                                rowDataKanan = null;
+                                var modalElement =
+                                    document.getElementById("formBGModal");
+                                var myModal =
+                                    bootstrap.Modal.getInstance(modalElement);
+                                myModal.hide();
                             } else {
                                 // tableatas.ajax.reload();
                                 tablekiri.ajax.reload();
                                 tablekanan.ajax.reload();
                                 id_detailkanan.value = "";
                                 id_detailkiri.value = "";
+                                rowDataKiri = null;
+                                rowDataKanan = null;
+                                var modalElement =
+                                    document.getElementById("formBGModal");
+                                var myModal =
+                                    bootstrap.Modal.getInstance(modalElement);
+
+                                // Menutup modal
+                                myModal.hide();
                                 // id_pembayaran.value = "";
                             }
                         });
@@ -1677,7 +1819,7 @@ $(document).ready(function () {
                 title: "Select a Kode Perkiraan",
                 html: '<table id="kiraTable" class="display" style="width:100%"><thead><tr><th>Keterangan</th><th>Kode Perkiraan</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
-                // width: "50%",
+                width: "50%",
                 preConfirm: () => {
                     const selectedData = $("#kiraTable")
                         .DataTable()
@@ -1707,11 +1849,28 @@ $(document).ready(function () {
                                 { data: "Keterangan" },
                                 { data: "NoKodePerkiraan" },
                             ],
+                            order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#kiraTable_filter input").focus();
+                        }, 300);
+                        // $("#kiraTable_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#kiraTable tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
                         });
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "kiraTable")
+                        );
                     });
                 },
             }).then((result) => {
@@ -1719,6 +1878,10 @@ $(document).ready(function () {
                     const selectedRow = result.value;
                     kdPerkiraan1.value = selectedRow.NoKodePerkiraan.trim();
                     kdPerkiraan2.value = selectedRow.Keterangan.trim();
+
+                    setTimeout(() => {
+                        btn_prosesPembayaran.focus();
+                    }, 300);
                 }
             });
         } catch (error) {

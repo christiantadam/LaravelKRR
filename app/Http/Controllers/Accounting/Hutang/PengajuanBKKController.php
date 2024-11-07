@@ -143,7 +143,7 @@ class PengajuanBKKController extends Controller
                 } else {
                     if ($Bayar) {
                         $recTrans = DB::connection('ConnAccounting')
-                            ->select('EXEC SP_1273_ACC_INS_BKK2_ACUAN_NOTT_BAYAR @IdBank = ?, @IdJenisBayar = ?, @IdMataUang = ?, @JmlJenisBayar = ?, @Rincian = ?, @NilaiRincian = ?, @UserId = ?, @supp = ?, @kurs = ?', [
+                            ->statement('EXEC SP_1273_ACC_INS_BKK2_ACUAN_NOTT_BAYAR @IdBank = ?, @IdJenisBayar = ?, @IdMataUang = ?, @JmlJenisBayar = ?, @Rincian = ?, @NilaiRincian = ?, @UserId = ?, @supp = ?, @kurs = ?', [
                                 $TBank,
                                 $TIdJnsByr,
                                 $idMataUang,
@@ -154,12 +154,18 @@ class PengajuanBKKController extends Controller
                                 $TIDSupplier,
                                 $txtKurs,
                             ]);
-                        if (!empty($recTrans)) {
-                            $TIdTT = $recTrans[0]->nmError;
+                        if ($recTrans) {
+                            $IdPenagihan = DB::connection('ConnAccounting')
+                                ->table('T_PEMBAYARAN_TAGIHAN')
+                                ->select('Id_Penagihan')
+                                ->orderBy('Tgl_Input', 'desc')
+                                ->first();
+                            $TIdTT = $IdPenagihan->Id_Penagihan;
+                            // dd($TIdTT);
                         }
-                    } elseif ($DP) {
+                    } else if ($DP) {
                         $recTrans = DB::connection('ConnAccounting')
-                            ->select('EXEC SP_1273_ACC_INS_BKK2_ACUAN_NOTT_DP @IdBank = ?, @IdJenisBayar = ?, @IdMataUang = ?, @JmlJenisBayar = ?, @Rincian = ?, @NilaiRincian = ?, @idSuplier = ?, @UserId = ?, @kurs = ?, @saldo = ?', [
+                            ->statement('EXEC SP_1273_ACC_INS_BKK2_ACUAN_NOTT_DP @IdBank = ?, @IdJenisBayar = ?, @IdMataUang = ?, @JmlJenisBayar = ?, @Rincian = ?, @NilaiRincian = ?, @idSuplier = ?, @UserId = ?, @kurs = ?, @saldo = ?', [
                                 $TBank,
                                 $TIdJnsByr,
                                 $idMataUang,
@@ -171,8 +177,14 @@ class PengajuanBKKController extends Controller
                                 $txtKurs,
                                 $TNilaiBayar,
                             ]);
-                        if (!empty($recTrans)) {
-                            $TIdTT = $recTrans[0]->nmError;
+                        if ($recTrans) {
+                            $IdPenagihan = DB::connection('ConnAccounting')
+                                ->table('T_PEMBAYARAN_TAGIHAN')
+                                ->select('Id_Penagihan')
+                                ->orderBy('Tgl_Input', 'desc')
+                                ->first();
+                            $TIdTT = $IdPenagihan->Id_Penagihan;
+                            // dd($TIdTT);
                         }
                     }
                     if ($TBKM) {
@@ -183,7 +195,7 @@ class PengajuanBKKController extends Controller
                             ]);
                         $TBKM = "";
                     }
-                    return response()->json(['message' => 'Data Pengajuan NON Penagihan sudah diSIMPAN !!..'], 200);
+                    return response()->json(['message' => 'Data Pengajuan NON Penagihan sudah diSIMPAN !!..']);
                 }
 
             case 2:
