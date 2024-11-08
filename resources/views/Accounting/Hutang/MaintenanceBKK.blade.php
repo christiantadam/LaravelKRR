@@ -343,11 +343,33 @@
                 <div class="form-group">
                     <label for="kdPerkiraan">Kode Perkiraan :</label>
                     <div class="d-flex">
+                        <div class="input-group" style="width: 100%;"> <!-- Ensure full width here -->
+                            <select name="select_kodePerkiraan" id="select_kodePerkiraan" class="form-control" style="width: 100%;"> <!-- Full width for select -->
+                                <option disabled selected>Pilih Kode Perkiraan</option>
+                                @foreach ($kodePerkiraan as $d)
+                                    <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} | {{ $d->NoKodePerkiraan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="form-group">
+                    <label for="kdPerkiraan">Kode Perkiraan :</label>
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <select name="select_kodePerkiraan" id="select_kodePerkiraan" class="form-control">
+                                <option disabled selected>Pilih Kode Perkiraan</option>
+                                @foreach ($kodePerkiraan as $d)
+                                    <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} |
+                                        {{ $d->NoKodePerkiraan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <input type="text" id="kdPerkiraan1" class="form-control mr-2" style="width: 35%">
                         <input type="text" id="kdPerkiraan2" class="form-control">
                         <button class="btn" type="button" id="btn_kodePerkiraan">...</button>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="modal-footer">
                 <button id="btn_prosesPembayaran" type="button" class="btn btn-success">Proses</button>
