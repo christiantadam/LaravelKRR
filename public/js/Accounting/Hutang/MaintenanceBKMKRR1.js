@@ -385,10 +385,19 @@ $(document).ready(function () {
                         text: response.message,
                         showConfirmButton: true,
                     }).then(() => {
-                        document
-                            .querySelectorAll("input")
-                            .forEach((input) => (input.value = ""));
-                        $("#table_atas").DataTable().ajax.reload();
+                        document.querySelectorAll("input").forEach((input) => {
+                            if (input.type !== "date" && input.id !== "bkm") {
+                                input.value = "";
+                            }
+                        });
+                        $("#table_kiri").DataTable().clear().draw();
+                        $("#table_kanan").DataTable().clear().draw();
+                        btn_tambahdata.disabled = true;
+                        btn_tampilbkk.click();
+                        // document
+                        //     .querySelectorAll("input")
+                        //     .forEach((input) => (input.value = ""));
+                        // $("#table_atas").DataTable().ajax.reload();
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -577,6 +586,18 @@ $(document).ready(function () {
                                 { data: "Keterangan" },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#tableKira_filter input").focus();
+                        }, 300);
+                        // $("#tableKira_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableKira tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -645,6 +666,18 @@ $(document).ready(function () {
                             ],
                             order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#tablematauang_filter input").focus();
+                        }, 300);
+                        // $("#tablematauang_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tablematauang tbody").on(
                             "click",
                             "tr",
@@ -733,6 +766,18 @@ $(document).ready(function () {
                             ],
                             order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#tableJenisPem_filter input").focus();
+                        }, 300);
+                        // $("#tableJenisPem_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableJenisPem tbody").on(
                             "click",
                             "tr",
@@ -800,6 +845,18 @@ $(document).ready(function () {
                                 { data: "Id_Bank" },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#tableBank_filter input").focus();
+                        }, 300);
+                        // $("#tableBank_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableBank tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -1153,6 +1210,7 @@ $(document).ready(function () {
                 { data: "Nilai_Pelunasan" },
                 { data: "Terjemahan" },
             ],
+            order: [[0, "desc"]],
             paging: false,
             scrollY: "400px",
             scrollCollapse: true,
