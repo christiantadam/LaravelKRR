@@ -209,7 +209,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     data.data[0].Packing;
                 var inerValue = data.data[0].Iner;
                 var innerHTMLValue =
-                    inerValue === "N" ? "&nbsp;-" : "&nbsp;" + inerValue;
+                    inerValue === "N"
+                        ? "&nbsp;-"
+                        : "&nbsp;" +
+                          data.data[0].Panjang_Potongan +
+                          "&nbsp;X&nbsp;" +
+                          data.data[0].Lebar_Potongan +
+                          "&nbsp;X&nbsp;" +
+                          data.data[0].Tebal_Iner +
+                          "&nbsp;Mikron&nbsp;" +
+                          data.data[0].Seal;
                 document.getElementById("inner_tabel").innerHTML =
                     innerHTMLValue;
                 // let keterangan = data.data[0].Catatan.replace(/\r\n/g, "<br>");s
@@ -300,10 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $("#customerTable_filter input").on(
                             "keyup",
                             function () {
-                                table
-                                    .columns(1)
-                                    .search(this.value)
-                                    .draw();
+                                table.columns(1).search(this.value).draw();
                             }
                         );
                         $("#customerTable tbody").on(

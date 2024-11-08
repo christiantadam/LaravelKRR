@@ -144,12 +144,15 @@ class OrderPress extends Controller
                         'A_Jml_Order' => $row->A_Jml_Order,
                         'A_Tgl_Start' => $row->A_Tgl_Start,
                         'A_Tgl_Finish' => $row->A_Tgl_Finish,
-                        'Tebal_Iner' => $row->Tebal_Iner,
                         'Iner' => $row->Iner,
                         'Catatan' => $row->Catatan,
                         'IdBarang' => $row->IdBarang,
                         'Foto' => $row->Foto ? 'data:image/jpeg;base64,' . base64_encode($row->Foto) : null,
                         'StdWaktu' => $row->StdWaktu,
+                        'Panjang_Potongan' => $row->Panjang_Potongan ?? "",
+                        'Lebar_Potongan' => $row->Lebar_Potongan ?? "",
+                        'Tebal_Iner' => $row->Tebal_Iner ?? "",
+                        'Seal' => $row->Seal ?? "",
                     ];
                 }
 
