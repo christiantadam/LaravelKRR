@@ -30,30 +30,30 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="OptBesar">
-                                    <label for="radio_2">KAS Besar</label>
+                                    <label for="OptBesar">KAS Besar</label>
                                 </div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="EksRp">
-                                    <label for="radio_2">Bank Ekstern Rp</label>
+                                    <label for="EksRp">Bank Ekstern Rp</label>
                                 </div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="IntRp">
-                                    <label for="radio_2">Bank Intern Rp</label>
+                                    <label for="IntRp">Bank Intern Rp</label>
                                 </div>
                             </div>
                             <div class="d-flex">
                                 <div class="col-md-6"></div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="OptKecil">
-                                    <label for="radio_2">KAS Kecil</label>
+                                    <label for="OptKecil">KAS Kecil</label>
                                 </div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="EksUS">
-                                    <label for="radio_2">Bank Ekstern $</label>
+                                    <label for="EksUS">Bank Ekstern $</label>
                                 </div>
                                 <div class="col-md-2">
                                     <input type="radio" name="radiogrup1" value="radio_1" id="IntUS">
-                                    <label for="radio_2">Bank Intern $</label>
+                                    <label for="IntUS">Bank Intern $</label>
                                 </div>
                             </div>
                             <div class="d-flex">

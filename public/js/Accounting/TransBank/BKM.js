@@ -33,12 +33,21 @@ $(document).ready(function () {
 
     bulan.value = new Date().getMonth() + 1;
     tahun.value = new Date().getFullYear();
+    bulan.focus();
+
+    bulan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tahun.focus();
+        }
+    });
 
     OptBesar.addEventListener("click", function (event) {
         nama_bank.value = "KRR2";
         JnsBank = null;
         IdUang = 0;
         kodeRadio = 1;
+        btn_ok.focus();
     });
 
     OptKecil.addEventListener("click", function (event) {
@@ -46,6 +55,7 @@ $(document).ready(function () {
         JnsBank = null;
         IdUang = null;
         kodeRadio = 2;
+        btn_ok.focus();
     });
 
     IntRp.addEventListener("click", function (event) {
@@ -53,6 +63,7 @@ $(document).ready(function () {
         JnsBank = "I";
         IdUang = 1;
         kodeRadio = 6;
+        btn_bank.focus();
     });
 
     EksRp.addEventListener("click", function (event) {
@@ -60,6 +71,7 @@ $(document).ready(function () {
         JnsBank = "E";
         IdUang = 1;
         kodeRadio = 4;
+        btn_bank.focus();
     });
 
     IntUS.addEventListener("click", function (event) {
@@ -67,6 +79,7 @@ $(document).ready(function () {
         JnsBank = "I";
         IdUang = 2;
         kodeRadio = 5;
+        btn_bank.focus();
     });
 
     EksUS.addEventListener("click", function (event) {
@@ -74,6 +87,7 @@ $(document).ready(function () {
         JnsBank = "E";
         IdUang = 2;
         kodeRadio = 3;
+        btn_bank.focus();
     });
 
     btn_proses.addEventListener("click", async function (event) {
@@ -404,7 +418,7 @@ $(document).ready(function () {
             Swal.fire({
                 icon: "info",
                 title: "Info!",
-                text: "Pilih jenis transaksi dahulu !",
+                text: "Untuk KRR1 & KRR2 tidak ada pilihan bank",
                 showConfirmButton: true,
             });
         } else {
@@ -446,6 +460,18 @@ $(document).ready(function () {
                                     { data: "Id_Bank" },
                                 ],
                             });
+                            setTimeout(() => {
+                                $("#tableBank_filter input").focus();
+                            }, 300);
+                            // $("#tableBank_filter input").on(
+                            //     "keyup",
+                            //     function () {
+                            //         table
+                            //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                            //             .search(this.value) // Cari berdasarkan input pencarian
+                            //             .draw(); // Perbarui hasil pencarian
+                            //     }
+                            // );
                             $("#tableBank tbody").on(
                                 "click",
                                 "tr",
@@ -470,10 +496,9 @@ $(document).ready(function () {
                         );
                         // ket_kiraM.value = escapeHTML(selectedRow.Keterangan.trim());
 
-                        // setTimeout(() => {
-                        //     hutangM.focus();
-                        //     hutangM.select();
-                        // }, 300);
+                        setTimeout(() => {
+                            btn_ok.focus();
+                        }, 300);
                     }
                 });
             } catch (error) {

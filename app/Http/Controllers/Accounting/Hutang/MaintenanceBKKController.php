@@ -14,8 +14,10 @@ class MaintenanceBKKController extends Controller
 {
     public function index()
     {
+        $kodePerkiraan = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_KODEPERKIRAAN');
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Hutang.MaintenanceBKK', compact('access'));
+
+        return view('Accounting.Hutang.MaintenanceBKK', compact('access', 'kodePerkiraan'));
         // $data = 'Accounting';
         // return view('Accounting.Hutang.MaintenanceBKK', compact('data'));
     }
@@ -251,18 +253,15 @@ class MaintenanceBKKController extends Controller
 
             $kodePerkiraan = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_KODEPERKIRAAN');
             // dd($kodePerkiraan);
-            foreach ($kodePerkiraan as $kp) {
-                $response[] = [
-                    'Keterangan' => $kp->Keterangan,
-                    'NoKodePerkiraan' => $kp->NoKodePerkiraan,
-                ];
-            }
+            // foreach ($kodePerkiraan as $kp) {
+            //     $response[] = [
+            //         'Keterangan' => $kp->Keterangan,
+            //         'NoKodePerkiraan' => $kp->NoKodePerkiraan,
+            //     ];
+            // }
 
-            if (empty($response)) {
-                return response()->json(['error' => 'No records found']);
-            }
-
-            return datatables($response)->make(true);
+            return response()->json($kodePerkiraan);
+            // return datatables($response)->make(true);
         } else if ($id == 'getDetailBG') {
             $response = [];
             $IdPembayaran = $request->input('id_pembayaran');
