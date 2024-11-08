@@ -258,7 +258,7 @@
                                 <tr>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;KODE</td>
                                     <td style="border:none !important;">:&nbsp;</td>
-                                    <td style="border:none !important; width: 30%" id="kode_tabel">&nbsp;-&nbsp;</td>
+                                    <td style="border:none !important; width: 45%" id="kode_tabel">&nbsp;-&nbsp;</td>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;TYPE</td>
                                     <td style="border:none !important;">:&nbsp;</td>
                                     <td style="border:none !important; width: 50%" id="type_tabel">&nbsp;-&nbsp;</td>
@@ -266,7 +266,7 @@
                                 <tr>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;UKURAN</td>
                                     <td style="border:none !important;">:&nbsp;</td>
-                                    <td style="border:none !important; width: 25%" id="ukuran_tabel">&nbsp;-&nbsp;</td>
+                                    <td style="border:none !important; width: 45%" id="ukuran_tabel">&nbsp;-&nbsp;</td>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;NO. SP</td>
                                     <td style="border:none !important;">:&nbsp;</td>
                                     <td style="border:none !important; width: 40%" id="nosp_tabel">&nbsp;-&nbsp;</td>
@@ -274,7 +274,7 @@
                                 <tr>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;RAJUTAN</td>
                                     <td style="border:none !important;">:&nbsp;</td>
-                                    <td style="border:none !important; width: 25%" id="rajutan_tabel">&nbsp;-&nbsp;</td>
+                                    <td style="border:none !important; width: 45%" id="rajutan_tabel">&nbsp;-&nbsp;</td>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;QUANTITY</td>
                                     <td style="border:none !important;">:&nbsp;</td>
                                     <td style="border:none !important; width: 40%" id="qty_tabel">&nbsp;-&nbsp;</td>
@@ -282,7 +282,7 @@
                                 <tr>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;DENIER</td>
                                     <td style="border:none !important;">:&nbsp;</td>
-                                    <td style="border:none !important; width: 25%" id="denier_tabel">&nbsp;-&nbsp;</td>
+                                    <td style="border:none !important; width: 45%" id="denier_tabel">&nbsp;-&nbsp;</td>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;DELIVERY</td>
                                     <td style="border:none !important;">:&nbsp;</td>
                                     <td style="border:none !important; width: 40%" id="delivery_tabel">&nbsp;-&nbsp;</td>
@@ -290,7 +290,7 @@
                                 <tr>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;WARNA</td>
                                     <td style="border:none !important;">:&nbsp;</td>
-                                    <td style="border:none !important; width: 25%" id="warna_tabel">&nbsp;-&nbsp;</td>
+                                    <td style="border:none !important; width: 45%" id="warna_tabel">&nbsp;-&nbsp;</td>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;PACKING</td>
                                     <td style="border:none !important;">:&nbsp;</td>
                                     <td style="border:none !important; width: 40%" id="packing_tabel">&nbsp;-&nbsp;</td>
@@ -298,7 +298,7 @@
                                 <tr>
                                     <td style="border:none !important;" id="nomor_barangKolom">&nbsp;INNER</td>
                                     <td style="border:none !important;">:&nbsp;</td>
-                                    <td style="border:none !important; width: 25%" id="inner_tabel">&nbsp;-&nbsp;</td>
+                                    <td style="border:none !important; width: 45%" id="inner_tabel">&nbsp;-&nbsp;</td>
                                 </tr>
                             </tbody>
                         </table>
