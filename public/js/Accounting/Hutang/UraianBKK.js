@@ -207,12 +207,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    nilaiRincian.addEventListener("keypress", function (event) {
-        if (event.key == "Enter") {
+    nilaiRincian.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
             event.preventDefault();
-            kodePerkiraanSelect.focus();
+            let value = parseFloat(nilaiRincian.value.replace(/,/g, ""));
+            nilaiRincian.value = value.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+            btn_kp.focus();
         }
     });
+
+    // nilaiRincian.addEventListener("keypress", function (event) {
+    //     if (event.key == "Enter") {
+    //         event.preventDefault();
+    //         kodePerkiraanSelect.focus();
+    //     }
+    // });
 
     // fetch("/detailkodeperkiraan/" + 1)
     //     .then((response) => response.json())

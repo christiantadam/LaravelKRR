@@ -65,11 +65,11 @@ class PenyesuaianSaldoSupplierController extends Controller
             $selectedItems = json_decode($formData, true);
             // dd($selectedItems);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                return response()->json(['message' => 'Invalid data format.'], 400);
+                return response()->json(['error' => 'Invalid data format.'], 400);
             }
 
             if (empty($selectedItems)) {
-                return response()->json(['message' => 'Tidak ada Data yang diPROSES!!..'], 400);
+                return response()->json(['error' => 'Tidak ada Data yang diPROSES!!..'], 400);
             }
 
             try {
@@ -77,7 +77,7 @@ class PenyesuaianSaldoSupplierController extends Controller
                     $idSupp = $supplierId['id'] ?? null;
                     // dd($idSupp);
                     DB::connection('ConnAccounting')
-                        ->select('exec SP_1273_ACC_UDT_TT_SALDO_KOSONG(?)', [$supplierId]);
+                        ->statement('exec SP_1273_ACC_UDT_TT_SALDO_KOSONG ?', [$idSupp]);
                 }
 
                 return response()->json(['message' => 'Proses berhasil'], 200);

@@ -24,12 +24,12 @@
                                 </div>
                                 <div>
                                     <input type="radio" name="radiogrup" value="radio_hutang" id="radiogrup_hutang" checked>
-                                    <label for="radio_1">Hutang</label>
+                                    <label for="radiogrup_hutang">Hutang</label>
                                     <label style="visibility: hidden">AAAAA</label>
                                     <input type="radio" name="radiogrup" value="radio_tunai" id="radiogrup_tunai">
-                                    <label for="radio_1">Tunai</label>
+                                    <label for="radiogrup_tunai">Tunai</label>
                                     <label style="visibility: hidden">AAAAAAA</label>
-                                    <button id="btn_ok" class="btn btn-success">OK</button>
+                                    <button id="btn_ok" class="btn btn-primary">OK</button>
                                 </div>
                             </div>
                             <br>
@@ -56,11 +56,11 @@
                                         <input class="form-check-input" type="checkbox" id="checkbox2" value="option1">
                                     </div>
                                     <div style="white-space: nowrap;">
-                                        Pilih Semua
+                                        <label for="checkbox2">Pilih Semua</label>
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">
-                                    <button class="btn btn-primary" id="btn_proses1">Proses</button>
+                                    <button class="btn btn-success" id="btn_proses1">Proses</button>
                                 </div>
                             </div>
 
@@ -89,8 +89,16 @@
                             <p>
                             <div class="mb-3">
                                 <div class="row">
+                                    <div class="col-9" style="margin-left: 20px;">
+                                        <div>
+                                            <input class="form-check-input" type="checkbox" id="checkboxAll_ISK" value="option1">
+                                        </div>
+                                        <div style="white-space: nowrap;">
+                                            <label for="checkboxAll_ISK">Pilih Semua</label>
+                                        </div>
+                                    </div>
                                     <div class="col-12 d-flex justify-content-end">
-                                        <button class="btn btn-primary" id="btn_proses2">Proses</button>
+                                        <button class="btn btn-success" id="btn_proses2">Proses</button>
                                     </div>
                                 </div>
                             </div>

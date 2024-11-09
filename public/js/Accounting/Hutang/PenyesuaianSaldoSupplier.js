@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let btn_proses1 = document.getElementById("btn_proses1");
     let btn_proses2 = document.getElementById("btn_proses2");
     let checkbox2 = document.getElementById("checkbox2");
+    let checkboxAll_ISK = document.getElementById("checkboxAll_ISK");
     let proses1 = 1;
     let proses2 = 2;
 
@@ -19,13 +20,17 @@ document.addEventListener("DOMContentLoaded", function () {
             url: "PenyesuaianSaldoSupplier/getData",
             dataType: "json",
             type: "GET",
-            data: function(d) {
+            data: function (d) {
                 return $.extend({}, d, {
                     _token: csrfToken,
-                    radio_hutang: $('input[name="radiogrup"]:checked').val() === "radio_hutang",
-                    radio_tunai: $('input[name="radiogrup"]:checked').val() === "radio_tunai",
+                    radio_hutang:
+                        $('input[name="radiogrup"]:checked').val() ===
+                        "radio_hutang",
+                    radio_tunai:
+                        $('input[name="radiogrup"]:checked').val() ===
+                        "radio_tunai",
                 });
-            }
+            },
         },
         columns: [
             {
@@ -42,6 +47,9 @@ document.addEventListener("DOMContentLoaded", function () {
             { data: "SALDO_HUTANG_Rp" },
             { data: "IdTrans" },
         ],
+        paging: false,
+        scrollY: "400px",
+        scrollCollapse: true,
     });
 
     let tablebawah = $("#tablesaldokosong").DataTable({
@@ -67,6 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
             { data: "SALDO_HUTANG" },
             { data: "SALDO_HUTANG_Rp" },
         ],
+        paging: false,
+        scrollY: "400px",
+        scrollCollapse: true,
     });
 
     //#region Event Listener
@@ -94,18 +105,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const formData = {
             _token: csrfToken,
-            data: JSON.stringify(selectedRows.map(function () {
-                return {
-                    IdTrans: $(this).find("td:eq(7)").text(),
-                    id: $(this).find('input[name="penerimaCheckbox"]').val()
-                };
-            }).get())
+            data: JSON.stringify(
+                selectedRows
+                    .map(function () {
+                        return {
+                            IdTrans: $(this).find("td:eq(7)").text(),
+                            id: $(this)
+                                .find('input[name="penerimaCheckbox"]')
+                                .val(),
+                        };
+                    })
+                    .get()
+            ),
         };
 
         $.ajax({
             url: "PenyesuaianSaldoSupplier",
             type: "POST",
-            data: $.param(formData) + '&proses1=' + proses1,
+            data: $.param(formData) + "&proses1=" + proses1,
             success: function (response) {
                 Swal.fire({
                     title: "Success!",
@@ -153,12 +170,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const formData = {
             _token: csrfToken,
-            data: JSON.stringify(selectedRows.map(function () {
-                return {
-                    // IdTrans: $(this).find("td:eq(7)").text(),
-                    id: $(this).find('input[name="penerimaCheckbox"]').val()
-                };
-            }).get())
+            data: JSON.stringify(
+                selectedRows
+                    .map(function () {
+                        return {
+                            // IdTrans: $(this).find("td:eq(7)").text(),
+                            id: $(this)
+                                .find('input[name="penerimaCheckbox"]')
+                                .val(),
+                        };
+                    })
+                    .get()
+            ),
         };
 
         $.ajax({
@@ -166,16 +189,27 @@ document.addEventListener("DOMContentLoaded", function () {
             type: "POST",
             data: $.param(formData),
             success: function (response) {
-                Swal.fire({
-                    title: "Success!",
-                    text: response.message,
-                    icon: "success",
-                    confirmButtonText: "OK",
-                }).then(() => {
-                    // Reload DataTable setelah sukses
-                    tableatas.ajax.reload();
-                    tablebawah.ajax.reload();
-                });
+                console.log(response);
+
+                if (response.message) {
+                    Swal.fire({
+                        title: "Success!",
+                        text: response.message,
+                        icon: "success",
+                        confirmButtonText: "OK",
+                    }).then(() => {
+                        // Reload DataTable setelah sukses
+                        tableatas.ajax.reload();
+                        tablebawah.ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
             },
             error: function (xhr) {
                 Swal.fire({
@@ -197,10 +231,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    checkboxAll_ISK.addEventListener("change", function () {
+        const checkboxes = document.querySelectorAll(
+            '#tablesaldokosong input[type="checkbox"][name="penerimaCheckbox"]'
+        );
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = checkboxAll_ISK.checked;
+        });
+    });
+
     btn_ok.addEventListener("click", function (event) {
         event.preventDefault();
 
-        var selectedRadio = document.querySelector('input[name="radiogrup"]:checked');
+        var selectedRadio = document.querySelector(
+            'input[name="radiogrup"]:checked'
+        );
         var radioValue = selectedRadio ? selectedRadio.value : null;
         console.log(radioValue);
 

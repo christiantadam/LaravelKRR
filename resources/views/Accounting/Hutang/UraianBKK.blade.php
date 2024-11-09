@@ -123,7 +123,7 @@
                                                 <label for="nilaiRincian" style="margin-right: 10px;">Nilai Rincian</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <input type="number" id="nilaiRincian" name="nilaiRincian"
+                                                <input type="text" id="nilaiRincian" name="nilaiRincian"
                                                     class="form-control" style="width: 100%">
                                             </div>
                                         </div>
