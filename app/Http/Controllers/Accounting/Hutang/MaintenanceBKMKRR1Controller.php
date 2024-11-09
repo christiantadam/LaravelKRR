@@ -33,8 +33,8 @@ class MaintenanceBKMKRR1Controller extends Controller
         $total = (float) $request->total;
         $nilai = 0;
         $ada1 = $request->ada1;
-        $listdetail = $request->allRowsDataKiri;
-        $listbiaya = $request->allRowsDataKanan;
+        $listdetail = $request->input('allRowsDataKiri', []);
+        $listbiaya = $request->input('allRowsDataKanan', []);
         $bulantahun = \Carbon\Carbon::parse($request->tanggal_input)->format('my');
         // dd($listdetail);
         // foreach ($listdetail as $lunasItem) {

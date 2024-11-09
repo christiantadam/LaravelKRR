@@ -17,13 +17,13 @@
                                 <div style="float: left;">
                                     <input type="radio" name="radiogrup_penagihan" value="radio_penagihan"
                                         id="radiogrup_penagihan">
-                                    <label for="radio_1">Penagihan</label>
+                                    <label for="radiogrup_penagihan">Penagihan</label>
                                     <label style="visibility: hidden">AAAAA</label>
                                 </div>
                                 <div style="display: inline-block; margin: 0 auto;">
                                     <input type="radio" name="radiogrup_penagihan" value="radio_nopenagihan"
                                         id="radiogrup_nopenagihan">
-                                    <label for="radio_1">No Penagihan</label>
+                                    <label for="radiogrup_nopenagihan">No Penagihan</label>
                                 </div>
                             </div>
 

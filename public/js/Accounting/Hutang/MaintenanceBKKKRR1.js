@@ -80,6 +80,26 @@ $(document).ready(function () {
     let table_kedua = $("#table_kedua").DataTable({});
     $("#table_kedua").parents("div.dataTables_wrapper").first().hide();
 
+    rincinan_bayar.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            nilairincian_rp.focus();
+        }
+    });
+
+    nilairincian_rp.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let value = parseFloat(nilairincian_rp.value.replace(/,/g, ""));
+            nilairincian_rp.value = value.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+            btn_kodeperkiraan.focus();
+        }
+    });
+
     radiogrup_penagihan.addEventListener("click", function (event) {
         btn_isi.disabled = false;
         btn_koreksi.disabled = true;
@@ -118,6 +138,7 @@ $(document).ready(function () {
                 { data: "Lunas" },
                 { data: "Status_PPN" },
             ],
+            order: [[0, "desc"]],
             // columnDefs: [{ targets: [6], visible: false }],
         });
         $("#table_kedua").parents("div.dataTables_wrapper").first().show();
@@ -549,8 +570,14 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 bulatan = true;
+                setTimeout(() => {
+                    btn_kodeperkiraan.focus();
+                }, 300);
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 bulatan = false;
+                setTimeout(() => {
+                    btn_kodeperkiraan.focus();
+                }, 300);
             }
         });
         if (rowDataKedua == null) {
@@ -809,6 +836,15 @@ $(document).ready(function () {
                                 { data: "Keterangan" },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#tableKira_filter input").focus();
+                        }, 300);
+                        // $("#tableKira_filter input").on("keyup", function () {
+                        //     table
+                        //         .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //         .search(this.value) // Cari berdasarkan input pencarian
+                        //         .draw(); // Perbarui hasil pencarian
+                        // });
                         $("#tableKira tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -828,6 +864,10 @@ $(document).ready(function () {
                     keterangan_kira.value = escapeHTML(
                         selectedRow.Keterangan.trim()
                     );
+
+                    setTimeout(() => {
+                        btn_proses.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -982,7 +1022,8 @@ $(document).ready(function () {
 
                     let No_BGCekHTML = "";
                     data.data.forEach(function (item) {
-                        No_BGCekHTML += item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                        No_BGCekHTML +=
+                            item.Id_Penagihan + "<br>" ?? "" + "<br>";
                     });
                     document.getElementById("bgno_p").innerHTML = No_BGCekHTML;
 
@@ -1068,7 +1109,8 @@ $(document).ready(function () {
 
                     let Id_PenagihanHTML = "";
                     data.data.forEach(function (item) {
-                        Id_PenagihanHTML += item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                        Id_PenagihanHTML +=
+                            item.Id_Penagihan + "<br>" ?? "" + "<br>";
                     });
                     document.getElementById("bgno_p").innerHTML =
                         Id_PenagihanHTML;
@@ -1154,7 +1196,8 @@ $(document).ready(function () {
 
                     let No_BGCekHTML = "";
                     data.data.forEach(function (item) {
-                        No_BGCekHTML += item.Id_Penagihan + "<br>" ?? "" + "<br>";
+                        No_BGCekHTML +=
+                            item.Id_Penagihan + "<br>" ?? "" + "<br>";
                     });
                     document.getElementById("bgno_p").innerHTML = No_BGCekHTML;
 
