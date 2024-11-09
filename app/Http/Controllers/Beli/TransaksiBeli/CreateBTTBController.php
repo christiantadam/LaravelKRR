@@ -466,7 +466,11 @@ class CreateBTTBController extends Controller
         $No_BTTB = $request->input('No_BTTB');
         if (($No_BTTB !== null)) {
             try {
-                $print = DB::connection('ConnPurchase')->table('VW_5409_PRINT_BTTB')->where('VW_5409_PRINT_BTTB.No_BTTB', $No_BTTB)->get();
+                $print = DB::connection('ConnPurchase')
+                    ->table('VW_5409_PRINT_BTTB')
+                    ->where('VW_5409_PRINT_BTTB.No_BTTB', $No_BTTB)
+                    ->whereNull('VW_5409_PRINT_BTTB.TglRetur')
+                    ->get();
                 $printHeader = DB::connection('ConnPurchase')->table('VW_5409_PRINT_HEADER_BTTB')->where('VW_5409_PRINT_HEADER_BTTB.No_BTTB', $No_BTTB)->get();
 
                 return Response()->json(["print" => $print, "printHeader" => $printHeader]);
