@@ -37,24 +37,6 @@ $(document).ready(function () {
             { width: "25%", targets: 6 },
         ],
     });
-    let table_daftarAsalKonversi = $("#table_daftarAsalKonversi").DataTable({
-        columnDefs: [
-            {
-                targets: 4, // Targeting the 5th column for "Id Type Inventory"
-                render: function (data, type, row, meta) {
-                    if (type === "display") {
-                        return `<select class="inventory-type-select" data-row="${meta.row}" style="width: 100%"></select>`;
-                    }
-                    return data;
-                },
-            },
-        ],
-        // Redraw the select elements on each page change
-        drawCallback: function () {
-            populateSelectElements();
-            setupDropdownChangeListener();
-        },
-    });
     const kodeKomponenMap = {
         BB: "BODY BESAR",
         BS: "BODY SAMPING",
@@ -157,6 +139,24 @@ $(document).ready(function () {
     const select_subKelompokTujuan = $("#select_subKelompokTujuan");
     const select_typeAsal = $("#select_typeAsal");
     const select_typeTujuan = $("#select_typeTujuan");
+    let table_daftarAsalKonversi = $("#table_daftarAsalKonversi").DataTable({
+        columnDefs: [
+            {
+                targets: 4, // Targeting the 5th column for "Id Type Inventory"
+                render: function (data, type, row, meta) {
+                    if (type === "display") {
+                        return `<select class="inventory-type-select" data-row="${meta.row}" style="width: 100%"></select>`;
+                    }
+                    return data;
+                },
+            },
+        ],
+        drawCallback: function () {
+            populateSelectElements();
+            setupDropdownChangeListener();
+        },
+    });
+
     //#endregion
 
     //#region Function Mantap-mantap
@@ -177,10 +177,26 @@ $(document).ready(function () {
         $("#table_daftarAsalKonversi .inventory-type-select").each(function () {
             let rowIndex = $(this).data("row");
             let rowData = table_daftarAsalKonversi.row(rowIndex).data();
+            let select = $(
+                `#table_daftarAsalKonversi .inventory-type-select[data-row="${rowIndex}"]`
+            );
+
+            if (select.find("option").length > 1) {
+                return;
+            }
 
             if (rowData[5]) {
-                // Assuming column index 5 is the column next to the select
                 // Skip populating this select element if there's already a value in the next column
+                return;
+            }
+            if (rowData[3] < 1) {
+                select.append(new Option("No Item Needed", ""));
+                select.select2({
+                    placeholder: "No Item Needed",
+                    width: "100%",
+                    dropdownParent: $(".modal-body"),
+                });
+                select.prop("disabled", true);
                 return;
             }
             // Calculate panjangLebar and namaKomponen from rowData
@@ -202,9 +218,6 @@ $(document).ready(function () {
                 },
                 dataType: "json",
                 success: function (optionsData) {
-                    let select = $(
-                        `#table_daftarAsalKonversi .inventory-type-select[data-row="${rowIndex}"]`
-                    );
                     select
                         .empty()
                         .append(
@@ -212,18 +225,39 @@ $(document).ready(function () {
                         );
 
                     // Populate select element with options
-                    optionsData.forEach((option) => {
-                        select.append(
-                            new Option(option.NamaType, option.IdType)
-                        );
-                    });
+                    if (optionsData.length > 0) {
+                        optionsData.forEach((option) => {
+                            select.append(
+                                new Option(
+                                    option.NamaType,
+                                    option.IdType +
+                                        " | " +
+                                        option.satPrimer +
+                                        " | " +
+                                        option.satSekunder +
+                                        " | " +
+                                        option.satTritier +
+                                        " | " +
+                                        option.SaldoPrimer +
+                                        " | " +
+                                        option.SaldoSekunder +
+                                        " | " +
+                                        option.SaldoTritier
+                                )
+                            );
+                        });
+                        select.prop("disabled", false); // Enable if there are options
+                    } else {
+                        select.append(new Option("No items available", ""));
+                        select.prop("disabled", true); // Disable if no options
+                    }
 
                     // Initialize Select2
                     select.select2({
                         placeholder:
                             optionsData.length > 0
-                                ? "Pilih barang"
-                                : "Tidak ada barang",
+                                ? "Choose item"
+                                : "There is no suitable item",
                         width: "100%",
                         dropdownParent: $(".modal-body"),
                     });
@@ -239,80 +273,125 @@ $(document).ready(function () {
     }
 
     // Function to handle select change and update next column
-    // function setupDropdownChangeListener() {
-    //     $("#table_daftarAsalKonversi").off("change", ".inventory-type-select"); // Remove previous event handlers to avoid duplicates
-    //     $("#table_daftarAsalKonversi").on(
-    //         "change",
-    //         ".inventory-type-select",
-    //         function () {
-    //             let selectedValue = $(this).val();
-    //             let rowIndex = $(this).data("row");
-
-    //             // Update the cell in the next column with the selected value
-    //             let cell = table_daftarAsalKonversi.cell(rowIndex, 5); // Assuming 5 is the column index next to dropdown
-    //             cell.data(selectedValue).draw();
-    //         }
-    //     );
-
-    // }
     function setupDropdownChangeListener() {
         $("#table_daftarAsalKonversi").off("change", ".inventory-type-select"); // Remove previous event handlers to avoid duplicates
         $("#table_daftarAsalKonversi").on(
             "change",
             ".inventory-type-select",
             function () {
-                let selectedValue = $(this).val();
+                let row = $(this).closest("tr");
+                row.css("background-color", "#ffffff");
                 let rowIndex = $(this).data("row");
 
-                // Update the cell in the next column with the selected value
-                let cell = table_daftarAsalKonversi.cell(rowIndex, 5); // Assuming 5 is the column index next to dropdown
-                // cell.data(selectedValue).draw();
-
-                // Update the cell in the next column with the selected value
-                let nextRowIndex = rowIndex + 1;
-                let totalRows = table_daftarAsalKonversi.rows().count();
-                let rowsPerPage = table_daftarAsalKonversi.page.info().length;
-                let currentPage = table_daftarAsalKonversi.page.info().page;
-                let lastRowOnPage = (currentPage + 1) * rowsPerPage - 1;
-
-                if (nextRowIndex < totalRows) {
-                    let isNextRowOnCurrentPage = nextRowIndex <= lastRowOnPage;
-
-                    if (isNextRowOnCurrentPage) {
-                        // Focus the next row's select element after a short delay
-                        setTimeout(() => {
-                            let rowNode = table_daftarAsalKonversi
-                                .row(nextRowIndex)
-                                .node();
-                            let nextSelectElement = $(rowNode)
-                                .find(".inventory-type-select")
-                                .eq(0);
-
-                            if (nextSelectElement.length) {
-                                nextSelectElement.select2("open");
-                            }
-                        }, 200); // Adjust delay as needed
-                    } else {
-                        // Move to the next page and open the first select on that page after a delay
-                        table_daftarAsalKonversi.page("next").draw("page");
-
-                        table_daftarAsalKonversi.one("draw", function () {
-                            setTimeout(() => {
-                                let firstRowOnNextPage =
-                                    table_daftarAsalKonversi.row(0).node();
-                                let firstSelectOnNextPage = $(
-                                    firstRowOnNextPage
-                                )
-                                    .find(".inventory-type-select")
-                                    .eq(0);
-
-                                if (firstSelectOnNextPage.length) {
-                                    firstSelectOnNextPage.select2("open");
-                                }
-                            }, 200); // Adjust delay as needed
-                        });
-                    }
+                // Ensure that $(this).val() has a value before splitting
+                let value = $(this).val();
+                if (!value) {
+                    console.warn(
+                        "No value selected in inventory-type-select for row:",
+                        rowIndex
+                    );
+                    return;
                 }
+
+                let [
+                    idType,
+                    satPrimer,
+                    satSekunder,
+                    satTritier,
+                    SaldoPrimer,
+                    SaldoSekunder,
+                    SaldoTritier,
+                ] = value.split(" | ");
+
+                // Now you can safely use these variables for calculations and checks
+                let quantityDibutuhkan = parseFloat(
+                    table_daftarAsalKonversi.cell(rowIndex, 3).data()
+                );
+                let cell5 = table_daftarAsalKonversi.cell(rowIndex, 5);
+                let cell6 = table_daftarAsalKonversi.cell(rowIndex, 6);
+                let cell7 = table_daftarAsalKonversi.cell(rowIndex, 7);
+                let cell8 = table_daftarAsalKonversi.cell(rowIndex, 8);
+
+                let jumlahPengeluaranSekunderHasilHitungan = numeral(
+                    parseFloat(jumlah_pemasukanSekunder.value ?? 0) *
+                        quantityDibutuhkan
+                ).format("0.00");
+
+                let jumlahPengeluaranPrimerHasilHitungan = numeral(
+                    Math.round(
+                        jumlahPengeluaranSekunderHasilHitungan *
+                            (SaldoPrimer / SaldoSekunder)
+                    )
+                ).format("0.00");
+
+                let jumlahPengeluaranTritierHasilHitungan = numeral(
+                    jumlahPengeluaranSekunderHasilHitungan *
+                        (SaldoSekunder / SaldoTritier)
+                ).format("0.00");
+
+                // Check if SaldoTritier is sufficient
+                if (
+                    parseFloat(SaldoTritier) <=
+                    parseFloat(jumlahPengeluaranTritierHasilHitungan)
+                ) {
+                    console.warn(
+                        "Untuk konversi membutuhkan " +
+                            jumlahPengeluaranTritierHasilHitungan +
+                            " " +
+                            satuan_tritierJumlahPemasukan.value +
+                            ". Saldo Tritier untuk Id Type " +
+                            idType +
+                            " hanya tersedia: " +
+                            parseFloat(SaldoTritier) +
+                            " " +
+                            satTritier +
+                            ". Saldo Tritier Tidak cukup!"
+                    );
+
+                    let originalSelect = $(this).get(0); // Get the original select DOM element
+                    originalSelect.setCustomValidity(
+                        "Saldo Tritier tidak cukup untuk Id Type " +
+                            idType +
+                            "."
+                    );
+                    originalSelect.reportValidity();
+
+                    // Reset the select element to the first option (index 0)
+                    $(this).val(null).trigger("change");
+
+                    // Clear custom validity after 3 seconds
+                    setTimeout(() => {
+                        originalSelect.setCustomValidity("");
+                    }, 3000);
+
+                    // Clear relevant cells in the table
+                    cell5.data("").draw();
+                    cell6.data("").draw();
+                    cell7.data("").draw();
+                    cell8.data("").draw();
+                    row.css("background-color", "#ffcccc");
+                    return;
+                }
+
+                // If SaldoTritier is sufficient, populate cells
+                cell5.data(idType).draw();
+                cell6
+                    .data(
+                        jumlahPengeluaranPrimerHasilHitungan + " " + satPrimer
+                    )
+                    .draw();
+                cell7
+                    .data(
+                        jumlahPengeluaranSekunderHasilHitungan +
+                            " " +
+                            satSekunder
+                    )
+                    .draw();
+                cell8
+                    .data(
+                        jumlahPengeluaranTritierHasilHitungan + " " + satTritier
+                    )
+                    .draw();
             }
         );
     }
@@ -990,7 +1069,7 @@ $(document).ready(function () {
     select_kelompokUtamaTujuan.on("select2:select", function () {
         const selectedKelompokUtamaTujuan = $(this).val(); // Get selected Divisi Tujuan
         initializeSelectElement("pilihKelompokUtamaTujuan");
-        clearSelectElement("pilihKelompokUtamaAsal");
+        clearSelectElement("pilihKelompokUtamaTujuan");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({

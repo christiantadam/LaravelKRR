@@ -20,6 +20,13 @@
         height: auto !important;
         /* Make sure the input fields take the proper height */
     }
+
+    .row-warning {
+        background-color: #ffcccc;
+        /* Warning red */
+        transition: background-color 2s ease;
+        /* 2-second fade transition */
+    }
 </style>
 
 <div class="container-fluid">
@@ -155,6 +162,7 @@
                     </div>
                     <div class="card"
                         style="display: flex; flex-direction: column;margin: 0.5%;padding:0.5%;border: 1px solid rgba(0, 0, 0, 0.5);">
+                        <h3>Tujuan Konversi</h3>
                         <div style="display: flex; flex-direction: row;gap:1%;">
                             <div class="form-group" style="width: 24%">
                                 <label for="select_objekTujuan">Objek</label>
@@ -261,7 +269,7 @@
                     <div class="card"
                         style="display: flex; flex-direction: column;margin: 0.5%;padding:0.5%;border: 1px solid rgba(0, 0, 0, 0.5);">
                         <div id="div_tabelAsalKonversi">
-                            <h3>Tabel Asal Konversi</h3>
+                            <h3>Asal Konversi</h3>
                             <div style="overflow:auto">
                                 <table id="table_daftarAsalKonversi">
                                     <thead>
