@@ -98,9 +98,25 @@ $(document).ready(function () {
         }
     });
 
+    tanggalInputM.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            select_bankM.focus();
+        }
+    });
+
     btn_group.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(rowDataArray);
+        if (rowDataArray.length === 0) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data pelunasan terlebih dahulu",
+                showConfirmButton: true,
+            });
+            return;
+        }
         // const totalPayment = calculateTotalPayment(rowDataArray);
         if (rowDataArray[0][2] == "" || rowDataArray[0][7] == "") {
             Swal.fire({
@@ -964,7 +980,8 @@ $(document).ready(function () {
 
     btn_prosesMB.addEventListener("click", async function (event) {
         event.preventDefault();
-        rowDataArray[0][2] = idBankM.value;
+        // rowDataArray[0][2] = idBankM.value;
+        rowDataArray[0][2] = select_bankM.val();
         // Function to convert Y-m-d to m/d/Y
         function formatDateToMDY(dateString) {
             const [year, month, day] = dateString.split("-");
@@ -982,21 +999,22 @@ $(document).ready(function () {
 
             selectedRow.data(rowDataArray[0]).draw();
             rowDataArray = [];
-            namaBankM.value = "";
+            // namaBankM.value = "";
         }
         tutupModalB.click();
         // document.activeElement.blur();
     });
 
-    tutupModalB.addEventListener("click", async function (event) {
-        event.preventDefault();
-        namaBankM.value = "";
-    });
+    // tutupModalB.addEventListener("click", async function (event) {
+    //     event.preventDefault();
+    //     // namaBankM.value = "";
+    // });
 
     btn_pilihBank.addEventListener("click", async function (event) {
         event.preventDefault();
         let tglTgh = [];
         let tglMax = null;
+        console.log(rowDataArray);
 
         if (rowDataArray !== null && rowDataArray.length == 1) {
             for (let i = 0; i < rowDataArray.length; i++) {
@@ -1004,41 +1022,41 @@ $(document).ready(function () {
                 let match = tanggalStr.match(/value="([^"]+)"/);
 
                 if (match) {
-                    // Misalnya kita asumsikan format adalah "mm/dd/yyyy"
                     let [month, day, year] = match[1].split("/").map(Number);
-                    tglTgh.push(new Date(year, month - 1, day)); // Bulan di JavaScript dimulai dari 0
+                    tglTgh.push(new Date(year, month - 1, day));
                 }
+                console.log(match);
             }
-
             // Mendapatkan tanggal maksimum dari array tglTgh
             tglMax = tglTgh.reduce(
                 (max, date) => (date > max ? date : max),
                 tglTgh[0]
             );
+            console.log(tglMax);
 
             // Mengatur nilai ke elemen-elemen input HTML dengan format yang sama dengan VB
             tanggalTagihM.value = tglMax.toLocaleDateString("en-CA");
             // tanggalTagihM.value = tglMax.toLocaleDateString("en-CA"); // format yyyy-mm-dd
             idPelunasanM.value = rowDataArray[0][1];
             jenisBayarM.value = rowDataArray[0][3];
-            idBankM.value = rowDataArray[0][2];
+            // idBankM.value = rowDataArray[0][2];
+            select_bankM.val(rowDataArray[0][2]).trigger("change");
             mataUangM.value = rowDataArray[0][4];
             nilaiPeluansanM.value = numeral(rowDataArray[0][5]).format(
                 "0,0.00"
             );
             noBuktiM.value = rowDataArray[0][6];
 
-            if (idBankM.value !== "") {
+            if (select_bankM.val() !== "") {
                 $.ajax({
                     url: "MaintenanceBKMPenagihan/getBankAda",
                     type: "GET",
                     data: {
                         _token: csrfToken,
-                        idBankM: idBankM.value,
+                        idBankM: select_bankM.val(),
                     },
                     success: function (data) {
                         console.log(data);
-                        namaBankM.value = data.Nama;
                         jenisMB.value = data.jenis;
                     },
                     error: function (xhr, status, error) {
@@ -1058,7 +1076,7 @@ $(document).ready(function () {
             document
                 .getElementById("modalPilihBank")
                 .addEventListener("shown.bs.modal", function () {
-                    btn_bankM.focus(); // Fokuskan input
+                    tanggalInputM.focus(); // Fokuskan input
                 });
 
             myModal.show();
@@ -1360,109 +1378,138 @@ $(document).ready(function () {
         // console.log(selectedRow);
     });
 
-    btn_bankM.addEventListener("click", async function (event) {
-        event.preventDefault();
-        try {
-            const result = await Swal.fire({
-                title: "Select a Bank",
-                html: '<table id="BankTable" class="display" style="width:100%"><thead><tr><th>ID. Bank</th><th>Nama Bank</th></tr></thead><tbody></tbody></table>',
-                showCancelButton: true,
-                width: "40%",
-                preConfirm: () => {
-                    const selectedData = $("#BankTable")
-                        .DataTable()
-                        .row(".selected")
-                        .data();
-                    if (!selectedData) {
-                        Swal.showValidationMessage("Please select a row");
-                        return false;
-                    }
-                    return selectedData;
-                },
-                didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#BankTable").DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            returnFocus: true,
-                            ajax: {
-                                url: "MaintenanceBKMPenagihan/getBank",
-                                dataType: "json",
-                                type: "GET",
-                                data: {
-                                    _token: csrfToken,
-                                },
-                            },
-                            columns: [
-                                {
-                                    data: "Id_Bank",
-                                },
-                                {
-                                    data: "Nama_Bank",
-                                },
-                            ],
-                            paging: false,
-                            scrollY: "400px",
-                            scrollCollapse: true,
-                        });
-                        setTimeout(() => {
-                            $("#BankTable_filter input").focus();
-                        }, 300);
-                        // $("#BankTable_filter input").on(
-                        //     "keyup",
-                        //     function () {
-                        //         table
-                        //             .columns(1) // Kolom kedua (Kode_Bank)
-                        //             .search(this.value) // Cari berdasarkan input pencarian
-                        //             .draw(); // Perbarui hasil pencarian
-                        //     }
-                        // );
-                        $("#BankTable tbody").on("click", "tr", function () {
-                            // Remove 'selected' class from all rows
-                            table.$("tr.selected").removeClass("selected");
-                            // Add 'selected' class to the clicked row
-                            $(this).addClass("selected");
-                        });
-                        currentIndex = null;
-                        Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydownInSwal(e, "BankTable")
-                        );
-                    });
-                },
-            }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    const selectedRow = result.value;
-                    idBankM.value = escapeHTML(selectedRow.Id_Bank.trim());
-                    namaBankM.value = escapeHTML(selectedRow.Nama_Bank.trim());
-
-                    $.ajax({
-                        url: "MaintenanceBKMPenagihan/getBankDetails",
-                        type: "GET",
-                        data: {
-                            _token: csrfToken,
-                            idBankM: idBankM.value,
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            jenisMB.value = data[0].Id_Bank;
-                        },
-                        error: function (xhr, status, error) {
-                            var err = eval("(" + xhr.responseText + ")");
-                            alert(err.Message);
-                        },
-                    });
-
-                    setTimeout(() => {
-                        btn_prosesMB.focus();
-                    }, 300);
-                }
-            });
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
-        // console.log(selectedRow);
+    const select_bankM = $("#select_bankM");
+    select_bankM.select2({
+        dropdownParent: $("#modalPilihBank"),
+        placeholder: "Pilih Bank",
     });
+    select_bankM.on("select2:select", function () {
+        const selectedBank = $(this).val();
+        $.ajax({
+            url: "MaintenanceBKMPenagihan/getBankDetails",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                idBankM: select_bankM.val(),
+            },
+            success: function (data) {
+                console.log(data);
+                jenisMB.value = data[0].Id_Bank;
+                setTimeout(() => {
+                    btn_prosesMB.focus();
+                }, 300);
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+        console.log(selectedBank);
+    });
+
+    // btn_bankM.addEventListener("click", async function (event) {
+    //     event.preventDefault();
+    //     try {
+    //         const result = await Swal.fire({
+    //             title: "Select a Bank",
+    //             html: '<table id="BankTable" class="display" style="width:100%"><thead><tr><th>ID. Bank</th><th>Nama Bank</th></tr></thead><tbody></tbody></table>',
+    //             showCancelButton: true,
+    //             width: "40%",
+    //             preConfirm: () => {
+    //                 const selectedData = $("#BankTable")
+    //                     .DataTable()
+    //                     .row(".selected")
+    //                     .data();
+    //                 if (!selectedData) {
+    //                     Swal.showValidationMessage("Please select a row");
+    //                     return false;
+    //                 }
+    //                 return selectedData;
+    //             },
+    //             didOpen: () => {
+    //                 $(document).ready(function () {
+    //                     const table = $("#BankTable").DataTable({
+    //                         responsive: true,
+    //                         processing: true,
+    //                         serverSide: true,
+    //                         returnFocus: true,
+    //                         ajax: {
+    //                             url: "MaintenanceBKMPenagihan/getBank",
+    //                             dataType: "json",
+    //                             type: "GET",
+    //                             data: {
+    //                                 _token: csrfToken,
+    //                             },
+    //                         },
+    //                         columns: [
+    //                             {
+    //                                 data: "Id_Bank",
+    //                             },
+    //                             {
+    //                                 data: "Nama_Bank",
+    //                             },
+    //                         ],
+    //                         paging: false,
+    //                         scrollY: "400px",
+    //                         scrollCollapse: true,
+    //                     });
+    //                     setTimeout(() => {
+    //                         $("#BankTable_filter input").focus();
+    //                     }, 300);
+    //                     // $("#BankTable_filter input").on(
+    //                     //     "keyup",
+    //                     //     function () {
+    //                     //         table
+    //                     //             .columns(1) // Kolom kedua (Kode_Bank)
+    //                     //             .search(this.value) // Cari berdasarkan input pencarian
+    //                     //             .draw(); // Perbarui hasil pencarian
+    //                     //     }
+    //                     // );
+    //                     $("#BankTable tbody").on("click", "tr", function () {
+    //                         // Remove 'selected' class from all rows
+    //                         table.$("tr.selected").removeClass("selected");
+    //                         // Add 'selected' class to the clicked row
+    //                         $(this).addClass("selected");
+    //                     });
+    //                     currentIndex = null;
+    //                     Swal.getPopup().addEventListener("keydown", (e) =>
+    //                         handleTableKeydownInSwal(e, "BankTable")
+    //                     );
+    //                 });
+    //             },
+    //         }).then((result) => {
+    //             if (result.isConfirmed && result.value) {
+    //                 const selectedRow = result.value;
+    //                 idBankM.value = escapeHTML(selectedRow.Id_Bank.trim());
+    //                 namaBankM.value = escapeHTML(selectedRow.Nama_Bank.trim());
+
+    //                 $.ajax({
+    //                     url: "MaintenanceBKMPenagihan/getBankDetails",
+    //                     type: "GET",
+    //                     data: {
+    //                         _token: csrfToken,
+    //                         idBankM: idBankM.value,
+    //                     },
+    //                     success: function (data) {
+    //                         console.log(data);
+    //                         jenisMB.value = data[0].Id_Bank;
+    //                     },
+    //                     error: function (xhr, status, error) {
+    //                         var err = eval("(" + xhr.responseText + ")");
+    //                         alert(err.Message);
+    //                     },
+    //                 });
+
+    //                 setTimeout(() => {
+    //                     btn_prosesMB.focus();
+    //                 }, 300);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error("An error occurred:", error);
+    //     }
+    //     // console.log(selectedRow);
+    // });
 
     btn_ok.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -1535,6 +1582,7 @@ $(document).ready(function () {
                                         ])
                                         .draw();
                                 });
+                                rowDataArray = [];
                             }
                         },
                         error: function (xhr, status, error) {

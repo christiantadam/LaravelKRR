@@ -238,137 +238,6 @@
                             </div>
                         </div>
 
-                        <!--MODAL PILIH BANK-->
-                        <div class="modal fade" id="modalPilihBank" tabindex="-1" role="dialog"
-                            aria-labelledby="modalPilihBank" aria-hidden="true">
-                            <div class="modal-dialog custom-modal-width" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="pilihBankModal">Maintenance Pilih Bank BKM
-                                        </h5>
-                                        <button type="button" class="close" data-bs-dismiss="modal"
-                                            aria-label="Close" id="tutupModalB">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <input type="hidden" name="_method" id="methoddetail">
-                                    <div class="modal-body">
-                                        <div class="d-flex">
-                                            <div class="col-md-2">
-                                                <label for="idPelunasanM" style="margin-right: 10px;">Id.
-                                                    Pelunasan</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="text" id="idPelunasanM" name="idPelunasanM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex">
-                                            <div class="col-md-2">
-                                                <label for="tanggalInputM" style="margin-right: 10px;">Tanggal
-                                                    Input</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="date" id="tanggalInputM" name="tanggalInputM"
-                                                    class="form-control" style="width: 100%">
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label for="tanggalTagihM" style="margin-right: 10px;">Tanggal
-                                                    Tagih</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="date" id="tanggalTagihM" name="tanggalTagihM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex">
-                                            <div class="col-md-2">
-                                                <label for="jenisBayarM" style="margin-right: 10px;">Jenis
-                                                    Bayar</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="text" id="jenisBayarM" name="jenisBayarM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex">
-                                            <div class="col-md-2">
-                                                <label for="pelunasanRupiah" style="margin-right: 10px;">Bank</label>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <input type="text" id="idBankM" name="idBankM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" id="namaBankM" name="namaBankM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                            <div class="col-md-1" style="display: none">
-                                                <input type="text" id="jenisMB" name="jenisMB"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <button type="button" class="btn btn-default"
-                                                    id="btn_bankM">...</button>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex">
-                                            <div class="col-md-2">
-                                                <label for="kodePerkiraan" style="margin-right: 10px;">Mata
-                                                    Uang</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="text" id="mataUangM" name="mataUangM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex">
-                                            <div class="col-md-2">
-                                                <label for="kodePerkiraan" style="margin-right: 10px;">Nilai
-                                                    Pelunasan</label>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <input type="text" id="nilaiPeluansanM" name="nilaiPeluansanM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="d-flex">
-                                            <div class="col-md-2">
-                                                <label for="kodePerkiraan" style="margin-right: 10px;">No.
-                                                    Bukti</label>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <input type="text" id="noBuktiM" name="noBuktiM"
-                                                    class="form-control" style="width: 100%" readonly>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-5">
-                                                <button type="button" class="btn btn-success" id="btn_prosesMB"
-                                                    style="width: 100px;">Proses</button>
-                                            </div>
-                                            <div class="col-3">
-                                            </div>
-                                            <div class="col-4">
-                                                {{-- <input type="submit" id="btnTutupModal" name="btnTutupModal"
-                                                        value="Tutup" class="btn btn-primary"> --}}
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="detpelunasan" id="detpelunasan"
-                                            value="detpelunasan">
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
                         <!--MODAL MAINTENANCE DETAIL PELUNASAN-->
                         <div class="modal fade" id="modalDetailPelunasan" tabindex="-1" role="dialog"
                             aria-labelledby="modalDetailPelunasan" aria-hidden="true">
@@ -449,7 +318,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" id="ket_perkiraanMP" name="ket_perkiraanMP"
-                                                    class="form-control" style="width: 100%" readonly   >
+                                                    class="form-control" style="width: 100%" readonly>
                                             </div>
                                             <div class="col-md-1">
                                                 <button type="button" class="btn btn-default"
@@ -681,8 +550,161 @@
                 </div>
             </div>
         </div>
-        {{--  --}}
-        {{-- <div class="print" style="visibility: hidden;">
+    </div>
+</div>
+<!--MODAL PILIH BANK-->
+<div class="modal fade" id="modalPilihBank" tabindex="-1" role="dialog" aria-labelledby="modalPilihBank"
+    aria-hidden="true">
+    <div class="modal-dialog custom-modal-width" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pilihBankModal">Maintenance Pilih Bank BKM
+                </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" id="tutupModalB">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input type="hidden" name="_method" id="methoddetail">
+            <div class="modal-body">
+                <div class="d-flex">
+                    <div class="col-md-2">
+                        <label for="idPelunasanM" style="margin-right: 10px;">Id.
+                            Pelunasan</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" id="idPelunasanM" name="idPelunasanM" class="form-control"
+                            style="width: 100%" readonly>
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex">
+                    <div class="col-md-2">
+                        <label for="tanggalInputM" style="margin-right: 10px;">Tanggal
+                            Input</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" id="tanggalInputM" name="tanggalInputM" class="form-control"
+                            style="width: 100%">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="tanggalTagihM" style="margin-right: 10px;">Tanggal
+                            Tagih</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" id="tanggalTagihM" name="tanggalTagihM" class="form-control"
+                            style="width: 100%" readonly>
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex">
+                    <div class="col-md-2">
+                        <label for="jenisBayarM" style="margin-right: 10px;">Jenis
+                            Bayar</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" id="jenisBayarM" name="jenisBayarM" class="form-control"
+                            style="width: 100%" readonly>
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex">
+                    <div class="col-md-2">
+                        <label for="select_bankM" style="margin-right: 10px;">Bank</label>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="col-md-1" style="display: none">
+                            <input type="text" id="jenisMB" name="jenisMB"
+                                class="form-control" style="width: 100%" readonly>
+                        </div>
+                        <div class="input-group" style="width: 100%;">
+                            <!-- Ensure full width here -->
+                            <select name="select_bankM" id="select_bankM" class="form-control"
+                                style="width: 100%;">
+                                <!-- Full width for select -->
+                                <option disabled selected>Pilih Bank</option>
+                                @foreach ($banks as $d)
+                                    <option value="{{ $d->Id_Bank }}">{{ $d->Id_Bank }}
+                                        | {{ $d->Nama_Bank }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="d-flex">
+                <div class="col-md-2">
+                    <label for="pelunasanRupiah" style="margin-right: 10px;">Bank</label>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="idBankM" name="idBankM"
+                        class="form-control" style="width: 100%" readonly>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" id="namaBankM" name="namaBankM"
+                        class="form-control" style="width: 100%" readonly>
+                </div>
+                <div class="col-md-1" style="display: none">
+                    <input type="text" id="jenisMB" name="jenisMB"
+                        class="form-control" style="width: 100%" readonly>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-default"
+                        id="btn_bankM">...</button>
+                </div>
+            </div> --}}
+                <br>
+                <div class="d-flex">
+                    <div class="col-md-2">
+                        <label for="kodePerkiraan" style="margin-right: 10px;">Mata
+                            Uang</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" id="mataUangM" name="mataUangM" class="form-control"
+                            style="width: 100%" readonly>
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex">
+                    <div class="col-md-2">
+                        <label for="kodePerkiraan" style="margin-right: 10px;">Nilai
+                            Pelunasan</label>
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" id="nilaiPeluansanM" name="nilaiPeluansanM" class="form-control"
+                            style="width: 100%" readonly>
+                    </div>
+                </div>
+                <br>
+                <div class="d-flex">
+                    <div class="col-md-2">
+                        <label for="kodePerkiraan" style="margin-right: 10px;">No.
+                            Bukti</label>
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" id="noBuktiM" name="noBuktiM" class="form-control"
+                            style="width: 100%" readonly>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-5">
+                        <button type="button" class="btn btn-success" id="btn_prosesMB"
+                            style="width: 100px;">Proses</button>
+                    </div>
+                    <div class="col-3">
+                    </div>
+                    <div class="col-4">
+                        {{-- <input type="submit" id="btnTutupModal" name="btnTutupModal"
+                            value="Tutup" class="btn btn-primary"> --}}
+                    </div>
+                </div>
+                <input type="hidden" name="detpelunasan" id="detpelunasan" value="detpelunasan">
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{--  --}}
+{{-- <div class="print" style="visibility: hidden;">
             <div class="container">
                 <div class="row">
                     <div class="col-5" style="padding-right: 25px;">
@@ -895,5 +917,5 @@
             </div>
         </div> --}}
 
-        <script src="{{ asset('js/Accounting/Piutang/MaintenanceBKMPenagihan.js') }}"></script>
-    @endsection
+<script src="{{ asset('js/Accounting/Piutang/MaintenanceBKMPenagihan.js') }}"></script>
+@endsection

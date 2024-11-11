@@ -40,7 +40,10 @@ $(document).ready(function () {
     mata_uang.readOnly = true;
     jenis_pembayaran.readOnly = true;
     idReferensi.readOnly = true;
-    btn_ok.click();
+    setTimeout(() => {
+        btn_ok.click();
+        btn_isi.focus();
+    }, 300);
 
     btn_isi.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -54,6 +57,7 @@ $(document).ready(function () {
         btn_jenisPembayaran.disabled = false;
         proses = 1;
         radio1.click();
+        btn_bank.focus();
     });
 
     btn_koreksi.addEventListener("click", async function (event) {
@@ -257,6 +261,23 @@ $(document).ready(function () {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             });
+            setTimeout(() => {
+                keterangan.focus();
+            }, 300);
+        }
+    });
+
+    keterangan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_jenisPembayaran.focus();
+        }
+    });
+
+    noBukti.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_proses.focus();
         }
     });
 
@@ -373,6 +394,18 @@ $(document).ready(function () {
                             ],
                             order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#tableJenisPembayaran_filter input").focus();
+                        }, 300);
+                        // $("#tableJenisPembayaran_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableJenisPembayaran tbody").on(
                             "click",
                             "tr",
@@ -396,9 +429,9 @@ $(document).ready(function () {
                     idJenisPembayaran.value = escapeHTML(
                         selectedRow.Id_Jenis_Bayar.trim()
                     );
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        noBukti.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -444,6 +477,18 @@ $(document).ready(function () {
                                 { data: "Id_Bank" },
                             ],
                         });
+                        setTimeout(() => {
+                            $("#tableBank_filter input").focus();
+                        }, 300);
+                        // $("#tableBank_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableBank tbody").on("click", "tr", function () {
                             table.$("tr.selected").removeClass("selected");
                             $(this).addClass("selected");
@@ -459,9 +504,9 @@ $(document).ready(function () {
                     const selectedRow = result.value;
                     nama_bank.value = escapeHTML(selectedRow.Nama_Bank.trim());
                     idBank.value = escapeHTML(selectedRow.Id_Bank.trim());
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        btn_mataUang.focus();
+                    }, 300);
                 }
             });
         } catch (error) {
@@ -508,6 +553,18 @@ $(document).ready(function () {
                             ],
                             order: [[1, "asc"]],
                         });
+                        setTimeout(() => {
+                            $("#tableMataUang_filter input").focus();
+                        }, 300);
+                        // $("#tableMataUang_filter input").on(
+                        //     "keyup",
+                        //     function () {
+                        //         table
+                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                        //             .search(this.value) // Cari berdasarkan input pencarian
+                        //             .draw(); // Perbarui hasil pencarian
+                        //     }
+                        // );
                         $("#tableMataUang tbody").on(
                             "click",
                             "tr",
@@ -531,9 +588,9 @@ $(document).ready(function () {
                     idMataUang.value = escapeHTML(
                         selectedRow.Id_MataUang.trim()
                     );
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
+                    setTimeout(() => {
+                        totalNilai.focus();
+                    }, 300);
                 }
             });
         } catch (error) {

@@ -191,7 +191,11 @@
                                                         </ul>
                                                     @endif
                                                 </li>
-
+                                                @if ($menuItem->IdMenu == 35 && $itemCount == 2)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
                                                 @if ($menuItem->IdMenu == 36 && $itemCount == 10)
                                                     <li>
                                                         <hr style="margin: 0; border: 0,8px solid black;">
@@ -203,6 +207,46 @@
                                                     </li>
                                                 @endif
                                                 @if ($menuItem->IdMenu == 36 && $itemCount == 17)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 37 && $itemCount == 11)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 37 && $itemCount == 12)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 37 && $itemCount == 13)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 37 && $itemCount == 18)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 37 && $itemCount == 20)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 37 && $itemCount == 23)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 37 && $itemCount == 25)
+                                                    <li>
+                                                        <hr style="margin: 0; border: 0,8px solid black;">
+                                                    </li>
+                                                @endif
+                                                @if ($menuItem->IdMenu == 40 && $itemCount == 4)
                                                     <li>
                                                         <hr style="margin: 0; border: 0,8px solid black;">
                                                     </li>

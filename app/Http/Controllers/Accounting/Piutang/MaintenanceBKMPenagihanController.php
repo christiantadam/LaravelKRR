@@ -16,8 +16,9 @@ class MaintenanceBKMPenagihanController extends Controller
 {
     public function index()
     {
+        $banks = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BANK');
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Piutang.MaintenanceBKMPenagihan', compact('access'));
+        return view('Accounting.Piutang.MaintenanceBKMPenagihan', compact('access', 'banks'));
     }
 
     public function getTabelDetailPelunasan($idPelunasan)
@@ -242,7 +243,7 @@ class MaintenanceBKMPenagihanController extends Controller
             if (count($results) > 0 && $results[0]->ada > 0) {
                 return response()->json([
                     'error' => "TIDAK BOLEH CREATE BKM U/ BLN INI!!!\nCREATE BKM U/ BLN SBLMNYA DULU. SAMPAI TUNTAS... KHUSUS TUNAI & TRANSFER"
-                ], 400);
+                ]);
             } else {
                 return response()->json([
                     'message' => "Tampil Pelunasan"
@@ -601,7 +602,7 @@ class MaintenanceBKMPenagihanController extends Controller
 
             if ($countChecked === 1) {
                 $singleItem = $checkedItems[0];
-                dd($singleItem);
+                // dd($singleItem);
                 $pelunasanId = intval($singleItem[1]);
                 $idCust = trim($singleItem[8]);
 
