@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //#region Function
     function aktif_tombol(tmb) {
-        console.log(tmb);
         if (tmb == 1) {
             btn_isi.disabled = false;
             btn_koreksi.disabled = false;
@@ -180,8 +179,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function formatTanggal(tanggal) {
-        const [bulan, hari, tahun] = tanggal.split('/');
-        return `${tahun}-${bulan.padStart(2, '0')}-${hari.padStart(2, '0')}`;
+        const [bulan, hari, tahun] = tanggal.split("/");
+        return `${tahun}-${bulan.padStart(2, "0")}-${hari.padStart(2, "0")}`;
     }
 
     //#region Event Listener
@@ -358,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         title: "Success!",
                         text: data.success,
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 1500,
                     });
                 } else if (data.error) {
                     Swal.fire({
@@ -449,10 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         $("#customerTable_filter input").on(
                             "keyup",
                             function () {
-                                table
-                                    .columns(1)
-                                    .search(this.value)
-                                    .draw();
+                                table.columns(1).search(this.value).draw();
                             }
                         );
                         $("#customerTable tbody").on(
@@ -541,7 +537,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
                     });
                 },
-            }).then(async (result) => {
+            }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     kodeBarangAsal.value = selectedRow.Kode_Barang.trim();
@@ -551,6 +547,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         btn_nopesanan.disabled = true;
                         setTimeout(() => {
                             tanggal_dikerjakan.focus();
+                        }, 300);
+                    } else if (proses === 2) {
+                        setTimeout(() => {
+                            btn_nopesanan.focus();
                         }, 300);
                     }
                 }
@@ -949,6 +949,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // Add 'selected' class to the clicked row
                                 $(this).addClass("selected");
                             }
+                        );
+                        currentIndex = null;
+                        Swal.getPopup().addEventListener("keydown", (e) =>
+                            handleTableKeydownInSwal(e, "nopesananTable")
                         );
                     });
                 },
