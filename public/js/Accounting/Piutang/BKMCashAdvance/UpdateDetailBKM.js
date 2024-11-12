@@ -61,6 +61,7 @@ $(document).ready(function () {
     ket_perkiraanMK.readOnly = true;
     tgl_awalbkm.valueAsDate = new Date();
     tgl_akhirbkm.valueAsDate = new Date();
+    bulan.focus();
 
     radio_1.addEventListener("click", function (event) {
         koreksi = 1;
@@ -72,6 +73,20 @@ $(document).ready(function () {
 
     radio_3.addEventListener("click", function (event) {
         koreksi = 3;
+    });
+
+    bulan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tahun.focus();
+        }
+    });
+
+    tahun.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_ok.focus();
+        }
     });
 
     btn_okbkm.addEventListener("click", async function (event) {

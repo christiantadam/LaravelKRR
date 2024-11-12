@@ -27,6 +27,7 @@ $(document).ready(function () {
     let tgl_akhirbkm = document.getElementById("tgl_akhirbkm");
     let bkm = document.getElementById("bkm");
     let tutup_TB = document.getElementById("tutup_TB");
+    let btn_batal = document.getElementById("btn_batal");
     let table_pelunasan = $("#table_pelunasan").DataTable({
         // columnDefs: [{ targets: [7, 8, 9], visible: false }],
     });
@@ -36,6 +37,20 @@ $(document).ready(function () {
     bulan.focus();
     tgl_awalbkm.valueAsDate = new Date();
     tgl_akhirbkm.valueAsDate = new Date();
+
+    bulan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tahun.focus();
+        }
+    });
+
+    tahun.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_ok.focus();
+        }
+    });
 
     btn_group.addEventListener("click", async function (event) {
         event.preventDefault();
@@ -126,6 +141,11 @@ $(document).ready(function () {
                 alert(xhr.responseJSON.message);
             },
         });
+    });
+
+    btn_batal.addEventListener("click", async function (event) {
+        event.preventDefault();
+        location.reload();
     });
 
     btn_ok.addEventListener("click", async function (event) {

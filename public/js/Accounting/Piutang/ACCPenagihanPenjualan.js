@@ -97,12 +97,12 @@ $(document).ready(function () {
             },
             columns: [
                 {
-                    data: "Tgl_Surat_jalan",
+                    data: "Surat_Jalan",
                     // render: function (data) {
                     //     return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
                     // },
                 },
-                { data: "Surat_Jalan" },
+                { data: "Tgl_Surat_jalan" },
             ],
             paging: false,
             scrollY: "400px",

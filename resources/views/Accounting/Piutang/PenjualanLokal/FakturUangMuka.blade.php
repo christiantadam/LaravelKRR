@@ -175,7 +175,7 @@
                                             <label for="userPenagihSelect" style="margin-right: 10px;">User
                                                 Penagih</label>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-3">
                                             <input type="text" id="user_penagih" name="user_penagih"
                                                 class="form-control" style="width: 100%">
                                         </div>

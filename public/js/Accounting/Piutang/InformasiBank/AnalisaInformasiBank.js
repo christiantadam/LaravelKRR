@@ -24,7 +24,7 @@ $(document).ready(function () {
     let idCustomer = document.getElementById("idCustomer");
     let radiogrup2 = document.getElementById("radiogrup2");
     let radiobtn = document.getElementsByName("radiogrup2");
-    // let radiogrup = document.getElementsByName("radiogrup");
+    let radiogrup = document.getElementsByName("radiogrup");
     let tabelAnalisa = $("#tabelAnalisa").DataTable();
 
     const tgl = new Date();
@@ -34,6 +34,16 @@ $(document).ready(function () {
     const tgl2 = new Date();
     const formattedDate2 = tgl2.toISOString().substring(0, 10);
     tanggal2.value = formattedDate2;
+
+    // Nilai yang ingin dicentang
+    // Nilai yang ingin dicentang
+    let targetValue = "0";
+
+    radiogrup.forEach((radio) => {
+        if (radio.value === targetValue) {
+            radio.checked = true; // Centang radio button dengan nilai yang cocok
+        }
+    });
 
     // fetch("/detailcustomer/")
     //     .then((response) => response.json())
@@ -224,7 +234,14 @@ $(document).ready(function () {
                         { title: "Id. Referensi", data: "IdReferensi" },
                         { title: "Nama Bank", data: "Nama_Bank" },
                         { title: "Mata Uang", data: "Nama_MataUang" },
-                        { title: "Nilai", data: "Nilai" },
+                        {
+                            title: "Nilai",
+                            data: "Nilai",
+                            render: function (data, type, row) {
+                                // Pastikan nilai adalah angka sebelum diformat
+                                return numeral(data).format("0,0.00");
+                            },
+                        },
                         { title: "Keterangan", data: "Keterangan" },
                         { title: "Nama Customer", data: "NamaCust" },
                         { title: "Type", data: "TypeTransaksi" },
@@ -250,7 +267,7 @@ $(document).ready(function () {
         console.log(selectedRows[0]);
         noReferensi.value = selectedRows[0].IdReferensi;
         ketDariBank.value = selectedRows[0].Keterangan;
-        totalNilai.value = selectedRows[0].Nilai;
+        totalNilai.value = numeral(selectedRows[0].Nilai).format("0,0.00");
         idCustomer.value = selectedRows[0].Id_Cust;
 
         statusPenagihan.value = selectedRows[0].Status_Tagihan;

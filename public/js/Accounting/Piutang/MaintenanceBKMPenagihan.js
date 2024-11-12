@@ -1012,20 +1012,25 @@ $(document).ready(function () {
 
     btn_pilihBank.addEventListener("click", async function (event) {
         event.preventDefault();
+        const allRowsDataPelunasan = table_detailPelunasan
+            .rows()
+            .data()
+            .toArray();
+        console.log(allRowsDataPelunasan);
         let tglTgh = [];
         let tglMax = null;
         console.log(rowDataArray);
 
         if (rowDataArray !== null && rowDataArray.length == 1) {
-            for (let i = 0; i < rowDataArray.length; i++) {
-                let tanggalStr = rowDataArray[i][0];
-                let match = tanggalStr.match(/value="([^"]+)"/);
+            for (let i = 0; i < allRowsDataPelunasan.length; i++) {
+                let tanggalStr = allRowsDataPelunasan[i]["Tgl_Penagihan"];
+                // let match = tanggalStr.match(/value="([^"]+)"/);
+                console.log(tanggalStr);
 
-                if (match) {
-                    let [month, day, year] = match[1].split("/").map(Number);
+                if (tanggalStr) {
+                    let [month, day, year] = tanggalStr.split("/").map(Number);
                     tglTgh.push(new Date(year, month - 1, day));
                 }
-                console.log(match);
             }
             // Mendapatkan tanggal maksimum dari array tglTgh
             tglMax = tglTgh.reduce(
@@ -1035,7 +1040,12 @@ $(document).ready(function () {
             console.log(tglMax);
 
             // Mengatur nilai ke elemen-elemen input HTML dengan format yang sama dengan VB
-            tanggalTagihM.value = tglMax.toLocaleDateString("en-CA");
+            if (tglMax !== undefined) {
+                tanggalTagihM.value = tglMax.toLocaleDateString("en-CA");
+            } else {
+                tanggalTagihM.valueAsDate = new Date();
+            }
+
             // tanggalTagihM.value = tglMax.toLocaleDateString("en-CA"); // format yyyy-mm-dd
             idPelunasanM.value = rowDataArray[0][1];
             jenisBayarM.value = rowDataArray[0][3];

@@ -179,11 +179,11 @@
                                         <label for="radio_3">Detail Kurang/Lebih</label>
                                     </div>
                                     <div style="overflow-x: auto;">
-                                        <table style="width: 115%; table-layout: fixed;" id="table_rk">
+                                        <table style="width: 120%; table-layout: fixed;" id="table_rk">
                                             <colgroup>
                                                 <col style="width: 30%;">
                                                 <col style="width: 35%;">
-                                                <col style="width: 25%;">
+                                                <col style="width: 30%;">
                                                 <col style="width: 25%;">
                                             </colgroup>
                                             <thead class="table-dark">

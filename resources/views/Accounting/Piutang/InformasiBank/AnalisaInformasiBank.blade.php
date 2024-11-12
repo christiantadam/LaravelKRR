@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
+        <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">Analisa Informasi Bank</div>
                 @if (Session::has('success'))
@@ -35,12 +35,12 @@
                                         style="width: 100%">
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="radio" name="radiogrup" value=0 id="radiogrup">
-                                    <label for="radiogrup">Belum Analisa</label>
+                                    <input type="radio" name="radiogrup" value=0 id="radiogrupBlm">
+                                    <label for="radiogrupBlm">Belum Analisa</label>
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="radio" name="radiogrup" value=1 id="radiogrup">
-                                    <label for="radiogrup">Sudah Analisa</label>
+                                    <input type="radio" name="radiogrup" value=1 id="radiogrupSdh">
+                                    <label for="radiogrupSdh">Sudah Analisa</label>
                                 </div>
                                 <div class="col-md-1">
                                     <input type="submit" id="btnOk" name="btnOk" value="OK"
@@ -51,8 +51,8 @@
                             <br>
                             <div>
                                 <div style="overflow-x: auto;">
-                                    <table style="width: 120%; table-layout: fixed;" id="tabelAnalisa">
-                                        <colgroup>
+                                    <table style="width: 100%;" id="tabelAnalisa">
+                                        {{-- <colgroup>
                                             <col style="width: 12%;">
                                             <col style="width: 14%;">
                                             <col style="width: 10%;">
@@ -63,7 +63,7 @@
                                             <col style="width: 12%;">
                                             <col style="width: 12%;">
                                             <col style="width: 12%;">
-                                        </colgroup>
+                                        </colgroup> --}}
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>Id. Referensi</th>
