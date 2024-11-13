@@ -281,8 +281,11 @@
                                             <th>Nama Type Inventory</th>
                                             <th>Id Type Inventory</th>
                                             <th>Pengeluaran Primer</th>
+                                            <th>Satuan Primer</th>
                                             <th>Pengeluaran Sekunder</th>
+                                            <th>Satuan Sekunder</th>
                                             <th>Pengeluaran Tritier</th>
+                                            <th>Satuan Tritier</th>
                                         </tr>
                                     </thead>
                                 </table>

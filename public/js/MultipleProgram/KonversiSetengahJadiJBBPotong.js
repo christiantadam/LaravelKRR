@@ -303,97 +303,113 @@ $(document).ready(function () {
                     SaldoTritier,
                 ] = value.split(" | ");
 
-                // Now you can safely use these variables for calculations and checks
-                let quantityDibutuhkan = parseFloat(
-                    table_daftarAsalKonversi.cell(rowIndex, 3).data()
+                hitungPerkiraanPemakaian(
+                    idType,
+                    satPrimer,
+                    satSekunder,
+                    satTritier,
+                    SaldoPrimer,
+                    SaldoSekunder,
+                    SaldoTritier,
+                    rowIndex,
+                    this
                 );
-                let cell5 = table_daftarAsalKonversi.cell(rowIndex, 5);
-                let cell6 = table_daftarAsalKonversi.cell(rowIndex, 6);
-                let cell7 = table_daftarAsalKonversi.cell(rowIndex, 7);
-                let cell8 = table_daftarAsalKonversi.cell(rowIndex, 8);
-
-                let jumlahPengeluaranSekunderHasilHitungan = numeral(
-                    parseFloat(jumlah_pemasukanSekunder.value ?? 0) *
-                        quantityDibutuhkan
-                ).format("0.00");
-
-                let jumlahPengeluaranPrimerHasilHitungan = numeral(
-                    Math.round(
-                        jumlahPengeluaranSekunderHasilHitungan *
-                            (SaldoPrimer / SaldoSekunder)
-                    )
-                ).format("0.00");
-
-                let jumlahPengeluaranTritierHasilHitungan = numeral(
-                    jumlahPengeluaranSekunderHasilHitungan *
-                        (SaldoSekunder / SaldoTritier)
-                ).format("0.00");
-
-                // Check if SaldoTritier is sufficient
-                if (
-                    parseFloat(SaldoTritier) <=
-                    parseFloat(jumlahPengeluaranTritierHasilHitungan)
-                ) {
-                    console.warn(
-                        "Untuk konversi membutuhkan " +
-                            jumlahPengeluaranTritierHasilHitungan +
-                            " " +
-                            satuan_tritierJumlahPemasukan.value +
-                            ". Saldo Tritier untuk Id Type " +
-                            idType +
-                            " hanya tersedia: " +
-                            parseFloat(SaldoTritier) +
-                            " " +
-                            satTritier +
-                            ". Saldo Tritier Tidak cukup!"
-                    );
-
-                    let originalSelect = $(this).get(0); // Get the original select DOM element
-                    originalSelect.setCustomValidity(
-                        "Saldo Tritier tidak cukup untuk Id Type " +
-                            idType +
-                            "."
-                    );
-                    originalSelect.reportValidity();
-
-                    // Reset the select element to the first option (index 0)
-                    $(this).val(null).trigger("change");
-
-                    // Clear custom validity after 3 seconds
-                    setTimeout(() => {
-                        originalSelect.setCustomValidity("");
-                    }, 3000);
-
-                    // Clear relevant cells in the table
-                    cell5.data("").draw();
-                    cell6.data("").draw();
-                    cell7.data("").draw();
-                    cell8.data("").draw();
-                    row.css("background-color", "#ffcccc");
-                    return;
-                }
-
-                // If SaldoTritier is sufficient, populate cells
-                cell5.data(idType).draw();
-                cell6
-                    .data(
-                        jumlahPengeluaranPrimerHasilHitungan + " " + satPrimer
-                    )
-                    .draw();
-                cell7
-                    .data(
-                        jumlahPengeluaranSekunderHasilHitungan +
-                            " " +
-                            satSekunder
-                    )
-                    .draw();
-                cell8
-                    .data(
-                        jumlahPengeluaranTritierHasilHitungan + " " + satTritier
-                    )
-                    .draw();
             }
         );
+    }
+
+    function hitungPerkiraanPemakaian(
+        idType,
+        satPrimer,
+        satSekunder,
+        satTritier,
+        SaldoPrimer,
+        SaldoSekunder,
+        SaldoTritier,
+        rowIndex,
+        selectElement
+    ) {
+        let row = $(selectElement).closest("tr");
+        let quantityDibutuhkan = parseFloat(
+            table_daftarAsalKonversi.cell(rowIndex, 3).data()
+        );
+        let cell5 = table_daftarAsalKonversi.cell(rowIndex, 5);
+        let cell6 = table_daftarAsalKonversi.cell(rowIndex, 6);
+        let cell7 = table_daftarAsalKonversi.cell(rowIndex, 7);
+        let cell8 = table_daftarAsalKonversi.cell(rowIndex, 8);
+        let cell9 = table_daftarAsalKonversi.cell(rowIndex, 9);
+        let cell10 = table_daftarAsalKonversi.cell(rowIndex, 10);
+        let cell11 = table_daftarAsalKonversi.cell(rowIndex, 11);
+
+        let jumlahPengeluaranSekunderHasilHitungan = numeral(
+            parseFloat(jumlah_pemasukanSekunder.value ?? 0) * quantityDibutuhkan
+        ).format("0.00");
+
+        let jumlahPengeluaranPrimerHasilHitungan = numeral(
+            Math.round(
+                jumlahPengeluaranSekunderHasilHitungan *
+                    (SaldoPrimer / SaldoSekunder)
+            )
+        ).format("0.00");
+
+        let jumlahPengeluaranTritierHasilHitungan = numeral(
+            jumlahPengeluaranSekunderHasilHitungan *
+                (SaldoSekunder / SaldoTritier)
+        ).format("0.00");
+
+        // Check if SaldoTritier is sufficient
+        if (
+            parseFloat(SaldoTritier) <=
+            parseFloat(jumlahPengeluaranTritierHasilHitungan)
+        ) {
+            console.warn(
+                "Untuk konversi membutuhkan " +
+                    jumlahPengeluaranTritierHasilHitungan +
+                    " " +
+                    satuan_tritierJumlahPemasukan.value +
+                    ". Saldo Tritier untuk Id Type " +
+                    idType +
+                    " hanya tersedia: " +
+                    parseFloat(SaldoTritier) +
+                    " " +
+                    satTritier +
+                    ". Saldo Tritier Tidak cukup!"
+            );
+
+            // Use selectElement for setCustomValidity
+            selectElement.setCustomValidity(
+                "Saldo Tritier tidak cukup untuk Id Type " + idType + "."
+            );
+            selectElement.reportValidity();
+
+            // Reset the select element to the first option (index 0)
+            $(selectElement).val(null).trigger("change");
+
+            // Clear custom validity after 3 seconds
+            setTimeout(() => {
+                selectElement.setCustomValidity("");
+            }, 3000);
+
+            // Clear relevant cells in the table
+            cell5.data("").draw();
+            cell6.data("").draw();
+            cell7.data("").draw();
+            cell8.data("").draw();
+            cell9.data("").draw();
+            cell10.data("").draw();
+            cell11.data("").draw();
+            row.css("background-color", "#ffcccc");
+            return;
+        }
+
+        // If SaldoTritier is sufficient, populate cells
+        cell5.data(idType).draw();
+        cell6.data(jumlahPengeluaranPrimerHasilHitungan).draw();
+        cell7.data(satPrimer).draw();
+        cell8.data(jumlahPengeluaranSekunderHasilHitungan).draw();
+        cell9.data(satSekunder).draw();
+        cell10.data(jumlahPengeluaranTritierHasilHitungan).draw();
+        cell11.data(satTritier).draw();
     }
 
     function initializeSelectElement(tipeInitialisasi) {
@@ -682,7 +698,11 @@ $(document).ready(function () {
                 });
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load customer data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load customer data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -778,6 +798,7 @@ $(document).ready(function () {
         const selectedDivisiAsal = $(this).val(); // Get selected Divisi Asal
         // initializeSelectElement("pilihDivisi");
         customerSelect.val(null).trigger("change");
+        kodeBarangSelect.val(null).trigger("change");
         clearSelectElement("pilihDivisi");
 
         table_daftarAsalKonversi.clear().draw();
@@ -790,10 +811,13 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Objek untuk divisi: " +
-                            $("#select_divisi option:selected").text()
-                    );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Objek untuk divisi: " +
+                            $("#select_divisi option:selected").text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_objekAsal.append(
@@ -807,7 +831,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Objek data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Objek data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -866,7 +894,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Kode Barang data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Kode Barang data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -899,6 +931,9 @@ $(document).ready(function () {
                             parseFloat(item.Lebar_Potongan),
                         parseFloat(item.Quantity),
                         "", // Placeholder for the select dropdown
+                        "",
+                        "",
+                        "",
                         "",
                         "",
                         "",
@@ -947,10 +982,13 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Kelompok untuk Objek: " +
-                            $("#select_objekAsal option:selected").text()
-                    );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Kelompok untuk Objek: " +
+                            $("#select_objekAsal option:selected").text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_kelompokUtamaAsal.append(
@@ -964,9 +1002,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage(
-                    "Failed to load Kelompok Utama data."
-                );
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Kelompok Utama data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -999,10 +1039,13 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Kelompok untuk Objek: " +
-                            $("#select_objekAsal option:selected").text()
-                    );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Kelompok untuk Objek: " +
+                            $("#select_objekAsal option:selected").text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_kelompokUtamaTujuan.append(
@@ -1016,9 +1059,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage(
-                    "Failed to load Kelompok Utama data."
-                );
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Kelompok Utama data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -1041,12 +1086,15 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Kelompok untuk Kelompok Utama: " +
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Kelompok untuk Kelompok Utama: " +
                             $(
                                 "#select_kelompokUtamaAsal option:selected"
-                            ).text()
-                    );
+                            ).text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_kelompokAsal.append(
@@ -1057,7 +1105,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Kelompok data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Kelompok Utama data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -1079,12 +1131,15 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Kelompok untuk Kelompok Utama: " +
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Kelompok untuk Kelompok Utama: " +
                             $(
                                 "#select_kelompokUtamaTujuan option:selected"
-                            ).text()
-                    );
+                            ).text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_kelompokTujuan.append(
@@ -1095,7 +1150,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Kelompok data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Kelompok Utama data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -1119,10 +1178,13 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Sub Kelompok untuk Kelompok: " +
-                            $("#select_kelompokAsal option:selected").text()
-                    );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Sub Kelompok untuk Kelompok: " +
+                            $("#select_kelompokAsal option:selected").text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_subKelompokAsal.append(
@@ -1136,7 +1198,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Sub Kelompok data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Sub Kelompok data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -1160,10 +1226,13 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Sub Kelompok untuk Kelompok: " +
-                            $("#select_kelompokTujuan option:selected").text()
-                    );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Sub Kelompok untuk Kelompok: " +
+                            $("#select_kelompokTujuan option:selected").text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_subKelompokTujuan.append(
@@ -1177,7 +1246,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Sub Kelompok data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Sub Kelompok data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -1201,10 +1274,13 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Type untuk Sub Kelompok: " +
-                            $("#select_subKelompokAsal option:selected").text()
-                    );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Type untuk Sub Kelompok: " +
+                            $("#select_subKelompokAsal option:selected").text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_typeAsal.append(
@@ -1215,7 +1291,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Type data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Type data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -1239,12 +1319,15 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Type untuk Sub Kelompok: " +
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Type untuk Sub Kelompok: " +
                             $(
                                 "#select_subKelompokTujuan option:selected"
-                            ).text()
-                    );
+                            ).text(),
+                    });
                 } else {
                     data.forEach(function (objek) {
                         select_typeTujuan.append(
@@ -1255,7 +1338,11 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Type data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Type data.",
+                });
             },
         }).then(() => {
             setTimeout(() => {
@@ -1276,48 +1363,81 @@ $(document).ready(function () {
             data: { idType: selectedIdType }, // Pass Kode_Customer to the server
             dataType: "json",
             success: function (data) {
-                console.log(data, selectedIdType);
-
+                let cekSaldo;
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Data Type untuk Id Type: " +
-                            $("#select_typeAsal option:selected").val()
-                    );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Data Type untuk Id Type: " +
+                            $("#select_typeAsal option:selected").val(),
+                    });
                 } else {
-                    saldo_terakhirPrimerAsal.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
-                    satuan_saldoTerakhirPrimerAsal.value = data[0].satPrimer.trim(); // prettier-ignore
-                    saldo_terakhirSekunderAsal.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore
-                    satuan_saldoTerakhirSekunderAsal.value = data[0].satSekunder.trim(); // prettier-ignore
-                    saldo_terakhirTritierAsal.value = numeral(data[0].SaldoTritier).format("0.00"); // prettier-ignore
-                    satuan_saldoTerakhirTritierAsal.value =data[0].satTritier.trim(); // prettier-ignore
-                    satuan_primerJumlahPemakaian.value = data[0].satPrimer.trim(); // prettier-ignore
-                    satuan_sekunderJumlahPemakaian.value = data[0].satSekunder.trim(); // prettier-ignore
-                    satuan_tritierJumlahPemakaian.value = data[0].satTritier.trim(); // prettier-ignore
+                    if (
+                        parseFloat(data[0].SaldoPrimer) !== 0 &&
+                        parseFloat(data[0].SaldoSekunder) !== 0 &&
+                        parseFloat(data[0].SaldoTritier) !== 0
+                    ) {
+                        saldo_terakhirPrimerAsal.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
+                        satuan_saldoTerakhirPrimerAsal.value = data[0].satPrimer.trim(); // prettier-ignore
+                        saldo_terakhirSekunderAsal.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore
+                        satuan_saldoTerakhirSekunderAsal.value = data[0].satSekunder.trim(); // prettier-ignore
+                        saldo_terakhirTritierAsal.value = numeral(data[0].SaldoTritier).format("0.00"); // prettier-ignore
+                        satuan_saldoTerakhirTritierAsal.value =data[0].satTritier.trim(); // prettier-ignore
+                        satuan_primerJumlahPemakaian.value = data[0].satPrimer.trim(); // prettier-ignore
+                        satuan_sekunderJumlahPemakaian.value = data[0].satSekunder.trim(); // prettier-ignore
+                        satuan_tritierJumlahPemakaian.value = data[0].satTritier.trim(); // prettier-ignore
+                    } else {
+                        console.log("masuk type asal");
+                        cekSaldo = false;
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Tidak ada saldo untuk Type ini",
+                        });
+                    }
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Type data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Type data.",
+                });
             },
         }).then(() => {
-            // check satuan_sekunderAsal if null then hasil = 0
-            // jumlah_pemasukanPrimer
-            // jumlah_pemasukanSekunder
-            // jumlah_pemasukanTritier
-            if (satuan_sekunderJumlahPemakaian.value !== "NULL") {
-                jumlah_pemakaianSekunder.readOnly = false;
-                jumlah_pemakaianSekunder.focus();
-            } else {
-                jumlah_pemakaianSekunder.value = numeral(0).format("0.00"); // prettier-ignore
-                jumlah_pemakaianSekunder.readOnly = true;
-                jumlah_pemakaianTritier.focus();
-            }
-            // check satuan_primerTujuan if null then hasil = 0
-            if (satuan_primerJumlahPemakaian.value !== "NULL") {
+            // Handle jumlah_pemakaianPrimer read-only and value setting
+            if (
+                satuan_primerJumlahPemakaian.value &&
+                satuan_primerJumlahPemakaian.value !== "NULL"
+            ) {
                 jumlah_pemakaianPrimer.readOnly = false;
-                jumlah_pemakaianPrimer.focus();
             } else {
-                jumlah_pemakaianPrimer.value = numeral(0).format("0.00"); // prettier-ignore
+                jumlah_pemakaianPrimer.value = numeral(0).format("0.00");
                 jumlah_pemakaianPrimer.readOnly = true;
+            }
+
+            // Handle jumlah_pemakaianSekunder read-only and value setting
+            if (
+                satuan_sekunderJumlahPemakaian.value &&
+                satuan_sekunderJumlahPemakaian.value !== "NULL"
+            ) {
+                jumlah_pemakaianSekunder.readOnly = false;
+            } else {
+                jumlah_pemakaianSekunder.value = numeral(0).format("0.00");
+                jumlah_pemakaianSekunder.readOnly = true;
+            }
+
+            // Set focus based on read-only status
+            jumlah_pemakaianPrimer.readOnly
+                ? jumlah_pemakaianSekunder.readOnly
+                    ? jumlah_pemakaianTritier.focus()
+                    : jumlah_pemakaianSekunder.focus()
+                : jumlah_pemakaianPrimer.focus();
+
+            if (!cekSaldo) {
+                select_typeAsal.val(null).trigger("change");
+                select_typeAsal.focus();
             }
         });
     });
@@ -1334,50 +1454,125 @@ $(document).ready(function () {
             data: { idType: selectedIdType }, // Pass Kode_Customer to the server
             dataType: "json",
             success: function (data) {
-                console.log(data, selectedIdType);
+                let cekSaldo;
 
                 if (data.length === 0) {
-                    Swal.showValidationMessage(
-                        "Tidak ada Data Type untuk Id Type: " +
-                            $("#select_typeTujuan option:selected").val()
-                    );
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Data Type untuk Id Type: " +
+                            $("#select_typeTujuan option:selected").val(),
+                    });
                 } else {
-                    saldo_terakhirTujuanPrimer.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
-                    satuan_saldoTerakhirTujuanPrimer.value = data[0].satPrimer.trim(); // prettier-ignore
-                    saldo_terakhirTujuanSekunder.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore
-                    satuan_saldoTerakhirTujuanSekunder.value = data[0].satSekunder.trim(); // prettier-ignore
-                    saldo_terakhirTujuanTritier.value = numeral(data[0].SaldoTritier).format("0.00"); // prettier-ignore
-                    satuan_saldoTerakhirTujuanTritier.value =data[0].satTritier.trim(); // prettier-ignore
-                    satuan_primerJumlahPemasukan.value = data[0].satPrimer.trim(); // prettier-ignore
-                    satuan_sekunderJumlahPemasukan.value = data[0].satSekunder.trim(); // prettier-ignore
-                    satuan_tritierJumlahPemasukan.value = data[0].satTritier.trim(); // prettier-ignore
+                    if (
+                        parseFloat(data[0].SaldoPrimer) !== 0 &&
+                        parseFloat(data[0].SaldoSekunder) !== 0 &&
+                        parseFloat(data[0].SaldoTritier) !== 0
+                    ) {
+                        saldo_terakhirTujuanPrimer.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
+                        satuan_saldoTerakhirTujuanPrimer.value = data[0].satPrimer.trim(); // prettier-ignore
+                        saldo_terakhirTujuanSekunder.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore
+                        satuan_saldoTerakhirTujuanSekunder.value = data[0].satSekunder.trim(); // prettier-ignore
+                        saldo_terakhirTujuanTritier.value = numeral(data[0].SaldoTritier).format("0.00"); // prettier-ignore
+                        satuan_saldoTerakhirTujuanTritier.value =data[0].satTritier.trim(); // prettier-ignore
+                        satuan_primerJumlahPemasukan.value = data[0].satPrimer.trim(); // prettier-ignore
+                        satuan_sekunderJumlahPemasukan.value = data[0].satSekunder.trim(); // prettier-ignore
+                        satuan_tritierJumlahPemasukan.value = data[0].satTritier.trim(); // prettier-ignore
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Tidak ada saldo untuk Type ini",
+                        });
+                        cekSaldo = false;
+                    }
                 }
             },
             error: function () {
-                Swal.showValidationMessage("Failed to load Type data.");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Type data.",
+                });
             },
         }).then(() => {
-            // check satuan_sekunderTujuan if null then hasil = 0
-            // jumlah_pemasukanPrimer
-            // jumlah_pemasukanSekunder
-            // jumlah_pemasukanTritier
-            if (satuan_sekunderJumlahPemasukan.value !== "NULL") {
-                jumlah_pemasukanSekunder.readOnly = false;
-                jumlah_pemasukanSekunder.focus();
+            // Handle jumlah_pemakaianPrimer read-only and value setting
+            if (
+                satuan_primerJumlahPemakaian.value &&
+                satuan_primerJumlahPemakaian.value !== "NULL"
+            ) {
+                jumlah_pemakaianPrimer.readOnly = false;
             } else {
-                jumlah_pemasukanSekunder.value = numeral(0).format("0.00"); // prettier-ignore
-                jumlah_pemasukanSekunder.readOnly = true;
-                jumlah_pemasukanTritier.focus();
+                jumlah_pemakaianPrimer.value = numeral(0).format("0.00");
+                jumlah_pemakaianPrimer.readOnly = true;
             }
-            // check satuan_primerTujuan if null then hasil = 0
-            if (satuan_primerJumlahPemasukan.value !== "NULL") {
-                jumlah_pemasukanPrimer.readOnly = false;
-                jumlah_pemasukanPrimer.focus();
+
+            // Handle jumlah_pemakaianSekunder read-only and value setting
+            if (
+                satuan_sekunderJumlahPemakaian.value &&
+                satuan_sekunderJumlahPemakaian.value !== "NULL"
+            ) {
+                jumlah_pemakaianSekunder.readOnly = false;
             } else {
-                jumlah_pemasukanPrimer.value = numeral(0).format("0.00"); // prettier-ignore
-                jumlah_pemasukanPrimer.readOnly = true;
+                jumlah_pemakaianSekunder.value = numeral(0).format("0.00");
+                jumlah_pemakaianSekunder.readOnly = true;
+            }
+
+            // Set focus based on read-only status
+            jumlah_pemakaianPrimer.readOnly
+                ? jumlah_pemakaianSekunder.readOnly
+                    ? jumlah_pemakaianTritier.focus()
+                    : jumlah_pemakaianSekunder.focus()
+                : jumlah_pemakaianPrimer.focus();
+
+            if (!cekSaldo) {
+                select_typeTujuan.val(null).trigger("change");
+                select_typeTujuan.focus();
             }
         });
+    });
+
+    jumlah_pemasukanSekunder.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            // get semua row yang sudah ada id typenya, foreach semua row dan jalankan function hitungPerkiraanPemakaian
+            $("#table_daftarAsalKonversi tbody tr").each(function (index, row) {
+                // Get the value of the select element in the fifth column
+                let idType = table_daftarAsalKonversi.cell(index, 5).data();
+                console.log(idType);
+
+                if (idType) {
+                    // Check if there is a value in the fifth column
+                    // Define additional variables needed for hitungPerkiraanPemakaian
+                    let selectElement = $(row)
+                        .find(".inventory-type-select")
+                        .get(0);
+                    let value = $(selectElement).val();
+                    let [
+                        idType,
+                        satPrimer,
+                        satSekunder,
+                        satTritier,
+                        SaldoPrimer,
+                        SaldoSekunder,
+                        SaldoTritier,
+                    ] = value.split(" | ");
+                    // Call hitungPerkiraanPemakaian for the current row
+                    hitungPerkiraanPemakaian(
+                        idType,
+                        satPrimer,
+                        satSekunder,
+                        satTritier,
+                        SaldoPrimer,
+                        SaldoSekunder,
+                        SaldoTritier,
+                        index,
+                        selectElement
+                    );
+                }
+            });
+        }
     });
 
     button_tambahTujuanKonversi.addEventListener("click", function (e) {
@@ -1387,7 +1582,7 @@ $(document).ready(function () {
         let checkHasilKonversi = true;
         let checkSelectInput = true;
 
-        if (table_daftarAsalKonversi.data()[0][0] == select_typeTujuan.value) {
+        if (select_typeTujuan.value() == select_typeTujuan.value) {
             Swal.fire({
                 icon: "info",
                 title: "Pemberitahuan",
