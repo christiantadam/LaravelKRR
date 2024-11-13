@@ -20,7 +20,7 @@
             @endif
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-md-7 RDZMobilePaddingLR0">
+                    <div class="col-md-10 RDZMobilePaddingLR0">
                         <div class="card">
                             <div class="card-header">Batal BKK</div>
                             @if (Session::has('success'))
@@ -50,7 +50,7 @@
                                             <div class="col-md-3">
                                                 <label for="bulanTahun">Bulan/Tahun</label>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <input type="text" id="bulanTahun" name="bulanTahun" class="form-control"
                                                     style="width: 100%">
                                             </div>
@@ -60,9 +60,9 @@
                                             <div class="col-md-3">
                                                 <label for="bkk" style="margin-right: 10px;">BKK</label>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-4">
                                                 <select id="idBKKSelect" name="idBKKSelect" class="form-control">
-
+                                                    <option disabled selected>Pilih BKK</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -71,7 +71,7 @@
                                             <div class="col-md-3">
                                                 <label for="statusPenagihan">Status Penagihan</label>
                                             </div>
-                                            <div class="col-md-8">
+                                            <div class="col-md-4">
                                                 <input type="text" id="statusPenagihan" name="statusPenagihan"
                                                     class="form-control" style="width: 100%">
                                             </div>
@@ -91,7 +91,7 @@
                                             <div class="col-md-3">
                                                 <label for="nilaiBKM">Nilai BKK</label>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-4">
                                                 <input type="text" id="nilaiBKK" name="nilaiBKK" class="form-control"
                                                     style="width: 100%">
                                             </div>
@@ -112,14 +112,14 @@
                                                 <label for="statusBatal">Status BATAL</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="date" id="statusBatal" name="statusBatal"
+                                                <input type="text" id="statusBatal" name="statusBatal"
                                                     class="form-control" style="width: 100%">
                                             </div>
                                         </div>
                                         <hr style="height:2px;">
-                                        <div class="d-flex">
+                                        <div class="row">
                                             <div class="col-md-3">
-                                                <label for="alasan" style="margin-right: 10px;">Alasan</label>
+                                                <label for="alasan">Alasan</label>
                                             </div>
                                             <div class="col-md-9">
                                                 <input type="text" id="alasan" name="alasan" class="form-control"
@@ -132,7 +132,7 @@
                                             <div class="row">
                                                 <div class="col-2">
                                                     <input type="submit" id="btnProses" name="proses" value="PROSES"
-                                                        class="btn btn-primary">
+                                                        class="btn btn-success">
                                                     <input type="hidden" id="confirmation" name="confirmation"
                                                         value="yes">
                                                     <input type="hidden" id="ttReuseConfirmation"

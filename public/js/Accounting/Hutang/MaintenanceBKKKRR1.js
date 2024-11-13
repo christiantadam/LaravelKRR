@@ -193,29 +193,41 @@ $(document).ready(function () {
 
     let rowDataArray = [];
 
+    // Handle checkbox change events
     $("#table_atas tbody").off("change", 'input[name="penerimaCheckbox"]');
     $("#table_atas tbody").on(
         "change",
         'input[name="penerimaCheckbox"]',
         function () {
             if (this.checked) {
+                $('input[name="penerimaCheckbox"]');
+                // .not(this)
+                // .prop("checked", false);
                 rowDataPertama = table_atas.row($(this).closest("tr")).data();
+
+                // Add the selected row data to the array
                 rowDataArray.push(rowDataPertama);
+                // rowDataArray = [rowDataPertama];
+
                 console.log(rowDataArray);
                 console.log(rowDataPertama, this, table_atas);
             } else {
-                const index = rowDataArray.findIndex(
-                    (row) => row.Id_Pembayaran === rowDataPertama.Id_Pembayaran
+                // rowDataPertama = null;
+                // Remove the unchecked row data from the array
+                rowDataPertama = table_atas.row($(this).closest("tr")).data();
+
+                // Filter out the row with matching Id_Penagihan
+                rowDataArray = rowDataArray.filter(
+                    (row) => row.Id_Pembayaran !== rowDataPertama.Id_Pembayaran
                 );
-                if (index > -1) {
-                    rowDataArray.splice(index, 1);
-                }
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_atas);
             }
         }
     );
 
     $("#table_kedua tbody").off("change", 'input[name="penerimaCheckbox"]');
-
     $("#table_kedua tbody").on(
         "change",
         'input[name="penerimaCheckbox"]',
@@ -285,6 +297,8 @@ $(document).ready(function () {
                         tanggalgrup: selectedDate,
                     },
                     success: function (response) {
+                        console.log(selectedDate);
+                        console.log(selectedDate.substring(1, 4));
                         if (response.message) {
                             Swal.fire({
                                 icon: "success",
@@ -296,6 +310,17 @@ $(document).ready(function () {
                                 showConfirmButton: true,
                             }).then((result) => {
                                 if (result.isConfirmed) {
+                                    bkk.value = response.idBKK;
+                                    month.value = selectedDate.substring(5, 7);
+                                    year.value = selectedDate.substring(0, 4);
+                                    var myModal = new bootstrap.Modal(
+                                        document.getElementById(
+                                            "dataBKKModal"
+                                        ),
+                                        { keyboard: false }
+                                    );
+                                    myModal.show();
+                                    btn_okbkk.click();
                                     // tableatas.ajax.reload();
                                     // tablekiri.ajax.reload();
                                     // tablekanan.ajax.reload();
@@ -303,6 +328,17 @@ $(document).ready(function () {
                                     // id_detailkiri.value = "";
                                     // id_pembayaran.value = "";
                                 } else {
+                                    bkk.value = response.idBKK;
+                                    month.value = selectedDate.substring(5, 7);
+                                    year.value = selectedDate.substring(0, 4);
+                                    var myModal = new bootstrap.Modal(
+                                        document.getElementById(
+                                            "dataBKKModal"
+                                        ),
+                                        { keyboard: false }
+                                    );
+                                    myModal.show();
+                                    btn_okbkk.click();
                                     // tableatas.ajax.reload();
                                     // tablekiri.ajax.reload();
                                     // tablekanan.ajax.reload();
@@ -560,45 +596,52 @@ $(document).ready(function () {
     btn_isi.addEventListener("click", function (event) {
         event.preventDefault();
         btn_proses.disabled = false;
-        Swal.fire({
-            icon: "info",
-            text: "Pembayaran penagihan terdapat pembulatan?",
-            showConfirmButton: true,
-            confirmButtonText: "Yes",
-            showCancelButton: true,
-            cancelButtonText: "No",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                bulatan = true;
-                setTimeout(() => {
-                    btn_kodeperkiraan.focus();
-                }, 300);
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                bulatan = false;
-                setTimeout(() => {
-                    btn_kodeperkiraan.focus();
-                }, 300);
-            }
-        });
-        if (rowDataKedua == null) {
+        if (TT === true) {
             Swal.fire({
                 icon: "info",
-                title: "Info!",
-                text: "Pilih data terlebih dahulu",
+                text: "Pembayaran penagihan terdapat pembulatan?",
                 showConfirmButton: true,
+                confirmButtonText: "Yes",
+                showCancelButton: true,
+                cancelButtonText: "No",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    bulatan = true;
+                    setTimeout(() => {
+                        btn_kodeperkiraan.focus();
+                    }, 300);
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    bulatan = false;
+                    setTimeout(() => {
+                        btn_kodeperkiraan.focus();
+                    }, 300);
+                }
             });
-            return;
-        } else {
+            if (rowDataKedua == null) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Info!",
+                    text: "Pilih data terlebih dahulu",
+                    showConfirmButton: true,
+                });
+                return;
+            } else {
+                btn_isi.disabled = true;
+                proses = 1;
+                id_TT.value = rowDataKedua.Id_Penagihan;
+                rincinan_bayar.value = rowDataKedua.Id_Penagihan;
+                nilairincian_rp.value = rowDataKedua.Nilai_Penagihan;
+            }
+        } else if (TT === false) {
             btn_isi.disabled = true;
-            proses = 1;
-            id_TT.value = rowDataKedua.Id_Penagihan;
-            rincinan_bayar.value = rowDataKedua.Id_Penagihan;
-            nilairincian_rp.value = rowDataKedua.Nilai_Penagihan;
+            rincinan_bayar.focus();
         }
     });
 
     btn_koreksi.addEventListener("click", function (event) {
         event.preventDefault();
+        console.log(rowDataArray);
+
         if (rowDataPertama == null) {
             Swal.fire({
                 icon: "info",
@@ -608,47 +651,57 @@ $(document).ready(function () {
             });
             return;
         } else {
-            btn_koreksi.disabled = true;
-            btn_hapus.disabled = true;
-            btn_koreksi.style.display = "none";
-            btn_koreksidetail.style.display = "block";
-            proses = 2;
-            id_bayar.value = rowDataPertama.Id_Pembayaran;
-            id_TT.value = rowDataPertama.Id_Penagihan;
-            total.value = rowDataPertama.Nilai_Rincian;
+            if (rowDataArray.length === 1) {
+                btn_koreksi.disabled = true;
+                btn_hapus.disabled = true;
+                btn_koreksi.style.display = "none";
+                btn_koreksidetail.style.display = "block";
+                proses = 2;
+                id_bayar.value = rowDataPertama.Id_Pembayaran;
+                id_TT.value = rowDataPertama.Id_Penagihan;
+                total.value = rowDataPertama.Nilai_Rincian;
 
-            if ($.fn.DataTable.isDataTable("#table_bawah")) {
-                $("#table_bawah").DataTable().destroy();
-            }
+                if ($.fn.DataTable.isDataTable("#table_bawah")) {
+                    $("#table_bawah").DataTable().destroy();
+                }
 
-            table_bawah = $("#table_bawah").DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "MaintenanceBKKKRR1/getDetailPembayaran",
-                    dataType: "json",
-                    type: "GET",
-                    data: function (d) {
-                        return $.extend({}, d, {
-                            _token: csrfToken,
-                            id_bayar: id_bayar.value,
-                        });
-                    },
-                },
-                columns: [
-                    {
-                        data: "Id_Detail_Bayar",
-                        render: function (data) {
-                            return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                table_bawah = $("#table_bawah").DataTable({
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "MaintenanceBKKKRR1/getDetailPembayaran",
+                        dataType: "json",
+                        type: "GET",
+                        data: function (d) {
+                            return $.extend({}, d, {
+                                _token: csrfToken,
+                                id_bayar: id_bayar.value,
+                            });
                         },
                     },
-                    { data: "Rincian_Bayar" },
-                    { data: "Nilai_Rincian" },
-                    { data: "Kode_Perkiraan" },
-                ],
-                // columnDefs: [{ targets: [1, 2], visible: false }],
-            });
+                    columns: [
+                        {
+                            data: "Id_Detail_Bayar",
+                            render: function (data) {
+                                return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                            },
+                        },
+                        { data: "Rincian_Bayar" },
+                        { data: "Nilai_Rincian" },
+                        { data: "Kode_Perkiraan" },
+                    ],
+                    // columnDefs: [{ targets: [1, 2], visible: false }],
+                });
+            } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "Info!",
+                    text: "Hanya ada satu data yang dapat dikoreksi",
+                    showConfirmButton: true,
+                });
+                return;
+            }
         }
     });
 
@@ -925,9 +978,14 @@ $(document).ready(function () {
 
     btn_cetakbkk.addEventListener("click", function (event) {
         event.preventDefault();
-        bkk.value = rowDataBKK.Id_BKK;
-        nilaiBkk.value = rowDataBKK.NilaiBKK;
-        nilaiPembulatan.value = rowDataBKK.NilaiBKK;
+        if (rowDataBKK == null || rowDataBKK == undefined) {
+            nilaiBkk.value = rowDataPertama.Nilai_Pembayaran;
+            nilaiPembulatan.value = rowDataPertama.Nilai_Pembayaran;
+        } else {
+            bkk.value = rowDataBKK.Id_BKK;
+            nilaiBkk.value = rowDataBKK.NilaiBKK;
+            nilaiPembulatan.value = rowDataBKK.NilaiBKK;
+        }
         Swal.fire({
             title: "Merubah Nilai Pembulatannya ?",
             icon: "warning",
@@ -1276,6 +1334,42 @@ $(document).ready(function () {
                 // { data: "Id_Jenis_Bayar" },
             ],
             // columnDefs: [{ targets: [3, 4], visible: false }],
+            paging: false,
+            scrollY: "250px",
+            scrollCollapse: true,
         });
+
+        if (bkk.value !== "") {
+            // Check the checkbox in the DataTable that has a matching value to bkk.value
+            tabletampilBKK.on("draw", function () {
+                rowDataBKKArray = []; // Clear the array to avoid duplicate entries
+
+                // Iterate over each checkbox in the DataTable
+                tabletampilBKK
+                    .$('input[name="penerimaCheckbox"]')
+                    .each(function () {
+                        // Check if the checkbox value matches bkk.value
+                        if (this.value === bkk.value) {
+                            this.checked = true; // Check the checkbox
+
+                            // Get the row data for the checked checkbox and push it to the array
+                            const rowDataBKK = tabletampilBKK
+                                .row($(this).closest("tr"))
+                                .data();
+                            rowDataBKKArray.push(rowDataBKK);
+                        }
+                    });
+            });
+            setTimeout(() => {
+                btn_cetakbkk.click();
+            }, 300);
+            // document
+            //     .getElementById("modalDetailPelunasan")
+            //     .addEventListener("shown.bs.modal", function () {
+            //         setTimeout(() => {
+            //             btn_cetakbkk.click();
+            //         }, 300);
+            //     });
+        }
     });
 });

@@ -78,7 +78,7 @@ class MaintenanceBKKKRR1Controller extends Controller
                         }
                         return response()->json(['message' => 'Data Penagihan sudah diSIMPAN !!..']);
                     } else {
-                        return response()->json(['message' => 'Data PENAGIHAN TIDAK DAPAT diPROSES, Nilai Rincian = 0(Nol) !!..'], 400);
+                        return response()->json(['message' => 'Data PENAGIHAN TIDAK DAPAT diPROSES, Nilai Rincian = 0(Nol) !!..']);
                     }
 
                     // if ($request->input('pajak') === "Y" || $bulatan) {
@@ -91,7 +91,7 @@ class MaintenanceBKKKRR1Controller extends Controller
                     // DATA NO PENAGIHAN
                     if ($tIdBayar == null && $tIdPenagihan == null) {
                         if ($tNilaiRincian == 0) {
-                            return response()->json(['message' => 'Data tidak dapat diSIMPAN !!.. Nilai Rincian=0(nol)'], 400);
+                            return response()->json(['message' => 'Data tidak dapat diSIMPAN !!.. Nilai Rincian=0(nol)']);
                         }
                         $result = DB::connection('ConnAccounting')
                             ->statement('EXEC SP_1273_ACC_INS_BKK1_IDBAYAR_NOTT ?, ?, ?, ?', [
@@ -105,7 +105,7 @@ class MaintenanceBKKKRR1Controller extends Controller
                         // $tIdBayar = $result[0]->IDBYR;
                     } else {
                         if ($tNilaiRincian == 0) {
-                            return response()->json(['message' => 'Data tidak dapat diSIMPAN !!.. Nilai Rincian=0(nol)'], 400);
+                            return response()->json(['message' => 'Data tidak dapat diSIMPAN !!.. Nilai Rincian=0(nol)']);
                         }
                         DB::connection('ConnAccounting')
                             ->statement('EXEC SP_1273_ACC_INS_BKK1_DETAILBYR ?, ?, ?, ?', [
@@ -401,7 +401,7 @@ class MaintenanceBKKKRR1Controller extends Controller
                 // dd($finalResult);
                 $tNilaiBKK = $finalResult[0]->NilaiBayar;
 
-                return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk, 'totalBayar' => $tNilaiBKK]);
+                return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk, 'totalBayar' => $tNilaiBKK, 'idBKK' => $idbkk]);
             } else {
                 return response()->json(['error' => 'Failed to create BKK record.']);
             }
@@ -409,12 +409,12 @@ class MaintenanceBKKKRR1Controller extends Controller
             $selectedBKK = $request->input('rowDataBKKArray');
 
             if (empty($selectedBKK)) {
-                return response()->json(['message' => 'Tidak Ada BKK yang diCETAK!!..'], 422);
+                return response()->json(['message' => 'Tidak Ada BKK yang diCETAK!!..']);
             }
 
             $bkkItem = collect($selectedBKK)->first();
             if (!$bkkItem) {
-                return response()->json(['message' => 'Tidak ada BKK yang diCETAK!!..'], 422);
+                return response()->json(['message' => 'Tidak ada BKK yang diCETAK!!..']);
             }
 
             $idBKK = $bkkItem['Id_BKK'];
