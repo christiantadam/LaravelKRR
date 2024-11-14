@@ -88,6 +88,11 @@ $(document).ready(function () {
     tanggal_input.focus();
     btn_tambahdata.disabled = true;
     kurs_rupiah.value = 0;
+    mata_uang.readOnly = true;
+    nama_bank.readOnly = true;
+    jenis_pembayaran.readOnly = true;
+    kode_kira.readOnly = true;
+    keterangan_kira.readOnly = true;
 
     //#region Function
 
@@ -280,8 +285,8 @@ $(document).ready(function () {
                         keterangan_kira.value = "";
                         no_bukti.value = "";
                         uraian.value = "";
-                        btn_matauang.disabled = true;
-                        btn_bank.disabled = true;
+                        // btn_matauang.disabled = true;
+                        // btn_bank.disabled = true;
                         document.activeElement.blur();
 
                         const totalPelunasan = tableData.reduce((sum, row) => {
@@ -375,6 +380,7 @@ $(document).ready(function () {
                 ada1: ada1,
                 jenis_bank: jenis_bank.value,
                 total: total,
+                terbilang: terbilang
                 // checkedRows: checkedRows,
             },
             success: function (response) {
@@ -1124,9 +1130,9 @@ $(document).ready(function () {
 
                 let Rincian_BayarHTML = "";
                 data.data.forEach(function (item) {
-                    Rincian_BayarHTML += item.Keterangan + "<br>";
+                    Rincian_BayarHTML += item.Uraian + "<br>";
                 });
-                document.getElementById("desc_p").innerHTML = "";
+                document.getElementById("desc_p").innerHTML = Rincian_BayarHTML;
 
                 // let No_BGCekHTML = "";
                 // data.data.forEach(function (item) {

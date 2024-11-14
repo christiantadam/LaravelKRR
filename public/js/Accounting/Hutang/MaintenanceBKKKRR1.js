@@ -76,6 +76,7 @@ $(document).ready(function () {
     let currentYear = new Date().getFullYear();
     year.value = currentYear;
     total.style.fontWeight = "bold";
+    nilairincian_rp.value = 0;
 
     let table_kedua = $("#table_kedua").DataTable({});
     $("#table_kedua").parents("div.dataTables_wrapper").first().hide();
@@ -189,6 +190,9 @@ $(document).ready(function () {
             { data: "Id_Supplier" },
         ],
         columnDefs: [{ targets: [5], visible: false }],
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
     });
 
     let rowDataArray = [];
@@ -314,9 +318,7 @@ $(document).ready(function () {
                                     month.value = selectedDate.substring(5, 7);
                                     year.value = selectedDate.substring(0, 4);
                                     var myModal = new bootstrap.Modal(
-                                        document.getElementById(
-                                            "dataBKKModal"
-                                        ),
+                                        document.getElementById("dataBKKModal"),
                                         { keyboard: false }
                                     );
                                     myModal.show();
@@ -332,9 +334,7 @@ $(document).ready(function () {
                                     month.value = selectedDate.substring(5, 7);
                                     year.value = selectedDate.substring(0, 4);
                                     var myModal = new bootstrap.Modal(
-                                        document.getElementById(
-                                            "dataBKKModal"
-                                        ),
+                                        document.getElementById("dataBKKModal"),
                                         { keyboard: false }
                                     );
                                     myModal.show();
@@ -469,7 +469,7 @@ $(document).ready(function () {
                     });
                 }
             });
-        } else if (proses === 1) {
+        } else if (proses === 1 && TT === true) {
             $.ajax({
                 url: "MaintenanceBKKKRR1",
                 type: "POST",
@@ -487,6 +487,8 @@ $(document).ready(function () {
                     kode_kira: kode_kira.value,
                 },
                 success: function (response) {
+                    console.log(response);
+
                     if (response.message) {
                         Swal.fire({
                             icon: "success",
@@ -498,6 +500,147 @@ $(document).ready(function () {
                                 location.reload();
                             } else {
                                 location.reload();
+                            }
+                        });
+                    } else if (response.error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error!",
+                            text: response.error,
+                            showConfirmButton: false,
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    let errorMessage = "Terjadi kesalahan saat memproses data.";
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMessage = xhr.responseJSON.error;
+                    } else if (xhr.responseText) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            errorMessage = response.error || errorMessage;
+                        } catch (e) {
+                            console.error("Error parsing JSON response:", e);
+                        }
+                    }
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: errorMessage,
+                        showConfirmButton: false,
+                    });
+                },
+            });
+        } else if (proses === 1 && TT === false) {
+            $.ajax({
+                url: "MaintenanceBKKKRR1",
+                type: "POST",
+                data: {
+                    _token: csrfToken,
+                    proses: proses,
+                    TT: TT ? 1 : 0,
+                    bulatan: bulatan ? 1 : 0,
+                    nilairincian_rp: nilairincian_rp.value,
+                    id_bayar: id_bayar.value,
+                    id_TT: id_TT.value,
+                    rincinan_bayar: rincinan_bayar.value,
+                    kode_kira: kode_kira.value,
+                },
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.message) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: response.message,
+                            showConfirmButton: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                if (id_bayar.value == "") {
+                                    id_bayar.value = response.Id_Pembayaran;
+                                    id_TT.value = response.Id_Penagihan;
+                                }
+                                btn_koreksi.style.display = "none";
+                                btn_koreksidetail.style.display = "block";
+                                rincinan_bayar.value = "";
+                                nilairincian_rp.value = 0;
+                                kode_kira.value = "";
+                                keterangan_kira.value = "";
+                                rincinan_bayar.focus();
+                                $("#table_atas").DataTable().ajax.reload();
+                                table_bawah = $("#table_bawah").DataTable({
+                                    responsive: true,
+                                    processing: true,
+                                    serverSide: true,
+                                    destroy: true,
+                                    ajax: {
+                                        url: "MaintenanceBKKKRR1/getDetailPembayaran",
+                                        dataType: "json",
+                                        type: "GET",
+                                        data: function (d) {
+                                            return $.extend({}, d, {
+                                                _token: csrfToken,
+                                                id_bayar: id_bayar.value,
+                                            });
+                                        },
+                                    },
+                                    columns: [
+                                        {
+                                            data: "Id_Detail_Bayar",
+                                            render: function (data) {
+                                                return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                                            },
+                                        },
+                                        { data: "Rincian_Bayar" },
+                                        { data: "Nilai_Rincian" },
+                                        { data: "Kode_Perkiraan" },
+                                    ],
+                                    // columnDefs: [{ targets: [1, 2], visible: false }],
+                                });
+                            } else {
+                                if (id_bayar.value == "") {
+                                    id_bayar.value = response.Id_Pembayaran;
+                                    id_TT.value = response.Id_Penagihan;
+                                }
+                                btn_koreksi.style.display = "none";
+                                btn_koreksidetail.style.display = "block";
+                                rincinan_bayar.value = "";
+                                nilairincian_rp.value = 0;
+                                kode_kira.value = "";
+                                keterangan_kira.value = "";
+                                rincinan_bayar.focus();
+                                $("#table_atas").DataTable().ajax.reload();
+                                table_bawah = $("#table_bawah").DataTable({
+                                    responsive: true,
+                                    processing: true,
+                                    serverSide: true,
+                                    destroy: true,
+                                    ajax: {
+                                        url: "MaintenanceBKKKRR1/getDetailPembayaran",
+                                        dataType: "json",
+                                        type: "GET",
+                                        data: function (d) {
+                                            return $.extend({}, d, {
+                                                _token: csrfToken,
+                                                id_bayar: id_bayar.value,
+                                            });
+                                        },
+                                    },
+                                    columns: [
+                                        {
+                                            data: "Id_Detail_Bayar",
+                                            render: function (data) {
+                                                return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                                            },
+                                        },
+                                        { data: "Rincian_Bayar" },
+                                        { data: "Nilai_Rincian" },
+                                        { data: "Kode_Perkiraan" },
+                                    ],
+                                    // columnDefs: [{ targets: [1, 2], visible: false }],
+                                });
                             }
                         });
                     } else if (response.error) {
@@ -633,6 +776,7 @@ $(document).ready(function () {
                 nilairincian_rp.value = rowDataKedua.Nilai_Penagihan;
             }
         } else if (TT === false) {
+            proses = 1;
             btn_isi.disabled = true;
             rincinan_bayar.focus();
         }

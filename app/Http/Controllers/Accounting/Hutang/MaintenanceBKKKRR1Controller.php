@@ -30,7 +30,7 @@ class MaintenanceBKKKRR1Controller extends Controller
         // Define variables
         $proses = $request->input('proses');
         $tt = (bool) $request->input('TT');
-        $tNilaiRincian = $request->input('nilairincian_rp');
+        $tNilaiRincian = floatval(str_replace(",", "", $request->input('nilairincian_rp')));
         $tIdBayar = $request->input('id_bayar');
         $tIdPenagihan = $request->input('id_TT');
         $tRincian = $request->input('rincinan_bayar');
@@ -38,7 +38,7 @@ class MaintenanceBKKKRR1Controller extends Controller
         $user_id = trim(Auth::user()->NomorUser);
         $bulatan = (bool) $request->input('bulatan');
         // dd($request->all());
-        // dd($tIdBayar);
+        // dd($tt, $tNilaiRincian, $tIdBayar, $tIdPenagihan);
         // dd(substr(trim($tIdPenagihan), 0, 1));
 
         switch ($proses) {
@@ -90,8 +90,9 @@ class MaintenanceBKKKRR1Controller extends Controller
                 } else {
                     // DATA NO PENAGIHAN
                     if ($tIdBayar == null && $tIdPenagihan == null) {
-                        if ($tNilaiRincian == 0) {
-                            return response()->json(['message' => 'Data tidak dapat diSIMPAN !!.. Nilai Rincian=0(nol)']);
+                        // dd('hehe');
+                        if ($tNilaiRincian == 0.0) {
+                            return response()->json(['error' => 'Data tidak dapat diSIMPAN !!.. Nilai Rincian=0(nol)']);
                         }
                         $result = DB::connection('ConnAccounting')
                             ->statement('EXEC SP_1273_ACC_INS_BKK1_IDBAYAR_NOTT ?, ?, ?, ?', [
@@ -101,8 +102,20 @@ class MaintenanceBKKKRR1Controller extends Controller
                                 $tKdKira,
 
                             ]);
+
+                        $results = DB::connection('ConnAccounting')
+                            ->table('T_PEMBAYARAN_TAGIHAN')
+                            ->select('Id_Pembayaran', 'Id_Penagihan')
+                            ->orderBy('Tgl_Input', 'desc')
+                            ->first();
+                        // dd($results);
                         // $tIdPenagihan = $result[0]->IDtt;
                         // $tIdBayar = $result[0]->IDBYR;
+                        return response()->json([
+                            'message' => 'Data NON Penagihan sudah diSIMPAN !!..',
+                            'Id_Pembayaran' => $results->Id_Pembayaran,
+                            'Id_Penagihan' => $results->Id_Penagihan
+                        ]);
                     } else {
                         if ($tNilaiRincian == 0) {
                             return response()->json(['message' => 'Data tidak dapat diSIMPAN !!.. Nilai Rincian=0(nol)']);
@@ -115,7 +128,9 @@ class MaintenanceBKKKRR1Controller extends Controller
                                 $tKdKira
                             ]);
                     }
-                    return response()->json(['message' => 'Data NON Penagihan sudah diSIMPAN !!..']);
+                    return response()->json([
+                        'message' => 'Data NON Penagihan sudah diSIMPAN !!..'
+                    ]);
                 }
 
             case 2:
@@ -165,7 +180,7 @@ class MaintenanceBKKKRR1Controller extends Controller
                 }
         }
 
-        if ($tIdBayar !== "") {
+        if ($tIdBayar !== null) {
             $result = DB::connection('ConnAccounting')
                 ->select('EXEC SP_1273_ACC_LIST_BKK1_NILAIBYR ?', [$tIdBayar]);
             $tTotal = number_format($result[0]->Nilai_Pembayaran, 2, ',', '.');
@@ -179,9 +194,11 @@ class MaintenanceBKKKRR1Controller extends Controller
         if ($id == 'getDataAwalAtas') {
             $response = [];
 
+            // Execute the first stored procedure
             $results1 = DB::connection('ConnAccounting')
                 ->select('exec SP_1273_ACC_LIST_BKK1_NOBKK_TT');
-            // dd($results1);
+
+            // Process the results of the first stored procedure
             foreach ($results1 as $row) {
                 $response[] = [
                     'Id_Pembayaran' => trim($row->Id_Pembayaran),
@@ -193,6 +210,23 @@ class MaintenanceBKKKRR1Controller extends Controller
                 ];
             }
 
+            // Execute the second stored procedure
+            $results2 = DB::connection('ConnAccounting')
+                ->select('exec SP_1273_ACC_LIST_BKK1_NOBKK_NOTT');
+
+            // Process the results of the second stored procedure and add them to the response
+            foreach ($results2 as $row) {
+                $response[] = [
+                    'Id_Pembayaran' => trim($row->Id_Pembayaran),
+                    'Id_Penagihan' => trim($row->Id_Penagihan),
+                    'NM_SUP' => trim($row->NM_SUP),
+                    'Rincian_Bayar' => trim($row->Rincian_Bayar),
+                    'Nilai_Rincian' => number_format($row->Nilai_Rincian, 2, '.', ','),
+                    'Id_Supplier' => $row->Id_Supplier,
+                ];
+            }
+
+            // Return combined response as datatables result
             return datatables($response)->make(true);
         } else if ($id == 'getDataAwalBawah') {
             $response = [];
@@ -445,7 +479,7 @@ class MaintenanceBKKKRR1Controller extends Controller
 
             // Assuming you're using a reporting tool to generate and display the report
             $data = DB::connection('ConnAccounting')
-                        ->select("SELECT * FROM VW_PRG_1273_ACC_Cetak_BAYAR_BKK1 WHERE Id_BKK = ?", [$idBKK]);
+                ->select("SELECT * FROM VW_PRG_1273_ACC_Cetak_BAYAR_BKK1 WHERE Id_BKK = ?", [$idBKK]);
             return response()->json([
                 'data' => $data,
                 'message' => 'Data sudah diSIMPAN!'

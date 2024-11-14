@@ -27,6 +27,7 @@ class MaintenanceBKMKRR1Controller extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        // dd($request->all());
         // Variabel untuk menampung data
         $idbkm = intval(substr($request->id_bkm, 0, 3));
         $konversi = $request->terbilang;
@@ -36,7 +37,7 @@ class MaintenanceBKMKRR1Controller extends Controller
         $listdetail = $request->input('allRowsDataKiri', []);
         $listbiaya = $request->input('allRowsDataKanan', []);
         $bulantahun = \Carbon\Carbon::parse($request->tanggal_input)->format('my');
-        // dd($listdetail);
+        // dd($total, $konversi, $listdetail, $listbiaya, $ada1);
         // foreach ($listdetail as $lunasItem) {
         //     preg_match('/value="(\d+)"/', $lunasItem[0], $matches);
         //     $itemValue = $matches[1] ?? null;
@@ -62,7 +63,7 @@ class MaintenanceBKMKRR1Controller extends Controller
 
                 preg_match('/value="(\d+)"/', $lunasItem[0], $matches);
                 $itemValue = $matches[1] ?? null;
-
+                // dd($itemValue);
                 DB::connection('ConnAccounting')
                     ->statement('EXEC SP_5298_ACC_INSERT_BKM_TPELUNASAN_TAG_TUNAI @idBKM = ?, @tgl = ?, @idBank = ?, @idUang = ?, @idJenis = ?, @kodeperkiraan= ?, @uraian = ?, @keterangan = ?, @bukti = ?, @user = ?, @nilaipelunasan = ?, @kurs = ?', [
                         trim($request->id_bkm),
@@ -76,17 +77,18 @@ class MaintenanceBKMKRR1Controller extends Controller
                         trim($lunasItem[6]),   // Assuming subItem6 corresponds to index 6 (no_bukti)
                         trim(Auth::user()->NomorUser),
                         floatval(str_replace(",", "", $lunasItem[2])), // Assuming subItem2 corresponds to index 2 (jumlah_uang)
-                        ($request->kurs_rupiah != "0") ? floatval($request->kurs_rupiah) : null
+                        ($request->kurs_rupiah != "0") ? floatval($request->kurs_rupiah) : 0
                     ]);
 
-                if ($ada1) {
                     foreach ($listbiaya as $biayaItem) {
+                        // dd($biayaItem);
                         if ($itemValue == $biayaItem[3]) {
                             $biaya += floatval(str_replace(",", "", $biayaItem[1]));
                             $ada = true;
                         }
                     }
-
+                // dd($ada)
+                if ($ada1 === "true") {
                     $idPelunasan = DB::connection('ConnAccounting')
                         ->select('EXEC SP_5298_ACC_GET_IDPELUNASAN');
                     $IDPelunasan = $idPelunasan[0]->id_pelunasan;
@@ -94,8 +96,9 @@ class MaintenanceBKMKRR1Controller extends Controller
                     // dd($idPelunasan);
                     if ($ada) {
                         foreach ($listbiaya as $biayaItem) {
-                            preg_match('/value="([^"]+)"/', $biayaItem[0], $matches);
+                            preg_match('/value="([^"]+)"/', $biayaItem[3], $matches);
                             $itemBiaya = $matches[1] ?? null;
+                            // dd($itemBiaya);
                             if ($itemValue == $biayaItem[3]) {
                                 DB::connection('ConnAccounting')
                                     ->statement('EXEC SP_5298_ACC_INSERT_DETAIL_BIAYA @idpelunasan = ?, @keterangan = ?, @biaya = ?, @kodeperkiraan = ?', [
@@ -237,7 +240,7 @@ class MaintenanceBKMKRR1Controller extends Controller
                         $idBKM = str_pad($noUrut, 5, '0', STR_PAD_LEFT); // Pad the number to 5 digits with leading zeros
 
                         // Concatenate the bank code, 'R', and the formatted year and number
-                        $idBKM = $bank . '-R' . substr($tahun, -2) . substr($idBKM, -5);
+                        $idBKM = 'KKM' . '-R' . substr($tahun, -2) . substr($idBKM, -5);
 
                         // Prepare the response with the constructed @idBKM
                         $response['idBKM'] = $idBKM;
