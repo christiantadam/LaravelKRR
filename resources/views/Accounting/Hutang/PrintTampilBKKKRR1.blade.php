@@ -27,10 +27,18 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 10mm;
+            padding: 0 5mm;
         }
 
-        .header,
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-top: 0 !important;
+            /* Ensure no top padding */
+            padding-bottom: 0 !important;
+            /* Adjust as needed */
+        }
+
         .footer {
             text-align: center;
             margin-bottom: 20px;
@@ -79,7 +87,7 @@
 
     .content th,
     .content td {
-        padding: 8px;
+        padding: 2px;
         text-align: left;
     }
 
@@ -88,7 +96,7 @@
         } */
 
     .signature {
-        margin-top: 40px;
+        margin-top: 20px;
         display: flex;
         justify-content: space-between;
     }
@@ -98,14 +106,14 @@
     }
 
     .note {
-        margin-top: 20px;
+        margin-top: 10px;
     }
 </style>
 
 <div class="container" style="display: none">
-    <div class="header">
-        <h3 style="text-align: left;">Payment Voucher</h3>
-        <h2 style="text-align: left;">PT. KERTA RAJASA RAYA</h2>
+    <div class="header" style="padding: 0 !important">
+        <h5 style="text-align: left;">Payment Voucher</h5>
+        <h4 style="text-align: left;">PT. KERTA RAJASA RAYA</h4>
     </div>
     <div class="content">
         <table style="border:none !important">
@@ -138,21 +146,27 @@
                     <th style="border:none !important; border-bottom: 1px solid black !important">C.O.A</th>
                     <th style="border:none !important; border-bottom: 1px solid black !important">Account Name</th>
                     <th style="border:none !important; border-bottom: 1px solid black !important">Description</th>
-                    <th style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">Invoice No.</th>
-                    <th style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount</th>
+                    <th style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">Invoice
+                        No.</th>
+                    <th style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount
+                    </th>
                 </tr>
             </thead>
             <tbody style="border:none !important; border-bottom: 1px solid black !important">
-                <td style="border:none !important; border-bottom: 1px solid black !important" id="coa_p"></td>
+                <td style="border:none !important; border-bottom: 1px solid black !important; border-top: 1px solid black !important" id="coa_p"></td>
                 <td style="border:none !important; border-bottom: 1px solid black !important" id="acc_p"></td>
                 <td style="border:none !important; border-bottom: 1px solid black !important" id="desc_p"></td>
                 <td style="border:none !important; border-bottom: 1px solid black !important" id="bgno_p"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important" id="amount_p"></td>
+                <td style="border:none !important; border-bottom: 1px solid black !important; border-top: 1px solid black !important" id="amount_p"></td>
             </tbody>
             <tfoot style="border:none !important">
                 <tr style="border:none !important">
-                    <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td>
-                    <td style="border:none !important" id="total_p"></td>
+                    <td style="border:none !important; border-top: 1px solid black !important"></td>
+                    <td style="border:none !important;"></td>
+                    <td style="border:none !important;"></td>
+                    <td style="border:none !important; text-align: right">TOTAL =</td>
+                    {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
+                    <td style="border:none !important; border-top: 1px solid black !important" id="total_p"></td>
                 </tr>
             </tfoot>
         </table>
