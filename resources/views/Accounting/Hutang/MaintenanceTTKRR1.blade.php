@@ -35,7 +35,7 @@
 
                             <p>
                             <div style="overflow-x: auto;">
-                                <table style="width: 280%; table-layout: fixed;" id="table_atas">
+                                <table style="width: 200%; table-layout: fixed;" id="table_atas">
                                     <colgroup>
                                         <col style="width: 20%;">
                                         <col style="width: 20%;">

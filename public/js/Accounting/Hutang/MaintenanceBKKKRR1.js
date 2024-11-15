@@ -101,6 +101,21 @@ $(document).ready(function () {
         }
     });
 
+    month.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            year.focus();
+            year.select();
+        }
+    });
+
+    year.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            btn_okbkk.focus();
+        }
+    });
+
     radiogrup_penagihan.addEventListener("click", function (event) {
         btn_isi.disabled = false;
         btn_koreksi.disabled = true;
@@ -321,6 +336,15 @@ $(document).ready(function () {
                                         document.getElementById("dataBKKModal"),
                                         { keyboard: false }
                                     );
+                                    document
+                                        .getElementById("dataBKKModal")
+                                        .addEventListener(
+                                            "shown.bs.modal",
+                                            function () {
+                                                month.focus();
+                                                month.select();
+                                            }
+                                        );
                                     myModal.show();
                                     btn_okbkk.click();
                                     // tableatas.ajax.reload();
@@ -337,6 +361,15 @@ $(document).ready(function () {
                                         document.getElementById("dataBKKModal"),
                                         { keyboard: false }
                                     );
+                                    document
+                                        .getElementById("dataBKKModal")
+                                        .addEventListener(
+                                            "shown.bs.modal",
+                                            function () {
+                                                month.focus();
+                                                month.select();
+                                            }
+                                        );
                                     myModal.show();
                                     btn_okbkk.click();
                                     // tableatas.ajax.reload();
@@ -972,6 +1005,12 @@ $(document).ready(function () {
                 keyboard: false,
             }
         );
+        document
+            .getElementById("dataBKKModal")
+            .addEventListener("shown.bs.modal", function () {
+                month.focus();
+                month.select();
+            });
         myModal.show();
     });
 

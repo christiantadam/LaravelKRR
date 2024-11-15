@@ -111,15 +111,16 @@ $(document).ready(function () {
                     nama_supp.value = escapeHTML(selectedRow.NM_SUP.trim());
                     id_supp.value = escapeHTML(selectedRow.NO_SUP.trim());
 
-                    if ($.fn.DataTable.isDataTable("#table_atas")) {
-                        $("#table_atas").DataTable().clear().destroy();
-                    }
+                    // if ($.fn.DataTable.isDataTable("#table_atas")) {
+                    //     $("#table_atas").DataTable().clear().destroy();
+                    // }
 
                     table_atas = $("#table_atas").DataTable({
                         responsive: true,
                         processing: true,
                         serverSide: true,
                         returnFocus: true,
+                        destroy: true,
                         ajax: {
                             url: "MaintenanceTTKRR1/getPO",
                             dataType: "json",
@@ -155,6 +156,10 @@ $(document).ready(function () {
                             { data: "Sat_Terima" },
                             { data: "hrg_murni" },
                         ],
+                        paging: false,
+                        scrollY: "400px",
+                        scrollX: "150%",
+                        scrollCollapse: true,
                     });
                 }
             });
@@ -191,7 +196,6 @@ $(document).ready(function () {
             ).format("0,0.00");
 
             console.log(rowDataArray);
-
         }
     );
 
@@ -227,11 +231,18 @@ $(document).ready(function () {
                         text: response.message,
                         showConfirmButton: true,
                     }).then(() => {
-                        document
-                            .querySelectorAll("input")
-                            .forEach((input) => (input.value = ""));
+                        // document
+                        //     .querySelectorAll("input")
+                        //     .forEach((input) => (input.value = ""));
+                        id_penagihan.value = "";
+                        id_inv.value = "";
+                        nilai_penagihan.value = numeral(0).format('0,0.00');
+                        nofaktur_pajak.value = "";
+                        nilai_pajak.value = "";
+                        pajak.value = "";
                         totalHargaTerbayar = 0;
                         $("#table_atas").DataTable().ajax.reload();
+                        btn_supplier.focus();
                     });
                 } else if (response.error) {
                     Swal.fire({
@@ -246,6 +257,6 @@ $(document).ready(function () {
                 alert(xhr.responseJSON.message);
             },
         });
-    rowDataArray = [];
+        rowDataArray = [];
     });
 });

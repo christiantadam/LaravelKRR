@@ -27,16 +27,14 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 0 5mm;
+            padding: 3mm 5mm;
         }
 
         .header {
             text-align: center;
             margin-bottom: 20px;
-            padding-top: 0 !important;
-            /* Ensure no top padding */
+            padding-top: 50 !important;
             padding-bottom: 0 !important;
-            /* Adjust as needed */
         }
 
         .footer {
@@ -161,12 +159,12 @@
             </tbody>
             <tfoot style="border:none !important">
                 <tr style="border:none !important">
-                    <td style="border:none !important; border-top: 1px solid black !important"></td>
+                    <td style="border:none !important;"></td>
                     <td style="border:none !important;"></td>
                     <td style="border:none !important;"></td>
                     <td style="border:none !important; text-align: right">TOTAL =</td>
                     {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
-                    <td style="border:none !important; border-top: 1px solid black !important" id="total_p"></td>
+                    <td style="border:none !important;" id="total_p"></td>
                 </tr>
             </tfoot>
         </table>
