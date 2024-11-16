@@ -27,7 +27,7 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 10mm;
+            padding: 3mm 5mm;
         }
 
         .header,
@@ -104,8 +104,8 @@
 
 <div class="container" style="display: none">
     <div class="header">
-        <h3 style="text-align: left;">Payment Voucher</h3>
-        <h2 style="text-align: left;">PT. KERTA RAJASA RAYA</h2>
+        <h5 style="text-align: left;">Payment Voucher</h5>
+        <h4 style="text-align: left;">PT. KERTA RAJASA RAYA</h4>
     </div>
     <div class="content">
         <table style="border:none !important">
@@ -151,8 +151,12 @@
             </tbody>
             <tfoot style="border:none !important">
                 <tr style="border:none !important">
-                    <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td>
-                    <td style="border:none !important" id="total_p"></td>
+                    <td style="border:none !important;"></td>
+                    <td style="border:none !important;"></td>
+                    <td style="border:none !important;"></td>
+                    <td style="border:none !important; text-align: right">TOTAL =</td>
+                    {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
+                    <td style="border:none !important;" id="total_p"></td>
                 </tr>
             </tfoot>
         </table>
