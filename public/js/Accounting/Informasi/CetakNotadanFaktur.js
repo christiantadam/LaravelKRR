@@ -169,11 +169,17 @@ function rpt_cetakNotaFaktur(result) {
                         Id_Penagihan: idPenagihan.value.trim()
                     },
                     success: function (hello) {
-                        var fakturXC_Dexlite = document.getElementById('fakturXC_Dexlite');
-                        var fakturXC_Demurrage = document.getElementById('fakturXC_Demurrage');
+                        if (hello.length !== 0) {
+                            var fakturXC_Dexlite = document.getElementById('fakturXC_Dexlite');
+                            var fakturXC_Demurrage = document.getElementById('fakturXC_Demurrage');
 
-                        fakturXC_Dexlite.textContent = numeral(hello[0].XCTranspor).format("0,0.00");
-                        fakturXC_Demurrage.textContent = numeral(hello[0].Storage).format("0,0.00");
+                            fakturXC_Dexlite.textContent = numeral(hello[0].XCTranspor).format("0,0.00");
+                            fakturXC_Demurrage.textContent = numeral(hello[0].Storage).format("0,0.00");
+                        }
+                        else {
+                            fakturXC_Dexlite.textContent = '';
+                            fakturXC_Demurrage.textContent = '';
+                        }
 
                         var fakturXC_IdPenagihan = document.getElementById('fakturXC_IdPenagihan');
                         var fakturXC_AreaPPNThnIdFakturPajak = document.getElementById('fakturXC_AreaPPNThnIdFakturPajak');
@@ -199,143 +205,182 @@ function rpt_cetakNotaFaktur(result) {
                         var fakturXC_SuratJalan = document.getElementById('fakturXC_SuratJalan');
                         var fakturXC_SJ = document.getElementById('fakturXC_SJ');
 
-                        fakturXC_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
+                        if (result.length !== 0) {
+                            fakturXC_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
 
-                        var date2 = new Date(result[0].Tgl_Penagihan);
+                            var date2 = new Date(result[0].Tgl_Penagihan);
 
-                        var namaBulan = [
-                            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-                            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-                        ];
+                            var namaBulan = [
+                                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+                            ];
 
-                        var tanggal = date2.getDate();
-                        var bulan = namaBulan[date2.getMonth()];
-                        var tahunLengkap = date2.getFullYear();
-                        var duaDigitTahun = tahunLengkap.toString().slice(-2);
-                        fakturXC_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
-                            + ' . 012 - ' + duaDigitTahun + '. ' + decodeHtmlEntities(result[0].IdFakturPajak);
+                            var tanggal = date2.getDate();
+                            var bulan = namaBulan[date2.getMonth()];
+                            var tahunLengkap = date2.getFullYear();
+                            var duaDigitTahun = tahunLengkap.toString().slice(-2);
+                            fakturXC_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+                                + ' . 012 - ' + duaDigitTahun + '. ' + decodeHtmlEntities(result[0].IdFakturPajak);
 
-                        fakturXC_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
-                        fakturXC_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+                            fakturXC_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
+                            fakturXC_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
 
-                        let npwp = result[0].NPWP;
-                        let formattedNPWP =
-                            npwp.slice(0, 2) + ' . ' +
-                            npwp.slice(2, 5) + ' . ' +
-                            npwp.slice(5, 8) + ' . ' +
-                            npwp.slice(8, 9) + ' - ' +
-                            npwp.slice(9, 12) + ' . ' +
-                            npwp.slice(12, 15);
-                        fakturXC_NPWP.textContent = formattedNPWP;
+                            let npwp = result[0].NPWP;
+                            let formattedNPWP =
+                                npwp.slice(0, 2) + ' . ' +
+                                npwp.slice(2, 5) + ' . ' +
+                                npwp.slice(5, 8) + ' . ' +
+                                npwp.slice(8, 9) + ' - ' +
+                                npwp.slice(9, 12) + ' . ' +
+                                npwp.slice(12, 15);
+                            fakturXC_NPWP.textContent = formattedNPWP;
 
-                        fakturXC_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
+                            fakturXC_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
 
-                        let totalGrand = 0;
-                        let count = 0;
-                        var fakturXC_Detail = document.getElementById("fakturXC_Detail");
+                            let totalGrand = 0;
+                            let count = 0;
+                            var fakturXC_Detail = document.getElementById("fakturXC_Detail");
 
-                        fakturXC_Detail.innerHTML = '';
+                            fakturXC_Detail.innerHTML = '';
 
-                        result.forEach(function (item, index) {
-                            var row = document.createElement("div");
-                            row.classList.add("row");
-                            count += 1;
+                            result.forEach(function (item, index) {
+                                var row = document.createElement("div");
+                                row.classList.add("row");
+                                count += 1;
 
-                            var coaCol = document.createElement("div");
-                            coaCol.classList.add("col-sm-1", "text-right");
-                            coaCol.textContent = count;
-                            row.appendChild(coaCol);
+                                var coaCol = document.createElement("div");
+                                coaCol.classList.add("col-sm-1", "text-right");
+                                coaCol.textContent = count;
+                                row.appendChild(coaCol);
 
-                            var accountCol = document.createElement("div");
-                            accountCol.classList.add("col-sm-5", "text-left");
-                            accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
-                            row.appendChild(accountCol);
+                                var accountCol = document.createElement("div");
+                                accountCol.classList.add("col-sm-5", "text-left");
+                                accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
+                                row.appendChild(accountCol);
 
-                            var descriptionCol = document.createElement("div");
-                            descriptionCol.classList.add("col-sm-2", "text-right");
-                            descriptionCol.textContent = item.Jml ? numeral(item.Jml).format("0,0.00") + item.Satuan : '';
-                            row.appendChild(descriptionCol);
+                                var descriptionCol = document.createElement("div");
+                                descriptionCol.classList.add("col-sm-2", "text-right");
+                                descriptionCol.textContent = item.Jml ? numeral(item.Jml).format("0,0.00") + item.Satuan : '';
+                                row.appendChild(descriptionCol);
 
-                            var amountCol = document.createElement("div");
-                            amountCol.classList.add("col-sm-2", "text-right");
-                            amountCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00") : '0.00';
-                            row.appendChild(amountCol);
+                                var amountCol = document.createElement("div");
+                                amountCol.classList.add("col-sm-2", "text-right");
+                                amountCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00") : '0.00';
+                                row.appendChild(amountCol);
 
-                            var totalCol = document.createElement("div");
-                            totalCol.classList.add("col-sm-2", "text-left");
-                            let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
-                            totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
-                            row.appendChild(totalCol);
+                                var totalCol = document.createElement("div");
+                                totalCol.classList.add("col-sm-2", "text-left");
+                                let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
+                                totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
+                                row.appendChild(totalCol);
 
-                            fakturXC_Detail.appendChild(row);
+                                fakturXC_Detail.appendChild(row);
 
-                            totalGrand += numeral(tempTotal).value();
+                                totalGrand += numeral(tempTotal).value();
 
-                            var additionalRow = document.createElement("div");
-                            additionalRow.classList.add("row");
+                                var additionalRow = document.createElement("div");
+                                additionalRow.classList.add("row");
 
-                            var mantap = document.createElement("div");
-                            mantap.classList.add("col-sm-1", "text-right");
-                            additionalRow.appendChild(mantap);
+                                var mantap = document.createElement("div");
+                                mantap.classList.add("col-sm-1", "text-right");
+                                additionalRow.appendChild(mantap);
 
-                            var additionalCoaCol = document.createElement("div");
-                            additionalCoaCol.classList.add("col-sm-1", "text-right");
-                            additionalCoaCol.textContent = 'P O :';
-                            additionalRow.appendChild(additionalCoaCol);
+                                var additionalCoaCol = document.createElement("div");
+                                additionalCoaCol.classList.add("col-sm-1", "text-right");
+                                additionalCoaCol.textContent = 'P O :';
+                                additionalRow.appendChild(additionalCoaCol);
 
-                            var additionalAccountCol = document.createElement("div");
-                            additionalAccountCol.classList.add("col-sm-10", "text-left");
-                            additionalAccountCol.textContent = item.NO_PO ? decodeHtmlEntities(item.NO_PO) : '';
-                            additionalRow.appendChild(additionalAccountCol);
+                                var additionalAccountCol = document.createElement("div");
+                                additionalAccountCol.classList.add("col-sm-10", "text-left");
+                                additionalAccountCol.textContent = item.NO_PO ? decodeHtmlEntities(item.NO_PO) : '';
+                                additionalRow.appendChild(additionalAccountCol);
 
-                            fakturXC_Detail.appendChild(additionalRow);
-                        });
+                                fakturXC_Detail.appendChild(additionalRow);
+                            });
 
-                        fakturXC_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
-                        fakturXC_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
-                        fakturXC_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
-                        fakturXC_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
-                        fakturXC_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
+                            fakturXC_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
+                            fakturXC_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
+                            fakturXC_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
+                            fakturXC_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+                            fakturXC_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
 
-                        totalGrand = numeral(totalGrand).value() + numeral(fakturXC_Dexlite.textContent).value() + numeral(fakturXC_Demurrage.textContent).value();
-                        fakturXC_Grand.textContent = numeral(totalGrand).format("0,0.00");
+                            totalGrand = numeral(totalGrand).value() + numeral(fakturXC_Dexlite.textContent).value() + numeral(fakturXC_Demurrage.textContent).value();
+                            fakturXC_Grand.textContent = numeral(totalGrand).format("0,0.00");
 
-                        fakturXC_UM.textContent = result[0].Nilai_UM ? numeral(result[0].Nilai_UM).format("0,0.00") : '0.00';
+                            fakturXC_UM.textContent = result[0].Nilai_UM ? numeral(result[0].Nilai_UM).format("0,0.00") : '0.00';
 
-                        let dpp = numeral(fakturXC_Grand.textContent).value() - numeral(fakturXC_UM.textContent).value();
-                        fakturXC_DPP.textContent = numeral(dpp).format("0,0.00");
+                            let dpp = numeral(fakturXC_Grand.textContent).value() - numeral(fakturXC_UM.textContent).value();
+                            fakturXC_DPP.textContent = numeral(dpp).format("0,0.00");
 
-                        let pajak = Math.round(numeral(dpp).value()) * numeral(result[0].PersenPPN).value() / 100;
-                        fakturXC_Pajak.textContent = numeral(pajak).format("0,0.00");
+                            let pajak = Math.round(numeral(dpp).value()) * numeral(result[0].PersenPPN).value() / 100;
+                            fakturXC_Pajak.textContent = numeral(pajak).format("0,0.00");
 
-                        let terbayar = numeral(dpp).value() + numeral(pajak).value();
-                        fakturXC_Terbayar.textContent = numeral(terbayar).format("0,0.00");
+                            let terbayar = numeral(dpp).value() + numeral(pajak).value();
+                            fakturXC_Terbayar.textContent = numeral(terbayar).format("0,0.00");
 
-                        fakturXC_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
+                            fakturXC_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
 
-                        fakturXC_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
+                            fakturXC_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
 
-                        fakturXC_TglBln.textContent = tanggal + ' ' + bulan;
-                        fakturXC_Thn.textContent = duaDigitTahun;
+                            fakturXC_TglBln.textContent = tanggal + ' ' + bulan;
+                            fakturXC_Thn.textContent = duaDigitTahun;
 
-                        let syaratBayar = result[0].SyaratBayar;
-                        let tglTerimaBarang = result[0].Tgl_Terima_Barang;
-                        let syaratBayarNumber = Number(syaratBayar);
-                        let date3 = new Date(tglTerimaBarang);
-                        let resultDate = new Date(date3);
-                        resultDate.setDate(date3.getDate() + syaratBayarNumber);
-                        fakturXC_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+                            let syaratBayar = result[0].SyaratBayar;
+                            let tglTerimaBarang = result[0].Tgl_Terima_Barang;
+                            let syaratBayarNumber = Number(syaratBayar);
+                            let date3 = new Date(tglTerimaBarang);
+                            let resultDate = new Date(date3);
+                            resultDate.setDate(date3.getDate() + syaratBayarNumber);
+                            fakturXC_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
 
-                        if (sFormula0.length > 255) {
-                            fakturXC_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0.slice(0, 252);
-                            fakturXC_SJ.textContent = sFormula0.slice(252);
+                            if (sFormula0.length > 255) {
+                                fakturXC_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0.slice(0, 252);
+                                fakturXC_SJ.textContent = sFormula0.slice(252);
+                            }
+                            else {
+                                fakturXC_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0;
+                                fakturXC_SJ.textContent = '';
+                            }
+
+                            printPreview('fakturXC');
                         }
                         else {
-                            fakturXC_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0;
-                            fakturXC_SJ.textContent = '';
-                        }
+                            const elements = [
+                                'fakturXC_IdPenagihan',
+                                'fakturXC_AreaPPNThnIdFakturPajak',
+                                'fakturXC_NamaNPWP',
+                                'fakturXC_AlamatNPWP',
+                                'fakturXC_NPWP',
+                                'fakturXC_NamaKelompokUtama',
+                                'fakturXC_Grand',
+                                'fakturXC_SymbolGrand',
+                                'fakturXC_UM',
+                                'fakturXC_SymbolUM',
+                                'fakturXC_DPP',
+                                'fakturXC_SymbolDPP',
+                                'fakturXC_Pajak',
+                                'fakturXC_SymbolPajak',
+                                'fakturXC_Terbilang',
+                                'fakturXC_Terbayar',
+                                'fakturXC_SymbolTerbayar',
+                                'fakturXC_SyaratBayar',
+                                'fakturXC_TglBln',
+                                'fakturXC_Thn',
+                                'fakturXC_Tempo',
+                                'fakturXC_SuratJalan',
+                                'fakturXC_SJ'
+                            ];
 
-                        printPreview('fakturXC');
+                            elements.forEach(id => {
+                                const element = document.getElementById(id);
+                                if (element) {
+                                    element.textContent = ''; // Set the value to empty string
+                                }
+                            });
+
+                            printPreview('fakturXC');
+
+                        }
                     },
                     error: function (xhr, status, error) {
                         console.error('Error:', error);
@@ -368,142 +413,181 @@ function rpt_cetakNotaFaktur(result) {
                 var faktur_SuratJalan = document.getElementById('faktur_SuratJalan');
                 var faktur_SJ = document.getElementById('faktur_SJ');
 
-                faktur_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
+                if (result.length === 0) {
+                    const elements = [
+                        'faktur_IdPenagihan',
+                        'faktur_AreaPPNThnIdFakturPajak',
+                        'faktur_NamaNPWP',
+                        'faktur_AlamatNPWP',
+                        'faktur_NPWP',
+                        'faktur_NamaKelompokUtama',
+                        'faktur_SymbolGrand',
+                        'faktur_Grand',
+                        'faktur_SymbolUM',
+                        'faktur_UM',
+                        'faktur_SymbolDPP',
+                        'faktur_DPP',
+                        'faktur_SymbolPajak',
+                        'faktur_Pajak',
+                        'faktur_Terbilang',
+                        'faktur_SymbolTerbayar',
+                        'faktur_Terbayar',
+                        'faktur_SyaratBayar',
+                        'faktur_TglBln',
+                        'faktur_Thn',
+                        'faktur_Tempo',
+                        'faktur_SuratJalan',
+                        'faktur_SJ'
+                    ];
 
-                var date2 = new Date(result[0].Tgl_Penagihan);
+                    elements.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.textContent = ''; // Set the value to empty string
+                        }
+                    });
 
-                var namaBulan = [
-                    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-                    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-                ];
-
-                var tanggal = date2.getDate();
-                var bulan = namaBulan[date2.getMonth()];
-                var tahunLengkap = date2.getFullYear();
-                var duaDigitTahun = tahunLengkap.toString().slice(-2);
-                faktur_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
-                    + ' . 012 - ' + duaDigitTahun + '. ' + decodeHtmlEntities(result[0].IdFakturPajak);
-
-                faktur_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
-                faktur_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
-
-                let npwp = result[0].NPWP;
-                let formattedNPWP =
-                    npwp.slice(0, 2) + ' . ' +
-                    npwp.slice(2, 5) + ' . ' +
-                    npwp.slice(5, 8) + ' . ' +
-                    npwp.slice(8, 9) + ' - ' +
-                    npwp.slice(9, 12) + ' . ' +
-                    npwp.slice(12, 15);
-                faktur_NPWP.textContent = formattedNPWP;
-
-                faktur_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
-
-                let totalGrand = 0;
-                let count = 0;
-                var faktur_Detail = document.getElementById("faktur_Detail");
-
-                faktur_Detail.innerHTML = '';
-
-                result.forEach(function (item, index) {
-                    var row = document.createElement("div");
-                    row.classList.add("row");
-                    count += 1;
-
-                    var coaCol = document.createElement("div");
-                    coaCol.classList.add("col-sm-1", "text-right");
-                    coaCol.textContent = count;
-                    row.appendChild(coaCol);
-
-                    var accountCol = document.createElement("div");
-                    accountCol.classList.add("col-sm-5", "text-left");
-                    accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
-                    row.appendChild(accountCol);
-
-                    var descriptionCol = document.createElement("div");
-                    descriptionCol.classList.add("col-sm-2", "text-right");
-                    descriptionCol.textContent = item.Jml ? numeral(item.Jml).format("0,0.00") + item.Satuan : '';
-                    row.appendChild(descriptionCol);
-
-                    var amountCol = document.createElement("div");
-                    amountCol.classList.add("col-sm-2", "text-right");
-                    amountCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00") : '0.00';
-                    row.appendChild(amountCol);
-
-                    var totalCol = document.createElement("div");
-                    totalCol.classList.add("col-sm-2", "text-left");
-                    let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
-                    totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
-                    row.appendChild(totalCol);
-
-                    faktur_Detail.appendChild(row);
-
-                    totalGrand += numeral(tempTotal).value();
-
-                    var additionalRow = document.createElement("div");
-                    additionalRow.classList.add("row");
-
-                    var mantap = document.createElement("div");
-                    mantap.classList.add("col-sm-1", "text-right");
-                    additionalRow.appendChild(mantap);
-
-                    var additionalCoaCol = document.createElement("div");
-                    additionalCoaCol.classList.add("col-sm-1", "text-right");
-                    additionalCoaCol.textContent = 'P O :';
-                    additionalRow.appendChild(additionalCoaCol);
-
-                    var additionalAccountCol = document.createElement("div");
-                    additionalAccountCol.classList.add("col-sm-10", "text-left");
-                    additionalAccountCol.textContent = item.NO_PO ? decodeHtmlEntities(item.NO_PO) : '';
-                    additionalRow.appendChild(additionalAccountCol);
-
-                    faktur_Detail.appendChild(additionalRow);
-                });
-
-                faktur_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
-                faktur_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
-                faktur_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
-                faktur_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
-                faktur_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
-
-                faktur_Grand.textContent = numeral(totalGrand).format("0,0.00");
-
-                faktur_UM.textContent = result[0].Nilai_UM ? numeral(result[0].Nilai_UM).format("0,0.00") : '0.00';
-
-                let dpp = numeral(faktur_Grand.textContent).value() - numeral(faktur_UM.textContent).value();
-                faktur_DPP.textContent = numeral(dpp).format("0,0.00");
-
-                let pajak = Math.round(numeral(dpp).value()) * numeral(result[0].PersenPPN).value() / 100;
-                faktur_Pajak.textContent = numeral(pajak).format("0,0.00");
-
-                let terbayar = numeral(dpp).value() + numeral(pajak).value();
-                faktur_Terbayar.textContent = numeral(terbayar).format("0,0.00");
-
-                faktur_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
-
-                faktur_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
-
-                faktur_TglBln.textContent = tanggal + ' ' + bulan;
-                faktur_Thn.textContent = duaDigitTahun;
-
-                let syaratBayar = result[0].SyaratBayar;
-                let tglTerimaBarang = result[0].Tgl_Terima_Barang;
-                let syaratBayarNumber = Number(syaratBayar);
-                let date3 = new Date(tglTerimaBarang);
-                let resultDate = new Date(date3);
-                resultDate.setDate(date3.getDate() + syaratBayarNumber);
-                faktur_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
-
-                if (sFormula0.length > 255) {
-                    faktur_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0.slice(0, 252);
-                    faktur_SJ.textContent = sFormula0.slice(252);
+                    printPreview('faktur');
                 }
+
                 else {
-                    faktur_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0;
-                    faktur_SJ.textContent = '';
-                }
+                    faktur_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
 
-                printPreview('faktur');
+                    var date2 = new Date(result[0].Tgl_Penagihan);
+
+                    var namaBulan = [
+                        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+                    ];
+
+                    var tanggal = date2.getDate();
+                    var bulan = namaBulan[date2.getMonth()];
+                    var tahunLengkap = date2.getFullYear();
+                    var duaDigitTahun = tahunLengkap.toString().slice(-2);
+                    faktur_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+                        + ' . 012 - ' + duaDigitTahun + '. ' + decodeHtmlEntities(result[0].IdFakturPajak);
+
+                    faktur_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
+                    faktur_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+
+                    let npwp = result[0].NPWP;
+                    let formattedNPWP =
+                        npwp.slice(0, 2) + ' . ' +
+                        npwp.slice(2, 5) + ' . ' +
+                        npwp.slice(5, 8) + ' . ' +
+                        npwp.slice(8, 9) + ' - ' +
+                        npwp.slice(9, 12) + ' . ' +
+                        npwp.slice(12, 15);
+                    faktur_NPWP.textContent = formattedNPWP;
+
+                    faktur_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
+
+                    let totalGrand = 0;
+                    let count = 0;
+                    var faktur_Detail = document.getElementById("faktur_Detail");
+
+                    faktur_Detail.innerHTML = '';
+
+                    result.forEach(function (item, index) {
+                        var row = document.createElement("div");
+                        row.classList.add("row");
+                        count += 1;
+
+                        var coaCol = document.createElement("div");
+                        coaCol.classList.add("col-sm-1", "text-right");
+                        coaCol.textContent = count;
+                        row.appendChild(coaCol);
+
+                        var accountCol = document.createElement("div");
+                        accountCol.classList.add("col-sm-5", "text-left");
+                        accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
+                        row.appendChild(accountCol);
+
+                        var descriptionCol = document.createElement("div");
+                        descriptionCol.classList.add("col-sm-2", "text-right");
+                        descriptionCol.textContent = item.Jml ? numeral(item.Jml).format("0,0.00") + item.Satuan : '';
+                        row.appendChild(descriptionCol);
+
+                        var amountCol = document.createElement("div");
+                        amountCol.classList.add("col-sm-2", "text-right");
+                        amountCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00") : '0.00';
+                        row.appendChild(amountCol);
+
+                        var totalCol = document.createElement("div");
+                        totalCol.classList.add("col-sm-2", "text-left");
+                        let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
+                        totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
+                        row.appendChild(totalCol);
+
+                        faktur_Detail.appendChild(row);
+
+                        totalGrand += numeral(tempTotal).value();
+
+                        var additionalRow = document.createElement("div");
+                        additionalRow.classList.add("row");
+
+                        var mantap = document.createElement("div");
+                        mantap.classList.add("col-sm-1", "text-right");
+                        additionalRow.appendChild(mantap);
+
+                        var additionalCoaCol = document.createElement("div");
+                        additionalCoaCol.classList.add("col-sm-1", "text-right");
+                        additionalCoaCol.textContent = 'P O :';
+                        additionalRow.appendChild(additionalCoaCol);
+
+                        var additionalAccountCol = document.createElement("div");
+                        additionalAccountCol.classList.add("col-sm-10", "text-left");
+                        additionalAccountCol.textContent = item.NO_PO ? decodeHtmlEntities(item.NO_PO) : '';
+                        additionalRow.appendChild(additionalAccountCol);
+
+                        faktur_Detail.appendChild(additionalRow);
+                    });
+
+                    faktur_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
+                    faktur_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
+                    faktur_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
+                    faktur_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+                    faktur_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
+
+                    faktur_Grand.textContent = numeral(totalGrand).format("0,0.00");
+
+                    faktur_UM.textContent = result[0].Nilai_UM ? numeral(result[0].Nilai_UM).format("0,0.00") : '0.00';
+
+                    let dpp = numeral(faktur_Grand.textContent).value() - numeral(faktur_UM.textContent).value();
+                    faktur_DPP.textContent = numeral(dpp).format("0,0.00");
+
+                    let pajak = Math.round(numeral(dpp).value()) * numeral(result[0].PersenPPN).value() / 100;
+                    faktur_Pajak.textContent = numeral(pajak).format("0,0.00");
+
+                    let terbayar = numeral(dpp).value() + numeral(pajak).value();
+                    faktur_Terbayar.textContent = numeral(terbayar).format("0,0.00");
+
+                    faktur_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
+
+                    faktur_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
+
+                    faktur_TglBln.textContent = tanggal + ' ' + bulan;
+                    faktur_Thn.textContent = duaDigitTahun;
+
+                    let syaratBayar = result[0].SyaratBayar;
+                    let tglTerimaBarang = result[0].Tgl_Terima_Barang;
+                    let syaratBayarNumber = Number(syaratBayar);
+                    let date3 = new Date(tglTerimaBarang);
+                    let resultDate = new Date(date3);
+                    resultDate.setDate(date3.getDate() + syaratBayarNumber);
+                    faktur_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+
+                    if (sFormula0.length > 255) {
+                        faktur_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0.slice(0, 252);
+                        faktur_SJ.textContent = sFormula0.slice(252);
+                    }
+                    else {
+                        faktur_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0;
+                        faktur_SJ.textContent = '';
+                    }
+
+                    printPreview('faktur');
+                }
             }
         }).catch(function (error) {
             console.error('Error:', error);
@@ -526,114 +610,144 @@ function rpt_cetakNotaFaktur(result) {
         var nota_SuratJalan = document.getElementById("nota_SuratJalan");
         var nota_SJ = document.getElementById("nota_SJ");
 
-        var date2 = new Date(result[0].Tgl_Penagihan);
+        if (result === 0) {
+            const elements = [
+                'nota_IdPenagihan',
+                'nota_NamaCust',
+                'nota_Alamat',
+                'nota_NamaKelompokUtama',
+                'nota_Detail',
+                'nota_Terbilang',
+                'nota_SymbolGrand',
+                'nota_Grand',
+                'nota_SyaratBayar',
+                'nota_TglBln',
+                'nota_Thn',
+                'nota_Tempo',
+                'nota_SuratJalan',
+                'nota_SJ'
+            ];
 
-        var namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = ''; // Set the text content to empty string
+                }
+            });
 
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
-
-        nota_IdPenagihan.textContent = result[0].Id_Penagihan ? decodeHtmlEntities(result[0].Id_Penagihan) : '';
-
-        nota_NamaCust.textContent = result[0].NamaCust ? decodeHtmlEntities(result[0].NamaCust) : '';
-
-        nota_Alamat.textContent = result[0].Alamat ? decodeHtmlEntities(result[0].Alamat) : '';
-
-        nota_NamaKelompokUtama.textContent = result[0].NamaKelompokUtama ? decodeHtmlEntities(result[0].NamaKelompokUtama) : '';
-
-        nota_Terbilang.textContent = result[0].Terbilang ? decodeHtmlEntities(result[0].Terbilang) : '';
-
-        nota_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
-
-        let totalGrand = 0;
-        let count = 0;
-        var nota_Detail = document.getElementById("nota_Detail");
-
-        nota_Detail.innerHTML = '';
-
-        result.forEach(function (item, index) {
-            var row = document.createElement("div");
-            row.classList.add("row");
-            count += 1;
-
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
-            row.appendChild(coaCol);
-
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-5", "text-left");
-            accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
-            row.appendChild(accountCol);
-
-            var descriptionCol = document.createElement("div");
-            descriptionCol.classList.add("col-sm-2", "text-right");
-            descriptionCol.textContent = item.Jml ? numeral(item.Jml).format("0,0.00") + item.Satuan : '';
-            row.appendChild(descriptionCol);
-
-            var amountCol = document.createElement("div");
-            amountCol.classList.add("col-sm-2", "text-right");
-            amountCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00") : '0.00';
-            row.appendChild(amountCol);
-
-            var totalCol = document.createElement("div");
-            totalCol.classList.add("col-sm-2", "text-left");
-            let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
-            totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
-            row.appendChild(totalCol);
-
-            nota_Detail.appendChild(row);
-
-            totalGrand += numeral(tempTotal).value();
-
-            if (item.Id_Penagihan.substring(4, 6) !== 'AP') {
-
-                var additionalRow = document.createElement("div");
-                additionalRow.classList.add("row");
-
-                var mantap = document.createElement("div");
-                mantap.classList.add("col-sm-1", "text-right");
-                additionalRow.appendChild(mantap);
-
-                var additionalAccountCol = document.createElement("div");
-                additionalAccountCol.classList.add("col-sm-10", "text-left");
-                additionalAccountCol.textContent = item.NO_PO ? 'P O : ' + decodeHtmlEntities(item.NO_PO) : '';
-                additionalRow.appendChild(additionalAccountCol);
-
-                nota_Detail.appendChild(additionalRow);
-            }
-        });
-
-        nota_Grand.textContent = numeral(totalGrand).format("0,0.00");
-
-        nota_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
-
-        nota_TglBln.textContent = tanggal + ' ' + bulan;
-        nota_Thn.textContent = duaDigitTahun;
-
-        let syaratBayar = result[0].SyaratBayar;
-        let tglTerimaBarang = result[0].Tgl_Terima_Barang;
-        let syaratBayarNumber = Number(syaratBayar);
-        let date3 = new Date(tglTerimaBarang);
-        let resultDate = new Date(date3);
-        resultDate.setDate(date3.getDate() + syaratBayarNumber);
-        nota_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
-
-        if (sFormula0.length > 255) {
-            nota_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0.slice(0, 252);
-            nota_SJ.textContent = sFormula0.slice(252);
+            printPreview('nota')
         }
+
         else {
-            nota_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0;
-            nota_SJ.textContent = '';
-        }
+            var date2 = new Date(result[0].Tgl_Penagihan);
 
-        printPreview('nota');
+            var namaBulan = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
+
+            nota_IdPenagihan.textContent = result[0].Id_Penagihan ? decodeHtmlEntities(result[0].Id_Penagihan) : '';
+
+            nota_NamaCust.textContent = result[0].NamaCust ? decodeHtmlEntities(result[0].NamaCust) : '';
+
+            nota_Alamat.textContent = result[0].Alamat ? decodeHtmlEntities(result[0].Alamat) : '';
+
+            nota_NamaKelompokUtama.textContent = result[0].NamaKelompokUtama ? decodeHtmlEntities(result[0].NamaKelompokUtama) : '';
+
+            nota_Terbilang.textContent = result[0].Terbilang ? decodeHtmlEntities(result[0].Terbilang) : '';
+
+            nota_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
+
+            let totalGrand = 0;
+            let count = 0;
+            var nota_Detail = document.getElementById("nota_Detail");
+
+            nota_Detail.innerHTML = '';
+
+            result.forEach(function (item, index) {
+                var row = document.createElement("div");
+                row.classList.add("row");
+                count += 1;
+
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.textContent = count;
+                row.appendChild(coaCol);
+
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-5", "text-left");
+                accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
+                row.appendChild(accountCol);
+
+                var descriptionCol = document.createElement("div");
+                descriptionCol.classList.add("col-sm-2", "text-right");
+                descriptionCol.textContent = item.Jml ? numeral(item.Jml).format("0,0.00") + item.Satuan : '';
+                row.appendChild(descriptionCol);
+
+                var amountCol = document.createElement("div");
+                amountCol.classList.add("col-sm-2", "text-right");
+                amountCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00") : '0.00';
+                row.appendChild(amountCol);
+
+                var totalCol = document.createElement("div");
+                totalCol.classList.add("col-sm-2", "text-left");
+                let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
+                totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
+                row.appendChild(totalCol);
+
+                nota_Detail.appendChild(row);
+
+                totalGrand += numeral(tempTotal).value();
+
+                if (item.Id_Penagihan.substring(4, 6) !== 'AP') {
+
+                    var additionalRow = document.createElement("div");
+                    additionalRow.classList.add("row");
+
+                    var mantap = document.createElement("div");
+                    mantap.classList.add("col-sm-1", "text-right");
+                    additionalRow.appendChild(mantap);
+
+                    var additionalAccountCol = document.createElement("div");
+                    additionalAccountCol.classList.add("col-sm-10", "text-left");
+                    additionalAccountCol.textContent = item.NO_PO ? 'P O : ' + decodeHtmlEntities(item.NO_PO) : '';
+                    additionalRow.appendChild(additionalAccountCol);
+
+                    nota_Detail.appendChild(additionalRow);
+                }
+            });
+
+            nota_Grand.textContent = numeral(totalGrand).format("0,0.00");
+
+            nota_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
+
+            nota_TglBln.textContent = tanggal + ' ' + bulan;
+            nota_Thn.textContent = duaDigitTahun;
+
+            let syaratBayar = result[0].SyaratBayar;
+            let tglTerimaBarang = result[0].Tgl_Terima_Barang;
+            let syaratBayarNumber = Number(syaratBayar);
+            let date3 = new Date(tglTerimaBarang);
+            let resultDate = new Date(date3);
+            resultDate.setDate(date3.getDate() + syaratBayarNumber);
+            nota_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+
+            if (sFormula0.length > 255) {
+                nota_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0.slice(0, 252);
+                nota_SJ.textContent = sFormula0.slice(252);
+            }
+            else {
+                nota_SuratJalan.innerHTML = 'Surat Jalan: &emsp;&emsp; ' + sFormula0;
+                nota_SJ.textContent = '';
+            }
+
+            printPreview('nota');
+        }
     }
 }
 
@@ -660,87 +774,121 @@ function rpt_cetakFakturPajak(result) {
         var fakturPajak1_TglBln = document.getElementById("fakturPajak1_TglBln");
         var fakturPajak1_Thn = document.getElementById("fakturPajak1_Thn");
 
-        var date2 = new Date(result[0].Tgl_Penagihan);
+        if (result.length === 0) {
+            const elements = [
+                'fakturPajak1_AreaPPNThnIdFakturPajak',
+                'fakturPajak1_NamaNPWP',
+                'fakturPajak1_AlamatNPWP',
+                'fakturPajak1_NPWP',
+                'fakturPajak1_NPWP2',
+                'fakturPajak1_NamaKelompokUtama',
+                'fakturPajak1_Detail',
+                'fakturPajak1_SymbolGrand',
+                'fakturPajak1_Grand',
+                'fakturPajak1_Symbol0',
+                'fakturPajak1_SymbolUM',
+                'fakturPajak1_UM',
+                'fakturPajak1_SymbolGrandTot',
+                'fakturPajak1_GrandTot',
+                'fakturPajak1_SymbolPajak',
+                'fakturPajak1_Pajak',
+                'fakturPajak1_TglBln',
+                'fakturPajak1_Thn'
+            ];
 
-        var namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = ''; // Set the text content to an empty string
+                }
+            });
 
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
-        fakturPajak1_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
-            + ' . 000 - ' + duaDigitTahun + ' . ' + decodeHtmlEntities(result[0].IdFakturPajak);
+            printPreview('fakturPajak1');
+        }
 
-        fakturPajak1_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
-        fakturPajak1_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+        else {
+            var date2 = new Date(result[0].Tgl_Penagihan);
 
-        let npwp = result[0].NPWP;
-        let formattedNPWP =
-            npwp.slice(0, 2) + ' . ' +
-            npwp.slice(2, 5) + ' . ' +
-            npwp.slice(5, 8) + ' . ' +
-            npwp.slice(8, 9) + ' - ' +
-            npwp.slice(9, 12) + ' . ' +
-            npwp.slice(12, 15);
-        fakturPajak1_NPWP.textContent = formattedNPWP;
-        fakturPajak1_NPWP2.textContent = formattedNPWP;
+            var namaBulan = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
 
-        fakturPajak1_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
+            fakturPajak1_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+                + ' . 000 - ' + duaDigitTahun + ' . ' + decodeHtmlEntities(result[0].IdFakturPajak);
 
-        let totalGrand = 0;
-        let count = 0;
-        var fakturPajak1_Detail = document.getElementById("fakturPajak1_Detail");
+            fakturPajak1_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
+            fakturPajak1_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
 
-        fakturPajak1_Detail.innerHTML = '';
+            let npwp = result[0].NPWP;
+            let formattedNPWP =
+                npwp.slice(0, 2) + ' . ' +
+                npwp.slice(2, 5) + ' . ' +
+                npwp.slice(5, 8) + ' . ' +
+                npwp.slice(8, 9) + ' - ' +
+                npwp.slice(9, 12) + ' . ' +
+                npwp.slice(12, 15);
+            fakturPajak1_NPWP.textContent = formattedNPWP;
+            fakturPajak1_NPWP2.textContent = formattedNPWP;
 
-        result.forEach(function (item, index) {
-            var row = document.createElement("div");
-            row.classList.add("row");
-            count += 1;
+            fakturPajak1_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
 
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
-            row.appendChild(coaCol);
+            let totalGrand = 0;
+            let count = 0;
+            var fakturPajak1_Detail = document.getElementById("fakturPajak1_Detail");
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-8", "text-left");
-            accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
-            row.appendChild(accountCol);
+            fakturPajak1_Detail.innerHTML = '';
 
-            var totalCol = document.createElement("div");
-            totalCol.classList.add("col-sm-3", "text-right");
-            let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
-            totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
-            row.appendChild(totalCol);
+            result.forEach(function (item, index) {
+                var row = document.createElement("div");
+                row.classList.add("row");
+                count += 1;
 
-            fakturPajak1_Detail.appendChild(row);
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.textContent = count;
+                row.appendChild(coaCol);
 
-            totalGrand += numeral(tempTotal).value();
-        });
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-8", "text-left");
+                accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
+                row.appendChild(accountCol);
 
-        fakturPajak1_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturPajak1_Symbol0.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturPajak1_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturPajak1_SymbolGrandTot.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturPajak1_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+                var totalCol = document.createElement("div");
+                totalCol.classList.add("col-sm-3", "text-right");
+                let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
+                totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
+                row.appendChild(totalCol);
 
-        fakturPajak1_Grand.textContent = numeral(totalGrand).format("0,0.00");
-        fakturPajak1_UM.textContent = result[0].Nilai_UM ? numeral(result[0].Nilai_UM).format("0,0.00") : 0;
+                fakturPajak1_Detail.appendChild(row);
 
-        let grandTotTemp = numeral(totalGrand).value() - numeral(fakturPajak1_UM.textContent).value();
-        fakturPajak1_GrandTot.textContent = numeral(grandTotTemp).format("0,0.00");
+                totalGrand += numeral(tempTotal).value();
+            });
 
-        let pajakTemp = numeral(grandTotTemp).value() * 0.1;
-        fakturPajak1_Pajak.textContent = numeral(pajakTemp).format("0,0.00");
+            fakturPajak1_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajak1_Symbol0.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajak1_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajak1_SymbolGrandTot.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajak1_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
 
-        fakturPajak1_TglBln.textContent = tanggal + ' ' + bulan;
-        fakturPajak1_Thn.textContent = duaDigitTahun;
+            fakturPajak1_Grand.textContent = numeral(totalGrand).format("0,0.00");
+            fakturPajak1_UM.textContent = result[0].Nilai_UM ? numeral(result[0].Nilai_UM).format("0,0.00") : 0;
 
-        printPreview('fakturPajak1');
+            let grandTotTemp = numeral(totalGrand).value() - numeral(fakturPajak1_UM.textContent).value();
+            fakturPajak1_GrandTot.textContent = numeral(grandTotTemp).format("0,0.00");
+
+            let pajakTemp = numeral(grandTotTemp).value() * 0.1;
+            fakturPajak1_Pajak.textContent = numeral(pajakTemp).format("0,0.00");
+
+            fakturPajak1_TglBln.textContent = tanggal + ' ' + bulan;
+            fakturPajak1_Thn.textContent = duaDigitTahun;
+
+            printPreview('fakturPajak1');
+        }
     }
     else {
         var fakturPajak_AreaPPNThnIdFakturPajak = document.getElementById("fakturPajak_AreaPPNThnIdFakturPajak");
@@ -763,116 +911,153 @@ function rpt_cetakFakturPajak(result) {
         var fakturPajak_Thn = document.getElementById("fakturPajak_Thn");
         var fakturPajak_Kurs = document.getElementById("fakturPajak_Kurs");
 
-        if (result[0].Nama_MataUang !== 'RUPIAH') {
-            let kursTemp = numeral(result[0].NilaiKurs).value();
-            fakturPajak_Kurs.textContent = numeral(result[0].NilaiKurs).format("0,0.00") + '/1 ' + result[0].Symbol2;
+        if (result.length === 0) {
+
+            const elements = [
+                'fakturPajak_AreaPPNThnIdFakturPajak',
+                'fakturPajak_NamaNPWP',
+                'fakturPajak_AlamatNPWP',
+                'fakturPajak_NPWP',
+                'fakturPajak_NPWP2',
+                'fakturPajak_NamaKelompokUtama',
+                'fakturPajak_Detail',
+                'fakturPajak_SymbolGrand',
+                'fakturPajak_Grand',
+                'fakturPajak_SymbolUM',
+                'fakturPajak_UM',
+                'fakturPajak_UMRupiah',
+                'fakturPajak_SymbolGrandTot',
+                'fakturPajak_GrandTot',
+                'fakturPajak_TotalRupiah',
+                'fakturPajak_Pajak',
+                'fakturPajak_TglBln',
+                'fakturPajak_Thn',
+                'fakturPajak_Kurs'
+            ];
+
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = ''; // Set text content to an empty string
+                }
+            });
+
+            printPreview('fakturPajak');
         }
 
-        var date2 = new Date(result[0].Tgl_Penagihan);
-
-        var namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
-
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
-        fakturPajak_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
-            + ' . 000 - ' + duaDigitTahun + ' . ' + decodeHtmlEntities(result[0].IdFakturPajak);
-
-        fakturPajak_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
-        fakturPajak_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
-
-        let npwp = result[0].NPWP;
-        let formattedNPWP =
-            npwp.slice(0, 2) + ' . ' +
-            npwp.slice(2, 5) + ' . ' +
-            npwp.slice(5, 8) + ' . ' +
-            npwp.slice(8, 9) + ' - ' +
-            npwp.slice(9, 12) + ' . ' +
-            npwp.slice(12, 15);
-        fakturPajak_NPWP.textContent = formattedNPWP;
-        fakturPajak_NPWP2.textContent = formattedNPWP;
-
-        fakturPajak_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
-
-        let totalGrand = 0;
-        let count = 0;
-        var fakturPajak_Detail = document.getElementById("fakturPajak_Detail");
-
-        fakturPajak_Detail.innerHTML = '';
-
-        result.forEach(function (item, index) {
-            var row = document.createElement("div");
-            row.classList.add("row");
-            count += 1;
-
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
-            row.appendChild(coaCol);
-
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-6", "text-left");
-            accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
-            row.appendChild(accountCol);
-
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-1", "text-right");
-            accountCol.textContent = item.Symbol2 ? decodeHtmlEntities(item.Symbol2) : '';
-            row.appendChild(accountCol);
-
-            var totalCol = document.createElement("div");
-            totalCol.classList.add("col-sm-2", "text-right");
-            let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
-            totalCol.textContent = tempTotal ? numeral(tempTotal).format("0,0.00") : '0.00';
-            row.appendChild(totalCol);
-
-            fakturPajak_Detail.appendChild(row);
-
-            totalGrand += numeral(tempTotal).value();
-        });
-
-        fakturPajak_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturPajak_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturPajak_SymbolGrandTot.textContent = decodeHtmlEntities(result[0].Symbol2);
-
-        fakturPajak_Grand.textContent = numeral(totalGrand).format("0,0.00");
-        fakturPajak_UM.textContent = result[0].Nilai_UM ? numeral(result[0].Nilai_UM).format("0,0.00") : '0.00';
-
-        let grandTotTemp = numeral(totalGrand).value() - numeral(fakturPajak_UM.textContent).value();
-        fakturPajak_GrandTot.textContent = numeral(grandTotTemp).format("0,0.00");
-
-        fakturPajak_TglBln.textContent = tanggal + ' ' + bulan;
-        fakturPajak_Thn.textContent = tahunLengkap;
-
-        if (result[0].Nama_MataUang !== 'RUPIAH') {
-            if (result[0].Nilai_UM !== null) {
-                let umTemp = numeral(result[0].Nilai_UM).value() * numeral(result[0].Kurs_UM).value();
-                fakturPajak_UMRupiah.textContent = umTemp !== 0 ? 'Rp. ' + numeral(umTemp).format("0,0.00") : 'Rp. 0.00';
+        else {
+            if (result[0].Nama_MataUang !== 'RUPIAH') {
+                let kursTemp = numeral(result[0].NilaiKurs).value();
+                fakturPajak_Kurs.textContent = numeral(result[0].NilaiKurs).format("0,0.00") + '/1 ' + result[0].Symbol2;
             }
-            else {
-                fakturPajak_UMRupiah.textContent = 'Rp. 0.00';
-            }
+
+            var date2 = new Date(result[0].Tgl_Penagihan);
+
+            var namaBulan = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
+            fakturPajak_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+                + ' . 000 - ' + duaDigitTahun + ' . ' + decodeHtmlEntities(result[0].IdFakturPajak);
+
+            fakturPajak_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
+            fakturPajak_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+
+            let npwp = result[0].NPWP;
+            let formattedNPWP =
+                npwp.slice(0, 2) + ' . ' +
+                npwp.slice(2, 5) + ' . ' +
+                npwp.slice(5, 8) + ' . ' +
+                npwp.slice(8, 9) + ' - ' +
+                npwp.slice(9, 12) + ' . ' +
+                npwp.slice(12, 15);
+            fakturPajak_NPWP.textContent = formattedNPWP;
+            fakturPajak_NPWP2.textContent = formattedNPWP;
+
+            fakturPajak_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NamaKelompokUtama);
+
+            let totalGrand = 0;
+            let count = 0;
+            var fakturPajak_Detail = document.getElementById("fakturPajak_Detail");
+
+            fakturPajak_Detail.innerHTML = '';
+
+            result.forEach(function (item, index) {
+                var row = document.createElement("div");
+                row.classList.add("row");
+                count += 1;
+
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.textContent = count;
+                row.appendChild(coaCol);
+
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-6", "text-left");
+                accountCol.textContent = item.NamaType ? decodeHtmlEntities(item.NamaType) : '';
+                row.appendChild(accountCol);
+
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-1", "text-right");
+                accountCol.textContent = item.Symbol2 ? decodeHtmlEntities(item.Symbol2) : '';
+                row.appendChild(accountCol);
+
+                var totalCol = document.createElement("div");
+                totalCol.classList.add("col-sm-2", "text-right");
+                let tempTotal = numeral(item.Jml).value() * numeral(item.HargaSatuan).value();
+                totalCol.textContent = tempTotal ? numeral(tempTotal).format("0,0.00") : '0.00';
+                row.appendChild(totalCol);
+
+                fakturPajak_Detail.appendChild(row);
+
+                totalGrand += numeral(tempTotal).value();
+            });
+
+            fakturPajak_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajak_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajak_SymbolGrandTot.textContent = decodeHtmlEntities(result[0].Symbol2);
+
+            fakturPajak_Grand.textContent = numeral(totalGrand).format("0,0.00");
+            fakturPajak_UM.textContent = result[0].Nilai_UM ? numeral(result[0].Nilai_UM).format("0,0.00") : '0.00';
+
+            let grandTotTemp = numeral(totalGrand).value() - numeral(fakturPajak_UM.textContent).value();
+            fakturPajak_GrandTot.textContent = numeral(grandTotTemp).format("0,0.00");
+
+            fakturPajak_TglBln.textContent = tanggal + ' ' + bulan;
+            fakturPajak_Thn.textContent = tahunLengkap;
 
             if (result[0].Nama_MataUang !== 'RUPIAH') {
-                let totalRupiahTemp = numeral(fakturPajak_Grand.textContent).value() * numeral(result[0].NilaiKurs).value() - numeral(fakturPajak_UMRupiah).value();
-                fakturPajak_TotalRupiah.textContent = 'Rp. ' + numeral(totalRupiahTemp).format("0,0.00");
+                if (result[0].Nilai_UM !== null) {
+                    let umTemp = numeral(result[0].Nilai_UM).value() * numeral(result[0].Kurs_UM).value();
+                    fakturPajak_UMRupiah.textContent = umTemp !== 0 ? 'Rp. ' + numeral(umTemp).format("0,0.00") : 'Rp. 0.00';
+                }
+                else {
+                    fakturPajak_UMRupiah.textContent = 'Rp. 0.00';
+                }
+
+                if (result[0].Nama_MataUang !== 'RUPIAH') {
+                    let totalRupiahTemp = numeral(fakturPajak_Grand.textContent).value() * numeral(result[0].NilaiKurs).value() - numeral(fakturPajak_UMRupiah).value();
+                    fakturPajak_TotalRupiah.textContent = 'Rp. ' + numeral(totalRupiahTemp).format("0,0.00");
+                }
             }
+            let totalRupiahTemp = numeral(fakturPajak_Grand.textContent).value() * numeral(result[0].NilaiKurs).value() - numeral(fakturPajak_UMRupiah).value();
+
+            let pajakTemp = numeral(totalRupiahTemp).value() * 0.1;
+            fakturPajak_Pajak.textContent = 'Rp. ' + numeral(pajakTemp).format("0,0.00");
+
+            printPreview('fakturPajak');
         }
-        let totalRupiahTemp = numeral(fakturPajak_Grand.textContent).value() * numeral(result[0].NilaiKurs).value() - numeral(fakturPajak_UMRupiah).value();
-
-        let pajakTemp = numeral(totalRupiahTemp).value() * 0.1;
-        fakturPajak_Pajak.textContent = 'Rp. ' + numeral(pajakTemp).format("0,0.00");
-
-        printPreview('fakturPajak');
     }
 }
 
 function rpt_cetakNotaTunai(result) {
     if (idPenagihan.value.length > 14) {
+
         var fakturTunai_AreaPPNThnIdFakturPajak = document.getElementById('fakturTunai_AreaPPNThnIdFakturPajak');
         var fakturTunai_IdPenagihan = document.getElementById('fakturTunai_IdPenagihan');
         var fakturTunai_NamaNPWP = document.getElementById('fakturTunai_NamaNPWP');
@@ -898,133 +1083,173 @@ function rpt_cetakNotaTunai(result) {
         var fakturTunai_Thn = document.getElementById('fakturTunai_Thn');
         var fakturTunai_Tempo = document.getElementById('fakturTunai_Tempo');
 
-        var date2 = new Date(result[0].Tgl_Penagihan);
+        if (result.length === 0) {
+            const elements = [
+                'fakturTunai_AreaPPNThnIdFakturPajak',
+                'fakturTunai_IdPenagihan',
+                'fakturTunai_NamaNPWP',
+                'fakturTunai_AlamatNPWP',
+                'fakturTunai_NPWP',
+                'fakturTunai_NamaKelompokUtama',
+                'fakturTunai_Detail',
+                'fakturTunai_SymbolGrand',
+                'fakturTunai_Grand',
+                'fakturTunai_SymbolDiscount',
+                'fakturTunai_Discount',
+                'fakturTunai_SymbolUM',
+                'fakturTunai_UM',
+                'fakturTunai_SymbolDPP',
+                'fakturTunai_DPP',
+                'fakturTunai_SymbolPajak',
+                'fakturTunai_Pajak',
+                'fakturTunai_Terbilang',
+                'fakturTunai_SymbolTerbayar',
+                'fakturTunai_Terbayar',
+                'fakturTunai_SyaratBayar',
+                'fakturTunai_TglBln',
+                'fakturTunai_Thn',
+                'fakturTunai_Tempo'
+            ];
 
-        var namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = ''; // Set text content to an empty string
+                }
+            });
 
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
-        fakturTunai_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
-        fakturTunai_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
-            + ' 010 ' + duaDigitTahun + decodeHtmlEntities(result[0].IdFakturPajak);
+            printPreview('fakturTunai');
+        }
 
-        fakturTunai_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
-        fakturTunai_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+        else {
+            var date2 = new Date(result[0].Tgl_Penagihan);
 
-        let npwp = result[0].NPWP;
-        let formattedNPWP =
-            npwp.slice(0, 2) + ' . ' +
-            npwp.slice(2, 5) + ' . ' +
-            npwp.slice(5, 8) + ' . ' +
-            npwp.slice(8, 9) + ' - ' +
-            npwp.slice(9, 12) + ' . ' +
-            npwp.slice(12, 15);
-        faktur_NPWP.textContent = formattedNPWP;
-        fakturTunai_NPWP.textContent = formattedNPWP;
+            var namaBulan = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
 
-        fakturTunai_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NAMATYPEBARANG);
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
+            fakturTunai_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
+            fakturTunai_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+                + ' 010 ' + duaDigitTahun + decodeHtmlEntities(result[0].IdFakturPajak);
 
-        // detail
-        let totalGrand = 0;
-        let count = 0;
-        var fakturTunai_Detail = document.getElementById("fakturTunai_Detail");
+            fakturTunai_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
+            fakturTunai_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
 
-        fakturTunai_Detail.innerHTML = '';
+            let npwp = result[0].NPWP;
+            let formattedNPWP =
+                npwp.slice(0, 2) + ' . ' +
+                npwp.slice(2, 5) + ' . ' +
+                npwp.slice(5, 8) + ' . ' +
+                npwp.slice(8, 9) + ' - ' +
+                npwp.slice(9, 12) + ' . ' +
+                npwp.slice(12, 15);
+            faktur_NPWP.textContent = formattedNPWP;
+            fakturTunai_NPWP.textContent = formattedNPWP;
 
-        result.forEach(function (item, index) {
-            var row = document.createElement("div");
-            row.classList.add("row");
-            count += 1;
+            fakturTunai_NamaKelompokUtama.textContent = decodeHtmlEntities(result[0].NAMATYPEBARANG);
 
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
-            row.appendChild(coaCol);
+            // detail
+            let totalGrand = 0;
+            let count = 0;
+            var fakturTunai_Detail = document.getElementById("fakturTunai_Detail");
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-5", "text-left");
-            accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
-            row.appendChild(accountCol);
+            fakturTunai_Detail.innerHTML = '';
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-2", "text-right");
-            accountCol.textContent = numeral(item.Qty).format("0,0.00") + decodeHtmlEntities(item.Satuan);
-            row.appendChild(accountCol);
+            result.forEach(function (item, index) {
+                var row = document.createElement("div");
+                row.classList.add("row");
+                count += 1;
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-2", "text-right");
-            accountCol.textContent = decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00");
-            row.appendChild(accountCol);
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.textContent = count;
+                row.appendChild(coaCol);
 
-            var totalCol = document.createElement("div");
-            totalCol.classList.add("col-sm-2", "text-right");
-            let tempTotal = numeral(item.Qty).value() * numeral(item.HargaSatuan).value();
-            totalCol.textContent = tempTotal ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : decodeHtmlEntities(item.Symbol2) + '0.00';
-            row.appendChild(totalCol);
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-5", "text-left");
+                accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
+                row.appendChild(accountCol);
 
-            fakturTunai_Detail.appendChild(row);
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-2", "text-right");
+                accountCol.textContent = numeral(item.Qty).format("0,0.00") + decodeHtmlEntities(item.Satuan);
+                row.appendChild(accountCol);
 
-            totalGrand += numeral(tempTotal).value();
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-2", "text-right");
+                accountCol.textContent = decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00");
+                row.appendChild(accountCol);
 
-            var additionalRow = document.createElement("div");
-            additionalRow.classList.add("row");
+                var totalCol = document.createElement("div");
+                totalCol.classList.add("col-sm-2", "text-right");
+                let tempTotal = numeral(item.Qty).value() * numeral(item.HargaSatuan).value();
+                totalCol.textContent = tempTotal ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : decodeHtmlEntities(item.Symbol2) + '0.00';
+                row.appendChild(totalCol);
 
-            var mantap = document.createElement("div");
-            mantap.classList.add("col-sm-1", "text-right");
-            additionalRow.appendChild(mantap);
+                fakturTunai_Detail.appendChild(row);
 
-            var additionalAccountCol = document.createElement("div");
-            additionalAccountCol.classList.add("col-sm-10", "text-left");
-            additionalAccountCol.textContent = item.PO ? 'P O : ' + decodeHtmlEntities(item.PO) : '';
-            additionalRow.appendChild(additionalAccountCol);
+                totalGrand += numeral(tempTotal).value();
 
-            fakturTunai_Detail.appendChild(additionalRow);
-        });
+                var additionalRow = document.createElement("div");
+                additionalRow.classList.add("row");
 
-        fakturTunai_Grand.textContent = numeral(totalGrand).format("0,0.00");
-        fakturTunai_Discount.textContent = numeral(result[0].Discount).format("0,0.00");
-        fakturTunai_UM.textContent = numeral(result[0].Nilai_UM).format("0,0.00");
+                var mantap = document.createElement("div");
+                mantap.classList.add("col-sm-1", "text-right");
+                additionalRow.appendChild(mantap);
 
-        let dppTemp = numeral(fakturTunai_Grand.textContent).value() - numeral(fakturTunai_Discount.textContent).value() - numeral(fakturTunai_UM.textContent).value();
-        fakturTunai_DPP.textContent = numeral(dppTemp).format("0,0.00");
+                var additionalAccountCol = document.createElement("div");
+                additionalAccountCol.classList.add("col-sm-10", "text-left");
+                additionalAccountCol.textContent = item.PO ? 'P O : ' + decodeHtmlEntities(item.PO) : '';
+                additionalRow.appendChild(additionalAccountCol);
 
-        tempPajak = numeral(fakturTunai_DPP.textContent).value() * 0.11
-        fakturTunai_Pajak.textContent = numeral(tempPajak).format("0,0.00");
+                fakturTunai_Detail.appendChild(additionalRow);
+            });
 
-        terbayarTemp = numeral(dppTemp).value() + numeral(tempPajak).value();
-        fakturTunai_Terbayar.textContent = numeral(terbayarTemp).format("0,0.00");
+            fakturTunai_Grand.textContent = numeral(totalGrand).format("0,0.00");
+            fakturTunai_Discount.textContent = numeral(result[0].Discount).format("0,0.00");
+            fakturTunai_UM.textContent = numeral(result[0].Nilai_UM).format("0,0.00");
 
-        fakturTunai_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunai_SymbolDiscount.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunai_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunai_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunai_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunai_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
+            let dppTemp = numeral(fakturTunai_Grand.textContent).value() - numeral(fakturTunai_Discount.textContent).value() - numeral(fakturTunai_UM.textContent).value();
+            fakturTunai_DPP.textContent = numeral(dppTemp).format("0,0.00");
 
-        fakturTunai_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
+            tempPajak = numeral(fakturTunai_DPP.textContent).value() * 0.11
+            fakturTunai_Pajak.textContent = numeral(tempPajak).format("0,0.00");
 
-        fakturTunai_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
+            terbayarTemp = numeral(dppTemp).value() + numeral(tempPajak).value();
+            fakturTunai_Terbayar.textContent = numeral(terbayarTemp).format("0,0.00");
 
-        fakturTunai_TglBln.textContent = tanggal + ' ' + bulan;
-        fakturTunai_Thn.textContent = duaDigitTahun;
+            fakturTunai_SymbolGrand.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunai_SymbolDiscount.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunai_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunai_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunai_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunai_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
 
-        let syaratBayar = result[0].SyaratBayar;
-        let tglTerimaBarang = result[0].Tgl_Penagihan;
-        let syaratBayarNumber = Number(syaratBayar);
-        let date3 = new Date(tglTerimaBarang);
-        let resultDate = new Date(date3);
-        resultDate.setDate(date3.getDate() + syaratBayarNumber);
-        fakturTunai_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+            fakturTunai_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
 
-        fakturTunai_TglBln.textContent = tanggal + ' ' + bulan;
-        fakturTunai_Thn.textContent = duaDigitTahun;
+            fakturTunai_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
 
-        printPreview('fakturTunai')
+            fakturTunai_TglBln.textContent = tanggal + ' ' + bulan;
+            fakturTunai_Thn.textContent = duaDigitTahun;
+
+            let syaratBayar = result[0].SyaratBayar;
+            let tglTerimaBarang = result[0].Tgl_Penagihan;
+            let syaratBayarNumber = Number(syaratBayar);
+            let date3 = new Date(tglTerimaBarang);
+            let resultDate = new Date(date3);
+            resultDate.setDate(date3.getDate() + syaratBayarNumber);
+            fakturTunai_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+
+            fakturTunai_TglBln.textContent = tanggal + ' ' + bulan;
+            fakturTunai_Thn.textContent = duaDigitTahun;
+
+            printPreview('fakturTunai');
+        }
     }
     else {
         // Declaring variables for each element by their id
@@ -1039,66 +1264,94 @@ function rpt_cetakNotaTunai(result) {
         var nota1_TglBln = document.getElementById("nota1_TglBln");
         var nota1_Thn = document.getElementById("nota1_Thn");
 
-        nota1_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
-        nota1_NamaCust.textContent = decodeHtmlEntities(result[0].NamaCust);
-        nota1_Alamat.textContent = decodeHtmlEntities(result[0].Alamat);
+        if (result.length === 0) {
 
-        nota1_NamaTypeBarang.textContent = decodeHtmlEntities(result[0].NAMATYPEBARANG);
+            const elements = [
+                'nota1_IdPenagihan',
+                'nota1_NamaCust',
+                'nota1_Alamat',
+                'nota1_NamaTypeBarang',
+                'nota1_Detail',
+                'nota1_Terbilang',
+                'nota1_SymbolTerbayar',
+                'nota1_Terbayar',
+                'nota1_TglBln',
+                'nota1_Thn'
+            ];
 
-        let totalGrand = 0;
-        let count = 0;
-        var nota1_Detail = document.getElementById("nota1_Detail");
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = ''; // Set text content to an empty string
+                }
+            });
 
-        nota1_Detail.innerHTML = '';
-        result.forEach(function (item, index) {
-            var row = document.createElement("div");
-            row.classList.add("row");
-            count += 1;
+            printPreview('nota1');
 
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
-            row.appendChild(coaCol);
+        }
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-5", "text-left");
-            accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
-            row.appendChild(accountCol);
+        else {
+            nota1_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
+            nota1_NamaCust.textContent = decodeHtmlEntities(result[0].NamaCust);
+            nota1_Alamat.textContent = decodeHtmlEntities(result[0].Alamat);
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-2", "text-right");
-            accountCol.textContent = numeral(item.Qty).format("0,0.00") + decodeHtmlEntities(item.Satuan);
-            row.appendChild(accountCol);
+            nota1_NamaTypeBarang.textContent = decodeHtmlEntities(result[0].NAMATYPEBARANG);
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-2", "text-right");
-            accountCol.textContent = decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00");
-            row.appendChild(accountCol);
+            let totalGrand = 0;
+            let count = 0;
+            var nota1_Detail = document.getElementById("nota1_Detail");
 
-            var totalCol = document.createElement("div");
-            totalCol.classList.add("col-sm-2", "text-right");
-            let tempTotal = numeral(item.Qty).value() * numeral(item.HargaSatuan).value();
-            totalCol.textContent = tempTotal ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : decodeHtmlEntities(item.Symbol2) + '0.00';
-            row.appendChild(totalCol);
+            nota1_Detail.innerHTML = '';
+            result.forEach(function (item, index) {
+                var row = document.createElement("div");
+                row.classList.add("row");
+                count += 1;
 
-            nota1_Detail.appendChild(row);
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.textContent = count;
+                row.appendChild(coaCol);
 
-            totalGrand += numeral(tempTotal).value();
-        });
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-5", "text-left");
+                accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
+                row.appendChild(accountCol);
 
-        nota1_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
-        nota1_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
-        nota1_Terbayar.textContent = numeral(totalGrand).format("0,0.00");
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-2", "text-right");
+                accountCol.textContent = numeral(item.Qty).format("0,0.00") + decodeHtmlEntities(item.Satuan);
+                row.appendChild(accountCol);
 
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-2", "text-right");
+                accountCol.textContent = decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00");
+                row.appendChild(accountCol);
 
-        nota1_TglBln.textContent = tanggal + ' ' + bulan;
-        nota1_Thn.textContent = duaDigitTahun;
+                var totalCol = document.createElement("div");
+                totalCol.classList.add("col-sm-2", "text-right");
+                let tempTotal = numeral(item.Qty).value() * numeral(item.HargaSatuan).value();
+                totalCol.textContent = tempTotal ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : decodeHtmlEntities(item.Symbol2) + '0.00';
+                row.appendChild(totalCol);
 
-        printPreview('nota1');
+                nota1_Detail.appendChild(row);
+
+                totalGrand += numeral(tempTotal).value();
+            });
+
+            nota1_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
+            nota1_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
+            nota1_Terbayar.textContent = numeral(totalGrand).format("0,0.00");
+
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
+
+            nota1_TglBln.textContent = tanggal + ' ' + bulan;
+            nota1_Thn.textContent = duaDigitTahun;
+
+            printPreview('nota1');
+        }
     }
 }
 
@@ -1121,99 +1374,135 @@ function rpt_CetakFakturPajakTunai(result) {
         var fakturPajakTunai_TglBln = document.getElementById("fakturPajakTunai_TglBln");
         var fakturPajakTunai_Thn = document.getElementById("fakturPajakTunai_Thn");
 
-        var date2 = new Date(result[0].Tgl_Penagihan);
+        if (result.length === 0) {
+            const elements = [
+                'fakturPajakTunai_AreaPPNThnIdFakturPajak',
+                'fakturPajakTunai_NamaNPWP',
+                'fakturPajakTunai_AlamatNPWP',
+                'fakturPajakTunai_NPWP',
+                'fakturPajakTunai_NPWP2',
+                'fakturPajakTunai_NamaKelompokUtama',
+                'fakturPajakTunai_Detail',
+                'fakturPajakTunai_SymbolGrand',
+                'fakturPajakTunai_Grand',
+                'fakturPajakTunai_SymbolDiscount',
+                'fakturPajakTunai_Discount',
+                'fakturPajakTunai_SymbolUM',
+                'fakturPajakTunai_UM',
+                'fakturPajakTunai_SymbolGrandTot',
+                'fakturPajakTunai_GrandTot',
+                'fakturPajakTunai_TotalRupiah',
+                'fakturPajakTunai_Pajak',
+                'fakturPajakTunai_TglBln',
+                'fakturPajakTunai_Thn',
+                'fakturPajakTunai_Kurs'
+            ];
 
-        var namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = ''; // Set text content to an empty string
+                }
+            });
+            printPreview('fakturPajakTunai');
 
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
+        }
 
-        fakturPajakTunai_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
-            + ' . 000 - 07 . ' + decodeHtmlEntities(result[0].IdFakturPajak);
+        else {
+            var date2 = new Date(result[0].Tgl_Penagihan);
 
-        fakturPajakTunai_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
-        fakturPajakTunai_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+            var namaBulan = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
 
-        let npwp = result[0].NPWP;
-        let formattedNPWP =
-            npwp.slice(0, 2) + ' . ' +
-            npwp.slice(2, 5) + ' . ' +
-            npwp.slice(5, 8) + ' . ' +
-            npwp.slice(8, 9) + ' - ' +
-            npwp.slice(9, 12) + ' . ' +
-            npwp.slice(12, 15);
-        fakturPajakTunai_NPWP.textContent = formattedNPWP;
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
 
-        fakturPajakTunai_NamaKelompokUtama.textContent = '';
+            fakturPajakTunai_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+                + ' . 000 - 07 . ' + decodeHtmlEntities(result[0].IdFakturPajak);
 
-        let totalGrand = 0;
-        let count = 0;
-        var fakturPajakTunai_Detail = document.getElementById("fakturPajakTunai_Detail");
+            fakturPajakTunai_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
+            fakturPajakTunai_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
 
-        fakturPajakTunai_Detail.innerHTML = '';
+            let npwp = result[0].NPWP;
+            let formattedNPWP =
+                npwp.slice(0, 2) + ' . ' +
+                npwp.slice(2, 5) + ' . ' +
+                npwp.slice(5, 8) + ' . ' +
+                npwp.slice(8, 9) + ' - ' +
+                npwp.slice(9, 12) + ' . ' +
+                npwp.slice(12, 15);
+            fakturPajakTunai_NPWP.textContent = formattedNPWP;
 
-        result.forEach(function (item, index) {
-            var additionalRow = document.createElement("div");
-            additionalRow.classList.add("row");
+            fakturPajakTunai_NamaKelompokUtama.textContent = '';
 
-            var mantap = document.createElement("div");
-            mantap.classList.add("col-sm-1", "text-right");
-            additionalRow.appendChild(mantap);
+            let totalGrand = 0;
+            let count = 0;
+            var fakturPajakTunai_Detail = document.getElementById("fakturPajakTunai_Detail");
 
-            var additionalAccountCol = document.createElement("div");
-            additionalAccountCol.classList.add("col-sm-10", "text-left");
-            additionalAccountCol.innerHTML = item.NAMATYPEBARANG ? '<span style="font-weight: bold; text-decoration: underline;">' + decodeHtmlEntities(item.NAMATYPEBARANG) + '</span>' : '';
-            additionalRow.appendChild(additionalAccountCol);
+            fakturPajakTunai_Detail.innerHTML = '';
 
-            fakturPajakTunai_Detail.appendChild(additionalRow);
+            result.forEach(function (item, index) {
+                var additionalRow = document.createElement("div");
+                additionalRow.classList.add("row");
 
-            var row = document.createElement("div");
-            row.classList.add("row");
-            count += 1;
+                var mantap = document.createElement("div");
+                mantap.classList.add("col-sm-1", "text-right");
+                additionalRow.appendChild(mantap);
 
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
-            row.appendChild(coaCol);
+                var additionalAccountCol = document.createElement("div");
+                additionalAccountCol.classList.add("col-sm-10", "text-left");
+                additionalAccountCol.innerHTML = item.NAMATYPEBARANG ? '<span style="font-weight: bold; text-decoration: underline;">' + decodeHtmlEntities(item.NAMATYPEBARANG) + '</span>' : '';
+                additionalRow.appendChild(additionalAccountCol);
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-9", "text-left");
-            accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
-            row.appendChild(accountCol);
+                fakturPajakTunai_Detail.appendChild(additionalRow);
 
-            var totalCol = document.createElement("div");
-            totalCol.classList.add("col-sm-2", "text-right");
-            let tempTotal = numeral(item.Qty).value() * numeral(item.HargaSatuan).value();
-            totalCol.textContent = tempTotal ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
-            row.appendChild(totalCol);
+                var row = document.createElement("div");
+                row.classList.add("row");
+                count += 1;
 
-            fakturPajakTunai_Detail.appendChild(row);
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.textContent = count;
+                row.appendChild(coaCol);
 
-            totalGrand += numeral(tempTotal).value();
-        });
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-9", "text-left");
+                accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
+                row.appendChild(accountCol);
 
-        fakturPajakTunai_Grand.textContent = numeral(totalGrand).format("0,0.00");
-        fakturPajakTunai_Discount.textContent = numeral(result[0].Discount).format("0,0.00");
+                var totalCol = document.createElement("div");
+                totalCol.classList.add("col-sm-2", "text-right");
+                let tempTotal = numeral(item.Qty).value() * numeral(item.HargaSatuan).value();
+                totalCol.textContent = tempTotal ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
+                row.appendChild(totalCol);
 
-        let tempDPP = numeral(fakturPajakTunai_Grand.textContent).value() - numeral(fakturPajakTunai_Discount.textContent).value();
-        fakturPajakTunai_DPP.textContent = numeral(tempDPP).format("0,0.00");
+                fakturPajakTunai_Detail.appendChild(row);
 
-        let tempPajak = numeral(tempDPP).value() * 0.1;
-        fakturPajakTunai_Pajak.textContent = numeral(tempPajak).format("0,0.00");
+                totalGrand += numeral(tempTotal).value();
+            });
 
-        fakturPajakTunai_SymbolDiscount.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturPajakTunai_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturPajakTunai_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajakTunai_Grand.textContent = numeral(totalGrand).format("0,0.00");
+            fakturPajakTunai_Discount.textContent = numeral(result[0].Discount).format("0,0.00");
 
-        fakturPajakTunai_TglBln.textContent = tanggal + ' ' + bulan;
-        fakturPajakTunai_Thn.textContent = duaDigitTahun;
+            let tempDPP = numeral(fakturPajakTunai_Grand.textContent).value() - numeral(fakturPajakTunai_Discount.textContent).value();
+            fakturPajakTunai_DPP.textContent = numeral(tempDPP).format("0,0.00");
 
-        printPreview('fakturPajakTunai');
+            let tempPajak = numeral(tempDPP).value() * 0.1;
+            fakturPajakTunai_Pajak.textContent = numeral(tempPajak).format("0,0.00");
+
+            fakturPajakTunai_SymbolDiscount.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajakTunai_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturPajakTunai_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+
+            fakturPajakTunai_TglBln.textContent = tanggal + ' ' + bulan;
+            fakturPajakTunai_Thn.textContent = duaDigitTahun;
+
+            printPreview('fakturPajakTunai');
+        }
     }
 }
 
@@ -1244,137 +1533,175 @@ function rpt_CetakFakturUM(result) {
         var fakturUangMuka_SyaratBayar = document.getElementById("fakturUangMuka_SyaratBayar");
         var fakturUangMuka_Tempo = document.getElementById("fakturUangMuka_Tempo");
 
-        fakturUangMuka_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
+        if (result.length === 0) {
+            const elements = [
+                'fakturUangMuka_IdPenagihan',
+                'fakturUangMuka_AreaPPNThnIdFakturPajak',
+                'fakturUangMuka_NamaNPWP',
+                'fakturUangMuka_AlamatNPWP',
+                'fakturUangMuka_NPWP',
+                'fakturUangMuka_Detail',
+                'fakturUangMuka_SymbolNilaiBlmPajak',
+                'fakturUangMuka_NilaiBlmPajak',
+                'fakturUangMuka_SymbolDiscount',
+                'fakturUangMuka_Discount',
+                'fakturUangMuka_SymbolDPP',
+                'fakturUangMuka_DPP',
+                'fakturUangMuka_SymbolPajak',
+                'fakturUangMuka_Pajak',
+                'fakturUangMuka_Terbilang',
+                'fakturUangMuka_SymbolTerbayar',
+                'fakturUangMuka_Terbayar',
+                'fakturUangMuka_TglBln',
+                'fakturUangMuka_Thn',
+                'fakturUangMuka_SyaratBayar',
+                'fakturUangMuka_Tempo'
+            ];
 
-        var date2 = new Date(result[0].Tgl_Penagihan);
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = ''; // Set text content to an empty string
+                }
+            });
 
-        var namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
+            printPreview('fakturUangMuka');
 
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
+        }
 
-        fakturUangMuka_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
-            + ' 004 ' + duaDigitTahun + decodeHtmlEntities(result[0].IdFakturPajak);
+        else {
+            fakturUangMuka_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
 
-        fakturUangMuka_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
-        fakturUangMuka_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+            var date2 = new Date(result[0].Tgl_Penagihan);
 
-        let npwp = result[0].NPWP;
-        let formattedNPWP =
-            npwp.slice(0, 2) + ' . ' +
-            npwp.slice(2, 5) + ' . ' +
-            npwp.slice(5, 8) + ' . ' +
-            npwp.slice(8, 9) + ' - ' +
-            npwp.slice(9, 12) + ' . ' +
-            npwp.slice(12, 15);
-        fakturUangMuka_NPWP.textContent = formattedNPWP;
+            var namaBulan = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
 
-        let totalGrand = 0;
-        let count = 0;
-        var fakturUangMuka_Detail = document.getElementById("fakturUangMuka_Detail");
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
 
-        fakturUangMuka_Detail.innerHTML = '';
+            fakturUangMuka_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+                + ' 004 ' + duaDigitTahun + decodeHtmlEntities(result[0].IdFakturPajak);
 
-        result.forEach(function (item, index) {
-            console.log(item);
+            fakturUangMuka_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
+            fakturUangMuka_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
 
-            var row = document.createElement("div");
-            row.classList.add("row");
+            let npwp = result[0].NPWP;
+            let formattedNPWP =
+                npwp.slice(0, 2) + ' . ' +
+                npwp.slice(2, 5) + ' . ' +
+                npwp.slice(5, 8) + ' . ' +
+                npwp.slice(8, 9) + ' - ' +
+                npwp.slice(9, 12) + ' . ' +
+                npwp.slice(12, 15);
+            fakturUangMuka_NPWP.textContent = formattedNPWP;
 
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            // coaCol.textContent = count;
-            row.appendChild(coaCol);
+            let totalGrand = 0;
+            let count = 0;
+            var fakturUangMuka_Detail = document.getElementById("fakturUangMuka_Detail");
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-6", "text-left");
+            fakturUangMuka_Detail.innerHTML = '';
 
-            var boldText = document.createElement("strong");
-            boldText.textContent = item.NAMATYPEBARANG ? decodeHtmlEntities(item.NAMATYPEBARANG) : '';
+            result.forEach(function (item, index) {
+                console.log(item);
 
-            accountCol.appendChild(boldText);
-            row.appendChild(accountCol);
+                var row = document.createElement("div");
+                row.classList.add("row");
+
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                // coaCol.textContent = count;
+                row.appendChild(coaCol);
+
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-6", "text-left");
+
+                var boldText = document.createElement("strong");
+                boldText.textContent = item.NAMATYPEBARANG ? decodeHtmlEntities(item.NAMATYPEBARANG) : '';
+
+                accountCol.appendChild(boldText);
+                row.appendChild(accountCol);
 
 
-            fakturUangMuka_Detail.appendChild(row);
+                fakturUangMuka_Detail.appendChild(row);
 
-            var row = document.createElement("div");
-            row.classList.add("row");
-            count += 1;
+                var row = document.createElement("div");
+                row.classList.add("row");
+                count += 1;
 
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
-            row.appendChild(coaCol);
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.textContent = count;
+                row.appendChild(coaCol);
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-5", "text-left");
-            accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
-            row.appendChild(accountCol);
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-5", "text-left");
+                accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
+                row.appendChild(accountCol);
 
-            var descriptionCol = document.createElement("div");
-            descriptionCol.classList.add("col-sm-2", "text-right");
-            descriptionCol.textContent = item.Qty ? numeral(item.Qty).format("0,0.00") + item.Satuan : '';
-            row.appendChild(descriptionCol);
+                var descriptionCol = document.createElement("div");
+                descriptionCol.classList.add("col-sm-2", "text-right");
+                descriptionCol.textContent = item.Qty ? numeral(item.Qty).format("0,0.00") + item.Satuan : '';
+                row.appendChild(descriptionCol);
 
-            var amountCol = document.createElement("div");
-            amountCol.classList.add("col-sm-2", "text-right");
-            amountCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00") : '0.00';
-            row.appendChild(amountCol);
+                var amountCol = document.createElement("div");
+                amountCol.classList.add("col-sm-2", "text-right");
+                amountCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00") : '0.00';
+                row.appendChild(amountCol);
 
-            var totalCol = document.createElement("div");
-            totalCol.classList.add("col-sm-2", "text-right");
-            let tempTotal = numeral(item.Qty).value() * numeral(item.HargaSatuan).value();
-            totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
-            row.appendChild(totalCol);
+                var totalCol = document.createElement("div");
+                totalCol.classList.add("col-sm-2", "text-right");
+                let tempTotal = numeral(item.Qty).value() * numeral(item.HargaSatuan).value();
+                totalCol.textContent = item.HargaSatuan ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : '0.00';
+                row.appendChild(totalCol);
 
-            fakturUangMuka_Detail.appendChild(row);
+                fakturUangMuka_Detail.appendChild(row);
 
-            totalGrand += numeral(tempTotal).value();
-        });
+                totalGrand += numeral(tempTotal).value();
+            });
 
-        fakturUangMuka_NilaiBlmPajak.textContent = numeral(result[0].Nilai_blm_Pajak).format("0,0.00");
-        fakturUangMuka_Discount.textContent = numeral(result[0].Discount).format("0,0.00");
+            fakturUangMuka_NilaiBlmPajak.textContent = numeral(result[0].Nilai_blm_Pajak).format("0,0.00");
+            fakturUangMuka_Discount.textContent = numeral(result[0].Discount).format("0,0.00");
 
-        let tempDPP = numeral(result[0].Nilai_blm_Pajak).value() - numeral(result[0].Discount).value();
-        fakturUangMuka_DPP.textContent = numeral(tempDPP).format("0,0.00");
+            let tempDPP = numeral(result[0].Nilai_blm_Pajak).value() - numeral(result[0].Discount).value();
+            fakturUangMuka_DPP.textContent = numeral(tempDPP).format("0,0.00");
 
-        let tempPajak = Math.round((tempDPP * numeral(result[0].PersenPPN).value() / 100) * 100) / 100;
-        fakturUangMuka_Pajak.textContent = numeral(tempPajak).format("0,0.00");
+            let tempPajak = Math.round((tempDPP * numeral(result[0].PersenPPN).value() / 100) * 100) / 100;
+            fakturUangMuka_Pajak.textContent = numeral(tempPajak).format("0,0.00");
 
-        tempTot = numeral(tempDPP).value() + numeral(tempPajak).value();
-        fakturUangMuka_Terbayar.textContent = numeral(tempTot).format("0,0.00");
+            tempTot = numeral(tempDPP).value() + numeral(tempPajak).value();
+            fakturUangMuka_Terbayar.textContent = numeral(tempTot).format("0,0.00");
 
-        fakturUangMuka_SymbolNilaiBlmPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturUangMuka_SymbolDiscount.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturUangMuka_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturUangMuka_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturUangMuka_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturUangMuka_SymbolNilaiBlmPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturUangMuka_SymbolDiscount.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturUangMuka_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturUangMuka_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturUangMuka_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
 
-        fakturUangMuka_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
+            fakturUangMuka_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
 
-        fakturUangMuka_TglBln.textContent = tanggal + ' ' + bulan;
-        fakturUangMuka_Thn.textContent = duaDigitTahun;
+            fakturUangMuka_TglBln.textContent = tanggal + ' ' + bulan;
+            fakturUangMuka_Thn.textContent = duaDigitTahun;
 
-        fakturUangMuka_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
+            fakturUangMuka_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
 
-        fakturUangMuka_TglBln.textContent = tanggal + ' ' + bulan;
-        fakturUangMuka_Thn.textContent = duaDigitTahun;
+            fakturUangMuka_TglBln.textContent = tanggal + ' ' + bulan;
+            fakturUangMuka_Thn.textContent = duaDigitTahun;
 
-        let syaratBayar = result[0].SyaratBayar;
-        let tglTerimaBarang = result[0].Tgl_Penagihan;
-        let syaratBayarNumber = Number(syaratBayar);
-        let date3 = new Date(tglTerimaBarang);
-        let resultDate = new Date(date3);
-        resultDate.setDate(date3.getDate() + syaratBayarNumber);
-        fakturUangMuka_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+            let syaratBayar = result[0].SyaratBayar;
+            let tglTerimaBarang = result[0].Tgl_Penagihan;
+            let syaratBayarNumber = Number(syaratBayar);
+            let date3 = new Date(tglTerimaBarang);
+            let resultDate = new Date(date3);
+            resultDate.setDate(date3.getDate() + syaratBayarNumber);
+            fakturUangMuka_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
 
-        printPreview('fakturUangMuka');
+            printPreview('fakturUangMuka');
+        }
     }
 }
 
@@ -1405,155 +1732,202 @@ function rpt_CetakFakturPajakUM(result) {
         var fakturTunaiUM_SyaratBayar = document.getElementById("fakturTunaiUM_SyaratBayar");
         var fakturTunaiUM_Tempo = document.getElementById("fakturTunaiUM_Tempo");
 
-        var date2 = new Date(result[0].Tgl_Penagihan);
+        if (result.length === 0) {
+            const elements = [
+                'fakturTunaiUM_IdPenagihan',
+                'fakturTunaiUM_AreaPPNThnIdFakturPajak',
+                'fakturTunaiUM_NamaNPWP',
+                'fakturTunaiUM_AlamatNPWP',
+                'fakturTunaiUM_NPWP',
+                'fakturTunaiUM_Detail',
+                'fakturTunaiUM_SymbolNilaiBlmPajak',
+                'fakturTunaiUM_NilaiBlmPajak',
+                'fakturTunaiUM_SymbolDiscount',
+                'fakturTunaiUM_Discount',
+                'fakturTunaiUM_SymbolUM',
+                'fakturTunaiUM_UM',
+                'fakturTunaiUM_SymbolDPP',
+                'fakturTunaiUM_DPP',
+                'fakturTunaiUM_SymbolPajak',
+                'fakturTunaiUM_Pajak',
+                'fakturTunaiUM_Terbilang',
+                'fakturTunaiUM_SymbolTerbayar',
+                'fakturTunaiUM_Terbayar',
+                'fakturTunaiUM_TglBln',
+                'fakturTunaiUM_Thn',
+                'fakturTunaiUM_SyaratBayar',
+                'fakturTunaiUM_Tempo'
+            ];
 
-        var namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    // For input fields, set value to empty
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.value = '';
+                    }
+                    // For other elements like spans or divs, set textContent to empty
+                    else {
+                        element.textContent = '';
+                    }
+                }
+            });
 
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
+            printPreview('fakturTunaiUM')
 
-        fakturTunaiUM_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
+        }
 
-        fakturTunaiUM_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
-        fakturTunaiUM_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
+        else {
+            var date2 = new Date(result[0].Tgl_Penagihan);
 
-        fakturTunaiUM_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
-            + ' 004 ' + duaDigitTahun + decodeHtmlEntities(result[0].IdFakturPajak);
+            var namaBulan = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
 
-        let npwp = result[0].NPWP;
-        let formattedNPWP =
-            npwp.slice(0, 2) + ' . ' +
-            npwp.slice(2, 5) + ' . ' +
-            npwp.slice(5, 8) + ' . ' +
-            npwp.slice(8, 9) + ' - ' +
-            npwp.slice(9, 12) + ' . ' +
-            npwp.slice(12, 15);
-        fakturTunaiUM_NPWP.textContent = formattedNPWP;
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
 
-        let totalGrand = 0;
-        let count = 0;
-        var fakturTunaiUM_Detail = document.getElementById("fakturTunaiUM_Detail");
+            fakturTunaiUM_IdPenagihan.textContent = decodeHtmlEntities(result[0].Id_Penagihan);
 
-        fakturTunaiUM_Detail.innerHTML = '';
+            fakturTunaiUM_NamaNPWP.textContent = decodeHtmlEntities(result[0].NamaNPWP);
+            fakturTunaiUM_AlamatNPWP.textContent = decodeHtmlEntities(result[0].AlamatNPWP);
 
-        result.forEach(function (item, index) {
-            var additionalRow = document.createElement("div");
-            additionalRow.classList.add("row");
+            fakturTunaiUM_AreaPPNThnIdFakturPajak.textContent = decodeHtmlEntities(result[0].KdArea_Ppn)
+                + ' 004 ' + duaDigitTahun + decodeHtmlEntities(result[0].IdFakturPajak);
 
-            var mantap = document.createElement("div");
-            mantap.classList.add("col-sm-1", "text-right");
-            additionalRow.appendChild(mantap);
+            let npwp = result[0].NPWP;
+            let formattedNPWP =
+                npwp.slice(0, 2) + ' . ' +
+                npwp.slice(2, 5) + ' . ' +
+                npwp.slice(5, 8) + ' . ' +
+                npwp.slice(8, 9) + ' - ' +
+                npwp.slice(9, 12) + ' . ' +
+                npwp.slice(12, 15);
+            fakturTunaiUM_NPWP.textContent = formattedNPWP;
 
-            var additionalAccountCol = document.createElement("div");
-            additionalAccountCol.classList.add("col-sm-10", "text-left");
-            additionalAccountCol.innerHTML = item.NAMATYPEBARANG ? '<span style="font-weight: bold; text-decoration: underline;">' + decodeHtmlEntities(item.NAMATYPEBARANG) + '</span>' : '';
-            additionalRow.appendChild(additionalAccountCol);
+            let totalGrand = 0;
+            let count = 0;
+            var fakturTunaiUM_Detail = document.getElementById("fakturTunaiUM_Detail");
 
-            fakturTunaiUM_Detail.appendChild(additionalRow);
+            fakturTunaiUM_Detail.innerHTML = '';
 
-            var row = document.createElement("div");
-            row.classList.add("row");
-            count += 1;
+            result.forEach(function (item, index) {
+                var additionalRow = document.createElement("div");
+                additionalRow.classList.add("row");
 
-            var coaCol = document.createElement("div");
-            coaCol.classList.add("col-sm-1", "text-right");
-            coaCol.textContent = count;
-            row.appendChild(coaCol);
+                var mantap = document.createElement("div");
+                mantap.classList.add("col-sm-1", "text-right");
+                additionalRow.appendChild(mantap);
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-5", "text-left");
-            accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
-            row.appendChild(accountCol);
+                var additionalAccountCol = document.createElement("div");
+                additionalAccountCol.classList.add("col-sm-10", "text-left");
+                additionalAccountCol.innerHTML = item.NAMATYPEBARANG ? '<span style="font-weight: bold; text-decoration: underline;">' + decodeHtmlEntities(item.NAMATYPEBARANG) + '</span>' : '';
+                additionalRow.appendChild(additionalAccountCol);
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-2", "text-right");
-            accountCol.textContent = numeral(item.QtyOrder).format("0,0.00") + decodeHtmlEntities(item.Satuan);
-            row.appendChild(accountCol);
+                fakturTunaiUM_Detail.appendChild(additionalRow);
 
-            var accountCol = document.createElement("div");
-            accountCol.classList.add("col-sm-2", "text-right");
-            accountCol.textContent = decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00");
-            row.appendChild(accountCol);
+                var row = document.createElement("div");
+                row.classList.add("row");
+                count += 1;
 
-            var totalCol = document.createElement("div");
-            totalCol.classList.add("col-sm-2", "text-right");
-            let tempTotal = numeral(item.QtyOrder).value() * numeral(item.HargaSatuan).value();
-            totalCol.textContent = tempTotal ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : decodeHtmlEntities(item.Symbol2) + '0.00';
-            row.appendChild(totalCol);
+                var coaCol = document.createElement("div");
+                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.textContent = count;
+                row.appendChild(coaCol);
 
-            fakturTunaiUM_Detail.appendChild(row);
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-5", "text-left");
+                accountCol.textContent = item.NamaBarang ? decodeHtmlEntities(item.NamaBarang) : '';
+                row.appendChild(accountCol);
 
-            totalGrand += numeral(tempTotal).value();
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-2", "text-right");
+                accountCol.textContent = numeral(item.QtyOrder).format("0,0.00") + decodeHtmlEntities(item.Satuan);
+                row.appendChild(accountCol);
 
-            var additionalRow = document.createElement("div");
-            additionalRow.classList.add("row");
+                var accountCol = document.createElement("div");
+                accountCol.classList.add("col-sm-2", "text-right");
+                accountCol.textContent = decodeHtmlEntities(item.Symbol2) + numeral(item.HargaSatuan).format("0,0.00");
+                row.appendChild(accountCol);
 
-            var mantap = document.createElement("div");
-            mantap.classList.add("col-sm-1", "text-right");
-            additionalRow.appendChild(mantap);
+                var totalCol = document.createElement("div");
+                totalCol.classList.add("col-sm-2", "text-right");
+                let tempTotal = numeral(item.QtyOrder).value() * numeral(item.HargaSatuan).value();
+                totalCol.textContent = tempTotal ? decodeHtmlEntities(item.Symbol2) + numeral(tempTotal).format("0,0.00") : decodeHtmlEntities(item.Symbol2) + '0.00';
+                row.appendChild(totalCol);
 
-            var additionalAccountCol = document.createElement("div");
-            additionalAccountCol.classList.add("col-sm-10", "text-left");
-            additionalAccountCol.textContent = item.PO ? 'P O : ' + decodeHtmlEntities(item.PO) : '';
-            additionalRow.appendChild(additionalAccountCol);
+                fakturTunaiUM_Detail.appendChild(row);
 
-            fakturTunaiUM_Detail.appendChild(additionalRow);
-        });
+                totalGrand += numeral(tempTotal).value();
 
-        fakturTunaiUM_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
+                var additionalRow = document.createElement("div");
+                additionalRow.classList.add("row");
 
-        fakturTunaiUM_NilaiBlmPajak.textContent = numeral(totalGrand).format("0,0.00");
-        fakturTunaiUM_Discount.textContent = numeral(result[0].Discount).format("0,0.00");
+                var mantap = document.createElement("div");
+                mantap.classList.add("col-sm-1", "text-right");
+                additionalRow.appendChild(mantap);
 
-        fakturTunaiUM_UM.textContent = numeral(result[0].Nilai_UM).format("0,0.00");
+                var additionalAccountCol = document.createElement("div");
+                additionalAccountCol.classList.add("col-sm-10", "text-left");
+                additionalAccountCol.textContent = item.PO ? 'P O : ' + decodeHtmlEntities(item.PO) : '';
+                additionalRow.appendChild(additionalAccountCol);
 
-        let tempdpp = numeral(totalGrand).value() - numeral(result[0].Discount).value() - numeral(result[0].Nilai_UM).value();
-        fakturTunaiUM_DPP.textContent = numeral(tempdpp).format("0,0.00");
+                fakturTunaiUM_Detail.appendChild(additionalRow);
+            });
 
-        let tempPajak = numeral(tempdpp).value() * numeral(result[0].PersenPPN).value() / 100;
-        fakturTunaiUM_Pajak.textContent = numeral(tempPajak).format("0,0.00");
+            fakturTunaiUM_Terbilang.textContent = decodeHtmlEntities(result[0].Terbilang);
 
-        let totalTemp = numeral(tempdpp).value() + numeral(tempPajak).value();
-        fakturTunaiUM_Terbayar.textContent = numeral(totalTemp).format("0,0.00");
+            fakturTunaiUM_NilaiBlmPajak.textContent = numeral(totalGrand).format("0,0.00");
+            fakturTunaiUM_Discount.textContent = numeral(result[0].Discount).format("0,0.00");
 
-        fakturTunaiUM_SymbolNilaiBlmPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunaiUM_SymbolDiscount.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunaiUM_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunaiUM_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunaiUM_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
-        fakturTunaiUM_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunaiUM_UM.textContent = numeral(result[0].Nilai_UM).format("0,0.00");
 
-        var date2 = new Date(result[0].Tgl_Penagihan);
+            let tempdpp = numeral(totalGrand).value() - numeral(result[0].Discount).value() - numeral(result[0].Nilai_UM).value();
+            fakturTunaiUM_DPP.textContent = numeral(tempdpp).format("0,0.00");
 
-        var namaBulan = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
+            let tempPajak = numeral(tempdpp).value() * numeral(result[0].PersenPPN).value() / 100;
+            fakturTunaiUM_Pajak.textContent = numeral(tempPajak).format("0,0.00");
 
-        var tanggal = date2.getDate();
-        var bulan = namaBulan[date2.getMonth()];
-        var tahunLengkap = date2.getFullYear();
-        var duaDigitTahun = tahunLengkap.toString().slice(-2);
+            let totalTemp = numeral(tempdpp).value() + numeral(tempPajak).value();
+            fakturTunaiUM_Terbayar.textContent = numeral(totalTemp).format("0,0.00");
 
-        fakturTunaiUM_TglBln.textContent = tanggal + ' ' + bulan;
-        fakturTunaiUM_Thn.textContent = duaDigitTahun;
+            fakturTunaiUM_SymbolNilaiBlmPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunaiUM_SymbolDiscount.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunaiUM_SymbolUM.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunaiUM_SymbolDPP.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunaiUM_SymbolPajak.textContent = decodeHtmlEntities(result[0].Symbol2);
+            fakturTunaiUM_SymbolTerbayar.textContent = decodeHtmlEntities(result[0].Symbol2);
 
-        fakturTunaiUM_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
+            var date2 = new Date(result[0].Tgl_Penagihan);
 
-        let syaratBayar = result[0].SyaratBayar;
-        let tglTerimaBarang = result[0].Tgl_Penagihan;
-        let syaratBayarNumber = Number(syaratBayar);
-        let date3 = new Date(tglTerimaBarang);
-        let resultDate = new Date(date3);
-        resultDate.setDate(date3.getDate() + syaratBayarNumber);
-        fakturTunaiUM_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+            var namaBulan = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
 
-        printPreview('fakturTunaiUM')
+            var tanggal = date2.getDate();
+            var bulan = namaBulan[date2.getMonth()];
+            var tahunLengkap = date2.getFullYear();
+            var duaDigitTahun = tahunLengkap.toString().slice(-2);
+
+            fakturTunaiUM_TglBln.textContent = tanggal + ' ' + bulan;
+            fakturTunaiUM_Thn.textContent = duaDigitTahun;
+
+            fakturTunaiUM_SyaratBayar.innerHTML = 'Syarat Pembayaran: &emsp;&emsp;' + decodeHtmlEntities(result[0].SyaratBayar) + ' Hari';
+
+            let syaratBayar = result[0].SyaratBayar;
+            let tglTerimaBarang = result[0].Tgl_Penagihan;
+            let syaratBayarNumber = Number(syaratBayar);
+            let date3 = new Date(tglTerimaBarang);
+            let resultDate = new Date(date3);
+            resultDate.setDate(date3.getDate() + syaratBayarNumber);
+            fakturTunaiUM_Tempo.innerHTML = 'Jatuh Tempo: &emsp;&emsp; ' + formatDateToMMDDYYYY(resultDate);
+
+            printPreview('fakturTunaiUM')
+        }
     }
 }
 
