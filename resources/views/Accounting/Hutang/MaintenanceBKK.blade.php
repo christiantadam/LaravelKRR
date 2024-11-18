@@ -126,7 +126,7 @@
                                         </div>
                                         <br>
                                         <div style="overflow-x: auto;">
-                                            <table style="width: 100%;" id="tablekanan">
+                                            <table style="width: 200%;" id="tablekanan">
                                                 {{-- <colgroup>
                                                     <col style="width: 20%;">
                                                     <col style="width: 25%;">

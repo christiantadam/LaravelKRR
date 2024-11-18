@@ -112,7 +112,7 @@
                                     <div class="col-md-2">
                                         <label for="id">Rincian Pembayaran</label>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-9">
                                         <input type="text" name="rincinan_bayar" class="form-control"
                                             style="width: 100%" id="rincinan_bayar">
                                     </div>

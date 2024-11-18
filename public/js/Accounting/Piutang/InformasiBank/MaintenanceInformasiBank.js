@@ -47,6 +47,16 @@ $(document).ready(function () {
 
     btn_isi.addEventListener("click", async function (event) {
         event.preventDefault();
+        nama_bank.value = "";
+        idBank.value = "";
+        idReferensi.value = "";
+        mata_uang.value = "";
+        idMataUang.value = "";
+        totalNilai.value = 0;
+        keterangan.value = "";
+        jenis_pembayaran.value = "";
+        idJenisPembayaran.value = "";
+        noBukti.value = "";
         btn_isi.disabled = true;
         btn_koreksi.disabled = true;
         btn_hapus.disabled = true;
@@ -62,6 +72,16 @@ $(document).ready(function () {
 
     btn_koreksi.addEventListener("click", async function (event) {
         event.preventDefault();
+        nama_bank.value = "";
+        idBank.value = "";
+        idReferensi.value = "";
+        mata_uang.value = "";
+        idMataUang.value = "";
+        totalNilai.value = 0;
+        keterangan.value = "";
+        jenis_pembayaran.value = "";
+        idJenisPembayaran.value = "";
+        noBukti.value = "";
         btn_isi.disabled = true;
         btn_koreksi.disabled = true;
         btn_hapus.disabled = true;
@@ -76,6 +96,16 @@ $(document).ready(function () {
 
     btn_hapus.addEventListener("click", async function (event) {
         event.preventDefault();
+        nama_bank.value = "";
+        idBank.value = "";
+        idReferensi.value = "";
+        mata_uang.value = "";
+        idMataUang.value = "";
+        totalNilai.value = 0;
+        keterangan.value = "";
+        jenis_pembayaran.value = "";
+        idJenisPembayaran.value = "";
+        noBukti.value = "";
         btn_isi.disabled = true;
         btn_koreksi.disabled = true;
         btn_hapus.disabled = true;
