@@ -150,9 +150,12 @@ $(document).ready(function () {
 
     let adaSJ = false, adaSP = false;
     btn_proses.addEventListener("click", function (e) {
+        const rowData = table_atas.row(rowIndex).data(); // Retrieve data for the row with the given index
+        console.log(`Data for row ${rowIndex}:`, rowData);
+
+        adaSJ = false;
+        adaSP = false;
         if (table_atas.cell(rowIndex, 10).data() === 'PNX' || table_atas.cell(rowIndex, 10).data() === 'PWX') {
-            adaSJ = false;
-            adaSP = false;
 
             if (table_atas.cell(rowIndex, 9).data() === '') {
                 Swal.fire({
@@ -162,83 +165,157 @@ $(document).ready(function () {
                 });
             }
 
-            else {
-                $.ajax({
-                    type: 'PUT',
-                    url: 'ACCPenagihanPenjualan/proses',
-                    data: {
-                        _token: csrfToken,
-                        Id_Penagihan: table_atas.cell(rowIndex, 1).data(),
-                        IdCust: table_atas.cell(rowIndex, 6).data(),
-                        IdMtUang: table_atas.cell(rowIndex, 7).data(),
-                        debet: numeral(table_atas.cell(rowIndex, 4).data()).value(),
-                        kurs: numeral(table_atas.cell(rowIndex, 8).data()).value(),
-                    },
-                    success: function () {
+            $.ajax({
+                type: 'PUT',
+                url: 'ACCPenagihanPenjualan/proses',
+                data: {
+                    _token: csrfToken,
+                    Id_Penagihan: table_atas.cell(rowIndex, 1).data(),
+                    IdCust: table_atas.cell(rowIndex, 6).data(),
+                    IdMtUang: table_atas.cell(rowIndex, 7).data(),
+                    debet: numeral(table_atas.cell(rowIndex, 4).data()).value(),
+                    kurs: numeral(table_atas.cell(rowIndex, 8).data()).value(),
+                },
+                success: function () {
 
-                        $.ajax({
-                            type: 'PUT',
-                            url: 'ACCPenagihanPenjualan/proses',
-                            data: {
-                                _token: csrfToken,
-                                Id_Penagihan: table_atas.cell(rowIndex, 1).data(),
-                                IdCust: table_atas.cell(rowIndex, 6).data(),
-                                IdMtUang: table_atas.cell(rowIndex, 7).data(),
-                                debet: numeral(table_atas.cell(rowIndex, 4).data()).value(),
-                                kurs: numeral(table_atas.cell(rowIndex, 8).data()).value(),
-                            },
-                            success: function () {
-                                displaySuratJalan()
-                                    .then(() => cekCtkSJ())
-                                    .then(() => cekCtkSP())
-                                    .then(() => {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            text: 'Proses Acc Penagihan Surat Jalan Selesai !!.',
-                                            returnFocus: false
-                                        }).then(() => {
-                                            if (adaSP) {
-                                                Swal.fire({
-                                                    icon: 'info',
-                                                    text: 'Cetak Tunai !!',
-                                                    returnFocus: false
-                                                }).then(() => {
-                                                    sType = 'Cetaknotatunai';
-                                                    getViewSP(sType);
-                                                });
-                                            }
+                    $.ajax({
+                        type: 'PUT',
+                        url: 'ACCPenagihanPenjualan/proses',
+                        data: {
+                            _token: csrfToken,
+                            Id_Penagihan: table_atas.cell(rowIndex, 1).data(),
+                            IdCust: table_atas.cell(rowIndex, 6).data(),
+                            IdMtUang: table_atas.cell(rowIndex, 7).data(),
+                            debet: numeral(table_atas.cell(rowIndex, 4).data()).value(),
+                            kurs: numeral(table_atas.cell(rowIndex, 8).data()).value(),
+                        },
+                        success: function () {
+                            displaySuratJalan()
+                                .then(() => cekCtkSJ())
+                                .then(() => cekCtkSP())
+                                .then(() => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        text: 'Proses Acc Penagihan Surat Jalan Selesai !!.',
+                                        returnFocus: false
+                                    }).then(() => {
+                                        if (adaSP) {
+                                            Swal.fire({
+                                                icon: 'info',
+                                                text: 'Cetak Tunai !!',
+                                                returnFocus: false
+                                            }).then(() => {
+                                                sType = 'Cetaknotatunai';
+                                                getViewSP(sType);
+                                            });
+                                        }
 
-                                            if (adaSJ) {
-                                                Swal.fire({
-                                                    icon: 'info',
-                                                    text: 'Cetak Nota/Faktur !!',
-                                                    returnFocus: false
-                                                }).then(() => {
-                                                    sType = 'CetakNotaFaktur';
-                                                    getViewSJ(sType);
-                                                });
-                                            }
+                                        if (adaSJ) {
+                                            Swal.fire({
+                                                icon: 'info',
+                                                text: 'Cetak Nota/Faktur !!',
+                                                returnFocus: false
+                                            }).then(() => {
+                                                sType = 'CetakNotaFaktur';
+                                                getViewSJ(sType);
+                                            });
+                                        }
 
-                                            table_atas.ajax.reload(null, false);
-                                        });
-
-                                    })
-                                    .catch((error) => {
-                                        console.error("An error occurred:", error);
+                                        table_atas.ajax.reload(null, false);
                                     });
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
 
-            }
+                                })
+                                .catch((error) => {
+                                    console.error("An error occurred:", error);
+                                });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         }
+
+        else {
+            $.ajax({
+                type: 'PUT',
+                url: 'ACCPenagihanPenjualan/proses',
+                data: {
+                    _token: csrfToken,
+                    Id_Penagihan: table_atas.cell(rowIndex, 1).data(),
+                    IdCust: table_atas.cell(rowIndex, 6).data(),
+                    IdMtUang: table_atas.cell(rowIndex, 7).data(),
+                    debet: numeral(table_atas.cell(rowIndex, 4).data()).value(),
+                    kurs: numeral(table_atas.cell(rowIndex, 8).data()).value(),
+                },
+                success: function () {
+
+                    $.ajax({
+                        type: 'PUT',
+                        url: 'ACCPenagihanPenjualan/proses',
+                        data: {
+                            _token: csrfToken,
+                            Id_Penagihan: table_atas.cell(rowIndex, 1).data(),
+                            IdCust: table_atas.cell(rowIndex, 6).data(),
+                            IdMtUang: table_atas.cell(rowIndex, 7).data(),
+                            debet: numeral(table_atas.cell(rowIndex, 4).data()).value(),
+                            kurs: numeral(table_atas.cell(rowIndex, 8).data()).value(),
+                        },
+                        success: function () {
+                            displaySuratJalan()
+                                .then(() => cekCtkSJ())
+                                .then(() => cekCtkSP())
+                                .then(() => {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        text: 'Proses Acc Penagihan Surat Jalan Selesai !!.',
+                                        returnFocus: false
+                                    }).then(() => {
+                                        if (adaSP) {
+                                            Swal.fire({
+                                                icon: 'info',
+                                                text: 'Cetak Tunai !!',
+                                                returnFocus: false
+                                            }).then(() => {
+                                                sType = 'Cetaknotatunai';
+                                                getViewSP(sType);
+                                            });
+                                        }
+
+                                        if (adaSJ) {
+                                            Swal.fire({
+                                                icon: 'info',
+                                                text: 'Cetak Nota/Faktur !!',
+                                                returnFocus: false
+                                            }).then(() => {
+                                                sType = 'CetakNotaFaktur';
+                                                getViewSJ(sType);
+                                            });
+                                        }
+
+                                        table_atas.ajax.reload(null, false);
+                                    });
+
+                                })
+                                .catch((error) => {
+                                    console.error("An error occurred:", error);
+                                });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
     });
 
     function formatDateToMMDDYYYY(date) {
