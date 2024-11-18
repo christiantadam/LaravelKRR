@@ -20,7 +20,7 @@
                                 <div class="card-container" style="display: flex;">
                                     <div class="card" style="width: 60%;">
                                         <div class="card-body">
-                                            <div style="overflow-y: auto; max-height: 400px;">
+                                            <div style="overflow-y: auto;">
                                                 <table style="width: 100%; table-layout: fixed;" id="tabelatas">
                                                     <colgroup>
                                                         <col style="width: 20%;">
@@ -122,7 +122,7 @@
                                 <div class="card-container" style="display: flex;">
                                     <div class="card" style="width: 60%;">
                                         <div class="card-body">
-                                            <div style="overflow-y: auto; height: 200px;">
+                                            <div style="overflow-y: auto;">
                                                 <table style="width: 125%; table-layout: fixed;" id="tabelbawah">
                                                     <colgroup>
                                                         <col style="width: 25%;">

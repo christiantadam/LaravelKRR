@@ -80,9 +80,10 @@ $(document).ready(function () {
         event.preventDefault();
         const selectedOption = $(this).find(":selected");
         if (selectedOption.length) {
-            const selectedValue = selectedOption.val(); // Mendapatkan nilai dari opsi yang dipilih
+            const selectedValue = selectedOption.val();
             const idkp = selectedValue.split(" | ")[0];
             $("#idKodePerkiraan").val(idkp);
+            btnProses.focus();
         }
     });
 
@@ -130,6 +131,9 @@ $(document).ready(function () {
                             },
                         },
                     ],
+                    paging: false,
+                    scrollY: "320px",
+                    scrollCollapse: true,
                 });
             });
     }
@@ -169,6 +173,9 @@ $(document).ready(function () {
                         { title: "Id. Detail", data: "Id_Detail_Bayar" },
                         { title: "Id. Bayar", data: "Id_Pembayaran" },
                     ],
+                    paging: false,
+                    scrollY: "320px",
+                    scrollCollapse: true,
                 });
             });
     });

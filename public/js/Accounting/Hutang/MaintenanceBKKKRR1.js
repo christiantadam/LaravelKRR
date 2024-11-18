@@ -156,6 +156,9 @@ $(document).ready(function () {
             ],
             order: [[0, "desc"]],
             // columnDefs: [{ targets: [6], visible: false }],
+            paging: false,
+            scrollY: "300px",
+            scrollCollapse: true,
         });
         $("#table_kedua").parents("div.dataTables_wrapper").first().show();
         Swal.fire({
@@ -631,6 +634,9 @@ $(document).ready(function () {
                                         { data: "Kode_Perkiraan" },
                                     ],
                                     // columnDefs: [{ targets: [1, 2], visible: false }],
+                                    paging: false,
+                                    scrollY: "300px",
+                                    scrollCollapse: true,
                                 });
                             } else {
                                 if (id_bayar.value == "") {
@@ -869,6 +875,9 @@ $(document).ready(function () {
                         { data: "Kode_Perkiraan" },
                     ],
                     // columnDefs: [{ targets: [1, 2], visible: false }],
+                    paging: false,
+                    scrollY: "300px",
+                    scrollCollapse: true,
                 });
             } else {
                 Swal.fire({
@@ -954,6 +963,9 @@ $(document).ready(function () {
                     { data: "Kode_Perkiraan" },
                 ],
                 // columnDefs: [{ targets: [1, 2], visible: false }],
+                paging: false,
+                scrollY: "300px",
+                scrollCollapse: true,
             });
         }
     });

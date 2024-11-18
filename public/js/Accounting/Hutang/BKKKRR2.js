@@ -49,8 +49,17 @@ $(document).ready(function () {
     let IdDetailBGCek = document.getElementById("IdDetailBGCek");
     let tablekanan = $("#tablekanan").DataTable({
         columnDefs: [{ targets: [5, 6], visible: false }],
+        paging: false,
+        scrollY: "300px",
+        scrollX: "300px",
+        scrollCollapse: true,
     });
-    let tablekiri = $("#tablekiri").DataTable();
+    let tablekiri = $("#tablekiri").DataTable({
+        paging: false,
+        scrollY: "300px",
+        scrollX: "300px",
+        scrollCollapse: true,
+    });
     let tabletampilBKK = $("#tabletampilBKK").DataTable();
     let bg;
     let rowData;
@@ -182,7 +191,11 @@ $(document).ready(function () {
             { data: "Id_Supplier" },
             { data: "Jenis_Bank" },
         ],
+        order: [[2, "asc"]],
         columnDefs: [{ targets: [10, 11, 12, 13], visible: false }],
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
     });
 
     // let rowDataArray = [];
@@ -285,6 +298,10 @@ $(document).ready(function () {
                 { data: "Nilai_BGCek" },
             ],
             // columnDefs: [{ targets: [5, 6], visible: false }],
+            paging: false,
+            scrollY: "300px",
+            scrollX: "300px",
+            scrollCollapse: true,
         });
 
         tablekanan = $("#tablekanan").DataTable({
@@ -318,6 +335,10 @@ $(document).ready(function () {
                 { data: "Keterangan" },
             ],
             columnDefs: [{ targets: [5, 6], visible: false }],
+            paging: false,
+            scrollY: "300px",
+            scrollX: "300px",
+            scrollCollapse: true,
         });
     });
 
@@ -1785,6 +1806,9 @@ $(document).ready(function () {
             return;
         }
         if (bg == true) {
+            noJnsByr.value = "";
+            jumlahJnsByr.value = "";
+            jatuhTempo.valueAsDate = new Date();
             var modalBG = new bootstrap.Modal(
                 document.getElementById("formBGModal"),
                 {
@@ -1800,6 +1824,12 @@ $(document).ready(function () {
                 noJnsByr.focus();
             }, 500);
         } else if (bg == false) {
+            noBg.value = "";
+            IdDetailBGCek.value = "";
+            rincian.value = "";
+            nilaiBayar.value = "";
+            nilaiRincian.value = "";
+            select_kodePerkiraan.val(null).trigger("change");
             var modalPem = new bootstrap.Modal(
                 document.getElementById("formModalPembayaran"),
                 {
@@ -1826,6 +1856,7 @@ $(document).ready(function () {
     select_kodePerkiraan.on("select2:select", function () {
         const selectedKodePerkiraan = $(this).val();
         console.log(selectedKodePerkiraan);
+        btn_prosesPembayaran.focus();
     });
 
     btn_noBg.addEventListener("click", async function (event) {
