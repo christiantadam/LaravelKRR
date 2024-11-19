@@ -132,7 +132,7 @@
                 <td style="border:none !important" id="posted_p"></td>
             </tr>
         </table>
-        <table style="margin-top: 20px; border:none !important">
+        <table style="margin-top: 20px; border:none !important" id="paymentTable">
             <thead style="border:none !important">
                 <tr style="border:none !important">
                     <th style="border:none !important; border-bottom: 1px solid black !important">C.O.A</th>
@@ -151,12 +151,12 @@
             </tbody>
             <tfoot style="border:none !important">
                 <tr style="border:none !important">
-                    <td style="border:none !important;"></td>
-                    <td style="border:none !important;"></td>
-                    <td style="border:none !important;"></td>
-                    <td style="border:none !important; text-align: right">TOTAL =</td>
+                    <td style="border:none !important; border-top: 1px solid black !important"></td>
+                    <td style="border:none !important; border-top: 1px solid black !important"></td>
+                    <td style="border:none !important; border-top: 1px solid black !important"></td>
+                    <td style="border:none !important; text-align: right; border-top: 1px solid black !important">TOTAL =</td>
                     {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
-                    <td style="border:none !important;" id="total_p"></td>
+                    <td style="border:none !important; text-align: right; border-top: 1px solid black !important" id="total_p"></td>
                 </tr>
             </tfoot>
         </table>

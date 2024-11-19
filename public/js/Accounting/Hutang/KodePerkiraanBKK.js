@@ -253,11 +253,85 @@ $(document).ready(function () {
                         text: response.message,
                         showConfirmButton: true,
                     }).then(() => {
-                        location.reload();
+                        // $("#tabelbawah").DataTable().ajax.reload();
+                        // location.reload();
                         // document
                         //     .querySelectorAll("input")
                         //     .forEach((input) => (input.value = ""));
-                        // $("#table_atas").DataTable().ajax.reload();
+                        // Reselect baris yang sebelumnya dipilih di tabel atas
+                        const tableAtas = $("#tabelatas").DataTable();
+                        const selectedRows = tableAtas
+                            .rows(".selected")
+                            .data()
+                            .toArray(); // Ambil baris yang dipilih
+
+                        if (selectedRows.length > 0) {
+                            const selectedId = selectedRows[0].Id_BKK;
+                            idBKK.value = selectedId;
+
+                            // Iterasi melalui semua baris di tabel atas
+                            tableAtas
+                                .rows()
+                                .every(function (rowIdx, tableLoop, rowLoop) {
+                                    const rowData = this.data();
+
+                                    if (rowData.Id_BKK === selectedId) {
+                                        // Pilih kembali baris jika ID cocok
+                                        $(this.node()).addClass("selected");
+                                        fetch(
+                                            "/getTabelRincianBKK/" + idBKK.value
+                                        )
+                                            .then((response) => response.json())
+                                            .then((options) => {
+                                                console.log(options);
+
+                                                tabelbawah = $(
+                                                    "#tabelbawah"
+                                                ).DataTable({
+                                                    destroy: true,
+                                                    data: options,
+                                                    columns: [
+                                                        {
+                                                            title: "Rincian Bayar",
+                                                            data: "Rincian_Bayar",
+                                                        },
+                                                        {
+                                                            title: "Nilai Rincian",
+                                                            data: function (
+                                                                row
+                                                            ) {
+                                                                return numeral(
+                                                                    row.Nilai_Rincian
+                                                                ).format(
+                                                                    "0,0.00"
+                                                                );
+                                                            },
+                                                        },
+                                                        {
+                                                            title: "Kd. Perkiraan",
+                                                            data: "Kode_Perkiraan",
+                                                        },
+                                                        {
+                                                            title: "Id. Detail",
+                                                            data: "Id_Detail_Bayar",
+                                                        },
+                                                        {
+                                                            title: "Id. Bayar",
+                                                            data: "Id_Pembayaran",
+                                                        },
+                                                    ],
+                                                    paging: false,
+                                                    scrollY: "320px",
+                                                    scrollCollapse: true,
+                                                });
+                                            });
+                                    }
+                                });
+                        }
+                        rincianPembayaran.value = "";
+                        nilaiRincian.value = "";
+                        idKodePerkiraan.value = "";
+                        kodePerkiraanSelect2.val(null).trigger("change");
                     });
                 } else if (response.error) {
                     Swal.fire({

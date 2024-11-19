@@ -300,7 +300,7 @@ class MaintenanceBKKController extends Controller
 
                 if (count($result) > 0) {
                     $totalPembayaran = $result[0]->Nilai_Pembayaran;
-                    $tNilaiBulat = number_format($totalPembayaran, 2, '.', '');
+                    $tNilaiBulat = (float) $totalPembayaran;
 
                     if ($brs['Id_Supplier'] != '00000') {
                         $saldoSuppResult = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_TT_SALDOSUPP @IdSupplier = ?', [$brs['Id_Supplier']]);
@@ -362,8 +362,8 @@ class MaintenanceBKKController extends Controller
                 }
 
                 if ($tBayar > 0) {
-                    $tNilaiBulat = number_format($tBayar, 2, '.', '');
-
+                    $tNilaiBulat = (float) $tBayar;
+                    // dd($tNilaiBulat);
                     if ($firstItem['Id_Supplier'] != '00000') {
                         $saldoSuppResult = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_TT_SALDOSUPP @IdSupplier = ?', [$firstItem['Id_Supplier']]);
                         if (count($saldoSuppResult) == 0 || $saldoSuppResult[0]->aDA == 0) {
@@ -430,7 +430,8 @@ class MaintenanceBKKController extends Controller
                 } else {
                     $brs = 0;
                     $tIdBKK = $listBKK[$brs]['Id_BKK'];
-                    $tNilaiBKK = number_format((float) str_replace(',', '', $request->input('nilaiPembulatan')), 2, '.', ',');
+                    $tNilaiBKK = (float) str_replace(',', '', $request->input('nilaiPembulatan'));
+                    // dd($tNilaiBKK);
                     $tNilaiBulat = $tNilaiBKK;
                     $nilaiTerbilang = $request->input('nilaiPembulatan');
                     // dd($tNilaiBKK);
