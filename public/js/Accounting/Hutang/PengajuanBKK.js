@@ -218,6 +218,9 @@ $(document).ready(function () {
             { data: "Nama_MataUang" },
             { data: "Jml_JenisBayar" },
         ],
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
     });
 
     $("#tablebkkpertama tbody").off("change", 'input[name="penerimaCheckbox"]');
@@ -354,6 +357,9 @@ $(document).ready(function () {
                                 // { data: "isRed" },
                             ],
                             columnDefs: [{ targets: [6, 7], visible: false }],
+                            paging: false,
+                            scrollY: "300px",
+                            scrollCollapse: true,
                         });
                     }
                 }
@@ -637,8 +643,22 @@ $(document).ready(function () {
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             if (TT == true || TT == false) {
-                                                location.reload();
-                                                // $("#tablebkkpenagihan").DataTable().ajax.reload();
+                                                // location.reload();
+                                                document
+                                                    .querySelectorAll("input")
+                                                    .forEach((input) => {
+                                                        if (
+                                                            input.id !==
+                                                                "supplier1" &&
+                                                            input.id !==
+                                                                "supplier2"
+                                                        ) {
+                                                            input.value = "";
+                                                        }
+                                                    });
+                                                $("#tablebkkpenagihan")
+                                                    .DataTable()
+                                                    .ajax.reload();
                                                 btn_proses.disabled = true;
                                                 btn_isi.disabled = false;
                                                 btn_hapus.disabled = false;
@@ -730,8 +750,22 @@ $(document).ready(function () {
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             if (TT == true || TT == false) {
-                                                location.reload();
-                                                // $("#tablebkkpenagihan").DataTable().ajax.reload();
+                                                // location.reload();
+                                                document
+                                                    .querySelectorAll("input")
+                                                    .forEach((input) => {
+                                                        if (
+                                                            input.id !==
+                                                                "supplier1" &&
+                                                            input.id !==
+                                                                "supplier2"
+                                                        ) {
+                                                            input.value = ""; // Hapus nilai input jika bukan supplier1 atau supplier2
+                                                        }
+                                                    });
+                                                $("#tablebkkpenagihan")
+                                                    .DataTable()
+                                                    .ajax.reload();
                                                 btn_proses.disabled = true;
                                                 btn_isi.disabled = false;
                                                 btn_hapus.disabled = false;
@@ -834,8 +868,22 @@ $(document).ready(function () {
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             if (TT == true || TT == false) {
-                                                location.reload();
-                                                // $("#tablebkkpenagihan").DataTable().ajax.reload();
+                                                // location.reload();
+                                                document
+                                                    .querySelectorAll("input")
+                                                    .forEach((input) => {
+                                                        if (
+                                                            input.id !==
+                                                                "supplier1" &&
+                                                            input.id !==
+                                                                "supplier2"
+                                                        ) {
+                                                            input.value = ""; // Hapus nilai input jika bukan supplier1 atau supplier2
+                                                        }
+                                                    });
+                                                $("#tablebkkpenagihan")
+                                                    .DataTable()
+                                                    .ajax.reload();
                                                 btn_proses.disabled = true;
                                                 btn_isi.disabled = false;
                                                 btn_hapus.disabled = false;
@@ -927,8 +975,22 @@ $(document).ready(function () {
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             if (TT == true || TT == false) {
-                                                location.reload();
-                                                // $("#tablebkkpenagihan").DataTable().ajax.reload();
+                                                // location.reload();
+                                                document
+                                                    .querySelectorAll("input")
+                                                    .forEach((input) => {
+                                                        if (
+                                                            input.id !==
+                                                                "supplier1" &&
+                                                            input.id !==
+                                                                "supplier2"
+                                                        ) {
+                                                            input.value = ""; // Hapus nilai input jika bukan supplier1 atau supplier2
+                                                        }
+                                                    });
+                                                $("#tablebkkpenagihan")
+                                                    .DataTable()
+                                                    .ajax.reload();
                                                 btn_proses.disabled = true;
                                                 btn_isi.disabled = false;
                                                 btn_hapus.disabled = false;
