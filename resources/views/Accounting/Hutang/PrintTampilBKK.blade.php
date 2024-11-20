@@ -3,8 +3,8 @@
 
 <style>
     @page {
-        size: A4;
-        margin: 20mm;
+        size: 21.5cm 14cm;
+        margin: 0mm;
     }
 
     @media print {
@@ -27,7 +27,7 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 3mm 5mm;
+            padding: 0mm 0mm;
         }
 
         .header,

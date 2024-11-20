@@ -249,6 +249,9 @@ $(document).ready(function () {
                         { title: "Tagihan (Y/N)", data: "Status_Tagihan" },
                         { title: "Jenis", data: "Jenis_Pembayaran" },
                     ],
+                    paging: false,
+                    scrollY: "300px",
+                    scrollCollapse: true,
                 });
             });
     });
