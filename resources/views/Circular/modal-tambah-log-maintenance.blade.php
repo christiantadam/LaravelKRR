@@ -28,48 +28,68 @@
 
                             <div class="row mt-2">
                                 <div class="col-md-4">
-                                    <label for="nama_sparepart">Nama Sparepart</label>
+                                    <label for="jenis_maintenance">Jenis Maintenance</label>
                                 </div>
 
                                 <div class="col-md-8">
                                     <div class="input-group input-group-sm">
-                                        <select id="nama_sparepart" class="form-select form-select-sm">
-                                            <option selected>-- Pilih Sparepart --</option>
+                                        <select id="jenis_maintenance" class="form-select form-select-sm">
+                                            <option selected disabled>-- Pilih Jenis Maintenance --</option>
+                                            <option>Perawatan</option>
+                                            <option>Ganti Sparepart</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
+                            <div id="jenis_maintenance_penggantian" style="display: none">
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <label for="nama_sparepart">Nama Sparepart</label>
+                                    </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <label for="nama_barang">Nama Barang</label>
+                                    <div class="col-md-8">
+                                        <div class="input-group input-group-sm">
+                                            <select id="nama_sparepart" class="form-select form-select-sm">
+                                                <option selected disabled>-- Pilih Sparepart --</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="col-md-8">
-                                    <input type="text" id="nama_barang" class="form-control form-control-sm"
-                                        placeholder="Nama Barang">
-                                </div>
-                            </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <label for="nama_barang">Nama Barang</label>
+                                    </div>
 
-                            <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <label for="kode_barang">Kode Barang</label>
-                                </div>
-
-                                <div class="col-md-8">
-                                    <input type="text" id="kode_barang" class="form-control form-control-sm"
-                                        placeholder="Kode Barang">
-                                </div>
-                            </div>
-
-                            <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <label for="jumlah_tritier">Jumlah Pemakaian</label>
+                                    <div class="col-md-8">
+                                        <div class="input-group input-group-sm">
+                                            <select id="nama_barang" class="form-select form-select-sm">
+                                                <option selected disabled>-- Pilih Barang --</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="col-md-8">
-                                    <input type="number" id="jumlah_tritier" class="form-control form-control-sm"
-                                        placeholder="0" min="0">
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <label for="kode_barang">Kode Barang</label>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <input type="text" id="kode_barang" class="form-control form-control-sm"
+                                            placeholder="Kode Barang" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-4">
+                                        <label for="jumlah_tritier">Jumlah Pemakaian</label>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <input type="number" id="jumlah_tritier" class="form-control form-control-sm"
+                                            placeholder="0" min="0">
+                                    </div>
                                 </div>
                             </div>
                         </div>
