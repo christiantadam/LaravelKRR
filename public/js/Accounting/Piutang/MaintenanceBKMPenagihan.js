@@ -108,6 +108,8 @@ $(document).ready(function () {
     btn_group.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(rowDataArray);
+        // let allRowsDataAtas = table_kanan.rows().data().toArray();
+        // console.log(allRowsDataAtas);
         if (rowDataArray.length === 0) {
             Swal.fire({
                 icon: "info",
@@ -169,11 +171,31 @@ $(document).ready(function () {
                             text: response.message,
                             showConfirmButton: true,
                         }).then(() => {
-                            location.reload();
+                            // location.reload();
                             // document
                             //     .querySelectorAll("input")
                             //     .forEach((input) => (input.value = ""));
                             // $("#table_atas").DataTable().ajax.reload();
+                            // DataTable instance
+                            var table_atas = $("#table_atas").DataTable();
+
+                            // Iterate through rowDataArray
+                            rowDataArray.forEach(function (row) {
+                                // Ambil nilai dari elemen ke-1 (index 1)
+                                var valueToMatch = row[1];
+
+                                // Hapus baris dari DataTable jika match
+                                table_atas.rows().every(function () {
+                                    var rowData = this.data();
+                                    if (rowData[1] === valueToMatch) {
+                                        this.remove();
+                                    }
+                                });
+                            });
+
+                            // Refresh DataTable
+                            table_atas.draw();
+                            rowDataArray = [];
                         });
                     } else if (response.error) {
                         Swal.fire({
