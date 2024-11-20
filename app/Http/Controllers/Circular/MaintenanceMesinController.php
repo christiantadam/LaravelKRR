@@ -30,7 +30,7 @@ class MaintenanceMesinController extends Controller
         //
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         if ($id == 'StatusPartMesinOverall') {
             $listMesin = DB::connection('ConnCircular')->select('SELECT Nama_mesin, SparepartCount, DurabilityPercentage FROM VW_CIR_4384_STATUS_PART_MESIN_OVERALL');
@@ -44,6 +44,9 @@ class MaintenanceMesinController extends Controller
                 ];
             }
             return datatables($dataMesin)->make(true);
+        } else if($id == 'selectNamaSparepart'){
+            $idMesin = $request->input('IdMesin');
+            $listSparepart = DB::connection('ConnCircular')->select('SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XIdMesin =?',[1,$idMesin]);
         }
     }
 

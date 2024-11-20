@@ -689,6 +689,7 @@
     <script src="{{ asset('js/Circular/app.js') }}"></script>
 
     <script src="{{ asset('js/chart.js') }}"></script>
+    <script src="{{ asset('js/chartjs-plugin-datalabels.js') }}"></script>
     @yield('custom_js')
 
 </body>

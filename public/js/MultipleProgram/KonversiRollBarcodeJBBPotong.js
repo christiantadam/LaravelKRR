@@ -414,7 +414,7 @@ $(document).ready(function () {
                 });
             }
         });
-        if (nomorUser !== "4384") {
+        if (nomorUser !== "4384" && nomorUser !== "4199") {
             const inputElement = Swal.getInput();
 
             inputElement.addEventListener("keydown", function (e) {
@@ -497,7 +497,7 @@ $(document).ready(function () {
         button_updateTujuanKonversi.disabled = true;
         button_hapusTujuanKonversi.disabled = true;
         button_modalProses.disabled = true;
-        if (nomorUser == "4384") {
+        if (nomorUser == "4384" && nomorUser == "4199" ) {
             hasil_konversiTritierTujuan.readOnly = false;
         }
 
