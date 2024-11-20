@@ -547,7 +547,7 @@ class MaintenanceBKMPenagihanController extends Controller
             // Execute the stored procedure with date parameters
             $results = DB::connection('ConnAccounting')
                 ->select('exec SP_5298_ACC_LIST_BKM_TAGIH_PERTGL @tgl1 = ?, @tgl2 = ?', [$tgl1, $tgl2]);
-
+            // dd($results);
             $response = [];
             foreach ($results as $row) {
                 $response[] = [
@@ -557,8 +557,8 @@ class MaintenanceBKMPenagihanController extends Controller
                     'Terjemahan' => $row->Terjemahan,
                 ];
             }
-
-            return response()->json($response);
+            return datatables($response)->make(true);
+            // return response()->json($response);
 
         } else if ($id == 'cetakBKM') {
             // dd($request->all());

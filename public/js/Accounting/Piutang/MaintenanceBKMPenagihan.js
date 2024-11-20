@@ -759,7 +759,7 @@ $(document).ready(function () {
             // scrollX: true,
             // width: "150%",
             ajax: {
-                url: "MaintenanceBKMPenagihan/getBKMTagih",
+                url: "MaintenanceBKMPenagihan/getBKMTagihByDate",
                 dataType: "json",
                 type: "GET",
                 data: function (d) {
