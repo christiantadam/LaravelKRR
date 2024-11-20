@@ -2096,7 +2096,9 @@ btnSimpan.addEventListener('click', async function (event) {
                 idMataUang: idMataUang.value,
                 buktiPelunasan: buktiPelunasan.value,
                 idCustomer: idCustomer.value,
-                sisa: tsisa
+                sisa: tsisa,
+                statusBayar: statusBayar.value,
+                idReferensi: informasiBankSelect.value,
             },
             success: function (response) {
                 Swal.fire({

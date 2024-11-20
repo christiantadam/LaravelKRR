@@ -264,14 +264,24 @@ class MaintenancePelunasanPenjualanController extends Controller
         $buktiPelunasan = $request->input('buktiPelunasan') === null ? null : $request->input('buktiPelunasan');
         $idCustomer = $request->input('idCustomer');
         $sisa = $request->input('sisa');
-        $idReferensi = $request->input('idReferensi');
-        $statusBayar = $request->input('statusBayar');
+        $idReferensi = $request->input('idReferensi') === null ? null : $request->input('idReferensi');
+        $statusBayar = $request->input('statusBayar') === null ? null : $request->input('statusBayar');
         $IdPelunasan = $request->input('IdPelunasan');
 
         $arrTable = $request->input('arrTable');
         // dd($request->all());
 
+
+
         if ($id === 'insertData') {
+            // $lastInsertId = DB::connection('ConnAccounting')->getPdo()->lastInsertId();
+            // $IdPelunasan = DB::connection('ConnAccounting')->table('T_Referensi_Bank')
+            //     ->where('IdReferensi', '=', $idReferensi)
+            //     ->update(['Id_Pelunasan' => $lastInsertId]);
+
+
+            // dd($idReferensi, $lastInsertId);
+
             try {
                 DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
                 @Kode = ?,
@@ -306,6 +316,8 @@ class MaintenancePelunasanPenjualanController extends Controller
                 $IdPelunasan = DB::connection('ConnAccounting')->table('T_Referensi_Bank')
                     ->where('IdReferensi', '=', $idReferensi)
                     ->update(['Id_Pelunasan' => $lastInsertId]);
+
+                dd($idReferensi, $lastInsertId);
 
 
                 foreach ($arrTable as $item) {
