@@ -418,21 +418,36 @@
                                                     Penagihan</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <div class="input-group">
+                                                <div class="input-group" style="width: 100%;">
+                                                    <!-- Ensure full width here -->
+                                                    <select name="noPenagihan" id="noPenagihan" class="form-control"
+                                                        style="width: 100%;">
+                                                        <!-- Full width for select -->
+                                                        <option disabled selected>Pilih Penagihan</option>
+                                                        {{-- @foreach ($kdperkiraan as $d)
+                                                            <option value="{{ $d->NoKodePerkiraan }}">{{ $d->NoKodePerkiraan }}
+                                                                | {{ $d->Keterangan }}</option>
+                                                        @endforeach --}}
+                                                    </select>
+                                                </div>
+
+                                                {{-- <div class="input-group">
                                                     <input type="text" class="form-control" id="noPenagihan"
                                                         name="noPenagihan" readonly>
                                                     <div class="input-group-append">
                                                         <button type="button" id="btn_noPenagihan"
                                                             class="btn btn-default" disabled>...</button>
                                                     </div>
-                                                </div>
+                                                </div> --}}
+                                            </div>
+                                            <div class="col-md-4" style="display: none;">
+                                                <input type="text" id="noPen" name="noPen"
+                                                    class="form-control"style="width: 100%" readonly>
                                             </div>
                                             {{-- <div class="col-md-2">
-                                                        <input type="text" id="noPen" name="noPen" class="form-control"style="width: 100%" readonly>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <input type="text" id="no_Pen" name="no_Pen" class="form-control"style="width: 100%" readonly>
-                                                    </div> --}}
+                                                <input type="text" id="no_Pen" name="no_Pen"
+                                                    class="form-control"style="width: 100%" readonly>
+                                            </div> --}}
                                         </div>
                                         <p>
                                         <div class="d-flex">
@@ -575,19 +590,34 @@
                                                     Penagihan</label>
                                             </div>
                                             <div class="col-md-5">
-                                                <div class="input-group">
+                                                <div class="input-group" style="width: 100%;">
+                                                    <!-- Ensure full width here -->
+                                                    <select name="noPenagihan1" id="noPenagihan1"
+                                                        class="form-control" style="width: 100%;">
+                                                        <!-- Full width for select -->
+                                                        <option disabled selected>Pilih Penagihan</option>
+                                                        {{-- @foreach ($penagihan1 as $d)
+                                                            <option value="{{ $d->Id_Penagihan }}">
+                                                                {{ $d->Id_Penagihan }}
+                                                                | {{ $d->Tgl_Penagihan }}</option>
+                                                        @endforeach --}}
+                                                    </select>
+                                                </div>
+
+                                                {{-- <div class="input-group">
                                                     <input type="text" class="form-control" id="noPenagihan1"
                                                         name="noPenagihan1" readonly>
                                                     <div class="input-group-append">
                                                         <button type="button" id="btn_noPenagihan1"
                                                             class="btn btn-default">...</button>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
-                                            {{-- <div class="col-md-1">
-                                                        <input type="text" id="noPen1" name="noPen1" class="form-control" style="width: 100%" readonly>
-                                                    </div>
-                                                    <div class="col-md-2">
+                                            <div class="col-md-2">
+                                                <input type="text" id="noPen1" name="noPen1"
+                                                    class="form-control" style="width: 100%" readonly>
+                                            </div>
+                                            {{-- <div class="col-md-2">
                                                         <input type="text" id="no_Pen1" name="no_Pen1" class="form-control" style="width: 100%" readonly>
                                                     </div> --}}
                                         </div>
@@ -598,19 +628,22 @@
                                             <label for="kodePerkiraanSelect" style="margin-right: 10px;">Kode
                                                 Perkiraan</label>
                                         </div>
-                                        <div class="col-md-2 pr-1" >
-                                            <input type="text" id="idKodePerkiraan" name="idKodePerkiraan" class="form-control" readonly>
-                                            <input type="text" id="kodePerkiraan" name="kodePerkiraan" class="form-control" readonly>
+                                        <div class="col-md-2 pr-1" style="display: none;">
+                                            <input type="text" id="idKodePerkiraan" name="idKodePerkiraan"
+                                                class="form-control" readonly>
+                                            <input type="text" id="kodePerkiraan" name="kodePerkiraan"
+                                                class="form-control" readonly>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="input-group" style="width: 100%;">
                                                 <!-- Ensure full width here -->
-                                                <select name="kodePerkiraanSelect" id="kodePerkiraanSelect" class="form-control"
-                                                    style="width: 100%;">
+                                                <select name="kodePerkiraanSelect" id="kodePerkiraanSelect"
+                                                    class="form-control" style="width: 100%;">
                                                     <!-- Full width for select -->
                                                     <option disabled selected>Pilih Kode Perkiraan</option>
                                                     @foreach ($kdperkiraan as $d)
-                                                        <option value="{{ $d->NoKodePerkiraan }}">{{ $d->NoKodePerkiraan }}
+                                                        <option value="{{ $d->NoKodePerkiraan }}">
+                                                            {{ $d->NoKodePerkiraan }}
                                                             | {{ $d->Keterangan }}</option>
                                                     @endforeach
                                                 </select>
@@ -639,18 +672,18 @@
                                     </div>
                                 </div> --}}
 
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <button id="btnSimpanModal" type="button"
-                                            class="btn btn-success">Simpan</button>
-                                        {{-- <input type="submit" id="btnSimpanModal" name="btnSimpanModal"
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <button id="btnSimpanModal" type="button"
+                                                class="btn btn-success">Simpan</button>
+                                            {{-- <input type="submit" id="btnSimpanModal" name="btnSimpanModal"
                                                 value="Simpan" class="btn btn-success"> --}}
-                                    </div>
-                                    {{-- <div class="col-md-2">
+                                        </div>
+                                        {{-- <div class="col-md-2">
                                                     <input type="submit" id="btnKeluar" name="btnKeluar" value="Keluar" class="btn btn-primary">
                                                 </div> --}}
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

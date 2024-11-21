@@ -12,7 +12,7 @@ use App\Http\Controllers\HakAksesController;
 
 class MaintenancePelunasanPenjualanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $kdperkiraan = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
@@ -51,12 +51,12 @@ class MaintenancePelunasanPenjualanController extends Controller
         return response()->json($tabel);
     }
 
-    // public function getListPenagihanSJ($idCustomer)
-    // {
-    //     $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $idCustomer]);
-    //     // dd($tabel);
-    //     return datatables($tabel)->make(true);
-    // }
+    public function getListPenagihanSJ($idCustomer)
+    {
+        $tabel =  DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $idCustomer]);
+        // dd($tabel);
+        return response()->json($tabel);
+    }
 
     public function getLihatDetailPelunasan($noPenagihan)
     {
@@ -74,11 +74,11 @@ class MaintenancePelunasanPenjualanController extends Controller
     //     return response()->json($tabel);
     // }
 
-    public function getKdPerkiraan()
-    {
-        $tabel = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1, ]);
-        return datatables($tabel)->make(true);
-    }
+    // public function getKdPerkiraan()
+    // {
+    //     $tabel = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1]);
+    //     return datatables($tabel)->make(true);
+    // }
 
     public function getListPelunasan($idCustomer)
     {
@@ -214,7 +214,7 @@ class MaintenancePelunasanPenjualanController extends Controller
         $user = Auth::user()->NomorUser;
         $idCustomer = $request->input('idCustomer');
         $noPenagihan = $request->input('noPenagihan');
-        $IdPelunasan = $request->input('IdPelunasan');
+        $noKodePerkiraan = $request->input('noKodePerkiraan');
 
         if ($id === 'getUserId') {
             return response()->json(['user' => $user]);
@@ -228,8 +228,7 @@ class MaintenancePelunasanPenjualanController extends Controller
             return response()->json($tabel);
         } else if ($id === 'getListPenagihanSJ') {
             $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $idCustomer]);
-            // dd($tabel);
-            return datatables($tabel)->make(true);
+            return response()->json($tabel);
         } else if ($id === 'getLihatDetailPelunasan') {
             $noPen = str_replace('.', '/', $noPenagihan);
             $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $noPen]);
@@ -240,11 +239,10 @@ class MaintenancePelunasanPenjualanController extends Controller
             // dd($tabel);
             return response()->json($tabel);
         }
-        //  else if ($id === 'getCekReferensiPelunasan') {
-        //     $IdPelunasan = str_replace('.', '/', $IdPelunasan);
-        //     $tabel = DB::connection('ConnAccounting')->select('exec [SP_1486_ACC_LIST_REFERENSI_BANK] @Kode = ?, @Id_pelunasan = ?', [5, $IdPelunasan]);
-        //     return response()->json($tabel);
-        // }
+         else if ($id === 'getDetailPerkiraan') {
+            $tabel = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?, @IdPerkiraan = ?', [2, $noKodePerkiraan]);
+            return response()->json($tabel);
+        }
     }
 
     // Show the form for editing the specified resource.
