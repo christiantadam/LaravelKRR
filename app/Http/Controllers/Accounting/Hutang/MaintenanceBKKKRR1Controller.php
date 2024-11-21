@@ -322,6 +322,7 @@ class MaintenanceBKKKRR1Controller extends Controller
             return datatables($response)->make(true);
         } else if ($id == 'getGroup') {
             $listPengajuan = $request->input('rowDataArray', []);
+            // dd($listPengajuan);
             $tanggal = $request->input('tanggalgrup', now()->toDateString());
             $user_id = trim(Auth::user()->NomorUser);
             $jmlData = count($listPengajuan);
@@ -361,7 +362,10 @@ class MaintenanceBKKKRR1Controller extends Controller
 
             // Create BKK record
             $idbkk = null;
+            $totalBayar = 0;
             foreach ($listPengajuan as $index => $item) {
+                // dd($listPengajuan);
+                // dd($index);
                 if ($index == 0) {
                     // Call the stored procedure to create the initial BKK entry
                     $createBKKResult = DB::connection('ConnAccounting')
@@ -395,19 +399,6 @@ class MaintenanceBKKKRR1Controller extends Controller
                                 ->where('Id_BKK', $formattedIdBKK)
                                 ->first();
                             // dd($tPembayaranRecord);
-                            if ($tPembayaranRecord) {
-                                $idbkk = $tPembayaranRecord->Id_BKK;
-
-                                $tNilaiBKK = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_NILAIBKK @BKK = ?', [$idbkk]);
-                                // dd($tNilaiBKK);
-                                if (!empty($tNilaiBKK)) {
-                                    $totalBayar = $tNilaiBKK[0]->NilaiBayar;
-                                    DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UPDATE_BKK1_NILAIBKK_WEWE @BKK = ?, @nilaibulat = ?', [
-                                        $idbkk,
-                                        $totalBayar,
-                                    ]);
-                                }
-                            }
                         }
                     }
                 } else {
@@ -417,7 +408,23 @@ class MaintenanceBKKKRR1Controller extends Controller
                         $tanggal,
                     ]);
                 }
+                if ($tPembayaranRecord) {
+                    $idbkk = $tPembayaranRecord->Id_BKK;
+
+                    $tNilaiBKK = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_NILAIBKK @BKK = ?', [$idbkk]);
+                    // if ($index !== 0) {
+                    // }
+                    if (!empty($tNilaiBKK)) {
+                        $totalBayar += (float) $tNilaiBKK[0]->NilaiBayar;
+                    }
+                }
             }
+
+            // dd($totalBayar);
+            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_UPDATE_BKK1_NILAIBKK_WEWE @BKK = ?, @nilaibulat = ?', [
+                $idbkk,
+                $totalBayar,
+            ]);
 
             if ($idbkk) {
                 $currencyCheck = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_SUPPLIER_UANG @IdSupp = ?', [$idSupp]);

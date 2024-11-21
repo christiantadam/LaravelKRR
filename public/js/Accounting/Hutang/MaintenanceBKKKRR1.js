@@ -332,7 +332,10 @@ $(document).ready(function () {
                                 showConfirmButton: true,
                             }).then((result) => {
                                 if (result.isConfirmed) {
+                                    console.log(response);
                                     bkk.value = response.idBKK;
+                                    nilaiBkk.value = numeral(response.totalBayar).format('0,0.00');
+                                    nilaiPembulatan.value = numeral(response.totalBayar).format('0,0.00');
                                     month.value = selectedDate.substring(5, 7);
                                     year.value = selectedDate.substring(0, 4);
                                     var myModal = new bootstrap.Modal(
@@ -350,7 +353,7 @@ $(document).ready(function () {
                                         );
                                     myModal.show();
                                     btn_okbkk.click();
-                                    // tableatas.ajax.reload();
+                                    table_atas.ajax.reload();
                                     // tablekiri.ajax.reload();
                                     // tablekanan.ajax.reload();
                                     // id_detailkanan.value = "";
@@ -358,6 +361,8 @@ $(document).ready(function () {
                                     // id_pembayaran.value = "";
                                 } else {
                                     bkk.value = response.idBKK;
+                                    nilaiBkk.value = numeral(response.totalBayar).format('0,0.00');
+                                    nilaiPembulatan.value = numeral(response.totalBayar).format('0,0.00');
                                     month.value = selectedDate.substring(5, 7);
                                     year.value = selectedDate.substring(0, 4);
                                     var myModal = new bootstrap.Modal(
@@ -375,7 +380,7 @@ $(document).ready(function () {
                                         );
                                     myModal.show();
                                     btn_okbkk.click();
-                                    // tableatas.ajax.reload();
+                                    table_atas.ajax.reload();
                                     // tablekiri.ajax.reload();
                                     // tablekanan.ajax.reload();
                                     // id_detailkanan.value = "";
@@ -1340,8 +1345,8 @@ $(document).ready(function () {
     btn_cetakbkk.addEventListener("click", function (event) {
         event.preventDefault();
         if (rowDataBKK == null || rowDataBKK == undefined) {
-            nilaiBkk.value = rowDataPertama.Nilai_Pembayaran;
-            nilaiPembulatan.value = rowDataPertama.Nilai_Pembayaran;
+            // nilaiBkk.value = rowDataPertama.Nilai_Pembayaran;
+            // nilaiPembulatan.value = rowDataPertama.Nilai_Pembayaran;
         } else {
             bkk.value = rowDataBKK.Id_BKK;
             nilaiBkk.value = rowDataBKK.NilaiBKK;
