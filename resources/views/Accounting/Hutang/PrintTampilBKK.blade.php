@@ -27,13 +27,13 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 0mm 0mm;
+            padding: 3mm 9mm;
         }
 
         .header,
         .footer {
             text-align: center;
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         .loading-screen {
@@ -63,7 +63,7 @@
     }
 
     .content {
-        margin: 20px 0;
+        margin: 0px 0;
     }
 
     .content table {
@@ -88,7 +88,7 @@
         } */
 
     .signature {
-        margin-top: 40px;
+        /* margin-top: 40px; */
         display: flex;
         justify-content: space-between;
     }
@@ -98,7 +98,7 @@
     }
 
     .note {
-        margin-top: 20px;
+        /* margin-top: 20px; */
     }
 </style>
 

@@ -3,8 +3,8 @@
 
 <style>
     @page {
-        size: A4;
-        margin: 20mm;
+        size: 21.5cm 14cm;
+        margin: 0mm;
     }
 
     @media print {
@@ -27,19 +27,13 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 3mm 5mm;
+            padding: 3mm 9mm;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-top: 50 !important;
-            padding-bottom: 0 !important;
-        }
-
+        .header,
         .footer {
             text-align: center;
-            margin-bottom: 20px;
+            /* margin-bottom: 20px; */
         }
 
         .loading-screen {
@@ -69,7 +63,7 @@
     }
 
     .content {
-        margin: 20px 0;
+        margin: 0px 0;
     }
 
     .content table {
@@ -85,7 +79,7 @@
 
     .content th,
     .content td {
-        padding: 2px;
+        padding: 8px;
         text-align: left;
     }
 
@@ -94,7 +88,7 @@
         } */
 
     .signature {
-        margin-top: 20px;
+        /* margin-top: 40px; */
         display: flex;
         justify-content: space-between;
     }
@@ -104,7 +98,7 @@
     }
 
     .note {
-        margin-top: 10px;
+        /* margin-top: 20px; */
     }
 </style>
 
