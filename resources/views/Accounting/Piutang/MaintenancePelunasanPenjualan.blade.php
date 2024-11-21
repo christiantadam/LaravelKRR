@@ -120,11 +120,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1" style="display: none;">
                                 <input type="text" id="idCustomer" name="idCustomer" class="form-control"
                                     style="width: 100%" readonly>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1" style="display: none;">
                                 <input type="text" id="idJenisCustomer" name="idJenisCustomer" class="form-control"
                                     style="width: 100%" readonly>
                             </div>
@@ -613,7 +613,7 @@
                                                     </div>
                                                 </div> --}}
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" style="display: none;">
                                                 <input type="text" id="noPen1" name="noPen1"
                                                     class="form-control" style="width: 100%" readonly>
                                             </div>
@@ -635,7 +635,7 @@
                                                 class="form-control" readonly>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="input-group" style="width: 100%;">
+                                            <div class="input-group" style="display: none;">
                                                 <!-- Ensure full width here -->
                                                 <select name="kodePerkiraanSelect" id="kodePerkiraanSelect"
                                                     class="form-control" style="width: 100%;">

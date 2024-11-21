@@ -964,6 +964,7 @@ buktiPelunasan.addEventListener("keypress", function (event) {
 });
 
 // button no penagihan
+
 // btn_noPenagihan.addEventListener("click", function (e) {
 //     try {
 //         Swal.fire({
@@ -1096,9 +1097,17 @@ function fetchData(endpoint) {
 }
 
 function formatDate(dateString) {
-    const [month, day, year] = dateString.split("/");
-    return `${day}-${month}-${year}`;
+    const datePart = dateString.split(' ')[0];
+    const [year, month, day] = datePart.split('-');
+    return `${parseInt(month)}/${parseInt(day)}/${year}`;
 }
+
+var myModal = new bootstrap.Modal(
+    document.getElementById("modalLihatPenagihan"),
+    {
+        keyboard: false,
+    }
+);
 
 const noPenagihan = $("#noPenagihan");
 noPenagihan.select2({
@@ -1124,7 +1133,6 @@ noPenagihan.on("select2:select", function () {
             });
     }
 });
-
 
 function lihatPenagihan(idPenagihan) {
     $.ajax({
@@ -1185,7 +1193,6 @@ function lihatPenagihan(idPenagihan) {
         }
     });
 }
-
 
 jumlahYangDibayar.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
@@ -1248,7 +1255,7 @@ function LihatReferensi() {
 nilaiKurangLebih.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         nilaiKurangLebih.value = numeral(numeral(nilaiKurangLebih.value).value()).format("0,0.00");
-        noPenagihan1.focus();
+        fetchData1("/getListPenagihanSJ/" + idCustomer.value);
     }
 });
 
@@ -1359,13 +1366,32 @@ nilaiBiaya.addEventListener("keypress", function (event) {
 
 // button kode perkiraan
 
+function fetchData1(endpoint) {
+    fetch(endpoint)
+        .then((response) => response.json())
+        .then((options) => {
+            noPenagihan1
+                .empty()
+                .append(`<option disabled selected>Pilih Penagihan</option>`);
 
-var myModal = new bootstrap.Modal(
-    document.getElementById("modalLihatPenagihan"),
-    {
-        keyboard: false,
-    }
-);
+            Promise.all(
+                options.map((entry) => {
+                    return new Promise((resolve) => {
+                        const format = formatDate(entry.Tgl_Penagihan);
+                        noPenagihan1.append(
+                            new Option(
+                                `${entry.Id_Penagihan} | ${format}`,
+                                entry.Id_Penagihan
+                            )
+                        );
+                        resolve();
+                    });
+                })
+            ).then(() => {
+                noPenagihan1.select2("open");
+            });
+        });
+}
 
 const noPenagihan1 = $("#noPenagihan1");
 noPenagihan1.select2({
@@ -1374,31 +1400,21 @@ noPenagihan1.select2({
 });
 
 noPenagihan1.on("select2:select", function () {
-    const selectedBank = $(this).val();
-    $.ajax({
-        url: "MaintenancePelunasanPenjualan/getListPenagihanSJ",
-        type: "GET",
-        data: {
-            _token: csrfToken,
-            idCustomer: idCustomer.value,
-        },
-        success: function (result) {
-            console.log(result);
+    const selectedPenagihan = $(this).val();
+    if (selectedPenagihan) {
+        fetch("/getListPenagihanSJ/" + idCustomer.value)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
 
-            noPen1.value = selectedBank;
-
-            setTimeout(() => {
+                noPen1.value = selectedPenagihan;
                 kodePerkiraanSelect.focus();
-            }, 100);
-        },
-        error: function (xhr, status, error) {
-            console.error(error);
-            alert("An error occurred while fetching no penagihan 1.");
-        },
-    });
-    console.log(selectedBank);
+            })
+            .catch((error) => {
+                alert("An error occurred while fetching Penagihan data.");
+            });
+    }
 });
-
 
 const kodePerkiraanSelect = $("#kodePerkiraanSelect");
 kodePerkiraanSelect.select2({
@@ -1421,9 +1437,7 @@ kodePerkiraanSelect.on("select2:select", function () {
             idKodePerkiraan.value = selectedBank;
             kodePerkiraan.value = decodeHtmlEntities(result[0].Keterangan.trim());
 
-            setTimeout(() => {
-                btnSimpanModal.focus();
-            }, 100);
+            btnSimpanModal.focus();
         },
         error: function (xhr, status, error) {
             console.error(error);
@@ -1465,17 +1479,15 @@ jenisPembayaranSelect.addEventListener("change", function (event) {
 var selectedValue;
 
 function clearDropdowns() {
-    noPenagihan
-        .empty()
-        .append('<option disabled selected>Pilih Penagihan</option>')
-        .val(null)
-        .trigger("change");
+    noPenagihan.val(null).trigger("change");
+    noPenagihan1.val(null).trigger("change");
+    kodePerkiraanSelect.val(null).trigger("change");
 
-    kodePerkiraanSelect
-        .empty()
-        .append('<option disabled selected>Pilih Kode Perkiraan</option>')
-        .val(null)
-        .trigger("change");
+    noPen.value = '';
+    noPen1.value = '';
+    idKodePerkiraan.value = '';
+    kodePerkiraan.value = '';
+
 }
 
 
@@ -1493,7 +1505,9 @@ btnAddItem.addEventListener('click', function (event) {
     modalLihatPenagihan.modal('show');
     prosesmodal = 1;
 
-    noPenagihan.value = '';
+    clearDropdowns();
+
+    // noPenagihan.value = '';
     nilaiPenagihan.value = '';
     mataUangPenagihan.value = '';
     nilaiKurs.value = '';
@@ -1508,8 +1522,8 @@ btnAddItem.addEventListener('click', function (event) {
     nilaiBiaya.value = 0;
     nilaiKurangLebih.value = 0;
     idKodePerkiraan.value = '';
-    kodePerkiraanSelect.value = '';
-    noPenagihan1.value = '';
+    // kodePerkiraanSelect.value = '';
+    // noPenagihan1.value = '';
 
     kodePerkiraanSelect.prop("disabled", true);
     noPenagihan.prop("disabled", true);
@@ -1530,8 +1544,6 @@ function handleRadioChange() {
     if (selectedValue === "opt1") {
         console.log("Anda memilih Pelunasan");
 
-        fetchData("/getListPenagihanSJ/" + idCustomer.value);
-
         kodePerkiraanSelect.prop("disabled", false);
         noPenagihan.prop("disabled", false);
         jumlahYangDibayar.removeAttribute("readonly", true);
@@ -1541,15 +1553,15 @@ function handleRadioChange() {
         // noPenagihan1.removeAttribute("readonly", true);
         idKodePerkiraan.removeAttribute("readonly", true);
         // btn_noPenagihan.removeAttribute("disabled", true);
-        noPenagihan.prop("disabled", false);
+        noPenagihan1.prop("disabled", true);
 
         // btn_noPenagihan.focus();
         noPenagihan.focus();
+        fetchData("/getListPenagihanSJ/" + idCustomer.value);
         lihatPenagihan(noPenagihan.value);
 
     } else if (selectedValue === "opt2") {
         console.log("Anda memilih Biaya Ditanggung", idJenisPembayaran.value);
-        fetchData("/getListPenagihanSJ/" + idCustomer.value);
 
         if (idJenisPembayaran.value !== '2' && idJenisPembayaran !== '3') {
             // btn_noPenagihan.setAttribute("disabled", true);
@@ -1558,7 +1570,8 @@ function handleRadioChange() {
             pelunasanCurrency.setAttribute("readonly", true);
 
             nilaiKurangLebih.removeAttribute("readonly", true);
-            noPenagihan1.prop("disabled", false);
+            noPenagihan1.prop("disabled", true);
+            kodePerkiraanSelect.prop("disabled", false);
             nilaiBiaya.removeAttribute("readonly", true);
 
             nilaiBiaya.focus();
@@ -1578,8 +1591,10 @@ function handleRadioChange() {
 
         nilaiKurangLebih.removeAttribute("readonly", true);
         noPenagihan1.prop("disabled", false);
-        nilaiKurangLebih.focus();
+        kodePerkiraanSelect.prop("disabled", false);
         nilaiBiaya.value = 0;
+
+        nilaiKurangLebih.focus();
     }
 };
 
@@ -1656,7 +1671,7 @@ btnSimpanModal.addEventListener('click', function (event) {
             let duplicateFound = false;
 
             tableData.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                if (noPenagihan.value !== '' && tableData.$('tr.selected').length === 0) {
+                if (noPen.value !== '' && tableData.$('tr.selected').length === 0) {
                     if (this.data()[0] === rowData[0]) {
                         duplicateFound = true;
                         return false;
@@ -1678,7 +1693,7 @@ btnSimpanModal.addEventListener('click', function (event) {
                     let selectedRow = tableData.$('tr.selected').index();
                     let rowDataToUpdate = tableData.row(selectedRow).data();
 
-                    rowDataToUpdate[1] = numeral(rowData[1]).value();
+                    rowDataToUpdate[1] = numeral(numeral(rowData[1]).value()).format("0,0.00");
                     rowDataToUpdate[2] = numeral(numeral(rowData[2]).value()).format("0,0.00");
                     rowDataToUpdate[3] = rowData[3];
                     rowDataToUpdate[5] = numeral(numeral(rowData[5]).value()).format("0,0.00");
@@ -1739,11 +1754,12 @@ btnSimpanModal.addEventListener('click', function (event) {
             escapeHtml(noPen1.value)          // ID_Tagihan_Pembulatan
         ];
 
-        console.log(rowData);
+        // console.log(rowData);
 
 
         checkDuplicateAndAddRow(rowData);
     }
+    clearDropdowns();
 });
 
 // var selectedRows = [];
@@ -1793,6 +1809,20 @@ $("#tabelPelunasanPenjualan tbody").on("click", "tr", function () {
 var selectedIndex;
 var updatedData = {};
 
+function populateDropdowns(data) {
+    if (data.length > 0) {
+        const noPenagihanValue = data[0];
+        const kodePerkiraanValue = data[9];
+
+        noPenagihan.val(noPenagihanValue).trigger("change");
+        noPen.value = data[0];
+        kodePerkiraanSelect.val(kodePerkiraanValue).trigger("change");
+
+    } else {
+        console.error("Data array is empty or invalid.");
+    }
+}
+
 btnEditItem.addEventListener('click', function (event) {
     event.preventDefault();
     // clearModal();
@@ -1801,7 +1831,6 @@ btnEditItem.addEventListener('click', function (event) {
     modalLihatPenagihan.modal('show');
     // prosesmodal = 1;
 
-    noPenagihan.value = '';
     nilaiPenagihan.value = '';
     mataUangPenagihan.value = '';
     nilaiKurs.value = '';
@@ -1816,8 +1845,6 @@ btnEditItem.addEventListener('click', function (event) {
     nilaiBiaya.value = 0;
     nilaiKurangLebih.value = 0;
     idKodePerkiraan.value = '';
-    kodePerkiraanSelect.value = '';
-    noPenagihan1.value = '';
 
     kodePerkiraanSelect.prop("disabled", true);
     noPenagihan.prop("disabled", true);
@@ -1843,6 +1870,7 @@ btnEditItem.addEventListener('click', function (event) {
 
     // console.log(proses);
     console.log(data);
+    populateDropdowns(data);
 
     if (proses === 1) {
         if (numeral(data[1]).value() === 0) {
@@ -1865,8 +1893,9 @@ btnEditItem.addEventListener('click', function (event) {
                     pelunasanCurrency.setAttribute("readonly", true);
 
                     nilaiKurangLebih.removeAttribute("readonly", true);
-                    noPenagihan1.prop("disabled", false);
+                    noPenagihan1.prop("disabled", true);
                     nilaiBiaya.removeAttribute("readonly", true);
+                    kodePerkiraanSelect.prop("disabled", false);
                 }
             } else {
                 console.log("masuk value");
@@ -1883,7 +1912,7 @@ btnEditItem.addEventListener('click', function (event) {
                     // btn_noPenagihan1.removeAttribute("disabled", true);
                     noPenagihan.prop("disabled", true);
 
-                    noPenagihan.setAttribute("readonly", true);
+                    // noPenagihan.setAttribute("readonly", true);
                     nilaiBiaya.setAttribute("readonly", true);
                     jumlahYangDibayar.setAttribute("readonly", true);
                     pelunasanCurrency.setAttribute("readonly", true);
@@ -1893,6 +1922,7 @@ btnEditItem.addEventListener('click', function (event) {
                     noPenagihan1.prop("disabled", false);
                     nilaiKurangLebih.focus();
                     nilaiBiaya.value = 0;
+                    kodePerkiraanSelect.prop("disabled", false);
                 }
                 nilaiKurangLebih.focus();
             }
