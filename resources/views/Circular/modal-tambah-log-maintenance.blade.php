@@ -12,11 +12,11 @@
                     <div class="row">
                         <div class="col-md-6" style="padding-right: 5%">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label for="mesin">Mesin</label>
                                 </div>
 
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                     <select id="mesin" class="form-select form-select-sm">
                                         <option selected>-- Pilih Mesin --</option>
                                         @foreach ($listMesin as $d)
@@ -27,11 +27,11 @@
                             </div>
 
                             <div class="row mt-2">
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label for="jenis_maintenance">Jenis Maintenance</label>
                                 </div>
 
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                     <div class="input-group input-group-sm">
                                         <select id="jenis_maintenance" class="form-select form-select-sm">
                                             <option selected disabled>-- Pilih Jenis Maintenance --</option>
@@ -41,13 +41,26 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-5">
+                                    <label for="tanggal_maintenance">Tanggal Maintenance</label>
+                                </div>
+
+                                <div class="col-md-7">
+                                    <div class="input-group input-group-sm">
+                                        <input type="date" id="tanggal_maintenance"
+                                            name="tanggal_maintenance" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
                             <div id="jenis_maintenance_penggantian" style="display: none">
                                 <div class="row mt-2">
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <label for="nama_sparepart">Nama Sparepart</label>
                                     </div>
 
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <div class="input-group input-group-sm">
                                             <select id="nama_sparepart" class="form-select form-select-sm">
                                                 <option selected disabled>-- Pilih Sparepart --</option>
@@ -57,11 +70,11 @@
                                 </div>
 
                                 <div class="row mt-2">
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <label for="nama_barang">Nama Barang</label>
                                     </div>
 
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <div class="input-group input-group-sm">
                                             <select id="nama_barang" class="form-select form-select-sm">
                                                 <option selected disabled>-- Pilih Barang --</option>
@@ -71,22 +84,22 @@
                                 </div>
 
                                 <div class="row mt-2">
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <label for="kode_barang">Kode Barang</label>
                                     </div>
 
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <input type="text" id="kode_barang" class="form-control form-control-sm"
                                             placeholder="Kode Barang" readonly>
                                     </div>
                                 </div>
 
                                 <div class="row mt-2">
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <label for="jumlah_tritier">Jumlah Pemakaian</label>
                                     </div>
 
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <input type="number" id="jumlah_tritier" class="form-control form-control-sm"
                                             placeholder="0" min="0">
                                     </div>

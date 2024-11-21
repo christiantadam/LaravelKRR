@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             <th>Nama Mesin</th>
-                            <th>Jumlah Parts</th>
+                            <th>Jenis Parts</th>
                             <th>Status Health</th>
                         </tr>
                     </thead>

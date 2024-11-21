@@ -5,6 +5,7 @@ let keterangan = document.getElementById("keterangan");
 let status_lanjut = document.getElementById("status_lanjut");
 let button_tambahLogMaintenance = document.getElementById("button_tambahLogMaintenance"); // prettier-ignore
 let jenis_maintenance_penggantian = document.getElementById("jenis_maintenance_penggantian") // prettier-ignore
+let tanggal_maintenance = document.getElementById("tanggal_maintenance");
 const mesin = $("#mesin");
 const nama_sparepart = $("#nama_sparepart");
 const jenis_maintenance = $("#jenis_maintenance");
@@ -58,6 +59,7 @@ function getSelectElementsByType(tipeInitialisasi) {
 }
 
 $(document).ready(function () {
+    tanggal_maintenance.valueAsDate = new Date();
     // Initialize DataTable
     $.ajax({
         url: "/SparepartMesin/StatusPartMesinOverall",
@@ -229,7 +231,9 @@ $(document).ready(function () {
                         //     );
                         // });
                         nama_sparepart.select2({
-                            dropdownParent: $("#form_tambahLogMaintenanceMesin"),
+                            dropdownParent: $(
+                                "#form_tambahLogMaintenanceMesin"
+                            ),
                             placeholder: "Pilih Sparepart",
                         });
                     }
