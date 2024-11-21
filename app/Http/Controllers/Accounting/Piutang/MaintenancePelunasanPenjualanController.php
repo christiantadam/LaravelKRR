@@ -14,8 +14,9 @@ class MaintenancePelunasanPenjualanController extends Controller
 {
     public function index()
     {
+        $kdperkiraan = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Piutang.MaintenancePelunasanPenjualan', compact('access'));
+        return view('Accounting.Piutang.MaintenancePelunasanPenjualan', compact('access', 'kdperkiraan'));
     }
 
     public function getCustIsi()
@@ -75,7 +76,7 @@ class MaintenancePelunasanPenjualanController extends Controller
 
     public function getKdPerkiraan()
     {
-        $tabel = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1]);
+        $tabel = DB::connection('ConnAccounting')->select('exec [Sp_List_KodePerkiraan] @Kode = ?', [1, ]);
         return datatables($tabel)->make(true);
     }
 
@@ -274,14 +275,6 @@ class MaintenancePelunasanPenjualanController extends Controller
 
 
         if ($id === 'insertData') {
-            // $lastInsertId = DB::connection('ConnAccounting')->getPdo()->lastInsertId();
-            // $IdPelunasan = DB::connection('ConnAccounting')->table('T_Referensi_Bank')
-            //     ->where('IdReferensi', '=', $idReferensi)
-            //     ->update(['Id_Pelunasan' => $lastInsertId]);
-
-
-            // dd($idReferensi, $lastInsertId);
-
             try {
                 DB::connection('ConnAccounting')->statement('exec [SP_1486_ACC_MAINT_PELUNASAN_TAGIHAN]
                 @Kode = ?,
@@ -317,7 +310,7 @@ class MaintenancePelunasanPenjualanController extends Controller
                     ->where('IdReferensi', '=', $idReferensi)
                     ->update(['Id_Pelunasan' => $lastInsertId]);
 
-                dd($idReferensi, $lastInsertId);
+                // dd($idReferensi, $lastInsertId);
 
 
                 foreach ($arrTable as $item) {

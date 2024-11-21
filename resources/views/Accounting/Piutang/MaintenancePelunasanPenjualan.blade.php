@@ -115,7 +115,8 @@
                                     <input type="text" class="form-control" id="namaCustomerSelect"
                                         name="namaCustomerSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_cust" class="btn btn-default" disabled>...</button>
+                                        <button type="button" id="btn_cust" class="btn btn-default"
+                                            disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +139,8 @@
                                     <input type="text" class="form-control" id="noPelunasanSelect"
                                         name="noPelunasanSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_pelunasan" class="btn btn-default" disabled>...</button>
+                                        <button type="button" id="btn_pelunasan" class="btn btn-default"
+                                            disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +163,8 @@
                                     <input type="text" class="form-control" id="jenisPembayaranSelect"
                                         name="jenisPembayaranSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_jenisPmb" class="btn btn-default" disabled>...</button>
+                                        <button type="button" id="btn_jenisPmb" class="btn btn-default"
+                                            disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +187,8 @@
                                     <input type="text" class="form-control" id="informasiBankSelect"
                                         name="informasiBankSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_bank" class="btn btn-default" disabled>...</button>
+                                        <button type="button" id="btn_bank" class="btn btn-default"
+                                            disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +207,8 @@
                                     <input type="text" class="form-control" id="mataUangSelect"
                                         name="mataUangSelect" readonly>
                                     <div class="input-group-append">
-                                        <button type="button" id="btn_mtUang" class="btn btn-default" disabled>...</button>
+                                        <button type="button" id="btn_mtUang" class="btn btn-default"
+                                            disabled>...</button>
                                     </div>
                                 </div>
                             </div>
@@ -240,10 +245,12 @@
                                     <button id="btnAddItem" type="button" class="btn btn-primary">Add Item</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button id="btnEditItem" type="button" class="btn btn-primary">Edit Item</button>
+                                    <button id="btnEditItem" type="button" class="btn btn-primary">Edit
+                                        Item</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button id="btnDeleteItem" type="button" class="btn btn-primary">Delete Item</button>
+                                    <button id="btnDeleteItem" type="button" class="btn btn-primary">Delete
+                                        Item</button>
                                 </div>
                             </div>
                         </div>
@@ -254,7 +261,8 @@
                                 <div class="row mb-2" style="margin-top: 0.5%">
                                     <div class="col-sm-12">
                                         <div class="table-responsive fixed-height">
-                                            <table class="table table-bordered no-wrap-header" id="tabelPelunasanPenjualan">
+                                            <table class="table table-bordered no-wrap-header"
+                                                id="tabelPelunasanPenjualan">
                                                 <thead>
                                                 </thead>
                                                 <tbody>
@@ -358,11 +366,13 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <button id="btnIsi" type="button" class="btn btn-primary">Isi</button>
-                                    <button id="btnSimpan" type="button" class="btn btn-success" style="display: none">Simpan</button>
+                                    <button id="btnSimpan" type="button" class="btn btn-success"
+                                        style="display: none">Simpan</button>
                                 </div>
                                 <div class="col-md-2">
                                     <button id="btnKoreksi" type="button" class="btn btn-warning">Koreksi</button>
-                                    <button id="btnBatal" type="button" class="btn btn-warning" style="display: none">Batal</button>
+                                    <button id="btnBatal" type="button" class="btn btn-warning"
+                                        style="display: none">Batal</button>
 
                                 </div>
                                 <div class="col-md-2">
@@ -391,9 +401,8 @@
                                             <label for="opt1">Pelunasan</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="radio" name="radiogrup1" value="opt2"
-                                                id="opt2">
-                                            <label for="opt2" >Biaya Ditanggung</label>
+                                            <input type="radio" name="radiogrup1" value="opt2" id="opt2">
+                                            <label for="opt2">Biaya Ditanggung</label>
                                         </div>
                                         <div class="col-md-4">
                                             <input type="radio" name="radiogrup1" value="opt3" id="opt3">
@@ -589,42 +598,69 @@
                                             <label for="kodePerkiraanSelect" style="margin-right: 10px;">Kode
                                                 Perkiraan</label>
                                         </div>
-                                        <div class="col-md-2 pr-1">
-                                            <input type="text" id="idKodePerkiraan" name="idKodePerkiraan"
-                                                class="form-control" style="width: 100%" readonly>
+                                        <div class="col-md-2 pr-1" >
+                                            <input type="text" id="idKodePerkiraan" name="idKodePerkiraan" class="form-control" readonly>
+                                            <input type="text" id="kodePerkiraan" name="kodePerkiraan" class="form-control" readonly>
                                         </div>
-                                        <div class="col-md-5">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="kodePerkiraanSelect"
-                                                    name="kodePerkiraanSelect" readonly>
-                                                <div class="input-group-append">
-                                                    <button type="button" id="btn_kodePerkiraan"
-                                                        class="btn btn-default">...</button>
-                                                </div>
+                                        <div class="col-md-8">
+                                            <div class="input-group" style="width: 100%;">
+                                                <!-- Ensure full width here -->
+                                                <select name="kodePerkiraanSelect" id="kodePerkiraanSelect" class="form-control"
+                                                    style="width: 100%;">
+                                                    <!-- Full width for select -->
+                                                    <option disabled selected>Pilih Kode Perkiraan</option>
+                                                    @foreach ($kdperkiraan as $d)
+                                                        <option value="{{ $d->NoKodePerkiraan }}">{{ $d->NoKodePerkiraan }}
+                                                            | {{ $d->Keterangan }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <button id="btnSimpanModal" type="button" class="btn btn-success">Simpan</button>
-                                            {{-- <input type="submit" id="btnSimpanModal" name="btnSimpanModal"
-                                                value="Simpan" class="btn btn-success"> --}}
+                                    {{-- <div class="d-flex mt-1">
+                                    <div class="col-md-4">
+                                        <label for="kodePerkiraanSelect" style="margin-right: 10px;">Kode
+                                            Perkiraan</label>
+                                    </div>
+                                    <div class="col-md-2 pr-1">
+                                        <input type="text" id="idKodePerkiraan" name="idKodePerkiraan"
+                                            class="form-control" style="width: 100%" readonly>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="kodePerkiraanSelect"
+                                                name="kodePerkiraanSelect" readonly>
+                                            <div class="input-group-append">
+                                                <button type="button" id="btn_kodePerkiraan"
+                                                    class="btn btn-default">...</button>
+                                            </div>
                                         </div>
-                                        {{-- <div class="col-md-2">
+                                    </div>
+                                </div> --}}
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <button id="btnSimpanModal" type="button"
+                                            class="btn btn-success">Simpan</button>
+                                        {{-- <input type="submit" id="btnSimpanModal" name="btnSimpanModal"
+                                                value="Simpan" class="btn btn-success"> --}}
+                                    </div>
+                                    {{-- <div class="col-md-2">
                                                     <input type="submit" id="btnKeluar" name="btnKeluar" value="Keluar" class="btn btn-primary">
                                                 </div> --}}
-                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <script src="{{ asset('js/Accounting/Piutang/MaintenancePelunasanPenjualan.js') }}"></script>
 @endsection
