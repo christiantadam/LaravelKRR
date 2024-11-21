@@ -12,8 +12,9 @@ class PelunasanPenjualanCashAdvanceController extends Controller
 {
     public function index()
     {
+        $banks = DB::connection('ConnAccounting')->select('exec Sp_List_KodePerkiraan @Kode = 1');
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Piutang.PelunasanPenjualanCashAdvance', compact('access'));
+        return view('Accounting.Piutang.PelunasanPenjualanCashAdvance', compact('access', 'banks'));
     }
 
     public function getCustIsiCashAdvance()
@@ -58,6 +59,13 @@ class PelunasanPenjualanCashAdvanceController extends Controller
         $noPen = str_replace('.', '/', $no_Pen);
         $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PELUNASAN_TAGIHAN] @Kode = ?, @Id_Penagihan = ?', [4, $noPen]);
         return response()->json($tabel);
+    }
+
+    public function getNoPenagihanCashAdvance($IdCustomer)
+    {
+        // dd($IdCustomer);
+        $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $IdCustomer]);
+        return datatables($tabel)->make(true);
     }
 
     //Show the form for creating a new resource.
@@ -186,7 +194,7 @@ class PelunasanPenjualanCashAdvanceController extends Controller
         // penagihan
         if ($id === 'getPenagihan') {
             $IdCustomer = $request->input('IdCustomer');
-
+            // dd($IdCustomer);
             $tabel = DB::connection('ConnAccounting')->select('exec [SP_LIST_PENAGIHAN_SJ] @Kode = ?, @IdCustomer = ?', [3, $IdCustomer]);
             return datatables($tabel)->make(true);
         }
