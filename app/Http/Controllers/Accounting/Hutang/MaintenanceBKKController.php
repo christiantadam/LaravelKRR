@@ -289,7 +289,8 @@ class MaintenanceBKKController extends Controller
             // dd($listPengajuan);
             $jmlData = count($listPengajuan);
             $adaBKK = $jmlData > 0;
-
+            $totalPayment = (float) str_replace(',', '', $request->input('totalPayment'));
+            // dd($totalPayment);
             if (!$adaBKK) {
                 return response()->json(['error' => 'Tidak ada data yang diGROUP !!...']);
             }
@@ -356,7 +357,7 @@ class MaintenanceBKKController extends Controller
                     }
                     $tBayar += $result[0]->Nilai_Pembayaran;
                 }
-
+                // dd($tBayar);
                 if (!$isGroupable) {
                     return response()->json(['error' => 'Data TIDAK DAPAT di-Groupkan menjadi 1(satu) BKK']);
                 }
@@ -378,7 +379,7 @@ class MaintenanceBKKController extends Controller
                             $user_id,
                             $itemPengajuan['Id_Pembayaran'],
                             $tanggal,
-                            $tNilaiBulat,
+                            $totalPayment,
                             $itemPengajuan['Id_Supplier'],
                             substr($itemPengajuan['Id_Penagihan'], 0, 1) != 'X' ? 'Y' : 'N'
                         ]);

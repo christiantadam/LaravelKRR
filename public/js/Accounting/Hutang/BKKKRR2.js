@@ -609,6 +609,7 @@ $(document).ready(function () {
                                 _token: csrfToken,
                                 rowDataArray: rowDataArray,
                                 tanggalgrup: selectedDate,
+                                totalPayment: totalPayment,
                             },
                             success: function (response) {
                                 if (response.message) {
