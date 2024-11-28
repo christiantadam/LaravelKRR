@@ -84,6 +84,8 @@ $(document).ready(function () {
         CC: "CARBON CONDUCTIVE",
     };
     let inventoryTypes = [];
+    let cekSaldo;
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let button_tambahKonversi = document.getElementById("button_tambahKonversi"); // prettier-ignore
     let divisiUser = document.getElementById("divisiUser"); // prettier-ignore
     let nomorUser = document.getElementById("nomorUser"); // prettier-ignore
@@ -117,14 +119,14 @@ $(document).ready(function () {
     let satuan_sekunderJumlahPemasukan = document.getElementById("satuan_sekunderJumlahPemasukan"); // prettier-ignore
     let jumlah_pemasukanTritier = document.getElementById("jumlah_pemasukanTritier"); // prettier-ignore
     let satuan_tritierJumlahPemasukan = document.getElementById("satuan_tritierJumlahPemasukan"); // prettier-ignore
-    let button_tambahTujuanKonversi = document.getElementById(
-        "button_tambahTujuanKonversi"
+    let button_tambahAsalKonversi = document.getElementById(
+        "button_tambahAsalKonversi"
     );
-    let button_updateTujuanKonversi = document.getElementById(
-        "button_updateTujuanKonversi"
+    let button_updateAsalKonversi = document.getElementById(
+        "button_updateAsalKonversi"
     );
-    let button_hapusTujuanKonversi = document.getElementById(
-        "button_hapusTujuanKonversi"
+    let button_hapusAsalKonversi = document.getElementById(
+        "button_hapusAsalKonversi"
     );
     const customerSelect = $("#customerSelect");
     const kodeBarangSelect = $("#kodeBarangSelect");
@@ -185,11 +187,11 @@ $(document).ready(function () {
                 return;
             }
 
-            if (rowData[5]) {
+            if (rowData[5] && rowData[0]) {
                 // Skip populating this select element if there's already a value in the next column
                 return;
             }
-            if (rowData[3] < 1) {
+            if (rowData[3] < 1 && rowData[0]) {
                 select.append(new Option("No Item Needed", ""));
                 select.select2({
                     placeholder: "No Item Needed",
@@ -199,76 +201,104 @@ $(document).ready(function () {
                 select.prop("disabled", true);
                 return;
             }
-            // Calculate panjangLebar and namaKomponen from rowData
-            let panjangLebar =
-                parseFloat(rowData[2].split(" X ")[0]) +
-                "X" +
-                parseFloat(rowData[2].split(" X ")[1]);
-            let namaKomponen =
-                kodeKomponenMap[rowData[0].substring(2, 4)] || rowData[0];
+            if (rowData[0] && rowData[1] && rowData[2]) {
+                // Calculate panjangLebar and namaKomponen from rowData
+                let panjangLebar =
+                    parseFloat(rowData[2].split(" X ")[0]) +
+                    "X" +
+                    parseFloat(rowData[2].split(" X ")[1]);
+                let namaKomponen =
+                    kodeKomponenMap[rowData[0].substring(2, 4)] || rowData[0];
 
-            $.ajax({
-                url: "/KonversiSetengahJadi/getInventoryTypes",
-                method: "GET",
-                data: {
-                    panjangLebar: panjangLebar,
-                    kodeBarang: $("#kodeBarangSelect").val(),
-                    namaKomponen: namaKomponen,
-                    divisi: $("#select_divisi").val(),
-                },
-                dataType: "json",
-                success: function (optionsData) {
-                    select
-                        .empty()
-                        .append(
-                            '<option value="" disabled selected>Pilih Barang</option>'
-                        );
-
-                    // Populate select element with options
-                    if (optionsData.length > 0) {
-                        optionsData.forEach((option) => {
-                            select.append(
-                                new Option(
-                                    option.NamaType,
-                                    option.IdType +
-                                        " | " +
-                                        option.satPrimer +
-                                        " | " +
-                                        option.satSekunder +
-                                        " | " +
-                                        option.satTritier +
-                                        " | " +
-                                        option.SaldoPrimer +
-                                        " | " +
-                                        option.SaldoSekunder +
-                                        " | " +
-                                        option.SaldoTritier
-                                )
+                $.ajax({
+                    url: "/KonversiSetengahJadi/getInventoryTypes",
+                    method: "GET",
+                    data: {
+                        panjangLebar: panjangLebar,
+                        kodeBarang: $("#kodeBarangSelect").val(),
+                        namaKomponen: namaKomponen,
+                        divisi: $("#select_divisi").val(),
+                    },
+                    dataType: "json",
+                    success: function (optionsData) {
+                        select
+                            .empty()
+                            .append(
+                                '<option value="" disabled selected>Pilih Barang</option>'
                             );
-                        });
-                        select.prop("disabled", false); // Enable if there are options
-                    } else {
-                        select.append(new Option("No items available", ""));
-                        select.prop("disabled", true); // Disable if no options
-                    }
 
-                    // Initialize Select2
-                    select.select2({
-                        placeholder:
-                            optionsData.length > 0
-                                ? "Choose item"
-                                : "There is no suitable item",
-                        width: "100%",
-                        dropdownParent: $(".modal-body"),
-                    });
-                },
-                error: function () {
-                    console.error(
-                        "Failed to load inventory types for row:",
-                        rowIndex
-                    );
-                },
-            });
+                        // Populate select element with options
+                        if (optionsData.length > 0) {
+                            optionsData.forEach((option) => {
+                                select.append(
+                                    new Option(
+                                        option.NamaType,
+                                        option.IdType +
+                                            " | " +
+                                            option.satPrimer +
+                                            " | " +
+                                            option.satSekunder +
+                                            " | " +
+                                            option.satTritier +
+                                            " | " +
+                                            option.SaldoPrimer +
+                                            " | " +
+                                            option.SaldoSekunder +
+                                            " | " +
+                                            option.SaldoTritier
+                                    )
+                                );
+                            });
+                            select.prop("disabled", false); // Enable if there are options
+                        } else {
+                            select.append(new Option("No items available", ""));
+                            select.prop("disabled", true); // Disable if no options
+                        }
+
+                        // Initialize Select2
+                        select.select2({
+                            placeholder:
+                                optionsData.length > 0
+                                    ? "Choose item"
+                                    : "There is no suitable item",
+                            width: "100%",
+                            dropdownParent: $(".modal-body"),
+                        });
+                    },
+                    error: function () {
+                        console.error(
+                            "Failed to load inventory types for row:",
+                            rowIndex
+                        );
+                    },
+                });
+            } else {
+                select.empty();
+                select.append(
+                    new Option(
+                        rowData[4],
+                        rowData[5] +
+                            " | " +
+                            rowData[7] +
+                            " | " +
+                            rowData[9] +
+                            " | " +
+                            rowData[11] +
+                            " | " +
+                            rowData[6] +
+                            " | " +
+                            rowData[8] +
+                            " | " +
+                            rowData[10]
+                    )
+                );
+                // Initialize Select2
+                select.select2({
+                    placeholder: "Choose item",
+                    width: "100%",
+                    dropdownParent: $(".modal-body"),
+                });
+            }
         });
     }
 
@@ -279,20 +309,92 @@ $(document).ready(function () {
             "change",
             ".inventory-type-select",
             function () {
-                let row = $(this).closest("tr");
-                row.css("background-color", "#ffffff");
-                let rowIndex = $(this).data("row");
+                let currentRow = $(this).closest("tr");
+                let currentRowIndex = table_daftarAsalKonversi
+                    .row(currentRow)
+                    .index();
+                let currentValue = $(this).val();
+                let isDuplicate = false;
 
-                // Ensure that $(this).val() has a value before splitting
-                let value = $(this).val();
-                if (!value) {
+                // Ensure that `currentValue` has a value before proceeding
+                if (!currentValue) {
                     console.warn(
                         "No value selected in inventory-type-select for row:",
-                        rowIndex
+                        currentRowIndex
                     );
                     return;
                 }
 
+                // Iterate through all rows to check for duplicate in the 5th column
+                table_daftarAsalKonversi
+                    .rows()
+                    .every(function (rowIdx, tableLoop, rowLoop) {
+                        if (rowIdx === currentRowIndex) {
+                            // Skip the current row being changed
+                            return true;
+                        }
+
+                        let rowNode = $(this.node());
+                        let selectValue = rowNode
+                            .find(".inventory-type-select")
+                            .val();
+
+                        if (selectValue === currentValue) {
+                            isDuplicate = true;
+                            return false; // Exit iteration early if duplicate is found
+                        }
+                    });
+
+                if (isDuplicate) {
+                    // Use selectElement for setCustomValidity
+                    this.setCustomValidity(
+                        "Duplicate value detected for row: " +
+                            currentRowIndex +
+                            "."
+                    );
+                    this.reportValidity();
+                    // Clear custom validity after 3 seconds
+                    setTimeout(() => {
+                        this.setCustomValidity("");
+                    }, 3000);
+                    // Reset the dropdown to its previous value
+                    $(this).val(null).trigger("change");
+                    // Clear relevant cells in the table
+                    table_daftarAsalKonversi
+                        .cell(currentRowIndex, 5)
+                        .data("")
+                        .draw();
+                    table_daftarAsalKonversi
+                        .cell(currentRowIndex, 6)
+                        .data("")
+                        .draw();
+                    table_daftarAsalKonversi
+                        .cell(currentRowIndex, 7)
+                        .data("")
+                        .draw();
+                    table_daftarAsalKonversi
+                        .cell(currentRowIndex, 8)
+                        .data("")
+                        .draw();
+                    table_daftarAsalKonversi
+                        .cell(currentRowIndex, 9)
+                        .data("")
+                        .draw();
+                    table_daftarAsalKonversi
+                        .cell(currentRowIndex, 10)
+                        .data("")
+                        .draw();
+                    table_daftarAsalKonversi
+                        .cell(currentRowIndex, 11)
+                        .data("")
+                        .draw();
+                    currentRow.css("background-color", "#ffcccc"); // Highlight row with duplicate
+                    return;
+                } else {
+                    currentRow.css("background-color", "#ffffff"); // Reset background for valid selection
+                }
+
+                // Parse the selected value
                 let [
                     idType,
                     satPrimer,
@@ -301,8 +403,9 @@ $(document).ready(function () {
                     SaldoPrimer,
                     SaldoSekunder,
                     SaldoTritier,
-                ] = value.split(" | ");
+                ] = currentValue.split(" | ");
 
+                // Call your custom function
                 hitungPerkiraanPemakaian(
                     idType,
                     satPrimer,
@@ -311,7 +414,7 @@ $(document).ready(function () {
                     SaldoPrimer,
                     SaldoSekunder,
                     SaldoTritier,
-                    rowIndex,
+                    currentRowIndex,
                     this
                 );
             }
@@ -666,9 +769,15 @@ $(document).ready(function () {
         $("#tambahTujuanModal").modal("show");
     });
 
-    // Load customer options and initialize Select2 when modal is shown
+    // Load customer options and init//ialize Select2 when modal is shown
     $("#tambahTujuanModal").on("shown.bs.modal", function (event) {
         table_daftarAsalKonversi.clear().draw(); //Clear Table
+        button_updateAsalKonversi.disabled = true;
+        button_hapusAsalKonversi.disabled = true;
+        jumlah_pemasukanPrimer.readOnly = true;
+        jumlah_pemasukanSekunder.readOnly = true;
+        jumlah_pemasukanTritier.readOnly = true;
+
         document
             .querySelectorAll("#tambahTujuanModal input")
             .forEach((input) => {
@@ -713,6 +822,9 @@ $(document).ready(function () {
                 "jumlah_pemasukanTritier",
                 "jumlah_pemasukanSekunder",
                 "jumlah_pemasukanPrimer",
+                "jumlah_pemakaianPrimer",
+                "jumlah_pemakaianSekunder",
+                "jumlah_pemakaianTritier",
             ];
 
             function getNextFocusableElement(currentElement) {
@@ -731,11 +843,9 @@ $(document).ready(function () {
                 }
 
                 if (currentElement.id === "jumlah_pemakaianTritier") {
-                    return button_tambahTujuanKonversi.disabled
-                        ? document.getElementById("button_updateTujuanKonversi")
-                        : document.getElementById(
-                              "button_tambahTujuanKonversi"
-                          );
+                    return button_tambahAsalKonversi.disabled
+                        ? document.getElementById("button_updateAsalKonversi")
+                        : document.getElementById("button_tambahAsalKonversi");
                 }
 
                 let elements = document.querySelectorAll(
@@ -1355,7 +1465,6 @@ $(document).ready(function () {
         const selectedIdType = $(this).val(); // Get selected Id Type
         // Clear Input Text
         clearInputTextElements("pilihIdTypeAsal");
-
         // Fetch Kode Barang based on selected customer
         $.ajax({
             url: "/KonversiSetengahJadi/getTypeSaldo",
@@ -1363,7 +1472,6 @@ $(document).ready(function () {
             data: { idType: selectedIdType }, // Pass Kode_Customer to the server
             dataType: "json",
             success: function (data) {
-                let cekSaldo;
                 if (data.length === 0) {
                     Swal.fire({
                         icon: "error",
@@ -1378,6 +1486,7 @@ $(document).ready(function () {
                         parseFloat(data[0].SaldoSekunder) !== 0 &&
                         parseFloat(data[0].SaldoTritier) !== 0
                     ) {
+                        cekSaldo = true;
                         saldo_terakhirPrimerAsal.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
                         satuan_saldoTerakhirPrimerAsal.value = data[0].satPrimer.trim(); // prettier-ignore
                         saldo_terakhirSekunderAsal.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore
@@ -1406,28 +1515,6 @@ $(document).ready(function () {
                 });
             },
         }).then(() => {
-            // Handle jumlah_pemakaianPrimer read-only and value setting
-            if (
-                satuan_primerJumlahPemakaian.value &&
-                satuan_primerJumlahPemakaian.value !== "NULL"
-            ) {
-                jumlah_pemakaianPrimer.readOnly = false;
-            } else {
-                jumlah_pemakaianPrimer.value = numeral(0).format("0.00");
-                jumlah_pemakaianPrimer.readOnly = true;
-            }
-
-            // Handle jumlah_pemakaianSekunder read-only and value setting
-            if (
-                satuan_sekunderJumlahPemakaian.value &&
-                satuan_sekunderJumlahPemakaian.value !== "NULL"
-            ) {
-                jumlah_pemakaianSekunder.readOnly = false;
-            } else {
-                jumlah_pemakaianSekunder.value = numeral(0).format("0.00");
-                jumlah_pemakaianSekunder.readOnly = true;
-            }
-
             // Set focus based on read-only status
             jumlah_pemakaianPrimer.readOnly
                 ? jumlah_pemakaianSekunder.readOnly
@@ -1437,7 +1524,31 @@ $(document).ready(function () {
 
             if (!cekSaldo) {
                 select_typeAsal.val(null).trigger("change");
-                select_typeAsal.focus();
+                select_typeAsal.select2("open");
+                jumlah_pemakaianPrimer.value = "";
+                jumlah_pemakaianSekunder.value = "";
+                jumlah_pemakaianTritier.value = "";
+            } else {
+                // Handle jumlah_pemakaianPrimer read-only and value setting
+                if (
+                    satuan_primerJumlahPemakaian.value &&
+                    satuan_primerJumlahPemakaian.value !== "NULL"
+                ) {
+                    jumlah_pemakaianPrimer.readOnly = false;
+                } else {
+                    jumlah_pemakaianPrimer.value = numeral(0).format("0.00");
+                    jumlah_pemakaianPrimer.readOnly = true;
+                }
+                // Handle jumlah_pemakaianSekunder read-only and value setting
+                if (
+                    satuan_sekunderJumlahPemakaian.value &&
+                    satuan_sekunderJumlahPemakaian.value !== "NULL"
+                ) {
+                    jumlah_pemakaianSekunder.readOnly = false;
+                } else {
+                    jumlah_pemakaianSekunder.value = numeral(0).format("0.00");
+                    jumlah_pemakaianSekunder.readOnly = true;
+                }
             }
         });
     });
@@ -1454,8 +1565,6 @@ $(document).ready(function () {
             data: { idType: selectedIdType }, // Pass Kode_Customer to the server
             dataType: "json",
             success: function (data) {
-                let cekSaldo;
-
                 if (data.length === 0) {
                     Swal.fire({
                         icon: "error",
@@ -1465,27 +1574,24 @@ $(document).ready(function () {
                             $("#select_typeTujuan option:selected").val(),
                     });
                 } else {
-                    if (
-                        parseFloat(data[0].SaldoPrimer) !== 0 &&
-                        parseFloat(data[0].SaldoSekunder) !== 0 &&
-                        parseFloat(data[0].SaldoTritier) !== 0
-                    ) {
-                        saldo_terakhirTujuanPrimer.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
-                        satuan_saldoTerakhirTujuanPrimer.value = data[0].satPrimer.trim(); // prettier-ignore
-                        saldo_terakhirTujuanSekunder.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore
-                        satuan_saldoTerakhirTujuanSekunder.value = data[0].satSekunder.trim(); // prettier-ignore
-                        saldo_terakhirTujuanTritier.value = numeral(data[0].SaldoTritier).format("0.00"); // prettier-ignore
-                        satuan_saldoTerakhirTujuanTritier.value =data[0].satTritier.trim(); // prettier-ignore
-                        satuan_primerJumlahPemasukan.value = data[0].satPrimer.trim(); // prettier-ignore
-                        satuan_sekunderJumlahPemasukan.value = data[0].satSekunder.trim(); // prettier-ignore
-                        satuan_tritierJumlahPemasukan.value = data[0].satTritier.trim(); // prettier-ignore
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Tidak ada saldo untuk Type ini",
-                        });
-                        cekSaldo = false;
+                    saldo_terakhirTujuanPrimer.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
+                    satuan_saldoTerakhirTujuanPrimer.value = data[0].satPrimer.trim(); // prettier-ignore
+                    saldo_terakhirTujuanSekunder.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore
+                    satuan_saldoTerakhirTujuanSekunder.value = data[0].satSekunder.trim(); // prettier-ignore
+                    saldo_terakhirTujuanTritier.value = numeral(data[0].SaldoTritier).format("0.00"); // prettier-ignore
+                    satuan_saldoTerakhirTujuanTritier.value =data[0].satTritier.trim(); // prettier-ignore
+                    satuan_primerJumlahPemasukan.value = data[0].satPrimer.trim(); // prettier-ignore
+                    satuan_sekunderJumlahPemasukan.value = data[0].satSekunder.trim(); // prettier-ignore
+                    satuan_tritierJumlahPemasukan.value = data[0].satTritier.trim(); // prettier-ignore
+
+                    if (satuan_primerJumlahPemasukan) {
+                        jumlah_pemasukanPrimer.readOnly = false;
+                    }
+                    if (satuan_sekunderJumlahPemasukan) {
+                        jumlah_pemasukanSekunder.readOnly = false;
+                    }
+                    if (satuan_tritierJumlahPemasukan) {
+                        jumlah_pemasukanTritier.readOnly = false;
                     }
                 }
             },
@@ -1496,40 +1602,6 @@ $(document).ready(function () {
                     text: "Failed to load Type data.",
                 });
             },
-        }).then(() => {
-            // Handle jumlah_pemakaianPrimer read-only and value setting
-            if (
-                satuan_primerJumlahPemakaian.value &&
-                satuan_primerJumlahPemakaian.value !== "NULL"
-            ) {
-                jumlah_pemakaianPrimer.readOnly = false;
-            } else {
-                jumlah_pemakaianPrimer.value = numeral(0).format("0.00");
-                jumlah_pemakaianPrimer.readOnly = true;
-            }
-
-            // Handle jumlah_pemakaianSekunder read-only and value setting
-            if (
-                satuan_sekunderJumlahPemakaian.value &&
-                satuan_sekunderJumlahPemakaian.value !== "NULL"
-            ) {
-                jumlah_pemakaianSekunder.readOnly = false;
-            } else {
-                jumlah_pemakaianSekunder.value = numeral(0).format("0.00");
-                jumlah_pemakaianSekunder.readOnly = true;
-            }
-
-            // Set focus based on read-only status
-            jumlah_pemakaianPrimer.readOnly
-                ? jumlah_pemakaianSekunder.readOnly
-                    ? jumlah_pemakaianTritier.focus()
-                    : jumlah_pemakaianSekunder.focus()
-                : jumlah_pemakaianPrimer.focus();
-
-            if (!cekSaldo) {
-                select_typeTujuan.val(null).trigger("change");
-                select_typeTujuan.focus();
-            }
         });
     });
 
@@ -1540,9 +1612,11 @@ $(document).ready(function () {
             $("#table_daftarAsalKonversi tbody tr").each(function (index, row) {
                 // Get the value of the select element in the fifth column
                 let idType = table_daftarAsalKonversi.cell(index, 5).data();
-                console.log(idType);
+                let kodeKomponen = table_daftarAsalKonversi
+                    .cell(index, 0)
+                    .data();
 
-                if (idType) {
+                if (idType && kodeKomponen) {
                     // Check if there is a value in the fifth column
                     // Define additional variables needed for hitungPerkiraanPemakaian
                     let selectElement = $(row)
@@ -1575,14 +1649,216 @@ $(document).ready(function () {
         }
     });
 
-    button_tambahTujuanKonversi.addEventListener("click", function (e) {
+    $("#table_daftarAsalKonversi tbody").on("click", "tr", function () {
+        // Get data from the clicked row
+        var data = table_daftarAsalKonversi.row(this).data();
+        console.log(data);
+
+        // Check if the first three columns are empty
+        if (
+            (data[0] == null || data[0] == "") &&
+            (data[1] == null || data[1] == "") &&
+            (data[2] == null || data[2] == "") &&
+            (data[3] == null || data[3] == "")
+        ) {
+            // Remove the 'selected' class from any previously selected row
+            $("#table_daftarAsalKonversi tbody tr").removeClass("selected");
+
+            // Add the 'selected' class to the clicked row
+            $(this).addClass("selected");
+
+            // Proceed with the rest of the logic
+            if (Array.isArray(data) && data.length > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "/KonversiSetengahJadi/getDataTypeAsalKonversiKoreksi",
+                    data: {
+                        _token: csrfToken,
+                        IdType: data[5],
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.error) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: response.error,
+                                showConfirmButton: false,
+                            });
+                        } else {
+                            // Clear existing options
+                            select_objekAsal.empty(); // Clear options
+                            select_kelompokUtamaAsal.empty();
+                            select_kelompokAsal.empty();
+                            select_subKelompokAsal.empty();
+                            select_typeAsal.empty();
+
+                            // Append Objek
+                            response[1].forEach((item) => {
+                                select_objekAsal.append(
+                                    new Option(item.NamaObjek, item.IdObjek)
+                                );
+                            });
+
+                            // Append Kelompok Utama
+                            response[2].forEach((item) => {
+                                select_kelompokUtamaAsal.append(
+                                    new Option(
+                                        item.NamaKelompokUtama,
+                                        item.IdKelompokUtama
+                                    )
+                                );
+                            });
+
+                            // Append Kelompok
+                            response[3].forEach((item) => {
+                                select_kelompokAsal.append(
+                                    new Option(
+                                        item.namakelompok,
+                                        item.idkelompok
+                                    )
+                                );
+                            });
+
+                            // Append SubKelompok
+                            response[4].forEach((item) => {
+                                select_subKelompokAsal.append(
+                                    new Option(
+                                        item.NamaSubKelompok,
+                                        item.IdSubkelompok
+                                    )
+                                );
+                            });
+
+                            // Append Type
+                            response[5].forEach((item) => {
+                                select_typeAsal.append(
+                                    new Option(item.NamaType, item.IdType)
+                                );
+                            });
+
+                            select_objekAsal
+                                .val(response[0][0].IdObjek)
+                                .trigger("change");
+                            select_kelompokUtamaAsal
+                                .val(response[0][0].IdKelompokUtama)
+                                .trigger("change");
+                            select_kelompokAsal
+                                .val(response[0][0].IdKelompok)
+                                .trigger("change");
+                            select_subKelompokAsal
+                                .val(response[0][0].IdSubkelompok)
+                                .trigger("change");
+                            select_typeAsal.val(data[5]).trigger("change");
+                            jumlah_pemakaianPrimer.value = data[6];
+                            satuan_primerJumlahPemakaian.value = data[7];
+                            jumlah_pemakaianSekunder.value = data[8];
+                            satuan_sekunderJumlahPemakaian.value = data[9];
+                            jumlah_pemakaianTritier.value = data[10];
+                            satuan_tritierJumlahPemakaian.value = data[11];
+                            satuan_saldoTerakhirPrimerAsal.value = data[7];
+                            satuan_saldoTerakhirSekunderAsal.value = data[9];
+                            satuan_saldoTerakhirTritierAsal.value = data[11];
+
+                            saldo_terakhirPrimerAsal.value = numeral(response[0][0].SaldoPrimer).format("0.00") // prettier-ignore
+                            saldo_terakhirSekunderAsal.value = numeral(response[0][0].SaldoSekunder).format("0.00") // prettier-ignore
+                            saldo_terakhirTritierAsal.value = numeral(response[0][0].SaldoTritier).format("0.00") // prettier-ignore
+
+                            button_tambahAsalKonversi.disabled = true;
+                            button_hapusAsalKonversi.disabled = false;
+                            button_updateAsalKonversi.disabled = false;
+                            jumlah_pemakaianPrimer.readOnly = false;
+                            jumlah_pemakaianSekunder.readOnly = false;
+                            jumlah_pemakaianTritier.readOnly = false;
+
+                            jumlah_pemakaianPrimer.readOnly
+                                ? jumlah_pemakaianSekunder.readOnly
+                                    ? jumlah_pemakaianTritier.focus()
+                                    : jumlah_pemakaianSekunder.focus()
+                                : jumlah_pemakaianPrimer.focus();
+
+                            if (
+                                satuan_primerJumlahPemakaian.value &&
+                                satuan_primerJumlahPemakaian.value !== "NULL"
+                            ) {
+                                jumlah_pemakaianPrimer.readOnly = false;
+                                jumlah_pemakaianPrimer.select();
+                            } else if (
+                                satuan_sekunderJumlahPemakaian.value &&
+                                satuan_sekunderJumlahPemakaian.value !== "NULL"
+                            ) {
+                                jumlah_pemakaianPrimer.value =
+                                    numeral(0).format("0.00");
+                                jumlah_pemakaianPrimer.readOnly = true;
+                                jumlah_pemakaianSekunder.readOnly = false;
+                                jumlah_pemakaianSekunder.select();
+                            } else {
+                                jumlah_pemakaianPrimer.value =
+                                    numeral(0).format("0.00");
+                                jumlah_pemakaianPrimer.readOnly = true;
+                                jumlah_pemakaianSekunder.value =
+                                    numeral(0).format("0.00");
+                                jumlah_pemakaianSekunder.readOnly = true;
+                                jumlah_pemakaianTritier.select();
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    },
+                });
+            } else {
+                Swal.fire(
+                    "Pemberitahuan",
+                    "Terjadi Kesalahan.",
+                    "Terjadi kesalahan saat pilih row table asal konversi, hubungi EDP!"
+                );
+            }
+        }
+    });
+
+    jumlah_pemakaianPrimer.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            if (this.value == "") {
+                this.value = numeral(0).format("0.00");
+            }
+            jumlah_pemakaianSekunder.focus();
+        }
+    });
+
+    jumlah_pemakaianSekunder.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            if (this.value == "") {
+                this.value = numeral(0).format("0.00");
+            }
+            jumlah_pemakaianTritier.focus();
+        }
+    });
+
+    jumlah_pemakaianTritier.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            e.preventDefault();
+            if (this.value == "") {
+                this.value = numeral(0).format("0.00");
+            }
+            if (button_tambahAsalKonversi.disabled !== false) {
+                button_tambahAsalKonversi.focus();
+            } else {
+                button_updateAsalKonversi.focus();
+            }
+        }
+    });
+
+    button_tambahAsalKonversi.addEventListener("click", function (e) {
         e.preventDefault();
         // Id type Asal dan Tujuan tidak boleh sama
         let checkIdType = true;
         let checkHasilKonversi = true;
         let checkSelectInput = true;
 
-        if (select_typeTujuan.value() == select_typeTujuan.value) {
+        if (select_typeAsal.val() == select_typeTujuan.val()) {
             Swal.fire({
                 icon: "info",
                 title: "Pemberitahuan",
@@ -1591,17 +1867,16 @@ $(document).ready(function () {
             checkIdType = false;
         }
 
-        // check quantity hasil konversi, apakah sesuai ketentuan
+        // check quantity asal konversi, apakah sesuai ketentuan
         if (
-            (hasil_konversiPrimerTujuan.value == 0 &&
-                hasil_konversiSekunderTujuan.value == 0 &&
-                hasil_konversiTritierTujuan.value == 0) ||
-            (hasil_konversiTritierTujuan.value == 0 &&
-                satuan_tritierTujuan.value.trim() ==
+            (jumlah_pemakaianPrimer.value == 0 &&
+                jumlah_pemakaianSekunder.value == 0 &&
+                jumlah_pemakaianTritier.value == 0) ||
+            (jumlah_pemakaianTritier.value == 0 &&
+                satuan_tritierJumlahPemakaian.value.trim() ==
                     satuan_saldoTerakhirTritierAsal.value.trim())
         ) {
-            hasil_konversiTritierTujuan.focus();
-            hasil_konversiTritierTujuan.select();
+            jumlah_pemakaianTritier.select();
             checkHasilKonversi = false;
         }
 
@@ -1611,7 +1886,7 @@ $(document).ready(function () {
                 title: "Pemberitahuan",
                 text: "Hasil Konversi tidak boleh kosong!",
             }).then(() => {
-                select_divisiTujuan.focus();
+                select_objekAsal.select2("open");
             });
             checkSelectInput = false;
         }
@@ -1619,30 +1894,30 @@ $(document).ready(function () {
         // Check if all inputs are filled
         if (checkIdType && checkHasilKonversi && checkSelectInput) {
             // Array to store the input values
+
             let inputData = [
-                select_typeTujuan.value,
-                select_typeTujuan.options[
-                    select_typeTujuan.selectedIndex
-                ].textContent
-                    .split(" | ")[0]
-                    .trim(),
-                hasil_konversiPrimerTujuan.value,
-                hasil_konversiSekunderTujuan.value,
-                hasil_konversiTritierTujuan.value,
-                select_subKelompokTujuan.value,
+                "",
+                "",
+                "",
+                "",
+                select_typeAsal.select2("data")[0].text.trim(),
+                select_typeAsal.val(),
+                jumlah_pemakaianPrimer.value,
+                satuan_primerJumlahPemakaian.value,
+                jumlah_pemakaianSekunder.value,
+                satuan_sekunderJumlahPemakaian.value,
+                jumlah_pemakaianTritier.value,
+                satuan_tritierJumlahPemakaian.value,
             ];
             let isDuplicate = false;
 
-            table_daftarTujuanKonversi
+            table_daftarAsalKonversi
                 .rows()
                 .every(function (rowIdx, tableLoop, rowLoop) {
                     let rowData = this.data();
 
                     // Only check the first and second columns
-                    if (
-                        rowData[0] == inputData[0] ||
-                        rowData[1] == inputData[1]
-                    ) {
+                    if (rowData[5] == inputData[5]) {
                         isDuplicate = true; // Check for duplicate entry in the first and second columns
                         return false; // Stop iteration if a match is found
                     }
@@ -1656,8 +1931,28 @@ $(document).ready(function () {
                 });
             } else {
                 // Add a new row with all input data to the DataTable
-                table_daftarTujuanKonversi.row.add(inputData).draw();
+                table_daftarAsalKonversi.row.add(inputData);
 
+                const selectIds = [
+                    "#select_kelompokUtamaAsal",
+                    "#select_kelompokAsal",
+                    "#select_subKelompokAsal",
+                    "#select_typeAsal",
+                ];
+                const inputTextIds = [
+                    "#saldo_terakhirPrimerAsal",
+                    "#satuan_saldoTerakhirPrimerAsal",
+                    "#saldo_terakhirSekunderAsal",
+                    "#satuan_saldoTerakhirSekunderAsal",
+                    "#saldo_terakhirTritierAsal",
+                    "#satuan_saldoTerakhirTritierAsal",
+                    "#jumlah_pemakaianPrimer",
+                    "#satuan_primerJumlahPemakaian",
+                    "#jumlah_pemakaianSekunder",
+                    "#satuan_sekunderJumlahPemakaian",
+                    "#jumlah_pemakaianTritier",
+                    "#satuan_tritierJumlahPemakaian",
+                ];
                 // Loop through each select element
                 selectIds.forEach((id) => {
                     const $select = $(id);
@@ -1665,27 +1960,229 @@ $(document).ready(function () {
                     $select.val($select.find("option[disabled]").val());
 
                     if (id !== "#select_divisiTujuan") {
-                        $select.prop("disabled", true); // Disable all selects except '#select_divisiTujuan'
                         $select.find("option:not(:disabled)").remove(); // Remove all options except the disabled one
                     }
                 });
 
+                select_objekAsal.val(null).trigger("change");
                 // Clear all input text fields
                 inputTextIds.forEach((id) => {
                     $(id).val("");
                 });
-                select_divisiTujuan.focus();
-                button_modalProses.disabled = false;
+                table_daftarAsalKonversi.draw();
             }
         } else {
             Swal.fire("Pemberitahuan", "Ada kolom yang belum terisi", "info");
         }
     });
-    button_updateTujuanKonversi.addEventListener("click", function (e) {
+    button_updateAsalKonversi.addEventListener("click", function (e) {
         e.preventDefault();
+        // Id type Asal dan Tujuan tidak boleh sama
+        let checkIdType = true;
+        let checkHasilKonversi = true;
+        let checkSelectInput = true;
+
+        if (select_typeAsal.val() == select_typeTujuan.val()) {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Id Type Asal dan Tujuan tidak boleh sama!",
+            });
+            checkIdType = false;
+        }
+
+        // check quantity asal konversi, apakah sesuai ketentuan
+        if (
+            (jumlah_pemakaianPrimer.value == 0 &&
+                jumlah_pemakaianSekunder.value == 0 &&
+                jumlah_pemakaianTritier.value == 0) ||
+            (jumlah_pemakaianTritier.value == 0 &&
+                satuan_tritierJumlahPemakaian.value.trim() ==
+                    satuan_saldoTerakhirTritierAsal.value.trim())
+        ) {
+            jumlah_pemakaianTritier.select();
+            checkHasilKonversi = false;
+        }
+
+        if (select_typeTujuan.selectedIndex == 0) {
+            Swal.fire({
+                icon: "info",
+                title: "Pemberitahuan",
+                text: "Hasil Konversi tidak boleh kosong!",
+            }).then(() => {
+                select_objekAsal.select2("open");
+            });
+            checkSelectInput = false;
+        }
+
+        // Check if all inputs are filled
+        if (checkIdType && checkHasilKonversi && checkSelectInput) {
+            // Array to store the input values
+            let inputData = [
+                "",
+                "",
+                "",
+                "",
+                select_typeAsal.select2("data")[0].text.trim(),
+                select_typeAsal.val(),
+                jumlah_pemakaianPrimer.value,
+                satuan_primerJumlahPemakaian.value,
+                jumlah_pemakaianSekunder.value,
+                satuan_sekunderJumlahPemakaian.value,
+                jumlah_pemakaianTritier.value,
+                satuan_tritierJumlahPemakaian.value,
+            ];
+
+            const selectedRow = table_daftarAsalKonversi.row(".selected");
+
+            if (selectedRow.any()) {
+                // Update the selected row with the new data
+                selectedRow.data(inputData).draw();
+            } else {
+                Swal.fire(
+                    "Pemberitahuan",
+                    "Pilih baris yang ingin diubah",
+                    "info"
+                );
+            }
+            const selectIds = [
+                "#select_kelompokUtamaAsal",
+                "#select_kelompokAsal",
+                "#select_subKelompokAsal",
+                "#select_typeAsal",
+            ];
+            const inputTextIds = [
+                "#saldo_terakhirPrimerAsal",
+                "#satuan_saldoTerakhirPrimerAsal",
+                "#saldo_terakhirSekunderAsal",
+                "#satuan_saldoTerakhirSekunderAsal",
+                "#saldo_terakhirTritierAsal",
+                "#satuan_saldoTerakhirTritierAsal",
+                "#jumlah_pemakaianPrimer",
+                "#satuan_primerJumlahPemakaian",
+                "#jumlah_pemakaianSekunder",
+                "#satuan_sekunderJumlahPemakaian",
+                "#jumlah_pemakaianTritier",
+                "#satuan_tritierJumlahPemakaian",
+            ];
+            // Loop through each select element
+            selectIds.forEach((id) => {
+                const $select = $(id);
+                // Select the disabled option
+                $select.val($select.find("option[disabled]").val());
+
+                if (id !== "#select_divisiTujuan") {
+                    $select.find("option:not(:disabled)").remove(); // Remove all options except the disabled one
+                }
+            });
+
+            select_objekAsal.val(null).trigger("change");
+            // Clear all input text fields
+            inputTextIds.forEach((id) => {
+                $(id).val("");
+            });
+            table_daftarAsalKonversi.draw();
+
+            // Remove the 'selected' class from any previously selected row
+            $("#table_daftarAsalKonversi tbody tr").removeClass("selected");
+            button_tambahAsalKonversi.disabled = false;
+            button_updateAsalKonversi.disabled = true;
+            button_hapusAsalKonversi.disabled = true;
+        } else {
+            Swal.fire("Pemberitahuan", "Ada kolom yang belum terisi", "info");
+        }
     });
-    button_hapusTujuanKonversi.addEventListener("click", function (e) {
+    button_hapusAsalKonversi.addEventListener("click", function (e) {
         e.preventDefault();
+
+        // Get the selected row index
+        const selectedRow = table_daftarAsalKonversi.row(".selected");
+
+        if (selectedRow.any()) {
+            // Use Swal.fire for confirmation
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you really want to delete the selected row?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, keep it",
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        // If user confirms, delete the selected row
+                        selectedRow.remove().draw(false);
+                        const selectIds = [
+                            "#select_kelompokUtamaAsal",
+                            "#select_kelompokAsal",
+                            "#select_subKelompokAsal",
+                            "#select_typeAsal",
+                        ];
+                        const inputTextIds = [
+                            "#saldo_terakhirPrimerAsal",
+                            "#satuan_saldoTerakhirPrimerAsal",
+                            "#saldo_terakhirSekunderAsal",
+                            "#satuan_saldoTerakhirSekunderAsal",
+                            "#saldo_terakhirTritierAsal",
+                            "#satuan_saldoTerakhirTritierAsal",
+                            "#jumlah_pemakaianPrimer",
+                            "#satuan_primerJumlahPemakaian",
+                            "#jumlah_pemakaianSekunder",
+                            "#satuan_sekunderJumlahPemakaian",
+                            "#jumlah_pemakaianTritier",
+                            "#satuan_tritierJumlahPemakaian",
+                        ];
+                        selectIds.forEach((id) => {
+                            const $select = $(id);
+                            // Select the disabled option
+                            $select.val($select.find("option[disabled]").val());
+                            $select.prop("disabled", true);
+                            $select.find("option:not(:disabled)").remove(); // Remove all options except the disabled one
+                        });
+
+                        // Clear all input text fields
+                        inputTextIds.forEach((id) => {
+                            $(id).val("");
+                        });
+
+                        // Remove the 'selected' class from any previously selected row
+                        $("#table_daftarAsalKonversi tbody tr").removeClass(
+                            "selected"
+                        );
+
+                        if (table_daftarAsalKonversi.data().length < 1) {
+                            button_modalProses.disabled = true;
+                        }
+                        // Force the table to refresh its internal data
+                        table_daftarAsalKonversi.rows().invalidate().draw();
+
+                        // Show success message
+                        Swal.fire(
+                            "Berhasil!",
+                            "Baris sudah dihapus.",
+                            "success"
+                        );
+                    } else if (result.isDismissed) {
+                        // If user cancels, show a message or do nothing
+                        Swal.fire(
+                            "Pemberitahuan",
+                            "Baris tidak jadi dihapus :)",
+                            "info"
+                        );
+                    }
+                })
+                .then(() => {
+                    button_tambahAsalKonversi.disabled = false;
+                    button_updateAsalKonversi.disabled = true;
+                    button_hapusAsalKonversi.disabled = true;
+                });
+        } else {
+            Swal.fire(
+                "Pemberitahuan",
+                "Pilih baris yang ingin dihapus.",
+                "info"
+            );
+        }
     });
     //#endregion
 });

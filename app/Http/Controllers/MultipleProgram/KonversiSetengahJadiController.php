@@ -331,20 +331,7 @@ class KonversiSetengahJadiController extends Controller
             $TypeConn = DB::connection('ConnInventory')
                 ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
 
-            // $TypeArr = array_map(function ($TypeList) {
-            //     return [
-            //         'SaldoPrimer' => $TypeList->SaldoPrimer,
-            //         'SaldoSekunder' => $TypeList->SaldoSekunder,
-            //         'SaldoTritier' => $TypeList->SaldoTritier,
-            //         'UnitPrimer' => $TypeList->UnitPrimer,
-            //         'UnitSekunder' => $TypeList->UnitSekunder,
-            //         'UnitTritier' => $TypeList->UnitTritier,
-            //     ];
-            // }, $TypeConn);
-
             return response()->json($TypeConn);
-        } else if ($id == 'getDataKonversi') {
-            return response()->json($request->input('idKonversi'), 200);
         } else if ($id == 'getDataKoreksi') {
             $idKonversi = $request->input('id_konversi');
             $results = DB::connection('ConnInventory')
@@ -427,6 +414,44 @@ class KonversiSetengahJadiController extends Controller
             } else {
                 return response()->json(['error' => (string) "Tidak ada data untuk Id Konversi " . $idKonversi]);
             }
+        } else if ($id == 'getDataTypeAsalKonversiKoreksi') {
+            $UserInput = trim(Auth::user()->NomorUser);
+            $IdType = $request->input('IdType');
+            $DataBarang = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
+            $DataObjek = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $DataBarang[0]->IdDivisi]);
+            $DataKelompokUtama = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdObjek = ?', [3, $DataBarang[0]->IdObjek]);
+            $DataKelompok = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $DataBarang[0]->IdKelompokUtama]);
+            $DataSubKelompok = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompok = ?', [5, $DataBarang[0]->IdKelompok]);
+            $DataType = DB::connection('ConnInventory')
+                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $DataBarang[0]->IdSubkelompok]);
+            if (
+                !empty($DataBarang) &&
+                !empty($DataObjek) &&
+                !empty($DataKelompokUtama) &&
+                !empty($DataKelompok) &&
+                !empty($DataSubKelompok) &&
+                !empty($DataType)
+            ) {
+                $RequestedData = [
+                    $DataBarang,
+                    $DataObjek,
+                    $DataKelompokUtama,
+                    $DataKelompok,
+                    $DataSubKelompok,
+                    $DataType,
+                ];
+                return response()->json($RequestedData);
+            } else {
+                return response()->json(['error' => (string) "Tidak ada data untuk Id type " . $IdType]);
+            }
+
+        } else if ($id == 'getDataKonversi') {
+            return response()->json($request->input('idKonversi'), 200);
         }
 
     }

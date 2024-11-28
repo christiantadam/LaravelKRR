@@ -339,11 +339,11 @@
                                 <div
                                     style="width: 10%;display: flex; flex-direction: column;gap:1%;align-self: center; text-align: center;">
                                     <div class="form-group">
-                                        <button class="btn btn-success" id="button_tambahTujuanKonversi">Tambah
+                                        <button class="btn btn-success" id="button_tambahAsalKonversi">Tambah
                                             Asal</button>
-                                        <button class="btn btn-info" id="button_updateTujuanKonversi">Update
+                                        <button class="btn btn-info" id="button_updateAsalKonversi">Update
                                             Asal</button>
-                                        <button class="btn btn-danger" id="button_hapusTujuanKonversi">Hapus
+                                        <button class="btn btn-danger" id="button_hapusAsalKonversi">Hapus
                                             Asal</button>
                                     </div>
                                 </div>
