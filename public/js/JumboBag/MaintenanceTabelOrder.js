@@ -552,6 +552,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         setTimeout(() => {
                             btn_nopesanan.focus();
                         }, 300);
+                    } else if (proses === 3) {
+                        setTimeout(() => {
+                            btn_nopesanan.focus();
+                        }, 300);
                     }
                 }
             });
@@ -1024,7 +1028,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 jumlah_order.value = data.Jumlah_Order;
                                 time_deliv.value = data.Waktu_Delivery;
                                 jumlah_order.readOnly = false;
-                                jumlah_order.focus();
+                                setTimeout(() => {
+                                    btn_proses.focus();
+                                }, 300);
                             },
                             error: function (xhr, status, error) {
                                 var err = eval("(" + xhr.responseText + ")");
