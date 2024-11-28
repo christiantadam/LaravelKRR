@@ -68,8 +68,9 @@ class MaintenanceTTKRR1Controller extends Controller
                     $user_id,
                 ]);
 
-            $TIDPenagihanqq = DB::connection('ConnAccounting')->table('T_Penagihan')
+                $TIDPenagihanqq = DB::connection('ConnAccounting')->table('T_Penagihan')
                 ->select('Id_Penagihan')
+                ->where('Id_Penagihan', 'like', 'TT%')
                 ->orderBy('Waktu_Penagihan', 'desc')
                 ->orderBy('Id_Penagihan', 'desc')
                 ->first();
