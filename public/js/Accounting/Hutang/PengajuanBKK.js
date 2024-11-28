@@ -150,10 +150,52 @@ $(document).ready(function () {
         btn_hapus.disabled = false;
         TT = true;
         $("#tablebkkpertama").parents("div.dataTables_wrapper").first().hide();
-        $("#tablebkkpenagihan")
-            .parents("div.dataTables_wrapper")
-            .first()
-            .show();
+        if (supplier1.value !== "" || supplier1.value !== null) {
+            tablekedua = $("#tablebkkpenagihan").DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                destroy: true,
+                ajax: {
+                    url: "MaintenancePengajuanBKK/getTT",
+                    dataType: "json",
+                    type: "GET",
+                    data: function (d) {
+                        return $.extend({}, d, {
+                            _token: csrfToken,
+                            supplier1: supplier1.value,
+                        });
+                    },
+                },
+                columns: [
+                    {
+                        data: "Waktu_Penagihan",
+                        render: function (data, type, row) {
+                            return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                        },
+                    },
+                    { data: "Id_Penagihan" },
+                    { data: "Status_PPN" },
+                    { data: "UangTT" },
+                    { data: "Nilai_Penagihan" },
+                    { data: "Lunas" },
+                    { data: "IdUangTT" },
+                    { data: "Id_Pembayaran" },
+                    // { data: "TT_NoLunas" },
+                    // { data: "isRed" },
+                ],
+                columnDefs: [{ targets: [6, 7], visible: false }],
+                paging: false,
+                scrollY: "300px",
+                scrollCollapse: true,
+            });
+        } else {
+            $("#tablebkkpenagihan")
+                .parents("div.dataTables_wrapper")
+                .first()
+                .show();
+        }
+
         Swal.fire({
             icon: "info",
             title: "Info!",
@@ -322,6 +364,48 @@ $(document).ready(function () {
                         setTimeout(() => {
                             rincian.focus();
                         }, 300);
+                        tablekedua = $("#tablebkkpenagihan").DataTable({
+                            responsive: true,
+                            processing: true,
+                            serverSide: true,
+                            destroy: true,
+                            ajax: {
+                                url: "MaintenancePengajuanBKK/getTT",
+                                dataType: "json",
+                                type: "GET",
+                                data: function (d) {
+                                    return $.extend({}, d, {
+                                        _token: csrfToken,
+                                        supplier1: supplier1.value,
+                                    });
+                                },
+                            },
+                            columns: [
+                                {
+                                    data: "Waktu_Penagihan",
+                                    render: function (data, type, row) {
+                                        return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                                    },
+                                },
+                                { data: "Id_Penagihan" },
+                                { data: "Status_PPN" },
+                                { data: "UangTT" },
+                                { data: "Nilai_Penagihan" },
+                                { data: "Lunas" },
+                                { data: "IdUangTT" },
+                                { data: "Id_Pembayaran" },
+                                // { data: "TT_NoLunas" },
+                                // { data: "isRed" },
+                            ],
+                            columnDefs: [{ targets: [6, 7], visible: false }],
+                            paging: false,
+                            scrollY: "300px",
+                            scrollCollapse: true,
+                        });
+                        $("#tablebkkpenagihan")
+                            .parents("div.dataTables_wrapper")
+                            .first()
+                            .hide();
                     } else {
                         tablekedua = $("#tablebkkpenagihan").DataTable({
                             responsive: true,

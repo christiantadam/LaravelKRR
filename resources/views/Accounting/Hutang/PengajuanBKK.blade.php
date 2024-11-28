@@ -68,7 +68,7 @@
                                 <tbody>
                                 </tbody>
                             </table>
-                            <table class="table" id="tablebkkpenagihan">
+                            <table class="table" id="tablebkkpenagihan" style="width: 100%;">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Tanggal</th>
