@@ -109,7 +109,7 @@
             let user;
             Swal.fire({
                 title: "Masukkan Nomor Login Anda",
-                input: "number",
+                input: "text",
                 inputAttributes: {
                     autocapitalize: "off"
                 },
