@@ -102,6 +102,8 @@
                                         class="form-control me-2" style="width: 200px;">
                                     <input id="id_bkk" type="text" name="id_bkk" class="form-control me-2"
                                         style="width: 200px; display: none">
+                                    <input id="rincian_bkk" type="text" name="rincian_bkk" class="form-control me-2"
+                                        style="width: 200px; display: none">
                                     <input id="id_bayardp" type="text" name="id_bayardp" class="form-control me-2"
                                         style="width: 200px; display: none">
                                     <button class="btn" type="button" id="btn_bkkuangmuka">...</button>
@@ -245,7 +247,7 @@
                                                 <label for="id">Nilai Pembayaran</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input id="nilai_pembayaran2" type="number" name="nilai_pembayaran2"
+                                                <input id="nilai_pembayaran2" type="text" name="nilai_pembayaran2"
                                                     class="form-control" style="width: 100%">
                                             </div>
                                         </div>
@@ -254,7 +256,7 @@
                                                 <label for="id">Belum Dibayar</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input id="belum_dibayar" type="number" name="belum_dibayar"
+                                                <input id="belum_dibayar" type="text" name="belum_dibayar"
                                                     class="form-control" style="width: 100%">
                                             </div>
                                         </div>
@@ -263,7 +265,7 @@
                                                 <label for="id">Saldo</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <input id="saldo" type="number" name="saldo"
+                                                <input id="saldo" type="text" name="saldo"
                                                     class="form-control" style="width: 100%">
                                             </div>
                                         </div>
@@ -273,7 +275,8 @@
                             <p>
                             <div class="mb-3 d-flex justify-content-between">
                                 <button class="btn btn-primary" id="btn_isi" style="width: 130px">Isi</button>
-                                <button class="btn btn-warning" id="btn_koreksi" style="width: 130px">Koreksi</button>
+                                <button class="btn btn-warning" id="btn_koreksi"
+                                    style="width: 130px">Koreksi</button>
                                 <button class="btn btn-danger" id="btn_hapus" style="width: 130px">Hapus</button>
                                 <button class="btn btn-success" id="btn_proses" style="width: 130px">Proses</button>
                                 <button class="btn" id="btn_batal"

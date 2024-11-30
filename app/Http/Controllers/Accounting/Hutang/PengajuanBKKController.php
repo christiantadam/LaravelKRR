@@ -48,7 +48,7 @@ class PengajuanBKKController extends Controller
         $TIDBKK_DP = $request->input('id_bkk');
         $TBKK_DP = $request->input('bkk_uangmuka');
         $TIDByr_DP = $request->input('id_bayardp');
-        $TSisaByr = $request->input('belum_dibayar');
+        $TSisaByr = (float)str_replace(",", "", $request->input('belum_dibayar'));
         $Bayar = (bool) $request->input('bayar');
         $DP = (bool) $request->input('dp');
         $TIDSupplier = $request->input('supplier1');
@@ -134,7 +134,7 @@ class PengajuanBKKController extends Controller
                         DB::connection('ConnAccounting')
                             ->statement('EXEC SP_1273_ACC_UDT_BKK2_ACUAN_SALDO @IdPembayaran = ?, @Saldo = ?', [
                                 $TIDByr_DP,
-                                floatval(number_format($TSisaByr, 2))
+                                $TSisaByr
                             ]);
                         return response()->json(['message' => 'Data Pengajuan Penagihan sudah diSIMPAN !!..']);
                     } else {
@@ -310,53 +310,63 @@ class PengajuanBKKController extends Controller
                     ->select('exec SP_1273_ACC_LIST_BKK2_BKKDP @IDSUPP = ?', [$supplierId]);
 
                 foreach ($results as $result) {
-                    $bkk = $result->BKK;
-                    $rincian = $result->Rincian;
-
-                    $resultRincian = DB::connection('ConnAccounting')
-                        ->select('exec SP_1273_ACC_LIST_BKK2_BKKDP_RINCIAN @BKK = ?, @Rincian = ?', [$bkk, $rincian]);
-                    // dd($resultRincian);
-                    if ($resultRincian) {
-                        $nilaiPembayaran = $resultRincian[0]->Nilai_Pembayaran;
-                        $idPembayaran = $resultRincian[0]->Id_Pembayaran;
-
-                        $response[] = [
-                            'TBKK_DP' => $bkk,
-                            'TRincian_DP' => $rincian,
-                            'TNilaiByrSbl' => number_format($nilaiPembayaran, 2, ',', '.'),
-                            'TIDByr_DP' => $idPembayaran,
-                            'TSisaByr' => number_format(($request->input('TNilaiBayar') - $nilaiPembayaran), 2, ',', '.')
-                        ];
-                    } else {
-                        $response['error'] = "Pilih BKK Uang Mukanya dulu !!..";
-                    }
+                    $response[] = [
+                        'BKK' => $result->BKK,
+                        'Rincian' => $result->Rincian,
+                    ];
                 }
+
             } else {
                 $results = DB::connection('ConnAccounting')
                     ->select('exec SP_1273_ACC_LIST_BKK2_DP_PEMBAYARAN');
                 // @idSup = ?', [$supplierId]
                 foreach ($results as $result) {
-                    $bkk = $result->Id_BKM;
-                    $custNilai = $result->CustNilai;
-
-                    $resultPembayaran = DB::connection('ConnAccounting')
-                        ->select('exec SP_1273_ACC_LIST_BKK2_BKMDP_PEMBAYARAN @bkk = ?', [$bkk]);
-
-                    if ($resultPembayaran) {
-                        $nilaiPelunasan = $resultPembayaran[0]->Nilai_Pelunasan;
-
-                        $response[] = [
-                            'TBKK_DP' => $bkk,
-                            'TIDBKK_DP' => $custNilai,
-                            'TNilaiBayarS' => number_format($nilaiPelunasan, 2, ',', '.'),
-                            'TSelisih' => number_format(($request->input('TNilaiRincian') - $nilaiPelunasan), 2, ',', '.')
-                        ];
-                    } else {
-                        $response['error'] = "Pilih BKM Potong Tagihannya dulu !!..";
-                    }
+                    $response[] = [
+                        'BKK' => $result->Id_BKM,
+                        'Rincian' => $result->CustNilai,
+                    ];
                 }
             }
             return datatables($response)->make(true);
+        } else if ($id == 'getBKK_DPDetails') {
+            $BKM_Pot = (bool) $request->input('BKM_Pot');
+            $bkk = $request->input('bkk_uangmuka');
+            $rincian = $request->input('rincian_bkk');
+            $nilai_pembayaran = (float) str_replace(',', '', $request->input('nilai_pembayaran'));
+            if ($BKM_Pot == false) {
+                $resultRincian = DB::connection('ConnAccounting')
+                    ->select('exec SP_1273_ACC_LIST_BKK2_BKKDP_RINCIAN @BKK = ?, @Rincian = ?', [$bkk, $rincian]);
+                // dd($resultRincian);
+                if ($resultRincian) {
+                    $nilaiPembayaran = $resultRincian[0]->Nilai_Pembayaran;
+                    $idPembayaran = $resultRincian[0]->Id_Pembayaran;
+
+                    $response[] = [
+                        'TBKK_DP' => $bkk,
+                        'TRincian_DP' => $rincian,
+                        'TNilaiByrSbl' => number_format($nilaiPembayaran, 2, '.', ','),
+                        'TIDByr_DP' => $idPembayaran,
+                        'TSisaByr' => number_format(($nilai_pembayaran - $nilaiPembayaran), 2, '.', ',')
+                    ];
+                }
+            } else {
+                $resultPembayaran = DB::connection('ConnAccounting')
+                    ->select('exec SP_1273_ACC_LIST_BKK2_BKMDP_PEMBAYARAN @bkk = ?', [$bkk]);
+
+                if ($resultPembayaran) {
+                    $nilaiPelunasan = $resultPembayaran[0]->Nilai_Pelunasan;
+
+                    $response[] = [
+                        'TBKK_DP' => $bkk,
+                        'TIDBKK_DP' => $rincian,
+                        'TNilaiBayarS' => number_format($nilaiPelunasan, 2, '.', ','),
+                        'TSelisih' => number_format(($nilai_pembayaran - $nilaiPelunasan), 2, '.', ',')
+                    ];
+                }
+            }
+
+            return datatables($response)->make(true);
+
         } else if ($id == 'getBank') {
             $response = [];
 

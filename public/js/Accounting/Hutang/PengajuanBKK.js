@@ -45,6 +45,7 @@ $(document).ready(function () {
     let id_bayardp = document.getElementById("id_bayardp");
     let ada_bkm = document.getElementById("ada_bkm");
     let bkm = document.getElementById("bkm");
+    let rincian_bkk = document.getElementById("rincian_bkk");
     let rowDataPertama;
     let rowData;
     let proses;
@@ -124,12 +125,12 @@ $(document).ready(function () {
             if (!result.isConfirmed) {
                 BKM_Pot = true;
                 setTimeout(() => {
-                    btn_supplier.focus();
+                    btn_bkkuangmuka.focus();
                 }, 300);
             } else {
                 BKM_Pot = false;
                 setTimeout(() => {
-                    btn_supplier.focus();
+                    btn_bkkuangmuka.focus();
                 }, 300);
             }
             console.log(BKM_Pot);
@@ -1176,8 +1177,9 @@ $(document).ready(function () {
         try {
             const result = await Swal.fire({
                 title: "Select a BKK",
-                html: '<table id="bkkTable" class="display" style="width:100%"><thead><tr><th>Nama Supplier</th><th>ID Supplier</th></tr></thead><tbody></tbody></table>',
+                html: '<table id="bkkTable" class="display" style="width:100%"><thead><tr><th>BKK</th><th>Rincian</th></tr></thead><tbody></tbody></table>',
                 showCancelButton: true,
+                width: "70%",
                 preConfirm: () => {
                     const selectedData = $("#bkkTable")
                         .DataTable()
@@ -1208,10 +1210,10 @@ $(document).ready(function () {
                             },
                             columns: [
                                 {
-                                    data: "Supplier",
+                                    data: "BKK",
                                 },
                                 {
-                                    data: "No_Supplier",
+                                    data: "Rincian",
                                 },
                             ],
                         });
@@ -1242,6 +1244,115 @@ $(document).ready(function () {
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
+                    bkk_uangmuka.value = escapeHTML(selectedRow.BKK.trim());
+                    rincian_bkk.value = escapeHTML(selectedRow.Rincian.trim());
+
+                    try {
+                        const result = Swal.fire({
+                            title: "Select a BKK DP",
+                            html: '<table id="bkkTable2" class="display" style="width:100%"><thead><tr><th>Nilai Pembayaran</th><th>ID Bayar</th></tr></thead><tbody></tbody></table>',
+                            showCancelButton: true,
+                            width: "70%",
+                            preConfirm: () => {
+                                const selectedData = $("#bkkTable2")
+                                    .DataTable()
+                                    .row(".selected")
+                                    .data();
+                                if (!selectedData) {
+                                    Swal.showValidationMessage(
+                                        "Please select a row"
+                                    );
+                                    return false;
+                                }
+                                return selectedData;
+                            },
+                            didOpen: () => {
+                                $(document).ready(function () {
+                                    const table = $("#bkkTable2").DataTable({
+                                        responsive: true,
+                                        processing: true,
+                                        serverSide: true,
+                                        returnFocus: true,
+                                        ajax: {
+                                            url: "MaintenancePengajuanBKK/getBKK_DPDetails",
+                                            dataType: "json",
+                                            type: "GET",
+                                            data: {
+                                                _token: csrfToken,
+                                                supplier1: supplier1.value,
+                                                BKM_Pot: BKM_Pot ? 1 : 0,
+                                                bkk_uangmuka:
+                                                    bkk_uangmuka.value,
+                                                rincian_bkk: rincian_bkk.value,
+                                                nilai_pembayaran:
+                                                    nilai_pembayaran.value,
+                                            },
+                                        },
+                                        columns: [
+                                            {
+                                                data: "TNilaiByrSbl",
+                                            },
+                                            {
+                                                data: "TIDByr_DP",
+                                            },
+                                        ],
+                                    });
+                                    setTimeout(() => {
+                                        $("#bkkTable2_filter input").focus();
+                                    }, 300);
+                                    // $("#bkkTable2_filter input").on(
+                                    //     "keyup",
+                                    //     function () {
+                                    //         table
+                                    //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+                                    //             .search(this.value) // Cari berdasarkan input pencarian
+                                    //             .draw(); // Perbarui hasil pencarian
+                                    //     }
+                                    // );
+                                    $("#bkkTable2 tbody").on(
+                                        "click",
+                                        "tr",
+                                        function () {
+                                            // Remove 'selected' class from all rows
+                                            table
+                                                .$("tr.selected")
+                                                .removeClass("selected");
+                                            // Add 'selected' class to the clicked row
+                                            $(this).addClass("selected");
+                                        }
+                                    );
+                                    currentIndex = null;
+                                    Swal.getPopup().addEventListener(
+                                        "keydown",
+                                        (e) =>
+                                            handleTableKeydownInSwal(
+                                                e,
+                                                "bkkTable2"
+                                            )
+                                    );
+                                });
+                            },
+                        }).then((result) => {
+                            if (result.isConfirmed && result.value) {
+                                const selectedRow = result.value;
+                                nilai_pembayaran2.value = escapeHTML(
+                                    selectedRow.TNilaiByrSbl.trim()
+                                );
+                                belum_dibayar.value = escapeHTML(
+                                    selectedRow.TSisaByr.trim()
+                                );
+
+                                setTimeout(() => {
+                                    btn_bank.focus();
+                                }, 300);
+                                // rincian_dp.value =
+                                // sp1.value = decodeHtml(selectedRow.Supplier).trim();
+                                // sp2.value = selectedRow.No_Supplier.trim();
+                            }
+                        });
+                    } catch (error) {
+                        console.error("An error occurred:", error);
+                    }
                     // rincian_dp.value =
                     // sp1.value = decodeHtml(selectedRow.Supplier).trim();
                     // sp2.value = selectedRow.No_Supplier.trim();
