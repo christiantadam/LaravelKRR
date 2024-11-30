@@ -12,18 +12,6 @@ const dolar = (number) => {
     }).format(number);
 };
 
-function ShowPassword(input, icon) {
-    var input = document.getElementById(input);
-    var icon = document.getElementById(icon);
-    if (input.type === "password") {
-        input.type = "text";
-        icon.innerHTML = "visibility";
-    } else {
-        input.type = "password";
-        icon.innerHTML = "visibility_off";
-    }
-}
-
 function Greeting() {
     const time = new Date().getHours();
     let greeting;

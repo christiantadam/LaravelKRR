@@ -270,17 +270,31 @@ $(document).ready(function () {
         }
     });
 
+    function showWarningAndFocus(element, message) {
+        Swal.fire({
+            icon: "warning",
+            title: "Warning!",
+            text: message,
+            returnFocus: false,
+        }).then(() => {
+            element.focus();
+        });
+        return false; // Prevent further execution
+    }
+
     submit_btn.addEventListener("click", function (event) {
         event.preventDefault();
-        // if (NamaCust.value.trim() === "") {
-        //     Swal.fire({
-        //         icon: "warning",
-        //         title: "Warning!",
-        //         text: "Isi Nama Bank dahulu",
-        //         showConfirmButton: true,
-        //     });
-        //     return; // Prevent the form submission
-        // }
+
+        if (NamaCust.value.trim() === "") {
+            return showWarningAndFocus(NamaCust, "Isi Nama Customer dahulu!");
+        }
+
+        if (KodeCust.value.trim() === "") {
+            return showWarningAndFocus(
+                KodeCust,
+                "Isi Initial Customer dahulu!"
+            );
+        }
         if (typeform == "edit") {
             $.ajax({
                 url: "/Customer/" + idCustomer,
