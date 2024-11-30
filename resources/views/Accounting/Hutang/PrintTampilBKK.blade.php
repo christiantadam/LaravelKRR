@@ -3,11 +3,27 @@
 
 <style>
     @page {
-        size: 21.5cm 14cm;
+        size: auto;
         margin: 0mm;
     }
 
     @media print {
+        /* thead {
+            display: table-header-group;
+        }
+
+        thead.no-repeat {
+            display: none;
+        }
+
+        tfoot {
+            display: table-footer-group;
+        }
+
+        tfoot.only-last {
+            display: none;
+        } */
+
         .modal {
             display: none !important;
         }
@@ -133,32 +149,38 @@
             </tr>
         </table>
         <table style="margin-top: 20px; border:none !important" id="paymentTable">
-            <thead style="border:none !important">
-                <tr style="border:none !important">
-                    <th style="border:none !important; border-bottom: 1px solid black !important">C.O.A</th>
-                    <th style="border:none !important; border-bottom: 1px solid black !important">Account Name</th>
-                    <th style="border:none !important; border-bottom: 1px solid black !important">Description</th>
-                    <th style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG No.</th>
-                    <th style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount</th>
-                </tr>
-            </thead>
+            <thead style="border:none !important"></thead>
             <tbody style="border:none !important; border-bottom: 1px solid black !important">
-                <td style="border:none !important; border-bottom: 1px solid black !important" id="coa_p"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important" id="acc_p"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important" id="desc_p"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important" id="bgno_p"></td>
-                <td style="border:none !important; border-bottom: 1px solid black !important" id="amount_p"></td>
-            </tbody>
-            <tfoot style="border:none !important">
                 <tr style="border:none !important">
-                    <td style="border:none !important; border-top: 1px solid black !important"></td>
-                    <td style="border:none !important; border-top: 1px solid black !important"></td>
-                    <td style="border:none !important; border-top: 1px solid black !important"></td>
-                    <td style="border:none !important; text-align: right; border-top: 1px solid black !important">TOTAL =</td>
-                    {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
-                    <td style="border:none !important; text-align: right; border-top: 1px solid black !important" id="total_p"></td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important">C.O.A</td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important">Account Name</td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important">Description</td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG
+                        No.</td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount
+                    </td>
                 </tr>
-            </tfoot>
+                {{-- <tr style="border:none !important">
+                    <td style="border:none !important; border-bottom: 1px solid black !important" id="coa_p"></td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important" id="acc_p"></td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important" id="desc_p"></td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important" id="bgno_p"></td>
+                    <td style="border:none !important; border-bottom: 1px solid black !important" id="amount_p"></td>
+                </tr> --}}
+                {{-- <tr style="border:none !important">
+                    <td style="border:none !important; border-top: 1px solid black !important"></td>
+                    <td style="border:none !important; border-top: 1px solid black !important"></td>
+                    <td style="border:none !important; border-top: 1px solid black !important"></td>
+                    <td style="border:none !important; text-align: right; border-top: 1px solid black !important">TOTAL
+                        =</td> --}}
+                    {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
+                    {{-- <td style="border:none !important; text-align: right; border-top: 1px solid black !important"
+                        id="total_p"></td>
+                </tr> --}}
+            </tbody>
+            {{-- <tfoot style="border:none !important">
+
+            </tfoot> --}}
         </table>
     </div>
     <div class="content">

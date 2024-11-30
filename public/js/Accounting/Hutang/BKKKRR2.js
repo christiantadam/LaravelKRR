@@ -1533,7 +1533,15 @@ $(document).ready(function () {
                                 data.data[0].NM_SUP;
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-
+                            tbodyHTML+=`<tr style="border:none !important">
+                                <td style="border:none !important; border-bottom: 1px solid black !important">C.O.A</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important">Account Name</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important">Description</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG
+                                    No.</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount
+                                </td>
+                            </tr>`;
                             data.data.forEach(function (item) {
                                 tbodyHTML += `
                                 <tr>
@@ -1550,7 +1558,9 @@ $(document).ready(function () {
                                         ${item.No_BGCek ?? ""}
                                     </td>
                                     <td style="border:none !important;; text-align: right;">
-                                        ${parseFloat(item.Nilai_Rincian).toLocaleString("en-US", {
+                                        ${parseFloat(
+                                            item.Nilai_Rincian
+                                        ).toLocaleString("en-US", {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
@@ -1559,12 +1569,7 @@ $(document).ready(function () {
                             `;
                             });
 
-                            // Menambahkan hasil ke dalam tbody
-                            document.querySelector(
-                                "#paymentTable tbody"
-                            ).innerHTML = tbodyHTML;
-
-                            // Menghitung total nilai rincian dan menampilkannya di footer
+                            // Menghitung total nilai rincian
                             let totalNilaiRincian = data.data.reduce(function (
                                 acc,
                                 item
@@ -1573,11 +1578,32 @@ $(document).ready(function () {
                             },
                             0);
 
-                            document.getElementById("total_p").innerHTML =
-                                totalNilaiRincian.toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                });
+                            // Menambahkan baris total ke tbody
+                            tbodyHTML += `
+                            <tr>
+                                <td colspan="4" style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                    Total
+                                </td>
+                                <td style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                    ${totalNilaiRincian.toLocaleString("en-US", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })}
+                                </td>
+                            </tr>
+                            `;
+
+                            // Menambahkan hasil ke dalam tbody
+                            document.querySelector(
+                                "#paymentTable tbody"
+                            ).innerHTML = tbodyHTML;
+
+                            // Menampilkan total di elemen total_p (opsional, jika tetap dibutuhkan di luar tabel)
+                            // document.getElementById("total_p").innerHTML =
+                            //     totalNilaiRincian.toLocaleString("en-US", {
+                            //         minimumFractionDigits: 2,
+                            //         maximumFractionDigits: 2,
+                            //     });
 
                             document.getElementById("alasan_p").innerHTML =
                                 data.data[0].Alasan;
@@ -1614,7 +1640,15 @@ $(document).ready(function () {
                                 data.data[0].NM_SUP;
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-
+                            tbodyHTML+=`<tr style="border:none !important">
+                                <td style="border:none !important; border-bottom: 1px solid black !important">C.O.A</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important">Account Name</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important">Description</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG
+                                    No.</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount
+                                </td>
+                            </tr>`;
                             data.data.forEach(function (item) {
                                 tbodyHTML += `
                                 <tr>
@@ -1631,7 +1665,9 @@ $(document).ready(function () {
                                         ${item.No_BGCek ?? ""}
                                     </td>
                                     <td style="border:none !important;; text-align: right;">
-                                        ${parseFloat(item.Nilai_Rincian).toLocaleString("en-US", {
+                                        ${parseFloat(
+                                            item.Nilai_Rincian
+                                        ).toLocaleString("en-US", {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
@@ -1640,12 +1676,7 @@ $(document).ready(function () {
                             `;
                             });
 
-                            // Menambahkan hasil ke dalam tbody
-                            document.querySelector(
-                                "#paymentTable tbody"
-                            ).innerHTML = tbodyHTML;
-
-                            // Menghitung total nilai rincian dan menampilkannya di footer
+                            // Menghitung total nilai rincian
                             let totalNilaiRincian = data.data.reduce(function (
                                 acc,
                                 item
@@ -1654,11 +1685,25 @@ $(document).ready(function () {
                             },
                             0);
 
-                            document.getElementById("total_p").innerHTML =
-                                totalNilaiRincian.toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                });
+                            // Menambahkan baris total ke tbody
+                            tbodyHTML += `
+                            <tr>
+                                <td colspan="4" style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                    Total
+                                </td>
+                                <td style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                    ${totalNilaiRincian.toLocaleString("en-US", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })}
+                                </td>
+                            </tr>
+                            `;
+
+                            // Menambahkan hasil ke dalam tbody
+                            document.querySelector(
+                                "#paymentTable tbody"
+                            ).innerHTML = tbodyHTML;
 
                             document.getElementById("alasan_p").innerHTML =
                                 data.data[0].Alasan;
@@ -1693,7 +1738,15 @@ $(document).ready(function () {
                                 data.data[0].NM_SUP;
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-
+                            tbodyHTML+=`<tr style="border:none !important">
+                                <td style="border:none !important; border-bottom: 1px solid black !important">C.O.A</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important">Account Name</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important">Description</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG
+                                    No.</td>
+                                <td style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount
+                                </td>
+                            </tr>`;
                             data.data.forEach(function (item) {
                                 tbodyHTML += `
                                 <tr>
@@ -1710,7 +1763,9 @@ $(document).ready(function () {
                                         ${item.No_BGCek ?? ""}
                                     </td>
                                     <td style="border:none !important;; text-align: right;">
-                                        ${parseFloat(item.Nilai_Rincian).toLocaleString("en-US", {
+                                        ${parseFloat(
+                                            item.Nilai_Rincian
+                                        ).toLocaleString("en-US", {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
@@ -1719,12 +1774,7 @@ $(document).ready(function () {
                             `;
                             });
 
-                            // Menambahkan hasil ke dalam tbody
-                            document.querySelector(
-                                "#paymentTable tbody"
-                            ).innerHTML = tbodyHTML;
-
-                            // Menghitung total nilai rincian dan menampilkannya di footer
+                            // Menghitung total nilai rincian
                             let totalNilaiRincian = data.data.reduce(function (
                                 acc,
                                 item
@@ -1733,11 +1783,25 @@ $(document).ready(function () {
                             },
                             0);
 
-                            document.getElementById("total_p").innerHTML =
-                                totalNilaiRincian.toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                });
+                            // Menambahkan baris total ke tbody
+                            tbodyHTML += `
+                            <tr>
+                                <td colspan="4" style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                    Total
+                                </td>
+                                <td style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                    ${totalNilaiRincian.toLocaleString("en-US", {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    })}
+                                </td>
+                            </tr>
+                            `;
+
+                            // Menambahkan hasil ke dalam tbody
+                            document.querySelector(
+                                "#paymentTable tbody"
+                            ).innerHTML = tbodyHTML;
 
                             document.getElementById("alasan_p").innerHTML =
                                 data.data[0].Alasan;
