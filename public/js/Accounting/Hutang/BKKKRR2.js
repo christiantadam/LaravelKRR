@@ -1534,12 +1534,12 @@ $(document).ready(function () {
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
                             tbodyHTML+=`<tr style="border:none !important">
-                                <td style="border:none !important; border-bottom: 1px solid black !important">C.O.A</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important">Account Name</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important">Description</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG
+                                <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {
@@ -1581,10 +1581,10 @@ $(document).ready(function () {
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
                             <tr>
-                                <td colspan="4" style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                <td colspan="4" style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     Total
                                 </td>
-                                <td style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     ${totalNilaiRincian.toLocaleString("en-US", {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2,
@@ -1641,12 +1641,12 @@ $(document).ready(function () {
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
                             tbodyHTML+=`<tr style="border:none !important">
-                                <td style="border:none !important; border-bottom: 1px solid black !important">C.O.A</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important">Account Name</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important">Description</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG
+                                <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {
@@ -1688,10 +1688,10 @@ $(document).ready(function () {
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
                             <tr>
-                                <td colspan="4" style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                <td colspan="4" style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     Total
                                 </td>
-                                <td style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     ${totalNilaiRincian.toLocaleString("en-US", {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2,
@@ -1739,12 +1739,12 @@ $(document).ready(function () {
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
                             tbodyHTML+=`<tr style="border:none !important">
-                                <td style="border:none !important; border-bottom: 1px solid black !important">C.O.A</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important">Account Name</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important">Description</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important" id="nobg_p">CEK/BG
+                                <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 1px solid black !important" id="matauang_p">Amount
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {
@@ -1786,10 +1786,10 @@ $(document).ready(function () {
                             // Menambahkan baris total ke tbody
                             tbodyHTML += `
                             <tr>
-                                <td colspan="4" style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                <td colspan="4" style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     Total
                                 </td>
-                                <td style="text-align: right; border:none !important; border-top: 1px solid black !important">
+                                <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
                                     ${totalNilaiRincian.toLocaleString("en-US", {
                                         minimumFractionDigits: 2,
                                         maximumFractionDigits: 2,
