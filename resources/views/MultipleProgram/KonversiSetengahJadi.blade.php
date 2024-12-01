@@ -27,6 +27,10 @@
         transition: background-color 2s ease;
         /* 2-second fade transition */
     }
+
+    .editable-cell {
+        contenteditable="true"
+    }
 </style>
 
 <div class="container-fluid">
@@ -46,7 +50,6 @@
                         <table id="table_daftarKonversi">
                             <thead>
                                 <tr style="white-space: nowrap">
-                                    <th>Kode Barang JBB Tujuan</th>
                                     <th>Id Type Tujuan</th>
                                     <th>Nama Type Tujuan</th>
                                     <th>Hasil Primer</th>
@@ -286,6 +289,7 @@
                                             <th>Satuan Sekunder</th>
                                             <th>Pengeluaran Tritier</th>
                                             <th>Satuan Tritier</th>
+                                            <th>Sub Kelompok</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -425,7 +429,7 @@
     </div>
 </div>
 
-@if ($id == 'JBBPotong')
+@if ($id == 'JBBStghJd')
     <script src="{{ asset('js/MultipleProgram/KonversiSetengahJadiJBBPotong.js') }}"></script>
 @elseif ($id == 'ABMPotong')
     <script src="{{ asset('js/MultipleProgram/KonversiSetengahJadiABMPotong.js') }}"></script>
