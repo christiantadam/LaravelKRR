@@ -1539,7 +1539,7 @@ $(document).ready(function () {
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {
@@ -1646,7 +1646,7 @@ $(document).ready(function () {
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {
@@ -1744,7 +1744,7 @@ $(document).ready(function () {
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {

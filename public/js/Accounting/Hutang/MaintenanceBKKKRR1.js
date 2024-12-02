@@ -334,8 +334,12 @@ $(document).ready(function () {
                                 if (result.isConfirmed) {
                                     console.log(response);
                                     bkk.value = response.idBKK;
-                                    nilaiBkk.value = numeral(response.totalBayar).format('0,0.00');
-                                    nilaiPembulatan.value = numeral(response.totalBayar).format('0,0.00');
+                                    nilaiBkk.value = numeral(
+                                        response.totalBayar
+                                    ).format("0,0.00");
+                                    nilaiPembulatan.value = numeral(
+                                        response.totalBayar
+                                    ).format("0,0.00");
                                     month.value = selectedDate.substring(5, 7);
                                     year.value = selectedDate.substring(0, 4);
                                     var myModal = new bootstrap.Modal(
@@ -361,8 +365,12 @@ $(document).ready(function () {
                                     // id_pembayaran.value = "";
                                 } else {
                                     bkk.value = response.idBKK;
-                                    nilaiBkk.value = numeral(response.totalBayar).format('0,0.00');
-                                    nilaiPembulatan.value = numeral(response.totalBayar).format('0,0.00');
+                                    nilaiBkk.value = numeral(
+                                        response.totalBayar
+                                    ).format("0,0.00");
+                                    nilaiPembulatan.value = numeral(
+                                        response.totalBayar
+                                    ).format("0,0.00");
                                     month.value = selectedDate.substring(5, 7);
                                     year.value = selectedDate.substring(0, 4);
                                     var myModal = new bootstrap.Modal(
@@ -723,7 +731,7 @@ $(document).ready(function () {
                     });
                 },
             });
-        } else if (proses === 1 && TT == undefined || TT == null) {
+        } else if ((proses === 1 && TT == undefined) || TT == null) {
             $.ajax({
                 url: "MaintenanceBKKKRR1",
                 type: "POST",
@@ -873,7 +881,7 @@ $(document).ready(function () {
                     });
                 },
             });
-        }else {
+        } else {
             $.ajax({
                 url: "MaintenanceBKKKRR1",
                 type: "POST",
@@ -1182,6 +1190,40 @@ $(document).ready(function () {
 
     btn_tampil.addEventListener("click", function (event) {
         event.preventDefault();
+        tabletampilBKK = $("#tabletampilBKK").DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            ajax: {
+                url: "MaintenanceBKKKRR1/getTampilBKK",
+                dataType: "json",
+                type: "GET",
+                data: function (d) {
+                    return $.extend({}, d, {
+                        _token: csrfToken,
+                        month: month.value,
+                        year: year.value,
+                    });
+                },
+            },
+            columns: [
+                {
+                    data: "Id_BKK",
+                    render: function (data) {
+                        return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
+                    },
+                },
+                { data: "NilaiBKK" },
+                { data: "NM_SUP" },
+                // { data: "Id_MataUang" },
+                // { data: "Id_Jenis_Bayar" },
+            ],
+            // columnDefs: [{ targets: [3, 4], visible: false }],
+            paging: false,
+            scrollY: "250px",
+            scrollCollapse: true,
+        });
         var myModal = new bootstrap.Modal(
             document.getElementById("dataBKKModal"),
             {
@@ -1424,59 +1466,71 @@ $(document).ready(function () {
                     document.getElementById("paid_p").innerHTML =
                         data.data[0].NM_SUP;
                     //Tbody Array
-                    let kodePerkiraanHTML = "";
+                    let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
+                    tbodyHTML+=`<tr style="border:none !important">
+                        <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
+                            No.</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                        </td>
+                    </tr>`;
                     data.data.forEach(function (item) {
-                        kodePerkiraanHTML += item.Kode_Perkiraan + "<br>";
+                        tbodyHTML += `
+                        <tr>
+                            <td style="border:none !important;">
+                                ${item.Kode_Perkiraan ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Keterangan ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Rincian_Bayar ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Id_Penagihan ?? ""}
+                            </td>
+                            <td style="border:none !important;; text-align: right;">
+                                ${parseFloat(
+                                    item.Nilai_Rincian
+                                ).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </td>
+                        </tr>
+                    `;
                     });
-                    document.getElementById("coa_p").innerHTML =
-                        kodePerkiraanHTML;
 
-                    let KeteranganHTML = "";
-                    data.data.forEach(function (item) {
-                        KeteranganHTML += item.Keterangan + "<br>";
-                    });
-                    document.getElementById("acc_p").innerHTML = KeteranganHTML;
+                    // Menghitung total nilai rincian
+                    let totalNilaiRincian = data.data.reduce(function (
+                        acc,
+                        item
+                    ) {
+                        return acc + parseFloat(item.Nilai_Rincian);
+                    },
+                    0);
 
-                    let Rincian_BayarHTML = "";
-                    data.data.forEach(function (item) {
-                        Rincian_BayarHTML += item.Rincian_Bayar + "<br>";
-                    });
-                    document.getElementById("desc_p").innerHTML =
-                        Rincian_BayarHTML;
-
-                    let No_BGCekHTML = "";
-                    data.data.forEach(function (item) {
-                        No_BGCekHTML +=
-                            item.Id_Penagihan + "<br>" ?? "" + "<br>";
-                    });
-                    document.getElementById("bgno_p").innerHTML = No_BGCekHTML;
-
-                    let Nilai_RincianHTML = "";
-                    let totalNilaiRincian = 0; // Variabel untuk menyimpan total nilai
-
-                    data.data.forEach(function (item) {
-                        let nilaiRincian = parseFloat(item.Nilai_Rincian);
-                        let formattedValue = nilaiRincian.toLocaleString(
-                            "en-US",
-                            {
+                    // Menambahkan baris total ke tbody
+                    tbodyHTML += `
+                    <tr>
+                        <td colspan="4" style="text-align: right; border:none !important; border-top: 2px solid black !important">
+                            Total
+                        </td>
+                        <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
+                            ${totalNilaiRincian.toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2,
-                            }
-                        );
+                            })}
+                        </td>
+                    </tr>
+                    `;
 
-                        Nilai_RincianHTML += formattedValue + "<br>";
-                        totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
-                    });
-
-                    document.getElementById("amount_p").innerHTML =
-                        Nilai_RincianHTML;
-
-                    // Format total dan tampilkan di element dengan id "total_p"
-                    document.getElementById("total_p").innerHTML =
-                        totalNilaiRincian.toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        });
+                    // Menambahkan hasil ke dalam tbody
+                    document.querySelector(
+                        "#paymentTable tbody"
+                    ).innerHTML = tbodyHTML;
 
                     document.getElementById("alasan_p").innerHTML =
                         data.data[0].Alasan;
@@ -1511,60 +1565,71 @@ $(document).ready(function () {
                     document.getElementById("paid_p").innerHTML =
                         data.data[0].NM_SUP;
                     //Tbody Array
-                    let kodePerkiraanHTML = "";
+                    let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
+                    tbodyHTML+=`<tr style="border:none !important">
+                        <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
+                            No.</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                        </td>
+                    </tr>`;
                     data.data.forEach(function (item) {
-                        kodePerkiraanHTML += item.Kode_Perkiraan + "<br>";
+                        tbodyHTML += `
+                        <tr>
+                            <td style="border:none !important;">
+                                ${item.Kode_Perkiraan ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Keterangan ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Rincian_Bayar ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Id_Penagihan ?? ""}
+                            </td>
+                            <td style="border:none !important;; text-align: right;">
+                                ${parseFloat(
+                                    item.Nilai_Rincian
+                                ).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </td>
+                        </tr>
+                    `;
                     });
-                    document.getElementById("coa_p").innerHTML =
-                        kodePerkiraanHTML;
 
-                    let KeteranganHTML = "";
-                    data.data.forEach(function (item) {
-                        KeteranganHTML += item.Keterangan + "<br>";
-                    });
-                    document.getElementById("acc_p").innerHTML = KeteranganHTML;
+                    // Menghitung total nilai rincian
+                    let totalNilaiRincian = data.data.reduce(function (
+                        acc,
+                        item
+                    ) {
+                        return acc + parseFloat(item.Nilai_Rincian);
+                    },
+                    0);
 
-                    let Rincian_BayarHTML = "";
-                    data.data.forEach(function (item) {
-                        Rincian_BayarHTML += item.Rincian_Bayar + "<br>";
-                    });
-                    document.getElementById("desc_p").innerHTML =
-                        Rincian_BayarHTML;
-
-                    let Id_PenagihanHTML = "";
-                    data.data.forEach(function (item) {
-                        Id_PenagihanHTML +=
-                            item.Id_Penagihan + "<br>" ?? "" + "<br>";
-                    });
-                    document.getElementById("bgno_p").innerHTML =
-                        Id_PenagihanHTML;
-
-                    let Nilai_RincianHTML = "";
-                    let totalNilaiRincian = 0;
-
-                    data.data.forEach(function (item) {
-                        let nilaiRincian = parseFloat(item.Nilai_Rincian);
-                        let formattedValue = nilaiRincian.toLocaleString(
-                            "en-US",
-                            {
+                    // Menambahkan baris total ke tbody
+                    tbodyHTML += `
+                    <tr>
+                        <td colspan="4" style="text-align: right; border:none !important; border-top: 2px solid black !important">
+                            Total
+                        </td>
+                        <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
+                            ${totalNilaiRincian.toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2,
-                            }
-                        );
+                            })}
+                        </td>
+                    </tr>
+                    `;
 
-                        Nilai_RincianHTML += formattedValue + "<br>";
-                        totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
-                    });
-
-                    document.getElementById("amount_p").innerHTML =
-                        Nilai_RincianHTML;
-
-                    // Format total dan tampilkan di element dengan id "total_p"
-                    document.getElementById("total_p").innerHTML =
-                        totalNilaiRincian.toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        });
+                    // Menambahkan hasil ke dalam tbody
+                    document.querySelector(
+                        "#paymentTable tbody"
+                    ).innerHTML = tbodyHTML;
 
                     document.getElementById("alasan_p").innerHTML =
                         data.data[0].Alasan;
@@ -1598,59 +1663,71 @@ $(document).ready(function () {
                     document.getElementById("paid_p").innerHTML =
                         data.data[0].NM_SUP;
                     //Tbody Array
-                    let kodePerkiraanHTML = "";
+                    let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
+                    tbodyHTML+=`<tr style="border:none !important">
+                        <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
+                            No.</td>
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                        </td>
+                    </tr>`;
                     data.data.forEach(function (item) {
-                        kodePerkiraanHTML += item.Kode_Perkiraan + "<br>";
+                        tbodyHTML += `
+                        <tr>
+                            <td style="border:none !important;">
+                                ${item.Kode_Perkiraan ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Keterangan ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Rincian_Bayar ?? ""}
+                            </td>
+                            <td style="border:none !important;">
+                                ${item.Id_Penagihan ?? ""}
+                            </td>
+                            <td style="border:none !important;; text-align: right;">
+                                ${parseFloat(
+                                    item.Nilai_Rincian
+                                ).toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </td>
+                        </tr>
+                    `;
                     });
-                    document.getElementById("coa_p").innerHTML =
-                        kodePerkiraanHTML;
 
-                    let KeteranganHTML = "";
-                    data.data.forEach(function (item) {
-                        KeteranganHTML += item.Keterangan + "<br>";
-                    });
-                    document.getElementById("acc_p").innerHTML = KeteranganHTML;
+                    // Menghitung total nilai rincian
+                    let totalNilaiRincian = data.data.reduce(function (
+                        acc,
+                        item
+                    ) {
+                        return acc + parseFloat(item.Nilai_Rincian);
+                    },
+                    0);
 
-                    let Rincian_BayarHTML = "";
-                    data.data.forEach(function (item) {
-                        Rincian_BayarHTML += item.Rincian_Bayar + "<br>";
-                    });
-                    document.getElementById("desc_p").innerHTML =
-                        Rincian_BayarHTML;
-
-                    let No_BGCekHTML = "";
-                    data.data.forEach(function (item) {
-                        No_BGCekHTML +=
-                            item.Id_Penagihan + "<br>" ?? "" + "<br>";
-                    });
-                    document.getElementById("bgno_p").innerHTML = No_BGCekHTML;
-
-                    let Nilai_RincianHTML = "";
-                    let totalNilaiRincian = 0; // Variabel untuk menyimpan total nilai
-
-                    data.data.forEach(function (item) {
-                        let nilaiRincian = parseFloat(item.Nilai_Rincian);
-                        let formattedValue = nilaiRincian.toLocaleString(
-                            "en-US",
-                            {
+                    // Menambahkan baris total ke tbody
+                    tbodyHTML += `
+                    <tr>
+                        <td colspan="4" style="text-align: right; border:none !important; border-top: 2px solid black !important">
+                            Total
+                        </td>
+                        <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
+                            ${totalNilaiRincian.toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2,
-                            }
-                        );
+                            })}
+                        </td>
+                    </tr>
+                    `;
 
-                        Nilai_RincianHTML += formattedValue + "<br>";
-                        totalNilaiRincian += nilaiRincian; // Tambahkan nilai ke total
-                    });
-
-                    document.getElementById("amount_p").innerHTML =
-                        Nilai_RincianHTML;
-
-                    // Format total dan tampilkan di element dengan id "total_p"
-                    document.getElementById("total_p").innerHTML =
-                        totalNilaiRincian.toLocaleString("en-US", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        });
+                    // Menambahkan hasil ke dalam tbody
+                    document.querySelector(
+                        "#paymentTable tbody"
+                    ).innerHTML = tbodyHTML;
 
                     document.getElementById("alasan_p").innerHTML =
                         data.data[0].Alasan;
