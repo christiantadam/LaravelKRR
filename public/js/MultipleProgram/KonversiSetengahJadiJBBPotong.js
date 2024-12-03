@@ -129,6 +129,8 @@ $(document).ready(function () {
     let button_updateAsalKonversi = document.getElementById("button_updateAsalKonversi"); // prettier-ignore
     let cekSaldo;
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
+    let detail_konversiModalTableDaftarAsalKonversi = $("#detail_konversiModalTableDaftarAsalKonversi").DataTable(); // prettier-ignore
+    let detail_konversiModalTableDaftarTujuanKonversi = $("#detail_konversiModalTableDaftarTujuanKonversi").DataTable(); // prettier-ignore
     let div_PIBAsal = document.getElementById("div_PIBAsal"); // prettier-ignore
     let div_PIBTujuan = document.getElementById("div_PIBTujuan"); // prettier-ignore
     let div_tabelDaftarKonversi = document.getElementById("div_tabelDaftarKonversi"); // prettier-ignore
@@ -196,16 +198,16 @@ $(document).ready(function () {
                 // Skip populating this select element if there's already a value in the next column
                 return;
             }
-            if (rowData[3] < 1 && rowData[0]) {
-                select.append(new Option("No Item Needed", ""));
-                select.select2({
-                    placeholder: "No Item Needed",
-                    width: "100%",
-                    dropdownParent: $(".modal-body"),
-                });
-                select.prop("disabled", true);
-                return;
-            }
+            // if (rowData[3] < 1 && rowData[0]) {
+            //     select.append(new Option("No Item Needed", ""));
+            //     select.select2({
+            //         placeholder: "No Item Needed",
+            //         width: "100%",
+            //         dropdownParent: $(".modal-body"),
+            //     });
+            //     select.prop("disabled", true);
+            //     return;
+            // }
             if (rowData[0] && rowData[1] && rowData[2]) {
                 // Calculate panjangLebar and namaKomponen from rowData
                 let panjangLebar =
@@ -214,6 +216,10 @@ $(document).ready(function () {
                     parseFloat(rowData[2].split(" X ")[1]);
                 let namaKomponen =
                     kodeKomponenMap[rowData[0].substring(2, 4)] || rowData[0];
+
+                if (namaKomponen == "BENANG JAHIT") {
+                    namaKomponen = "PP Multifilamen";
+                }
 
                 $.ajax({
                     url: "/KonversiSetengahJadi/getInventoryTypes",
@@ -887,8 +893,6 @@ $(document).ready(function () {
             url: "/KonversiSetengahJadi/create",
             type: "GET",
             success: function (response) {
-                console.log(response.data);
-
                 // Assuming your server returns an array of objects for the table data
                 table_daftarKonversi.clear().rows.add(response.data).draw();
             },
@@ -2421,7 +2425,7 @@ $(document).ready(function () {
         document.getElementById("detailKonversiModalLabel").innerHTML =
             "Detail Permohonan Konversi " + rowID;
         $.ajax({
-            url: "/KonversiRollBarcode/getDetailKonversi",
+            url: "/KonversiSetengahJadi/getDetailKonversi",
             type: "GET",
             data: {
                 idKonversi: rowID,
@@ -2433,14 +2437,14 @@ $(document).ready(function () {
                     // Filter data for Asal Konversi Potong JBB
                     var asalData = response.filter(function (item) {
                         return item.UraianDetailTransaksi.includes(
-                            "Asal Konversi Potongan JBB"
+                            "Asal Konversi Setengah Jadi JBB"
                         );
                     });
 
                     // Filter data for Tujuan Konversi Potong JBB
                     var tujuanData = response.filter(function (item) {
                         return item.UraianDetailTransaksi.includes(
-                            "Tujuan Konversi Potongan JBB"
+                            "Tujuan Konversi Setengah Jadi JBB"
                         );
                     });
 
@@ -2518,7 +2522,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/KonversiRollBarcode/BatalACCDataKonversi",
+                    url: "/KonversiSetengahJadi/BatalACCDataKonversi",
                     type: "DELETE",
                     data: {
                         _token: csrfToken,
@@ -2552,6 +2556,61 @@ $(document).ready(function () {
                     "info"
                 );
             }
+        });
+    });
+
+    $(document).on("click", ".btn-acc", function (e) {
+        //lakukan print barcode di sini
+        e.preventDefault();
+        let idkonversi = $(this).data("id");
+        $.ajax({
+            type: "POST",
+            url: "/KonversiSetengahJadi",
+            data: {
+                _token: csrfToken,
+                idkonversi: idkonversi,
+                jenisStore: "accPermohonan",
+            },
+            success: function (response) {
+                if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                } else {
+                    // Extract values from the response
+                    let Kode_barang = response.barcode[0].Kode_barang;
+                    let NoIndeks = response.barcode[0].NoIndeks;
+
+                    // Pad NoIndeks to 9 digits
+                    let paddedNoIndeks = NoIndeks.padStart(9, "0");
+
+                    // Concatenate NoIndeks and Kode_barang
+                    let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;
+
+                    // Generate the barcode with JsBarcode
+                    JsBarcode("#div_printBarcode", barcodeValue, {
+                        format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
+                        width: 4, // Width of a single barcode unit
+                        height: 200, // Height of the barcode
+                        displayValue: true, // Display the value below the barcode
+                    });
+                    getDataPermohonan();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        }).then(() => {
+            window.print();
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil!",
+                text: response.success,
+                showConfirmButton: false,
+            });
         });
     });
     //#endregion

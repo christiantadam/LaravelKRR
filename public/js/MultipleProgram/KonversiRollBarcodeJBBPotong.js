@@ -497,7 +497,7 @@ $(document).ready(function () {
         button_updateTujuanKonversi.disabled = true;
         button_hapusTujuanKonversi.disabled = true;
         button_modalProses.disabled = true;
-        if (nomorUser == "4384" && nomorUser == "4199" ) {
+        if (nomorUser == "4384" && nomorUser == "4199") {
             hasil_konversiTritierTujuan.readOnly = false;
         }
 
@@ -1503,6 +1503,7 @@ $(document).ready(function () {
         //lakukan print barcode di sini
         e.preventDefault();
         let idkonversi = $(this).data("id");
+        let responseSuccess;
         $.ajax({
             type: "POST",
             url: "/KonversiRollBarcode",
@@ -1520,13 +1521,8 @@ $(document).ready(function () {
                         showConfirmButton: false,
                     });
                 } else {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Berhasil!",
-                        text: response.success,
-                        showConfirmButton: false,
-                    });
                     // Extract values from the response
+                    responseSuccess = response.success;
                     let Kode_barang = response.barcode[0].Kode_barang;
                     let NoIndeks = response.barcode[0].NoIndeks;
 
@@ -1543,14 +1539,22 @@ $(document).ready(function () {
                         height: 200, // Height of the barcode
                         displayValue: true, // Display the value below the barcode
                     });
-                    getDataPermohonan().then(() => {
-                        window.print();
-                    });
+                    getDataPermohonan();
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
             },
+        }).then(() => {
+            if (responseSuccess !== "") {
+                window.print();
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: responseSuccess,
+                    showConfirmButton: false,
+                });
+            }
         });
     });
 

@@ -31,6 +31,25 @@
     .editable-cell {
         contenteditable="true"
     }
+
+    @media print {
+        .container-fluid {
+            display: none;
+        }
+
+        #detailKonversiModal {
+            display: none;
+        }
+
+        #tambahTujuanModal {
+            display: none;
+        }
+
+        #div_printBarcode {
+            display: block !important;
+            visibility: visible;
+        }
+    }
 </style>
 
 <div class="container-fluid">
@@ -68,7 +87,7 @@
 </div>
 
 <!-- Modal untuk Detail Transaksi Konversi -->
-{{-- <div class="modal fade" id="detailKonversiModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="detailKonversiModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog" style="max-width: 90%;">
         <div class="modal-content">
             <div class="modal-header justify-content-center">
@@ -77,8 +96,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div style="margin: 0.5%;" class="card" id="detail_konversiModalDivTabelAsalKonversi">
+            <div class="modal-body-detail" style="position: relative;flex: 1 1 auto;padding: 1rem">
+                <div style="margin: 0.5%;padding: 0.5%" class="card" id="detail_konversiModalDivTabelAsalKonversi">
                     <h3>Tabel Asal Konversi</h3>
                     <div style="margin: 0.5%;overflow:auto">
                         <table id="detail_konversiModalTableDaftarAsalKonversi">
@@ -95,7 +114,7 @@
                         </table>
                     </div>
                 </div>
-                <div style="margin: 0.5%;" class="card" id="detail_konversiModalDivTabelTujuanKonversi">
+                <div style="margin: 0.5%;padding: 0.5%" class="card" id="detail_konversiModalDivTabelTujuanKonversi">
                     <h3>Tabel Tujuan Konversi</h3>
                     <div style="margin: 0.5%;overflow:auto">
                         <table id="detail_konversiModalTableDaftarTujuanKonversi">
@@ -116,7 +135,7 @@
             </div>
         </div>
     </div>
-</div> --}}
+</div>
 
 <!-- Modal untuk Tambah Tujuan Konversi -->
 <div class="modal fade" id="tambahTujuanModal" tabindex="-1">
@@ -428,6 +447,9 @@
         </div>
     </div>
 </div>
+<svg id="div_printBarcode" style="visibility: hidden">
+    hueheheheh
+</svg>
 
 @if ($id == 'JBBStghJd')
     <script src="{{ asset('js/MultipleProgram/KonversiSetengahJadiJBBPotong.js') }}"></script>

@@ -29,9 +29,9 @@ class KonversiSetengahJadiController extends Controller
             $dataPotong[] = [
                 'IdTypeTujuan' => $Potong->IdType,
                 'NamaTypeTujuan' => $Potong->NamaType,
-                'HasilPrimer' => (string) $Potong->JumlahPemasukanPrimer . ' ' . $Potong->satPrimer,
-                'HasilSekunder' => (string) $Potong->JumlahPemasukanSekunder . ' ' . $Potong->satSekunder,
-                'HasilTritier' => (string) $Potong->JumlahPemasukanTritier . ' ' . $Potong->satTritier,
+                'HasilPrimer' => (string) ((float) $Potong->JumlahPemasukanPrimer) . ' ' . $Potong->satPrimer,
+                'HasilSekunder' => (string) ((float) $Potong->JumlahPemasukanSekunder) . ' ' . $Potong->satSekunder,
+                'HasilTritier' => (string) ((float) $Potong->JumlahPemasukanTritier) . ' ' . $Potong->satTritier,
                 'idkonversi' => $Potong->idkonversi,
             ];
         }
@@ -85,7 +85,7 @@ class KonversiSetengahJadiController extends Controller
                     ->table('Counter')->update(['IdKonvStghJdJBB' => $newIdKonvStghJdJBB]);
                 $idkonversi = "JSJ" . str_pad($newIdKonvStghJdJBB, 6, "0", STR_PAD_LEFT);
 
-                // Tujuan
+                // Asal Konversi
                 for ($k = 0; $k < count($IdTypeAsal); $k++) {
                     DB::connection('ConnInventory')
                         ->statement('EXEC SP_4384_Konversi_Setengah_Jadi
@@ -97,9 +97,9 @@ class KonversiSetengahJadiController extends Controller
                         @XIdPemberi = ?,
                         @XSaatAwalTransaksi = ?,
                         @XSaatLog = ?,
-                        @XJumlahMasukPrimer = ?,
-                        @XJumlahMasukSekunder = ?,
-                        @XJumlahMasukTritier = ?,
+                        @XJumlahPengeluaranPrimer = ?,
+                        @XJumlahPengeluaranSekunder = ?,
+                        @XJumlahPengeluaranTritier = ?,
                         @XAsalIdSubkelompok = ?,
                         @XIdKonversi = ?,
                         @XTimeInput = ?,
@@ -131,9 +131,9 @@ class KonversiSetengahJadiController extends Controller
                         @XIdPemberi = ?,
                         @XSaatAwalTransaksi = ?,
                         @XSaatLog = ?,
-                        @XJumlahPengeluaranPrimer = ?,
-                        @XJumlahPengeluaranSekunder = ?,
-                        @XJumlahPengeluaranTritier = ?,
+                        @XJumlahMasukPrimer = ?,
+                        @XJumlahMasukSekunder = ?,
+                        @XJumlahMasukTritier = ?,
                         @XTujuanIdSubKel = ?,
                         @XIdKonversi = ?,
                         @XTimeInput = ?,
@@ -155,6 +155,22 @@ class KonversiSetengahJadiController extends Controller
                         0,
                     ]);
                 return response()->json(['success' => 'Data sudah diSIMPAN !!..']);
+            } catch (Exception $e) {
+                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+            }
+        } else if ($jenisStore == 'accPermohonan') {
+            try {
+                $idkonversi = $request->input('idkonversi');
+                $nomorUser = trim(Auth::user()->NomorUser);
+                DB::connection('ConnInventory')
+                    ->statement('EXEC SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [10, $idkonversi, $nomorUser]);
+
+                $barcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?', [14, $idkonversi]);
+
+                return response()->json([
+                    'success' => (string) 'Permohonan konversi dengan Id Konversi: ' . $idkonversi . ' berhasil disetujui!',
+                    'barcode' => $barcode
+                ]);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
@@ -419,8 +435,12 @@ class KonversiSetengahJadiController extends Controller
                 return response()->json(['error' => (string) "Tidak ada data untuk Id type " . $IdType]);
             }
 
-        } else if ($id == 'getDataKonversi') {
-            return response()->json($request->input('idKonversi'), 200);
+        } else if ($id == 'getDetailKonversi') {
+            $idKonversi = $request->input('idKonversi');
+            $data = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?', [11, (string) $idKonversi]);
+            return response()->json($data);
+        } else {
+            return response()->json(['error' => (string) "Undefined request \$id: " . $id]);
         }
 
     }
@@ -435,8 +455,17 @@ class KonversiSetengahJadiController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if ($id == 'BatalACCDataKonversi') {
+            try {
+                $idKonversi = $request->input('idKonversi');
+                $nomorUser = trim(Auth::user()->NomorUser);
+                DB::connection('ConnInventory')->statement('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [12, $idKonversi, $nomorUser]);
+                return response()->json(['success' => (string) 'Data Konversi ' . $idKonversi . ' Berhasil Dihapus'], 200);
+            } catch (Exception $e) {
+                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+            }
+        }
     }
 }
