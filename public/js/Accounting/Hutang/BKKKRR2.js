@@ -1593,6 +1593,36 @@ $(document).ready(function () {
                             </tr>
                             `;
 
+                            let tbodyttdHTML = "";
+                            tbodyttdHTML += `
+
+                            <tr style="border:none !important">
+                    <td style="text-align: center !important; width: 80px; border:none !important">Receiver</td>
+                    <td style="text-align: center !important; width: 80px; border:none !important">Cashier</td>
+                    <td style="border:none !important"></td>
+                    <td style="border:none !important"></td>
+                </tr>
+                <tr style="border:none !important">
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="width: 80px; text-align: right !important; font-style: italic; border:none !important">
+                        Note :</td>
+                    <td style="border:none !important" id="batal_p">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="alasan_p">&nbsp;</td>
+                </tr>
+                            `;
+                               // Menambahkan hasil ke dalam tbody
+                            document.querySelector(
+                                "#ttdTable tbody"
+                            ).innerHTML = tbodyttdHTML;
+
                             // Menambahkan hasil ke dalam tbody
                             document.querySelector(
                                 "#paymentTable tbody"
@@ -1700,6 +1730,36 @@ $(document).ready(function () {
                             </tr>
                             `;
 
+                            let tbodyttdHTML = "";
+                            tbodyttdHTML += `
+
+                            <tr style="border:none !important">
+                    <td style="text-align: center !important; width: 80px; border:none !important">Receiver</td>
+                    <td style="text-align: center !important; width: 80px; border:none !important">Cashier</td>
+                    <td style="border:none !important"></td>
+                    <td style="border:none !important"></td>
+                </tr>
+                <tr style="border:none !important">
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="width: 80px; text-align: right !important; font-style: italic; border:none !important">
+                        Note :</td>
+                    <td style="border:none !important" id="batal_p">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="alasan_p">&nbsp;</td>
+                </tr>
+                            `;
+                               // Menambahkan hasil ke dalam tbody
+                            document.querySelector(
+                                "#ttdTable tbody"
+                            ).innerHTML = tbodyttdHTML;
+
                             // Menambahkan hasil ke dalam tbody
                             document.querySelector(
                                 "#paymentTable tbody"
@@ -1797,6 +1857,36 @@ $(document).ready(function () {
                                 </td>
                             </tr>
                             `;
+
+                            let tbodyttdHTML = "";
+                            tbodyttdHTML += `
+
+                            <tr style="border:none !important">
+                    <td style="text-align: center !important; width: 80px; border:none !important">Receiver</td>
+                    <td style="text-align: center !important; width: 80px; border:none !important">Cashier</td>
+                    <td style="border:none !important"></td>
+                    <td style="border:none !important"></td>
+                </tr>
+                <tr style="border:none !important">
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="width: 80px; text-align: right !important; font-style: italic; border:none !important">
+                        Note :</td>
+                    <td style="border:none !important" id="batal_p">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="alasan_p">&nbsp;</td>
+                </tr>
+                            `;
+                               // Menambahkan hasil ke dalam tbody
+                            document.querySelector(
+                                "#ttdTable tbody"
+                            ).innerHTML = tbodyttdHTML;
 
                             // Menambahkan hasil ke dalam tbody
                             document.querySelector(

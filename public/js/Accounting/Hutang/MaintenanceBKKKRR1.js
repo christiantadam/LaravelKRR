@@ -1467,13 +1467,15 @@ $(document).ready(function () {
                         data.data[0].NM_SUP;
                     //Tbody Array
                     let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-                    tbodyHTML+=`<tr style="border:none !important">
+                    tbodyHTML += `<tr style="border:none !important">
                         <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
                             No.</td>
-                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
+                            data.data[0].Id_MataUang_BC ?? ""
+                        }
                         </td>
                     </tr>`;
                     data.data.forEach(function (item) {
@@ -1492,12 +1494,13 @@ $(document).ready(function () {
                                 ${item.Id_Penagihan ?? ""}
                             </td>
                             <td style="border:none !important;; text-align: right;">
-                                ${parseFloat(
-                                    item.Nilai_Rincian
-                                ).toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })}
+                                ${parseFloat(item.Nilai_Rincian).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                )}
                             </td>
                         </tr>
                     `;
@@ -1527,10 +1530,38 @@ $(document).ready(function () {
                     </tr>
                     `;
 
+                    let tbodyttdHTML = "";
+                    tbodyttdHTML += `
+
+                            <tr style="border:none !important">
+                    <td style="text-align: center !important; width: 80px; border:none !important">Receiver</td>
+                    <td style="text-align: center !important; width: 80px; border:none !important">Cashier</td>
+                    <td style="border:none !important"></td>
+                    <td style="border:none !important"></td>
+                </tr>
+                <tr style="border:none !important">
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="width: 80px; text-align: right !important; font-style: italic; border:none !important">
+                        Note :</td>
+                    <td style="border:none !important" id="batal_p">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="alasan_p">&nbsp;</td>
+                </tr>
+                            `;
                     // Menambahkan hasil ke dalam tbody
-                    document.querySelector(
-                        "#paymentTable tbody"
-                    ).innerHTML = tbodyHTML;
+                    document.querySelector("#ttdTable tbody").innerHTML =
+                        tbodyttdHTML;
+
+                    // Menambahkan hasil ke dalam tbody
+                    document.querySelector("#paymentTable tbody").innerHTML =
+                        tbodyHTML;
 
                     document.getElementById("alasan_p").innerHTML =
                         data.data[0].Alasan;
@@ -1566,13 +1597,15 @@ $(document).ready(function () {
                         data.data[0].NM_SUP;
                     //Tbody Array
                     let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-                    tbodyHTML+=`<tr style="border:none !important">
+                    tbodyHTML += `<tr style="border:none !important">
                         <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
                             No.</td>
-                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
+                            data.data[0].Id_MataUang_BC ?? ""
+                        }
                         </td>
                     </tr>`;
                     data.data.forEach(function (item) {
@@ -1591,12 +1624,13 @@ $(document).ready(function () {
                                 ${item.Id_Penagihan ?? ""}
                             </td>
                             <td style="border:none !important;; text-align: right;">
-                                ${parseFloat(
-                                    item.Nilai_Rincian
-                                ).toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })}
+                                ${parseFloat(item.Nilai_Rincian).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                )}
                             </td>
                         </tr>
                     `;
@@ -1626,10 +1660,38 @@ $(document).ready(function () {
                     </tr>
                     `;
 
+                    let tbodyttdHTML = "";
+                    tbodyttdHTML += `
+
+                            <tr style="border:none !important">
+                    <td style="text-align: center !important; width: 80px; border:none !important">Receiver</td>
+                    <td style="text-align: center !important; width: 80px; border:none !important">Cashier</td>
+                    <td style="border:none !important"></td>
+                    <td style="border:none !important"></td>
+                </tr>
+                <tr style="border:none !important">
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="width: 80px; text-align: right !important; font-style: italic; border:none !important">
+                        Note :</td>
+                    <td style="border:none !important" id="batal_p">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="alasan_p">&nbsp;</td>
+                </tr>
+                            `;
                     // Menambahkan hasil ke dalam tbody
-                    document.querySelector(
-                        "#paymentTable tbody"
-                    ).innerHTML = tbodyHTML;
+                    document.querySelector("#ttdTable tbody").innerHTML =
+                        tbodyttdHTML;
+
+                    // Menambahkan hasil ke dalam tbody
+                    document.querySelector("#paymentTable tbody").innerHTML =
+                        tbodyHTML;
 
                     document.getElementById("alasan_p").innerHTML =
                         data.data[0].Alasan;
@@ -1664,13 +1726,15 @@ $(document).ready(function () {
                         data.data[0].NM_SUP;
                     //Tbody Array
                     let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-                    tbodyHTML+=`<tr style="border:none !important">
+                    tbodyHTML += `<tr style="border:none !important">
                         <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                         <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
                             No.</td>
-                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                        <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
+                            data.data[0].Id_MataUang_BC ?? ""
+                        }
                         </td>
                     </tr>`;
                     data.data.forEach(function (item) {
@@ -1689,12 +1753,13 @@ $(document).ready(function () {
                                 ${item.Id_Penagihan ?? ""}
                             </td>
                             <td style="border:none !important;; text-align: right;">
-                                ${parseFloat(
-                                    item.Nilai_Rincian
-                                ).toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })}
+                                ${parseFloat(item.Nilai_Rincian).toLocaleString(
+                                    "en-US",
+                                    {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    }
+                                )}
                             </td>
                         </tr>
                     `;
@@ -1724,10 +1789,38 @@ $(document).ready(function () {
                     </tr>
                     `;
 
+                    let tbodyttdHTML = "";
+                    tbodyttdHTML += `
+
+                            <tr style="border:none !important">
+                    <td style="text-align: center !important; width: 80px; border:none !important">Receiver</td>
+                    <td style="text-align: center !important; width: 80px; border:none !important">Cashier</td>
+                    <td style="border:none !important"></td>
+                    <td style="border:none !important"></td>
+                </tr>
+                <tr style="border:none !important">
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="width: 80px; text-align: right !important; font-style: italic; border:none !important">
+                        Note :</td>
+                    <td style="border:none !important" id="batal_p">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="alasan_p">&nbsp;</td>
+                </tr>
+                            `;
                     // Menambahkan hasil ke dalam tbody
-                    document.querySelector(
-                        "#paymentTable tbody"
-                    ).innerHTML = tbodyHTML;
+                    document.querySelector("#ttdTable tbody").innerHTML =
+                        tbodyttdHTML;
+
+                    // Menambahkan hasil ke dalam tbody
+                    document.querySelector("#paymentTable tbody").innerHTML =
+                        tbodyHTML;
 
                     document.getElementById("alasan_p").innerHTML =
                         data.data[0].Alasan;

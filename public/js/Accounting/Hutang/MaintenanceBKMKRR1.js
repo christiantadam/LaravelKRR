@@ -380,7 +380,7 @@ $(document).ready(function () {
                 ada1: ada1,
                 jenis_bank: jenis_bank.value,
                 total: total,
-                terbilang: terbilang
+                terbilang: terbilang,
                 // checkedRows: checkedRows,
             },
             success: function (response) {
@@ -1117,12 +1117,14 @@ $(document).ready(function () {
                     data.data[0].Keterangan || "";
                 //Tbody Array
                 let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-                tbodyHTML+=`<tr style="border:none !important">
+                tbodyHTML += `<tr style="border:none !important">
                     <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
                     <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
                     <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                     <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p"></td>
-                    <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                    <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
+                        data.data[0].Id_MataUang_BC ?? ""
+                    }
                     </td>
                 </tr>`;
                 data.data.forEach(function (item) {
@@ -1141,25 +1143,22 @@ $(document).ready(function () {
                             ${""}
                         </td>
                         <td style="border:none !important; text-align: right;">
-                            ${parseFloat(
-                                item.Nilai_Rincian
-                            ).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })}
+                            ${parseFloat(item.Nilai_Rincian).toLocaleString(
+                                "en-US",
+                                {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                }
+                            )}
                         </td>
                     </tr>
                 `;
                 });
 
                 // Menghitung total nilai rincian
-                let totalNilaiRincian = data.data.reduce(function (
-                    acc,
-                    item
-                ) {
+                let totalNilaiRincian = data.data.reduce(function (acc, item) {
                     return acc + parseFloat(item.Nilai_Rincian);
-                },
-                0);
+                }, 0);
 
                 // Menambahkan baris total ke tbody
                 tbodyHTML += `
@@ -1176,10 +1175,37 @@ $(document).ready(function () {
                 </tr>
                 `;
 
+                let tbodyttdHTML = "";
+                tbodyttdHTML += `
+                <tr style="border:none !important">
+                    <td style="text-align: center !important; width: 80px; border:none !important">Receiver</td>
+                    <td style="text-align: center !important; width: 80px; border:none !important">Cashier</td>
+                    <td style="text-align: center !important; width: 80px; border:none !important">Responsible Person</td>
+                    <td style="border:none !important"></td>
+                </tr>
+                <tr style="border:none !important">
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important">&nbsp;</td>
+                    <td style="border:none !important" id="batal_p">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                    </td>
+                    <td style="border:none !important" id="alasan_p">&nbsp;</td>
+                </tr>
+                            `;
                 // Menambahkan hasil ke dalam tbody
-                document.querySelector(
-                    "#paymentTable tbody"
-                ).innerHTML = tbodyHTML;
+                document.querySelector("#ttdTable tbody").innerHTML =
+                    tbodyttdHTML;
+
+                // Menambahkan hasil ke dalam tbody
+                document.querySelector("#paymentTable tbody").innerHTML =
+                    tbodyHTML;
 
                 // document.getElementById("alasan_p").innerHTML =
                 //     data.data[0].Alasan;
