@@ -358,6 +358,8 @@ $(document).ready(function () {
                                     myModal.show();
                                     btn_okbkk.click();
                                     table_atas.ajax.reload();
+                                    rowDataArray = [];
+                                    rowDataPertama = null;
                                     // tablekiri.ajax.reload();
                                     // tablekanan.ajax.reload();
                                     // id_detailkanan.value = "";
@@ -442,6 +444,7 @@ $(document).ready(function () {
 
     btn_proses.addEventListener("click", function (event) {
         event.preventDefault();
+        btn_proses.disabled = true;
         if (proses === 3) {
             Swal.fire({
                 title: "Apakah anda yakin menghapus?",
