@@ -146,8 +146,8 @@ class PenagihanPenjualanController extends Controller
                 $id_Penagihan = DB::connection('ConnAccounting')
                     ->table('T_PENAGIHAN_SJ')
                     ->select('Id_Penagihan')
-                    ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
-                    ->orderBy('Id_Penagihan', 'desc')
+                    // ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
+                    ->orderBy('TglInput', 'desc')
                     ->first();
                 $idPenagihan = $id_Penagihan->Id_Penagihan;
 
@@ -175,7 +175,7 @@ class PenagihanPenjualanController extends Controller
                                 'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Nilai_Penagihan = ?, @idXC = ?, @Id_Penagihan = ?',
                                 [
                                     8,
-                                    (float) str_replace(',', '', $item[4], ),
+                                    (float) str_replace(',', '', $item[4]),
                                     $item[7],  // idXC (2nd element, assuming it corresponds to idXC)
                                     $idPenagihan,
                                 ]
