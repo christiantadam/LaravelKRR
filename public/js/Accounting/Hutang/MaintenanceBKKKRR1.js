@@ -391,6 +391,8 @@ $(document).ready(function () {
                                     myModal.show();
                                     btn_okbkk.click();
                                     table_atas.ajax.reload();
+                                    rowDataArray = [];
+                                    rowDataPertama = null;
                                     // tablekiri.ajax.reload();
                                     // tablekanan.ajax.reload();
                                     // id_detailkanan.value = "";
