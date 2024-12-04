@@ -326,11 +326,10 @@ class MaintenanceBKKKRR1Controller extends Controller
             $tanggal = $request->input('tanggalgrup', now()->toDateString());
             $user_id = trim(Auth::user()->NomorUser);
             $jmlData = count($listPengajuan);
-            $adaBKK = $jmlData > 0;
             $periode = date('Y');
             // dd($periode);
             // dd($request->all());
-            if (!$adaBKK) {
+            if ($jmlData < 1) {
                 return response()->json(['error' => 'Tidak ada data yang diGROUP !!...']);
             }
 
@@ -414,7 +413,9 @@ class MaintenanceBKKKRR1Controller extends Controller
                     $tNilaiBKK = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_NILAIBKK @BKK = ?', [$idbkk]);
                     // if ($index !== 0) {
                     // }
-                    if (!empty($tNilaiBKK)) {
+                    if ($jmlData == 1) {
+                        $totalBayar = (float) $tNilaiBKK[0]->NilaiBayar;
+                    } else {
                         $totalBayar += (float) $tNilaiBKK[0]->NilaiBayar;
                     }
                 }
