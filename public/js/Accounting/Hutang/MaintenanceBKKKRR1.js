@@ -81,6 +81,15 @@ $(document).ready(function () {
     let table_kedua = $("#table_kedua").DataTable({});
     $("#table_kedua").parents("div.dataTables_wrapper").first().hide();
 
+    document.getElementById('dataBKKModal').addEventListener('hidden.bs.modal', function () {
+        const inputs = this.querySelectorAll('input');
+        inputs.forEach(input => {
+            if (input.id !== 'month' && input.id !== 'year') {
+                input.value = '';
+            }
+        });
+      });
+
     rincinan_bayar.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
