@@ -88,6 +88,8 @@ $(document).ready(function () {
                 input.value = '';
             }
         });
+        rowDataBKKArray = [];
+        rowDataBKK = null;
       });
 
     rincinan_bayar.addEventListener("keydown", function (event) {
@@ -1263,6 +1265,8 @@ $(document).ready(function () {
         bkk.value = "";
         nilaiBkk.value = "";
         nilaiPembulatan.value = "";
+        rowDataBKKArray = [];
+        rowDataBKK = null;
     });
 
     tutup_modal.addEventListener("click", async function (event) {
@@ -1273,6 +1277,8 @@ $(document).ready(function () {
         bkk.value = "";
         nilaiBkk.value = "";
         nilaiPembulatan.value = "";
+        rowDataBKKArray = [];
+        rowDataBKK = null;
     });
 
     btn_kodeperkiraan.addEventListener("click", async function (event) {
@@ -1376,6 +1382,19 @@ $(document).ready(function () {
                 rowDataBKKArray.push(rowDataBKK);
 
                 console.log(rowDataBKK, this, tabletampilBKK);
+            }else {
+                rowDataBKK = null;
+                // Remove the unchecked row data from the array
+                // rowDataPertama = table_atas.row($(this).closest("tr")).data();
+
+                // Filter out the row with matching Id_Penagihan
+                // rowDataArray = rowDataArray.filter(
+                //     (row) => row.Id_Penagihan !== rowDataPertama.Id_Penagihan
+                // );
+                rowDataBKKArray = [];
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_atas);
             }
         }
     );
@@ -1403,6 +1422,13 @@ $(document).ready(function () {
     btn_cetakbkk.addEventListener("click", function (event) {
         event.preventDefault();
         if (rowDataBKK == null || rowDataBKK == undefined) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih data terlebih dahulu",
+                showConfirmButton: true,
+            });
+            return;
             // nilaiBkk.value = rowDataPertama.Nilai_Pembayaran;
             // nilaiPembulatan.value = rowDataPertama.Nilai_Pembayaran;
         } else {
