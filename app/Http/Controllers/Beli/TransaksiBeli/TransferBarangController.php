@@ -226,7 +226,6 @@ class TransferBarangController extends Controller
     }
     public function transfer(Request $request)
     {
-        $kd = 1;
         $IdType = $request->input('IdType');
         $MasukPrimer = $request->input('MasukPrimer') ?? 0;
         $MasukSekunder = $request->input('MasukSekunder') ?? 0;
@@ -247,19 +246,24 @@ class TransferBarangController extends Controller
             $YTanggal !== null
         ) {
             try {
-                $data = DB::connection('ConnPurchase')->statement('exec SP_7775_PBL_TRANSFER_TMPTRANSAKSI @kd = ?, @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?, @User_id = ?,@SubKel = ?,@NoTerima = ?, @ket = ? , @YTanggal = ?, @noPIB = ?', [
-                    $kd,
-                    $IdType,
-                    $MasukPrimer,
-                    $MasukSekunder,
-                    $MasukTritier,
-                    $User_id,
-                    $SubKel,
-                    $NoTerima,
-                    $ket,
-                    $YTanggal,
-                    $NoPib,
-                ]);
+                $data = DB::connection('ConnPurchase')
+                    ->statement('exec SP_7775_PBL_TRANSFER_TMPTRANSAKSI @kd = ?, @IdType = ?, @MasukPrimer = ?,@MasukSekunder = ?, @MasukTritier = ?
+                                                                                , @User_id = ?,@SubKel = ?,@NoTerima = ?, @ket = ? , @YTanggal = ?, @noPIB = ?'
+                        ,
+                        [
+                            1,
+                            $IdType,
+                            $MasukPrimer,
+                            $MasukSekunder,
+                            $MasukTritier,
+                            $User_id,
+                            $SubKel,
+                            $NoTerima,
+                            $ket,
+                            $YTanggal,
+                            $NoPib,
+                        ]
+                    );
                 return Response()->json(['message' => 'Data Berhasil Di Transfer']);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);
