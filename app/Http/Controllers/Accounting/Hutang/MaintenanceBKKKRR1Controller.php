@@ -150,7 +150,7 @@ class MaintenanceBKKKRR1Controller extends Controller
                 } else {
                     // DATA NO PENAGIHAN
                     DB::connection('ConnAccounting')
-                        ->statement('EXEC SP_1273_ACC_UDT_BKK1_NOTT ?, ?, ?, ?, ?, ?', [
+                        ->statement('EXEC SP_1273_ACC_UDT_BKK1_NOTT @IdPembayaran = ?, @IdDetailBayar = ?, @Rincian = ?, @Nilai = ?, @Perkiraan = ?, @YIdPenagihan = ?', [
                             $tIdBayar,
                             $request->input('id_detail'),
                             $tRincian,

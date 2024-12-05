@@ -224,7 +224,6 @@ class MaintenanceBKMKRR1Controller extends Controller
                             trim($input['id_bank']),
                             'R',
                             $input['tanggal_input'],
-                            &
                             $id_output,
                         ]);
 
