@@ -245,9 +245,9 @@ $(document).ready(function () {
                 // Remove the unchecked row data from the array
                 rowData = tableatas.row($(this).closest("tr")).data();
 
-                // Filter out the row with matching Id_Penagihan
+                // Filter out the row with matching Id_Pembayaran
                 rowDataArray = rowDataArray.filter(
-                    (row) => row[1] !== rowData[0]
+                    (row) => row.Id_Pembayaran !== rowData.Id_Pembayaran
                 );
 
                 console.log(rowDataArray);

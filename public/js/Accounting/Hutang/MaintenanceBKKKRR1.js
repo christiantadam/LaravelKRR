@@ -1422,13 +1422,13 @@ $(document).ready(function () {
     btn_cetakbkk.addEventListener("click", function (event) {
         event.preventDefault();
         if (rowDataBKK == null || rowDataBKK == undefined) {
-            Swal.fire({
-                icon: "info",
-                title: "Info!",
-                text: "Pilih data terlebih dahulu",
-                showConfirmButton: true,
-            });
-            return;
+            // Swal.fire({
+            //     icon: "info",
+            //     title: "Info!",
+            //     text: "Pilih data terlebih dahulu",
+            //     showConfirmButton: true,
+            // });
+            // return;
             // nilaiBkk.value = rowDataPertama.Nilai_Pembayaran;
             // nilaiPembulatan.value = rowDataPertama.Nilai_Pembayaran;
         } else {
