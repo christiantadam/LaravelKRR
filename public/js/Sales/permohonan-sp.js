@@ -921,6 +921,7 @@ $(document).ready(function () {
                             funcClearInputBarang();
                             list_view.clear().draw();
                             removeHiddenInputsWithoutToken();
+                            $("#createSPModal").modal("hide");
                             // Lakukan tindakan setelah sukses
                         });
                     } else if (response.error) {
