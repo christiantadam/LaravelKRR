@@ -913,7 +913,7 @@ $(document).ready(function () {
                     cancelButtonText: "Tidak",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        pjk = 1;
+                        bayar = 1;
                         $.ajax({
                             url: "MaintenancePengajuanBKK",
                             type: "POST",
@@ -1020,7 +1020,7 @@ $(document).ready(function () {
                             },
                         });
                     } else if (result.isDismissed) {
-                        pjk = 0;
+                        bayar = 0;
                         $.ajax({
                             url: "MaintenancePengajuanBKK",
                             type: "POST",
