@@ -66,6 +66,9 @@ $(document).ready(function () {
             { data: "Id_MataUang" },
         ],
         columnDefs: [{ targets: [10, 11], visible: false }],
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
     });
 
     $("#tablepertama tbody").off("change", 'input[name="penerimaCheckbox"]');
@@ -237,12 +240,20 @@ $(document).ready(function () {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
-                                        document.querySelectorAll('input').forEach(input => input.value = "");
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach(
+                                                (input) => (input.value = "")
+                                            );
                                     } else {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
-                                        document.querySelectorAll('input').forEach(input => input.value = "");
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach(
+                                                (input) => (input.value = "")
+                                            );
                                     }
                                 });
                             } else if (response.error) {
@@ -316,12 +327,20 @@ $(document).ready(function () {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
-                                        document.querySelectorAll('input').forEach(input => input.value = "");
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach(
+                                                (input) => (input.value = "")
+                                            );
                                     } else {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
-                                        document.querySelectorAll('input').forEach(input => input.value = "");
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach(
+                                                (input) => (input.value = "")
+                                            );
                                     }
                                 });
                             } else if (response.error) {
@@ -405,12 +424,20 @@ $(document).ready(function () {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
-                                        document.querySelectorAll('input').forEach(input => input.value = "");
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach(
+                                                (input) => (input.value = "")
+                                            );
                                     } else {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
-                                        document.querySelectorAll('input').forEach(input => input.value = "");
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach(
+                                                (input) => (input.value = "")
+                                            );
                                     }
                                 });
                             } else if (response.error) {
@@ -484,12 +511,20 @@ $(document).ready(function () {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
-                                        document.querySelectorAll('input').forEach(input => input.value = "");
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach(
+                                                (input) => (input.value = "")
+                                            );
                                     } else {
                                         tablepertama.ajax.reload();
                                         btn_isi.style.display = "block";
                                         btn_proses.style.display = "none";
-                                        document.querySelectorAll('input').forEach(input => input.value = "");
+                                        document
+                                            .querySelectorAll("input")
+                                            .forEach(
+                                                (input) => (input.value = "")
+                                            );
                                     }
                                 });
                             } else if (response.error) {
@@ -565,12 +600,16 @@ $(document).ready(function () {
                                 tablepertama.ajax.reload();
                                 btn_isi.style.display = "block";
                                 btn_proses.style.display = "none";
-                                document.querySelectorAll('input').forEach(input => input.value = "");
+                                document
+                                    .querySelectorAll("input")
+                                    .forEach((input) => (input.value = ""));
                             } else {
                                 tablepertama.ajax.reload();
                                 btn_isi.style.display = "block";
                                 btn_proses.style.display = "none";
-                                document.querySelectorAll('input').forEach(input => input.value = "");
+                                document
+                                    .querySelectorAll("input")
+                                    .forEach((input) => (input.value = ""));
                             }
                         });
                     } else if (response.error) {

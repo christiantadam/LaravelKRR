@@ -75,7 +75,11 @@ $(document).ready(function () {
     saldo.value = 0;
     btn_isi.disabled = true;
 
-    let tablekedua = $("#tablebkkpenagihan").DataTable({});
+    let tablekedua = $("#tablebkkpenagihan").DataTable({
+        paging: false,
+        scrollY: "300px",
+        scrollCollapse: true,
+    });
     $("#tablebkkpenagihan").parents("div.dataTables_wrapper").first().hide();
 
     nilai_pembayaran.addEventListener("keydown", function (event) {
