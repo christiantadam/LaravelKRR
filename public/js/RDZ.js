@@ -26,7 +26,9 @@ function Greeting() {
     }
     // console.log(time);
     document.getElementById("greeting").innerHTML = greeting;
-    document.getElementById("greeting1").innerHTML = greeting;
+    if (document.getElementById("greeting1")) {
+        document.getElementById("greeting1").innerHTML = greeting;
+    }
 }
 function Detail(x, y) {
     if (document.getElementById(x).style.display == "none") {

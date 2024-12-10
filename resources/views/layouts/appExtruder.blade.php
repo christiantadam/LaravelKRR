@@ -18,6 +18,7 @@
     <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/select2/select2.min.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ asset('/images/KRR.png') }}" type="image/gif" sizes="17x15">
 
     <!-- Vendor JS Files -->
     <script src="{{ asset('vendor/aos/aos.js') }}"></script>
@@ -40,117 +41,117 @@
                 <div class="d-flex justify-content-left" style="gap:20px;width:auto;min-width:1325px">
         @endif
 
-        <div id="logo">
+        <div id="logo" style="cursor: default">
             @if ($pageName == 'index')
-                <h1><a href="#">🡰 Kerta Rajasa Raya</a></h1>
+                <h1><a>🡰 Kerta Rajasa Raya</a></h1>
             @elseif($pageName == 'WarehouseTerima' && $formName == 'index')
                 <h1></h1>
             @elseif($formName == 'formBeratWoven')
-                <h1><a href="#">Berat Woven</a></h1>
+                <h1><a>Berat Woven</a></h1>
             @elseif($formName == 'formBeratJumbo')
-                <h1><a href="#">Berat Jumbo</a></h1>
+                <h1><a>Berat Jumbo</a></h1>
             @elseif($formName == 'formBeratADStar')
-                <h1><a href="#">Berat AD Star</a></h1>
+                <h1><a>Berat AD Star</a></h1>
             @elseif($formName == 'formBeratCircular')
-                <h1><a href="#">Berat Circular</a></h1>
+                <h1><a>Berat Circular</a></h1>
             @elseif($formName == 'formBeratAssesoris')
-                <h1><a href="#">Berat Assesoris</a></h1>
+                <h1><a>Berat Assesoris</a></h1>
             @elseif($formName == 'formUpdatePersen')
-                <h1><a href="#">Update Persen Toleransi BS</a></h1>
+                <h1><a>Update Persen Toleransi BS</a></h1>
             @elseif($formName == 'formBeratWoven2')
-                <h1><a href="#">Berat Woven 2</a></h1>
+                <h1><a>Berat Woven 2</a></h1>
             @elseif($formName == 'formBeratJumbo2')
-                <h1><a href="#">Berat Jumbo 2</a></h1>
+                <h1><a>Berat Jumbo 2</a></h1>
             @elseif($formName == 'formBeratADStar2')
-                <h1><a href="#">Berat AD Star 2</a></h1>
+                <h1><a>Berat AD Star 2</a></h1>
             @elseif($formName == 'formBeratCircular2')
-                <h1><a href="#">Berat Circular 2</a></h1>
+                <h1><a>Berat Circular 2</a></h1>
             @elseif($formName == 'formBeratAssesoris2')
-                <h1><a href="#">Berat Assesoris 2</a></h1>
+                <h1><a>Berat Assesoris 2</a></h1>
             @elseif($formName == 'formKomposisiKonversi')
-                <h1><a href="#">Komposisi Konversi</a></h1>
+                <h1><a>Komposisi Konversi</a></h1>
             @elseif($formName == 'formKonversiKg')
-                <h1><a href="#">Konversi dalam Kg</a></h1>
+                <h1><a>Konversi dalam Kg</a></h1>
             @elseif($formName == 'formKonversiBarang')
-                <h1><a href="#">Konversi Barang</a></h1>
+                <h1><a>Konversi Barang</a></h1>
             @elseif($formName == 'formKomposisiTropodo')
-                <h1><a href="#">Maintenance Komposisi Bahan Tropodo</a></h1>
+                <h1><a>Maintenance Komposisi Bahan Tropodo</a></h1>
             @elseif($formName == 'formKomposisiMojosari' && $formData['namaGedung'] == 'D')
-                <h1><a href="#">Maintenance Komposisi Bahan Mojosari Gedung D</a></h1>
+                <h1><a>Maintenance Komposisi Bahan Mojosari Gedung D</a></h1>
             @elseif($formName == 'formKomposisiMojosari')
-                <h1><a href="#">Maintenance Komposisi Bahan Mojosari</a></h1>
+                <h1><a>Maintenance Komposisi Bahan Mojosari</a></h1>
             @elseif($formName == 'formKiteMaster')
-                <h1><a href="#">Master KITE</a></h1>
+                <h1><a>Master KITE</a></h1>
             @elseif($formName == 'formKiteEstimasi')
-                <h1><a href="#">Estimasi KITE</a></h1>
+                <h1><a>Estimasi KITE</a></h1>
             @elseif($formName == 'formOrderMaintenance' && $formData['namaGedung'] == 'B')
-                <h1><a href="#">Maintenance Order Mojosari Gedung B</a></h1>
+                <h1><a>Maintenance Order Mojosari Gedung B</a></h1>
             @elseif($formName == 'formOrderMaintenance' && $formData['namaGedung'] == 'D')
-                <h1><a href="#">Maintenance Order Mojosari Gedung D</a></h1>
+                <h1><a>Maintenance Order Mojosari Gedung D</a></h1>
             @elseif($formName == 'formOrderMaintenance')
-                <h1><a href="#">Maintenance Order</a></h1>
+                <h1><a>Maintenance Order</a></h1>
             @elseif($formName == 'formOrderACC' && $formData['namaGedung'] == 'B')
-                <h1><a href="#">ACC Order Mojosari Gedung B</a></h1>
+                <h1><a>ACC Order Mojosari Gedung B</a></h1>
             @elseif($formName == 'formOrderACC' && $formData['namaGedung'] == 'D')
-                <h1><a href="#">ACC Order Mojosari Gedung D</a></h1>
+                <h1><a>ACC Order Mojosari Gedung D</a></h1>
             @elseif($formName == 'formOrderACC')
-                <h1><a href="#">ACC Order</a></h1>
+                <h1><a>ACC Order</a></h1>
             @elseif($formName == 'formOrderStatus' && $formData['namaGedung'] == 'B')
-                <h1><a href="#">Pembatalan Order Mojosari Gedung B</a></h1>
+                <h1><a>Pembatalan Order Mojosari Gedung B</a></h1>
             @elseif($formName == 'formOrderStatus' && $formData['namaGedung'] == 'D')
-                <h1><a href="#">Pembatalan Order Mojosari Gedung D</a></h1>
+                <h1><a>Pembatalan Order Mojosari Gedung D</a></h1>
             @elseif($formName == 'formOrderStatus')
-                <h1><a href="#">Pembatalan Order</a></h1>
+                <h1><a>Pembatalan Order</a></h1>
             @elseif($formName == 'formKonversiMohon' && $formData['namaGedung'] == 'B')
-                <h1><a href="#">Permohonan Konversi Mojosari Gedung B</a></h1>
+                <h1><a>Permohonan Konversi Mojosari Gedung B</a></h1>
             @elseif($formName == 'formKonversiMohon' && $formData['namaGedung'] == 'D')
-                <h1><a href="#">Permohonan Konversi Mojosari Gedung D</a></h1>
+                <h1><a>Permohonan Konversi Mojosari Gedung D</a></h1>
             @elseif($formName == 'formKonversiMohon')
-                <h1><a href="#">Permohonan Konversi</a></h1>
+                <h1><a>Permohonan Konversi</a></h1>
             @elseif($formName == 'formKonversiACC' && $formData['namaGedung'] == 'B')
-                <h1><a href="#">ACC Konversi Mojosari Gedung B</a></h1>
+                <h1><a>ACC Konversi Mojosari Gedung B</a></h1>
             @elseif($formName == 'formKonversiACC' && $formData['namaGedung'] == 'D')
-                <h1><a href="#">ACC Konversi Mojosari Gedung D</a></h1>
+                <h1><a>ACC Konversi Mojosari Gedung D</a></h1>
             @elseif($formName == 'formKonversiACC')
-                <h1><a href="#">ACC Konversi</a></h1>
+                <h1><a>ACC Konversi</a></h1>
             @elseif($formName == 'formBenangMohon' && $formData['namaGedung'] == 'D')
-                <h1><a href="#">Permohonan Konversi NG Mojosari Gedung D</a></h1>
+                <h1><a>Permohonan Konversi NG Mojosari Gedung D</a></h1>
             @elseif($formName == 'formBenangMohon')
-                <h1><a href="#">Permohonan Konversi NG</a></h1>
+                <h1><a>Permohonan Konversi NG</a></h1>
             @elseif($formName == 'formBenangACC' && $formData['namaGedung'] == 'D')
-                <h1><a href="#">ACC Konversi NG Mojosari Gedung D</a></h1>
+                <h1><a>ACC Konversi NG Mojosari Gedung D</a></h1>
             @elseif($formName == 'formBenangACC')
-                <h1><a href="#">ACC Konversi NG</a></h1>
+                <h1><a>ACC Konversi NG</a></h1>
             @elseif($formName == 'formCatatGangguan')
-                <h1><a href="#">Pencatatan Gangguan Produksi</a></h1>
+                <h1><a>Pencatatan Gangguan Produksi</a></h1>
             @elseif($formName == 'formCatatDaya')
-                <h1><a href="#">Pencatatan Daya Produksi</a></h1>
+                <h1><a>Pencatatan Daya Produksi</a></h1>
             @elseif($formName == 'formCatatEffisiensi')
-                <h1><a href="#">Pencatatan Effisiensi</a></h1>
+                <h1><a>Pencatatan Effisiensi</a></h1>
             @elseif($formName == 'formCatatPerawatan')
-                <h1><a href="#">Pencatatan Perawatan</a></h1>
+                <h1><a>Pencatatan Perawatan</a></h1>
             @elseif($formName == 'formScanGelondongan')
-                <h1><a href="#">Scan Kirim Barcode Gelondongan</a></h1>
+                <h1><a>Scan Kirim Barcode Gelondongan</a></h1>
             @elseif($formName == 'formBatalGelondongan')
-                <h1><a href="#">Batal Kirim Barcode Gelondongan</a></h1>
+                <h1><a>Batal Kirim Barcode Gelondongan</a></h1>
             @elseif($formName == 'formScanAssesoris')
-                <h1><a href="#">Scan Kirim Barcode Assesoris</a></h1>
+                <h1><a>Scan Kirim Barcode Assesoris</a></h1>
             @elseif($formName == 'formBatalAssesoris')
-                <h1><a href="#">Batal Kirim Barcode Assesoris</a></h1>
+                <h1><a>Batal Kirim Barcode Assesoris</a></h1>
             @elseif($formName == 'formScanKRR2')
-                <h1><a href="#">Scan Kirim Barcode Kerta 2</a></h1>
+                <h1><a>Scan Kirim Barcode Kerta 2</a></h1>
             @elseif($formName == 'formBatalKRR2')
-                <h1><a href="#">Batal Kirim Barcode Kerta 2</a></h1>
+                <h1><a>Batal Kirim Barcode Kerta 2</a></h1>
             @elseif($formName == 'formTerimaKRR2')
-                <h1><a href="#">Terima JBN-JBK-JBJ-JBL</a></h1>
+                <h1><a>Terima JBN-JBK-JBJ-JBL</a></h1>
             @elseif($formName == 'formStokSetengah')
-                <h1><a href="#">Kirim KRR2</a></h1>
+                <h1><a>Kirim KRR2</a></h1>
             @elseif($formName == 'formCekBarcode')
-                <h1><a href="#">Cek Barcode</a></h1>
+                <h1><a>Cek Barcode</a></h1>
             @elseif($formName == 'formTerimaPeletan')
-                <h1><a href="#">Terima Barang Peletan</a></h1>
+                <h1><a>Terima Barang Peletan</a></h1>
             @elseif($formName == 'formGagalPeletan')
-                <h1><a href="#">Tidak Tersimpan Peletan</a></h1>
+                <h1><a>Tidak Tersimpan Peletan</a></h1>
             @else
                 <h1><a href="/home">🡰 Kerta Rajasa Raya</a></h1>
             @endif
@@ -213,156 +214,7 @@
                         <li><a href="/Extruder">Keluar</a></li>
                     </ul>
                 @elseif($pageName == 'Extruder')
-                    {{-- <ul>
-                            <li class="dropdown">
-                                <a href="#"><span>Master</span> <i class="bi bi-chevron-down"></i></a>
-                                <ul>
-                                    <li><a href="/Extruder/ExtruderNet/Master/formKomposisiTropodo">Maintenance
-                                            Komposisi Bahan Tropodo</a></li>
-                                    <li><a href="/Extruder/ExtruderNet/Master/formKomposisiMojosari">Maintenance
-                                            Komposisi Bahan Mojosari</a></li>
-                                    <li><a href="/Extruder/ExtruderNet/Master/formKomposisiMojosari/D">Maintenance
-                                            Komposisi Bahan Gedung D Mojosari</a>
-                                    </li>
-                                    <li class="dropdown"><a href="#"><span>KITE</span> <i
-                                                class="bi bi-chevron-right"></i></a>
-                                        <ul>
-                                            <li><a href="/Extruder/ExtruderNet/Master/formKiteMaster">Master</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Master/formKiteEstimasi">Estimasi</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#"><span>Transaksi Tropodo</span> <i
-                                        class="bi bi-chevron-down"></i></a>
-                                <ul>
-                                    <li class="dropdown">
-                                        <a href="#"><span>Order</span> <i class="bi bi-chevron-right"></i></a>
-                                        <ul>
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderMaintenance">Maintenance
-                                                    Order Extruder</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderACC">ACC
-                                                    Order</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderStatus">Maintenance
-                                                    Status
-                                                    Order</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#"><span>Konversi</span> <i
-                                                class="bi bi-chevron-right"></i></a>
-                                        <ul>
-                                            <li><a href="/Extruder/ExtruderNet/Konversi/formKonversiMohon">Permohonan
-                                                    Konversi
-                                                    Barang</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Konversi/formKonversiACC">ACC
-                                                    Permohonan
-                                                    Konversi</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#"><span>Sortir Benang NG</span>
-                                            <i class="bi bi-chevron-right"></i></a>
-                                        <ul>
-                                            <li><a href="/Extruder/ExtruderNet/Benang/formBenangMohon">Permohonan
-                                                    Sortir
-                                                    Benang NG</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Benang/formBenangACC">ACC Sortir
-                                                    Benang
-                                                    NG</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="/Extruder/ExtruderNet/Catat/formCatatGangguan">Pencatatan
-                                            Gangguan
-                                            Produksi</a>
-                                    <li><a href="/Extruder/ExtruderNet/Catat/formCatatDaya">Pencatatan
-                                            KwaH
-                                            Produksi</a>
-                                    <li><a href="/Extruder/ExtruderNet/Catat/formCatatEffisiensi">Pencatatan
-                                            Effisiensi</a>
-                                    <li><a href="/Extruder/ExtruderNet/Catat/formCatatPerawatan">Perawatan</a>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#"><span>Transaksi Gedung B MJS</span> <i
-                                        class="bi bi-chevron-down"></i></a>
-                                <ul>
-                                    <li class="dropdown">
-                                        <a href="#"><span>Order</span> <i class="bi bi-chevron-right"></i></a>
-                                        <ul>
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderMaintenance/B">Maintenance
-                                                    Order Extruder</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderACC/B">ACC Order</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderStatus/B">Maintenance
-                                                    Status
-                                                    Order</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#"><span>Konversi</span> <i
-                                                class="bi bi-chevron-right"></i></a>
-                                        <ul>
-                                            <li><a href="/Extruder/ExtruderNet/Konversi/formKonversiMohon/B">Permohonan
-                                                    Konversi
-                                                    Barang</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Konversi/formKonversiACC/B">ACC
-                                                    Permohonan
-                                                    Konversi</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#"><span>Transaksi Gedung D MJS</span> <i
-                                        class="bi bi-chevron-down"></i></a>
-                                <ul>
-                                    <li class="dropdown">
-                                        <a href="#"><span>Order</span> <i class="bi bi-chevron-right"></i></a>
-                                        <ul style="transition: 0.3s; left: -75%;">
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderMaintenance/D">Maintenance
-                                                    Order Extruder</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderACC/D">ACC Order</a>
-                                            </li>
-                                            <li><a href="/Extruder/ExtruderNet/Order/formOrderStatus/D">Maintenance
-                                                    Status
-                                                    Order</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#"><span>Konversi</span> <i
-                                                class="bi bi-chevron-right"></i></a>
-                                        <ul style="transition: 0.3s; left: -75%;">
-                                            <li><a href="/Extruder/ExtruderNet/Konversi/formKonversiMohon/D">Permohonan
-                                                    Konversi
-                                                    Barang</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Konversi/formKonversiACC/D">ACC
-                                                    Permohonan
-                                                    Konversi</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#"><span>Sortir Benang NG</span>
-                                            <i class="bi bi-chevron-right"></i></a>
-                                        <ul style="transition: 0.3s; left: -75%;">
-                                            <li><a href="/Extruder/ExtruderNet/Benang/formBenangMohon/D">Permohonan
-                                                    Sortir
-                                                    Benang NG</a></li>
-                                            <li><a href="/Extruder/ExtruderNet/Benang/formBenangACC/D">ACC Sortir
-                                                    Benang
-                                                    NG</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Pencatatan Gangguan Produksi</a>
-                                    <li><a href="#">Pencatatan KwaH Produksi</a>
-                                    <li><a href="#">Pencatatan Efisiensi</a>
-                                    <li><a href="#">Perawatan</a>
-                                </ul>
-                            </li>
-                            <li><a href="/Extruder">Keluar</a></li>
-                        </ul> --}}
-                    <ul style="padding:5px">
+                    <ul>
                         @foreach ($access['AccessMenu'] as $menuItem)
                             @php
                                 $print = 0;
@@ -372,171 +224,187 @@
                                 @php
                                     $print = 1;
                                 @endphp
-                                <div class="dropdown">
-                                    <a style="cursor: pointer;">
+                                <li class="dropdown">
+                                    <a>
                                         {{ $menuItem->NamaMenu }}
                                     </a>
-                            @endif
-                            @foreach ($access['AccessMenu'] as $cekSubMenu)
-                                @if ($menuItem->IdMenu == $cekSubMenu->Parent_IdMenu)
-                                    <ul style="padding:5px;cursor: default;">
+                                    <ul>
                                         @php
-                                            $cekSubMenuPrint = 1;
+                                            // Filter the submenus for the current menu item
+                                            $filteredItemsMenu = $access['AccessMenu']->filter(function ($item) use (
+                                                $menuItem,
+                                            ) {
+                                                return $item->Parent_IdMenu == $menuItem->IdMenu;
+                                            });
+
+                                            // Convert the filtered items to an array if needed
+                                            $filteredArrayMenu = $filteredItemsMenu->all();
+
+                                            $filteredItemsFitur = $access['AccessFitur']->filter(function ($item) use (
+                                                $menuItem,
+                                            ) {
+                                                return $item->Id_Menu == $menuItem->IdMenu;
+                                            });
+
+                                            // Convert the filtered items to an array if needed
+                                            $filteredArrayFitur = $filteredItemsFitur->all();
+
+                                            $combinedArrayFiturMenu = [];
+                                            foreach ($filteredArrayFitur as $fitur) {
+                                                $combinedArrayFiturMenu[] = [
+                                                    'Nama' => $fitur->NamaFitur,
+                                                    'Route' => $fitur->Route,
+                                                    'IdMenu' => null,
+                                                ];
+                                            }
+
+                                            foreach ($filteredArrayMenu as $menu) {
+                                                $combinedArrayFiturMenu[] = [
+                                                    'Nama' => $menu->NamaMenu,
+                                                    'Route' => null,
+                                                    'IdMenu' => $menu->IdMenu,
+                                                ];
+                                            }
+                                            usort($combinedArrayFiturMenu, function ($a, $b) {
+                                                return strcmp($a['Nama'], $b['Nama']);
+                                            });
                                         @endphp
-                                    @break
-                            @endif
-                        @endforeach
-                        @foreach ($access['AccessMenu'] as $secondMenuItem)
-                            @php
-                                $printSecond = 0;
-                            @endphp
-                            @if ($secondMenuItem->Parent_IdMenu !== null && $secondMenuItem->Parent_IdMenu == $menuItem->IdMenu)
-                                @php
-                                    $printSecond = 1;
-                                @endphp
-                                <li class="dropdown">
-                                    <a style="cursor: pointer;">
-                                        {{ $secondMenuItem->NamaMenu }} &raquo;
-                                    </a>
-                            @endif
-                            @if ($printSecond == 1)
-                                <ul style="padding:5px">
-                                    @foreach ($access['AccessFitur'] as $secondSubMenuItem)
-                                        @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
-                                            <li>
-                                                <a style="color: black;font-size: 15px;display: block;cursor: pointer;"
-                                                    class="dropdown-item" tabindex="-1"
-                                                    href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
+                                        @foreach ($combinedArrayFiturMenu as $combinedArrayFiturMenus)
+                                            <li class="dropdown">
+                                                <a tabindex="-1"
+                                                    @if (isset($combinedArrayFiturMenus['Route'])) href="{{ url($combinedArrayFiturMenus['Route']) }}"
+                                                        style="color: black;font-size: 15px;display: block"
+                                                    @else
+                                                        style="color: black;font-size: 15px;display: block; cursor: default;" @endif>
+                                                    @if (!isset($combinedArrayFiturMenus['Route']))
+                                                        {{ $combinedArrayFiturMenus['Nama'] }} »
+                                                    @else
+                                                        {{ $combinedArrayFiturMenus['Nama'] }}
+                                                    @endif
                                                 </a>
+                                                @if (!isset($combinedArrayFiturMenus['Route']))
+                                                    <ul>
+                                                        @foreach ($access['AccessFitur'] as $fiturSubMenu)
+                                                            @if ($fiturSubMenu->Id_Menu == $combinedArrayFiturMenus['IdMenu'])
+                                                                <li class="dropdown">
+                                                                    <a style="color: black;font-size: 15px;display: block"
+                                                                        tabindex="-1"
+                                                                        href="{{ url($fiturSubMenu->Route) }}">{{ $fiturSubMenu->NamaFitur }}
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
                                             </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
+                                        @endforeach
+                                    </ul>
                                 </li>
                             @endif
                         @endforeach
-                        @if ($cekSubMenuPrint == 1)
-                </ul>
-            @endif
-            @if ($print == 1 && $printSecond == 0)
-                <ul style="padding:5px">
-                    @foreach ($access['AccessFitur'] as $subMenuItem)
-                        @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
-                            <li>
-                                <a style="color: black;font-size: 15px;display: blockcursor: pointer;"
-                                    class="dropdown-item" tabindex="-1"
-                                    href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
-                                </a>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
-        </div>
-    @endif
-    @endforeach
-    </ul>
-@elseif($pageName == 'WarehouseTerima')
-    {{-- Ini bisa diganti --}}
-    <ul class="warehouse" style="border: black solid 3px;">
-        <li><a href="/Extruder/WarehouseTerima/formScanGelondongan">Scan
-                Kirim<br>Gelondongan</a>
-        </li>
-        <li><a href="/Extruder/WarehouseTerima/formBatalGelondongan">Batal
-                Kirim<br>Gelondongan</a>
-        </li>
-        <li><a href="/Extruder/WarehouseTerima/formScanAssesoris">Scan
-                Kirim<br>Assesoris</a></li>
-        <li><a href="/Extruder/WarehouseTerima/formBatalAssesoris">Batal
-                Kirim<br>Assesoris</a>
-        </li>
-        <li><a href="/Extruder/WarehouseTerima/formScanKRR2">Scan
-                Kirim<br>KRR2</a></li>
-        <li><a href="/Extruder/WarehouseTerima/formBatalKRR2">Batal
-                Kirim<br>KRR2</a></li>
-        <li><a href="/Extruder/WarehouseTerima/formCekBarcode">Cek<br>Barcode</a>
-        </li>
-        <li><a href="/Extruder/WarehouseTerima/formTerimaKRR2">Terima<br>KRR2</a>
-        </li>
-        <li><a href="/Extruder/WarehouseTerima/formStokSetengah">Stok<br>Setengah
-                Jadi</a></li>
-        <li><a href="/Extruder/WarehouseTerima/formTerimaPeletan">Scan
-                Terima<br>Peletan</a></li>
-        <li><a href="/Extruder/WarehouseTerima/formGagalPeletan">Gagal
-                Terima<br>Peletan</a></li>
-        <li><a href="/Extruder">Keluar</a></li>
-    </ul>
-    @endif
-    </div>
-@else
-    <div id="navbar_exit">
-        @if ($pageName == 'BeratKomposisi')
-            <ul>
-                <li><a href="/Extruder/BeratKomposisi">Keluar</a></li>
-            </ul>
-        @elseif($pageName == 'Extruder')
-            <ul>
-                <li><a href="/Extruder/Extruder">Keluar</a></li>
-            </ul>
-        @elseif($pageName == 'WarehouseTerima')
-            <ul>
-                <li><a href="/Extruder/WarehouseTerima">Keluar</a></li>
-            </ul>
+                    </ul>
+                @elseif($pageName == 'WarehouseTerima')
+                    {{-- Ini bisa diganti --}}
+                    <ul class="warehouse" style="border: black solid 3px;">
+                        <li><a href="/Extruder/WarehouseTerima/formScanGelondongan">Scan
+                                Kirim<br>Gelondongan</a>
+                        </li>
+                        <li><a href="/Extruder/WarehouseTerima/formBatalGelondongan">Batal
+                                Kirim<br>Gelondongan</a>
+                        </li>
+                        <li><a href="/Extruder/WarehouseTerima/formScanAssesoris">Scan
+                                Kirim<br>Assesoris</a></li>
+                        <li><a href="/Extruder/WarehouseTerima/formBatalAssesoris">Batal
+                                Kirim<br>Assesoris</a>
+                        </li>
+                        <li><a href="/Extruder/WarehouseTerima/formScanKRR2">Scan
+                                Kirim<br>KRR2</a></li>
+                        <li><a href="/Extruder/WarehouseTerima/formBatalKRR2">Batal
+                                Kirim<br>KRR2</a></li>
+                        <li><a href="/Extruder/WarehouseTerima/formCekBarcode">Cek<br>Barcode</a>
+                        </li>
+                        <li><a href="/Extruder/WarehouseTerima/formTerimaKRR2">Terima<br>KRR2</a>
+                        </li>
+                        <li><a href="/Extruder/WarehouseTerima/formStokSetengah">Stok<br>Setengah
+                                Jadi</a></li>
+                        <li><a href="/Extruder/WarehouseTerima/formTerimaPeletan">Scan
+                                Terima<br>Peletan</a></li>
+                        <li><a href="/Extruder/WarehouseTerima/formGagalPeletan">Gagal
+                                Terima<br>Peletan</a></li>
+                        <li><a href="/Extruder">Keluar</a></li>
+                    </ul>
+                @endif
+            </div>
+        @else
+            <div id="navbar_exit">
+                @if ($pageName == 'BeratKomposisi')
+                    <ul>
+                        <li><a href="/Extruder/BeratKomposisi">Keluar</a></li>
+                    </ul>
+                @elseif($pageName == 'Extruder')
+                    <ul>
+                        <li><a href="/Extruder/Extruder" style="cursor: pointer">Extruder Home</a></li>
+                    </ul>
+                @elseif($pageName == 'WarehouseTerima')
+                    <ul>
+                        <li><a href="/Extruder/WarehouseTerima">Keluar</a></li>
+                    </ul>
+                @endif
+            </div>
         @endif
-    </div>
-    @endif
 
-    </nav><!-- .navbar -->
-    @if ($formName == 'index')
-        <div style="margin-left:auto;margin-right: 5px;padding-right: 5px;align-content:center;"
-            class="NameWindows">
-            <p
-                style="border-right:1px black solid; padding-right:5px;font-size: 15px;display: block;margin-bottom: 0px;">
-                <label id="greeting1"></label>,
-                {{ Auth::user()->NamaUser }}
-            </p> {{-- bisa dikasih profile --}}
-        </div>
-        <a class="RDZlogout" style="color: black;font-size: 15px;display: block;align-content:center;"
-            href="{{ route('logout') }}"
-            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-            {{ __('Logout') }}
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-        </div>
-    @endif
-</header><!-- End Header -->
-
-<!-- Modal -->
-<div class="modal fade" id="confirmation_modal" tabindex="-1" data-toggle="modal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Pesan Konfirmasi</h1>
-                <button type="button" id="btn_close_md" class="btn-close" data-bs-dismiss="modal"></button>
+        </nav><!-- .navbar -->
+        @if ($formName == 'index')
+            <div style="margin-left:auto;margin-right: 5px;padding-right: 5px;align-content:center;"
+                class="NameWindows">
+                <p
+                    style="border-right:1px black solid; padding-right:5px;font-size: 15px;display: block;margin-bottom: 0px;">
+                    <label id="greeting1"></label>,
+                    {{ Auth::user()->NamaUser }}
+                </p> {{-- bisa dikasih profile --}}
             </div>
-            <div id="modal_body" class="modal-body">
-                ...
+            <a class="RDZlogout" style="color: black;font-size: 15px;display: block;align-content:center;"
+                href="{{ route('logout') }}"
+                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                {{ __('Logout') }}
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="btn_cancel_md" class="btn btn-secondary"
-                    data-bs-dismiss="modal">Batal</button>
-                <button type="button" id="btn_confirm_md" class="btn btn-primary"
-                    data-bs-dismiss="modal"></button>
+        @endif
+    </header><!-- End Header -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmation_modal" tabindex="-1" data-toggle="modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Pesan Konfirmasi</h1>
+                    <button type="button" id="btn_close_md" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div id="modal_body" class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn_cancel_md" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Batal</button>
+                    <button type="button" id="btn_confirm_md" class="btn btn-primary"
+                        data-bs-dismiss="modal"></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- End Modal -->
+    <!-- End Modal -->
 
-<!-- Template Main JS File -->
-<script src="{{ asset('js/Extruder/extruder_main.js') }}"></script>
+    <!-- Template Main JS File -->
+    <script src="{{ asset('js/Extruder/extruder_main.js') }}"></script>
 
-<main id="main">
-    <div class="container">
-        @yield('content')
-    </div>
-</main><!-- End #main -->
+    <main id="main">
+        <div class="container">
+            @yield('content')
+        </div>
+    </main><!-- End #main -->
 </body>
 
 </html>
