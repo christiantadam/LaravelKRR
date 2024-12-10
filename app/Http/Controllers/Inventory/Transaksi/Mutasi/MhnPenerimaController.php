@@ -423,7 +423,7 @@ class MhnPenerimaController extends Controller
             if ($hasPositiveSaldo) {
                 $cekAda = DB::connection('ConnInventory')->select('exec SP_1003_INV_LIST_TYPE @Kode = 8, @IdType = ?', [$kodeType]);
 
-                $ada = (int)$cekAda[0]->Ada;
+                $ada = (int) $cekAda[0]->Ada;
 
                 if ($ada > 0) {
                     $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_LIST_TYPE @Kode = 9, @IdType = ?', [$kodeType]);
@@ -487,7 +487,7 @@ class MhnPenerimaController extends Controller
             // cek kode barang dari input
             $kode = DB::connection('ConnInventory')->select('exec SP_1003_INV_cekkodebarang_type @XKodeBarang = ?, @XIdSubKelompok = ?', [$kodeBarang, $subkelId]);
 
-            $jumlah = (int)$kode[0]->Jumlah;
+            $jumlah = (int) $kode[0]->Jumlah;
             // dd($jumlah);
 
             if ($jumlah === 0) {
@@ -507,7 +507,7 @@ class MhnPenerimaController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request, $id)
     {
-        $a = (int)$request->input('a');
+        $a = (int) $request->input('a');
         $divisiNama = $request->input('divisiNama');
         $objekNama = $request->input('objekNama');
 
@@ -553,7 +553,7 @@ class MhnPenerimaController extends Controller
                                 $subkelId,
                                 $subkelId2,
                                 $harga,
-                                $PIBTrim
+                                $PIBTrim,
                             ]
                         );
                     } else if (str_contains($objekNama, 'Sparepart')) {
@@ -574,7 +574,7 @@ class MhnPenerimaController extends Controller
                                 $tritier3,
                                 $subkelId,
                                 $subkelId2,
-                                $harga
+                                $harga,
                             ]
                         );
                     } else {
@@ -595,12 +595,10 @@ class MhnPenerimaController extends Controller
                                 $subkelId,
                                 $subkelId2,
                                 $harga,
-                                $PIBTrim
+                                $PIBTrim,
                             ]
                         );
                     }
-
-
                     return response()->json(['success' => 'Data sudah diSIMPAN !!'], 200);
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Data Gagal ter-SIMPAN' . $e->getMessage()], 500);

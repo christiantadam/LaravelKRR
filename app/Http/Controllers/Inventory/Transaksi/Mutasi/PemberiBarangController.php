@@ -26,7 +26,7 @@ class PemberiBarangController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // 
+        //
     }
 
     //Display the specified resource.
@@ -399,7 +399,7 @@ class PemberiBarangController extends Controller
                 // prosesnya
                 DB::connection('ConnInventory')
                     ->statement('exec [SP_1003_INV_Proses_ACC_Pemberi]
-        @Kode = ?, @IdTransaksi = ?, @UserACC = ?, @JumlahKeluarPrimer = ?, @JumlahKeluarSekunder = ?, @JumlahKeluarTritier = ?',
+                                        @Kode = ?, @IdTransaksi = ?, @UserACC = ?, @JumlahKeluarPrimer = ?, @JumlahKeluarSekunder = ?, @JumlahKeluarTritier = ?',
                         [
                             3,
                             $IdTransaksi,
@@ -420,6 +420,6 @@ class PemberiBarangController extends Controller
     //Remove the specified resource from storage.
     public function destroy(Request $request)
     {
-        // 
+        //
     }
 }
