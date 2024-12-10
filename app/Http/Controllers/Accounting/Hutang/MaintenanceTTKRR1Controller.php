@@ -68,7 +68,7 @@ class MaintenanceTTKRR1Controller extends Controller
                     $user_id,
                 ]);
 
-                $TIDPenagihanqq = DB::connection('ConnAccounting')->table('T_Penagihan')
+            $TIDPenagihanqq = DB::connection('ConnAccounting')->table('T_Penagihan')
                 ->select('Id_Penagihan')
                 ->where('Id_Penagihan', 'like', 'TT%')
                 ->orderBy('Waktu_Penagihan', 'desc')
@@ -133,9 +133,10 @@ class MaintenanceTTKRR1Controller extends Controller
             $hrgTotBttb = DB::connection('ConnPurchase')->table('Yterima')
                 ->where('No_terima', $item['No_terima'])
                 ->value('Hrg_tot_bttb');
-
             $cekHrg_tot_bttb += (float) $hrgTotBttb;
         }
+        $cekHrg_tot_bttb = number_format($cekHrg_tot_bttb, 2, '.', '');
+        $cekHrg_tot_bttb = round($cekHrg_tot_bttb, 2);
 
         if (!$simpan) {
             return response()->json(['error' => 'TIDAK ADA Data yang diPROSES !!..']);
