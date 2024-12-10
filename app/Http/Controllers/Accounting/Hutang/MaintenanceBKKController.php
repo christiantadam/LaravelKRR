@@ -47,7 +47,7 @@ class MaintenanceBKKController extends Controller
         $detailBGText = (int) $request->input('id_detailkiri');
         $rincian = $request->input('rincian');
         $nilaiRincianTanpaKoma = str_replace(',', '', $request->input('nilaiRincian'));
-        $nilaiRincian = (float) str_replace('.', ',', $nilaiRincianTanpaKoma);
+        $nilaiRincian = (float) str_replace(',', '', $nilaiRincianTanpaKoma);
         $idKira = $request->input('kdPerkiraan1');
         $idDetailBG_B = (int) $request->input('IdDetailBGCek');
         $detailByr = $request->input('id_detailkanan');
