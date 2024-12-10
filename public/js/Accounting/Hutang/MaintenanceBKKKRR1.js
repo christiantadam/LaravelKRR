@@ -81,17 +81,19 @@ $(document).ready(function () {
     let table_kedua = $("#table_kedua").DataTable({});
     $("#table_kedua").parents("div.dataTables_wrapper").first().hide();
 
-    document.getElementById('dataBKKModal').addEventListener('hidden.bs.modal', function () {
-        location.reload();
-        // const inputs = this.querySelectorAll('input');
-        // inputs.forEach(input => {
-        //     if (input.id !== 'month' && input.id !== 'year') {
-        //         input.value = '';
-        //     }
-        // });
-        // rowDataBKKArray = [];
-        // rowDataBKK = null;
-      });
+    document
+        .getElementById("dataBKKModal")
+        .addEventListener("hidden.bs.modal", function () {
+            location.reload();
+            // const inputs = this.querySelectorAll('input');
+            // inputs.forEach(input => {
+            //     if (input.id !== 'month' && input.id !== 'year') {
+            //         input.value = '';
+            //     }
+            // });
+            // rowDataBKKArray = [];
+            // rowDataBKK = null;
+        });
 
     rincinan_bayar.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -1321,6 +1323,9 @@ $(document).ready(function () {
                                 { data: "NoKodePerkiraan" },
                                 { data: "Keterangan" },
                             ],
+                            paging: false,
+                            scrollY: "300px",
+                            scrollCollapse: true,
                         });
                         setTimeout(() => {
                             $("#tableKira_filter input").focus();
@@ -1385,7 +1390,7 @@ $(document).ready(function () {
                 rowDataBKKArray.push(rowDataBKK);
 
                 console.log(rowDataBKK, this, tabletampilBKK);
-            }else {
+            } else {
                 rowDataBKK = null;
                 // Remove the unchecked row data from the array
                 // rowDataPertama = table_atas.row($(this).closest("tr")).data();
