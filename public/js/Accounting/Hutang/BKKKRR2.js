@@ -636,6 +636,15 @@ $(document).ready(function () {
                                             myModal.show();
                                             btn_okbkk.click();
                                             // btn_cetakbkk.click();
+                                            $("#tableatas")
+                                                .DataTable()
+                                                .ajax.reload();
+                                            $("#tablekiri")
+                                                .DataTable()
+                                                .ajax.reload();
+                                            $("#tablekanan")
+                                                .DataTable()
+                                                .ajax.reload();
                                             // tableatas.ajax.reload();
                                             // tablekiri.ajax.reload();
                                             // tablekanan.ajax.reload();
@@ -655,6 +664,15 @@ $(document).ready(function () {
                                             );
                                             myModal.show();
                                             btn_okbkk.click();
+                                            $("#tableatas")
+                                                .DataTable()
+                                                .ajax.reload();
+                                            $("#tablekiri")
+                                                .DataTable()
+                                                .ajax.reload();
+                                            $("#tablekanan")
+                                                .DataTable()
+                                                .ajax.reload();
                                         }
                                     });
                                 } else if (response.error) {
@@ -1533,13 +1551,15 @@ $(document).ready(function () {
                                 data.data[0].NM_SUP;
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-                            tbodyHTML+=`<tr style="border:none !important">
+                            tbodyHTML += `<tr style="border:none !important">
                                 <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
+                                    data.data[0].Id_MataUang_BC ?? ""
+                                }
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {
@@ -1585,10 +1605,13 @@ $(document).ready(function () {
                                     Total
                                 </td>
                                 <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
-                                    ${totalNilaiRincian.toLocaleString("en-US", {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    })}
+                                    ${totalNilaiRincian.toLocaleString(
+                                        "en-US",
+                                        {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        }
+                                    )}
                                 </td>
                             </tr>
                             `;
@@ -1618,7 +1641,7 @@ $(document).ready(function () {
                     <td style="border:none !important" id="alasan_p">&nbsp;</td>
                 </tr>
                             `;
-                               // Menambahkan hasil ke dalam tbody
+                            // Menambahkan hasil ke dalam tbody
                             document.querySelector(
                                 "#ttdTable tbody"
                             ).innerHTML = tbodyttdHTML;
@@ -1670,13 +1693,15 @@ $(document).ready(function () {
                                 data.data[0].NM_SUP;
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-                            tbodyHTML+=`<tr style="border:none !important">
+                            tbodyHTML += `<tr style="border:none !important">
                                 <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
+                                    data.data[0].Id_MataUang_BC ?? ""
+                                }
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {
@@ -1722,10 +1747,13 @@ $(document).ready(function () {
                                     Total
                                 </td>
                                 <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
-                                    ${totalNilaiRincian.toLocaleString("en-US", {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    })}
+                                    ${totalNilaiRincian.toLocaleString(
+                                        "en-US",
+                                        {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        }
+                                    )}
                                 </td>
                             </tr>
                             `;
@@ -1755,7 +1783,7 @@ $(document).ready(function () {
                     <td style="border:none !important" id="alasan_p">&nbsp;</td>
                 </tr>
                             `;
-                               // Menambahkan hasil ke dalam tbody
+                            // Menambahkan hasil ke dalam tbody
                             document.querySelector(
                                 "#ttdTable tbody"
                             ).innerHTML = tbodyttdHTML;
@@ -1798,13 +1826,15 @@ $(document).ready(function () {
                                 data.data[0].NM_SUP;
                             //Tbody Array
                             let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
-                            tbodyHTML+=`<tr style="border:none !important">
+                            tbodyHTML += `<tr style="border:none !important">
                                 <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
                                 <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">CEK/BG
                                     No.</td>
-                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${data.data[0].Id_MataUang_BC ?? ""}
+                                <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
+                                    data.data[0].Id_MataUang_BC ?? ""
+                                }
                                 </td>
                             </tr>`;
                             data.data.forEach(function (item) {
@@ -1850,10 +1880,13 @@ $(document).ready(function () {
                                     Total
                                 </td>
                                 <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
-                                    ${totalNilaiRincian.toLocaleString("en-US", {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    })}
+                                    ${totalNilaiRincian.toLocaleString(
+                                        "en-US",
+                                        {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        }
+                                    )}
                                 </td>
                             </tr>
                             `;
@@ -1883,7 +1916,7 @@ $(document).ready(function () {
                     <td style="border:none !important" id="alasan_p">&nbsp;</td>
                 </tr>
                             `;
-                               // Menambahkan hasil ke dalam tbody
+                            // Menambahkan hasil ke dalam tbody
                             document.querySelector(
                                 "#ttdTable tbody"
                             ).innerHTML = tbodyttdHTML;
