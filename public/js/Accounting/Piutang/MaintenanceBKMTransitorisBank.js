@@ -834,12 +834,13 @@ btnMataUang.addEventListener("click", function (e) {
                             if (mataUang.value.trim() !== mataUang1.value.trim() && mataUang.value !== '') {
                                 kurs.readOnly = false;
                                 kurs.focus();
-                            }
-                            else if (mataUang.value.trim() === mataUang1.value.trim() && mataUang.value !== '') {
-                                kurs.readOnly = true;
-                                kurs.value = '0';
                                 uang.value = formatNumber(0);
                                 btnBank.focus();
+                            }
+                            else if (mataUang.value.trim() == mataUang1.value.trim() && mataUang.value !== '') {
+                                kurs.readOnly = true;
+                                kurs.value = '0';
+                                uang.value = uang1.value
 
                             }
                         }
