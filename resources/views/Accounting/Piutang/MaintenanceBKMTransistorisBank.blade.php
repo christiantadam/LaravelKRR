@@ -54,9 +54,9 @@
 
     #table_list th,
     #table_list td {
-        padding-top: 0;
-        padding-bottom: 0;
-        font-size: 16px;
+        /* padding-top: 0;
+        padding-bottom: 0; */
+        /* font-size: 16px; */
     }
 
     .preview,
@@ -901,6 +901,22 @@
                                                 <label for="kodePerkiraan" style="margin-right: 10px;">Kode
                                                     Perkiraan</label>
                                             </div>
+                                            <div class="col-sm-8">
+                                                <div class="input-group" style="width: 100%;"> <!-- Ensure full width here -->
+                                                    <select name="select_kodePerkiraan" id="select_kodePerkiraan" class="row" style="width: 100%;"> <!-- Full width for select -->
+                                                        <option disabled selected>Pilih Kode Perkiraan</option>
+                                                        @foreach ($kodePerkiraan as $d)
+                                                            <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} | {{ $d->NoKodePerkiraan }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="kodePerkiraan" style="margin-right: 10px;">Kode
+                                                    Perkiraan</label>
+                                            </div>
                                             <div class="col-md-2">
                                                 <input type="text" id="idPerkiraanBiaya" name="idPerkiraanBiaya"
                                                     class="form-control" style="width: 100%" readonly>
@@ -913,7 +929,7 @@
                                                 <button id="btnPerkiraanBiaya" name="btnPerkiraanBiaya"
                                                     class="btn btn-primary">...</button>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="row pt-1">
                                             <div class="col-sm-3">
                                                 <label for="noBg">keterangan</label>
@@ -959,6 +975,22 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3">
+                                                <label for="kodePerkiraan" style="margin-right: 10px;">Kode
+                                                    Perkiraan</label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="input-group" style="width: 100%;"> <!-- Ensure full width here -->
+                                                    <select name="select_kodePerkiraan1" id="select_kodePerkiraan1" class="row" style="width: 100%;"> <!-- Full width for select -->
+                                                        <option disabled selected>Pilih Kode Perkiraan</option>
+                                                        @foreach ($kodePerkiraan as $d)
+                                                            <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} | {{ $d->NoKodePerkiraan }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="row">
+                                            <div class="col-md-3">
                                                 <label for="kodePerkiraan1" style="margin-right: 10px;">Kode
                                                     Perkiraan</label>
                                             </div>
@@ -974,7 +1006,7 @@
                                                 <button id="btnPerkiraanBiaya1" name="btnPerkiraanBiaya"
                                                     class="btn btn-primary">...</button>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="row pt-1">
                                             <div class="col-sm-3">
                                                 <label for="noBg">keterangan</label>

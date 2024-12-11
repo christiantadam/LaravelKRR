@@ -14,7 +14,8 @@ class MaintenanceBKMTransistorisBankController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Piutang.MaintenanceBKMTransistorisBank', compact('access'));
+        $kodePerkiraan = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_LIST_BKK1_KODEPERKIRAAN');
+        return view('Accounting.Piutang.MaintenanceBKMTransistorisBank', compact('access', 'kodePerkiraan'));
     }
 
     //Show the form for creating a new resource.
@@ -510,10 +511,10 @@ class MaintenanceBKMTransistorisBankController extends Controller
                     $kodeperkiraan = $detail[2];
 
                     DB::connection('ConnAccounting')
-                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TDETAILPEMB] 
-                @idpembayaran = ?, 
-                @keterangan = ?, 
-                @biaya = ?, 
+                        ->statement('exec [SP_5298_ACC_INSERT_BKK_TDETAILPEMB]
+                @idpembayaran = ?,
+                @keterangan = ?,
+                @biaya = ?,
                 @kodeperkiraan = ?', [
                             $idpembayaran,
                             $keterangan,
@@ -540,10 +541,10 @@ class MaintenanceBKMTransistorisBankController extends Controller
                     $kodeperkiraan = $detail[2];
 
                     DB::connection('ConnAccounting')
-                        ->statement('exec [SP_5298_ACC_INSERT_DETAIL_BIAYA] 
-                @idpelunasan = ?, 
-                @keterangan = ?, 
-                @biaya = ?, 
+                        ->statement('exec [SP_5298_ACC_INSERT_DETAIL_BIAYA]
+                @idpelunasan = ?,
+                @keterangan = ?,
+                @biaya = ?,
                 @kodeperkiraan = ?', [
                             $idpelunasan,
                             $keterangan,

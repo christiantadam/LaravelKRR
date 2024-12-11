@@ -841,7 +841,7 @@ btnMataUang.addEventListener("click", function (e) {
                                 kurs.readOnly = true;
                                 kurs.value = '0';
                                 uang.value = uang1.value
-
+                                btnBank.focus();
                             }
                         }
                     },
@@ -1969,7 +1969,7 @@ $('#nilaiPelunasanBiaya1').on('keydown', function (e) {
     if (e.key === 'Enter') {
         e.preventDefault();
         nilaiPelunasanBiaya1.value = numeral(parseFloat(nilaiPelunasanBiaya1.value)).format("0,0.00");
-        btnPerkiraanBiaya1.focus();
+        select_kodePerkiraan1.focus();
     }
 });
 
@@ -1980,111 +1980,139 @@ $('#keteranganBiaya1').on('keydown', function (e) {
     }
 });
 
-btnPerkiraanBiaya1.addEventListener("click", function (e) {
-    try {
-        Swal.fire({
-            title: 'Perkiraan',
-            html: `
-            <table id="table_list" class="table">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        `,
-            preConfirm: () => {
-                const selectedData = $("#table_list")
-                    .DataTable()
-                    .row(".selected")
-                    .data();
-                if (!selectedData) {
-                    Swal.showValidationMessage("Please select a row");
-                    return false;
-                }
-                return selectedData;
-            },
-            width: '40%',
-            returnFocus: false,
-            showCloseButton: true,
-            showConfirmButton: true,
-            confirmButtonText: 'Select',
-            didOpen: () => {
-                $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
-                        responsive: true,
-                        processing: true,
-                        serverSide: true,
-                        paging: false,
-                        scrollY: '400px',
-                        scrollCollapse: true,
-                        order: [0, "asc"],
-                        ajax: {
-                            url: "MaintenanceBKMTransistorisBank/getPerkiraan",
-                            dataType: "json",
-                            type: "GET",
-                            data: {
-                                _token: csrfToken
-                            }
-                        },
-                        columns: [
-                            { data: "NoKodePerkiraan" },
-                            { data: "Keterangan" },
-                        ],
-                    });
-
-                    $("#table_list tbody").on("click", "tr", function () {
-                        table.$("tr.selected").removeClass("selected");
-                        $(this).addClass("selected");
-                        scrollRowIntoView(this);
-                    });
-
-                    const searchInput = $('#table_list_filter input');
-                    if (searchInput.length > 0) {
-                        searchInput.focus();
-                    }
-
-                    currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
-                });
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                idPerkiraanBiaya1.value = decodeHtmlEntities(result.value.NoKodePerkiraan.trim());
-                perkiraanBiaya1.value = decodeHtmlEntities(result.value.Keterangan.trim());
-
-                $.ajax({
-                    type: 'GET',
-                    url: 'MaintenanceBKMTransistorisBank/getPerkiraanChange',
-                    data: {
-                        _token: csrfToken,
-                    },
-                    success: function (result) {
-                        if (result.length !== 0) {
-                            perkiraanBiaya1.value = result[0].Keterangan ? decodeHtmlEntities(result[0].Keterangan) : '';
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
-
-                keteranganBiaya1.focus();
-            }
-        });
-    } catch (error) {
-        console.error(error);
-    }
+const select_kodePerkiraan1 = $("#select_kodePerkiraan1");
+select_kodePerkiraan1.select2({
+    dropdownParent: $("#modalBiaya1"),
+    placeholder: "Pilih Kode Perkiraan",
 });
+select_kodePerkiraan1.on("select2:select", function () {
+    const selectedKodePerkiraan1 = $(this).val();
+    const ketSelectedKodePerkiraan1 = $(this).select2('data')[0].text.split(" | ")[0].trim();
+    console.log(selectedKodePerkiraan1);
+    console.log($(this).select2('data')[0].text.split(" | ")[0].trim());
+    $.ajax({
+        type: 'GET',
+        url: 'MaintenanceBKMTransistorisBank/getPerkiraanChange',
+        data: {
+            _token: csrfToken,
+        },
+        success: function (result) {
+            if (result.length !== 0) {
+                ketSelectedKodePerkiraan1 = result[0].Keterangan ? decodeHtmlEntities(result[0].Keterangan) : '';
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+    keteranganBiaya1.focus();
+});
+
+// btnPerkiraanBiaya1.addEventListener("click", function (e) {
+//     try {
+//         Swal.fire({
+//             title: 'Perkiraan',
+//             html: `
+//             <table id="table_list" class="table">
+//                 <thead>
+//                     <tr>
+//                         <th scope="col"></th>
+//                         <th scope="col"></th>
+//                     </tr>
+//                 </thead>
+//                 <tbody></tbody>
+//             </table>
+//         `,
+//             preConfirm: () => {
+//                 const selectedData = $("#table_list")
+//                     .DataTable()
+//                     .row(".selected")
+//                     .data();
+//                 if (!selectedData) {
+//                     Swal.showValidationMessage("Please select a row");
+//                     return false;
+//                 }
+//                 return selectedData;
+//             },
+//             width: '40%',
+//             returnFocus: false,
+//             showCloseButton: true,
+//             showConfirmButton: true,
+//             confirmButtonText: 'Select',
+//             didOpen: () => {
+//                 $(document).ready(function () {
+//                     const table = $("#table_list").DataTable({
+//                         responsive: true,
+//                         processing: true,
+//                         serverSide: true,
+//                         paging: false,
+//                         scrollY: '400px',
+//                         scrollCollapse: true,
+//                         order: [0, "asc"],
+//                         ajax: {
+//                             url: "MaintenanceBKMTransistorisBank/getPerkiraan",
+//                             dataType: "json",
+//                             type: "GET",
+//                             data: {
+//                                 _token: csrfToken
+//                             }
+//                         },
+//                         columns: [
+//                             { data: "NoKodePerkiraan" },
+//                             { data: "Keterangan" },
+//                         ],
+//                     });
+
+//                     $("#table_list tbody").on("click", "tr", function () {
+//                         table.$("tr.selected").removeClass("selected");
+//                         $(this).addClass("selected");
+//                         scrollRowIntoView(this);
+//                     });
+
+//                     const searchInput = $('#table_list_filter input');
+//                     if (searchInput.length > 0) {
+//                         searchInput.focus();
+//                     }
+
+//                     currentIndex = null;
+//                     Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+//                 });
+//             }
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 idPerkiraanBiaya1.value = decodeHtmlEntities(result.value.NoKodePerkiraan.trim());
+//                 perkiraanBiaya1.value = decodeHtmlEntities(result.value.Keterangan.trim());
+
+//                 $.ajax({
+//                     type: 'GET',
+//                     url: 'MaintenanceBKMTransistorisBank/getPerkiraanChange',
+//                     data: {
+//                         _token: csrfToken,
+//                     },
+//                     success: function (result) {
+//                         if (result.length !== 0) {
+//                             perkiraanBiaya1.value = result[0].Keterangan ? decodeHtmlEntities(result[0].Keterangan) : '';
+//                         }
+//                     },
+//                     error: function (xhr, status, error) {
+//                         console.error('Error:', error);
+//                     }
+//                 });
+
+//                 keteranganBiaya1.focus();
+//             }
+//         });
+//     } catch (error) {
+//         console.error(error);
+//     }
+// });
 
 btnProsesBiaya1.addEventListener("click", function (e) {
 
     if (proses === 1) {
-        if (nilaiPelunasanBiaya1.value !== '' && idPerkiraanBiaya1.value !== '' && keteranganBiaya1.value !== '') {
+        if (nilaiPelunasanBiaya1.value !== '' && select_kodePerkiraan1.val() !== '' && keteranganBiaya1.value !== '') {
             i += 1;
-            tmpArr = [keteranganBiaya1.value, (nilaiPelunasanBiaya1.value), idPerkiraanBiaya1.value];
+            tmpArr = [keteranganBiaya1.value, (nilaiPelunasanBiaya1.value), select_kodePerkiraan1.val()];
             updateDataTable(tmpArr, 3);
             $('#modalBiaya1').modal('hide');
             Swal.fire({
@@ -2122,10 +2150,10 @@ btnProsesBiaya1.addEventListener("click", function (e) {
         }
     }
     else if (proses === 2) {
-        if (nilaiPelunasanBiaya1.value !== '' && idPerkiraanBiaya1.value !== '' && keteranganBiaya1.value !== '') {
+        if (nilaiPelunasanBiaya1.value !== '' && select_kodePerkiraan1.val() !== '' && keteranganBiaya1.value !== '') {
             arrBKM[0] = decodeHtmlEntities(keteranganBiaya1.value);
             arrBKM[1] = numeral(nilaiPelunasanBiaya1.value).value();
-            arrBKM[2] = idPerkiraanBiaya1.value;
+            arrBKM[2] = select_kodePerkiraan1.val();
 
             var table = $('#tableDetailBiayaBKM').DataTable();
             table.row(arrBKM[3]).data(arrBKM).draw();
@@ -2207,7 +2235,10 @@ btnKoreksi.addEventListener("click", function (e) {
             formListBiaya.value = listBiaya.value;
             nilaiPelunasanBiaya.readOnly = false;
             nilaiPelunasanBiaya.value = numeral(arrBKK[1]).value();
-            idPerkiraanBiaya.value = arrBKK[2];
+            select_kodePerkiraan
+                        .val(arrBKK[2])
+                        .trigger("change");
+            // idPerkiraanBiaya.value = arrBKK[2];
             keteranganBiaya.value = arrBKK[0];
             KeA.value = arrBKK[3];
             nilaiPelunasanBiaya.focus();
@@ -2234,7 +2265,10 @@ btnHapus.addEventListener("click", function (e) {
             formListBiaya.value = listBiaya.value;
             nilaiPelunasanBiaya.readOnly = true;
             nilaiPelunasanBiaya.value = numeral(arrBKK[1]).value();
-            idPerkiraanBiaya.value = arrBKK[2];
+            select_kodePerkiraan
+                        .val(arrBKK[2])
+                        .trigger("change");
+            // idPerkiraanBiaya.value = arrBKK[2];
             keteranganBiaya.value = arrBKK[0];
             KeA.value = arrBKK[3];
             btnProsesBiaya.focus();
@@ -2261,7 +2295,10 @@ btnKoreksi2.addEventListener("click", function (e) {
             formListBiaya1.value = listBiaya1.value;
             nilaiPelunasanBiaya1.readOnly = false;
             nilaiPelunasanBiaya1.value = numeral(arrBKM[1]).value();
-            idPerkiraanBiaya1.value = arrBKM[2];
+            select_kodePerkiraan1
+                        .val(arrBKK[2])
+                        .trigger("change");
+            // idPerkiraanBiaya1.value = arrBKM[2];
             keteranganBiaya1.value = arrBKM[0];
             KeA1.value = arrBKM[3];
             nilaiPelunasanBiaya1.focus();
@@ -2288,7 +2325,10 @@ btnHapus2.addEventListener("click", function (e) {
             formListBiaya1.value = listBiaya.value;
             nilaiPelunasanBiaya1.readOnly = true;
             nilaiPelunasanBiaya1.value = numeral(arrBKM[1]).value();
-            idPerkiraanBiaya1.value = arrBKM[2];
+            select_kodePerkiraan1
+                        .val(arrBKK[2])
+                        .trigger("change");
+            // idPerkiraanBiaya1.value = arrBKM[2];
             keteranganBiaya1.value = arrBKM[0];
             KeA1.value = arrBKM[3];
             btnProsesBiaya1.focus();
@@ -2309,7 +2349,7 @@ $('#nilaiPelunasanBiaya').on('keydown', function (e) {
     if (e.key === 'Enter') {
         e.preventDefault();
         nilaiPelunasanBiaya.value = numeral(parseFloat(nilaiPelunasanBiaya.value)).format("0,0.00");
-        btnPerkiraanBiaya.focus();
+        select_kodePerkiraan.focus();
     }
 });
 
@@ -2320,111 +2360,139 @@ $('#keteranganBiaya').on('keydown', function (e) {
     }
 });
 
-btnPerkiraanBiaya.addEventListener("click", function (e) {
-    try {
-        Swal.fire({
-            title: 'Perkiraan',
-            html: `
-            <table id="table_list" class="table">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        `,
-            preConfirm: () => {
-                const selectedData = $("#table_list")
-                    .DataTable()
-                    .row(".selected")
-                    .data();
-                if (!selectedData) {
-                    Swal.showValidationMessage("Please select a row");
-                    return false;
-                }
-                return selectedData;
-            },
-            width: '40%',
-            returnFocus: false,
-            showCloseButton: true,
-            showConfirmButton: true,
-            confirmButtonText: 'Select',
-            didOpen: () => {
-                $(document).ready(function () {
-                    const table = $("#table_list").DataTable({
-                        responsive: true,
-                        processing: true,
-                        serverSide: true,
-                        paging: false,
-                        scrollY: '400px',
-                        scrollCollapse: true,
-                        order: [0, "asc"],
-                        ajax: {
-                            url: "MaintenanceBKMTransistorisBank/getPerkiraan",
-                            dataType: "json",
-                            type: "GET",
-                            data: {
-                                _token: csrfToken
-                            }
-                        },
-                        columns: [
-                            { data: "NoKodePerkiraan" },
-                            { data: "Keterangan" },
-                        ],
-                    });
-
-                    $("#table_list tbody").on("click", "tr", function () {
-                        table.$("tr.selected").removeClass("selected");
-                        $(this).addClass("selected");
-                        scrollRowIntoView(this);
-                    });
-
-                    const searchInput = $('#table_list_filter input');
-                    if (searchInput.length > 0) {
-                        searchInput.focus();
-                    }
-
-                    currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
-                });
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                idPerkiraanBiaya.value = decodeHtmlEntities(result.value.NoKodePerkiraan.trim());
-                perkiraanBiaya.value = decodeHtmlEntities(result.value.Keterangan.trim());
-
-                $.ajax({
-                    type: 'GET',
-                    url: 'MaintenanceBKMTransistorisBank/getPerkiraanChange',
-                    data: {
-                        _token: csrfToken,
-                    },
-                    success: function (result) {
-                        if (result.length !== 0) {
-                            perkiraanBiaya.value = result[0].Keterangan ? decodeHtmlEntities(result[0].Keterangan) : '';
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
-
-                keteranganBiaya.focus();
-            }
-        });
-    } catch (error) {
-        console.error(error);
-    }
+const select_kodePerkiraan = $("#select_kodePerkiraan");
+select_kodePerkiraan.select2({
+    dropdownParent: $("#modalBiaya"),
+    placeholder: "Pilih Kode Perkiraan",
 });
+select_kodePerkiraan.on("select2:select", function () {
+    const selectedKodePerkiraan = $(this).val();
+    const ketSelectedKodePerkiraan = $(this).select2('data')[0].text.split(" | ")[0].trim();
+    console.log(selectedKodePerkiraan);
+    console.log($(this).select2('data')[0].text.split(" | ")[0].trim());
+    $.ajax({
+        type: 'GET',
+        url: 'MaintenanceBKMTransistorisBank/getPerkiraanChange',
+        data: {
+            _token: csrfToken,
+        },
+        success: function (result) {
+            if (result.length !== 0) {
+                ketSelectedKodePerkiraan = result[0].Keterangan ? decodeHtmlEntities(result[0].Keterangan) : '';
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+    keteranganBiaya.focus();
+});
+
+// btnPerkiraanBiaya.addEventListener("click", function (e) {
+//     try {
+//         Swal.fire({
+//             title: 'Perkiraan',
+//             html: `
+//             <table id="table_list" class="table">
+//                 <thead>
+//                     <tr>
+//                         <th scope="col"></th>
+//                         <th scope="col"></th>
+//                     </tr>
+//                 </thead>
+//                 <tbody></tbody>
+//             </table>
+//         `,
+//             preConfirm: () => {
+//                 const selectedData = $("#table_list")
+//                     .DataTable()
+//                     .row(".selected")
+//                     .data();
+//                 if (!selectedData) {
+//                     Swal.showValidationMessage("Please select a row");
+//                     return false;
+//                 }
+//                 return selectedData;
+//             },
+//             width: '40%',
+//             returnFocus: false,
+//             showCloseButton: true,
+//             showConfirmButton: true,
+//             confirmButtonText: 'Select',
+//             didOpen: () => {
+//                 $(document).ready(function () {
+//                     const table = $("#table_list").DataTable({
+//                         responsive: true,
+//                         processing: true,
+//                         serverSide: true,
+//                         paging: false,
+//                         scrollY: '400px',
+//                         scrollCollapse: true,
+//                         order: [0, "asc"],
+//                         ajax: {
+//                             url: "MaintenanceBKMTransistorisBank/getPerkiraan",
+//                             dataType: "json",
+//                             type: "GET",
+//                             data: {
+//                                 _token: csrfToken
+//                             }
+//                         },
+//                         columns: [
+//                             { data: "NoKodePerkiraan" },
+//                             { data: "Keterangan" },
+//                         ],
+//                     });
+
+//                     $("#table_list tbody").on("click", "tr", function () {
+//                         table.$("tr.selected").removeClass("selected");
+//                         $(this).addClass("selected");
+//                         scrollRowIntoView(this);
+//                     });
+
+//                     const searchInput = $('#table_list_filter input');
+//                     if (searchInput.length > 0) {
+//                         searchInput.focus();
+//                     }
+
+//                     currentIndex = null;
+//                     Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+//                 });
+//             }
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 idPerkiraanBiaya.value = decodeHtmlEntities(result.value.NoKodePerkiraan.trim());
+//                 perkiraanBiaya.value = decodeHtmlEntities(result.value.Keterangan.trim());
+
+//                 $.ajax({
+//                     type: 'GET',
+//                     url: 'MaintenanceBKMTransistorisBank/getPerkiraanChange',
+//                     data: {
+//                         _token: csrfToken,
+//                     },
+//                     success: function (result) {
+//                         if (result.length !== 0) {
+//                             perkiraanBiaya.value = result[0].Keterangan ? decodeHtmlEntities(result[0].Keterangan) : '';
+//                         }
+//                     },
+//                     error: function (xhr, status, error) {
+//                         console.error('Error:', error);
+//                     }
+//                 });
+
+//                 keteranganBiaya.focus();
+//             }
+//         });
+//     } catch (error) {
+//         console.error(error);
+//     }
+// });
 
 btnProsesBiaya.addEventListener("click", function (e) {
 
     if (proses === 1) {
-        if (nilaiPelunasanBiaya.value !== '' && idPerkiraanBiaya !== '' && keteranganBiaya.value !== '') {
+        if (nilaiPelunasanBiaya.value !== '' && select_kodePerkiraan.val() !== '' && keteranganBiaya.value !== '') {
             i += 1;
-            tmpArr = [keteranganBiaya.value, (nilaiPelunasanBiaya.value), idPerkiraanBiaya.value];
+            tmpArr = [keteranganBiaya.value, (nilaiPelunasanBiaya.value), select_kodePerkiraan.val()];
 
             updateDataTable(tmpArr, 2);
             $('#modalBiaya').modal('hide');
@@ -2465,10 +2533,10 @@ btnProsesBiaya.addEventListener("click", function (e) {
     }
 
     else if (proses === 2) {
-        if (nilaiPelunasanBiaya.value !== '' && idPerkiraanBiaya.value !== '' && keteranganBiaya.value !== '') {
+        if (nilaiPelunasanBiaya.value !== '' && select_kodePerkiraan.val() !== '' && keteranganBiaya.value !== '') {
             arrBKK[0] = decodeHtmlEntities(keteranganBiaya.value);
             arrBKK[1] = numeral(nilaiPelunasanBiaya.value).value();
-            arrBKK[2] = (idPerkiraanBiaya.value);
+            arrBKK[2] = select_kodePerkiraan.val();
 
             var table = $('#tableDetailBiayaBKK').DataTable();
             table.row(arrBKK[3]).data(arrBKK).draw();
