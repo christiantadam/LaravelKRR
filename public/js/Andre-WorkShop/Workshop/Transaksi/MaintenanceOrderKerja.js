@@ -344,7 +344,8 @@ function klikisi() {
         isiOrderKerjatitle.textContent =
             Divisi.options[Divisi.selectedIndex].text.split("--")[1];
         iddivisimodalOrder.value = Divisi.value;
-        tanggalmodal.value = formattedFirstDay;
+        tanggalmodal.valueAsDate = new Date();
+        // tanggalmodal.value = formattedFirstDay;
         UserModal.value = user;
     }
 }
