@@ -11,9 +11,15 @@
         {{ Session::get('error') }}
     </div>
 @endif
+<style>
+    .custom-modal-width {
+        max-width: 80%;
+        /* Adjust the percentage as needed */
+    }
+</style>
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
+        <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">
                     Maintenance Order Kerja
@@ -57,7 +63,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="table-responsive">
-                                <table class="table table-hover mt-3" style="width: max-content" id="tableOrderKerja">
+                                <table  style="width: 100%" id="tableOrderKerja">
                                     <thead>
                                         <tr>
                                             <th>Nomor Order</th>
@@ -291,7 +297,7 @@
 
 <div class="modal fade" id="OrderKerja" tabindex="-1" role="dialog" aria-labelledby="OrderKerjaLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog custom-modal-width" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title-container" style="flex: 1;text-align: center;">
@@ -309,13 +315,13 @@
 
                 <div class="modal-body">
                     <div class="container">
-                        <div class="row" style="align-items: center;">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="col-2">
                                 <span>Tanggal</span>
                             </div>
                             <div class="col-4">
-                                <input type="date" class="form-control form-control" id="tanggalmodal"
-                                    name="tanggalmodal" readonly>
+                                <input type="date" class="form-control" id="tanggalmodal" name="tanggalmodal"
+                                    readonly>
                             </div>
                             <div class="col-6">
                                 <div class="form-check form-check-inline">
@@ -331,13 +337,12 @@
                             </div>
                         </div>
 
-                        <div class="row" style="align-items: center; margin-top: 10px;">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="col-2">
                                 <span>Kd. Barang</span>
                             </div>
                             <div class="col-5">
-                                <input type="text" class="form-control form-control" id="Kdbarangmodal"
-                                    name="Kdbarangmodal">
+                                <input type="text" class="form-control" id="Kdbarangmodal" name="Kdbarangmodal">
                             </div>
                             <div class="col-2" style="text-align: right;">
                                 <span style="color: red">input PDF</span>
@@ -348,16 +353,16 @@
                             </div>
                         </div>
 
-                        <div class="row" style="align-items: center; margin-top: 10px;">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="col-2">
                                 <span>No. Gambar</span>
                             </div>
                             <div class="col-2">
-                                <input type="text" class="form-control form-control" id="NomorGambarModal"
+                                <input type="text" class="form-control" id="NomorGambarModal"
                                     name="NomorGambarModal">
                             </div>
                             <div class="col-3">
-                                <input type="text" class="form-control form-control" id="NamaBarangModal"
+                                <input type="text" class="form-control" id="NamaBarangModal"
                                     name="NamaBarangModal" readonly>
                             </div>
                             <div class="col-2" style="text-align: right;">
@@ -369,27 +374,26 @@
                             </div>
                         </div>
 
-                        <div class="row" style="align-items: center; margin-top: 10px;">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="col-2">
                                 <span>Keterangan</span>
                             </div>
                             <div class="col-7">
-                                <input type="text" class="form-control form-control" id="KeteranganModal"
+                                <input type="text" class="form-control" id="KeteranganModal"
                                     name="KeteranganModal">
                             </div>
                         </div>
-                        <div class="row" style="align-items: center; margin-top: 10px;">
+
+                        <div class="row" style="margin-top: 10px;">
                             <div class="col-2">
                                 <span>Jumlah</span>
                             </div>
                             <div class="col-2">
-                                <input type="number" class="form-control form-control" id="JumlahModal"
-                                    name="JumlahModal">
+                                <input type="number" class="form-control" id="JumlahModal" name="JumlahModal">
                             </div>
                             <div class="col-4">
-                                <select class="form-select" name="SatuanModal"
-                                    style="width: 36vh;
-                    height: 6vh;" id="SatuanModal">
+                                <select class="form-select" name="SatuanModal" style="width: 36vh; height: 6vh;"
+                                    id="SatuanModal">
                                     <option disabled selected>Pilih Satuan</option>
                                     @foreach ($satuan as $s)
                                         <option value="{{ $s->No_Satuan }}">{{ $s->Nama_Satuan }}</option>
@@ -398,30 +402,27 @@
                             </div>
                         </div>
 
-                        <div class="row" style="align-items: center; margin-top: 10px;">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="col-2">
                                 <span>Mesin</span>
                             </div>
                             <div class="col-5">
-                                <select class="form-select" name="MesinModal"
-                                    style="width: 36vh;
-                      height: 6vh;" id="MesinModal">
-
-                                </select>
+                                <select class="form-select" name="MesinModal" style="width: 36vh; height: 6vh;"
+                                    id="MesinModal"></select>
                             </div>
                         </div>
 
-                        <div class="row" style="align-items: center; margin-top: 10px;">
+                        <div class="row" style="margin-top: 10px;">
                             <div class="col-2">
                                 <span>Peng-Order</span>
                             </div>
                             <div class="col-3">
-                                <input type="text" class="form-control form-control" id="UserModal"
-                                    name="UserModal" readonly>
+                                <input type="text" class="form-control" id="UserModal" name="UserModal" readonly>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer" style="margin-top: 10px">
                     <div class="container">
                         <div class="row">
@@ -476,8 +477,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    let user = @json($nomoruser);
-    console.log('User number is:', user);
+    let user = @json($nomoruser).trim();
 </script>
 <script src="{{ asset('js/Andre-WorkShop/Workshop/Transaksi/MaintenanceOrderKerja.js') }}"></script>
 @endsection
