@@ -340,25 +340,20 @@ function cleardata() {
 }
 //#endregion
 
-Divisi.addEventListener("keypress", function (event) {
-    if (event.key == "Enter") {
-        const isConfirmed = confirm(`Tampilkan Semua Order??`);
-        Mesin(Divisi.value);
-        // If confirmed, proceed with the fetch operation
-        if (isConfirmed) {
-            pilih = 1;
-            cleardata();
-            // const table = $("#tableklik").DataTable();
-            table_data.clear().draw();
-            AllData(tgl_awal.value, tgl_akhir.value, Divisi.value);
-        } else {
-            console.log("masuk");
-            pilih = 2;
-            cleardata();
-            // dataTable.fnClearTable();
-            AllDataUser(tgl_awal.value, tgl_akhir.value, user, Divisi.value);
-        }
+Divisi.addEventListener("change", function () {
+    const isConfirmed = confirm(`Tampilkan Semua Order??`);
+    cleardata();
+    table_data.clear().draw();
+
+    if (isConfirmed) {
+        pilih = 1;
+        AllData(tgl_awal.value, tgl_akhir.value, Divisi.value);
+    } else {
+        pilih = 2;
+        AllDataUser(tgl_awal.value, tgl_akhir.value, user, Divisi.value);
     }
+
+    Mesin(Divisi.value);
 });
 
 function Refresh() {
@@ -404,7 +399,7 @@ function klikkoreksi() {
             );
         } else if (acc_manager.value != "" || manager.value != "") {
             alert("Order Tidak Boleh Di-KOREKSI. Sudah di-ACC.");
-        } else if (user != userorder) {
+        } else if (user !== userorder.trim()) {
             console.log(user, userorder);
             alert(
                 "Anda Tidak Boleh Meng-KOREKSI Order Dari User " +
@@ -538,7 +533,7 @@ hapus.addEventListener("click", function (event) {
     event.preventDefault();
     if (manager.value != "") {
         alert("Order Tidak Boleh Di-HAPUS. Sudah di-ACC");
-    } else if (user != userorder) {
+    } else if (user !== userorder.trim()) {
         alert("Anda Tidak Boleh Meng-HAPUS Order Dari User " + userorder);
     } else {
         methodForm.value = "DELETE";
@@ -589,6 +584,7 @@ $("#tableklik tbody").on("click", "tr", function () {
     jmlh2.value = selectedRows[0].Nama_satuan;
     keterangan_order.value = selectedRows[0].Ket_Order;
     pengorder.value = selectedRows[0].NmUserOd;
+    // pengorder.value = user;
     acc_manager.value = selectedRows[0].Tgl_Apv_1?.split(" ")[0] ?? ""; //tglACCmanager[0];
     manager.value = selectedRows[0].Manager;
     acc_direktur.value = selectedRows[0].Tgl_Apv_2?.split(" ")[0] ?? "";

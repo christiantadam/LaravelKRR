@@ -13,7 +13,7 @@
 @endif
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
+        <div class="col-md-12 RDZMobilePaddingLR0">
             <div class="card">
                 <div class="card-header">
                     Maintenance Order Gambar
@@ -65,7 +65,7 @@
                             </div>
 
                             <div class="table-responsive" style="margin-top: 5vh">
-                                <table class="table mt-3" style="width: max-content;" id="tableklik">
+                                <table style="width: 100%" id="tableklik">
                                     <thead class="table-dark">
                                         <tr>
                                             <th>No. Order</th>
@@ -553,7 +553,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    let user = @json($nomoruser);
+    let user = @json($nomoruser).trim();
     console.log('User number is:', user);
 </script>
 <script src="{{ asset('js/Andre-WorkShop/Workshop/Transaksi/MaintenanceOrderGambar.js') }}"></script>
