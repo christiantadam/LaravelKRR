@@ -90,7 +90,7 @@ table_data.on("draw", function () {
 
 //#endregion
 
-//#region set tanggal
+//#region set up form
 
 const currentDate = new Date();
 
@@ -109,6 +109,8 @@ const formattedCurrentDate = currentDate.toISOString().slice(0, 10);
 tgl_awal.value = formattedFirstDay;
 tgl_akhir.value = formattedCurrentDate;
 Tanggalmodal.value = formattedCurrentDate;
+koreksi.disabled = true;
+hapus.disabled = true;
 //#endregion
 
 //#region divisi di ubah
@@ -122,8 +124,6 @@ kddivisi.addEventListener("keypress", function (event) {
         } else {
             isFirstEnter = true;
             const isConfirmed = confirm(`Tampilkan Semua Order??`);
-            // Mesin(kddivisi.value);
-            Mesin(kddivisi.value);
             if (isConfirmed) {
                 pilih = 1;
                 // cleardata();
@@ -194,6 +194,7 @@ function AllData(tglAwal, tglAkhir, idDivisi) {
                     ],
                 });
                 table_data.draw();
+                tableOnClick();
             }
         });
 }
@@ -245,6 +246,7 @@ function AllDataUser(tglAwal, tglAkhir, idUser, idDivisi) {
                     ],
                 });
                 table_data.draw();
+                tableOnClick();
             }
         });
 }
@@ -254,8 +256,29 @@ function AllDataUser(tglAwal, tglAkhir, idUser, idDivisi) {
 
 refresh.addEventListener("click", function () {
     const isConfirmed = confirm(`Tampilkan Semua Order??`);
-    // Mesin(kddivisi.value);
-
+    no_order.value = "";
+    jmlh1.value = "";
+    jmlh2.value = "";
+    keterangan_order.value = "";
+    pengorder.value = "";
+    acc_manager.value = "";
+    manager.value = "";
+    acc_direktur.value = "";
+    lblstatus.textContent = "";
+    tgl_manager.value = "";
+    ket_manager.value = "";
+    tgl_direktur.value = "";
+    ket_direktur.value = "";
+    tgl_teknik.value = "";
+    ket_teknik_tolak.value = "";
+    ket_teknik_tunda.value = "";
+    koreksi.disabled = true;
+    hapus.disabled = true;
+    userorder = null;
+    tglordersimpan = null;
+    namasimpan = null;
+    selectmesin = null;
+    $("#tableMaintenanceOrderProyek tbody").off("click", "tr");
     if (isConfirmed) {
         pilih = 1;
         table_data.clear().draw();
@@ -277,6 +300,7 @@ function isiklik() {
         modetrans = 1;
         isi.setAttribute("data-toggle", "modal");
         isi.setAttribute("data-target", "#ModalForm");
+        Mesin(kddivisi.value);
 
         PengOrderModal.value = user;
         iddivmodal.value = kddivisi.value;
@@ -287,6 +311,7 @@ function isiklik() {
             kddivisi.options[kddivisi.selectedIndex].text.split("--")[1];
     } else {
         alert("Pilih Divisi Anda");
+        kddivisi.focus();
     }
 }
 //#endregion
@@ -298,6 +323,7 @@ function Mesin(idDivisi) {
         .then((response) => response.json())
         .then((options) => {
             //mesin buat form baru
+            console.log(options);
 
             MesinModal.innerHTML = "";
             //
@@ -340,43 +366,48 @@ function ProsesKlik() {
 
 //#region table on click
 
-$("#tableMaintenanceOrderProyek tbody").off("click", "tr");
-$("#tableMaintenanceOrderProyek tbody").on("click", "tr", function () {
-    let checkSelectedRows = $("#tableMaintenanceOrderProyek tbody tr.selected");
+function tableOnClick() {
+    $("#tableMaintenanceOrderProyek tbody").on("click", "tr", function () {
+        let checkSelectedRows = $(
+            "#tableMaintenanceOrderProyek tbody tr.selected"
+        );
 
-    if (checkSelectedRows.length > 0) {
-        checkSelectedRows.removeClass("selected");
-    }
-    $(this).toggleClass("selected");
-    const table = $("#tableMaintenanceOrderProyek").DataTable();
-    let selectedRows = table.rows(".selected").data().toArray();
-    console.log(selectedRows[0]);
-    fetch("/GetDataTableMaintenanceOrderProyek/" + selectedRows[0].Id_Order)
-        .then((response) => response.json())
-        .then((datas) => {
-            console.log(datas);
-            no_order.value = datas[0].Id_Order;
-            jmlh1.value = datas[0].Jml_Brg;
-            jmlh2.value = datas[0].Nama_satuan;
-            keterangan_order.value = datas[0].Ket_Order;
-            pengorder.value = datas[0].NmUserOd;
-            acc_manager.value = datas[0].Manager;
-            manager.value = datas[0].Tgl_Apv_1;
-            acc_direktur.value = datas[0].Tgl_Apv_2;
-            lblstatus.textContent = datas[0].Status;
-            tgl_manager.value = datas[0].Tgl_TdStjMg;
-            ket_manager.value = datas[0].Ref_TdStjMg;
-            tgl_direktur.value = datas[0].Tgl_TdStjDir;
-            ket_direktur.value = datas[0].Ref_TdStjDir;
-            tgl_teknik.value = datas[0].Tgl_Tolak_Mng;
-            ket_teknik_tolak.value = datas[0].Ref_Tolak_Mng;
-            ket_teknik_tunda.value = datas[0].Ref_Pending;
-            userorder = selectedRows[0].User_Order;
-            tglordersimpan = selectedRows[0].Tgl_Order;
-            namasimpan = selectedRows[0].Nama_Proyek;
-            selectmesin = selectedRows[0].Mesin;
-        });
-});
+        if (checkSelectedRows.length > 0) {
+            checkSelectedRows.removeClass("selected");
+        }
+        $(this).toggleClass("selected");
+        const table = $("#tableMaintenanceOrderProyek").DataTable();
+        let selectedRows = table.rows(".selected").data().toArray();
+        console.log(selectedRows[0]);
+        fetch("/GetDataTableMaintenanceOrderProyek/" + selectedRows[0].Id_Order)
+            .then((response) => response.json())
+            .then((datas) => {
+                console.log(datas);
+                no_order.value = datas[0].Id_Order;
+                jmlh1.value = datas[0].Jml_Brg;
+                jmlh2.value = datas[0].Nama_satuan;
+                keterangan_order.value = datas[0].Ket_Order;
+                pengorder.value = datas[0].NmUserOd;
+                acc_manager.value = datas[0].Manager;
+                manager.value = datas[0].Tgl_Apv_1;
+                acc_direktur.value = datas[0].Tgl_Apv_2;
+                lblstatus.textContent = datas[0].Status;
+                tgl_manager.value = datas[0].Tgl_TdStjMg;
+                ket_manager.value = datas[0].Ref_TdStjMg;
+                tgl_direktur.value = datas[0].Tgl_TdStjDir;
+                ket_direktur.value = datas[0].Ref_TdStjDir;
+                tgl_teknik.value = datas[0].Tgl_Tolak_Mng;
+                ket_teknik_tolak.value = datas[0].Ref_Tolak_Mng;
+                ket_teknik_tunda.value = datas[0].Ref_Pending;
+                userorder = selectedRows[0].User_Order;
+                tglordersimpan = selectedRows[0].Tgl_Order;
+                namasimpan = selectedRows[0].Nama_Proyek;
+                selectmesin = selectedRows[0].Mesin;
+                koreksi.disabled = false;
+                hapus.disabled = false;
+            });
+    });
+}
 
 //#endregion
 

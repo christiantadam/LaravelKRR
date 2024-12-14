@@ -26,6 +26,7 @@ class MaintenanceOrderProyekController extends Controller
     }
     public function GetDataAll($tgl_awal, $tgl_akhir, $divisi)
     {
+        // kalau mau menampilkan data order proyek kolom ACC_Mng harus null. table T_Order_Proyek database workshop
         $all = DB::connection('Connworkshop')->select('[SP_5298_WRK_LIST-ORDER-PRY] @kode = ?, @tgl1 = ?, @tgl2 = ?, @div = ?', [1, $tgl_awal, $tgl_akhir, $divisi]);
         return response()->json($all);
     }

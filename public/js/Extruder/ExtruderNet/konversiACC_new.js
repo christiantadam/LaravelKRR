@@ -134,9 +134,6 @@ btnKeluar.addEventListener("click", function () {
 
 hidInput.addEventListener("change", function () {
     let [strFunction, strData] = this.value.split("|");
-    console.log(this.value);
-    console.log(strFunction);
-    console.log(strData);
 
     if (strFunction.trim() == "cekPenyesuaian") {
         console.log("Cek penyesuaian selesai.");

@@ -88,7 +88,7 @@
                                 </div>
 
                                 <div class="col-lg-5">
-                                    <input type="text" name="no_order" class="form-control" id="no_order">
+                                    <input type="text" name="no_order" class="form-control" id="no_order" readonly>
                                 </div>
                             </div>
 
@@ -133,7 +133,7 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <input type="text" name="acc_manager" class="form-control" id="acc_manager">
+                                    <input type="text" name="acc_manager" class="form-control" id="acc_manager" readonly>
                                 </div>
                             </div>
 
@@ -143,7 +143,7 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <input type="text" name="manager" class="form-control" id="manager">
+                                    <input type="datetime-local" name="manager" class="form-control" id="manager" readonly>
                                 </div>
                             </div>
 
@@ -153,8 +153,8 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <input type="text" name="acc_direktur" class="form-control"
-                                        id="acc_direktur">
+                                    <input type="datetime-local" name="acc_direktur" class="form-control"
+                                        id="acc_direktur" readonly>
                                 </div>
                             </div>
 
@@ -164,7 +164,7 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <input type="date" name="tgl_manager" class="form-control" id="tgl_manager">
+                                    <input type="datetime-local" name="tgl_manager" class="form-control" id="tgl_manager" readonly>
                                 </div>
                             </div>
 
@@ -184,8 +184,8 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <input type="date" name="tgl_direktur" class="form-control"
-                                        id="tgl_direktur">
+                                    <input type="datetime-local" name="tgl_direktur" class="form-control"
+                                        id="tgl_direktur" readonly>
                                 </div>
                             </div>
 
@@ -206,7 +206,7 @@
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <input type="date" name="tgl_teknik" class="form-control" id="tgl_teknik">
+                                    <input type="datetime-local" name="tgl_teknik" class="form-control" id="tgl_teknik" readonly>
                                 </div>
                             </div>
 
@@ -263,7 +263,7 @@
                                         <span> : ACC Direktur</span><br>
 
                                         <span style="color: grey;">xxxxx -></span>
-                                        <span> : Tdk disetujui Direktur</span>
+                                        <span> : Tdk disetujui Direktur</span><br>
 
                                         <span style="color: brown;">xxxxx -></span>
                                         <span> : Tdk disetujui Manager</span><br>
@@ -344,7 +344,7 @@
                                 <input type="number" name="Jumlah" class="form-control" id="Jumlah">
                             </div>
                             <div class="col-6">
-                                <select class="form-select" name="SatuanModal" id="SatuanModal">
+                                <select class="input" name="SatuanModal" id="SatuanModal">
                                     <option disabled selected>Pilih Satuan</option>
                                     @foreach ($satuan as $s)
                                         <option value="{{ $s->No_Satuan }}">{{ $s->Nama_Satuan }}</option>
@@ -357,7 +357,7 @@
                                 <span>Mesin</span>
                             </div>
                             <div class="col-9">
-                                <select name="MesinModal" id="MesinModal" class="form-select">
+                                <select name="MesinModal" id="MesinModal" class="input">
 
                                 </select>
                             </div>
