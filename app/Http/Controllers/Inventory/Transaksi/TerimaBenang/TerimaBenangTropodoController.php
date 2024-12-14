@@ -26,7 +26,7 @@ class TerimaBenangTropodoController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // 
+        //
     }
 
     //Display the specified resource.
@@ -350,6 +350,9 @@ class TerimaBenangTropodoController extends Controller
                     'NamaKelompokUtama' => $detail_subkel->NamaKelompokUtama,
                     'NamaKelompok' => $detail_subkel->NamaKelompok,
                     'NamaSubKelompok' => $detail_subkel->NamaSubKelompok,
+                    'IdType' => $detail_subkel->IdType,
+                    'NamaType' => $detail_subkel->NamaType,
+                    'PIB' => $detail_subkel->PIB,
                 ];
             }
             return response()->json($data_subkel);
@@ -450,13 +453,13 @@ class TerimaBenangTropodoController extends Controller
                 if ($PIB == null) {
                     DB::connection('ConnInventory')->statement(
                         'exec [SP_1003_INV_Penerima_Benang]
-                @kode = ?, @Detail = ?, @kodeBarang = ?, @IdPemberi  = ?, @IdPenerima = ?, @saatawal = ?, @JumlahSekunder = ?, @JumlahTritier = ?, @AsalSubKel = ?, @TujSubkel = ?',
+                        @kode = ?, @Detail = ?, @kodeBarang = ?, @IdPemberi  = ?, @IdPenerima = ?, @saatawal = ?, @JumlahSekunder = ?, @JumlahTritier = ?, @AsalSubKel = ?, @TujSubkel = ?',
                         [1, $Detail, $kodeBarang, $user, $user, $saatawal, $JumlahSekunder, $JumlahTritier, $AsalSubKel, $TujSubkel]
                     );
                 } else {
                     DB::connection('ConnInventory')->statement(
                         'exec [SP_1003_INV_Penerima_Benang]
-                @kode = ?, @Detail = ?, @kodeBarang = ?, @IdPemberi  = ?, @IdPenerima = ?, @saatawal = ?, @JumlahSekunder = ?, @JumlahTritier = ?, @AsalSubKel = ?, @TujSubkel = ?, @PIB = ?',
+                        @kode = ?, @Detail = ?, @kodeBarang = ?, @IdPemberi  = ?, @IdPenerima = ?, @saatawal = ?, @JumlahSekunder = ?, @JumlahTritier = ?, @AsalSubKel = ?, @TujSubkel = ?, @PIB = ?',
                         [1, $Detail, $kodeBarang, $user, $user, $saatawal, $JumlahSekunder, $JumlahTritier, $AsalSubKel, $TujSubkel, $PIB]
                     );
                 }
@@ -476,6 +479,6 @@ class TerimaBenangTropodoController extends Controller
     //Remove the specified resource from storage.
     public function destroy(Request $request)
     {
-        // 
+        //
     }
 }
