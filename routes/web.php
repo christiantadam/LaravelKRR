@@ -1127,7 +1127,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceBKMTransistorisBank', MaintenanceBKMTransistorisBankController::class);
     Route::resource('BatalBKMTransistoris', BatalBKMTransistorisController::class);
 
-
+    Route::resource('MaintenanceFakturPajakPenjualan', App\Http\Controllers\Accounting\Piutang\MaintenanceFakturPajakPenjualanController::class);
     Route::resource('MaintenanceBKMPenagihan', App\Http\Controllers\Accounting\Piutang\MaintenanceBKMPenagihanController::class);
     Route::get('detailtabelpenagihan/{bulan}/{tahun}', 'App\Http\Controllers\Accounting\Piutang\MaintenanceBKMPenagihanController@getTabelPelunasan');
     Route::get('detailbank', 'App\Http\Controllers\Accounting\Piutang\MaintenanceBKMPenagihanController@getDataBank');
