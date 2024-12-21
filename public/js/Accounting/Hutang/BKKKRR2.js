@@ -148,6 +148,20 @@ $(document).ready(function () {
         console.log(dp);
     });
 
+    document
+        .getElementById("dataBKKModal")
+        .addEventListener("hidden.bs.modal", function () {
+            location.reload();
+            // const inputs = this.querySelectorAll('input');
+            // inputs.forEach(input => {
+            //     if (input.id !== 'month' && input.id !== 'year') {
+            //         input.value = '';
+            //     }
+            // });
+            // rowDataBKKArray = [];
+            // rowDataBKK = null;
+        });
+
     radio_1.addEventListener("click", function (event) {
         bg = true;
     });

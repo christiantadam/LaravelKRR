@@ -62,117 +62,117 @@ class MaintenanceTabelOrder extends Controller
         }
     }
     public function store(Request $request)
-{
-    try {
-        $proses = $request->input('proses');
-        // dd($proses);
-        switch ($proses) {
-            case 1:
-                DB::connection('ConnJumboBag')->beginTransaction();
-                try {
-                    DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_UDT_KDBRG_IDBRG ?, ?, ?', [
-                        $request->input('kodeBarangAsal'),
-                        $request->input('kodebarangs'),
-                        $request->input('id_customer'),
-                    ]);
-                    // dd($request->all());
-                    DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_INS_HEADTO ?, ?, ?, ?, ?, ?, ?, ?, ?', [
-                        $request->input('no_pesanan'),
-                        $request->input('kodeBarangAsal'),
-                        now()->format('Y-m-d'),
-                        $request->input('time_deliv'),
-                        $request->input('jumlah_order'),
-                        $request->input('idpesanan'),
-                        $request->input('kodebarangs'),
-                        $request->input('tanggal_dikerjakan'),
-                        $request->input('tanggal_selesai'),
-                    ]);
+    {
+        try {
+            $proses = $request->input('proses');
+            // dd($proses);
+            switch ($proses) {
+                case 1:
+                    DB::connection('ConnJumboBag')->beginTransaction();
+                    try {
+                        DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_UDT_KDBRG_IDBRG ?, ?, ?', [
+                            $request->input('kodeBarangAsal'),
+                            $request->input('kodebarangs'),
+                            $request->input('id_customer'),
+                        ]);
+                        // dd($request->all());
+                        DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_INS_HEADTO ?, ?, ?, ?, ?, ?, ?, ?, ?', [
+                            $request->input('no_pesanan'),
+                            $request->input('kodeBarangAsal'),
+                            now()->format('Y-m-d'),
+                            $request->input('time_deliv'),
+                            $request->input('jumlah_order'),
+                            $request->input('idpesanan'),
+                            $request->input('kodebarangs'),
+                            $request->input('tanggal_dikerjakan'),
+                            $request->input('tanggal_selesai'),
+                        ]);
 
-                    DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_INS_RINCIANTO ?, ?, ?, ?', [
-                        $request->input('no_pesanan'),
-                        $request->input('kodeBarangAsal'),
-                        $request->input('time_deliv'),
-                        $request->input('jumlah_order'),
-                    ]);
+                        DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_INS_RINCIANTO ?, ?, ?, ?', [
+                            $request->input('no_pesanan'),
+                            $request->input('kodeBarangAsal'),
+                            $request->input('time_deliv'),
+                            $request->input('jumlah_order'),
+                        ]);
 
-                    DB::connection('ConnJumboBag')->commit();
-                    return response()->json(['success' => 'Data sudah disimpan!']);
-                } catch (Exception $e) {
-                    DB::connection('ConnJumboBag')->rollback();
-                    return response()->json(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
-                }
+                        DB::connection('ConnJumboBag')->commit();
+                        return response()->json(['success' => 'Data sudah disimpan!']);
+                    } catch (Exception $e) {
+                        DB::connection('ConnJumboBag')->rollback();
+                        return response()->json(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
+                    }
                 // break;
 
-            case 2:
-                DB::connection('ConnJumboBag')->beginTransaction();
-                try {
-                    DB::connection('ConnJumboBag')->statement('EXEC SP_5409_JBB_UDT_HEADTO ?, ?, ?, ?, ?', [
-                        $request->input('kodeBarangAsal'),
-                        $request->input('no_pesanan'),
-                        $request->input('jumlah_order'),
-                        $request->input('time_deliv'),
-                        $request->input('time_deliv'),
-                    ]);
+                case 2:
+                    DB::connection('ConnJumboBag')->beginTransaction();
+                    try {
+                        DB::connection('ConnJumboBag')->statement('EXEC SP_5409_JBB_UDT_HEADTO ?, ?, ?, ?, ?', [
+                            $request->input('kodeBarangAsal'),
+                            $request->input('no_pesanan'),
+                            $request->input('jumlah_order'),
+                            $request->input('time_deliv'),
+                            $request->input('time_deliv'),
+                        ]);
 
-                    DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_INS_RINCIANTO ?, ?, ?, ?', [
-                        $request->input('no_pesanan'),
-                        $request->input('kodeBarangAsal'),
-                        $request->input('time_deliv'),
-                        $request->input('jumlah_order'),
-                    ]);
+                        DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_INS_RINCIANTO ?, ?, ?, ?', [
+                            $request->input('no_pesanan'),
+                            $request->input('kodeBarangAsal'),
+                            $request->input('time_deliv'),
+                            $request->input('jumlah_order'),
+                        ]);
 
-                    DB::connection('ConnJumboBag')->commit();
-                    return response()->json(['success' => 'Data sudah dikoreksi!']);
-                    // return response()->json(['success' => $request->all()]);
-                } catch (Exception $e) {
-                    DB::connection('ConnJumboBag')->rollback();
-                    return response()->json(['error' => 'Gagal mengoreksi data: ' . $e->getMessage()]);
-                }
+                        DB::connection('ConnJumboBag')->commit();
+                        return response()->json(['success' => 'Data sudah dikoreksi!']);
+                        // return response()->json(['success' => $request->all()]);
+                    } catch (Exception $e) {
+                        DB::connection('ConnJumboBag')->rollback();
+                        return response()->json(['error' => 'Gagal mengoreksi data: ' . $e->getMessage()]);
+                    }
                 // break;
 
-            case 3:
-                DB::connection('ConnJumboBag')->beginTransaction();
-                try {
-                    DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_DLT_HEADTO ?, ?, ?', [
-                        $request->input('kodeBarangAsal'),
-                        $request->input('no_pesanan'),
-                        $request->input('time_deliv'),
-                    ]);
+                case 3:
+                    DB::connection('ConnJumboBag')->beginTransaction();
+                    try {
+                        DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_DLT_HEADTO ?, ?, ?', [
+                            $request->input('kodeBarangAsal'),
+                            $request->input('no_pesanan'),
+                            $request->input('time_deliv'),
+                        ]);
 
-                    DB::connection('ConnJumboBag')->commit();
-                    return response()->json(['success' => 'Data sudah dihapus!']);
-                } catch (Exception $e) {
-                    DB::connection('ConnJumboBag')->rollback();
-                    return response()->json(['error' => 'Gagal menghapus data: ' . $e->getMessage()]);
-                }
+                        DB::connection('ConnJumboBag')->commit();
+                        return response()->json(['success' => 'Data sudah dihapus!']);
+                    } catch (Exception $e) {
+                        DB::connection('ConnJumboBag')->rollback();
+                        return response()->json(['error' => 'Gagal menghapus data: ' . $e->getMessage()]);
+                    }
                 // break;
 
-            case 4:
-                DB::connection('ConnJumboBag')->beginTransaction();
-                try {
-                    DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_STOPORDER_HEADTO ?, ?, ?, ?, ?', [
-                        $request->input('kodeBarangAsal'),
-                        $request->input('no_pesanan'),
-                        $request->input('time_deliv'),
-                        $request->input('tanggal_j'),
-                        $request->input('txtAlasan'),
-                    ]);
+                case 4:
+                    DB::connection('ConnJumboBag')->beginTransaction();
+                    try {
+                        DB::connection('ConnJumboBag')->statement('EXEC SP_1273_JBB_STOPORDER_HEADTO ?, ?, ?, ?, ?', [
+                            $request->input('kodeBarangAsal'),
+                            $request->input('no_pesanan'),
+                            $request->input('time_deliv'),
+                            $request->input('tanggal_j'),
+                            $request->input('txtAlasan'),
+                        ]);
 
-                    DB::connection('ConnJumboBag')->commit();
-                    return response()->json(['success' => 'Data sudah diproses!']);
-                } catch (Exception $e) {
-                    DB::connection('ConnJumboBag')->rollback();
-                    return response()->json(['error' => 'Gagal memproses data: ' . $e->getMessage()]);
-                }
+                        DB::connection('ConnJumboBag')->commit();
+                        return response()->json(['success' => 'Data sudah diproses!']);
+                    } catch (Exception $e) {
+                        DB::connection('ConnJumboBag')->rollback();
+                        return response()->json(['error' => 'Gagal memproses data: ' . $e->getMessage()]);
+                    }
                 // break;
 
-            default:
-                return response()->json(['error' => 'Proses tidak dikenal!']);
+                default:
+                    return response()->json(['error' => 'Proses tidak dikenal!']);
+            }
+        } catch (Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()]);
         }
-    } catch (Exception $ex) {
-        return response()->json(['error' => $ex->getMessage()]);
     }
-}
 
     public function show(Request $request, $id)
     {
