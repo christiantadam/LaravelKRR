@@ -331,9 +331,9 @@ function Tampil_Data(sIdTrans) {
                 satSekunder.value = decodeHtmlEntities(result[0].satuanSekunder);
                 satTritier.value = decodeHtmlEntities(result[0].SatuanTritier);
                 subkelId.value = decodeHtmlEntities(result[0].IdSubkelompok);
-                primer.value = formatNumber(result[0].Primer);
-                sekunder.value = formatNumber(result[0].Sekunder);
-                tritier.value = formatNumber(result[0].Tritier);
+                primer.value = formatNumber(result[0].SaldoPrimer);
+                sekunder.value = formatNumber(result[0].SaldoSekunder);
+                tritier.value = formatNumber(result[0].SaldoTritier);
                 customer.value = decodeHtmlEntities(result[0].NamaCust);
                 noSp.value = decodeHtmlEntities(result[0].IDSuratPesanan);
                 max.value = formatNumber(result[0].MaxKirimDO);
