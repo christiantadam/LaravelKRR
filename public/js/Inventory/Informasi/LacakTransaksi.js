@@ -653,6 +653,10 @@ function decodeHtmlEntities(text) {
 }
 
 function escapeHtml(text) {
+    if (text == null) {  // Check if text is null or undefined
+        return ""; // Return empty string or you could return null if preferred
+    }
+
     var map = {
         '&': '&amp;',
         '<': '&lt;',
@@ -660,6 +664,7 @@ function escapeHtml(text) {
         '"': '&quot;',
         "'": '&#039;'
     };
+
     return text.replace(/[&<>"']/g, function (m) { return map[m]; });
 }
 
@@ -671,8 +676,8 @@ function updateDataTable(data) {
         table.row.add([
             escapeHtml(item.idtransaksi),
             escapeHtml(item.NamaType),
-            escapeHtml(item.nmpenerima),
-            escapeHtml(item.ACCPenerima),
+            item.nmpenerima ?? "Blm Diterima",
+            item.ACCPenerima ?? "Blm ACC",
             escapeHtml(item.ACCPemberi),
             escapeHtml(item.nmpemberi),
             formatNumber(item.jumlahpengeluaranprimer),
@@ -774,11 +779,46 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakDivisiTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 1,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    console.log(result);
+
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
                 },
@@ -810,11 +850,46 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakDivisiTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 2,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    console.log(result);
+
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
                 },
@@ -849,11 +924,45 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakObjekTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 1,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                                Idobjek: objekId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
                 },
@@ -886,11 +995,46 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakObjekTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 2,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                                Idobjek: objekId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
 
@@ -927,11 +1071,46 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakKelUtTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 1,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                                Idobjek: objekId.value,
+                                Idkelutama: kelutId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
                 },
@@ -965,11 +1144,47 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakKelUtTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 2,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                                Idobjek: objekId.value,
+                                Idkelutama: kelutId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
 
@@ -1007,11 +1222,47 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakKelompokTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 1,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                                Idobjek: objekId.value,
+                                Idkelutama: kelutId.value,
+                                Idkelompok: kelompokId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
                 },
@@ -1046,11 +1297,48 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakKelompokTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 2,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                                Idobjek: objekId.value,
+                                Idkelutama: kelutId.value,
+                                Idkelompok: kelompokId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
 
@@ -1089,11 +1377,48 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakSubKelompokTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 1,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                                Idobjek: objekId.value,
+                                Idkelutama: kelutId.value,
+                                Idkelompok: kelompokId.value,
+                                Idsubkel: subkelId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
                 },
@@ -1129,11 +1454,49 @@ btn_ok.addEventListener("click", function (e) {
                         });
                     }
                     else {
-                        table.clear().draw();
+                        // table.clear().draw();
 
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Tidak ada Data!',
+                        // Swal.fire({
+                        //     icon: 'info',
+                        //     title: 'Tidak ada Data!',
+                        // });
+                        $.ajax({
+                            type: 'GET',
+                            url: 'LacakTransaksi/lacakSubKelompokTmp',
+                            data: {
+                                _token: csrfToken,
+                                Status: 2,
+                                IdTypeTransaksi: TypeTrans,
+                                Tanggal: tanggal.value,
+                                IdDivisi: divisiId.value,
+                                Idobjek: objekId.value,
+                                Idkelutama: kelutId.value,
+                                Idkelompok: kelompokId.value,
+                                Idsubkel: subkelId.value,
+                            },
+                            success: function (result) {
+                                if (result.length !== 0) {
+                                    updateDataTable(result);
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success',
+                                        text: 'Data di tabel sudah diupdate.',
+                                    });
+                                }
+                                else {
+                                    table.clear().draw();
+
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Tidak ada Data!',
+                                    });
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error:', error);
+                            }
                         });
                     }
 
