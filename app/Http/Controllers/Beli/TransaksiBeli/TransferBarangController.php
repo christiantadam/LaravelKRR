@@ -226,6 +226,7 @@ class TransferBarangController extends Controller
     }
     public function transfer(Request $request)
     {
+        // dd($request->all());
         $IdType = $request->input('IdType');
         $MasukPrimer = $request->input('MasukPrimer') ?? 0;
         $MasukSekunder = $request->input('MasukSekunder') ?? 0;

@@ -199,8 +199,7 @@ print_button.addEventListener("click", function (event) {
                 .finally(() => {
                     $("#loading-screen").css("display", "none");
                 });
-        } else if (cetak_sudahACC.checked == true) {
-            // console.log("Sudah ACC");
+        } else if (cetak_sudahACC.checked == true) { // INI TIDAK DIPAKAI TAPI TIDAK DIHAPUS UNTUK JAGA-JAGA
             fetch("/dosudahacc/" + tanggal_do.value)
                 .then((response) => response.json())
                 .then((options) => {

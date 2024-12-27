@@ -9,32 +9,20 @@ $(document).ready(function () {
     let berat_innerMeter = document.getElementById("berat_innerMeter");
     let berat_karung = document.getElementById("berat_karung");
     let berat_karungMeter = document.getElementById("berat_karungMeter");
-    let berat_kertas = document.getElementById("berat_kertas");
-    let berat_kertasMeter = document.getElementById("berat_kertasMeter");
-    let berat_lami = document.getElementById("berat_lami");
-    let berat_lamiMeter = document.getElementById("berat_lamiMeter");
-    let div_beratStandardMeter = document.getElementById(
-        "div_beratStandardMeter"
-    );
+    let berat_kertas = document.getElementById("berat_kertas"); // prettier-ignore
+    let berat_kertasMeter = document.getElementById("berat_kertasMeter"); // prettier-ignore
+    let berat_lami = document.getElementById("berat_lami"); // prettier-ignore
+    let berat_lamiMeter = document.getElementById("berat_lamiMeter"); // prettier-ignore
+    let div_beratStandardMeter = document.getElementById("div_beratStandardMeter"); // prettier-ignore
     let berat_standardTotal = document.getElementById("berat_standardTotal");
-    let berat_standardTotalMeter = document.getElementById(
-        "berat_standardTotalMeter"
-    );
-    let csrfToken = document
-        .querySelector('meta[name="csrf-token"]')
-        .getAttribute("content");
+    let berat_standardTotalMeter = document.getElementById("berat_standardTotalMeter"); // prettier-ignore
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let biaya_lain = document.getElementById("biaya_lain");
     let delete_button = document.getElementById("delete_button");
     let div_beratStandard = document.getElementById("div_beratStandard");
-    let div_detailSuratPesanan = document.getElementById(
-        "div_detailSuratPesanan"
-    );
-    let div_headerSuratPesanan = document.getElementById(
-        "div_headerSuratPesanan"
-    );
-    let div_tabelSuratPesanan = document.getElementById(
-        "div_tabelSuratPesanan"
-    );
+    let div_detailSuratPesanan = document.getElementById("div_detailSuratPesanan"); // prettier-ignore
+    let div_headerSuratPesanan = document.getElementById("div_headerSuratPesanan"); // prettier-ignore
+    let div_tabelSuratPesanan = document.getElementById("div_tabelSuratPesanan"); // prettier-ignore
     let edit_button = document.getElementById("edit_button");
     let enter_kodeBarang = document.getElementById("enter_kodeBarang");
     let faktur_pjkBiasa = document.getElementById("faktur_pjkBiasa");
@@ -2198,12 +2186,12 @@ $(document).ready(function () {
     function funcDatatablesIntoInput() {
         let dataArray = [];
         dataArray = list_view.data().toArray();
-        console.log(dataArray);
+        // console.log(dataArray);
         // Create a hidden input element
         for (let i = 0; i < dataArray.length; i++) {
             let row = dataArray[i];
             for (let j = 0; j < dataArray[i].length; j++) {
-                console.log(row[j]);
+                // console.log(row[j]);
                 let hiddenInput = document.createElement("input");
                 hiddenInput.type = "hidden";
                 hiddenInput.name = "barang" + j + "[]"; // Set the name attribute as desired
@@ -2233,7 +2221,7 @@ $(document).ready(function () {
         hiddenInputs.forEach((input) => {
             // Check if the input does not have the name '_token'
             if (input.name !== "_token") {
-                console.log(input.name + " is deleted");
+                // console.log(input.name + " is deleted");
 
                 input.remove(); // Remove the input element
             }

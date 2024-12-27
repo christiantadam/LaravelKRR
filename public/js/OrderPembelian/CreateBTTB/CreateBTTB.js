@@ -233,7 +233,6 @@ function updateIDRDiscTotal() {
 
 function updateData() {
     let selectedRow = $("#tabelcreate tr.selected");
-    console.log();
 
     if (selectedRow.length > 0) {
         let noOrder = no_po.value;
@@ -260,6 +259,7 @@ function updateData() {
             numeral(numeral(qty_received.value).value()).format("0,0.00") || 0;
         datas[0].Kurs = parseFloat(kurs.value).toFixed(4) || 0;
 
+        post_btn.disabled = false;
         responseData(data);
         clear();
     } else {
@@ -388,10 +388,7 @@ function post(bttb) {
         if (data[i].no_kat_utama == "009") {
             noTrTmp = 1;
         }
-        if (
-            data[i].Kd_brg.charAt(0) == "1" &&
-            data[i].Kd_brg.charAt(1) == "3"
-        ) {
+        if (data[i].Kd_brg.charAt(1) == "3") {
             if (nopibext.value == "") {
                 Swal.fire({
                     icon: "info",

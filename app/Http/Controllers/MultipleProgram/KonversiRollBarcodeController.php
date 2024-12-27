@@ -55,6 +55,7 @@ class KonversiRollBarcodeController extends Controller
             $pemakaian_sekunderAsal = $request->input('asalKonversiInputValues')[0][3];
             $pemakaian_tritierAsal = $request->input('asalKonversiInputValues')[0][4];
             $uraian_asal = "Asal Konversi Potongan JBB";
+            $uraian_tujuan = "Tujuan Konversi Potongan JBB";
             $proses = $request->input('proses');
             $shift = $request->input('shift');
 
@@ -95,7 +96,6 @@ class KonversiRollBarcodeController extends Controller
             $SaldoSekunder = $concatenatedResults[3];
             $SaldoTritier = $concatenatedResults[4];
             $IdSubKelompok = $concatenatedResults[5];
-            $uraian_tujuan = "Tujuan Konversi Potongan JBB";
 
             switch ($proses) {
                 case 1:

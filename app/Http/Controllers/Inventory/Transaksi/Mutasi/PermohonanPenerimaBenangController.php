@@ -234,13 +234,15 @@ class PermohonanPenerimaBenangController extends Controller
                     ->where('idtype', $YidType)
                     ->where('NonAktif', 'Y')
                     ->first();
-
+                $pibPemberi = DB::connection('ConnInventory')->table('VW_TYPE')->select('PIB')->where('IdType', $YidType);
+                $kodeBarangPemberi = $pemberiData->KodeBarang ?? null;
                 // Step 3: Fetch Penerima data from vw_prg_type
                 $penerimaData = DB::connection('ConnInventory')->table('vw_prg_type')
                     ->where('idtype', $YidTypePenerima)
                     ->where('NonAktif', 'Y')
                     ->first();
-
+                $pibPenerima = DB::connection('ConnInventory')->table('VW_TYPE')->select('PIB')->where('IdType', $YidTypePenerima);
+                $kodeBarangPenerima = $penerimaData->KodeBarang ?? null;
                 // dd($request->all(), $pemberiData, $penerimaData);
 
                 $SaldoPrimerBeri = trim($pemberiData->SaldoPrimer);
@@ -369,8 +371,6 @@ class PermohonanPenerimaBenangController extends Controller
                 $YidTransaksi2 = str_pad($idTransaksi, 9, '0', STR_PAD_LEFT);
                 // dd($YidTransaksi2);
 
-
-
                 if ($PakaiAturanKonversiBeri === 'Y') {
                     if ($konv1Beri === 0 && $konv2Beri !== 0) {
                         $tmpSaldo = ($konv2Beri * $SaldoSekunderBeri) + $SaldoTritierBeri;
@@ -468,11 +468,6 @@ class PermohonanPenerimaBenangController extends Controller
                     ]);
                 }
 
-
-                // if (condition) {
-                //     # code...
-                // }
-
                 $result = DB::connection('ConnInventory')->table('tmp_transaksi')
                     ->select(
                         'IdTransaksi',
@@ -541,9 +536,14 @@ class PermohonanPenerimaBenangController extends Controller
 
                 // dd($data);
 
-                // Insert into Transaksi table
+                // Insert into Transaksi table Pemberi
                 DB::connection('ConnInventory')->table('Transaksi')->insert($data);
-
+                if (isset($pibPemberi) && isset($kodeBarangPemberi) && strlen($kodeBarangPemberi) >= 2 && substr($kodeBarangPemberi, 1, 1) === '3') {
+                    DB::connection('ConnInventory')->table('Trans_PIB')->insert([
+                        'IdTransaksi' => $data['IdTransaksi'],
+                        'NoPIB' => $pibPemberi
+                    ]);
+                }
                 if ($PakaiAturanKonversiBeri === 'Y') {
                     $tritier += ($konv2Beri * $sekunder);
                     $sekunder = 0;
@@ -658,9 +658,14 @@ class PermohonanPenerimaBenangController extends Controller
 
                 // dd($data);
 
-                // Insert into Transaksi table
+                // Insert into Transaksi table Penerima
                 DB::connection('ConnInventory')->table('Transaksi')->insert($data);
-
+                if (isset($pibPenerima) && isset($kodeBarangPenerima) && strlen($kodeBarangPenerima) >= 2 && substr($kodeBarangPenerima, 1, 1) === '3') {
+                    DB::connection('ConnInventory')->table('Trans_PIB')->insert([
+                        'IdTransaksi' => $data['IdTransaksi'],
+                        'NoPIB' => $pibPenerima
+                    ]);
+                }
                 DB::connection('ConnInventory')->statement('exec SP_1003_INV_UPDATE_STATUS_TMPTRANSAKSI ?', [$Yidtransaksi]);
 
                 DB::connection('ConnInventory')->table('tmp_transaksi')
@@ -669,7 +674,6 @@ class PermohonanPenerimaBenangController extends Controller
 
                 // DB::commit();
 
-                // Step 6: Transaction process for Pemberi and Penerima
                 $YIdTransaksi = DB::connection('ConnInventory')->table('counter')->increment('idtransaksi');
                 // dd($YIdTransaksi);
 

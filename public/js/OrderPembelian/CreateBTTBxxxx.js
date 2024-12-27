@@ -615,7 +615,7 @@ function updateData() {
         datas[0].DiscIDR = idr_total_disc.value.replace(/,/g, "") || 0;
         datas[0].QtyRcv = parseFloat(qty_received.value).toFixed(2) || 0;
         datas[0].Kurs = parseFloat(kurs.value).toFixed(4) || 0;
-
+        post_btn.disabled = false;
         responseData(data);
         clear();
     } else {
