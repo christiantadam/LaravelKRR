@@ -2124,6 +2124,11 @@ btn_proses.addEventListener("click", function (e) {
                     },
                     error: function (xhr, status, error) {
                         console.log(xhr.responseJSON);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error, hubungi EDP!",
+                            text: xhr.responseJSON,
+                        });
                     },
                 });
             }

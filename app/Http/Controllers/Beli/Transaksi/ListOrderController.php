@@ -40,10 +40,9 @@ class ListOrderController extends Controller
         // dd($firstDivisi);
         if ($firstDivisi !== null) {
             $data = TransBL::select()->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')->where('YTRANSBL.Kd_div', $firstDivisi['Kd_div'])->where('YTRANSBL.Tgl_order', '=', $date)->get();
-            return view('Beli.Transaksi.ListOrder.List', compact('data', 'dataDiv', 'access','idUser'));
-        }
-        else{
-            return redirect('Beli')->with('status','Anda Belum terdaftar pada divisi manapun, silahkan hubungi EDP!');
+            return view('Beli.Transaksi.ListOrder.List', compact('data', 'dataDiv', 'access', 'idUser'));
+        } else {
+            return redirect('Beli')->with('status', (string) 'User anda: ' . $idUser . ' Belum terdaftar pada divisi manapun, silahkan hubungi EDP!');
         }
     }
 
@@ -59,7 +58,8 @@ class ListOrderController extends Controller
             }
         } else {
             return Response()->json('Parameter harus di isi');
-        };
+        }
+        ;
     }
 
     public function filter($divisi, $tglAwal, $tglAkhir, $Me)

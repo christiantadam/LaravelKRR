@@ -23,6 +23,8 @@ let btn_save = document.getElementById("btn_save");
 let btn_submit = document.getElementById("btn_submit");
 let btn_delete = document.getElementById("btn_delete");
 
+let data;
+let statusKoreksi;
 let csrfToken = $('meta[name="csrf-token"]').attr("content");
 let kdBarangAslinya = "";
 select_kategori.disabled = true;
@@ -330,10 +332,6 @@ kd_barang.addEventListener("input", function (event) {
 kd_barang.addEventListener("change", function (event) {
     btn_cari_kdBarang.focus();
 });
-
-btn_save.addEventListener("click", function () {});
-
-btn_submit.addEventListener("click", function () {});
 
 btn_cari_kdBarang.addEventListener("click", function (event) {
     cariKodeBarang(kd_barang.value.replace(/\s/g, ""));
@@ -672,7 +670,7 @@ $(document).ready(function () {
             console.error("Error Fetch Data:", error);
         },
     });
-    console.log(statusKoreksi, idUser, data, statusKoreksi != null);
+    // console.log(statusKoreksi, idUser, data, statusKoreksi != null);
     if (statusKoreksi != null) {
         $.ajax({
             url: "/MaintenanceOrderPembeliann/CekNoTrans",
