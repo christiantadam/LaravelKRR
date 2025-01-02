@@ -107,6 +107,7 @@ $(function () {
     $("#loading").show();
     $("#DivDetailData").hide();
     $('#modalDetailApprove').modal({ backdrop: 'static', keyboard: false })
+    $('#modalDetailApprove').modal('show');
     $("body.modal-open").removeAttr("style");
       setTimeout(function() {
         $('#DivDetailData').show();
