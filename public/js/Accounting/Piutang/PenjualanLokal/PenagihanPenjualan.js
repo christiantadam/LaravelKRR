@@ -242,6 +242,9 @@ $(document).ready(function () {
                 if (Ppn.value == "11") {
                     TNilaiPenagihan =
                         Math.round((TNilaiPenagihan / 1.11) * 100) / 100;
+                } else if (Ppn.value == "12") {
+                    TNilaiPenagihan =
+                        Math.round((TNilaiPenagihan / 1.12) * 100) / 100;
                 } else {
                     TNilaiPenagihan =
                         Math.round((TNilaiPenagihan / 1.1) * 100) / 100;
@@ -250,6 +253,9 @@ $(document).ready(function () {
                 if (Ppn.value == "11") {
                     TNilaiPenagihan =
                         Math.round(TNilaiPenagihan * 1.11 * 100) / 100;
+                } else if (Ppn.value == "12") {
+                    TNilaiPenagihan =
+                        Math.round((TNilaiPenagihan / 1.12) * 100) / 100;
                 } else {
                     TNilaiPenagihan =
                         Math.round(TNilaiPenagihan * 1.1 * 100) / 100;
@@ -999,9 +1005,9 @@ $(document).ready(function () {
                             if (data.ListSJ && data.ListSJ.length > 0) {
                                 var table_atas = $("#table_atas").DataTable();
 
-                                table_atas.clear().draw()
+                                table_atas.clear().draw();
                                 data.ListSJ.forEach(function (item, index) {
-                                console.log(item);
+                                    console.log(item);
                                     if (item.Type == "SJ") {
                                         const newRow = {
                                             Id_Detail:
@@ -1033,7 +1039,10 @@ $(document).ready(function () {
                                                 newRow.id_xc,
                                             ])
                                             .draw();
-                                    } else if (item.Type == "XC" && item.Nama_Charge == "Storage"){
+                                    } else if (
+                                        item.Type == "XC" &&
+                                        item.Nama_Charge == "Storage"
+                                    ) {
                                         const newRow = {
                                             Id_Detail:
                                                 table_atas.rows().count() + 1,
@@ -1064,7 +1073,11 @@ $(document).ready(function () {
                                                 newRow.id_xc,
                                             ])
                                             .draw();
-                                    }else if (item.Type == "XC" && item.Nama_Charge == "Extra Charge Transport"){
+                                    } else if (
+                                        item.Type == "XC" &&
+                                        item.Nama_Charge ==
+                                            "Extra Charge Transport"
+                                    ) {
                                         const newRow = {
                                             Id_Detail:
                                                 table_atas.rows().count() + 1,

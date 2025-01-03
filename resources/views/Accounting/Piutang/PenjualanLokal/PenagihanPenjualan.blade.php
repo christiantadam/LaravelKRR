@@ -216,6 +216,7 @@
                                 </div>
                                 <div class="col-md-1">
                                     <select id="Ppn" name="Ppn" class="form-control" style="width: 100%;">
+                                        <option value="12">12</option>
                                         <option value="11">11</option>
                                         <option value="10">10</option>
                                     </select>
@@ -284,8 +285,8 @@
                                     <label for="suratJalanSelect" style="margin-right: 10px;">Surat Jalan</label>
                                 </div>
                                 <div class="col-md-3" style="display: none">
-                                    <input type="text" id="tanggal_diterima" name="tanggal_diterima" class="form-control"
-                                        style="width: 100%">
+                                    <input type="text" id="tanggal_diterima" name="tanggal_diterima"
+                                        class="form-control" style="width: 100%">
                                 </div>
                                 <div class="col-md-3">
                                     <input type="text" id="surat_jalan" name="surat_jalan" class="form-control"

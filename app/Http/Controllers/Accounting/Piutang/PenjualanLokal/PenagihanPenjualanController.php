@@ -212,7 +212,7 @@ class PenagihanPenjualanController extends Controller
                     $id = substr($no_penagihan, 0, 4);
 
                     $noAkhir = DB::connection('ConnAccounting')
-                    ->table('T_Counter_Faktur')
+                        ->table('T_Counter_Faktur')
                         ->whereYear('Periode', date('Y', strtotime($tgl_penagihan)))
                         ->value('nomer');
                 } else {
@@ -224,7 +224,7 @@ class PenagihanPenjualanController extends Controller
 
                         // Query untuk mengambil Nota_AP dari T_Counter_Nota berdasarkan periode
                         $noAkhir = DB::connection('ConnAccounting')
-                        ->table('T_Counter_Nota')
+                            ->table('T_Counter_Nota')
                             ->where('Periode', $periode)
                             ->value('Nota_AP');
                     } elseif ($idJenisDokumen == "6") {  // KP
@@ -233,7 +233,7 @@ class PenagihanPenjualanController extends Controller
 
                         // Query untuk mengambil Nota_KP dari T_Counter_Nota berdasarkan periode
                         $noAkhir = DB::connection('ConnAccounting')
-                        ->table('T_Counter_Nota')
+                            ->table('T_Counter_Nota')
                             ->where('Periode', $periode)
                             ->value('Nota_KP');
                     } elseif ($idJenisDokumen == "7") {  // LP
@@ -242,7 +242,7 @@ class PenagihanPenjualanController extends Controller
 
                         // Query untuk mengambil Nota_LP dari T_Counter_Nota berdasarkan periode
                         $noAkhir = DB::connection('ConnAccounting')
-                        ->table('T_Counter_Nota')
+                            ->table('T_Counter_Nota')
                             ->where('Periode', $periode)
                             ->value('Nota_LP');
                     }
