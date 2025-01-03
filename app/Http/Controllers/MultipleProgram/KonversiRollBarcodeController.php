@@ -21,24 +21,27 @@ class KonversiRollBarcodeController extends Controller
         //
     }
 
-    public function create()
+    public function create($id)
     {
-        $listPotong = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?', [0]);
-        // Convert the data into an array that DataTables can consume
-        $dataPotong = [];
-        foreach ($listPotong as $Potong) {
-            $nomorIndeks = 1; // or any number
-            $nomorIndeks9digit = sprintf('%09d', $Potong->NoIndeks);
-            $dataPotong[] = [
-                'idType' => $Potong->IdType,
-                'NamaType' => $Potong->NamaType,
-                'JumlahPengeluaranPrimer' => (string) $Potong->JumlahPengeluaranPrimer . ' ' . $Potong->satPrimer,
-                'JumlahPengeluaranSekunder' => (string) $Potong->JumlahPengeluaranSekunder . ' ' . $Potong->satSekunder,
-                'JumlahPengeluaranTritier' => (string) $Potong->JumlahPengeluaranTritier . ' ' . $Potong->satTritier,
-                'idkonversi' => $Potong->idkonversi,
-                'Barcode' => (string) $nomorIndeks9digit . '-' . $Potong->Kode_barang,
-            ];
+        if ($id == 'JBBPotong') {
+            $listPotong = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?', [0]);
+            // Convert the data into an array that DataTables can consume
+            $dataPotong = [];
+            foreach ($listPotong as $Potong) {
+                $nomorIndeks = 1; // or any number
+                $nomorIndeks9digit = sprintf('%09d', $Potong->NoIndeks);
+                $dataPotong[] = [
+                    'idType' => $Potong->IdType,
+                    'NamaType' => $Potong->NamaType,
+                    'JumlahPengeluaranPrimer' => (string) $Potong->JumlahPengeluaranPrimer . ' ' . $Potong->satPrimer,
+                    'JumlahPengeluaranSekunder' => (string) $Potong->JumlahPengeluaranSekunder . ' ' . $Potong->satSekunder,
+                    'JumlahPengeluaranTritier' => (string) $Potong->JumlahPengeluaranTritier . ' ' . $Potong->satTritier,
+                    'idkonversi' => $Potong->idkonversi,
+                    'Barcode' => (string) $nomorIndeks9digit . '-' . $Potong->Kode_barang,
+                ];
+            }
         }
+
         return datatables($dataPotong)->make(true);
     }
 
@@ -216,37 +219,45 @@ class KonversiRollBarcodeController extends Controller
 
     public function show($id, Request $request)
     {
+        $nomorUser = trim(Auth::user()->NomorUser);
         if ($id == 'JBBPotong') {
             $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-            $nomorUser = trim(Auth::user()->NomorUser);
             $divisi = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?', [$nomorUser, 1]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'JBB']);
             return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
-        } elseif ($id == 'ABMPotong') {
-            $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
-            return view('MultipleProgram.PermohonanKonversiPotongBarcode', compact('access', 'id'));
+        } elseif ($id == 'ABMStghJadi') {
+            $access = (new HakAksesController)->HakAksesFiturMaster('Woven Bag');
+            $divisi = DB::connection('ConnInventory')
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'ABM']);
+            return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser'));
         } elseif ($id == 'ADSPotong') {
             $access = (new HakAksesController)->HakAksesFiturMaster('ADStar');
             return view('MultipleProgram.PermohonanKonversiPotongBarcode', compact('access', 'id'));
         } elseif ($id == 'getDataAsalKonversi') {
             $nomorIndeksBarangAsal = $request->input('nomorIndeksBarangAsal');
             $kodeBarangAsal = $request->input('kodeBarangAsal');
+            $idDivisi = $request->input('idDivisi');
             // 000000001-000140864
             // 000000002-000140864
             // 000000003-000140864
             // 000000004-000140864
-            try {
-                $dataBarcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XKodeBarang = ?, @XNomorIndeks = ?', [8, $kodeBarangAsal, $nomorIndeksBarangAsal]);
-                if (!str_contains($dataBarcode[0]->NamaDivisi, 'Jumbo Bag')) {
-                    return response()->json(['error' => (string) "Barcode yang dimasukkan milik divisi " . $dataBarcode[0]->NamaDivisi]);
+            if ($idDivisi == 'JBB') {
+                try {
+                    $dataBarcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XKodeBarang = ?, @XNomorIndeks = ?', [8, $kodeBarangAsal, $nomorIndeksBarangAsal]);
+                    if (!str_contains($dataBarcode[0]->NamaDivisi, 'Jumbo Bag')) {
+                        return response()->json(['error' => (string) "Barcode yang dimasukkan milik divisi " . $dataBarcode[0]->NamaDivisi]);
+                    }
+                    return response()->json(['success' => $dataBarcode]);
+                } catch (Exception $e) {
+                    if ($e->getMessage() == 'Undefined array key 0') {
+                        return response()->json(['error' => (string) "Terjadi Kesalahan, Data Barcode Tidak Ditemukan!"]);
+                    }
+                    return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
                 }
-                return response()->json(['success' => $dataBarcode]);
-            } catch (Exception $e) {
-                if ($e->getMessage() == 'Undefined array key 0') {
-                    return response()->json(['error' => (string) "Terjadi Kesalahan, Data Barcode Tidak Ditemukan!"]);
-                }
-                return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+            } else if ($idDivisi == 'ABM') {
+                # code...
             }
+
         } elseif ($id == 'getObjek') {
             $UserInput = trim(Auth::user()->NomorUser);
             $idDivisi = $request->input('idDivisi');

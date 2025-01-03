@@ -163,6 +163,15 @@ $(document).ready(function () {
         },
     });
 
+    // Add click event listener to table rows
+    $("#table_mesin tbody").on("click", "tr", function () {
+        var data = table_mesin.row(this).data();
+        console.log(data); // You can use this data to populate the modal
+
+        // Show the modal
+        $("#modal_tambahOrder").modal("show");
+    });
+
     // Setup global AJAX handlers
     $.ajaxSetup({
         beforeSend: function () {
@@ -177,10 +186,10 @@ $(document).ready(function () {
 
     button_tambahLogMaintenance.addEventListener("click", function (event) {
         event.preventDefault();
-        $("#staticBackdrop").modal("show");
+        $("#modal_tambahOrder").modal("show");
     });
 
-    $("#staticBackdrop").on("shown.bs.modal", function (event) {
+    $("#modal_tambahOrder").on("shown.bs.modal", function (event) {
         clearSelectElement("initializeModal");
         initializeSelectElement("initializeModal"); //Initialize Form
         setTimeout(() => {

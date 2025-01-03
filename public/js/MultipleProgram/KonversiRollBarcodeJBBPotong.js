@@ -171,7 +171,7 @@ $(document).ready(function () {
     function getDataPermohonan() {
         // Fetch the data from your server using an AJAX call
         $.ajax({
-            url: "/KonversiRollBarcode/create",
+            url: "/KonversiRollBarcode/create/JBBPotong",
             type: "GET",
             success: function (response) {
                 console.log(response.data);
@@ -343,6 +343,7 @@ $(document).ready(function () {
                         _token: csrfToken,
                         nomorIndeksBarangAsal: nomorIndeksBarangAsal,
                         kodeBarangAsal: kodeBarangAsal,
+                        idDivisi: "JBB",
                     },
                     success: function (data) {
                         if (data.error) {
@@ -414,7 +415,11 @@ $(document).ready(function () {
                 });
             }
         });
-        if (nomorUser !== "4384" && nomorUser !== "4199" && nomorUser !== "1516") {
+        if (
+            nomorUser !== "4384" &&
+            nomorUser !== "4199" &&
+            nomorUser !== "1516"
+        ) {
             const inputElement = Swal.getInput();
 
             inputElement.addEventListener("keydown", function (e) {
@@ -497,8 +502,13 @@ $(document).ready(function () {
         button_updateTujuanKonversi.disabled = true;
         button_hapusTujuanKonversi.disabled = true;
         button_modalProses.disabled = true;
-        if (nomorUser == "4384" && nomorUser == "4199" && nomorUser == "1516") {
-            hasil_konversiTritierTujuan.readOnly = false;
+        if (
+            nomorUser !== "4384" &&
+            nomorUser !== "4199" &&
+            nomorUser !== "1516"
+        ) {
+            hasil_konversiTritierTujuan.readOnly = true;
+            button_timbangTujuanKonversi.disabled = false;
         }
 
         const buttonTypeTujuanInputIds = [
