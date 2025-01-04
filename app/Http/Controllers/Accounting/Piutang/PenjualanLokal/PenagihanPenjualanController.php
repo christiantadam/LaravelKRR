@@ -547,16 +547,18 @@ class PenagihanPenjualanController extends Controller
             $total = 0;
 
             foreach ($results as $row) {
+                // Konversi nilai JmlTerimaUmum
+                $jmlTerimaUmum = (float) $row->JmlTerimaUmum; // Pastikan nilai numerik
+                $jmlTerimaUmum = ($jmlTerimaUmum == 0) ? 0 : (int) $jmlTerimaUmum; // Konversi 0.00 atau .00 menjadi 0, lainnya menjadi integer
+
                 // Build the response array similar to ListSJ in VB.NET
                 $response[] = [
                     'NamaBarang' => $row->NamaBarang,
-                    'JmlTerimaUmum' => ($row->JmlTerimaUmum == floor($row->JmlTerimaUmum)) ? 0 : $row->JmlTerimaUmum,
+                    'JmlTerimaUmum' => $jmlTerimaUmum,
                     'HargaSatuan' => $row->HargaSatuan,
                     'Satuan' => $row->Satuan,
                     'Total' => number_format($row->Total, 2),
                 ];
-                // Calculate total
-                // $total += $row->total;
             }
 
             // Return the response with total amount
