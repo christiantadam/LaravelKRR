@@ -1175,6 +1175,7 @@ $(document).ready(function () {
                                     data: "Tgl_Pesan",
                                 },
                             ],
+                            order: [[0, "desc"]],
                             paging: false,
                             scrollY: "400px",
                             scrollCollapse: true,
