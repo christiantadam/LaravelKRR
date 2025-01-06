@@ -116,6 +116,8 @@ class PenagihanPenjualanController extends Controller
             $TTerbilang = $request->input('TTerbilang');
             $user_id = trim(Auth::user()->NomorUser);
             $saveData = false;
+            // dd($request->all());
+            // dd($request->idCustomer);
 
             // Save data - AddMode
             if ($proses == 1) {
@@ -163,11 +165,23 @@ class PenagihanPenjualanController extends Controller
                                     $idPenagihan,
                                     $item[2],  // SuratJalan (3rd element)
                                     $item[3],  // JatuhTempo (4th element)
-                                    $request->TIdCustomer,
+                                    $request->idCustomer,
                                     $item[5],  // SuratPesanan (5th element)
                                     $request->Tid_PenagihanUM === "" ? null : $request->Tid_PenagihanUM  // Handle null case
                                 ]
                             );
+
+                        // DB::connection('ConnSales')
+                        //     ->statement(
+                        //         'EXEC SP_1486_ACC_UDT_PENAGIHAN @Kode = ?, @IdPengiriman = ?, @IdPenagihan = ?, @IdCust = ?, @SuratPesanan = ?',
+                        //         [
+                        //             null,
+                        //             $item[2],  // SuratJalan (3rd element)
+                        //             $idPenagihan,
+                        //             $request->idCustomer,
+                        //             $item[5],  // SuratPesanan (5th element)
+                        //         ]
+                        //     );
                     } else if ($item[6] == 'XC') {
                         // Execute stored procedure for 'XC' type
                         DB::connection('ConnAccounting')
