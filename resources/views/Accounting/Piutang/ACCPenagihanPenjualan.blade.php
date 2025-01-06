@@ -819,7 +819,7 @@
 
                             <div class="row">
                                 <div class="col-sm-2 text-left offset-sm-1">
-                                    <span><b>11%</b></span>
+                                    <span id="faktur_PersenPPN"><b>11%</b></span>
                                 </div>
                                 <div class="col-sm-1 offset-sm-6 text-right">
                                     <span id="faktur_SymbolPajak">xxxx</span>
