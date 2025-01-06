@@ -26,7 +26,7 @@ class ListDetailTransaksiController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //    
+        //
     }
 
     //Display the specified resource.
@@ -40,6 +40,7 @@ class ListDetailTransaksiController extends Controller
             @idtype = ?',
                 [$idtype]
             );
+            dd($subkel);
             $data_subkel = [];
             foreach ($subkel as $detail_subkel) {
                 $data_subkel[] = [
@@ -115,16 +116,16 @@ class ListDetailTransaksiController extends Controller
                     'SaldoPrimer' => $detail_subkel->SaldoPrimer,
                     'SaldoSekunder' => $detail_subkel->SaldoSekunder,
                     'SaldoTritier' => $detail_subkel->SaldoTritier,
-                    'SatPrimer' => $detail_subkel->SatPrimer, 
-                    'SatSekunder' => $detail_subkel->SatSekunder, 
+                    'SatPrimer' => $detail_subkel->SatPrimer,
+                    'SatSekunder' => $detail_subkel->SatSekunder,
                     'SatTritier' => $detail_subkel->SatTritier,
                     'PakaiAturanKonversi' => $detail_subkel->PakaiAturanKonversi,
                     'KonvSekunderKePrimer' => $detail_subkel->KonvSekunderKePrimer,
                     'KonvTritierKeSekunder' => $detail_subkel->KonvTritierKeSekunder,
-                    'MinimumStock' => $detail_subkel->MinimumStock, 
-                    'MaximumStock' => $detail_subkel->MaximumStock, 
+                    'MinimumStock' => $detail_subkel->MinimumStock,
+                    'MaximumStock' => $detail_subkel->MaximumStock,
                     'KodeBarang' => $detail_subkel->KodeBarang,
-                    'PIB' => $detail_subkel->PIB 
+                    'PIB' => $detail_subkel->PIB
                 ];
             }
             return response()->json($data_subkel);
@@ -140,12 +141,12 @@ class ListDetailTransaksiController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-        // 
+        //
     }
 
     //Remove the specified resource from storage.
     public function destroy(Request $request)
     {
-        // 
+        //
     }
 }

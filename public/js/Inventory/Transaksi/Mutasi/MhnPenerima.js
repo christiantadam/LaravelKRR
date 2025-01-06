@@ -845,127 +845,170 @@ baris3.forEach(function (input) {
     input.disabled = true;
 });
 
+primer3.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sekunder3.disabled = false;
+        sekunder3.focus();
+        sekunder3.select();
+    }
+});
+
+sekunder3.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        tritier3.disabled = false;
+        tritier3.focus();
+        tritier3.select();
+    }
+});
+
+tritier3.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        alasan.focus();
+        alasan.select();
+    }
+});
+
+alasan.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        btn_proses.focus();
+    }
+});
+
 //#region Add Event Listener
 // fungsi berhubungan dengan ENTER & pengecekkan yg kosong2
 inputs.forEach((masuk, index) => {
+    // Event listener untuk keypress
     masuk.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
-            if (masuk.id === "kodeBarang" && kodeBarang.value !== "") {
-                cekBarang(kodeBarang.value);
-            } else if (masuk.id === "primer3") {
-                if (parseFloat(primer3.value) > parseFloat(primer.value)) {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Warning",
-                        html: `Saldo Primernya Tinggal: ${primer.value}`,
-                        returnFocus: false,
-                    }).then(() => {
-                        primer3.value = 0;
-                        primer3.select();
-                    });
-                } else {
-                    sekunder3.select();
-                }
-            } else if (masuk.id === "sekunder3") {
-                if (parseFloat(sekunder3.value) > parseFloat(sekunder.value)) {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Warning",
-                        html: `Saldo Sekundernya Tinggal: ${sekunder.value}`,
-                        returnFocus: false,
-                    }).then(() => {
-                        sekunder3.value = 0;
-                        sekunder3.select();
-                    });
-                } else {
-                    tritier3.select();
-                }
-            } else if (masuk.id === "tritier3") {
-                if (konvBeri !== "Y") {
-                    if (
-                        parseFloat(tritier3.value) >
-                            parseFloat(tritier.value) &&
-                        objekId.value !== "099"
-                    ) {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Warning",
-                            html: `Saldo Tritiernya Tinggal: ${tritier.value}`,
-                            returnFocus: false,
-                        }).then(() => {
-                            tritier3.value = 0;
-                            tritier3.select();
-                        });
-                    } else if (
-                        tritier3.value === "0" &&
-                        sekunder3.value === "0" &&
-                        primer3.value === "0" &&
-                        objekId.value !== "099"
-                    ) {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Warning",
-                            html: `Barang Yang Dimutasikan Harus Lebih besar 0`,
-                            returnFocus: false,
-                        }).then(() => {
-                            tritier3.value = 0;
-                            tritier3.select();
-                        });
-                    } else {
-                        alasan.focus();
-                    }
-                } else {
-                    if (parseFloat(tritier3.value) > 0) {
-                        if (no_primer.value === no_primer3.value) {
-                            alasan.focus();
-                        } else {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Warning",
-                                html: `Satuan Tritier harus sama !!...,yaitu= ${no_tritier.value}`,
-                                returnFocus: false,
-                            });
-                        }
-                    } else {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Warning",
-                            html: `Tritier tidak boleh 0(nol)!!`,
-                            returnFocus: false,
-                        }).then(() => {
-                            sekunder3.value = 0;
-                            sekunder3.select();
-                        });
-                    }
-                }
-            } else if (masuk.id === "alasan") {
-                if (
-                    tritier3.value === "0" &&
-                    sekunder3.value === "0" &&
-                    primer3.value === "0"
-                ) {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Warning",
-                        html: `Jumlah yg Di BON tdk boleh = 0`,
-                        returnFocus: false,
-                    }).then(() => {
-                        alasan.focus();
-                    });
-                }
-                if (a === 1) {
-                    btn_isi.focus();
-                } else if (a === 2) {
-                    btn_koreksi.focus();
-                } else if (a === 3) {
-                    btn_hapus.focus();
-                } else {
-                    btn_proses().focus();
-                }
-            }
+            handleAction(masuk);
         }
     });
+
+    // Event listener untuk double click
+    masuk.addEventListener("dblclick", function () {
+        handleAction(masuk);
+    });
 });
+
+// Fungsi untuk menangani aksi
+function handleAction(masuk) {
+    if (masuk.id === "kodeBarang" && kodeBarang.value !== "") {
+        cekBarang(kodeBarang.value);
+    } else if (masuk.id === "primer3") {
+        if (parseFloat(primer3.value) > parseFloat(primer.value)) {
+            Swal.fire({
+                icon: "warning",
+                title: "Warning",
+                html: `Saldo Primernya Tinggal: ${primer.value}`,
+                returnFocus: false,
+            }).then(() => {
+                primer3.value = 0;
+                primer3.select();
+            });
+        } else {
+            sekunder3.select();
+        }
+    } else if (masuk.id === "sekunder3") {
+        if (parseFloat(sekunder3.value) > parseFloat(sekunder.value)) {
+            Swal.fire({
+                icon: "warning",
+                title: "Warning",
+                html: `Saldo Sekundernya Tinggal: ${sekunder.value}`,
+                returnFocus: false,
+            }).then(() => {
+                sekunder3.value = 0;
+                sekunder3.select();
+            });
+        } else {
+            tritier3.select();
+        }
+    } else if (masuk.id === "tritier3") {
+        if (konvBeri !== "Y") {
+            if (
+                parseFloat(tritier3.value) > parseFloat(tritier.value) &&
+                objekId.value !== "099"
+            ) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Warning",
+                    html: `Saldo Tritiernya Tinggal: ${tritier.value}`,
+                    returnFocus: false,
+                }).then(() => {
+                    tritier3.value = 0;
+                    tritier3.select();
+                });
+            } else if (
+                tritier3.value === "0" &&
+                sekunder3.value === "0" &&
+                primer3.value === "0" &&
+                objekId.value !== "099"
+            ) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Warning",
+                    html: `Barang Yang Dimutasikan Harus Lebih besar 0`,
+                    returnFocus: false,
+                }).then(() => {
+                    tritier3.value = 0;
+                    tritier3.select();
+                });
+            } else {
+                alasan.focus();
+            }
+        } else {
+            if (parseFloat(tritier3.value) > 0) {
+                if (no_primer.value === no_primer3.value) {
+                    alasan.focus();
+                } else {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Warning",
+                        html: `Satuan Tritier harus sama !!...,yaitu= ${no_tritier.value}`,
+                        returnFocus: false,
+                    });
+                }
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Warning",
+                    html: `Tritier tidak boleh 0(nol)!!`,
+                    returnFocus: false,
+                }).then(() => {
+                    sekunder3.value = 0;
+                    sekunder3.select();
+                });
+            }
+        }
+    } else if (masuk.id === "alasan") {
+        if (
+            tritier3.value === "0" &&
+            sekunder3.value === "0" &&
+            primer3.value === "0"
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Warning",
+                html: `Jumlah yg Di BON tdk boleh = 0`,
+                returnFocus: false,
+            }).then(() => {
+                alasan.focus();
+            });
+        }
+        if (a === 1) {
+            btn_isi.focus();
+        } else if (a === 2) {
+            btn_koreksi.focus();
+        } else if (a === 3) {
+            btn_hapus.focus();
+        } else {
+            btn_proses().focus();
+        }
+    }
+}
 
 // button list divisi penerima
 btn_divisi2.addEventListener("click", function (e) {

@@ -139,7 +139,7 @@ class PenagihanPenjualanController extends Controller
                             $TKurs === 0 ? 1 : $TKurs,
                             $TJnsPajak === "" ? null : $TJnsPajak,
                             $cbPPN,
-                            $request->Tid_PenagihanUM === "" ? null : $request->Tid_PenagihanUM,
+                            $request->no_penagihanUM === "" ? null : $request->no_penagihanUM,
                         ]
                     );
 
@@ -167,7 +167,7 @@ class PenagihanPenjualanController extends Controller
                                     $item[3],  // JatuhTempo (4th element)
                                     $request->idCustomer,
                                     $item[5],  // SuratPesanan (5th element)
-                                    $request->Tid_PenagihanUM === "" ? null : $request->Tid_PenagihanUM  // Handle null case
+                                    $request->no_penagihanUM === "" ? null : $request->no_penagihanUM  // Handle null case
                                 ]
                             );
 

@@ -1579,16 +1579,16 @@ btn_proses.addEventListener("click", function (e) {
                         $('#tableData').show();
                         showTable();
 
-                        allInputs.forEach(function (input) {
-                            let divAtas = input.closest('#top') !== null;
-                            let divPenting = input.closest('#baris-1') !== null;
-                            let divids = input.closest('#ids') !== null;
-                            let uraianDetil = input.closest('#uraian') !== null;
+                        // allInputs.forEach(function (input) {
+                        //     let divAtas = input.closest('#top') !== null;
+                        //     let divPenting = input.closest('#baris-1') !== null;
+                        //     let divids = input.closest('#ids') !== null;
+                        //     let uraianDetil = input.closest('#uraian') !== null;
 
-                            if (!divAtas && !divPenting && !divids && !uraianDetil) {
-                                input.value = '';
-                            }
-                        });
+                        //     if (!divAtas && !divPenting && !divids && !uraianDetil) {
+                        //         input.value = '';
+                        //     }
+                        // });
                     });
                 } else if (a === 2 && response.success) {
                     Swal.fire({
@@ -1599,7 +1599,7 @@ btn_proses.addEventListener("click", function (e) {
                     }).then(() => {
                         $('#tableData').show();
                         showTable();
-                        clearInputs();
+                        // clearInputs();
                     });
                 } else if (response.error) {
                     Swal.fire({
