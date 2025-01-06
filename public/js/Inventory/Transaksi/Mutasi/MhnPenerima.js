@@ -845,39 +845,6 @@ baris3.forEach(function (input) {
     input.disabled = true;
 });
 
-primer3.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        sekunder3.disabled = false;
-        sekunder3.focus();
-        sekunder3.select();
-    }
-});
-
-sekunder3.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        tritier3.disabled = false;
-        tritier3.focus();
-        tritier3.select();
-    }
-});
-
-tritier3.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        alasan.focus();
-        alasan.select();
-    }
-});
-
-alasan.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        btn_proses.focus();
-    }
-});
-
 //#region Add Event Listener
 // fungsi berhubungan dengan ENTER & pengecekkan yg kosong2
 inputs.forEach((masuk, index) => {
@@ -910,6 +877,7 @@ function handleAction(masuk) {
                 primer3.select();
             });
         } else {
+            sekunder3.disabled = false;
             sekunder3.select();
         }
     } else if (masuk.id === "sekunder3") {
@@ -924,6 +892,7 @@ function handleAction(masuk) {
                 sekunder3.select();
             });
         } else {
+            tritier3.disabled = false;
             tritier3.select();
         }
     } else if (masuk.id === "tritier3") {
@@ -2072,7 +2041,11 @@ btn_namaBarang.addEventListener("click", function (e) {
                 const selectedType = result.value;
                 kodeType.value = selectedType.IdType.trim();
                 namaBarang.value = selectedType.NamaType.trim();
-
+                primer3.disabled = false;
+                sekunder3.disabled = false;
+                tritier3.disabled = false;
+                primer3.focus();
+                primer3.select();
                 loadKdBarang(kodeType.value)
                     .then((loadResult) => {
                         if (loadResult && PIB.value !== "") {
