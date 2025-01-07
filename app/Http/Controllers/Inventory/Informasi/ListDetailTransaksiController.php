@@ -40,7 +40,6 @@ class ListDetailTransaksiController extends Controller
             @idtype = ?',
                 [$idtype]
             );
-            dd($subkel);
             $data_subkel = [];
             foreach ($subkel as $detail_subkel) {
                 $data_subkel[] = [

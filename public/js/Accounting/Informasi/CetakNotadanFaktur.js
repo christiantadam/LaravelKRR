@@ -567,12 +567,15 @@ function rpt_cetakNotaFaktur(result) {
                     // print faktur
                     var faktur_IdPenagihan =
                         document.getElementById("faktur_IdPenagihan");
+                    faktur_IdPenagihan.style.fontWeight = "bold";
                     var faktur_AreaPPNThnIdFakturPajak =
                         document.getElementById(
                             "faktur_AreaPPNThnIdFakturPajak"
                         );
+                    faktur_AreaPPNThnIdFakturPajak.style.fontWeight = "bold";
                     var faktur_NamaNPWP =
                         document.getElementById("faktur_NamaNPWP");
+                    faktur_NamaNPWP.style.fontWeight = "bold";
                     var faktur_AlamatNPWP =
                         document.getElementById("faktur_AlamatNPWP");
                     var faktur_NPWP = document.getElementById("faktur_NPWP");

@@ -7,6 +7,7 @@
     }
 
     .underline {
+        font-size: 18px;
         border-bottom: 1px solid black;
         /* Change the color as needed */
         margin-bottom: 10px;
@@ -21,17 +22,20 @@
         /* width: 100%; */
         /* table-layout: fixed; */
         background-color: white;
+        font-size: 18px;
     }
 
     .no-wrap-header thead th {
         white-space: nowrap;
         background-color: lightgoldenrodyellow;
         padding: 0;
+        font-size: 18px;
     }
 
     .table-responsive.fixed-height tbody td {
         background-color: white;
         padding: 4px 5px;
+        font-size: 18px;
     }
 
     .fixed-width {
@@ -42,6 +46,7 @@
         text-overflow: ellipsis;
         /* Show "..." when the text overflows */
         padding: 0;
+        font-size: 18px;
     }
 
     table.dataTable {
@@ -55,7 +60,7 @@
     #table_list td {
         padding-top: 0;
         padding-bottom: 0;
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .faktur {
@@ -109,6 +114,7 @@
         .faktur,
         .faktur * {
             visibility: visible;
+            font-size: 18px;
         }
 
         /* Show only elements with the class 'fakturXC' */
@@ -265,19 +271,18 @@
                         {{-- nota dan faktur --}}
                         <div class="faktur">
 
-                            <div class="row">
+                            <div class="row" style="margin-top: 0.5cm">
                                 <div class="col-sm-12 text-right">
                                     <span id="faktur_IdPenagihan">Id Penagihan</span>
                                 </div>
                             </div>
 
-                            <div class="row mt-5">
+                            <div class="row mt-5" style="margin-top: 0.5cm">
                                 <div class="col-sm-8 text-right">
-                                    <label>Nomor Seri Faktur Pajak</label>
+                                    <label><b>Nomor Seri Faktur Pajak</b></label>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <span id="faktur_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
-                                    </span>
+                                    <span id="faktur_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX</span>
                                 </div>
                             </div>
 
@@ -287,18 +292,22 @@
                                         id="faktur_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
+                            <p></p>
                             <div class="row">
                                 <div class="col-sm-9 offset-sm-3 text-left">
                                     <span
                                         id="faktur_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
+                            <p></p>
                             <div class="row">
                                 <div class="col-sm-9 offset-sm-3 text-left">
                                     <span id="faktur_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
 
+                            <br>
+                            <br>
                             <div class="row mt-3">
                                 <div class="col-sm-10 offset-sm-1 text-left">
                                     <span
@@ -307,16 +316,13 @@
                             </div>
                             <div id="faktur_Detail"></div>
 
-                            <div class="row mt-3">
+                            <div class="row mt-3" style="margin-top: 5.5cm !important">
                                 <div class="col-sm-10 text-left offset-sm-1">
                                     <label><b> Pembayaran mohon ditransfer ke: <br>
                                             Bank OCBC NISP Cab. Diponegoro - Surabaya <br>
                                             a/c. 5578 0000 9333 ( IDR ) <br>
                                             a/n. PT. Kerta Rajasa Raya</b></label>
                                 </div>
-                            </div>
-
-                            <div class="row mt-4">
                                 <div class="col-sm-2 text-left offset-sm-2">
                                     <label><b> XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
                                 </div>
@@ -327,6 +333,18 @@
                                     <span id="faktur_Grand">-5.555.555,00</span>
                                 </div>
                             </div>
+
+                            {{-- <div class="row mt-4">
+                                <div class="col-sm-2 text-left offset-sm-2">
+                                    <label><b> XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                </div>
+                                <div class="col-sm-1 offset-sm-5 text-right">
+                                    <span id="faktur_SymbolGrand">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="faktur_Grand">-5.555.555,00</span>
+                                </div>
+                            </div> --}}
 
                             <div class="row">
                                 <div class="col-sm-2 offset-sm-10 text-right">
