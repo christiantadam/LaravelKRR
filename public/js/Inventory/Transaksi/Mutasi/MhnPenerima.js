@@ -845,6 +845,13 @@ baris3.forEach(function (input) {
     input.disabled = true;
 });
 
+alasan.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        btn_proses.focus();
+    }
+});
+
 //#region Add Event Listener
 // fungsi berhubungan dengan ENTER & pengecekkan yg kosong2
 inputs.forEach((masuk, index) => {
