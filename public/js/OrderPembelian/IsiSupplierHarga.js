@@ -5,6 +5,8 @@ let supplier_select = document.getElementById("supplier_select");
 let matauang_select = document.getElementById("matauang_select");
 let ppn_select = document.getElementById("ppn_select");
 let ppn = document.getElementById("ppn");
+let dpp_nilaiLain = document.getElementById("dpp_nilaiLain");
+let idr_dpp = document.getElementById("idr_dpp");
 let kurs = document.getElementById("kurs");
 let harga_unit = document.getElementById("harga_unit");
 let harga_sub_total = document.getElementById("harga_sub_total");
@@ -417,14 +419,20 @@ $(document).ready(function () {
             ppn.forEach(function (data) {
                 let option = document.createElement("option");
                 option.value = data.IdPPN;
-                option.text = data.JumPPN;
+                option.text = (data.JumPPN * 1).toFixed(5);
+
+                switch (data.IdPPN) {
+                    case "6":
+                        option.text += " (Tidak Pakai PPN)";
+                        option.selected = true; // Automatically select this option
+                        break;
+                    case "16":
+                        option.text += " (PPN Custom)";
+                        break;
+                }
+
                 ppn_select.add(option);
             });
-            for (let i = 0; i < ppn_select.options.length; i++) {
-                if (ppn_select.options[i].value.replace(/\s/g, "") == "6") {
-                    ppn_select.selectedIndex = i;
-                }
-            }
         },
         error: function (error) {
             console.error("Error Fetch Data:", error);
@@ -495,6 +503,8 @@ $(document).ready(function () {
         updateIdrUnit();
         updateSubTotal();
         updateIDRSubTotal();
+        updateDPPNilaiLain();
+        updateIDRDPPNilaiLain();
         updateIDRPPN();
         updatePPN();
         updateHargaTotal();
@@ -670,31 +680,88 @@ function updateIDRSubTotal() {
     }
 }
 
+function updateDPPNilaiLain() {
+    let harga_subTotal = numeral(harga_sub_total.value).value();
+
+    if (!isNaN(harga_subTotal) && ppn_select.value == "15") {
+        let DPPValue = (harga_subTotal * 11) / 12;
+        dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
+    } else {
+        dpp_nilaiLain.value = numeral(harga_subTotal).format("0,0.0000");
+    }
+}
+
+function updateIDRDPPNilaiLain() {
+    let idr_hargaSubTotal = numeral(idr_sub_total.value).value();
+
+    if (!isNaN(idr_hargaSubTotal)) {
+        let IDRDPPValue = (idr_hargaSubTotal * 11) / 12;
+        idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
+    } else {
+        idr_dpp.value = numeral(idr_hargaSubTotal).format("0,0.0000");
+    }
+}
+
 function updatePPN() {
-    let selectedPPN = numeral(
-        ppn_select.options[ppn_select.selectedIndex].text
-    ).value();
-    let hargaSubTotal = numeral(
-        document.getElementById("harga_sub_total").value
-    ).value();
-    if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal)) {
-        let jumPPN = (hargaSubTotal * selectedPPN) / 100;
+    updateDPPNilaiLain();
+    let selectedOptionText = ppn_select.options[ppn_select.selectedIndex].text;
+    let numericPart = selectedOptionText.split(" ")[0]; // Extract the numeric part
+    let textPart = selectedOptionText.split(" (")[1]; // Extract the text part
+
+    if (textPart) {
+        textPart = textPart.replace(")", ""); // Remove the closing parenthesis
+    }
+    let selectedPPN = numeral(numericPart).value();
+    let DPPValue = numeral(dpp_nilaiLain.value).value();
+
+    if (!isNaN(selectedPPN) && !isNaN(DPPValue)) {
+        let jumPPN = (DPPValue * selectedPPN) / 100;
         ppn.value = numeral(jumPPN).format("0,0.0000");
+    }
+    // let hargaSubTotal = numeral(
+    //     document.getElementById("harga_sub_total").value
+    // ).value();
+    // if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal)) {
+    //     let jumPPN = (hargaSubTotal * selectedPPN) / 100;
+    //     ppn.value = numeral(jumPPN).format("0,0.0000");
+    // }
+    if (textPart == "PPN Custom") {
+        ppn.readOnly = false;
+    } else {
+        ppn.readOnly = true;
     }
 }
 
 function updateIDRPPN() {
-    let selectedPPN = numeral(
-        ppn_select.options[ppn_select.selectedIndex].text
-    ).value();
-    let hargaSubTotal = numeral(
-        document.getElementById("harga_sub_total").value
-    ).value();
+    updateIDRDPPNilaiLain();
+    let selectedOptionText = ppn_select.options[ppn_select.selectedIndex].text;
+    let numericPart = selectedOptionText.split(" ")[0]; // Extract the numeric part
+    let textPart = selectedOptionText.split(" (")[1]; // Extract the text part
+
+    if (textPart) {
+        textPart = textPart.replace(")", ""); // Remove the closing parenthesis
+    }
+    let selectedPPN = numeral(numericPart).value();
     let kurs = numeral(document.getElementById("kurs").value).value();
-    if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal) && !isNaN(kurs)) {
-        let jumPPN = (hargaSubTotal * selectedPPN) / 100;
+    let IDRDPPValue = numeral(idr_dpp.value).value();
+
+    if (!isNaN(selectedPPN) && !isNaN(IDRDPPValue)) {
+        let jumPPN = (IDRDPPValue * selectedPPN) / 100;
         let idrPPNValue = jumPPN * kurs;
         idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
+    }
+    // let hargaSubTotal = numeral(
+    //     document.getElementById("harga_sub_total").value
+    // ).value();
+    // if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal) && !isNaN(kurs)) {
+    //     let jumPPN = (hargaSubTotal * selectedPPN) / 100;
+    //     let idrPPNValue = jumPPN * kurs;
+    //     idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
+    // }
+    if (textPart == "PPN Custom") {
+        idr_ppn.readOnly = false;
+    } else {
+        idr_ppn.readOnly = true;
     }
 }
 

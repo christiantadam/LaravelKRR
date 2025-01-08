@@ -20,7 +20,11 @@
                 </div>
             @endif
             <div class="card">
-                <div class="card-header font-weight-bold">Isi Supplier - Harga</div>
+                @if ($id == 0)
+                    <div class="card-header font-weight-bold">Isi Supplier - Harga (Beli Sendiri)</div>
+                @elseif ($id == 1)
+                    <div class="card-header font-weight-bold">Isi Supplier - Harga (Pengadaan Pembelian)</div>
+                @endif
                 <div class="card-body font-weight-bold">
                     <div class="w-100 h-auto">
                         <div class="w-100 h-auto">
@@ -329,6 +333,33 @@
                                                 </div>
                                                 <div class="col-8">
                                                     <input type="text" name="idr_sub_total" id="idr_sub_total"
+                                                        class="form-control font-weight-bold" value="0" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="font-weight-bold" for="dpp_nilaiLain">DPP Nilai
+                                                        Lain</label>
+                                                </div>
+                                                <div class="col-8">
+                                                    <input type="text" name="dpp_nilaiLain" id="dpp_nilaiLain"
+                                                        class="form-control font-weight-bold" value="0" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <label class="font-weight-bold" for="idr_dpp">IDR DPP</label>
+                                                </div>
+                                                <div class="col-8">
+                                                    <input type="text" name="idr_dpp" id="idr_dpp"
                                                         class="form-control font-weight-bold" value="0" readonly>
                                                 </div>
                                             </div>
