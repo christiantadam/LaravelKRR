@@ -229,48 +229,48 @@ $(document).ready(function () {
         TNilaiPenagihan -= TNilaiUM;
 
         // Handle customer type and PPN
-        // if (
-        //     id_cust.value == "PWX" ||
-        //     id_cust.value == "PNX" ||
-        //     id_cust.value == "PXX"
-        // ) {
-        //     if (
-        //         jenis_pajak.value == "1" ||
-        //         jenis_pajak.value == "2" ||
-        //         jenis_pajak.value == "5"
-        //     ) {
-        //         if (Ppn.value == "11") {
-        //             TNilaiPenagihan =
-        //                 Math.round((TNilaiPenagihan / 1.11) * 100) / 100;
-        //         } else if (Ppn.value == "12") {
-        //             TNilaiPenagihan =
-        //                 Math.round((TNilaiPenagihan / 1.12) * 100) / 100;
-        //         } else {
-        //             TNilaiPenagihan =
-        //                 Math.round((TNilaiPenagihan / 1.1) * 100) / 100;
-        //         }
-        //     } else {
-        //         if (Ppn.value == "11") {
-        //             TNilaiPenagihan =
-        //                 Math.round(TNilaiPenagihan * 1.11 * 100) / 100;
-        //         } else if (Ppn.value == "12") {
-        //             TNilaiPenagihan =
-        //                 Math.round((TNilaiPenagihan / 1.12) * 100) / 100;
-        //         } else {
-        //             TNilaiPenagihan =
-        //                 Math.round(TNilaiPenagihan * 1.1 * 100) / 100;
-        //         }
+        if (
+            id_cust.value == "PWX" ||
+            id_cust.value == "PNX" ||
+            id_cust.value == "PXX"
+        ) {
+            if (
+                jenis_pajak.value == "1" ||
+                jenis_pajak.value == "2" ||
+                jenis_pajak.value == "5"
+            ) {
+                if (Ppn.value == "11") {
+                    TNilaiPenagihan =
+                        Math.round((TNilaiPenagihan / 1.11) * 100) / 100;
+                } else if (Ppn.value == "12") {
+                    TNilaiPenagihan =
+                        Math.round((TNilaiPenagihan * 1.11) * 100) / 100;
+                } else {
+                    TNilaiPenagihan =
+                        Math.round((TNilaiPenagihan / 1.1) * 100) / 100;
+                }
+            } else {
+                if (Ppn.value == "11") {
+                    TNilaiPenagihan =
+                        Math.round(TNilaiPenagihan * 1.11 * 100) / 100;
+                } else if (Ppn.value == "12") {
+                    TNilaiPenagihan =
+                        Math.round((TNilaiPenagihan * 1.11) * 100) / 100;
+                } else {
+                    TNilaiPenagihan =
+                        Math.round(TNilaiPenagihan * 1.1 * 100) / 100;
+                }
 
-        //         if (jenis_pajak.value == "" && proses == 1) {
-        //             Swal.fire({
-        //                 icon: "info",
-        //                 title: "P E S A N",
-        //                 text: "ISI JENIS PAJAKNYA",
-        //             });
-        //             return;
-        //         }
-        //     }
-        // }
+                if (jenis_pajak.value == "" && proses == 1) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "P E S A N",
+                        text: "ISI JENIS PAJAKNYA",
+                    });
+                    return;
+                }
+            }
+        }
 
         // Handle currency conversion
         if (idMataUang.value == "1") {
