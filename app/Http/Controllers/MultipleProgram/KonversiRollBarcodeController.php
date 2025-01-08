@@ -243,7 +243,7 @@ class KonversiRollBarcodeController extends Controller
             // 000000004-000140864
             if ($idDivisi == 'JBB') {
                 try {
-                    $dataBarcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XKodeBarang = ?, @XNomorIndeks = ?', [8, $kodeBarangAsal, $nomorIndeksBarangAsal]);
+                    $dataBarcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XKodeBarang = ?, @XNomorIndeks = ?, @XIdDivisi = ?', [8, $kodeBarangAsal, $nomorIndeksBarangAsal, $idDivisi]);
                     if (!str_contains($dataBarcode[0]->NamaDivisi, 'Jumbo Bag')) {
                         return response()->json(['error' => (string) "Barcode yang dimasukkan milik divisi " . $dataBarcode[0]->NamaDivisi]);
                     }
@@ -255,7 +255,18 @@ class KonversiRollBarcodeController extends Controller
                     return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
                 }
             } else if ($idDivisi == 'ABM') {
-                # code...
+                try {
+                    $dataBarcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XKodeBarang = ?, @XNomorIndeks = ?, @XIdDivisi = ?', [8, $kodeBarangAsal, $nomorIndeksBarangAsal, $idDivisi]);
+                    if (!str_contains($dataBarcode[0]->NamaDivisi, 'Jumbo Bag')) {
+                        return response()->json(['error' => (string) "Barcode yang dimasukkan milik divisi " . $dataBarcode[0]->NamaDivisi]);
+                    }
+                    return response()->json(['success' => $dataBarcode]);
+                } catch (Exception $e) {
+                    if ($e->getMessage() == 'Undefined array key 0') {
+                        return response()->json(['error' => (string) "Terjadi Kesalahan, Data Barcode Tidak Ditemukan!"]);
+                    }
+                    return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+                }
             }
 
         } elseif ($id == 'getObjek') {

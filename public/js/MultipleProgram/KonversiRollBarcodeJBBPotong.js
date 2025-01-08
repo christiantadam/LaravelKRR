@@ -324,10 +324,23 @@ $(document).ready(function () {
             confirmButtonText: "Submit",
             showLoaderOnConfirm: true,
             preConfirm: (inputValue) => {
-                // Custom validation or handling logic
-                if (inputValue.length !== 19) {
+                const parts = inputValue.split("-");
+                if (parts.length !== 2) {
                     Swal.showValidationMessage("Barcode Tidak Valid!");
+                    return false;
                 }
+
+                let part1 = parts[0].padStart(9, "0");
+                let part2 = parts[1].padStart(9, "0");
+
+                const formattedBarcode = `${part1}-${part2}`;
+
+                if (formattedBarcode.length !== 19) {
+                    Swal.showValidationMessage("Barcode Tidak Valid!");
+                    return false;
+                }
+
+                return formattedBarcode;
             },
             allowOutsideClick: () => !Swal.isLoading(),
         }).then((result) => {

@@ -183,7 +183,7 @@ class KonversiSetengahJadiController extends Controller
         if ($id == 'JBBStghJd') {
             $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
             $divisi = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?', [$nomorUser, 1]);
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'JBB']);
             return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi'));
         } else if ($id == 'selectCustomerTH') {
             $customer_list = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_CUSTOMER');

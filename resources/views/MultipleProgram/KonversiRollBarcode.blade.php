@@ -41,9 +41,9 @@
                     <input type="hidden" name="divisiPotong" id='divisiPotong' value={{ $id }}>
                     <input type="hidden" name="nomorUser" id="nomorUser" value={{ $nomorUser }}>
                     @if ($id == 'JBBPotong')
-                    <div class="card-header">Konversi Roll Barcode ke JBB Potong</div>
+                        <div class="card-header">Konversi Roll Barcode ke JBB Potong</div>
                     @elseif ($id == 'ABMStghJadi')
-                    <div class="card-header">Konversi Roll Barcode ke ABM Setengah Jadi</div>
+                        <div class="card-header">Konversi Roll Barcode ke ABM Setengah Jadi</div>
                     @endif
                     <div id="div_tabelDaftarKonversi" style="margin:0.5%">
                         <h3>Tabel Daftar Konversi</h3>
@@ -361,30 +361,44 @@
         </div>
         <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeJBBPotong.js') }}"></script>
     @elseif ($id == 'ABMStghJadi')
-    @section('title', 'Konversi ABM Stgh Jadi')
-    <div class="modal fade" id="tambahTujuanModal" tabindex="-1">
-        <div class="modal-dialog" style="max-width: 90%;">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    <h5 class="modal-title" id="tambahTujuanModalLabel">Tambah Konversi </h5>
-                    <button type="button" class="close" data-bs-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
+        @section('title', 'Konversi ABM Stgh Jadi')\
+        <div class="modal fade" id="tambahTujuanModal" tabindex="-1">
+            <div class="modal-dialog" style="max-width: 90%;">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title" id="tambahTujuanModalLabel">Tambah Konversi </h5>
+                        <button type="button" class="close" data-bs-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeABMStghJadi.js') }}"></script>
-@elseif ($id == 'ADSPotong')
-    <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeADSPotong.js') }}"></script>
-@else
-    <script>
-        console.log('Belum ada file .js');
-    </script>
-@endif
+        <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeABMStghJadi.js') }}"></script>
+    @elseif ($id == 'ADSPotong')
+        @section('title', 'Konversi ABM Stgh Jadi')
+        <div class="modal fade" id="tambahTujuanModal" tabindex="-1">
+            <div class="modal-dialog" style="max-width: 90%;">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">
+                        <h5 class="modal-title" id="tambahTujuanModalLabel">Tambah Konversi </h5>
+                        <button type="button" class="close" data-bs-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
-
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeADSPotong.js') }}"></script>
+    @else
+        <script>
+            console.log('Belum ada file .js');
+        </script>
+    @endif
 @endsection
