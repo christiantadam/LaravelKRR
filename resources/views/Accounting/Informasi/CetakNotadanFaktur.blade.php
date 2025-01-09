@@ -2,6 +2,28 @@
 @section('content')
 @section('title', 'Cetak Nota dan Faktur')
 <style>
+    .description-left {
+        margin-left: -35px;
+        /* Atur sesuai kebutuhan */
+    }
+
+    .description-right {
+        margin-right: -40px;
+        /* Atur sesuai kebutuhan */
+    }
+
+    .penagihan-up {
+        margin-top: -10px;
+        /* Atur sesuai kebutuhan */
+    }
+
+    .small-font {
+        font-size: 16px !important;
+        /* Atur ukuran font sesuai kebutuhan */
+        /* padding: 0 !important; */
+    }
+
+
     .table-responsive.fixed-height tbody {
         background-color: white;
     }
@@ -233,6 +255,36 @@
                             <p>
                             <div class="d-flex">
                                 <div class="col-md-4">
+                                    <label for="bankSelect">Bank</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select id="bankSelect" class="form-control" style="width: 100%">
+                                        <option value="" disabled selected>Pilih Bank</option>
+                                        <option value="1">BCA</option>
+                                        <option value="2">BNI</option>
+                                        <option value="3">Mandiri SCF</option>
+                                        <option value="4">Mandiri</option>
+                                        <option value="5">OCBC</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p>
+                            <div class="d-flex">
+                                <div class="col-md-4">
+                                    <label for="ttdSelect">TTD</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select id="ttdSelect" class="form-control" style="width: 100%">
+                                        <option value="" disabled selected>Pilih TTD</option>
+                                        <option value="1">TJAHYO SANTOSO</option>
+                                        <option value="2">RUDY SANTOSO</option>
+                                        <option value="3">YUDI SANTOSO</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p>
+                            <div class="d-flex">
+                                <div class="col-md-4">
                                     <label for="customer">Customer</label>
                                 </div>
                                 <div class="col-md-7">
@@ -253,6 +305,7 @@
                                         style="width: 100%">
                                 </div>
                             </div>
+                            <br>
                         </div>
                         <br>
                         <div class="mb-3">
@@ -271,35 +324,38 @@
                         {{-- nota dan faktur --}}
                         <div class="faktur">
 
-                            <div class="row" style="margin-top: 0.5cm">
-                                <div class="col-sm-12 text-right">
+                            <div class="row">
+                                <div class="col-sm-12 text-right penagihan-up"
+                                    style="position: absolute; top: 0cm; left: 0cm; right: 2cm;">
                                     <span id="faktur_IdPenagihan">Id Penagihan</span>
                                 </div>
                             </div>
 
-                            <div class="row mt-5" style="margin-top: 0.5cm">
+                            <div class="row mt-5" style="margin-top: 0.1cm">
                                 <div class="col-sm-8 text-right">
-                                    <label><b>Nomor Seri Faktur Pajak</b></label>
+                                    {{-- <label><b>Nomor Seri Faktur Pajak</b></label> --}}
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <span id="faktur_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX</span>
+                                    {{-- <span id="faktur_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX</span> --}}
                                 </div>
                             </div>
 
+                            <br>
+                            <br>
+                            <br>
+                            <br>
                             <div class="row" style="margin-top: 15%">
                                 <div class="col-sm-9 offset-sm-3 text-left">
                                     <span
                                         id="faktur_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
-                            <p></p>
                             <div class="row">
                                 <div class="col-sm-9 offset-sm-3 text-left">
                                     <span
                                         id="faktur_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
-                            <p></p>
                             <div class="row">
                                 <div class="col-sm-9 offset-sm-3 text-left">
                                     <span id="faktur_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
@@ -309,24 +365,25 @@
                             <br>
                             <br>
                             <div class="row mt-3">
-                                <div class="col-sm-10 offset-sm-1 text-left">
+                                <div class="col-sm-10 offset-sm-1 text-left" style="font-size: 14px !important;">
                                     <span
                                         id="faktur_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
                             <div id="faktur_Detail"></div>
 
-                            <div class="row mt-3" style="margin-top: 5.5cm !important">
-                                <div class="col-sm-10 text-left offset-sm-1">
-                                    <label><b> Pembayaran mohon ditransfer ke: <br>
-                                            Bank OCBC NISP Cab. Diponegoro - Surabaya <br>
-                                            a/c. 5578 0000 9333 ( IDR ) <br>
-                                            a/n. PT. Kerta Rajasa Raya</b></label>
+                            <div class="row mt-3" style="position: absolute; top: 21.7cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-10 text-left offset-sm-0">
+                                    <label id="bankBayar" style="font-weight: bold">Pembayaran mohon ditransfer ke:
+                                        <br>
+                                        Bank OCBC NISP Cab. Diponegoro - Surabaya <br>
+                                        a/c. 5578 0000 9333 ( IDR ) <br>
+                                        a/n. PT. Kerta Rajasa Raya</label>
                                 </div>
-                                <div class="col-sm-2 text-left offset-sm-2">
-                                    <label><b> XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                <div class="col-sm-2 text-left offset-sm-1">
+                                    <label><b>XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
                                 </div>
-                                <div class="col-sm-1 offset-sm-5 text-right">
+                                <div class="col-sm-1 offset-sm-6 text-right">
                                     <span id="faktur_SymbolGrand">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
@@ -346,13 +403,13 @@
                                 </div>
                             </div> --}}
 
-                            <div class="row">
+                            <div class="row" style="position: absolute; top: 26.2cm; left: 1cm; right: 0cm;">
                                 <div class="col-sm-2 offset-sm-10 text-right">
                                     <label>0.00</label>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" style="position: absolute; top: 27cm; left: 1cm; right: 0cm;">
                                 <div class="col-sm-1 offset-sm-9 text-right">
                                     <span id="faktur_SymbolUM">xxxx</span>
                                 </div>
@@ -361,7 +418,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" style="position: absolute; top: 27.9cm; left: 1cm; right: 0cm;">
                                 <div class="col-sm-1 offset-sm-9 text-right">
                                     <span id="faktur_SymbolDPP">xxxx</span>
                                 </div>
@@ -370,8 +427,8 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-2 text-left offset-sm-1">
+                            <div class="row" style="position: absolute; top: 28.7cm; left: 1cm; right: 0cm;">
+                                <div class="col-sm-3 text-left offset-sm-0">
                                     <span id="faktur_PersenPPN"><b>11%</b></span>
                                 </div>
                                 <div class="col-sm-1 offset-sm-6 text-right">
@@ -382,8 +439,9 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-8 text-left offset-sm-1">
+                            <div class="row"
+                                style="position: absolute; top: 29.55cm; left: 1cm; right: 0cm; padding: 0% !important">
+                                <div class="col-sm-9 text-left offset-sm-0">
                                     <span
                                         id="faktur_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
@@ -395,41 +453,45 @@
                                 </div>
                             </div>
 
-                            <div class="row" style="font-weight: bold">
+                            <div class="row"
+                                style="position: absolute; top: 31.1cm; left: 1cm; right: 0cm !important; font-weight: bold">
                                 <div class="col-sm-4 text-left">
                                     <span id="faktur_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
                                 </div>
                                 <div class="col-sm-2 text-center offset-sm-3">
                                     <span>Sidoarjo</span>
                                 </div>
-                                <div class="col-sm-2 text-left">
+                                <div class="col-sm-2 text-center">
                                     <span id="faktur_TglBln">3 Januari</span>
                                 </div>
-                                <div class="col-sm-1 text-center">
+                                <div class="col-sm-1 text-right">
                                     <span id="faktur_Thn">11</span>
                                 </div>
                             </div>
 
-                            <div class="row" style="font-weight: bold">
+                            <div class="row"
+                                style="position: absolute; top: 31.7cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-12 text-left">
                                     <span id="faktur_Tempo">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span>
                                 </div>
                             </div>
 
-                            <div class="row" style="font-weight: bold">
+                            <div class="row"
+                                style="position: absolute; top: 32.3cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-12 text-left">
                                     <span id="faktur_SuratJalan">Surat Jalan: &emsp;&emsp;
                                         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                             </div>
 
-                            <div class="row" style="font-weight: bold">
+                            <div class="row"
+                                style="position: absolute; top: 33.6cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-8 text-left">
                                     <span
                                         id="faktur_SJ">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
-                                <div class="col-sm-3 text-center">
-                                    <span id="faktur_SJ">RUDY SANTOSO</span>
+                                <div class="col-sm-3 text-right">
+                                    <span id="ttdPimpinan">RUDY SANTOSO</span>
                                 </div>
                             </div>
 

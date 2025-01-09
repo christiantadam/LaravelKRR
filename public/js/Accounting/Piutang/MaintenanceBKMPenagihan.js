@@ -177,24 +177,27 @@ $(document).ready(function () {
                             //     .forEach((input) => (input.value = ""));
                             // $("#table_atas").DataTable().ajax.reload();
                             // DataTable instance
-                            var table_atas = $("#table_atas").DataTable();
 
-                            // Iterate through rowDataArray
-                            rowDataArray.forEach(function (row) {
-                                // Ambil nilai dari elemen ke-1 (index 1)
-                                var valueToMatch = row[1];
+                            btn_ok.click();
 
-                                // Hapus baris dari DataTable jika match
-                                table_atas.rows().every(function () {
-                                    var rowData = this.data();
-                                    if (rowData[1] === valueToMatch) {
-                                        this.remove();
-                                    }
-                                });
-                            });
+                            // var table_atas = $("#table_atas").DataTable();
 
-                            // Refresh DataTable
-                            table_atas.draw();
+                            // // Iterate through rowDataArray
+                            // rowDataArray.forEach(function (row) {
+                            //     // Ambil nilai dari elemen ke-1 (index 1)
+                            //     var valueToMatch = row[1];
+
+                            //     // Hapus baris dari DataTable jika match
+                            //     table_atas.rows().every(function () {
+                            //         var rowData = this.data();
+                            //         if (rowData[1] === valueToMatch) {
+                            //             this.remove();
+                            //         }
+                            //     });
+                            // });
+
+                            // // Refresh DataTable
+                            // table_atas.draw();
                             rowDataArray = [];
                         });
                     } else if (response.error) {

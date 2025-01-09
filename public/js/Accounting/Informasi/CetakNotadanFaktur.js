@@ -10,6 +10,8 @@ var tglPenagihan = document.getElementById("tgl_Penagihan");
 var customer = document.getElementById("customer");
 var btnBrowse = document.getElementById("btnBrowse");
 var idPenagihan = document.getElementById("idPenagihan");
+var bankSelect = document.getElementById("bankSelect");
+var ttdSelect = document.getElementById("ttdSelect");
 
 var btnPrev = document.getElementById("btnPrev");
 var csrfToken = document
@@ -568,11 +570,11 @@ function rpt_cetakNotaFaktur(result) {
                     var faktur_IdPenagihan =
                         document.getElementById("faktur_IdPenagihan");
                     faktur_IdPenagihan.style.fontWeight = "bold";
-                    var faktur_AreaPPNThnIdFakturPajak =
-                        document.getElementById(
-                            "faktur_AreaPPNThnIdFakturPajak"
-                        );
-                    faktur_AreaPPNThnIdFakturPajak.style.fontWeight = "bold";
+                    // var faktur_AreaPPNThnIdFakturPajak =
+                    //     document.getElementById(
+                    //         "faktur_AreaPPNThnIdFakturPajak"
+                    //     );
+                    // faktur_AreaPPNThnIdFakturPajak.style.fontWeight = "bold";
                     var faktur_NamaNPWP =
                         document.getElementById("faktur_NamaNPWP");
                     faktur_NamaNPWP.style.fontWeight = "bold";
@@ -612,11 +614,13 @@ function rpt_cetakNotaFaktur(result) {
                     var faktur_SuratJalan =
                         document.getElementById("faktur_SuratJalan");
                     var faktur_SJ = document.getElementById("faktur_SJ");
+                    var bankBayar = document.getElementById("bankBayar");
+                    var ttdPimpinan = document.getElementById("ttdPimpinan");
 
                     if (result.length === 0) {
                         const elements = [
                             "faktur_IdPenagihan",
-                            "faktur_AreaPPNThnIdFakturPajak",
+                            // "faktur_AreaPPNThnIdFakturPajak",
                             "faktur_NamaNPWP",
                             "faktur_AlamatNPWP",
                             "faktur_NPWP",
@@ -639,6 +643,8 @@ function rpt_cetakNotaFaktur(result) {
                             "faktur_Tempo",
                             "faktur_SuratJalan",
                             "faktur_SJ",
+                            "bankBayar",
+                            "ttdPimpinan",
                         ];
 
                         elements.forEach((id) => {
@@ -650,6 +656,61 @@ function rpt_cetakNotaFaktur(result) {
 
                         printPreview("faktur");
                     } else {
+                        if (bankSelect.value == "1") {
+                            bankBayar.innerHTML =
+                                "Pembayaran mohon ditransfer ke:" +
+                                "<br>" +
+                                "BCA Cab. Galaxy - Surabaya" +
+                                "<br>" +
+                                "a/c. 788 010 1999 ( IDR )" +
+                                "<br>" +
+                                "a/n. PT. Kerta Rajasa Raya";
+                        } else if (bankSelect.value == "2") {
+                            bankBayar.innerHTML =
+                                "Pembayaran melalui SCF ke Rekening:" +
+                                "<br>" +
+                                "BNI  Cabang Tropodo Sidoarjo" +
+                                "<br>" +
+                                "a/c. 6388888829 ( IDR )" +
+                                "<br>" +
+                                "a/n. PT. Kerta Rajasa Raya";
+                        } else if (bankSelect.value == "3") {
+                            bankBayar.innerHTML =
+                                "Pembayaran melalui SCF ke Rekening:" +
+                                "<br>" +
+                                "Bank Mandiri  KCP Padang Indarung" +
+                                "<br>" +
+                                "a/c. 111 0007609759 ( IDR )" +
+                                "<br>" +
+                                "a/n. PT. Kerta Rajasa Raya";
+                        } else if (bankSelect.value == "4") {
+                            bankBayar.innerHTML =
+                                "Pembayaran mohon ditransfer ke:" +
+                                "<br>" +
+                                "Bank Mandiri  KCP Pondok Chandra Sidoarjo" +
+                                "<br>" +
+                                "a/c. 14200 5555 0007 ( IDR )" +
+                                "<br>" +
+                                "a/n. PT. Kerta Rajasa Raya";
+                        } else if (bankSelect.value == "5") {
+                            bankBayar.innerHTML =
+                                "Pembayaran mohon ditransfer ke:" +
+                                "<br>" +
+                                "Bank OCBC Cab. Diponegoro - Surabaya" +
+                                "<br>" +
+                                "a/c. 5578 0000 9333 ( IDR )" +
+                                "<br>" +
+                                "a/n. PT. Kerta Rajasa Raya";
+                        }
+
+                        if (ttdSelect.value == "1") {
+                            ttdPimpinan.textContent = "TJAHYO SANTOSO";
+                        } else if (ttdSelect.value == "2") {
+                            ttdPimpinan.textContent = "RUDY SANTOSO";
+                        } else if (ttdSelect.value == "3") {
+                            ttdPimpinan.textContent = "YUDI SANTOSO";
+                        }
+
                         faktur_IdPenagihan.textContent = decodeHtmlEntities(
                             result[0].Id_Penagihan
                         );
@@ -675,12 +736,12 @@ function rpt_cetakNotaFaktur(result) {
                         var bulan = namaBulan[date2.getMonth()];
                         var tahunLengkap = date2.getFullYear();
                         var duaDigitTahun = tahunLengkap.toString().slice(-2);
-                        faktur_AreaPPNThnIdFakturPajak.textContent =
-                            decodeHtmlEntities(result[0].KdArea_Ppn) +
-                            " . 012 - " +
-                            duaDigitTahun +
-                            ". " +
-                            decodeHtmlEntities(result[0].IdFakturPajak);
+                        // faktur_AreaPPNThnIdFakturPajak.textContent =
+                        //     decodeHtmlEntities(result[0].KdArea_Ppn) +
+                        //     " . 012 - " +
+                        //     duaDigitTahun +
+                        //     ". " +
+                        //     decodeHtmlEntities(result[0].IdFakturPajak);
 
                         faktur_NamaNPWP.textContent = decodeHtmlEntities(
                             result[0].NamaNPWP
@@ -716,16 +777,26 @@ function rpt_cetakNotaFaktur(result) {
 
                         result.forEach(function (item, index) {
                             var row = document.createElement("div");
-                            row.classList.add("row");
+                            row.classList.add("row", "small-font");
                             count += 1;
 
                             var coaCol = document.createElement("div");
-                            coaCol.classList.add("col-sm-1", "text-right");
+                            coaCol.classList.add(
+                                "col-sm-1",
+                                "text-left",
+                                "small-font",
+                                "description-left"
+                            );
                             coaCol.textContent = count;
                             row.appendChild(coaCol);
 
                             var accountCol = document.createElement("div");
-                            accountCol.classList.add("col-sm-5", "text-left");
+                            accountCol.classList.add(
+                                "col-sm-5",
+                                "text-left",
+                                "small-font",
+                                "description-left"
+                            );
                             accountCol.textContent = item.NamaType
                                 ? decodeHtmlEntities(item.NamaType)
                                 : "";
@@ -734,7 +805,8 @@ function rpt_cetakNotaFaktur(result) {
                             var descriptionCol = document.createElement("div");
                             descriptionCol.classList.add(
                                 "col-sm-2",
-                                "text-right"
+                                "text-right",
+                                "small-font"
                             );
                             descriptionCol.textContent = item.Jml
                                 ? numeral(item.Jml).format("0,0.00") +
@@ -743,7 +815,11 @@ function rpt_cetakNotaFaktur(result) {
                             row.appendChild(descriptionCol);
 
                             var amountCol = document.createElement("div");
-                            amountCol.classList.add("col-sm-2", "text-right");
+                            amountCol.classList.add(
+                                "col-sm-2",
+                                "text-right",
+                                "small-font"
+                            );
                             amountCol.textContent = item.HargaSatuan
                                 ? decodeHtmlEntities(item.Symbol2) +
                                   numeral(item.HargaSatuan).format("0,0.00")
@@ -751,7 +827,20 @@ function rpt_cetakNotaFaktur(result) {
                             row.appendChild(amountCol);
 
                             var totalCol = document.createElement("div");
-                            totalCol.classList.add("col-sm-2", "text-left");
+                            totalCol.classList.add(
+                                "col-sm-2",
+                                "text-right",
+                                "small-font",
+                                "description-right"
+                            );
+                            // let tempTotal =
+                            //     numeral(0).value() *
+                            //     numeral(0).value();
+                            // totalCol.textContent = 0
+                            //     ? decodeHtmlEntities(item.Symbol2) +
+                            //       numeral(0).format("0,0.00")
+                            //     : "0.00";
+                            // row.appendChild(totalCol);
                             let tempTotal =
                                 numeral(item.Jml).value() *
                                 numeral(item.HargaSatuan).value();
@@ -766,17 +855,22 @@ function rpt_cetakNotaFaktur(result) {
                             totalGrand += numeral(tempTotal).value();
 
                             var additionalRow = document.createElement("div");
-                            additionalRow.classList.add("row");
+                            additionalRow.classList.add("row", "small-font");
 
                             var mantap = document.createElement("div");
-                            mantap.classList.add("col-sm-1", "text-right");
+                            mantap.classList.add(
+                                "col-sm-1",
+                                "text-right",
+                                "small-font"
+                            );
                             additionalRow.appendChild(mantap);
 
                             var additionalCoaCol =
                                 document.createElement("div");
                             additionalCoaCol.classList.add(
                                 "col-sm-1",
-                                "text-right"
+                                "text-right",
+                                "small-font"
                             );
                             additionalCoaCol.textContent = "P O :";
                             additionalRow.appendChild(additionalCoaCol);
@@ -785,7 +879,8 @@ function rpt_cetakNotaFaktur(result) {
                                 document.createElement("div");
                             additionalAccountCol.classList.add(
                                 "col-sm-10",
-                                "text-left"
+                                "text-left",
+                                "small-font"
                             );
                             additionalAccountCol.textContent = item.NO_PO
                                 ? decodeHtmlEntities(item.NO_PO)
@@ -834,17 +929,37 @@ function rpt_cetakNotaFaktur(result) {
                             (Math.round(numeral(dpp).value()) *
                                 numeral(result[0].PersenPPN).value()) /
                             100;
-                        faktur_Pajak.textContent =
-                            numeral(pajak).format("0,0.00");
+                        console.log(numeral(result[0].PersenPPN).value());
 
-                        let terbayar =
-                            numeral(dpp).value() + numeral(pajak).value();
-                        faktur_Terbayar.textContent =
-                            numeral(terbayar).format("0,0.00");
+                        if (duaDigitTahun > 24) {
+                            faktur_Pajak.textContent = numeral(
+                                ((dpp * 11) / 12) * 0.12
+                            ).format("0,0.00");
+                        } else {
+                            faktur_Pajak.textContent =
+                                numeral(pajak).format("0,0.00");
+                        }
 
-                        faktur_Terbilang.textContent = decodeHtmlEntities(
-                            result[0].Terbilang
-                        );
+                        if (duaDigitTahun > 24) {
+                            let terbayar =
+                                numeral(dpp).value() +
+                                numeral(faktur_Pajak.textContent).value();
+                            faktur_Terbayar.textContent =
+                                numeral(terbayar).format("0,0.00");
+                            TTerbilang = convertNumberToWordsRupiah(
+                                numeral(faktur_Terbayar.textContent).value()
+                            );
+                            faktur_Terbilang.textContent =
+                                decodeHtmlEntities(TTerbilang);
+                        } else {
+                            let terbayar =
+                                numeral(dpp).value() + numeral(pajak).value();
+                            faktur_Terbayar.textContent =
+                                numeral(terbayar).format("0,0.00");
+                            faktur_Terbilang.textContent = decodeHtmlEntities(
+                                result[0].Terbilang
+                            );
+                        }
 
                         faktur_SyaratBayar.innerHTML =
                             "Syarat Pembayaran: &emsp;&emsp;" +
