@@ -246,4 +246,50 @@ table tr:last-child td:last-child {
     #table_barangEksport tbody tr td:nth-child(2) {
         width: 90%;
     }
+    /*Customize Font Size every Column*/
+    .span-nomor_sjKolom {
+        font-size: 30px;
+    }
+    .span-nama_customerKolom {
+        font-size: 25px;
+    }
+    .span-alamat_kolom {
+        font-size: 25px;
+    }
+    .span-tanggal_kirimKolom {
+        font-size: 30px;
+    }
+    .span-truk_nopolKolom{
+        font-size: 30px;
+    }
+    .span-no_spKolom {
+        font-size: 30px;
+    }
+    .span-nama_typeBarangKolom {
+        font-size: 30px;
+    }
+    .span-nama_barangKolom {
+        font-size: 30px;
+    }
+    .span-satuan_barangPrimerKolom {
+        font-size: 30px;
+    }
+    .span-jumlah_barangPrimerKolom {
+        font-size: 30px;
+    }
+    .span-satuan_barangSekunderKolom {
+        font-size: 30px;
+    }
+    .span-jumlah_barangSekunderKolom {
+        font-size: 30px;
+    }
+    .span-no_poKolom {
+        font-size: 30px;
+    }
+    .span-alamat_kirimKolom {
+        font-size: 30px;
+    }
+    .span-tanda_tanganKolom {
+        font-size: 30px;
+    }
 }
