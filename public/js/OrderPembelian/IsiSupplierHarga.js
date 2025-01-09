@@ -454,6 +454,8 @@ $(document).ready(function () {
         updateIdrUnit();
         updateSubTotal();
         updateIDRSubTotal();
+        updateDPPNilaiLain();
+        updateIDRDPPNilaiLain();
         updateIDRPPN();
         updatePPN();
         updateHargaTotal();
@@ -471,6 +473,8 @@ $(document).ready(function () {
         updateIdrUnit();
         updateSubTotal();
         updateIDRSubTotal();
+        updateDPPNilaiLain();
+        updateIDRDPPNilaiLain();
         updateIDRPPN();
         updatePPN();
         updateHargaTotal();
@@ -488,6 +492,8 @@ $(document).ready(function () {
         updateIdrUnit();
         updateSubTotal();
         updateIDRSubTotal();
+        updateDPPNilaiLain();
+        updateIDRDPPNilaiLain();
         updateIDRPPN();
         updatePPN();
         updateHargaTotal();
@@ -514,6 +520,8 @@ $(document).ready(function () {
     });
 
     ppn_select.addEventListener("change", function (event) {
+        updateDPPNilaiLain();
+        updateIDRDPPNilaiLain();
         updatePPN();
         updateIDRPPN();
         updateHargaTotal();
@@ -705,7 +713,6 @@ function updateIDRDPPNilaiLain() {
 }
 
 function updatePPN() {
-    updateDPPNilaiLain();
     let selectedOptionText = ppn_select.options[ppn_select.selectedIndex].text;
     let numericPart = selectedOptionText.split(" ")[0]; // Extract the numeric part
     let textPart = selectedOptionText.split(" (")[1]; // Extract the text part
@@ -735,7 +742,6 @@ function updatePPN() {
 }
 
 function updateIDRPPN() {
-    updateIDRDPPNilaiLain();
     let selectedOptionText = ppn_select.options[ppn_select.selectedIndex].text;
     let numericPart = selectedOptionText.split(" ")[0]; // Extract the numeric part
     let textPart = selectedOptionText.split(" (")[1]; // Extract the text part

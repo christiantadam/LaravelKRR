@@ -129,6 +129,7 @@
                                     <th>Qty Delay</th>
                                     <th>Harga Unit</th>
                                     <th>Sub Total</th>
+                                    <th>DPP</th>
                                     <th>PPN</th>
                                     <th>Harga Total</th>
                                     <th>User</th>
@@ -138,8 +139,9 @@
                                     <th>Kurs</th>
                                     <th>IDR Unit</th>
                                     <th>IDR Subtotal</th>
-                                    <th>IDRPPN</th>
-                                    <th>IDRTotal</th>
+                                    <th>IDR DPP</th>
+                                    <th>IDR PPN</th>
+                                    <th>IDR Total</th>
                                     <th>Disc (%)</th>
                                     <th>Discount</th>
                                     <th>Disc. IDR</th>
@@ -342,10 +344,39 @@
                                         <div class="row">
                                             <div class="col-4">
                                                 <label class="font-weight-bold" id="label_idr_sub_total"
-                                                    for="idr_sub_total">{{ $loadPermohonan[0]->Curr }} Sub Total</label>
+                                                    for="idr_sub_total">{{ $loadPermohonan[0]->Curr }} Sub
+                                                    Total</label>
                                             </div>
                                             <div class="col-8">
                                                 <input type="text" name="idr_sub_total" id="idr_sub_total"
+                                                    class="form-control font-weight-bold" value="0" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label class="font-weight-bold" for="dpp_nilaiLain">DPP Nilai
+                                                    Lain</label>
+                                            </div>
+                                            <div class="col-8">
+                                                <input type="text" name="dpp_nilaiLain" id="dpp_nilaiLain"
+                                                    class="form-control font-weight-bold" value="0" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label class="font-weight-bold" id="label_idr_dpp"
+                                                    for="idr_dpp">{{ $loadPermohonan[0]->Curr }} DPP</label>
+                                            </div>
+                                            <div class="col-8">
+                                                <input type="text" name="idr_dpp" id="idr_dpp"
                                                     class="form-control font-weight-bold" value="0" readonly>
                                             </div>
                                         </div>
@@ -363,7 +394,13 @@
                                                 <select name="ppn_select" id="ppn_select" class="w-100 input">
                                                     <option class="w-100" selected disabled></option>
                                                     @foreach ($ppn as $data)
-                                                        <option value="{{ $data->IdPPN }}">{{ $data->JumPPN }}
+                                                        <option value="{{ $data->IdPPN }}">
+                                                            {{ number_format($data->JumPPN, 5) }}
+                                                            @if ($data->IdPPN == 6)
+                                                                (Tidak Pakai PPN)
+                                                            @elseif ($data->IdPPN == 16)
+                                                                (PPN Custom)
+                                                            @endif
                                                         </option>
                                                     @endforeach
                                                 </select>

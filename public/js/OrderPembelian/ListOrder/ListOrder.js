@@ -1,4 +1,5 @@
 //#region Variable
+
 let btn_clear = document.getElementById("btn_clear");
 let btn_delete = document.getElementById("btn_delete");
 let btn_save = document.getElementById("btn_save");
@@ -29,14 +30,17 @@ let select_satuanUmum = document.getElementById("select_satuanUmum");
 let select_subKategori = document.getElementById("select_subKategori");
 let statusKoreksi;
 let tgl_mohonKirim = document.getElementById("tgl_mohonKirim");
+
 //#endregion
 
 //#region Load Form
+
 select_kategori.disabled = true;
 select_subKategori.disabled = true;
 select_namaBarang.disabled = true;
 tgl_mohonKirim.valueAsDate = new Date();
 foto.style.display = "none";
+
 //#endregion
 
 //#region Function
