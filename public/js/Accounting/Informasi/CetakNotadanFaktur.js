@@ -751,19 +751,19 @@ function rpt_cetakNotaFaktur(result) {
                         );
 
                         let npwp = result[0].NPWP;
-                        let formattedNPWP =
-                            npwp.slice(0, 2) +
-                            " . " +
-                            npwp.slice(2, 5) +
-                            " . " +
-                            npwp.slice(5, 8) +
-                            " . " +
-                            npwp.slice(8, 9) +
-                            " - " +
-                            npwp.slice(9, 12) +
-                            " . " +
-                            npwp.slice(12, 15);
-                        faktur_NPWP.textContent = formattedNPWP;
+                        // let formattedNPWP =
+                        //     npwp.slice(0, 2) +
+                        //     " . " +
+                        //     npwp.slice(2, 5) +
+                        //     " . " +
+                        //     npwp.slice(5, 8) +
+                        //     " . " +
+                        //     npwp.slice(8, 9) +
+                        //     " - " +
+                        //     npwp.slice(9, 12) +
+                        //     " . " +
+                        //     npwp.slice(12, 15);
+                        faktur_NPWP.textContent = npwp;
 
                         faktur_NamaKelompokUtama.textContent =
                             decodeHtmlEntities(result[0].NamaKelompokUtama);
