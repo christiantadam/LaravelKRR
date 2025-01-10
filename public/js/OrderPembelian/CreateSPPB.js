@@ -814,7 +814,7 @@ $(document).ready(function () {
     function updateIDRDPPNilaiLain() {
         let idr_hargaSubTotal = numeral(idr_sub_total.value).value();
         let IDRDPPValue = 0;
-        if (!isNaN(idr_hargaSubTotal)) {
+        if (!isNaN(idr_hargaSubTotal) && ppn_select.value == "15") {
             IDRDPPValue = (idr_hargaSubTotal * 11) / 12;
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
         } else if (ppn_select.value == "16" || ppn_select.value == "6") {
