@@ -23,6 +23,11 @@
         /* padding: 0 !important; */
     }
 
+    .small-normal {
+        font-size: 18px !important;
+        /* Atur ukuran font sesuai kebutuhan */
+        /* padding: 0 !important; */
+    }
 
     .table-responsive.fixed-height tbody {
         background-color: white;
@@ -326,7 +331,7 @@
 
                             <div class="row">
                                 <div class="col-sm-12 text-right penagihan-up"
-                                    style="position: absolute; top: 0cm; left: 0cm; right: 2cm;">
+                                    style="position: absolute; top: 0.4cm; left: 0cm; right: 2cm;">
                                     <span id="faktur_IdPenagihan">Id Penagihan</span>
                                 </div>
                             </div>
@@ -345,19 +350,19 @@
                             <br>
                             <br>
                             <div class="row" style="margin-top: 15%">
-                                <div class="col-sm-9 offset-sm-3 text-left">
+                                <div class="col-sm-9 offset-sm-2 text-left">
                                     <span
                                         id="faktur_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-9 offset-sm-3 text-left">
-                                    <span
-                                        id="faktur_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                <div class="col-sm-10 offset-sm-2 text-left">
+                                    <span id="faktur_AlamatNPWP"
+                                        style="font-size: 15px !important">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-9 offset-sm-3 text-left">
+                                <div class="col-sm-9 offset-sm-2 text-left">
                                     <span id="faktur_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
@@ -365,7 +370,12 @@
                             <br>
                             <br>
                             <div class="row mt-3">
-                                <div class="col-sm-10 offset-sm-1 text-left" style="font-size: 14px !important;">
+                                <div class="col-sm-1 offset-sm-0 text-left description-left"
+                                    style="font-size: 14px !important;">
+                                    <span></span>
+                                </div>
+                                <div class="col-sm-5 offset-sm-0 text-left description-left"
+                                    style="font-size: 14px !important;">
                                     <span
                                         id="faktur_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
@@ -403,13 +413,13 @@
                                 </div>
                             </div> --}}
 
-                            <div class="row" style="position: absolute; top: 26.2cm; left: 1cm; right: 0cm;">
+                            <div class="row" style="position: absolute; top: 26.2cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-2 offset-sm-10 text-right">
                                     <label>0.00</label>
                                 </div>
                             </div>
 
-                            <div class="row" style="position: absolute; top: 27cm; left: 1cm; right: 0cm;">
+                            <div class="row" style="position: absolute; top: 27cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-1 offset-sm-9 text-right">
                                     <span id="faktur_SymbolUM">xxxx</span>
                                 </div>
@@ -418,11 +428,11 @@
                                 </div>
                             </div>
 
-                            <div class="row" style="position: absolute; top: 27.9cm; left: 1cm; right: 0cm;">
-                                <div class="col-sm-4 text-left offset-sm-1">
-                                    <span><b>Nilai Lain</b></span>
+                            <div class="row" style="position: absolute; top: 27.9cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-4 text-left offset-sm-2">
+                                    <span>Nilai Lain</span>
                                 </div>
-                                <div class="col-sm-1 offset-sm-4 text-right">
+                                <div class="col-sm-1 offset-sm-3 text-right">
                                     <span id="faktur_SymbolDPP">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
@@ -430,7 +440,7 @@
                                 </div>
                             </div>
 
-                            <div class="row" style="position: absolute; top: 28.7cm; left: 1cm; right: 0cm;">
+                            <div class="row" style="position: absolute; top: 28.7cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-3 text-left offset-sm-0">
                                     <span id="faktur_PersenPPN"><b>11%</b></span>
                                 </div>
@@ -443,10 +453,10 @@
                             </div>
 
                             <div class="row"
-                                style="position: absolute; top: 29.55cm; left: 1cm; right: 0cm; padding: 0% !important">
+                                style="position: absolute; top: 29.55cm; left: 0cm; right: 0cm; padding: 0% !important">
                                 <div class="col-sm-9 text-left offset-sm-0">
-                                    <span
-                                        id="faktur_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span id="faktur_Terbilang"
+                                        style="font-family: 'Arial Narrow', Arial, sans-serif; font-size: 14px;">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                                 <div class="col-sm-1 text-right" style="font-weight: bold">
                                     <span id="faktur_SymbolTerbayar">xxxx</span>
@@ -457,7 +467,7 @@
                             </div>
 
                             <div class="row"
-                                style="position: absolute; top: 31.1cm; left: 1cm; right: 0cm !important; font-weight: bold">
+                                style="position: absolute; top: 30.5cm; left: 1cm; right: 0cm !important; font-weight: bold">
                                 <div class="col-sm-4 text-left">
                                     <span id="faktur_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
                                 </div>
@@ -473,7 +483,7 @@
                             </div>
 
                             <div class="row"
-                                style="position: absolute; top: 31.7cm; left: 1cm; right: 1cm; font-weight: bold">
+                                style="position: absolute; top: 31.4cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-12 text-left">
                                     <span id="faktur_Tempo">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span>
                                 </div>

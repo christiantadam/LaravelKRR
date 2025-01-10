@@ -797,6 +797,8 @@ function rpt_cetakNotaFaktur(result) {
                                 "small-font",
                                 "description-left"
                             );
+                            console.log(item);
+
                             accountCol.textContent = item.NamaType
                                 ? decodeHtmlEntities(item.NamaType)
                                 : "";
@@ -806,7 +808,7 @@ function rpt_cetakNotaFaktur(result) {
                             descriptionCol.classList.add(
                                 "col-sm-2",
                                 "text-right",
-                                "small-font"
+                                "small-normal"
                             );
                             descriptionCol.textContent = item.Jml
                                 ? numeral(item.Jml).format("0,0.00") +
@@ -818,7 +820,7 @@ function rpt_cetakNotaFaktur(result) {
                             amountCol.classList.add(
                                 "col-sm-2",
                                 "text-right",
-                                "small-font"
+                                "small-normal"
                             );
                             amountCol.textContent = item.HargaSatuan
                                 ? decodeHtmlEntities(item.Symbol2) +
@@ -828,9 +830,9 @@ function rpt_cetakNotaFaktur(result) {
 
                             var totalCol = document.createElement("div");
                             totalCol.classList.add(
-                                "col-sm-2",
-                                "text-right",
-                                "small-font",
+                                "col-sm-3",
+                                "text-center",
+                                "small-normal",
                                 "description-right"
                             );
                             // let tempTotal =
@@ -860,32 +862,36 @@ function rpt_cetakNotaFaktur(result) {
                             var mantap = document.createElement("div");
                             mantap.classList.add(
                                 "col-sm-1",
-                                "text-right",
-                                "small-font"
+                                "text-left",
+                                "small-font",
+                                "description-left"
                             );
                             additionalRow.appendChild(mantap);
 
                             var additionalCoaCol =
                                 document.createElement("div");
                             additionalCoaCol.classList.add(
-                                "col-sm-1",
-                                "text-right",
-                                "small-font"
+                                "col-sm-5",
+                                "text-left",
+                                "small-font",
+                                "description-left"
                             );
-                            additionalCoaCol.textContent = "P O :";
+                            additionalCoaCol.textContent = "PO :" +  " " + item.NO_PO
+                            ? "PO :" + " " + decodeHtmlEntities(item.NO_PO)
+                            : "";
                             additionalRow.appendChild(additionalCoaCol);
 
-                            var additionalAccountCol =
-                                document.createElement("div");
-                            additionalAccountCol.classList.add(
-                                "col-sm-10",
-                                "text-left",
-                                "small-font"
-                            );
-                            additionalAccountCol.textContent = item.NO_PO
-                                ? decodeHtmlEntities(item.NO_PO)
-                                : "";
-                            additionalRow.appendChild(additionalAccountCol);
+                            // var additionalAccountCol =
+                            //     document.createElement("div");
+                            // additionalAccountCol.classList.add(
+                            //     "col-sm-10",
+                            //     "text-left",
+                            //     "small-font"
+                            // );
+                            // additionalAccountCol.textContent = item.NO_PO
+                            //     ? decodeHtmlEntities(item.NO_PO)
+                            //     : "";
+                            // additionalRow.appendChild(additionalAccountCol);
 
                             faktur_Detail.appendChild(additionalRow);
                         });
