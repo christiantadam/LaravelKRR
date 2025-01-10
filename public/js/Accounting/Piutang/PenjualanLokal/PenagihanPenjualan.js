@@ -244,7 +244,7 @@ $(document).ready(function () {
                         Math.round((TNilaiPenagihan / 1.11) * 100) / 100;
                 } else if (Ppn.value == "12") {
                     TNilaiPenagihan =
-                        Math.round((TNilaiPenagihan * 1.11) * 100) / 100;
+                        Math.round((TNilaiPenagihan) * 100) / 100;
                 } else {
                     TNilaiPenagihan =
                         Math.round((TNilaiPenagihan / 1.1) * 100) / 100;
