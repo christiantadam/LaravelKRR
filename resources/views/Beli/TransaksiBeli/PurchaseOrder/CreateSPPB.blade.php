@@ -400,6 +400,8 @@
                                                                 (Tidak Pakai PPN)
                                                             @elseif ($data->IdPPN == 16)
                                                                 (PPN Impor)
+                                                            @elseif ($data->IdPPN == 17)
+                                                                (Barang Mewah)
                                                             @endif
                                                         </option>
                                                     @endforeach

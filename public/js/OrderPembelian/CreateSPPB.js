@@ -839,11 +839,6 @@ $(document).ready(function () {
             let jumPPN = (DPPValue * selectedPPN) / 100;
             ppn.value = numeral(jumPPN).format("0,0.0000");
         }
-        if (textPart == "PPN Impor") {
-            ppn.readOnly = false;
-        } else {
-            ppn.readOnly = true;
-        }
         // let selectedPPN = numeral(
         //     ppn_select.options[ppn_select.selectedIndex].text
         // ).value();
@@ -873,11 +868,6 @@ $(document).ready(function () {
             let jumPPN = (IDRDPPValue * selectedPPN) / 100;
             let idrPPNValue = jumPPN * kurs;
             idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
-        }
-        if (textPart == "PPN Impor") {
-            idr_ppn.readOnly = false;
-        } else {
-            idr_ppn.readOnly = true;
         }
         // let selectedPPN = numeral(
         //     ppn_select.options[ppn_select.selectedIndex].text

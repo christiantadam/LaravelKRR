@@ -154,6 +154,7 @@ function clearData() {
     harga_sub_total.value = 0;
     idr_sub_total.value = 0;
     ppn.value = 0;
+
     idr_ppn.value = 0;
     harga_total.value = "";
     idr_harga_total.value = "";
@@ -430,6 +431,8 @@ $(document).ready(function () {
                         break;
                     case "16":
                         option.text += " (PPN Impor)";
+                    case "17":
+                        option.text += " (Barang Mewah)";
                         break;
                 }
 
@@ -738,11 +741,6 @@ function updatePPN() {
     //     let jumPPN = (hargaSubTotal * selectedPPN) / 100;
     //     ppn.value = numeral(jumPPN).format("0,0.0000");
     // }
-    if (textPart == "PPN Impor") {
-        ppn.readOnly = false;
-    } else {
-        ppn.readOnly = true;
-    }
 }
 
 function updateIDRPPN() {
