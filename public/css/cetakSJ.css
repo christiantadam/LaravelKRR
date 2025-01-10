@@ -49,23 +49,23 @@
 }
 /* letak kolom untuk print sj */
 .span-nomor_sjKolom {
-    top: 4.2cm;
+    top: 3.7cm;
     left: 0.7cm;
 }
 .span-tanggal_kirimKolom {
-    top: 6.2cm;
+    top: 5.8cm;
     left: 15.3cm;
 }
 .span-truk_nopolKolom {
-    top: 7.4cm;
+    top: 7cm;
     left: 15.3cm;
 }
 .span-no_spKolom {
-    top: 8.9cm;
+    top: 8.1cm;
     left: 14cm;
 }
 .span-alamat_kolom {
-    top: 7.2cm;
+    top: 7.1cm;
     left: 0.7cm;
     max-width: 5.8cm;
     max-height: 2cm;
@@ -81,7 +81,7 @@
     word-break: break-all;
 }
 .span-no_poKolom {
-    top: 14.8cm;
+    top: 14cm;
     left: 0.7cm;
 }
 .span-keterangan_tambahanKolom {
@@ -106,16 +106,16 @@
     left: 19.7cm;
 }
 .span-nama_customerKolom {
-    top: 6.1cm;
+    top: 5.8cm;
     left: 0.7cm;
 }
 .span-alamat_kirimKolom {
-    top: 20cm;
+    top: 18.3cm;
     left: 0.7cm;
     max-width: 18cm;
 }
 .span-tanda_tanganKolom {
-    top: 27.5cm;
+    top: 26.3cm;
     left: 1.2cm;
 }
 /*letak kolom untuk print sj*/
@@ -268,28 +268,28 @@ table tr:last-child td:last-child {
         font-size: 30px;
     }
     .span-nama_typeBarangKolom {
-        font-size: 30px;
+        font-size: 20px;
     }
     .span-nama_barangKolom {
         font-size: 20px;
     }
     .span-satuan_barangPrimerKolom {
-        font-size: 30px;
+        font-size: 20px;
     }
     .span-jumlah_barangPrimerKolom {
-        font-size: 30px;
+        font-size: 20px;
     }
     .span-satuan_barangSekunderKolom {
-        font-size: 30px;
+        font-size: 20px;
     }
     .span-jumlah_barangSekunderKolom {
-        font-size: 30px;
+        font-size: 20px;
     }
     .span-no_poKolom {
-        font-size: 30px;
+        font-size: 20px;
     }
     .span-alamat_kirimKolom {
-        font-size: 30px;
+        font-size: 25px;
     }
     .span-tanda_tanganKolom {
         font-size: 30px;
