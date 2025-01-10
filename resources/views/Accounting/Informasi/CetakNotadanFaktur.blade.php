@@ -419,7 +419,10 @@
                             </div>
 
                             <div class="row" style="position: absolute; top: 27.9cm; left: 1cm; right: 0cm;">
-                                <div class="col-sm-1 offset-sm-9 text-right">
+                                <div class="col-sm-4 text-left offset-sm-1">
+                                    <span><b>Nilai Lain</b></span>
+                                </div>
+                                <div class="col-sm-1 offset-sm-4 text-right">
                                     <span id="faktur_SymbolDPP">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">

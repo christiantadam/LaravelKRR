@@ -635,7 +635,7 @@
                                                 class="form-control" readonly>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="input-group" style="display: none;">
+                                            <div class="input-group">
                                                 <!-- Ensure full width here -->
                                                 <select name="kodePerkiraanSelect" id="kodePerkiraanSelect"
                                                     class="form-control" style="width: 100%;">

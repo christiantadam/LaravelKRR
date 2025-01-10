@@ -205,27 +205,27 @@ $(document).ready(function () {
                                         text: "Proses Acc Penagihan Surat Jalan Selesai !!.",
                                         returnFocus: false,
                                     }).then(() => {
-                                        if (adaSP) {
-                                            Swal.fire({
-                                                icon: "info",
-                                                text: "Cetak Tunai !!",
-                                                returnFocus: false,
-                                            }).then(() => {
-                                                sType = "Cetaknotatunai";
-                                                getViewSP(sType);
-                                            });
-                                        }
+                                        // if (adaSP) {
+                                        //     Swal.fire({
+                                        //         icon: "info",
+                                        //         text: "Cetak Tunai !!",
+                                        //         returnFocus: false,
+                                        //     }).then(() => {
+                                        //         sType = "Cetaknotatunai";
+                                        //         getViewSP(sType);
+                                        //     });
+                                        // }
 
-                                        if (adaSJ) {
-                                            Swal.fire({
-                                                icon: "info",
-                                                text: "Cetak Nota/Faktur !!",
-                                                returnFocus: false,
-                                            }).then(() => {
-                                                sType = "CetakNotaFaktur";
-                                                getViewSJ(sType);
-                                            });
-                                        }
+                                        // if (adaSJ) {
+                                        //     Swal.fire({
+                                        //         icon: "info",
+                                        //         text: "Cetak Nota/Faktur !!",
+                                        //         returnFocus: false,
+                                        //     }).then(() => {
+                                        //         sType = "CetakNotaFaktur";
+                                        //         getViewSJ(sType);
+                                        //     });
+                                        // }
 
                                         table_atas.ajax.reload(null, false);
                                     });
