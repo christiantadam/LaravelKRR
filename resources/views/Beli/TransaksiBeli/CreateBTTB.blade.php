@@ -108,11 +108,13 @@
                                         <th>Qty Remaining</th>
                                         <th>Harga Unit</th>
                                         <th>Subtotal</th>
+                                        <th>DPP</th>
                                         <th>PPN</th>
                                         <th>Harga Total</th>
                                         <th>Kurs</th>
                                         <th>IDR Unit</th>
                                         <th>IDR SubTotal</th>
+                                        <th>IDR DPP</th>
                                         <th>IDR PPN</th>
                                         <th>IDR total</th>
                                         <th>Mata Uang</th>
@@ -209,7 +211,8 @@
                                     <div class="col-8 col-md-6 d-flex align-items-center">
                                         <input type="text" name="qty_received" id="qty_received"
                                             class="form-control font-weight-bold me-2">
-                                        <button type="button" class="btn btn-warning" id="btn_toleransi">Set Toleransi</button>
+                                        <button type="button" class="btn btn-warning" id="btn_toleransi">Set
+                                            Toleransi</button>
                                     </div>
                                 </div>
                             </div>
@@ -340,16 +343,52 @@
                                     <div class="col-6">
                                         <div class="row">
                                             <div class="col-4">
+                                                <label class="font-weight-bold" for="dpp_nilaiLain">DPP Nilai
+                                                    Lain</label>
+                                            </div>
+                                            <div class="col-8">
+                                                <input type="text" name="dpp_nilaiLain" id="dpp_nilaiLain"
+                                                    class="form-control font-weight-bold" value="0" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label class="font-weight-bold" for="idr_dpp">IDR DPP</label>
+                                            </div>
+                                            <div class="col-8">
+                                                <input type="text" name="idr_dpp" id="idr_dpp"
+                                                    class="form-control font-weight-bold" value="0" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-4">
                                                 <label class="font-weight-bold" for="ppn">PPN %</label>
                                             </div>
                                             <div class="col-8">
                                                 <select name="ppn_select" id="ppn_select" class="w-100 input">
                                                     <option class="w-100" selected disabled></option>
                                                     @foreach ($ppn as $data)
-                                                        <option value="{{ $data->IdPPN }}">{{ $data->JumPPN }}
+                                                        <option value="{{ $data->IdPPN }}">
+                                                            {{ number_format($data->JumPPN, 5) }}
+                                                            @if ($data->IdPPN == 6)
+                                                                (Tidak Pakai PPN)
+                                                            @elseif ($data->IdPPN == 16)
+                                                                (PPN Impor)
+                                                            @elseif ($data->IdPPN == 17)
+                                                                (Barang Mewah)
+                                                            @endif
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <input type="hidden" name="ppn_persen" id="ppn_persen">
                                                 <input type="text" name="ppn" id="ppn"
                                                     class="form-control font-weight-bold" value="0" readonly>
                                             </div>
@@ -400,10 +439,8 @@
 
                         <div class="col-md-12 d-flex justify-content-end pb-4">
                             <div class="col-md-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-info" id="updatedata"
-                                    onclick="updateData()">Update</button>
-                                <button type="button" class="btn btn-danger" id="removebutton"
-                                    onclick="removeData()"> Remove</button>
+                                <button type="button" class="btn btn-info" id="btn_update">Update</button>
+                                <button type="button" class="btn btn-danger" id="btn_remove">Remove</button>
                                 <button type="button" class="btn btn-success" id="post_btn">Post BTTB</button>
                             </div>
                         </div>
