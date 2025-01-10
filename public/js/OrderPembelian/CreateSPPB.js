@@ -366,6 +366,7 @@ $(document).ready(function () {
         let No = 0;
         let Page = 0;
         let amountDPP = 0;
+        let DPPFix = 0;
 
         for (let i = 0; i < data.print.length; i++) {
             sumAmount += parseFloat(data.print[i].PriceSub);
@@ -388,21 +389,6 @@ $(document).ready(function () {
                   maximumFractionDigits: 2,
               });
 
-        const DPPFix = !amountDPP
-            .toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-            })
-            .includes(".")
-            ? amountDPP.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-              }) + ".00"
-            : amountDPP.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-              });
-
         const ppnFix = !ppn
             .toLocaleString("en-US", {
                 minimumFractionDigits: 2,
@@ -417,6 +403,25 @@ $(document).ready(function () {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
               });
+
+        if (parseFloat(ppnFix.replace(/,/g, "")) === 0) {
+            DPPFix = "0.00";
+        } else {
+            DPPFix = !amountDPP
+                .toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                })
+                .includes(".")
+                ? amountDPP.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                  }) + ".00"
+                : amountDPP.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                  });
+        }
 
         const chunkSize = 5;
         const chunkedData = [];
@@ -659,7 +664,7 @@ $(document).ready(function () {
                     </div>
                     <div style="width: 30%;">
                         <div style="width: 100%; display: flex;">
-                            <div style="width: 40%; margin-right: 3rem;">
+                            <div style="width: 55%; margin-right: 10%;">
                                 <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Sub Total</h1>
                             </div>
                             <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
@@ -667,7 +672,7 @@ $(document).ready(function () {
                             </div>
                         </div>
                         <div style="width: 100%; display: flex;">
-                            <div style="width: 40%; margin-right: 3rem;">
+                            <div style="width: 55%; margin-right: 10%;">
                                 <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">DPP Nilai Lain</h1>
                             </div>
                             <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
@@ -675,7 +680,7 @@ $(document).ready(function () {
                             </div>
                         </div>
                         <div style="width: 100%; display: flex;">
-                            <div style="width: 40%; margin-right: 3rem;">
+                            <div style="width: 55%; margin-right: 10%;">
                                 <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">VAT</h1>
                             </div>
                             <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
@@ -683,7 +688,7 @@ $(document).ready(function () {
                             </div>
                         </div>
                         <div style="width: 100%; display: flex;">
-                            <div style="width: 40%; margin-right: 3rem;">
+                            <div style="width: 55%; margin-right: 10%;">
                                 <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Total</h1>
                             </div>
                             <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
