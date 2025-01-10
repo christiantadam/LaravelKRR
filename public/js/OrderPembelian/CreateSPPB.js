@@ -804,7 +804,7 @@ $(document).ready(function () {
         if (!isNaN(harga_subTotal) && ppn_select.value == "15") {
             DPPValue = (harga_subTotal * 11) / 12;
             dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
-        } else if (ppn_select.value == "16" && ppn_select.value == "6") {
+        } else if (ppn_select.value == "16" || ppn_select.value == "6") {
             dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
         } else {
             dpp_nilaiLain.value = numeral(harga_subTotal).format("0,0.0000");
@@ -817,7 +817,7 @@ $(document).ready(function () {
         if (!isNaN(idr_hargaSubTotal)) {
             IDRDPPValue = (idr_hargaSubTotal * 11) / 12;
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
-        } else if (ppn_select.value == "16" && ppn_select.value == "6") {
+        } else if (ppn_select.value == "16" || ppn_select.value == "6") {
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
         } else {
             idr_dpp.value = numeral(idr_hargaSubTotal).format("0,0.0000");
