@@ -49,73 +49,73 @@
 }
 /* letak kolom untuk print sj */
 .span-nomor_sjKolom {
-    top: 2.7cm;
+    top: 3.2cm;
     left: 0.7cm;
 }
 .span-tanggal_kirimKolom {
-    top: 4.7cm;
-    left: 14.8cm;
+    top: 5.2cm;
+    left: 15.3cm;
 }
 .span-truk_nopolKolom {
-    top: 5.8cm;
-    left: 14.8cm;
+    top: 6.4cm;
+    left: 15.3cm;
 }
 .span-no_spKolom {
-    top: 6.7cm;
+    top: 7.9cm;
     left: 14cm;
 }
 .span-alamat_kolom {
-    top: 5.7cm;
+    top: 6.2cm;
     left: 0.7cm;
     max-width: 5.8cm;
     max-height: 2cm;
 }
 .span-nama_typeBarangKolom {
-    top: 9.6cm;
+    top: 10.6cm;
     left: 0.7cm;
 }
 .span-nama_barangKolom {
-    top: 10.9cm;
+    top: 11.9cm;
     left: 0.7cm;
     max-width: 13cm;
     word-break: break-all;
 }
 .span-no_poKolom {
-    top: 13.8cm;
+    top: 14.8cm;
     left: 0.7cm;
 }
 .span-keterangan_tambahanKolom {
-    top: 14.9cm;
+    top: 15.9cm;
     left: 0.7cm;
     max-width: 13cm;
 }
 .span-satuan_barangPrimerKolom {
-    top: 11.5cm;
-    left: 17cm;
+    top: 12.5cm;
+    left: 17.2cm;
 }
 .span-jumlah_barangPrimerKolom {
-    top: 11.5cm;
-    left: 19.2cm;
+    top: 12.5cm;
+    left: 19.7cm;
 }
 .span-satuan_barangSekunderKolom {
-    top: 9.6cm;
-    left: 17cm;
+    top: 10.6cm;
+    left: 17.2cm;
 }
 .span-jumlah_barangSekunderKolom {
-    top: 9.6cm;
-    left: 19.2cm;
+    top: 10.6cm;
+    left: 19.7cm;
 }
 .span-nama_customerKolom {
-    top: 4.6cm;
+    top: 5.1cm;
     left: 0.7cm;
 }
 .span-alamat_kirimKolom {
-    top: 18cm;
+    top: 20cm;
     left: 0.7cm;
     max-width: 18cm;
 }
 .span-tanda_tanganKolom {
-    top: 26cm;
+    top: 26.2cm;
     left: 1.2cm;
 }
 /*letak kolom untuk print sj*/
