@@ -399,7 +399,7 @@
                                                             @if ($data->IdPPN == 6)
                                                                 (Tidak Pakai PPN)
                                                             @elseif ($data->IdPPN == 16)
-                                                                (PPN Custom)
+                                                                (PPN Impor)
                                                             @endif
                                                         </option>
                                                     @endforeach

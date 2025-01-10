@@ -429,7 +429,7 @@ $(document).ready(function () {
                         option.selected = true; // Automatically select this option
                         break;
                     case "16":
-                        option.text += " (PPN Custom)";
+                        option.text += " (PPN Impor)";
                         break;
                 }
 
@@ -734,7 +734,7 @@ function updatePPN() {
     //     let jumPPN = (hargaSubTotal * selectedPPN) / 100;
     //     ppn.value = numeral(jumPPN).format("0,0.0000");
     // }
-    if (textPart == "PPN Custom") {
+    if (textPart == "PPN Impor") {
         ppn.readOnly = false;
     } else {
         ppn.readOnly = true;

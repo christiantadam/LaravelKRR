@@ -365,11 +365,13 @@ $(document).ready(function () {
         let ppn = 0;
         let No = 0;
         let Page = 0;
+        let amountDPP = 0;
 
         for (let i = 0; i < data.print.length; i++) {
             sumAmount += parseFloat(data.print[i].PriceSub);
             ppn += parseFloat(data.print[i].PPN);
         }
+        amountDPP = (sumAmount * 11) / 12;
 
         const sumAmountFix = !sumAmount
             .toLocaleString("en-US", {
@@ -382,6 +384,21 @@ $(document).ready(function () {
                   maximumFractionDigits: 2,
               }) + ".00"
             : sumAmount.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+              });
+
+        const DPPFix = !amountDPP
+            .toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })
+            .includes(".")
+            ? amountDPP.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+              }) + ".00"
+            : amountDPP.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
               });
@@ -651,6 +668,14 @@ $(document).ready(function () {
                         </div>
                         <div style="width: 100%; display: flex;">
                             <div style="width: 40%; margin-right: 3rem;">
+                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">DPP Nilai Lain</h1>
+                            </div>
+                            <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
+                                <p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; margin: 2px 0;">${DPPFix}</p>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex;">
+                            <div style="width: 40%; margin-right: 3rem;">
                                 <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">VAT</h1>
                             </div>
                             <div style="width: 60%; border-bottom: 1px solid; text-align: right;">
@@ -805,7 +830,7 @@ $(document).ready(function () {
             let jumPPN = (DPPValue * selectedPPN) / 100;
             ppn.value = numeral(jumPPN).format("0,0.0000");
         }
-        if (textPart == "PPN Custom") {
+        if (textPart == "PPN Impor") {
             ppn.readOnly = false;
         } else {
             ppn.readOnly = true;
@@ -840,7 +865,7 @@ $(document).ready(function () {
             let idrPPNValue = jumPPN * kurs;
             idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
         }
-        if (textPart == "PPN Custom") {
+        if (textPart == "PPN Impor") {
             idr_ppn.readOnly = false;
         } else {
             idr_ppn.readOnly = true;
