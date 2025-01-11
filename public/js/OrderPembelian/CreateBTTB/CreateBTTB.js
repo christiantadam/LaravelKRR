@@ -170,9 +170,9 @@ $(document).ready(function () {
         console.log(textPart);
 
         if (textPart == "PPN Impor") {
-            ppn.readOnly = false;
+            idr_ppn.readOnly = false;
         } else {
-            ppn.readOnly = true;
+            idr_ppn.readOnly = true;
         }
         // let selectedPPN = numeral(
         //     ppn_select.options[ppn_select.selectedIndex].text
@@ -515,42 +515,41 @@ $(document).ready(function () {
                 noTrTmp: noTrTmp,
             });
         }
-        console.log(dataToSend);
 
-        // $.ajax({
-        //     url: "/CCreateBTTB/PostData",
-        //     type: "POST",
-        //     headers: {
-        //         "X-CSRF-TOKEN": csrfToken,
-        //     },
-        //     data: {
-        //         data: dataToSend,
-        //     },
-        //     success: function (response) {
-        //         Swal.fire({
-        //             icon: "success",
-        //             title: "Data Berhasil DiPost!",
-        //             showConfirmButton: false,
-        //         });
-        //         dataPrint();
-        //     },
-        //     error: function (error) {
-        //         Swal.fire({
-        //             icon: "error",
-        //             title: "Data Tidak Berhasil DiPost!",
-        //             showConfirmButton: false,
-        //         });
-        //         console.error("Error Send Data:", error);
-        //     },
-        //     beforeSend: function () {
-        //         // Show loading screen
-        //         $("#loading-screen").css("display", "flex");
-        //     },
-        //     complete: function () {
-        //         // Hide loading screen
-        //         $("#loading-screen").css("display", "none");
-        //     },
-        // });
+        $.ajax({
+            url: "/CCreateBTTB/PostData",
+            type: "POST",
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            data: {
+                data: dataToSend,
+            },
+            success: function (response) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Data Berhasil DiPost!",
+                    showConfirmButton: false,
+                });
+                dataPrint();
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Data Tidak Berhasil DiPost!",
+                    showConfirmButton: false,
+                });
+                console.error("Error Send Data:", error);
+            },
+            beforeSend: function () {
+                // Show loading screen
+                $("#loading-screen").css("display", "flex");
+            },
+            complete: function () {
+                // Hide loading screen
+                $("#loading-screen").css("display", "none");
+            },
+        });
     }
 
     async function dataPrint() {
@@ -1148,10 +1147,10 @@ $(document).ready(function () {
         updateIDRDiscTotal();
     });
 
-    ppn.addEventListener("input", function () {
+    idr_ppn.addEventListener("input", function () {
         let kurs = numeral(document.getElementById("kurs").value).value();
-        let idrPPNValue = this.value * kurs;
-        idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
+        let PPNValue = this.value / kurs;
+        ppn.value = numeral(PPNValue).format("0,0.0000");
         ppn_persen.value = ((this.value / numeral(harga_sub_total.value).value()) * 100).toFixed(2); //prettier-ignore
         updateHargaTotal();
         updateIDRHargaTotal();
@@ -1393,14 +1392,14 @@ $(document).ready(function () {
         );
     });
 
-    ppn.addEventListener("keypress", function (event) {
+    idr_ppn.addEventListener("keypress", function (event) {
         if (event.key == "Enter") {
-            const data = numeral(ppn.value).value();
-            ppn.value = numeral(data).format("0,0.0000");
+            const data = numeral(idr_ppn.value).value();
+            idr_ppn.value = numeral(data).format("0,0.0000");
             btn_update.focus();
         }
         setInputFilter(
-            document.getElementById("ppn"),
+            document.getElementById("idr_ppn"),
             function (value) {
                 return /^-?\d*([.,]\d*)*$/.test(value);
             },
