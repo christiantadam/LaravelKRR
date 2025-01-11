@@ -165,14 +165,11 @@ $(document).ready(function () {
         if (!isNaN(selectedPPN) && !isNaN(DPPValue)) {
             let jumPPN = (DPPValue * selectedPPN) / 100;
             ppn.value = numeral(jumPPN).format("0,0.0000");
-            ppn_persen.value = parseFloat((parseFloat(jumPPN) / parseFloat(DPPValue)).toFixed(2) * 100) ?? 0; // prettier-ignore
-        }
-        console.log(textPart);
-
-        if (textPart == "PPN Impor") {
-            idr_ppn.readOnly = false;
-        } else {
-            idr_ppn.readOnly = true;
+            if (parseFloat(jumPPN) === 0 && parseFloat(DPPValue) === 0) {
+                ppn_persen.value = 0;
+            } else {
+                ppn_persen.value = parseFloat((parseFloat(jumPPN) / parseFloat(DPPValue)).toFixed(2) * 100) ?? 0; // prettier-ignore
+            }
         }
         // let selectedPPN = numeral(
         //     ppn_select.options[ppn_select.selectedIndex].text
@@ -204,7 +201,8 @@ $(document).ready(function () {
             let idrPPNValue = jumPPN * kurs;
             idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
         }
-        if (textPart == "PPN Custom") {
+
+        if (textPart == "PPN Impor") {
             idr_ppn.readOnly = false;
         } else {
             idr_ppn.readOnly = true;
