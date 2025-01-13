@@ -1437,7 +1437,7 @@
                                         a/n. PT. Kerta Rajasa Raya</label>
                                 </div>
                                 <div class="col-sm-2 text-left offset-sm-1">
-                                    <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                    <label></label>
                                 </div>
                                 <div class="col-sm-1 offset-sm-6 text-right">
                                     <span id="fakturUangMuka_SymbolGrand">xxxx</span>

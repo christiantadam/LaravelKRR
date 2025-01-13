@@ -44,6 +44,7 @@ $(document).ready(function () {
     let no_penagihan = document.getElementById("no_penagihan");
     let no_sp = document.getElementById("no_sp");
     let IdPenagihan = document.getElementById("IdPenagihan");
+    let Ppn = document.getElementById("Ppn");
     let table_atas = $("#table_atas").DataTable({
         columnDefs: [{ targets: [0], visible: false }],
     });
@@ -867,7 +868,7 @@ $(document).ready(function () {
                         },
                     });
                     setTimeout(() => {
-                        btn_userPenagih.focus();
+                        btn_dokumen.focus();
                     }, 300);
                 }
             });
@@ -1231,6 +1232,61 @@ $(document).ready(function () {
                     no_penagihanUM.value = escapeHTML(
                         selectedRow.Id_Penagihan.trim()
                     );
+                    if (proses == 1) {
+                        $.ajax({
+                            url: "MaintenanceNotaPenjualanTunai/getSudahBayar",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                no_sp: no_sp.value,
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                nilaiSdhBayar.value = numeral(data.data[0].Nilai_Sdh_Bayar).format("0,0.00");
+                                nilaiUM.value =  numeral(numeral(nilaiSP.value).value() - numeral(nilaiSdhBayar.value).value()).format("0,0.00");
+                                console.log(Ppn.value);
+
+                                if (Ppn.value == "12") {
+                                    let hitungPPN = (numeral(nilaiSdhBayar.value).value() * 11) / 12 * 0.12;
+                                    console.log(hitungPPN);
+                                    console.log(nilaiSdhBayar.value);
+
+                                    totalPenagihan.value = numeral(numeral(hitungPPN).value() + numeral(nilaiSdhBayar.value).value()).format("0,0.00");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                var err = eval("(" + xhr.responseText + ")");
+                                alert(err.Message);
+                            },
+                        });
+                    }else if (proses == 2) {
+                        $.ajax({
+                            url: "MaintenanceNotaPenjualanTunai/getSudahBayarKoreksi",
+                            type: "GET",
+                            data: {
+                                _token: csrfToken,
+                                no_penagihanUM: no_penagihanUM.value,
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                nilaiSdhBayar.value = numeral(data.data[0].Nilai_Sdh_Bayar).format("0,0.00");
+                                nilaiUM.value =  numeral(numeral(nilaiSP.value).value() - numeral(nilaiSdhBayar.value).value()).format("0,0.00");
+                                console.log(Ppn.value);
+
+                                if (Ppn.value == "12") {
+                                    let hitungPPN = (numeral(nilaiSdhBayar.value).value() * 11) / 12 * 0.12;
+                                    console.log(hitungPPN);
+                                    console.log(nilaiSdhBayar.value);
+
+                                    totalPenagihan.value = numeral(numeral(hitungPPN).value() + numeral(nilaiSdhBayar.value).value()).format("0,0.00");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                var err = eval("(" + xhr.responseText + ")");
+                                alert(err.Message);
+                            },
+                        });
+                    }
                     // setTimeout(() => {
                     //     btn_dokumen.focus();
                     // }, 300);

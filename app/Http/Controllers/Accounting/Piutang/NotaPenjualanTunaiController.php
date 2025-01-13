@@ -384,12 +384,42 @@ class NotaPenjualanTunaiController extends Controller
 
             $results = DB::connection('ConnAccounting')
                 ->select('exec SP_1486_ACC_LIST_TAGIHAN_DP_1 @SuratPesanan = ?', [$suratPesanan]);
-
+            // dd($results);
             $response = [];
             foreach ($results as $row) {
                 $response[] = [
                     'Id_Penagihan' => $row->Id_Penagihan,
                     'nilai_BLM_PAJAK' => $row->nilai_BLM_PAJAK,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getSudahBayar') {
+            $suratPesanan = $request->input('no_sp');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5409_ACC_JUMLAH_SDH_BAYAR_SPSJ @noSP = ?', [$suratPesanan]);
+            // dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'SuratPesanan' => $row->SuratPesanan,
+                    'Nilai_Sdh_Bayar' => $row->Nilai_Sdh_Bayar,
+                ];
+            }
+
+            return datatables($response)->make(true);
+        } else if ($id == 'getSudahBayarKoreksi') {
+            $idUM = $request->input('no_penagihanUM');
+
+            $results = DB::connection('ConnAccounting')
+                ->select('exec SP_5409_ACC_JUMLAH_SDH_BAYAR_SPSJ @kd = ?, @noInv', [1, $idUM]);
+            dd($results);
+            $response = [];
+            foreach ($results as $row) {
+                $response[] = [
+                    'SuratPesanan' => $row->SuratPesanan,
+                    'Nilai_Sdh_Bayar' => $row->Nilai_Sdh_Bayar,
                 ];
             }
 
