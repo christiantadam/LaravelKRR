@@ -371,8 +371,8 @@ $(document).ready(function () {
         for (let i = 0; i < data.print.length; i++) {
             sumAmount += parseFloat(data.print[i].PriceSub);
             ppn += parseFloat(data.print[i].PPN);
+            amountDPP += parseFloat(data.print[i].PriceDPP);
         }
-        amountDPP = (sumAmount * 11) / 12;
 
         const sumAmountFix = !sumAmount
             .toLocaleString("en-US", {
@@ -404,24 +404,20 @@ $(document).ready(function () {
                   maximumFractionDigits: 2,
               });
 
-        if (parseFloat(ppnFix.replace(/,/g, "")) === 0) {
-            DPPFix = "0.00";
-        } else {
-            DPPFix = !amountDPP
-                .toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                })
-                .includes(".")
-                ? amountDPP.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                  }) + ".00"
-                : amountDPP.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                  });
-        }
+        DPPFix = !amountDPP
+            .toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })
+            .includes(".")
+            ? amountDPP.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+              }) + ".00"
+            : amountDPP.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+              });
 
         const chunkSize = 5;
         const chunkedData = [];
