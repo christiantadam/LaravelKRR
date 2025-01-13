@@ -183,6 +183,7 @@
         .fakturUangMuka,
         .fakturUangMuka * {
             visibility: visible;
+            font-size: 18px;
         }
 
         .fakturTunaiUM,
@@ -390,8 +391,8 @@
                                         a/c. 5578 0000 9333 ( IDR ) <br>
                                         a/n. PT. Kerta Rajasa Raya</label>
                                 </div>
-                                <div class="col-sm-2 text-left offset-sm-1">
-                                    <label><b>XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                <div class="col-sm-2 text-right offset-sm-1">
+                                    <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
                                 </div>
                                 <div class="col-sm-1 offset-sm-6 text-right">
                                     <span id="faktur_SymbolGrand">xxxx</span>
@@ -1375,68 +1376,112 @@
                         <div class="fakturUangMuka">
 
                             <div class="row">
-                                <div class="col-sm-12 text-right">
+                                <div class="col-sm-12 text-right penagihan-up"
+                                    style="position: absolute; top: 0.4cm; left: 0cm; right: 2cm;">
                                     <span id="fakturUangMuka_IdPenagihan">Id Penagihan</span>
                                 </div>
                             </div>
 
-                            <div class="row mt-5">
+                            <div class="row mt-5" style="margin-top: 0.1cm">
                                 <div class="col-sm-8 text-right">
-                                    <label>Nomor Seri Faktur Pajak</label>
+                                    {{-- <label><b>Nomor Seri Faktur Pajak</b></label> --}}
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <span id="fakturUangMuka_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
-                                    </span>
+                                    {{-- <span id="fakturUangMuka_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX</span> --}}
                                 </div>
                             </div>
 
+                            <br>
+                            <br>
+                            <br>
+                            <br>
                             <div class="row" style="margin-top: 15%">
-                                <div class="col-sm-9 offset-sm-3 text-left">
+                                <div class="col-sm-9 offset-sm-2 text-left">
                                     <span
                                         id="fakturUangMuka_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-9 offset-sm-3 text-left">
-                                    <span
-                                        id="fakturUangMuka_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                <div class="col-sm-10 offset-sm-2 text-left">
+                                    <span id="fakturUangMuka_AlamatNPWP"
+                                        style="font-size: 15px !important">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-9 offset-sm-3 text-left">
-                                    <span
-                                        id="fakturUangMuka_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                <div class="col-sm-9 offset-sm-2 text-left">
+                                    <span id="fakturUangMuka_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
 
-                            <div id="fakturUangMuka_Detail" style="margin-top: 12%"></div>
+                            <br>
+                            <br>
+                            <div class="row mt-3">
+                                <div class="col-sm-1 offset-sm-0 text-left description-left"
+                                    style="font-size: 14px !important;">
+                                    <span></span>
+                                </div>
+                                <div class="col-sm-5 offset-sm-0 text-left description-left"
+                                    style="font-size: 14px !important;">
+                                    <span
+                                        id="fakturUangMuka_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div id="fakturUangMuka_Detail"></div>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-1 offset-sm-9 text-right">
-                                    <span id="fakturUangMuka_SymbolNilaiBlmPajak">xxxx</span>
+                            <div class="row mt-3" style="position: absolute; top: 21.7cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-10 text-left offset-sm-0">
+                                    <label id="bankBayarUangMuka" style="font-weight: bold">Pembayaran mohon ditransfer ke:
+                                        <br>
+                                        Bank OCBC NISP Cab. Diponegoro - Surabaya <br>
+                                        a/c. 5578 0000 9333 ( IDR ) <br>
+                                        a/n. PT. Kerta Rajasa Raya</label>
+                                </div>
+                                <div class="col-sm-2 text-left offset-sm-1">
+                                    <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                </div>
+                                <div class="col-sm-1 offset-sm-6 text-right">
+                                    <span id="fakturUangMuka_SymbolGrand">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
-                                    <span id="fakturUangMuka_NilaiBlmPajak">-5.555.555,00</span>
+                                    <span id="fakturUangMuka_Grand">-5.555.555,00</span>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            {{-- <div class="row mt-4">
+                                <div class="col-sm-2 text-left offset-sm-2">
+                                    <label><b> XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                </div>
+                                <div class="col-sm-1 offset-sm-5 text-right">
+                                    <span id="fakturUangMuka_SymbolGrand">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturUangMuka_Grand">-5.555.555,00</span>
+                                </div>
+                            </div> --}}
+
+                            <div class="row" style="position: absolute; top: 26.2cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-1 offset-sm-9 text-right">
-                                    <span id="fakturUangMuka_SymbolDiscount">xxxx</span>
+                                    <span id="fakturUangMuka_SymbolUM">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
                                     <span id="fakturUangMuka_Discount">-5.555.555,00</span>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-1 offset-sm-11 text-right">
-                                    <span>-</span>
+                            <div class="row" style="position: absolute; top: 27cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    <span id="tes"></span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturUangMuka_UM"></span>
                                 </div>
                             </div>
 
-                            <div class="row mt-3">
-                                <div class="col-sm-1 offset-sm-9 text-right">
+                            <div class="row" style="position: absolute; top: 27.9cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-4 text-left offset-sm-2">
+                                    <span>Nilai Lain</span>
+                                </div>
+                                <div class="col-sm-1 offset-sm-3 text-right">
                                     <span id="fakturUangMuka_SymbolDPP">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
@@ -1444,8 +1489,8 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-2 text-left offset-sm-1">
+                            <div class="row" style="position: absolute; top: 28.7cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-3 text-left offset-sm-0">
                                     <span id="fakturUangMuka_PersenPPN"><b>11%</b></span>
                                 </div>
                                 <div class="col-sm-1 offset-sm-6 text-right">
@@ -1456,10 +1501,11 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-8 text-left offset-sm-1">
-                                    <span
-                                        id="fakturUangMuka_Terbilang">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                            <div class="row"
+                                style="position: absolute; top: 29.55cm; left: 0cm; right: 0cm; padding: 0% !important">
+                                <div class="col-sm-9 text-left offset-sm-0">
+                                    <span id="fakturUangMuka_Terbilang"
+                                        style="font-family: 'Arial Narrow', Arial, sans-serif; font-size: 14px;">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                                 <div class="col-sm-1 text-right" style="font-weight: bold">
                                     <span id="fakturUangMuka_SymbolTerbayar">xxxx</span>
@@ -1469,42 +1515,47 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-2 text-center offset-sm-7">
+                            <div class="row"
+                                style="position: absolute; top: 30.5cm; left: 1cm; right: 0cm !important; font-weight: bold">
+                                <div class="col-sm-4 text-left">
+                                    <span id="fakturUangMuka_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
+                                </div>
+                                <div class="col-sm-2 text-center offset-sm-3">
                                     <span>Sidoarjo</span>
                                 </div>
-                                <div class="col-sm-2 text-left">
+                                <div class="col-sm-2 text-center">
                                     <span id="fakturUangMuka_TglBln">3 Januari</span>
                                 </div>
-                                <div class="col-sm-1 text-center">
+                                <div class="col-sm-1 text-right">
                                     <span id="fakturUangMuka_Thn">11</span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-4 text-left">
-                                    <span id="fakturUangMuka_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx
-                                        Hari</span>
-                                </div>
-                            </div>
 
-                            <div class="row">
+                            <div class="row"
+                                style="position: absolute; top: 31.4cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-12 text-left">
                                     <span id="fakturUangMuka_Tempo">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row"
+                                style="position: absolute; top: 32.3cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-12 text-left">
-                                    <span>Surat Jalan: &emsp;&emsp;
-                                        -</span>
+                                    <span id="fakturUangMuka_SuratJalan">Surat Jalan: &emsp;&emsp;</span>
                                 </div>
                             </div>
 
-                            <div class="row mt-3">
-                                <div class="col-sm-3 offset-sm-8 text-center">
-                                    <span id="fakturUangMuka_SJ">RUDY SANTOSO</span>
+                            <div class="row"
+                                style="position: absolute; top: 33.6cm; left: 1cm; right: 1cm; font-weight: bold">
+                                <div class="col-sm-8 text-left">
+                                    <span
+                                        id="fakturUangMuka_SJ"></span>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span id="ttdPimpinanUangMuka">RUDY SANTOSO</span>
                                 </div>
                             </div>
+
                         </div>
 
 
