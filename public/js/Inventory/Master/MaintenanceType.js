@@ -2098,7 +2098,7 @@ btn_proses.addEventListener("click", function (e) {
                                     btn_isi.focus();
                                 });
                             }
-                        } else if (response && response.error) {
+                        } else if (response.error) {
                             if (response.errorType === "subkelIdEmpty") {
                                 Swal.fire({
                                     icon: "error",
@@ -2124,11 +2124,27 @@ btn_proses.addEventListener("click", function (e) {
                     },
                     error: function (xhr, status, error) {
                         console.log(xhr.responseJSON);
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error, hubungi EDP!",
-                            text: xhr.responseJSON,
-                        });
+                        if (xhr.responseJSON.errorType === "kodeBarangExists") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Data Tidak ter-SIMPAN.",
+                                text: `Kode Barang: ${kdBarang.value} yang terletak pada Sub Kelompok: ${subkelId.value} Sudah ADA.`,
+                            });
+                        } else if (
+                            xhr.responseJSON.errorType === "subkelIdEmpty"
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "ID Sub Kelompok Kosong!",
+                                text: "Isi Sub Kelompok Dahulu!",
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error, hubungi EDP!",
+                                text: xhr.responseJSON,
+                            });
+                        }
                     },
                 });
             }
