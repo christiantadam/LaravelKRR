@@ -1242,8 +1242,8 @@ $(document).ready(function () {
                             },
                             success: function (data) {
                                 console.log(data);
-                                nilaiSdhBayar.value = numeral(data.data[0].Nilai_Sdh_Bayar).format("0,0.00");
-                                nilaiUM.value =  numeral(numeral(nilaiSP.value).value() - numeral(nilaiSdhBayar.value).value()).format("0,0.00");
+                                nilaiUM.value = numeral(selectedRow.nilai_BLM_PAJAK).format("0,0.00");
+                                nilaiSdhBayar.value =  numeral(numeral(nilaiSP.value).value() - numeral(nilaiUM.value).value()).format("0,0.00");
                                 console.log(Ppn.value);
 
                                 if (Ppn.value == "12") {
