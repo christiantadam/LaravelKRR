@@ -30,14 +30,12 @@
 .span-tanggal_kirimKolom,
 .span-truk_nopolKolom,
 .span-no_spKolom,
-.span-alamat_kolom,
-.span-nama_barangKolom,
+.span-nama_barangKolomNo_poKolom,
 .span-satuan_barangPrimerKolom,
 .span-jumlah_barangPrimerKolom,
 .span-satuan_barangSekunderKolom,
 .span-jumlah_barangSekunderKolom,
-.span-no_poKolom,
-.span-nama_customerKolom,
+.span-nama_customerKolomAlamat_kolom,
 .span-alamat_kirimKolom,
 .span-tanda_tanganKolom,
 .span-keterangan_tambahanKolom {
@@ -64,40 +62,23 @@
     top: 7.9cm;
     left: 14cm;
 }
-.span-alamat_kolom {
-    top: 7.1cm;
+.span-nama_customerKolomAlamat_kolom {
+    top: 5.8cm;
     left: 0.7cm;
-    max-width: 8cm;
-    max-height: 2cm;
+    max-width: 9cm;
     line-height: 1.2;
 }
 .span-nama_typeBarangKolom {
     top: 10.6cm;
     left: 0.7cm;
 }
-.span-nama_barangKolom {
-    /* top: 11.9cm; */
-    /* left: 0.7cm; */
-    max-width: 13cm;
-    line-height: 1.2;
-    /* word-break: break-all; */
-
-}
-.span-no_poKolom {
-    /* top: 15.9cm; */
-    /* left: 0.7cm; */
-}
-
-.combined-column {
-    position: absolute;
+.span-nama_barangKolomNo_poKolom {
     top: 11.9cm;
     left: 0.7cm;
-    display: flex;
-    flex-direction:row;
-    /* gap: 1px; */
-
+    max-width: 13cm;
+    line-height: 1.2;
+    word-break: break-all;
 }
-
 .span-keterangan_tambahanKolom {
     top: 16.9cm;
     left: 0.7cm;
@@ -118,12 +99,6 @@
 .span-jumlah_barangSekunderKolom {
     top: 11.9cm;
     left: 19.7cm;
-}
-.span-nama_customerKolom {
-    top: 5.8cm;
-    left: 0.7cm;
-    max-width: 9cm;
-    line-height: 1.2;
 }
 .span-alamat_kirimKolom {
     top: 18.6cm;
@@ -237,20 +212,20 @@ table tr:last-child td:last-child {
 .second-column-width-90 {
     width: 90%;
 }
-#table_barangEksport thead tr td{
+#table_barangEksport thead tr td {
     text-align: center;
     font-weight: bold;
 }
-#nama_tandaTanganKolom{
+#nama_tandaTanganKolom {
     text-align: center;
     font-weight: bold;
     margin-left: 30px;
 }
-#jenis_barangEksportKolom{
+#jenis_barangEksportKolom {
     font-weight: bold;
     text-decoration: underline;
 }
-.acs-div-printsjekspor-footer{
+.acs-div-printsjekspor-footer {
     margin: 5px;
     gap: 5px;
 }
@@ -268,16 +243,13 @@ table tr:last-child td:last-child {
     .span-nomor_sjKolom {
         font-size: 30px;
     }
-    .span-nama_customerKolom {
-        font-size: 20px;
-    }
-    .span-alamat_kolom {
+    .span-nama_customerKolomAlamat_kolom {
         font-size: 20px;
     }
     .span-tanggal_kirimKolom {
         font-size: 25px;
     }
-    .span-truk_nopolKolom{
+    .span-truk_nopolKolom {
         font-size: 25px;
     }
     .span-no_spKolom {
@@ -286,7 +258,7 @@ table tr:last-child td:last-child {
     .span-nama_typeBarangKolom {
         font-size: 20px;
     }
-    .span-nama_barangKolom {
+    .span-nama_barangKolomNo_poKolom {
         font-size: 20px;
     }
     .span-satuan_barangPrimerKolom {
@@ -299,9 +271,6 @@ table tr:last-child td:last-child {
         font-size: 20px;
     }
     .span-jumlah_barangSekunderKolom {
-        font-size: 20px;
-    }
-    .span-no_poKolom {
         font-size: 20px;
     }
     .span-alamat_kirimKolom {

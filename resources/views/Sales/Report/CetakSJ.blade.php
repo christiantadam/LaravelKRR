@@ -58,13 +58,9 @@
                     contenteditable="true">16-August-2023</span>
                 <span id="truk_nopolKolom" class="span-truk_nopolKolom" contenteditable="true">L 8169 UM/RODA JY</span>
                 <span id="no_spKolom" class="span-no_spKolom" contenteditable="true">34631</span>
-                <span id="alamat_kolom" class="span-alamat_kolom" contenteditable="true">Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Pellentesque non lectus sit amet sapien sollicitudin ultrices.</span>
-                {{-- <span id="nama_barangKolom" class="span-nama_barangKolom" contenteditable="true"></span>*/ --}}
-                <div class="combined-column">
-                    <span id="nama_barangKolom" class="span-nama_barangKolom" contenteditable="true"></span>
-                    <span id="no_poKolom" class="span-no_poKolom" contenteditable="true"></span>
-                </div>
+                <span id="nama_customerKolomAlamat_kolom" class="span-nama_customerKolomAlamat_kolom" contenteditable="true"></span>
+                <span id="nama_barangKolomNo_poKolom" class="span-nama_barangKolomNo_poKolom"
+                    contenteditable="true"></span>
                 <span id="nama_typeBarangKolom" class="span-nama_typeBarangKolom" contenteditable="true"></span>
                 <span id="satuan_barangPrimerKolom" class="span-satuan_barangPrimerKolom" contenteditable="true"></span>
                 <span id="jumlah_barangPrimerKolom" class="span-jumlah_barangPrimerKolom" contenteditable="true"></span>
@@ -72,10 +68,7 @@
                     contenteditable="true"></span>
                 <span id="jumlah_barangSekunderKolom" class="span-jumlah_barangSekunderKolom"
                     contenteditable="true"></span>
-                {{-- <span id="no_poKolom" class="span-no_poKolom" contenteditable="true"></span> --}}
-                <span id="keterangan_tambahanKolom" class="span-keterangan_tambahanKolom"
-                    contenteditable="true"></span>
-                <span id="nama_customerKolom" class="span-nama_customerKolom" contenteditable="true"></span>
+                <span id="keterangan_tambahanKolom" class="span-keterangan_tambahanKolom" contenteditable="true"></span>
                 <span id="alamat_kirimKolom" class="span-alamat_kirimKolom" contenteditable="true"></span>
                 <span id="tanda_tanganKolom" class="span-tanda_tanganKolom" contenteditable="true">(SUNYATA
                     ICHWAN)</span>
