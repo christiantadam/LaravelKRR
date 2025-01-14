@@ -143,8 +143,10 @@ class NotaPenjualanTunaiController extends Controller
             // dd(array_column($request->allRowsDataAtas, 1));
 
             if ($proses == "1") {
+                // Ambil nilai dari database
+
                 // Insert new record
-                $tes = DB::connection('ConnAccounting')
+                DB::connection('ConnAccounting')
                     ->statement(
                         'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Tgl_penagihan = ?, @Id_Customer = ?, @PO = ?, @id_Jenis_Dokumen = ?, @Nilai_Penagihan = ?, @Discount = ?, @Id_MataUang = ?, @Terbilang = ?, @UserInput = ?, @IdPenagih = ?, @TglFakturPajak = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?, @Id_Penagihan_Acuan = ?',
                         [
@@ -168,24 +170,32 @@ class NotaPenjualanTunaiController extends Controller
                     );
                 // dd($tes);
                 // $idPenagihan = $result[0]->ID_Penagihan;
-                $currentYear = date('Y');
-
-                $id_Penagihan = DB::connection('ConnAccounting')
-                ->table('T_PENAGIHAN_SJ')
-                ->select('Id_Penagihan')
-                // ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
-                ->orderBy('TglInput', 'desc')
-                ->first();
-                $idPenagihan = $id_Penagihan->Id_Penagihan;
+                // $currentYear = date('Y');
 
                 // $id_Penagihan = DB::connection('ConnAccounting')
-                //     ->table('T_PENAGIHAN_SJ')
-                //     ->select('Id_Penagihan')
-                //     ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
-                //     ->orderBy('Id_Penagihan', 'desc')
+                //     ->table('T_COUNTER')
+                //     ->select('Id_Faktur_Pajak')
                 //     ->first();
                 // $idPenagihan = $id_Penagihan->Id_Penagihan;
-                // dd($idPenagihan);
+
+                // Ambil nilai dari database
+                $id_Penagihan = DB::connection('ConnAccounting')
+                    ->table('T_COUNTER')
+                    ->select('Id_Faktur_Pajak')
+                    ->first();
+
+                $idPenagihan = $id_Penagihan->Id_Faktur_Pajak; // Contoh hasil: 3
+
+                // Tambahkan leading zeros
+                $idFormatted = str_pad($idPenagihan, 4, '0', STR_PAD_LEFT);
+
+                // Ambil bulan dan tahun sekarang
+                $bulan = date('m');
+                $tahun = date('Y');
+
+                // Gabungkan menjadi format yang diinginkan
+                $idPenagihan = "{$idFormatted}/KRR/{$bulan}/{$tahun}";
+
                 foreach (array_column($request->allRowsDataAtas, 1) as $suratPesanan) {
                     DB::connection('ConnAccounting')
                         ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = 3, @Id_Penagihan = ?, @SuratPesanan = ?', [$idPenagihan, $suratPesanan]);
@@ -194,7 +204,7 @@ class NotaPenjualanTunaiController extends Controller
             } else if ($proses == "2") {
                 // Update existing record
                 $idPenagihan = $request->no_penagihan;
-                dd($idPenagihan);
+                // dd($idPenagihan);
                 DB::connection('ConnAccounting')
                     ->statement('EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = 4, @Id_Penagihan = ?, @Nilai_Penagihan = ?, @Discount = ?, @Id_MataUang = ?, @Terbilang = ?, @IdPenagih = ?, @NilaiKurs = ?, @Jns_PPN = ?, @persenPPN = ?', [
                         $idPenagihan,
