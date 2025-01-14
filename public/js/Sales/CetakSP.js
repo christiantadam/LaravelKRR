@@ -153,7 +153,7 @@ print_button.addEventListener("click", function (event) {
                             data: null,
                             render: function (data, type, row) {
                                 return (
-                                    formatangka(parseInt(row.JmlOrder)) +
+                                    row.JmlOrder +
                                     " " +
                                     row.Satuan
                                 );
