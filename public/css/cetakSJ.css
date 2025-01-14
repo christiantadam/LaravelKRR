@@ -67,7 +67,7 @@
 .span-alamat_kolom {
     top: 7.1cm;
     left: 0.7cm;
-    max-width: 5.8cm;
+    max-width: 8cm;
     max-height: 2cm;
     line-height: 1.2;
 }
@@ -76,16 +76,28 @@
     left: 0.7cm;
 }
 .span-nama_barangKolom {
-    top: 11.9cm;
-    left: 0.7cm;
+    /* top: 11.9cm; */
+    /* left: 0.7cm; */
     max-width: 13cm;
     line-height: 1.2;
-    word-break: break-all;
+    /* word-break: break-all; */
+
 }
 .span-no_poKolom {
-    top: 15.9cm;
-    left: 0.7cm;
+    /* top: 15.9cm; */
+    /* left: 0.7cm; */
 }
+
+.combined-column {
+    position: absolute;
+    top: 11.9cm;
+    left: 0.7cm;
+    display: flex;
+    flex-direction:row;
+    /* gap: 1px; */
+
+}
+
 .span-keterangan_tambahanKolom {
     top: 16.9cm;
     left: 0.7cm;
@@ -257,10 +269,10 @@ table tr:last-child td:last-child {
         font-size: 30px;
     }
     .span-nama_customerKolom {
-        font-size: 15px;
+        font-size: 20px;
     }
     .span-alamat_kolom {
-        font-size: 15px;
+        font-size: 20px;
     }
     .span-tanggal_kirimKolom {
         font-size: 25px;
@@ -293,7 +305,7 @@ table tr:last-child td:last-child {
         font-size: 20px;
     }
     .span-alamat_kirimKolom {
-        font-size: 25px;
+        font-size: 20px;
     }
     .span-tanda_tanganKolom {
         font-size: 20px;
