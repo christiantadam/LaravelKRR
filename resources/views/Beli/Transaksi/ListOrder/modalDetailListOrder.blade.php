@@ -22,7 +22,7 @@
                     <p class="RDZCard" id="Status_ListOrder"></p>
                     <p class="RDZCard" id="TglButuh_ListOrder"></p>
                     <p class="RDZCard" id="keterangan" onclick="Detail('Detail_Ket','iconKet');">Keterangan : <text
-                            class='material-symbols-outlined' style='font-size:20px' id='iconKet'>expand_more</text>
+                            class='material-symbols-outlined' style='font-size:20px;cursor:pointer' id='iconKet'>expand_more</text>
                     </p>
                     <div id="Detail_Ket" style="display: none;border: 1px solid;padding-left: 10px">
                         <p class="RDZCard" id="KetBarang_ListOrder"></p>

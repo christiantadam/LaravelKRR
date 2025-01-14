@@ -91,6 +91,7 @@
                                         <th>No. Trans</th>
                                         <th class="RDZCenterTable">Tanggal<br><label
                                                 style="font-size: 10px; margin-bottom: 0px;">(MM-DD-YYYY)</label></th>
+                                        <th>Kode Barang</th>
                                         <th>Nama Barang</th>
                                         <th>Status</th>
                                         <th>User</th>
@@ -103,6 +104,7 @@
                                             <td><a data-id="{{ $item->No_trans }}" class="Detail_ListOrder" id="NoTrans"
                                                     href="">{{ $item['No_trans'] }}</a></td>
                                             <td>{{ date('m-d-Y', strtotime($item->Tgl_order)) }}</td>
+                                            <td>{{ $item['KD_BRG'] }}</td>
                                             <td>{{ $item['NAMA_BRG'] }} <label
                                                     style="background-color:#00ff00;">{{ $item['Qty'] }}
                                                     {{ $item['Nama_satuan'] }}</label></td>
