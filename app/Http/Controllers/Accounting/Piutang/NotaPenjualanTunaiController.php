@@ -171,12 +171,20 @@ class NotaPenjualanTunaiController extends Controller
                 $currentYear = date('Y');
 
                 $id_Penagihan = DB::connection('ConnAccounting')
-                    ->table('T_PENAGIHAN_SJ')
-                    ->select('Id_Penagihan')
-                    ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
-                    ->orderBy('Id_Penagihan', 'desc')
-                    ->first();
+                ->table('T_PENAGIHAN_SJ')
+                ->select('Id_Penagihan')
+                // ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
+                ->orderBy('TglInput', 'desc')
+                ->first();
                 $idPenagihan = $id_Penagihan->Id_Penagihan;
+
+                // $id_Penagihan = DB::connection('ConnAccounting')
+                //     ->table('T_PENAGIHAN_SJ')
+                //     ->select('Id_Penagihan')
+                //     ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
+                //     ->orderBy('Id_Penagihan', 'desc')
+                //     ->first();
+                // $idPenagihan = $id_Penagihan->Id_Penagihan;
                 // dd($idPenagihan);
                 foreach (array_column($request->allRowsDataAtas, 1) as $suratPesanan) {
                     DB::connection('ConnAccounting')
