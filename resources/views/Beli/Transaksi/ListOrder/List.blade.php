@@ -104,7 +104,7 @@
                                             <td><a data-id="{{ $item->No_trans }}" class="Detail_ListOrder" id="NoTrans"
                                                     href="">{{ $item['No_trans'] }}</a></td>
                                             <td>{{ date('m-d-Y', strtotime($item->Tgl_order)) }}</td>
-                                            <td>{{ $item['KD_BRG'] }}</td>
+                                            <td>{{ $item['Kd_brg'] }}</td>
                                             <td>{{ $item['NAMA_BRG'] }} <label
                                                     style="background-color:#00ff00;">{{ $item['Qty'] }}
                                                     {{ $item['Nama_satuan'] }}</label></td>

@@ -37,7 +37,6 @@ class ListOrderController extends Controller
         $dataDiv = DB::select('exec spSelect_UserDivisi_dotNet @Operator = ' . rtrim($idUser) . '');
 
         $firstDivisi = UserDiv::select()->where('Kd_user', rtrim($idUser))->first();
-        // dd($firstDivisi);
         if ($firstDivisi !== null) {
             $data = TransBL::select()
                 ->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')
@@ -71,9 +70,25 @@ class ListOrderController extends Controller
     public function filter($divisi, $tglAwal, $tglAkhir, $Me)
     {
         if ($Me == "true") {
-            $data = TransBL::select()->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')->where('YTRANSBL.Kd_div', $divisi)->where('YTRANSBL.Tgl_order', '>=', $tglAwal)->where('YTRANSBL.Tgl_order', '<=', $tglAkhir)->where('YTRANSBL.Operator', trim(Auth::user()->NomorUser))->get();
+            $data = TransBL::select()
+                ->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')
+                ->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')
+                ->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')
+                ->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')
+                ->where('YTRANSBL.Kd_div', $divisi)
+                ->where('YTRANSBL.Tgl_order', '>=', $tglAwal)
+                ->where('YTRANSBL.Tgl_order', '<=', $tglAkhir)
+                ->where('YTRANSBL.Operator', trim(Auth::user()->NomorUser))
+                ->get();
         } else {
-            $data = TransBL::select()->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')->where('YTRANSBL.Kd_div', $divisi)->where('YTRANSBL.Tgl_order', '>=', $tglAwal)->where('YTRANSBL.Tgl_order', '<=', $tglAkhir)->get();
+            $data = TransBL::select()->leftjoin('Y_BARANG', 'Y_BARANG.KD_BRG', 'YTRANSBL.Kd_brg')
+                ->leftjoin('YUSER', 'YUSER.kd_user', 'YTRANSBL.Operator')
+                ->leftjoin('YSATUAN', 'YSATUAN.No_satuan', 'YTRANSBL.NoSatuan')
+                ->leftjoin('STATUS_ORDER', 'STATUS_ORDER.KdStatus', 'YTRANSBL.StatusOrder')
+                ->where('YTRANSBL.Kd_div', $divisi)
+                ->where('YTRANSBL.Tgl_order', '>=', $tglAwal)
+                ->where('YTRANSBL.Tgl_order', '<=', $tglAkhir)
+                ->get();
         }
 
         return compact('data');

@@ -219,6 +219,7 @@ $(function () {
                                 data.data[i].No_trans +
                                 "</a>",
                             $.format.date(data.data[i].Tgl_order, "MM-dd-yyyy"),
+                            data.data[i].Kd_brg,
                             data.data[i].NAMA_BRG +
                                 "<label style='background-color:#00ff00;''> " +
                                 data.data[i].Qty +
