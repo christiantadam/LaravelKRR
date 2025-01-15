@@ -114,11 +114,14 @@ class NotaPenjualanTunaiController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $proses = $request->input('proses');
-        $TotalPenagihan = (float) $request->input('totalPenagihan');
-        $discount = (float) $request->input('discount');
-        $terbilang = $request->input('TTerbilang');
+
         try {
+            $proses = $request->input('proses');
+            $TotalPenagihan = (float) $request->input('totalPenagihan');
+            $discount = (float) $request->input('discount');
+            $terbilang = $request->input('TTerbilang');
+            $user_id = trim(Auth::user()->NomorUser);
+            $TIdMataUang = (int) $request->input('idMataUang');
             // Insert or update Penagihan data
             // $penagihanParams = [
             //     1,
@@ -142,9 +145,135 @@ class NotaPenjualanTunaiController extends Controller
             // dd($request->idJenisDokumen);
             // dd(array_column($request->allRowsDataAtas, 1));
 
-            if ($proses == "1") {
-                // Ambil nilai dari database
+            if ($proses == 1) {
+                // $kode = 1; // Replace with dynamic values if needed
+                // $tglPenagihan = $request->tanggalInput;
+                // $idCustomer = $request->idCustomer;
+                // $po = $request->nomorPO;
+                // $idJenisDokumen = (int) $request->idJenisDokumen;
+                // $nilaiPenagihan = $TotalPenagihan;
+                // $idMataUang = $TIdMataUang;
+                // $userInput = $user_id;
+                // $idPenagih = $request->idUserPenagih;
+                // $tglFakturPajak = $request->penagihanPajak;
+                // $nilaiKurs = (float) $request->nilaiKurs ?: 1;
+                // $jnsPpn = $request->jenis_pajak === "" ? null : $request->jenis_pajak;
+                // $persenPpn = (int) $request->Ppn;
+                // $idPenagihanAcuan = $request->no_penagihanUM === "" ? null : $request->no_penagihanUM;
 
+                // // Generate values based on your logic
+                // $idPenagihan = null;
+                // $nilaiBlmPajak = null;
+                // $statusPpn = 'N';
+                // $periode = \Carbon\Carbon::parse($tglPenagihan)->format('Y');
+                // $idFakturPajak = null;
+                // $generatedId = null;
+
+                // // Generate Id_Penagihan and Id_FakturPajak
+                // if ($kode === 1) {
+                //     // Fetch document type
+                //     $dokumen = DB::connection('ConnAccounting')
+                //         ->table('T_Jenis_Dokumen')
+                //         ->where('id_jenis_dokumen', $idJenisDokumen)
+                //         ->value('Nama_Dokumen');
+
+                //     $jns = substr($dokumen, -2);
+
+                //     if ($idJenisDokumen === 4) {
+                //         $statusPpn = 'Y';
+                //         $idFakturPajak = DB::connection('ConnAccounting')
+                //             ->table('T_Counter')->value('Id_Faktur_Pajak') + 1;
+
+                //         $id = DB::connection('ConnAccounting')
+                //             ->table('T_Counter_Faktur')
+                //             ->where('Periode', $periode)
+                //             ->value('Nomer') ?? 0;
+
+                //         $id++;
+                //         $idPenagihan = sprintf('%04d/KRR/%02d/%04d', $id, \Carbon\Carbon::parse($tglPenagihan)->month, \Carbon\Carbon::parse($tglPenagihan)->year);
+                //         $fakPajak = sprintf('%08d', $idFakturPajak);
+
+                //         // Update counters
+                //         DB::connection('ConnAccounting')
+                //             ->table('T_Counter')->update(['Id_Faktur_Pajak' => $idFakturPajak]);
+                //         DB::connection('ConnAccounting')
+                //             ->table('T_Counter_Faktur')->updateOrInsert(
+                //                 ['Periode' => $periode],
+                //                 ['Nomer' => $id]
+                //             );
+                //     }
+
+                //     if (in_array($jns, ['AP', 'KP', 'LP'])) {
+                //         $statusPpn = 'N';
+
+                //         $id = DB::connection('ConnAccounting')
+                //             ->table('T_Counter_Nota')
+                //             ->where('Periode', $periode)
+                //             ->value("Nota_$jns") ?? 0;
+
+                //         $id++;
+                //         $idPenagihan = sprintf('%03d/%s/%02d/%04d', $id, $jns, \Carbon\Carbon::parse($tglPenagihan)->month, \Carbon\Carbon::parse($tglPenagihan)->year);
+
+                //         DB::connection('ConnAccounting')
+                //             ->table('T_Counter_Nota')->updateOrInsert(
+                //                 ['Periode' => $periode],
+                //                 ["Nota_$jns" => $id]
+                //             );
+                //     }
+
+                //     if (in_array($jnsPpn, [3, 4])) {
+                //         $nilaiBlmPajak = $persenPpn == 11
+                //             ? $nilaiPenagihan / 1.11
+                //             : ($persenPpn == 12 ? $nilaiPenagihan / 1.12 : $nilaiPenagihan / 1.1);
+                //     } else {
+                //         $nilaiBlmPajak = $nilaiPenagihan;
+                //     }
+
+                //     // Insert into T_Penagihan_SJ
+                //     $generatedId = DB::connection('ConnAccounting')
+                //         ->table('T_Penagihan_SJ')->insertGetId([
+                //                 'Id_Penagihan' => $idPenagihan,
+                //                 'Tgl_Penagihan' => $tglPenagihan,
+                //                 'Id_Customer' => $idCustomer,
+                //                 'PO' => $po,
+                //                 'Id_Jenis_Dokumen' => $idJenisDokumen,
+                //                 'Nilai_Penagihan' => $nilaiPenagihan,
+                //                 'Id_MataUang' => $idMataUang,
+                //                 'Status_PPN' => $statusPpn,
+                //                 'Terbilang' => $terbilang,
+                //                 'UserInput' => $userInput,
+                //                 'TglInput' => now(),
+                //                 'IDPenagih' => $idPenagih,
+                //                 'TglFakturPajak' => $tglFakturPajak,
+                //                 'IdFakturPajak' => $fakPajak ?? null,
+                //                 'NilaiKurs' => $nilaiKurs,
+                //                 'Jns_PPN' => $jnsPpn,
+                //                 'Discount' => $discount,
+                //                 'Nilai_blm_Pajak' => $nilaiBlmPajak,
+                //                 'Id_Penagihan_Acuan' => $idPenagihanAcuan,
+                //                 'PersenPPN' => $persenPpn,
+                //             ]);
+                // }
+
+
+                // Ambil nilai dari database
+                // dd(trim(Auth::user()->NomorUser));
+                // dd($request->tanggalInput,
+                // $request->idCustomer,
+                // $request->nomorPO,
+                // (int) $request->idJenisDokumen,
+                // $TotalPenagihan,
+                // $discount,
+                // $TIdMataUang,
+                // $terbilang,
+                // $user_id,
+                // $request->idUserPenagih,
+                // $request->penagihanPajak,
+                // (float) $request->nilaiKurs ?: 1,
+                // $request->jenis_pajak === "" ? null : $request->jenis_pajak,
+                // (int) $request->Ppn,
+                // $request->no_penagihanUM === "" ? null : $request->no_penagihanUM,);
+                // dd($request->all());
                 // Insert new record
                 DB::connection('ConnAccounting')
                     ->statement(
@@ -154,20 +283,21 @@ class NotaPenjualanTunaiController extends Controller
                             $request->tanggalInput,
                             $request->idCustomer,
                             $request->nomorPO,
-                            $request->idJenisDokumen,
-                            (float) $TotalPenagihan,
-                            (float) $discount,
-                            (int) $request->idMataUang,
+                            (int) $request->idJenisDokumen,
+                            $TotalPenagihan,
+                            $discount,
+                            $TIdMataUang,
                             $terbilang,
-                            trim(Auth::user()->NomorUser),
+                            $user_id,
                             $request->idUserPenagih,
                             $request->penagihanPajak,
                             (float) $request->nilaiKurs ?: 1,
-                            $request->jenis_pajak ?: null,
+                            $request->jenis_pajak === "" ? null : $request->jenis_pajak,
                             (int) $request->Ppn,
-                            $request->id_penagihanUM ?: null
+                            $request->no_penagihanUM === "" ? null : $request->no_penagihanUM,
                         ]
                     );
+
                 // dd($tes);
                 // $idPenagihan = $result[0]->ID_Penagihan;
                 // $currentYear = date('Y');
@@ -180,21 +310,22 @@ class NotaPenjualanTunaiController extends Controller
 
                 // Ambil nilai dari database
                 $id_Penagihan = DB::connection('ConnAccounting')
-                    ->table('T_COUNTER')
-                    ->select('Id_Faktur_Pajak')
+                    ->table('T_COUNTER_FAKTUR')
+                    ->select('Nomer')
+                    ->where('Periode', date('Y'))
                     ->first();
 
-                $idPenagihan = $id_Penagihan->Id_Faktur_Pajak; // Contoh hasil: 3
+                $idPenagihan = $id_Penagihan->Nomer;
 
                 // Tambahkan leading zeros
                 $idFormatted = str_pad($idPenagihan, 4, '0', STR_PAD_LEFT);
 
-                // Ambil bulan dan tahun sekarang
                 $bulan = date('m');
                 $tahun = date('Y');
 
                 // Gabungkan menjadi format yang diinginkan
                 $idPenagihan = "{$idFormatted}/KRR/{$bulan}/{$tahun}";
+                // dd($idPenagihan);
 
                 foreach (array_column($request->allRowsDataAtas, 1) as $suratPesanan) {
                     DB::connection('ConnAccounting')

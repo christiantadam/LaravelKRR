@@ -53,7 +53,7 @@ $(document).ready(function () {
     tanggalInput.valueAsDate = new Date();
     penagihanPajak.valueAsDate = new Date();
     user_penagih.value = "Tanpa Penagih";
-    idUserPenagih.value = "6";
+    idUserPenagih.value = "06";
     btn_isi.focus();
 
     btn_customer.disabled = true;
@@ -198,7 +198,7 @@ $(document).ready(function () {
                             idJenisDokumen: idJenisDokumen.value,
                             idUserPenagih: idUserPenagih.value,
                             penagihanPajak: penagihanPajak.value,
-                            id_penagihanUM: id_penagihanUM.value,
+                            no_penagihanUM: no_penagihanUM.value,
                             TTerbilang: TTerbilang,
                             // TNilaiPenagihan: TNilaiPenagihan,
                             // TNilaiUM: TNilaiUM,
@@ -671,7 +671,7 @@ $(document).ready(function () {
                 if (result.isConfirmed && result.value) {
                     const selectedRow = result.value;
                     user_penagih.value = "Tanpa Penagih";
-                    idUserPenagih.value = "6";
+                    idUserPenagih.value = "06";
                     nama_customer.value = escapeHTML(
                         selectedRow.NAMACUST.trim()
                     );
