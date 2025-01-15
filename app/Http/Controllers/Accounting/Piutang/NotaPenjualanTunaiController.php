@@ -117,7 +117,7 @@ class NotaPenjualanTunaiController extends Controller
 
         try {
             $proses = $request->input('proses');
-            $TotalPenagihan = (float) $request->input('totalPenagihan');
+            $TotalPenagihan = (float) str_replace(',', '', $request->input('totalPenagihan'));
             $discount = (float) $request->input('discount');
             $terbilang = $request->input('TTerbilang');
             $user_id = trim(Auth::user()->NomorUser);

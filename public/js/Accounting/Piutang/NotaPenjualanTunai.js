@@ -183,7 +183,8 @@ $(document).ready(function () {
                         data: {
                             _token: csrfToken,
                             proses: proses,
-                            totalPenagihan: response.txtTotalPenagihan,
+                            // totalPenagihan: response.txtTotalPenagihan,
+                            totalPenagihan: totalPenagihan.value,
                             discount: response.discount,
                             // nilaiPenagihan: nilaiPenagihan.value,
                             // nilaiUangMuka: nilaiUangMuka.value,
