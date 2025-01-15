@@ -161,7 +161,7 @@ $(document).ready(function () {
 
                     if (idMataUang.value == "1") {
                         TTerbilang = convertNumberToWordsRupiah(
-                            response.txtTotalPenagihan
+                            totalPenagihan.value
                         );
                     } else {
                         if (nilaiKurs.value <= 0 || nilaiKurs.value == null) {
@@ -173,7 +173,7 @@ $(document).ready(function () {
                             return;
                         }
                         TTerbilang = convertNumberToWordsDollar(
-                            response.txtTotalPenagihan
+                            totalPenagihan.value
                         );
                     }
 
@@ -1243,16 +1243,28 @@ $(document).ready(function () {
                             },
                             success: function (data) {
                                 console.log(data);
-                                nilaiUM.value = numeral(selectedRow.nilai_BLM_PAJAK).format("0,0.00");
-                                nilaiSdhBayar.value =  numeral(numeral(nilaiSP.value).value() - numeral(nilaiUM.value).value()).format("0,0.00");
+                                nilaiUM.value = numeral(
+                                    selectedRow.nilai_BLM_PAJAK
+                                ).format("0,0.00");
+                                nilaiSdhBayar.value = numeral(
+                                    numeral(nilaiSP.value).value() -
+                                        numeral(nilaiUM.value).value()
+                                ).format("0,0.00");
                                 console.log(Ppn.value);
 
                                 if (Ppn.value == "12") {
-                                    let hitungPPN = (numeral(nilaiSdhBayar.value).value() * 11) / 12 * 0.12;
+                                    let hitungPPN =
+                                        ((numeral(nilaiSdhBayar.value).value() *
+                                            11) /
+                                            12) *
+                                        0.12;
                                     console.log(hitungPPN);
                                     console.log(nilaiSdhBayar.value);
 
-                                    totalPenagihan.value = numeral(numeral(hitungPPN).value() + numeral(nilaiSdhBayar.value).value()).format("0,0.00");
+                                    totalPenagihan.value = numeral(
+                                        numeral(hitungPPN).value() +
+                                            numeral(nilaiSdhBayar.value).value()
+                                    ).format("0,0.00");
                                 }
                             },
                             error: function (xhr, status, error) {
@@ -1260,7 +1272,7 @@ $(document).ready(function () {
                                 alert(err.Message);
                             },
                         });
-                    }else if (proses == 2) {
+                    } else if (proses == 2) {
                         $.ajax({
                             url: "MaintenanceNotaPenjualanTunai/getSudahBayarKoreksi",
                             type: "GET",
@@ -1270,16 +1282,28 @@ $(document).ready(function () {
                             },
                             success: function (data) {
                                 console.log(data);
-                                nilaiSdhBayar.value = numeral(data.data[0].Nilai_Sdh_Bayar).format("0,0.00");
-                                nilaiUM.value =  numeral(numeral(nilaiSP.value).value() - numeral(nilaiSdhBayar.value).value()).format("0,0.00");
+                                nilaiSdhBayar.value = numeral(
+                                    data.data[0].Nilai_Sdh_Bayar
+                                ).format("0,0.00");
+                                nilaiUM.value = numeral(
+                                    numeral(nilaiSP.value).value() -
+                                        numeral(nilaiSdhBayar.value).value()
+                                ).format("0,0.00");
                                 console.log(Ppn.value);
 
                                 if (Ppn.value == "12") {
-                                    let hitungPPN = (numeral(nilaiSdhBayar.value).value() * 11) / 12 * 0.12;
+                                    let hitungPPN =
+                                        ((numeral(nilaiSdhBayar.value).value() *
+                                            11) /
+                                            12) *
+                                        0.12;
                                     console.log(hitungPPN);
                                     console.log(nilaiSdhBayar.value);
 
-                                    totalPenagihan.value = numeral(numeral(hitungPPN).value() + numeral(nilaiSdhBayar.value).value()).format("0,0.00");
+                                    totalPenagihan.value = numeral(
+                                        numeral(hitungPPN).value() +
+                                            numeral(nilaiSdhBayar.value).value()
+                                    ).format("0,0.00");
                                 }
                             },
                             error: function (xhr, status, error) {
