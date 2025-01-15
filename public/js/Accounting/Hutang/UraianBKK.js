@@ -76,11 +76,84 @@ document.addEventListener("DOMContentLoaded", function () {
                         text: response.message,
                         showConfirmButton: true,
                     }).then(() => {
-                        location.reload();
+                        // location.reload();
                         // document
                         //     .querySelectorAll("input")
                         //     .forEach((input) => (input.value = ""));
-                        // $("#table_atas").DataTable().ajax.reload();
+                        // $("#tabelListBKK").DataTable().ajax.reload();
+                        fetch("/getCheckBKKIdBKK/" + idBKK.value)
+                            .then((response) => response.json())
+                            .then((options) => {
+                                console.log(options);
+
+                                if (options[0].Ada == 0) {
+                                    alert(
+                                        "Tidak ada data BKK : " + idBKK.value
+                                    );
+                                } else {
+                                    fetch("/getListBKK/" + idBKK.value)
+                                        .then((response) => response.json())
+                                        .then((data) => {
+                                            console.log(data);
+
+                                            nilai.value = numeral(
+                                                data[0].Nilai_Pembulatan
+                                            ).format("0,0.0000");
+
+                                            tabelListBKK = $(
+                                                "#tabelListBKK"
+                                            ).DataTable({
+                                                destroy: true,
+                                                data: data,
+                                                columns: [
+                                                    {
+                                                        title: "Id. Detail",
+                                                        data: "Id_Detail_Bayar",
+                                                    },
+                                                    {
+                                                        title: "Rincian",
+                                                        data: "Rincian_Bayar",
+                                                    },
+                                                    {
+                                                        title: "Nilai Rincian",
+                                                        data: "Nilai_Rincian",
+                                                        render: function (
+                                                            data,
+                                                            type,
+                                                            row
+                                                        ) {
+                                                            return numeral(
+                                                                data
+                                                            ).format(
+                                                                "0,0.0000"
+                                                            );
+                                                        },
+                                                    },
+                                                    {
+                                                        title: "Kd. Perkiraan",
+                                                        data: "Kode_Perkiraan",
+                                                    },
+                                                    {
+                                                        title: "Id. Bayar",
+                                                        data: "Id_Pembayaran",
+                                                    },
+                                                ],
+                                            });
+                                        });
+
+                                    fetch(
+                                        "/getListBKKTotalIdBKK/" + idBKK.value
+                                    )
+                                        .then((response) => response.json())
+                                        .then((list) => {
+                                            console.log(list);
+
+                                            total.value = numeral(
+                                                list[0].Nilai
+                                            ).format("0,0.0000");
+                                        });
+                                }
+                            });
                     });
                 } else if (response.error) {
                     Swal.fire({
