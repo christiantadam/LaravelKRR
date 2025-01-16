@@ -2422,7 +2422,7 @@ function rpt_CetakFakturUM(result) {
                 }
             });
 
-            printPreview("faktur");
+            printPreview("fakturUangMuka");
         } else {
             if (bankSelect.value == "1") {
                 bankBayarUangMuka.innerHTML =
@@ -2780,24 +2780,30 @@ function rpt_CetakFakturPajakUM(result) {
         var fakturTunaiUM_IdPenagihan = document.getElementById(
             "fakturTunaiUM_IdPenagihan"
         );
-        var fakturTunaiUM_AreaPPNThnIdFakturPajak = document.getElementById(
-            "fakturTunaiUM_AreaPPNThnIdFakturPajak"
-        );
+        fakturTunaiUM_IdPenagihan.style.fontWeight = "bold";
+        // var fakturTunaiUM_AreaPPNThnIdFakturPajak =
+        //     document.getElementById(
+        //         "fakturTunaiUM_AreaPPNThnIdFakturPajak"
+        //     );
+        // fakturTunaiUM_AreaPPNThnIdFakturPajak.style.fontWeight = "bold";
         var fakturTunaiUM_NamaNPWP = document.getElementById(
             "fakturTunaiUM_NamaNPWP"
         );
+        fakturTunaiUM_NamaNPWP.style.fontWeight = "bold";
         var fakturTunaiUM_AlamatNPWP = document.getElementById(
             "fakturTunaiUM_AlamatNPWP"
         );
-        var fakturTunaiUM_NPWP = document.getElementById("fakturTunaiUM_NPWP");
-        var fakturTunaiUM_Detail = document.getElementById(
-            "fakturTunaiUM_Detail"
+        var fakturTunaiUM_NPWP = document.getElementById(
+            "fakturTunaiUM_NPWP"
         );
-        var fakturTunaiUM_SymbolNilaiBlmPajak = document.getElementById(
-            "fakturTunaiUM_SymbolNilaiBlmPajak"
+        var fakturTunaiUM_NamaKelompokUtama = document.getElementById(
+            "fakturTunaiUM_NamaKelompokUtama"
         );
-        var fakturTunaiUM_NilaiBlmPajak = document.getElementById(
-            "fakturTunaiUM_NilaiBlmPajak"
+        var fakturTunaiUM_SymbolGrand = document.getElementById(
+            "fakturTunaiUM_SymbolGrand"
+        );
+        var fakturTunaiUM_Grand = document.getElementById(
+            "fakturTunaiUM_Grand"
         );
         var fakturTunaiUM_SymbolDiscount = document.getElementById(
             "fakturTunaiUM_SymbolDiscount"
@@ -2828,27 +2834,38 @@ function rpt_CetakFakturPajakUM(result) {
         var fakturTunaiUM_Terbayar = document.getElementById(
             "fakturTunaiUM_Terbayar"
         );
+        var fakturTunaiUM_SyaratBayar = document.getElementById(
+            "fakturTunaiUM_SyaratBayar"
+        );
         var fakturTunaiUM_TglBln = document.getElementById(
             "fakturTunaiUM_TglBln"
         );
         var fakturTunaiUM_Thn = document.getElementById("fakturTunaiUM_Thn");
-        var fakturTunaiUM_SyaratBayar = document.getElementById(
-            "fakturTunaiUM_SyaratBayar"
+        var fakturTunaiUM_PersenPPN = document.getElementById(
+            "fakturTunaiUM_PersenPPN"
         );
         var fakturTunaiUM_Tempo = document.getElementById(
             "fakturTunaiUM_Tempo"
+        );
+        var fakturTunaiUM_SuratJalan = document.getElementById(
+            "fakturTunaiUM_SuratJalan"
+        );
+        var fakturTunaiUM_SJ = document.getElementById("fakturTunaiUM_SJ");
+        var bankBayarUangMuka = document.getElementById("bankBayarUangMuka");
+        var ttdPimpinanUangMuka = document.getElementById(
+            "ttdPimpinanUangMuka"
         );
 
         if (result.length === 0) {
             const elements = [
                 "fakturTunaiUM_IdPenagihan",
-                "fakturTunaiUM_AreaPPNThnIdFakturPajak",
+                // "fakturTunaiUM_AreaPPNThnIdFakturPajak",
                 "fakturTunaiUM_NamaNPWP",
                 "fakturTunaiUM_AlamatNPWP",
                 "fakturTunaiUM_NPWP",
-                "fakturTunaiUM_Detail",
-                "fakturTunaiUM_SymbolNilaiBlmPajak",
-                "fakturTunaiUM_NilaiBlmPajak",
+                "fakturTunaiUM_NamaKelompokUtama",
+                "fakturTunaiUM_SymbolGrand",
+                "fakturTunaiUM_Grand",
                 "fakturTunaiUM_SymbolDiscount",
                 "fakturTunaiUM_Discount",
                 "fakturTunaiUM_SymbolUM",
@@ -2860,31 +2877,85 @@ function rpt_CetakFakturPajakUM(result) {
                 "fakturTunaiUM_Terbilang",
                 "fakturTunaiUM_SymbolTerbayar",
                 "fakturTunaiUM_Terbayar",
+                "fakturTunaiUM_SyaratBayar",
                 "fakturTunaiUM_TglBln",
                 "fakturTunaiUM_Thn",
-                "fakturTunaiUM_SyaratBayar",
+                "fakturTunaiUM_PersenPPN",
                 "fakturTunaiUM_Tempo",
+                "fakturTunaiUM_SuratJalan",
+                "fakturTunaiUM_SJ",
+                "bankBayarUM",
+                "ttdPimpinanUM",
             ];
 
             elements.forEach((id) => {
                 const element = document.getElementById(id);
                 if (element) {
-                    // For input fields, set value to empty
-                    if (
-                        element.tagName === "INPUT" ||
-                        element.tagName === "TEXTAREA"
-                    ) {
-                        element.value = "";
-                    }
-                    // For other elements like spans or divs, set textContent to empty
-                    else {
-                        element.textContent = "";
-                    }
+                    element.textContent = ""; // Set the value to empty string
                 }
             });
 
             printPreview("fakturTunaiUM");
         } else {
+            if (bankSelect.value == "1") {
+                bankBayarUM.innerHTML =
+                    "Pembayaran mohon ditransfer ke:" +
+                    "<br>" +
+                    "BCA Cab. Galaxy - Surabaya" +
+                    "<br>" +
+                    "a/c. 788 010 1999 ( IDR )" +
+                    "<br>" +
+                    "a/n. PT. Kerta Rajasa Raya";
+            } else if (bankSelect.value == "2") {
+                bankBayarUM.innerHTML =
+                    "Pembayaran melalui SCF ke Rekening:" +
+                    "<br>" +
+                    "BNI  Cabang Tropodo Sidoarjo" +
+                    "<br>" +
+                    "a/c. 6388888829 ( IDR )" +
+                    "<br>" +
+                    "a/n. PT. Kerta Rajasa Raya";
+            } else if (bankSelect.value == "3") {
+                bankBayarUM.innerHTML =
+                    "Pembayaran melalui SCF ke Rekening:" +
+                    "<br>" +
+                    "Bank Mandiri  KCP Padang Indarung" +
+                    "<br>" +
+                    "a/c. 111 0007609759 ( IDR )" +
+                    "<br>" +
+                    "a/n. PT. Kerta Rajasa Raya";
+            } else if (bankSelect.value == "4") {
+                bankBayarUM.innerHTML =
+                    "Pembayaran mohon ditransfer ke:" +
+                    "<br>" +
+                    "Bank Mandiri  KCP Pondok Chandra Sidoarjo" +
+                    "<br>" +
+                    "a/c. 14200 5555 0007 ( IDR )" +
+                    "<br>" +
+                    "a/n. PT. Kerta Rajasa Raya";
+            } else if (bankSelect.value == "5") {
+                bankBayarUM.innerHTML =
+                    "Pembayaran mohon ditransfer ke:" +
+                    "<br>" +
+                    "Bank OCBC Cab. Diponegoro - Surabaya" +
+                    "<br>" +
+                    "a/c. 5578 0000 9333 ( IDR )" +
+                    "<br>" +
+                    "a/n. PT. Kerta Rajasa Raya";
+            }
+
+            if (ttdSelect.value == "1") {
+                ttdPimpinanUM.textContent = "TJAHYO SANTOSO";
+            } else if (ttdSelect.value == "2") {
+                ttdPimpinanUM.textContent = "RUDY SANTOSO";
+            } else if (ttdSelect.value == "3") {
+                ttdPimpinanUM.textContent = "YUDI SANTOSO";
+            }
+
+            fakturTunaiUM_IdPenagihan.textContent = decodeHtmlEntities(
+                result[0].Id_Penagihan
+            );
+
             var date2 = new Date(result[0].Tgl_Penagihan);
 
             var namaBulan = [
@@ -2906,10 +2977,12 @@ function rpt_CetakFakturPajakUM(result) {
             var bulan = namaBulan[date2.getMonth()];
             var tahunLengkap = date2.getFullYear();
             var duaDigitTahun = tahunLengkap.toString().slice(-2);
-
-            fakturTunaiUM_IdPenagihan.textContent = decodeHtmlEntities(
-                result[0].Id_Penagihan
-            );
+            // faktur_AreaPPNThnIdFakturPajak.textContent =
+            //     decodeHtmlEntities(result[0].KdArea_Ppn) +
+            //     " . 012 - " +
+            //     duaDigitTahun +
+            //     ". " +
+            //     decodeHtmlEntities(result[0].IdFakturPajak);
 
             fakturTunaiUM_NamaNPWP.textContent = decodeHtmlEntities(
                 result[0].NamaNPWP
@@ -2918,26 +2991,24 @@ function rpt_CetakFakturPajakUM(result) {
                 result[0].AlamatNPWP
             );
 
-            fakturTunaiUM_AreaPPNThnIdFakturPajak.textContent =
-                decodeHtmlEntities(result[0].KdArea_Ppn) +
-                " 004 " +
-                duaDigitTahun +
-                decodeHtmlEntities(result[0].IdFakturPajak);
-
             let npwp = result[0].NPWP;
-            let formattedNPWP =
-                npwp.slice(0, 2) +
-                " . " +
-                npwp.slice(2, 5) +
-                " . " +
-                npwp.slice(5, 8) +
-                " . " +
-                npwp.slice(8, 9) +
-                " - " +
-                npwp.slice(9, 12) +
-                " . " +
-                npwp.slice(12, 15);
-            fakturTunaiUM_NPWP.textContent = formattedNPWP;
+            // let formattedNPWP =
+            //     npwp.slice(0, 2) +
+            //     " . " +
+            //     npwp.slice(2, 5) +
+            //     " . " +
+            //     npwp.slice(5, 8) +
+            //     " . " +
+            //     npwp.slice(8, 9) +
+            //     " - " +
+            //     npwp.slice(9, 12) +
+            //     " . " +
+            //     npwp.slice(12, 15);
+            fakturTunaiUM_NPWP.textContent = npwp;
+
+            fakturTunaiUM_NamaKelompokUtama.textContent = decodeHtmlEntities(
+                result[0].NAMATYPEBARANG
+            );
 
             let totalGrand = 0;
             let count = 0;
@@ -2948,56 +3019,72 @@ function rpt_CetakFakturPajakUM(result) {
             fakturTunaiUM_Detail.innerHTML = "";
 
             result.forEach(function (item, index) {
-                var additionalRow = document.createElement("div");
-                additionalRow.classList.add("row");
-
-                var mantap = document.createElement("div");
-                mantap.classList.add("col-sm-1", "text-right");
-                additionalRow.appendChild(mantap);
-
-                var additionalAccountCol = document.createElement("div");
-                additionalAccountCol.classList.add("col-sm-10", "text-left");
-                additionalAccountCol.innerHTML = item.NAMATYPEBARANG
-                    ? '<span style="font-weight: bold; text-decoration: underline;">' +
-                      decodeHtmlEntities(item.NAMATYPEBARANG) +
-                      "</span>"
-                    : "";
-                additionalRow.appendChild(additionalAccountCol);
-
-                fakturTunaiUM_Detail.appendChild(additionalRow);
-
                 var row = document.createElement("div");
-                row.classList.add("row");
+                row.classList.add("row", "small-font");
                 count += 1;
 
                 var coaCol = document.createElement("div");
-                coaCol.classList.add("col-sm-1", "text-right");
+                coaCol.classList.add(
+                    "col-sm-1",
+                    "text-left",
+                    "small-font",
+                    "description-left"
+                );
                 coaCol.textContent = count;
                 row.appendChild(coaCol);
 
                 var accountCol = document.createElement("div");
-                accountCol.classList.add("col-sm-5", "text-left");
+                accountCol.classList.add(
+                    "col-sm-5",
+                    "text-left",
+                    "small-font",
+                    "description-left"
+                );
+                console.log(item);
+
                 accountCol.textContent = item.NamaBarang
                     ? decodeHtmlEntities(item.NamaBarang)
                     : "";
                 row.appendChild(accountCol);
 
-                var accountCol = document.createElement("div");
-                accountCol.classList.add("col-sm-2", "text-right");
-                accountCol.textContent =
-                    numeral(item.QtyOrder).format("0,0.00") +
-                    decodeHtmlEntities(item.Satuan);
-                row.appendChild(accountCol);
+                var descriptionCol = document.createElement("div");
+                descriptionCol.classList.add(
+                    "col-sm-2",
+                    "text-right",
+                    "small-normal"
+                );
+                descriptionCol.textContent = item.Qty
+                    ? numeral(item.QtyOrder).format("0,0.00") + item.Satuan
+                    : "";
+                row.appendChild(descriptionCol);
 
-                var accountCol = document.createElement("div");
-                accountCol.classList.add("col-sm-2", "text-right");
-                accountCol.textContent =
-                    decodeHtmlEntities(item.Symbol2) +
-                    numeral(item.HargaSatuan).format("0,0.00");
-                row.appendChild(accountCol);
+                var amountCol = document.createElement("div");
+                amountCol.classList.add(
+                    "col-sm-2",
+                    "text-right",
+                    "small-normal"
+                );
+                amountCol.textContent = item.HargaSatuan
+                    ? decodeHtmlEntities(item.Symbol2) +
+                      numeral(item.HargaSatuan).format("0,0.00")
+                    : "0.00";
+                row.appendChild(amountCol);
 
                 var totalCol = document.createElement("div");
-                totalCol.classList.add("col-sm-2", "text-right");
+                totalCol.classList.add(
+                    "col-sm-3",
+                    "text-center",
+                    "small-normal",
+                    "description-right"
+                );
+                // let tempTotal =
+                //     numeral(0).value() *
+                //     numeral(0).value();
+                // totalCol.textContent = 0
+                //     ? decodeHtmlEntities(item.Symbol2) +
+                //       numeral(0).format("0,0.00")
+                //     : "0.00";
+                // row.appendChild(totalCol);
                 let tempTotal =
                     numeral(item.QtyOrder).value() *
                     numeral(item.HargaSatuan).value();
@@ -3012,55 +3099,46 @@ function rpt_CetakFakturPajakUM(result) {
                 totalGrand += numeral(tempTotal).value();
 
                 var additionalRow = document.createElement("div");
-                additionalRow.classList.add("row");
+                additionalRow.classList.add("row", "small-font");
 
                 var mantap = document.createElement("div");
-                mantap.classList.add("col-sm-1", "text-right");
+                mantap.classList.add(
+                    "col-sm-1",
+                    "text-left",
+                    "small-font",
+                    "description-left"
+                );
                 additionalRow.appendChild(mantap);
 
-                var additionalAccountCol = document.createElement("div");
-                additionalAccountCol.classList.add("col-sm-10", "text-left");
-                additionalAccountCol.textContent = item.PO
-                    ? "P O : " + decodeHtmlEntities(item.PO)
-                    : "";
-                additionalRow.appendChild(additionalAccountCol);
+                var additionalCoaCol = document.createElement("div");
+                additionalCoaCol.classList.add(
+                    "col-sm-5",
+                    "text-left",
+                    "small-font",
+                    "description-left"
+                );
+                additionalCoaCol.textContent =
+                    "PO :" + " " + item.PO
+                        ? "PO :" + " " + decodeHtmlEntities(item.PO)
+                        : "";
+                additionalRow.appendChild(additionalCoaCol);
+
+                // var additionalAccountCol =
+                //     document.createElement("div");
+                // additionalAccountCol.classList.add(
+                //     "col-sm-10",
+                //     "text-left",
+                //     "small-font"
+                // );
+                // additionalAccountCol.textContent = item.NO_PO
+                //     ? decodeHtmlEntities(item.NO_PO)
+                //     : "";
+                // additionalRow.appendChild(additionalAccountCol);
 
                 fakturTunaiUM_Detail.appendChild(additionalRow);
             });
 
-            fakturTunaiUM_Terbilang.textContent = decodeHtmlEntities(
-                result[0].Terbilang
-            );
-
-            fakturTunaiUM_NilaiBlmPajak.textContent =
-                numeral(totalGrand).format("0,0.00");
-            fakturTunaiUM_Discount.textContent = numeral(
-                result[0].Discount
-            ).format("0,0.00");
-
-            fakturTunaiUM_UM.textContent = numeral(result[0].Nilai_UM).format(
-                "0,0.00"
-            );
-
-            let tempdpp =
-                numeral(totalGrand).value() -
-                numeral(result[0].Discount).value() -
-                numeral(result[0].Nilai_UM).value();
-            fakturTunaiUM_DPP.textContent = numeral(tempdpp).format("0,0.00");
-
-            let tempPajak =
-                (numeral(tempdpp).value() *
-                    numeral(result[0].PersenPPN).value()) /
-                100;
-            fakturTunaiUM_Pajak.textContent =
-                numeral(tempPajak).format("0,0.00");
-
-            let totalTemp =
-                numeral(tempdpp).value() + numeral(tempPajak).value();
-            fakturTunaiUM_Terbayar.textContent =
-                numeral(totalTemp).format("0,0.00");
-
-            fakturTunaiUM_SymbolNilaiBlmPajak.textContent = decodeHtmlEntities(
+            fakturTunaiUM_SymbolGrand.textContent = decodeHtmlEntities(
                 result[0].Symbol2
             );
             fakturTunaiUM_SymbolDiscount.textContent = decodeHtmlEntities(
@@ -3079,35 +3157,76 @@ function rpt_CetakFakturPajakUM(result) {
                 result[0].Symbol2
             );
 
-            var date2 = new Date(result[0].Tgl_Penagihan);
+            fakturTunaiUM_Grand.textContent = numeral(
+                result[0].totalGrand
+            ).format("0,0.00");
 
-            var namaBulan = [
-                "Januari",
-                "Februari",
-                "Maret",
-                "April",
-                "Mei",
-                "Juni",
-                "Juli",
-                "Agustus",
-                "September",
-                "Oktober",
-                "November",
-                "Desember",
-            ];
+            fakturTunaiUM_Discount.textContent = numeral(
+                result[0].Discount
+            ).format("0,0.00");
 
-            var tanggal = date2.getDate();
-            var bulan = namaBulan[date2.getMonth()];
-            var tahunLengkap = date2.getFullYear();
-            var duaDigitTahun = tahunLengkap.toString().slice(-2);
+            fakturTunaiUM_UM.textContent = result[0].Nilai_UM
+                ? numeral(result[0].Nilai_UM).format("0,0.00")
+                : "0.00";
+
+            let tempdpp =
+                numeral(totalGrand).value() -
+                numeral(result[0].Discount).value() -
+                numeral(result[0].Nilai_UM).value();
+            if (duaDigitTahun > 24) {
+                fakturTunaiUM_DPP.textContent = numeral(
+                    (tempdpp * 11) / 12
+                ).format("0,0.00");
+            } else {
+                fakturTunaiUM_DPP.textContent =
+                    numeral(tempdpp).format("0,0.00");
+            }
+
+            let tempPajak =
+                Math.round(
+                    ((tempdpp * numeral(result[0].PersenPPN).value()) / 100) *
+                        100
+                ) / 100;
+
+            if (duaDigitTahun > 24) {
+                fakturTunaiUM_Pajak.textContent = numeral(
+                    ((tempdpp * 11) / 12) * 0.12
+                ).format("0,0.00");
+            } else {
+                fakturTunaiUM_Pajak.textContent =
+                    numeral(tempPajak).format("0,0.00");
+            }
+
+            if (duaDigitTahun > 24) {
+                let terbayar =
+                    numeral(tempdpp).value() +
+                    numeral(fakturTunaiUM_Pajak.textContent).value();
+                fakturTunaiUM_Terbayar.textContent =
+                    numeral(terbayar).format("0,0.00");
+                TTerbilang = convertNumberToWordsRupiah(
+                    numeral(fakturTunaiUM_Terbayar.textContent).value()
+                );
+                fakturTunaiUM_Terbilang.innerHTML =
+                    "&emsp;" + decodeHtmlEntities(TTerbilang);
+            } else {
+                let terbayar = numeral(tempdpp).value() + numeral(tempPajak).value();
+                fakturTunaiUM_Terbayar.textContent =
+                    numeral(terbayar).format("0,0.00");
+                fakturTunaiUM_Terbilang.textContent = decodeHtmlEntities(
+                    result[0].Terbilang
+                );
+            }
+
+            fakturTunaiUM_SyaratBayar.innerHTML =
+                "Syarat Pembayaran: &emsp;&emsp;" + decodeHtmlEntities(result[0].SyaratBayar) + " Hari";
 
             fakturTunaiUM_TglBln.textContent = tanggal + " " + bulan;
             fakturTunaiUM_Thn.textContent = duaDigitTahun;
-
-            fakturTunaiUM_SyaratBayar.innerHTML =
-                "Syarat Pembayaran: &emsp;&emsp;" +
-                decodeHtmlEntities(result[0].SyaratBayar) +
-                " Hari";
+            if (duaDigitTahun > 24) {
+                fakturTunaiUM_PersenPPN.innerHTML = "<strong>12%</strong>";
+            } else {
+                fakturTunaiUM_PersenPPN.innerHTML = "<strong>11%</strong>";
+            }
 
             let syaratBayar = result[0].SyaratBayar;
             let tglTerimaBarang = result[0].Tgl_Penagihan;
@@ -3117,6 +3236,15 @@ function rpt_CetakFakturPajakUM(result) {
             resultDate.setDate(date3.getDate() + syaratBayarNumber);
             fakturTunaiUM_Tempo.innerHTML =
                 "Jatuh Tempo: &emsp;&emsp; " + formatDateToMMDDYYYY(resultDate);
+
+            // if (sFormula0.length > 255) {
+            //   faktur_SuratJalan.innerHTML =
+            //     "Surat Jalan: &emsp;&emsp; " + sFormula0.slice(0, 252);
+            //   faktur_SJ.textContent = sFormula0.slice(252);
+            // } else {
+            //   faktur_SuratJalan.innerHTML = "Surat Jalan: &emsp;&emsp; " + sFormula0;
+            //   faktur_SJ.textContent = "";
+            // }
 
             printPreview("fakturTunaiUM");
         }
