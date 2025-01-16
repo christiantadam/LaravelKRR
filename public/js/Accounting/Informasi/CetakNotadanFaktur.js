@@ -2793,9 +2793,7 @@ function rpt_CetakFakturPajakUM(result) {
         var fakturTunaiUM_AlamatNPWP = document.getElementById(
             "fakturTunaiUM_AlamatNPWP"
         );
-        var fakturTunaiUM_NPWP = document.getElementById(
-            "fakturTunaiUM_NPWP"
-        );
+        var fakturTunaiUM_NPWP = document.getElementById("fakturTunaiUM_NPWP");
         var fakturTunaiUM_NamaKelompokUtama = document.getElementById(
             "fakturTunaiUM_NamaKelompokUtama"
         );
@@ -3017,8 +3015,11 @@ function rpt_CetakFakturPajakUM(result) {
             );
 
             fakturTunaiUM_Detail.innerHTML = "";
+            console.log(result);
 
             result.forEach(function (item, index) {
+                console.log(item);
+
                 var row = document.createElement("div");
                 row.classList.add("row", "small-font");
                 count += 1;
@@ -3054,7 +3055,7 @@ function rpt_CetakFakturPajakUM(result) {
                     "small-normal"
                 );
                 descriptionCol.textContent = item.Qty
-                    ? numeral(item.QtyOrder).format("0,0.00") + item.Satuan
+                    ? numeral(item.Qty).format("0,0.00") + item.Satuan
                     : "";
                 row.appendChild(descriptionCol);
 
@@ -3086,7 +3087,7 @@ function rpt_CetakFakturPajakUM(result) {
                 //     : "0.00";
                 // row.appendChild(totalCol);
                 let tempTotal =
-                    numeral(item.QtyOrder).value() *
+                    numeral(item.Qty).value() *
                     numeral(item.HargaSatuan).value();
                 totalCol.textContent = tempTotal
                     ? decodeHtmlEntities(item.Symbol2) +
@@ -3157,9 +3158,8 @@ function rpt_CetakFakturPajakUM(result) {
                 result[0].Symbol2
             );
 
-            fakturTunaiUM_Grand.textContent = numeral(
-                result[0].totalGrand
-            ).format("0,0.00");
+            fakturTunaiUM_Grand.textContent =
+                numeral(totalGrand).format("0,0.00");
 
             fakturTunaiUM_Discount.textContent = numeral(
                 result[0].Discount
@@ -3175,7 +3175,7 @@ function rpt_CetakFakturPajakUM(result) {
                 numeral(result[0].Nilai_UM).value();
             if (duaDigitTahun > 24) {
                 fakturTunaiUM_DPP.textContent = numeral(
-                    (tempdpp * 11) / 12
+                    (result[0].Nilai_blm_Pajak)
                 ).format("0,0.00");
             } else {
                 fakturTunaiUM_DPP.textContent =
@@ -3209,7 +3209,8 @@ function rpt_CetakFakturPajakUM(result) {
                 fakturTunaiUM_Terbilang.innerHTML =
                     "&emsp;" + decodeHtmlEntities(TTerbilang);
             } else {
-                let terbayar = numeral(tempdpp).value() + numeral(tempPajak).value();
+                let terbayar =
+                    numeral(tempdpp).value() + numeral(tempPajak).value();
                 fakturTunaiUM_Terbayar.textContent =
                     numeral(terbayar).format("0,0.00");
                 fakturTunaiUM_Terbilang.textContent = decodeHtmlEntities(
@@ -3218,7 +3219,9 @@ function rpt_CetakFakturPajakUM(result) {
             }
 
             fakturTunaiUM_SyaratBayar.innerHTML =
-                "Syarat Pembayaran: &emsp;&emsp;" + decodeHtmlEntities(result[0].SyaratBayar) + " Hari";
+                "Syarat Pembayaran: &emsp;&emsp;" +
+                decodeHtmlEntities(result[0].SyaratBayar) +
+                " Hari";
 
             fakturTunaiUM_TglBln.textContent = tanggal + " " + bulan;
             fakturTunaiUM_Thn.textContent = duaDigitTahun;
