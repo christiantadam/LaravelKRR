@@ -161,7 +161,7 @@ $(document).ready(function () {
 
                     if (idMataUang.value == "1") {
                         TTerbilang = convertNumberToWordsRupiah(
-                            totalPenagihan.value
+                            numeral(totalPenagihan.value).value()
                         );
                     } else {
                         if (nilaiKurs.value <= 0 || nilaiKurs.value == null) {
@@ -173,7 +173,7 @@ $(document).ready(function () {
                             return;
                         }
                         TTerbilang = convertNumberToWordsDollar(
-                            totalPenagihan.value
+                            numeral(totalPenagihan.value).value()
                         );
                     }
 
@@ -857,7 +857,18 @@ $(document).ready(function () {
                             // nilaiKurs.value = 0;
                             // alamat.value = data.TAlamat;
                             nilaiSP.value = data.TNilai_Penagihan;
-                            totalPenagihan.value = data.txtTotalPenagihan;
+                            if (Ppn.value == "12") {
+                                let hitungPPN =
+                                    ((numeral(nilaiSP.value).value() *
+                                        11) /
+                                        12) *
+                                    0.12;
+
+                                totalPenagihan.value = numeral(
+                                    numeral(hitungPPN).value() +
+                                        numeral(nilaiSP.value).value()
+                                ).format("0,0.00");
+                            }
 
                             nilaiUM.value = 0;
                             nilaiSdhBayar.value = 0;
@@ -1258,8 +1269,6 @@ $(document).ready(function () {
                                             11) /
                                             12) *
                                         0.12;
-                                    console.log(hitungPPN);
-                                    console.log(nilaiSdhBayar.value);
 
                                     totalPenagihan.value = numeral(
                                         numeral(hitungPPN).value() +

@@ -3175,7 +3175,7 @@ function rpt_CetakFakturPajakUM(result) {
                 numeral(result[0].Nilai_UM).value();
             if (duaDigitTahun > 24) {
                 fakturTunaiUM_DPP.textContent = numeral(
-                    (result[0].Nilai_blm_Pajak)
+                    (result[0].Nilai_blm_Pajak * 11) / 12
                 ).format("0,0.00");
             } else {
                 fakturTunaiUM_DPP.textContent =
