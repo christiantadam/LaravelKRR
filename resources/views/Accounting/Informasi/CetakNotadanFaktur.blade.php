@@ -384,7 +384,7 @@
                                 </div>
                             </div>
 
-                            <div class="row" style="position: absolute; top: 11.7cm; left: 1cm; right: 0cm;">
+                            <div class="row" style="position: absolute; top: 12.2cm; left: 1cm; right: 0cm;">
                                 <div class="col-sm-7 text-right offset-sm-0">
                                     <span
                                         id="faktur_emptyBag">/ Empty Bag</span>

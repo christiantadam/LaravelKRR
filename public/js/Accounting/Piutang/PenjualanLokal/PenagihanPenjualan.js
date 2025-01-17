@@ -1504,6 +1504,9 @@ $(document).ready(function () {
                     no_penagihanUM.value = escapeHTML(
                         selectedRow.Id_Penagihan.trim()
                     );
+                    nilaiUangMuka.value = numeral(
+                        selectedRow.nilai_BLM_PAJAK.trim()
+                    ).format("0,0.00");
                     setTimeout(() => {
                         btn_dokumen.focus();
                     }, 300);
