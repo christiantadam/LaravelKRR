@@ -312,6 +312,18 @@
                                                 <label for="kodePerkiraan" style="margin-right: 10px;">Kode
                                                     Perkiraan</label>
                                             </div>
+                                            <div class="input-group" style="width: 100%;"> <!-- Ensure full width here -->
+                                                <select name="select_kodePerkiraanMP" id="select_kodePerkiraanMP" class="form-control" style="width: 100%;"> <!-- Full width for select -->
+                                                    <option disabled selected>Pilih Kode Perkiraan</option>
+                                                    @foreach ($kodePerkiraan as $d)
+                                                        <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} | {{ $d->NoKodePerkiraan }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            {{-- <div class="col-md-3">
+                                                <label for="kodePerkiraan" style="margin-right: 10px;">Kode
+                                                    Perkiraan</label>
+                                            </div>
                                             <div class="col-md-2">
                                                 <input type="text" id="id_perkiraanMP" name="id_perkiraanMP"
                                                     class="form-control" style="width: 100%" readonly>
@@ -323,7 +335,7 @@
                                             <div class="col-md-1">
                                                 <button type="button" class="btn btn-default"
                                                     id="btn_perkiraanMP">...</button>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <br>
                                         <div class="d-flex">
@@ -374,6 +386,18 @@
                                             <label for="kodePerkiraan" style="margin-right: 10px;">Kode
                                                 Perkiraan</label>
                                         </div>
+                                        <div class="input-group" style="width: 100%;"> <!-- Ensure full width here -->
+                                            <select name="select_kodePerkiraanMK" id="select_kodePerkiraanMK" class="form-control" style="width: 100%;"> <!-- Full width for select -->
+                                                <option disabled selected>Pilih Kode Perkiraan</option>
+                                                @foreach ($kodePerkiraan as $d)
+                                                    <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} | {{ $d->NoKodePerkiraan }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        {{-- <div class="col-md-3">
+                                            <label for="kodePerkiraan" style="margin-right: 10px;">Kode
+                                                Perkiraan</label>
+                                        </div>
                                         <div class="col-md-2">
                                             <input type="text" id="id_perkiraanMK" name="id_perkiraanMK"
                                                 class="form-control" style="width: 100%" readonly>
@@ -385,7 +409,7 @@
                                         <div class="col-md-1">
                                             <button type="button" class="btn btn-default"
                                                 id="btn_perkiraanMK">...</button>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <br>
                                     <div class="d-flex">
@@ -454,7 +478,15 @@
                                             <label for="kodePerkiraan" style="margin-right: 10px;">Kode
                                                 Perkiraan</label>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="input-group" style="width: 100%;"> <!-- Ensure full width here -->
+                                            <select name="select_kodePerkiraanMBia" id="select_kodePerkiraanMBia" class="form-control" style="width: 100%;"> <!-- Full width for select -->
+                                                <option disabled selected>Pilih Kode Perkiraan</option>
+                                                @foreach ($kodePerkiraan as $d)
+                                                    <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} | {{ $d->NoKodePerkiraan }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        {{-- <div class="col-md-2">
                                             <input type="text" id="id_perkiraanMBia" name="id_perkiraanMBia"
                                                 class="form-control" style="width: 100%" readonly>
                                         </div>
@@ -465,7 +497,7 @@
                                         <div class="col-md-1">
                                             <button type="button" class="btn btn-default"
                                                 id="btn_perkiraanMBia">...</button>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <br>
                                     <div class="d-flex">

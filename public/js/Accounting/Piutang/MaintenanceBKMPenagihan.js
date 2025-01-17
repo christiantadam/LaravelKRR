@@ -622,26 +622,27 @@ $(document).ready(function () {
                 namaCustomer_MP.value = rowDataPelunasan.NamaCust;
                 nilai_pelunasanMP.value = rowDataPelunasan.Nilai_Pelunasan;
                 pelunasanRupiah_MP.value = rowDataPelunasan.Pelunasan_Rupiah;
-                id_perkiraanMP.value = rowDataPelunasan.Kode_Perkiraan;
+                // id_perkiraanMP.value = rowDataPelunasan.Kode_Perkiraan;
+                select_kodePerkiraanMP.val(rowDataPelunasan.Kode_Perkiraan).trigger("change");
 
-                if (id_perkiraanMP.value !== "") {
-                    $.ajax({
-                        url: "MaintenanceBKMPenagihan/getPerkiraanDetails",
-                        type: "GET",
-                        data: {
-                            _token: csrfToken,
-                            id_perkiraanMP: id_perkiraanMP.value,
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            ket_perkiraanMP.value = data.Keterangan;
-                        },
-                        error: function (xhr, status, error) {
-                            var err = eval("(" + xhr.responseText + ")");
-                            alert(err.Message);
-                        },
-                    });
-                }
+                // if (id_perkiraanMP.value !== "") {
+                //     $.ajax({
+                //         url: "MaintenanceBKMPenagihan/getPerkiraanDetails",
+                //         type: "GET",
+                //         data: {
+                //             _token: csrfToken,
+                //             id_perkiraanMP: id_perkiraanMP.value,
+                //         },
+                //         success: function (data) {
+                //             console.log(data);
+                //             ket_perkiraanMP.value = data.Keterangan;
+                //         },
+                //         error: function (xhr, status, error) {
+                //             var err = eval("(" + xhr.responseText + ")");
+                //             alert(err.Message);
+                //         },
+                //     });
+                // }
 
                 var myModal = new bootstrap.Modal(
                     document.getElementById("modalDetailPelunasan"),
@@ -653,7 +654,7 @@ $(document).ready(function () {
                 document
                     .getElementById("modalDetailPelunasan")
                     .addEventListener("shown.bs.modal", function () {
-                        btn_perkiraanMP.focus();
+                        // btn_perkiraanMP.focus();
                     });
 
                 myModal.show();
@@ -671,7 +672,8 @@ $(document).ready(function () {
 
                 jumlahBiaya_MBia.value = rowDataBiaya.Biaya;
                 id_detailMBia.value = rowDataBiaya.Id_Detail_Pelunasan;
-                id_perkiraanMBia.value = rowDataBiaya.Kode_Perkiraan;
+                select_kodePerkiraanMBia.val(rowDataBiaya.Kode_Perkiraan).trigger("change");
+                // id_perkiraanMBia.value = rowDataBiaya.Kode_Perkiraan;
                 keterangan_MBia.value = rowDataBiaya.Keterangan;
 
                 if (id_perkiraanMBia.value !== "") {
@@ -721,7 +723,8 @@ $(document).ready(function () {
 
                 jumlahUang_MK.value = rowDataKrgLbh.KurangLebih;
                 id_detailMK.value = rowDataKrgLbh.Id_Detail_Pelunasan;
-                id_perkiraanMK.value = rowDataKrgLbh.Kode_Perkiraan;
+                // id_perkiraanMK.value = rowDataKrgLbh.Kode_Perkiraan;
+                select_kodePerkiraanMK.val(rowDataKrgLbh.Kode_Perkiraan).trigger("change");
                 keterangan_MK.value = rowDataKrgLbh.Keterangan;
 
                 if (id_perkiraanMK.value !== "") {
@@ -874,7 +877,7 @@ $(document).ready(function () {
             data: {
                 _token: csrfToken,
                 ID_Detail_Pelunasan: rowDataPelunasan.ID_Detail_Pelunasan,
-                id_perkiraanMP: id_perkiraanMP.value,
+                id_perkiraanMP: select_kodePerkiraanMP.val(),
             },
             success: function (response) {
                 console.log(response);
@@ -920,7 +923,8 @@ $(document).ready(function () {
                 _token: csrfToken,
                 ID_Detail_Pelunasan: id_detailMBia.value,
                 keterangan_MBia: keterangan_MBia.value,
-                id_perkiraanMBia: id_perkiraanMBia.value,
+                id_perkiraanMBia: select_kodePerkiraanMBia.val(),
+                // id_perkiraanMBia: id_perkiraanMBia.value,
             },
             success: function (response) {
                 console.log(response);
@@ -966,7 +970,8 @@ $(document).ready(function () {
                 _token: csrfToken,
                 id_detailMK: id_detailMK.value,
                 keterangan_MK: keterangan_MK.value,
-                id_perkiraanMK: id_perkiraanMK.value,
+                id_perkiraanMK: select_kodePerkiraanMK.val(),
+                // id_perkiraanMK: id_perkiraanMK.value,
             },
             success: function (response) {
                 console.log(response);
@@ -1125,195 +1130,229 @@ $(document).ready(function () {
         }
     });
 
-    btn_perkiraanMP.addEventListener("click", async function (event) {
-        event.preventDefault();
-        try {
-            const result = await Swal.fire({
-                title: "Select a Kode Perkiraan",
-                html: '<table id="KodePerkiraanMPTable" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
-                showCancelButton: true,
-                width: "40%",
-                preConfirm: () => {
-                    const selectedData = $("#KodePerkiraanMPTable")
-                        .DataTable()
-                        .row(".selected")
-                        .data();
-                    if (!selectedData) {
-                        Swal.showValidationMessage("Please select a row");
-                        return false;
-                    }
-                    return selectedData;
-                },
-                didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#KodePerkiraanMPTable").DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            returnFocus: true,
-                            ajax: {
-                                url: "MaintenanceBKMPenagihan/getKodePerkiraan",
-                                dataType: "json",
-                                type: "GET",
-                                data: {
-                                    _token: csrfToken,
-                                },
-                            },
-                            columns: [
-                                {
-                                    data: "NoKodePerkiraan",
-                                },
-                                {
-                                    data: "Keterangan",
-                                },
-                            ],
-                            paging: false,
-                            scrollY: "400px",
-                            scrollCollapse: true,
-                        });
-                        setTimeout(() => {
-                            $("#KodePerkiraanMPTable_filter input").focus();
-                        }, 300);
-                        // $("#KodePerkiraanMPTable_filter input").on(
-                        //     "keyup",
-                        //     function () {
-                        //         table
-                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
-                        //             .search(this.value) // Cari berdasarkan input pencarian
-                        //             .draw(); // Perbarui hasil pencarian
-                        //     }
-                        // );
-                        $("#KodePerkiraanMPTable tbody").on(
-                            "click",
-                            "tr",
-                            function () {
-                                // Remove 'selected' class from all rows
-                                table.$("tr.selected").removeClass("selected");
-                                // Add 'selected' class to the clicked row
-                                $(this).addClass("selected");
-                            }
-                        );
-                        currentIndex = null;
-                        Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydownInSwal(e, "KodePerkiraanMPTable")
-                        );
-                    });
-                },
-            }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    const selectedRow = result.value;
-                    id_perkiraanMP.value = escapeHTML(
-                        selectedRow.NoKodePerkiraan.trim()
-                    );
-                    ket_perkiraanMP.value = escapeHTML(
-                        selectedRow.Keterangan.trim()
-                    );
-
-                    // setTimeout(() => {
-                    //     btn_prosesMB.focus();
-                    // }, 300);
-                }
-            });
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
-        // console.log(selectedRow);
+    const select_kodePerkiraanMP = $("#select_kodePerkiraanMP");
+    select_kodePerkiraanMP.select2({
+        dropdownParent: $("#modalDetailPelunasan"),
+        placeholder: "Pilih Kode Perkiraan",
+    });
+    select_kodePerkiraanMP.on("select2:select", function () {
+        const selectedKodePerkiraanMP = $(this).val();
+        console.log(selectedKodePerkiraanMP);
+        btn_prosesMP.focus();
     });
 
-    btn_perkiraanMK.addEventListener("click", async function (event) {
-        event.preventDefault();
-        try {
-            const result = await Swal.fire({
-                title: "Select a Kode Perkiraan",
-                html: '<table id="KodePerkiraanMKTable" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
-                showCancelButton: true,
-                width: "40%",
-                preConfirm: () => {
-                    const selectedData = $("#KodePerkiraanMKTable")
-                        .DataTable()
-                        .row(".selected")
-                        .data();
-                    if (!selectedData) {
-                        Swal.showValidationMessage("Please select a row");
-                        return false;
-                    }
-                    return selectedData;
-                },
-                didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#KodePerkiraanMKTable").DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            returnFocus: true,
-                            ajax: {
-                                url: "MaintenanceBKMPenagihan/getKodePerkiraan",
-                                dataType: "json",
-                                type: "GET",
-                                data: {
-                                    _token: csrfToken,
-                                },
-                            },
-                            columns: [
-                                {
-                                    data: "NoKodePerkiraan",
-                                },
-                                {
-                                    data: "Keterangan",
-                                },
-                            ],
-                            paging: false,
-                            scrollY: "400px",
-                            scrollCollapse: true,
-                        });
-                        setTimeout(() => {
-                            $("#KodePerkiraanMKTable_filter input").focus();
-                        }, 300);
-                        // $("#KodePerkiraanMKTable_filter input").on(
-                        //     "keyup",
-                        //     function () {
-                        //         table
-                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
-                        //             .search(this.value) // Cari berdasarkan input pencarian
-                        //             .draw(); // Perbarui hasil pencarian
-                        //     }
-                        // );
-                        $("#KodePerkiraanMKTable tbody").on(
-                            "click",
-                            "tr",
-                            function () {
-                                // Remove 'selected' class from all rows
-                                table.$("tr.selected").removeClass("selected");
-                                // Add 'selected' class to the clicked row
-                                $(this).addClass("selected");
-                            }
-                        );
-                        currentIndex = null;
-                        Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydownInSwal(e, "KodePerkiraanMKTable")
-                        );
-                    });
-                },
-            }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    const selectedRow = result.value;
-                    id_perkiraanMK.value = escapeHTML(
-                        selectedRow.NoKodePerkiraan.trim()
-                    );
-                    ket_perkiraanMK.value = escapeHTML(
-                        selectedRow.Keterangan.trim()
-                    );
-
-                    setTimeout(() => {
-                        keterangan_MK.focus();
-                    }, 300);
-                }
-            });
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
-        // console.log(selectedRow);
+    const select_kodePerkiraanMK = $("#select_kodePerkiraanMK");
+    select_kodePerkiraanMK.select2({
+        dropdownParent: $("#modalDetailKurangLebih"),
+        placeholder: "Pilih Kode Perkiraan",
     });
+    select_kodePerkiraanMK.on("select2:select", function () {
+        const selectedKodePerkiraanMK = $(this).val();
+        console.log(selectedKodePerkiraanMK);
+        btn_prosesMK.focus();
+    });
+
+    const select_kodePerkiraanMBia = $("#select_kodePerkiraanMBia");
+    select_kodePerkiraanMBia.select2({
+        dropdownParent: $("#modalDetailBiaya"),
+        placeholder: "Pilih Kode Perkiraan",
+    });
+    select_kodePerkiraanMBia.on("select2:select", function () {
+        const selectedKodePerkiraanMBia = $(this).val();
+        console.log(selectedKodePerkiraanMBia);
+        btn_prosesMBia.focus();
+    });
+
+
+    // btn_perkiraanMP.addEventListener("click", async function (event) {
+    //     event.preventDefault();
+    //     try {
+    //         const result = await Swal.fire({
+    //             title: "Select a Kode Perkiraan",
+    //             html: '<table id="KodePerkiraanMPTable" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
+    //             showCancelButton: true,
+    //             width: "40%",
+    //             preConfirm: () => {
+    //                 const selectedData = $("#KodePerkiraanMPTable")
+    //                     .DataTable()
+    //                     .row(".selected")
+    //                     .data();
+    //                 if (!selectedData) {
+    //                     Swal.showValidationMessage("Please select a row");
+    //                     return false;
+    //                 }
+    //                 return selectedData;
+    //             },
+    //             didOpen: () => {
+    //                 $(document).ready(function () {
+    //                     const table = $("#KodePerkiraanMPTable").DataTable({
+    //                         responsive: true,
+    //                         processing: true,
+    //                         serverSide: true,
+    //                         returnFocus: true,
+    //                         ajax: {
+    //                             url: "MaintenanceBKMPenagihan/getKodePerkiraan",
+    //                             dataType: "json",
+    //                             type: "GET",
+    //                             data: {
+    //                                 _token: csrfToken,
+    //                             },
+    //                         },
+    //                         columns: [
+    //                             {
+    //                                 data: "NoKodePerkiraan",
+    //                             },
+    //                             {
+    //                                 data: "Keterangan",
+    //                             },
+    //                         ],
+    //                         paging: false,
+    //                         scrollY: "400px",
+    //                         scrollCollapse: true,
+    //                     });
+    //                     setTimeout(() => {
+    //                         $("#KodePerkiraanMPTable_filter input").focus();
+    //                     }, 300);
+    //                     // $("#KodePerkiraanMPTable_filter input").on(
+    //                     //     "keyup",
+    //                     //     function () {
+    //                     //         table
+    //                     //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+    //                     //             .search(this.value) // Cari berdasarkan input pencarian
+    //                     //             .draw(); // Perbarui hasil pencarian
+    //                     //     }
+    //                     // );
+    //                     $("#KodePerkiraanMPTable tbody").on(
+    //                         "click",
+    //                         "tr",
+    //                         function () {
+    //                             // Remove 'selected' class from all rows
+    //                             table.$("tr.selected").removeClass("selected");
+    //                             // Add 'selected' class to the clicked row
+    //                             $(this).addClass("selected");
+    //                         }
+    //                     );
+    //                     currentIndex = null;
+    //                     Swal.getPopup().addEventListener("keydown", (e) =>
+    //                         handleTableKeydownInSwal(e, "KodePerkiraanMPTable")
+    //                     );
+    //                 });
+    //             },
+    //         }).then((result) => {
+    //             if (result.isConfirmed && result.value) {
+    //                 const selectedRow = result.value;
+    //                 id_perkiraanMP.value = escapeHTML(
+    //                     selectedRow.NoKodePerkiraan.trim()
+    //                 );
+    //                 ket_perkiraanMP.value = escapeHTML(
+    //                     selectedRow.Keterangan.trim()
+    //                 );
+
+    //                 // setTimeout(() => {
+    //                 //     btn_prosesMB.focus();
+    //                 // }, 300);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error("An error occurred:", error);
+    //     }
+    //     // console.log(selectedRow);
+    // });
+
+    // btn_perkiraanMK.addEventListener("click", async function (event) {
+    //     event.preventDefault();
+    //     try {
+    //         const result = await Swal.fire({
+    //             title: "Select a Kode Perkiraan",
+    //             html: '<table id="KodePerkiraanMKTable" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
+    //             showCancelButton: true,
+    //             width: "40%",
+    //             preConfirm: () => {
+    //                 const selectedData = $("#KodePerkiraanMKTable")
+    //                     .DataTable()
+    //                     .row(".selected")
+    //                     .data();
+    //                 if (!selectedData) {
+    //                     Swal.showValidationMessage("Please select a row");
+    //                     return false;
+    //                 }
+    //                 return selectedData;
+    //             },
+    //             didOpen: () => {
+    //                 $(document).ready(function () {
+    //                     const table = $("#KodePerkiraanMKTable").DataTable({
+    //                         responsive: true,
+    //                         processing: true,
+    //                         serverSide: true,
+    //                         returnFocus: true,
+    //                         ajax: {
+    //                             url: "MaintenanceBKMPenagihan/getKodePerkiraan",
+    //                             dataType: "json",
+    //                             type: "GET",
+    //                             data: {
+    //                                 _token: csrfToken,
+    //                             },
+    //                         },
+    //                         columns: [
+    //                             {
+    //                                 data: "NoKodePerkiraan",
+    //                             },
+    //                             {
+    //                                 data: "Keterangan",
+    //                             },
+    //                         ],
+    //                         paging: false,
+    //                         scrollY: "400px",
+    //                         scrollCollapse: true,
+    //                     });
+    //                     setTimeout(() => {
+    //                         $("#KodePerkiraanMKTable_filter input").focus();
+    //                     }, 300);
+    //                     // $("#KodePerkiraanMKTable_filter input").on(
+    //                     //     "keyup",
+    //                     //     function () {
+    //                     //         table
+    //                     //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+    //                     //             .search(this.value) // Cari berdasarkan input pencarian
+    //                     //             .draw(); // Perbarui hasil pencarian
+    //                     //     }
+    //                     // );
+    //                     $("#KodePerkiraanMKTable tbody").on(
+    //                         "click",
+    //                         "tr",
+    //                         function () {
+    //                             // Remove 'selected' class from all rows
+    //                             table.$("tr.selected").removeClass("selected");
+    //                             // Add 'selected' class to the clicked row
+    //                             $(this).addClass("selected");
+    //                         }
+    //                     );
+    //                     currentIndex = null;
+    //                     Swal.getPopup().addEventListener("keydown", (e) =>
+    //                         handleTableKeydownInSwal(e, "KodePerkiraanMKTable")
+    //                     );
+    //                 });
+    //             },
+    //         }).then((result) => {
+    //             if (result.isConfirmed && result.value) {
+    //                 const selectedRow = result.value;
+    //                 id_perkiraanMK.value = escapeHTML(
+    //                     selectedRow.NoKodePerkiraan.trim()
+    //                 );
+    //                 ket_perkiraanMK.value = escapeHTML(
+    //                     selectedRow.Keterangan.trim()
+    //                 );
+
+    //                 setTimeout(() => {
+    //                     keterangan_MK.focus();
+    //                 }, 300);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error("An error occurred:", error);
+    //     }
+    //     // console.log(selectedRow);
+    // });
 
     btn_perkiraanMBia.addEventListener("click", async function (event) {
         event.preventDefault();

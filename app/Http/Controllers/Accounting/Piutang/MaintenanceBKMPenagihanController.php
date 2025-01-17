@@ -16,9 +16,12 @@ class MaintenanceBKMPenagihanController extends Controller
 {
     public function index()
     {
+        $kodePerkiraan = DB::connection('ConnAccounting')
+            ->select('exec SP_5298_ACC_LIST_KODE_PERKIRAAN ?', [1]);
+            // dd($kodePerkiraan);
         $banks = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BANK');
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Piutang.MaintenanceBKMPenagihan', compact('access', 'banks'));
+        return view('Accounting.Piutang.MaintenanceBKMPenagihan', compact('access', 'banks', 'kodePerkiraan'));
     }
 
     public function getTabelDetailPelunasan($idPelunasan)
