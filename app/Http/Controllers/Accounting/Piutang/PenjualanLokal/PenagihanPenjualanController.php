@@ -102,6 +102,7 @@ class PenagihanPenjualanController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
+        dd($request->no_penagihanUM);
         try {
             // dd($request->all());
             // Set variables from request
@@ -272,7 +273,7 @@ class PenagihanPenjualanController extends Controller
                 $hapus = DB::connection('ConnAccounting')
                     ->statement(
                         'EXEC SP_1486_ACC_MAINT_PENAGIHAN_SJ @Kode = ?, @Id_Penagihan = ?, @Tgl_Penagihan = ?, @id_Jenis_Dokumen = ?, @Id_Penagihan_Acuan = ?',
-                        [7, $request->no_penagihan, $request->tanggal, $request->idJenisDokumen, $request->id_penagihanUM]
+                        [7, $request->no_penagihan, $request->tanggal, $request->idJenisDokumen, $request->no_penagihanUM]
                     );
 
                 if ($hapus) {

@@ -328,7 +328,7 @@ $(document).ready(function () {
                     idJenisDokumen: idJenisDokumen.value,
                     idUserPenagih: idUserPenagih.value,
                     penagihanPajak: penagihanPajak.value,
-                    id_penagihanUM: id_penagihanUM.value,
+                    no_penagihanUM: no_penagihanUM.value,
                     TTerbilang: TTerbilang,
                     TNilaiPenagihan: TNilaiPenagihan,
                     TNilaiUM: TNilaiUM,
@@ -430,7 +430,7 @@ $(document).ready(function () {
                     no_penagihan: no_penagihan.value,
                     tanggal: tanggal.value,
                     idJenisDokumen: idJenisDokumen.value,
-                    id_penagihanUM: id_penagihanUM.value,
+                    no_penagihanUM: no_penagihanUM.value,
                 },
                 success: function (response) {
                     console.log(response);
