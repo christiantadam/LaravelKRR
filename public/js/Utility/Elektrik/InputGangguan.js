@@ -608,6 +608,7 @@ $(document).ready(function () {
                 },
             },
             { data: "Teknisi" },
+            { data: "Lokasi" },
         ],
     });
 

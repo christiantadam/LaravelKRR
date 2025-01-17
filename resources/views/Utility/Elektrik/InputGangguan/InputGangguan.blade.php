@@ -158,8 +158,7 @@
                             <table class="table" id="tabel_input_gangguan">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col" type="checkbox" id="checkbox_tabel">
-                                            Aksi </th>
+                                        <th scope="col" type="checkbox" id="checkbox_tabel">Aksi</th>
                                         <th scope="col">Tanggal</th>
                                         <th scope="col">Div. Pelapor </th>
                                         <th scope="col">Pelapor</th>
@@ -172,6 +171,7 @@
                                         <th scope="col">Penyelesaian</th>
                                         <th scope="col">Keterangan</th>
                                         <th scope="col">Teknisi</th>
+                                        <th scope="col">Lokasi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
