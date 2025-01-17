@@ -62,13 +62,61 @@ function formatDateToMMDDYYYY(date) {
     return `${month}/${day}/${year}`;
 }
 
+let tradeTerm = "";
+let dcn = "";
+let doi = "";
 let sfilter, sType;
 btnPrev.addEventListener("click", function (e) {
     let sType = "";
 
     if (optNotaFaktur.checked) {
-        sType = "CetakNotaFaktur";
-        getViewSJ(sType);
+        if (bankSelect.value == "6") {
+            Swal.fire({
+                title: "Masukkan Informasi Berikut",
+                icon: "info",
+                html: `
+                      <div style="text-align: left;">
+                        <label for="trade_term">Trade Term:</label>
+                        <input type="text" id="trade_term" class="swal2-input" style="width: 80%;">
+
+                        <label for="dcn">Documentary Credit Number:</label>
+                        <input type="text" id="dcn" class="swal2-input" style="width: 80%;">
+
+                        <label for="doi">Date of Issue:</label>
+                        <input type="text" id="doi" class="swal2-input" style="width: 80%;">
+                      </div>
+                    `,
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+                // width: "70%",
+                preConfirm: () => {
+                    const tradeTerm = document
+                        .getElementById("trade_term")
+                        .value.trim();
+                    const dcn = document.getElementById("dcn").value.trim();
+                    const doi = document.getElementById("doi").value.trim();
+
+                    if (!tradeTerm || !dcn || !doi) {
+                        Swal.showValidationMessage("Semua kolom harus diisi");
+                        return false;
+                    }
+
+                    return { tradeTerm, dcn, doi };
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    tradeTerm = result.value.tradeTerm;
+                    dcn = result.value.dcn;
+                    doi = result.value.doi;
+                    sType = "CetakNotaFaktur";
+                    getViewSJ(sType);
+                }
+            });
+        } else {
+            sType = "CetakNotaFaktur";
+            getViewSJ(sType);
+        }
     } else if (optPajak.checked) {
         sType = "CetakFakturPajak";
         getViewSJ(sType);
@@ -567,6 +615,16 @@ function rpt_cetakNotaFaktur(result) {
                     });
                 } else {
                     // print faktur
+                    var faktur_beneficiary =
+                        document.getElementById("faktur_beneficiary");
+                    faktur_beneficiary.style.visibility = "hidden";
+                    var faktur_applicant =
+                        document.getElementById("faktur_applicant");
+                    faktur_applicant.style.visibility = "hidden";
+                    var faktur_emptyBag =
+                        document.getElementById("faktur_emptyBag");
+                    faktur_emptyBag.style.visibility = "hidden";
+
                     var faktur_IdPenagihan =
                         document.getElementById("faktur_IdPenagihan");
                     faktur_IdPenagihan.style.fontWeight = "bold";
@@ -701,6 +759,21 @@ function rpt_cetakNotaFaktur(result) {
                                 "a/c. 5578 0000 9333 ( IDR )" +
                                 "<br>" +
                                 "a/n. PT. Kerta Rajasa Raya";
+                        } else if (bankSelect.value == "6") {
+                            faktur_beneficiary.style.visibility = "visible";
+                            faktur_applicant.style.visibility = "visible";
+                            faktur_emptyBag.style.visibility = "visible";
+                            bankBayar.innerHTML =
+                                "TRADE TERM: " +
+                                tradeTerm +
+                                "<br>" +
+                                "Documentary Credit Number: " +
+                                dcn +
+                                "<br>" +
+                                "Date of Issue: " +
+                                doi +
+                                "<br>" +
+                                "&nbsp;";
                         }
 
                         if (ttdSelect.value == "1") {

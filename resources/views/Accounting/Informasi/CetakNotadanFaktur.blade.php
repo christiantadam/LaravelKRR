@@ -272,6 +272,7 @@
                                         <option value="3">Mandiri SCF</option>
                                         <option value="4">Mandiri</option>
                                         <option value="5">OCBC</option>
+                                        <option value="6">SKBDN</option>
                                     </select>
                                 </div>
                             </div>
@@ -338,12 +339,26 @@
                                 </div>
                             </div>
 
+                            <div class="row" style="position: absolute; top: 1.4cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-9 offset-sm-2 text-left">
+                                    <span
+                                        id="faktur_beneficiary">( BENEFICIARY )</span>
+                                </div>
+                            </div>
+
                             <div class="row mt-5" style="margin-top: 0.1cm">
                                 <div class="col-sm-8 text-right">
                                     {{-- <label><b>Nomor Seri Faktur Pajak</b></label> --}}
                                 </div>
                                 <div class="col-sm-4 text-right">
                                     {{-- <span id="faktur_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row" style="position: absolute; top: 7.1cm; left: 0cm; right: 6.2cm;">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    <span
+                                        id="faktur_applicant">( APPLICANT )</span>
                                 </div>
                             </div>
 
@@ -366,6 +381,13 @@
                             <div class="row">
                                 <div class="col-sm-9 offset-sm-2 text-left">
                                     <span id="faktur_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+
+                            <div class="row" style="position: absolute; top: 11.7cm; left: 1cm; right: 0cm;">
+                                <div class="col-sm-7 text-right offset-sm-0">
+                                    <span
+                                        id="faktur_emptyBag">/ Empty Bag</span>
                                 </div>
                             </div>
 
