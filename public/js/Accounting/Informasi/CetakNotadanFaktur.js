@@ -895,10 +895,18 @@ function rpt_cetakNotaFaktur(result) {
                                 "text-right",
                                 "small-normal"
                             );
-                            amountCol.textContent = item.HargaSatuan
-                                ? decodeHtmlEntities(item.Symbol2) +
-                                  numeral(item.HargaSatuan).format("0,0.00")
-                                : "0.00";
+
+                            if (bankSelect.value == "6") {
+                                amountCol.textContent = item.HargaSatuan
+                                    ? "IDR " +
+                                      numeral(item.HargaSatuan).format("0,0.00")
+                                    : "0.00";
+                            } else {
+                                amountCol.textContent = item.HargaSatuan
+                                    ? decodeHtmlEntities(item.Symbol2) +
+                                      numeral(item.HargaSatuan).format("0,0.00")
+                                    : "0.00";
+                            }
                             row.appendChild(amountCol);
 
                             var totalCol = document.createElement("div");
@@ -919,10 +927,19 @@ function rpt_cetakNotaFaktur(result) {
                             let tempTotal =
                                 numeral(item.Jml).value() *
                                 numeral(item.HargaSatuan).value();
-                            totalCol.textContent = item.HargaSatuan
+
+                            if (bankSelect.value == "6") {
+                                totalCol.textContent = item.HargaSatuan
+                                ? "IDR " +
+                                  numeral(tempTotal).format("0,0.00")
+                                : "0.00";
+                            } else {
+                                totalCol.textContent = item.HargaSatuan
                                 ? decodeHtmlEntities(item.Symbol2) +
                                   numeral(tempTotal).format("0,0.00")
                                 : "0.00";
+                            }
+
                             row.appendChild(totalCol);
 
                             faktur_Detail.appendChild(row);
@@ -972,21 +989,30 @@ function rpt_cetakNotaFaktur(result) {
                             faktur_Detail.appendChild(additionalRow);
                         });
 
-                        faktur_SymbolGrand.textContent = decodeHtmlEntities(
-                            result[0].Symbol2
-                        );
-                        faktur_SymbolUM.textContent = decodeHtmlEntities(
-                            result[0].Symbol2
-                        );
-                        faktur_SymbolDPP.textContent = decodeHtmlEntities(
-                            result[0].Symbol2
-                        );
-                        faktur_SymbolPajak.textContent = decodeHtmlEntities(
-                            result[0].Symbol2
-                        );
-                        faktur_SymbolTerbayar.textContent = decodeHtmlEntities(
-                            result[0].Symbol2
-                        );
+                        if (bankSelect.value == "6") {
+                            faktur_SymbolGrand.textContent = "IDR";
+                            faktur_SymbolUM.textContent = "IDR";
+                            faktur_SymbolDPP.textContent = "IDR";
+                            faktur_SymbolPajak.textContent = "IDR";
+                            faktur_SymbolTerbayar.textContent = "IDR";
+                        }else{
+                            faktur_SymbolGrand.textContent = decodeHtmlEntities(
+                                result[0].Symbol2
+                            );
+                            faktur_SymbolUM.textContent = decodeHtmlEntities(
+                                result[0].Symbol2
+                            );
+                            faktur_SymbolDPP.textContent = decodeHtmlEntities(
+                                result[0].Symbol2
+                            );
+                            faktur_SymbolPajak.textContent = decodeHtmlEntities(
+                                result[0].Symbol2
+                            );
+                            faktur_SymbolTerbayar.textContent = decodeHtmlEntities(
+                                result[0].Symbol2
+                            );
+                        }
+
 
                         faktur_Grand.textContent =
                             numeral(totalGrand).format("0,0.00");
