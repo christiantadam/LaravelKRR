@@ -153,8 +153,9 @@ function clearData() {
     idr_unit.value = 0;
     harga_sub_total.value = 0;
     idr_sub_total.value = 0;
+    dpp_nilaiLain.value = 0;
+    idr_dpp.value = 0;
     ppn.value = 0;
-
     idr_ppn.value = 0;
     harga_total.value = "";
     idr_harga_total.value = "";
@@ -696,11 +697,14 @@ function updateIDRSubTotal() {
 function updateDPPNilaiLain() {
     let harga_subTotal = numeral(harga_sub_total.value).value();
     let DPPValue = 0;
-    if (!isNaN(harga_subTotal) && ppn_select.value == "15") {
+    if (
+        !isNaN(harga_subTotal) &&
+        (ppn_select.value == "15" || ppn_select.value == "18")
+    ) {
         DPPValue = (harga_subTotal * 11) / 12;
         dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
     } else if (ppn_select.value == "16" || ppn_select.value == "6") {
-        dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
+        dpp_nilaiLain.value = numeral(0).format("0,0.0000");
     } else {
         dpp_nilaiLain.value = numeral(harga_subTotal).format("0,0.0000");
     }
@@ -709,11 +713,14 @@ function updateDPPNilaiLain() {
 function updateIDRDPPNilaiLain() {
     let idr_hargaSubTotal = numeral(idr_sub_total.value).value();
     let IDRDPPValue = 0;
-    if (!isNaN(idr_hargaSubTotal) && ppn_select.value == "15") {
+    if (
+        !isNaN(idr_hargaSubTotal) &&
+        (ppn_select.value == "15" || ppn_select.value == "18")
+    ) {
         IDRDPPValue = (idr_hargaSubTotal * 11) / 12;
         idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
     } else if (ppn_select.value == "16" || ppn_select.value == "6") {
-        idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
+        idr_dpp.value = numeral(0).format("0,0.0000");
     } else {
         idr_dpp.value = numeral(idr_hargaSubTotal).format("0,0.0000");
     }
