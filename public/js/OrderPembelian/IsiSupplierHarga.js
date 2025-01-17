@@ -191,8 +191,6 @@ btn_approve.addEventListener("click", function (event) {
             mtUang: matauang_select.value,
             noTrans: no_po.value,
             jns_beli: jenisSupplier,
-            pDPP: numeral(dpp_nilaiLain.value).value(),
-            pIDRDPP: numeral(idr_dpp.value).value(),
         },
         beforeSend: function () {
             // Show loading screen

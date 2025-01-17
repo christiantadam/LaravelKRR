@@ -1184,6 +1184,8 @@ $(document).ready(function () {
                         idpay: paymentTerm_select.value,
                         Tgl_Dibutuhkan: tanggal_mohonKirim.value,
                         idSup: supplier_select.value,
+                        pDPP: numeral(dpp_nilaiLain.value).value(),
+                        pIDRDPP: numeral(idr_dpp.value).value(),
                     },
                     beforeSend: function () {
                         // Show loading screen

@@ -806,6 +806,8 @@ class PurchaseOrderController extends Controller
         $Operator = trim(Auth::user()->NomorUser);
         $idpay = $request->input('idpay');
         $jumCetak = 1;
+        $pDPP = $request->input('pDPP');
+        $pIDRDPP = $request->input('pIDRDPP');
         $Tgl_Dibutuhkan = Carbon::parse($request->input('Tgl_Dibutuhkan'));
         $idSup = $request->input('idSup');
 
@@ -818,7 +820,11 @@ class PurchaseOrderController extends Controller
             ($idSup !== null)
         ) {
             try {
-                $post = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd = ?, @noTrans = ?, @mtUang =?, @tglPO =? , @idpay = ? , @jumCetak =?, @Tgl_Dibutuhkan = ?, @idsup = ?, @Operator = ?', [$kd, $noTrans, $mtUang, $tglPO, $idpay, $jumCetak, $Tgl_Dibutuhkan, $idSup, $Operator]);
+                $post = DB::connection('ConnPurchase')
+                    ->statement('exec SP_5409_MAINT_PO @kd = ?, @noTrans = ?, @mtUang =?, @tglPO =? , @idpay = ? , @jumCetak =?, @Tgl_Dibutuhkan = ?,
+                                        @idsup = ?, @Operator = ?, @pDPP = ?, @pIDRDPP = ?',
+                        [$kd, $noTrans, $mtUang, $tglPO, $idpay, $jumCetak, $Tgl_Dibutuhkan, $idSup, $Operator, $pDPP, $pIDRDPP]
+                    );
                 return Response()->json(['message' => 'Data Berhasil Post']);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);
