@@ -309,25 +309,34 @@ $(document).ready(function () {
             });
 
             if (id_cust.value === "PNX") {
-                TNilai_Penagihan = value;
-
                 if (Ppn.value.trim() === "11") {
                     TPPN = value * 0.11;
+                    TTot = value;
+                } else if (Ppn.value.trim() === "12") {
+                    value = (value * 11) / 12;
+                    TPPN = value * 0.12;
+                    TTot = Math.round(numeral(uangMasuk.value).value() + TPPN);
                 } else {
                     TPPN = value * 0.1;
+                    TTot = value;
                 }
 
-                TTot = value;
+                TNilai_Penagihan = value;
+
             } else {
                 if (Ppn.value.trim() === "11") {
                     TNilai_Penagihan = Math.round((value / 1.11) * 100) / 100; // Round to 2 decimals
                     TPPN = TNilai_Penagihan * 0.11;
+                    TTot = Math.round(TNilai_Penagihan + TPPN);
+                } else if (Ppn.value.trim() === "12") {
+                    TNilai_Penagihan = Math.round((value * 11) / 12);
+                    TPPN = TNilai_Penagihan * 0.12;
+                    TTot = Math.round(numeral(uangMasuk.value).value() + TPPN);
                 } else {
                     TNilai_Penagihan = Math.round((value / 1.1) * 100) / 100; // Round to 2 decimals
                     TPPN = TNilai_Penagihan * 0.1;
+                    TTot = Math.round(TNilai_Penagihan + TPPN);
                 }
-
-                TTot = Math.round(TNilai_Penagihan + TPPN); // Round to nearest whole number
             }
 
             if (idMataUang.value == "1") {

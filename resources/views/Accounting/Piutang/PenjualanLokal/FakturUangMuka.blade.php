@@ -209,6 +209,7 @@
                                         </div>
                                         <div class="col-md-1">
                                             <select id="Ppn" name="Ppn" class="form-control" style="width: 100%;">
+                                                <option value="12">12</option>
                                                 <option value="11">11</option>
                                                 <option value="10">10</option>
                                             </select>
