@@ -96,6 +96,8 @@ $(document).ready(function () {
         idr_unit.value = 0;
         harga_sub_total.value = 0;
         idr_sub_total.value = 0;
+        dpp_nilaiLain.value = 0;
+        idr_dpp.value = 0;
         ppn_select.value = "";
         ppn.value = 0;
         idr_ppn.value = 0;
@@ -1015,6 +1017,8 @@ $(document).ready(function () {
                     kurs: kurs.value,
                     pUnit: numeral(harga_unit.value).value(),
                     pSub: numeral(harga_sub_total.value).value(),
+                    pDPP: numeral(dpp_nilaiLain.value).value(),
+                    pIDRDPP: numeral(idr_dpp.value).value(),
                     idPPN: ppn_select.value,
                     pPPN: numeral(ppn.value).value(),
                     pTot: numeral(harga_total.value).value(),
@@ -1165,7 +1169,7 @@ $(document).ready(function () {
     btn_post.addEventListener("click", function (event) {
         this.disabled = true;
         setTimeout(function () {
-            this.disabled = false;
+            btn_post.disabled = false;
         }, 2500);
         if (loadPermohonanData.length == 0) {
             alert("Data Yang Akan Dipost Tidak Ada");
@@ -1184,8 +1188,6 @@ $(document).ready(function () {
                         idpay: paymentTerm_select.value,
                         Tgl_Dibutuhkan: tanggal_mohonKirim.value,
                         idSup: supplier_select.value,
-                        pDPP: numeral(dpp_nilaiLain.value).value(),
-                        pIDRDPP: numeral(idr_dpp.value).value(),
                     },
                     beforeSend: function () {
                         // Show loading screen

@@ -715,6 +715,8 @@ class PurchaseOrderController extends Controller
         $kurs = $request->input('kurs');
         $pUnit = $request->input('pUnit');
         $pSub = $request->input('pSub');
+        $pDPP = $request->input('pDPP');
+        $pIDRDPP = $request->input('pIDRDPP');
         $idPPN = $request->input('idPPN');
         $pPPN = $request->input('pPPN');
         $pTot = $request->input('pTot');
@@ -746,7 +748,33 @@ class PurchaseOrderController extends Controller
             ($noTrans !== null)
         ) {
             try {
-                $update = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO @kd = ?, @Qty = ?, @QtyCancel = ?, @kurs = ?, @pUnit = ?, @pSub = ?, @idPPN = ?, @pPPN = ?, @pTot = ?, @pIDRUnit = ?, @pIDRSub = ?, @pIDRPPN = ?, @pIDRTot = ?, @Operator = ?, @persen = ?, @disc = ?, @discIDR = ?, @noTrans = ?', [$kd, $Qty, $QtyCancel, $kurs, $pUnit, $pSub, $idPPN, $pPPN, $pTot, $pIDRUnit, $pIDRSub, $pIDRPPN, $pIDRTot, $Operator, $persen, $disc, $discIDR, $noTrans]);
+                $update = DB::connection('ConnPurchase')
+                    ->statement('exec SP_5409_MAINT_PO @kd = ?, @Qty = ?, @QtyCancel = ?, @kurs = ?, @pUnit = ?, @pSub = ?, @idPPN = ?,
+                        @pPPN = ?, @pTot = ?, @pIDRUnit = ?, @pIDRSub = ?, @pIDRPPN = ?, @pIDRTot = ?, @Operator = ?, @persen = ?, @disc = ?,
+                        @discIDR = ?, @noTrans = ?, @pDPP = ?, @pIDRDPP = ?',
+                        [
+                            $kd,
+                            $Qty,
+                            $QtyCancel,
+                            $kurs,
+                            $pUnit,
+                            $pSub,
+                            $idPPN,
+                            $pPPN,
+                            $pTot,
+                            $pIDRUnit,
+                            $pIDRSub,
+                            $pIDRPPN,
+                            $pIDRTot,
+                            $Operator,
+                            $persen,
+                            $disc,
+                            $discIDR,
+                            $noTrans,
+                            $pDPP,
+                            $pIDRDPP
+                        ]
+                    );
                 $loadPermohonan = db::connection('ConnPurchase')->select('exec SP_5409_LIST_ORDER @kd = ?, @noPO = ?', [13, $No_PO]);
                 // if ($QtyCancel > 0) {
                 //     DB::connection('ConnPurchase')->statement('exec SP_5409_SAVE_ORDER @kd = ?, @noTrans = ?, @QtyDelay = ?', [15, $noTrans, $QtyCancel]);
@@ -806,8 +834,6 @@ class PurchaseOrderController extends Controller
         $Operator = trim(Auth::user()->NomorUser);
         $idpay = $request->input('idpay');
         $jumCetak = 1;
-        $pDPP = $request->input('pDPP');
-        $pIDRDPP = $request->input('pIDRDPP');
         $Tgl_Dibutuhkan = Carbon::parse($request->input('Tgl_Dibutuhkan'));
         $idSup = $request->input('idSup');
 
@@ -822,8 +848,8 @@ class PurchaseOrderController extends Controller
             try {
                 $post = DB::connection('ConnPurchase')
                     ->statement('exec SP_5409_MAINT_PO @kd = ?, @noTrans = ?, @mtUang =?, @tglPO =? , @idpay = ? , @jumCetak =?, @Tgl_Dibutuhkan = ?,
-                                        @idsup = ?, @Operator = ?, @pDPP = ?, @pIDRDPP = ?',
-                        [$kd, $noTrans, $mtUang, $tglPO, $idpay, $jumCetak, $Tgl_Dibutuhkan, $idSup, $Operator, $pDPP, $pIDRDPP]
+                                        @idsup = ?, @Operator = ?',
+                        [$kd, $noTrans, $mtUang, $tglPO, $idpay, $jumCetak, $Tgl_Dibutuhkan, $idSup, $Operator]
                     );
                 return Response()->json(['message' => 'Data Berhasil Post']);
             } catch (\Throwable $Error) {
