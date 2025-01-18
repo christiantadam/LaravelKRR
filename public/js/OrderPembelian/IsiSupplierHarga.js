@@ -715,7 +715,7 @@ function updateIDRDPPNilaiLain() {
         IDRDPPValue = (idr_hargaSubTotal * 11) / 12;
         idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
     } else if (ppn_select.value == "18") {
-        IDRDPPValue = harga_subTotal / 10;
+        IDRDPPValue = idr_hargaSubTotal / 10;
         idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
     } else if (ppn_select.value == "16" || ppn_select.value == "6") {
         idr_dpp.value = numeral(0).format("0,0.0000");
@@ -736,16 +736,13 @@ function updatePPN() {
     let DPPValue = numeral(dpp_nilaiLain.value).value();
 
     if (!isNaN(selectedPPN) && !isNaN(DPPValue)) {
+        if (ppn_select.value == "18") {
+            //untuk ppn 1.2%
+            selectedPPN = 12;
+        }
         let jumPPN = (DPPValue * selectedPPN) / 100;
         ppn.value = numeral(jumPPN).format("0,0.0000");
     }
-    // let hargaSubTotal = numeral(
-    //     document.getElementById("harga_sub_total").value
-    // ).value();
-    // if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal)) {
-    //     let jumPPN = (hargaSubTotal * selectedPPN) / 100;
-    //     ppn.value = numeral(jumPPN).format("0,0.0000");
-    // }
 }
 
 function updateIDRPPN() {
@@ -761,18 +758,14 @@ function updateIDRPPN() {
     let IDRDPPValue = numeral(idr_dpp.value).value();
 
     if (!isNaN(selectedPPN) && !isNaN(IDRDPPValue)) {
+        if (ppn_select.value == "18") {
+            //untuk ppn 1.2%
+            selectedPPN = 12;
+        }
         let jumPPN = (IDRDPPValue * selectedPPN) / 100;
         let idrPPNValue = jumPPN * kurs;
         idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
     }
-    // let hargaSubTotal = numeral(
-    //     document.getElementById("harga_sub_total").value
-    // ).value();
-    // if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal) && !isNaN(kurs)) {
-    //     let jumPPN = (hargaSubTotal * selectedPPN) / 100;
-    //     let idrPPNValue = jumPPN * kurs;
-    //     idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
-    // }
     if (textPart == "PPN Custom") {
         idr_ppn.readOnly = false;
     } else {

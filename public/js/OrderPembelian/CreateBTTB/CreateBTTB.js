@@ -149,7 +149,7 @@ $(document).ready(function () {
             IDRDPPValue = (idr_hargaSubTotal * 11) / 12;
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
         } else if (ppn_select.value == "18") {
-            IDRDPPValue = harga_subTotal / 10;
+            IDRDPPValue = idr_hargaSubTotal / 10;
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
         } else if (ppn_select.value == "16" || ppn_select.value == "6") {
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
@@ -169,6 +169,10 @@ $(document).ready(function () {
         let selectedPPN = numeral(numericPart).value();
         let DPPValue = numeral(dpp_nilaiLain.value).value();
         if (!isNaN(selectedPPN) && !isNaN(DPPValue)) {
+            if (ppn_select.value == "18") {
+                //untuk ppn 1.2%
+                selectedPPN = 12;
+            }
             let jumPPN = (DPPValue * selectedPPN) / 100;
             ppn.value = numeral(jumPPN).format("0,0.0000");
             if (parseFloat(jumPPN) === 0 && parseFloat(DPPValue) === 0) {
@@ -177,16 +181,6 @@ $(document).ready(function () {
                 ppn_persen.value = parseFloat((parseFloat(jumPPN) / parseFloat(DPPValue)).toFixed(2) * 100) ?? 0; // prettier-ignore
             }
         }
-        // let selectedPPN = numeral(
-        //     ppn_select.options[ppn_select.selectedIndex].text
-        // ).value();
-        // let hargaSubTotal = numeral(
-        //     document.getElementById("harga_sub_total").value
-        // ).value();
-        // if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal)) {
-        //     let jumPPN = (hargaSubTotal * selectedPPN) / 100;
-        //     ppn.value = numeral(jumPPN).format("0,0.0000");
-        // }
     }
 
     function updateIDRPPN() {
@@ -203,6 +197,10 @@ $(document).ready(function () {
         let IDRDPPValue = numeral(idr_dpp.value).value();
 
         if (!isNaN(selectedPPN) && !isNaN(IDRDPPValue)) {
+            if (ppn_select.value == "18") {
+                //untuk ppn 1.2%
+                selectedPPN = 12;
+            }
             let jumPPN = (IDRDPPValue * selectedPPN) / 100;
             let idrPPNValue = jumPPN * kurs;
             idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
@@ -213,18 +211,6 @@ $(document).ready(function () {
         } else {
             idr_ppn.readOnly = true;
         }
-        // let selectedPPN = numeral(
-        //     ppn_select.options[ppn_select.selectedIndex].text
-        // ).value();
-        // let hargaSubTotal = numeral(
-        //     document.getElementById("harga_sub_total").value
-        // ).value();
-        // let kurs = numeral(document.getElementById("kurs").value).value();
-        // if (!isNaN(selectedPPN) && !isNaN(hargaSubTotal) && !isNaN(kurs)) {
-        //     let jumPPN = (hargaSubTotal * selectedPPN) / 100;
-        //     let idrPPNValue = jumPPN * kurs;
-        //     idr_ppn.value = numeral(idrPPNValue).format("0,0.0000");
-        // }
     }
 
     function updateHargaTotal() {
