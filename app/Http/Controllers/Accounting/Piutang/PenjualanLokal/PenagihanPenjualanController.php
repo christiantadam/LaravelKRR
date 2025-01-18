@@ -102,7 +102,6 @@ class PenagihanPenjualanController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        dd($request->no_penagihanUM);
         try {
             // dd($request->all());
             // Set variables from request
