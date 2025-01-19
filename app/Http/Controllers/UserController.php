@@ -56,6 +56,27 @@ class UserController extends Controller
         }
     }
 
+    public function EditActive(Request $request, $id)
+    {
+        // Pastikan user yang mengubah memiliki status aktif
+        if (Auth::user()->IsActive != 1) {
+            abort(404);
+        } else {
+            // Ambil data pengguna berdasarkan NomorUser
+            $cek = User::select('IsActive')->where('NomorUser', $id)->first();
+
+            // Pastikan kolom "IsActive" sesuai dengan database (huruf besar-kecil sama persis)
+            if ($cek && $cek->IsActive == 1) {
+                User::where('NomorUser', $id)->update(['IsActive' => 0]);
+            } else {
+                User::where('NomorUser', $id)->update(['IsActive' => 1]);
+            }
+
+            // Redirect kembali setelah update
+            return back();
+        }
+    }
+
     public function destroy($id)
     {
 

@@ -59,11 +59,17 @@ class LoginController extends Controller
         //     	return redirect()->route('login')->withInput()->withErrors(['error' => 'Username tidak ditemukan!']);
         //     }
 
-
         $data = [
             'NomorUser' => $request->input('username'),
             'password' => $request->input('password'),
         ];
+
+        // Cek apakah user aktif sebelum melakukan login
+        $user = DB::connection('ConnEDP')->table('UserMaster')->where('NomorUser', $request->input('username'))->first();
+
+        if ($user && $user->IsActive == 0) {
+            return redirect()->route('login')->withInput()->withErrors(['error' => 'Akun Anda tidak aktif.']);
+        }
 
         Auth::attempt($data);
 

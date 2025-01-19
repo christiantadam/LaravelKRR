@@ -369,6 +369,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('User', App\Http\Controllers\UserController::class);
     Route::post('/User/{id}/up', 'App\Http\Controllers\UserController@update')->name('user.update');
     Route::get('/User/{id}/EditAdmin', 'App\Http\Controllers\UserController@EditAdmin')->name('user.EditAdmin');
+    Route::get('/User/{id}/EditActive', 'App\Http\Controllers\UserController@EditActive')->name('user.EditActive');
     Route::resource('Cartridge', App\Http\Controllers\EDP\CartridgeController::class);
     Route::post('/Cartridge/{id}/up', 'App\Http\Controllers\EDP\CartridgeController@update')->name('cartridge.update');
     Route::resource('PerbaikanCartridge', App\Http\Controllers\EDP\PerbaikanCartridgeController::class);
@@ -1463,6 +1464,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('KartuStok', KartuStokController::class);
     Route::resource('KodePerkiraan', KodePerkiraanController::class);
     Route::resource('KonversiBarang', KonversiBarangController::class);
+    // Route::get('getObjekSelect/{divisi}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getObjekSelect');
+    // Route::get('getKelompokUtamaSelect/{objek}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getKelompokUtamaSelect');
+    // Route::get('getKelompokSelect/{kelompokUtama}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getKelompokSelect');
+    // Route::get('getSubKelompokSelect/{kelompok}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getSubKelompokSelect');
+    // Route::get('getIdTypeSelect/{subKelompok}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getIdTypeSelect');
+    // Route::get('getTypeABMSelect/{subKelompok}', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getTypeABMSelect');
+    // Route::get('getTypeCIRSelect', 'App\Http\Controllers\Inventory\Transaksi\Konversi\KonversiBarangController@getTypeCIRSelect');
     Route::resource('LacakTransaksi', LacakTransaksiController::class);
     Route::resource('ListDetailTransaksi', ListDetailTransaksiController::class);
     Route::resource('MaintenanceObjek', MaintenanceObjekController::class);

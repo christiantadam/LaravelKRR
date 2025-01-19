@@ -40,24 +40,44 @@
                                         @else
                                             <td>User</td>
                                         @endif
-                                        <td><a class="EditUser btn btn-warning RDZEditDelTBL"
-                                                style="border: 1px solid #212529;border-radius: 5px;"
+                                        <td>
+                                            <a class="EditUser btn btn-warning RDZEditDelTBL"
+                                                style="border: 1px solid #212529; border-radius: 5px;"
                                                 href="{{ str_replace('%20', '', route('user.update', $item->NomorUser)) }}"
                                                 data-nama="{{ $item->NamaUser }}" data-user="{{ $item->NomorUser }}">Ganti
                                                 Password</a>
+
                                             @if ($item->NomorUser != Auth::user()->NomorUser)
                                                 @if ($item->IsAdmin == 1)
                                                     <a class="EditAdmin btn btn-primary btn-xs RDZEditDelTBL"
-                                                        style="border: 1px solid #212529;border-radius: 5px;"
+                                                        style="border: 1px solid #212529; border-radius: 5px;"
                                                         href="{{ str_replace('%20', '', route('user.EditAdmin', $item->NomorUser)) }}"
                                                         data-nama="{{ $item->NamaUser }}" data-user="{{ $item->NomorUser }}"
                                                         data-status="User">Jadikan User</a>
                                                 @else
                                                     <a class="EditAdmin btn btn-danger btn-xs RDZEditDelTBL"
-                                                        style="border: 1px solid #212529;border-radius: 5px;"
+                                                        style="border: 1px solid #212529; border-radius: 5px;"
                                                         href="{{ str_replace('%20', '', route('user.EditAdmin', $item->NomorUser)) }}"
-                                                        data-nama="{{ $item->NamaUser }}" data-user="{{ $item->NomorUser }}"
-                                                        data-status="Admin">Jadikan Admin</a>
+                                                        data-nama="{{ $item->NamaUser }}"
+                                                        data-user="{{ $item->NomorUser }}" data-status="Admin">Jadikan
+                                                        Admin</a>
+                                                @endif
+
+                                                {{-- Tombol untuk Aktifkan/Nonaktifkan Akun --}}
+                                                @if ($item->IsActive == 1)
+                                                    <a class="EditActive btn btn-danger btn-xs RDZEditDelTBL"
+                                                        style="border: 1px solid #212529; border-radius: 5px;"
+                                                        href="{{ str_replace('%20', '', route('user.EditActive', $item->NomorUser)) }}"
+                                                        data-nama="{{ $item->NamaUser }}"
+                                                        data-user="{{ $item->NomorUser }}"
+                                                        data-status="Nonaktif">Nonaktifkan Akun</a>
+                                                @else
+                                                    <a class="EditActive btn btn-success btn-xs RDZEditDelTBL"
+                                                        style="border: 1px solid #212529; border-radius: 5px;"
+                                                        href="{{ str_replace('%20', '', route('user.EditActive', $item->NomorUser)) }}"
+                                                        data-nama="{{ $item->NamaUser }}"
+                                                        data-user="{{ $item->NomorUser }}" data-status="Aktif">Aktifkan
+                                                        Akun</a>
                                                 @endif
                                             @endif
                                         </td>
