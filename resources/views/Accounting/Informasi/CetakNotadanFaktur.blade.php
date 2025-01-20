@@ -168,6 +168,7 @@
         .fakturTunai,
         .fakturTunai * {
             visibility: visible;
+            font-size: 18px;
         }
 
         .nota1,
@@ -341,8 +342,7 @@
 
                             <div class="row" style="position: absolute; top: 1.4cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-9 offset-sm-2 text-left">
-                                    <span
-                                        id="faktur_beneficiary">( BENEFICIARY )</span>
+                                    <span id="faktur_beneficiary">( BENEFICIARY )</span>
                                 </div>
                             </div>
 
@@ -357,8 +357,7 @@
 
                             <div class="row" style="position: absolute; top: 7.1cm; left: 0cm; right: 6.2cm;">
                                 <div class="col-sm-9 offset-sm-3 text-left">
-                                    <span
-                                        id="faktur_applicant">( APPLICANT )</span>
+                                    <span id="faktur_applicant">( APPLICANT )</span>
                                 </div>
                             </div>
 
@@ -386,8 +385,7 @@
 
                             <div class="row" style="position: absolute; top: 12.2cm; left: 1cm; right: 0cm;">
                                 <div class="col-sm-7 text-right offset-sm-0">
-                                    <span
-                                        id="faktur_emptyBag">/ Empty Bag</span>
+                                    <span id="faktur_emptyBag">/ Empty Bag</span>
                                 </div>
                             </div>
 
@@ -1057,53 +1055,75 @@
                         </div>
 
 
-                        {{-- Faktur Tunai UM --}}
+                        {{-- Faktur Tunai --}}
                         <div class="fakturTunai">
 
                             <div class="row">
-                                <div class="col-sm-12 text-right">
+                                <div class="col-sm-12 text-right penagihan-up"
+                                    style="position: absolute; top: 0.4cm; left: 0cm; right: 2cm;">
                                     <span id="fakturTunai_IdPenagihan">Id Penagihan</span>
                                 </div>
                             </div>
 
-                            <div class="row mt-5">
+                            <div class="row mt-5" style="margin-top: 0.1cm">
                                 <div class="col-sm-8 text-right">
-                                    <label>Nomor Seri Faktur Pajak</label>
+                                    {{-- <label><b>Nomor Seri Faktur Pajak</b></label> --}}
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <span id="fakturTunai_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX
-                                    </span>
+                                    {{-- <span id="fakturTunai_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX</span> --}}
                                 </div>
                             </div>
 
-                            <div class="row" style="margin-top: 25%">
-                                <div class="col-sm-9 offset-sm-3 text-left">
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <div class="row" style="margin-top: 15%">
+                                <div class="col-sm-9 offset-sm-2 text-left">
                                     <span
                                         id="fakturTunai_NamaNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 offset-sm-3 text-left">
-                                    <span
-                                        id="fakturTunai_AlamatNPWP">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                <div class="col-sm-10 offset-sm-2 text-left">
+                                    <span id="fakturTunai_AlamatNPWP"
+                                        style="font-size: 15px !important">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4 offset-sm-3 text-left">
-                                    <span id="fakturTunai_NPWP">XXXXXXXXXXXXXXNPWPXXXXX</span>
+                                <div class="col-sm-9 offset-sm-2 text-left">
+                                    <span
+                                        id="fakturTunai_NPWP">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
 
-                            <div class="row" style="margin-top: 15%; text-decoration: underline">
-                                <div class="col-sm-10 offset-sm-1 text-left">
+                            <br>
+                            <br>
+                            <div class="row mt-3">
+                                <div class="col-sm-1 offset-sm-0 text-left description-left"
+                                    style="font-size: 14px !important;">
+                                    <span></span>
+                                </div>
+                                <div class="col-sm-5 offset-sm-0 text-left description-left"
+                                    style="font-size: 14px !important;">
                                     <span
                                         id="fakturTunai_NamaKelompokUtama">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
                                 </div>
                             </div>
                             <div id="fakturTunai_Detail"></div>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-1 offset-sm-9 text-right">
+                            <div class="row mt-3" style="position: absolute; top: 21.7cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-10 text-left offset-sm-0">
+                                    <label id="bankBayarTunai" style="font-weight: bold">&nbsp;
+                                        <br>
+                                        &nbsp;<br>
+                                        &nbsp;<br>
+                                        &nbsp;</label>
+                                </div>
+                                <div class="col-sm-2 text-left offset-sm-1">
+                                    <label></label>
+                                </div>
+                                <div class="col-sm-1 offset-sm-6 text-right">
                                     <span id="fakturTunai_SymbolGrand">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
@@ -1111,7 +1131,19 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            {{-- <div class="row mt-4">
+                                <div class="col-sm-2 text-left offset-sm-2">
+                                    <label><b> XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                </div>
+                                <div class="col-sm-1 offset-sm-5 text-right">
+                                    <span id="fakturTunai_SymbolGrand">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="fakturTunai_Grand">-5.555.555,00</span>
+                                </div>
+                            </div> --}}
+
+                            <div class="row" style="position: absolute; top: 26.2cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-1 offset-sm-9 text-right">
                                     <span id="fakturTunai_SymbolDiscount">xxxx</span>
                                 </div>
@@ -1120,17 +1152,20 @@
                                 </div>
                             </div>
 
-                            <div class="row mt-3">
+                            <div class="row" style="position: absolute; top: 27cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-1 offset-sm-9 text-right">
-                                    <span id="fakturTunai_SymbolUM">xxxx</span>
+                                    <span id="fakturTunai_SymbolUM"></span>
                                 </div>
                                 <div class="col-sm-2 text-right">
-                                    <span id="fakturTunai_UM">-5.555.555,00</span>
+                                    <span id="fakturTunai_UM"></span>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-1 offset-sm-9 text-right">
+                            <div class="row" style="position: absolute; top: 27.9cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-4 text-left offset-sm-2">
+                                    <span>Nilai Lain</span>
+                                </div>
+                                <div class="col-sm-1 offset-sm-3 text-right">
                                     <span id="fakturTunai_SymbolDPP">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
@@ -1138,8 +1173,11 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-1 offset-sm-9 text-right">
+                            <div class="row" style="position: absolute; top: 28.7cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-3 text-left offset-sm-0">
+                                    <span id="fakturTunai_PersenPPN"><b>11%</b></span>
+                                </div>
+                                <div class="col-sm-1 offset-sm-6 text-right">
                                     <span id="fakturTunai_SymbolPajak">xxxx</span>
                                 </div>
                                 <div class="col-sm-2 text-right">
@@ -1147,49 +1185,58 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-sm-8 offset-sm-1 text-left">
-                                    <span id="fakturTunai_Terbilang">xxxx</span>
+                            <div class="row"
+                                style="position: absolute; top: 29.55cm; left: 0cm; right: 0cm; padding: 0% !important">
+                                <div class="col-sm-9 text-left offset-sm-0">
+                                    <span id="fakturTunai_Terbilang"
+                                        style="font-family: 'Arial Narrow', Arial, sans-serif; font-size: 14px;">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
-                                <div class="col-sm-1 text-right">
+                                <div class="col-sm-1 text-right" style="font-weight: bold">
                                     <span id="fakturTunai_SymbolTerbayar">xxxx</span>
                                 </div>
-                                <div class="col-sm-2 text-right">
+                                <div class="col-sm-2 text-right" style="font-weight: bold">
                                     <span id="fakturTunai_Terbayar">-5.555.555,00</span>
                                 </div>
                             </div>
 
-                            <div class="row mt-4">
+                            <div class="row"
+                                style="position: absolute; top: 30.5cm; left: 1cm; right: 0cm !important; font-weight: bold">
                                 <div class="col-sm-4 text-left">
-                                    <span id="fakturTunai_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span>
+                                    <span id="fakturTunai_SyaratBayar">Syarat Pembayaran: &emsp;&emsp;xxxx
+                                        Hari</span>
                                 </div>
                                 <div class="col-sm-2 text-center offset-sm-3">
                                     <span>Sidoarjo</span>
                                 </div>
-                                <div class="col-sm-2 text-right">
+                                <div class="col-sm-2 text-center">
                                     <span id="fakturTunai_TglBln">3 Januari</span>
                                 </div>
-                                <div class="col-sm-1 text-center">
+                                <div class="col-sm-1 text-right">
                                     <span id="fakturTunai_Thn">11</span>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row"
+                                style="position: absolute; top: 31.4cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-12 text-left">
                                     <span id="fakturTunai_Tempo">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row"
+                                style="position: absolute; top: 32.3cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-12 text-left">
-                                    <span id="fakturTunai_SuratJalan">Surat Jalan: &emsp;&emsp;
-                                        -</span>
+                                    <span id="fakturTunai_SuratJalan">Surat Jalan: &emsp;&emsp;</span>
                                 </div>
                             </div>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-10 text-right">
-                                    <label>YUDI SANTOSO</label>
+                            <div class="row"
+                                style="position: absolute; top: 33.6cm; left: 1cm; right: 1cm; font-weight: bold">
+                                <div class="col-sm-8 text-left">
+                                    <span id="fakturTunai_SJ"></span>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <span id="ttdPimpinanTunai">RUDY SANTOSO</span>
                                 </div>
                             </div>
 
