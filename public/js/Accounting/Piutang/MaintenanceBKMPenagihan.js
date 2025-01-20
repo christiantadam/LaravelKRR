@@ -676,24 +676,24 @@ $(document).ready(function () {
                 // id_perkiraanMBia.value = rowDataBiaya.Kode_Perkiraan;
                 keterangan_MBia.value = rowDataBiaya.Keterangan;
 
-                if (id_perkiraanMBia.value !== "") {
-                    $.ajax({
-                        url: "MaintenanceBKMPenagihan/getPerkiraanDetails",
-                        type: "GET",
-                        data: {
-                            _token: csrfToken,
-                            id_perkiraanMP: id_perkiraanMBia.value,
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            ket_perkiraanMBia.value = data.Keterangan;
-                        },
-                        error: function (xhr, status, error) {
-                            var err = eval("(" + xhr.responseText + ")");
-                            alert(err.Message);
-                        },
-                    });
-                }
+                // if (id_perkiraanMBia.value !== "") {
+                //     $.ajax({
+                //         url: "MaintenanceBKMPenagihan/getPerkiraanDetails",
+                //         type: "GET",
+                //         data: {
+                //             _token: csrfToken,
+                //             id_perkiraanMP: id_perkiraanMBia.value,
+                //         },
+                //         success: function (data) {
+                //             console.log(data);
+                //             ket_perkiraanMBia.value = data.Keterangan;
+                //         },
+                //         error: function (xhr, status, error) {
+                //             var err = eval("(" + xhr.responseText + ")");
+                //             alert(err.Message);
+                //         },
+                //     });
+                // }
 
                 var myModal = new bootstrap.Modal(
                     document.getElementById("modalDetailBiaya"),
@@ -727,24 +727,24 @@ $(document).ready(function () {
                 select_kodePerkiraanMK.val(rowDataKrgLbh.Kode_Perkiraan).trigger("change");
                 keterangan_MK.value = rowDataKrgLbh.Keterangan;
 
-                if (id_perkiraanMK.value !== "") {
-                    $.ajax({
-                        url: "MaintenanceBKMPenagihan/getPerkiraanDetails",
-                        type: "GET",
-                        data: {
-                            _token: csrfToken,
-                            id_perkiraanMP: id_perkiraanMK.value,
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            ket_perkiraanMK.value = data.Keterangan;
-                        },
-                        error: function (xhr, status, error) {
-                            var err = eval("(" + xhr.responseText + ")");
-                            alert(err.Message);
-                        },
-                    });
-                }
+                // if (id_perkiraanMK.value !== "") {
+                //     $.ajax({
+                //         url: "MaintenanceBKMPenagihan/getPerkiraanDetails",
+                //         type: "GET",
+                //         data: {
+                //             _token: csrfToken,
+                //             id_perkiraanMP: id_perkiraanMK.value,
+                //         },
+                //         success: function (data) {
+                //             console.log(data);
+                //             ket_perkiraanMK.value = data.Keterangan;
+                //         },
+                //         error: function (xhr, status, error) {
+                //             var err = eval("(" + xhr.responseText + ")");
+                //             alert(err.Message);
+                //         },
+                //     });
+                // }
 
                 var myModal = new bootstrap.Modal(
                     document.getElementById("modalDetailKurangLebih"),
@@ -1354,103 +1354,103 @@ $(document).ready(function () {
     //     // console.log(selectedRow);
     // });
 
-    btn_perkiraanMBia.addEventListener("click", async function (event) {
-        event.preventDefault();
-        try {
-            const result = await Swal.fire({
-                title: "Select a Kode Perkiraan",
-                html: '<table id="KodePerkiraanMBiaTable" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
-                showCancelButton: true,
-                width: "40%",
-                preConfirm: () => {
-                    const selectedData = $("#KodePerkiraanMBiaTable")
-                        .DataTable()
-                        .row(".selected")
-                        .data();
-                    if (!selectedData) {
-                        Swal.showValidationMessage("Please select a row");
-                        return false;
-                    }
-                    return selectedData;
-                },
-                didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#KodePerkiraanMBiaTable").DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            returnFocus: true,
-                            ajax: {
-                                url: "MaintenanceBKMPenagihan/getKodePerkiraan",
-                                dataType: "json",
-                                type: "GET",
-                                data: {
-                                    _token: csrfToken,
-                                },
-                            },
-                            columns: [
-                                {
-                                    data: "NoKodePerkiraan",
-                                },
-                                {
-                                    data: "Keterangan",
-                                },
-                            ],
-                            paging: false,
-                            scrollY: "400px",
-                            scrollCollapse: true,
-                        });
-                        setTimeout(() => {
-                            $("#KodePerkiraanMBiaTable_filter input").focus();
-                        }, 300);
-                        // $("#KodePerkiraanMBiaTable_filter input").on(
-                        //     "keyup",
-                        //     function () {
-                        //         table
-                        //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
-                        //             .search(this.value) // Cari berdasarkan input pencarian
-                        //             .draw(); // Perbarui hasil pencarian
-                        //     }
-                        // );
-                        $("#KodePerkiraanMBiaTable tbody").on(
-                            "click",
-                            "tr",
-                            function () {
-                                // Remove 'selected' class from all rows
-                                table.$("tr.selected").removeClass("selected");
-                                // Add 'selected' class to the clicked row
-                                $(this).addClass("selected");
-                            }
-                        );
-                        currentIndex = null;
-                        Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydownInSwal(
-                                e,
-                                "KodePerkiraanMBiaTable"
-                            )
-                        );
-                    });
-                },
-            }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    const selectedRow = result.value;
-                    id_perkiraanMBia.value = escapeHTML(
-                        selectedRow.NoKodePerkiraan.trim()
-                    );
-                    ket_perkiraanMBia.value = escapeHTML(
-                        selectedRow.Keterangan.trim()
-                    );
+    // btn_perkiraanMBia.addEventListener("click", async function (event) {
+    //     event.preventDefault();
+    //     try {
+    //         const result = await Swal.fire({
+    //             title: "Select a Kode Perkiraan",
+    //             html: '<table id="KodePerkiraanMBiaTable" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
+    //             showCancelButton: true,
+    //             width: "40%",
+    //             preConfirm: () => {
+    //                 const selectedData = $("#KodePerkiraanMBiaTable")
+    //                     .DataTable()
+    //                     .row(".selected")
+    //                     .data();
+    //                 if (!selectedData) {
+    //                     Swal.showValidationMessage("Please select a row");
+    //                     return false;
+    //                 }
+    //                 return selectedData;
+    //             },
+    //             didOpen: () => {
+    //                 $(document).ready(function () {
+    //                     const table = $("#KodePerkiraanMBiaTable").DataTable({
+    //                         responsive: true,
+    //                         processing: true,
+    //                         serverSide: true,
+    //                         returnFocus: true,
+    //                         ajax: {
+    //                             url: "MaintenanceBKMPenagihan/getKodePerkiraan",
+    //                             dataType: "json",
+    //                             type: "GET",
+    //                             data: {
+    //                                 _token: csrfToken,
+    //                             },
+    //                         },
+    //                         columns: [
+    //                             {
+    //                                 data: "NoKodePerkiraan",
+    //                             },
+    //                             {
+    //                                 data: "Keterangan",
+    //                             },
+    //                         ],
+    //                         paging: false,
+    //                         scrollY: "400px",
+    //                         scrollCollapse: true,
+    //                     });
+    //                     setTimeout(() => {
+    //                         $("#KodePerkiraanMBiaTable_filter input").focus();
+    //                     }, 300);
+    //                     // $("#KodePerkiraanMBiaTable_filter input").on(
+    //                     //     "keyup",
+    //                     //     function () {
+    //                     //         table
+    //                     //             .columns(1) // Kolom kedua (Kode_KodePerkiraan)
+    //                     //             .search(this.value) // Cari berdasarkan input pencarian
+    //                     //             .draw(); // Perbarui hasil pencarian
+    //                     //     }
+    //                     // );
+    //                     $("#KodePerkiraanMBiaTable tbody").on(
+    //                         "click",
+    //                         "tr",
+    //                         function () {
+    //                             // Remove 'selected' class from all rows
+    //                             table.$("tr.selected").removeClass("selected");
+    //                             // Add 'selected' class to the clicked row
+    //                             $(this).addClass("selected");
+    //                         }
+    //                     );
+    //                     currentIndex = null;
+    //                     Swal.getPopup().addEventListener("keydown", (e) =>
+    //                         handleTableKeydownInSwal(
+    //                             e,
+    //                             "KodePerkiraanMBiaTable"
+    //                         )
+    //                     );
+    //                 });
+    //             },
+    //         }).then((result) => {
+    //             if (result.isConfirmed && result.value) {
+    //                 const selectedRow = result.value;
+    //                 id_perkiraanMBia.value = escapeHTML(
+    //                     selectedRow.NoKodePerkiraan.trim()
+    //                 );
+    //                 ket_perkiraanMBia.value = escapeHTML(
+    //                     selectedRow.Keterangan.trim()
+    //                 );
 
-                    setTimeout(() => {
-                        keterangan_MBia.focus();
-                    }, 300);
-                }
-            });
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
-        // console.log(selectedRow);
-    });
+    //                 setTimeout(() => {
+    //                     keterangan_MBia.focus();
+    //                 }, 300);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error("An error occurred:", error);
+    //     }
+    //     // console.log(selectedRow);
+    // });
 
     const select_bankM = $("#select_bankM");
     select_bankM.select2({
