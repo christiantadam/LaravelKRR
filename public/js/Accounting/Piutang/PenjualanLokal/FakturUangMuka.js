@@ -288,6 +288,12 @@ $(document).ready(function () {
         location.reload();
     });
 
+    nilaiKurs.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            uangMasuk.focus();
+        }
+    });
+
     uangMasuk.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -297,6 +303,7 @@ $(document).ready(function () {
             let TTot = 0;
             let TPPN = 0;
             let TNilai_Penagihan = 0;
+            let dpp = 0;
             let TIdJnsCust = "PNX";
             let TIdMataUang = 1; // Example, should be dynamically assigned
             let cbPPN = "11 %"; // Example, should be dynamically assigned
@@ -313,25 +320,29 @@ $(document).ready(function () {
                     TPPN = value * 0.11;
                     TTot = value;
                 } else if (Ppn.value.trim() === "12") {
-                    value = (value * 11) / 12;
-                    TPPN = value * 0.12;
-                    TTot = Math.round(numeral(uangMasuk.value).value() + TPPN);
+                    // value = (value * 11) / 12;
+                    // TPPN = value * 0.12;
+                    // TTot = Math.round(numeral(uangMasuk.value).value() + TPPN);
+                    value = Math.round((value / 1.11) * 100) / 100;
+                    dpp = Math.round((value * 11) / 12);
+                    TPPN = Math.round(dpp * 0.12);
+                    TTot = Math.round(numeral(value).value() + TPPN);
                 } else {
                     TPPN = value * 0.1;
                     TTot = value;
                 }
 
                 TNilai_Penagihan = value;
-
             } else {
                 if (Ppn.value.trim() === "11") {
                     TNilai_Penagihan = Math.round((value / 1.11) * 100) / 100; // Round to 2 decimals
                     TPPN = TNilai_Penagihan * 0.11;
                     TTot = Math.round(TNilai_Penagihan + TPPN);
                 } else if (Ppn.value.trim() === "12") {
-                    TNilai_Penagihan = Math.round((value * 11) / 12);
-                    TPPN = TNilai_Penagihan * 0.12;
-                    TTot = Math.round(numeral(uangMasuk.value).value() + TPPN);
+                    TNilai_Penagihan = Math.round((value / 1.11) * 100) / 100;
+                    dpp = Math.round((TNilai_Penagihan * 11) / 12);
+                    TPPN = Math.round(dpp * 0.12);
+                    TTot = Math.round(numeral(TNilai_Penagihan).value() + TPPN);
                 } else {
                     TNilai_Penagihan = Math.round((value / 1.1) * 100) / 100; // Round to 2 decimals
                     TPPN = TNilai_Penagihan * 0.1;
@@ -349,7 +360,10 @@ $(document).ready(function () {
                         text: "ISI DULU NILAI KURSNYA",
                         showConfirmButton: true,
                     }).then(() => {
-                        nilaiKurs.focus();
+                        setTimeout(() => {
+                            nilaiKurs.focus();
+                            nilaiKurs.select();
+                        }, 300);
                     });
                 } else {
                     terbilangS = convertNumberToWordsDollar(TTot);
