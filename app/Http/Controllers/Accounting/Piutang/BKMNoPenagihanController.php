@@ -350,7 +350,7 @@ class BKMNoPenagihanController extends Controller
                         $idBKM = str_pad($noUrut, 5, '0', STR_PAD_LEFT); // Pad the number to 5 digits with leading zeros
 
                         // Concatenate the bank code, 'R', and the formatted year and number
-                        $idBKM = 'KKM' . '-R' . substr($tahun, -2) . substr($idBKM, -5);
+                        $idBKM = $bank . '-R' . substr($tahun, -2) . substr($idBKM, -5);
 
                         // Prepare the response with the constructed @idBKM
                         $response['idBKM'] = $idBKM;
