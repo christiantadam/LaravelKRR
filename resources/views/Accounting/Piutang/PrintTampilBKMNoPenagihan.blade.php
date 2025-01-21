@@ -3,8 +3,8 @@
 
 <style>
     @page {
-        size: A4;
-        margin: 20mm;
+        size: auto;
+        margin: 10mm;
     }
 
     @media print {
@@ -27,7 +27,7 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 10mm;
+            /* padding: 10mm; */
         }
 
         .header,
@@ -63,7 +63,7 @@
     }
 
     .content {
-        margin: 20px 0;
+        margin: 0px 0;
     }
 
     .content table {
@@ -79,12 +79,12 @@
 
     .content th,
     .content td {
-        padding: 8px;
+        padding: 4px;
         text-align: left;
     }
 
     .signature {
-        margin-top: 40px;
+        /* margin-top: 40px; */
         display: flex;
         justify-content: space-between;
     }
@@ -94,7 +94,7 @@
     }
 
     .note {
-        margin-top: 20px;
+        /* margin-top: 20px; */
     }
 </style>
 
@@ -116,7 +116,7 @@
                 </tr>
                 <tr>
                     <td style="border-top:none !important">WARU - SIDOARJO</td>
-                    <td style="text-align: right; border:none !important; border-bottom: 1px solid black !important">
+                    <td style="text-align: right; border:none !important; border-bottom: 1px solid black !important;">
                         TANGGAL : &nbsp;</td>
                     <td
                         style="text-align: left; border:none !important; border-right: 1px solid black !important; border-bottom: 1px solid black !important" id="tanggal_atasP">
