@@ -418,19 +418,19 @@ isi_button.addEventListener("click", function (event) {
         form_suratJalan.submit();
         proses = 0;
         this.innerHTML = "Isi";
-        edit_button.innerHTML = "Edit";
+        edit_button.innerHTML = "Koreksi";
         hapus_button.style.display = "block";
     } else if (proses == 2) {
         proses = 0;
         this.innerHTML = "Isi";
-        edit_button.innerHTML = "Edit";
+        edit_button.innerHTML = "Koreksi";
         hapus_button.style.display = "block";
         form_suratJalan.action = "/SuratJalan/" + id_kirimText.value + "/up";
         form_suratJalan.submit();
     } else if (proses == 3) {
         proses = 0;
         this.innerHTML = "Isi";
-        edit_button.innerHTML = "Edit";
+        edit_button.innerHTML = "Koreksi";
         hapus_button.style.display = "block";
         form_suratJalan.action = "/SuratJalan/" + id_kirimText.value;
         form_suratJalan.submit();
@@ -450,7 +450,7 @@ edit_button.addEventListener("click", function (event) {
     } else {
         proses = 0;
         isi_button.innerHTML = "Isi";
-        this.innerHTML = "Edit";
+        this.innerHTML = "Koreksi";
         hapus_button.style.display = "block";
         id_kirimSelect.style.display = "none";
         id_kirimText.style.display = "block";

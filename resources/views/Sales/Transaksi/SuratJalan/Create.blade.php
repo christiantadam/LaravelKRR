@@ -63,7 +63,6 @@
                                                     <input type="date" placeholder="placeholder" id="tanggal_actual"
                                                         name="tanggal_actual" class="input" />
                                                 </div>
-
                                             </div>
                                             <div class="acs-div-form">
                                                 <div class="acs-div-filter1">
