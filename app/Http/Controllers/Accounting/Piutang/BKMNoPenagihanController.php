@@ -343,7 +343,7 @@ class BKMNoPenagihanController extends Controller
                         $bank = trim($input['id_bank']); // Trim and set the bank
                         $noUrut = DB::connection('ConnAccounting')
                             ->table('T_Counter_BKM')
-                            ->where('Periode', $periode)
+                            ->where('Periode', $tahun)
                             ->value('Id_BKM_E_Rp');
 
                         // Create the '00000' + convert(varchar(5),@noUrut,0)
