@@ -393,6 +393,8 @@ class CreateBTTBController extends Controller
                 $mtUang = $item['mtUang'];
                 $KodeHS = $item['KodeHS'];
                 $noTrTmp = $item['noTrTmp'];
+                $pDPP = $item['pDPP'];
+                $pIDRDPP = $item['pIDRDPP'];
                 if (($BTTB !== null)) {
                     $post = DB::connection('ConnPurchase')->statement('exec SP_5409_MAINT_PO
                 @kd = ?,@tglDatang = ?,@Qty = ?,@qtyShip = ?,@qtyRcv = ?,
@@ -402,7 +404,7 @@ class CreateBTTBController extends Controller
                 @pSub = ?,@pIDRSub = ?,@pTot = ?,@pIDRTot = ?,@NoPIBExt = ?,
                 @TglPIB = ?,@NoSPPBBC = ?,@TglSPPBBC = ?,@NoSKBM = ?,@TglSKBM = ?,
                 @NoReg = ?,@TglReg = ?,@idPPN = ?,@jumPPN = ?,@persen = ?,@disc = ?,
-                @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?',
+                @discIDR = ?,@mtUang = ?,@KodeHS = ?,@noTrTmp = ?, @pDPP = ?, @pIDRDPP = ?',
                         [
                             $kd,
                             $tglDatang,
@@ -443,7 +445,9 @@ class CreateBTTBController extends Controller
                             $discIDR,
                             $mtUang,
                             $KodeHS,
-                            $noTrTmp
+                            $noTrTmp,
+                            $pDPP,
+                            $pIDRDPP
                         ]
                     );
                     // Calculate the elapsed time

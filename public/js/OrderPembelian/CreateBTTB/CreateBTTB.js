@@ -503,6 +503,8 @@ $(document).ready(function () {
                 mtUang: data[i].ID_MATAUANG,
                 KodeHS: kodehs.value.trim(),
                 noTrTmp: noTrTmp,
+                pDPP: data[i].PriceDPP,
+                pIDRDPP: data[i].PriceDPP_IDR,
             });
         }
 
