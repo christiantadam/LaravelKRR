@@ -112,6 +112,7 @@
                                         <th>Harga Unit</th>
                                         <th>Subtotal</th>
                                         <th>Discount</th>
+                                        <th>DPP</th>
                                         <th>PPN</th>
                                         <th>Harga Total</th>
                                         <th>Kurs</th>

@@ -413,6 +413,7 @@ function responseData(datas) {
                 numeral(parseFloat(data.Hrg_trm)).format("0,0.0000"),
                 numeral(parseFloat(data.Hrg_sub_bttb)).format("0,0.0000"),
                 numeral(parseFloat(data.hrg_disc)).format("0,0.0000"),
+                numeral(parseFloat(data.PriceDPP)).format("0,0.0000"),
                 numeral(parseFloat(data.hrg_ppn)).format("0,0.0000"),
                 numeral(parseFloat(data.Hrg_tot_bttb)).format("0,0.0000"),
                 numeral(parseFloat(data.Kurs_Rp)).format("0,0.0000"),
