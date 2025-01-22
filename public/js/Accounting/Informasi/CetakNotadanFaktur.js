@@ -774,6 +774,15 @@ function rpt_cetakNotaFaktur(result) {
                                 doi +
                                 "<br>" +
                                 "&nbsp;";
+                        } else {
+                            bankBayar.innerHTML =
+                                "&nbsp;" +
+                                "<br>" +
+                                "&nbsp;" +
+                                "<br>" +
+                                "&nbsp;" +
+                                "<br>" +
+                                "&nbsp;";
                         }
 
                         if (ttdSelect.value == "1") {
@@ -1917,6 +1926,15 @@ function rpt_cetakNotaTunai(result) {
                     "a/c. 5578 0000 9333 ( IDR )" +
                     "<br>" +
                     "a/n. PT. Kerta Rajasa Raya";
+            } else {
+                bankBayarTunai.innerHTML =
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;";
             }
 
             if (ttdSelect.value == "1") {
@@ -2740,6 +2758,15 @@ function rpt_CetakFakturUM(result) {
                     "a/c. 5578 0000 9333 ( IDR )" +
                     "<br>" +
                     "a/n. PT. Kerta Rajasa Raya";
+            } else {
+                bankBayarUangMuka.innerHTML =
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;";
             }
 
             if (ttdSelect.value == "1") {
@@ -3209,6 +3236,15 @@ function rpt_CetakFakturPajakUM(result) {
                     "a/c. 5578 0000 9333 ( IDR )" +
                     "<br>" +
                     "a/n. PT. Kerta Rajasa Raya";
+            } else {
+                bankBayarUM.innerHTML =
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;" +
+                    "<br>" +
+                    "&nbsp;";
             }
 
             if (ttdSelect.value == "1") {

@@ -267,7 +267,7 @@
                                 </div>
                                 <div class="col-md-7">
                                     <select id="bankSelect" class="form-control" style="width: 100%">
-                                        <option value="" disabled selected>Pilih Bank</option>
+                                        <option value="0">Pilih Bank (Kosong)</option>
                                         <option value="1">BCA</option>
                                         <option value="2">BNI</option>
                                         <option value="3">Mandiri SCF</option>
@@ -406,11 +406,11 @@
 
                             <div class="row mt-3" style="position: absolute; top: 21.7cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-10 text-left offset-sm-0">
-                                    <label id="bankBayar" style="font-weight: bold">Pembayaran mohon ditransfer ke:
+                                    <label id="bankBayar" style="font-weight: bold">&nbsp;
                                         <br>
-                                        Bank OCBC NISP Cab. Diponegoro - Surabaya <br>
-                                        a/c. 5578 0000 9333 ( IDR ) <br>
-                                        a/n. PT. Kerta Rajasa Raya</label>
+                                        &nbsp;<br>
+                                        &nbsp;<br>
+                                        &nbsp;</label>
                                 </div>
                                 <div class="col-sm-2 text-right offset-sm-1">
                                     <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
@@ -1501,12 +1501,11 @@
 
                             <div class="row mt-3" style="position: absolute; top: 21.7cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-10 text-left offset-sm-0">
-                                    <label id="bankBayarUangMuka" style="font-weight: bold">Pembayaran mohon
-                                        ditransfer ke:
+                                    <label id="bankBayarUangMuka" style="font-weight: bold">&nbsp;
                                         <br>
-                                        Bank OCBC NISP Cab. Diponegoro - Surabaya <br>
-                                        a/c. 5578 0000 9333 ( IDR ) <br>
-                                        a/n. PT. Kerta Rajasa Raya</label>
+                                        &nbsp;<br>
+                                        &nbsp;<br>
+                                        &nbsp;</label>
                                 </div>
                                 <div class="col-sm-2 text-left offset-sm-1">
                                     <label></label>
@@ -1690,12 +1689,11 @@
 
                             <div class="row mt-3" style="position: absolute; top: 21.7cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-10 text-left offset-sm-0">
-                                    <label id="bankBayarUM" style="font-weight: bold">Pembayaran mohon
-                                        ditransfer ke:
+                                    <label id="bankBayarUM" style="font-weight: bold">&nbsp;
                                         <br>
-                                        Bank OCBC NISP Cab. Diponegoro - Surabaya <br>
-                                        a/c. 5578 0000 9333 ( IDR ) <br>
-                                        a/n. PT. Kerta Rajasa Raya</label>
+                                        &nbsp;<br>
+                                        &nbsp;<br>
+                                        &nbsp;</label>
                                 </div>
                                 <div class="col-sm-2 text-left offset-sm-1">
                                     <label></label>
