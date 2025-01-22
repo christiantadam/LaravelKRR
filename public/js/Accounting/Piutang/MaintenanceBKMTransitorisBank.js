@@ -2754,47 +2754,48 @@ btnHapusBg.addEventListener("click", function (e) {
 });
 
 btnBatal.addEventListener("click", function (e) {
-    tanggalInput.value = today;
-    tgl.value = today;
-    idBKK.value = '';
-    mataUang1.value = '';
-    idUang1.value = '';
-    symbol1.value = '';
-    uang1.value = '0';
-    bank1.value = '';
-    idBank1.value = '';
-    jenisBank1.value = '';
-    jenisBayar1.value = '';
-    idPerkiraan1.value = '';
-    perkiraan1.value = '';
-    uraian1.value = '';
-    idBKM.value = '';
-    mataUang.value = '';
-    idUang.value = '';
-    symbol.value = '';
-    kurs.value = '0';
-    uang.value = '0';
-    bank.value = '';
-    idBank.value = '';
-    jenisBank.value = '';
-    jenisBayar.value = '';
-    idPerkiraan.value = '';
-    perkiraan.value = '';
-    uraian.value = '';
-    listBiaya.value = 0;
-    listBiaya1.value = 0;
-    var table = $('#tableDetailBiayaBKK').DataTable();
-    var tableAsal = $('#tableBg').DataTable();
-    var tableTujuan = $('#tableDetailBiayaBKM').DataTable();
-    table.clear().draw();
-    tableAsal.clear().draw();
-    tableTujuan.clear().draw();
-    enableBKK();
-    disableBKM();
-    btnBiaya.disabled = true;
-    btnBiaya1.disabled = true;
-    ModeKoreksi = false;
-    tanggalInput.focus();
+    location.reload();
+    // tanggalInput.value = today;
+    // tgl.value = today;
+    // idBKK.value = '';
+    // mataUang1.value = '';
+    // idUang1.value = '';
+    // symbol1.value = '';
+    // uang1.value = '0';
+    // bank1.value = '';
+    // idBank1.value = '';
+    // jenisBank1.value = '';
+    // jenisBayar1.value = '';
+    // idPerkiraan1.value = '';
+    // perkiraan1.value = '';
+    // uraian1.value = '';
+    // idBKM.value = '';
+    // mataUang.value = '';
+    // idUang.value = '';
+    // symbol.value = '';
+    // kurs.value = '0';
+    // uang.value = '0';
+    // bank.value = '';
+    // idBank.value = '';
+    // jenisBank.value = '';
+    // jenisBayar.value = '';
+    // idPerkiraan.value = '';
+    // perkiraan.value = '';
+    // uraian.value = '';
+    // listBiaya.value = 0;
+    // listBiaya1.value = 0;
+    // var table = $('#tableDetailBiayaBKK').DataTable();
+    // var tableAsal = $('#tableBg').DataTable();
+    // var tableTujuan = $('#tableDetailBiayaBKM').DataTable();
+    // table.clear().draw();
+    // tableAsal.clear().draw();
+    // tableTujuan.clear().draw();
+    // enableBKK();
+    // disableBKM();
+    // btnBiaya.disabled = true;
+    // btnBiaya1.disabled = true;
+    // ModeKoreksi = false;
+    // tanggalInput.focus();
 });
 
 btnProses.addEventListener("click", function (e) {
@@ -2923,7 +2924,7 @@ btnProses.addEventListener("click", function (e) {
                                 id: IdPembayaran,
                                 no: allBg[0][0],
                                 jthtempo: allBg[0][1],
-                                status: allBKK[0][2],
+                                status: allBg[0][2],
                             },
                             success: function (result) {
                                 let idBG;
@@ -3083,7 +3084,7 @@ btnProses.addEventListener("click", function (e) {
             text: 'BKK No. ' + idBKK.value + ' & BKM No. ' + idBKM.value + ' TerSimpan',
             returnFocus: false
         }).then(() => {
-            btnBatal.click();
+            location.reload();
         });
     }
     else {
