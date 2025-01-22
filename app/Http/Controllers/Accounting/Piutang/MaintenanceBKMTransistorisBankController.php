@@ -474,11 +474,10 @@ class MaintenanceBKMTransistorisBankController extends Controller
 
         // trans 2
         else if ($id === 'insertTrans2BKK') {
-            $idpembayaran = $request->input('idpembayaran');
+            $idpembayaran = (int) $request->input('idpembayaran');
             $keterangan = $request->input('keterangan');
-            $biaya = $request->input('biaya');
+            $biaya = (float) $request->input('biaya');
             $kodeperkiraan = $request->input('kodeperkiraan');
-            $IdBank = $request->input('IdBank');
 
             try {
                 DB::connection('ConnAccounting')
