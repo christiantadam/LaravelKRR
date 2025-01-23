@@ -1773,7 +1773,7 @@ $('#uraian').on('keydown', function (e) {
                     IdBank = 'KI';
                 }
                 if (idBank.value = 'KRR1') {
-                    IdBank = 'KKK';
+                    IdBank = 'KKM';
                 }
             }
             else {
