@@ -365,7 +365,8 @@ $(document).ready(function () {
 
                     if (!TT) {
                         rincian.value =
-                            "UANG MUKA - " + selectedRow.NM_SUP.trim();
+                            "UANG MUKA - " +
+                            escapeHTML(selectedRow.NM_SUP.trim());
                         setTimeout(() => {
                             rincian.focus();
                         }, 300);
@@ -1491,6 +1492,7 @@ $(document).ready(function () {
                                     data: "Id_Jenis_Bayar",
                                 },
                             ],
+                            order: [[1, "asc"]],
                         });
                         setTimeout(() => {
                             $("#jnsbayarTable_filter input").focus();
@@ -1595,6 +1597,7 @@ $(document).ready(function () {
                                     data: "Id_MataUang",
                                 },
                             ],
+                            order: [[1, "asc"]],
                         });
                         setTimeout(() => {
                             $("#matauangTable_filter input").focus();

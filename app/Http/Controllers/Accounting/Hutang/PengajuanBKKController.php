@@ -503,12 +503,12 @@ class PengajuanBKKController extends Controller
 
                 $bankCurrency = $bankCurrency[0];
 
-                if ($TIdUang != $bankCurrency->Id_MataUang) {
-                    return response()->json([
-                        'message' => 'Bank = ' . trim($TBank) . '  For Currency : ' . trim($bankCurrency->Nama_MataUang),
-                        'status' => 'error'
-                    ], 400);
-                }
+                // if ($TIdUang != $bankCurrency->Id_MataUang) {
+                //     return response()->json([
+                //         'message' => 'Bank = ' . trim($TBank) . '  For Currency : ' . trim($bankCurrency->Nama_MataUang),
+                //         'status' => 'error'
+                //     ], 400);
+                // }
 
                 return datatables($response)
                     ->with('enable', 'TNilaiBayar')
