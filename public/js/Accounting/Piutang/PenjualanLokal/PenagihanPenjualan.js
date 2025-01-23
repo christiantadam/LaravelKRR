@@ -67,6 +67,18 @@ $(document).ready(function () {
     });
     let proses;
 
+    // Setup global AJAX handlers
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
     tanggal.valueAsDate = new Date();
     penagihanPajak.valueAsDate = new Date();
     tanggalBC24.valueAsDate = new Date();
@@ -243,8 +255,7 @@ $(document).ready(function () {
                     TNilaiPenagihan =
                         Math.round((TNilaiPenagihan / 1.11) * 100) / 100;
                 } else if (Ppn.value == "12") {
-                    TNilaiPenagihan =
-                        Math.round((TNilaiPenagihan) * 100) / 100;
+                    TNilaiPenagihan = Math.round(TNilaiPenagihan * 100) / 100;
                 } else {
                     TNilaiPenagihan =
                         Math.round((TNilaiPenagihan / 1.1) * 100) / 100;
@@ -255,7 +266,7 @@ $(document).ready(function () {
                         Math.round(TNilaiPenagihan * 1.11 * 100) / 100;
                 } else if (Ppn.value == "12") {
                     TNilaiPenagihan =
-                        Math.round((TNilaiPenagihan * 1.11) * 100) / 100;
+                        Math.round(TNilaiPenagihan * 1.11 * 100) / 100;
                 } else {
                     TNilaiPenagihan =
                         Math.round(TNilaiPenagihan * 1.1 * 100) / 100;
