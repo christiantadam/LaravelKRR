@@ -39,8 +39,8 @@ class ACCBKKController extends Controller
         $TUang_TT = $request->input('mataUang');
         $TUang = $request->input('mata_uangbawah');
         // $TNilaiBayar = (int)$request->input('nilaidibayarkan');
-        $TNilaiBayarTanpaKoma = str_replace(',', '', $request->input('nilaidibayarkan'));
-        $TNilaiBayar = (float) str_replace('.', ',', $TNilaiBayarTanpaKoma);
+        // $TNilaiBayarTanpaKoma = str_replace(',', '', $request->input('nilaidibayarkan'));
+        $TNilaiBayar = (float) str_replace(',', '', $request->input('nilaidibayarkan'));
         $TNilai_TT = $request->input('nilaiPenagihan');
         $TIdUang = $request->input('id_matauang');
         $TNilai_TT_Rp = $request->input('nilaiPenagihanRP');
