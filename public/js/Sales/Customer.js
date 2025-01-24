@@ -137,6 +137,7 @@ $(document).ready(function () {
     let NPWP = document.getElementById("NPWP");
     let NamaNPWP = document.getElementById("NamaNPWP");
     let AlamatNPWP = document.getElementById("AlamatNPWP");
+    let NITKU = document.getElementById("NITKU");
     let FormCustomer = document.getElementById("FormCustomer");
     let modalCustomer = document.getElementById("modalCustomer");
     let modalLabelCustomer = document.getElementById("modalLabelCustomer");
@@ -249,6 +250,7 @@ $(document).ready(function () {
                     AlamatNPWP.value = response.data.AlamatNPWP;
                     NamaNPWP.value = response.data.NamaNPWP;
                     KotaKirim.value = response.data.KotaKirim;
+                    NITKU.value = response.data.NITKU;
                 },
                 error: function (error) {
                     Swal.fire({
@@ -324,6 +326,7 @@ $(document).ready(function () {
                     AlamatNPWP: AlamatNPWP.value,
                     NamaNPWP: NamaNPWP.value,
                     KotaKirim: KotaKirim.value,
+                    NITKU: NITKU.value,
                 },
                 beforeSend: function () {
                     // Show loading screen
@@ -377,6 +380,7 @@ $(document).ready(function () {
                     AlamatNPWP: AlamatNPWP.value,
                     NamaNPWP: NamaNPWP.value,
                     KotaKirim: KotaKirim.value,
+                    NITKU: NITKU.value,
                 },
                 beforeSend: function () {
                     // Show loading screen

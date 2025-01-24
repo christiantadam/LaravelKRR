@@ -67,6 +67,7 @@ class CustomerController extends Controller
         $NamaNPWP = $request->NamaNPWP ?? NULL;
         $AlamatNPWP = $request->AlamatNPWP ?? NULL;
         $KotaKirim = $request->KotaKirim ?? NULL;
+        $NITKU = $request->NITKU ?? NULL;
 
         // dd($request->all());
 
@@ -93,7 +94,8 @@ class CustomerController extends Controller
         @NamaNPWP = ?,
         @AlamatNPWP = ?,
         @KotaKirim = ?,
-        @User_id = ?',
+        @User_id = ?,
+        @NITKU = ?',
             [
                 $KodeCust,
                 $JnsCust,
@@ -118,7 +120,8 @@ class CustomerController extends Controller
                 $NamaNPWP,
                 $AlamatNPWP,
                 $KotaKirim,
-                $User
+                $User,
+                $NITKU
             ]
         );
 
@@ -171,6 +174,7 @@ class CustomerController extends Controller
         $NamaNPWP = $request->NamaNPWP ?? NULL;
         $AlamatNPWP = $request->AlamatNPWP ?? NULL;
         $KotaKirim = $request->KotaKirim ?? " ";
+        $NITKU = $request->NITKU ?? NULL;
 
         // Eksekusi stored procedure dengan parameter yang diberikan
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_UDT_CUSTOMER
@@ -196,7 +200,8 @@ class CustomerController extends Controller
         @NamaNPWP = ?,
         @AlamatNPWP = ?,
         @KotaKirim = ?,
-        @User_id = ?',
+        @User_id = ?,
+        @NITKU = ?',
             [
                 $id,
                 $NamaCust,
@@ -220,7 +225,8 @@ class CustomerController extends Controller
                 $NamaNPWP,
                 $AlamatNPWP,
                 $KotaKirim,
-                $User
+                $User,
+                $NITKU
             ]
         );
 

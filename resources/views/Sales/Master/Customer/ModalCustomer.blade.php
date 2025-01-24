@@ -146,6 +146,11 @@
                                         <label for="AlamatNPWP">Alamat di NPWP</label>
                                         <textarea name="AlamatNPWP" id="AlamatNPWP" cols="30" rows="10">{{ $model->AlamatNPWP }}</textarea>
                                     </div>
+                                    <div class="acs-div-filter">
+                                        <label for="NITKU">NITKU</label>
+                                        <input type="text" name="NITKU" id="NITKU"
+                                            value="{{ $model->NITKU }}" placeholder="NITKU" class="input">
+                                    </div>
                                 </div>
                             </div>
                         </div>
