@@ -180,270 +180,468 @@ class KonversiSetengahJadiController extends Controller
     public function show($id, Request $request)
     {
         $nomorUser = trim(Auth::user()->NomorUser);
-        if ($id == 'JBBStghJd') {
-            $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
-            $divisi = DB::connection('ConnInventory')
-                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'JBB']);
-            return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi'));
-        } else if ($id == 'selectCustomerTH') {
-            $customer_list = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_CUSTOMER');
-            return response()->json($customer_list, 200);
-        } else if ($id == 'selectKodeBarangTH') {
-            $kode_barangList = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG @KodeCustomer = ?', [$request->input('Kode_Customer')]);
-            return response()->json($kode_barangList, 200);
-        } else if ($id == 'selectKomponenBarangTH') {
-            $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
-            return response()->json($dataRincianTH, 200);
-        } else if ($id == 'getObjek') {
-            $divisi = $request->input('divisi');
-            $dataObjek = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XKdUser = ?, @XIdDivisi = ?', [2, $nomorUser, $divisi]);
-            return response()->json($dataObjek, 200);
-        } else if ($id == 'getKelompokUtama') {
-            $objek = $request->input('objek');
-            $dataKelompokUtama = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdObjek = ?', [3, $objek]);
-            return response()->json($dataKelompokUtama, 200);
-        } else if ($id == 'getKelompok') {
-            $kelompokUtama = $request->input('kelompokUtama');
-            $dataKelompok = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompokUtama = ?', [4, $kelompokUtama]);
-            return response()->json($dataKelompok, 200);
-        } else if ($id == 'getSubKelompok') {
-            $kelompok = $request->input('kelompok');
-            $dataSubKelompok = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompok = ?', [5, $kelompok]);
-            return response()->json($dataSubKelompok, 200);
-        } else if ($id == 'getType') {
-            $subKelompok = $request->input('subKelompok');
-            $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdSubKelompok = ?', [6, $subKelompok]);
-            return response()->json($dataType, 200);
-        } else if ($id == 'getTypeSaldo') {
-            $idType = $request->input('idType');
-            $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdType = ?', [7, $idType]);
-            return response()->json($dataType, 200);
-        } else if ($id == 'getInventoryTypes') {
-            $panjang = (float) explode('X', $request->input('panjangLebar'))[0];
-            $lebar = (float) explode('X', $request->input('panjangLebar'))[1];
-            $namaKomponen = $request->input('namaKomponen');
-            $divisi = $request->input('divisi');
+        switch ($id) {
+            case 'JBBStghJd':
+            case 'ABMBrgJd':
+                $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
+                $divisi = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'JBB']);
+                return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi'));
+            case 'selectCustomerTH':
+                $customer_list = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_CUSTOMER');
+                return response()->json($customer_list, 200);
+            case 'selectKodeBarangTH':
+                $kode_barangList = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG @KodeCustomer = ?', [$request->input('Kode_Customer')]);
+                return response()->json($kode_barangList, 200);
+            case 'selectKomponenBarangTH':
+                $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
+                return response()->json($dataRincianTH, 200);
+            case 'getObjek':
+                $divisi = $request->input('divisi');
+                $dataObjek = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XKdUser = ?, @XIdDivisi = ?', [2, $nomorUser, $divisi]);
+                return response()->json($dataObjek, 200);
+            case 'getKelompokUtama':
+                $objek = $request->input('objek');
+                $dataKelompokUtama = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdObjek = ?', [3, $objek]);
+                return response()->json($dataKelompokUtama, 200);
+            case 'getKelompok':
+                $kelompokUtama = $request->input('kelompokUtama');
+                $dataKelompok = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompokUtama = ?', [4, $kelompokUtama]);
+                return response()->json($dataKelompok, 200);
+            case 'getSubKelompok':
+                $kelompok = $request->input('kelompok');
+                $dataSubKelompok = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompok = ?', [5, $kelompok]);
+                return response()->json($dataSubKelompok, 200);
+            case 'getType':
+                $subKelompok = $request->input('subKelompok');
+                $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdSubKelompok = ?', [6, $subKelompok]);
+                return response()->json($dataType, 200);
+            case 'getTypeSaldo':
+                $idType = $request->input('idType');
+                $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdType = ?', [7, $idType]);
+                return response()->json($dataType, 200);
+            case 'getInventoryTypes':
+                $panjang = (float) explode('X', $request->input('panjangLebar'))[0];
+                $lebar = (float) explode('X', $request->input('panjangLebar'))[1];
+                $namaKomponen = $request->input('namaKomponen');
+                $divisi = $request->input('divisi');
 
-            $dataInventory = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XPanjang = ?, @XLebar = ?, @XNamaKomponen = ?, @XIdDivisi = ?', [1, (float) $panjang, (float) $lebar, $namaKomponen, $divisi]);
-            return response()->json($dataInventory, 200);
-        } else if ($id == 'getDivisi') {
-            $UserInput = trim(Auth::user()->NomorUser);
+                $dataInventory = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XPanjang = ?, @XLebar = ?, @XNamaKomponen = ?, @XIdDivisi = ?', [1, (float) $panjang, (float) $lebar, $namaKomponen, $divisi]);
+                return response()->json($dataInventory, 200);
+            case 'getDivisi':
+                $UserInput = trim(Auth::user()->NomorUser);
 
-            $divisiConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?', [$UserInput, 1]);
+                $divisiConn = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?', [$UserInput, 1]);
 
-            $divisiArr = array_map(function ($divisiList) {
-                return [
-                    'NamaDivisi' => $divisiList->NamaDivisi,
-                    'IdDivisi' => $divisiList->IdDivisi,
-                ];
-            }, $divisiConn);
-
-            return datatables($divisiArr)->make(true);
-        } else if ($id == 'getObjek') {
-            $UserInput = trim(Auth::user()->NomorUser);
-            $idDivisi = $request->input('idDivisi');
-            $objekConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $idDivisi]);
-
-            $objekArr = array_map(function ($objekList) {
-                return [
-                    'Namaobjek' => $objekList->NamaObjek,
-                    'Idobjek' => $objekList->IdObjek,
-                ];
-            }, $objekConn);
-
-            return datatables($objekArr)->make(true);
-        } else if ($id == 'getKelompokUtama') {
-            $UserInput = trim(Auth::user()->NomorUser);
-            $idObjek = $request->input('idObjek');
-            $KelompokUtamaConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdObjek = ?', [3, $idObjek]);
-
-            $KelompokUtamaArr = array_map(function ($KelompokUtamaList) {
-                return [
-                    'NamaKelompokUtama' => $KelompokUtamaList->NamaKelompokUtama,
-                    'IdKelompokUtama' => $KelompokUtamaList->IdKelompokUtama,
-                ];
-            }, $KelompokUtamaConn);
-
-            return datatables($KelompokUtamaArr)->make(true);
-        } else if ($id == 'getKelompok') {
-            $UserInput = trim(Auth::user()->NomorUser);
-            $idKelompokUtama = $request->input('idKelompokUtama');
-            $KelompokConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $idKelompokUtama]);
-
-            $KelompokArr = array_map(function ($KelompokList) {
-                return [
-                    'NamaKelompok' => $KelompokList->namakelompok,
-                    'IdKelompok' => $KelompokList->idkelompok,
-                ];
-            }, $KelompokConn);
-
-            return datatables($KelompokArr)->make(true);
-        } else if ($id == 'getSubKelompok') {
-            $UserInput = trim(Auth::user()->NomorUser);
-            $idKelompok = $request->input('idKelompok');
-            $SubKelompokConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompok = ?', [5, $idKelompok]);
-
-            $SubKelompokArr = array_map(function ($SubKelompokList) {
-                return [
-                    'NamaSubKelompok' => $SubKelompokList->NamaSubKelompok,
-                    'IdSubKelompok' => $SubKelompokList->IdSubkelompok,
-                ];
-            }, $SubKelompokConn);
-
-            return datatables($SubKelompokArr)->make(true);
-        } else if ($id == 'getType') {
-            $UserInput = trim(Auth::user()->NomorUser);
-            $IdSubKelompok = $request->input('IdSubKelompok');
-            $TypeConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $IdSubKelompok]);
-
-            $TypeArr = array_map(function ($TypeList) {
-                return [
-                    'NamaType' => $TypeList->NamaType,
-                    'IdType' => $TypeList->IdType,
-                ];
-            }, $TypeConn);
-
-            return datatables($TypeArr)->make(true);
-        } else if ($id == 'getDataType') {
-            $UserInput = trim(Auth::user()->NomorUser);
-            $IdType = $request->input('IdType');
-            $TypeConn = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
-
-            return response()->json($TypeConn);
-        } else if ($id == 'getDataKoreksi') {
-            $idKonversi = $request->input('id_konversi');
-            $results = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKonversi = ?', [9, $idKonversi]);
-            $response = [];
-
-            if (!empty($results)) {
-                foreach ($results as $row) {
-                    $response[] = [
-                        'IdTransaksi' => $row->IdTransaksi,
-                        'IdTypeTransaksi' => $row->IdTypeTransaksi,
-                        'UraianDetailTransaksi' => $row->UraianDetailTransaksi,
-                        'IdType' => $row->IdType,
-                        'IdPenerima' => $row->IdPenerima,
-                        'IdPemberi' => $row->IdPemberi,
-                        'SaatAwalTransaksi' => $row->SaatAwalTransaksi,
-                        'SaatAkhirTransaksi' => $row->SaatAkhirTransaksi,
-                        'SaatLog' => $row->SaatLog,
-                        'KomfirmasiPenerima' => $row->KomfirmasiPenerima,
-                        'KomfirmasiPemberi' => $row->KomfirmasiPemberi,
-                        'SaatAwalKomfirmasi' => $row->SaatAwalKomfirmasi,
-                        'SaatAkhirKomfirmasi' => $row->SaatAkhirKomfirmasi,
-                        'JumlahPemasukanPrimer' => $row->JumlahPemasukanPrimer,
-                        'JumlahPemasukanSekunder' => $row->JumlahPemasukanSekunder,
-                        'JumlahPemasukanTritier' => $row->JumlahPemasukanTritier,
-                        'JumlahPengeluaranPrimer' => $row->JumlahPengeluaranPrimer,
-                        'JumlahPengeluaranSekunder' => $row->JumlahPengeluaranSekunder,
-                        'JumlahPengeluaranTritier' => $row->JumlahPengeluaranTritier,
-                        'AsalIdSubkelompok' => $row->AsalIdSubkelompok,
-                        'TujuanIdSubkelompok' => $row->TujuanIdSubkelompok,
-                        'Posisi' => $row->Posisi,
-                        'idkonversi' => $row->idkonversi,
-                        'IdSubkontraktor' => $row->IdSubkontraktor,
-                        'TimeInput' => $row->TimeInput,
-                        'Status' => $row->Status,
-                        'idtrans' => $row->idtrans,
-                        'HargaSatuan' => $row->HargaSatuan,
-                        'Rack' => $row->Rack,
-                        'IdTypeTujuan' => $row->IdTypeTujuan,
-                        'NamaType' => $row->NamaType,
-                        'KodeBarang' => $row->KodeBarang,
-                        'nama_satuan' => $row->nama_satuan,
-                        'NamaSubKelompok' => $row->NamaSubKelompok,
-                        'NamaKelompok' => $row->NamaKelompok,
-                        'NamaKelompokUtama' => $row->NamaKelompokUtama,
-                        'NamaObjek' => $row->NamaObjek,
-                        'NamaDivisi' => $row->NamaDivisi,
-                        'IdDivisi' => $row->IdDivisi,
-                        'MinimumStock' => $row->MinimumStock,
-                        'SaldoPrimer' => $row->SaldoPrimer,
-                        'SaldoSekunder' => $row->SaldoSekunder,
-                        'SaldoTritier' => $row->SaldoTritier,
-                        'IdObjek' => $row->IdObjek,
-                        'IdKelompokUtama' => $row->IdKelompokUtama,
-                        'IdKelompok' => $row->IdKelompok,
-                        'IdSubkelompok' => $row->IdSubkelompok,
-                        'satPrimer' => $row->satPrimer,
-                        'satSekunder' => $row->satSekunder,
-                        'UnitPrimer' => $row->UnitPrimer,
-                        'UnitSekunder' => $row->UnitSekunder,
-                        'UnitTritier' => $row->UnitTritier,
-                        'Nonaktif' => $row->Nonaktif,
-                        'MaximumStock' => $row->MaximumStock,
-                        'SaatStockAwal' => $row->SaatStockAwal,
-                        'SatuanUmum' => $row->SatuanUmum,
-                        'SatUmum' => $row->SatUmum,
-                        'TotalPemasukanPrimer' => $row->TotalPemasukanPrimer,
-                        'TotalPengeluaranPrimer' => $row->TotalPengeluaranPrimer,
-                        'TotalPemasukanSekunder' => $row->TotalPemasukanSekunder,
-                        'TotalPengeluaranSekunder' => $row->TotalPengeluaranSekunder,
-                        'TotalPemasukanTritier' => $row->TotalPemasukanTritier,
-                        'TotalPengeluaranTritier' => $row->TotalPengeluaranTritier,
-                        'PakaiAturanKonversi' => $row->PakaiAturanKonversi,
-                        'KonvSekunderKePrimer' => $row->KonvSekunderKePrimer,
-                        'KonvTritierKeSekunder' => $row->KonvTritierKeSekunder,
-                        'PIB' => $row->PIB,
+                $divisiArr = array_map(function ($divisiList) {
+                    return [
+                        'NamaDivisi' => $divisiList->NamaDivisi,
+                        'IdDivisi' => $divisiList->IdDivisi,
                     ];
+                }, $divisiConn);
+
+                return datatables($divisiArr)->make(true);
+            case 'getDataType':
+                $UserInput = trim(Auth::user()->NomorUser);
+                $IdType = $request->input('IdType');
+                $TypeConn = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
+
+                return response()->json($TypeConn);
+            case 'getDataKoreksi':
+                $idKonversi = $request->input('id_konversi');
+                $results = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKonversi = ?', [9, $idKonversi]);
+                $response = [];
+
+                if (!empty($results)) {
+                    foreach ($results as $row) {
+                        $response[] = [
+                            'IdTransaksi' => $row->IdTransaksi,
+                            'IdTypeTransaksi' => $row->IdTypeTransaksi,
+                            'UraianDetailTransaksi' => $row->UraianDetailTransaksi,
+                            'IdType' => $row->IdType,
+                            'IdPenerima' => $row->IdPenerima,
+                            'IdPemberi' => $row->IdPemberi,
+                            'SaatAwalTransaksi' => $row->SaatAwalTransaksi,
+                            'SaatAkhirTransaksi' => $row->SaatAkhirTransaksi,
+                            'SaatLog' => $row->SaatLog,
+                            'KomfirmasiPenerima' => $row->KomfirmasiPenerima,
+                            'KomfirmasiPemberi' => $row->KomfirmasiPemberi,
+                            'SaatAwalKomfirmasi' => $row->SaatAwalKomfirmasi,
+                            'SaatAkhirKomfirmasi' => $row->SaatAkhirKomfirmasi,
+                            'JumlahPemasukanPrimer' => $row->JumlahPemasukanPrimer,
+                            'JumlahPemasukanSekunder' => $row->JumlahPemasukanSekunder,
+                            'JumlahPemasukanTritier' => $row->JumlahPemasukanTritier,
+                            'JumlahPengeluaranPrimer' => $row->JumlahPengeluaranPrimer,
+                            'JumlahPengeluaranSekunder' => $row->JumlahPengeluaranSekunder,
+                            'JumlahPengeluaranTritier' => $row->JumlahPengeluaranTritier,
+                            'AsalIdSubkelompok' => $row->AsalIdSubkelompok,
+                            'TujuanIdSubkelompok' => $row->TujuanIdSubkelompok,
+                            'Posisi' => $row->Posisi,
+                            'idkonversi' => $row->idkonversi,
+                            'IdSubkontraktor' => $row->IdSubkontraktor,
+                            'TimeInput' => $row->TimeInput,
+                            'Status' => $row->Status,
+                            'idtrans' => $row->idtrans,
+                            'HargaSatuan' => $row->HargaSatuan,
+                            'Rack' => $row->Rack,
+                            'IdTypeTujuan' => $row->IdTypeTujuan,
+                            'NamaType' => $row->NamaType,
+                            'KodeBarang' => $row->KodeBarang,
+                            'nama_satuan' => $row->nama_satuan,
+                            'NamaSubKelompok' => $row->NamaSubKelompok,
+                            'NamaKelompok' => $row->NamaKelompok,
+                            'NamaKelompokUtama' => $row->NamaKelompokUtama,
+                            'NamaObjek' => $row->NamaObjek,
+                            'NamaDivisi' => $row->NamaDivisi,
+                            'IdDivisi' => $row->IdDivisi,
+                            'MinimumStock' => $row->MinimumStock,
+                            'SaldoPrimer' => $row->SaldoPrimer,
+                            'SaldoSekunder' => $row->SaldoSekunder,
+                            'SaldoTritier' => $row->SaldoTritier,
+                            'IdObjek' => $row->IdObjek,
+                            'IdKelompokUtama' => $row->IdKelompokUtama,
+                            'IdKelompok' => $row->IdKelompok,
+                            'IdSubkelompok' => $row->IdSubkelompok,
+                            'satPrimer' => $row->satPrimer,
+                            'satSekunder' => $row->satSekunder,
+                            'UnitPrimer' => $row->UnitPrimer,
+                            'UnitSekunder' => $row->UnitSekunder,
+                            'UnitTritier' => $row->UnitTritier,
+                            'Nonaktif' => $row->Nonaktif,
+                            'MaximumStock' => $row->MaximumStock,
+                            'SaatStockAwal' => $row->SaatStockAwal,
+                            'SatuanUmum' => $row->SatuanUmum,
+                            'SatUmum' => $row->SatUmum,
+                            'TotalPemasukanPrimer' => $row->TotalPemasukanPrimer,
+                            'TotalPengeluaranPrimer' => $row->TotalPengeluaranPrimer,
+                            'TotalPemasukanSekunder' => $row->TotalPemasukanSekunder,
+                            'TotalPengeluaranSekunder' => $row->TotalPengeluaranSekunder,
+                            'TotalPemasukanTritier' => $row->TotalPemasukanTritier,
+                            'TotalPengeluaranTritier' => $row->TotalPengeluaranTritier,
+                            'PakaiAturanKonversi' => $row->PakaiAturanKonversi,
+                            'KonvSekunderKePrimer' => $row->KonvSekunderKePrimer,
+                            'KonvTritierKeSekunder' => $row->KonvTritierKeSekunder,
+                            'PIB' => $row->PIB,
+                        ];
+                    }
+                    return response()->json($response);
+                } else {
+                    return response()->json(['error' => (string) "Tidak ada data untuk Id Konversi " . $idKonversi]);
                 }
-                return response()->json($response);
-            } else {
-                return response()->json(['error' => (string) "Tidak ada data untuk Id Konversi " . $idKonversi]);
-            }
-        } else if ($id == 'getDataTypeAsalKonversiKoreksi') {
-            $UserInput = trim(Auth::user()->NomorUser);
-            $IdType = $request->input('IdType');
-            $DataBarang = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
-            $DataObjek = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $DataBarang[0]->IdDivisi]);
-            $DataKelompokUtama = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdObjek = ?', [3, $DataBarang[0]->IdObjek]);
-            $DataKelompok = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $DataBarang[0]->IdKelompokUtama]);
-            $DataSubKelompok = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompok = ?', [5, $DataBarang[0]->IdKelompok]);
-            $DataType = DB::connection('ConnInventory')
-                ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $DataBarang[0]->IdSubkelompok]);
-            if (
-                !empty($DataBarang) &&
-                !empty($DataObjek) &&
-                !empty($DataKelompokUtama) &&
-                !empty($DataKelompok) &&
-                !empty($DataSubKelompok) &&
-                !empty($DataType)
-            ) {
-                $RequestedData = [
-                    $DataBarang,
-                    $DataObjek,
-                    $DataKelompokUtama,
-                    $DataKelompok,
-                    $DataSubKelompok,
-                    $DataType,
-                ];
-                return response()->json($RequestedData);
-            } else {
-                return response()->json(['error' => (string) "Tidak ada data untuk Id type " . $IdType]);
-            }
-
-        } else if ($id == 'getDetailKonversi') {
-            $idKonversi = $request->input('idKonversi');
-            $data = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?', [11, (string) $idKonversi]);
-            return response()->json($data);
-        } else {
-            return response()->json(['error' => (string) "Undefined request \$id: " . $id]);
+            case 'getDataTypeAsalKonversiKoreksi':
+                $UserInput = trim(Auth::user()->NomorUser);
+                $IdType = $request->input('IdType');
+                $DataBarang = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
+                $DataObjek = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $DataBarang[0]->IdDivisi]);
+                $DataKelompokUtama = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdObjek = ?', [3, $DataBarang[0]->IdObjek]);
+                $DataKelompok = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $DataBarang[0]->IdKelompokUtama]);
+                $DataSubKelompok = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompok = ?', [5, $DataBarang[0]->IdKelompok]);
+                $DataType = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $DataBarang[0]->IdSubkelompok]);
+                if (
+                    !empty($DataBarang) &&
+                    !empty($DataObjek) &&
+                    !empty($DataKelompokUtama) &&
+                    !empty($DataKelompok) &&
+                    !empty($DataSubKelompok) &&
+                    !empty($DataType)
+                ) {
+                    $RequestedData = [
+                        $DataBarang,
+                        $DataObjek,
+                        $DataKelompokUtama,
+                        $DataKelompok,
+                        $DataSubKelompok,
+                        $DataType,
+                    ];
+                    return response()->json($RequestedData);
+                } else {
+                    return response()->json(['error' => (string) "Tidak ada data untuk Id type " . $IdType]);
+                }
+            case 'getDetailKonversi':
+                $idKonversi = $request->input('idKonversi');
+                $data = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?', [11, (string) $idKonversi]);
+                return response()->json($data);
+            default:
+                return response()->json(['error' => (string) "Undefined request \$id: " . $id]);
         }
+        // if ($id == 'JBBStghJd') {
+        //     $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
+        //     $divisi = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'JBB']);
+        //     return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi'));
+        // } else if ($id == 'ABMBrgJd') {
+        //     $access = (new HakAksesController)->HakAksesFiturMaster('Jumbo Bag');
+        //     $divisi = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'JBB']);
+        //     return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi'));
+        // } else if ($id == 'selectCustomerTH') {
+        //     $customer_list = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_CUSTOMER');
+        //     return response()->json($customer_list, 200);
+        // } else if ($id == 'selectKodeBarangTH') {
+        //     $kode_barangList = DB::connection('ConnJumboBag')->select('exec SP_1273_JBB_LIST_KDCUST_KDBRG @KodeCustomer = ?', [$request->input('Kode_Customer')]);
+        //     return response()->json($kode_barangList, 200);
+        // } else if ($id == 'selectKomponenBarangTH') {
+        //     $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
+        //     return response()->json($dataRincianTH, 200);
+        // } else if ($id == 'getObjek') {
+        //     $divisi = $request->input('divisi');
+        //     $dataObjek = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XKdUser = ?, @XIdDivisi = ?', [2, $nomorUser, $divisi]);
+        //     return response()->json($dataObjek, 200);
+        // } else if ($id == 'getKelompokUtama') {
+        //     $objek = $request->input('objek');
+        //     $dataKelompokUtama = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdObjek = ?', [3, $objek]);
+        //     return response()->json($dataKelompokUtama, 200);
+        // } else if ($id == 'getKelompok') {
+        //     $kelompokUtama = $request->input('kelompokUtama');
+        //     $dataKelompok = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompokUtama = ?', [4, $kelompokUtama]);
+        //     return response()->json($dataKelompok, 200);
+        // } else if ($id == 'getSubKelompok') {
+        //     $kelompok = $request->input('kelompok');
+        //     $dataSubKelompok = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompok = ?', [5, $kelompok]);
+        //     return response()->json($dataSubKelompok, 200);
+        // } else if ($id == 'getType') {
+        //     $subKelompok = $request->input('subKelompok');
+        //     $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdSubKelompok = ?', [6, $subKelompok]);
+        //     return response()->json($dataType, 200);
+        // } else if ($id == 'getTypeSaldo') {
+        //     $idType = $request->input('idType');
+        //     $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdType = ?', [7, $idType]);
+        //     return response()->json($dataType, 200);
+        // } else if ($id == 'getInventoryTypes') {
+        //     $panjang = (float) explode('X', $request->input('panjangLebar'))[0];
+        //     $lebar = (float) explode('X', $request->input('panjangLebar'))[1];
+        //     $namaKomponen = $request->input('namaKomponen');
+        //     $divisi = $request->input('divisi');
 
+        //     $dataInventory = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XPanjang = ?, @XLebar = ?, @XNamaKomponen = ?, @XIdDivisi = ?', [1, (float) $panjang, (float) $lebar, $namaKomponen, $divisi]);
+        //     return response()->json($dataInventory, 200);
+        // } else if ($id == 'getDivisi') {
+        //     $UserInput = trim(Auth::user()->NomorUser);
+
+        //     $divisiConn = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?', [$UserInput, 1]);
+
+        //     $divisiArr = array_map(function ($divisiList) {
+        //         return [
+        //             'NamaDivisi' => $divisiList->NamaDivisi,
+        //             'IdDivisi' => $divisiList->IdDivisi,
+        //         ];
+        //     }, $divisiConn);
+
+        //     return datatables($divisiArr)->make(true);
+        // } else if ($id == 'getObjek') {
+        //     $UserInput = trim(Auth::user()->NomorUser);
+        //     $idDivisi = $request->input('idDivisi');
+        //     $objekConn = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $idDivisi]);
+
+        //     $objekArr = array_map(function ($objekList) {
+        //         return [
+        //             'Namaobjek' => $objekList->NamaObjek,
+        //             'Idobjek' => $objekList->IdObjek,
+        //         ];
+        //     }, $objekConn);
+
+        //     return datatables($objekArr)->make(true);
+        // } else if ($id == 'getKelompokUtama') {
+        //     $UserInput = trim(Auth::user()->NomorUser);
+        //     $idObjek = $request->input('idObjek');
+        //     $KelompokUtamaConn = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdObjek = ?', [3, $idObjek]);
+
+        //     $KelompokUtamaArr = array_map(function ($KelompokUtamaList) {
+        //         return [
+        //             'NamaKelompokUtama' => $KelompokUtamaList->NamaKelompokUtama,
+        //             'IdKelompokUtama' => $KelompokUtamaList->IdKelompokUtama,
+        //         ];
+        //     }, $KelompokUtamaConn);
+
+        //     return datatables($KelompokUtamaArr)->make(true);
+        // } else if ($id == 'getKelompok') {
+        //     $UserInput = trim(Auth::user()->NomorUser);
+        //     $idKelompokUtama = $request->input('idKelompokUtama');
+        //     $KelompokConn = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $idKelompokUtama]);
+
+        //     $KelompokArr = array_map(function ($KelompokList) {
+        //         return [
+        //             'NamaKelompok' => $KelompokList->namakelompok,
+        //             'IdKelompok' => $KelompokList->idkelompok,
+        //         ];
+        //     }, $KelompokConn);
+
+        //     return datatables($KelompokArr)->make(true);
+        // } else if ($id == 'getSubKelompok') {
+        //     $UserInput = trim(Auth::user()->NomorUser);
+        //     $idKelompok = $request->input('idKelompok');
+        //     $SubKelompokConn = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompok = ?', [5, $idKelompok]);
+
+        //     $SubKelompokArr = array_map(function ($SubKelompokList) {
+        //         return [
+        //             'NamaSubKelompok' => $SubKelompokList->NamaSubKelompok,
+        //             'IdSubKelompok' => $SubKelompokList->IdSubkelompok,
+        //         ];
+        //     }, $SubKelompokConn);
+
+        //     return datatables($SubKelompokArr)->make(true);
+        // } else if ($id == 'getType') {
+        //     $UserInput = trim(Auth::user()->NomorUser);
+        //     $IdSubKelompok = $request->input('IdSubKelompok');
+        //     $TypeConn = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $IdSubKelompok]);
+
+        //     $TypeArr = array_map(function ($TypeList) {
+        //         return [
+        //             'NamaType' => $TypeList->NamaType,
+        //             'IdType' => $TypeList->IdType,
+        //         ];
+        //     }, $TypeConn);
+
+        //     return datatables($TypeArr)->make(true);
+        // } else if ($id == 'getDataType') {
+        //     $UserInput = trim(Auth::user()->NomorUser);
+        //     $IdType = $request->input('IdType');
+        //     $TypeConn = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
+
+        //     return response()->json($TypeConn);
+        // } else if ($id == 'getDataKoreksi') {
+        //     $idKonversi = $request->input('id_konversi');
+        //     $results = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKonversi = ?', [9, $idKonversi]);
+        //     $response = [];
+
+        //     if (!empty($results)) {
+        //         foreach ($results as $row) {
+        //             $response[] = [
+        //                 'IdTransaksi' => $row->IdTransaksi,
+        //                 'IdTypeTransaksi' => $row->IdTypeTransaksi,
+        //                 'UraianDetailTransaksi' => $row->UraianDetailTransaksi,
+        //                 'IdType' => $row->IdType,
+        //                 'IdPenerima' => $row->IdPenerima,
+        //                 'IdPemberi' => $row->IdPemberi,
+        //                 'SaatAwalTransaksi' => $row->SaatAwalTransaksi,
+        //                 'SaatAkhirTransaksi' => $row->SaatAkhirTransaksi,
+        //                 'SaatLog' => $row->SaatLog,
+        //                 'KomfirmasiPenerima' => $row->KomfirmasiPenerima,
+        //                 'KomfirmasiPemberi' => $row->KomfirmasiPemberi,
+        //                 'SaatAwalKomfirmasi' => $row->SaatAwalKomfirmasi,
+        //                 'SaatAkhirKomfirmasi' => $row->SaatAkhirKomfirmasi,
+        //                 'JumlahPemasukanPrimer' => $row->JumlahPemasukanPrimer,
+        //                 'JumlahPemasukanSekunder' => $row->JumlahPemasukanSekunder,
+        //                 'JumlahPemasukanTritier' => $row->JumlahPemasukanTritier,
+        //                 'JumlahPengeluaranPrimer' => $row->JumlahPengeluaranPrimer,
+        //                 'JumlahPengeluaranSekunder' => $row->JumlahPengeluaranSekunder,
+        //                 'JumlahPengeluaranTritier' => $row->JumlahPengeluaranTritier,
+        //                 'AsalIdSubkelompok' => $row->AsalIdSubkelompok,
+        //                 'TujuanIdSubkelompok' => $row->TujuanIdSubkelompok,
+        //                 'Posisi' => $row->Posisi,
+        //                 'idkonversi' => $row->idkonversi,
+        //                 'IdSubkontraktor' => $row->IdSubkontraktor,
+        //                 'TimeInput' => $row->TimeInput,
+        //                 'Status' => $row->Status,
+        //                 'idtrans' => $row->idtrans,
+        //                 'HargaSatuan' => $row->HargaSatuan,
+        //                 'Rack' => $row->Rack,
+        //                 'IdTypeTujuan' => $row->IdTypeTujuan,
+        //                 'NamaType' => $row->NamaType,
+        //                 'KodeBarang' => $row->KodeBarang,
+        //                 'nama_satuan' => $row->nama_satuan,
+        //                 'NamaSubKelompok' => $row->NamaSubKelompok,
+        //                 'NamaKelompok' => $row->NamaKelompok,
+        //                 'NamaKelompokUtama' => $row->NamaKelompokUtama,
+        //                 'NamaObjek' => $row->NamaObjek,
+        //                 'NamaDivisi' => $row->NamaDivisi,
+        //                 'IdDivisi' => $row->IdDivisi,
+        //                 'MinimumStock' => $row->MinimumStock,
+        //                 'SaldoPrimer' => $row->SaldoPrimer,
+        //                 'SaldoSekunder' => $row->SaldoSekunder,
+        //                 'SaldoTritier' => $row->SaldoTritier,
+        //                 'IdObjek' => $row->IdObjek,
+        //                 'IdKelompokUtama' => $row->IdKelompokUtama,
+        //                 'IdKelompok' => $row->IdKelompok,
+        //                 'IdSubkelompok' => $row->IdSubkelompok,
+        //                 'satPrimer' => $row->satPrimer,
+        //                 'satSekunder' => $row->satSekunder,
+        //                 'UnitPrimer' => $row->UnitPrimer,
+        //                 'UnitSekunder' => $row->UnitSekunder,
+        //                 'UnitTritier' => $row->UnitTritier,
+        //                 'Nonaktif' => $row->Nonaktif,
+        //                 'MaximumStock' => $row->MaximumStock,
+        //                 'SaatStockAwal' => $row->SaatStockAwal,
+        //                 'SatuanUmum' => $row->SatuanUmum,
+        //                 'SatUmum' => $row->SatUmum,
+        //                 'TotalPemasukanPrimer' => $row->TotalPemasukanPrimer,
+        //                 'TotalPengeluaranPrimer' => $row->TotalPengeluaranPrimer,
+        //                 'TotalPemasukanSekunder' => $row->TotalPemasukanSekunder,
+        //                 'TotalPengeluaranSekunder' => $row->TotalPengeluaranSekunder,
+        //                 'TotalPemasukanTritier' => $row->TotalPemasukanTritier,
+        //                 'TotalPengeluaranTritier' => $row->TotalPengeluaranTritier,
+        //                 'PakaiAturanKonversi' => $row->PakaiAturanKonversi,
+        //                 'KonvSekunderKePrimer' => $row->KonvSekunderKePrimer,
+        //                 'KonvTritierKeSekunder' => $row->KonvTritierKeSekunder,
+        //                 'PIB' => $row->PIB,
+        //             ];
+        //         }
+        //         return response()->json($response);
+        //     } else {
+        //         return response()->json(['error' => (string) "Tidak ada data untuk Id Konversi " . $idKonversi]);
+        //     }
+        // } else if ($id == 'getDataTypeAsalKonversiKoreksi') {
+        //     $UserInput = trim(Auth::user()->NomorUser);
+        //     $IdType = $request->input('IdType');
+        //     $DataBarang = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdType = ?', [7, (string) $IdType]);
+        //     $DataObjek = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$UserInput, 2, $DataBarang[0]->IdDivisi]);
+        //     $DataKelompokUtama = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdObjek = ?', [3, $DataBarang[0]->IdObjek]);
+        //     $DataKelompok = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompokUtama = ?', [4, $DataBarang[0]->IdKelompokUtama]);
+        //     $DataSubKelompok = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdKelompok = ?', [5, $DataBarang[0]->IdKelompok]);
+        //     $DataType = DB::connection('ConnInventory')
+        //         ->select('exec SP_4384_JBB_Konversi_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $DataBarang[0]->IdSubkelompok]);
+        //     if (
+        //         !empty($DataBarang) &&
+        //         !empty($DataObjek) &&
+        //         !empty($DataKelompokUtama) &&
+        //         !empty($DataKelompok) &&
+        //         !empty($DataSubKelompok) &&
+        //         !empty($DataType)
+        //     ) {
+        //         $RequestedData = [
+        //             $DataBarang,
+        //             $DataObjek,
+        //             $DataKelompokUtama,
+        //             $DataKelompok,
+        //             $DataSubKelompok,
+        //             $DataType,
+        //         ];
+        //         return response()->json($RequestedData);
+        //     } else {
+        //         return response()->json(['error' => (string) "Tidak ada data untuk Id type " . $IdType]);
+        //     }
+
+        // } else if ($id == 'getDetailKonversi') {
+        //     $idKonversi = $request->input('idKonversi');
+        //     $data = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?', [11, (string) $idKonversi]);
+        //     return response()->json($data);
+        // } else {
+        //     return response()->json(['error' => (string) "Undefined request \$id: " . $id]);
+        // }
     }
+
 
     public function edit($id)
     {

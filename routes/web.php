@@ -1390,7 +1390,8 @@ Route::group(['middleware' => ['auth']], function () {
     #endregion
 
     #region Multiple Program PermohonanKonversiBarcodeJBBPotongController
-    Route::resource('KonversiRollBarcode', App\Http\Controllers\MultipleProgram\KonversiRollBarcodeController::class);
+    Route::get('KonversiRollBarcode/create/{id}', [App\Http\Controllers\MultipleProgram\KonversiRollBarcodeController::class, 'create']);
+    Route::resource('KonversiRollBarcode', App\Http\Controllers\MultipleProgram\KonversiRollBarcodeController::class)->except(['create']);
     Route::resource('KonversiSetengahJadi', App\Http\Controllers\MultipleProgram\KonversiSetengahJadiController::class);
     Route::resource('ACCPermohonanKonversiPotong', App\Http\Controllers\MultipleProgram\ACCPermohonanKonversiPotongController::class);
     #endregion

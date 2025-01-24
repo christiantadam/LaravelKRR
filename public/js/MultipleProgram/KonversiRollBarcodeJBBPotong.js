@@ -174,10 +174,10 @@ $(document).ready(function () {
             url: "/KonversiRollBarcode/create/JBBPotong",
             type: "GET",
             success: function (response) {
-                console.log(response.data);
-
-                // Assuming your server returns an array of objects for the table data
-                table_daftarKonversi.clear().rows.add(response.data).draw();
+                if (response.data.length !== 0) {
+                    console.log(response.data);
+                    table_daftarKonversi.clear().rows.add(response.data).draw();
+                }
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching data: ", error);
@@ -277,6 +277,7 @@ $(document).ready(function () {
                     .toArray(),
                 proses: proses,
                 shift: id_shift.value,
+                divisi: "JBB",
                 jenisStore: "permohonan",
             },
             success: function (response) {
@@ -429,9 +430,9 @@ $(document).ready(function () {
             }
         });
         if (
-            nomorUser !== "4384" &&
-            nomorUser !== "4199" &&
-            nomorUser !== "1516"
+            nomorUser !== "4384" && //adam
+            nomorUser !== "4199" && //kelvin
+            nomorUser !== "1516" //sri gayati
         ) {
             const inputElement = Swal.getInput();
 
@@ -516,9 +517,9 @@ $(document).ready(function () {
         button_hapusTujuanKonversi.disabled = true;
         button_modalProses.disabled = true;
         if (
-            nomorUser !== "4384" &&
-            nomorUser !== "4199" &&
-            nomorUser !== "1516"
+            nomorUser !== "4384" && //adam
+            nomorUser !== "4199" && //kelvin
+            nomorUser !== "1516" //sri gayati
         ) {
             hasil_konversiTritierTujuan.readOnly = true;
             button_timbangTujuanKonversi.disabled = false;
@@ -1533,6 +1534,7 @@ $(document).ready(function () {
             data: {
                 _token: csrfToken,
                 idkonversi: idkonversi,
+                divisi: "JBB",
                 jenisStore: "accPermohonan",
             },
             success: function (response) {
