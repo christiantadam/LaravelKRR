@@ -22,6 +22,7 @@
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -32,6 +33,7 @@
     <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
 </head>

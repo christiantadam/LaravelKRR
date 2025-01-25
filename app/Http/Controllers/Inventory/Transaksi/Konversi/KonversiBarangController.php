@@ -17,6 +17,52 @@ class KonversiBarangController extends Controller
         return view('Inventory.Transaksi.Konversi.KonversiBarang', compact('access'));
     }
 
+    public function getObjekSelect($divisi)
+    {
+        $user = Auth::user()->NomorUser;
+        $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_User_Objek @XKdUser = ?, @XIdDivisi = ?', [$user, $divisi]);
+        return response()->json($data);
+    }
+
+    public function getKelompokUtamaSelect($objek)
+    {
+        $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdObjek_KelompokUtama @XIdObjek_KelompokUtama = ?', [$objek]);
+        return response()->json($data);
+    }
+
+    public function getKelompokSelect($kelompokUtama)
+    {
+        $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdKelompokUtama_Kelompok @XIdKelompokUtama_Kelompok = ?', [$kelompokUtama]);
+        return response()->json($data);
+    }
+
+    public function getSubKelompokSelect($kelompok)
+    {
+        $kelompok = $kelompok ?? '0';
+        $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_IDKELOMPOK_SUBKELOMPOK @XIdKelompok_SubKelompok = ?', [$kelompok]);
+        return response()->json($data);
+    }
+
+    public function getIdTypeSelect($subKelompok)
+    {
+        // dd($subKelompok);
+        $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_idsubkelompok_type @XIdSubKelompok_Type = ?', [$subKelompok]);
+        // dd($data);
+        return response()->json($data);
+    }
+
+    public function getTypeABMSelect($subKelompok)
+    {
+        $data = DB::connection('ConnInventory')->select('exec SP_4451_INV_idsubkelompok_type_ABM @XIdSubKelompok_Type = ?', [$subKelompok]);
+        return response()->json($data);
+    }
+
+    public function getTypeCIRSelect()
+    {
+        $data = DB::connection('ConnInventory')->select('exec SP_4451_INV_list_type_perukuran');
+        return response()->json($data);
+    }
+
     //Show the form for creating a new resource.
     public function create()
     {
@@ -26,7 +72,7 @@ class KonversiBarangController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // 
+        //
     }
 
     //Display the specified resource.
@@ -223,7 +269,7 @@ class KonversiBarangController extends Controller
             return datatables($subkel)->make(true);
         }
 
-        // get type 
+        // get type
         else if ($id === 'getType') {
             $IdType = $request->input('IdType');
             $IdSubKel = $request->input('IdSubKel');
@@ -261,10 +307,10 @@ class KonversiBarangController extends Controller
             $sTypeVal = $request->input('sTypeVal');
 
             $divisiConn = DB::connection('ConnInventory')
-            ->table('Type')
-            ->select('KodeBarang')
-            ->where('IdType', $sTypeVal)
-            ->first();
+                ->table('Type')
+                ->select('KodeBarang')
+                ->where('IdType', $sTypeVal)
+                ->first();
 
             // dd($divisiConn);
             return response()->json($divisiConn);
