@@ -563,6 +563,8 @@ $(document).ready(function () {
         }
     });
 
+    let totalPaymentGeneral = 0;
+
     btn_group.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(rowDataArray);
@@ -616,6 +618,7 @@ $(document).ready(function () {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         console.log("Total dibayarkan: ", totalPayment);
+                        totalPaymentGeneral = totalPayment;
                         $.ajax({
                             url: "MaintenanceBKKKRR2/getGroup",
                             type: "GET",
@@ -1466,8 +1469,8 @@ $(document).ready(function () {
         console.log(rowData);
 
         if (rowDataBKK == null || rowDataBKK == undefined) {
-            nilaiBkk.value = rowData.Nilai_Pembayaran;
-            nilaiPembulatan.value = rowData.Nilai_Pembayaran;
+            nilaiBkk.value = numeral(totalPaymentGeneral).format("0,0.00");
+            nilaiPembulatan.value = numeral(totalPaymentGeneral).format("0,0.00");
         } else {
             bkk.value = rowDataBKK.Id_BKK;
             nilaiBkk.value = rowDataBKK.NilaiBKK;
