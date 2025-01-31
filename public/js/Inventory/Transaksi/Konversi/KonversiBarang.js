@@ -3168,6 +3168,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                     icon: "success",
                                     title: "Success",
                                     text: response.success,
+                                    returnFocus: false, // Mencegah pengembalian fokus ke elemen sebelumnya
+                                    didOpen: (popup) => {
+                                        popup
+                                            .querySelector(".swal2-confirm")
+                                            .focus(); // Fokus ke tombol OK
+                                    },
                                 });
                                 $("#modalAsalKonversi").modal("hide");
 
@@ -3244,6 +3250,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                     icon: "success",
                                     title: "Success",
                                     text: response.success,
+                                    returnFocus: false, // Mencegah pengembalian fokus ke elemen sebelumnya
+                                    didOpen: (popup) => {
+                                        popup
+                                            .querySelector(".swal2-confirm")
+                                            .focus(); // Fokus ke tombol OK
+                                    },
                                 });
                                 $("#modalAsalKonversi").modal("hide");
 
@@ -3324,6 +3336,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 icon: "success",
                                 title: "Success",
                                 text: response.success,
+                                returnFocus: false, // Mencegah pengembalian fokus ke elemen sebelumnya
+                                didOpen: (popup) => {
+                                    popup
+                                        .querySelector(".swal2-confirm")
+                                        .focus(); // Fokus ke tombol OK
+                                },
                             });
                             $("#modalAsalKonversi").modal("hide");
 
@@ -3393,6 +3411,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 icon: "success",
                                 title: "Success",
                                 text: response.success,
+                                returnFocus: false, // Mencegah pengembalian fokus ke elemen sebelumnya
+                                didOpen: (popup) => {
+                                    popup
+                                        .querySelector(".swal2-confirm")
+                                        .focus(); // Fokus ke tombol OK
+                                },
                             });
                             $("#modalAsalKonversi").modal("hide");
 
@@ -3481,6 +3505,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                     icon: "success",
                                     title: "Success",
                                     text: response.success,
+                                    returnFocus: false, // Mencegah pengembalian fokus ke elemen sebelumnya
+                                    didOpen: (popup) => {
+                                        popup
+                                            .querySelector(".swal2-confirm")
+                                            .focus(); // Fokus ke tombol OK
+                                    },
                                 });
                                 $("#modalAsalKonversi").modal("hide");
 
@@ -3561,6 +3591,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 icon: "success",
                                 title: "Success",
                                 text: response.success,
+                                returnFocus: false, // Mencegah pengembalian fokus ke elemen sebelumnya
+                                didOpen: (popup) => {
+                                    popup
+                                        .querySelector(".swal2-confirm")
+                                        .focus(); // Fokus ke tombol OK
+                                },
                             });
                             $("#modalAsalKonversi").modal("hide");
 
@@ -3630,6 +3666,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 icon: "success",
                                 title: "Success",
                                 text: response.success,
+                                returnFocus: false, // Mencegah pengembalian fokus ke elemen sebelumnya
+                                didOpen: (popup) => {
+                                    popup
+                                        .querySelector(".swal2-confirm")
+                                        .focus(); // Fokus ke tombol OK
+                                },
                             });
                             $("#modalAsalKonversi").modal("hide");
 

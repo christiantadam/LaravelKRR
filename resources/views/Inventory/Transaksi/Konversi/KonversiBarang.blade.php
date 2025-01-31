@@ -161,7 +161,7 @@
 
                     <div class="modal fade bd-example-modal-lg" id="modalAsalKonversi" tabindex="-1" role="dialog"
                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog custom-modal-width">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="asalAtauTujuan">Asal Konversi</h5>
@@ -377,47 +377,20 @@
                                         <div class="row mt-2 mb-2">
                                             <span><strong>Posisi Saldo Akhir</strong></span>
                                         </div>
-                                        <div class="row">
+                                        <div class="row align-items-center">
+                                            <div class="col-sm-1"><label>Primer</label></div>
+                                            <div class="col-sm-2"><input type="text" class="form-control" id="primerAkhirAsal" readonly name="primerAkhirAsal"></div>
+                                            <div class="col-sm-1"><span id="asalP">P</span></div>
 
-                                            <div class="col-sm-1 mb-2">
-                                                <label>Primer</label>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="primerAkhirAsal"
-                                                        readonly name="primerAkhirAsal">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1" style="margin-left: -3%">
-                                                <span id="asalP">P</span>
-                                            </div>
+                                            <div class="col-sm-1"><label>Sekunder</label></div>
+                                            <div class="col-sm-2"><input type="text" class="form-control" id="sekunderAkhirAsal" readonly name="sekunderAkhirAsal"></div>
+                                            <div class="col-sm-1"><span id="asalS">S</span></div>
 
-                                            <div class="col-sm-1">
-                                                <label>Sekunder</label>
-                                            </div>
-                                            <div class="col-sm-2" style="margin-left: 3%">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="sekunderAkhirAsal"
-                                                        readonly name="sekunderAkhirAsal">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1" style="margin-left: -3%">
-                                                <span id="asalS">S</span>
-                                            </div>
-
-                                            <div class="col-sm-1">
-                                                <label>Tritier</label>
-                                            </div>
-                                            <div class="col-sm-2" style="margin-left: 3%">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="triterAkhirAsal"
-                                                        readonly name="triterAkhirAsal">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-1" style="margin-left: -3%">
-                                                <span id="asalT">T</span>
-                                            </div>
+                                            <div class="col-sm-1"><label>Tritier</label></div>
+                                            <div class="col-sm-2"><input type="text" class="form-control" id="triterAkhirAsal" readonly name="triterAkhirAsal"></div>
+                                            <div class="col-sm-1"><span id="asalT">T</span></div>
                                         </div>
+                                        <br>
                                     </div>
 
                                     <div class="baris-1 pl-3">
