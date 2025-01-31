@@ -466,47 +466,48 @@ $(document).ready(function () {
             }
 
             dataToSend.push({
-                tglDatang: tglbttb.value,
-                Qty: numeral(data[i].Qty).value(),
-                qtyShip: numeral(data[i].QtyShipped).value() || 0,
-                qtyRcv: numeral(data[i].QtyRcv).value() || 0,
-                qtyremain: numeral(data[i].QtyRemain).value() || 0,
-                NoSatuan: data[i].NoSatuan,
-                SJ: nosj.value.trim(),
-                idSup: supplier.value,
-                pUnit: data[i].PriceUnit,
-                pPPN: data[i].PPN,
-                noTrans: data[i].No_trans,
-                kurs: data[i].Kurs,
-                pIDRUnit: data[i].PriceUnitIDR,
-                pIDRPPN: data[i].PriceUnitIDR_PPN,
-                NoPIB: nopib.value.trim(),
-                NoPO: po.value.trim(),
                 BTTB: bttb,
-                pSub: data[i].PriceSub,
-                pIDRSub: data[i].PriceSubIDR,
-                pTot: data[i].PriceExt,
-                pIDRTot: data[i].PriceExtIDR,
-                NoPIBExt: nopibext.value.trim(),
-                TglPIB: tglpib.value,
-                NoSPPBBC: sppb.value.trim(),
-                TglSPPBBC: tglsppb.value,
-                NoSKBM: skbm.value.trim(),
-                TglSKBM: tglskbm.value,
-                NoReg: registrasi.value.trim(),
-                TglReg: tglregis.value.trim(),
-                idPPN: data[i].IdPPN,
-                jumPPN: data[i].JumPPN,
-                persen: data[i].disc,
                 disc: data[i].Harga_disc,
                 discIDR: data[i].DiscIDR,
-                mtUang: data[i].ID_MATAUANG,
+                idPPN: data[i].IdPPN,
+                idSup: supplier.value,
+                jumPPN: data[i].JumPPN,
                 KodeHS: kodehs.value.trim(),
+                kurs: data[i].Kurs,
+                mtUang: data[i].ID_MATAUANG,
+                NoPIB: nopib.value.trim(),
+                NoPIBExt: nopibext.value.trim(),
+                NoPO: po.value.trim(),
+                NoReg: registrasi.value.trim(),
+                NoSatuan: data[i].NoSatuan,
+                NoSKBM: skbm.value.trim(),
+                NoSPPBBC: sppb.value.trim(),
+                noTrans: data[i].No_trans,
                 noTrTmp: noTrTmp,
                 pDPP: data[i].PriceDPP,
+                persen: data[i].disc,
                 pIDRDPP: data[i].PriceDPP_IDR,
+                pIDRPPN: data[i].PriceUnitIDR_PPN,
+                pIDRSub: data[i].PriceSubIDR,
+                pIDRTot: data[i].PriceExtIDR,
+                pIDRUnit: data[i].PriceUnitIDR,
+                pPPN: data[i].PPN,
+                pSub: data[i].PriceSub,
+                pTot: data[i].PriceExt,
+                pUnit: data[i].PriceUnit,
+                Qty: numeral(data[i].Qty).value(),
+                qtyRcv: numeral(data[i].QtyRcv).value() || 0,
+                qtyremain: numeral(data[i].QtyRemain).value() || 0,
+                qtyShip: numeral(data[i].QtyShipped).value() || 0,
+                SJ: nosj.value.trim(),
+                tglDatang: tglbttb.value,
+                TglPIB: tglpib.value,
+                TglReg: tglregis.value.trim(),
+                TglSKBM: tglskbm.value,
+                TglSPPBBC: tglsppb.value,
             });
         }
+        console.log(dataToSend); // console.log untuk tracing gagal post BTTB
 
         $.ajax({
             url: "/CCreateBTTB/PostData",
@@ -1020,6 +1021,7 @@ $(document).ready(function () {
 
     po.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
+            this.value = this.value.toUpperCase();
             post_btn.disabled = false;
             $("#tabelcreate").DataTable().clear().draw();
             clear();
@@ -1143,7 +1145,7 @@ $(document).ready(function () {
         let kurs = numeral(document.getElementById("kurs").value).value();
         let PPNValue = this.value / kurs;
         ppn.value = numeral(PPNValue).format("0,0.0000");
-        ppn_persen.value = ((this.value / numeral(harga_sub_total.value).value()) * 100).toFixed(2); //prettier-ignore
+        ppn_persen.value = ((this.value / numeral(idr_sub_total.value).value()) * 100).toFixed(2); //prettier-ignore
         updateHargaTotal();
         updateIDRHargaTotal();
         updateTotalDisc();
