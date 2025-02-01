@@ -16,7 +16,10 @@ class CreateBKMController extends Controller
     public function index()
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Accounting');
-        return view('Accounting.Piutang.BKMCashAdvance.CreateBKM', compact('access'));
+        $kodePerkiraan = DB::connection('ConnAccounting')
+            ->select('exec SP_5298_ACC_LIST_KODE_PERKIRAAN ?', [1]);
+        $banks = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_LIST_BANK');
+        return view('Accounting.Piutang.BKMCashAdvance.CreateBKM', compact('access', 'banks', 'kodePerkiraan'));
     }
 
     //Show the form for creating a new resource.

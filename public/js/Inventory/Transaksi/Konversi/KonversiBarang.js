@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var result3, result4, result5, result6, result7;
     var jml, i;
     let stSelect = 0;
+    btnDivisi.focus();
 
     var today = new Date().toISOString().slice(0, 10);
     tanggal.value = today;
@@ -543,6 +544,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     Load_DataKonversi();
                     Load_Data_All_Asal();
                     Load_Data_All_Tujuan();
+                    btnIsiAsal.focus();
                 }
             });
         } catch (error) {

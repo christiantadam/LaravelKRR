@@ -175,7 +175,21 @@
                                             <div class="col-md-3">
                                                 <label for="bankSelect" style="margin-right: 10px;">Bank</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-9" style="width: 100%;">
+                                                <!-- Ensure full width here -->
+                                                <select name="select_bankM" id="select_bankM" class="form-control"
+                                                    style="width: 100%;">
+                                                    <!-- Full width for select -->
+                                                    <option disabled selected>Pilih Bank</option>
+                                                    @foreach ($banks as $d)
+                                                        <option value="{{ $d->Id_Bank }}">{{ $d->Id_Bank }}
+                                                            | {{ $d->Nama_Bank }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="text" id="jenis_bankTB" name="jenis_bankTB"
+                                                    class="form-control" style="width: 100%; display: none">
+                                            </div>
+                                            {{-- <div class="col-md-2">
                                                 <input type="text" id="idBank_TB" name="idBank_TB"
                                                     class="form-control" style="width: 100%">
                                             </div>
@@ -188,7 +202,7 @@
                                             <div class="col-md-1">
                                                 <button type="button" class="btn btn-default"
                                                     id="btn_bankTB">...</button>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <br>
                                         <div class="d-flex">
@@ -229,7 +243,15 @@
                                                 <label for="kodePerkiraan" style="margin-right: 10px;">Kode
                                                     Perkiraan</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-9" style="width: 100%;"> <!-- Ensure full width here -->
+                                                <select name="select_kodePerkiraanM" id="select_kodePerkiraanM" class="form-control" style="width: 100%;"> <!-- Full width for select -->
+                                                    <option disabled selected>Pilih Kode Perkiraan</option>
+                                                    @foreach ($kodePerkiraan as $d)
+                                                        <option value="{{ $d->NoKodePerkiraan }}">{{ $d->Keterangan }} | {{ $d->NoKodePerkiraan }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            {{-- <div class="col-md-2">
                                                 <input type="text" id="id_perkiraanTB" name="id_perkiraanTB"
                                                     class="form-control" style="width: 100%">
                                             </div>
@@ -240,7 +262,7 @@
                                             <div class="col-md-1">
                                                 <button type="button" class="btn btn-default"
                                                     id="btn_perkiraanTB">...</button>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <br>
                                         <div class="d-flex">

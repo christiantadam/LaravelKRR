@@ -238,8 +238,8 @@ $(document).ready(function () {
     btn_prosesTB.addEventListener("click", async function (event) {
         event.preventDefault();
         if (rowDataPertama) {
-            rowDataPertama.Id_bank = idBank_TB.value;
-            rowDataPertama.KodePerkiraan = id_perkiraanTB.value;
+            rowDataPertama.Id_bank = select_bankM.val();
+            rowDataPertama.KodePerkiraan = select_kodePerkiraanM.val();
             let dateValue = tanggalInputTB.value;
 
             let [year, month, day] = dateValue.split("-");
@@ -405,13 +405,15 @@ $(document).ready(function () {
             // Set the value of the input
             // tanggalInputTB.value = formattedDate;
             tanggalInputTB.valueAsDate = new Date();
-            id_perkiraanTB.value = "";
-            ket_perkiraanTB.value = "";
+            // id_perkiraanTB.value = "";
+            // ket_perkiraanTB.value = "";
             jenisBayarTB.value = rowDataArray[0].Jenis_Pembayaran;
-            idBank_TB.value = rowDataArray[0].Id_bank;
+            select_bankM.val(rowDataArray[0].Id_bank).trigger("change");
+            // idBank_TB.value = rowDataArray[0].Id_bank;
             mataUangTB.value = rowDataArray[0].Nama_MataUang;
             nilaiPelunasanTB.value = rowDataArray[0].Nilai_Pelunasan;
             noBuktiTB.value = rowDataArray[0].No_Bukti;
+            select_kodePerkiraanM.val(null).trigger("change");
             // id_perkiraanTB.value = rowDataArray[0].KodePerkiraan;
             $.ajax({
                 url: "CreateBKM/getBankDetails",
@@ -430,8 +432,9 @@ $(document).ready(function () {
                             showConfirmButton: false,
                         });
                     } else {
-                        nama_bankTB.value = response.Nama;
+                        // nama_bankTB.value = response.Nama;
                         jenis_bankTB.value = response.Jenis;
+
                     }
                 },
                 error: function (xhr) {
@@ -473,155 +476,192 @@ $(document).ready(function () {
         }
     });
 
-    btn_bankTB.addEventListener("click", async function (event) {
-        event.preventDefault();
-        try {
-            const result = await Swal.fire({
-                title: "Select a Bank",
-                html: '<table id="tableBank" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
-                showCancelButton: true,
-                width: "50%",
-                preConfirm: () => {
-                    const selectedData = $("#tableBank")
-                        .DataTable()
-                        .row(".selected")
-                        .data();
-                    if (!selectedData) {
-                        Swal.showValidationMessage("Please select a row");
-                        return false;
-                    }
-                    return selectedData;
-                },
-                didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#tableBank").DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            ajax: {
-                                url: "CreateBKM/getBank",
-                                dataType: "json",
-                                type: "GET",
-                                data: {
-                                    _token: csrfToken,
-                                },
-                            },
-                            columns: [
-                                { data: "Id_Bank" },
-                                { data: "Nama_Bank" },
-                            ],
-                        });
-                        $("#tableBank tbody").on("click", "tr", function () {
-                            table.$("tr.selected").removeClass("selected");
-                            $(this).addClass("selected");
-                        });
-                        currentIndex = null;
-                        Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydownInSwal(e, "tableBank")
-                        );
-                    });
-                },
-            }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    const selectedRow = result.value;
-                    idBank_TB.value = escapeHTML(selectedRow.Id_Bank.trim());
-                    nama_bankTB.value = escapeHTML(
-                        selectedRow.Nama_Bank.trim()
-                    );
-
-                    $.ajax({
-                        url: "CreateBKM/getBankDetails",
-                        type: "GET",
-                        data: {
-                            _token: csrfToken,
-                            idBank: idBank_TB.value,
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            jenis_bankTB.value = data.Jenis;
-                            console.log(jenis_bankTB.value);
-                        },
-                        error: function (xhr, status, error) {
-                            var err = eval("(" + xhr.responseText + ")");
-                            alert(err.Message);
-                        },
-                    });
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
-                }
-            });
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
+    const select_bankM = $("#select_bankM");
+    select_bankM.select2({
+        dropdownParent: $("#modalInputTanggal"),
+        placeholder: "Pilih Bank",
+    });
+    select_bankM.on("select2:select", function () {
+        const selectedBank = $(this).val();
+        $.ajax({
+            url: "CreateBKM/getBankDetails",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                idBank: select_bankM.val(),
+            },
+            success: function (data) {
+                console.log(data);
+                jenis_bankTB.value = data.Jenis;
+                console.log(jenis_bankTB.value);
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
+        console.log(selectedBank);
     });
 
-    btn_perkiraanTB.addEventListener("click", async function (event) {
-        event.preventDefault();
-        try {
-            const result = await Swal.fire({
-                title: "Select a Kode Perkiraan",
-                html: '<table id="tableKira" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
-                showCancelButton: true,
-                width: "50%",
-                preConfirm: () => {
-                    const selectedData = $("#tableKira")
-                        .DataTable()
-                        .row(".selected")
-                        .data();
-                    if (!selectedData) {
-                        Swal.showValidationMessage("Please select a row");
-                        return false;
-                    }
-                    return selectedData;
-                },
-                didOpen: () => {
-                    $(document).ready(function () {
-                        const table = $("#tableKira").DataTable({
-                            responsive: true,
-                            processing: true,
-                            serverSide: true,
-                            ajax: {
-                                url: "CreateBKM/getKodePerkiraan",
-                                dataType: "json",
-                                type: "GET",
-                                data: {
-                                    _token: csrfToken,
-                                },
-                            },
-                            columns: [
-                                { data: "NoKodePerkiraan" },
-                                { data: "Keterangan" },
-                            ],
-                        });
-                        $("#tableKira tbody").on("click", "tr", function () {
-                            table.$("tr.selected").removeClass("selected");
-                            $(this).addClass("selected");
-                        });
-                        currentIndex = null;
-                        Swal.getPopup().addEventListener("keydown", (e) =>
-                            handleTableKeydownInSwal(e, "tableKira")
-                        );
-                    });
-                },
-            }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    const selectedRow = result.value;
-                    id_perkiraanTB.value = escapeHTML(
-                        selectedRow.NoKodePerkiraan.trim()
-                    );
-                    ket_perkiraanTB.value = escapeHTML(
-                        selectedRow.Keterangan.trim()
-                    );
-                    // setTimeout(() => {
-                    //     no_bukti.focus();
-                    // }, 300);
-                }
-            });
-        } catch (error) {
-            console.error("An error occurred:", error);
-        }
+    // btn_bankTB.addEventListener("click", async function (event) {
+    //     event.preventDefault();
+    //     try {
+    //         const result = await Swal.fire({
+    //             title: "Select a Bank",
+    //             html: '<table id="tableBank" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
+    //             showCancelButton: true,
+    //             width: "50%",
+    //             preConfirm: () => {
+    //                 const selectedData = $("#tableBank")
+    //                     .DataTable()
+    //                     .row(".selected")
+    //                     .data();
+    //                 if (!selectedData) {
+    //                     Swal.showValidationMessage("Please select a row");
+    //                     return false;
+    //                 }
+    //                 return selectedData;
+    //             },
+    //             didOpen: () => {
+    //                 $(document).ready(function () {
+    //                     const table = $("#tableBank").DataTable({
+    //                         responsive: true,
+    //                         processing: true,
+    //                         serverSide: true,
+    //                         ajax: {
+    //                             url: "CreateBKM/getBank",
+    //                             dataType: "json",
+    //                             type: "GET",
+    //                             data: {
+    //                                 _token: csrfToken,
+    //                             },
+    //                         },
+    //                         columns: [
+    //                             { data: "Id_Bank" },
+    //                             { data: "Nama_Bank" },
+    //                         ],
+    //                     });
+    //                     $("#tableBank tbody").on("click", "tr", function () {
+    //                         table.$("tr.selected").removeClass("selected");
+    //                         $(this).addClass("selected");
+    //                     });
+    //                     currentIndex = null;
+    //                     Swal.getPopup().addEventListener("keydown", (e) =>
+    //                         handleTableKeydownInSwal(e, "tableBank")
+    //                     );
+    //                 });
+    //             },
+    //         }).then((result) => {
+    //             if (result.isConfirmed && result.value) {
+    //                 const selectedRow = result.value;
+    //                 idBank_TB.value = escapeHTML(selectedRow.Id_Bank.trim());
+    //                 nama_bankTB.value = escapeHTML(
+    //                     selectedRow.Nama_Bank.trim()
+    //                 );
+
+    //                 $.ajax({
+    //                     url: "CreateBKM/getBankDetails",
+    //                     type: "GET",
+    //                     data: {
+    //                         _token: csrfToken,
+    //                         idBank: idBank_TB.value,
+    //                     },
+    //                     success: function (data) {
+    //                         console.log(data);
+    //                         jenis_bankTB.value = data.Jenis;
+    //                         console.log(jenis_bankTB.value);
+    //                     },
+    //                     error: function (xhr, status, error) {
+    //                         var err = eval("(" + xhr.responseText + ")");
+    //                         alert(err.Message);
+    //                     },
+    //                 });
+    //                 // setTimeout(() => {
+    //                 //     no_bukti.focus();
+    //                 // }, 300);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error("An error occurred:", error);
+    //     }
+    // });
+
+    const select_kodePerkiraanM = $("#select_kodePerkiraanM");
+    select_kodePerkiraanM.select2({
+        dropdownParent: $("#modalInputTanggal"),
+        placeholder: "Pilih Kode Perkiraan",
     });
+    select_kodePerkiraanM.on("select2:select", function () {
+        const selectedKodePerkiraanM = $(this).val();
+        console.log(selectedKodePerkiraanM);
+    });
+
+    // btn_perkiraanTB.addEventListener("click", async function (event) {
+    //     event.preventDefault();
+    //     try {
+    //         const result = await Swal.fire({
+    //             title: "Select a Kode Perkiraan",
+    //             html: '<table id="tableKira" class="display" style="width:100%"><thead><tr><th>Kode Perkiraan</th><th>Keterangan</th></tr></thead><tbody></tbody></table>',
+    //             showCancelButton: true,
+    //             width: "50%",
+    //             preConfirm: () => {
+    //                 const selectedData = $("#tableKira")
+    //                     .DataTable()
+    //                     .row(".selected")
+    //                     .data();
+    //                 if (!selectedData) {
+    //                     Swal.showValidationMessage("Please select a row");
+    //                     return false;
+    //                 }
+    //                 return selectedData;
+    //             },
+    //             didOpen: () => {
+    //                 $(document).ready(function () {
+    //                     const table = $("#tableKira").DataTable({
+    //                         responsive: true,
+    //                         processing: true,
+    //                         serverSide: true,
+    //                         ajax: {
+    //                             url: "CreateBKM/getKodePerkiraan",
+    //                             dataType: "json",
+    //                             type: "GET",
+    //                             data: {
+    //                                 _token: csrfToken,
+    //                             },
+    //                         },
+    //                         columns: [
+    //                             { data: "NoKodePerkiraan" },
+    //                             { data: "Keterangan" },
+    //                         ],
+    //                     });
+    //                     $("#tableKira tbody").on("click", "tr", function () {
+    //                         table.$("tr.selected").removeClass("selected");
+    //                         $(this).addClass("selected");
+    //                     });
+    //                     currentIndex = null;
+    //                     Swal.getPopup().addEventListener("keydown", (e) =>
+    //                         handleTableKeydownInSwal(e, "tableKira")
+    //                     );
+    //                 });
+    //             },
+    //         }).then((result) => {
+    //             if (result.isConfirmed && result.value) {
+    //                 const selectedRow = result.value;
+    //                 id_perkiraanTB.value = escapeHTML(
+    //                     selectedRow.NoKodePerkiraan.trim()
+    //                 );
+    //                 ket_perkiraanTB.value = escapeHTML(
+    //                     selectedRow.Keterangan.trim()
+    //                 );
+    //                 // setTimeout(() => {
+    //                 //     no_bukti.focus();
+    //                 // }, 300);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error("An error occurred:", error);
+    //     }
+    // });
 
     $("#table_bkm").on("xhr.dt", function (e, settings, json, xhr) {
         rowDataArray = [];
