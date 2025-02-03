@@ -31,10 +31,10 @@
                             </tr>
                         </thead>
                     </table>
-                    <div class="form-check form-check-inline">
+                    {{-- <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="checkbox_all" value="option2">
                         <label class="form-check-label" for="checkbox2">Pilih Semua</label>
-                    </div>
+                    </div> --}}
                     <div style="gap: 5px; grid-template-columns: auto;">
                         {{-- <form
                             onsubmit="return confirm('Apakah Anda Yakin untuk melunasi surat pesanan yang sudah dipilih?');"

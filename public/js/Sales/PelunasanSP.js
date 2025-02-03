@@ -135,23 +135,31 @@ $(document).ready(function () {
         }
     );
 
-    checkbox_all.addEventListener("change", function () {
-        // Cek apakah checkbox_all dicentang
-        let isChecked = this.checked;
+    // checkbox_all.addEventListener("change", function () {
+    //     // Cek apakah checkbox_all dicentang
+    //     let isChecked = this.checked;
 
-        // Centang atau hilangkan centang semua checkbox penerima
-        $('input[name="penerimaCheckbox"]').each(function () {
-            $(this).prop("checked", isChecked).trigger("change");
-        });
-    });
+    //     // Centang atau hilangkan centang semua checkbox penerima
+    //     $('input[name="penerimaCheckbox"]').each(function () {
+    //         $(this).prop("checked", isChecked).trigger("change");
+    //     });
+    // });
 
     btn_submitSelected.addEventListener("click", async function (event) {
         event.preventDefault();
         console.log(rowDataArray);
-        let adaSisaOrder = rowDataArray.some(
-            (item) => item.SisaOrder !== ".00"
-        );
-
+        // let adaSisaOrder = rowDataArray.some(
+        //     (item) => item.SisaOrder !== ".00"
+        // );
+        // if (adaSisaOrder) {
+        //     Swal.fire({
+        //         icon: "info",
+        //         title: "Info!",
+        //         text: "Semua Sisa Order harus 0 (nol).",
+        //         showConfirmButton: false,
+        //     });
+        //     return;
+        // }
         if (rowDataArray.length === 0) {
             Swal.fire({
                 icon: "info",
@@ -160,53 +168,53 @@ $(document).ready(function () {
                 showConfirmButton: false,
             });
             return;
-        }
-
-        if (adaSisaOrder) {
+        }else {
             Swal.fire({
-                icon: "info",
-                title: "Info!",
-                text: "Semua Sisa Order harus 0 (nol).",
-                showConfirmButton: false,
-            });
-            return;
-        }
+                title: `Apakah Anda yakin melunasi ${rowDataArray.length} Surat Pesanan?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "prosesLunasSP",
+                        type: "GET",
+                        data: {
+                            _token: csrfToken,
+                            rowDataArray: rowDataArray,
+                        },
+                        success: function (response) {
+                            console.log(response);
 
-        $.ajax({
-            url: "prosesLunasSP",
-            type: "GET",
-            data: {
-                _token: csrfToken,
-                rowDataArray: rowDataArray,
-            },
-            success: function (response) {
-                console.log(response);
-
-                if (response.message) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Success!",
-                        text: response.message,
-                        showConfirmButton: true,
-                    }).then(() => {
-                        location.reload();
-                        // document
-                        //     .querySelectorAll("input")
-                        //     .forEach((input) => (input.value = ""));
-                        // $("#table_atas").DataTable().ajax.reload();
-                    });
-                } else if (response.error) {
-                    Swal.fire({
-                        icon: "info",
-                        title: "Info!",
-                        text: response.error,
-                        showConfirmButton: false,
+                            if (response.message) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Success!",
+                                    text: response.message,
+                                    showConfirmButton: true,
+                                }).then(() => {
+                                    location.reload();
+                                    // document
+                                    //     .querySelectorAll("input")
+                                    //     .forEach((input) => (input.value = ""));
+                                    // $("#table_atas").DataTable().ajax.reload();
+                                });
+                            } else if (response.error) {
+                                Swal.fire({
+                                    icon: "info",
+                                    title: "Info!",
+                                    text: response.error,
+                                    showConfirmButton: false,
+                                });
+                            }
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseJSON.message);
+                        },
                     });
                 }
-            },
-            error: function (xhr) {
-                alert(xhr.responseJSON.message);
-            },
-        });
+            });
+        }
     });
 });
