@@ -463,6 +463,28 @@ class SuratPesananController extends Controller
         } else if ($id == 'getDataPelunasanSP') {
             $data = DB::connection('ConnSales')->select('exec SP_4384_SLS_PELUNASANSP @XKode = 1');
             return datatables($data)->make(true);
+        } else if ($id == 'prosesLunasSP') {
+            try {
+                $rowDataArray = $request->input('rowDataArray', []);
+                $user = Auth::user()->NomorUser;
+                // dd($rowDataArray);
+                // dd($user);
+                foreach ($rowDataArray as $item) {
+                    $data = DB::connection('ConnSales')->statement('exec SP_4384_SLS_PELUNASANSP @XKode = ?, @XIdPesanan = ?, @XNomorUser = ?', [2, trim($item['IDPesanan']), trim($user)]);
+                }
+                if (empty($rowDataArray)) {
+                    return response()->json([
+                        'error' => 'Tidak ada item yang dipilih untuk diproses.',
+                    ]);
+                } else {
+                    return response()->json([
+                        'message' => 'Proses Lunas SP Selesai!!',
+                    ]);
+                }
+            } catch (\Exception $e) {
+                // Error handling
+                return response()->json(['error' => $e->getMessage(),], 500);
+            }
         }
 
     }

@@ -23,6 +23,7 @@
                     <table id="table_SP" class="table table-bordered table-striped SP_datatable" style="width:100%">
                         <thead class="thead-light">
                             <tr>
+                                <th>ID Pesanan</th>
                                 <th>Nomor SP</th>
                                 <th>Nama Customer </th>
                                 <th>Tanggal Pesan</th>
@@ -35,14 +36,14 @@
                         <label class="form-check-label" for="checkbox2">Pilih Semua</label>
                     </div>
                     <div style="gap: 5px; grid-template-columns: auto;">
-                        <form
+                        {{-- <form
                             onsubmit="return confirm('Apakah Anda Yakin untuk melunasi surat pesanan yang sudah dipilih?');"
                             id="form_submitSelected" action="{{ url('/SuratPesananManager/upall') }}" method="POST"
                             enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                            <button class="btn btn-sm btn-success" id="button_submitSelected"><span>&#x2713;</span>
+                            {{ csrf_field() }} --}}
+                            <button class="btn btn-sm btn-success" id="btn_submitSelected"><span>&#x2713;</span>
                                 Lunasi Surat Pesanan yang Dipilih</button>
-                        </form>
+                        {{-- </form> --}}
                     </div>
                 </div>
             </div>

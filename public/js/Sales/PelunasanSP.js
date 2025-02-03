@@ -1,22 +1,37 @@
-let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
 $(document).ready(function () {
-    $("#table_SP").DataTable({
+    let csrfToken = document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
+    let checkbox_all = document.getElementById("checkbox_all");
+    let btn_submitSelected = document.getElementById("btn_submitSelected");
+    let table_SP = $("#table_SP").DataTable({
+        columnDefs: [{ targets: [0], visible: false }],
+    });
+    let selectedIDs = new Set();
+
+    table_SP = $("#table_SP").DataTable({
         processing: true,
         serverSide: true,
+        destroy: true,
+        scrollX: true,
         ajax: {
             url: "getDataPelunasanSP",
             dataType: "json",
             type: "GET",
-            data: { _token: csrfToken },
+            data: function (d) {
+                return $.extend({}, d, {
+                    _token: csrfToken,
+                });
+            },
         },
         columns: [
             {
+                data: "IDPesanan",
+            },
+            {
                 data: "IDSuratPesanan",
-                orderable: false,
-                searchable: false,
-                render: function (data, type, row) {
-                    return `<input type="checkbox" name="selected[]" value="${row.IDPesanan}">
-        <a class="DetailSP" data-id="${data}">${data}</a>`;
+                render: function (data) {
+                    return `<input type="checkbox" name="penerimaCheckbox" value="${data}" /> ${data}`;
                 },
             },
             {
@@ -40,11 +55,17 @@ $(document).ready(function () {
             {
                 data: "SisaOrder",
                 render: function (data) {
-                    if (!data || ".00") return "0"; // Return 0 if empty
-                    return parseFloat(data).toString(); // Removes .00 but keeps decimals if needed
+                    return data && data !== ".00"
+                        ? parseFloat(data).toString()
+                        : "0";
                 },
             },
         ],
+        paging: false,
+        scrollY: "400px",
+        scrollCollapse: true,
+        order: [[3, "desc"]],
+        // columnDefs: [{ targets: [0], visible: false }],
         columnDefs: [
             {
                 targets: 0,
@@ -63,6 +84,129 @@ $(document).ready(function () {
                 targets: 3,
                 className: "RDZPaddingTable RDZCenterTable",
             },
+            { targets: [0], visible: false },
         ],
+        drawCallback: function () {
+            // Terapkan kembali checkbox yang telah dicentang
+            $('input[name="penerimaCheckbox"]').each(function () {
+                let rowData = table_SP.row($(this).closest("tr")).data();
+                if (selectedIDs.has(rowData.IDPesanan)) {
+                    $(this).prop("checked", true);
+                }
+            });
+        },
+    });
+
+    let rowDataPertama;
+    let rowDataArray = [];
+    // Handle checkbox change events
+    $("#table_SP tbody").off("change", 'input[name="penerimaCheckbox"]');
+    $("#table_SP tbody").on(
+        "change",
+        'input[name="penerimaCheckbox"]',
+        function () {
+            rowDataPertama = table_SP.row($(this).closest("tr")).data();
+
+            if (this.checked) {
+                selectedIDs.add(rowDataPertama.IDPesanan); // Simpan ID yang dicentang
+
+                // Tambahkan ke array jika belum ada
+                if (
+                    !rowDataArray.some(
+                        (row) => row.IDPesanan === rowDataPertama.IDPesanan
+                    )
+                ) {
+                    rowDataArray.push(rowDataPertama);
+                }
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_SP);
+            } else {
+                selectedIDs.delete(rowDataPertama.IDPesanan); // Hapus dari daftar
+
+                // Hapus dari array berdasarkan IDPesanan
+                rowDataArray = rowDataArray.filter(
+                    (row) => row.IDPesanan !== rowDataPertama.IDPesanan
+                );
+
+                console.log(rowDataArray);
+                console.log(rowDataPertama, this, table_SP);
+            }
+        }
+    );
+
+    checkbox_all.addEventListener("change", function () {
+        // Cek apakah checkbox_all dicentang
+        let isChecked = this.checked;
+
+        // Centang atau hilangkan centang semua checkbox penerima
+        $('input[name="penerimaCheckbox"]').each(function () {
+            $(this).prop("checked", isChecked).trigger("change");
+        });
+    });
+
+    btn_submitSelected.addEventListener("click", async function (event) {
+        event.preventDefault();
+        console.log(rowDataArray);
+        let adaSisaOrder = rowDataArray.some(
+            (item) => item.SisaOrder !== ".00"
+        );
+
+        if (rowDataArray.length === 0) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Pilih minimal satu Surat Pesanan untuk dilunasi.",
+                showConfirmButton: false,
+            });
+            return;
+        }
+
+        if (adaSisaOrder) {
+            Swal.fire({
+                icon: "info",
+                title: "Info!",
+                text: "Semua Sisa Order harus 0 (nol).",
+                showConfirmButton: false,
+            });
+            return;
+        }
+
+        $.ajax({
+            url: "prosesLunasSP",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                rowDataArray: rowDataArray,
+            },
+            success: function (response) {
+                console.log(response);
+
+                if (response.message) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: response.message,
+                        showConfirmButton: true,
+                    }).then(() => {
+                        location.reload();
+                        // document
+                        //     .querySelectorAll("input")
+                        //     .forEach((input) => (input.value = ""));
+                        // $("#table_atas").DataTable().ajax.reload();
+                    });
+                } else if (response.error) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Info!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            },
+        });
     });
 });
