@@ -457,6 +457,12 @@ class SuratPesananController extends Controller
             }
 
             return datatables($response)->make(true);
+        } else if ($id == 'PelunasanSP') {
+            $access = (new HakAksesController)->HakAksesFiturMaster('Sales');
+            return view('Sales.Transaksi.SuratPesanan.PelunasanSuratPesanan', compact('access'));
+        } else if ($id == 'getDataPelunasanSP') {
+            $data = DB::connection('ConnSales')->select('exec SP_4384_SLS_PELUNASANSP @XKode = 1');
+            return datatables($data)->make(true);
         }
 
     }
