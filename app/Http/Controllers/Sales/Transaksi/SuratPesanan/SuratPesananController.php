@@ -465,25 +465,23 @@ class SuratPesananController extends Controller
             return datatables($data)->make(true);
         } else if ($id == 'prosesLunasSP') {
             try {
-                $rowDataArray = $request->input('rowDataArray', []);
+                $idPesananString = $request->input('idPesananString');
                 $user = Auth::user()->NomorUser;
-                // dd($rowDataArray);
-                // dd($user);
-                foreach ($rowDataArray as $item) {
-                    $data = DB::connection('ConnSales')->statement('exec SP_4384_SLS_PELUNASANSP @XKode = ?, @XIdPesanan = ?, @XNomorUser = ?', [2, trim($item['IDPesanan']), trim($user)]);
-                }
-                if (empty($rowDataArray)) {
+                // dd($idPesananString);
+                if (empty($idPesananString)) {
                     return response()->json([
                         'error' => 'Tidak ada item yang dipilih untuk diproses.',
                     ]);
-                } else {
-                    return response()->json([
-                        'message' => 'Proses Lunas SP Selesai!!',
-                    ]);
                 }
+
+                // Eksekusi sekali dengan semua ID dalam satu string
+                DB::connection('ConnSales')->statement('exec SP_4384_SLS_PELUNASANSP @XKode = ?, @XIdPesananList = ?, @XNomorUser = ?', [2, $idPesananString, trim($user)]);
+
+                return response()->json([
+                    'message' => 'Proses Lunas SP Selesai!!',
+                ]);
             } catch (\Exception $e) {
-                // Error handling
-                return response()->json(['error' => $e->getMessage(),], 500);
+                return response()->json(['error' => $e->getMessage()], 500);
             }
         }
 

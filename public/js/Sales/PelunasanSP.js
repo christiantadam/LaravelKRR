@@ -178,6 +178,10 @@ $(document).ready(function () {
     btn_submitSelected.addEventListener("click", async function (event) {
         event.preventDefault();
         console.log(rowDataArray);
+        let idPesananString = rowDataArray
+            .map((item) => item.IDPesanan)
+            .join(",");
+        console.log(idPesananString);
         // let adaSisaOrder = rowDataArray.some(
         //     (item) => item.SisaOrder !== ".00"
         // );
@@ -212,7 +216,7 @@ $(document).ready(function () {
                         type: "GET",
                         data: {
                             _token: csrfToken,
-                            rowDataArray: rowDataArray,
+                            idPesananString: idPesananString,
                         },
                         success: function (response) {
                             console.log(response);
