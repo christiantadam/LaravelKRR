@@ -38,6 +38,9 @@ $(document).ready(function () {
                 data: "NamaCust",
             },
             {
+                data: "NamaType",
+            },
+            {
                 data: "Tgl_Pesan",
                 render: function (data, type, row) {
                     if (!data) return "";
@@ -53,6 +56,15 @@ $(document).ready(function () {
                 },
             },
             {
+                data: "NamaSales",
+            },
+            {
+                data: "Qty",
+                render: function (data, type, row) {
+                    return data ? numeral(data).format("0") : "0";
+                },
+            },
+            {
                 data: "SisaOrder",
                 render: function (data) {
                     return data && data !== ".00"
@@ -60,11 +72,29 @@ $(document).ready(function () {
                         : "0";
                 },
             },
+            {
+                data: "SaldoPrimer",
+                render: function (data, type, row) {
+                    return numeral(data).format("0.00");
+                },
+            },
+            {
+                data: "SaldoSekunder",
+                render: function (data, type, row) {
+                    return numeral(data).format("0.00");
+                },
+            },
+            {
+                data: "SaldoTritier",
+                render: function (data, type, row) {
+                    return numeral(data).format("0.00");
+                },
+            },
         ],
         paging: false,
         scrollY: "400px",
         scrollCollapse: true,
-        order: [[3, "desc"]],
+        order: [[4, "desc"]],
         // columnDefs: [{ targets: [0], visible: false }],
         columnDefs: [
             {
@@ -168,7 +198,7 @@ $(document).ready(function () {
                 showConfirmButton: false,
             });
             return;
-        }else {
+        } else {
             Swal.fire({
                 title: `Apakah Anda yakin melunasi ${rowDataArray.length} Surat Pesanan?`,
                 icon: "warning",

@@ -11,7 +11,7 @@
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-10 RDZMobilePaddingLR0">
+        <div class="col-md-12 RDZMobilePaddingLR0">
             @if (Session::has('success'))
                 <div class="alert alert-success">
                     {{ Session::get('success') }}
@@ -26,8 +26,14 @@
                                 <th>ID Pesanan</th>
                                 <th>Nomor SP</th>
                                 <th>Nama Customer </th>
+                                <th>Nama Type</th>
                                 <th>Tanggal Pesan</th>
+                                <th>Nama Sales</th>
+                                <th>Jumlah Order</th>
                                 <th>Sisa Order</th>
+                                <th>Saldo Primer</th>
+                                <th>Saldo Sekunder</th>
+                                <th>Saldo Tritier</th>
                             </tr>
                         </thead>
                     </table>
