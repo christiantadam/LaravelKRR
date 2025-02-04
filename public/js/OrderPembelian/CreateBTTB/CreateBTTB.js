@@ -230,7 +230,11 @@ $(document).ready(function () {
             document.getElementById("harga_total").value
         ).value();
         if (!isNaN(kurs) && !isNaN(hargaTotal)) {
-            let IDRHargaTotalValue = hargaTotal * kurs;
+            // let IDRHargaTotalValue = hargaTotal * kurs;
+            let IDRHargaTotalValue =
+                parseFloat(numeral(idr_sub_total.value).value()) +
+                parseFloat(numeral(idr_ppn.value).value());
+
             idr_harga_total.value =
                 numeral(IDRHargaTotalValue).format("0,0.0000");
         }
