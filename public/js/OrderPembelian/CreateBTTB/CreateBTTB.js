@@ -1214,7 +1214,7 @@ $(document).ready(function () {
             maxLimit = parseFloat((fixValueQTYOrder * toleransi).toFixed(2));
         }
 
-        console.log(maxLimit);
+        // console.log(maxLimit);
 
         if (this.value === "") {
             // Jika input kosong, kosongkan field terkait dan reset oldValue
@@ -1229,8 +1229,8 @@ $(document).ready(function () {
             let sisa2 = parseFloat(
                 fixValueQTYOrder - qtyShipValue - qtyReceivedValue
             );
-            console.log(sisa);
-            console.log(sisa2);
+            // console.log(sisa);
+            // console.log(sisa2);
 
             if (sisa <= maxLimit && sisa >= 0) {
                 if (toleransi > 1) {
@@ -1327,6 +1327,8 @@ $(document).ready(function () {
         updateHargaTotal();
         updateIDRHargaTotal();
         updateIDRDiscTotal();
+        console.log(qty_received.value);
+
     });
 
     kurs.addEventListener("keypress", function (event) {
@@ -1406,10 +1408,9 @@ $(document).ready(function () {
     });
 
     qty_received.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            qty_received.value = numeral(
-                numeral(qty_received.value).value()
-            ).format("0,0.00");
+        if (event.key == "Enter") {
+            console.log(numeral(qty_received.value).format("0,0.00"));
+            qty_received.value = numeral(qty_received.value).format("0,0.00");
             kurs.focus();
             kurs.select();
         }
@@ -1417,7 +1418,7 @@ $(document).ready(function () {
         setInputFilter(
             document.getElementById("qty_received"),
             function (value) {
-                return /^-?\d*[.,]?\d*$/.test(value);
+                return /^-?\d*([.,]\d*)*$/.test(value);
             },
             "Tidak boleh character, harus angka"
         );
