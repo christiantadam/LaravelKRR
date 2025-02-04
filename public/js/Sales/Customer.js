@@ -155,20 +155,14 @@ $(document).ready(function () {
             },
         },
         columns: [
-            {
-                data: "IDCustomer",
-            },
-            {
-                data: "NamaCustomer",
-            },
-            {
-                data: "KotaKirim",
-            },
-            {
-                data: "Negara",
-            },
+            { data: "IDCustomer" },
+            { data: "NamaCustomer" },
+            { data: "KotaKirim" },
+            { data: "Negara" },
             {
                 data: "Actions",
+                orderable: false,
+                searchable: false,
                 render: function (data, type, row) {
                     return `
                         <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#modalCustomer"
@@ -182,7 +176,24 @@ $(document).ready(function () {
                 },
             },
         ],
+        initComplete: function () {
+            let api = this.api();
+
+            // Hapus pencarian global di input default DataTables
+            $('#table_Customer_filter input').off().on('input', function () {
+                let value = this.value;
+                api.columns().search(''); // Reset semua pencarian kolom
+                api.column(1).search(value); // Cari berdasarkan NamaCustomer
+                api.draw();
+            });
+        }
     });
+    // $("#table_Customer_filter input").on("keyup", function () {
+    //     table
+    //         .columns(0) // Kolom kedua (Kode_KodePerkiraan)
+    //         .search(this.value) // Cari berdasarkan input pencarian
+    //         .draw(); // Perbarui hasil pencarian
+    // });
     let idCustomer;
     let button;
     let bankData;

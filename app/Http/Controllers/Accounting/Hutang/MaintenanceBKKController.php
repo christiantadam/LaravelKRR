@@ -362,56 +362,56 @@ class MaintenanceBKKController extends Controller
                     return response()->json(['error' => 'Data TIDAK DAPAT di-Groupkan menjadi 1(satu) BKK']);
                 }
 
-                if ($tBayar > 0) {
-                    $tNilaiBulat = (float) $tBayar;
-                    // dd($tNilaiBulat);
-                    if ($firstItem['Id_Supplier'] != '00000') {
-                        $saldoSuppResult = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_TT_SALDOSUPP @IdSupplier = ?', [$firstItem['Id_Supplier']]);
-                        if (count($saldoSuppResult) == 0 || $saldoSuppResult[0]->aDA == 0) {
-                            return response()->json(['error' => 'Silahkan masuk ke menu Hutang --> Penyesuaian Hutang Supplier untuk melakukan penyesuaian saldo supplier tsb']);
-                        }
+                // if ($tBayar > 0) {
+                $tNilaiBulat = (float) $tBayar;
+                // dd($tNilaiBulat);
+                if ($firstItem['Id_Supplier'] != '00000') {
+                    $saldoSuppResult = DB::connection('ConnAccounting')->select('exec SP_1273_ACC_CHECK_TT_SALDOSUPP @IdSupplier = ?', [$firstItem['Id_Supplier']]);
+                    if (count($saldoSuppResult) == 0 || $saldoSuppResult[0]->aDA == 0) {
+                        return response()->json(['error' => 'Silahkan masuk ke menu Hutang --> Penyesuaian Hutang Supplier untuk melakukan penyesuaian saldo supplier tsb']);
                     }
-                    foreach ($listPengajuan as $itemPengajuan) {
-                        $createBKKResult = DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?', [
-                            $itemPengajuan['Id_Bank'],
-                            $itemPengajuan['Id_MataUang'],
-                            $itemPengajuan['Id_Jenis_Bayar'],
-                            $user_id,
-                            $itemPengajuan['Id_Pembayaran'],
-                            $tanggal,
-                            $totalPayment,
-                            $itemPengajuan['Id_Supplier'],
-                            substr($itemPengajuan['Id_Penagihan'], 0, 1) != 'X' ? 'Y' : 'N'
-                        ]);
-                        if ($createBKKResult) {
-                            $idBKKTerbaru[] = DB::connection('ConnAccounting')->table('T_Pembayaran')->select('Id_BKK')->orderBy('Time_Update', 'desc')->first();
-                        }
-                    }
-                    if (count($idBKKTerbaru) > 0) {
-                        $idbkk = trim($idBKKTerbaru[0]->Id_BKK);
-
-                        foreach ($listPengajuan as $item) {
-                            if ($item['Id_Pembayaran'] != $firstItem['Id_Pembayaran']) {
-                                DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_INS_BKK2_RINCBKK @IdBKK = ?, @IdPembayaran = ?, @TglNow = ?', [
-                                    $idbkk,
-                                    $item['Id_Pembayaran'],
-                                    $tanggal
-                                ]);
-                            }
-                        }
-
-                        // return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk]);
-                        return response()->json([
-                            'message' => 'Proses Group BKK Selesai',
-                            'idbkk' => $idbkk,
-                            'idBKK' => $idbkk
-                        ]);
-                    } else {
-                        return response()->json(['error' => 'Failed to create BKK record.']);
-                    }
-                } else {
-                    return response()->json(['error' => 'Cek kembali Detail Pembayarannya !!..']);
                 }
+                foreach ($listPengajuan as $itemPengajuan) {
+                    $createBKKResult = DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?', [
+                        $itemPengajuan['Id_Bank'],
+                        $itemPengajuan['Id_MataUang'],
+                        $itemPengajuan['Id_Jenis_Bayar'],
+                        $user_id,
+                        $itemPengajuan['Id_Pembayaran'],
+                        $tanggal,
+                        $totalPayment,
+                        $itemPengajuan['Id_Supplier'],
+                        substr($itemPengajuan['Id_Penagihan'], 0, 1) != 'X' ? 'Y' : 'N'
+                    ]);
+                    if ($createBKKResult) {
+                        $idBKKTerbaru[] = DB::connection('ConnAccounting')->table('T_Pembayaran')->select('Id_BKK')->orderBy('Time_Update', 'desc')->first();
+                    }
+                }
+                if (count($idBKKTerbaru) > 0) {
+                    $idbkk = trim($idBKKTerbaru[0]->Id_BKK);
+
+                    foreach ($listPengajuan as $item) {
+                        if ($item['Id_Pembayaran'] != $firstItem['Id_Pembayaran']) {
+                            DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_INS_BKK2_RINCBKK @IdBKK = ?, @IdPembayaran = ?, @TglNow = ?', [
+                                $idbkk,
+                                $item['Id_Pembayaran'],
+                                $tanggal
+                            ]);
+                        }
+                    }
+
+                    // return response()->json(['message' => 'Proses Group BKK Selesai', 'idbkk' => $idbkk]);
+                    return response()->json([
+                        'message' => 'Proses Group BKK Selesai',
+                        'idbkk' => $idbkk,
+                        'idBKK' => $idbkk
+                    ]);
+                } else {
+                    return response()->json(['error' => 'Failed to create BKK record.']);
+                }
+                // } else {
+                //     return response()->json(['error' => 'Cek kembali Detail Pembayarannya !!..']);
+                // }
             }
         } else if ($id == 'processPrint') {
             $listBKK = $request->input('rowDataBKKArray');
