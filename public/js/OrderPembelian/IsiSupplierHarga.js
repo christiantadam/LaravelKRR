@@ -701,6 +701,9 @@ function updateDPPNilaiLain() {
     } else if (ppn_select.value == "18") {
         DPPValue = harga_subTotal / 10;
         dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
+    } else if (ppn_select.value == "19") {
+        DPPValue = harga_subTotal;
+        dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
     } else if (ppn_select.value == "16" || ppn_select.value == "6") {
         dpp_nilaiLain.value = numeral(0).format("0,0.0000");
     } else {
@@ -717,6 +720,9 @@ function updateIDRDPPNilaiLain() {
     } else if (ppn_select.value == "18") {
         IDRDPPValue = idr_hargaSubTotal / 10;
         idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
+    } else if (ppn_select.value == "19") {
+        DPPValue = harga_subTotal;
+        dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
     } else if (ppn_select.value == "16" || ppn_select.value == "6") {
         idr_dpp.value = numeral(0).format("0,0.0000");
     } else {

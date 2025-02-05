@@ -402,6 +402,8 @@
                                                                 (PPN Impor)
                                                             @elseif ($data->IdPPN == 17)
                                                                 (Barang Mewah)
+                                                            @elseif ($data->IdPPN == 19)
+                                                                (DPP FULL)
                                                             @endif
                                                         </option>
                                                     @endforeach
