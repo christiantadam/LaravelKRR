@@ -139,26 +139,42 @@ class MaintenanceBKMTransistorisBankController extends Controller
 
         // id pembayaran
         else if ($id === 'getIdPembayaran') {
-            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_IDPEMBAYARAN');
-            $data_divisi = [];
-            foreach ($divisi as $detail_divisi) {
-                $data_divisi[] = [
-                    'Id_Pembayaran' => $detail_divisi->id_pembayaran,
-                ];
-            }
-            return response()->json($data_divisi);
+            // $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_IDPEMBAYARAN');
+            // $data_divisi = [];
+            // foreach ($divisi as $detail_divisi) {
+            //     $data_divisi[] = [
+            //         'Id_Pembayaran' => $detail_divisi->id_pembayaran,
+            //     ];
+            // }
+            // return response()->json($data_divisi);
+            $data = DB::connection('ConnAccounting')
+                ->table('T_PEMBAYARAN_TAGIHAN')
+                ->select('Id_Pembayaran')
+                ->where('User_Input', $user)
+                ->orderBy('Id_Pembayaran', 'desc')
+                ->first(); // Mengambil satu data terbaru
+            $data = $data->Id_Pembayaran;
+            return response()->json($data);
         }
 
         // id lunas
         else if ($id === 'getIdPelunasan') {
-            $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_IDPELUNASAN');
-            $data_divisi = [];
-            foreach ($divisi as $detail_divisi) {
-                $data_divisi[] = [
-                    'id_pelunasan' => $detail_divisi->id_pelunasan,
-                ];
-            }
-            return response()->json($data_divisi);
+            // $divisi = DB::connection('ConnAccounting')->select('exec SP_5298_ACC_GET_IDPELUNASAN');
+            // $data_divisi = [];
+            // foreach ($divisi as $detail_divisi) {
+            //     $data_divisi[] = [
+            //         'id_pelunasan' => $detail_divisi->id_pelunasan,
+            //     ];
+            // }
+            // return response()->json($data_divisi);
+            $data = DB::connection('ConnAccounting')
+                ->table('T_PELUNASAN_TAGIHAN')
+                ->select('Id_Pelunasan')
+                ->where('UserInput', $user)
+                ->orderBy('Id_Pelunasan', 'desc')
+                ->first(); // Mengambil satu data terbaru
+            $data = $data->Id_Pelunasan;
+            return response()->json($data);
         }
 
         // id cek bg

@@ -792,14 +792,16 @@
 // });
 // Assigning IDs to JavaScript variables
 
-// 
+//
 var cust = document.getElementById("cust");
 var idCust = document.getElementById("idCust");
 var thn1 = document.getElementById("thn1");
 var bln1 = document.getElementById("bln1");
 var btnCust = document.getElementById("btnCust");
 var btnOk = document.getElementById("btnOk");
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+var csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 
 var tglInput = document.getElementById("tglInput");
 var idBKK = document.getElementById("idBKK");
@@ -838,81 +840,92 @@ var btnBatal = document.getElementById("btnBatal");
 var btnTampilBKM = document.getElementById("btnTampilBKM");
 var btnTampilBKK = document.getElementById("btnTampilBKK");
 
-var tglAwalBKM = document.getElementById('tglAwalBKM');
-var tglAkhirBKM = document.getElementById('tglAkhirBKM');
-var btnOkBKM = document.getElementById('btnOkBKM');
-var idCetakBKM = document.getElementById('idCetakBKM');
-var btnCetakBKM = document.getElementById('btnCetakBKM');
+var tglAwalBKM = document.getElementById("tglAwalBKM");
+var tglAkhirBKM = document.getElementById("tglAkhirBKM");
+var btnOkBKM = document.getElementById("btnOkBKM");
+var idCetakBKM = document.getElementById("idCetakBKM");
+var btnCetakBKM = document.getElementById("btnCetakBKM");
 // var btnProsesBg = document.getElementById('btnProsesBg');
-var modalListBKM = document.getElementById('modalListBKM');
-var tableListBKM = document.getElementById('tableListBKM');
+var modalListBKM = document.getElementById("modalListBKM");
+var tableListBKM = document.getElementById("tableListBKM");
 
-var tglAwalBKK = document.getElementById('tglAwalBKK');
-var tglAkhirBKK = document.getElementById('tglAkhirBKK');
-var btnOkBKK = document.getElementById('btnOkBKK');
-var idCetakBKK = document.getElementById('idCetakBKK');
-var btnCetakBKK = document.getElementById('btnCetakBKK');
+var tglAwalBKK = document.getElementById("tglAwalBKK");
+var tglAkhirBKK = document.getElementById("tglAkhirBKK");
+var btnOkBKK = document.getElementById("btnOkBKK");
+var idCetakBKK = document.getElementById("idCetakBKK");
+var btnCetakBKK = document.getElementById("btnCetakBKK");
 // var btnProsesBg = document.getElementById('btnProsesBg');
-var modalListBKK = document.getElementById('modalListBKK');
-var tableListBKK = document.getElementById('tableListBKK');
+var modalListBKK = document.getElementById("modalListBKK");
+var tableListBKK = document.getElementById("tableListBKK");
 
 // cetak bkm
-var nomerBKM = document.getElementById('nomerBKM');
-var tanggalBKM = document.getElementById('tanggalBKM');
-var nilaiBKM = document.getElementById('nilaiBKM');
-var terbilangBKM = document.getElementById('terbilangBKM');
-var rincianBKM = document.getElementById('rincianBKM');
-var perkiraanBKM = document.getElementById('perkiraanBKM');
-var jumlahBKM = document.getElementById('jumlahBKM');
-var grandTotalBKM = document.getElementById('grandTotalBKM');
-var bkmAcuanBKK = document.getElementById('bkmAcuanBKK');
-var bkmTanggalBKK = document.getElementById('bkmTanggalBKK');
-var bkmAcuanBKM = document.getElementById('bkmAcuanBKM');
-var bkmTanggalBKM = document.getElementById('bkmTanggalBKM');
-var sidoarjoBKM = document.getElementById('sidoarjoBKM');
-var symbolBKM = document.getElementById('symbolBKM');
-var symbolgtBKM = document.getElementById('symbolgtBKM');
-var keteranganCetakBKM = document.getElementById('keteranganCetakBKM');
+var nomerBKM = document.getElementById("nomerBKM");
+var tanggalBKM = document.getElementById("tanggalBKM");
+var nilaiBKM = document.getElementById("nilaiBKM");
+var terbilangBKM = document.getElementById("terbilangBKM");
+var rincianBKM = document.getElementById("rincianBKM");
+var perkiraanBKM = document.getElementById("perkiraanBKM");
+var jumlahBKM = document.getElementById("jumlahBKM");
+var grandTotalBKM = document.getElementById("grandTotalBKM");
+var bkmAcuanBKK = document.getElementById("bkmAcuanBKK");
+var bkmTanggalBKK = document.getElementById("bkmTanggalBKK");
+var bkmAcuanBKM = document.getElementById("bkmAcuanBKM");
+var bkmTanggalBKM = document.getElementById("bkmTanggalBKM");
+var sidoarjoBKM = document.getElementById("sidoarjoBKM");
+var symbolBKM = document.getElementById("symbolBKM");
+var symbolgtBKM = document.getElementById("symbolgtBKM");
+var keteranganCetakBKM = document.getElementById("keteranganCetakBKM");
 
 // cetak bkk
-var nomerBKK = document.getElementById('nomerBKK');
-var tanggalBKK = document.getElementById('tanggalBKK');
-var symbolBKK = document.getElementById('symbolBKK');
-var nilaiBKK = document.getElementById('nilaiBKK');
-var terbilangBKK = document.getElementById('terbilangBKK');
-var jenisBayarBKK = document.getElementById('jenisBayarBKK');
-var symbolgtBKK = document.getElementById('symbolgtBKK');
-var grandTotalBKK = document.getElementById('grandTotalBKK');
-var pelunasanBKK = document.getElementById('pelunasanBKK');
-var bkkTanggalBKK = document.getElementById('bkkTanggalBKK');
-var sidoarjoBKK = document.getElementById('sidoarjoBKK');
+var nomerBKK = document.getElementById("nomerBKK");
+var tanggalBKK = document.getElementById("tanggalBKK");
+var symbolBKK = document.getElementById("symbolBKK");
+var nilaiBKK = document.getElementById("nilaiBKK");
+var terbilangBKK = document.getElementById("terbilangBKK");
+var jenisBayarBKK = document.getElementById("jenisBayarBKK");
+var symbolgtBKK = document.getElementById("symbolgtBKK");
+var grandTotalBKK = document.getElementById("grandTotalBKK");
+var pelunasanBKK = document.getElementById("pelunasanBKK");
+var bkkTanggalBKK = document.getElementById("bkkTanggalBKK");
+var sidoarjoBKK = document.getElementById("sidoarjoBKK");
 
-var dateNow = document.getElementById('tanggal');
+var dateNow = document.getElementById("tanggal");
 var today = new Date().toISOString().slice(0, 10);
 tglInput.value = today;
 
+$.ajaxSetup({
+    beforeSend: function () {
+        // Show the loading screen before the AJAX request
+        $("#loading-screen").css("display", "flex");
+    },
+    complete: function () {
+        // Hide the loading screen after the AJAX request completes
+        $("#loading-screen").css("display", "none");
+    },
+});
+
 $(document).ready(function () {
-    $('#tableData').DataTable({
+    $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
         ordering: false,
         columns: [
-            { title: 'Tgl. Input' },
-            { title: 'Id. BKM' },
-            { title: 'Id. Bank' },
-            { title: 'Nama Bank' },
-            { title: 'Mata Uang' },
-            { title: 'Customer' },
-            { title: 'Total Pelunasan' },
-            { title: 'Saldo Pelunasan' },
+            { title: "Tgl. Input" },
+            { title: "Id. BKM" },
+            { title: "Id. Bank" },
+            { title: "Nama Bank" },
+            { title: "Mata Uang" },
+            { title: "Customer" },
+            { title: "Total Pelunasan" },
+            { title: "Saldo Pelunasan" },
         ],
         colResize: {
             isEnabled: true,
-            hoverClass: 'dt-colresizable-hover',
+            hoverClass: "dt-colresizable-hover",
             hasBoundCheck: true,
-            minBoundClass: 'dt-colresizable-bound-min',
-            maxBoundClass: 'dt-colresizable-bound-max',
+            minBoundClass: "dt-colresizable-bound-min",
+            maxBoundClass: "dt-colresizable-bound-max",
             saveState: true,
             // isResizable: function (column) {
             //     return column.idx !== 2;
@@ -924,36 +937,44 @@ $(document).ready(function () {
                 // console.log('I have been resized!');
             },
             stateSaveCallback: function (settings, data) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData";
+                let stateStorageName =
+                    window.location.pathname + "/colResizeStateData";
                 localStorage.setItem(stateStorageName, JSON.stringify(data));
             },
             stateLoadCallback: function (settings) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData",
+                let stateStorageName =
+                        window.location.pathname + "/colResizeStateData",
                     data = localStorage.getItem(stateStorageName);
                 return data != null ? JSON.parse(data) : null;
-            }
+            },
         },
-        scrollY: '200px',
+        scrollY: "200px",
         autoWidth: false,
-        scrollX: '100%',
-        columnDefs: [{ targets: [0, 1, 2, 3, 4, 5, 6, 7], width: '20%', className: 'fixed-width' },]
+        scrollX: "100%",
+        columnDefs: [
+            {
+                targets: [0, 1, 2, 3, 4, 5, 6, 7],
+                width: "20%",
+                className: "fixed-width",
+            },
+        ],
     });
 
     kurs.value = 0;
 });
 
 function scrollRowIntoView(rowElement) {
-    rowElement.scrollIntoView({ block: 'nearest' });
+    rowElement.scrollIntoView({ block: "nearest" });
 }
 
 function formatDateToMMDDYYYY(date) {
     let dateObj = new Date(date);
     if (isNaN(dateObj)) {
-        return '';
+        return "";
     }
 
-    let month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-    let day = dateObj.getDate().toString().padStart(2, '0');
+    let month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    let day = dateObj.getDate().toString().padStart(2, "0");
     let year = dateObj.getFullYear();
 
     return `${month}/${day}/${year}`;
@@ -967,13 +988,15 @@ function decodeHtmlEntities(text) {
 
 function escapeHtml(text) {
     var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
     };
-    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
 
 function handleTableKeydown(e, tableId) {
@@ -993,8 +1016,7 @@ function handleTableKeydown(e, tableId) {
                 Swal.getConfirmButton().click();
             }
         }
-    }
-    else if (e.key === "ArrowDown") {
+    } else if (e.key === "ArrowDown") {
         e.preventDefault();
         if (currentIndex === null || currentIndex >= rowCount - 1) {
             currentIndex = 0;
@@ -1004,8 +1026,7 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowUp") {
+    } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (currentIndex === null || currentIndex <= 0) {
             currentIndex = rowCount - 1;
@@ -1015,42 +1036,51 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowRight") {
+    } else if (e.key === "ArrowRight") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page < pageInfo.pages - 1) {
-            table.page('next').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("next")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
-    }
-    else if (e.key === "ArrowLeft") {
+    } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page > 0) {
-            table.page('previous').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("previous")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
     }
 }
 
 function updateDataTable(data, angka) {
-
     if (angka === 1) {
-        var tableData = $('#tableData').DataTable();
+        var tableData = $("#tableData").DataTable();
         tableData.clear();
         data.forEach(function (item) {
             tableData.row.add([
                 `<div>
-                <input type="checkbox" name="divisiCheckbox" value="${formatDateToMMDDYYYY(item.Tgl_Input)}" />
+                <input type="checkbox" name="divisiCheckbox" value="${formatDateToMMDDYYYY(
+                    item.Tgl_Input
+                )}" />
                 <span>${formatDateToMMDDYYYY(item.Tgl_Input)}</span>
             </div>`,
                 escapeHtml(item.Id_BKM),
@@ -1067,9 +1097,8 @@ function updateDataTable(data, angka) {
             ]);
         });
         tableData.draw();
-    }
-    else if (angka === 4) {
-        var tableListBKM = $('#tableListBKM').DataTable();
+    } else if (angka === 4) {
+        var tableListBKM = $("#tableListBKM").DataTable();
 
         tableListBKM.clear();
         data.forEach(function (item) {
@@ -1077,13 +1106,12 @@ function updateDataTable(data, angka) {
                 formatDateToMMDDYYYY(item.Tgl_Input),
                 escapeHtml(item.Id_BKM),
                 numeral(parseFloat(item.Nilai_Pelunasan)).format("0,0.00"),
-                item.Terjemahan ? escapeHtml(item.Terjemahan) : '',
+                item.Terjemahan ? escapeHtml(item.Terjemahan) : "",
             ]);
         });
         tableListBKM.draw();
-    }
-    else if (angka === 5) {
-        var tableListBKK = $('#tableListBKK').DataTable();
+    } else if (angka === 5) {
+        var tableListBKK = $("#tableListBKK").DataTable();
 
         tableListBKK.clear();
         data.forEach(function (item) {
@@ -1128,14 +1156,14 @@ function disableBKM() {
     btnPerkiraan.disabled = true;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
     btnCust.focus(); // Set focus on the tglInput element
 });
 
 btnCust.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Customer',
+            title: "Customer",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1158,11 +1186,11 @@ btnCust.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1170,7 +1198,7 @@ btnCust.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -1178,13 +1206,10 @@ btnCust.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "NamaCust" },
-                            { data: "IdCust" },
-                        ],
+                        columns: [{ data: "NamaCust" }, { data: "IdCust" }],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -1193,19 +1218,23 @@ btnCust.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 cust.value = decodeHtmlEntities(result.value.NamaCust.trim());
-                idCust.value = decodeHtmlEntities(result.value.IdCust.trim().slice(-5));
+                idCust.value = decodeHtmlEntities(
+                    result.value.IdCust.trim().slice(-5)
+                );
 
                 btnOk.focus();
             }
@@ -1216,74 +1245,71 @@ btnCust.addEventListener("click", function (e) {
 });
 
 btnOk.addEventListener("click", function (e) {
-    if (idCust.value !== '') {
+    if (idCust.value !== "") {
         tampilBKM1();
-    }
-    else {
+    } else {
         tampilBKM2();
     }
 });
 
 function tampilBKM1() {
     $.ajax({
-        type: 'GET',
-        url: 'MaintenanceBKMUntukDPPelunasan/tampil1',
+        type: "GET",
+        url: "MaintenanceBKMUntukDPPelunasan/tampil1",
         data: {
             _token: csrfToken,
-            idCust: idCust.value.trim()
+            idCust: idCust.value.trim(),
         },
         success: function (result) {
             if (result.length !== 0) {
                 updateDataTable(result, 1);
-            }
-            else {
-                var tableData = $('#tableData').DataTable();
+            } else {
+                var tableData = $("#tableData").DataTable();
                 tableData.clear().draw();
                 Swal.fire({
-                    icon: 'info',
-                    text: 'Tidak Ada Saldo Pelunasan',
-                    returnFocus: false
+                    icon: "info",
+                    text: "Tidak Ada Saldo Pelunasan",
+                    returnFocus: false,
                 });
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 function tampilBKM2() {
     $.ajax({
-        type: 'GET',
-        url: 'MaintenanceBKMUntukDPPelunasan/tampil2',
+        type: "GET",
+        url: "MaintenanceBKMUntukDPPelunasan/tampil2",
         data: {
             _token: csrfToken,
         },
         success: function (result) {
             if (result.length !== 0) {
                 updateDataTable(result, 1);
-            }
-            else {
-                var tableData = $('#tableData').DataTable();
+            } else {
+                var tableData = $("#tableData").DataTable();
                 tableData.clear().draw();
                 Swal.fire({
-                    icon: 'info',
-                    text: 'Tidak Ada Saldo Pelunasan',
-                    returnFocus: false
+                    icon: "info",
+                    text: "Tidak Ada Saldo Pelunasan",
+                    returnFocus: false,
                 });
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 // var dataSelected;
-$('#tableData tbody').on('click', 'tr', function () {
-    var table = $('#tableData').DataTable();
-    table.$('tr.selected').removeClass('selected');
-    $(this).addClass('selected');
+$("#tableData tbody").on("click", "tr", function () {
+    var table = $("#tableData").DataTable();
+    table.$("tr.selected").removeClass("selected");
+    $(this).addClass("selected");
 
     // dataSelected = table.row(this).data();
 });
@@ -1291,12 +1317,12 @@ $('#tableData tbody').on('click', 'tr', function () {
 var dataSelected = [];
 var saldo, IdPelunasan, jenisBank, idMtUang, IdCust;
 
-$('#tableData tbody').on('change', 'input[name="divisiCheckbox"]', function () {
+$("#tableData tbody").on("change", 'input[name="divisiCheckbox"]', function () {
     dataSelected = [];
-    var tableData = $('#tableData').DataTable();
+    var tableData = $("#tableData").DataTable();
 
     $('input[name="divisiCheckbox"]:checked').each(function () {
-        var rowData = tableData.row($(this).closest('tr')).data();
+        var rowData = tableData.row($(this).closest("tr")).data();
 
         var selectedItem = {
             idbkm: rowData[1],
@@ -1311,29 +1337,27 @@ $('#tableData tbody').on('change', 'input[name="divisiCheckbox"]', function () {
     });
 });
 
-
 btnPilih.addEventListener("click", function (e) {
     if (dataSelected.length !== 1) {
         Swal.fire({
-            icon: 'error',
-            text: 'Pilih 1 Nomer BKM',
-            returnFocus: false
+            icon: "error",
+            text: "Pilih 1 Nomer BKM",
+            returnFocus: false,
         });
-    }
-    else {
+    } else {
         enableBKK();
         tglInput.focus();
     }
 });
 
-$('#tglInput').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#tglInput").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
 
         if (tglInput.value > today) {
             Swal.fire({
-                icon: 'error',
-                text: 'Tanggal SALAH!',
+                icon: "error",
+                text: "Tanggal SALAH!",
             }).then(() => {
                 tglInput.focus();
             });
@@ -1341,7 +1365,7 @@ $('#tglInput').on('keydown', function (e) {
         } else {
             var dateValue = new Date(tglInput.value);
 
-            var month = String(dateValue.getMonth() + 1).padStart(2, '0');
+            var month = String(dateValue.getMonth() + 1).padStart(2, "0");
             var year = String(dateValue.getFullYear()).slice(-2);
 
             bln1.value = month;
@@ -1354,7 +1378,7 @@ $('#tglInput').on('keydown', function (e) {
 btnMataUang.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Mata Uang',
+            title: "Mata Uang",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1377,11 +1401,11 @@ btnMataUang.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1389,7 +1413,7 @@ btnMataUang.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1397,8 +1421,8 @@ btnMataUang.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
                         columns: [
                             { data: "Nama_MataUang" },
@@ -1412,33 +1436,40 @@ btnMataUang.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                idUang.value = decodeHtmlEntities(result.value.Id_MataUang.trim());
-                mataUang.value = decodeHtmlEntities(result.value.Nama_MataUang.trim());
+                idUang.value = decodeHtmlEntities(
+                    result.value.Id_MataUang.trim()
+                );
+                mataUang.value = decodeHtmlEntities(
+                    result.value.Nama_MataUang.trim()
+                );
 
-                if (idUang.value !== '') {
-
-                    if (String(idUang.value) !== String(dataSelected[0].idMtUang)) {
+                if (idUang.value !== "") {
+                    if (
+                        String(idUang.value) !==
+                        String(dataSelected[0].idMtUang)
+                    ) {
                         Swal.fire({
-                            icon: 'error',
-                            text: 'Karena mata uang yg dipilih tdk sama dgn mata uang BKM DP-nya, isikan nilai kurs-nya.',
+                            icon: "error",
+                            text: "Karena mata uang yg dipilih tdk sama dgn mata uang BKM DP-nya, isikan nilai kurs-nya.",
                             returnFocus: false,
                         }).then(() => {
                             kurs.readOnly = false;
                             kurs.focus();
                         });
-                    }
-                    else {
+                    } else {
                         uang1.focus();
                     }
                 }
@@ -1449,96 +1480,109 @@ btnMataUang.addEventListener("click", function (e) {
     }
 });
 
-$('#kurs').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#kurs").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
 
         kurs.value = numeral(kurs.value).format("0,0.00");
         if (kurs.value === 0) {
             Swal.fire({
-                icon: 'error',
-                text: 'Kurs TIDAK BOLEH = 0 !',
+                icon: "error",
+                text: "Kurs TIDAK BOLEH = 0 !",
                 returnFocus: false,
             }).then(() => {
                 kurs.focus();
             });
             return;
-        }
-        else {
+        } else {
             uang1.focus();
         }
     }
 });
 
 var nilaipelunasan, saldorp, saldodollar;
-$('#uang1').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#uang1").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
 
         uang1.value = numeral(uang1.value).format("0,0.00");
         if (numeral(uang1.value).value() === 0) {
             Swal.fire({
-                icon: 'error',
-                text: 'Jumlah Uang TIDAK BOLEH = 0 !',
+                icon: "error",
+                text: "Jumlah Uang TIDAK BOLEH = 0 !",
                 returnFocus: false,
             }).then(() => {
                 uang1.focus();
             });
             return;
-        }
-        else if (numeral(kurs.value).value() !== 0) {
-            if (parseInt(idUang.value) === 1 && parseInt(dataSelected[0].idMtUang) === 2) {
-                nilaipelunasan = numeral(kurs.value).value() * numeral(uang1.value).value();
-                saldorp = numeral(kurs.value).value() * numeral(dataSelected[0].saldo).value();
+        } else if (numeral(kurs.value).value() !== 0) {
+            if (
+                parseInt(idUang.value) === 1 &&
+                parseInt(dataSelected[0].idMtUang) === 2
+            ) {
+                nilaipelunasan =
+                    numeral(kurs.value).value() * numeral(uang1.value).value();
+                saldorp =
+                    numeral(kurs.value).value() *
+                    numeral(dataSelected[0].saldo).value();
                 uang1.value = numeral(nilaipelunasan).format("0,0.00");
 
-                if (numeral(nilaipelunasan).value() > numeral(saldorp).value()) {
+                if (
+                    numeral(nilaipelunasan).value() > numeral(saldorp).value()
+                ) {
                     Swal.fire({
-                        icon: 'error',
-                        text: 'Jumlah Uang TIDAK BOLEH lebih besar dari Saldo Pelunasan!',
+                        icon: "error",
+                        text: "Jumlah Uang TIDAK BOLEH lebih besar dari Saldo Pelunasan!",
                         returnFocus: false,
                     }).then(() => {
                         uang1.focus();
                     });
                     return;
-                }
-                else {
+                } else {
                     btnBank1.focus();
                 }
-            }
-            else if (parseInt(idUang.value) === 2 && parseInt(dataSelected[0].idMtUang) === 1) {
-                nilaipelunasan = numeral(uang1.value).value() / numeral(kurs.value).value();
-                saldodollar = numeral(dataSelected[0].saldo).value() / numeral(kurs.value).value();
+            } else if (
+                parseInt(idUang.value) === 2 &&
+                parseInt(dataSelected[0].idMtUang) === 1
+            ) {
+                nilaipelunasan =
+                    numeral(uang1.value).value() / numeral(kurs.value).value();
+                saldodollar =
+                    numeral(dataSelected[0].saldo).value() /
+                    numeral(kurs.value).value();
                 uang1.value = numeral(nilaipelunasan).format("0,0.00");
 
                 console.log(nilaipelunasan, saldodollar, uang1.value);
-                if (numeral(nilaipelunasan).value() > numeral(saldodollar).value()) {
+                if (
+                    numeral(nilaipelunasan).value() >
+                    numeral(saldodollar).value()
+                ) {
                     Swal.fire({
-                        icon: 'error',
-                        text: 'Jumlah Uang TIDAK BOLEH lebih besar dari Saldo Pelunasan!',
+                        icon: "error",
+                        text: "Jumlah Uang TIDAK BOLEH lebih besar dari Saldo Pelunasan!",
                         returnFocus: false,
                     }).then(() => {
                         uang1.focus();
                     });
                     return;
-                }
-                else {
+                } else {
                     btnBank1.focus();
                 }
             }
-        }
-        else if (numeral(kurs.value).value() === 0) {
+        } else if (numeral(kurs.value).value() === 0) {
             nilaipelunasan = numeral(uang1.value).format("0,0.00");
-            if (numeral(nilaipelunasan).value() > numeral(dataSelected[0].saldo).value()) {
+            if (
+                numeral(nilaipelunasan).value() >
+                numeral(dataSelected[0].saldo).value()
+            ) {
                 Swal.fire({
-                    icon: 'error',
-                    text: 'Jumlah Uang TIDAK BOLEH lebih besar dari Saldo Pelunasan!',
+                    icon: "error",
+                    text: "Jumlah Uang TIDAK BOLEH lebih besar dari Saldo Pelunasan!",
                     returnFocus: false,
                 }).then(() => {
                     uang1.focus();
                 });
-            }
-            else {
+            } else {
                 btnBank1.focus();
             }
         }
@@ -1548,7 +1592,7 @@ $('#uang1').on('keydown', function (e) {
 btnBank1.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Bank',
+            title: "Bank",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1571,11 +1615,11 @@ btnBank1.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1583,7 +1627,7 @@ btnBank1.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -1591,13 +1635,10 @@ btnBank1.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "Id_Bank" },
-                            { data: "Nama_Bank" },
-                        ],
+                        columns: [{ data: "Id_Bank" }, { data: "Nama_Bank" }],
                         // columnDefs: [
                         //     {
                         //         targets: 0,
@@ -1612,38 +1653,42 @@ btnBank1.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 idBank1.value = decodeHtmlEntities(result.value.Id_Bank.trim());
                 bank1.value = decodeHtmlEntities(result.value.Nama_Bank.trim());
                 // uang1.focus();
 
-                if (idBank1.value !== '') {
+                if (idBank1.value !== "") {
                     $.ajax({
-                        type: 'GET',
-                        url: 'MaintenanceBKMUntukDPPelunasan/getAccBank',
+                        type: "GET",
+                        url: "MaintenanceBKMUntukDPPelunasan/getAccBank",
                         data: {
                             _token: csrfToken,
-                            idBank: idBank1.value
+                            idBank: idBank1.value,
                         },
                         success: function (result) {
                             if (result.length !== 0) {
-                                jenisBank1.value = result[0].jenis ? decodeHtmlEntities(result[0].jenis) : '';
+                                jenisBank1.value = result[0].jenis
+                                    ? decodeHtmlEntities(result[0].jenis)
+                                    : "";
                                 btnPerkiraan1.focus();
                             }
                         },
                         error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
+                            console.error("Error:", error);
+                        },
                     });
                 }
             }
@@ -1656,7 +1701,7 @@ btnBank1.addEventListener("click", function (e) {
 btnPerkiraan1.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Perkiraan',
+            title: "Perkiraan",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1679,11 +1724,11 @@ btnPerkiraan1.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1691,7 +1736,7 @@ btnPerkiraan1.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -1699,8 +1744,8 @@ btnPerkiraan1.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
                         columns: [
                             { data: "NoKodePerkiraan" },
@@ -1720,34 +1765,42 @@ btnPerkiraan1.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                idPerkiraan1.value = decodeHtmlEntities(result.value.NoKodePerkiraan.trim());
-                perkiraan1.value = decodeHtmlEntities(result.value.Keterangan.trim());
+                idPerkiraan1.value = decodeHtmlEntities(
+                    result.value.NoKodePerkiraan.trim()
+                );
+                perkiraan1.value = decodeHtmlEntities(
+                    result.value.Keterangan.trim()
+                );
 
                 $.ajax({
-                    type: 'GET',
-                    url: 'MaintenanceBKMUntukDPPelunasan/getPerkiraanChange',
+                    type: "GET",
+                    url: "MaintenanceBKMUntukDPPelunasan/getPerkiraanChange",
                     data: {
                         _token: csrfToken,
                     },
                     success: function (result) {
                         if (result.length !== 0) {
-                            perkiraan1.value = result[0].Keterangan ? decodeHtmlEntities(result[0].Keterangan) : '';
+                            perkiraan1.value = result[0].Keterangan
+                                ? decodeHtmlEntities(result[0].Keterangan)
+                                : "";
                         }
                     },
                     error: function (xhr, status, error) {
-                        console.error('Error:', error);
-                    }
+                        console.error("Error:", error);
+                    },
                 });
 
                 uraian1.focus();
@@ -1759,24 +1812,23 @@ btnPerkiraan1.addEventListener("click", function (e) {
 });
 
 var IdBank1, IdBank;
-$('#uraian1').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#uraian1").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
-        if (idBank1.value === 'KRR1' || idBank1.value === 'KRR2') {
-            if (idBank1.value === 'KRR2') {
-                IdBank1 = 'KI';
+        if (idBank1.value === "KRR1" || idBank1.value === "KRR2") {
+            if (idBank1.value === "KRR2") {
+                IdBank1 = "KI";
             }
-            if (idBank1.value = 'KRR1') {
-                IdBank1 = 'KKK';
+            if ((idBank1.value = "KRR1")) {
+                IdBank1 = "KKK";
             }
-        }
-        else {
+        } else {
             IdBank1 = idBank1.value;
         }
 
         $.ajax({
-            type: 'GET',
-            url: 'MaintenanceBKMUntukDPPelunasan/getIdBKK',
+            type: "GET",
+            url: "MaintenanceBKMUntukDPPelunasan/getIdBKK",
             data: {
                 _token: csrfToken,
                 bank: IdBank1.trim(),
@@ -1793,8 +1845,8 @@ $('#uraian1').on('keydown', function (e) {
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
     }
 });
@@ -1802,7 +1854,7 @@ $('#uraian1').on('keydown', function (e) {
 btnBank.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Bank',
+            title: "Bank",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1825,11 +1877,11 @@ btnBank.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1837,7 +1889,7 @@ btnBank.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -1845,13 +1897,10 @@ btnBank.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "Id_Bank" },
-                            { data: "Nama_Bank" },
-                        ],
+                        columns: [{ data: "Id_Bank" }, { data: "Nama_Bank" }],
                         // columnDefs: [
                         //     {
                         //         targets: 0,
@@ -1866,38 +1915,42 @@ btnBank.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 idBank.value = decodeHtmlEntities(result.value.Id_Bank.trim());
                 bank.value = decodeHtmlEntities(result.value.Nama_Bank.trim());
                 // uang1.focus();
 
-                if (idBank.value !== '') {
+                if (idBank.value !== "") {
                     $.ajax({
-                        type: 'GET',
-                        url: 'MaintenanceBKMUntukDPPelunasan/getAccBank',
+                        type: "GET",
+                        url: "MaintenanceBKMUntukDPPelunasan/getAccBank",
                         data: {
                             _token: csrfToken,
-                            idBank: idBank.value
+                            idBank: idBank.value,
                         },
                         success: function (result) {
                             if (result.length !== 0) {
-                                jenisBank.value = result[0].jenis ? decodeHtmlEntities(result[0].jenis.trim()) : '';
+                                jenisBank.value = result[0].jenis
+                                    ? decodeHtmlEntities(result[0].jenis.trim())
+                                    : "";
                                 btnPerkiraan.focus();
                             }
                         },
                         error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
+                            console.error("Error:", error);
+                        },
                     });
                 }
             }
@@ -1910,7 +1963,7 @@ btnBank.addEventListener("click", function (e) {
 btnPerkiraan.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Perkiraan',
+            title: "Perkiraan",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1933,11 +1986,11 @@ btnPerkiraan.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1945,7 +1998,7 @@ btnPerkiraan.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -1953,8 +2006,8 @@ btnPerkiraan.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
                         columns: [
                             { data: "NoKodePerkiraan" },
@@ -1974,19 +2027,25 @@ btnPerkiraan.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                idPerkiraan.value = decodeHtmlEntities(result.value.NoKodePerkiraan.trim());
-                perkiraan.value = decodeHtmlEntities(result.value.Keterangan.trim());
+                idPerkiraan.value = decodeHtmlEntities(
+                    result.value.NoKodePerkiraan.trim()
+                );
+                perkiraan.value = decodeHtmlEntities(
+                    result.value.Keterangan.trim()
+                );
 
                 uraian.focus();
             }
@@ -1996,24 +2055,23 @@ btnPerkiraan.addEventListener("click", function (e) {
     }
 });
 
-$('#uraian').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#uraian").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
-        if (idBank.value === 'KRR1' || idBank.value === 'KRR2') {
-            if (idBank.value === 'KRR2') {
-                IdBank = 'KI';
+        if (idBank.value === "KRR1" || idBank.value === "KRR2") {
+            if (idBank.value === "KRR2") {
+                IdBank = "KI";
             }
-            if (idBank.value = 'KRR1') {
-                IdBank = 'KKK';
+            if ((idBank.value = "KRR1")) {
+                IdBank = "KKK";
             }
-        }
-        else {
+        } else {
             IdBank = idBank.value;
         }
 
         $.ajax({
-            type: 'GET',
-            url: 'MaintenanceBKMUntukDPPelunasan/getIdBKM',
+            type: "GET",
+            url: "MaintenanceBKMUntukDPPelunasan/getIdBKM",
             data: {
                 _token: csrfToken,
                 bank: IdBank.trim(),
@@ -2028,14 +2086,14 @@ $('#uraian').on('keydown', function (e) {
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
     }
 });
 
 btnKoreksiForm.addEventListener("click", function (e) {
-    if (idBKK.value !== '') {
+    if (idBKK.value !== "") {
         enableBKK();
         tglInput.focus();
     }
@@ -2043,24 +2101,24 @@ btnKoreksiForm.addEventListener("click", function (e) {
 
 btnBatal.addEventListener("click", function (e) {
     tglInput.value = today;
-    idBKK.value = '';
+    idBKK.value = "";
     uang1.value = 0;
-    idPerkiraan1.value = '';
-    perkiraan1.value = '';
-    uraian1.value = '';
-    idBKM.value = '';
-    uang.value = '';
-    idPerkiraan.value = '';
-    perkiraan.value = '';
-    uraian.value = '';
-    idCust.value = '';
-    cust.value = '';
-    idBank1.value = '';
-    jenisBank1.value = '';
-    bank1.value = '';
-    idBank.value = '';
-    jenisBank.value = '';
-    bank1.value = '';
+    idPerkiraan1.value = "";
+    perkiraan1.value = "";
+    uraian1.value = "";
+    idBKM.value = "";
+    uang.value = "";
+    idPerkiraan.value = "";
+    perkiraan.value = "";
+    uraian.value = "";
+    idCust.value = "";
+    cust.value = "";
+    idBank1.value = "";
+    jenisBank1.value = "";
+    bank1.value = "";
+    idBank.value = "";
+    jenisBank.value = "";
+    bank1.value = "";
     disableBKK();
     disableBKM();
     tampilBKM2();
@@ -2068,29 +2126,34 @@ btnBatal.addEventListener("click", function (e) {
 });
 
 btnProses.addEventListener("click", function (e) {
-    let idbkk = isNaN(parseInt(idBKK.value.substring(0, 3))) ? 0 : parseInt(idBKK.value.substring(0, 3));
-    let id_bkm = isNaN(parseInt(idBKM.value.substring(0, 3))) ? 0 : parseInt(idBKM.value.substring(0, 3));
-    let nilai = 0, nilai1 = 0, biaya = 0, biaya1 = 0;
+    let idbkk = isNaN(parseInt(idBKK.value.substring(0, 3)))
+        ? 0
+        : parseInt(idBKK.value.substring(0, 3));
+    let id_bkm = isNaN(parseInt(idBKM.value.substring(0, 3)))
+        ? 0
+        : parseInt(idBKM.value.substring(0, 3));
+    let nilai = 0,
+        nilai1 = 0,
+        biaya = 0,
+        biaya1 = 0;
     let konversi, konversi2, IdPembayaran;
 
-    if (idBKK.value !== '' && idBKM.value !== '') {
-
+    if (idBKK.value !== "" && idBKM.value !== "") {
         let total1;
         nilai = numeral(uang1.value).value();
-        total1 = (nilai);
+        total1 = nilai;
 
         if (parseInt(idUang.value) === 1) {
             konversi = convertNumberToWordsRupiah(nilai);
-        }
-        else {
+        } else {
             konversi = convertNumberToWordsDollar(nilai);
         }
 
-        console.log(total1, ' + ', konversi);
+        console.log(total1, " + ", konversi);
 
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMUntukDPPelunasan/insertBKK',
+        let ajax1 = $.ajax({
+            type: "PUT",
+            url: "MaintenanceBKMUntukDPPelunasan/insertBKK",
             data: {
                 _token: csrfToken,
                 idBKK: idBKK.value.trim(),
@@ -2099,95 +2162,84 @@ btnProses.addEventListener("click", function (e) {
                 nilai: numeral(parseFloat(nilai)).value(),
                 IdBank: idBank1.value.trim(),
             },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
         });
 
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMUntukDPPelunasan/insertDpBKK',
-            data: {
-                _token: csrfToken,
-                idBKK: idBKK.value.trim(),
-                idUang: idUang.value,
-                idJenis: 1,
-                idBank: idBank1.value,
-                idBKM_acuan: dataSelected[0].idbkm.trim(),
-                nilai: numeral(parseFloat(nilai)).value(),
-                kurs: numeral(parseFloat(kurs.value)).value() === 0 ? numeral(parseFloat(kurs.value)).value() : null
-            },
-            success: function (response) {
-                if (response.success) {
-                    $.ajax({
-                        type: 'GET',
-                        url: 'MaintenanceBKMUntukDPPelunasan/getIdPembayaran',
+        let ajax2 = ajax1.then(() => {
+            return $.ajax({
+                type: "PUT",
+                url: "MaintenanceBKMUntukDPPelunasan/insertDpBKK",
+                data: {
+                    _token: csrfToken,
+                    idBKK: idBKK.value.trim(),
+                    idUang: idUang.value,
+                    idJenis: 1,
+                    idBank: idBank1.value,
+                    idBKM_acuan: dataSelected[0].idbkm.trim(),
+                    nilai: numeral(parseFloat(nilai)).value(),
+                    kurs:
+                        numeral(parseFloat(kurs.value)).value() === 0
+                            ? numeral(parseFloat(kurs.value)).value()
+                            : null,
+                },
+            });
+        });
+
+        let ajax3 = ajax2.then(() => {
+            return $.ajax({
+                type: "GET",
+                url: "MaintenanceBKMUntukDPPelunasan/getIdPembayaran",
+                data: {
+                    _token: csrfToken,
+                },
+            }).then((result) => {
+                if (result.length !== 0) {
+                    IdPembayaran = result ? decodeHtmlEntities(result) : "";
+                    console.log(IdPembayaran);
+
+                    return $.ajax({
+                        type: "PUT",
+                        url: "MaintenanceBKMUntukDPPelunasan/insertDetailBKK",
                         data: {
                             _token: csrfToken,
+                            idpembayaran: IdPembayaran,
+                            keterangan: uraian1.value,
+                            biaya: numeral(uang1.value).value(),
+                            kodeperkiraan: idPerkiraan1.value,
                         },
-                        success: function (result) {
-                            if (result.length !== 0) {
-                                IdPembayaran = result[0].id_pembayaran ? decodeHtmlEntities(result[0].id_pembayaran) : '';
-
-                                $.ajax({
-                                    type: 'PUT',
-                                    url: 'MaintenanceBKMUntukDPPelunasan/insertDetailBKK',
-                                    data: {
-                                        _token: csrfToken,
-                                        idpembayaran: IdPembayaran,
-                                        keterangan: uraian1.value,
-                                        biaya: numeral(uang1.value).value(),
-                                        kodeperkiraan: idPerkiraan1.value,
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error('Error:', error);
-                                    }
-                                });
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
                     });
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+            });
         });
 
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMUntukDPPelunasan/updateCounterBKK',
-            data: {
-                _token: csrfToken,
-                idbkk: idbkk,
-                idBank: bank1.value.trim(),
-                jenis: jenisBank1.value.trim(),
-                tgl: tglInput.value,
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+        let ajax4 = ajax3.then(() => {
+            return $.ajax({
+                type: "PUT",
+                url: "MaintenanceBKMUntukDPPelunasan/updateCounterBKK",
+                data: {
+                    _token: csrfToken,
+                    idbkk: idbkk,
+                    idBank: bank1.value.trim(),
+                    jenis: jenisBank1.value.trim(),
+                    tgl: tglInput.value,
+                },
+            });
         });
 
         let total2;
-
         nilai1 = biaya + numeral(uang.value).value();
-        total2 = (nilai1);
+        total2 = nilai1;
 
         if (parseInt(idUang.value) === 1) {
             konversi2 = convertNumberToWordsRupiah(nilai1);
-        }
-        else {
+        } else {
             konversi2 = convertNumberToWordsDollar(nilai1);
         }
 
-        console.log(konversi2, 'nilai: ', nilai1);
+        console.log(konversi2, "nilai: ", nilai1);
 
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMUntukDPPelunasan/insertBKM',
+        let ajax5 = $.ajax({
+            type: "PUT",
+            url: "MaintenanceBKMUntukDPPelunasan/insertBKM",
             data: {
                 _token: csrfToken,
                 idBKM: idBKM.value.trim(),
@@ -2196,124 +2248,106 @@ btnProses.addEventListener("click", function (e) {
                 nilai: numeral(parseFloat(nilai1)).value(),
                 IdBank: idBank.value.trim(),
             },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
         });
 
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMUntukDPPelunasan/insertDpBKM',
-            data: {
-                _token: csrfToken,
-                idBKM: idBKM.value.trim(),
-                tgl: tglInput.value,
-                idUang: idUang.value,
-                idJenis: 1,
-                idBank: idBank.value.trim(),
-                kodeperkiraan: idPerkiraan.value.trim(),
-                uraian: uraian.value.trim(),
-                nilaipelunasan: numeral(nilai1).value(),
-                saldo: numeral(nilai1).value(),
-                idBKKAcuan: idBKK.value,
-                idCust: dataSelected[0].IdCust.trim(),
-                kurs: numeral(parseFloat(kurs.value)).value() === 0 ? numeral(parseFloat(kurs.value)).value() : null
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+        let ajax6 = ajax5.then(() => {
+            return $.ajax({
+                type: "PUT",
+                url: "MaintenanceBKMUntukDPPelunasan/insertDpBKM",
+                data: {
+                    _token: csrfToken,
+                    idBKM: idBKM.value.trim(),
+                    tgl: tglInput.value,
+                    idUang: idUang.value,
+                    idJenis: 1,
+                    idBank: idBank.value.trim(),
+                    kodeperkiraan: idPerkiraan.value.trim(),
+                    uraian: uraian.value.trim(),
+                    nilaipelunasan: numeral(nilai1).value(),
+                    saldo: numeral(nilai1).value(),
+                    idBKKAcuan: idBKK.value,
+                    idCust: dataSelected[0].IdCust.trim(),
+                    kurs:
+                        numeral(parseFloat(kurs.value)).value() === 0
+                            ? numeral(parseFloat(kurs.value)).value()
+                            : null,
+                },
+            });
         });
 
-        $.ajax({
-            type: 'PUT',
-            url: 'MaintenanceBKMUntukDPPelunasan/updateIdBKM',
-            data: {
-                _token: csrfToken,
-                idbkm: id_bkm,
-                idBank: IdBank.trim(),
-                jenis: jenisBank.value.trim(),
-                tgl: String(bln1.value) + String(thn1.value),
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+        let ajax7 = ajax6.then(() => {
+            return $.ajax({
+                type: "PUT",
+                url: "MaintenanceBKMUntukDPPelunasan/updateIdBKM",
+                data: {
+                    _token: csrfToken,
+                    idbkm: id_bkm,
+                    idBank: IdBank.trim(),
+                    jenis: jenisBank.value.trim(),
+                    tgl: String(bln1.value) + String(thn1.value),
+                },
+            });
         });
 
-        let nilaiBaru;
-        console.log(String(idUang.value), String(dataSelected[0].idMtUang));
-
+        let ajax8;
         if (String(idUang.value) !== String(dataSelected[0].idMtUang)) {
-
-            if (parseInt(idUang.value) === 1 && parseInt(dataSelected[0].idMtUang) === 2) {
-
-                if (numeral(kurs.value).value() > 0) {
-                    nilaiBaru = nilai / numeral(kurs.value).value();
-                    $.ajax({
-                        type: 'PUT',
-                        url: 'MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan',
-                        data: {
-                            _token: csrfToken,
-                            idBKM: dataSelected[0].idbkm.trim(),
-                            idPelunasan: dataSelected[0].IdPelunasan,
-                            nilai: nilaiBaru,
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-                    });
-                }
+            if (
+                parseInt(idUang.value) === 1 &&
+                parseInt(dataSelected[0].idMtUang) === 2 &&
+                numeral(kurs.value).value() > 0
+            ) {
+                nilaiBaru = nilai / numeral(kurs.value).value();
+            } else if (
+                parseInt(idUang.value) === 2 &&
+                parseInt(dataSelected[0].idMtUang) === 1 &&
+                numeral(kurs.value).value() > 0
+            ) {
+                nilaiBaru = nilai * numeral(kurs.value).value();
             }
-            else if (parseInt(idUang.value) === 2 && parseInt(dataSelected[0].idMtUang) === 1) {
-                console.log('hruse sini');
 
-                if (numeral(kurs.value).value() > 0) {
-                    nilaiBaru = nilai * numeral(kurs.value).value();
-
-                    $.ajax({
-                        type: 'PUT',
-                        url: 'MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan',
-                        data: {
-                            _token: csrfToken,
-                            idBKM: dataSelected[0].idbkm.trim(),
-                            idPelunasan: dataSelected[0].IdPelunasan,
-                            nilai: nilaiBaru,
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error:', error);
-                        }
-                    });
-                }
-            }
-        }
-        else {
-            $.ajax({
-                type: 'PUT',
-                url: 'MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan',
+            ajax8 = $.ajax({
+                type: "PUT",
+                url: "MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan",
+                data: {
+                    _token: csrfToken,
+                    idBKM: dataSelected[0].idbkm.trim(),
+                    idPelunasan: dataSelected[0].IdPelunasan,
+                    nilai: nilaiBaru,
+                },
+            });
+        } else {
+            ajax8 = $.ajax({
+                type: "PUT",
+                url: "MaintenanceBKMUntukDPPelunasan/updateSaldoPelunasan",
                 data: {
                     _token: csrfToken,
                     idBKM: dataSelected[0].idbkm.trim(),
                     idPelunasan: dataSelected[0].IdPelunasan,
                     nilai: nilai,
                 },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
             });
         }
 
-        Swal.fire({
-            icon: 'success',
-            text: 'BKK No. ' + idBKK.value + ' & BKM No. ' + idBKM.value + ' TerSimpan',
-            returnFocus: false
-        }).then(() => {
-            btnBatal.click();
+        $.when(ajax4, ajax7, ajax8).then(() => {
+            Swal.fire({
+                icon: "success",
+                text:
+                    "BKK No. " +
+                    idBKK.value +
+                    " & BKM No. " +
+                    idBKM.value +
+                    " TerSimpan",
+                returnFocus: false,
+            }).then(() => {
+                // btnBatal.click();
+                location.reload();
+            });
         });
-    }
-    else {
+    } else {
         Swal.fire({
-            icon: 'error',
-            text: 'Tidak Ada Yg diPROSES!',
-            returnFocus: false
+            icon: "error",
+            text: "Tidak Ada Yg diPROSES!",
+            returnFocus: false,
         }).then(() => {
             enableBKK();
             tglInput.focus();
@@ -2322,18 +2356,18 @@ btnProses.addEventListener("click", function (e) {
 });
 
 // Event listener for displaying BKK modal
-btnTampilBKK.addEventListener('click', function () {
+btnTampilBKK.addEventListener("click", function () {
     tglAwalBKK.value = today;
     tglAkhirBKK.value = today;
-    idCetakBKK.value = '';
+    idCetakBKK.value = "";
 
-    $('#modalListBKK').on('shown.bs.modal', function () {
+    $("#modalListBKK").on("shown.bs.modal", function () {
         // Initialize both tables if not done already
         initializeTables();
 
         $.ajax({
-            type: 'GET',
-            url: 'MaintenanceBKMUntukDPPelunasan/getListFullBKK',
+            type: "GET",
+            url: "MaintenanceBKMUntukDPPelunasan/getListFullBKK",
             data: {
                 _token: csrfToken,
             },
@@ -2343,32 +2377,32 @@ btnTampilBKK.addEventListener('click', function () {
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
 
         // Clear the BKK table when opening the modal
-        var tableBKK = $('#tableListBKK').DataTable();
+        var tableBKK = $("#tableListBKK").DataTable();
         tableBKK.clear().draw();
         tglAwalBKK.focus();
     });
 
-    $('#modalListBKK').modal('show');
+    $("#modalListBKK").modal("show");
 });
 
 // Event listener for displaying BKM modal
-btnTampilBKM.addEventListener('click', function () {
+btnTampilBKM.addEventListener("click", function () {
     tglAwalBKM.value = today;
     tglAkhirBKM.value = today;
-    idCetakBKM.value = '';
+    idCetakBKM.value = "";
 
-    $('#modalListBKM').on('shown.bs.modal', function () {
+    $("#modalListBKM").on("shown.bs.modal", function () {
         // Initialize both tables if not done already
         initializeTables();
 
         $.ajax({
-            type: 'GET',
-            url: 'MaintenanceBKMUntukDPPelunasan/getListFullBKM',
+            type: "GET",
+            url: "MaintenanceBKMUntukDPPelunasan/getListFullBKM",
             data: {
                 _token: csrfToken,
             },
@@ -2378,17 +2412,17 @@ btnTampilBKM.addEventListener('click', function () {
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
 
         // Clear the BKM table when opening the modal
-        var tableBKM = $('#tableListBKM').DataTable();
+        var tableBKM = $("#tableListBKM").DataTable();
         tableBKM.clear().draw();
         tglAwalBKM.focus();
     });
 
-    $('#modalListBKM').modal('show');
+    $("#modalListBKM").modal("show");
 });
 
 let isTableListBKKInitialized = false; // Flag for BKK table
@@ -2397,62 +2431,70 @@ let isTableListBKMInitialized = false; // Flag for BKM table
 function initializeTables() {
     if (!isTableListBKKInitialized) {
         // Initialize tableListBKK
-        $('#tableListBKK').DataTable({
+        $("#tableListBKK").DataTable({
             paging: false,
             searching: true,
             info: false,
             ordering: false,
-            scrollY: '200px',
+            scrollY: "200px",
             scrollX: true,
             autoWidth: false,
             columns: [
-                { title: 'Tgl. Input' },
-                { title: 'Id. BKK' },
-                { title: 'Nilai Pembulatan' },
-                { title: 'Terbilang' },
+                { title: "Tgl. Input" },
+                { title: "Id. BKK" },
+                { title: "Nilai Pembulatan" },
+                { title: "Terbilang" },
             ],
             columnDefs: [
-                { targets: [0, 1, 2, 3], width: '25%', className: 'fixed-width' }
-            ]
+                {
+                    targets: [0, 1, 2, 3],
+                    width: "25%",
+                    className: "fixed-width",
+                },
+            ],
         });
         isTableListBKKInitialized = true; // Mark as initialized
     }
 
     if (!isTableListBKMInitialized) {
         // Initialize tableListBKM
-        $('#tableListBKM').DataTable({
+        $("#tableListBKM").DataTable({
             paging: false,
             searching: true,
             info: false,
             ordering: false,
-            scrollY: '200px',
+            scrollY: "200px",
             scrollX: true,
             autoWidth: false,
             columns: [
-                { title: 'Tgl. Input' },
-                { title: 'Id. BKM' },
-                { title: 'Nilai Pelunasan' },
-                { title: 'Terbilang' },
+                { title: "Tgl. Input" },
+                { title: "Id. BKM" },
+                { title: "Nilai Pelunasan" },
+                { title: "Terbilang" },
             ],
             columnDefs: [
-                { targets: [0, 1, 2, 3], width: '25%', className: 'fixed-width' }
-            ]
+                {
+                    targets: [0, 1, 2, 3],
+                    width: "25%",
+                    className: "fixed-width",
+                },
+            ],
         });
         isTableListBKMInitialized = true; // Mark as initialized
     }
 }
 
-btnOkBKM.addEventListener('click', function () {
-    var table = $('#tableListBKM').DataTable();
+btnOkBKM.addEventListener("click", function () {
+    var table = $("#tableListBKM").DataTable();
     table.clear().draw();
 
     $.ajax({
-        type: 'GET',
-        url: 'MaintenanceBKMUntukDPPelunasan/getListBKM',
+        type: "GET",
+        url: "MaintenanceBKMUntukDPPelunasan/getListBKM",
         data: {
             _token: csrfToken,
             tgl1: tglAwalBKM.value,
-            tgl2: tglAkhirBKM.value
+            tgl2: tglAkhirBKM.value,
         },
         success: function (result) {
             if (result.length !== 0) {
@@ -2460,32 +2502,32 @@ btnOkBKM.addEventListener('click', function () {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 });
 
-$('#tableListBKM tbody').on('click', 'tr', function () {
-    var table = $('#tableListBKM').DataTable();
-    table.$('tr.selected').removeClass('selected');
-    $(this).addClass('selected');
+$("#tableListBKM tbody").on("click", "tr", function () {
+    var table = $("#tableListBKM").DataTable();
+    table.$("tr.selected").removeClass("selected");
+    $(this).addClass("selected");
 
     var data = table.row(this).data();
 
     idCetakBKM.value = decodeHtmlEntities(data[1]);
 });
 
-btnOkBKK.addEventListener('click', function () {
-    var table = $('#tableListBKK').DataTable();
+btnOkBKK.addEventListener("click", function () {
+    var table = $("#tableListBKK").DataTable();
     table.clear().draw();
 
     $.ajax({
-        type: 'GET',
-        url: 'MaintenanceBKMUntukDPPelunasan/getListBKK',
+        type: "GET",
+        url: "MaintenanceBKMUntukDPPelunasan/getListBKK",
         data: {
             _token: csrfToken,
             tgl1: tglAwalBKK.value,
-            tgl2: tglAkhirBKK.value
+            tgl2: tglAkhirBKK.value,
         },
         success: function (result) {
             if (result.length !== 0) {
@@ -2493,15 +2535,15 @@ btnOkBKK.addEventListener('click', function () {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 });
 
-$('#tableListBKK tbody').on('click', 'tr', function () {
-    var table = $('#tableListBKK').DataTable();
-    table.$('tr.selected').removeClass('selected');
-    $(this).addClass('selected');
+$("#tableListBKK tbody").on("click", "tr", function () {
+    var table = $("#tableListBKK").DataTable();
+    table.$("tr.selected").removeClass("selected");
+    $(this).addClass("selected");
 
     var data = table.row(this).data();
 
@@ -2510,9 +2552,11 @@ $('#tableListBKK tbody').on('click', 'tr', function () {
 
 function printPreview(previewClass) {
     // Hide all content first
-    document.querySelectorAll('.preview, .preview2').forEach(function (preview) {
-        preview.style.display = "none"; // Hide both previews
-    });
+    document
+        .querySelectorAll(".preview, .preview2")
+        .forEach(function (preview) {
+            preview.style.display = "none"; // Hide both previews
+        });
 
     // Show the selected preview
     const previewToPrint = document.querySelector(`.${previewClass}`);
@@ -2525,177 +2569,254 @@ function printPreview(previewClass) {
     previewToPrint.style.display = "none"; // Hide the preview again
 }
 
-btnCetakBKM.addEventListener('click', function () {
-    if (idCetakBKM.value === '') {
+btnCetakBKM.addEventListener("click", function () {
+    if (idCetakBKM.value === "") {
         Swal.fire({
-            icon: 'error',
-            text: 'Pilih 1 Id.BKM Untuk DiCetak!',
-            returnFocus: false
+            icon: "error",
+            text: "Pilih 1 Id.BKM Untuk DiCetak!",
+            returnFocus: false,
         });
         return;
-    }
-    else {
+    } else {
         $.ajax({
-            type: 'GET',
-            url: 'MaintenanceBKMUntukDPPelunasan/getCetakBKM',
+            type: "GET",
+            url: "MaintenanceBKMUntukDPPelunasan/getCetakBKM",
             data: {
                 _token: csrfToken,
-                id_bkm: idCetakBKM.value
+                id_bkm: idCetakBKM.value,
             },
             success: function (result) {
                 if (result.length !== 0) {
-                    if (result[0].Id_bank === 'KRR1' || result[0].Id_bank === 'KRR2') {
-                        keteranganCetakBKM.innerHTML = '<h5><b>BUKTI PENERIMAAN KAS</b></h5>';
+                    if (
+                        result[0].Id_bank === "KRR1" ||
+                        result[0].Id_bank === "KRR2"
+                    ) {
+                        keteranganCetakBKM.innerHTML =
+                            "<h5><b>BUKTI PENERIMAAN KAS</b></h5>";
                     } else {
-                        keteranganCetakBKM.innerHTML = '<h5><b>BUKTI PENERIMAAN BANK</b></h5>';
+                        keteranganCetakBKM.innerHTML =
+                            "<h5><b>BUKTI PENERIMAAN BANK</b></h5>";
                     }
 
-                    nomerBKM.innerHTML = '<h5><b>Nomer: ' + decodeHtmlEntities(result[0].Id_BKM) + '</b></h5>';
+                    nomerBKM.innerHTML =
+                        "<h5><b>Nomer: " +
+                        decodeHtmlEntities(result[0].Id_BKM) +
+                        "</b></h5>";
 
                     var date = new Date(result[0].Tgl_Input);
 
                     var monthNames = [
-                        "January", "February", "March", "April", "May", "June",
-                        "July", "August", "September", "October", "November", "December"
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December",
                     ];
 
                     var day = date.getDate();
                     var month = monthNames[date.getMonth()];
                     var year = date.getFullYear();
-                    var formattedDate = day + '/' + month + '/' + year;
+                    var formattedDate = day + "/" + month + "/" + year;
 
-                    tanggalBKM.innerHTML = '<h5><b>Tanggal: ' + formattedDate + '</b></h5>';
+                    tanggalBKM.innerHTML =
+                        "<h5><b>Tanggal: " + formattedDate + "</b></h5>";
 
-                    symbolBKM.textContent = decodeHtmlEntities(result[0].Symbol);
-                    nilaiBKM.textContent = numeral(parseFloat(result[0].Nilai_Pelunasan)).format("0,0.00");
+                    symbolBKM.textContent = decodeHtmlEntities(
+                        result[0].Symbol
+                    );
+                    nilaiBKM.textContent = numeral(
+                        parseFloat(result[0].Nilai_Pelunasan)
+                    ).format("0,0.00");
 
-                    terbilangBKM.textContent = decodeHtmlEntities(result[0].Terjemahan);
+                    terbilangBKM.textContent = decodeHtmlEntities(
+                        result[0].Terjemahan
+                    );
 
-                    if (result[0].NamaCust === '-') {
-                        rincianBKM.textContent = decodeHtmlEntities(result[0].Uraian);
-                    }
-                    else {
-                        if (result[0].NamaCust !== '-') {
-                            rincianBKM.textContent = decodeHtmlEntities(result[0].NamaCust) + ' - ' + decodeHtmlEntities(result[0].Uraian);
+                    if (result[0].NamaCust === "-") {
+                        rincianBKM.textContent = decodeHtmlEntities(
+                            result[0].Uraian
+                        );
+                    } else {
+                        if (result[0].NamaCust !== "-") {
+                            rincianBKM.textContent =
+                                decodeHtmlEntities(result[0].NamaCust) +
+                                " - " +
+                                decodeHtmlEntities(result[0].Uraian);
                         }
                     }
 
-                    perkiraanBKM.textContent = decodeHtmlEntities(result[0].KodePerkiraan);
-                    jumlahBKM.textContent = numeral(parseFloat(result[0].Nilai_Pelunasan)).format("0,0.00");
+                    perkiraanBKM.textContent = decodeHtmlEntities(
+                        result[0].KodePerkiraan
+                    );
+                    jumlahBKM.textContent = numeral(
+                        parseFloat(result[0].Nilai_Pelunasan)
+                    ).format("0,0.00");
 
-                    symbolgtBKM.textContent = decodeHtmlEntities(result[0].Symbol);
-                    grandTotalBKM.textContent = numeral(parseFloat(result[0].Nilai_Pelunasan)).format("0,0.00");
+                    symbolgtBKM.textContent = decodeHtmlEntities(
+                        result[0].Symbol
+                    );
+                    grandTotalBKM.textContent = numeral(
+                        parseFloat(result[0].Nilai_Pelunasan)
+                    ).format("0,0.00");
 
-                    bkmAcuanBKK.textContent = decodeHtmlEntities(result[0].Id_BKK_Acuan);
-                    bkmTanggalBKK.textContent = 'Tanggal: ' + formatDateToMMDDYYYY(result[0].Tgl_BKK);
+                    bkmAcuanBKK.textContent = decodeHtmlEntities(
+                        result[0].Id_BKK_Acuan
+                    );
+                    bkmTanggalBKK.textContent =
+                        "Tanggal: " + formatDateToMMDDYYYY(result[0].Tgl_BKK);
 
-                    bkmAcuanBKM.textContent = decodeHtmlEntities(result[0].Id_BKM_Acuan);
-                    bkmTanggalBKM.textContent = 'Tanggal: ' + formatDateToMMDDYYYY(result[0].Tgl_BKM);
+                    bkmAcuanBKM.textContent = decodeHtmlEntities(
+                        result[0].Id_BKM_Acuan
+                    );
+                    bkmTanggalBKM.textContent =
+                        "Tanggal: " + formatDateToMMDDYYYY(result[0].Tgl_BKM);
 
                     var today = new Date();
                     var day = today.getDate();
                     var month = monthNames[today.getMonth()];
                     var year = today.getFullYear();
 
-                    var formattedToday = day + '/' + month + '/' + year;
+                    var formattedToday = day + "/" + month + "/" + year;
 
-                    sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
+                    sidoarjoBKM.innerHTML =
+                        "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
 
-                    printPreview('preview');
+                    printPreview("preview");
                     updateDateBKM();
-                }
-                else {
-                    keteranganCetakBKM.innerHTML = '';
+                } else {
+                    keteranganCetakBKM.innerHTML = "";
 
-                    nomerBKM.innerHTML = '<h5><b>Nomer:</b></h5>';
+                    nomerBKM.innerHTML = "<h5><b>Nomer:</b></h5>";
 
                     var monthNames = [
-                        "January", "February", "March", "April", "May", "June",
-                        "July", "August", "September", "October", "November", "December"
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December",
                     ];
 
-                    tanggalBKM.innerHTML = '<h5><b>Tanggal: ' + '</b></h5>';
+                    tanggalBKM.innerHTML = "<h5><b>Tanggal: " + "</b></h5>";
 
-                    symbolBKM.textContent = '';
-                    nilaiBKM.textContent = '';
+                    symbolBKM.textContent = "";
+                    nilaiBKM.textContent = "";
 
-                    terbilangBKM.textContent = '';
+                    terbilangBKM.textContent = "";
 
-                    rincianBKM.textContent = '';
-                    perkiraanBKM.textContent = '';
-                    jumlahBKM.textContent = '';
+                    rincianBKM.textContent = "";
+                    perkiraanBKM.textContent = "";
+                    jumlahBKM.textContent = "";
 
-                    symbolgtBKM.textContent = '';
-                    grandTotalBKM.textContent = '';
+                    symbolgtBKM.textContent = "";
+                    grandTotalBKM.textContent = "";
 
-                    bkmAcuanBKK.textContent = '';
-                    bkmTanggalBKK.textContent = 'Tanggal: ';
+                    bkmAcuanBKK.textContent = "";
+                    bkmTanggalBKK.textContent = "Tanggal: ";
 
-                    bkmAcuanBKM.textContent = '';
-                    bkmTanggalBKM.textContent = 'Tanggal: ';
+                    bkmAcuanBKM.textContent = "";
+                    bkmTanggalBKM.textContent = "Tanggal: ";
 
                     var today = new Date();
                     var day = today.getDate();
                     var month = monthNames[today.getMonth()];
                     var year = today.getFullYear();
 
-                    var formattedToday = day + '/' + month + '/' + year;
+                    var formattedToday = day + "/" + month + "/" + year;
 
-                    sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
+                    sidoarjoBKM.innerHTML =
+                        "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
 
-                    printPreview('preview');
+                    printPreview("preview");
                     updateDateBKM();
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
-
     }
 });
 
-btnCetakBKK.addEventListener('click', function () {
-    if (idCetakBKK.value === '') {
+btnCetakBKK.addEventListener("click", function () {
+    if (idCetakBKK.value === "") {
         Swal.fire({
-            icon: 'error',
-            text: 'Pilih 1 Id.BKK Untuk DiCetak!',
-            returnFocus: false
+            icon: "error",
+            text: "Pilih 1 Id.BKK Untuk DiCetak!",
+            returnFocus: false,
         });
         return;
-    }
-    else {
+    } else {
         $.ajax({
-            type: 'GET',
-            url: 'MaintenanceBKMUntukDPPelunasan/getCetakBKK',
+            type: "GET",
+            url: "MaintenanceBKMUntukDPPelunasan/getCetakBKK",
             data: {
                 _token: csrfToken,
-                id_bkk: idCetakBKK.value
+                id_bkk: idCetakBKK.value,
             },
             success: function (result) {
                 if (result.length !== 0) {
                     let totalBKK = 0;
-                    var bkmDetailsContainer = document.getElementById("bkkDetailsContainer");
+                    var bkmDetailsContainer = document.getElementById(
+                        "bkkDetailsContainer"
+                    );
 
                     bkmDetailsContainer.innerHTML = "";
 
-                    nomerBKK.innerHTML = '<h5><b>Nomer: ' + decodeHtmlEntities(result[0].Id_BKK) + "</b></h5>";
+                    nomerBKK.innerHTML =
+                        "<h5><b>Nomer: " +
+                        decodeHtmlEntities(result[0].Id_BKK) +
+                        "</b></h5>";
 
                     var date = new Date(result[0].Tgl_Input);
 
                     var monthNames = [
-                        "January", "February", "March", "April", "May", "June",
-                        "July", "August", "September", "October", "November", "December"
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December",
                     ];
 
-                    tanggalBKK.innerHTML = '<h5><b>Tanggal: ' + formatDateToMMDDYYYY(date) + '</b></h5>';
+                    tanggalBKK.innerHTML =
+                        "<h5><b>Tanggal: " +
+                        formatDateToMMDDYYYY(date) +
+                        "</b></h5>";
 
-                    symbolBKK.textContent = decodeHtmlEntities(result[0].Symbol);
-                    nilaiBKK.textContent = numeral(parseFloat(result[0].Nilai_Pembulatan)).format("0,0.00");
+                    symbolBKK.textContent = decodeHtmlEntities(
+                        result[0].Symbol
+                    );
+                    nilaiBKK.textContent = numeral(
+                        parseFloat(result[0].Nilai_Pembulatan)
+                    ).format("0,0.00");
 
-                    terbilangBKK.textContent = decodeHtmlEntities(result[0].Terjemahan);
+                    terbilangBKK.textContent = decodeHtmlEntities(
+                        result[0].Terjemahan
+                    );
 
-                    jenisBayarBKK.textContent = decodeHtmlEntities(result[0].Jenis_Pembayaran);
+                    jenisBayarBKK.textContent = decodeHtmlEntities(
+                        result[0].Jenis_Pembayaran
+                    );
 
                     result.forEach(function (item, index) {
                         var row = document.createElement("div");
@@ -2704,36 +2825,46 @@ btnCetakBKK.addEventListener('click', function () {
 
                         var coaCol = document.createElement("div");
                         coaCol.classList.add("col-sm-2", "text-left");
-                        coaCol.textContent = item.No_BGCek ? decodeHtmlEntities(item.No_BGCek) : '';
-                        coaCol.style.borderLeft = "1px solid black";  // Border kiri
+                        coaCol.textContent = item.No_BGCek
+                            ? decodeHtmlEntities(item.No_BGCek)
+                            : "";
+                        coaCol.style.borderLeft = "1px solid black"; // Border kiri
                         coaCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(coaCol);
 
                         var accountCol = document.createElement("div");
                         accountCol.classList.add("col-sm-2", "text-left");
-                        accountCol.textContent = item.Jatuh_Tempo ? formatDateToMMDDYYYY(item.No_BGCek) : '';
-                        accountCol.style.borderLeft = "1px solid black";  // Border kiri
+                        accountCol.textContent = item.Jatuh_Tempo
+                            ? formatDateToMMDDYYYY(item.No_BGCek)
+                            : "";
+                        accountCol.style.borderLeft = "1px solid black"; // Border kiri
                         accountCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(accountCol);
 
                         var descriptionCol = document.createElement("div");
                         descriptionCol.classList.add("col-sm-4", "text-left");
-                        descriptionCol.textContent = item.Rincian_Bayar ? decodeHtmlEntities(item.Rincian_Bayar) : '';
-                        descriptionCol.style.borderLeft = "1px solid black";  // Border kiri
+                        descriptionCol.textContent = item.Rincian_Bayar
+                            ? decodeHtmlEntities(item.Rincian_Bayar)
+                            : "";
+                        descriptionCol.style.borderLeft = "1px solid black"; // Border kiri
                         descriptionCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(descriptionCol);
 
                         var cekBgCol = document.createElement("div");
                         cekBgCol.classList.add("col-sm-2", "text-center");
-                        cekBgCol.textContent = item.Kode_Perkiraan ? decodeHtmlEntities(item.Kode_Perkiraan) : '';
-                        cekBgCol.style.borderLeft = "1px solid black";  // Border kiri
+                        cekBgCol.textContent = item.Kode_Perkiraan
+                            ? decodeHtmlEntities(item.Kode_Perkiraan)
+                            : "";
+                        cekBgCol.style.borderLeft = "1px solid black"; // Border kiri
                         cekBgCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(cekBgCol);
 
                         var amountCol = document.createElement("div");
                         amountCol.classList.add("col-sm-2", "text-right");
-                        amountCol.textContent = item.Nilai_Rincian ? numeral(item.Nilai_Rincian).format("0,0.00") : '';
-                        amountCol.style.borderLeft = "1px solid black";  // Border kiri
+                        amountCol.textContent = item.Nilai_Rincian
+                            ? numeral(item.Nilai_Rincian).format("0,0.00")
+                            : "";
+                        amountCol.style.borderLeft = "1px solid black"; // Border kiri
                         amountCol.style.borderRight = "1px solid black"; // Border kanan
                         row.appendChild(amountCol);
 
@@ -2750,59 +2881,65 @@ btnCetakBKK.addEventListener('click', function () {
                         }
                     });
 
+                    symbolgtBKK.textContent = decodeHtmlEntities(
+                        result[0].Symbol
+                    );
+                    grandTotalBKK.textContent = numeral(
+                        parseFloat(totalBKK)
+                    ).format("0,0.00");
 
-                    symbolgtBKK.textContent = decodeHtmlEntities(result[0].Symbol);
-                    grandTotalBKK.textContent = numeral(parseFloat(totalBKK)).format("0,0.00");
+                    pelunasanBKK.textContent = decodeHtmlEntities(
+                        result[0].Id_BKM_Acuan
+                    );
 
-                    pelunasanBKK.textContent = decodeHtmlEntities(result[0].Id_BKM_Acuan);
-
-                    bkkTanggalBKK.textContent = 'Tanggal: ' + formatDateToMMDDYYYY(result[0].Tgl_BKM);
+                    bkkTanggalBKK.textContent =
+                        "Tanggal: " + formatDateToMMDDYYYY(result[0].Tgl_BKM);
 
                     var today = new Date();
                     var day = today.getDate();
                     var month = monthNames[today.getMonth()];
                     var year = today.getFullYear();
 
-                    var formattedToday = day + '/' + month + '/' + year;
+                    var formattedToday = day + "/" + month + "/" + year;
 
-                    sidoarjoBKM.innerHTML = "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
+                    sidoarjoBKM.innerHTML =
+                        "<h5><b>Sidoarjo, " + formattedToday + "</b></h5>";
 
-                    printPreview('preview2');
+                    printPreview("preview2");
                     updateDateBKK();
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
-
     }
 });
 
-function updateDateBKK(){
+function updateDateBKK() {
     $.ajax({
-        type: 'PUT',
-        url: 'BKMLC/updateDateBKK',
+        type: "PUT",
+        url: "BKMLC/updateDateBKK",
         data: {
             _token: csrfToken,
             idBKK: idCetakBKK.value.trim(),
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
-function updateDateBKM(){
+function updateDateBKM() {
     $.ajax({
-        type: 'PUT',
-        url: 'BKMLC/updateDateBKM',
+        type: "PUT",
+        url: "BKMLC/updateDateBKM",
         data: {
             _token: csrfToken,
             idBKM: idCetakBKM.value.trim(),
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
