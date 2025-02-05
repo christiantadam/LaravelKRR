@@ -135,6 +135,9 @@ $(document).ready(function () {
         } else if (ppn_select.value == "18") {
             DPPValue = harga_subTotal / 10;
             dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
+        } else if (ppn_select.value == "19") {
+            DPPValue = harga_subTotal;
+            dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
         } else if (ppn_select.value == "16" || ppn_select.value == "6") {
             dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
         } else {
@@ -151,6 +154,9 @@ $(document).ready(function () {
         } else if (ppn_select.value == "18") {
             IDRDPPValue = idr_hargaSubTotal / 10;
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
+        } else if (ppn_select.value == "19") {
+            DPPValue = harga_subTotal;
+            dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
         } else if (ppn_select.value == "16" || ppn_select.value == "6") {
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
         } else {
@@ -406,147 +412,130 @@ $(document).ready(function () {
         idr_harga_total.value = "";
         qty_ship.value = "";
     }
-    async function setStatusPO() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: "/CCreateBTTB/SetStatusPO",
-                type: "GET",
-                data: {
-                    NoPO: po.value.trim(),
-                },
-                success: function (response) {
-                    console.log(response);
-                    resolve();
-                },
-                error: function (error) {
-                    console.error("Error Send Data:", error);
-                    reject(error);
-                },
-            });
+    function setStatusPO() {
+        $.ajax({
+            url: "/CCreateBTTB/SetStatusPO",
+            type: "GET",
+            data: {
+                NoPO: po.value.trim(),
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.error("Error Send Data:", error);
+            },
         });
     }
 
     function post(bttb) {
         console.log(data); // console.log untuk tracing gagal post BTTB
         let dataToSend = [];
+        let postValidation = true;
 
         for (let i = 0; i < data.length; i++) {
             let noTrTmp = null;
+
             if (data[i].no_kat_utama == "009") {
                 noTrTmp = 1;
             }
-            if (data[i].Kd_brg.charAt(1) == "3") {
-                if (nopibext.value == "") {
-                    Swal.fire({
-                        icon: "info",
-                        title: "Untuk kode barang KITE, PIB harus diisi!",
-                        showConfirmButton: false,
-                        timer: "2000",
-                    });
-                    return;
-                }
+            if (
+                data[i].Kd_brg.charAt(1) == "3" &&
+                nopibext.value.trim() == ""
+            ) {
+                Swal.fire({
+                    icon: "info",
+                    title: "Untuk kode barang KITE, PIB harus diisi!",
+                    showConfirmButton: false,
+                    timer: "2000",
+                });
+                nopibext.focus();
+                postValidation = false;
+                return;
             } else {
-                if (nopibext.value !== "") {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "PIB sudah ada!",
-                        text: "Mau dikosongkan atau tidak?",
-                        showCancelButton: true,
-                        confirmButtonText: "Ya, kosongkan",
-                        cancelButtonText: "Batal",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // User confirmed to clear the value
-                            nopibext.value = "";
-                            Swal.fire({
-                                icon: "info",
-                                title: "PIB sudah dikosongkan!",
-                                showConfirmButton: false,
-                                timer: 2000,
-                            });
-                        }
-                    });
-                }
+                postValidation = true;
+                dataToSend.push({
+                    BTTB: bttb,
+                    disc: data[i].Harga_disc,
+                    discIDR: data[i].DiscIDR,
+                    idPPN: data[i].IdPPN,
+                    idSup: supplier.value,
+                    jumPPN: data[i].JumPPN,
+                    KodeHS: kodehs.value.trim(),
+                    kurs: data[i].Kurs,
+                    mtUang: data[i].ID_MATAUANG,
+                    NoPIB: nopib.value.trim(),
+                    NoPIBExt: nopibext.value.trim(),
+                    NoPO: po.value.trim(),
+                    NoReg: registrasi.value.trim(),
+                    NoSatuan: data[i].NoSatuan,
+                    NoSKBM: skbm.value.trim(),
+                    NoSPPBBC: sppb.value.trim(),
+                    noTrans: data[i].No_trans,
+                    noTrTmp: noTrTmp,
+                    pDPP: data[i].PriceDPP,
+                    persen: data[i].disc,
+                    pIDRDPP: data[i].PriceDPP_IDR,
+                    pIDRPPN: data[i].PriceUnitIDR_PPN,
+                    pIDRSub: data[i].PriceSubIDR,
+                    pIDRTot: data[i].PriceExtIDR,
+                    pIDRUnit: data[i].PriceUnitIDR,
+                    pPPN: data[i].PPN,
+                    pSub: data[i].PriceSub,
+                    pTot: data[i].PriceExt,
+                    pUnit: data[i].PriceUnit,
+                    Qty: numeral(data[i].Qty).value(),
+                    qtyRcv: numeral(data[i].QtyRcv).value() || 0, //prettier-ignore
+                    qtyremain: numeral(data[i].QtyRemain).value() || 0, //prettier-ignore
+                    qtyShip: numeral(data[i].QtyShipped).value() || 0, //prettier-ignore
+                    SJ: nosj.value.trim(),
+                    tglDatang: tglbttb.value,
+                    TglPIB: tglpib.value,
+                    TglReg: tglregis.value.trim(),
+                    TglSKBM: tglskbm.value,
+                    TglSPPBBC: tglsppb.value,
+                });
             }
+        }
+        if (postValidation) {
+            console.log(dataToSend); // console.log untuk tracing gagal post BTTB
 
-            dataToSend.push({
-                BTTB: bttb,
-                disc: data[i].Harga_disc,
-                discIDR: data[i].DiscIDR,
-                idPPN: data[i].IdPPN,
-                idSup: supplier.value,
-                jumPPN: data[i].JumPPN,
-                KodeHS: kodehs.value.trim(),
-                kurs: data[i].Kurs,
-                mtUang: data[i].ID_MATAUANG,
-                NoPIB: nopib.value.trim(),
-                NoPIBExt: nopibext.value.trim(),
-                NoPO: po.value.trim(),
-                NoReg: registrasi.value.trim(),
-                NoSatuan: data[i].NoSatuan,
-                NoSKBM: skbm.value.trim(),
-                NoSPPBBC: sppb.value.trim(),
-                noTrans: data[i].No_trans,
-                noTrTmp: noTrTmp,
-                pDPP: data[i].PriceDPP,
-                persen: data[i].disc,
-                pIDRDPP: data[i].PriceDPP_IDR,
-                pIDRPPN: data[i].PriceUnitIDR_PPN,
-                pIDRSub: data[i].PriceSubIDR,
-                pIDRTot: data[i].PriceExtIDR,
-                pIDRUnit: data[i].PriceUnitIDR,
-                pPPN: data[i].PPN,
-                pSub: data[i].PriceSub,
-                pTot: data[i].PriceExt,
-                pUnit: data[i].PriceUnit,
-                Qty: numeral(data[i].Qty).value(),
-                qtyRcv: numeral(data[i].QtyRcv).value() || 0,
-                qtyremain: numeral(data[i].QtyRemain).value() || 0,
-                qtyShip: numeral(data[i].QtyShipped).value() || 0,
-                SJ: nosj.value.trim(),
-                tglDatang: tglbttb.value,
-                TglPIB: tglpib.value,
-                TglReg: tglregis.value.trim(),
-                TglSKBM: tglskbm.value,
-                TglSPPBBC: tglsppb.value,
+            $.ajax({
+                url: "/CCreateBTTB/PostData",
+                type: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                data: {
+                    data: dataToSend,
+                },
+                success: function (response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Data Berhasil DiPost!",
+                        showConfirmButton: false,
+                    });
+                    dataPrint();
+                },
+                error: function (error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Data Tidak Berhasil DiPost!",
+                        showConfirmButton: false,
+                    });
+                    console.error("Error Send Data:", error);
+                },
+                beforeSend: function () {
+                    // Show loading screen
+                    $("#loading-screen").css("display","flex"); //prettier-ignore
+                },
+                complete: function () {
+                    // Hide loading screen
+                    $("#loading-screen").css("display", "none"); //prettier-ignore
+                    setStatusPO();
+                },
             });
         }
-        console.log(dataToSend); // console.log untuk tracing gagal post BTTB
-
-        $.ajax({
-            url: "/CCreateBTTB/PostData",
-            type: "POST",
-            headers: {
-                "X-CSRF-TOKEN": csrfToken,
-            },
-            data: {
-                data: dataToSend,
-            },
-            success: function (response) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Data Berhasil DiPost!",
-                    showConfirmButton: false,
-                });
-                dataPrint();
-            },
-            error: function (error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Data Tidak Berhasil DiPost!",
-                    showConfirmButton: false,
-                });
-                console.error("Error Send Data:", error);
-            },
-            beforeSend: function () {
-                // Show loading screen
-                $("#loading-screen").css("display", "flex");
-            },
-            complete: function () {
-                // Hide loading screen
-                $("#loading-screen").css("display", "none");
-            },
-        });
     }
 
     async function dataPrint() {
@@ -1004,11 +993,10 @@ $(document).ready(function () {
             $.ajax({
                 url: "/CCreateBTTB/CreateNoBTTB",
                 type: "GET",
-                success: async function (response) {
+                success: function (response) {
                     nobttb.value = response.data;
                     console.log(response.data); // console.log untuk tracing gagal post BTTB
                     post(response.data);
-                    await setStatusPO();
                 },
                 error: function (error) {
                     console.error("Error Send Data:", error);
@@ -1147,9 +1135,15 @@ $(document).ready(function () {
 
     idr_ppn.addEventListener("input", function () {
         let kurs = numeral(document.getElementById("kurs").value).value();
-        let PPNValue = this.value / kurs;
+        let PPNValue = numeral(this.value).value() / kurs;
+        let ppnPersenValue;
+
         ppn.value = numeral(PPNValue).format("0,0.0000");
-        ppn_persen.value = ((this.value / numeral(idr_sub_total.value).value()) * 100).toFixed(2); //prettier-ignore
+        ppnPersenValue = ((numeral(this.value).value() / numeral(idr_sub_total.value).value()) * 100).toFixed(2); //prettier-ignore
+        ppn_persen.value =
+            isFinite(ppnPersenValue) && !isNaN(ppnPersenValue)
+                ? ppnPersenValue.toFixed(2)
+                : 0;
         updateHargaTotal();
         updateIDRHargaTotal();
         updateTotalDisc();
@@ -1328,7 +1322,6 @@ $(document).ready(function () {
         updateIDRHargaTotal();
         updateIDRDiscTotal();
         console.log(qty_received.value);
-
     });
 
     kurs.addEventListener("keypress", function (event) {
