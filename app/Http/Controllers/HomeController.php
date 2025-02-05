@@ -159,7 +159,18 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appInventory', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Contoh!');
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Inventory!');
+        }
+    }
+
+    public function ABM()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('ABM');
+        $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
+        if ($result > 0) {
+            return view('layouts.appABM', compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program ABM!');
         }
     }
 }

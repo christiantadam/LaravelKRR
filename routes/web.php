@@ -1496,4 +1496,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('TransaksiBulanan', TransaksiBulananController::class);
     Route::resource('TransaksiHarian', TransaksiHarianController::class);
     #endregion
+
+    #region ABM
+    Route::get('ABM', 'App\Http\Controllers\HomeController@ABM');
+    #endregion
 });
