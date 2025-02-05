@@ -477,14 +477,24 @@ class BKMDPPelunasanController extends Controller
 
         // get id pembayaran
         else if ($id === 'getIdPembayaran') {
-            $divisi = DB::connection('ConnAccounting')->select('select max(Id_Pembayaran) as id_pembayaran from T_Pembayaran_Tagihan');
-            $data_divisi = [];
-            foreach ($divisi as $detail_divisi) {
-                $data_divisi[] = [
-                    'id_pembayaran' => $detail_divisi->id_pembayaran,
-                ];
-            }
-            return response()->json($data_divisi);
+            // $divisi = DB::connection('ConnAccounting')->select('select max(Id_Pembayaran) as id_pembayaran from T_Pembayaran_Tagihan');
+            // $data_divisi = [];
+            // foreach ($divisi as $detail_divisi) {
+            //     $data_divisi[] = [
+            //         'id_pembayaran' => $detail_divisi->id_pembayaran,
+            //     ];
+            // }
+            // return response()->json($data_divisi);
+            $user = Auth::user()->NomorUser;
+            $data = DB::connection('ConnAccounting')
+                ->table('T_PEMBAYARAN_TAGIHAN')
+                ->select('Id_Pembayaran')
+                ->where('User_Input', $user)
+                ->orderBy('Id_Pembayaran', 'desc')
+                ->first(); // Mengambil satu data terbaru
+            $data = $data->Id_Pembayaran;
+            // dd($data);
+            return response()->json($data);
         }
 
         // list bkm
@@ -683,7 +693,7 @@ class BKMDPPelunasanController extends Controller
                     ]);
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
         }
@@ -720,7 +730,7 @@ class BKMDPPelunasanController extends Controller
                         ]);
 
                     return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
                 }
             } else if (intval($kurs) !== 0) {
@@ -744,7 +754,7 @@ class BKMDPPelunasanController extends Controller
                         ]);
 
                     return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
                 }
             }
@@ -772,7 +782,7 @@ class BKMDPPelunasanController extends Controller
                     ]);
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
         }
@@ -799,7 +809,7 @@ class BKMDPPelunasanController extends Controller
                     ]);
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
         }
@@ -831,7 +841,7 @@ class BKMDPPelunasanController extends Controller
                     ]);
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
         }
@@ -883,7 +893,7 @@ class BKMDPPelunasanController extends Controller
                         ]);
 
                     return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
                 }
             } else if ($kurs !== null) {
@@ -919,7 +929,7 @@ class BKMDPPelunasanController extends Controller
                         ]);
 
                     return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
                 }
             }
@@ -947,7 +957,7 @@ class BKMDPPelunasanController extends Controller
                     ]);
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
         }
@@ -973,7 +983,7 @@ class BKMDPPelunasanController extends Controller
                     ]);
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
             }
         }
