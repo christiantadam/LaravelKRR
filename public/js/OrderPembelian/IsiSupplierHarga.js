@@ -433,6 +433,9 @@ $(document).ready(function () {
                     case "17":
                         option.text += " (Barang Mewah)";
                         break;
+                    case "19":
+                        option.text += " (DPP FULL)";
+                        break;
                 }
 
                 ppn_select.add(option);
