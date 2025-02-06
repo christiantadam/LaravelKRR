@@ -135,6 +135,9 @@ $(document).ready(function () {
         } else if (ppn_select.value == "18") {
             DPPValue = harga_subTotal / 10;
             dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
+        } else if (ppn_select.value == "19") {
+            DPPValue = harga_subTotal;
+            dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
         } else if (ppn_select.value == "16" || ppn_select.value == "6") {
             dpp_nilaiLain.value = numeral(DPPValue).format("0,0.0000");
         } else {
@@ -150,6 +153,9 @@ $(document).ready(function () {
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
         } else if (ppn_select.value == "18") {
             IDRDPPValue = idr_hargaSubTotal / 10;
+            idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
+        } else if (ppn_select.value == "19") {
+            IDRDPPValue = harga_subTotal;
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
         } else if (ppn_select.value == "16" || ppn_select.value == "6") {
             idr_dpp.value = numeral(IDRDPPValue).format("0,0.0000");
@@ -1147,9 +1153,14 @@ $(document).ready(function () {
 
     idr_ppn.addEventListener("input", function () {
         let kurs = numeral(document.getElementById("kurs").value).value();
-        let PPNValue = this.value / kurs;
+        let PPNValue = numeral(this.value).value() / kurs;
+        let ppnPersenValue;
         ppn.value = numeral(PPNValue).format("0,0.0000");
-        ppn_persen.value = ((this.value / numeral(idr_sub_total.value).value()) * 100).toFixed(2); //prettier-ignore
+        ppnPersenValue = ((numeral(this.value).value() / numeral(idr_sub_total.value).value()) * 100).toFixed(2); //prettier-ignore
+        ppn_persen.value =
+            isFinite(ppnPersenValue) && !isNaN(ppnPersenValue)
+                ? ppnPersenValue.toFixed(2)
+                : 0;
         updateHargaTotal();
         updateIDRHargaTotal();
         updateTotalDisc();
@@ -1328,7 +1339,6 @@ $(document).ready(function () {
         updateIDRHargaTotal();
         updateIDRDiscTotal();
         console.log(qty_received.value);
-
     });
 
     kurs.addEventListener("keypress", function (event) {
