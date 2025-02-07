@@ -360,6 +360,7 @@ $(document).ready(function () {
                         idDivisi: "JBB",
                     },
                     success: function (data) {
+                        console.log(data);
                         if (data.error) {
                             Swal.fire({
                                 icon: "error",
@@ -385,6 +386,7 @@ $(document).ready(function () {
                             table_daftarAsalKonversi.row
                                 .add(dataAsalKonversiInput)
                                 .draw();
+
                             // Show Bootstrap modal after confirming SweetAlert2
                             // let modalTambahTujuanModal = new bootstrap.Modal(tambahTujuanModal); // prettier-ignore
                             // modalTambahTujuanModal.show();
@@ -961,16 +963,31 @@ $(document).ready(function () {
                     if (select_kelompokUtamaTujuan.value == 1029) {
                         let itemsAdded = false; // Track if any item is added
                         // console.log(d_tek1PanjangRoll);
+                        // console.log(response);
 
                         response.forEach((item) => {
-                            // console.log(item.PanjangPotongan);
-                            // console.log(item.LebarPotongan);
-                            // If
+                            // console.log(
+                            //     "Panjang Potongan: " + item.PanjangPotongan
+                            // );
+                            // console.log(
+                            //     "Lebar Potongan: " + item.LebarPotongan
+                            // );
+                            // console.log(
+                            //     "parseFloat(d_tek1PanjangRoll) > parseFloat(item.PanjangPotongan): " +
+                            //         parseFloat(d_tek1PanjangRoll) >
+                            //         parseFloat(item.PanjangPotongan)
+                            // );
+                            // console.log(
+                            //     "parseFloat(d_tek1PanjangRoll) > parseFloat(item.LebarPotongan): " +
+                            //         parseFloat(d_tek1PanjangRoll) >
+                            //         parseFloat(item.LebarPotongan)
+                            // );
+
                             if (
                                 parseFloat(d_tek1PanjangRoll) !== "" &&
-                                (parseFloat(d_tek1PanjangRoll) >
+                                (parseFloat(d_tek1PanjangRoll) >=
                                     parseFloat(item.PanjangPotongan) ||
-                                    parseFloat(d_tek1PanjangRoll) >
+                                    parseFloat(d_tek1PanjangRoll) >=
                                         parseFloat(item.LebarPotongan))
                             ) {
                                 const matchedOption =
