@@ -416,7 +416,7 @@ class BKMDPPelunasanController extends Controller
             }
 
             $idBKK = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
-            $idBKK = $bank . '-P' . substr($tahun, -2) . substr($idBKK, -5);
+            $idBKK = 'KKK' . '-P' . substr($tahun, -2) . substr($idBKK, -5);
 
             DB::connection('ConnAccounting')
                 ->table('T_COUNTER_BKK')
@@ -453,7 +453,7 @@ class BKMDPPelunasanController extends Controller
             }
 
             $idBKM = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
-            $idBKM = $bank . '-R' . substr($tahun, -2) . substr($idBKM, -5);
+            $idBKM = 'KKM' . '-R' . substr($tahun, -2) . substr($idBKM, -5);
 
             DB::connection('ConnAccounting')
                 ->table('T_Counter_BKM')

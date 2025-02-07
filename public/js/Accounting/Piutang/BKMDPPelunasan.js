@@ -2063,7 +2063,7 @@ $("#uraian").on("keydown", function (e) {
                 IdBank = "KI";
             }
             if ((idBank.value = "KRR1")) {
-                IdBank = "KKK";
+                IdBank = "KKM";
             }
         } else {
             IdBank = idBank.value;
@@ -2586,6 +2586,8 @@ btnCetakBKM.addEventListener("click", function () {
                 id_bkm: idCetakBKM.value,
             },
             success: function (result) {
+                console.log(result);
+
                 if (result.length !== 0) {
                     if (
                         result[0].Id_bank === "KRR1" ||
