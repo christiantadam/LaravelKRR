@@ -26,7 +26,7 @@ class MhnPemberiController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // 
+        //
     }
 
     //Display the specified resource.
@@ -107,13 +107,13 @@ class MhnPemberiController extends Controller
             $tgl2 = $request->input('tgl2');
 
             // dd($request->all(), trim($user));
-            $subkel = DB::connection('ConnInventory')->select('EXEC SP_1003_INV_List_Mohon_TmpTransaksi_1 
-            @Kode = ?, 
-            @XIdTypeTransaksi = ?, 
-            @XIdDivisi = ?, 
-            @XIdObjek = ?, 
-            @tgl1 = ?, 
-            @tgl2 = ?, 
+            $subkel = DB::connection('ConnInventory')->select('EXEC SP_1003_INV_List_Mohon_TmpTransaksi_1
+            @Kode = ?,
+            @XIdTypeTransaksi = ?,
+            @XIdDivisi = ?,
+            @XIdObjek = ?,
+            @tgl1 = ?,
+            @tgl2 = ?,
             @XUser = ?',
                 [
                     5,
@@ -211,7 +211,7 @@ class MhnPemberiController extends Controller
             return datatables($subkel)->make(true);
         }
 
-        // get type 
+        // get type
         else if ($id === 'getType') {
             $XIdSubKelompok_Type = $request->input('XIdSubKelompok_Type') ?? '0';
 
@@ -227,7 +227,7 @@ class MhnPemberiController extends Controller
             return datatables($subkel)->make(true);
         }
 
-        // get type 
+        // get type
         else if ($id === 'loadPib') {
             $IdType = $request->input('IdType');
             $IdSubKel = $request->input('IdSubKel');
@@ -244,7 +244,7 @@ class MhnPemberiController extends Controller
             return response()->json($data_subkel);
         }
 
-        // get saldo 
+        // get saldo
         else if ($id === 'getSaldo') {
             $IdType = $request->input('IdType');
 
@@ -266,7 +266,7 @@ class MhnPemberiController extends Controller
             return response()->json($data_subkel);
         }
 
-        // get jumlah antrian 
+        // get jumlah antrian
         else if ($id === 'getJumlahAntrian') {
             $IdType = $request->input('IdType');
 
@@ -351,7 +351,7 @@ class MhnPemberiController extends Controller
 
             $SpekBenang = $kelompok[0]->SpekBenang;
 
-            $kelompok = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdKelompokUtama_Kelompok 
+            $kelompok = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdKelompokUtama_Kelompok
             @XIdKelompokUtama_Kelompok = ?, @Type = ?, @Spek = ?', [$kelutId2, '4', trim($SpekBenang)]);
 
             // dd($kelompok);
@@ -374,7 +374,7 @@ class MhnPemberiController extends Controller
 
             $SpekBenang = $kelompok[0]->SpekBenang;
 
-            $kelompok = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdKelompokUtama_Kelompok 
+            $kelompok = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdKelompokUtama_Kelompok
             @XIdKelompokUtama_Kelompok = ?, @Type = ?, @Spek = ?', [$kelutId2, '5', trim($SpekBenang)]);
 
             // dd($kelompok);

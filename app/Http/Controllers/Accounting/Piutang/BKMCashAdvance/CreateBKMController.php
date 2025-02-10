@@ -401,6 +401,25 @@ class CreateBKMController extends Controller
             } else {
                 return response()->json(['error' => 'Please select pelunasan data to group']);
             }
+        } else if ($id == 'cetakBKM') {
+            $idBKM = $request->input('bkm', null);
+            // dd($idBKM);
+            if ($idBKM) {
+                $data = DB::connection('ConnAccounting')
+                    ->select("SELECT * FROM VW_PRG_5298_ACC_CETAK_BKM_NOTAGIH_1 WHERE Id_BKM = ?", [$idBKM]);
+                // dd($data);
+                // Execute stored procedure to update print date
+                DB::connection('ConnAccounting')->statement('exec SP_5298_ACC_UPDATE_TGLCETAK_BKM ?', [$idBKM]);
+
+                return response()->json([
+                    'data' => $data,
+                    'message' => 'Data sudah diSIMPAN!'
+                ]);
+            } else {
+                return response()->json(['error' => 'Pilih 1 Id.BKM Untuk DiCetak!'], 400);
+            }
+        } else {
+            return response()->json(['error' => 'Invalid request'], 400);
         }
 
     }

@@ -1338,6 +1338,9 @@ $("#tableData tbody").on("change", 'input[name="divisiCheckbox"]', function () {
 });
 
 btnPilih.addEventListener("click", function (e) {
+    console.log(dataSelected);
+    console.log(dataSelected[0].IdPelunasan);
+
     if (dataSelected.length !== 1) {
         Swal.fire({
             icon: "error",
@@ -2100,29 +2103,30 @@ btnKoreksiForm.addEventListener("click", function (e) {
 });
 
 btnBatal.addEventListener("click", function (e) {
-    tglInput.value = today;
-    idBKK.value = "";
-    uang1.value = 0;
-    idPerkiraan1.value = "";
-    perkiraan1.value = "";
-    uraian1.value = "";
-    idBKM.value = "";
-    uang.value = "";
-    idPerkiraan.value = "";
-    perkiraan.value = "";
-    uraian.value = "";
-    idCust.value = "";
-    cust.value = "";
-    idBank1.value = "";
-    jenisBank1.value = "";
-    bank1.value = "";
-    idBank.value = "";
-    jenisBank.value = "";
-    bank1.value = "";
-    disableBKK();
-    disableBKM();
-    tampilBKM2();
-    dataSelected = [];
+    // tglInput.value = today;
+    // idBKK.value = "";
+    // uang1.value = 0;
+    // idPerkiraan1.value = "";
+    // perkiraan1.value = "";
+    // uraian1.value = "";
+    // idBKM.value = "";
+    // uang.value = "";
+    // idPerkiraan.value = "";
+    // perkiraan.value = "";
+    // uraian.value = "";
+    // idCust.value = "";
+    // cust.value = "";
+    // idBank1.value = "";
+    // jenisBank1.value = "";
+    // bank1.value = "";
+    // idBank.value = "";
+    // jenisBank.value = "";
+    // bank1.value = "";
+    // disableBKK();
+    // disableBKM();
+    // tampilBKM2();
+    // dataSelected = [];
+    location.reload();
 });
 
 btnProses.addEventListener("click", function (e) {

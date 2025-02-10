@@ -28,6 +28,7 @@ $(document).ready(function () {
     let bkm = document.getElementById("bkm");
     let tutup_TB = document.getElementById("tutup_TB");
     let btn_batal = document.getElementById("btn_batal");
+    let btn_cetakbkm = document.getElementById("btn_cetakbkm");
     let table_pelunasan = $("#table_pelunasan").DataTable({
         // columnDefs: [{ targets: [7, 8, 9], visible: false }],
     });
@@ -50,6 +51,177 @@ $(document).ready(function () {
             event.preventDefault();
             btn_ok.focus();
         }
+    });
+
+    btn_cetakbkm.addEventListener("click", async function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: "CreateBKM/cetakBKM",
+            type: "GET",
+            data: {
+                _token: csrfToken,
+                bkm: bkm.value,
+            },
+            success: function (data) {
+                console.log(data);
+                document.getElementById("nomer_P").innerHTML =
+                    data.data[0].Id_BKM;
+                let tanggalInput = data.data[0].Tgl_Input;
+                let tanggal = new Date(tanggalInput);
+
+                let options = {
+                    day: "2-digit", // Gunakan "2-digit" bukan "1-digit"
+                    month: "long", // "long" untuk nama bulan penuh (January, February, etc.)
+                    year: "numeric",
+                };
+
+                let formattedDate = tanggal
+                    .toLocaleDateString("en-GB", options)
+                    .replace(/ /g, "/"); // Ganti semua spasi dengan "/"
+
+                document.getElementById("tglCetak_P").innerHTML = formattedDate;
+                document.getElementById("symbol").innerHTML =
+                    data.data[0].Symbol;
+                document.getElementById("jumlahDiterima").innerHTML = numeral(
+                    data.data[0].Nilai_Pelunasan
+                ).format("0,0.00");
+                document.getElementById("terbilangCetak").innerHTML =
+                    data.data[0].Terjemahan;
+                document.getElementById("rincianPenerimaan").innerHTML =
+                    data.data[0].NamaCust + " - " + data.data[0].Uraian;
+                document.getElementById("kodePerkiraanCetak").innerHTML =
+                    data.data[0].KodePerkiraan;
+                document.getElementById("jumlah").innerHTML = numeral(
+                    data.data[0].Nilai_Rincian
+                ).format("0,0.00");
+                document.getElementById("symbol2").innerHTML =
+                    data.data[0].Symbol;
+                document.getElementById("grandTotal").innerHTML = numeral(
+                    data.data[0].Nilai_Rincian
+                ).format("0,0.00");
+                let tanggal2 = new Date(); // Menggunakan tanggal2 saat ini
+
+                let options2 = {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                };
+
+                let formattedDate2s = tanggal2
+                    .toLocaleDateString("en-GB", options2)
+                    .replace(/ /g, "/"); // Mengubah spasi menjadi "/"
+
+                document.getElementById("tglCetakForm").innerHTML =
+                    formattedDate2s;
+                // document.getElementById("paid_p").innerHTML =
+                //     data.data[0].NM_SUP;
+                // //Tbody Array
+                // let tbodyHTML = ""; // Variabel untuk menyimpan isi tbody
+                // tbodyHTML += `<tr style="border:none !important">
+                //         <td style="border:none !important; border-bottom: 2px solid black !important">C.O.A</td>
+                //         <td style="border:none !important; border-bottom: 2px solid black !important">Account Name</td>
+                //         <td style="border:none !important; border-bottom: 2px solid black !important">Description</td>
+                //         <td style="border:none !important; border-bottom: 2px solid black !important" id="nobg_p">Invoice
+                //             No.</td>
+                //         <td style="border:none !important; border-bottom: 2px solid black !important" id="matauang_p">Amount ${
+                //             data.data[0].Id_MataUang_BC ?? ""
+                //         }
+                //         </td>
+                //     </tr>`;
+                // data.data.forEach(function (item) {
+                //     tbodyHTML += `
+                //         <tr>
+                //             <td style="border:none !important;">
+                //                 ${item.Kode_Perkiraan ?? ""}
+                //             </td>
+                //             <td style="border:none !important;">
+                //                 ${item.Keterangan ?? ""}
+                //             </td>
+                //             <td style="border:none !important;">
+                //                 ${item.Rincian_Bayar ?? ""}
+                //             </td>
+                //             <td style="border:none !important;">
+                //                 ${item.Id_Penagihan ?? ""}
+                //             </td>
+                //             <td style="border:none !important;; text-align: right;">
+                //                 ${parseFloat(item.Nilai_Rincian).toLocaleString(
+                //                     "en-US",
+                //                     {
+                //                         minimumFractionDigits: 2,
+                //                         maximumFractionDigits: 2,
+                //                     }
+                //                 )}
+                //             </td>
+                //         </tr>
+                //     `;
+                // });
+
+                // // Menghitung total nilai rincian
+                // let totalNilaiRincian = data.data.reduce(function (acc, item) {
+                //     return acc + parseFloat(item.Nilai_Rincian);
+                // }, 0);
+
+                // // Menambahkan baris total ke tbody
+                // tbodyHTML += `
+                //     <tr>
+                //         <td colspan="4" style="text-align: right; border:none !important; border-top: 2px solid black !important">
+                //             Total
+                //         </td>
+                //         <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
+                //             ${totalNilaiRincian.toLocaleString("en-US", {
+                //                 minimumFractionDigits: 2,
+                //                 maximumFractionDigits: 2,
+                //             })}
+                //         </td>
+                //     </tr>
+                //     `;
+
+                // let tbodyttdHTML = "";
+                // tbodyttdHTML += `
+
+                //             <tr style="border:none !important">
+                //     <td style="text-align: center !important; width: 80px; border:none !important">Receiver</td>
+                //     <td style="text-align: center !important; width: 80px; border:none !important">Cashier</td>
+                //     <td style="border:none !important"></td>
+                //     <td style="border:none !important"></td>
+                // </tr>
+                // <tr style="border:none !important">
+                //     <td style="border:none !important">&nbsp;</td>
+                //     <td style="border:none !important">&nbsp;</td>
+                //     <td style="width: 80px; text-align: right !important; font-style: italic; border:none !important">
+                //         Note :</td>
+                //     <td style="border:none !important" id="batal_p">&nbsp;</td>
+                // </tr>
+                // <tr>
+                //     <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                //     </td>
+                //     <td style="text-align: center !important; border:none !important">&nbsp;__________________&nbsp;
+                //     </td>
+                //     <td style="border:none !important">&nbsp;</td>
+                //     <td style="border:none !important" id="alasan_p">&nbsp;</td>
+                // </tr>
+                //             `;
+                // // Menambahkan hasil ke dalam tbody
+                // document.querySelector("#ttdTable tbody").innerHTML =
+                //     tbodyttdHTML;
+
+                // // Menambahkan hasil ke dalam tbody
+                // document.querySelector("#paymentTable tbody").innerHTML =
+                //     tbodyHTML;
+
+                // document.getElementById("alasan_p").innerHTML =
+                //     data.data[0].Alasan;
+
+                // document.getElementById("batal_p").innerHTML =
+                //     data.data[0].Batal;
+
+                window.print();
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+            },
+        });
     });
 
     btn_group.addEventListener("click", async function (event) {
@@ -434,7 +606,6 @@ $(document).ready(function () {
                     } else {
                         // nama_bankTB.value = response.Nama;
                         jenis_bankTB.value = response.Jenis;
-
                     }
                 },
                 error: function (xhr) {

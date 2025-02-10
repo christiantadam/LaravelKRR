@@ -1,79 +1,80 @@
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+var csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 
-var divisiId = document.getElementById('divisiId');
-var divisiNama = document.getElementById('divisiNama');
-var btnDivisi = document.getElementById('btn_divisi');
-var tanggal = document.getElementById('tanggal');
-var objekId = document.getElementById('objekId');
-var objekNama = document.getElementById('objekNama');
-var btnObjek = document.getElementById('btn_objek');
-var kelompokId = document.getElementById('kelompokId');
-var kelompokNama = document.getElementById('kelompokNama');
-var btnKelompok = document.getElementById('btn_kelompok');
-var kelutId = document.getElementById('kelutId');
-var kelutNama = document.getElementById('kelutNama');
-var btnKelut = document.getElementById('btn_kelut');
-var subkelId = document.getElementById('subkelId');
-var subkelNama = document.getElementById('subkelNama');
-var btnSubkel = document.getElementById('btn_subkel');
-var idType = document.getElementById('idType');
-var kodeBarang = document.getElementById('kodeBarang');
-var pib = document.getElementById('pib');
-var primer = document.getElementById('primer');
-var satuanPrimer = document.getElementById('satuanPrimer');
-var type = document.getElementById('type');
-var btnType = document.getElementById('btn_type');
-var sekunder = document.getElementById('sekunder');
-var satuanSekunder = document.getElementById('satuanSekunder');
-var jmlKeranjang = document.getElementById('jmlKeranjang');
-var tritier = document.getElementById('tritier');
-var satuanTritier = document.getElementById('satuanTritier');
-var primer3 = document.getElementById('primer3');
-var sekunder3 = document.getElementById('sekunder3');
-var tritier3 = document.getElementById('tritier3');
+var divisiId = document.getElementById("divisiId");
+var divisiNama = document.getElementById("divisiNama");
+var btnDivisi = document.getElementById("btn_divisi");
+var tanggal = document.getElementById("tanggal");
+var objekId = document.getElementById("objekId");
+var objekNama = document.getElementById("objekNama");
+var btnObjek = document.getElementById("btn_objek");
+var kelompokId = document.getElementById("kelompokId");
+var kelompokNama = document.getElementById("kelompokNama");
+var btnKelompok = document.getElementById("btn_kelompok");
+var kelutId = document.getElementById("kelutId");
+var kelutNama = document.getElementById("kelutNama");
+var btnKelut = document.getElementById("btn_kelut");
+var subkelId = document.getElementById("subkelId");
+var subkelNama = document.getElementById("subkelNama");
+var btnSubkel = document.getElementById("btn_subkel");
+var idType = document.getElementById("idType");
+var kodeBarang = document.getElementById("kodeBarang");
+var pib = document.getElementById("pib");
+var primer = document.getElementById("primer");
+var satuanPrimer = document.getElementById("satuanPrimer");
+var type = document.getElementById("type");
+var btnType = document.getElementById("btn_type");
+var sekunder = document.getElementById("sekunder");
+var satuanSekunder = document.getElementById("satuanSekunder");
+var jmlKeranjang = document.getElementById("jmlKeranjang");
+var tritier = document.getElementById("tritier");
+var satuanTritier = document.getElementById("satuanTritier");
+var primer3 = document.getElementById("primer3");
+var sekunder3 = document.getElementById("sekunder3");
+var tritier3 = document.getElementById("tritier3");
 
-var primer2 = document.getElementById('primer2');
-var sekunder2 = document.getElementById('sekunder2');
-var tritier2 = document.getElementById('tritier2');
-var satuanPrimer2 = document.getElementById('satuanPrimer2');
-var satuanSekunder2 = document.getElementById('satuanSekunder2');
-var satuanTritier2 = document.getElementById('satuanTritier2');
+var primer2 = document.getElementById("primer2");
+var sekunder2 = document.getElementById("sekunder2");
+var tritier2 = document.getElementById("tritier2");
+var satuanPrimer2 = document.getElementById("satuanPrimer2");
+var satuanSekunder2 = document.getElementById("satuanSekunder2");
+var satuanTritier2 = document.getElementById("satuanTritier2");
 
+var divisiId2 = document.getElementById("divisiId2");
+var divisiNama2 = document.getElementById("divisiNama2");
+var btnDivisi2 = document.getElementById("btn_divisi2");
+var idTransaksi = document.getElementById("idTransaksi");
+var objekId2 = document.getElementById("objekId2");
+var objekNama2 = document.getElementById("objekNama2");
+var btnObjek2 = document.getElementById("btn_objek2");
+var kelompokId2 = document.getElementById("kelompokId2");
+var kelompokNama2 = document.getElementById("kelompokNama2");
+var btnKelompok2 = document.getElementById("btn_kelompok2");
+var kelutId2 = document.getElementById("kelutId2");
+var kelutNama2 = document.getElementById("kelutNama2");
+var btnKelut2 = document.getElementById("btn_kelut2");
+var subkelId2 = document.getElementById("subkelId2");
+var subkelNama2 = document.getElementById("subkelNama2");
+var btnSubkel2 = document.getElementById("btn_subkel2");
 
-var divisiId2 = document.getElementById('divisiId2');
-var divisiNama2 = document.getElementById('divisiNama2');
-var btnDivisi2 = document.getElementById('btn_divisi2');
-var idTransaksi = document.getElementById('idTransaksi');
-var objekId2 = document.getElementById('objekId2');
-var objekNama2 = document.getElementById('objekNama2');
-var btnObjek2 = document.getElementById('btn_objek2');
-var kelompokId2 = document.getElementById('kelompokId2');
-var kelompokNama2 = document.getElementById('kelompokNama2');
-var btnKelompok2 = document.getElementById('btn_kelompok2');
-var kelutId2 = document.getElementById('kelutId2');
-var kelutNama2 = document.getElementById('kelutNama2');
-var btnKelut2 = document.getElementById('btn_kelut2');
-var subkelId2 = document.getElementById('subkelId2');
-var subkelNama2 = document.getElementById('subkelNama2');
-var btnSubkel2 = document.getElementById('btn_subkel2');
-
-var btnIsi = document.getElementById('btn_isi');
-var btnProses = document.getElementById('btn_proses');
-var btnBatal = document.getElementById('btn_batal');
-var btnKoreksi = document.getElementById('btn_koreksi');
-var btnHapus = document.getElementById('btn_hapus');
+var btnIsi = document.getElementById("btn_isi");
+var btnProses = document.getElementById("btn_proses");
+var btnBatal = document.getElementById("btn_batal");
+var btnKoreksi = document.getElementById("btn_koreksi");
+var btnHapus = document.getElementById("btn_hapus");
 
 var today = new Date().toISOString().slice(0, 10);
-tanggal.value = (today);
+tanggal.value = today;
 
 function formatDateToMMDDYYYY(date) {
     let dateObj = new Date(date);
     if (isNaN(dateObj)) {
-        return '';
+        return "";
     }
 
-    let month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-    let day = dateObj.getDate().toString().padStart(2, '0');
+    let month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    let day = dateObj.getDate().toString().padStart(2, "0");
     let year = dateObj.getFullYear();
 
     return `${month}/${day}/${year}`;
@@ -83,97 +84,131 @@ var idUser;
 
 function getUserId() {
     $.ajax({
-        type: 'GET',
-        url: 'MhnPemberi/getUserId',
+        type: "GET",
+        url: "MhnPemberi/getUserId",
         data: {
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             idUser = result.user;
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
+var TPemberi;
 
 $(document).ready(function () {
     getUserId();
-    $('#tableData').DataTable({
+    let table = $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
         ordering: false,
         columns: [
-            { title: 'Kode' },
-            { title: 'Nama Barang' },
-            { title: 'Alasan Mutasi' },
-            { title: 'Kelut Pemberi' },
-            { title: 'Kel Pemberi' },
-            { title: 'SubKel Pemberi' },
-            { title: 'Pemohon' },
-            { title: 'Tgl Mohon' },
+            { title: "Kode" },
+            { title: "Nama Barang" },
+            { title: "Alasan Mutasi" },
+            { title: "Kelut Pemberi" },
+            { title: "Kel Pemberi" },
+            { title: "SubKel Pemberi" },
+            { title: "Pemohon" },
+            { title: "Tgl Mohon" },
         ],
-        colResize: {
-            isEnabled: true,
-            hoverClass: 'dt-colresizable-hover',
-            hasBoundCheck: true,
-            minBoundClass: 'dt-colresizable-bound-min',
-            maxBoundClass: 'dt-colresizable-bound-max',
-            saveState: true,
-            // isResizable: function (column) {
-            //     return column.idx !== 2;
-            // },
-            onResize: function (column) {
-                //console.log('...resizing...');
-            },
-            onResizeEnd: function (column, columns) {
-                // console.log('I have been resized!');
-            },
-            stateSaveCallback: function (settings, data) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData";
-                localStorage.setItem(stateStorageName, JSON.stringify(data));
-            },
-            stateLoadCallback: function (settings) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData",
-                    data = localStorage.getItem(stateStorageName);
-                return data != null ? JSON.parse(data) : null;
-            }
-        },
-        scrollY: '300px',
+        scrollY: "300px",
         autoWidth: false,
-        scrollX: '100%',
-        columnDefs: [{ targets: [0], width: '10%', className: 'fixed-width' },
-        { targets: [1], width: '25%', className: 'fixed-width' },
-        { targets: [2], width: '25%', className: 'fixed-width' },
-        { targets: [3], width: '10%', className: 'fixed-width' },
-        { targets: [4], width: '10%', className: 'fixed-width' },
-        { targets: [5], width: '10%', className: 'fixed-width' },
-        { targets: [6], width: '10%', className: 'fixed-width' },
-        { targets: [7], width: '10%', className: 'fixed-width'}]
+        scrollX: "100%",
+        columnDefs: [
+            { targets: [0], width: "10%", className: "fixed-width" },
+            { targets: [1], width: "25%", className: "fixed-width" },
+            { targets: [2], width: "25%", className: "fixed-width" },
+            { targets: [3], width: "10%", className: "fixed-width" },
+            { targets: [4], width: "10%", className: "fixed-width" },
+            { targets: [5], width: "10%", className: "fixed-width" },
+            { targets: [6], width: "10%", className: "fixed-width" },
+            { targets: [7], width: "10%", className: "fixed-width" },
+        ],
+    });
+
+    // Event untuk klik baris pada tabel
+    $("#tableData tbody").on("click", "tr", function () {
+        selectRow($(this));
+    });
+
+    // Fungsi untuk memilih baris dan mengisi data
+    function selectRow(row) {
+        let table = $("#tableData").DataTable();
+        table.$("tr.selected").removeClass("selected");
+        row.addClass("selected");
+
+        let data = table.row(row).data();
+        if (!data) return;
+
+        ClearForm();
+
+        IdTrans = decodeHtmlEntities(data[0]);
+        let date = data[7];
+        let parts = date.split("/");
+        let formattedDate = `${parts[2]}-${parts[0].padStart(
+            2,
+            "0"
+        )}-${parts[1].padStart(2, "0")}`;
+
+        idTransaksi.value = decodeHtmlEntities(data[0]);
+        kelutNama.value = decodeHtmlEntities(data[3]);
+        kelompokNama.value = decodeHtmlEntities(data[4]);
+        subkelNama.value = decodeHtmlEntities(data[5]);
+        tanggal.value = formattedDate;
+        uraian.value = decodeHtmlEntities(data[2]);
+        type.value = decodeHtmlEntities(data[1]);
+        TPemberi = decodeHtmlEntities(data[6]);
+
+        TampilItem(IdTrans);
+    }
+
+    // Event listener untuk menangkap tombol panah
+    $(document).on("keydown", function (e) {
+        let selectedRow = $("#tableData tbody tr.selected");
+        let nextRow;
+
+        if (e.key === "ArrowDown") {
+            nextRow = selectedRow.length
+                ? selectedRow.next("tr")
+                : $("#tableData tbody tr").first();
+        } else if (e.key === "ArrowUp") {
+            nextRow = selectedRow.length
+                ? selectedRow.prev("tr")
+                : $("#tableData tbody tr").last();
+        }
+
+        if (nextRow && nextRow.length) {
+            selectRow(nextRow);
+            e.preventDefault(); // Mencegah scroll halaman saat navigasi
+        }
     });
 });
 
 function ClearForm() {
     // Clear text inputs
-    kelutId.value = '';
-    kelutNama.value = '';
-    kelompokId.value = '';
-    kelompokNama.value = '';
-    subkelId.value = '';
-    subkelNama.value = '';
-    idType.value = '';
-    kodeBarang.value = '';
-    type.value = '';
+    kelutId.value = "";
+    kelutNama.value = "";
+    kelompokId.value = "";
+    kelompokNama.value = "";
+    subkelId.value = "";
+    subkelNama.value = "";
+    idType.value = "";
+    kodeBarang.value = "";
+    type.value = "";
     // pib.value = '';
     primer.value = 0;
-    satuanPrimer.value = '';
+    satuanPrimer.value = "";
     sekunder.value = 0;
-    satuanSekunder.value = '';
-    jmlKeranjang.value = '';
+    satuanSekunder.value = "";
+    jmlKeranjang.value = "";
     tritier.value = 0;
-    satuanTritier.value = '';
+    satuanTritier.value = "";
     primer3.value = 0;
     sekunder3.value = 0;
     tritier3.value = 0;
@@ -183,61 +218,61 @@ function ClearForm() {
     tritier2.value = 0;
 
     // Clear second set of inputs
-    divisiId2.value = '';
-    divisiNama2.value = '';
-    objekId2.value = '';
-    objekNama2.value = '';
-    kelompokId2.value = '';
-    kelompokNama2.value = '';
-    kelutId2.value = '';
-    kelutNama2.value = '';
-    subkelId2.value = '';
-    subkelNama2.value = '';
-    idTransaksi.value = '';
+    divisiId2.value = "";
+    divisiNama2.value = "";
+    objekId2.value = "";
+    objekNama2.value = "";
+    kelompokId2.value = "";
+    kelompokNama2.value = "";
+    kelutId2.value = "";
+    kelutNama2.value = "";
+    subkelId2.value = "";
+    subkelNama2.value = "";
+    idTransaksi.value = "";
 
-    satuanPrimer2.value = '';
-    satuanSekunder2.value = '';
-    satuanTritier2.value = '';
+    satuanPrimer2.value = "";
+    satuanSekunder2.value = "";
+    satuanTritier2.value = "";
 
-    TPemberi = '';
+    TPemberi = "";
 
     primer2.disabled = false;
     sekunder2.disabled = false;
 }
 
-var TPemberi;
-$('#tableData tbody').on('click', 'tr', function () {
-    var table = $('#tableData').DataTable();
-    table.$('tr.selected').removeClass('selected');
-    $(this).addClass('selected');
-    var data = table.row(this).data();
-    ClearForm();
+// var TPemberi;
+// $('#tableData tbody').on('click', 'tr', function () {
+//     var table = $('#tableData').DataTable();
+//     table.$('tr.selected').removeClass('selected');
+//     $(this).addClass('selected');
+//     var data = table.row(this).data();
+//     ClearForm();
 
-    IdTrans = decodeHtmlEntities(data[0]);
+//     IdTrans = decodeHtmlEntities(data[0]);
 
-    let date = data[7];
-    let parts = date.split('/');
-    let formattedDate = `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+//     let date = data[7];
+//     let parts = date.split('/');
+//     let formattedDate = `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
 
-    idTransaksi.value = decodeHtmlEntities(data[0]);
-    kelutNama.value = decodeHtmlEntities(data[3]);
-    kelompokNama.value = decodeHtmlEntities(data[4]);
-    subkelNama.value = decodeHtmlEntities(data[5]);
-    tanggal.value = formattedDate;
-    uraian.value = decodeHtmlEntities(data[2]);
-    type.value = decodeHtmlEntities(data[1]);
-    TPemberi = decodeHtmlEntities(data[6]);
+//     idTransaksi.value = decodeHtmlEntities(data[0]);
+//     kelutNama.value = decodeHtmlEntities(data[3]);
+//     kelompokNama.value = decodeHtmlEntities(data[4]);
+//     subkelNama.value = decodeHtmlEntities(data[5]);
+//     tanggal.value = formattedDate;
+//     uraian.value = decodeHtmlEntities(data[2]);
+//     type.value = decodeHtmlEntities(data[1]);
+//     TPemberi = decodeHtmlEntities(data[6]);
 
-    TampilItem(IdTrans);
-});
+//     TampilItem(IdTrans);
+// });
 
 function TampilItem(IdTrans) {
     $.ajax({
-        type: 'GET',
-        url: 'MhnPemberi/tampilItem',
+        type: "GET",
+        url: "MhnPemberi/tampilItem",
         data: {
             XIdTransaksi: IdTrans,
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             if (result) {
@@ -248,31 +283,47 @@ function TampilItem(IdTrans) {
                 subkelId2.value = decodeHtmlEntities(result[0].IdSubkelompok);
                 divisiNama2.value = decodeHtmlEntities(result[0].NamaDivisi);
                 objekNama2.value = decodeHtmlEntities(result[0].NamaObjek);
-                kelutNama2.value = decodeHtmlEntities(result[0].NamaKelompokUtama);
-                kelompokNama2.value = decodeHtmlEntities(result[0].NamaKelompok);
-                subkelNama2.value = decodeHtmlEntities(result[0].NamaSubKelompok);
-                satuanPrimer2.value = result[0].Satuan_Primer ? decodeHtmlEntities(result[0].Satuan_Primer.trim()) : 'Null';
-                satuanSekunder2.value = result[0].Satuan_Sekunder ? decodeHtmlEntities(result[0].Satuan_Sekunder.trim()) : 'Null';
-                satuanTritier2.value = result[0].Satuan_Tritier ? decodeHtmlEntities(result[0].Satuan_Tritier.trim()) : 'Null';
+                kelutNama2.value = decodeHtmlEntities(
+                    result[0].NamaKelompokUtama
+                );
+                kelompokNama2.value = decodeHtmlEntities(
+                    result[0].NamaKelompok
+                );
+                subkelNama2.value = decodeHtmlEntities(
+                    result[0].NamaSubKelompok
+                );
+                satuanPrimer2.value = result[0].Satuan_Primer
+                    ? decodeHtmlEntities(result[0].Satuan_Primer.trim())
+                    : "Null";
+                satuanSekunder2.value = result[0].Satuan_Sekunder
+                    ? decodeHtmlEntities(result[0].Satuan_Sekunder.trim())
+                    : "Null";
+                satuanTritier2.value = result[0].Satuan_Tritier
+                    ? decodeHtmlEntities(result[0].Satuan_Tritier.trim())
+                    : "Null";
                 primer2.value = formatNumber(result[0].JumlahPengeluaranPrimer);
-                sekunder2.value = formatNumber(result[0].JumlahPengeluaranSekunder);
-                tritier2.value = formatNumber(result[0].JumlahPengeluaranTritier);
+                sekunder2.value = formatNumber(
+                    result[0].JumlahPengeluaranSekunder
+                );
+                tritier2.value = formatNumber(
+                    result[0].JumlahPengeluaranTritier
+                );
                 idType.value = decodeHtmlEntities(result[0].IdType);
                 kodeBarang.value = decodeHtmlEntities(result[0].KodeBarang);
                 pib.value = formatNumber(result[0].SaldoPrimer);
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 
     $.ajax({
-        type: 'GET',
-        url: 'MhnPemberi/tampilItem2',
+        type: "GET",
+        url: "MhnPemberi/tampilItem2",
         data: {
             XIdTransaksi: IdTrans,
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             if (result) {
@@ -284,8 +335,8 @@ function TampilItem(IdTrans) {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
@@ -307,8 +358,7 @@ function handleTableKeydown(e, tableId) {
                 Swal.getConfirmButton().click();
             }
         }
-    }
-    else if (e.key === "ArrowDown") {
+    } else if (e.key === "ArrowDown") {
         e.preventDefault();
         if (currentIndex === null || currentIndex >= rowCount - 1) {
             currentIndex = 0;
@@ -318,8 +368,7 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowUp") {
+    } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (currentIndex === null || currentIndex <= 0) {
             currentIndex = rowCount - 1;
@@ -329,38 +378,45 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowRight") {
+    } else if (e.key === "ArrowRight") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page < pageInfo.pages - 1) {
-            table.page('next').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("next")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
-    }
-    else if (e.key === "ArrowLeft") {
+    } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page > 0) {
-            table.page('previous').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("previous")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
     }
 }
 
 // Helper function to scroll selected row into view
 function scrollRowIntoView(rowElement) {
-    rowElement.scrollIntoView({ block: 'nearest' });
+    rowElement.scrollIntoView({ block: "nearest" });
 }
-
 
 function decodeHtmlEntities(text) {
     var txt = document.createElement("textarea");
@@ -370,24 +426,28 @@ function decodeHtmlEntities(text) {
 
 function escapeHtml(text) {
     var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
     };
-    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
 
 function updateDataTable(data) {
-    var table = $('#tableData').DataTable();
+    var table = $("#tableData").DataTable();
     table.clear().draw();
 
     data.forEach(function (item) {
         table.row.add([
             escapeHtml(item.IdTransaksi),
             escapeHtml(item.NamaType),
-            item.UraianDetailTransaksi ? escapeHtml(item.UraianDetailTransaksi) : '',
+            item.UraianDetailTransaksi
+                ? escapeHtml(item.UraianDetailTransaksi)
+                : "",
             escapeHtml(item.NamaKelompokUtama),
             escapeHtml(item.NamaKelompok),
             escapeHtml(item.NamaSubKelompok),
@@ -416,16 +476,14 @@ function Tombol(angka) {
         btnProses.disabled = true;
         btnBatal.disabled = true;
         btnIsi.focus();
-    }
-    else {
+    } else {
         btnIsi.disabled = true;
         btnHapus.disabled = true;
         btnKoreksi.disabled = true;
         btnBatal.disabled = false;
         if (Pil === 1) {
             btnProses.disabled = true;
-        }
-        else {
+        } else {
             btnProses.disabled = false;
         }
     }
@@ -434,8 +492,7 @@ function Tombol(angka) {
 function OrderText(angka) {
     if (angka === 1) {
         btnDivisi.disabled = false;
-    }
-    else if (angka === 2) {
+    } else if (angka === 2) {
         btnKelut.disabled = true;
         btnKelompok.disabled = true;
         btnSubkel.disabled = true;
@@ -445,8 +502,7 @@ function OrderText(angka) {
         btnKelut2.disabled = true;
         btnKelompok2.disabled = true;
         btnSubkel2.disabled = true;
-    }
-    else if (angka === 3) {
+    } else if (angka === 3) {
         btnKelut.disabled = true;
         btnKelompok.disabled = true;
         btnSubkel.disabled = true;
@@ -461,15 +517,15 @@ function OrderText(angka) {
 
 var Pil;
 document.addEventListener("DOMContentLoaded", function () {
-    $('.keranjang').hide();
-    $('.kosong').show();
+    $(".keranjang").hide();
+    $(".kosong").show();
     Pil = 0;
     OrderText(1);
     tanggal.focus();
 });
 
-$('#tanggal').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#tanggal").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
         btnDivisi.focus();
     }
@@ -477,10 +533,9 @@ $('#tanggal').on('keydown', function (e) {
 
 // button list divisi
 btnDivisi.addEventListener("click", function (e) {
-
     try {
         Swal.fire({
-            title: 'Divisi',
+            title: "Divisi",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -503,11 +558,11 @@ btnDivisi.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -515,7 +570,7 @@ btnDivisi.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -523,19 +578,16 @@ btnDivisi.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "IdDivisi" },
-                            { data: "NamaDivisi" },
-                        ],
+                        columns: [{ data: "IdDivisi" }, { data: "NamaDivisi" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -544,27 +596,32 @@ btnDivisi.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                divisiId.value = decodeHtmlEntities(result.value.IdDivisi.trim());
-                divisiNama.value = decodeHtmlEntities(result.value.NamaDivisi.trim());
+                divisiId.value = decodeHtmlEntities(
+                    result.value.IdDivisi.trim()
+                );
+                divisiNama.value = decodeHtmlEntities(
+                    result.value.NamaDivisi.trim()
+                );
 
-                if (divisiId.value === 'EXP') {
-                    $('.keranjang').show();
-                    $('.kosong').hide();
-                }
-                else {
-                    $('.keranjang').hide();
-                    $('.kosong').show();
+                if (divisiId.value === "EXP") {
+                    $(".keranjang").show();
+                    $(".kosong").hide();
+                } else {
+                    $(".keranjang").hide();
+                    $(".kosong").show();
                 }
                 btnObjek.disabled = false;
                 btnObjek.focus();
@@ -580,18 +637,17 @@ var tgl1, tgl2;
 
 // button list objek
 btnObjek.addEventListener("click", function (e) {
-
-    kelutId.value = '';
-    kelutNama.value = '';
-    kelompokId.value = '';
-    kelompokNama.value = '';
-    subkelId.value = '';
-    subkelNama.value = '';
+    kelutId.value = "";
+    kelutNama.value = "";
+    kelompokId.value = "";
+    kelompokNama.value = "";
+    subkelId.value = "";
+    subkelNama.value = "";
     Pilih = 0;
 
     try {
         Swal.fire({
-            title: 'Objek',
+            title: "Objek",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -614,11 +670,11 @@ btnObjek.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -626,7 +682,7 @@ btnObjek.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -635,19 +691,16 @@ btnObjek.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                divisi: divisiId.value
-                            }
+                                divisi: divisiId.value,
+                            },
                         },
-                        columns: [
-                            { data: "IdObjek" },
-                            { data: "NamaObjek" },
-                        ],
+                        columns: [{ data: "IdObjek" }, { data: "NamaObjek" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -656,110 +709,135 @@ btnObjek.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 objekId.value = decodeHtmlEntities(result.value.IdObjek.trim());
-                objekNama.value = decodeHtmlEntities(result.value.NamaObjek.trim());
+                objekNama.value = decodeHtmlEntities(
+                    result.value.NamaObjek.trim()
+                );
 
                 Swal.fire({
-                    title: 'Menampilkan Semua Data ??..',
-                    icon: 'question',
+                    title: "Menampilkan Semua Data ??..",
+                    icon: "question",
                     showCancelButton: true,
-                    confirmButtonText: 'Ya',
-                    cancelButtonText: 'Tidak',
+                    confirmButtonText: "Ya",
+                    cancelButtonText: "Tidak",
                     returnFocus: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire({
-                            title: 'Tgl Awal (bln/tgl/thn) :',
+                            title: "Tgl Awal (bln/tgl/thn) :",
                             html: '<input type="date" id="tglAwal" class="swal2-input">',
                             showCancelButton: true,
-                            confirmButtonText: 'Ok',
-                            cancelButtonText: 'Cancel',
+                            confirmButtonText: "Ok",
+                            cancelButtonText: "Cancel",
                             returnFocus: false,
                             didOpen: () => {
-                                const today = new Date().toISOString().split('T')[0];
-                                document.getElementById('tglAwal').value = today;
+                                const today = new Date()
+                                    .toISOString()
+                                    .split("T")[0];
+                                document.getElementById("tglAwal").value =
+                                    today;
                             },
                             preConfirm: () => {
-                                return document.getElementById('tglAwal').value;
-                            }
+                                return document.getElementById("tglAwal").value;
+                            },
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 tgl1 = formatDateToMMDDYYYY(result.value);
                                 Swal.fire({
-                                    title: 'Tgl Akhir (bln/tgl/thn) :',
+                                    title: "Tgl Akhir (bln/tgl/thn) :",
                                     html: '<input type="date" id="tglAkhir" class="swal2-input">',
                                     showCancelButton: true,
-                                    confirmButtonText: 'Ok',
-                                    cancelButtonText: 'Cancel',
+                                    confirmButtonText: "Ok",
+                                    cancelButtonText: "Cancel",
                                     returnFocus: false,
                                     didOpen: () => {
-                                        const today = new Date().toISOString().split('T')[0];
-                                        document.getElementById('tglAkhir').value = today;
+                                        const today = new Date()
+                                            .toISOString()
+                                            .split("T")[0];
+                                        document.getElementById(
+                                            "tglAkhir"
+                                        ).value = today;
                                     },
                                     preConfirm: () => {
-                                        return document.getElementById('tglAkhir').value;
+                                        return document.getElementById(
+                                            "tglAkhir"
+                                        ).value;
                                     },
                                     didClose: () => {
                                         Tombol(1);
                                     },
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        tgl2 = formatDateToMMDDYYYY(result.value);
+                                        tgl2 = formatDateToMMDDYYYY(
+                                            result.value
+                                        );
                                         TampilAllData();
                                     }
                                 });
                             }
                         });
-                    }
-                    else {
+                    } else {
                         Swal.fire({
-                            title: 'Tgl Awal (bln/tgl/thn) :',
+                            title: "Tgl Awal (bln/tgl/thn) :",
                             html: '<input type="date" id="tglAwal" class="swal2-input">',
                             showCancelButton: true,
-                            confirmButtonText: 'Ok',
-                            cancelButtonText: 'Cancel',
+                            confirmButtonText: "Ok",
+                            cancelButtonText: "Cancel",
                             returnFocus: false,
                             didOpen: () => {
-                                const today = new Date().toISOString().split('T')[0];
-                                document.getElementById('tglAwal').value = today;
+                                const today = new Date()
+                                    .toISOString()
+                                    .split("T")[0];
+                                document.getElementById("tglAwal").value =
+                                    today;
                             },
                             preConfirm: () => {
-                                return document.getElementById('tglAwal').value;
-                            }
+                                return document.getElementById("tglAwal").value;
+                            },
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 tgl1 = formatDateToMMDDYYYY(result.value);
                                 Swal.fire({
-                                    title: 'Tgl Akhir (bln/tgl/thn) :',
+                                    title: "Tgl Akhir (bln/tgl/thn) :",
                                     html: '<input type="date" id="tglAkhir" class="swal2-input">',
                                     showCancelButton: true,
-                                    confirmButtonText: 'Ok',
-                                    cancelButtonText: 'Cancel',
+                                    confirmButtonText: "Ok",
+                                    cancelButtonText: "Cancel",
                                     returnFocus: false,
                                     didOpen: () => {
-                                        const today = new Date().toISOString().split('T')[0];
-                                        document.getElementById('tglAkhir').value = today;
+                                        const today = new Date()
+                                            .toISOString()
+                                            .split("T")[0];
+                                        document.getElementById(
+                                            "tglAkhir"
+                                        ).value = today;
                                     },
                                     didClose: () => {
                                         Tombol(1);
                                     },
                                     preConfirm: () => {
-                                        return document.getElementById('tglAkhir').value;
-                                    }
+                                        return document.getElementById(
+                                            "tglAkhir"
+                                        ).value;
+                                    },
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        tgl2 = formatDateToMMDDYYYY(result.value);
+                                        tgl2 = formatDateToMMDDYYYY(
+                                            result.value
+                                        );
                                         TampilData();
                                     }
                                 });
@@ -767,7 +845,6 @@ btnObjek.addEventListener("click", function (e) {
                         });
                     }
                 });
-
             }
         });
     } catch (error) {
@@ -777,65 +854,67 @@ btnObjek.addEventListener("click", function (e) {
 
 function TampilAllData() {
     $.ajax({
-        type: 'GET',
-        url: 'MhnPemberi/tampilAllData',
+        type: "GET",
+        url: "MhnPemberi/tampilAllData",
         data: {
             XIdDivisi: divisiId.value,
             XIdObjek: objekId.value,
             tgl1: tgl1,
             tgl2: tgl2,
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
-            var table = $('#tableData').DataTable();
+            var table = $("#tableData").DataTable();
 
             if (result.length !== 0) {
                 updateDataTable(result);
-            }
-            else {
+            } else {
                 table.clear().draw();
                 Swal.fire({
-                    icon: 'info',
-                    title: 'Tidak ada Data Yang DiKirim Oleh Divisi : ' + decodeHtmlEntities(divisiNama.value),
+                    icon: "info",
+                    title:
+                        "Tidak ada Data Yang DiKirim Oleh Divisi : " +
+                        decodeHtmlEntities(divisiNama.value),
                     returnFocus: false,
                 });
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 function TampilData() {
     $.ajax({
-        type: 'GET',
-        url: 'MhnPemberi/tampilData',
+        type: "GET",
+        url: "MhnPemberi/tampilData",
         data: {
             XIdDivisi: divisiId.value,
             XIdObjek: objekId.value,
             tgl1: tgl1,
             tgl2: tgl2,
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
-            var table = $('#tableData').DataTable();
+            var table = $("#tableData").DataTable();
 
             if (result.length !== 0) {
                 updateDataTable(result);
-            }
-            else {
+            } else {
                 table.clear().draw();
                 Swal.fire({
-                    icon: 'info',
-                    title: 'Tidak ada Data Yang DiKirim Oleh User : ' + decodeHtmlEntities(idUser),
+                    icon: "info",
+                    title:
+                        "Tidak ada Data Yang DiKirim Oleh User : " +
+                        decodeHtmlEntities(idUser),
                     returnFocus: false,
                 });
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
@@ -845,8 +924,7 @@ btnBatal.addEventListener("click", function (e) {
 
     if (Pilih === 0) {
         TampilAllData();
-    }
-    else {
+    } else {
         TampilData();
     }
 
@@ -859,8 +937,8 @@ btnIsi.addEventListener("click", function (e) {
     OrderText(2);
     Tombol(2);
     ClearForm();
-    var table = $('#tableData').DataTable();
-    table.$('tr.selected').removeClass('selected');
+    var table = $("#tableData").DataTable();
+    table.$("tr.selected").removeClass("selected");
     btnKelut.disabled = false;
     btnKelut.focus();
 });
@@ -870,26 +948,33 @@ btnProses.addEventListener("click", function (e) {
     let jalan = true;
     if (new Date(tanggal.value) > new Date()) {
         Swal.fire({
-            icon: 'error',
-            text: 'Tanggal Mohon lebih besar dari tanggal hari ini',
+            icon: "error",
+            text: "Tanggal Mohon lebih besar dari tanggal hari ini",
         });
         return;
     }
 
-    if (subkelId.value.trim() === subkelId2.value.trim() || divisiId.value.trim() === divisiId2.value.trim()) {
+    if (
+        subkelId.value.trim() === subkelId2.value.trim() ||
+        divisiId.value.trim() === divisiId2.value.trim()
+    ) {
         Swal.fire({
-            icon: 'error',
-            text: 'Divisi Penerima dan Pemberi tidak boleh sama !!',
+            icon: "error",
+            text: "Divisi Penerima dan Pemberi tidak boleh sama !!",
         }).then(() => {
             btn_subkel2.focus();
         });
         return;
     }
 
-    if (parseFloat(primer2.value) === 0 && parseFloat(sekunder2.value) === 0 && parseFloat(tritier2.value) === 0) {
+    if (
+        parseFloat(primer2.value) === 0 &&
+        parseFloat(sekunder2.value) === 0 &&
+        parseFloat(tritier2.value) === 0
+    ) {
         Swal.fire({
-            icon: 'error',
-            text: 'Jumlah Barang Yang dimutasi harap di isi',
+            icon: "error",
+            text: "Jumlah Barang Yang dimutasi harap di isi",
         }).then(() => {
             primer2.focus();
         });
@@ -898,16 +983,16 @@ btnProses.addEventListener("click", function (e) {
 
     if (parseFloat(tritier2.value) <= 0) {
         Swal.fire({
-            icon: 'error',
-            text: 'Nilai Tritier Harus di isi',
+            icon: "error",
+            text: "Nilai Tritier Harus di isi",
         });
         return;
     }
 
-    if (parseFloat(subkelId2.value) < 0 || subkelId2.value.trim() === '') {
+    if (parseFloat(subkelId2.value) < 0 || subkelId2.value.trim() === "") {
         Swal.fire({
-            icon: 'error',
-            text: 'Tujuan Mutasi Harap Diisi !!!',
+            icon: "error",
+            text: "Tujuan Mutasi Harap Diisi !!!",
             returnFocus: false,
         }).then(() => {
             btn_subkel2.focus();
@@ -918,30 +1003,37 @@ btnProses.addEventListener("click", function (e) {
     if (Pil === 1) {
         CekPrimer = parseFloat(primer2.value) + parseFloat(primer3.value);
         CekSekunder = parseFloat(sekunder2.value) + parseFloat(sekunder3.value);
-        CekTritier = formatNumber(parseFloat(tritier2.value) + parseFloat(tritier3.value));
+        CekTritier = formatNumber(
+            parseFloat(tritier2.value) + parseFloat(tritier3.value)
+        );
 
-        if (parseFloat(primer.value) < CekPrimer || parseFloat(sekunder.value) < CekSekunder || parseFloat(tritier.value) < CekTritier) {
+        if (
+            parseFloat(primer.value) < CekPrimer ||
+            parseFloat(sekunder.value) < CekSekunder ||
+            parseFloat(tritier.value) < CekTritier
+        ) {
             Swal.fire({
-                icon: 'error',
-                text: 'Saldo Tidak Mencukupi, Cek Kembali Jumlah Yang Akan diMutasi !',
+                icon: "error",
+                text: "Saldo Tidak Mencukupi, Cek Kembali Jumlah Yang Akan diMutasi !",
                 returnFocus: false,
             });
             jalan = false;
             return;
         }
 
-        LoadPenerima().then(function (loadPenerima) {
-            if (!loadPenerima) {
-                jalan = false;
-                return;
-            }
-            else {
-                btnProses.disabled = false;
-                primer2.focus();
-            }
-        }).catch(function (error) {
-            console.error('Error occurred:', error);
-        });
+        LoadPenerima()
+            .then(function (loadPenerima) {
+                if (!loadPenerima) {
+                    jalan = false;
+                    return;
+                } else {
+                    btnProses.disabled = false;
+                    primer2.focus();
+                }
+            })
+            .catch(function (error) {
+                console.error("Error occurred:", error);
+            });
     }
 
     if (jalan) {
@@ -949,17 +1041,18 @@ btnProses.addEventListener("click", function (e) {
         // Tombol(1);
         // OrderText(2);
     }
-
 });
 
 function SaveData() {
     if (Pil === 1) {
         $.ajax({
-            type: 'PUT',
-            url: 'MhnPemberi/saveData',
+            type: "PUT",
+            url: "MhnPemberi/saveData",
             data: {
                 _token: csrfToken,
-                XUraianDetailTransaksi: (uraian.value) ? decodeHtmlEntities(uraian.value) : '',
+                XUraianDetailTransaksi: uraian.value
+                    ? decodeHtmlEntities(uraian.value)
+                    : "",
                 XIdType: idType.value,
                 Xsaatawaltransaksi: tanggal.value,
                 XJumlahKeluarPrimer: primer2.value,
@@ -973,7 +1066,7 @@ function SaveData() {
             success: function (result) {
                 idTransaksi.value = decodeHtmlEntities(result.idtransaksi);
                 Swal.fire({
-                    icon: 'success',
+                    icon: "success",
                     text: result.success,
                     returnFocus: false,
                 }).then(() => {
@@ -984,26 +1077,25 @@ function SaveData() {
 
                     if (Pilih === 0) {
                         TampilAllData();
-                    }
-                    else {
+                    } else {
                         TampilData();
                     }
                 });
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
-    }
-
-    else if (Pil === 2) {
+    } else if (Pil === 2) {
         $.ajax({
-            type: 'PUT',
-            url: 'MhnPemberi/koreksiData',
+            type: "PUT",
+            url: "MhnPemberi/koreksiData",
             data: {
                 _token: csrfToken,
                 XIdTransaksi: idTransaksi.value,
-                XUraianDetailTransaksi: (uraian.value) ? decodeHtmlEntities(uraian.value) : '',
+                XUraianDetailTransaksi: uraian.value
+                    ? decodeHtmlEntities(uraian.value)
+                    : "",
                 XJumlahKeluarPrimer: primer2.value,
                 XJumlahKeluarSekunder: sekunder2.value,
                 XJumlahKeluarTritier: tritier2.value,
@@ -1011,14 +1103,13 @@ function SaveData() {
             },
             success: function (result) {
                 Swal.fire({
-                    icon: 'success',
+                    icon: "success",
                     text: result.success,
                     returnFocus: false,
                 }).then(() => {
                     if (Pilih === 0) {
                         TampilAllData();
-                    }
-                    else {
+                    } else {
                         TampilData();
                     }
                     ClearForm();
@@ -1027,29 +1118,26 @@ function SaveData() {
                 });
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
-    }
-
-    else if (Pil === 3) {
+    } else if (Pil === 3) {
         $.ajax({
-            type: 'DELETE',
-            url: 'MhnPemberi/deleteData',
+            type: "DELETE",
+            url: "MhnPemberi/deleteData",
             data: {
                 _token: csrfToken,
                 XIdTransaksi: idTransaksi.value,
             },
             success: function (result) {
                 Swal.fire({
-                    icon: 'success',
+                    icon: "success",
                     text: result.success,
                     returnFocus: false,
                 }).then(() => {
                     if (Pilih === 0) {
                         TampilAllData();
-                    }
-                    else {
+                    } else {
                         TampilData();
                     }
                     ClearForm();
@@ -1058,8 +1146,8 @@ function SaveData() {
                 });
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
     }
 }
@@ -1068,7 +1156,7 @@ function SaveData() {
 btnKelut.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Kelompok Utama',
+            title: "Kelompok Utama",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1091,11 +1179,11 @@ btnKelut.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1103,7 +1191,7 @@ btnKelut.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1112,19 +1200,19 @@ btnKelut.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                objekId: objekId.value
-                            }
+                                objekId: objekId.value,
+                            },
                         },
                         columns: [
                             { data: "IdKelompokUtama" },
-                            { data: "NamaKelompokUtama" }
+                            { data: "NamaKelompokUtama" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -1133,19 +1221,25 @@ btnKelut.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                kelutId.value = decodeHtmlEntities(result.value.IdKelompokUtama.trim());
-                kelutNama.value = decodeHtmlEntities(result.value.NamaKelompokUtama.trim());
+                kelutId.value = decodeHtmlEntities(
+                    result.value.IdKelompokUtama.trim()
+                );
+                kelutNama.value = decodeHtmlEntities(
+                    result.value.NamaKelompokUtama.trim()
+                );
                 btnKelompok.disabled = false;
                 btnKelompok.focus();
             }
@@ -1159,7 +1253,7 @@ btnKelut.addEventListener("click", function (e) {
 btnKelompok.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Kelompok',
+            title: "Kelompok",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1182,11 +1276,11 @@ btnKelompok.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1194,7 +1288,7 @@ btnKelompok.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1203,19 +1297,19 @@ btnKelompok.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                kelutId: kelutId.value
-                            }
+                                kelutId: kelutId.value,
+                            },
                         },
                         columns: [
                             { data: "idkelompok" },
-                            { data: "namakelompok" }
+                            { data: "namakelompok" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -1224,19 +1318,25 @@ btnKelompok.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                kelompokId.value = decodeHtmlEntities(result.value.idkelompok.trim());
-                kelompokNama.value = decodeHtmlEntities(result.value.namakelompok.trim());
+                kelompokId.value = decodeHtmlEntities(
+                    result.value.idkelompok.trim()
+                );
+                kelompokNama.value = decodeHtmlEntities(
+                    result.value.namakelompok.trim()
+                );
 
                 btnSubkel.disabled = false;
                 btnSubkel.focus();
@@ -1251,7 +1351,7 @@ btnKelompok.addEventListener("click", function (e) {
 btnSubkel.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Sub Kelompok',
+            title: "Sub Kelompok",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1274,11 +1374,11 @@ btnSubkel.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1286,7 +1386,7 @@ btnSubkel.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1295,19 +1395,19 @@ btnSubkel.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                kelompokId: kelompokId.value
-                            }
+                                kelompokId: kelompokId.value,
+                            },
                         },
                         columns: [
                             { data: "IdSubkelompok" },
-                            { data: "NamaSubKelompok" }
+                            { data: "NamaSubKelompok" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
                     $("#table_list tbody").on("click", "tr", function () {
                         table.$("tr.selected").removeClass("selected");
@@ -1315,19 +1415,25 @@ btnSubkel.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                subkelId.value = decodeHtmlEntities(result.value.IdSubkelompok.trim());
-                subkelNama.value = decodeHtmlEntities(result.value.NamaSubKelompok.trim());
+                subkelId.value = decodeHtmlEntities(
+                    result.value.IdSubkelompok.trim()
+                );
+                subkelNama.value = decodeHtmlEntities(
+                    result.value.NamaSubKelompok.trim()
+                );
 
                 btnType.disabled = false;
                 btnType.focus();
@@ -1338,11 +1444,10 @@ btnSubkel.addEventListener("click", function (e) {
     }
 });
 
-
 function Load_Type_ABM() {
     try {
         Swal.fire({
-            title: 'Barang',
+            title: "Barang",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1365,11 +1470,11 @@ function Load_Type_ABM() {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1377,7 +1482,7 @@ function Load_Type_ABM() {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1387,18 +1492,15 @@ function Load_Type_ABM() {
                             data: {
                                 _token: csrfToken,
                                 XIdSubKelompok_Type: subkelId.value.trim(),
-                            }
+                            },
                         },
-                        columns: [
-                            { data: "idtype" },
-                            { data: "BARU" },
-                        ],
+                        columns: [{ data: "idtype" }, { data: "BARU" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -1407,15 +1509,17 @@ function Load_Type_ABM() {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 idType.value = decodeHtmlEntities(result.value.idtype.trim());
@@ -1425,7 +1529,6 @@ function Load_Type_ABM() {
                 // btnDivisi2.focus();
 
                 LoadPIB();
-
             }
         });
     } catch (error) {
@@ -1433,11 +1536,10 @@ function Load_Type_ABM() {
     }
 }
 
-
 function Load_Type_CIR() {
     try {
         Swal.fire({
-            title: 'Barang',
+            title: "Barang",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1460,11 +1562,11 @@ function Load_Type_CIR() {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1472,7 +1574,7 @@ function Load_Type_CIR() {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1481,18 +1583,15 @@ function Load_Type_CIR() {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                            }
+                            },
                         },
-                        columns: [
-                            { data: "Id_Type" },
-                            { data: "Nm_Type" },
-                        ],
+                        columns: [{ data: "Id_Type" }, { data: "Nm_Type" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -1501,25 +1600,30 @@ function Load_Type_CIR() {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                idType.value = result.value.Id_Type ? decodeHtmlEntities(result.value.Id_Type.trim()) : '';
-                type.value = result.value.Nm_Type ? decodeHtmlEntities(result.value.Nm_Type.trim()) : '';
+                idType.value = result.value.Id_Type
+                    ? decodeHtmlEntities(result.value.Id_Type.trim())
+                    : "";
+                type.value = result.value.Nm_Type
+                    ? decodeHtmlEntities(result.value.Nm_Type.trim())
+                    : "";
 
                 // btnDivisi2.disabled = false;
                 // btnDivisi2.focus();
 
                 LoadPIB();
-
             }
         });
     } catch (error) {
@@ -1530,7 +1634,7 @@ function Load_Type_CIR() {
 function Load_Type() {
     try {
         Swal.fire({
-            title: 'Barang',
+            title: "Barang",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1553,11 +1657,11 @@ function Load_Type() {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1565,7 +1669,7 @@ function Load_Type() {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1575,18 +1679,15 @@ function Load_Type() {
                             data: {
                                 _token: csrfToken,
                                 XIdSubKelompok_Type: subkelId.value.trim(),
-                            }
+                            },
                         },
-                        columns: [
-                            { data: "IdType" },
-                            { data: "NamaType" },
-                        ],
+                        columns: [{ data: "IdType" }, { data: "NamaType" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -1595,15 +1696,17 @@ function Load_Type() {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 idType.value = decodeHtmlEntities(result.value.IdType.trim());
@@ -1613,7 +1716,6 @@ function Load_Type() {
                 // btnDivisi2.focus();
 
                 LoadPIB();
-
             }
         });
     } catch (error) {
@@ -1624,24 +1726,38 @@ function Load_Type() {
 function Load_Saldo(sIdtype) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            type: 'GET',
-            url: 'MhnPemberi/getSaldo',
+            type: "GET",
+            url: "MhnPemberi/getSaldo",
             data: {
                 IdType: sIdtype,
-                _token: csrfToken
+                _token: csrfToken,
             },
             success: function (result) {
                 if (result) {
-                    primer.value = result[0].SaldoPrimer ? formatNumber(result[0].SaldoPrimer) : formatNumber(0);
-                    sekunder.value = result[0].SaldoSekunder ? formatNumber(result[0].SaldoSekunder) : formatNumber(0);
-                    tritier.value = result[0].SaldoTritier ? formatNumber(result[0].SaldoTritier) : formatNumber(0);
+                    primer.value = result[0].SaldoPrimer
+                        ? formatNumber(result[0].SaldoPrimer)
+                        : formatNumber(0);
+                    sekunder.value = result[0].SaldoSekunder
+                        ? formatNumber(result[0].SaldoSekunder)
+                        : formatNumber(0);
+                    tritier.value = result[0].SaldoTritier
+                        ? formatNumber(result[0].SaldoTritier)
+                        : formatNumber(0);
 
-                    satuanPrimer.value = result[0].SatPrimer ? decodeHtmlEntities(result[0].SatPrimer) : 'NULL';
-                    satuanSekunder.value = result[0].SatSekunder ? decodeHtmlEntities(result[0].SatSekunder) : 'NULL';
-                    satuanTritier.value = result[0].SatTritier ? decodeHtmlEntities(result[0].SatTritier) : 'NULL';
+                    satuanPrimer.value = result[0].SatPrimer
+                        ? decodeHtmlEntities(result[0].SatPrimer)
+                        : "NULL";
+                    satuanSekunder.value = result[0].SatSekunder
+                        ? decodeHtmlEntities(result[0].SatSekunder)
+                        : "NULL";
+                    satuanTritier.value = result[0].SatTritier
+                        ? decodeHtmlEntities(result[0].SatTritier)
+                        : "NULL";
 
                     kodeBarang.value = decodeHtmlEntities(result[0].KodeBarang);
-                    pib.value = result[0].PIB ? decodeHtmlEntities(result[0].PIB) : '';
+                    pib.value = result[0].PIB
+                        ? decodeHtmlEntities(result[0].PIB)
+                        : "";
 
                     primer3.value = 0;
                     sekunder3.value = 0;
@@ -1651,108 +1767,121 @@ function Load_Saldo(sIdtype) {
 
                     resolve(result);
                 } else {
-                    reject('No result found');
+                    reject("No result found");
                 }
             },
             error: function (xhr, status, error) {
                 reject(error);
-            }
+            },
         });
     });
 }
 
 function Load_JumlahAntrian(sIdtype) {
     $.ajax({
-        type: 'GET',
-        url: 'MhnPemberi/getJumlahAntrian',
+        type: "GET",
+        url: "MhnPemberi/getJumlahAntrian",
         data: {
             IdType: sIdtype,
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             if (result.length !== 0) {
-                primer3.value = result[0].OutPrimer ? formatNumber(result[0].OutPrimer) : formatNumber(0);
-                sekunder3.value = result[0].OutSekunder ? formatNumber(result[0].OutSekunder) : formatNumber(0);
-                tritier3.value = result[0].OutTritier ? formatNumber(result[0].OutTritier) : formatNumber(0);
+                primer3.value = result[0].OutPrimer
+                    ? formatNumber(result[0].OutPrimer)
+                    : formatNumber(0);
+                sekunder3.value = result[0].OutSekunder
+                    ? formatNumber(result[0].OutSekunder)
+                    : formatNumber(0);
+                tritier3.value = result[0].OutTritier
+                    ? formatNumber(result[0].OutTritier)
+                    : formatNumber(0);
             }
-            if (divisiId.value === 'EXP') {
+            if (divisiId.value === "EXP") {
                 jmlKeranjang.focus();
-            }
-            else {
+            } else {
                 btnDivisi2.disabled = false;
                 btnDivisi2.focus();
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 function LoadPIB() {
     $.ajax({
-        type: 'GET',
-        url: 'MhnPemberi/loadPib',
+        type: "GET",
+        url: "MhnPemberi/loadPib",
         data: {
             IdType: idType.value,
             IdSubKel: subkelId.value,
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             if (result[0].IdType === idType.value.trim()) {
-                pib.value = result[0].PIB ? decodeHtmlEntities(result[0].PIB) : '';
+                pib.value = result[0].PIB
+                    ? decodeHtmlEntities(result[0].PIB)
+                    : "";
             }
             Load_Saldo(idType.value);
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 btnType.addEventListener("click", function (e) {
-    if ((divisiId.value === 'ABM' && objekId.value === '022') || (divisiId.value === 'CIR' && objekId.value === '043')
-        || (divisiId.value === 'JBB' && objekId.value === '042')
-        || (divisiId.value === 'LMT' && objekId.value === '086' && kelutId.value === '0325')
-        || (divisiId.value === 'EXT' && (kelompokId.value === '1259' || kelompokId.value === '1283'))) {
-        if (divisiId.value === 'ABM' && objekId.value === '022' && kelompokId.value !== '0292') {
+    if (
+        (divisiId.value === "ABM" && objekId.value === "022") ||
+        (divisiId.value === "CIR" && objekId.value === "043") ||
+        (divisiId.value === "JBB" && objekId.value === "042") ||
+        (divisiId.value === "LMT" &&
+            objekId.value === "086" &&
+            kelutId.value === "0325") ||
+        (divisiId.value === "EXT" &&
+            (kelompokId.value === "1259" || kelompokId.value === "1283"))
+    ) {
+        if (
+            divisiId.value === "ABM" &&
+            objekId.value === "022" &&
+            kelompokId.value !== "0292"
+        ) {
             Load_Type_ABM();
-        }
-        else {
+        } else {
             $.ajax({
-                type: 'PUT',
-                url: 'MhnPemberi/insertTempType',
+                type: "PUT",
+                url: "MhnPemberi/insertTempType",
                 data: {
                     XIdDivisi: divisiId.value,
                     XIdSubKelompok: subkelId.value,
-                    _token: csrfToken
+                    _token: csrfToken,
                 },
-                success: function (response) {
-                },
+                success: function (response) {},
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
+                    console.error("Error:", error);
+                },
             });
 
             Load_Type_CIR();
-
         }
-    }
-    else {
+    } else {
         Load_Type();
     }
 });
 
-$('#jmlKeranjang').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#jmlKeranjang").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
 
         var value = $(this).val();
 
-        if (value === '' || value === '0') {
+        if (value === "" || value === "0") {
             Swal.fire({
-                icon: 'warning',
-                text: 'Input Jumlah Keranjang Terlebih Dahulu',
+                icon: "warning",
+                text: "Input Jumlah Keranjang Terlebih Dahulu",
                 returnFocus: false,
             }).then(() => {
                 jmlKeranjang.focus();
@@ -1766,19 +1895,18 @@ $('#jmlKeranjang').on('keydown', function (e) {
 
 // button list divisi penerima
 btnDivisi2.addEventListener("click", function (e) {
-
-    objekId2.value = '';
-    objekNama2.value = '';
-    kelutId2.value = '';
-    kelutNama2.value = '';
-    kelompokId2.value = '';
-    kelompokNama2.value = '';
-    subkelId2.value = '';
-    subkelNama2.value = '';
+    objekId2.value = "";
+    objekNama2.value = "";
+    kelutId2.value = "";
+    kelutNama2.value = "";
+    kelompokId2.value = "";
+    kelompokNama2.value = "";
+    subkelId2.value = "";
+    subkelNama2.value = "";
 
     try {
         Swal.fire({
-            title: 'Divisi',
+            title: "Divisi",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1801,11 +1929,11 @@ btnDivisi2.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1813,7 +1941,7 @@ btnDivisi2.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1821,19 +1949,16 @@ btnDivisi2.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "IdDivisi" },
-                            { data: "NamaDivisi" }
-                        ],
+                        columns: [{ data: "IdDivisi" }, { data: "NamaDivisi" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -1842,21 +1967,25 @@ btnDivisi2.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 divisiId2.value = result.value.IdDivisi.trim();
-                divisiNama2.value = decodeHtmlEntities(result.value.NamaDivisi.trim());
+                divisiNama2.value = decodeHtmlEntities(
+                    result.value.NamaDivisi.trim()
+                );
 
-                if (divisiNama2.value !== '') {
+                if (divisiNama2.value !== "") {
                     btnObjek2.disabled = false;
                     btnObjek2.focus();
                 }
@@ -1869,17 +1998,16 @@ btnDivisi2.addEventListener("click", function (e) {
 
 // button list objek penerima
 btnObjek2.addEventListener("click", function (e) {
-
-    kelutId2.value = '';
-    kelutNama2.value = '';
-    kelompokId2.value = '';
-    kelompokNama2.value = '';
-    subkelId2.value = '';
-    subkelNama2.value = '';
+    kelutId2.value = "";
+    kelutNama2.value = "";
+    kelompokId2.value = "";
+    kelompokNama2.value = "";
+    subkelId2.value = "";
+    subkelNama2.value = "";
 
     try {
         Swal.fire({
-            title: 'Objek',
+            title: "Objek",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -1902,11 +2030,11 @@ btnObjek2.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -1914,7 +2042,7 @@ btnObjek2.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -1923,19 +2051,16 @@ btnObjek2.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                divisiId2: divisiId2.value
-                            }
+                                divisiId2: divisiId2.value,
+                            },
                         },
-                        columns: [
-                            { data: "IdObjek" },
-                            { data: "NamaObjek" }
-                        ],
+                        columns: [{ data: "IdObjek" }, { data: "NamaObjek" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -1944,19 +2069,23 @@ btnObjek2.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 objekId2.value = result.value.IdObjek.trim();
-                objekNama2.value = decodeHtmlEntities(result.value.NamaObjek.trim());
+                objekNama2.value = decodeHtmlEntities(
+                    result.value.NamaObjek.trim()
+                );
 
                 btnKelut2.disabled = false;
                 btnKelut2.focus();
@@ -1969,15 +2098,14 @@ btnObjek2.addEventListener("click", function (e) {
 
 // button list kelompok utama penerima
 btnKelut2.addEventListener("click", function (e) {
-
-    kelompokId2.value = '';
-    kelompokNama2.value = '';
-    subkelId2.value = '';
-    subkelNama2.value = '';
+    kelompokId2.value = "";
+    kelompokNama2.value = "";
+    subkelId2.value = "";
+    subkelNama2.value = "";
 
     try {
         Swal.fire({
-            title: 'Kelompok Utama',
+            title: "Kelompok Utama",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -2000,11 +2128,11 @@ btnKelut2.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -2012,7 +2140,7 @@ btnKelut2.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -2021,19 +2149,19 @@ btnKelut2.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                objekId2: objekId2.value
-                            }
+                                objekId2: objekId2.value,
+                            },
                         },
                         columns: [
                             { data: "IdKelompokUtama" },
-                            { data: "NamaKelompokUtama" }
+                            { data: "NamaKelompokUtama" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -2042,21 +2170,25 @@ btnKelut2.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 kelutId2.value = result.value.IdKelompokUtama.trim();
-                kelutNama2.value = decodeHtmlEntities(result.value.NamaKelompokUtama.trim());
+                kelutNama2.value = decodeHtmlEntities(
+                    result.value.NamaKelompokUtama.trim()
+                );
 
-                if (kelutNama2.value !== '') {
+                if (kelutNama2.value !== "") {
                     btnKelompok2.disabled = false;
                     btnKelompok2.focus();
                 }
@@ -2070,22 +2202,20 @@ btnKelut2.addEventListener("click", function (e) {
 var SpekBenang, urlBaru;
 // button list kelompok penerima
 btnKelompok2.addEventListener("click", function (e) {
-    subkelId2.value = '';
-    subkelNama2.value = '';
+    subkelId2.value = "";
+    subkelNama2.value = "";
 
-    if (divisiId2.value === 'CIR' && divisiId.value === 'EXP') {
-        urlBaru = 'cirExp';
-    }
-    else if (divisiId2.value === 'CLM' && divisiId.value === 'EXP') {
-        urlBaru = 'clmExp';
-    }
-    else {
-        urlBaru = 'getKelompok2';
+    if (divisiId2.value === "CIR" && divisiId.value === "EXP") {
+        urlBaru = "cirExp";
+    } else if (divisiId2.value === "CLM" && divisiId.value === "EXP") {
+        urlBaru = "clmExp";
+    } else {
+        urlBaru = "getKelompok2";
     }
 
     try {
         Swal.fire({
-            title: 'Kelompok',
+            title: "Kelompok",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -2108,11 +2238,11 @@ btnKelompok2.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -2120,7 +2250,7 @@ btnKelompok2.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -2131,18 +2261,18 @@ btnKelompok2.addEventListener("click", function (e) {
                                 _token: csrfToken,
                                 kelutId2: kelutId2.value,
                                 KodeBarang: kodeBarang.value,
-                            }
+                            },
                         },
                         columns: [
                             { data: "idkelompok" },
-                            { data: "namakelompok" }
+                            { data: "namakelompok" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -2151,21 +2281,27 @@ btnKelompok2.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                kelompokId2.value = decodeHtmlEntities(result.value.idkelompok.trim());
-                kelompokNama2.value = decodeHtmlEntities(result.value.namakelompok.trim());
+                kelompokId2.value = decodeHtmlEntities(
+                    result.value.idkelompok.trim()
+                );
+                kelompokNama2.value = decodeHtmlEntities(
+                    result.value.namakelompok.trim()
+                );
 
-                if (kelutNama2.value !== '') {
+                if (kelutNama2.value !== "") {
                     btnSubkel2.disabled = false;
                     btnSubkel2.focus();
                 }
@@ -2176,12 +2312,11 @@ btnKelompok2.addEventListener("click", function (e) {
     }
 });
 
-
 // button list sub kelompok penerima
 btnSubkel2.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Sub Kelompok',
+            title: "Sub Kelompok",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -2204,11 +2339,11 @@ btnSubkel2.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -2216,7 +2351,7 @@ btnSubkel2.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -2225,19 +2360,19 @@ btnSubkel2.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                kelompokId2: kelompokId2.value
-                            }
+                                kelompokId2: kelompokId2.value,
+                            },
                         },
                         columns: [
                             { data: "IdSubkelompok" },
-                            { data: "NamaSubKelompok" }
+                            { data: "NamaSubKelompok" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -2246,15 +2381,17 @@ btnSubkel2.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 subkelId2.value = result.value.IdSubkelompok.trim();
@@ -2265,55 +2402,66 @@ btnSubkel2.addEventListener("click", function (e) {
                 sekunder2.disabled = false;
 
                 if (Pil === 2) {
-                    Load_Saldo(idType.value).then(function (result) {
-                        return LoadPenerima();
-                    }).then(function (loadPenerima) {
-                        if (!loadPenerima) {
-                            return;
-                        } else {
-                            btnProses.disabled = false;
-
-                            if (satuanPrimer.value.trim() === 'NULL' && satuanSekunder.value.trim() === 'NULL') {
-                                primer2.disabled = true;
-                                sekunder2.disabled = true;
-                                tritier2.focus();
-                            } else if (satuanPrimer.value.trim() === 'NULL' && satuanSekunder.value.trim() !== 'NULL') {
-                                primer2.disabled = true;
-                                sekunder2.focus();
+                    Load_Saldo(idType.value)
+                        .then(function (result) {
+                            return LoadPenerima();
+                        })
+                        .then(function (loadPenerima) {
+                            if (!loadPenerima) {
+                                return;
                             } else {
-                                primer2.focus();
-                            }
-                        }
-                    }).catch(function (error) {
-                        console.error('Error occurred:', error);
-                    });
+                                btnProses.disabled = false;
 
-                }
+                                if (
+                                    satuanPrimer.value.trim() === "NULL" &&
+                                    satuanSekunder.value.trim() === "NULL"
+                                ) {
+                                    primer2.disabled = true;
+                                    sekunder2.disabled = true;
+                                    tritier2.focus();
+                                } else if (
+                                    satuanPrimer.value.trim() === "NULL" &&
+                                    satuanSekunder.value.trim() !== "NULL"
+                                ) {
+                                    primer2.disabled = true;
+                                    sekunder2.focus();
+                                } else {
+                                    primer2.focus();
+                                }
+                            }
+                        })
+                        .catch(function (error) {
+                            console.error("Error occurred:", error);
+                        });
+                } else {
+                    LoadPenerima()
+                        .then(function (loadPenerima) {
+                            if (!loadPenerima) {
+                                return;
+                            } else {
+                                btnProses.disabled = false;
 
-                else {
-                    LoadPenerima().then(function (loadPenerima) {
-                        if (!loadPenerima) {
-                            return;
-                        }
-                        else {
-                            btnProses.disabled = false;
-
-                            if (satuanPrimer.value.trim() === 'NULL' && satuanSekunder.value.trim() === 'NULL') {
-                                primer2.disabled = true;
-                                sekunder2.disabled = true;
-                                tritier2.focus();
+                                if (
+                                    satuanPrimer.value.trim() === "NULL" &&
+                                    satuanSekunder.value.trim() === "NULL"
+                                ) {
+                                    primer2.disabled = true;
+                                    sekunder2.disabled = true;
+                                    tritier2.focus();
+                                } else if (
+                                    satuanPrimer.value.trim() === "NULL" &&
+                                    satuanSekunder.value.trim() !== "NULL"
+                                ) {
+                                    primer2.disabled = true;
+                                    sekunder2.focus();
+                                } else {
+                                    primer2.focus();
+                                }
                             }
-                            else if (satuanPrimer.value.trim() === 'NULL' && satuanSekunder.value.trim() !== 'NULL') {
-                                primer2.disabled = true;
-                                sekunder2.focus();
-                            }
-                            else {
-                                primer2.focus();
-                            }
-                        }
-                    }).catch(function (error) {
-                        console.error('Error occurred:', error);
-                    });
+                        })
+                        .catch(function (error) {
+                            console.error("Error occurred:", error);
+                        });
                 }
             }
         });
@@ -2324,24 +2472,25 @@ btnSubkel2.addEventListener("click", function (e) {
 
 var pemberi;
 btnKoreksi.addEventListener("click", function (e) {
-    if (TPemberi !== '') {
+    if (TPemberi !== "") {
         $.ajax({
-            type: 'GET',
-            url: 'MhnPemberi/getUser',
+            type: "GET",
+            url: "MhnPemberi/getUser",
             data: {
                 NamaUser: TPemberi,
-                _token: csrfToken
+                _token: csrfToken,
             },
             success: function (result) {
                 pemberi = result[0].kodeUser.trim();
 
                 if (pemberi.trim() !== idUser.trim()) {
                     Swal.fire({
-                        icon: 'error',
-                        text: 'Anda Tidak berhak mengkoreksi data milik user : ' + pemberi,
+                        icon: "error",
+                        text:
+                            "Anda Tidak berhak mengkoreksi data milik user : " +
+                            pemberi,
                     });
-                }
-                else {
+                } else {
                     Pil = 2;
                     Tombol(2);
                     OrderText(3);
@@ -2349,114 +2498,139 @@ btnKoreksi.addEventListener("click", function (e) {
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
     }
 });
 
 btnHapus.addEventListener("click", function (e) {
-    if (TPemberi !== '') {
+    if (TPemberi !== "") {
         $.ajax({
-            type: 'GET',
-            url: 'MhnPemberi/getUser',
+            type: "GET",
+            url: "MhnPemberi/getUser",
             data: {
                 NamaUser: TPemberi,
-                _token: csrfToken
+                _token: csrfToken,
             },
             success: function (result) {
                 pemberi = result[0].kodeUser.trim();
 
                 if (pemberi.trim() !== idUser.trim()) {
                     Swal.fire({
-                        icon: 'error',
-                        text: 'Anda Tidak berhak mengkoreksi data milik user : ' + pemberi,
+                        icon: "error",
+                        text:
+                            "Anda Tidak berhak mengkoreksi data milik user : " +
+                            pemberi,
                     });
-                }
-                else {
+                } else {
                     Pil = 3;
                     Tombol(2);
                     btnProses.focus();
                 }
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
+                console.error("Error:", error);
+            },
         });
     }
 });
 
-$('#kodeBarang').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#kodeBarang").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
         kodeBarang.value = kodeBarang.value.trim();
 
-        if (subkelId.value !== '' && kodeBarang.value !== '') {
-            kodeBarang.value = kodeBarang.value.padStart(9, '0').slice(-9);
+        if (subkelId.value !== "" && kodeBarang.value !== "") {
+            kodeBarang.value = kodeBarang.value.padStart(9, "0").slice(-9);
 
             primer2.disabled = false;
             sekunder2.disabled = false;
 
             $.ajax({
-                type: 'GET',
-                url: 'KonversiBarang/cekKodeBarang',
+                type: "GET",
+                url: "KonversiBarang/cekKodeBarang",
                 data: {
                     XKodeBarang: kodeBarang.value.trim(),
                     XIdSubKelompok: subkelId.value,
-                    _token: csrfToken
+                    _token: csrfToken,
                 },
                 success: function (result) {
                     if (parseInt(result[0].Jumlah) === 0) {
                         Swal.fire({
-                            icon: 'error',
-                            text: 'Tidak Ada Kode Barang :' + decodeHtmlEntities(kodeBarang.value) + ' Pada sub kel : ' + decodeHtmlEntities(subkelNama.value),
+                            icon: "error",
+                            text:
+                                "Tidak Ada Kode Barang :" +
+                                decodeHtmlEntities(kodeBarang.value) +
+                                " Pada sub kel : " +
+                                decodeHtmlEntities(subkelNama.value),
                         });
-                    }
+                    } else {
+                        Load_TypeBarang()
+                            .then(function (LoadTypeBarang) {
+                                if (LoadTypeBarang) {
+                                    primer3.value = 0;
+                                    sekunder3.value = 0;
+                                    tritier3.value = 0;
 
-                    else {
-                        Load_TypeBarang().then(function (LoadTypeBarang) {
-                            if (LoadTypeBarang) {
-                                primer3.value = 0;
-                                sekunder3.value = 0;
-                                tritier3.value = 0;
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "MhnPemberi/getJumlahAntrian",
+                                        data: {
+                                            IdType: idType.value,
+                                            _token: csrfToken,
+                                        },
+                                        success: function (result) {
+                                            if (result.length !== 0) {
+                                                primer3.value = result[0]
+                                                    .OutPrimer
+                                                    ? formatNumber(
+                                                          result[0].OutPrimer
+                                                      )
+                                                    : formatNumber(0);
+                                                sekunder3.value = result[0]
+                                                    .OutSekunder
+                                                    ? formatNumber(
+                                                          result[0].OutSekunder
+                                                      )
+                                                    : formatNumber(0);
+                                                tritier3.value = result[0]
+                                                    .OutTritier
+                                                    ? formatNumber(
+                                                          result[0].OutTritier
+                                                      )
+                                                    : formatNumber(0);
+                                            }
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error("Error:", error);
+                                        },
+                                    });
 
-                                $.ajax({
-                                    type: 'GET',
-                                    url: 'MhnPemberi/getJumlahAntrian',
-                                    data: {
-                                        IdType: idType.value,
-                                        _token: csrfToken
-                                    },
-                                    success: function (result) {
-                                        if (result.length !== 0) {
-                                            primer3.value = result[0].OutPrimer ? formatNumber(result[0].OutPrimer) : formatNumber(0);
-                                            sekunder3.value = result[0].OutSekunder ? formatNumber(result[0].OutSekunder) : formatNumber(0);
-                                            tritier3.value = result[0].OutTritier ? formatNumber(result[0].OutTritier) : formatNumber(0);
-                                        }
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error('Error:', error);
+                                    if (
+                                        satuanPrimer.value === "NULL" &&
+                                        satuanSekunder.value === "NULL"
+                                    ) {
+                                        primer2.disabled = true;
+                                        sekunder2.disabled = true;
+                                    } else if (
+                                        satuanPrimer.value === "NULL" &&
+                                        satuanSekunder.value !== "NULL"
+                                    ) {
+                                        primer2.disabled = true;
                                     }
-                                });
-
-                                if (satuanPrimer.value === 'NULL' && satuanSekunder.value === 'NULL') {
-                                    primer2.disabled = true;
-                                    sekunder2.disabled = true;
+                                    btnDivisi2.disabled = false;
+                                    btnDivisi2.focus();
                                 }
-                                else if (satuanPrimer.value === 'NULL' && satuanSekunder.value !== 'NULL') {
-                                    primer2.disabled = true;
-                                }
-                                btnDivisi2.disabled = false;
-                                btnDivisi2.focus();
-                            }
-                        }).catch(function (error) {
-                            console.error('Error occurred:', error);
-                        });
+                            })
+                            .catch(function (error) {
+                                console.error("Error occurred:", error);
+                            });
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
+                    console.error("Error:", error);
+                },
             });
         }
     }
@@ -2466,8 +2640,8 @@ var LoadTypeBarang;
 function Load_TypeBarang() {
     return new Promise(function (resolve, reject) {
         $.ajax({
-            type: 'GET',
-            url: 'MhnPemberi/loadTypeBarang',
+            type: "GET",
+            url: "MhnPemberi/loadTypeBarang",
             data: {
                 _token: csrfToken,
                 XKodeBarang: kodeBarang.value,
@@ -2480,18 +2654,53 @@ function Load_TypeBarang() {
                 if (response.length > 0) {
                     let result = response[0];
 
-                    idType.value = result.IdType !== null ? decodeHtmlEntities(result.IdType.trim()) : "-";
-                    type.value = result.NamaType !== null ? decodeHtmlEntities(result.NamaType.trim()) : "-";
-                    kodeBarang.value = decodeHtmlEntities(result.KodeBarang.trim());
-                    primer.value = result.SaldoPrimer !== null ? formatNumber(result.SaldoPrimer) : "0";
-                    sekunder.value = result.SaldoSekunder !== null ? formatNumber(result.SaldoSekunder) : "0";
-                    tritier.value = result.SaldoTritier !== null ? formatNumber(result.SaldoTritier) : "0";
-                    satuanPrimer.value = result.satuan_primer !== null ? decodeHtmlEntities(result.satuan_primer.trim()) : "";
-                    satuanSekunder.value = result.satuan_sekunder !== null ? decodeHtmlEntities(result.satuan_sekunder.trim()) : "";
-                    satuanTritier.value = result.satuan_tritier !== null ? decodeHtmlEntities(result.satuan_tritier.trim()) : "";
-                    satuanPrimer2.value = result.satuan_primer !== null ? decodeHtmlEntities(result.satuan_primer.trim()) : "";
-                    satuanSekunder2.value = result.satuan_sekunder !== null ? decodeHtmlEntities(result.satuan_sekunder.trim()) : "";
-                    satuanTritier2.value = result.satuan_tritier !== null ? decodeHtmlEntities(result.satuan_tritier.trim()) : "";
+                    idType.value =
+                        result.IdType !== null
+                            ? decodeHtmlEntities(result.IdType.trim())
+                            : "-";
+                    type.value =
+                        result.NamaType !== null
+                            ? decodeHtmlEntities(result.NamaType.trim())
+                            : "-";
+                    kodeBarang.value = decodeHtmlEntities(
+                        result.KodeBarang.trim()
+                    );
+                    primer.value =
+                        result.SaldoPrimer !== null
+                            ? formatNumber(result.SaldoPrimer)
+                            : "0";
+                    sekunder.value =
+                        result.SaldoSekunder !== null
+                            ? formatNumber(result.SaldoSekunder)
+                            : "0";
+                    tritier.value =
+                        result.SaldoTritier !== null
+                            ? formatNumber(result.SaldoTritier)
+                            : "0";
+                    satuanPrimer.value =
+                        result.satuan_primer !== null
+                            ? decodeHtmlEntities(result.satuan_primer.trim())
+                            : "";
+                    satuanSekunder.value =
+                        result.satuan_sekunder !== null
+                            ? decodeHtmlEntities(result.satuan_sekunder.trim())
+                            : "";
+                    satuanTritier.value =
+                        result.satuan_tritier !== null
+                            ? decodeHtmlEntities(result.satuan_tritier.trim())
+                            : "";
+                    satuanPrimer2.value =
+                        result.satuan_primer !== null
+                            ? decodeHtmlEntities(result.satuan_primer.trim())
+                            : "";
+                    satuanSekunder2.value =
+                        result.satuan_sekunder !== null
+                            ? decodeHtmlEntities(result.satuan_sekunder.trim())
+                            : "";
+                    satuanTritier2.value =
+                        result.satuan_tritier !== null
+                            ? decodeHtmlEntities(result.satuan_tritier.trim())
+                            : "";
 
                     LoadTypeBarang = true;
                 }
@@ -2499,23 +2708,25 @@ function Load_TypeBarang() {
                 resolve(LoadTypeBarang);
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
+                console.error("Error:", error);
                 reject(error);
-            }
+            },
         });
     });
 }
 
-$('#primer2').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#primer2").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
 
         var value = $(this).val();
 
         if (parseFloat(value) > parseFloat(primer.value)) {
             Swal.fire({
-                icon: 'warning',
-                text: 'Saldo Primernya Tinggal : ' + formatNumber(primer.value.trim()),
+                icon: "warning",
+                text:
+                    "Saldo Primernya Tinggal : " +
+                    formatNumber(primer.value.trim()),
                 returnFocus: false,
             }).then(() => {
                 primer2.value = 0;
@@ -2527,16 +2738,18 @@ $('#primer2').on('keydown', function (e) {
     }
 });
 
-$('#sekunder2').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#sekunder2").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
 
         var value = $(this).val();
 
         if (parseFloat(value) > parseFloat(sekunder.value)) {
             Swal.fire({
-                icon: 'warning',
-                text: 'Saldo Sekundernya Tinggal : ' + formatNumber(sekunder.value.trim()),
+                icon: "warning",
+                text:
+                    "Saldo Sekundernya Tinggal : " +
+                    formatNumber(sekunder.value.trim()),
                 returnFocus: false,
             }).then(() => {
                 sekunder2.value = 0;
@@ -2548,44 +2761,44 @@ $('#sekunder2').on('keydown', function (e) {
     }
 });
 
-$('#tritier2').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#tritier2").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
 
         var value = $(this).val();
 
         if (parseFloat(value) > parseFloat(tritier.value)) {
             Swal.fire({
-                icon: 'warning',
-                text: 'Saldo Tritiernya Tinggal : ' + formatNumber(tritier.value.trim()),
+                icon: "warning",
+                text:
+                    "Saldo Tritiernya Tinggal : " +
+                    formatNumber(tritier.value.trim()),
                 returnFocus: false,
             }).then(() => {
                 tritier2.value = 0;
                 tritier2.focus();
             });
-        } else if (objekId.value === '147' && objekId2 === '095') {
+        } else if (objekId.value === "147" && objekId2 === "095") {
             if (value > 20) {
                 Swal.fire({
-                    icon: 'warning',
-                    text: 'Jumlah kirim tdk boleh lebih dari 20 Kg',
+                    icon: "warning",
+                    text: "Jumlah kirim tdk boleh lebih dari 20 Kg",
                     returnFocus: false,
                 }).then(() => {
                     tritier2.value = 0;
                     tritier2.focus();
                 });
-            }
-            else {
+            } else {
                 uraian.focus();
             }
-        }
-        else {
+        } else {
             uraian.focus();
         }
     }
 });
 
-$('#uraian').on('keydown', function (e) {
-    if (e.key === 'Enter') {
+$("#uraian").on("keydown", function (e) {
+    if (e.key === "Enter") {
         e.preventDefault();
         btnProses.focus();
     }
@@ -2595,13 +2808,13 @@ var loadPenerima = false;
 function LoadPenerima() {
     return new Promise(function (resolve, reject) {
         $.ajax({
-            type: 'GET',
-            url: 'MhnPemberi/loadPenerima',
+            type: "GET",
+            url: "MhnPemberi/loadPenerima",
             data: {
                 XKodeBarang: kodeBarang.value,
                 XIdSubKelompok: subkelId2.value,
                 XPIB: pib.value,
-                _token: csrfToken
+                _token: csrfToken,
             },
             success: function (result) {
                 loadPenerima = false;
@@ -2609,42 +2822,63 @@ function LoadPenerima() {
                 console.log(result);
 
                 if (result.length !== 0) {
-                    satuanPrimer2.value = result[0].satuan_primer ? decodeHtmlEntities(result[0].satuan_primer.trim()) : 'NULL';
-                    satuanSekunder2.value = result[0].satuan_sekunder ? decodeHtmlEntities(result[0].satuan_sekunder.trim()) : 'NULL';
-                    satuanTritier2.value = result[0].satuan_tritier ? decodeHtmlEntities(result[0].satuan_tritier.trim()) : 'NULL';
+                    satuanPrimer2.value = result[0].satuan_primer
+                        ? decodeHtmlEntities(result[0].satuan_primer.trim())
+                        : "NULL";
+                    satuanSekunder2.value = result[0].satuan_sekunder
+                        ? decodeHtmlEntities(result[0].satuan_sekunder.trim())
+                        : "NULL";
+                    satuanTritier2.value = result[0].satuan_tritier
+                        ? decodeHtmlEntities(result[0].satuan_tritier.trim())
+                        : "NULL";
 
-                    if (satuanPrimer.value.trim() === satuanPrimer2.value.trim()) {
-                        if (satuanSekunder.value.trim() === satuanSekunder2.value.trim()) {
-                            if (satuanTritier.value.trim() === satuanTritier2.value.trim()) {
+                    if (
+                        satuanPrimer.value.trim() === satuanPrimer2.value.trim()
+                    ) {
+                        if (
+                            satuanSekunder.value.trim() ===
+                            satuanSekunder2.value.trim()
+                        ) {
+                            if (
+                                satuanTritier.value.trim() ===
+                                satuanTritier2.value.trim()
+                            ) {
                                 loadPenerima = true;
                             } else {
-                                loadPenerima = satuanPrimer.value.trim() === 'NULL';
+                                loadPenerima =
+                                    satuanPrimer.value.trim() === "NULL";
                             }
                         } else {
-                            loadPenerima = satuanSekunder.value.trim() === 'NULL';
+                            loadPenerima =
+                                satuanSekunder.value.trim() === "NULL";
                         }
                     }
 
                     if (!loadPenerima) {
                         Swal.fire({
-                            icon: 'info',
-                            text: 'Satuan Tritier, Sekunder, Primer pada Divisi ' + (decodeHtmlEntities(divisiNama.value)) +
-                                ' ADA yang TIDAK SAMA dengan Divisi Penerima Barang !!!... Koreksi di Maitenance Type Barang per Divisi',
+                            icon: "info",
+                            text:
+                                "Satuan Tritier, Sekunder, Primer pada Divisi " +
+                                decodeHtmlEntities(divisiNama.value) +
+                                " ADA yang TIDAK SAMA dengan Divisi Penerima Barang !!!... Koreksi di Maitenance Type Barang per Divisi",
                         });
                     }
                 } else {
                     Swal.fire({
-                        icon: 'info',
-                        text: 'Tidak Ada Type Barang ' + (decodeHtmlEntities(type.value)) + ' Pada Divisi Penerima',
+                        icon: "info",
+                        text:
+                            "Tidak Ada Type Barang " +
+                            decodeHtmlEntities(type.value) +
+                            " Pada Divisi Penerima",
                     });
                 }
 
                 resolve(loadPenerima);
             },
             error: function (xhr, status, error) {
-                console.error('Error:', error);
+                console.error("Error:", error);
                 reject(error);
-            }
+            },
         });
     });
 }
