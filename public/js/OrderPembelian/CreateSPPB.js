@@ -70,7 +70,7 @@ $(document).ready(function () {
             return (
                 value === "" ||
                 (!isNaN(numericValue) &&
-                    numericValue > 0 &&
+                    numericValue >= 0 &&
                     numericValue <= fixValueQTYOrder)
             );
         },
