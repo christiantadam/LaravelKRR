@@ -454,6 +454,18 @@ class CreateBTTBController extends Controller
                     $endTime = microtime(true);
                     $elapsedTime = $endTime - $startTime;
                     Log::info((string) 'Elapsed Time for post BTTB: ' . $elapsedTime . ' | NoTrans: ' . $noTrans);
+                    Log::info((string) 'exec SP_5409_MAINT_PO @kd = 8, @tglDatang = ' . '\'' . $tglDatang . '\'' . ', @Qty = ' . $Qty .
+                        ', @qtyShip = ' . $qtyShip . ', @qtyRcv = ' . $qtyRcv . ', @qtyremain = ' . $qtyRcv . ', @NoSatuan = ' . $NoSatuan .
+                        ', @SJ = ' . '\'' . $SJ . '\'' . ', @idSup = ' . $idSup . ', @pUnit = ' . $pUnit . ', @pPPN = ' . $pPPN .
+                        ', @noTrans = ' . '\'' . $noTrans . '\'' . ', @Kd_div = ' . '\'' . $Kd_div . '\'' . ', @kurs = ' . $kurs .
+                        ', @Operator = ' . $Operator . ', @pIDRUnit = ' . $pIDRUnit . ', @pIDRPPN = ' . $pIDRPPN . ', @NoPIB = ' . $NoPIB .
+                        ', @NoPO = ' . '\'' . $NoPO . '\'' . ', @BTTB = ' . '\'' . $BTTB . '\'' . ', @pSub = ' . $pSub . ', @pIDRSub = ' . $pIDRSub .
+                        ', @pTot = ' . $pTot . ', @pIDRTot = ' . $pIDRTot . ', @NoPIBExt = ' . '\'' . $NoPIBExt . '\'' .
+                        ', @TglPIB = ' . '\'' . $TglPIB . '\'' . ', @NoSPPBBC = ' . '\'' . $NoSPPBBC . '\'' . ', @TglSPPBBC = ' . '\'' . $TglSPPBBC . '\'' .
+                        ', @NoSKBM = ' . '\'' . $NoSKBM . '\'' . ', @TglSKBM = ' . '\'' . $TglSKBM . '\'' . ', @NoReg = ' . '\'' . $NoReg . '\'' .
+                        ', @TglReg = ' . '\'' . $TglReg . '\'' . ', @idPPN = ' . $idPPN . ', @jumPPN = ' . $jumPPN . ', @persen = ' . $persen .
+                        ', @disc = ' . $disc . ', @discIDR = ' . $discIDR . ', @mtUang = ' . $mtUang . ', @KodeHS = ' . '\'' . $KodeHS . '\'' .
+                        ', @noTrTmp = ' . '\'' . $noTrTmp . '\'' . ', @pDPP = ' . $pDPP . ', @pIDRDPP = ' . $pIDRDPP);
                 } else {
                     return response()->json(['error' => 'Parameter BTTB harus di isi'], 400);
                 }
