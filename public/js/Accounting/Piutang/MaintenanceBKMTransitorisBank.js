@@ -2952,7 +2952,19 @@ btnBatal.addEventListener("click", function (e) {
     // tanggalInput.focus();
 });
 
-btnProses.addEventListener("click", function (e) {
+btnProses.addEventListener("click", async function (e) {
+    if (!idBKK.value.trim() || !idBKM.value.trim()) {
+        Swal.fire({
+            icon: "error",
+            text: "Tidak Ada Yg diPROSES!",
+            returnFocus: false,
+        }).then(() => {
+            enableBKK();
+            tanggalInput.focus();
+        });
+        return;
+    }
+
     let idbkm = isNaN(parseInt(idBKM.value.substring(0, 3)))
         ? 0
         : parseInt(idBKM.value.substring(0, 3));
@@ -2960,81 +2972,61 @@ btnProses.addEventListener("click", function (e) {
         ? 0
         : parseInt(idBKK.value.substring(0, 3));
 
-    let nilai = 0,
-        nilai1 = 0,
+    let biaya = 0,
+        biaya1 = 0,
         ada1 = false,
         ada2 = false,
-        ada3 = false,
-        biaya = 0,
-        biaya1 = 0;
-    let konversi, konversi2, IdPembayaran, IdPelunasan;
+        ada3 = false;
     let allBKK = [],
         allBg = [],
         allBKM = [];
 
-    if (idBKK.value !== "" && idBKM.value !== "") {
-        var tableBg = $("#tableBg").DataTable();
-        var tableBgLength = tableBg.data().length;
-        if (tableBgLength > 0) {
-            tableBg.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                var data = this.data();
-                allBg.push(data);
-            });
-            ada2 = true;
-        }
+    // Ambil data dari tabel
+    let tableBKK = $("#tableDetailBiayaBKK").DataTable();
+    let tableBKM = $("#tableDetailBiayaBKM").DataTable();
+    let tableBg = $("#tableBg").DataTable();
 
-        var tableBKK = $("#tableDetailBiayaBKK").DataTable();
-        var tableBKKLength = tableBKK.data().length;
-        if (tableBKKLength > 0) {
-            tableBKK.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                var data = this.data();
-                allBKK.push([data[0], numeral(data[1]).value(), data[2]]);
-                biaya += numeral(data[1]).value();
-            });
-            ada1 = true;
-        }
+    if (tableBKK.data().length > 0) {
+        allBKK = tableBKK
+            .rows()
+            .data()
+            .toArray()
+            .map((data) => [data[0], numeral(data[1]).value(), data[2]]);
+        biaya = allBKK.reduce((sum, item) => sum + item[1], 0);
+        ada1 = true;
+    }
 
-        let total1;
-        nilai = biaya + numeral(uang1.value).value();
-        total1 = nilai;
+    if (tableBKM.data().length > 0) {
+        allBKM = tableBKM
+            .rows()
+            .data()
+            .toArray()
+            .map((data) => [data[0], numeral(data[1]).value(), data[2]]);
+        biaya1 = allBKM.reduce((sum, item) => sum + item[1], 0);
+        ada3 = true;
+    }
 
-        if (parseInt(idUang1.value) === 1) {
-            konversi = convertNumberToWordsRupiah(nilai);
-        } else {
-            konversi = convertNumberToWordsDollar(nilai);
-        }
+    if (tableBg.data().length > 0) {
+        allBg = tableBg.rows().data().toArray();
+        ada2 = true;
+    }
 
-        console.log(total1, " + ", konversi);
+    // Hitung total nilai dan konversi angka ke teks
+    let nilai = biaya + numeral(uang1.value).value();
+    let nilai1 = biaya + numeral(uang.value).value();
 
-        var tableBKM = $("#tableDetailBiayaBKM").DataTable();
-        var tableBKMLength = tableBKM.data().length;
-        if (tableBKMLength > 0) {
-            tableBKM.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                var data = this.data();
-                allBKM.push([data[0], numeral(data[1]).value(), data[2]]);
-                biaya1 += numeral(data[1]).value();
-            });
-            ada3 = true;
-        }
+    let konversi =
+        parseInt(idUang1.value) === 1
+            ? convertNumberToWordsRupiah(nilai)
+            : convertNumberToWordsDollar(nilai);
+    let konversi2 =
+        parseInt(idUang.value) === 1
+            ? convertNumberToWordsRupiah(nilai1)
+            : convertNumberToWordsDollar(nilai1);
 
-        let total2;
-
-        nilai1 = biaya + numeral(uang.value).value();
-        total2 = nilai1;
-
-        if (parseInt(idUang.value) === 1) {
-            konversi2 = convertNumberToWordsRupiah(nilai1);
-        } else {
-            konversi2 = convertNumberToWordsDollar(nilai1);
-        }
-
-        console.log(konversi2, "nilai: ", nilai1);
-
-        // Kumpulkan semua AJAX request dalam array promises
-        let ajaxRequests = [];
-
-        // Proses insertBKK
-        ajaxRequests.push(
+    try {
+        // Proses insert BKK & transaksi BKK secara paralel
+        await Promise.all([
             $.ajax({
                 type: "PUT",
                 url: "MaintenanceBKMTransistorisBank/insertBKK",
@@ -3046,11 +3038,7 @@ btnProses.addEventListener("click", function (e) {
                     nilai: numeral(parseFloat(nilai)).value(),
                     IdBank: idBank1.value.trim(),
                 },
-            })
-        );
-
-        // Proses insertTransBKK
-        ajaxRequests.push(
+            }),
             $.ajax({
                 type: "PUT",
                 url: "MaintenanceBKMTransistorisBank/insertTransBKK",
@@ -3063,200 +3051,154 @@ btnProses.addEventListener("click", function (e) {
                     nilai: numeral(parseFloat(nilai)).value(),
                     kurs: numeral(parseFloat(kurs.value)).value() || null,
                 },
-            })
-        );
+            }),
+        ]);
 
-        // Ambil IdPembayaran setelah semua proses di atas selesai
-        Promise.all(ajaxRequests)
-            .then(() => {
-                return $.ajax({
-                    type: "GET",
-                    url: "MaintenanceBKMTransistorisBank/getIdPembayaran",
-                    data: { _token: csrfToken },
-                });
-            })
-            .then((result) => {
-                if (result.length !== 0) {
-                    IdPembayaran = decodeHtmlEntities(result);
-                    console.log(IdPembayaran);
+        // Ambil IdPembayaran setelah proses insert
+        let result = await $.ajax({
+            type: "GET",
+            url: "MaintenanceBKMTransistorisBank/getIdPembayaran",
+            data: { _token: csrfToken },
+        });
 
-                    let detailRequests = [];
+        if (result.length !== 0) {
+            let IdPembayaran = decodeHtmlEntities(result);
+            console.log(IdPembayaran);
 
-                    // insertTrans2BKK
-                    detailRequests.push(
-                        $.ajax({
-                            type: "PUT",
-                            url: "MaintenanceBKMTransistorisBank/insertTrans2BKK",
-                            data: {
-                                _token: csrfToken,
-                                idpembayaran: IdPembayaran,
-                                keterangan: uraian1.value,
-                                biaya: numeral(uang1.value).value(),
-                                kodeperkiraan: idPerkiraan1.value,
-                            },
-                        })
-                    );
+            let detailRequests = [
+                $.ajax({
+                    type: "PUT",
+                    url: "MaintenanceBKMTransistorisBank/insertTrans2BKK",
+                    data: {
+                        _token: csrfToken,
+                        idpembayaran: IdPembayaran,
+                        keterangan: uraian1.value,
+                        biaya: numeral(uang1.value).value(),
+                        kodeperkiraan: idPerkiraan1.value,
+                    },
+                }),
+            ];
 
-                    if (ada1) {
-                        // insertDetailBKK
-                        detailRequests.push(
+            if (ada1) {
+                detailRequests.push(
+                    $.ajax({
+                        type: "PUT",
+                        url: "MaintenanceBKMTransistorisBank/insertDetailBKK",
+                        data: {
+                            _token: csrfToken,
+                            idpembayaran: IdPembayaran,
+                            detailBKK: allBKK,
+                        },
+                    })
+                );
+            }
+
+            if (ada2) {
+                detailRequests.push(
+                    $.ajax({
+                        type: "PUT",
+                        url: "MaintenanceBKMTransistorisBank/insertBg",
+                        data: {
+                            _token: csrfToken,
+                            id: IdPembayaran,
+                            no: allBg[0][0],
+                            jthtempo: allBg[0][1],
+                            status: allBg[0][2],
+                        },
+                    })
+                        .then(() =>
                             $.ajax({
-                                type: "PUT",
-                                url: "MaintenanceBKMTransistorisBank/insertDetailBKK",
+                                type: "GET",
+                                url: "MaintenanceBKMTransistorisBank/cekBg",
                                 data: {
                                     _token: csrfToken,
                                     idpembayaran: IdPembayaran,
-                                    detailBKK: allBKK,
                                 },
                             })
-                        );
-                    }
+                        )
+                        .then((result) => {
+                            if (result.length !== 0) {
+                                let idBG = decodeHtmlEntities(
+                                    result[0].IdBGCEK
+                                );
+                                return $.ajax({
+                                    type: "PUT",
+                                    url: "MaintenanceBKMTransistorisBank/updateBg",
+                                    data: {
+                                        _token: csrfToken,
+                                        id: IdPembayaran,
+                                        idBG: idBG,
+                                    },
+                                });
+                            }
+                        })
+                );
+            }
 
-                    if (ada2) {
-                        // insertBg
-                        detailRequests.push(
-                            $.ajax({
-                                type: "PUT",
-                                url: "MaintenanceBKMTransistorisBank/insertBg",
-                                data: {
-                                    _token: csrfToken,
-                                    id: IdPembayaran,
-                                    no: allBg[0][0],
-                                    jthtempo: allBg[0][1],
-                                    status: allBg[0][2],
-                                },
-                            })
-                                .then(() => {
-                                    return $.ajax({
-                                        type: "GET",
-                                        url: "MaintenanceBKMTransistorisBank/cekBg",
-                                        data: {
-                                            _token: csrfToken,
-                                            idpembayaran: IdPembayaran,
-                                        },
-                                    });
-                                })
-                                .then((result) => {
-                                    if (result.length !== 0) {
-                                        let idBG = decodeHtmlEntities(
-                                            result[0].IdBGCEK
-                                        );
-                                        return $.ajax({
-                                            type: "PUT",
-                                            url: "MaintenanceBKMTransistorisBank/updateBg",
-                                            data: {
-                                                _token: csrfToken,
-                                                id: IdPembayaran,
-                                                idBG: idBG,
-                                            },
-                                        });
-                                    }
-                                })
-                        );
-                    }
+            await Promise.all(detailRequests);
+        }
 
-                    return Promise.all(detailRequests);
-                }
-            })
-            .then(() => {
-                // Proses insertBKM setelah semua proses insert BKK selesai
-                return $.ajax({
-                    type: "PUT",
-                    url: "MaintenanceBKMTransistorisBank/insertBKM",
-                    data: {
-                        _token: csrfToken,
-                        idBKM: idBKM.value.trim(),
-                        tglinput: tgl.value,
-                        terjemahan: konversi2,
-                        nilai: numeral(parseFloat(nilai1)).value(),
-                        IdBank: idBank.value.trim(),
-                    },
-                });
-            })
-            .then(() => {
-                return $.ajax({
-                    type: "PUT",
-                    url: "MaintenanceBKMTransistorisBank/insertTransBKM",
-                    data: {
-                        _token: csrfToken,
-                        idBKM: idBKM.value,
-                        tgl: tgl.value,
-                        idUang: idUang.value,
-                        idJenis: idJenisBayar.value,
-                        idBank: idBank.value,
-                        kodeperkiraan: idPerkiraan.value,
-                        uraian: uraian.value,
-                        nilaipelunasan: numeral(uang.value).value(),
-                        idBKKAcuan: idBKK.value,
-                        kurs: numeral(parseFloat(kurs.value)).value() || null,
-                    },
-                });
-            })
-            .then(() => {
-                if (ada3) {
-                    return $.ajax({
-                        type: "GET",
-                        url: "MaintenanceBKMTransistorisBank/getIdPelunasan",
-                        data: { _token: csrfToken },
-                    }).then((result) => {
-                        if (result.length !== 0) {
-                            IdPelunasan = decodeHtmlEntities(result);
-                            console.log(IdPelunasan);
+        // Proses insert BKM
+        await Promise.all([
+            $.ajax({
+                type: "PUT",
+                url: "MaintenanceBKMTransistorisBank/insertBKM",
+                data: {
+                    _token: csrfToken,
+                    idBKM: idBKM.value.trim(),
+                    tglinput: tgl.value,
+                    terjemahan: konversi2,
+                    nilai: numeral(parseFloat(nilai1)).value(),
+                    IdBank: idBank.value.trim(),
+                },
+            }),
+            $.ajax({
+                type: "PUT",
+                url: "MaintenanceBKMTransistorisBank/insertTransBKM",
+                data: {
+                    _token: csrfToken,
+                    idBKM: idBKM.value,
+                    tgl: tgl.value,
+                    idUang: idUang.value,
+                    idJenis: idJenisBayar.value,
+                    idBank: idBank.value,
+                    kodeperkiraan: idPerkiraan.value,
+                    uraian: uraian.value,
+                    nilaipelunasan: numeral(uang.value).value(),
+                    idBKKAcuan: idBKK.value,
+                    kurs: numeral(parseFloat(kurs.value)).value() || null,
+                },
+            }),
+        ]);
 
-                            return $.ajax({
-                                type: "PUT",
-                                url: "MaintenanceBKMTransistorisBank/insertDetailBKM",
-                                data: {
-                                    _token: csrfToken,
-                                    idpelunasan: IdPelunasan,
-                                    detailBKM: allBKM,
-                                },
-                            });
-                        }
-                    });
-                }
-            })
-            .then(() => {
-                // Update IdBKM setelah semua transaksi selesai
-                return $.ajax({
-                    type: "PUT",
-                    url: "MaintenanceBKMTransistorisBank/updateIdBKM",
-                    data: {
-                        _token: csrfToken,
-                        idbkm: idbkm,
-                        idBank: IdBank,
-                        jenis: jenisBank.value,
-                        tgl: String(bln.value) + String(thn.value),
-                    },
-                });
-            })
-            .then(() => {
-                // Swal Fire hanya akan dieksekusi jika semua proses sukses
-                Swal.fire({
-                    icon: "success",
-                    text:
-                        "BKK No. " +
-                        idBKK.value +
-                        " & BKM No. " +
-                        idBKM.value +
-                        " TerSimpan",
-                    returnFocus: false,
-                }).then(() => {
-                    location.reload();
-                });
-            })
-            .catch((error) => {
-                console.error("Error:", error);
+        if (ada3) {
+            let result = await $.ajax({
+                type: "GET",
+                url: "MaintenanceBKMTransistorisBank/getIdPelunasan",
+                data: { _token: csrfToken },
             });
-    } else {
+
+            if (result.length !== 0) {
+                let IdPelunasan = decodeHtmlEntities(result);
+                await $.ajax({
+                    type: "PUT",
+                    url: "MaintenanceBKMTransistorisBank/insertDetailBKM",
+                    data: {
+                        _token: csrfToken,
+                        idpelunasan: IdPelunasan,
+                        detailBKM: allBKM,
+                    },
+                });
+            }
+        }
+
         Swal.fire({
-            icon: "error",
-            text: "Tidak Ada Yg diPROSES!",
+            icon: "success",
+            text: `BKK No. ${idBKK.value} & BKM No. ${idBKM.value} TerSimpan`,
             returnFocus: false,
-        }).then(() => {
-            enableBKK();
-            tanggalInput.focus();
-        });
+        }).then(() => location.reload());
+    } catch (error) {
+        console.error("Error:", error);
     }
 });
 
