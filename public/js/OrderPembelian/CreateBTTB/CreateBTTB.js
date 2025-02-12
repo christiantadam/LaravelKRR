@@ -413,163 +413,101 @@ $(document).ready(function () {
         qty_ship.value = "";
     }
     async function setStatusPO() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
+        try {
+            const response = await $.ajax({
                 url: "/CCreateBTTB/SetStatusPO",
                 type: "GET",
-                data: {
-                    NoPO: po.value.trim(),
-                },
-                success: function (response) {
-                    console.log(response);
-                    resolve();
-                },
-                error: function (error) {
-                    console.error("Error Send Data:", error);
-                    reject(error);
-                },
+                data: { NoPO: po.value.trim() }
             });
-        });
+
+            console.log(response);
+        } catch (error) {
+            console.error("Error Send Data:", error);
+        }
     }
 
-    function post(bttb) {
-        console.log(data); // console.log untuk tracing gagal post BTTB
-        let dataToSend = [];
+    async function post(bttb) {
+        console.log(data); // Tracing gagal post BTTB
+        const dataToSend = data.map(item => ({
+            BTTB: bttb,
+            disc: item.Harga_disc,
+            discIDR: item.DiscIDR,
+            idPPN: item.IdPPN,
+            idSup: supplier.value,
+            jumPPN: item.JumPPN,
+            KodeHS: kodehs.value.trim(),
+            kurs: item.Kurs,
+            mtUang: item.ID_MATAUANG,
+            NoPIB: nopib.value.trim(),
+            NoPIBExt: nopibext.value.trim(),
+            NoPO: po.value.trim(),
+            NoReg: registrasi.value.trim(),
+            NoSatuan: item.NoSatuan,
+            NoSKBM: skbm.value.trim(),
+            NoSPPBBC: sppb.value.trim(),
+            noTrans: item.No_trans,
+            noTrTmp: item.no_kat_utama === "009" ? 1 : null,
+            pDPP: item.PriceDPP,
+            persen: item.disc,
+            pIDRDPP: item.PriceDPP_IDR,
+            pIDRPPN: item.PriceUnitIDR_PPN,
+            pIDRSub: item.PriceSubIDR,
+            pIDRTot: item.PriceExtIDR,
+            pIDRUnit: item.PriceUnitIDR,
+            pPPN: item.PPN,
+            pSub: item.PriceSub,
+            pTot: item.PriceExt,
+            pUnit: item.PriceUnit,
+            Qty: numeral(item.Qty).value(),
+            qtyRcv: numeral(item.QtyRcv).value() || 0,
+            qtyremain: numeral(item.QtyRemain).value() || 0,
+            qtyShip: numeral(item.QtyShipped).value() || 0,
+            SJ: nosj.value.trim(),
+            tglDatang: tglbttb.value,
+            TglPIB: tglpib.value,
+            TglReg: tglregis.value.trim(),
+            TglSKBM: tglskbm.value,
+            TglSPPBBC: tglsppb.value,
+        }));
 
-        for (let i = 0; i < data.length; i++) {
-            let noTrTmp = null;
-            if (data[i].no_kat_utama == "009") {
-                noTrTmp = 1;
-            }
-            if (data[i].Kd_brg.charAt(1) == "3") {
-                if (nopibext.value == "") {
-                    Swal.fire({
-                        icon: "info",
-                        title: "Untuk kode barang KITE, PIB harus diisi!",
-                        showConfirmButton: false,
-                        timer: "2000",
-                    });
-                    return;
-                }
-            } else {
-                if (nopibext.value !== "") {
-                    Swal.fire({
-                        icon: "warning",
-                        title: "PIB sudah ada!",
-                        text: "Mau dikosongkan atau tidak?",
-                        showCancelButton: true,
-                        confirmButtonText: "Ya, kosongkan",
-                        cancelButtonText: "Batal",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // User confirmed to clear the value
-                            nopibext.value = "";
-                            Swal.fire({
-                                icon: "info",
-                                title: "PIB sudah dikosongkan!",
-                                showConfirmButton: false,
-                                timer: 2000,
-                            });
-                        }
-                    });
-                }
-            }
-
-            dataToSend.push({
-                BTTB: bttb,
-                disc: data[i].Harga_disc,
-                discIDR: data[i].DiscIDR,
-                idPPN: data[i].IdPPN,
-                idSup: supplier.value,
-                jumPPN: data[i].JumPPN,
-                KodeHS: kodehs.value.trim(),
-                kurs: data[i].Kurs,
-                mtUang: data[i].ID_MATAUANG,
-                NoPIB: nopib.value.trim(),
-                NoPIBExt: nopibext.value.trim(),
-                NoPO: po.value.trim(),
-                NoReg: registrasi.value.trim(),
-                NoSatuan: data[i].NoSatuan,
-                NoSKBM: skbm.value.trim(),
-                NoSPPBBC: sppb.value.trim(),
-                noTrans: data[i].No_trans,
-                noTrTmp: noTrTmp,
-                pDPP: data[i].PriceDPP,
-                persen: data[i].disc,
-                pIDRDPP: data[i].PriceDPP_IDR,
-                pIDRPPN: data[i].PriceUnitIDR_PPN,
-                pIDRSub: data[i].PriceSubIDR,
-                pIDRTot: data[i].PriceExtIDR,
-                pIDRUnit: data[i].PriceUnitIDR,
-                pPPN: data[i].PPN,
-                pSub: data[i].PriceSub,
-                pTot: data[i].PriceExt,
-                pUnit: data[i].PriceUnit,
-                Qty: numeral(data[i].Qty).value(),
-                qtyRcv: numeral(data[i].QtyRcv).value() || 0,
-                qtyremain: numeral(data[i].QtyRemain).value() || 0,
-                qtyShip: numeral(data[i].QtyShipped).value() || 0,
-                SJ: nosj.value.trim(),
-                tglDatang: tglbttb.value,
-                TglPIB: tglpib.value,
-                TglReg: tglregis.value.trim(),
-                TglSKBM: tglskbm.value,
-                TglSPPBBC: tglsppb.value,
+        try {
+            await $.ajax({
+                url: "/CCreateBTTB/PostData",
+                type: "POST",
+                headers: { "X-CSRF-TOKEN": csrfToken },
+                data: { data: dataToSend }
             });
-        }
-        console.log(dataToSend); // console.log untuk tracing gagal post BTTB
 
-        $.ajax({
-            url: "/CCreateBTTB/PostData",
-            type: "POST",
-            headers: {
-                "X-CSRF-TOKEN": csrfToken,
-            },
-            data: {
-                data: dataToSend,
-            },
-            success: function (response) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Data Berhasil DiPost!",
-                    showConfirmButton: false,
-                });
-                dataPrint();
-            },
-            error: function (error) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Data Tidak Berhasil DiPost!",
-                    showConfirmButton: false,
-                });
-                console.error("Error Send Data:", error);
-            },
-            beforeSend: function () {
-                // Show loading screen
-                $("#loading-screen").css("display", "flex");
-            },
-            complete: function () {
-                // Hide loading screen
-                $("#loading-screen").css("display", "none");
-            },
-        });
+            Swal.fire({
+                icon: "success",
+                title: "Data Berhasil DiPost!",
+                showConfirmButton: false
+            });
+
+            await dataPrint();
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Data Tidak Berhasil DiPost!",
+                showConfirmButton: false
+            });
+            console.error("Error Send Data:", error);
+        }
     }
 
     async function dataPrint() {
-        $.ajax({
-            url: "/CCreateBTTB/Print",
-            type: "GET",
-            data: {
-                No_BTTB: nobttb.value,
-            },
-            success: async function (response) {
-                console.log(response, nobttb.value); // console.log untuk tracing gagal post BTTB
-                await print(response);
-            },
-            error: function (error) {
-                console.error("Error Get Data:", error);
-            },
-        });
+        try {
+            const response = await $.ajax({
+                url: "/CCreateBTTB/Print",
+                type: "GET",
+                data: { No_BTTB: nobttb.value }
+            });
+
+            console.log(response, nobttb.value); // Tracing gagal post BTTB
+            await print(response);
+        } catch (error) {
+            console.error("Error Get Data:", error);
+        }
     }
 
     async function print(data) {
@@ -1000,32 +938,28 @@ $(document).ready(function () {
         });
     });
 
-    post_btn.addEventListener("click", function (event) {
+    post_btn.addEventListener("click", async function () {
         this.disabled = true;
-        setTimeout(function () {
-            this.disabled = false;
-        }, 2500);
+        setTimeout(() => this.disabled = false, 2500);
 
-        if (data.length != 0) {
-            $.ajax({
-                url: "/CCreateBTTB/CreateNoBTTB",
-                type: "GET",
-                success: async function (response) {
-                    nobttb.value = response.data;
-                    console.log(response.data); // console.log untuk tracing gagal post BTTB
-                    post(response.data);
-                    await setStatusPO();
-                },
-                error: function (error) {
-                    console.error("Error Send Data:", error);
-                },
-                beforeSend: function () {
-                    // Show loading screen
-                    $("#loading-screen").css("display", "flex");
-                },
-            });
-        } else {
+        if (data.length === 0) {
             alert("Data tidak ada");
+            return;
+        }
+
+        try {
+            $("#loading-screen").css("display", "flex");
+
+            const response = await $.ajax({ url: "/CCreateBTTB/CreateNoBTTB", type: "GET" });
+            nobttb.value = response.data;
+            console.log(response.data); // Tracing gagal post BTTB
+
+            await post(response.data);
+            await setStatusPO();
+        } catch (error) {
+            console.error("Error Send Data:", error);
+        } finally {
+            $("#loading-screen").css("display", "none");
         }
     });
 
