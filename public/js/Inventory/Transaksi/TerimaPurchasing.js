@@ -189,10 +189,10 @@ function selectRow($row) {
     sekunder.value = formatNumber(data[4]);
     tritier.value = formatNumber(data[5]);
     kodeTransaksi.value = decodeHtmlEntities(data[6]);
-    satuanPrimer.value = decodeHtmlEntities(data[8]);
-    satuanSekunder.value = decodeHtmlEntities(data[9]);
-    satuanTritier.value = decodeHtmlEntities(data[10]);
-    kodeBarang.value = decodeHtmlEntities(data[11]);
+    satuanPrimer.value = decodeHtmlEntities(data[9]);
+    satuanSekunder.value = decodeHtmlEntities(data[10]);
+    satuanTritier.value = decodeHtmlEntities(data[11]);
+    kodeBarang.value = decodeHtmlEntities(data[12]);
     pib.value = data[7] ? decodeHtmlEntities(data[7]) : "";
 
     $.ajax({

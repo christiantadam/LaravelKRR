@@ -391,15 +391,16 @@ $(document).ready(function () {
                         text: response.message,
                         showConfirmButton: true,
                     }).then(() => {
-                        document.querySelectorAll("input").forEach((input) => {
-                            if (input.type !== "date" && input.id !== "bkm") {
-                                input.value = "";
-                            }
-                        });
-                        $("#table_kiri").DataTable().clear().draw();
-                        $("#table_kanan").DataTable().clear().draw();
-                        btn_tambahdata.disabled = true;
-                        btn_tampilbkk.click();
+                        // document.querySelectorAll("input").forEach((input) => {
+                        //     if (input.type !== "date" && input.id !== "bkm") {
+                        //         input.value = "";
+                        //     }
+                        // });
+                        // $("#table_kiri").DataTable().clear().draw();
+                        // $("#table_kanan").DataTable().clear().draw();
+                        // btn_tambahdata.disabled = true;
+                        // btn_tampilbkk.click();
+                        location.reload();
                         // document
                         //     .querySelectorAll("input")
                         //     .forEach((input) => (input.value = ""));
