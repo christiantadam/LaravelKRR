@@ -38,7 +38,7 @@
                                 name="registrasi">
                         </div>
                         <div class="col-md-3 mb-2">
-                            <label for="tglbttb" class="form-label font-weight-bold">tgl BTTB</label>
+                            <label for="tglbttb" class="form-label font-weight-bold">Tanggal BTTB</label>
                             <input type="date" class="form-control font-weight-bold" id="tglbttb" name="tglbttb"
                                 value="{{ date('Y-m-d') }}">
                         </div>
@@ -47,12 +47,12 @@
                             <input type="text" class="form-control font-weight-bold" id="nopib" name="nopib">
                         </div>
                         <div class="col-md-3 mb-2">
-                            <label for="tglsppb" class="form-label font-weight-bold">Tgl. SPPB BC</label>
+                            <label for="tglsppb" class="form-label font-weight-bold">Tanggal SPPB BC</label>
                             <input type="date" class="form-control font-weight-bold" id="tglsppb" name="tglsppb"
                                 value="{{ date('Y-m-d') }}">
                         </div>
                         <div class="col-md-3 mb-2">
-                            <label for="tglregis" class="form-label font-weight-bold">Tgl. Rgistrasi</label>
+                            <label for="tglregis" class="form-label font-weight-bold">Tanggal Rgistrasi</label>
                             <input type="date" class="form-control font-weight-bold" id="tglregis" name="tglregis"
                                 value="{{ date('Y-m-d') }}">
                         </div>
@@ -70,7 +70,7 @@
                             <input type="text" class="form-control font-weight-bold" id="nopibext" name="nopibext">
                         </div>
                         <div class="col-md-3 mb-2">
-                            <label for="skbm" class="form-label font-weight-bold">No SKBM</label>
+                            <label for="skbm" class="form-label font-weight-bold">No. SKBM</label>
                             <input type="text" class="form-control font-weight-bold" id="skbm" name="skbm">
                         </div>
                         <div class="col-md-3 mb-2">
@@ -83,12 +83,12 @@
                                 name="po">
                         </div>
                         <div class="col-md-3">
-                            <label for="tglpib" class="form-label font-weight-bold">Tgl PIB</label>
+                            <label for="tglpib" class="form-label font-weight-bold">Tanggal PIB</label>
                             <input type="date" class="form-control font-weight-bold" id="tglpib"
                                 name="tglpib" value="{{ date('Y-m-d') }}">
                         </div>
                         <div class="col-md-3">
-                            <label for="tglskbm" class="form-label font-weight-bold">Tgl. SKBM</label>
+                            <label for="tglskbm" class="form-label font-weight-bold">Tanggal SKBM</label>
                             <input type="date" class="form-control font-weight-bold" id="tglskbm"
                                 name="tglskbm" value="{{ date('Y-m-d') }}">
                         </div>
