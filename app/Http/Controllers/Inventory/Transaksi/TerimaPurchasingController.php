@@ -124,6 +124,7 @@ class TerimaPurchasingController extends Controller
 
             $objek = DB::connection('ConnInventory')->select('exec SP_1003_INV_List_Terima_Transfer_PerObjek
             @IdDivisi = ?, @IdObjek = ?', [$IdDivisi, $IdObjek]);
+            // dd($objek);
             $data_objek = [];
             foreach ($objek as $detail_objek) {
                 $data_objek[] = [
@@ -139,6 +140,7 @@ class TerimaPurchasingController extends Controller
                     'SatTritier' => $detail_objek->SatTritier,
                     'KodeBarang' => $detail_objek->KodeBarang,
                     'PIB' => $detail_objek->PIB ?? '',
+                    'No_PO' => $detail_objek->No_PO ?? '',
                 ]
                 ;
             }
