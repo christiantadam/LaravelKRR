@@ -196,6 +196,7 @@ $(document).ready(function () {
 
     btn_proses.addEventListener("click", async function (event) {
         event.preventDefault();
+        btn_proses.disabled = true;
         const allRowsDataAtas = table_atas.rows().data().toArray();
         let TTerbilang;
         let TNilaiPenagihan = 0;

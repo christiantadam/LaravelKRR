@@ -2953,6 +2953,11 @@ btnBatal.addEventListener("click", function (e) {
 });
 
 btnProses.addEventListener("click", async function (e) {
+    btnProses.disabled = true;
+    btnKoreksiForm.disabled = true;
+    btnBatal.disabled = true;
+    btnTampilBKK.disabled = true;
+    btnTampilBKM.disabled = true;
     if (!idBKK.value.trim() || !idBKM.value.trim()) {
         Swal.fire({
             icon: "error",
@@ -2961,6 +2966,11 @@ btnProses.addEventListener("click", async function (e) {
         }).then(() => {
             enableBKK();
             tanggalInput.focus();
+            btnProses.disabled = false;
+            btnKoreksiForm.disabled = false;
+            btnBatal.disabled = false;
+            btnTampilBKK.disabled = false;
+            btnTampilBKM.disabled = false;
         });
         return;
     }
