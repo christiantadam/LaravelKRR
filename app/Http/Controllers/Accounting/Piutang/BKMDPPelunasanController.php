@@ -403,6 +403,10 @@ class BKMDPPelunasanController extends Controller
                 $noUrut = DB::connection('ConnAccounting')
                     ->table('T_COUNTER_BKK')
                     ->where('Periode', $tahun)
+                    ->increment('Id_BKK_E_Rp');
+                $noUrut = DB::connection('ConnAccounting')
+                    ->table('T_COUNTER_BKK')
+                    ->where('Periode', $tahun)
                     ->value('Id_BKK_E_Rp');
 
             } else if ($ada === 0) {
@@ -418,10 +422,10 @@ class BKMDPPelunasanController extends Controller
             $idBKK = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
             $idBKK = 'KKK' . '-P' . substr($tahun, -2) . substr($idBKK, -5);
 
-            DB::connection('ConnAccounting')
-                ->table('T_COUNTER_BKK')
-                ->where('Periode', $tahun)
-                ->update(['Id_BKK_E_Rp' => $noUrut + 1]);
+            // DB::connection('ConnAccounting')
+            //     ->table('T_COUNTER_BKK')
+            //     ->where('Periode', $tahun)
+            //     ->update(['Id_BKK_E_Rp' => $noUrut + 1]);
 
             return response()->json(['IdBKK' => $idBKK]);
         }
@@ -440,6 +444,10 @@ class BKMDPPelunasanController extends Controller
                 $noUrut = DB::connection('ConnAccounting')
                     ->table('T_Counter_BKM')
                     ->where('Periode', $tahun)
+                    ->increment('Id_BKM_E_Rp');
+                $noUrut = DB::connection('ConnAccounting')
+                    ->table('T_Counter_BKM')
+                    ->where('Periode', $tahun)
                     ->value('Id_BKM_E_Rp');
 
             } else if ($ada === 0) {
@@ -455,10 +463,10 @@ class BKMDPPelunasanController extends Controller
             $idBKM = str_pad($noUrut, 5, '0', STR_PAD_LEFT);
             $idBKM = 'KKM' . '-R' . substr($tahun, -2) . substr($idBKM, -5);
 
-            DB::connection('ConnAccounting')
-                ->table('T_Counter_BKM')
-                ->where('Periode', $tahun)
-                ->update(['Id_BKM_E_Rp' => $noUrut + 1]);
+            // DB::connection('ConnAccounting')
+            //     ->table('T_Counter_BKM')
+            //     ->where('Periode', $tahun)
+            //     ->update(['Id_BKM_E_Rp' => $noUrut + 1]);
 
             return response()->json(['IdBKM' => $idBKM]);
         }
