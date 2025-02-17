@@ -1558,17 +1558,23 @@ $(document).ready(function () {
         'input[name="penerimaCheckbox"]',
         function () {
             if (this.checked) {
-                $('input[name="penerimaCheckbox"]')
-                    .not(this)
-                    .prop("checked", false);
+                $('input[name="penerimaCheckbox"]');
+                // .not(this)
+                // .prop("checked", false);
                 rowDataPertama = table_kiri.row($(this).closest("tr")).data();
                 rowDataArray.push(rowDataPertama);
                 console.log(rowDataArray);
                 console.log(rowDataPertama, this, table_kiri);
             } else {
                 // Kosongkan array saat checkbox tidak dicentang
-                rowDataArray = [];
-                rowDataPertama = null;
+                // rowDataArray = [];
+                // rowDataPertama = null;
+                rowDataPertama = table_kiri.row($(this).closest("tr")).data();
+
+                // Filter out the row with matching Id_Detail
+                rowDataArray = rowDataArray.filter(
+                    (row) => row[0] !== rowDataPertama[0]
+                );
                 console.log(rowDataArray);
                 console.log(rowDataPertama, this, table_kiri);
             }
