@@ -372,21 +372,19 @@ class MaintenanceBKKController extends Controller
                         return response()->json(['error' => 'Silahkan masuk ke menu Hutang --> Penyesuaian Hutang Supplier untuk melakukan penyesuaian saldo supplier tsb']);
                     }
                 }
-                foreach ($listPengajuan as $itemPengajuan) {
-                    $createBKKResult = DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?', [
-                        $itemPengajuan['Id_Bank'],
-                        $itemPengajuan['Id_MataUang'],
-                        $itemPengajuan['Id_Jenis_Bayar'],
-                        $user_id,
-                        $itemPengajuan['Id_Pembayaran'],
-                        $tanggal,
-                        $totalPayment,
-                        $itemPengajuan['Id_Supplier'],
-                        substr($itemPengajuan['Id_Penagihan'], 0, 1) != 'X' ? 'Y' : 'N'
-                    ]);
-                    if ($createBKKResult) {
-                        $idBKKTerbaru[] = DB::connection('ConnAccounting')->table('T_Pembayaran')->select('Id_BKK')->orderBy('Time_Update', 'desc')->first();
-                    }
+                $createBKKResult = DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?', [
+                    $firstItem['Id_Bank'],
+                    $firstItem['Id_MataUang'],
+                    $firstItem['Id_Jenis_Bayar'],
+                    $user_id,
+                    $firstItem['Id_Pembayaran'],
+                    $tanggal,
+                    $totalPayment,
+                    $firstItem['Id_Supplier'],
+                    substr($firstItem['Id_Penagihan'], 0, 1) != 'X' ? 'Y' : 'N'
+                ]);
+                if ($createBKKResult) {
+                    $idBKKTerbaru[] = DB::connection('ConnAccounting')->table('T_Pembayaran')->select('Id_BKK')->where('User_Input', $user_id)->orderBy('Time_Update', 'desc')->first();
                 }
                 if (count($idBKKTerbaru) > 0) {
                     $idbkk = trim($idBKKTerbaru[0]->Id_BKK);
