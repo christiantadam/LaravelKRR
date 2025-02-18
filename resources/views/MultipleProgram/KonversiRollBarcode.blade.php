@@ -126,11 +126,13 @@
     @if ($id == 'JBBPotong')
         @section('title', 'Konversi JBB Potong')
         @include('MultipleProgram.ModalPermohonanKonversiRoll.ModalPermohonanJBB')
+        @include('MultipleProgram.ModalPermohonanKonversiRoll.ModalPermohonanJBBTanpaBarcode')
         <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeJBBPotong.js') }}"></script>
     @elseif ($id == 'ABMStghJadi')
         <!-- prettier-ignore -->
         @section('title', 'Konversi ABM Stgh Jadi')
         @include('MultipleProgram.ModalPermohonanKonversiRoll.ModalPermohonanABM')
+        @include('MultipleProgram.ModalPermohonanKonversiRoll.ModalPermohonanABMTanpaBarcode')
         <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeABMStghJadi.js') }}"></script>
     @elseif ($id == 'ADSPotong')
         <!-- prettier-ignore -->
