@@ -430,9 +430,9 @@ class MaintenanceBKMTransistorisBankController extends Controller
                         $user,
                     ]);
 
-                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                return response()->json(['success' => 'Data sudah diSIMPAN']);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
             }
         }
 
@@ -463,9 +463,9 @@ class MaintenanceBKMTransistorisBankController extends Controller
                             $user,
                         ]);
 
-                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                    return response()->json(['success' => 'Data sudah diSIMPAN']);
                 } catch (\Exception $e) {
-                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
                 }
             } else if (intval($kurs) !== 0) {
                 try {
@@ -487,9 +487,9 @@ class MaintenanceBKMTransistorisBankController extends Controller
                             $user,
                         ]);
 
-                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                    return response()->json(['success' => 'Data sudah diSIMPAN']);
                 } catch (\Exception $e) {
-                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
                 }
             }
         }
@@ -516,7 +516,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
             }
         }
 
@@ -546,7 +546,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
             }
         }
 
@@ -576,7 +576,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
             }
         }
 
@@ -596,7 +596,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
             }
         }
 
@@ -622,7 +622,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
             }
         }
 
@@ -651,9 +651,9 @@ class MaintenanceBKMTransistorisBankController extends Controller
                         $user,
                     ]);
 
-                return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                return response()->json(['success' => 'Data sudah diSIMPAN']);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
             }
         }
 
@@ -679,7 +679,7 @@ class MaintenanceBKMTransistorisBankController extends Controller
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
             }
         }
 
@@ -722,9 +722,9 @@ class MaintenanceBKMTransistorisBankController extends Controller
                             $user,
                         ]);
 
-                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                    return response()->json(['success' => 'Data sudah diSIMPAN']);
                 } catch (\Exception $e) {
-                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
                 }
             } else if (intval($kurs) !== 0) {
                 try {
@@ -754,9 +754,9 @@ class MaintenanceBKMTransistorisBankController extends Controller
                             $user,
                         ]);
 
-                    return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
+                    return response()->json(['success' => 'Data sudah diSIMPAN']);
                 } catch (\Exception $e) {
-                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()], 500);
+                    return response()->json(['error' => 'Data gagal diSIMPAN: ' . $e->getMessage()]);
                 }
             }
         }
