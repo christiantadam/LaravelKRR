@@ -324,6 +324,7 @@ class MaintenanceBKKController extends Controller
 
                     $idBkk = DB::connection('ConnAccounting')->table('T_PEMBAYARAN')
                         ->orderBy('Time_Update', 'desc')
+                        ->where('User_Input', $user_id)
                         ->value('Id_BKK');
 
                     if ($idBkk) {
