@@ -143,15 +143,15 @@
             </tr>
         </table>
         <br>
-        <table>
-            <thead>
+        <table id="paymentTable">
+            {{-- <thead>
                 <tr>
                     <th style="width: 60%;text-align: center; border:none !important; border-right: 1px solid black !important">RINCIAN PENERIMAAN</th>
                     <th style="text-align: center; border:none !important; border-right: 1px solid black !important">KODE PERKIRAAN</th>
                     <th style="width: 23%;text-align: center; border:none !important; border-left: 1px solid black !important" colspan="2">JUMLAH
                     </th>
                 </tr>
-            </thead>
+            </thead> --}}
             <tbody>
                 <tr>
                     <td id="rincianP">BIAYA ADM,BUNGA,DLL - BUNGA</td>
