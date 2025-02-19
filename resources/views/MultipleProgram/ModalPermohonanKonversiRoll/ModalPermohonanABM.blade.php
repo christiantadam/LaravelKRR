@@ -11,7 +11,14 @@
                 <div style="display: flex; flex-direction: row;gap:0.5%;margin: 8px;">
                     <div class="card" style="display: flex; flex-direction: column;margin: 0.5%;padding:0.5%;">
                         <div style="display: flex; flex-direction: row;gap:0.5%;">
-                            <div class="form-group" style="width: 10%">
+                            <div class="form-group" style="width: 12%">
+                                <label for="tanggal">Tanggal Konversi</label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control" id="input_tanggalKonversi"
+                                        name="input_tanggalKonversi">
+                                </div>
+                            </div>
+                            <div class="form-group" style="width: 8%">
                                 <label for="shift">Shift</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="id_shift" name="id_shift"
@@ -26,24 +33,24 @@
                                         placeholder="000000000-000000000 (indeks)-(kode barang)">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 58.5%">
+                            <div class="form-group" style="width: 46.5%">
                                 <label for="saldo_terakhirAsal">Saldo Terakhir Type Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="saldo_terakhirPrimerAsal"
-                                        name="saldo_terakhirPrimerAsal" style='width:23%' placeholder="Jumlah Primer">
+                                        name="saldo_terakhirPrimerAsal" style='width:21%' placeholder="Jumlah Primer">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirPrimerAsal"
-                                        name="satuan_saldoTerakhirPrimerAsal" style='width:10%'
+                                        name="satuan_saldoTerakhirPrimerAsal" style='width:12%'
                                         placeholder="Satuan Primer">
                                     <input type="text" class="form-control" id="saldo_terakhirSekunderAsal"
-                                        name="saldo_terakhirSekunderAsal" style='width:23%'
+                                        name="saldo_terakhirSekunderAsal" style='width:21%'
                                         placeholder="Jumlah Sekunder">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirSekunderAsal"
-                                        name="satuan_saldoTerakhirSekunderAsal" style='width:10%'
+                                        name="satuan_saldoTerakhirSekunderAsal" style='width:12%'
                                         placeholder="Satuan Sekunder">
                                     <input type="text" class="form-control" id="saldo_terakhirTritierAsal"
-                                        name="saldo_terakhirTritierAsal" style='width:23%' placeholder="Jumlah Tritier">
+                                        name="saldo_terakhirTritierAsal" style='width:21%' placeholder="Jumlah Tritier">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirTritierAsal"
-                                        name="satuan_saldoTerakhirTritierAsal" style='width:10%'
+                                        name="satuan_saldoTerakhirTritierAsal" style='width:12%'
                                         placeholder="Satuan Tritier">
                                 </div>
                             </div>
@@ -149,32 +156,32 @@
                                 </select>
                             </div>
                         </div>
-                        <div style="display: flex; flex-direction: row;gap:0.5%;">
-                            <div class="form-group" style="width: 39%;border:none;margin:0.5%;">
+                        <div style="display: flex; flex-direction: row;gap:1%;">
+                            <div class="form-group" style="width: 44%;border:none;">
                                 <label for="saldo_terakhirTujuan">Saldo Terakhir Type Tujuan</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="saldo_terakhirTujuanPrimer"
-                                        name="saldo_terakhirTujuanPrimer" style='width:23%;'
+                                        name="saldo_terakhirTujuanPrimer" style='width:20%;'
                                         placeholder="Jumlah Primer">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirTujuanPrimer"
-                                        name="satuan_saldoTerakhirTujuanPrimer" style='width:10%;'
+                                        name="satuan_saldoTerakhirTujuanPrimer" style='width:13%;'
                                         placeholder="Satuan Primer">
                                     <input type="text" class="form-control" id="saldo_terakhirTujuanSekunder"
-                                        name="saldo_terakhirTujuanSekunder"style='width:23%;'
+                                        name="saldo_terakhirTujuanSekunder"style='width:20%;'
                                         placeholder="Jumlah Sekunder">
                                     <input type="text" class="form-control"
                                         id="satuan_saldoTerakhirTujuanSekunder"
-                                        name="satuan_saldoTerakhirTujuanSekunder" style='width:10%;'
+                                        name="satuan_saldoTerakhirTujuanSekunder" style='width:13%;'
                                         placeholder="Satuan Sekunder">
                                     <input type="text" class="form-control" id="saldo_terakhirTujuanTritier"
-                                        name="saldo_terakhirTujuanTritier" style='width:23%;'
+                                        name="saldo_terakhirTujuanTritier" style='width:20%;'
                                         placeholder="Jumlah Tritier">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirTujuanTritier"
-                                        name="satuan_saldoTerakhirTujuanTritier" style='width:10%;'
+                                        name="satuan_saldoTerakhirTujuanTritier" style='width:13%;'
                                         placeholder="Satuan Tritier">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 59%;border:none;margin:0.5%;">
+                            <div class="form-group" style="width: 55%;border:none;">
                                 <label for="hasil_konversiTujuan">Hasil Konversi</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="hasil_konversiPrimerTujuan"

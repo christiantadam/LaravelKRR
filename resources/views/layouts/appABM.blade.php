@@ -18,6 +18,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>

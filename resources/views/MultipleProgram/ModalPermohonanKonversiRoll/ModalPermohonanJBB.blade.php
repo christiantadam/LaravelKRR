@@ -45,20 +45,20 @@
                                 <label for="saldo_terakhirAsal">Saldo Terakhir Type Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="saldo_terakhirPrimerAsal"
-                                        name="saldo_terakhirPrimerAsal" style='width:19%' placeholder="Jumlah Primer">
+                                        name="saldo_terakhirPrimerAsal" style='width:21%' placeholder="Jumlah Primer">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirPrimerAsal"
-                                        name="satuan_saldoTerakhirPrimerAsal" style='width:10%'
+                                        name="satuan_saldoTerakhirPrimerAsal" style='width:12%'
                                         placeholder="Satuan Primer">
                                     <input type="text" class="form-control" id="saldo_terakhirSekunderAsal"
-                                        name="saldo_terakhirSekunderAsal" style='width:19%'
+                                        name="saldo_terakhirSekunderAsal" style='width:21%'
                                         placeholder="Jumlah Sekunder">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirSekunderAsal"
-                                        name="satuan_saldoTerakhirSekunderAsal" style='width:10%'
+                                        name="satuan_saldoTerakhirSekunderAsal" style='width:12%'
                                         placeholder="Satuan Sekunder">
                                     <input type="text" class="form-control" id="saldo_terakhirTritierAsal"
-                                        name="saldo_terakhirTritierAsal" style='width:19%' placeholder="Jumlah Tritier">
+                                        name="saldo_terakhirTritierAsal" style='width:21%' placeholder="Jumlah Tritier">
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirTritierAsal"
-                                        name="satuan_saldoTerakhirTritierAsal" style='width:10%'
+                                        name="satuan_saldoTerakhirTritierAsal" style='width:12%'
                                         placeholder="Satuan Tritier">
                                 </div>
                             </div>

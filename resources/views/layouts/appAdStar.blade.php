@@ -14,6 +14,7 @@
     <script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
@@ -86,107 +87,107 @@
                                             @php
                                                 $cekSubMenuPrint = 1;
                                             @endphp
-                                        @break
-                                @endif
-                            @endforeach
-                            @foreach ($access['AccessMenu'] as $secondMenuItem)
-                                @php
-                                    $printSecond = 0;
-                                @endphp
-                                @if ($secondMenuItem->Parent_IdMenu !== null && $secondMenuItem->Parent_IdMenu == $menuItem->IdMenu)
+                                            @break
+                                    @endif
+                                @endforeach
+                                @foreach ($access['AccessMenu'] as $secondMenuItem)
                                     @php
-                                        $printSecond = 1;
+                                        $printSecond = 0;
                                     @endphp
-                                    <li>
-                                        <a class="" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false"
-                                            style="margin: 10px;cursor: default;">
-                                            {{ $secondMenuItem->NamaMenu }} &raquo;
-                                        </a>
-                                @endif
-                                @if ($printSecond == 1)
-                                    <ul class="dropdown-menu dropdown-submenu">
-                                        @foreach ($access['AccessFitur'] as $secondSubMenuItem)
-                                            @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
-                                                <li>
-                                                    <a style="color: black;font-size: 15px;display: block"
-                                                        class="dropdown-item" tabindex="-1"
-                                                        href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                    </li>
-                                @endif
-                            @endforeach
-                            @if ($cekSubMenuPrint == 1)
-                    </ul>
-                    @endif
-                    @if ($print == 1 && $printSecond == 0)
-                        <ul class="dropdown-menu">
-                            @foreach ($access['AccessFitur'] as $subMenuItem)
-                                @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
-                                    <li>
-                                        <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
-                                            tabindex="-1"
-                                            href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
-                                        </a>
-                                    </li>
-                                @endif
-                            @endforeach
+                                    @if ($secondMenuItem->Parent_IdMenu !== null && $secondMenuItem->Parent_IdMenu == $menuItem->IdMenu)
+                                        @php
+                                            $printSecond = 1;
+                                        @endphp
+                                        <li>
+                                            <a class="" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false"
+                                                style="margin: 10px;cursor: default;">
+                                                {{ $secondMenuItem->NamaMenu }} &raquo;
+                                            </a>
+                                    @endif
+                                    @if ($printSecond == 1)
+                                        <ul class="dropdown-menu dropdown-submenu">
+                                            @foreach ($access['AccessFitur'] as $secondSubMenuItem)
+                                                @if ($secondSubMenuItem->Id_Menu === $secondMenuItem->IdMenu && $printSecond == 1)
+                                                    <li>
+                                                        <a style="color: black;font-size: 15px;display: block"
+                                                            class="dropdown-item" tabindex="-1"
+                                                            href="{{ url($secondSubMenuItem->Route) }}">{{ $secondSubMenuItem->NamaFitur }}
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                        </li>
+                                    @endif
+                                @endforeach
+                                @if ($cekSubMenuPrint == 1)
                         </ul>
-                </div>
-                @endif
-                @endforeach
-                </ul>
-            @endguest
-            <!-- Right Side Of Navbar -->
-
-            <!-- Authentication Links -->
-            @guest
-            @else
-                <ul class="navbar-nav ml-auto">
-                    <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
-                        <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label id="greeting1"></label>,
-                            {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
+                        @endif
+                        @if ($print == 1 && $printSecond == 0)
+                            <ul class="dropdown-menu">
+                                @foreach ($access['AccessFitur'] as $subMenuItem)
+                                    @if ($subMenuItem->Id_Menu === $menuItem->IdMenu)
+                                        <li>
+                                            <a style="color: black;font-size: 15px;display: block" class="dropdown-item"
+                                                tabindex="-1"
+                                                href="{{ url($subMenuItem->Route) }}">{{ $subMenuItem->NamaFitur }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
                     </div>
-                    <li><a class="RDZlogout" style="color: black;font-size: 15px;display: block;"
-                            href="{{ route('logout') }}"
-                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                </ul>
-            @endguest
-        </div>
-</div>
-</nav>
+                    @endif
+                    @endforeach
+                    </ul>
+                @endguest
+                <!-- Right Side Of Navbar -->
 
-<main class="py-4">
-    @yield('content')
-</main>
-</div>
-<script>
-    $(document).ready(function() {
-        $('.dropdown-submenu a.test').on("click", function(e) {
-            $(this).next('ul').toggle();
-            e.stopPropagation();
-            e.preventDefault();
-        });
-    });
+                <!-- Authentication Links -->
+                @guest
+                @else
+                    <ul class="navbar-nav ml-auto">
+                        <div style="border-right: 1px solid;margin-right: 5px;padding-right: 5px;" class="NameWindows">
+                            <p style="font-size: 15px;display: block;margin-bottom: 0px;"><label id="greeting1"></label>,
+                                {{ Auth::user()->NamaUser }}</p> {{-- bisa dikasih profile --}}
+                        </div>
+                        <li><a class="RDZlogout" style="color: black;font-size: 15px;display: block;"
+                                href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
+                @endguest
+            </div>
+    </div>
+    </nav>
 
-    @if (Session::has('status'))
-        Swal.fire({
-            icon: 'info',
-            title: 'Informasi',
-            text: '{{ Session::get('status') }}',
+    <main class="py-4">
+        @yield('content')
+    </main>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-submenu a.test').on("click", function(e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
         });
-    @endif
-</script>
+
+        @if (Session::has('status'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Informasi',
+                text: '{{ Session::get('status') }}',
+            });
+        @endif
+    </script>
 </body>
 
 </html>

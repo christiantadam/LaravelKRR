@@ -8,9 +8,16 @@
                     <span>&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="modalBodyTambahTujuanKonversiTanpaBarcode">
                 <div style="display: flex; flex-direction: row;gap:1%;border: 1px solid rgba(0, 0, 0, 0.5);padding:0.5%;margin: 0.5%;"
                     class="card" id="div_headerFormTambahTujuanKonversiTanpaBarcode">
+                    <div class="form-group" style="width: 15%">
+                        <label for="tanggal">Tanggal Konversi</label>
+                        <div class="input-group">
+                            <input type="date" class="form-control" id="input_tanggalKonversiTanpaBarcode"
+                                name="input_tanggalKonversiTanpaBarcode">
+                        </div>
+                    </div>
                     <div class="form-group" style="width: 10%">
                         <label for="shift">Shift</label>
                         <div class="input-group">

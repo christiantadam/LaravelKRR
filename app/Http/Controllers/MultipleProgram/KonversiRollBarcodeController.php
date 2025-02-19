@@ -98,8 +98,8 @@ class KonversiRollBarcodeController extends Controller
                 $uraian_tujuan = (string) "Tujuan Konversi Potongan JBB";
             } else if ($divisi == 'ABM') {
                 $asalKonversi = $request->input('asalKonversi');
-                $uraian_asal = (string) $shift . " Asal Konversi" . $asalKonversi . " ke ";
-                $uraian_tujuan = (string) $shift . " Tujuan Konversi" . $asalKonversi . " ke ";
+                $uraian_asal = (string) "Asal Konversi Setengah Jadi ABM";
+                $uraian_tujuan = (string) "Tujuan Konversi Setengah Jadi ABM";
             }
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
             // dd($table_daftarTujuanKonversi);
@@ -127,7 +127,6 @@ class KonversiRollBarcodeController extends Controller
             $SaldoSekunder = $concatenatedResults[3];
             $SaldoTritier = $concatenatedResults[4];
             $IdSubKelompok = $concatenatedResults[5];
-
 
             try {
                 // Asal Konversi
@@ -273,8 +272,8 @@ class KonversiRollBarcodeController extends Controller
                 $uraian_tujuan = (string) "Tujuan Konversi Potongan JBB";
             } else if ($divisi == 'ABM') {
                 $asalKonversi = $request->input('asalKonversi');
-                $uraian_asal = (string) $shift . " Asal Konversi" . $asalKonversi . " ke ";
-                $uraian_tujuan = (string) $shift . " Tujuan Konversi" . $asalKonversi . " ke ";
+                $uraian_asal = (string) " Asal Konversi" . $asalKonversi . " ke ";
+                $uraian_tujuan = (string) " Tujuan Konversi" . $asalKonversi . " ke ";
             }
             $date = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
             $idSubKelompokAsal = $request->input('idSubKelompokAsal');
@@ -419,7 +418,7 @@ class KonversiRollBarcodeController extends Controller
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'JBB']);
             return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
         } elseif ($id == 'ABMStghJadi') {
-            $access = (new HakAksesController)->HakAksesFiturMaster('Woven Bag');
+            $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
             $divisi = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'ABM']);
             return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
