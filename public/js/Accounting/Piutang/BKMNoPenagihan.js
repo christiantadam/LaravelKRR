@@ -448,6 +448,9 @@ $(document).ready(function () {
                         $("#table_kanan").DataTable().clear().draw();
                         btn_tambahdata.disabled = true;
                         btn_tampilbkk.click();
+                        tableData = [];
+                        btn_matauang.disabled = false;
+                        btn_bank.disabled = false;
                         // tanggal_input.focus();
                         // $("#table_kiri").DataTable().ajax.reload();
                     });
@@ -464,6 +467,20 @@ $(document).ready(function () {
                 alert(xhr.responseJSON.message);
             },
         });
+    });
+
+    document
+    .getElementById("dataBKKModal")
+    .addEventListener("hidden.bs.modal", function () {
+        location.reload();
+        // const inputs = this.querySelectorAll('input');
+        // inputs.forEach(input => {
+        //     if (input.id !== 'month' && input.id !== 'year') {
+        //         input.value = '';
+        //     }
+        // });
+        // rowDataBKKArray = [];
+        // rowDataBKK = null;
     });
 
     btn_hapus.addEventListener("click", function (event) {
@@ -1171,10 +1188,14 @@ $(document).ready(function () {
                 tbodyHTML += `
                     <tr>
                         <td colspan="2" style="text-align: right; border:none !important; border-top: 2px solid black !important">
-                            <strong>GRAND TOTAL : ${data.data[0].Symbol ?? ""}</strong>
+                            <strong>GRAND TOTAL : ${
+                                data.data[0].Symbol ?? ""
+                            }</strong>
                         </td>
                         <td style="text-align: right; border:none !important; border-top: 2px solid black !important">
-                            ${numeral(data.data[0].Nilai_Pelunasan).format("0,0.00")}
+                            ${numeral(data.data[0].Nilai_Pelunasan).format(
+                                "0,0.00"
+                            )}
                         </td>
                     </tr>
                     `;
