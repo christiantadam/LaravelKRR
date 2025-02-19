@@ -6,6 +6,7 @@ $(document).ready(function () {
     let button_tambahTujuanKonversi = document.getElementById("button_tambahTujuanKonversi"); // prettier-ignore
     let button_timbangTujuanKonversi = document.getElementById("button_timbangTujuanKonversi"); // prettier-ignore
     let button_updateTujuanKonversi = document.getElementById("button_updateTujuanKonversi"); // prettier-ignore
+    let checkSisaRoll = false;
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let d_tek0PanjangPotongan;
     let d_tek1LebarPotongan;
@@ -502,7 +503,7 @@ $(document).ready(function () {
         }
     });
 
-    tambahTujuanModal.addEventListener("hidden.bs.modal", function (event) {
+    $("#tambahTujuanModal").on("hidden.bs.modal", function (event) {
         // Clear input fields inside the modal
         tambahTujuanModal.querySelectorAll("input").forEach((input) => {
             input.value = "";
@@ -514,7 +515,8 @@ $(document).ready(function () {
         table_daftarTujuanKonversi.clear().draw();
     });
 
-    tambahTujuanModal.addEventListener("shown.bs.modal", function (event) {
+    $("#tambahTujuanModal").on("shown.bs.modal", function (event) {
+        checkSisaRoll = false;
         input_tanggalKonversi.valueAsDate = new Date();
         input_tanggalKonversi.focus();
         input_barcodeAsal.readOnly = true;
@@ -632,7 +634,6 @@ $(document).ready(function () {
     button_modalProses.addEventListener("click", function (e) {
         // e.preventDefault();
         let sisaRoll = 0;
-        let checkSisaRoll = false;
         sisaRoll =
             table_daftarAsalKonversi.data()[0][4] -
             table_daftarTujuanKonversi.column(4).data().sum();
@@ -1822,6 +1823,7 @@ $(document).ready(function () {
     let div_tujuanKonversiTanpaBarcode = document.getElementById('div_tujuanKonversiTanpaBarcode'); // prettier-ignore
     let div_headerFormTambahTujuanKonversiTanpaBarcode = document.getElementById('div_headerFormTambahTujuanKonversiTanpaBarcode'); // prettier-ignore
     let id_shiftTanpaBarcode = document.getElementById("id_shiftTanpaBarcode"); // prettier-ignore
+    let input_tanggalKonversiTanpaBarcode = document.getElementById('input_tanggalKonversiTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianPrimerTanpaBarcode = document.getElementById('jumlah_pemakaianPrimerTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianSekunderTanpaBarcode = document.getElementById('jumlah_pemakaianSekunderTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianTritierTanpaBarcode = document.getElementById('jumlah_pemakaianTritierTanpaBarcode'); // prettier-ignore
@@ -1852,7 +1854,6 @@ $(document).ready(function () {
     let satuan_tritierJumlahPemasukanTanpaBarcode = document.getElementById('satuan_tritierJumlahPemasukanTanpaBarcode'); // prettier-ignore
     let tambahTujuanModalLabelTanpaBarcode = document.getElementById('tambahTujuanModalLabelTanpaBarcode'); // prettier-ignore
     let tambahTujuanModalTanpaBarcode = document.getElementById('tambahTujuanModalTanpaBarcode'); // prettier-ignore
-    let input_tanggalKonversiTanpaBarcode = document.getElementById('input_tanggalKonversiTanpaBarcode'); // prettier-ignore
     // let input_warnaDominanAsalTanpaBarcode = document.getElementById('input_warnaDominanAsalTanpaBarcode'); // prettier-ignore
 
     let table_daftarTujuanKonversiTanpaBarcode = $(
@@ -2074,18 +2075,6 @@ $(document).ready(function () {
         ];
 
         function getNextFocusableElement(currentElement) {
-            // Find the next focusable element in the form
-            // if (currentElement.id === "jumlah_pemasukanTritierTanpaBarcode") {
-            //     // Locate the select2 element within the table by class and row
-            //     let row = table_daftarAsalKonversi.row(0).node(); // Adjust the row index if necessary
-            //     let selectElement = $(row).find(".inventory-type-select").eq(0);
-            //     button_modalProses.disabled = false;
-            //     if (selectElement.length) {
-            //         selectElement.select2("open");
-            //         return selectElement[0]; // Return the select2 element to keep focus on it
-            //     }
-            // }
-
             if (currentElement.id === "jumlah_pemasukanTritierTanpaBarcode") {
                 return button_tambahTujuanKonversiTanpaBarcode.disabled
                     ? document.getElementById("button_updateTujuanKonversiTanpaBarcode") // prettier-ignore
