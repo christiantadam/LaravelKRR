@@ -24,45 +24,32 @@ class KonversiRollBarcodeController extends Controller
     public function create($id)
     {
         if ($id == 'JBBPotong') {
-            $listPotong = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdDivisi = ?', [0, 'JBB']);
-            // Convert the data into an array that DataTables can consume
-            $dataPotong = [];
-            foreach ($listPotong as $Potong) {
-                if (is_null($Potong->Kode_barang) || is_null($Potong->NoIndeks)) {
-                    $barcode = "Tidak pakai barcode";
-                } else {
-                    $nomorIndeks9digit = sprintf('%09d', $Potong->NoIndeks);
-                    $barcode = (string) $nomorIndeks9digit . '-' . $Potong->Kode_barang;
-                }
-
-                $dataPotong[] = [
-                    'idType' => $Potong->IdType,
-                    'NamaType' => $Potong->NamaType,
-                    'JumlahPengeluaranPrimer' => (string) $Potong->JumlahPengeluaranPrimer . ' ' . $Potong->satPrimer,
-                    'JumlahPengeluaranSekunder' => (string) $Potong->JumlahPengeluaranSekunder . ' ' . $Potong->satSekunder,
-                    'JumlahPengeluaranTritier' => (string) $Potong->JumlahPengeluaranTritier . ' ' . $Potong->satTritier,
-                    'idkonversi' => $Potong->idkonversi,
-                    'Barcode' => $barcode,
-                ];
-            }
+            $idDivisi = 'JBB';
         } else if ($id == 'ABMStghJadi') {
-            $listPotong = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdDivisi = ?', [0, 'ABM']);
-            // Convert the data into an array that DataTables can consume
-            $dataPotong = [];
-            foreach ($listPotong as $Potong) {
-                $nomorIndeks = 1; // or any number
-                $nomorIndeks9digit = sprintf('%09d', $Potong->NoIndeks);
-                $dataPotong[] = [
-                    'idType' => $Potong->IdType,
-                    'NamaType' => $Potong->NamaType,
-                    'JumlahPengeluaranPrimer' => (string) $Potong->JumlahPengeluaranPrimer . ' ' . $Potong->satPrimer,
-                    'JumlahPengeluaranSekunder' => (string) $Potong->JumlahPengeluaranSekunder . ' ' . $Potong->satSekunder,
-                    'JumlahPengeluaranTritier' => (string) $Potong->JumlahPengeluaranTritier . ' ' . $Potong->satTritier,
-                    'idkonversi' => $Potong->idkonversi,
-                    'Barcode' => (string) $nomorIndeks9digit . '-' . $Potong->Kode_barang,
-                ];
-            }
+            $idDivisi = 'ABM';
         }
+        $listPotong = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdDivisi = ?', [0, $idDivisi]);
+        // Convert the data into an array that DataTables can consume
+        $dataPotong = [];
+        foreach ($listPotong as $Potong) {
+            if (is_null($Potong->Kode_barang) || is_null($Potong->NoIndeks)) {
+                $barcode = "Tidak pakai barcode";
+            } else {
+                $nomorIndeks9digit = sprintf('%09d', $Potong->NoIndeks);
+                $barcode = (string) $nomorIndeks9digit . '-' . $Potong->Kode_barang;
+            }
+
+            $dataPotong[] = [
+                'idType' => $Potong->IdType,
+                'NamaType' => $Potong->NamaType,
+                'JumlahPengeluaranPrimer' => (string) (number_format($Potong->JumlahPengeluaranPrimer, 2)) . ' ' . $Potong->satPrimer,
+                'JumlahPengeluaranSekunder' => (string) (number_format($Potong->JumlahPengeluaranSekunder, 2)) . ' ' . $Potong->satSekunder,
+                'JumlahPengeluaranTritier' => (string) (number_format($Potong->JumlahPengeluaranTritier, 2)) . ' ' . $Potong->satTritier,
+                'idkonversi' => $Potong->idkonversi,
+                'Barcode' => $barcode,
+            ];
+        }
+
         return datatables($dataPotong)->make(true);
     }
 
@@ -235,20 +222,48 @@ class KonversiRollBarcodeController extends Controller
                 DB::connection('ConnInventory')
                     ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?, @XKdUser = ?', [10, $idkonversi, $nomorUser]);
                 $adaSisa = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [13, $idkonversi]);
-                // dd($adaSisa, $idkonversi);
 
-                if (!empty($adaSisa)) {
-                    $firstData = $adaSisa[0]->IdType;
-                    $lastData = $adaSisa[count($adaSisa) - 1]->IdType;
+                // Filter for "Asal Konversi"
+                $asalKonversi = array_filter($adaSisa, function ($item) {
+                    return str_contains($item->UraianDetailTransaksi, 'Asal Konversi');
+                });
+                // Get the IdType for "Asal Konversi"
+                $idtypeAsalKonversi = array_map(function ($item) {
+                    return $item->IdType;
+                }, $asalKonversi);
 
-                    if ($firstData === $lastData) {
-                        $barcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdTrans = ?', [14, end($adaSisa)->idtrans]);
-                    }
+                // Filter for "Tujuan Konversi"
+                $tujuanKonversi = array_filter($adaSisa, function ($item) {
+                    return str_contains($item->UraianDetailTransaksi, 'Tujuan Konversi');
+                });
+
+                // Get the IdType for "Tujuan Konversi"
+                $idtypeTujuanKonversi = array_map(function ($item) {
+                    return $item->IdType;
+                }, $tujuanKonversi);
+
+                // Find matching IdType in both lists
+                $matchingIdType = array_filter($idtypeAsalKonversi, function ($idtype) use ($idtypeTujuanKonversi) {
+                    return in_array($idtype, $idtypeTujuanKonversi);
+                });
+
+                if (!empty($matchingIdType)) {
+                    $idtransTujuanKonversi = array_map(function ($item) use ($matchingIdType) {
+                        if (in_array($item->IdType, $matchingIdType) && str_contains($item->UraianDetailTransaksi, 'Tujuan Konversi')) {
+                            return $item->idtrans;
+                        }
+                    }, $adaSisa);
+
+                    // Remove null values
+                    $idtransTujuanKonversi = array_values(array_filter($idtransTujuanKonversi));
+
+                    $barcode = DB::connection('ConnInventory')->select('EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdTrans = ?', [14, $idtransTujuanKonversi[0]]);
                 }
+
                 // dd($barcode);
                 return response()->json([
                     'success' => (string) 'Permohonan konversi dengan Id Konversi: ' . $idkonversi . ' berhasil disetujui!',
-                    'barcode' => $barcode
+                    'barcode' => $barcode ?? NULL
                 ]);
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
@@ -272,8 +287,8 @@ class KonversiRollBarcodeController extends Controller
                 $uraian_tujuan = (string) "Tujuan Konversi Potongan JBB";
             } else if ($divisi == 'ABM') {
                 $asalKonversi = $request->input('asalKonversi');
-                $uraian_asal = (string) " Asal Konversi" . $asalKonversi . " ke ";
-                $uraian_tujuan = (string) " Tujuan Konversi" . $asalKonversi . " ke ";
+                $uraian_asal = (string) "Asal Konversi Setengah Jadi ABM";
+                $uraian_tujuan = (string) "Tujuan Konversi Setengah Jadi ABM";
             }
             $date = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
             $idSubKelompokAsal = $request->input('idSubKelompokAsal');

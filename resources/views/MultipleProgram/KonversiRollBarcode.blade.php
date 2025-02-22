@@ -1,4 +1,11 @@
-@extends('layouts.appJumboBag')
+@extends(
+    [
+        'JBBPotong' => 'layouts.appJumboBag',
+        'ABMStghJadi' => 'layouts.appABM',
+        'ADSPotong' => 'layouts.appADStar',
+    ][$id] ?? 'layouts.app'
+)
+
 @section('content')
     <style>
         .swal-wide {
@@ -119,9 +126,10 @@
         </div>
     </div>
 
-    <svg id="div_printBarcode" style="visibility: hidden">
-        hueheheheh
-    </svg>
+    <canvas id="div_printBarcode" style="display: none">
+        Print Barcode
+    </canvas>
+
 
     @if ($id == 'JBBPotong')
         @section('title', 'Konversi JBB Potong')

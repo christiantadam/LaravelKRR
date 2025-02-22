@@ -12,7 +12,21 @@
                 <div style="display: flex; flex-direction: column;gap:0.5%;margin: 8px;">
                     <div class="card"
                         style="display: flex; flex-direction: row;gap:1%;border: 1px solid rgba(0, 0, 0, 0.5);padding:0.5%;margin: 0.5%;">
-                        <div class="form-group" style="width: 32%">
+                        <div class="form-group" style="width: 15%">
+                            <label for="tanggal">Tanggal Konversi</label>
+                            <div class="input-group">
+                                <input type="date" class="form-control" id="input_tanggalKonversi"
+                                    name="input_tanggalKonversi">
+                            </div>
+                        </div>
+                        <div class="form-group" style="width: 10%">
+                            <label for="shift">Shift</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="id_shift" name="id_shift"
+                                    placeholder="[P] [S] [M]">
+                            </div>
+                        </div>
+                        <div class="form-group" style="width: 17%">
                             <label for="divisi">Divisi</label>
                             <div class="input-group">
                                 <select name="select_divisi" id="select_divisi" class="form-control">
@@ -24,7 +38,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" style="width: 32%">
+                        <div class="form-group" style="width: 22%">
                             <label for="customerSelect">Customer</label>
                             <div class="input-group">
                                 <select name="customerSelect" id="customerSelect" style="width: 100%;"
@@ -105,8 +119,8 @@
                                 <label for="saldo_terakhirTujuan">Saldo Terakhir Type Tujuan</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="saldo_terakhirTujuanPrimer"
-                                        name="saldo_terakhirTujuanPrimer" style='width:23%;' placeholder="Jumlah Primer"
-                                        readonly>
+                                        name="saldo_terakhirTujuanPrimer" style='width:23%;'
+                                        placeholder="Jumlah Primer" readonly>
                                     <input type="text" class="form-control" id="satuan_saldoTerakhirTujuanPrimer"
                                         name="satuan_saldoTerakhirTujuanPrimer" style='width:10%;'
                                         placeholder="Satuan Primer" readonly>

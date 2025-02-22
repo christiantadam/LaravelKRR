@@ -1607,6 +1607,8 @@ $(document).ready(function () {
                 jenisStore: "accPermohonan",
             },
             success: function (response) {
+                console.log(response);
+
                 if (response.error) {
                     Swal.fire({
                         icon: "error",
@@ -1627,18 +1629,39 @@ $(document).ready(function () {
                         // Concatenate NoIndeks and Kode_barang
                         let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;
 
+                        const barcodeCanvas = document.getElementById("div_printBarcode"); // prettier-ignore
+
+                        // Set up a MutationObserver to detect changes to the canvas
+                        const observer = new MutationObserver((mutations) => {
+                            mutations.forEach((mutation) => {
+                                if (
+                                    mutation.type === "attributes" &&
+                                    mutation.attributeName === "data-rendered"
+                                ) {
+                                    // Trigger window.print() when rendering is complete
+                                    window.print();
+                                    // Stop observing after print is triggered
+                                    observer.disconnect();
+                                }
+                            });
+                        });
+
+                        // Start observing the canvas element
+                        observer.observe(barcodeCanvas, {
+                            attributes: true,
+                        });
+
                         // Generate the barcode with JsBarcode
                         JsBarcode("#div_printBarcode", barcodeValue, {
                             format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
                             width: 4, // Width of a single barcode unit
                             height: 200, // Height of the barcode
                             displayValue: true, // Display the value below the barcode
-                        }).then(() => {
-                            // Ensure barcode is fully rendered before printing
-                            window.print();
                         });
+
+                        // Add a custom attribute after the barcode is rendered
+                        barcodeCanvas.setAttribute("data-rendered", "true");
                     }
-                    getDataPermohonan();
                 }
             },
             error: function (xhr, status, error) {
@@ -1651,6 +1674,8 @@ $(document).ready(function () {
                     title: "Berhasil!",
                     text: responseSuccess,
                     showConfirmButton: false,
+                }).then(() => {
+                    getDataPermohonan();
                 });
             }
         });
@@ -2187,9 +2212,6 @@ $(document).ready(function () {
         const selectedDivisiAsal = $(this).val(); // Get selected Divisi Asal
         // initializeSelectElement("pilihDivisi");
         clearSelectElement("pilihDivisi");
-
-        table_daftarAsalKonversi.clear().draw();
-        console.log();
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
