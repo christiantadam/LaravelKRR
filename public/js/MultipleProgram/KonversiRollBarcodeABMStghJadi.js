@@ -2103,9 +2103,6 @@ $(document).ready(function () {
         // initializeSelectElement("pilihDivisi");
         clearSelectElement("pilihDivisi");
 
-        table_daftarAsalKonversi.clear().draw();
-        console.log();
-
         // Fetch Kode Barang based on selected customer
         $.ajax({
             url: "/KonversiRollBarcode/getObjek",
@@ -3298,7 +3295,7 @@ $(document).ready(function () {
                             .data()
                             .toArray(),
                     shift: id_shiftTanpaBarcode.value,
-                    divisi: "JBB",
+                    divisi: "ABM",
                     jenisStore: "permohonanTanpaBarcode",
                     idSubKelompokAsal: select_subKelompokAsalTanpaBarcode.val(),
                     id_typeAsal: select_typeAsalTanpaBarcode.val(),
