@@ -150,7 +150,7 @@ class CreateBKMController extends Controller
             // Eksekusi stored procedure SP_5298_ACC_LIST_BKM_CASHADV
             // dd($request->all());
             $results = DB::connection('ConnAccounting')
-                ->select('exec SP_5298_ACC_LIST_BKM_CASHADV');
+                ->select('exec SP_5298_ACC_LIST_BKM_CASHADV_1');
             // dd($results);
             // Inisialisasi variabel response dan indeks
             $response = [];
@@ -174,7 +174,7 @@ class CreateBKMController extends Controller
             $tgl2 = $request->input('tgl_akhirbkm');
 
             $results = DB::connection('ConnAccounting')
-                ->select('exec SP_5298_ACC_LIST_BKM_CASHADV_PERTGL @tgl1 = ?, @tgl2 = ?', [
+                ->select('exec SP_5298_ACC_LIST_BKM_CASHADV_1_PERTGL @tgl1 = ?, @tgl2 = ?', [
                     $tgl1,
                     $tgl2
                 ]);
