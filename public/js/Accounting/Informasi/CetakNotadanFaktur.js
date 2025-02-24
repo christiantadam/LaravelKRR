@@ -849,8 +849,15 @@ function rpt_cetakNotaFaktur(result) {
                         //     npwp.slice(12, 15);
                         faktur_NPWP.textContent = npwp;
 
-                        faktur_NamaKelompokUtama.textContent =
-                            decodeHtmlEntities(result[0].NamaKelompokUtama);
+                        // faktur_NamaKelompokUtama.textContent =
+                        //     decodeHtmlEntities(result[0].NamaKelompokUtama);
+
+                        if (bankSelect.value == "6") {
+                            faktur_NamaKelompokUtama.innerHTML = "&nbsp;";
+                        } else {
+                            faktur_NamaKelompokUtama.textContent =
+                                decodeHtmlEntities(result[0].NamaKelompokUtama);
+                        }
 
                         let totalGrand = 0;
                         let count = 0;
@@ -1350,8 +1357,17 @@ function rpt_cetakNotaFaktur(result) {
                             //     npwp.slice(12, 15);
                             faktur_NPWP2.textContent = npwp;
 
-                            faktur_NamaKelompokUtama2.textContent =
-                                decodeHtmlEntities(result[0].NamaKelompokUtama);
+                            // faktur_NamaKelompokUtama2.textContent =
+                            //     decodeHtmlEntities(result[0].NamaKelompokUtama);
+
+                            if (bankSelect.value == "6") {
+                                faktur_NamaKelompokUtama2.innerHTML = "&nbsp;";
+                            } else {
+                                faktur_NamaKelompokUtama2.textContent =
+                                    decodeHtmlEntities(
+                                        result[0].NamaKelompokUtama
+                                    );
+                            }
 
                             let totalGrand = 0;
                             let count = 0;
