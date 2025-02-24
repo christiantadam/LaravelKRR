@@ -865,8 +865,7 @@ Route::group(['middleware' => ['auth']], function () {
     #endregion
 
     #region Ad Star
-    Route::get('AD Star Home', 'App\Http\Controllers\AdStarController\AdStar@index')->name('AdStar.AdStarHome');
-    Route::resource('AD Star', App\Http\Controllers\AdStarController\AdStar::class);
+    Route::get('AD Star', 'App\Http\Controllers\HomeController@ADS');
     Route::resource('AdStarOpenTop', App\Http\Controllers\AdStarController\OpenTop::class);
     Route::resource('AdStarCloseTop', App\Http\Controllers\AdStarController\CloseTop::class);
     #endregion
@@ -1392,6 +1391,7 @@ Route::group(['middleware' => ['auth']], function () {
     #region Multiple Program PermohonanKonversiBarcodeJBBPotongController
     Route::get('KonversiRollBarcode/create/{id}', [App\Http\Controllers\MultipleProgram\KonversiRollBarcodeController::class, 'create']);
     Route::resource('KonversiRollBarcode', App\Http\Controllers\MultipleProgram\KonversiRollBarcodeController::class)->except(['create']);
+    Route::get('KonversiSetengahJadi/create/{id}', [App\Http\Controllers\MultipleProgram\KonversiSetengahJadiController::class, 'create']);
     Route::resource('KonversiSetengahJadi', App\Http\Controllers\MultipleProgram\KonversiSetengahJadiController::class);
     Route::resource('ACCPermohonanKonversiPotong', App\Http\Controllers\MultipleProgram\ACCPermohonanKonversiPotongController::class);
     #endregion

@@ -1619,7 +1619,7 @@ $(document).ready(function () {
                 } else {
                     // Extract values from the response
                     responseSuccess = response.success;
-                    if (response.barcode !== "") {
+                    if (response.barcode && response.barcode !== "") {
                         let Kode_barang = response.barcode[0].Kode_barang;
                         let NoIndeks = response.barcode[0].NoIndeks;
 
@@ -1629,38 +1629,55 @@ $(document).ready(function () {
                         // Concatenate NoIndeks and Kode_barang
                         let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;
 
-                        const barcodeCanvas = document.getElementById("div_printBarcode"); // prettier-ignore
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil!",
+                            text: responseSuccess,
+                            showConfirmButton: false,
+                        }).then(() => {
+                            const barcodeCanvas = document.getElementById("div_printBarcode"); // prettier-ignore
 
-                        // Set up a MutationObserver to detect changes to the canvas
-                        const observer = new MutationObserver((mutations) => {
-                            mutations.forEach((mutation) => {
-                                if (
-                                    mutation.type === "attributes" &&
-                                    mutation.attributeName === "data-rendered"
-                                ) {
-                                    // Trigger window.print() when rendering is complete
-                                    window.print();
-                                    // Stop observing after print is triggered
-                                    observer.disconnect();
+                            // Set up a MutationObserver to detect changes to the canvas
+                            const observer = new MutationObserver(
+                                (mutations) => {
+                                    mutations.forEach((mutation) => {
+                                        if (
+                                            mutation.type === "attributes" &&
+                                            mutation.attributeName ===
+                                                "data-rendered"
+                                        ) {
+                                            // Trigger window.print() when rendering is complete
+                                            window.print();
+                                            // Stop observing after print is triggered
+                                            observer.disconnect();
+                                        }
+                                    });
                                 }
+                            );
+
+                            // Start observing the canvas element
+                            observer.observe(barcodeCanvas, {
+                                attributes: true,
                             });
-                        });
 
-                        // Start observing the canvas element
-                        observer.observe(barcodeCanvas, {
-                            attributes: true,
-                        });
+                            // Generate the barcode with JsBarcode
+                            JsBarcode("#div_printBarcode", barcodeValue, {
+                                format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
+                                width: 4, // Width of a single barcode unit
+                                height: 200, // Height of the barcode
+                                displayValue: true, // Display the value below the barcode
+                            });
 
-                        // Generate the barcode with JsBarcode
-                        JsBarcode("#div_printBarcode", barcodeValue, {
-                            format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
-                            width: 4, // Width of a single barcode unit
-                            height: 200, // Height of the barcode
-                            displayValue: true, // Display the value below the barcode
+                            // Add a custom attribute after the barcode is rendered
+                            barcodeCanvas.setAttribute("data-rendered", "true");
                         });
-
-                        // Add a custom attribute after the barcode is rendered
-                        barcodeCanvas.setAttribute("data-rendered", "true");
+                    } else{
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil!",
+                            text: responseSuccess,
+                            showConfirmButton: false,
+                        })
                     }
                 }
             },
@@ -1668,16 +1685,7 @@ $(document).ready(function () {
                 console.error(error);
             },
         }).then(() => {
-            if (responseSuccess !== "") {
-                Swal.fire({
-                    icon: "success",
-                    title: "Berhasil!",
-                    text: responseSuccess,
-                    showConfirmButton: false,
-                }).then(() => {
-                    getDataPermohonan();
-                });
-            }
+            getDataPermohonan();
         });
     });
 
