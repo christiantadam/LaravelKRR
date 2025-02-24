@@ -2,7 +2,7 @@
     [
         'JBBPotong' => 'layouts.appJumboBag',
         'ABMStghJadi' => 'layouts.appABM',
-        'ADSPotong' => 'layouts.appADStar',
+        'ADSStghJadi' => 'layouts.appADStar',
     ][$id] ?? 'layouts.app'
 )
 
@@ -142,9 +142,9 @@
         @include('MultipleProgram.ModalPermohonanKonversiRoll.ModalPermohonanABM')
         @include('MultipleProgram.ModalPermohonanKonversiRoll.ModalPermohonanABMTanpaBarcode')
         <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeABMStghJadi.js') }}"></script>
-    @elseif ($id == 'ADSPotong')
+    @elseif ($id == 'ADSStghJadi')
         <!-- prettier-ignore -->
-        @section('title', 'Konversi ABM Stgh Jadi')
+        @section('title', 'Konversi ADS Stgh Jadi')
         @include('MultipleProgram.ModalPermohonanKonversiRoll.ModalPermohonanADS')
         <script src="{{ asset('js/MultipleProgram/KonversiRollBarcodeADSPotong.js') }}"></script>
     @else

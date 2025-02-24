@@ -159,7 +159,7 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appInventory', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Inventory!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program Inventory!');
         }
     }
 
@@ -170,7 +170,20 @@ class HomeController extends Controller
         if ($result > 0) {
             return view('layouts.appABM', compact('access'));
         } else {
-            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program ABM!');
+            return redirect('home')->with('status', 'Anda Tidak Memiliki Hak Akses Program ABM!');
+        }
+    }
+
+    public function ADS()
+    {
+        $result = (new HakAksesController)->HakAksesProgram('AD Star');
+        $access = (new HakAksesController)->HakAksesFiturMaster('AD Star');
+        // $counterBrg = DB::connection('ConnPurchase')->table('YCOUNTER')->select('Y_BARANG')->get();
+        // dd(intval($counterBrg[0]->Y_BARANG) + 1);
+        if ($result) {
+            return view('layouts.appAdStar',compact('access'));
+        } else {
+            return redirect('home')->with('status','Anda Tidak Memiliki Hak Akses Program Ad Star!');
         }
     }
 }

@@ -1,4 +1,10 @@
-@extends('layouts.appJumboBag')
+@extends(
+    [
+        'JBBStghJd' => 'layouts.appJumboBag',
+        'ABMBrgJd' => 'layouts.appABM',
+        'ADSBrgJd' => 'layouts.appADStar',
+    ][$id] ?? 'layouts.app'
+)
 @section('content')
     <style>
         .swal2-container .select2-dropdown {
@@ -136,20 +142,20 @@
         </div>
     </div>
 
-    <svg id="div_printBarcode" style="visibility: hidden">
-        hueheheheh
-    </svg>
+    <canvas id="div_printBarcode" style="display: none">
+        Print Barcode
+    </canvas>
 
     @if ($id == 'JBBStghJd')
         @section('title', 'Konversi JBB Barang Jadi')
         @include('MultipleProgram.ModalPermohonanKonversiBarangJadi.ModalPermohonanJBB')
         <script src="{{ asset('js/MultipleProgram/KonversiSetengahJadiJBBPotong.js') }}"></script>
-    @elseif ($id == 'ABMPotong')
+    @elseif ($id == 'ABMBrgJd')
         <!-- prettier-ignore -->
         @section('title', content: 'Konversi ABM Barang Jadi')
         @include('MultipleProgram.ModalPermohonanKonversiBarangJadi.ModalPermohonanABM')
         <script src="{{ asset('js/MultipleProgram/KonversiSetengahJadiABMPotong.js') }}"></script>
-    @elseif ($id == 'ADSPotong')
+    @elseif ($id == 'ADSBrgJd')
         <!-- prettier-ignore -->
         @section('title', content: 'Konversi ADS Barang Jadi')
         @include('MultipleProgram.ModalPermohonanKonversiBarangJadi.ModalPermohonanADS')

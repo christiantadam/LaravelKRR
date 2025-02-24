@@ -135,6 +135,8 @@ $(document).ready(function () {
     let div_PIBTujuan = document.getElementById("div_PIBTujuan"); // prettier-ignore
     let div_tabelDaftarKonversi = document.getElementById("div_tabelDaftarKonversi"); // prettier-ignore
     let divisiUser = document.getElementById("divisiUser"); // prettier-ignore
+    let id_shift = document.getElementById("id_shift"); // prettier-ignore
+    let input_tanggalKonversi = document.getElementById("input_tanggalKonversi"); // prettier-ignore
     let inventoryTypes = [];
     let jumlah_pemakaianPrimer = document.getElementById("jumlah_pemakaianPrimer"); // prettier-ignore
     let jumlah_pemakaianSekunder = document.getElementById("jumlah_pemakaianSekunder"); // prettier-ignore
@@ -860,7 +862,10 @@ $(document).ready(function () {
                 jumlah_pemasukanTritier: jumlah_pemasukanTritier.value,
                 idSubkelompokTujuan: select_subKelompokTujuan.val(),
                 proses: proses,
+                divisi: "JBB",
                 jenisStore: "permohonan",
+                shift: id_shift.value,
+                tanggalKonversi: input_tanggalKonversi.value,
             },
             success: function (response) {
                 if (response.error) {
@@ -890,7 +895,7 @@ $(document).ready(function () {
     function getDataPermohonan() {
         // Fetch the data from your server using an AJAX call
         $.ajax({
-            url: "/KonversiSetengahJadi/create",
+            url: "/KonversiSetengahJadi/create/JBBPotong",
             type: "GET",
             success: function (response) {
                 // Assuming your server returns an array of objects for the table data
@@ -938,7 +943,8 @@ $(document).ready(function () {
         initializeSelectElement("showModal"); //Initialize all select element inside modal
         clearSelectElement("showModal");
         select_divisi.val(null).trigger("change"); // Clear selected index for select_divisi
-
+        input_tanggalKonversi.valueAsDate = new Date(); // Set the default date to today
+        input_tanggalKonversi.focus(); // Set focus to input_tanggalKonversi
         // Fetch customers for customerSelect
         $.ajax({
             url: "/KonversiSetengahJadi/selectCustomerTH", // Replace with your actual endpoint
@@ -965,10 +971,6 @@ $(document).ready(function () {
                 });
             },
         }).then(() => {
-            setTimeout(() => {
-                select_divisi.select2("open");
-            }, 200);
-
             const InputIds = [
                 "jumlah_pemasukanTritier",
                 "jumlah_pemasukanSekunder",
@@ -1053,6 +1055,48 @@ $(document).ready(function () {
                 }
             });
         });
+    });
+
+    id_shift.addEventListener("input", function (e) {
+        // Automatically convert the input to uppercase
+        this.value = this.value.toUpperCase();
+
+        // Allow only 'P', 'M', or 'S'
+        const allowedCharacters = ["P", "M", "S"];
+
+        // If the input is more than one character or not one of the allowed characters
+        if (this.value.length > 1 || !allowedCharacters.includes(this.value)) {
+            // Remove the last entered character if it's not allowed
+            this.value = this.value.slice(0, 1);
+            if (!allowedCharacters.includes(this.value)) {
+                this.value = ""; // Clear the input if the remaining character is still invalid
+            }
+
+            this.classList.add("input-error");
+            this.setCustomValidity(
+                "Silahkan pilih [P]agi, [S]iang, atau [M]alam"
+            );
+        } else {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+        }
+        this.reportValidity(); // Display the validity message
+    });
+
+    id_shift.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            if (id_shift.value == "") {
+                id_shift.classList.add("input-error");
+            } else {
+                select_divisiTujuan.focus();
+            }
+        }
+    });
+
+    input_tanggalKonversi.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            id_shift.focus();
+        }
     });
 
     select_divisi.on("select2:select", function () {
@@ -2429,6 +2473,7 @@ $(document).ready(function () {
             type: "GET",
             data: {
                 idKonversi: rowID,
+                idDivisi: "JBB",
             },
             success: function (response) {
                 // Assuming your server returns an array of objects for the table data
@@ -2494,6 +2539,7 @@ $(document).ready(function () {
                         .clear()
                         .rows.add(tujuanDataFormatted)
                         .draw();
+                    $("#detailKonversiModal").modal("show");
                 } else {
                     console.error(
                         "Data is not in the expected format:",
@@ -2590,27 +2636,52 @@ $(document).ready(function () {
                     // Concatenate NoIndeks and Kode_barang
                     let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;
 
-                    // Generate the barcode with JsBarcode
-                    JsBarcode("#div_printBarcode", barcodeValue, {
-                        format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
-                        width: 4, // Width of a single barcode unit
-                        height: 200, // Height of the barcode
-                        displayValue: true, // Display the value below the barcode
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: responseSuccess,
+                        showConfirmButton: false,
+                    }).then(() => {
+                        const barcodeCanvas = document.getElementById("div_printBarcode"); // prettier-ignore
+
+                        // Set up a MutationObserver to detect changes to the canvas
+                        const observer = new MutationObserver((mutations) => {
+                            mutations.forEach((mutation) => {
+                                if (
+                                    mutation.type === "attributes" &&
+                                    mutation.attributeName === "data-rendered"
+                                ) {
+                                    // Trigger window.print() when rendering is complete
+                                    window.print();
+                                    // Stop observing after print is triggered
+                                    observer.disconnect();
+                                }
+                            });
+                        });
+
+                        // Start observing the canvas element
+                        observer.observe(barcodeCanvas, {
+                            attributes: true,
+                        });
+
+                        // Generate the barcode with JsBarcode
+                        JsBarcode("#div_printBarcode", barcodeValue, {
+                            format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
+                            width: 4, // Width of a single barcode unit
+                            height: 200, // Height of the barcode
+                            displayValue: true, // Display the value below the barcode
+                        });
+
+                        // Add a custom attribute after the barcode is rendered
+                        barcodeCanvas.setAttribute("data-rendered", "true");
                     });
-                    getDataPermohonan();
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
             },
         }).then(() => {
-            window.print();
-            Swal.fire({
-                icon: "success",
-                title: "Berhasil!",
-                text: response.success,
-                showConfirmButton: false,
-            });
+            getDataPermohonan();
         });
     });
     //#endregion

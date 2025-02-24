@@ -27,6 +27,8 @@ class KonversiRollBarcodeController extends Controller
             $idDivisi = 'JBB';
         } else if ($id == 'ABMStghJadi') {
             $idDivisi = 'ABM';
+        } else if ($id == 'ADSStghJadi') {
+            $idDivisi = 'ADS';
         }
         $listPotong = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdDivisi = ?', [0, $idDivisi]);
         // Convert the data into an array that DataTables can consume
@@ -81,12 +83,12 @@ class KonversiRollBarcodeController extends Controller
                     break;
             }
             if ($divisi == 'JBB') {
-                $uraian_asal = (string) "Asal Konversi Potongan JBB";
-                $uraian_tujuan = (string) "Tujuan Konversi Potongan JBB";
+                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan JBB";
+                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan JBB";
             } else if ($divisi == 'ABM') {
                 $asalKonversi = $request->input('asalKonversi');
-                $uraian_asal = (string) "Asal Konversi Setengah Jadi ABM";
-                $uraian_tujuan = (string) "Tujuan Konversi Setengah Jadi ABM";
+                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi ABM";
+                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi ABM";
             }
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
             // dd($table_daftarTujuanKonversi);
@@ -155,7 +157,7 @@ class KonversiRollBarcodeController extends Controller
                         [
                             9,
                             "28",
-                            (string) $shift . ', ' . $uraian_asal,
+                            $uraian_asal,
                             $id_typeAsal,
                             trim(Auth::user()->NomorUser),
                             trim(Auth::user()->NomorUser),
@@ -195,7 +197,7 @@ class KonversiRollBarcodeController extends Controller
                             [
                                 9,
                                 "28",
-                                (string) $shift . ', ' . $uraian_tujuan,
+                                $uraian_tujuan,
                                 $IdTypeTujuan[$k],
                                 trim(Auth::user()->NomorUser),
                                 trim(Auth::user()->NomorUser),
@@ -437,9 +439,11 @@ class KonversiRollBarcodeController extends Controller
             $divisi = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'ABM']);
             return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
-        } elseif ($id == 'ADSPotong') {
-            $access = (new HakAksesController)->HakAksesFiturMaster('ADStar');
-            return view('MultipleProgram.PermohonanKonversiPotongBarcode', compact('access', 'id'));
+        } elseif ($id == 'ADSStghJadi') {
+            $access = (new HakAksesController)->HakAksesFiturMaster('AD Star');
+            $divisi = DB::connection('ConnInventory')
+                ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'ADS']);
+            return view('MultipleProgram.KonversiRollBarcode', compact('access', 'id', 'nomorUser', 'divisi'));
         } elseif ($id == 'getDataAsalKonversi') {
             $nomorIndeksBarangAsal = $request->input('nomorIndeksBarangAsal');
             $kodeBarangAsal = $request->input('kodeBarangAsal');
