@@ -983,10 +983,20 @@ function rpt_cetakNotaFaktur(result) {
                                 "small-font",
                                 "description-left"
                             );
-                            additionalCoaCol.textContent = item.NO_PO
-                                ? "PO : " + decodeHtmlEntities(item.NO_PO)
-                                : "";
-                            additionalRow.appendChild(additionalCoaCol);
+
+                            if (bankSelect.value == "6") {
+                                additionalCoaCol.innerHTML = item.NO_PO
+                                    ? "PO : " + decodeHtmlEntities(item.NO_PO) + '<br>' +
+                                    'Jumlah Empty Bag yang dikirim: ' + decodeHtmlEntities(item.Jml) +
+                                    decodeHtmlEntities(item.Satuan)
+                                    : "";
+                                additionalRow.appendChild(additionalCoaCol);
+                            } else {
+                                additionalCoaCol.textContent = item.NO_PO
+                                    ? "PO : " + decodeHtmlEntities(item.NO_PO)
+                                    : "";
+                                additionalRow.appendChild(additionalCoaCol);
+                            }
 
                             faktur_Detail.appendChild(additionalRow);
                         });
@@ -1502,10 +1512,24 @@ function rpt_cetakNotaFaktur(result) {
                                     "small-font",
                                     "description-left"
                                 );
-                                additionalCoaCol.textContent = item.NO_PO
-                                    ? "PO : " + decodeHtmlEntities(item.NO_PO)
-                                    : "";
-                                additionalRow.appendChild(additionalCoaCol);
+                                // additionalCoaCol.textContent = item.NO_PO
+                                //     ? "PO : " + decodeHtmlEntities(item.NO_PO)
+                                //     : "";
+                                // additionalRow.appendChild(additionalCoaCol);
+
+                                if (bankSelect.value == "6") {
+                                    additionalCoaCol.innerHTML = item.NO_PO
+                                        ? "PO : " + decodeHtmlEntities(item.NO_PO) + '<br>' +
+                                        'Jumlah Empty Bag yang dikirim: ' + decodeHtmlEntities(item.Jml) +
+                                        decodeHtmlEntities(item.Satuan)
+                                        : "";
+                                    additionalRow.appendChild(additionalCoaCol);
+                                } else {
+                                    additionalCoaCol.textContent = item.NO_PO
+                                        ? "PO : " + decodeHtmlEntities(item.NO_PO)
+                                        : "";
+                                    additionalRow.appendChild(additionalCoaCol);
+                                }
 
                                 faktur_Detail2.appendChild(additionalRow);
                             });
