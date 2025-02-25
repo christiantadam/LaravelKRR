@@ -1172,11 +1172,12 @@ $(document).ready(function () {
 
                 if (table_daftarTujuanKonversi.column(4).data().sum() > 0) {
                     maxHasilKonversiTritier =
-                        table_daftarAsalKonversi.data()[0][4] -
+                        parseFloat(table_daftarAsalKonversi.data()[0][4]) *
+                            1.03 -
                         table_daftarTujuanKonversi.column(4).data().sum();
                 } else {
                     maxHasilKonversiTritier =
-                        table_daftarAsalKonversi.data()[0][4];
+                        table_daftarAsalKonversi.data()[0][4] * 1.03;
                 }
             });
         }
@@ -1186,9 +1187,9 @@ $(document).ready(function () {
         let inputValue = parseFloat(e.target.value);
         // console.log(maxHasilKonversiTritier);
         // Check if the value exceeds the maximum allowed value
-        if (inputValue > maxHasilKonversiTritier * 1.03) {
+        if (inputValue > maxHasilKonversiTritier) {
             // Set the value to the maximum allowed
-            e.target.value = maxHasilKonversiTritier * 1.03;
+            e.target.value = maxHasilKonversiTritier;
             this.setCustomValidity("Input exceeds the maximum allowed value.");
         } else {
             this.setCustomValidity("");
@@ -1671,13 +1672,13 @@ $(document).ready(function () {
                             // Add a custom attribute after the barcode is rendered
                             barcodeCanvas.setAttribute("data-rendered", "true");
                         });
-                    } else{
+                    } else {
                         Swal.fire({
                             icon: "success",
                             title: "Berhasil!",
                             text: responseSuccess,
                             showConfirmButton: false,
-                        })
+                        });
                     }
                 }
             },
