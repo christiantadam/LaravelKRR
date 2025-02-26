@@ -694,8 +694,8 @@ $(document).ready(function () {
                                 return parseFloat(a) + parseFloat(b); // Ensure the values are treated as numbers
                             }, 0);
                         let sisaBarcodeKG =
-                            table_daftarAsalKonversi.data()[0][4] -
-                            totalPemakaianKg;
+                            (table_daftarAsalKonversi.data()[0][4] -
+                            totalPemakaianKg).toFixed(2);
                         let perbandinganKgPerMeter = (
                             table_daftarAsalKonversi.data()[0][3] /
                             table_daftarAsalKonversi.data()[0][4]
