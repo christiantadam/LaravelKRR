@@ -1694,6 +1694,8 @@ $(document).ready(function () {
                             title: "Berhasil!",
                             text: responseSuccess,
                             showConfirmButton: false,
+                        }).then(() => {
+                            getDataPermohonan();
                         });
                     }
                 }
