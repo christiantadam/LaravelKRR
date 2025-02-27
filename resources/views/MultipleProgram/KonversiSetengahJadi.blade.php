@@ -67,7 +67,15 @@
                     </button>
                     <input type="hidden" name="divisiUser" id='divisiUser' value={{ $id }}>
                     <input type="hidden" name="nomorUser" id="nomorUser" value={{ $nomorUser }}>
-                    <div class="card-header">Konversi JBB Potong ke Barang Jadi</div>
+                    <div class="card-header">
+                        @if ($id == 'JBBStghJd')
+                            Konversi JBB Setengah Jadi ke Barang Jadi
+                        @elseif ($id == 'ABMBrgJd')
+                            Konversi ABM Setengah Jadi ke Barang Jadi
+                        @elseif ($id == 'ADSBrgJd')
+                            Konversi ADS Setengah Jadi ke Barang Jadi
+                        @endif
+                    </div>
                     <div id="div_tabelDaftarKonversi" style="margin:0.5%">
                         <h3>Tabel Daftar Konversi</h3>
                         <div style="overflow:auto">

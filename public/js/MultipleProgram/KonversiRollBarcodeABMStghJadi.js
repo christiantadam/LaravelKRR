@@ -1,45 +1,45 @@
 $(document).ready(function () {
     //#region Get element by ID
     let asalKonversi; // prettier-ignore
-    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
+    let button_hapusTujuanKonversi = document.getElementById("button_hapusTujuanKonversi"); // prettier-ignore
+    let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
     let button_tambahKonversi = document.getElementById("button_tambahKonversi"); // prettier-ignore
+    let button_tambahTujuanKonversi = document.getElementById("button_tambahTujuanKonversi"); // prettier-ignore
+    let button_updateTujuanKonversi = document.getElementById("button_updateTujuanKonversi"); // prettier-ignore
     let checkSisaRoll = false;
+    let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let detail_konversiModalTableDaftarAsalKonversi = $("#detail_konversiModalTableDaftarAsalKonversi").DataTable(); // prettier-ignore
     let detail_konversiModalTableDaftarTujuanKonversi = $("#detail_konversiModalTableDaftarTujuanKonversi").DataTable(); // prettier-ignore
     let detailKonversiModal = document.getElementById("detailKonversiModal"); // prettier-ignore
-    let nomorUser = document.getElementById("nomorUser").value; // prettier-ignore
-    let maxHasilKonversiTritier = 0;
-    let input_barcodeAsal = document.getElementById("input_barcodeAsal"); // prettier-ignore
-    let saldo_terakhirPrimerAsal = document.getElementById("saldo_terakhirPrimerAsal"); // prettier-ignore
-    let saldo_terakhirSekunderAsal = document.getElementById("saldo_terakhirSekunderAsal"); // prettier-ignore
-    let saldo_terakhirTritierAsal = document.getElementById("saldo_terakhirTritierAsal"); // prettier-ignore
-    let satuan_saldoTerakhirPrimerAsal = document.getElementById("satuan_saldoTerakhirPrimerAsal"); // prettier-ignore
-    let satuan_saldoTerakhirSekunderAsal = document.getElementById("satuan_saldoTerakhirSekunderAsal"); // prettier-ignore
-    let satuan_saldoTerakhirTritierAsal = document.getElementById("satuan_saldoTerakhirTritierAsal"); // prettier-ignore
-    let tambahTujuanModal = document.getElementById("tambahTujuanModal"); // prettier-ignore
-    let id_shift = document.getElementById("id_shift"); // prettier-ignore
-    let input_tanggalKonversi = document.getElementById("input_tanggalKonversi"); // prettier-ignore
-    let select_objekTujuan = document.getElementById("select_objekTujuan"); // prettier-ignore
-    let select_kelompokUtamaTujuan = document.getElementById("select_kelompokUtamaTujuan"); // prettier-ignore
-    let select_kelompokTujuan = document.getElementById("select_kelompokTujuan"); // prettier-ignore
-    let select_subKelompokTujuan = document.getElementById("select_subKelompokTujuan"); // prettier-ignore
-    let select_typeTujuan = document.getElementById("select_typeTujuan"); // prettier-ignore
-    let saldo_terakhirTujuanPrimer = document.getElementById("saldo_terakhirTujuanPrimer"); // prettier-ignore
-    let saldo_terakhirTujuanSekunder = document.getElementById("saldo_terakhirTujuanSekunder"); // prettier-ignore
-    let saldo_terakhirTujuanTritier = document.getElementById("saldo_terakhirTujuanTritier"); // prettier-ignore
-    let satuan_saldoTerakhirTujuanPrimer = document.getElementById("satuan_saldoTerakhirTujuanPrimer"); // prettier-ignore
-    let satuan_saldoTerakhirTujuanSekunder = document.getElementById("satuan_saldoTerakhirTujuanSekunder"); // prettier-ignore
-    let satuan_saldoTerakhirTujuanTritier = document.getElementById("satuan_saldoTerakhirTujuanTritier"); // prettier-ignore
     let hasil_konversiPrimerTujuan = document.getElementById("hasil_konversiPrimerTujuan"); // prettier-ignore
     let hasil_konversiSekunderTujuan = document.getElementById("hasil_konversiSekunderTujuan"); // prettier-ignore
     let hasil_konversiTritierTujuan = document.getElementById("hasil_konversiTritierTujuan"); // prettier-ignore
+    let id_shift = document.getElementById("id_shift"); // prettier-ignore
+    let input_barcodeAsal = document.getElementById("input_barcodeAsal"); // prettier-ignore
+    let input_tanggalKonversi = document.getElementById("input_tanggalKonversi"); // prettier-ignore
+    let maxHasilKonversiTritier = 0;
+    let nomorUser = document.getElementById("nomorUser").value; // prettier-ignore
+    let saldo_terakhirPrimerAsal = document.getElementById("saldo_terakhirPrimerAsal"); // prettier-ignore
+    let saldo_terakhirSekunderAsal = document.getElementById("saldo_terakhirSekunderAsal"); // prettier-ignore
+    let saldo_terakhirTritierAsal = document.getElementById("saldo_terakhirTritierAsal"); // prettier-ignore
+    let saldo_terakhirTujuanPrimer = document.getElementById("saldo_terakhirTujuanPrimer"); // prettier-ignore
+    let saldo_terakhirTujuanSekunder = document.getElementById("saldo_terakhirTujuanSekunder"); // prettier-ignore
+    let saldo_terakhirTujuanTritier = document.getElementById("saldo_terakhirTujuanTritier"); // prettier-ignore
     let satuan_primerTujuan = document.getElementById("satuan_primerTujuan"); // prettier-ignore
+    let satuan_saldoTerakhirPrimerAsal = document.getElementById("satuan_saldoTerakhirPrimerAsal"); // prettier-ignore
+    let satuan_saldoTerakhirSekunderAsal = document.getElementById("satuan_saldoTerakhirSekunderAsal"); // prettier-ignore
+    let satuan_saldoTerakhirTritierAsal = document.getElementById("satuan_saldoTerakhirTritierAsal"); // prettier-ignore
+    let satuan_saldoTerakhirTujuanPrimer = document.getElementById("satuan_saldoTerakhirTujuanPrimer"); // prettier-ignore
+    let satuan_saldoTerakhirTujuanSekunder = document.getElementById("satuan_saldoTerakhirTujuanSekunder"); // prettier-ignore
+    let satuan_saldoTerakhirTujuanTritier = document.getElementById("satuan_saldoTerakhirTujuanTritier"); // prettier-ignore
     let satuan_sekunderTujuan = document.getElementById("satuan_sekunderTujuan"); // prettier-ignore
     let satuan_tritierTujuan = document.getElementById("satuan_tritierTujuan"); // prettier-ignore
-    let button_tambahTujuanKonversi = document.getElementById("button_tambahTujuanKonversi"); // prettier-ignore
-    let button_updateTujuanKonversi = document.getElementById("button_updateTujuanKonversi"); // prettier-ignore
-    let button_hapusTujuanKonversi = document.getElementById("button_hapusTujuanKonversi"); // prettier-ignore
-    let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
+    let select_kelompokTujuan = document.getElementById("select_kelompokTujuan"); // prettier-ignore
+    let select_kelompokUtamaTujuan = document.getElementById("select_kelompokUtamaTujuan"); // prettier-ignore
+    let select_objekTujuan = document.getElementById("select_objekTujuan"); // prettier-ignore
+    let select_subKelompokTujuan = document.getElementById("select_subKelompokTujuan"); // prettier-ignore
+    let select_typeTujuan = document.getElementById("select_typeTujuan"); // prettier-ignore
+    let tambahTujuanModal = document.getElementById("tambahTujuanModal"); // prettier-ignore
 
     let table_daftarKonversi = $("#table_daftarKonversi").DataTable({
         processing: true, // Optional, as processing is more relevant for server-side
@@ -156,8 +156,13 @@ $(document).ready(function () {
             url: "/KonversiRollBarcode/create/ABMStghJadi",
             type: "GET",
             success: function (response) {
-                if (response.data.length !== 0) {
+                // Check if response.data is empty
+                if (response.data && response.data.length > 0) {
+                    // Assuming your server returns an array of objects for the table data
                     table_daftarKonversi.clear().rows.add(response.data).draw();
+                } else {
+                    // Clear the table if response.data is empty
+                    table_daftarKonversi.clear().draw();
                 }
             },
             error: function (xhr, status, error) {
@@ -292,13 +297,6 @@ $(document).ready(function () {
     //#region Event listener
 
     button_tambahKonversi.addEventListener("click", function () {
-        //  000007388-000133637
-        //  000007389-000133637
-        //  000007390-000133637
-        //  000000162-000072492
-        //  000000433-000111287
-        //  000000447-000111287
-        //  000000047-000110996
         Swal.fire({
             title: "Pilih Metode Konversi",
             showCancelButton: true,
@@ -1032,10 +1030,11 @@ $(document).ready(function () {
 
                 if (table_daftarTujuanKonversi.column(4).data().sum() > 0) {
                     maxHasilKonversiTritier =
-                        table_daftarAsalKonversi.data()[0][4] -
+                        parseFloat(table_daftarAsalKonversi.data()[0][4]) *
+                            1.03 -
                         table_daftarTujuanKonversi.column(4).data().sum();
                 } else {
-                    maxHasilKonversiTritier = table_daftarAsalKonversi.data()[0][4]; // prettier-ignore
+                    maxHasilKonversiTritier = table_daftarAsalKonversi.data()[0][4] * 1.03; // prettier-ignore
                 }
             });
         }
@@ -1044,9 +1043,9 @@ $(document).ready(function () {
     hasil_konversiTritierTujuan.addEventListener("input", function (e) {
         let inputValue = parseFloat(e.target.value);
         // Check if the value exceeds the maximum allowed value
-        if (inputValue > maxHasilKonversiTritier * 1.03) {
+        if (inputValue > maxHasilKonversiTritier) {
             // Set the value to the maximum allowed
-            e.target.value = maxHasilKonversiTritier * 1.03;
+            e.target.value = maxHasilKonversiTritier;
             this.setCustomValidity("Input exceeds the maximum allowed value.");
         } else {
             this.setCustomValidity("");
@@ -1054,25 +1053,25 @@ $(document).ready(function () {
         this.reportValidity();
     });
 
-    button_timbangTujuanKonversi.addEventListener("click", function (e) {
-        $.ajax({
-            url: "http://127.0.0.1:8011/get-rs232-data",
-            method: "GET",
-            success: function (response) {
-                // console.log(response);
-                if (response.data) {
-                    $("#hasil_konversiTritierTujuan").val(response.data);
-                } else {
-                    alert("Error: " + response.error);
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log("Error Status: " + textStatus);
-                console.log("Error Thrown: " + errorThrown);
-                alert("Failed to fetch RS232 data");
-            },
-        });
-    });
+    // button_timbangTujuanKonversi.addEventListener("click", function (e) {
+    //     $.ajax({
+    //         url: "http://127.0.0.1:8011/get-rs232-data",
+    //         method: "GET",
+    //         success: function (response) {
+    //             // console.log(response);
+    //             if (response.data) {
+    //                 $("#hasil_konversiTritierTujuan").val(response.data);
+    //             } else {
+    //                 alert("Error: " + response.error);
+    //             }
+    //         },
+    //         error: function (jqXHR, textStatus, errorThrown) {
+    //             console.log("Error Status: " + textStatus);
+    //             console.log("Error Thrown: " + errorThrown);
+    //             alert("Failed to fetch RS232 data");
+    //         },
+    //     });
+    // });
 
     button_tambahTujuanKonversi.addEventListener("click", function (e) {
         e.preventDefault();
@@ -1540,7 +1539,7 @@ $(document).ready(function () {
             data: {
                 _token: csrfToken,
                 idkonversi: idkonversi,
-                divisi: "JBB",
+                divisi: "ABM",
                 jenisStore: "accPermohonan",
             },
             success: function (response) {
@@ -1554,38 +1553,73 @@ $(document).ready(function () {
                 } else {
                     // Extract values from the response
                     responseSuccess = response.success;
-                    let Kode_barang = response.barcode[0].Kode_barang;
-                    let NoIndeks = response.barcode[0].NoIndeks;
+                    if (response.barcode && response.barcode !== "") {
+                        let Kode_barang = response.barcode[0].Kode_barang;
+                        let NoIndeks = response.barcode[0].NoIndeks;
 
-                    // Pad NoIndeks to 9 digits
-                    let paddedNoIndeks = NoIndeks.padStart(9, "0");
+                        // Pad NoIndeks to 9 digits
+                        let paddedNoIndeks = NoIndeks.padStart(9, "0");
 
-                    // Concatenate NoIndeks and Kode_barang
-                    let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;
+                        // Concatenate NoIndeks and Kode_barang
+                        let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;
 
-                    // Generate the barcode with JsBarcode
-                    JsBarcode("#div_printBarcode", barcodeValue, {
-                        format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
-                        width: 4, // Width of a single barcode unit
-                        height: 200, // Height of the barcode
-                        displayValue: true, // Display the value below the barcode
-                    });
-                    getDataPermohonan();
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil!",
+                            text: responseSuccess,
+                            showConfirmButton: false,
+                        }).then(() => {
+                            const barcodeCanvas = document.getElementById("div_printBarcode"); // prettier-ignore
+
+                            // Set up a MutationObserver to detect changes to the canvas
+                            const observer = new MutationObserver(
+                                (mutations) => {
+                                    mutations.forEach((mutation) => {
+                                        if (
+                                            mutation.type === "attributes" &&
+                                            mutation.attributeName ===
+                                                "data-rendered"
+                                        ) {
+                                            // Trigger window.print() when rendering is complete
+                                            window.print();
+                                            // Stop observing after print is triggered
+                                            observer.disconnect();
+                                        }
+                                    });
+                                }
+                            );
+
+                            // Start observing the canvas element
+                            observer.observe(barcodeCanvas, {
+                                attributes: true,
+                            });
+
+                            // Generate the barcode with JsBarcode
+                            JsBarcode("#div_printBarcode", barcodeValue, {
+                                format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
+                                width: 4, // Width of a single barcode unit
+                                height: 200, // Height of the barcode
+                                displayValue: true, // Display the value below the barcode
+                            });
+
+                            // Add a custom attribute after the barcode is rendered
+                            barcodeCanvas.setAttribute("data-rendered", "true");
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil!",
+                            text: responseSuccess,
+                            showConfirmButton: false,
+                        });
+                    }
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
             },
         }).then(() => {
-            if (responseSuccess !== "") {
-                window.print();
-                Swal.fire({
-                    icon: "success",
-                    title: "Berhasil!",
-                    text: responseSuccess,
-                    showConfirmButton: false,
-                });
-            }
+            getDataPermohonan();
         });
     });
 

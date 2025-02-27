@@ -89,6 +89,10 @@ class KonversiRollBarcodeController extends Controller
                 $asalKonversi = $request->input('asalKonversi');
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi ABM";
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi ABM";
+            } else if ($divisi == 'ADS') {
+                $asalKonversi = $request->input('asalKonversi');
+                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi ADS";
+                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi ADS";
             }
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
             // dd($table_daftarTujuanKonversi);
@@ -133,6 +137,13 @@ class KonversiRollBarcodeController extends Controller
                     DB::connection('ConnInventory')
                         ->table('Counter')->update(['IdKonvPotongABM' => $newIdKonvPotongABM]);
                     $idkonversi = "ABP" . str_pad($newIdKonvPotongABM, 6, "0", STR_PAD_LEFT);
+                } else if ($divisi == 'ADS') {
+                    $currentIdKonvPotongADS = DB::connection('ConnInventory')
+                        ->table('Counter')->value('IdKonvPotongADS');
+                    $newIdKonvPotongADS = $currentIdKonvPotongADS + 1;
+                    DB::connection('ConnInventory')
+                        ->table('Counter')->update(['IdKonvPotongADS' => $newIdKonvPotongADS]);
+                    $idkonversi = "ADP" . str_pad($newIdKonvPotongADS, 6, "0", STR_PAD_LEFT);
                 }
                 // Asal konversi
                 DB::connection('ConnInventory')
@@ -463,6 +474,20 @@ class KonversiRollBarcodeController extends Controller
                     return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
                 }
             } else if ($idDivisi == 'ABM') {
+                try {
+                    $dataBarcode = DB::connection('ConnInventory')
+                        ->select(
+                            'EXEC SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XKodeBarang = ?, @XNomorIndeks = ?, @XIdDivisi = ?',
+                            [8, $kodeBarangAsal, $nomorIndeksBarangAsal, $idDivisi]
+                        );
+                    return response()->json(['success' => $dataBarcode]);
+                } catch (Exception $e) {
+                    if ($e->getMessage() == 'Undefined array key 0') {
+                        return response()->json(['error' => (string) "Terjadi Kesalahan, Data Barcode Tidak Ditemukan!"]);
+                    }
+                    return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+                }
+            } else if ($idDivisi == 'ADS') {
                 try {
                     $dataBarcode = DB::connection('ConnInventory')
                         ->select(

@@ -1359,7 +1359,7 @@ $(document).ready(function () {
                     let NoIndeks = response.barcode[0].NoIndeks;
 
                     // Pad NoIndeks to 9 digits
-                    let paddedNoIndeks = NoIndeks.pABMtart(9, "0");
+                    let paddedNoIndeks = NoIndeks.padStart(9, "0");
 
                     // Concatenate NoIndeks and Kode_barang
                     let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;

@@ -115,7 +115,7 @@ $(document).ready(function () {
     function getDataPermohonan() {
         // Fetch the data from your server using an AJAX call
         $.ajax({
-            url: "/KonversiSetengahJadi/create/ABMStghJadi",
+            url: "/KonversiSetengahJadi/create/ADSStghJadi",
             type: "GET",
             success: function (response) {
                 // Check if response.data is empty
@@ -1150,7 +1150,7 @@ $(document).ready(function () {
                 data: {
                     _token: csrfToken,
                     shift: id_shiftTanpaBarcode.value,
-                    divisi: "ABM",
+                    divisi: "ADS",
                     jenisStore: "permohonan",
                     id_typeAsal: select_typeAsalTanpaBarcode.val(),
                     pemakaian_primerAsal: jumlah_pemakaianPrimerTanpaBarcode.value, // prettier-ignore
@@ -1200,24 +1200,24 @@ $(document).ready(function () {
             type: "GET",
             data: {
                 idKonversi: rowID,
-                idDivisi: "ABM",
+                idDivisi: "ADS",
             },
             success: function (response) {
                 // Assuming your server returns an array of objects for the table data
                 console.log(response);
 
                 if (response && Array.isArray(response)) {
-                    // Filter data for Asal Konversi Potong ABM
+                    // Filter data for Asal Konversi Potong ADS
                     var asalData = response.filter(function (item) {
                         return item.UraianDetailTransaksi.includes(
-                            "Asal Konversi Setengah Jadi ABM"
+                            "Asal Konversi Setengah Jadi ADS"
                         );
                     });
 
-                    // Filter data for Tujuan Konversi Potong ABM
+                    // Filter data for Tujuan Konversi Potong ADS
                     var tujuanData = response.filter(function (item) {
                         return item.UraianDetailTransaksi.includes(
-                            "Tujuan Konversi Setengah Jadi ABM"
+                            "Tujuan Konversi Setengah Jadi ADS"
                         );
                     });
 
@@ -1359,7 +1359,7 @@ $(document).ready(function () {
                     let NoIndeks = response.barcode[0].NoIndeks;
 
                     // Pad NoIndeks to 9 digits
-                    let paddedNoIndeks = NoIndeks.pABMtart(9, "0");
+                    let paddedNoIndeks = NoIndeks.padStart(9, "0");
 
                     // Concatenate NoIndeks and Kode_barang
                     let barcodeValue = `${paddedNoIndeks}-${Kode_barang}`;

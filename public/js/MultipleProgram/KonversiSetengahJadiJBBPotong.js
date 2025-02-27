@@ -898,8 +898,14 @@ $(document).ready(function () {
             url: "/KonversiSetengahJadi/create/JBBPotong",
             type: "GET",
             success: function (response) {
-                // Assuming your server returns an array of objects for the table data
-                table_daftarKonversi.clear().rows.add(response.data).draw();
+                // Check if response.data is empty
+                if (response.data && response.data.length > 0) {
+                    // Assuming your server returns an array of objects for the table data
+                    table_daftarKonversi.clear().rows.add(response.data).draw();
+                } else {
+                    // Clear the table if response.data is empty
+                    table_daftarKonversi.clear().draw();
+                }
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching data: ", error);
