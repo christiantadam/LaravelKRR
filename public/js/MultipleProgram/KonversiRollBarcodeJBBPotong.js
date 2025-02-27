@@ -693,9 +693,10 @@ $(document).ready(function () {
                             .reduce(function (a, b) {
                                 return parseFloat(a) + parseFloat(b); // Ensure the values are treated as numbers
                             }, 0);
-                        let sisaBarcodeKG =
-                            (table_daftarAsalKonversi.data()[0][4] -
-                            totalPemakaianKg).toFixed(2);
+                        let sisaBarcodeKG = (
+                            table_daftarAsalKonversi.data()[0][4] -
+                            totalPemakaianKg
+                        ).toFixed(2);
                         let perbandinganKgPerMeter = (
                             table_daftarAsalKonversi.data()[0][3] /
                             table_daftarAsalKonversi.data()[0][4]
@@ -1686,7 +1687,7 @@ $(document).ready(function () {
                                 });
                             },
                         }).then(() => {
-                            window.print();
+                            getDataPermohonan();
                         });
                     } else {
                         Swal.fire({

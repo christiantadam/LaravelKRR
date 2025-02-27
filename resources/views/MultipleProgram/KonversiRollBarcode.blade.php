@@ -122,9 +122,11 @@
                     <input type="hidden" name="divisiPotong" id='divisiPotong' value={{ $id }}>
                     <input type="hidden" name="nomorUser" id="nomorUser" value={{ $nomorUser }}>
                     @if ($id == 'JBBPotong')
-                        <div class="card-header">Konversi Roll Barcode ke JBB Potong</div>
+                        <div class="card-header">Konversi JBB Bahan Baku ke Setengah Jadi</div>
                     @elseif ($id == 'ABMStghJadi')
-                        <div class="card-header">Konversi Roll Barcode ke ABM Setengah Jadi</div>
+                        <div class="card-header">Konversi ABM Bahan Baku ke Setengah Jadi</div>
+                    @elseif ($id == 'ADSStghJadi')
+                        <div class="card-header">Konversi ADS Bahan Baku ke Setengah Jadi</div>
                     @endif
                     <div id="div_tabelDaftarKonversi" style="margin:0.5%">
                         <h3>Tabel Daftar Konversi</h3>
