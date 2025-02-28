@@ -115,7 +115,7 @@ $(document).ready(function () {
     function getDataPermohonan() {
         // Fetch the data from your server using an AJAX call
         $.ajax({
-            url: "/KonversiSetengahJadi/create/ABMStghJadi",
+            url: "/KonversiSetengahJadi/getDataPermohonan/ABMStghJadi",
             type: "GET",
             success: function (response) {
                 // Check if response.data is empty

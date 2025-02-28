@@ -22,6 +22,11 @@ class KonversiSetengahJadiController extends Controller
 
     public function create($id)
     {
+
+    }
+
+    public function getDataPermohonan($id)
+    {
         if ($id == 'JBBPotong') {
             $idDivisi = 'JBB';
         } else if ($id == 'ABMStghJadi') {
