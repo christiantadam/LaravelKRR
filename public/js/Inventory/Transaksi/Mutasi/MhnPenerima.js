@@ -300,7 +300,11 @@ function cekBarang(barang) {
 
                             if (terima) {
                                 alasan.disabled = false;
-
+                                primer3.disabled = false;
+                                sekunder3.disabled = false;
+                                tritier3.disabled = false;
+                                primer3.focus();
+                                primer3.select();
                                 const primerValue = no_primer3.value.trim();
                                 const sekunderValue = no_sekunder3.value.trim();
 
