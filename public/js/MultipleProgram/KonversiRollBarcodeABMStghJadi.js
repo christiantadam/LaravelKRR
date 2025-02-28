@@ -435,7 +435,8 @@ $(document).ready(function () {
             if (
                 nomorUser !== "4384" && //adam
                 nomorUser !== "4199" && //kelvin
-                nomorUser !== "1516" //sri gayati
+                nomorUser !== "2244" && //ika
+                nomorUser !== "4428" //aulia
             ) {
                 const inputElement = Swal.getInput();
 
