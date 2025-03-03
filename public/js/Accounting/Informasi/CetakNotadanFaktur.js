@@ -4010,7 +4010,7 @@ function rpt_CetakFakturPajakUM(result) {
             ).format("0,0.00");
 
             fakturTunaiUM_UM.textContent = result[0].Nilai_UM
-                ? numeral(result[0].Nilai_UM).format("0,0.00")
+                ? numeral((result[0].Nilai_UM * 11) / 12).format("0,0.00")
                 : "0.00";
 
             let tempdpp =
