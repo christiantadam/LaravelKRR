@@ -1346,11 +1346,13 @@ $(document).ready(function () {
                                 belum_dibayar.value = escapeHTML(
                                     selectedRow.TSisaByr.trim()
                                 );
-
+                                rincian_dp.value = escapeHTML(
+                                    selectedRow.TRincian_DP.trim()
+                                );
                                 setTimeout(() => {
                                     btn_bank.focus();
                                 }, 300);
-                                // rincian_dp.value =
+
                                 // sp1.value = decodeHtml(selectedRow.Supplier).trim();
                                 // sp2.value = selectedRow.No_Supplier.trim();
                             }
