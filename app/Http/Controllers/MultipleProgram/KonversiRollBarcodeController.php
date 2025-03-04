@@ -550,7 +550,7 @@ class KonversiRollBarcodeController extends Controller
             $data = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdKonversi = ?', [11, (string) $idKonversi]);
             return response()->json($data);
         } else {
-            return response()->json(['error' => (string) "Undefined request \$id: " . $id]);
+            return response()->json(['error' => (string) "Undefined request: " . $id]);
         }
     }
 

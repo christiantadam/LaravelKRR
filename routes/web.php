@@ -1498,5 +1498,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     #region ABM
     Route::get('ABM', 'App\Http\Controllers\HomeController@ABM');
+    Route::resource('MaintenanceOrderKerjaABM', App\Http\Controllers\ABM\Master\MaintenanceOrderKerjaABMController::class);
     #endregion
 });
