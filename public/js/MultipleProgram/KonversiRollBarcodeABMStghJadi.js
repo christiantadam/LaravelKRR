@@ -263,7 +263,6 @@ $(document).ready(function () {
                     .toArray(),
                 proses: proses,
                 shift: id_shift.value,
-                asalKonversi: asalKonversi,
                 divisi: "ABM",
                 jenisStore: "permohonan",
                 tanggalKonversi: input_tanggalKonversi.value,
