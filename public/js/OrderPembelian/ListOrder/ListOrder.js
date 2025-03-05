@@ -785,7 +785,7 @@ btn_delete.addEventListener("click", function (event) {
         success: function (response) {
             Swal.fire({
                 icon: "success",
-                title: "No. Order " + data + response.message,
+                title: "No. Order " + no_order.value + " " + response.message,
                 showConfirmButton: false,
                 timer: "3000",
             });

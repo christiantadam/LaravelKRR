@@ -26,7 +26,7 @@ class KartuStokController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        //    
+        //
     }
 
     //Display the specified resource.
@@ -242,6 +242,7 @@ class KartuStokController extends Controller
             @id_Subkel = ?, @id_Kelompok = ?, @id_Kel_utama = ?, @id_objek = ?, @id_Divisi = ?',
                 [$id_Subkel, $id_Kelompok, $id_Kel_utama, $id_objek, $id_Divisi]
             );
+            // dd($subkel);
             $data_subkel = [];
             foreach ($subkel as $detail_subkel) {
                 $data_subkel[] = [
@@ -370,12 +371,12 @@ class KartuStokController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request)
     {
-        // 
+        //
     }
 
     //Remove the specified resource from storage.
     public function destroy(Request $request)
     {
-        // 
+        //
     }
 }

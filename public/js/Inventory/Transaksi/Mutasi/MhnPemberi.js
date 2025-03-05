@@ -876,6 +876,8 @@ function TampilAllData() {
                         "Tidak ada Data Yang DiKirim Oleh Divisi : " +
                         decodeHtmlEntities(divisiNama.value),
                     returnFocus: false,
+                }).then(() => {
+                    btnIsi.focus();
                 });
             }
         },

@@ -44,7 +44,7 @@
                     <p class="RDZCard" id="TransferInventory_ListOrder"></p>
                     <p class="RDZCard" id="StatusOrder_ListOrder"></p>
 
-                    <button type="button" class="btn btn-sm btn-default RDZButtonCard" data-dismiss="modal"
+                    <button type="button" class="btn btn-sm btn-default RDZButtonCard" data-bs-dismiss="modal"
                         style="background-color:gray;color: white;">Tutup</button>
                 </div>
             </div>

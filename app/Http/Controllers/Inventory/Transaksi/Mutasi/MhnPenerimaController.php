@@ -302,15 +302,18 @@ class MhnPenerimaController extends Controller
 
             return response()->json($response_data);
         } else if ($id === 'getAllData') {
+            // dd($objekNama2);
+            // dd($request->all());
             // menampilkan semua data di data table
-            if (str_contains($objekNama2, 'Sparepart') || $objekNama2 === 'Bahan produksi' || $objekNama2 === 'Bahan Pembantu') {
+            if (str_contains($objekNama2, 'Sparepart') || $objekNama2 === 'Bahan produksi' || $objekNama2 === 'Bahan Pembantu' || str_contains($objekNama2, 'Pengambilan')) {
                 $kode = 11;
             } else {
                 $kode = 2;
             }
-
+            // dd($kode);
             $allData = DB::connection('ConnInventory')->select('
             exec SP_1003_INV_List_Mohon_TmpTransaksi @Kode = ?, @XIdDivisi = ?, @XIdTypeTransaksi = ?', [$kode, $divisiId2, '02']);
+            // dd($allData);
             $data_allData = [];
             foreach ($allData as $detail_allData) {
                 $formattedDate = date('m/d/Y', strtotime($detail_allData->SaatAwalTransaksi));
@@ -525,10 +528,8 @@ class MhnPenerimaController extends Controller
         $harga = $request->input('harga');
         $PIB = $request->input('PIB');
         $PIBTrim = trim($PIB) === null ? '' : trim($PIB);
-
-
         // dd($request->all());
-
+        // dd($a);
         if ($id === 'proses') {
             // proses terjadi
             if ($a === 1) { // ISI
@@ -536,6 +537,7 @@ class MhnPenerimaController extends Controller
                     // insert
                     // proses insert tmprtansaksi
                     if (str_contains($divisiNama, 'Warehouse') && (str_contains($objekNama, 'Gudang teknik') || str_contains($objekNama, 'Persediaan'))) {
+                        // dd('if1');
                         DB::connection('ConnInventory')->statement(
                             'exec SP_1273_INV_Insert_02_TmpTransaksi
                             @XIdTypeTransaksi = ?, @XUraianDetailTransaksi = ?, @XSaatawalTransaksi = ?, @XIdType = ?,  @XIdPenerima = ?,
@@ -557,6 +559,7 @@ class MhnPenerimaController extends Controller
                             ]
                         );
                     } else if (str_contains($objekNama, 'Sparepart')) {
+                        // dd('if2');
                         // proses insert tmprtansaksi
                         DB::connection('ConnInventory')->statement(
                             'exec SP_1273_INV_Insert_02_TmpTransaksi
@@ -578,6 +581,7 @@ class MhnPenerimaController extends Controller
                             ]
                         );
                     } else {
+                        // dd('if3');
                         DB::connection('ConnInventory')->statement(
                             'exec SP_1003_INV_Insert_02_TmpTransaksi
                             @XIdTypeTransaksi = ?, @XUraianDetailTransaksi = ?, @XSaatAwalTransaksi = ?, @XIdType = ?,  @XIdPenerima = ?,
