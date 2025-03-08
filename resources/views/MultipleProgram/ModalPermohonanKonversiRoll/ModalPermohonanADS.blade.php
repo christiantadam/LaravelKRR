@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="tambahTujuanModalLabel">Tambah Konversi </h5>
-                <button type="button" class="close" data-bs-dismiss="modal">
+                <button type="button" class="close" id="closeModalButton">
                     <span>&times;</span>
                 </button>
             </div>
@@ -71,136 +71,6 @@
                                         </tr>
                                     </thead>
                                 </table>
-                            </div>
-                            <div style="display: flex; flex-direction: row;gap:1%;">
-                                <div class="form-group" style="width: 32%">
-                                    <label for="divisi">Divisi</label>
-                                    <div class="input-group">
-                                        <select name="select_divisiAsal" id="select_divisiAsal"
-                                            class="form-control">
-                                            <option disabled selected>-- Pilih Divisi --</option>
-                                            @foreach ($divisi as $d)
-                                                <option value="{{ $d->IdDivisi }}">{{ $d->NamaDivisi }} |
-                                                    {{ $d->IdDivisi }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group" style="width: 32%">
-                                    <label for="objek">Objek</label>
-                                    <div class="input-group">
-                                        <select name="select_objekAsal" id="select_objekAsal"
-                                            class="form-control">
-                                            <option disabled selected>-- Pilih Objek --</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group" style="width: 32%">
-                                    <label for="kelompokUtama">Kelompok Utama</label>
-                                    <div class="input-group">
-                                        <select name="select_kelompokUtamaAsal" id="select_kelompokUtamaAsal"
-                                            class="form-control">
-                                            <option disabled selected>-- Pilih Kelompok Utama --</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="display: flex; flex-direction: row;gap:1%;">
-                                <div class="form-group" style="width: 32%">
-                                    <label for="kelompok">Kelompok</label>
-                                    <div class="input-group">
-                                        <select name="select_kelompokAsal" id="select_kelompokAsal"
-                                            class="form-control">
-                                            <option disabled selected>-- Pilih Kelompok --</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group" style="width: 32%">
-                                    <label for="subKelompok">Sub Kelompok</label>
-                                    <div class="input-group">
-                                        <select name="select_subKelompokAsal" id="select_subKelompokAsal"
-                                            class="form-control">
-                                            <option disabled selected>-- Pilih Sub Kelompok --</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group" id="div_PIBAsal" style="visibility:hidden;width: 32%">
-                                    <label for="PIB_asal">PIB Type Asal</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="PIB_asal" name="PIB_asal"
-                                            placeholder="PIB">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="typeAsal">Type Asal</label>
-                                <div class="input-group">
-                                    <select name="select_typeAsal" id="select_typeAsal" class="form-control">
-                                        <option disabled selected>-- Pilih Type --</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div style="display: flex; flex-direction: row;gap:1%;">
-                                <div class="form-group" style="width: 44%;border:none;">
-                                    <label for="saldo_terakhirAsal">Saldo Terakhir Type Asal</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="saldo_terakhirAsalPrimer"
-                                            name="saldo_terakhirAsalPrimer" style='width:20%;'
-                                            placeholder="Jumlah Primer">
-                                        <input type="text" class="form-control"
-                                            id="satuan_saldoTerakhirAsalPrimer"
-                                            name="satuan_saldoTerakhirAsalPrimer" style='width:13%;'
-                                            placeholder="Satuan Primer">
-                                        <input type="text" class="form-control" id="saldo_terakhirAsalSekunder"
-                                            name="saldo_terakhirAsalSekunder"style='width:20%;'
-                                            placeholder="Jumlah Sekunder">
-                                        <input type="text" class="form-control"
-                                            id="satuan_saldoTerakhirAsalSekunder"
-                                            name="satuan_saldoTerakhirAsalSekunder" style='width:13%;'
-                                            placeholder="Satuan Sekunder">
-                                        <input type="text" class="form-control" id="saldo_terakhirAsalTritier"
-                                            name="saldo_terakhirAsalTritier" style='width:20%;'
-                                            placeholder="Jumlah Tritier">
-                                        <input type="text" class="form-control"
-                                            id="satuan_saldoTerakhirAsalTritier"
-                                            name="satuan_saldoTerakhirAsalTritier" style='width:13%;'
-                                            placeholder="Satuan Tritier">
-                                    </div>
-                                </div>
-                                <div class="form-group" style="width: 55%;border:none;">
-                                    <label for="hasil_konversiAsal">Hasil Konversi</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="asal_konversiPrimerAsal"
-                                            name="hasil_konversiPrimerAsal" style='width:18%'
-                                            placeholder="Jumlah Primer">
-                                        <input type="text" class="form-control" id="satuan_primerAsal"
-                                            name="satuan_primerAsal" style='width:10%' placeholder="Satuan Primer">
-                                        <input type="text" class="form-control" id="asal_konversiSekunderAsal"
-                                            name="hasil_konversiSekunderAsal" style='width: 18%'
-                                            placeholder="Jumlah Sekunder">
-                                        <input type="text" class="form-control" id="satuan_sekunderAsal"
-                                            name="satuan_sekunderAsal" style='width:10%'
-                                            placeholder="Satuan Sekunder">
-                                        <input type="text" class="form-control" id="asal_konversiTritierAsal"
-                                            name="hasil_konversiTritierAsal" style='width:18%'
-                                            placeholder="Jumlah Tritier">
-                                        <input type="text" class="form-control" id="satuan_tritierAsal"
-                                            name="satuan_tritierAsal" style='width:10%'
-                                            placeholder="Satuan Tritier">
-                                        <button class="btn btn-info" id="button_timbangAsalKonversi"
-                                            style='width:13%;margin:0 0 0 1%' disabled>Timbang</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="display: flex; flex-direction: row;gap:1%;">
-                                <div class="form-group" style="width: 75%;">
-                                    <button class="btn btn-success" id="button_tambahAsalKonversi">Tambah
-                                        Asal</button>
-                                    <button class="btn btn-primary" id="button_updateAsalKonversi">Update
-                                        Asal</button>
-                                    <button class="btn btn-danger" id="button_hapusAsalKonversi">Hapus
-                                        Asal</button>
-                                </div>
                             </div>
                         </div>
                         <div class="card" style="margin: 0.5%;padding:0.5%;" id="div_tujuanKonversi">

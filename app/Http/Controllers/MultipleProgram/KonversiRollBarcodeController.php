@@ -65,14 +65,13 @@ class KonversiRollBarcodeController extends Controller
         $jenisStore = $request->input('jenisStore');
         $divisi = $request->input('divisi');
         if ($jenisStore == 'permohonan') {
+            $asalKonversiInputValues = $request->input('asalKonversiInputValues');
             $date = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
-            $nomorIndeksAsal = explode('-', $request->input('asalKonversiInputValues')[0][5])[0];
-            $kodeBarangAsal = explode('-', $request->input('asalKonversiInputValues')[0][5])[1];
-            $idSubKelompokAsal = $request->input('asalKonversiInputValues')[0][6];
-            $id_typeAsal = $request->input('asalKonversiInputValues')[0][0];
-            $pemakaian_primerAsal = $request->input('asalKonversiInputValues')[0][2];
-            $pemakaian_sekunderAsal = $request->input('asalKonversiInputValues')[0][3];
-            $pemakaian_tritierAsal = $request->input('asalKonversiInputValues')[0][4];
+            $idSubKelompokAsal = $asalKonversiInputValues[0][6];
+            $id_typeAsal = $asalKonversiInputValues[0][0];
+            $pemakaian_primerAsal = $asalKonversiInputValues[0][2];
+            $pemakaian_sekunderAsal = $asalKonversiInputValues[0][3];
+            $pemakaian_tritierAsal = $asalKonversiInputValues[0][4];
             $tanggalKonversi = $request->input('tanggalKonversi');
             $shift = $request->input('shift');
 
@@ -91,11 +90,9 @@ class KonversiRollBarcodeController extends Controller
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan JBB";
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan JBB";
             } else if ($divisi == 'ABM') {
-                $asalKonversi = $request->input('asalKonversi');
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi ABM";
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi ABM";
             } else if ($divisi == 'ADS') {
-                $asalKonversi = $request->input('asalKonversi');
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi ADS";
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi ADS";
             }
@@ -151,8 +148,9 @@ class KonversiRollBarcodeController extends Controller
                     $idkonversi = "ADP" . str_pad($newIdKonvPotongADS, 6, "0", STR_PAD_LEFT);
                 }
                 // Asal konversi
-                DB::connection('ConnInventory')
-                    ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong
+                for ($i = 0; $i < count($asalKonversiInputValues); $i++) {
+                    DB::connection('ConnInventory')
+                        ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong
                         @XKode = ?,
                         @XIdTypeTransaksi = ?,
                         @XUraianDetailTransaksi = ?,
@@ -170,27 +168,31 @@ class KonversiRollBarcodeController extends Controller
                         @XStatus = ?,
                         @XNomorIndeks = ?,
                         @XKodeBarang = ?',
-                        [
-                            9,
-                            "28",
-                            $uraian_asal,
-                            $id_typeAsal,
-                            trim(Auth::user()->NomorUser),
-                            trim(Auth::user()->NomorUser),
-                            $tanggalKonversi,
-                            $date,
-                            $pemakaian_primerAsal,
-                            $pemakaian_sekunderAsal,
-                            $pemakaian_tritierAsal,
-                            $idSubKelompokAsal,
-                            $idkonversi,
-                            $date,
-                            0,
-                            $nomorIndeksAsal,
-                            $kodeBarangAsal,
-                        ]
-                    );
-
+                            [
+                                9,
+                                "28",
+                                $uraian_asal,
+                                $asalKonversiInputValues[$i][0],
+                                trim(Auth::user()->NomorUser),
+                                trim(Auth::user()->NomorUser),
+                                $tanggalKonversi,
+                                $date,
+                                $asalKonversiInputValues[$i][2],
+                                $asalKonversiInputValues[$i][3],
+                                $asalKonversiInputValues[$i][4],
+                                $asalKonversiInputValues[$i][6],
+                                $idkonversi,
+                                $date,
+                                0,
+                                isset($asalKonversiInputValues[$i][5]) && $asalKonversiInputValues[$i][5] !== null
+                                ? explode('-', $asalKonversiInputValues[$i][5])[0]
+                                : null,
+                                isset($asalKonversiInputValues[$i][5]) && $asalKonversiInputValues[$i][5] !== null
+                                ? explode('-', $asalKonversiInputValues[$i][5])[1]
+                                : null
+                            ]
+                        );
+                }
                 // Tujuan Konversi
                 for ($k = 0; $k < count($IdTypeTujuan); $k++) {
                     DB::connection('ConnInventory')

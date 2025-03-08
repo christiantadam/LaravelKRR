@@ -27,14 +27,72 @@ class MaintenanceOrderKerjaABMController extends Controller
 
     public function store(Request $request)
     {
-        dd('MaintenanceOrderKerjaController Store');
+        $NomorOrderKerja = $request->NomorOrderKerja;
+        $TanggalRencanaMulaiKerja = $request->TanggalRencanaMulaiKerja;
+        $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
+        $IDPesanan = $request->IDPesanan;
+        try {
+            DB::connection('ConnABM')->statement('exec SP_4384_Maintenance_Nomor_Order_Kerja
+                @XKode = ?,
+                @XNomorOrderKerja = ?,
+                @XTanggalRencanaMulaiKerja = ?,
+                @XTanggalRencanaSelesaiKerja = ?,
+                @XIDPesanan = ?,
+                @XNomorUser = ?',
+                [
+                    3,
+                    $NomorOrderKerja,
+                    $TanggalRencanaMulaiKerja,
+                    $TanggalRencanaSelesaiKerja,
+                    $IDPesanan,
+                    trim(Auth::user()->NomorUser)
+                ]
+            );
+            return response()->json(['success' => 'Data Order Kerja berhasil disimpan.']);
+        } catch (Exception $e) {
+            return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+        }
+
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        if ($id == 'getNomorOrderKerja') {
-            $dataNomorOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [0]);
-            return response()->json(['success' => $dataNomorOrderKerja]);
+        if ($id == 'getDataPermohonanOrderKerja') {
+            $listOrderKerja = DB::connection('ConnABM')->select('exec SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [0]);
+            // Convert the data into an array that DataTables can consume
+            $dataOrderKerja = [];
+            foreach ($listOrderKerja as $OrkerKerja) {
+                $formattedDate = (new DateTime($OrkerKerja->TanggalRencanaMulaiKerja))->format('m-d-Y');
+                $dataOrderKerja[] = [
+                    'NomorOrderKerja' => $OrkerKerja->No_OK,
+                    'TanggalRencanaMulai' => $formattedDate,
+                    'NomorSP' => $OrkerKerja->IDSuratPesanan,
+                ];
+            }
+
+            return datatables($dataOrderKerja)->make(true);
+        } else if ($id == 'getDataInputPermohonanOrderKerja') {
+            $dataNomorOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [1]);
+            $dataSuratPesanan = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [2]);
+            return response()->json([
+                'success' => true,
+                'NomorOrderKerja' => $dataNomorOrderKerja,
+                'dataSuratPesanan' => $dataSuratPesanan
+            ]);
+        } else if ($id == 'getDataSPBerdasarkanNomorOrderKerja') {
+            $NomorOrderKerja = $request->input('NomorOrderKerja');
+            $dataSuratPesanan = DB::connection('ConnABM')->select('exec SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?', [6, $NomorOrderKerja]);
+            return response()->json([
+                'success' => true,
+                'dataSuratPesanan' => $dataSuratPesanan
+            ]);
+        } else if ($id == 'getDetailOrderKerja') {
+            $NomorOrderKerja = $request->input('NomorOrderKerja');
+            $dataDetailOrderKerja = DB::connection('ConnABM')->select('exec SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?', [5, $NomorOrderKerja]);
+            return response()->json([
+                'success' => true,
+                'dataDetailOrderKerja' => $dataDetailOrderKerja
+            ]);
         } else {
             return response()->json(['error' => (string) "Undefined request: " . $id]);
         }
@@ -52,6 +110,18 @@ class MaintenanceOrderKerjaABMController extends Controller
 
     public function destroy($id)
     {
-        dd('MaintenanceOrderKerjaController Destroy');
+        try {
+            DB::connection('ConnABM')->statement('exec SP_4384_Maintenance_Nomor_Order_Kerja
+                @XKode = ?,
+                @XNomorOrderKerja = ?',
+                [
+                    4,
+                    $id
+                ]
+            );
+            return response()->json(['success' => 'Data Order Kerja berhasil dinonaktifkan.']);
+        } catch (Exception $e) {
+            return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
+        }
     }
 }

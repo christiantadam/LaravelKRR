@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+<!-- Loading Screen -->
+<link rel="prefetch" href="{{ asset('images/kuning.png') }}" />
+<link rel="prefetch" href="{{ asset('images/biru.png') }}" />
+<link rel="prefetch" href="{{ asset('images/merah.png') }}" />
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,29 +18,32 @@
     <!-- Scripts -->
     <script src="{{ asset('js/jquery-3.1.0.js') }}" loading=lazy></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/numeral.min.js') }}"></script>
     <script src="{{ asset('js/datatables.min.js') }}"></script>
     <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
-    <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-    <script src="{{ asset('js/numeral.min.js') }}"></script>
-    <script src="{{ asset('js/kitfontawesome.js') }}"></script>
-    <script src="{{ asset('js/jsdelivrNpmSelect2.js') }}"></script>
-    <script src="{{ asset('js/User.js') }}"></script>
+    <script src="{{ asset('js/RDZ.js') }}"></script>
+    <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
 
     <!-- Fonts -->
-    {{-- Masih belum sepenuhnya Offline --}}
-    <link href="{{ asset('css/fonts.googleapis.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/JsdelivrNpmSelect2.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/FontsGoogleapisIconFamilyMaterialIcons.css') }}" rel="stylesheet" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="{{ asset('css/FontsGoogleapisIconFamilyMaterialIcons.css') }}" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/sweetalert2.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/Rdz.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/FontsGoogleMaterialIcons.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.googleapis.MaterialSymbolsOutlined.css') }}" />
+    <div id="loading-screen">
+        <div id="part1" class="logo-part"></div>
+        <div id="part2" class="logo-part"></div>
+        <div id="part3" class="logo-part"></div>
+    </div>
 </head>
 
 <body onload="Greeting()">

@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="tambahPermohonanOrderKerjaLabel">Tambah Order Kerja </h5>
-                <button type="button" class="close" data-bs-dismiss="modal">
+                <button type="button" class="close" id="closeModalButton">
                     <span>&times;</span>
                 </button>
             </div>
@@ -24,6 +24,12 @@
                         <select name="select_suratPesananTujuan" id="select_suratPesananTujuan" class="form-control">
                             <option disabled selected>-- Pilih Surat Pesanan --</option>
                         </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="namaBarang">Nama Barang</label>
+                    <div class="input-group">
+                        <div id="namaBarang" class="form-control" style="height: auto;"></div>
                     </div>
                 </div>
                 <div class="form-group">

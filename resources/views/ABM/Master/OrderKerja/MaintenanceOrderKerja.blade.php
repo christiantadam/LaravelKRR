@@ -1,6 +1,12 @@
 @extends('layouts.appABM')
 @section('content')
 @section('title', 'Maintenance Order Kerja')
+<style>
+    .input-error {
+        outline: 1px solid red;
+        text-decoration-color: red;
+    }
+</style>
 <link href="{{ asset('css/ABM/MaintenanceOrderKerjaABM.css') }}" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <div class="container-fluid">
@@ -34,55 +40,52 @@
 </div>
 
 <!-- Modal untuk Detail Order Kerja -->
-{{-- <div class="modal fade" id="detailOrderKerja" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 90%;">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center">
-                    <h5 class="modal-title" id="detailKonversiModalLabel">Detail Konversi </h5>
-                    <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<div class="modal fade" id="detailOrderKerjaModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title" id="detailOrderKerjaModalLabel">Detail Order Kerja </h5>
+                <button type="button" class="close" id="closeDetailOrderKerjaModal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="detailOrderKerjaNomorSuratPesanan">Nomor Surat Pesanan</label>
+                    <div class="input-group">
+                        <div id="detailOrderKerjaNomorSuratPesanan" class="form-control" style="height: auto;"></div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div style="margin: 0.5%;" class="card" id="detail_konversiModalDivTabelAsalKonversi">
-                        <h3>Tabel Asal Konversi</h3>
-                        <div style="margin: 0.5%;overflow:auto">
-                            <table id="detail_konversiModalTableDaftarAsalKonversi">
-                                <thead>
-                                    <tr style="white-space: nowrap">
-                                        <th>Id Type Asal</th>
-                                        <th>Nama Type Asal</th>
-                                        <th>Pengeluaran Primer</th>
-                                        <th>Pengeluaran Sekunder</th>
-                                        <th>Pengeluaran Tritier</th>
-                                        <th>Id Tmp Transaksi</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                <div class="form-group">
+                    <label for="detailOrderKerjaCustomer">Customer</label>
+                    <div class="input-group">
+                        <div id="detailOrderKerjaCustomer" class="form-control" style="height: auto;"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="detailOrderKerjaNamaBarang">Nama Barang</label>
+                    <div class="input-group">
+                        <div id="detailOrderKerjaNamaBarang" class="form-control" style="height: auto;"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="detailOrderKerjaTanggalRencanaMulaiKerja">Tanggal Rencana Mulai Kerja (YYYY-MM-DD)</label>
+                    <div class="input-group">
+                        <div id="detailOrderKerjaTanggalRencanaMulaiKerja" class="form-control" style="height: auto;">
                         </div>
                     </div>
-                    <div style="margin: 0.5%;" class="card" id="detail_konversiModalDivTabelTujuanKonversi">
-                        <h3>Tabel Tujuan Konversi</h3>
-                        <div style="margin: 0.5%;overflow:auto">
-                            <table id="detail_konversiModalTableDaftarTujuanKonversi">
-                                <thead>
-                                    <tr style="white-space: nowrap">
-                                        <th>Id Type Tujuan</th>
-                                        <th>Nama Type Tujuan</th>
-                                        <th>Pemasukan Primer</th>
-                                        <th>Pemasukan Sekunder</th>
-                                        <th>Pemasukan Tritier</th>
-                                        <th>Id Tmp Transaksi</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                </div>
+                <div class="form-group">
+                    <label for="detailOrderKerjaTanggalRencanaSelesaiKerja">Tanggal Rencana Selesai Kerja (YYYY-MM-DD)</label>
+                    <div class="input-group">
+                        <div id="detailOrderKerjaTanggalRencanaSelesaiKerja" class="form-control" style="height: auto;">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success btn-acc" id="button_modalACC">Proses ACC</button>
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
+</div>
 
 @include('ABM.Master.OrderKerja.ModalPermohonanOrderKerja')
 <script src="{{ asset('js/ABM/Master/OrderKerja.js') }}"></script>

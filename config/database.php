@@ -228,6 +228,21 @@ return [
             'encrypt' => 'yes',
             'trust_server_certificate' => true,
         ],
+
+        'ConnABM' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_ELEVENTH', '127.0.0.1'),
+            'port' => env('DB_PORT_ELEVENTH', '1433'),
+            'database' => env('DB_DATABASE_ELEVENTH', 'forge'),
+            'username' => env('DB_USERNAME_ELEVENTH', 'forge'),
+            'password' => env('DB_PASSWORD_ELEVENTH', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'encrypt' => 'yes',
+            'trust_server_certificate' => true,
+        ],
     ],
 
     /*
