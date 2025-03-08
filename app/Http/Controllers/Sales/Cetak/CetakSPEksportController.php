@@ -37,6 +37,10 @@ class CetakSPEksportController extends Controller
         // Split uraianPesanan into an array using " | " as the delimiter
         $data = $data->map(function ($item) {
             $item->uraianPesananArray = explode(" | ", $item->UraianPesanan);
+            // Convert the 6th element (index 5) to an integer
+            if (isset($item->uraianPesananArray[5])) {
+                $item->uraianPesananArray[5] = intval($item->uraianPesananArray[5]);
+            }
             return $item;
         });
 
@@ -49,7 +53,7 @@ class CetakSPEksportController extends Controller
             $uraianB = $b->uraianPesananArray;
 
             if (count($uraianA) >= 6 && count($uraianB) >= 6) {
-                return strcmp($uraianA[5], $uraianB[5]);
+                return $uraianA[5] <=> $uraianB[5];
             } else {
                 // Handle cases where there are not enough elements in the array
                 return 0; // No change in order

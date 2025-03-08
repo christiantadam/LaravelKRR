@@ -35,9 +35,7 @@ let remarks_priceKolom = document.getElementById("remarks_priceKolom");
 let destination_portKolom = document.getElementById("destination_portKolom");
 let cargo_readyKolom = document.getElementById("cargo_readyKolom");
 let nama_perusahaanKolom = document.getElementById("nama_perusahaanKolom");
-let nama_penerimaOrderKolom = document.getElementById(
-    "nama_penerimaOrderKolom"
-);
+let nama_penerimaOrderKolom = document.getElementById("nama_penerimaOrderKolom"); // prettier-ignore
 let price_forKolom = document.getElementById("price_forKolom");
 let price_amountKolom = document.getElementById("price_amountKolom");
 let sales_managerKolom = document.getElementById("sales_managerKolom");
