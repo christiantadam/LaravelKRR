@@ -32,8 +32,8 @@
                                 class="form-control">
                                 <option disabled selected>Pilih Divisi</option>
                                 @foreach ($divisi as $d)
-                                    <option value="{{ $d->IdDivisi }}">{{ $d->NamaDivisi }} | {{ $d->IdDivisi }}
-                                    </option>
+                                    <option value="{{ $d->IdDivisi }}">{{ $d->NamaDivisi }} |
+                                        {{ $d->IdDivisi }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -110,7 +110,8 @@
                             <div class="form-group" style="width: 49%;border:none;">
                                 <label for="saldo_terakhirAsal">Saldo Terakhir Type Asal</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="saldo_terakhirPrimerAsalTanpaBarcode"
+                                    <input type="text" class="form-control"
+                                        id="saldo_terakhirPrimerAsalTanpaBarcode"
                                         name="saldo_terakhirPrimerAsalTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Primer" readonly>
                                     <input type="text" class="form-control"
@@ -165,6 +166,34 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div style="display: flex; flex-direction: row;gap:1%;">
+                        <div class="form-group" style="width: 75%;">
+                            <button class="btn btn-success" id="button_tambahAsalKonversiTanpaBarcode">Tambah
+                                Asal</button>
+                            <button class="btn btn-info" id="button_updateAsalKonversiTanpaBarcode">Update
+                                Asal</button>
+                            <button class="btn btn-danger" id="button_hapusAsalKonversiTanpaBarcode">Hapus
+                                Asal</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 0.5%;" class="card" id="div_tabelAsalKonversiTanpaBarcode">
+                    <div style="margin: 0.5%;overflow:auto">
+                        <table id="table_daftarAsalKonversiTanpaBarcode">
+                            <thead>
+                                <tr style="white-space: nowrap">
+                                    <th>Id Type Asal</th>
+                                    <th>Nama Type Asal</th>
+                                    <th>Jumlah Pengeluaran Primer</th>
+                                    <th>Satuan Primer</th>
+                                    <th>Jumlah Pengeluaran Sekunder</th>
+                                    <th>Satuan Sekunder</th>
+                                    <th>Jumlah Pengeluaran Tritier</th>
+                                    <th>Satuan Tritier</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
                 <br>
@@ -296,35 +325,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; flex-direction: row;gap:1%;">
-                            <div class="form-group" style="width: 75%;">
-                                <button class="btn btn-success" id="button_tambahTujuanKonversiTanpaBarcode">Tambah
-                                    Tujuan</button>
-                                <button class="btn btn-info" id="button_updateTujuanKonversiTanpaBarcode">Update
-                                    Tujuan</button>
-                                <button class="btn btn-danger" id="button_hapusTujuanKonversiTanpaBarcode">Hapus
-                                    Tujuan</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin: 0.5%;" class="card" id="div_tabelTujuanKonversiTanpaBarcode">
-                    <div style="margin: 0.5%;overflow:auto">
-                        <table id="table_daftarTujuanKonversiTanpaBarcode">
-                            <thead>
-                                <tr style="white-space: nowrap">
-                                    <th>Id Type Tujuan</th>
-                                    <th>Nama Type Tujuan</th>
-                                    <th>Jumlah Pengeluaran Primer</th>
-                                    <th>Satuan Primer</th>
-                                    <th>Jumlah Pengeluaran Sekunder</th>
-                                    <th>Satuan Sekunder</th>
-                                    <th>Jumlah Pengeluaran Tritier</th>
-                                    <th>Satuan Tritier</th>
-                                    <th>Id Sub Kelompok</th>
-                                </tr>
-                            </thead>
-                        </table>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-success" id="button_modalProsesTanpaBarcode">Proses</button>

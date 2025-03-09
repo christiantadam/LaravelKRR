@@ -90,8 +90,9 @@ class KonversiRollBarcodeController extends Controller
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan JBB";
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan JBB";
             } else if ($divisi == 'ABM') {
-                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi ABM";
-                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi ABM";
+                $grup = $request->input('grup');
+                $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ', ' . "Asal Konversi Setengah Jadi ABM";
+                $uraian_tujuan = (string) 'Grup ' . $grup . ' ' . $shift . ', ' . "Tujuan Konversi Setengah Jadi ABM";
             } else if ($divisi == 'ADS') {
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi ADS";
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi ADS";

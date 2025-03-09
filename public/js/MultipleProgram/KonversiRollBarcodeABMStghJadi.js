@@ -8,6 +8,7 @@ $(document).ready(function () {
     let button_updateTujuanKonversi = document.getElementById("button_updateTujuanKonversi"); // prettier-ignore
     let checkSisaRoll = false;
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
+    let closeModalButtonDetail = document.getElementById("closeModalButtonDetail"); // prettier-ignore
     let detail_konversiModalTableDaftarAsalKonversi = $("#detail_konversiModalTableDaftarAsalKonversi").DataTable(); // prettier-ignore
     let detail_konversiModalTableDaftarTujuanKonversi = $("#detail_konversiModalTableDaftarTujuanKonversi").DataTable(); // prettier-ignore
     let detailKonversiModal = document.getElementById("detailKonversiModal"); // prettier-ignore
@@ -15,6 +16,7 @@ $(document).ready(function () {
     let hasil_konversiSekunderTujuan = document.getElementById("hasil_konversiSekunderTujuan"); // prettier-ignore
     let hasil_konversiTritierTujuan = document.getElementById("hasil_konversiTritierTujuan"); // prettier-ignore
     let id_shift = document.getElementById("id_shift"); // prettier-ignore
+    let id_grup = document.getElementById("id_grup"); // prettier-ignore
     let input_barcodeAsal = document.getElementById("input_barcodeAsal"); // prettier-ignore
     let input_tanggalKonversi = document.getElementById("input_tanggalKonversi"); // prettier-ignore
     let maxHasilKonversiTritier = 0;
@@ -263,6 +265,7 @@ $(document).ready(function () {
                     .toArray(),
                 proses: proses,
                 shift: id_shift.value,
+                grup: id_grup.value,
                 divisi: "ABM",
                 jenisStore: "permohonan",
                 tanggalKonversi: input_tanggalKonversi.value,
@@ -614,6 +617,14 @@ $(document).ready(function () {
         });
     });
 
+    closeModalButton.addEventListener("click", function () {
+        $("#tambahTujuanModal").modal("hide");
+    });
+
+    closeModalButtonDetail.addEventListener("click", function () {
+        $("#detailKonversiModal").modal("hide");
+    });
+
     id_shift.addEventListener("input", function (e) {
         // Automatically convert the input to uppercase
         this.value = this.value.toUpperCase();
@@ -644,6 +655,42 @@ $(document).ready(function () {
         if (e.key == "Enter") {
             if (id_shift.value == "") {
                 id_shift.classList.add("input-error");
+            } else {
+                id_grup.focus();
+            }
+        }
+    });
+
+    id_grup.addEventListener("input", function (e) {
+        // Automatically convert the input to uppercase
+        this.value = this.value.toUpperCase();
+
+        // Allow only 'P', 'M', or 'S'
+        const allowedCharacters = ["A", "B", "C"];
+
+        // If the input is more than one character or not one of the allowed characters
+        if (this.value.length > 1 || !allowedCharacters.includes(this.value)) {
+            // Remove the last entered character if it's not allowed
+            this.value = this.value.slice(0, 1);
+            if (!allowedCharacters.includes(this.value)) {
+                this.value = ""; // Clear the input if the remaining character is still invalid
+            }
+
+            this.classList.add("input-error");
+            this.setCustomValidity(
+                "Silahkan pilih grup A, B, atau C"
+            );
+        } else {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+        }
+        this.reportValidity(); // Display the validity message
+    });
+
+    id_grup.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            if (id_grup.value == "") {
+                id_grup.classList.add("input-error");
             } else {
                 select_divisiTujuan.focus();
             }
@@ -1369,7 +1416,7 @@ $(document).ready(function () {
         let lembarPerKilo =
             table_daftarAsalKonversi.data()[0][3] /
             table_daftarAsalKonversi.data()[0][4];
-        if (id_shift.value !== "") {
+        if (id_shift.value !== "" && id_grup.value !== "") {
             //0.03 = 3% toleransi konversi
             if (
                 sisaRoll > table_daftarAsalKonversi.data()[0][4] * 0.03 &&
@@ -1431,7 +1478,7 @@ $(document).ready(function () {
             Swal.fire({
                 icon: "error",
                 title: "Error!",
-                text: "Kolom shift harus diisi!",
+                text: "Kolom shift dan grup harus diisi!",
                 showConfirmButton: false,
             });
             id_shift.focus();
@@ -1567,44 +1614,27 @@ $(document).ready(function () {
                         Swal.fire({
                             icon: "success",
                             title: "Berhasil!",
-                            text: responseSuccess,
-                            showConfirmButton: false,
+                            html: `<svg id="swalBarcode"></svg>`,
+                            customClass: {
+                                popup: "wide-swal", // Custom class to widen the modal
+                            },
+                            didOpen: () => {
+                                JsBarcode("#swalBarcode", barcodeValue, {
+                                    format: "CODE128",
+                                    width: 2, // Reduce the width of barcode units
+                                    height: 100, // Adjust height for better fit
+                                    displayValue: true,
+                                });
+                                // Generate the barcode with JsBarcode
+                                JsBarcode("#div_printBarcode", barcodeValue, {
+                                    format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
+                                    width: 4, // Width of a single barcode unit
+                                    height: 200, // Height of the barcode
+                                    displayValue: true, // Display the value below the barcode
+                                });
+                            },
                         }).then(() => {
-                            const barcodeCanvas = document.getElementById("div_printBarcode"); // prettier-ignore
-
-                            // Set up a MutationObserver to detect changes to the canvas
-                            const observer = new MutationObserver(
-                                (mutations) => {
-                                    mutations.forEach((mutation) => {
-                                        if (
-                                            mutation.type === "attributes" &&
-                                            mutation.attributeName ===
-                                                "data-rendered"
-                                        ) {
-                                            // Trigger window.print() when rendering is complete
-                                            window.print();
-                                            // Stop observing after print is triggered
-                                            observer.disconnect();
-                                        }
-                                    });
-                                }
-                            );
-
-                            // Start observing the canvas element
-                            observer.observe(barcodeCanvas, {
-                                attributes: true,
-                            });
-
-                            // Generate the barcode with JsBarcode
-                            JsBarcode("#div_printBarcode", barcodeValue, {
-                                format: "CODE128", // The format of the barcode (e.g., CODE128, EAN13, UPC, etc.)
-                                width: 4, // Width of a single barcode unit
-                                height: 200, // Height of the barcode
-                                displayValue: true, // Display the value below the barcode
-                            });
-
-                            // Add a custom attribute after the barcode is rendered
-                            barcodeCanvas.setAttribute("data-rendered", "true");
+                            getDataPermohonan();
                         });
                     } else {
                         Swal.fire({
@@ -1612,6 +1642,8 @@ $(document).ready(function () {
                             title: "Berhasil!",
                             text: responseSuccess,
                             showConfirmButton: false,
+                        }).then(() => {
+                            getDataPermohonan();
                         });
                     }
                 }
@@ -2088,6 +2120,10 @@ $(document).ready(function () {
                 });
             }
         });
+    });
+
+    closeModalButtonTanpaBarcode.addEventListener("click", function () {
+        $("#tambahTujuanModalTanpaBarcode").modal("hide");
     });
 
     id_shiftTanpaBarcode.addEventListener("input", function (e) {

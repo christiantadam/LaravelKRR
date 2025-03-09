@@ -26,6 +26,7 @@
     <script src="{{ asset('js/datatablesSumApi.js') }}"></script>
     <script src="{{ asset('js/jquery-dateformat.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('js/JSbarcode.all.min.js') }}"></script>
     <script src="{{ asset('js/RDZ.js') }}"></script>
     <script src="{{ asset('js/xlsx.full.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="tambahTujuanModalLabel">Tambah Konversi </h5>
-                <button type="button" class="close" data-bs-dismiss="modal">
+                <button type="button" class="close" id="closeModalButton">
                     <span>&times;</span>
                 </button>
             </div>
@@ -23,6 +23,13 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="id_shift" name="id_shift"
                                         placeholder="[P] [S] [M]">
+                                </div>
+                            </div>
+                            <div class="form-group" style="width: 8%">
+                                <label for="grup">Grup</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="id_grup" name="id_grup"
+                                        placeholder="[A] [B] [C]">
                                 </div>
                             </div>
                             <div class="form-group" style="width: 15%">

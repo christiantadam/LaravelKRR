@@ -668,6 +668,14 @@ $(document).ready(function () {
         });
     });
 
+    closeModalButton.addEventListener("click", function () {
+        $("#tambahTujuanModal").modal("hide");
+    });
+
+    closeModalButtonDetail.addEventListener("click", function () {
+        $("#detailKonversiModal").modal("hide");
+    });
+
     button_modalProses.addEventListener("click", function (e) {
         // e.preventDefault();
         let sisaRoll = 0;
@@ -1646,8 +1654,6 @@ $(document).ready(function () {
                 jenisStore: "accPermohonan",
             },
             success: function (response) {
-                console.log(response);
-
                 if (response.error) {
                     Swal.fire({
                         icon: "error",
@@ -2196,6 +2202,10 @@ $(document).ready(function () {
     //#endregion
 
     //#region Event Handlers Tanpa Barcode
+
+    closeModalButtonTanpaBarcode.addEventListener("click", function () {
+        $("#tambahTujuanModalTanpaBarcode").modal("hide");
+    });
 
     id_shiftTanpaBarcode.addEventListener("input", function (e) {
         // Automatically convert the input to uppercase
