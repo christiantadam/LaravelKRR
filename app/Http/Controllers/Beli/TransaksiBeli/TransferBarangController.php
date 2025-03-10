@@ -188,18 +188,17 @@ class TransferBarangController extends Controller
 
     public function koreksi(Request $request)
     {
-
         $IdType = $request->input('IdType');
-        $MasukPrimer = $request->input('MasukPrimer') ?? 0.00;
-        $MasukSekunder = $request->input('MasukSekunder') ?? 0.00;
-        $MasukTritier = $request->input('MasukTritier');
+        $MasukPrimer = (float) str_replace(',', '', $request->input('MasukPrimer')) ?? 0.00;
+        $MasukSekunder = (float) str_replace(',', '', $request->input('MasukSekunder')) ?? 0.00;
+        $MasukTritier = (float) str_replace(',', '', $request->input('MasukTritier'));
         $User_id = trim(Auth::user()->NomorUser);
         $SubKel = $request->input('SubKel');
         $NoTransTmp = $request->input('NoTransTmp');
         $ket = $request->input('ket');
         $tanggal = $request->input('tanggal');
         // dd($request->all());
-        // dd($MasukPrimer, $MasukSekunder);
+        // dd($MasukPrimer, $MasukSekunder, $MasukTritier);
         if (
             $IdType !== null &&
             $MasukPrimer !== null &&
@@ -228,9 +227,9 @@ class TransferBarangController extends Controller
     {
         // dd($request->all());
         $IdType = $request->input('IdType');
-        $MasukPrimer = $request->input('MasukPrimer') ?? 0;
-        $MasukSekunder = $request->input('MasukSekunder') ?? 0;
-        $MasukTritier = $request->input('MasukTritier');
+        $MasukPrimer = (float) str_replace(',', '', $request->input('MasukPrimer')) ?? 0.00;
+        $MasukSekunder = (float) str_replace(',', '', $request->input('MasukSekunder')) ?? 0.00;
+        $MasukTritier = (float) str_replace(',', '', $request->input('MasukTritier'));
         $User_id = trim(Auth::user()->NomorUser);
         $SubKel = $request->input('SubKel');
         $NoTerima = $request->input('NoTerima');
