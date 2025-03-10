@@ -499,7 +499,30 @@ class SuratPesananController extends Controller
 
     public function deleteDetailPesanan($idPesanan)
     {
+        $cekDO = DB::connection('ConnSales')->table('T_DeliveryOrder')
+            ->where('IDPesanan', $idPesanan)
+            ->exists();
+
+        if ($cekDO) {
+            // Cek apakah ada setidaknya satu row dengan KetBatal IS NULL
+            $adaKetBatalNull = DB::connection('ConnSales')->table('T_DeliveryOrder')
+                ->where('IDPesanan', $idPesanan)
+                ->whereNull('KetBatal')
+                ->exists();
+
+            if ($adaKetBatalNull) {
+                return response()->json("Data tidak bisa dihapus karena ada DO!");
+            }
+
+            // Jika semua row KetBatal IS NOT NULL, hapus semua row di T_DeliveryOrder
+            DB::connection('ConnSales')->table('T_DeliveryOrder')
+                ->where('IDPesanan', $idPesanan)
+                ->delete();
+        }
+
+        // Jika tidak ada DO atau sudah dihapus, jalankan stored procedure
         DB::connection('ConnSales')->statement('exec SP_1486_SLS_MAINT_DETAILPESANAN @Kode = ?, @IDPesanan = ?', [3, $idPesanan]);
+
         return response()->json("Data sudah terhapus dari database!");
     }
 

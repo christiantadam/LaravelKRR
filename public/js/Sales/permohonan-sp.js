@@ -1726,20 +1726,30 @@ $(document).ready(function () {
             createSPModalLabel.innerHTML == "Penyesuaian Surat Pesanan"
         ) {
             if (selectedRow.length > 0) {
-                if (selectedRow.find("td").eq(29).text() !== "") {
-                    // console.log(input[7].value);
-                    fetch(
-                        "/deletedetail/" + selectedRow.find("td").eq(29).text()
-                    )
+                let idPesanan = selectedRow.find("td").eq(29).text().trim();
+
+                if (idPesanan !== "") {
+                    fetch("/deletedetail/" + idPesanan)
                         .then((response) => response.json())
                         .then((data) => {
                             alert(data);
+
+                            // Hanya hapus row jika respons dari server bukan error
+                            if (
+                                data !==
+                                "Data tidak bisa dihapus karena ada DO!"
+                            ) {
+                                table.row(selectedRow).remove().draw();
+                            }
+                        })
+                        .catch((error) => {
+                            alert("Terjadi kesalahan saat menghapus data!");
+                            console.error("Error:", error);
                         });
-                    table.row(selectedRow).remove().draw();
                 } else {
                     table.row(selectedRow).remove().draw();
+                    alert("Data sudah terhapus dari tabel!");
                 }
-                alert("Data sudah terhapus dari tabel!");
             } else {
                 alert("Tidak ada data yang dihapus");
             }
