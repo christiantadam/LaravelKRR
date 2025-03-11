@@ -1094,7 +1094,7 @@ $(document).ready(function () {
             if (id_shift.value == "") {
                 id_shift.classList.add("input-error");
             } else {
-                select_divisiTujuan.focus();
+                select_divisi.focus();
             }
         }
     });

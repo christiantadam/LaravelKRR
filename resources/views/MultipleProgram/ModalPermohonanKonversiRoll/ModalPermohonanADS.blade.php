@@ -59,7 +59,7 @@
                         </div>
                         <div class="card" style="margin: 0.5%;padding:0.5%;" id="div_asalKonversi">
                             <div id="div_konversiTubular" style="display: block">
-                                <div style="display: flex; flex-direction: row;gap:1%;">
+                                {{-- <div style="display: flex; flex-direction: row;gap:1%;">
                                     <div class="form-group" style="width: 32%">
                                         <label for="divisi">Divisi</label>
                                         <div class="input-group">
@@ -190,7 +190,7 @@
                                         <button class="btn btn-danger" id="button_hapusAsalKonversi">Hapus
                                             Asal</button>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <h3>Tabel Asal Konversi</h3>
                             <div style="overflow:auto">

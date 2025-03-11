@@ -86,16 +86,13 @@ class KonversiRollBarcodeController extends Controller
                     $shift = 'Malam';
                     break;
             }
-            if ($divisi == 'JBB') {
-                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan JBB";
-                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan JBB";
+            if ($divisi == 'JBB' || $divisi == 'ADS') {
+                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan ". $divisi;
+                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan ". $divisi;
             } else if ($divisi == 'ABM') {
                 $grup = $request->input('grup');
-                $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ', ' . "Asal Konversi Setengah Jadi ABM";
-                $uraian_tujuan = (string) 'Grup ' . $grup . ' ' . $shift . ', ' . "Tujuan Konversi Setengah Jadi ABM";
-            } else if ($divisi == 'ADS') {
-                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Setengah Jadi ADS";
-                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Setengah Jadi ADS";
+                $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi ABM";
+                $uraian_tujuan = (string) 'Grup ' . $grup . ' ' . $shift . ",  Tujuan Konversi Setengah Jadi ABM";
             }
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
             // dd($table_daftarTujuanKonversi);

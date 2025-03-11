@@ -24,6 +24,7 @@ $(document).ready(function () {
     let div_tujuanKonversiTanpaBarcode = document.getElementById('div_tujuanKonversiTanpaBarcode'); // prettier-ignore
     let div_headerFormTambahTujuanKonversiTanpaBarcode = document.getElementById('div_headerFormTambahTujuanKonversiTanpaBarcode'); // prettier-ignore
     let id_shiftTanpaBarcode = document.getElementById("id_shiftTanpaBarcode"); // prettier-ignore
+    let id_groupTanpaBarcode = document.getElementById("id_groupTanpaBarcode"); // prettier-ignore
     let input_tanggalKonversiTanpaBarcode = document.getElementById('input_tanggalKonversiTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianPrimerTanpaBarcode = document.getElementById('jumlah_pemakaianPrimerTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianSekunderTanpaBarcode = document.getElementById('jumlah_pemakaianSekunderTanpaBarcode'); // prettier-ignore
@@ -434,6 +435,40 @@ $(document).ready(function () {
         if (e.key == "Enter") {
             if (id_shiftTanpaBarcode.value == "") {
                 id_shiftTanpaBarcode.classList.add("input-error");
+            } else {
+                id_groupTanpaBarcode.focus();
+            }
+        }
+    });
+
+    id_groupTanpaBarcode.addEventListener("input", function (e) {
+        // Automatically convert the input to uppercase
+        this.value = this.value.toUpperCase();
+
+        // Allow only 'P', 'M', or 'S'
+        const allowedCharacters = ["A", "B", "C"];
+
+        // If the input is more than one character or not one of the allowed characters
+        if (this.value.length > 1 || !allowedCharacters.includes(this.value)) {
+            // Remove the last entered character if it's not allowed
+            this.value = this.value.slice(0, 1);
+            if (!allowedCharacters.includes(this.value)) {
+                this.value = ""; // Clear the input if the remaining character is still invalid
+            }
+
+            this.classList.add("input-error");
+            this.setCustomValidity("Silahkan pilih A, B, atau C"); // prettier-ignore
+        } else {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+        }
+        this.reportValidity(); // Display the validity message
+    });
+
+    id_groupTanpaBarcode.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            if (id_groupTanpaBarcode.value == "") {
+                id_groupTanpaBarcode.classList.add("input-error");
             } else {
                 select_divisiTanpaBarcode.select2("open");
             }
@@ -1150,6 +1185,7 @@ $(document).ready(function () {
                 data: {
                     _token: csrfToken,
                     shift: id_shiftTanpaBarcode.value,
+                    group: id_groupTanpaBarcode.value,
                     divisi: "ABM",
                     jenisStore: "permohonan",
                     id_typeAsal: select_typeAsalTanpaBarcode.val(),

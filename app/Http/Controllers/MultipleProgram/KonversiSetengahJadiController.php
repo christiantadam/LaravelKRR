@@ -76,8 +76,14 @@ class KonversiSetengahJadiController extends Controller
             $jumlah_pemasukanSekunder = $request->input('jumlah_pemasukanSekunder');
             $jumlah_pemasukanTritier = $request->input('jumlah_pemasukanTritier');
             $idSubkelompokTujuan = $request->input('idSubkelompokTujuan');
-            $uraianAsal = (string) $shift . ", Asal Konversi Setengah Jadi " . $divisi;
-            $uraianTujuan = (string) $shift . ", Tujuan Konversi Setengah Jadi " . $divisi;
+            if ($divisi == 'JBB' || $divisi == 'ADS') {
+                $uraianAsal = (string) $shift . ", Asal Konversi Setengah Jadi " . $divisi;
+                $uraianTujuan = (string) $shift . ", Tujuan Konversi Setengah Jadi " . $divisi;
+            } else if ($divisi == 'ABM') {
+                $group = $request->input('group');
+                $uraianAsal = (string) "Group " . $group . " " . $shift . ", Asal Konversi Setengah Jadi " . $divisi;
+                $uraianTujuan = (string) "Group " . $group . " " . $shift . ", Tujuan Konversi Setengah Jadi " . $divisi;
+            }
             if ($divisi == 'JBB') {
                 try {
                     $table_daftarAsalKonversi = $request->input('table_daftarAsalKonversi');
