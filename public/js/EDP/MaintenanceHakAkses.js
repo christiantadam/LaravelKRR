@@ -5,22 +5,24 @@ let divFitur = document.getElementById("divFitur");
 let fiturUserSebelum = [];
 let fiturUserSesudah = [];
 let listFitur = document.getElementById("listFitur");
-let namaPegawai = document.getElementById("namaPegawai");
+let namaPegawai = $("#namaPegawai");
 let namaPegawaiText = document.getElementById("namaPegawaiText");
-let namaProgram = document.getElementById("namaProgram");
+let namaProgram = $("#namaProgram");
 let namaProgramText = document.getElementById("namaProgramText");
 
 //#region load Form
 
+namaPegawai.select2();
+namaProgram.select2();
 namaPegawai.focus();
-namaProgram.disabled = true;
+namaProgram.prop("disabled", true);
 divButton.style.display = "none";
 
 //#endregion
 
 //#region add event listener
 
-namaPegawai.addEventListener("change", function () {
+namaPegawai.on("change", function () {
     if (this.selectedIndex !== 0) {
         this.classList.add("input-error");
         this.setCustomValidity("Tekan Enter!");
@@ -28,27 +30,17 @@ namaPegawai.addEventListener("change", function () {
     }
 });
 
-namaPegawai.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        if (this.selectedIndex !== 0) {
-            namaPegawaiText.value = this.value;
-            this.disabled = true;
-            const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
-            namaPegawaiText.dispatchEvent(enterEvent);
-        }
-    }
-});
-
-namaPegawaiText.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        namaProgram.disabled = false;
+namaPegawai.on("select2:select", function (event) {
+    event.preventDefault();
+    if (this.selectedIndex !== 0) {
+        namaPegawaiText.value = this.value;
+        namaPegawai.prop("disabled", true);
+        namaProgram.prop("disabled", false);
         namaProgram.focus();
     }
 });
 
-namaProgram.addEventListener("change", function () {
+namaProgram.on("change", function () {
     if (this.selectedIndex !== 0) {
         this.classList.add("input-error");
         this.setCustomValidity("Tekan Enter!");
@@ -56,22 +48,11 @@ namaProgram.addEventListener("change", function () {
     }
 });
 
-namaProgram.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        if (this.selectedIndex !== 0) {
-            namaProgramText.value = this.value;
-            this.disabled = true;
-            const enterEvent = new KeyboardEvent("keypress", { key: "Enter" });
-            namaProgramText.dispatchEvent(enterEvent);
-        }
-    }
-});
-
-namaProgramText.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        console.log(namaProgramText.value, namaPegawaiText.value);
+namaProgram.on("select2:select", function (event) {
+    event.preventDefault();
+    if (this.selectedIndex !== 0) {
+        namaProgramText.value = this.value;
+        namaProgram.prop("disabled", true);
         fetch(
             "/AllFitur/" + namaProgramText.value + "/" + namaPegawaiText.value
         )
@@ -85,7 +66,6 @@ namaProgramText.addEventListener("keypress", function (event) {
                     checklist = createChecklist(data[0], data[1]);
                 }
                 divFitur.style.display = "block";
-                // console.log(checklist);
                 listFitur.appendChild(checklist);
                 divButton.style.display = "block";
                 document.getElementById("item-0").focus();
@@ -172,11 +152,12 @@ buttonProses.addEventListener("click", function (event) {
 
 buttonCancel.addEventListener("click", function (event) {
     event.preventDefault();
-    namaPegawai.selectedIndex = 0;
-    namaPegawai.disabled = false;
+    namaPegawai.val(null).trigger("change");
+    namaPegawai.prop("disabled", false);
     namaPegawai.focus();
     namaPegawaiText.value = "";
-    namaProgram.selectedIndex = 0;
+    namaProgram.val(null).trigger("change");
+    namaProgram.prop("disabled", true);
     namaProgramText.value = "";
     listFitur.innerHTML = "";
     divFitur.style.display = "none";
@@ -215,7 +196,6 @@ function createChecklist(array, checkedItems, publicItems) {
         const isChecked = checkedItems.some(
             (checkedItem) => checkedItem.Id_Fitur === item.IdFitur
         );
-        // console.log(checkbox, isChecked);
         if (isChecked) {
             checkbox.checked = true;
         }
