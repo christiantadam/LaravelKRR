@@ -18,11 +18,18 @@
                                 name="input_tanggalKonversiTanpaBarcode">
                         </div>
                     </div>
-                    <div class="form-group" style="width: 10%">
+                    <div class="form-group" style="width: 8%">
                         <label for="shift">Shift</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="id_shiftTanpaBarcode"
                                 name="id_shiftTanpaBarcode" placeholder="[P] [S] [M]">
+                        </div>
+                    </div>
+                    <div class="form-group" style="width: 8%">
+                        <label for="group">Group</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="id_groupTanpaBarcode"
+                                name="id_groupTanpaBarcode" placeholder="[A] [B] [C]">
                         </div>
                     </div>
                     <div class="form-group" style="width: 32%">

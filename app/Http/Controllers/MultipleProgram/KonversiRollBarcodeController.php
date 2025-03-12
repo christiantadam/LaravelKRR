@@ -87,8 +87,8 @@ class KonversiRollBarcodeController extends Controller
                     break;
             }
             if ($divisi == 'JBB' || $divisi == 'ADS') {
-                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan ". $divisi;
-                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan ". $divisi;
+                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan " . $divisi;
+                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan " . $divisi;
             } else if ($divisi == 'ABM') {
                 $grup = $request->input('grup');
                 $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi ABM";

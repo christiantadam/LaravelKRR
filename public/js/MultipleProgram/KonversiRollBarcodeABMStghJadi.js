@@ -36,11 +36,12 @@ $(document).ready(function () {
     let satuan_saldoTerakhirTujuanTritier = document.getElementById("satuan_saldoTerakhirTujuanTritier"); // prettier-ignore
     let satuan_sekunderTujuan = document.getElementById("satuan_sekunderTujuan"); // prettier-ignore
     let satuan_tritierTujuan = document.getElementById("satuan_tritierTujuan"); // prettier-ignore
-    let select_kelompokTujuan = document.getElementById("select_kelompokTujuan"); // prettier-ignore
-    let select_kelompokUtamaTujuan = document.getElementById("select_kelompokUtamaTujuan"); // prettier-ignore
-    let select_objekTujuan = document.getElementById("select_objekTujuan"); // prettier-ignore
-    let select_subKelompokTujuan = document.getElementById("select_subKelompokTujuan"); // prettier-ignore
-    let select_typeTujuan = document.getElementById("select_typeTujuan"); // prettier-ignore
+    const select_divisiTujuan = $("#select_divisiTujuan") // prettier-ignore
+    const select_kelompokTujuan = $('#select_kelompokTujuan') // prettier-ignore
+    const select_kelompokUtamaTujuan = $('#select_kelompokUtamaTujuan') // prettier-ignore
+    const select_objekTujuan = $('#select_objekTujuan') // prettier-ignore
+    const select_subKelompokTujuan = $('#select_subKelompokTujuan') // prettier-ignore
+    const select_typeTujuan = $('#select_typeTujuan') // prettier-ignore
     let tambahTujuanModal = document.getElementById("tambahTujuanModal"); // prettier-ignore
 
     let table_daftarKonversi = $("#table_daftarKonversi").DataTable({
@@ -173,81 +174,282 @@ $(document).ready(function () {
         });
     }
 
-    function clearTujuan(type) {
-        if (type == "divisi") {
-            select_objekTujuan.disabled = true;
-            select_objekTujuan.selectedIndex = 0;
-            select_kelompokUtamaTujuan.disabled = true;
-            select_kelompokUtamaTujuan.selectedIndex = 0;
-            select_kelompokTujuan.disabled = true;
-            select_kelompokTujuan.selectedIndex = 0;
-            select_subKelompokTujuan.disabled = true;
-            select_subKelompokTujuan.selectedIndex = 0;
-            select_typeTujuan.disabled = true;
-            select_typeTujuan.selectedIndex = 0;
-            saldo_terakhirTujuanPrimer.value = "";
-            saldo_terakhirTujuanSekunder.value = "";
-            saldo_terakhirTujuanTritier.value = "";
-            satuan_saldoTerakhirTujuanPrimer.value = "";
-            satuan_saldoTerakhirTujuanSekunder.value = "";
-            satuan_saldoTerakhirTujuanTritier.value = "";
-        } else if (type == "objek") {
-            select_kelompokUtamaTujuan.disabled = true;
-            select_kelompokUtamaTujuan.selectedIndex = 0;
-            select_kelompokTujuan.disabled = true;
-            select_kelompokTujuan.selectedIndex = 0;
-            select_subKelompokTujuan.disabled = true;
-            select_subKelompokTujuan.selectedIndex = 0;
-            select_typeTujuan.disabled = true;
-            select_typeTujuan.selectedIndex = 0;
-            saldo_terakhirTujuanPrimer.value = "";
-            saldo_terakhirTujuanSekunder.value = "";
-            saldo_terakhirTujuanTritier.value = "";
-            satuan_saldoTerakhirTujuanPrimer.value = "";
-            satuan_saldoTerakhirTujuanSekunder.value = "";
-            satuan_saldoTerakhirTujuanTritier.value = "";
-        } else if (type == "kelompokutama") {
-            select_kelompokTujuan.disabled = true;
-            select_kelompokTujuan.selectedIndex = 0;
-            select_subKelompokTujuan.disabled = true;
-            select_subKelompokTujuan.selectedIndex = 0;
-            select_typeTujuan.disabled = true;
-            select_typeTujuan.selectedIndex = 0;
-            saldo_terakhirTujuanPrimer.value = "";
-            saldo_terakhirTujuanSekunder.value = "";
-            saldo_terakhirTujuanTritier.value = "";
-            satuan_saldoTerakhirTujuanPrimer.value = "";
-            satuan_saldoTerakhirTujuanSekunder.value = "";
-            satuan_saldoTerakhirTujuanTritier.value = "";
-        } else if (type == "kelompok") {
-            select_subKelompokTujuan.disabled = true;
-            select_subKelompokTujuan.selectedIndex = 0;
-            select_typeTujuan.disabled = true;
-            select_typeTujuan.selectedIndex = 0;
-            saldo_terakhirTujuanPrimer.value = "";
-            saldo_terakhirTujuanSekunder.value = "";
-            saldo_terakhirTujuanTritier.value = "";
-            satuan_saldoTerakhirTujuanPrimer.value = "";
-            satuan_saldoTerakhirTujuanSekunder.value = "";
-            satuan_saldoTerakhirTujuanTritier.value = "";
-        } else if (type == "subkelompok") {
-            select_typeTujuan.disabled = true;
-            select_typeTujuan.selectedIndex = 0;
-            saldo_terakhirTujuanPrimer.value = "";
-            saldo_terakhirTujuanSekunder.value = "";
-            saldo_terakhirTujuanTritier.value = "";
-            satuan_saldoTerakhirTujuanPrimer.value = "";
-            satuan_saldoTerakhirTujuanSekunder.value = "";
-            satuan_saldoTerakhirTujuanTritier.value = "";
-        } else if (type == "type") {
-            saldo_terakhirTujuanPrimer.value = "";
-            saldo_terakhirTujuanSekunder.value = "";
-            saldo_terakhirTujuanTritier.value = "";
-            satuan_saldoTerakhirTujuanPrimer.value = "";
-            satuan_saldoTerakhirTujuanSekunder.value = "";
-            satuan_saldoTerakhirTujuanTritier.value = "";
+    function getSelectElementsByType(tipeInitialisasi) {
+        const elementSets = {
+            showModalDenganBarcode: [
+                { element: select_divisiTujuan, placeholder: "Pilih Divisi Tujuan" }, // prettier-ignore
+                { element: select_objekTujuan, placeholder: "Pilih Objek Tujuan" }, // prettier-ignore
+                { element: select_kelompokTujuan, placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
+                { element: select_kelompokUtamaTujuan, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
+                { element: select_subKelompokTujuan, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+                { element: select_typeTujuan, placeholder: "Pilih Type Tujuan" }, // prettier-ignore
+            ],
+            pilihDivisiDenganBarcode: [
+                { element: select_objekTujuan, placeholder: "Pilih Objek Tujuan" }, // prettier-ignore
+                { element: select_kelompokTujuan, placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
+                { element: select_kelompokUtamaTujuan, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
+                { element: select_subKelompokTujuan, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+                { element: select_typeTujuan, placeholder: "Pilih Type Tujuan" }, // prettier-ignore
+            ],
+            pilihObjekDenganBarcode: [
+                { element: select_kelompokUtamaTujuan, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
+                { element: select_kelompokTujuan, placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
+                { element: select_subKelompokTujuan, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+                { element: select_typeTujuan, placeholder: "Pilih Type Tujuan" }, // prettier-ignore
+            ],
+            pilihKelompokUtamaDenganBarcode: [
+                { element: select_kelompokTujuan, placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
+                { element: select_subKelompokTujuan, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+                { element: select_typeTujuan, placeholder: "Pilih Type Tujuan" }, // prettier-ignore
+            ],
+            pilihKelompokDenganBarcode: [
+                { element: select_subKelompokTujuan, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+                { element: select_typeTujuan, placeholder: "Pilih Type Tujuan" }, // prettier-ignore
+            ],
+            pilihSubKelompokDenganBarcode: [
+                { element: select_typeTujuan, placeholder: "Pilih Type Tujuan" }, // prettier-ignore
+            ],
+            showModalTanpaBarcode: [
+                { element: select_divisiTanpaBarcode, placeholder: "Pilih Divisi" }, // prettier-ignore
+                { element: select_objekAsalTanpaBarcode, placeholder: "Pilih Objek Asal" }, // prettier-ignore
+                { element: select_kelompokUtamaAsalTanpaBarcode, placeholder: "Pilih Kelompok Utama Asal"}, // prettier-ignore
+                { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
+                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
+                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
+                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
+                { element: select_objekTujuanTanpaBarcode,placeholder: "Pilih Objek Tujuan"}, // prettier-ignore
+                { element: select_kelompokUtamaTujuanTanpaBarcode,placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
+                { element: select_kelompokTujuanTanpaBarcode,placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
+                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+            ],
+            pilihDivisiTanpaBarcode: [
+                { element: select_objekAsalTanpaBarcode, placeholder: "Pilih Objek Asal" }, // prettier-ignore
+                { element: select_kelompokUtamaAsalTanpaBarcode, placeholder: "Pilih Kelompok Utama Asal"}, // prettier-ignore
+                { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
+                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
+                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
+                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
+                { element: select_objekTujuanTanpaBarcode, placeholder: "Pilih Objek Tujuan"}, // prettier-ignore
+                { element: select_kelompokUtamaTujuanTanpaBarcode, placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
+                { element: select_kelompokTujuanTanpaBarcode, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
+                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+            ],
+            pilihObjekAsalTanpaBarcode: [
+                { element: select_kelompokUtamaAsalTanpaBarcode, placeholder: "Pilih Kelompok Utama Asal"}, // prettier-ignore
+                { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
+                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
+                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
+            ],
+            pilihKelompokUtamaAsalTanpaBarcode: [
+                { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
+                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
+                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
+            ],
+            pilihKelompokAsalTanpaBarcode: [
+                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
+                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
+            ],
+            pilihSubKelompokAsalTanpaBarcode: [
+                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
+            ],
+            pilihObjekTujuanTanpaBarcode: [
+                { element: select_kelompokUtamaTujuanTanpaBarcode, placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
+                { element: select_kelompokTujuanTanpaBarcode, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
+                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
+            ],
+            pilihKelompokUtamaTujuanTanpaBarcode: [
+                { element: select_kelompokTujuanTanpaBarcode, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
+                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
+            ],
+            pilihKelompokTujuanTanpaBarcode: [
+                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
+                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
+            ],
+            pilihSubKelompokTujuanTanpaBarcode: [
+                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
+            ],
+        };
+
+        return elementSets[tipeInitialisasi] || [];
+    }
+
+    function initializeSelectElement(tipeInitialisasi) {
+        // Define an array of select elements and their placeholders based on tipeInitialisasi
+        let selectElements = getSelectElementsByType(tipeInitialisasi);
+
+        if (tipeInitialisasi.includes("TanpaBarcode")) {
+            // Initialize each select element with Select2 and set the placeholder
+            selectElements.forEach(({ element, placeholder }) => {
+                element.select2({
+                    dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
+                    placeholder: placeholder,
+                }); // prettier-ignore
+            });
+        } else if (tipeInitialisasi.includes('DenganBarcode')){
+            selectElements.forEach(({ element, placeholder }) => {
+                element.select2({
+                    dropdownParent: $("#tambahTujuanModal"),
+                    placeholder: placeholder,
+                }); // prettier-ignore
+            });
         }
     }
+
+    function clearSelectElement(tipeInitialisasi) {
+        // Get the array of select elements based on tipeInitialisasi
+        let selectElements = getSelectElementsByType(tipeInitialisasi);
+
+        // Clear each select element and set placeholder
+        selectElements.forEach(({ element, placeholder }) => {
+            element
+                .empty()
+                .append(
+                    `<option value="" disabled selected>${placeholder}</option>`
+                );
+        });
+    }
+
+    function clearInputTextElements(tipeClearInput) {
+        let inputTextIds = [];
+        if (tipeClearInput == "pilihIdTypeAsalTanpaBarcode") {
+            inputTextIds = [
+                "saldo_terakhirPrimerAsalTanpaBarcode",
+                "satuan_saldoTerakhirPrimerAsalTanpaBarcode",
+                "saldo_terakhirSekunderAsalTanpaBarcode",
+                "satuan_saldoTerakhirSekunderAsalTanpaBarcode",
+                "saldo_terakhirTritierAsalTanpaBarcode",
+                "satuan_saldoTerakhirTritierAsalTanpaBarcode",
+                "jumlah_pemakaianPrimerTanpaBarcode",
+                "satuan_primerJumlahPemakaianTanpaBarcode",
+                "jumlah_pemakaianSekunderTanpaBarcode",
+                "satuan_sekunderJumlahPemakaianTanpaBarcode",
+                "jumlah_pemakaianTritierTanpaBarcode",
+                "satuan_tritierJumlahPemakaianTanpaBarcode",
+            ];
+        } else if (tipeClearInput == "pilihIdTypeTujuanTanpaBarcode") {
+            inputTextIds = [
+                "saldo_terakhirPrimerTujuanTanpaBarcode",
+                "satuan_saldoTerakhirPrimerTujuanTanpaBarcode",
+                "saldo_terakhirSekunderTujuanTanpaBarcode",
+                "satuan_saldoTerakhirSekunderTujuanTanpaBarcode",
+                "saldo_terakhirTritierTujuanTanpaBarcode",
+                "satuan_saldoTerakhirTritierTujuanTanpaBarcode",
+                "jumlah_pemasukanPrimerTanpaBarcode",
+                "satuan_primerJumlahPemasukanTanpaBarcode",
+                "jumlah_pemasukanSekunderTanpaBarcode",
+                "satuan_sekunderJumlahPemasukanTanpaBarcode",
+                "jumlah_pemasukanTritierTanpaBarcode",
+                "satuan_tritierJumlahPemasukanTanpaBarcode",
+            ];
+        } else if (tipeClearInput == "pilihIdTypeTujuanDenganBarcode") {
+            inputTextIds = [
+                "saldo_terakhirTujuanPrimer",
+                "satuan_saldoTerakhirTujuanPrimer",
+                "saldo_terakhirTujuanSekunder",
+                "satuan_saldoTerakhirTujuanSekunder",
+                "saldo_terakhirTujuanTritier",
+                "satuan_saldoTerakhirTujuanTritier",
+                "hasil_konversiPrimerTujuan",
+                "satuan_primerTujuan",
+                "hasil_konversiSekunderTujuan",
+                "satuan_sekunderTujuan",
+                "hasil_konversiTritierTujuan",
+                "satuan_tritierTujuan",
+            ];
+        }
+
+        inputTextIds.forEach((id) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.value = ""; // Clear the text
+            }
+        });
+    }
+
+    function readOnlyInputTextElements(tipeReadOnlyInput) {
+        let inputTextIds = [];
+        if (tipeReadOnlyInput == "pilihIdTypeAsal") {
+            inputTextIds = [
+                "jumlah_pemakaianPrimerTanpaBarcode",
+                "jumlah_pemakaianSekunderTanpaBarcode",
+            ];
+        } else {
+            inputTextIds = [
+                "jumlah_pemasukanPrimerTanpaBarcode",
+                "jumlah_pemasukanSekunderTanpaBarcode",
+            ];
+        }
+
+        inputTextIds.forEach((id) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.readOnly = true; // set text input to readonly
+            }
+        });
+    }
+
+    // function clearTujuan(type) {
+    //     if (type == "divisi") {
+    //         select_objekTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_kelompokUtamaTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_kelompokTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_subKelompokTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_typeTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         saldo_terakhirTujuanPrimer.value = "";
+    //         saldo_terakhirTujuanSekunder.value = "";
+    //         saldo_terakhirTujuanTritier.value = "";
+    //         satuan_saldoTerakhirTujuanPrimer.value = "";
+    //         satuan_saldoTerakhirTujuanSekunder.value = "";
+    //         satuan_saldoTerakhirTujuanTritier.value = "";
+    //     } else if (type == "objek") {
+    //         select_kelompokUtamaTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_kelompokTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_subKelompokTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_typeTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         saldo_terakhirTujuanPrimer.value = "";
+    //         saldo_terakhirTujuanSekunder.value = "";
+    //         saldo_terakhirTujuanTritier.value = "";
+    //         satuan_saldoTerakhirTujuanPrimer.value = "";
+    //         satuan_saldoTerakhirTujuanSekunder.value = "";
+    //         satuan_saldoTerakhirTujuanTritier.value = "";
+    //     } else if (type == "kelompokutama") {
+    //         select_kelompokTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_subKelompokTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_typeTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         saldo_terakhirTujuanPrimer.value = "";
+    //         saldo_terakhirTujuanSekunder.value = "";
+    //         saldo_terakhirTujuanTritier.value = "";
+    //         satuan_saldoTerakhirTujuanPrimer.value = "";
+    //         satuan_saldoTerakhirTujuanSekunder.value = "";
+    //         satuan_saldoTerakhirTujuanTritier.value = "";
+    //     } else if (type == "kelompok") {
+    //         select_subKelompokTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         select_typeTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         saldo_terakhirTujuanPrimer.value = "";
+    //         saldo_terakhirTujuanSekunder.value = "";
+    //         saldo_terakhirTujuanTritier.value = "";
+    //         satuan_saldoTerakhirTujuanPrimer.value = "";
+    //         satuan_saldoTerakhirTujuanSekunder.value = "";
+    //         satuan_saldoTerakhirTujuanTritier.value = "";
+    //     } else if (type == "subkelompok") {
+    //         select_typeTujuan.prop("disabled", true).val(null).trigger("change").empty(); // prettier-ignore
+    //         saldo_terakhirTujuanPrimer.value = "";
+    //         saldo_terakhirTujuanSekunder.value = "";
+    //         saldo_terakhirTujuanTritier.value = "";
+    //         satuan_saldoTerakhirTujuanPrimer.value = "";
+    //         satuan_saldoTerakhirTujuanSekunder.value = "";
+    //         satuan_saldoTerakhirTujuanTritier.value = "";
+    //     } else if (type == "type") {
+    //         saldo_terakhirTujuanPrimer.value = "";
+    //         saldo_terakhirTujuanSekunder.value = "";
+    //         saldo_terakhirTujuanTritier.value = "";
+    //         satuan_saldoTerakhirTujuanPrimer.value = "";
+    //         satuan_saldoTerakhirTujuanSekunder.value = "";
+    //         satuan_saldoTerakhirTujuanTritier.value = "";
+    //     }
+    // }
 
     function submitPermohonan() {
         $.ajax({
@@ -520,11 +722,26 @@ $(document).ready(function () {
         saldo_terakhirTujuanPrimer.readOnly = true;
         saldo_terakhirTujuanSekunder.readOnly = true;
         saldo_terakhirTujuanTritier.readOnly = true;
-        select_objekTujuan.disabled = true;
-        select_kelompokUtamaTujuan.disabled = true;
-        select_kelompokTujuan.disabled = true;
-        select_subKelompokTujuan.disabled = true;
-        select_typeTujuan.disabled = true;
+        const selects = [
+            { element: select_divisiTujuan, placeholder: "Pilih Divisi Tujuan", disable: false },
+            { element: select_objekTujuan, placeholder: "Pilih Objek Tujuan", disable: true },
+            { element: select_kelompokUtamaTujuan, placeholder: "Pilih Kelompok Utama Tujuan", disable: true },
+            { element: select_kelompokTujuan, placeholder: "Pilih Kelompok Tujuan", disable: true },
+            { element: select_subKelompokTujuan, placeholder: "Pilih Sub Kelompok Tujuan", disable: true },
+            { element: select_typeTujuan, placeholder: "Pilih Type Tujuan", disable: true },
+        ]; // prettier-ignore
+
+        selects.forEach(({ element, placeholder, disable }) => {
+            element.select2({
+                placeholder: placeholder,
+                allowClear: true,
+                dropdownParent: $("#tambahTujuanModal"),
+            });
+
+            if (disable) {
+                element.prop("disabled", true).val(null).trigger("change");
+            }
+        });
         PIB_tujuan.readOnly = true;
         button_updateTujuanKonversi.disabled = true;
         button_hapusTujuanKonversi.disabled = true;
@@ -677,9 +894,7 @@ $(document).ready(function () {
             }
 
             this.classList.add("input-error");
-            this.setCustomValidity(
-                "Silahkan pilih grup A, B, atau C"
-            );
+            this.setCustomValidity("Silahkan pilih grup A, B, atau C");
         } else {
             this.classList.remove("input-error");
             this.setCustomValidity("");
@@ -692,7 +907,7 @@ $(document).ready(function () {
             if (id_grup.value == "") {
                 id_grup.classList.add("input-error");
             } else {
-                select_divisiTujuan.focus();
+                select_divisiTujuan.select2("open");
             }
         }
     });
@@ -703,398 +918,596 @@ $(document).ready(function () {
         }
     });
 
-    select_divisiTujuan.addEventListener("change", function (e) {
-        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
-        this.reportValidity(); // Display the validity message
-        clearTujuan("divisi");
+    // select_divisiTujuan.addEventListener("change", function (e) {
+    //     this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+    //     this.reportValidity(); // Display the validity message
+    //     clearTujuan("divisi");
+    // });
+
+    // select_divisiTujuan.addEventListener("keypress", function (e) {
+    //     if (e.key == "Enter" && select_divisiTujuan.selectedIndex !== 0) {
+    //         e.preventDefault();
+    //         this.blur();
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/KonversiRollBarcode/getObjek",
+    //             data: {
+    //                 _token: csrfToken,
+    //                 idDivisi: select_divisiTujuan.value,
+    //             },
+    //             success: function (response) {
+    //                 select_objekTujuan.disabled = false;
+    //                 response.forEach((item) => {
+    //                     // Create a new option element
+    //                     const option = document.createElement("option");
+    //                     // Set the value and text of the option
+    //                     option.value = item.IdObjek;
+    //                     option.textContent = item.NamaObjek;
+    //                     // Append the option to the select element
+    //                     select_objekTujuan.appendChild(option);
+    //                 });
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(error);
+    //             },
+    //         }).then(() => {
+    //             select_objekTujuan.focus();
+    //         });
+    //     }
+    // });
+
+    // select_objekTujuan.addEventListener("change", function (e) {
+    //     this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+    //     this.reportValidity(); // Display the validity message
+    //     clearTujuan("objek");
+    // });
+
+    // select_objekTujuan.addEventListener("keypress", function (e) {
+    //     if (e.key == "Enter" && select_objekTujuan.selectedIndex !== 0) {
+    //         e.preventDefault();
+    //         this.blur();
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/KonversiRollBarcode/getKelompokUtama",
+    //             data: {
+    //                 _token: csrfToken,
+    //                 idObjek: select_objekTujuan.value,
+    //             },
+    //             success: function (response) {
+    //                 select_kelompokUtamaTujuan.disabled = false;
+    //                 // Clear only non-disabled options
+    //                 Array.from(select_kelompokUtamaTujuan.options).forEach(
+    //                     (option) => {
+    //                         if (!option.disabled) {
+    //                             option.remove();
+    //                         }
+    //                     }
+    //                 );
+    //                 response.forEach((item) => {
+    //                     // Create a new option element
+    //                     const option = document.createElement("option");
+    //                     // Set the value and text of the option
+    //                     option.value = item.IdKelompokUtama;
+    //                     option.textContent = item.NamaKelompokUtama;
+    //                     // Append the option to the select element
+    //                     select_kelompokUtamaTujuan.appendChild(option);
+    //                 });
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(error);
+    //             },
+    //         }).then(() => {
+    //             select_kelompokUtamaTujuan.focus();
+    //         });
+    //     }
+    // });
+
+    // select_kelompokUtamaTujuan.addEventListener("change", function (e) {
+    //     this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+    //     this.reportValidity(); // Display the validity message
+    //     clearTujuan("kelompokutama");
+    // });
+
+    // select_kelompokUtamaTujuan.addEventListener("keypress", function (e) {
+    //     if (
+    //         e.key == "Enter" &&
+    //         select_kelompokUtamaTujuan.selectedIndex !== 0
+    //     ) {
+    //         e.preventDefault();
+    //         this.blur();
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/KonversiRollBarcode/getKelompok",
+    //             data: {
+    //                 _token: csrfToken,
+    //                 idKelompokUtama: select_kelompokUtamaTujuan.value,
+    //             },
+    //             success: function (response) {
+    //                 select_kelompokTujuan.disabled = false;
+    //                 // Clear only non-disabled options
+    //                 Array.from(select_kelompokTujuan.options).forEach(
+    //                     (option) => {
+    //                         if (!option.disabled) {
+    //                             option.remove();
+    //                         }
+    //                     }
+    //                 );
+
+    //                 if (
+    //                     asalKonversi == "Printing" &&
+    //                     select_objekTujuan.value == 128
+    //                 ) {
+    //                     let itemsAdded = false; // Track if any item is added
+
+    //                     response.forEach((item) => {
+    //                         // If input_warnaDominanAsal is not empty and matches item.NamaSubKelompok
+    //                         if (
+    //                             jenisKonversi == "Printing" &&
+    //                             !item.NamaKelompok.toLowerCase().includes(
+    //                                 "printing"
+    //                             )
+    //                         ) {
+    //                             const matchedOption = document.createElement("option"); // prettier-ignore
+    //                             matchedOption.value = item.IdKelompok;
+    //                             matchedOption.textContent = item.NamaKelompok;
+    //                             select_kelompokTujuan.appendChild(
+    //                                 matchedOption
+    //                             );
+    //                             itemsAdded = true;
+    //                         }
+    //                     });
+
+    //                     if (!itemsAdded) {
+    //                         Swal.fire({
+    //                             icon: "warning",
+    //                             title: "Perhatian",
+    //                             text:
+    //                                 "Tidak ada kelompok Printing pada kelompok " +
+    //                                 select_kelompokUtamaTujuan.options[
+    //                                     select_kelompokUtamaTujuan.selectedIndex
+    //                                 ].text,
+    //                         }).then(() => {
+    //                             select_kelompokUtamaTujuan.focus();
+    //                             select_kelompokTujuan.disabled = true;
+    //                         });
+    //                     } else {
+    //                         select_kelompokTujuan.focus();
+    //                     }
+    //                 } else {
+    //                     response.forEach((item) => {
+    //                         // Create a new option element
+    //                         const option = document.createElement("option");
+    //                         // Set the value and text of the option
+    //                         option.value = item.idkelompok;
+    //                         option.textContent = item.namakelompok;
+    //                         // Append the option to the select element
+    //                         select_kelompokTujuan.appendChild(option);
+    //                         select_kelompokTujuan.focus();
+    //                     });
+    //                 }
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(error);
+    //             },
+    //         });
+    //     }
+    // });
+
+    // select_kelompokTujuan.addEventListener("change", function (e) {
+    //     this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+    //     this.reportValidity(); // Display the validity message
+    //     clearTujuan("kelompok");
+    // });
+
+    // select_kelompokTujuan.addEventListener("keypress", function (e) {
+    //     if (e.key == "Enter" && select_kelompokTujuan.selectedIndex !== 0) {
+    //         e.preventDefault();
+    //         this.blur();
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/KonversiRollBarcode/getSubKelompok",
+    //             data: {
+    //                 _token: csrfToken,
+    //                 idKelompok: select_kelompokTujuan.value,
+    //             },
+    //             success: function (response) {
+    //                 select_subKelompokTujuan.disabled = false;
+    //                 // Clear only non-disabled options
+    //                 Array.from(select_subKelompokTujuan.options).forEach(
+    //                     (option) => {
+    //                         if (!option.disabled) {
+    //                             option.remove();
+    //                         }
+    //                     }
+    //                 );
+    //                 response.forEach((item) => {
+    //                     // Create a new option element
+    //                     const option = document.createElement("option");
+    //                     // Set the value and text of the option
+    //                     option.value = item.IdSubkelompok;
+    //                     option.textContent = item.NamaSubKelompok;
+    //                     // Append the option to the select element
+    //                     select_subKelompokTujuan.appendChild(option);
+    //                 });
+    //                 select_subKelompokTujuan.focus();
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(error);
+    //             },
+    //         });
+    //     }
+    // });
+
+    // select_subKelompokTujuan.addEventListener("change", function (e) {
+    //     this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+    //     this.reportValidity(); // Display the validity message
+    //     clearTujuan("subkelompok");
+    // });
+
+    // select_subKelompokTujuan.addEventListener("keypress", function (e) {
+    //     if (e.key == "Enter" && select_subKelompokTujuan.selectedIndex !== 0) {
+    //         e.preventDefault();
+    //         this.blur();
+    //         // Clear only non-disabled options
+    //         Array.from(select_typeTujuan.options).forEach((option) => {
+    //             if (!option.disabled) {
+    //                 option.remove();
+    //             }
+    //         });
+
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/KonversiRollBarcode/getType",
+    //             data: {
+    //                 _token: csrfToken,
+    //                 idSubKelompok: select_subKelompokTujuan.value,
+    //             },
+    //             success: function (response) {
+    //                 select_typeTujuan.disabled = false;
+    //                 console.log(response);
+
+    //                 response.forEach((item) => {
+    //                     // Create a new option element
+    //                     const option = document.createElement("option");
+    //                     // Set the value and text of the option
+    //                     option.value = item.IdType;
+    //                     option.textContent =
+    //                         item.NamaType + " | " + item.KD_BRG;
+    //                     // Append the option to the select element
+    //                     select_typeTujuan.appendChild(option);
+    //                 });
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(error);
+    //             },
+    //         }).then(() => {
+    //             select_typeTujuan.focus();
+    //         });
+    //     }
+    // });
+
+    // select_typeTujuan.addEventListener("change", function (e) {
+    //     this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
+    //     this.reportValidity(); // Display the validity message
+    //     clearTujuan("type");
+    // });
+
+    // select_typeTujuan.addEventListener("keypress", function (e) {
+    //     if (e.key == "Enter" && select_typeTujuan.selectedIndex !== 0) {
+    //         e.preventDefault();
+    //         hasil_konversiPrimerTujuan.focus();
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/KonversiRollBarcode/getDataType",
+    //             data: {
+    //                 _token: csrfToken,
+    //                 IdType: select_typeTujuan.value,
+    //             },
+    //             success: function (data) {
+    //                 satuan_saldoTerakhirTujuanPrimer.value =
+    //                     data[0].satPrimer.trim();
+    //                 satuan_saldoTerakhirTujuanSekunder.value =
+    //                     data[0].satSekunder.trim();
+    //                 satuan_saldoTerakhirTujuanTritier.value =
+    //                     data[0].satTritier.trim();
+    //                 saldo_terakhirTujuanPrimer.value = parseFloat(
+    //                     data[0].SaldoPrimer
+    //                 );
+    //                 satuan_saldoTerakhirTujuanSekunder.value =
+    //                     data[0].satSekunder.trim();
+    //                 saldo_terakhirTujuanSekunder.value = parseFloat(
+    //                     data[0].SaldoSekunder
+    //                 );
+    //                 saldo_terakhirTujuanTritier.value = parseFloat(
+    //                     data[0].SaldoTritier
+    //                 );
+    //                 satuan_primerTujuan.value = data[0].satPrimer.trim();
+    //                 satuan_sekunderTujuan.value = data[0].satSekunder.trim();
+    //                 satuan_tritierTujuan.value = data[0].satTritier.trim();
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error(error);
+    //             },
+    //         }).then(() => {
+    //             // check satuan_sekunderTujuan if null then hasil = 0
+    //             if (satuan_sekunderTujuan.value !== "NULL") {
+    //                 hasil_konversiSekunderTujuan.readOnly = false;
+    //                 hasil_konversiSekunderTujuan.focus();
+    //             } else {
+    //                 hasil_konversiSekunderTujuan.value = numeral(0).format("0.00"); // prettier-ignore
+    //                 hasil_konversiSekunderTujuan.readOnly = true;
+    //                 hasil_konversiTritierTujuan.focus();
+    //             }
+
+    //             // check satuan_primerTujuan if null then hasil = 0
+    //             if (satuan_primerTujuan.value !== "NULL") {
+    //                 hasil_konversiPrimerTujuan.readOnly = false;
+    //                 hasil_konversiPrimerTujuan.focus();
+    //             } else {
+    //                 hasil_konversiPrimerTujuan.value = numeral(0).format("0.00"); // prettier-ignore
+    //                 hasil_konversiPrimerTujuan.readOnly = true;
+    //             }
+
+    //             if (table_daftarTujuanKonversi.column(4).data().sum() > 0) {
+    //                 maxHasilKonversiTritier =
+    //                     parseFloat(table_daftarAsalKonversi.data()[0][4]) *
+    //                         1.03 -
+    //                     table_daftarTujuanKonversi.column(4).data().sum();
+    //             } else {
+    //                 maxHasilKonversiTritier = table_daftarAsalKonversi.data()[0][4] * 1.03; // prettier-ignore
+    //             }
+    //         });
+    //     }
+    // });
+
+    select_divisiTujuan.on("select2:select", function (e) {
+        clearSelectElement("pilihDivisiDenganBarcode");
+        clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        $.ajax({
+            type: "GET",
+            url: "/KonversiRollBarcode/getObjek",
+            data: {
+                _token: csrfToken,
+                idDivisi: $(this).val(),
+            },
+            success: function (response) {
+                $("#select_objekTujuan").prop("disabled", false);
+                response.forEach((item) => {
+                    // Create a new option element
+                    const option = new Option(item.NamaObjek, item.IdObjek);
+                    // Append the option to the select element
+                    $("#select_objekTujuan").append(option).trigger("change");
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        }).then(() => {
+            $("#select_objekTujuan").select2("open");
+        });
     });
 
-    select_divisiTujuan.addEventListener("keypress", function (e) {
-        if (e.key == "Enter" && select_divisiTujuan.selectedIndex !== 0) {
-            e.preventDefault();
-            this.blur();
-            $.ajax({
-                type: "GET",
-                url: "/KonversiRollBarcode/getObjek",
-                data: {
-                    _token: csrfToken,
-                    idDivisi: select_divisiTujuan.value,
-                },
-                success: function (response) {
-                    select_objekTujuan.disabled = false;
-                    response.forEach((item) => {
-                        // Create a new option element
-                        const option = document.createElement("option");
-                        // Set the value and text of the option
-                        option.value = item.IdObjek;
-                        option.textContent = item.NamaObjek;
-                        // Append the option to the select element
-                        select_objekTujuan.appendChild(option);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                },
-            }).then(() => {
-                select_objekTujuan.focus();
-            });
-        }
-    });
-
-    select_objekTujuan.addEventListener("change", function (e) {
-        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
-        this.reportValidity(); // Display the validity message
-        clearTujuan("objek");
-    });
-
-    select_objekTujuan.addEventListener("keypress", function (e) {
-        if (e.key == "Enter" && select_objekTujuan.selectedIndex !== 0) {
-            e.preventDefault();
-            this.blur();
-            $.ajax({
-                type: "GET",
-                url: "/KonversiRollBarcode/getKelompokUtama",
-                data: {
-                    _token: csrfToken,
-                    idObjek: select_objekTujuan.value,
-                },
-                success: function (response) {
-                    select_kelompokUtamaTujuan.disabled = false;
-                    // Clear only non-disabled options
-                    Array.from(select_kelompokUtamaTujuan.options).forEach(
-                        (option) => {
-                            if (!option.disabled) {
-                                option.remove();
-                            }
-                        }
+    select_objekTujuan.on("select2:select", function (e) {
+        clearSelectElement("pilihObjekDenganBarcode");
+        clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        $.ajax({
+            type: "GET",
+            url: "/KonversiRollBarcode/getKelompokUtama",
+            data: {
+                _token: csrfToken,
+                idObjek: $(this).val(),
+            },
+            success: function (response) {
+                $("#select_kelompokUtamaTujuan").prop("disabled", false);
+                response.forEach((item) => {
+                    // Create a new option element
+                    const option = new Option(
+                        item.NamaKelompokUtama,
+                        item.IdKelompokUtama
                     );
-                    response.forEach((item) => {
-                        // Create a new option element
-                        const option = document.createElement("option");
-                        // Set the value and text of the option
-                        option.value = item.IdKelompokUtama;
-                        option.textContent = item.NamaKelompokUtama;
-                        // Append the option to the select element
-                        select_kelompokUtamaTujuan.appendChild(option);
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                },
-            }).then(() => {
-                select_kelompokUtamaTujuan.focus();
-            });
-        }
+                    // Append the option to the select element
+                    $("#select_kelompokUtamaTujuan").append(option);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        }).then(() => {
+            $("#select_kelompokUtamaTujuan").select2("open");
+        });
     });
 
-    select_kelompokUtamaTujuan.addEventListener("change", function (e) {
-        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
-        this.reportValidity(); // Display the validity message
-        clearTujuan("kelompokutama");
-    });
-
-    select_kelompokUtamaTujuan.addEventListener("keypress", function (e) {
-        if (
-            e.key == "Enter" &&
-            select_kelompokUtamaTujuan.selectedIndex !== 0
-        ) {
-            e.preventDefault();
-            this.blur();
-            $.ajax({
-                type: "GET",
-                url: "/KonversiRollBarcode/getKelompok",
-                data: {
-                    _token: csrfToken,
-                    idKelompokUtama: select_kelompokUtamaTujuan.value,
-                },
-                success: function (response) {
-                    select_kelompokTujuan.disabled = false;
-                    // Clear only non-disabled options
-                    Array.from(select_kelompokTujuan.options).forEach(
-                        (option) => {
-                            if (!option.disabled) {
-                                option.remove();
-                            }
-                        }
+    select_kelompokTujuan.on("select2:select", function (e) {
+        clearSelectElement("pilihKelompokDenganBarcode");
+        clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        $.ajax({
+            type: "GET",
+            url: "/KonversiRollBarcode/getKelompokUtama",
+            data: {
+                _token: csrfToken,
+                idObjek: $(this).val(),
+            },
+            success: function (response) {
+                $("#select_kelompokUtamaTujuan").prop("disabled", false);
+                response.forEach((item) => {
+                    // Create a new option element
+                    const option = new Option(
+                        item.NamaKelompokUtama,
+                        item.IdKelompokUtama,
+                        false,
+                        false
                     );
-
-                    if (
-                        asalKonversi == "Printing" &&
-                        select_objekTujuan.value == 128
-                    ) {
-                        let itemsAdded = false; // Track if any item is added
-
-                        response.forEach((item) => {
-                            // If input_warnaDominanAsal is not empty and matches item.NamaSubKelompok
-                            if (
-                                jenisKonversi == "Printing" &&
-                                !item.NamaKelompok.toLowerCase().includes(
-                                    "printing"
-                                )
-                            ) {
-                                const matchedOption = document.createElement("option"); // prettier-ignore
-                                matchedOption.value = item.IdKelompok;
-                                matchedOption.textContent = item.NamaKelompok;
-                                select_kelompokTujuan.appendChild(
-                                    matchedOption
-                                );
-                                itemsAdded = true;
-                            }
-                        });
-
-                        if (!itemsAdded) {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Perhatian",
-                                text:
-                                    "Tidak ada kelompok Printing pada kelompok " +
-                                    select_kelompokUtamaTujuan.options[
-                                        select_kelompokUtamaTujuan.selectedIndex
-                                    ].text,
-                            }).then(() => {
-                                select_kelompokUtamaTujuan.focus();
-                                select_kelompokTujuan.disabled = true;
-                            });
-                        } else {
-                            select_kelompokTujuan.focus();
-                        }
-                    } else {
-                        response.forEach((item) => {
-                            // Create a new option element
-                            const option = document.createElement("option");
-                            // Set the value and text of the option
-                            option.value = item.idkelompok;
-                            option.textContent = item.namakelompok;
-                            // Append the option to the select element
-                            select_kelompokTujuan.appendChild(option);
-                            select_kelompokTujuan.focus();
-                        });
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                },
-            });
-        }
+                    // Append the option to the select element
+                    $("#select_kelompokUtamaTujuan")
+                        .append(option)
+                        .trigger("change");
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        }).then(() => {
+            $("#select_kelompokUtamaTujuan").select2("open");
+        });
     });
 
-    select_kelompokTujuan.addEventListener("change", function (e) {
-        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
-        this.reportValidity(); // Display the validity message
-        clearTujuan("kelompok");
-    });
-
-    select_kelompokTujuan.addEventListener("keypress", function (e) {
-        if (e.key == "Enter" && select_kelompokTujuan.selectedIndex !== 0) {
-            e.preventDefault();
-            this.blur();
-            $.ajax({
-                type: "GET",
-                url: "/KonversiRollBarcode/getSubKelompok",
-                data: {
-                    _token: csrfToken,
-                    idKelompok: select_kelompokTujuan.value,
-                },
-                success: function (response) {
-                    select_subKelompokTujuan.disabled = false;
-                    // Clear only non-disabled options
-                    Array.from(select_subKelompokTujuan.options).forEach(
-                        (option) => {
-                            if (!option.disabled) {
-                                option.remove();
-                            }
-                        }
+    select_kelompokUtamaTujuan.on("select2:select", function (e) {
+        clearSelectElement("pilihKelompokUtamaDenganBarcode");
+        clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        $.ajax({
+            type: "GET",
+            url: "/KonversiRollBarcode/getKelompok",
+            data: {
+                _token: csrfToken,
+                idKelompokUtama: $(this).val(),
+            },
+            success: function (response) {
+                $("#select_kelompokTujuan").prop("disabled", false);
+                response.forEach((item) => {
+                    // Create a new option element
+                    const option = new Option(
+                        item.namakelompok,
+                        item.idkelompok,
+                        false,
+                        false
                     );
-                    response.forEach((item) => {
-                        // Create a new option element
-                        const option = document.createElement("option");
-                        // Set the value and text of the option
-                        option.value = item.IdSubkelompok;
-                        option.textContent = item.NamaSubKelompok;
-                        // Append the option to the select element
-                        select_subKelompokTujuan.appendChild(option);
-                    });
-                    select_subKelompokTujuan.focus();
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                },
-            });
-        }
+                    // Append the option to the select element
+                    $("#select_kelompokTujuan")
+                        .append(option)
+                        .trigger("change");
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        }).then(() => {
+            $("#select_kelompokTujuan").select2("open");
+        });
     });
 
-    select_subKelompokTujuan.addEventListener("change", function (e) {
-        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
-        this.reportValidity(); // Display the validity message
-        clearTujuan("subkelompok");
-    });
-
-    select_subKelompokTujuan.addEventListener("keypress", function (e) {
-        if (e.key == "Enter" && select_subKelompokTujuan.selectedIndex !== 0) {
-            e.preventDefault();
-            this.blur();
-            // Clear only non-disabled options
-            Array.from(select_typeTujuan.options).forEach((option) => {
-                if (!option.disabled) {
-                    option.remove();
-                }
-            });
-
-            $.ajax({
-                type: "GET",
-                url: "/KonversiRollBarcode/getType",
-                data: {
-                    _token: csrfToken,
-                    idSubKelompok: select_subKelompokTujuan.value,
-                },
-                success: function (response) {
-                    select_typeTujuan.disabled = false;
-                    if (select_kelompokUtamaTujuan.value == 1029) {
-                        let itemsAdded = false; // Track if any item is added
-                        // console.log(d_tek1PanjangRoll);
-
-                        response.forEach((item) => {
-                            // console.log(item.PanjangPotongan);
-                            // console.log(item.LebarPotongan);
-                            // If
-                            if (
-                                parseFloat(d_tek1PanjangRoll) !== "" &&
-                                (parseFloat(d_tek1PanjangRoll) >
-                                    parseFloat(item.PanjangPotongan) ||
-                                    parseFloat(d_tek1PanjangRoll) >
-                                        parseFloat(item.LebarPotongan))
-                            ) {
-                                const matchedOption =
-                                    document.createElement("option");
-                                matchedOption.value = item.IdType;
-                                matchedOption.textContent =
-                                    item.NamaType + " | " + item.IdType;
-                                select_typeTujuan.appendChild(matchedOption);
-                                itemsAdded = true;
-                            }
-                        });
-
-                        if (!itemsAdded) {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Perhatian",
-                                text:
-                                    "Tidak ukuran " +
-                                    d_tek1PanjangRoll +
-                                    " pada sub kelompok " +
-                                    select_subKelompokTujuan.options[
-                                        select_subKelompokTujuan.selectedIndex
-                                    ].text,
-                            }).then(() => {
-                                select_subKelompokTujuan.focus();
-                                select_typeTujuan.disabled = true;
-                            });
-                        } else {
-                            select_subKelompokTujuan.focus();
-                        }
-                    } else {
-                        response.forEach((item) => {
-                            // Create a new option element
-                            const option = document.createElement("option");
-                            // Set the value and text of the option
-                            option.value = item.IdType;
-                            option.textContent =
-                                item.NamaType + " | " + item.IdType;
-                            // Append the option to the select element
-                            select_typeTujuan.appendChild(option);
-                        });
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                },
-            }).then(() => {
-                select_typeTujuan.focus();
-            });
-        }
-    });
-
-    select_typeTujuan.addEventListener("change", function (e) {
-        this.setCustomValidity("Silahkan tekan Enter!"); // Set custom validity message
-        this.reportValidity(); // Display the validity message
-        clearTujuan("type");
-    });
-
-    select_typeTujuan.addEventListener("keypress", function (e) {
-        if (e.key == "Enter" && select_typeTujuan.selectedIndex !== 0) {
-            e.preventDefault();
-            hasil_konversiPrimerTujuan.focus();
-            $.ajax({
-                type: "GET",
-                url: "/KonversiRollBarcode/getDataType",
-                data: {
-                    _token: csrfToken,
-                    IdType: select_typeTujuan.value,
-                },
-                success: function (data) {
-                    satuan_saldoTerakhirTujuanPrimer.value =
-                        data[0].satPrimer.trim();
-                    satuan_saldoTerakhirTujuanSekunder.value =
-                        data[0].satSekunder.trim();
-                    satuan_saldoTerakhirTujuanTritier.value =
-                        data[0].satTritier.trim();
-                    saldo_terakhirTujuanPrimer.value = parseFloat(
-                        data[0].SaldoPrimer
+    select_subKelompokTujuan.on("select2:select", function (e) {
+        clearSelectElement("pilihSubKelompokDenganBarcode");
+        clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        $.ajax({
+            type: "GET",
+            url: "/KonversiRollBarcode/getType",
+            data: {
+                _token: csrfToken,
+                idSubKelompok: $(this).val(),
+            },
+            success: function (response) {
+                $("#select_typeTujuan").prop("disabled", false);
+                response.forEach((item) => {
+                    // Create a new option element
+                    const option = new Option(
+                        item.NamaType + " | " + item.KD_BRG,
+                        item.IdType,
+                        false,
+                        false
                     );
-                    satuan_saldoTerakhirTujuanSekunder.value =
-                        data[0].satSekunder.trim();
-                    saldo_terakhirTujuanSekunder.value = parseFloat(
-                        data[0].SaldoSekunder
-                    );
-                    saldo_terakhirTujuanTritier.value = parseFloat(
-                        data[0].SaldoTritier
-                    );
-                    satuan_primerTujuan.value = data[0].satPrimer.trim();
-                    satuan_sekunderTujuan.value = data[0].satSekunder.trim();
-                    satuan_tritierTujuan.value = data[0].satTritier.trim();
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                },
-            }).then(() => {
-                // check satuan_sekunderTujuan if null then hasil = 0
-                if (satuan_sekunderTujuan.value !== "NULL") {
-                    hasil_konversiSekunderTujuan.readOnly = false;
-                    hasil_konversiSekunderTujuan.focus();
-                } else {
-                    hasil_konversiSekunderTujuan.value = numeral(0).format("0.00"); // prettier-ignore
-                    hasil_konversiSekunderTujuan.readOnly = true;
-                    hasil_konversiTritierTujuan.focus();
-                }
+                    // Append the option to the select element
+                    $("#select_typeTujuan").append(option).trigger("change");
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        }).then(() => {
+            $("#select_typeTujuan").select2("open");
+        });
+    });
 
-                // check satuan_primerTujuan if null then hasil = 0
-                if (satuan_primerTujuan.value !== "NULL") {
-                    hasil_konversiPrimerTujuan.readOnly = false;
-                    hasil_konversiPrimerTujuan.focus();
-                } else {
-                    hasil_konversiPrimerTujuan.value = numeral(0).format("0.00"); // prettier-ignore
-                    hasil_konversiPrimerTujuan.readOnly = true;
-                }
+    select_typeTujuan.on("select2:select", function (e) {
+        clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        $.ajax({
+            type: "GET",
+            url: "/KonversiRollBarcode/getDataType",
+            data: {
+                _token: csrfToken,
+                IdType: $(this).val(),
+            },
+            success: function (data) {
+                $("#satuan_saldoTerakhirTujuanPrimer").val(
+                    data[0].satPrimer.trim()
+                );
+                $("#satuan_saldoTerakhirTujuanSekunder").val(
+                    data[0].satSekunder.trim()
+                );
+                $("#satuan_saldoTerakhirTujuanTritier").val(
+                    data[0].satTritier.trim()
+                );
+                $("#saldo_terakhirTujuanPrimer").val(
+                    parseFloat(data[0].SaldoPrimer)
+                );
+                $("#saldo_terakhirTujuanSekunder").val(
+                    parseFloat(data[0].SaldoSekunder)
+                );
+                $("#saldo_terakhirTujuanTritier").val(
+                    parseFloat(data[0].SaldoTritier)
+                );
+                $("#satuan_primerTujuan").val(data[0].satPrimer.trim());
+                $("#satuan_sekunderTujuan").val(data[0].satSekunder.trim());
+                $("#satuan_tritierTujuan").val(data[0].satTritier.trim());
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        }).then(() => {
+            // check satuan_sekunderTujuan if null then hasil = 0
+            if ($("#satuan_sekunderTujuan").val() !== "NULL") {
+                $("#hasil_konversiSekunderTujuan")
+                    .prop("readonly", false)
+                    .focus();
+            } else {
+                $("#hasil_konversiSekunderTujuan")
+                    .val(numeral(0).format("0.00"))
+                    .prop("readonly", true);
+                $("#hasil_konversiTritierTujuan").focus();
+            }
 
-                if (table_daftarTujuanKonversi.column(4).data().sum() > 0) {
-                    maxHasilKonversiTritier =
-                        parseFloat(table_daftarAsalKonversi.data()[0][4]) *
-                            1.03 -
-                        table_daftarTujuanKonversi.column(4).data().sum();
-                } else {
-                    maxHasilKonversiTritier = table_daftarAsalKonversi.data()[0][4] * 1.03; // prettier-ignore
-                }
-            });
-        }
+            // check satuan_primerTujuan if null then hasil = 0
+            if ($("#satuan_primerTujuan").val() !== "NULL") {
+                $("#hasil_konversiPrimerTujuan")
+                    .prop("readonly", false)
+                    .focus();
+            } else {
+                $("#hasil_konversiPrimerTujuan")
+                    .val(numeral(0).format("0.00"))
+                    .prop("readonly", true);
+            }
+
+            if (table_daftarTujuanKonversi.column(4).data().sum() > 0) {
+                maxHasilKonversiTritier =
+                    parseFloat(table_daftarAsalKonversi.data()[0][4]) * 1.03 -
+                    table_daftarTujuanKonversi.column(4).data().sum();
+            } else {
+                maxHasilKonversiTritier =
+                    table_daftarAsalKonversi.data()[0][4] * 1.03;
+            }
+        });
     });
 
     hasil_konversiTritierTujuan.addEventListener("input", function (e) {
         let inputValue = parseFloat(e.target.value);
+        let sumHasilKonversiTritier = 0;
+
+        // Loop through table rows and sum only those without the .selected class
+        table_daftarTujuanKonversi.rows().every(function () {
+            let rowNode = this.node();
+            if (!rowNode.classList.contains("selected")) {
+                sumHasilKonversiTritier += parseFloat(this.data()[6]) || 0; // prettier-ignore
+            }
+        });
         // Check if the value exceeds the maximum allowed value
         if (inputValue > maxHasilKonversiTritier) {
             // Set the value to the maximum allowed
-            e.target.value = maxHasilKonversiTritier;
             this.setCustomValidity("Input exceeds the maximum allowed value.");
+            e.target.value = parseFloat(numeral(jumlah_pemakaianTritier.value).value() * 1.03); // prettier-ignore
         } else {
             this.setCustomValidity("");
         }
@@ -1821,6 +2234,7 @@ $(document).ready(function () {
     let div_tujuanKonversiTanpaBarcode = document.getElementById('div_tujuanKonversiTanpaBarcode'); // prettier-ignore
     let div_headerFormTambahTujuanKonversiTanpaBarcode = document.getElementById('div_headerFormTambahTujuanKonversiTanpaBarcode'); // prettier-ignore
     let id_shiftTanpaBarcode = document.getElementById("id_shiftTanpaBarcode"); // prettier-ignore
+    let id_groupTanpaBarcode = document.getElementById("id_groupTanpaBarcode"); // prettier-ignore
     let input_tanggalKonversiTanpaBarcode = document.getElementById('input_tanggalKonversiTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianPrimerTanpaBarcode = document.getElementById('jumlah_pemakaianPrimerTanpaBarcode'); // prettier-ignore
     let jumlah_pemakaianSekunderTanpaBarcode = document.getElementById('jumlah_pemakaianSekunderTanpaBarcode'); // prettier-ignore
@@ -1860,173 +2274,14 @@ $(document).ready(function () {
         autoWidth: false,
     });
 
+    const tanpaBarcodeSelectIds = [
+        "#select_kelompokUtamaTujuanTanpaBarcode",
+        "#select_kelompokTujuanTanpaBarcode",
+        "#select_subKelompokTujuanTanpaBarcode",
+        "#select_typeTujuanTanpaBarcode",
+    ];
+
     //#endregion
-
-    function getSelectElementsByType(tipeInitialisasi) {
-        const elementSets = {
-            showModal: [
-                { element: select_objekAsalTanpaBarcode, placeholder: "Pilih Objek Asal" }, // prettier-ignore
-                { element: select_kelompokUtamaAsalTanpaBarcode, placeholder: "Pilih Kelompok Utama Asal"}, // prettier-ignore
-                { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
-                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
-                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
-                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
-                { element: select_objekTujuanTanpaBarcode,placeholder: "Pilih Objek Tujuan"}, // prettier-ignore
-                { element: select_kelompokUtamaTujuanTanpaBarcode,placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
-                { element: select_kelompokTujuanTanpaBarcode,placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
-                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
-            ],
-            pilihDivisi: [
-                { element: select_objekAsalTanpaBarcode, placeholder: "Pilih Objek Asal" }, // prettier-ignore
-                { element: select_kelompokUtamaAsalTanpaBarcode, placeholder: "Pilih Kelompok Utama Asal"}, // prettier-ignore
-                { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
-                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
-                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
-                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
-                { element: select_objekTujuanTanpaBarcode, placeholder: "Pilih Objek Tujuan"}, // prettier-ignore
-                { element: select_kelompokUtamaTujuanTanpaBarcode, placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
-                { element: select_kelompokTujuanTanpaBarcode, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
-                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
-            ],
-            pilihObjekAsal: [
-                { element: select_kelompokUtamaAsalTanpaBarcode, placeholder: "Pilih Kelompok Utama Asal"}, // prettier-ignore
-                { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
-                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
-                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
-            ],
-            pilihKelompokUtamaAsal: [
-                { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
-                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
-                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
-            ],
-            pilihKelompokAsal: [
-                { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
-                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
-            ],
-            pilihSubKelompokAsal: [
-                { element: select_typeAsalTanpaBarcode, placeholder: "Pilih Type Asal" }, // prettier-ignore
-            ],
-            pilihObjekTujuan: [
-                { element: select_kelompokUtamaTujuanTanpaBarcode, placeholder: "Pilih Kelompok Utama Tujuan"}, // prettier-ignore
-                { element: select_kelompokTujuanTanpaBarcode, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
-                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
-                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
-            ],
-            pilihKelompokUtamaTujuan: [
-                { element: select_kelompokTujuanTanpaBarcode, placeholder: "Pilih Kelompok Tujuan"}, // prettier-ignore
-                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
-                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
-            ],
-            pilihKelompokTujuan: [
-                { element: select_subKelompokTujuanTanpaBarcode, placeholder: "Pilih Sub Kelompok Tujuan"}, // prettier-ignore
-                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
-            ],
-            pilihSubKelompokTujuan: [
-                { element: select_typeTujuanTanpaBarcode, placeholder: "Pilih Type Tujuan"}, // prettier-ignore
-            ],
-        };
-
-        return elementSets[tipeInitialisasi] || [];
-    }
-
-    function initializeSelectElement(tipeInitialisasi) {
-        // Define an array of select elements and their placeholders based on tipeInitialisasi
-        let selectElements = getSelectElementsByType(tipeInitialisasi);
-
-        // Initialize each select element with Select2 and set the placeholder
-        selectElements.forEach(({ element, placeholder }) => {
-            element.select2({
-                dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
-                placeholder: placeholder,
-            });
-        });
-
-        // Special case for select_divisi initialization in "showModal"
-        if (tipeInitialisasi === "showModal") {
-            select_divisiTanpaBarcode.select2({
-                dropdownParent: $("#modalBodyTambahTujuanKonversiTanpaBarcode"),
-                placeholder: "Pilih Divisi",
-            });
-        }
-    }
-
-    function clearSelectElement(tipeInitialisasi) {
-        // Get the array of select elements based on tipeInitialisasi
-        let selectElements = getSelectElementsByType(tipeInitialisasi);
-
-        // Clear each select element and set placeholder
-        selectElements.forEach(({ element, placeholder }) => {
-            element
-                .empty()
-                .append(
-                    `<option value="" disabled selected>${placeholder}</option>`
-                );
-        });
-    }
-
-    function clearInputTextElements(tipeClearInput) {
-        let inputTextIds = [];
-        if (tipeClearInput == "pilihIdTypeAsal") {
-            inputTextIds = [
-                "saldo_terakhirPrimerAsalTanpaBarcode",
-                "satuan_saldoTerakhirPrimerAsalTanpaBarcode",
-                "saldo_terakhirSekunderAsalTanpaBarcode",
-                "satuan_saldoTerakhirSekunderAsalTanpaBarcode",
-                "saldo_terakhirTritierAsalTanpaBarcode",
-                "satuan_saldoTerakhirTritierAsalTanpaBarcode",
-                "jumlah_pemakaianPrimerTanpaBarcode",
-                "satuan_primerJumlahPemakaianTanpaBarcode",
-                "jumlah_pemakaianSekunderTanpaBarcode",
-                "satuan_sekunderJumlahPemakaianTanpaBarcode",
-                "jumlah_pemakaianTritierTanpaBarcode",
-                "satuan_tritierJumlahPemakaianTanpaBarcode",
-            ];
-        } else {
-            inputTextIds = [
-                "saldo_terakhirPrimerTujuanTanpaBarcode",
-                "satuan_saldoTerakhirPrimerTujuanTanpaBarcode",
-                "saldo_terakhirSekunderTujuanTanpaBarcode",
-                "satuan_saldoTerakhirSekunderTujuanTanpaBarcode",
-                "saldo_terakhirTritierTujuanTanpaBarcode",
-                "satuan_saldoTerakhirTritierTujuanTanpaBarcode",
-                "jumlah_pemasukanPrimerTanpaBarcode",
-                "satuan_primerJumlahPemasukanTanpaBarcode",
-                "jumlah_pemasukanSekunderTanpaBarcode",
-                "satuan_sekunderJumlahPemasukanTanpaBarcode",
-                "jumlah_pemasukanTritierTanpaBarcode",
-                "satuan_tritierJumlahPemasukanTanpaBarcode",
-            ];
-        }
-
-        inputTextIds.forEach((id) => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.value = ""; // Clear the text
-            }
-        });
-    }
-
-    function readOnlyInputTextElements(tipeReadOnlyInput) {
-        let inputTextIds = [];
-        if (tipeReadOnlyInput == "pilihIdTypeAsal") {
-            inputTextIds = [
-                "jumlah_pemakaianPrimerTanpaBarcode",
-                "jumlah_pemakaianSekunderTanpaBarcode",
-            ];
-        } else {
-            inputTextIds = [
-                "jumlah_pemasukanPrimerTanpaBarcode",
-                "jumlah_pemasukanSekunderTanpaBarcode",
-            ];
-        }
-
-        inputTextIds.forEach((id) => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.readOnly = true; // set text input to readonly
-            }
-        });
-    }
 
     $("#tambahTujuanModalTanpaBarcode").on("shown.bs.modal", function (event) {
         table_daftarTujuanKonversiTanpaBarcode.clear().draw(); //Clear Table
@@ -2043,8 +2298,7 @@ $(document).ready(function () {
                 input.value = "";
             });
         input_tanggalKonversiTanpaBarcode.valueAsDate = new Date();
-        initializeSelectElement("showModal"); //Initialize all select element inside modal
-        clearSelectElement("showModal");
+        initializeSelectElement("showModalTanpaBarcode"); //Initialize all select element inside modal
         select_divisiTanpaBarcode.val(null).trigger("change"); // Clear selected index for select_divisi
 
         setTimeout(() => {
@@ -2155,6 +2409,40 @@ $(document).ready(function () {
             if (id_shiftTanpaBarcode.value == "") {
                 id_shiftTanpaBarcode.classList.add("input-error");
             } else {
+                id_groupTanpaBarcode.focus();
+            }
+        }
+    });
+
+    id_groupTanpaBarcode.addEventListener("input", function (e) {
+        // Automatically convert the input to uppercase
+        this.value = this.value.toUpperCase();
+
+        // Allow only 'P', 'M', or 'S'
+        const allowedCharacters = ["A", "B", "C"];
+
+        // If the input is more than one character or not one of the allowed characters
+        if (this.value.length > 1 || !allowedCharacters.includes(this.value)) {
+            // Remove the last entered character if it's not allowed
+            this.value = this.value.slice(0, 1);
+            if (!allowedCharacters.includes(this.value)) {
+                this.value = ""; // Clear the input if the remaining character is still invalid
+            }
+
+            this.classList.add("input-error");
+            this.setCustomValidity("Silahkan pilih A, B, atau C"); // prettier-ignore
+        } else {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+        }
+        this.reportValidity(); // Display the validity message
+    });
+
+    id_groupTanpaBarcode.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            if (id_groupTanpaBarcode.value == "") {
+                id_groupTanpaBarcode.classList.add("input-error");
+            } else {
                 select_divisiTanpaBarcode.select2("open");
             }
         }
@@ -2172,7 +2460,11 @@ $(document).ready(function () {
     select_divisiTanpaBarcode.on("select2:select", function () {
         const selectedDivisiAsal = $(this).val(); // Get selected Divisi Asal
         // initializeSelectElement("pilihDivisi");
-        clearSelectElement("pilihDivisi");
+        clearSelectElement("pilihDivisiTanpaBarcode");
+        clearInputTextElements("pilihIdTypeAsalTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeAsalTanpaBarcode");
+        clearInputTextElements("pilihIdTypeTujuanTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2198,7 +2490,6 @@ $(document).ready(function () {
                             new Option(objek.NamaObjek, objek.IdObjek)
                         );
                     });
-                    initializeSelectElement("pilihDivisi");
                 }
             },
             error: function () {
@@ -2217,10 +2508,10 @@ $(document).ready(function () {
 
     select_objekAsalTanpaBarcode.on("select2:select", function () {
         const selectedObjekAsal = $(this).val(); // Get selected Divisi Asal
-        initializeSelectElement("pilihObjekAsal");
-        clearSelectElement("pilihObjekAsal");
-        clearInputTextElements("pilihIdTypeAsal");
-        readOnlyInputTextElements("pilihIdTypeAsal");
+        initializeSelectElement("pilihObjekAsalTanpaBarcode");
+        clearSelectElement("pilihObjekAsalTanpaBarcode");
+        clearInputTextElements("pilihIdTypeAsalTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeAsalTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2246,7 +2537,6 @@ $(document).ready(function () {
                             )
                         );
                     });
-                    initializeSelectElement("pilihObjekAsal");
                 }
             },
             error: function () {
@@ -2274,10 +2564,10 @@ $(document).ready(function () {
             return;
         }
         const selectedObjekTujuan = $(this).val(); // Get selected Divisi Tujuan
-        initializeSelectElement("pilihObjekTujuan");
-        clearSelectElement("pilihObjekTujuan");
-        clearInputTextElements("pilihIdTypeTujuan");
-        readOnlyInputTextElements("pilihIdTypeTujuan");
+        initializeSelectElement("pilihObjekTujuanTanpaBarcode");
+        clearSelectElement("pilihObjekTujuanTanpaBarcode");
+        clearInputTextElements("pilihIdTypeTujuanTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2303,7 +2593,6 @@ $(document).ready(function () {
                             )
                         );
                     });
-                    initializeSelectElement("pilihObjekTujuan");
                 }
             },
             error: function () {
@@ -2322,10 +2611,10 @@ $(document).ready(function () {
 
     select_kelompokUtamaAsalTanpaBarcode.on("select2:select", function () {
         const selectedKelompokUtamaAsal = $(this).val(); // Get selected Divisi Asal
-        initializeSelectElement("pilihKelompokUtamaAsal");
-        clearSelectElement("pilihKelompokUtamaAsal");
-        clearInputTextElements("pilihIdTypeAsal");
-        readOnlyInputTextElements("pilihIdTypeAsal");
+        initializeSelectElement("pilihKelompokUtamaAsalTanpaBarcode");
+        clearSelectElement("pilihKelompokUtamaAsalTanpaBarcode");
+        clearInputTextElements("pilihIdTypeAsalTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeAsalTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2348,7 +2637,6 @@ $(document).ready(function () {
                             new Option(objek.namakelompok, objek.idkelompok)
                         );
                     });
-                    initializeSelectElement("pilihKelompokUtamaAsal");
                 }
             },
             error: function () {
@@ -2367,10 +2655,10 @@ $(document).ready(function () {
 
     select_kelompokUtamaTujuanTanpaBarcode.on("select2:select", function () {
         const selectedKelompokUtamaTujuan = $(this).val(); // Get selected Divisi Tujuan
-        initializeSelectElement("pilihKelompokUtamaTujuan");
-        clearSelectElement("pilihKelompokUtamaTujuan");
-        clearInputTextElements("pilihIdTypeTujuan");
-        readOnlyInputTextElements("pilihIdTypeTujuan");
+        initializeSelectElement("pilihKelompokUtamaTujuanTanpaBarcode");
+        clearSelectElement("pilihKelompokUtamaTujuanTanpaBarcode");
+        clearInputTextElements("pilihIdTypeTujuanTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2393,7 +2681,6 @@ $(document).ready(function () {
                             new Option(objek.namakelompok, objek.idkelompok)
                         );
                     });
-                    initializeSelectElement("pilihKelompokUtamaTujuan");
                 }
             },
             error: function () {
@@ -2412,10 +2699,10 @@ $(document).ready(function () {
 
     select_kelompokAsalTanpaBarcode.on("select2:select", function () {
         const selectedKelompokAsal = $(this).val(); // Get selected Divisi Asal
-        initializeSelectElement("pilihKelompokAsal");
-        clearSelectElement("pilihKelompokAsal");
-        clearInputTextElements("pilihIdTypeAsal");
-        readOnlyInputTextElements("pilihIdTypeAsal");
+        initializeSelectElement("pilihKelompokAsalTanpaBarcode");
+        clearSelectElement("pilihKelompokAsalTanpaBarcode");
+        clearInputTextElements("pilihIdTypeAsalTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeAsalTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2441,7 +2728,6 @@ $(document).ready(function () {
                             )
                         );
                     });
-                    initializeSelectElement("pilihKelompokAsal");
                 }
             },
             error: function () {
@@ -2460,10 +2746,10 @@ $(document).ready(function () {
 
     select_kelompokTujuanTanpaBarcode.on("select2:select", function () {
         const selectedKelompokTujuan = $(this).val(); // Get selected Divisi Tujuan
-        initializeSelectElement("pilihKelompokTujuan");
-        clearSelectElement("pilihKelompokTujuan");
-        clearInputTextElements("pilihIdTypeTujuan");
-        readOnlyInputTextElements("pilihIdTypeTujuan");
+        initializeSelectElement("pilihKelompokTujuanTanpaBarcode");
+        clearSelectElement("pilihKelompokTujuanTanpaBarcode");
+        clearInputTextElements("pilihIdTypeTujuanTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2489,7 +2775,6 @@ $(document).ready(function () {
                             )
                         );
                     });
-                    initializeSelectElement("pilihKelompokTujuan");
                 }
             },
             error: function () {
@@ -2508,10 +2793,10 @@ $(document).ready(function () {
 
     select_subKelompokAsalTanpaBarcode.on("select2:select", function () {
         const selectedSubKelompokAsal = $(this).val(); // Get selected Divisi Asal
-        initializeSelectElement("pilihSubKelompokAsal");
-        clearSelectElement("pilihSubKelompokAsal");
-        clearInputTextElements("pilihIdTypeAsal");
-        readOnlyInputTextElements("pilihIdTypeAsal");
+        initializeSelectElement("pilihSubKelompokAsalTanpaBarcode");
+        clearSelectElement("pilihSubKelompokAsalTanpaBarcode");
+        clearInputTextElements("pilihIdTypeAsalTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeAsalTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2534,7 +2819,6 @@ $(document).ready(function () {
                             new Option(objek.NamaType, objek.IdType)
                         );
                     });
-                    initializeSelectElement("pilihSubKelompokAsal");
                 }
             },
             error: function () {
@@ -2553,10 +2837,10 @@ $(document).ready(function () {
 
     select_subKelompokTujuanTanpaBarcode.on("select2:select", function () {
         const selectedSubKelompokTujuan = $(this).val(); // Get selected Divisi Tujuan
-        initializeSelectElement("pilihSubKelompokTujuan");
-        clearSelectElement("pilihSubKelompokTujuan");
-        clearInputTextElements("pilihIdTypeTujuan");
-        readOnlyInputTextElements("pilihIdTypeTujuan");
+        initializeSelectElement("pilihSubKelompokTujuanTanpaBarcode");
+        clearSelectElement("pilihSubKelompokTujuanTanpaBarcode");
+        clearInputTextElements("pilihIdTypeTujuanTanpaBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2620,7 +2904,6 @@ $(document).ready(function () {
                             );
                         });
                     }
-                    initializeSelectElement("pilihSubKelompokTujuan");
                 }
             },
             error: function () {
@@ -2640,7 +2923,7 @@ $(document).ready(function () {
     select_typeAsalTanpaBarcode.on("select2:select", function () {
         const selectedIdType = $(this).val(); // Get selected Id Type
         // Clear Input Text
-        clearInputTextElements("pilihIdTypeAsal");
+        clearInputTextElements("pilihIdTypeAsalTanpaBarcode");
         // Fetch Kode Barang based on selected customer
         $.ajax({
             url: "/KonversiRollBarcode/getDataType",
@@ -2733,7 +3016,7 @@ $(document).ready(function () {
     select_typeTujuanTanpaBarcode.on("select2:select", function () {
         const selectedIdType = $(this).val(); // Get selected Id Type
         // Clear Input Text
-        clearInputTextElements("pilihIdTypeTujuan");
+        clearInputTextElements("pilihIdTypeTujuanTanpaBarcode");
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2884,13 +3167,6 @@ $(document).ready(function () {
                 } else {
                     // Add a new row with all input data to the DataTable
                     table_daftarTujuanKonversiTanpaBarcode.row.add(inputData);
-
-                    const selectIds = [
-                        "#select_kelompokUtamaTujuanTanpaBarcode",
-                        "#select_kelompokTujuanTanpaBarcode",
-                        "#select_subKelompokTujuanTanpaBarcode",
-                        "#select_typeTujuanTanpaBarcode",
-                    ];
                     const inputTextIds = [
                         "#saldo_terakhirPrimerTujuanTanpaBarcode",
                         "#satuan_saldoTerakhirPrimerTujuanTanpaBarcode",
@@ -2906,7 +3182,7 @@ $(document).ready(function () {
                         "#satuan_tritierJumlahPemasukanTanpaBarcode",
                     ];
                     // Loop through each select element
-                    selectIds.forEach((id) => {
+                    tanpaBarcodeSelectIds.forEach((id) => {
                         const $select = $(id);
                         // Select the disabled option
                         $select.val($select.find("option[disabled]").val());
@@ -3026,12 +3302,6 @@ $(document).ready(function () {
                             "info"
                         );
                     }
-                    const selectIds = [
-                        "#select_kelompokUtamaTujuanTanpaBarcode",
-                        "#select_kelompokTujuanTanpaBarcode",
-                        "#select_subKelompokTujuanTanpaBarcode",
-                        "#select_typeTujuanTanpaBarcode",
-                    ];
                     const inputTextIds = [
                         "#saldo_terakhirPrimerTujuanTanpaBarcode",
                         "#satuan_saldoTerakhirPrimerTujuanTanpaBarcode",
@@ -3047,7 +3317,7 @@ $(document).ready(function () {
                         "#satuan_tritierJumlahPemasukanTanpaBarcode",
                     ];
                     // Loop through each select element
-                    selectIds.forEach((id) => {
+                    tanpaBarcodeSelectIds.forEach((id) => {
                         const $select = $(id);
                         // Select the disabled option
                         $select.val($select.find("option[disabled]").val());
@@ -3100,12 +3370,6 @@ $(document).ready(function () {
                             // If user confirms, delete the selected row
                             selectedRow.remove().draw(false);
                             select_objekTujuanTanpaBarcode.val(null).trigger("change"); // prettier-ignore
-                            const selectIds = [
-                                "#select_kelompokUtamaTujuanTanpaBarcode",
-                                "#select_kelompokTujuanTanpaBarcode",
-                                "#select_subKelompokTujuanTanpaBarcode",
-                                "#select_typeTujuanTanpaBarcode",
-                            ];
                             const inputTextIds = [
                                 "#saldo_terakhirPrimerTujuanTanpaBarcode",
                                 "#satuan_saldoTerakhirPrimerTujuanTanpaBarcode",
@@ -3120,7 +3384,7 @@ $(document).ready(function () {
                                 "#jumlah_pemasukanTritierTanpaBarcode",
                                 "#satuan_tritierJumlahPemasukanTanpaBarcode",
                             ];
-                            selectIds.forEach((id) => {
+                            tanpaBarcodeSelectIds.forEach((id) => {
                                 const $select = $(id);
                                 // Select the disabled option
                                 $select.val(
@@ -3366,6 +3630,7 @@ $(document).ready(function () {
                             .data()
                             .toArray(),
                     shift: id_shiftTanpaBarcode.value,
+                    group: id_groupTanpaBarcode.value,
                     divisi: "ABM",
                     jenisStore: "permohonanTanpaBarcode",
                     idSubKelompokAsal: select_subKelompokAsalTanpaBarcode.val(),
