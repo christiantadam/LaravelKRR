@@ -287,7 +287,7 @@ $(document).ready(function () {
                     placeholder: placeholder,
                 }); // prettier-ignore
             });
-        } else if (tipeInitialisasi.includes('DenganBarcode')){
+        } else if (tipeInitialisasi.includes("DenganBarcode")) {
             selectElements.forEach(({ element, placeholder }) => {
                 element.select2({
                     dropdownParent: $("#tambahTujuanModal"),
@@ -307,7 +307,8 @@ $(document).ready(function () {
                 .empty()
                 .append(
                     `<option value="" disabled selected>${placeholder}</option>`
-                );
+                )
+                .prop("disabled", true);
         });
     }
 
@@ -1319,41 +1320,6 @@ $(document).ready(function () {
         });
     });
 
-    select_kelompokTujuan.on("select2:select", function (e) {
-        clearSelectElement("pilihKelompokDenganBarcode");
-        clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
-        readOnlyInputTextElements("pilihIdTypeTujuanDenganBarcode");
-        $.ajax({
-            type: "GET",
-            url: "/KonversiRollBarcode/getKelompokUtama",
-            data: {
-                _token: csrfToken,
-                idObjek: $(this).val(),
-            },
-            success: function (response) {
-                $("#select_kelompokUtamaTujuan").prop("disabled", false);
-                response.forEach((item) => {
-                    // Create a new option element
-                    const option = new Option(
-                        item.NamaKelompokUtama,
-                        item.IdKelompokUtama,
-                        false,
-                        false
-                    );
-                    // Append the option to the select element
-                    $("#select_kelompokUtamaTujuan")
-                        .append(option)
-                        .trigger("change");
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            },
-        }).then(() => {
-            $("#select_kelompokUtamaTujuan").select2("open");
-        });
-    });
-
     select_kelompokUtamaTujuan.on("select2:select", function (e) {
         clearSelectElement("pilihKelompokUtamaDenganBarcode");
         clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
@@ -1386,6 +1352,39 @@ $(document).ready(function () {
             },
         }).then(() => {
             $("#select_kelompokTujuan").select2("open");
+        });
+    });
+
+    select_kelompokTujuan.on("select2:select", function (e) {
+        clearSelectElement("pilihKelompokDenganBarcode");
+        clearInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        readOnlyInputTextElements("pilihIdTypeTujuanDenganBarcode");
+        $.ajax({
+            type: "GET",
+            url: "/KonversiRollBarcode/getSubKelompok",
+            data: {
+                _token: csrfToken,
+                idKelompok: $(this).val(),
+            },
+            success: function (response) {
+                $("#select_subKelompokTujuan").prop("disabled", false);
+                response.forEach((item) => {
+                    // Create a new option element
+                    const option = new Option(
+                        item.NamaSubKelompok,
+                        item.IdSubkelompok
+                    );
+                    // Append the option to the select element
+                    $("#select_subKelompokTujuan")
+                        .append(option)
+                        .trigger("change");
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        }).then(() => {
+            $("#select_subKelompokTujuan").select2("open");
         });
     });
 
