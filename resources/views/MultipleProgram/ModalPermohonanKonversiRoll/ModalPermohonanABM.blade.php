@@ -1,6 +1,6 @@
 <div class="modal fade" id="tambahTujuanModal" tabindex="-1">
     <div class="modal-dialog" style="max-width: 90%;">
-        <div class="modal-content">
+        <div class="modal-content" id="select2DropdownParent">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="tambahTujuanModalLabel">Tambah Konversi </h5>
                 <button type="button" class="close" id="closeModalButton">
