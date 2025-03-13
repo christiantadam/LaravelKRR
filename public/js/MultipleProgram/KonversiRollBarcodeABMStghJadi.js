@@ -2554,9 +2554,11 @@ $(document).ready(function () {
                         select_objekAsalTanpaBarcode.append(
                             new Option(objek.NamaObjek, objek.IdObjek)
                         );
+                        select_objekAsalTanpaBarcode.prop("disabled", false);
                         select_objekTujuanTanpaBarcode.append(
                             new Option(objek.NamaObjek, objek.IdObjek)
                         );
+                        select_objekTujuanTanpaBarcode.prop("disabled", false);
                     });
                 }
             },
@@ -2603,6 +2605,10 @@ $(document).ready(function () {
                                 objek.NamaKelompokUtama,
                                 objek.IdKelompokUtama
                             )
+                        );
+                        select_kelompokUtamaAsalTanpaBarcode.prop(
+                            "disabled",
+                            false
                         );
                     });
                 }
@@ -2660,6 +2666,10 @@ $(document).ready(function () {
                                 objek.IdKelompokUtama
                             )
                         );
+                        select_kelompokUtamaTujuanTanpaBarcode.prop(
+                            "disabled",
+                            false
+                        );
                     });
                 }
             },
@@ -2704,6 +2714,7 @@ $(document).ready(function () {
                         select_kelompokAsalTanpaBarcode.append(
                             new Option(objek.namakelompok, objek.idkelompok)
                         );
+                        select_kelompokAsalTanpaBarcode.prop("disabled", false);
                     });
                 }
             },
@@ -2747,6 +2758,10 @@ $(document).ready(function () {
                     data.forEach(function (objek) {
                         select_kelompokTujuanTanpaBarcode.append(
                             new Option(objek.namakelompok, objek.idkelompok)
+                        );
+                        select_kelompokTujuanTanpaBarcode.prop(
+                            "disabled",
+                            false
                         );
                     });
                 }
@@ -2795,6 +2810,10 @@ $(document).ready(function () {
                                 objek.IdSubkelompok
                             )
                         );
+                        select_subKelompokAsalTanpaBarcode.prop(
+                            "disabled",
+                            false
+                        );
                     });
                 }
             },
@@ -2842,6 +2861,10 @@ $(document).ready(function () {
                                 objek.IdSubkelompok
                             )
                         );
+                        select_subKelompokTujuanTanpaBarcode.prop(
+                            "disabled",
+                            false
+                        );
                     });
                 }
             },
@@ -2886,6 +2909,7 @@ $(document).ready(function () {
                         select_typeAsalTanpaBarcode.append(
                             new Option(objek.NamaType, objek.IdType)
                         );
+                        select_typeAsalTanpaBarcode.prop("disabled", false);
                     });
                 }
             },
@@ -2926,52 +2950,12 @@ $(document).ready(function () {
                             $("#select_subKelompokTujuanTanpaBarcode option:selected").text(), // prettier-ignore
                     });
                 } else {
-                    console.log(data);
-                    console.log(select_kelompokUtamaTujuanTanpaBarcode.val());
-
-                    if (select_kelompokUtamaTujuanTanpaBarcode.val() == 1029) {
-                        let itemsAdded = false; // Track if any item is added
-                        data.forEach(function (objek) {
-                            luasTujuanBarangTanpaBarcode =
-                                parseFloat(objek.LebarPotongan) *
-                                parseFloat(objek.PanjangPotongan);
-
-                            if (
-                                luasAsalBarangTanpaBarcode >=
-                                luasTujuanBarangTanpaBarcode
-                            ) {
-                                select_typeTujuanTanpaBarcode.append(
-                                    new Option(objek.NamaType, objek.IdType)
-                                );
-                                itemsAdded = true;
-                            }
-                        });
-
-                        if (!itemsAdded) {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Perhatian",
-                                text:
-                                    "Tidak ukuran yang lebih kecil dari luas barang asal konversi: " +
-                                    luasAsalBarangTanpaBarcode.toString() +
-                                    " pada kelompok " +
-                                    select_kelompokTujuan.options[
-                                        select_kelompokTujuan.selectedIndex
-                                    ].text,
-                            }).then(() => {
-                                select_kelompokTujuan.focus();
-                                select_subKelompokTujuan.disabled = true;
-                            });
-                        } else {
-                            select_subKelompokTujuan.focus();
-                        }
-                    } else {
-                        data.forEach(function (objek) {
-                            select_typeTujuanTanpaBarcode.append(
-                                new Option(objek.NamaType, objek.IdType)
-                            );
-                        });
-                    }
+                    data.forEach(function (objek) {
+                        select_typeTujuanTanpaBarcode.append(
+                            new Option(objek.NamaType, objek.IdType)
+                        );
+                    });
+                    select_typeTujuanTanpaBarcode.prop("disabled",false); // prettier-ignore
                 }
             },
             error: function () {
