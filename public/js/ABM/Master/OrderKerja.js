@@ -5,9 +5,12 @@ $(document).ready(function () {
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
+    let cekNomorOrderKerja = document.getElementById("cekNomorOrderKerja"); // prettier-ignore
+    let dataSuratPesananTemp;
     let input_tanggalRencanaMulaiKerja = document.getElementById("input_tanggalRencanaMulaiKerja"); // prettier-ignore
     let input_tanggalRencanaSelesaiKerja = document.getElementById("input_tanggalRencanaSelesaiKerja"); // prettier-ignore
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
+    let closeDetailOrderKerjaModal = document.getElementById("closeDetailOrderKerjaModal"); // prettier-ignore
     let closeModalButton = document.getElementById("closeModalButton"); // prettier-ignore
     const select_suratPesananTujuan = $('#select_suratPesananTujuan'); // prettier-ignore
     let namaBarang = document.getElementById("namaBarang"); // prettier-ignore
@@ -108,7 +111,7 @@ $(document).ready(function () {
                         NomorOrderKerja.value = twoDigitYear + "0001";
                     }
                     console.log(data.dataSuratPesanan);
-
+                    dataSuratPesananTemp = data.dataSuratPesanan;
                     // Populate select_suratPesananTujuan with data.dataSuratPesanan
                     select_suratPesananTujuan.empty(); // Clear existing options
                     data.dataSuratPesanan.forEach(function (item) {
@@ -120,18 +123,6 @@ $(document).ready(function () {
 
                     // Show the modal only if the AJAX request is successful
                     $("#tambahPermohonanOrderKerjaModal").modal("show");
-
-                    select_suratPesananTujuan.on("change", function () {
-                        let selectedId = $(this).val();
-                        let selectedItem = data.dataSuratPesanan.find(
-                            (item) => item.IDPesanan == selectedId
-                        );
-                        if (selectedItem) {
-                            namaBarang.textContent = selectedItem.NAMA_BRG;
-                        } else {
-                            namaBarang.textContent = "";
-                        }
-                    });
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -149,6 +140,19 @@ $(document).ready(function () {
             },
         });
     });
+
+    $("#tambahPermohonanOrderKerjaModal").on(
+        "shown.bs.modal",
+        function (event) {
+            input_tanggalRencanaMulaiKerja.valueAsDate = new Date();
+            input_tanggalRencanaSelesaiKerja.valueAsDate = new Date();
+            NomorOrderKerja.focus();
+            select_suratPesananTujuan.select2({
+                dropdownParent: $("#tambahPermohonanOrderKerjaModal"),
+                placeholder: "Pilih Surat Pesanan",
+            });
+        }
+    );
 
     closeModalButton.addEventListener("click", function () {
         $("#tambahPermohonanOrderKerjaModal").modal("hide");
@@ -174,10 +178,27 @@ $(document).ready(function () {
                     },
                     dataType: "json",
                     success: function (data) {
+                        console.log(data);
+
                         if (data.success) {
                             // Populate select_suratPesananTujuan with data.dataSuratPesanan
                             select_suratPesananTujuan.empty(); // Clear existing options
+                            if (
+                                parseInt(
+                                    data.cekNomorOrderKerja[0]
+                                        .JumlahNomorOrderKerja
+                                ) == 0
+                            ) {
+                                cekNomorOrderKerja.innerHTML = "Order Kerja Baru"; // prettier-ignore
+                                cekNomorOrderKerja.style.color = "green";
+                                cekNomorOrderKerja.style.fontSize = "";
+                            } else {
+                                cekNomorOrderKerja.innerHTML = "Order Kerja Sudah ada, pilihan SP ditampilkan berdasarkan data order kerja"; // prettier-ignore
+                                cekNomorOrderKerja.style.color = "red";
+                                cekNomorOrderKerja.style.fontSize = "14px";
+                            }
                             if (data.dataSuratPesanan.length > 0) {
+                                dataSuratPesananTemp = data.dataSuratPesanan;
                                 data.dataSuratPesanan.forEach(function (item) {
                                     select_suratPesananTujuan.append(
                                         new Option(item.IdSuratPesanan + ' | ' + item.KodeBarang, item.IDPesanan) // prettier-ignore
@@ -207,6 +228,18 @@ $(document).ready(function () {
                 select_suratPesananTujuan.focus();
             }
             this.reportValidity();
+        }
+    });
+
+    select_suratPesananTujuan.on("select2:select", function () {
+        let selectedId = $(this).val();
+        let selectedItem = dataSuratPesananTemp.find(
+            (item) => item.IDPesanan == selectedId
+        );
+        if (selectedItem) {
+            namaBarang.textContent = selectedItem.NAMA_BRG;
+        } else {
+            namaBarang.textContent = "";
         }
     });
 
@@ -245,19 +278,6 @@ $(document).ready(function () {
         });
     });
 
-    $("#tambahPermohonanOrderKerjaModal").on(
-        "shown.bs.modal",
-        function (event) {
-            input_tanggalRencanaMulaiKerja.valueAsDate = new Date();
-            input_tanggalRencanaSelesaiKerja.valueAsDate = new Date();
-
-            select_suratPesananTujuan.select2({
-                dropdownParent: $("#tambahPermohonanOrderKerjaModal"),
-                placeholder: "Pilih Surat Pesanan",
-            });
-        }
-    );
-
     // table_orderKerja.on("click", "tbody tr", function () {
     //     let data = table_orderKerja.row(this).data();
     //     console.log(data);
@@ -277,12 +297,24 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response);
                 console.log(response.dataDetailOrderKerja);
-                detailOrderKerjaModalLabel.innerHTML = "Detail Order Kerja " + rowID;
-                detailOrderKerjaNomorSuratPesanan.innerHTML = response.dataDetailOrderKerja[0].IDSuratPesanan
-                detailOrderKerjaCustomer.innerHTML = response.dataDetailOrderKerja[0].NamaCust;
-                detailOrderKerjaNamaBarang.innerHTML = response.dataDetailOrderKerja[0].NAMA_BRG;
-                detailOrderKerjaTanggalRencanaMulaiKerja.innerHTML = response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja.substring(0, 10);
-                detailOrderKerjaTanggalRencanaSelesaiKerja.innerHTML = response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja.substring(0, 10);
+                detailOrderKerjaModalLabel.innerHTML =
+                    "Detail Order Kerja " + rowID;
+                detailOrderKerjaNomorSuratPesanan.innerHTML =
+                    response.dataDetailOrderKerja[0].IDSuratPesanan;
+                detailOrderKerjaCustomer.innerHTML =
+                    response.dataDetailOrderKerja[0].NamaCust;
+                detailOrderKerjaNamaBarang.innerHTML =
+                    response.dataDetailOrderKerja[0].NAMA_BRG;
+                detailOrderKerjaTanggalRencanaMulaiKerja.innerHTML =
+                    response.dataDetailOrderKerja[0].TanggalRencanaMulaiKerja.substring(
+                        0,
+                        10
+                    );
+                detailOrderKerjaTanggalRencanaSelesaiKerja.innerHTML =
+                    response.dataDetailOrderKerja[0].TanggalRencanaSelesaiKerja.substring(
+                        0,
+                        10
+                    );
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching data: ", error);

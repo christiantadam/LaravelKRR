@@ -17,6 +17,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="NomorOrderKerja" name="NomorOrderKerja">
                     </div>
+                    <span id="cekNomorOrderKerja"></span>
                 </div>
                 <div class="form-group">
                     <label for="suratPesanan">Surat Pesanan</label>
