@@ -986,9 +986,12 @@ function rpt_cetakNotaFaktur(result) {
 
                             if (bankSelect.value == "6") {
                                 additionalCoaCol.innerHTML = item.NO_PO
-                                    ? "PO : " + decodeHtmlEntities(item.NO_PO) + '<br>' +
-                                    'Jumlah Empty Bag yang dikirim: ' + decodeHtmlEntities(item.Jml) +
-                                    decodeHtmlEntities(item.Satuan)
+                                    ? "PO : " +
+                                      decodeHtmlEntities(item.NO_PO) +
+                                      "<br>" +
+                                      "Jumlah Empty Bag yang dikirim: " +
+                                      decodeHtmlEntities(item.Jml) +
+                                      decodeHtmlEntities(item.Satuan)
                                     : "";
                                 additionalRow.appendChild(additionalCoaCol);
                             } else {
@@ -1027,6 +1030,18 @@ function rpt_cetakNotaFaktur(result) {
                         faktur_Grand.textContent =
                             numeral(totalGrand).format("0,0.00");
 
+                        // if (
+                        //     result[0].NamaNPWP == "PT. BLOOM TRADING INDONESIA"
+                        // ) {
+                        //     faktur_UM.textContent = "";
+                        // } else {
+                        //     faktur_UM.textContent = result[0].Nilai_UM
+                        //         ? numeral(
+                        //               (result[0].Nilai_UM * 11) / 12
+                        //           ).format("0,0.00")
+                        //         : "0.00";
+                        // }
+
                         faktur_UM.textContent = result[0].Nilai_UM
                             ? numeral((result[0].Nilai_UM * 11) / 12).format(
                                   "0,0.00"
@@ -1036,7 +1051,11 @@ function rpt_cetakNotaFaktur(result) {
                         let dpp =
                             numeral(faktur_Grand.textContent).value() -
                             numeral(result[0].Nilai_UM).value();
-                        if (duaDigitTahun > 24) {
+                        if (
+                            result[0].NamaNPWP == "PT. BLOOM TRADING INDONESIA"
+                        ) {
+                            faktur_DPP.textContent = "";
+                        } else if (duaDigitTahun > 24) {
                             faktur_DPP.textContent = numeral(
                                 (dpp * 11) / 12
                             ).format("0,0.00");
@@ -1085,10 +1104,18 @@ function rpt_cetakNotaFaktur(result) {
                             "Syarat Pembayaran: &emsp;&emsp;" +
                             decodeHtmlEntities(result[0].SyaratBayar) +
                             " Hari";
+                        console.log(result);
+                        console.log(
+                            result[0].NamaNPWP == "PT. BLOOM TRADING INDONESIA"
+                        );
 
                         faktur_TglBln.textContent = tanggal + " " + bulan;
                         faktur_Thn.textContent = duaDigitTahun;
-                        if (duaDigitTahun > 24) {
+                        if (
+                            result[0].NamaNPWP == "PT. BLOOM TRADING INDONESIA"
+                        ) {
+                            faktur_PersenPPN.innerHTML = "<strong></strong>";
+                        } else if (duaDigitTahun > 24) {
                             faktur_PersenPPN.innerHTML = "<strong>12%</strong>";
                         } else {
                             faktur_PersenPPN.innerHTML = "<strong>11%</strong>";
@@ -1519,14 +1546,18 @@ function rpt_cetakNotaFaktur(result) {
 
                                 if (bankSelect.value == "6") {
                                     additionalCoaCol.innerHTML = item.NO_PO
-                                        ? "PO : " + decodeHtmlEntities(item.NO_PO) + '<br>' +
-                                        'Jumlah Empty Bag yang dikirim: ' + decodeHtmlEntities(item.Jml) +
-                                        decodeHtmlEntities(item.Satuan)
+                                        ? "PO : " +
+                                          decodeHtmlEntities(item.NO_PO) +
+                                          "<br>" +
+                                          "Jumlah Empty Bag yang dikirim: " +
+                                          decodeHtmlEntities(item.Jml) +
+                                          decodeHtmlEntities(item.Satuan)
                                         : "";
                                     additionalRow.appendChild(additionalCoaCol);
                                 } else {
                                     additionalCoaCol.textContent = item.NO_PO
-                                        ? "PO : " + decodeHtmlEntities(item.NO_PO)
+                                        ? "PO : " +
+                                          decodeHtmlEntities(item.NO_PO)
                                         : "";
                                     additionalRow.appendChild(additionalCoaCol);
                                 }
@@ -1556,6 +1587,19 @@ function rpt_cetakNotaFaktur(result) {
                             faktur_Grand2.textContent =
                                 numeral(totalGrand).format("0,0.00");
 
+                            // if (
+                            //     result[0].NamaNPWP ==
+                            //     "PT. BLOOM TRADING INDONESIA"
+                            // ) {
+                            //     faktur_UM2.textContent = "";
+                            // } else {
+                            //     faktur_UM2.textContent = result[0].Nilai_UM
+                            //         ? numeral(
+                            //               (result[0].Nilai_UM * 11) / 12
+                            //           ).format("0,0.00")
+                            //         : "0.00";
+                            // }
+
                             faktur_UM2.textContent = result[0].Nilai_UM
                                 ? numeral(
                                       (result[0].Nilai_UM * 11) / 12
@@ -1565,7 +1609,12 @@ function rpt_cetakNotaFaktur(result) {
                             let dpp =
                                 numeral(faktur_Grand2.textContent).value() -
                                 numeral(result[0].Nilai_UM).value();
-                            if (duaDigitTahun > 24) {
+                            if (
+                                result[0].NamaNPWP ==
+                                "PT. BLOOM TRADING INDONESIA"
+                            ) {
+                                faktur_DPP2.textContent = "";
+                            } else if (duaDigitTahun > 24) {
                                 faktur_DPP2.textContent = numeral(
                                     (dpp * 11) / 12
                                 ).format("0,0.00");
@@ -1573,6 +1622,14 @@ function rpt_cetakNotaFaktur(result) {
                                 faktur_DPP2.textContent =
                                     numeral(dpp).format("0,0.00");
                             }
+                            // if (duaDigitTahun > 24) {
+                            //     faktur_DPP2.textContent = numeral(
+                            //         (dpp * 11) / 12
+                            //     ).format("0,0.00");
+                            // } else {
+                            //     faktur_DPP2.textContent =
+                            //         numeral(dpp).format("0,0.00");
+                            // }
 
                             let pajak =
                                 (Math.round(numeral(dpp).value()) *
@@ -1619,7 +1676,13 @@ function rpt_cetakNotaFaktur(result) {
 
                             faktur_TglBln2.textContent = tanggal + " " + bulan;
                             faktur_Thn2.textContent = duaDigitTahun;
-                            if (duaDigitTahun > 24) {
+                            if (
+                                result[0].NamaNPWP ==
+                                "PT. BLOOM TRADING INDONESIA"
+                            ) {
+                                faktur_PersenPPN2.innerHTML =
+                                    "<strong></strong>";
+                            } else if (duaDigitTahun > 24) {
                                 faktur_PersenPPN2.innerHTML =
                                     "<strong>12%</strong>";
                             } else {
