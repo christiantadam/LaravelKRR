@@ -3134,13 +3134,13 @@ $(document).ready(function () {
                                 sumHasilKonversiTritier += parseFloat(this.data()[4]) || 0; // prettier-ignore
                             }
                         });
-                        maxHasilKonversiTritier = (parseFloat(table_daftarAsalKonversi.data()[0][4]) * 1.03) - sumHasilKonversiTritier; // prettier-ignore
+                        maxHasilKonversiTritier = ((parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) * 1.03) - sumHasilKonversiTritier).toFixed(2); // prettier-ignore
                         console.log(
                             maxHasilKonversiTritier,
                             sumHasilKonversiTritier
                         );
                     } else {
-                        maxHasilKonversiTritier = table_daftarAsalKonversi.data()[0][4] * 1.03; // prettier-ignore
+                        maxHasilKonversiTritier = (parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) * 1.03).toFixed(2); // prettier-ignore
                     }
                 }
             },
@@ -3175,7 +3175,7 @@ $(document).ready(function () {
 
         if (inputValue > maxHasilKonversiTritierTanpaBarcode) {
             this.setCustomValidity("Input exceeds the maximum allowed value.");
-            e.target.value = parseFloat(numeral(jumlah_pemakaianTritierTanpaBarcode.value).value() * 1.03); // prettier-ignore
+            e.target.value = parseFloat(numeral(jumlah_pemakaianTritierTanpaBarcode.value).value() * 1.03).toFixed(2); // prettier-ignore
         } else {
             this.setCustomValidity("");
         }
