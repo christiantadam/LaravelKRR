@@ -2332,8 +2332,8 @@ $(document).ready(function () {
     let satuan_tritierJumlahPemasukanTanpaBarcode = document.getElementById('satuan_tritierJumlahPemasukanTanpaBarcode'); // prettier-ignore
     let tambahTujuanModalLabelTanpaBarcode = document.getElementById('tambahTujuanModalLabelTanpaBarcode'); // prettier-ignore
     let tambahTujuanModalTanpaBarcode = document.getElementById('tambahTujuanModalTanpaBarcode'); // prettier-ignore
-    let sumHasilKonversiTritierTanpaBarcode;
-    let maxHasilKonversiTritierTanpaBarcode;
+    let sumHasilKonversiTritierTanpaBarcode = 0;
+    let maxHasilKonversiTritierTanpaBarcode = 0;
     let table_daftarTujuanKonversiTanpaBarcode = $(
         "#table_daftarTujuanKonversiTanpaBarcode"
     ).DataTable({
@@ -2344,6 +2344,7 @@ $(document).ready(function () {
     });
 
     const tanpaBarcodeSelectIds = [
+        "#select_divisiTujuanTanpaBarcode",
         "#select_kelompokUtamaTujuanTanpaBarcode",
         "#select_kelompokTujuanTanpaBarcode",
         "#select_subKelompokTujuanTanpaBarcode",
@@ -3136,17 +3137,20 @@ $(document).ready(function () {
                             .data()
                             .sum() > 0
                     ) {
-                        // Loop through table rows and sum only those without the .selected class
-                        table_daftarTujuanKonversiTanpaBarcode
-                            .rows()
-                            .every(function () {
-                                let rowNode = this.node();
-                                if (!rowNode.classList.contains("selected")) {
-                                    sumHasilKonversiTritierTanpaBarcode = 0;
-                                    sumHasilKonversiTritierTanpaBarcode += parseFloat(this.data()[6]) || 0; // prettier-ignore
-                                }
-                            });
-                        maxHasilKonversiTritierTanpaBarcode = parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) * 1.03 - sumHasilKonversiTritierTanpaBarcode; // prettier-ignore
+                        // // Loop through table rows and sum only those without the .selected class
+                        // sumHasilKonversiTritierTanpaBarcode = 0;
+                        // table_daftarTujuanKonversiTanpaBarcode
+                        //     .rows()
+                        //     .every(function () {
+                        //         let rowNode = this.node();
+                        //         if (!rowNode.classList.contains("selected")) {
+                        //             sumHasilKonversiTritierTanpaBarcode += parseFloat(this.data()[6]) || 0; // prettier-ignore
+                        //         }
+                        //     });
+                        // console.log(sumHasilKonversiTritierTanpaBarcode);
+
+                        maxHasilKonversiTritierTanpaBarcode = (parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) * 1.03) - table_daftarTujuanKonversiTanpaBarcode.column(6).data().sum(); // prettier-ignore
+                        console.log(maxHasilKonversiTritierTanpaBarcode);
                     } else {
                         maxHasilKonversiTritierTanpaBarcode = jumlah_pemakaianTritierTanpaBarcode.value * 1.03; // prettier-ignore
                     }
@@ -3165,14 +3169,22 @@ $(document).ready(function () {
     jumlah_pemasukanTritierTanpaBarcode.addEventListener("input", function (e) {
         let inputValue = parseFloat(e.target.value);
 
+        console.log(maxHasilKonversiTritierTanpaBarcode, inputValue);
         if (inputValue > maxHasilKonversiTritierTanpaBarcode) {
             // Set the value to the maximum allowed
             this.setCustomValidity("Input exceeds the maximum allowed value.");
+            console.log(
+                parseFloat(jumlah_pemasukanTritierTanpaBarcode.value) !=
+                    parseFloat(
+                        numeral(maxHasilKonversiTritierTanpaBarcode).value()
+                    ).toFixed(2),
+                jumlah_pemasukanTritierTanpaBarcode.value,
+                parseFloat(numeral(maxHasilKonversiTritierTanpaBarcode).value()).toFixed(2)
+            );
+
             if (
-                jumlah_pemasukanTritierTanpaBarcode.value !=
-                parseFloat(
-                    numeral(maxHasilKonversiTritierTanpaBarcode).value() * 1.03
-                )
+                parseFloat(jumlah_pemasukanTritierTanpaBarcode.value) !=
+                parseFloat(numeral(maxHasilKonversiTritierTanpaBarcode).value()).toFixed(2)
             ) {
                 jumlah_pemasukanTritierTanpaBarcode.value = parseFloat(numeral(maxHasilKonversiTritierTanpaBarcode).value()).toFixed(2); // prettier-ignore
             }
@@ -3288,6 +3300,7 @@ $(document).ready(function () {
                         $select.val($select.find("option[disabled]").val());
 
                         if (id !== "#select_divisiTujuanTanpaBarcode") {
+                            $select.prop("disabled", true); // Disable all selects except '#select_divisiTujuan'
                             $select.find("option:not(:disabled)").remove(); // Remove all options except the disabled one
                         }
                     });
@@ -3553,6 +3566,24 @@ $(document).ready(function () {
             // Get data from the clicked row
             var data = table_daftarTujuanKonversiTanpaBarcode.row(this).data();
 
+            if (
+                table_daftarTujuanKonversiTanpaBarcode.column(6).data().sum() >
+                0
+            ) {
+                sumHasilKonversiTritierTanpaBarcode = 0;
+                // Loop through table rows and sum only those without the .selected class
+                table_daftarTujuanKonversiTanpaBarcode
+                    .rows()
+                    .every(function () {
+                        let rowNode = this.node();
+                        if (!rowNode.classList.contains("selected")) {
+                            sumHasilKonversiTritierTanpaBarcode += parseFloat(this.data()[6]) || 0; // prettier-ignore
+                        }
+                    });
+                maxHasilKonversiTritierTanpaBarcode = parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) * 1.03 - sumHasilKonversiTritierTanpaBarcode; // prettier-ignore
+            } else {
+                maxHasilKonversiTritierTanpaBarcode = jumlah_pemakaianTritierTanpaBarcode.value * 1.03; // prettier-ignore
+            }
             // If data exists, populate input fields
             if (Array.isArray(data) && data.length > 0) {
                 $.ajax({
