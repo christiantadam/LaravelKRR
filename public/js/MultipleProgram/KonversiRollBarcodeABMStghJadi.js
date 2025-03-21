@@ -3688,23 +3688,26 @@ $(document).ready(function () {
     button_modalProsesTanpaBarcode.addEventListener("click", function () {
         let sisaAsalKonversi = 0;
         let sumHasilKonversi = 0;
+        let sisaAsalKonversiPersen = 0;
 
         sumHasilKonversi = parseFloat(table_daftarTujuanKonversiTanpaBarcode.column(6).data().sum()); // prettier-ignore
         sisaAsalKonversi = parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) - sumHasilKonversi; // prettier-ignore
+        sisaAsalKonversiPersen = (sisaAsalKonversi / parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) * 100).toFixed(2); // prettier-ignore
+        console.log(sumHasilKonversi, sisaAsalKonversi, sisaAsalKonversiPersen);
 
-        if (
-            sisaAsalKonversi >
-            parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) * 0.03
-        ) {
-            Swal.fire({
-                icon: "info",
-                title: "Pemberitahuan",
-                timer: 1000,
-                showConfirmButton: false,
-                text: "Jumlah sisa konversi tidak boleh lebih dari 3% dari jumlah pemakaian!",
-            });
-            return;
-        }
+        // if (
+        //     sisaAsalKonversi >
+        //     parseFloat(jumlah_pemakaianTritierTanpaBarcode.value) * 0.03
+        // ) {
+        //     Swal.fire({
+        //         icon: "info",
+        //         title: "Pemberitahuan",
+        //         timer: 1000,
+        //         showConfirmButton: false,
+        //         text: "Jumlah sisa konversi tidak boleh lebih dari 3% dari jumlah pemakaian!",
+        //     });
+        //     return;
+        // }
 
         if (
             id_shiftTanpaBarcode.value == "" &&
@@ -3745,6 +3748,7 @@ $(document).ready(function () {
                     group: id_groupTanpaBarcode.value,
                     divisi: "ABM",
                     jenisStore: "permohonanTanpaBarcode",
+                    sisaAsalKonversiPersen: sisaAsalKonversiPersen,
                     idSubKelompokAsal: select_subKelompokAsalTanpaBarcode.val(),
                     id_typeAsal: select_typeAsalTanpaBarcode.val(),
                     pemakaian_primerAsal:

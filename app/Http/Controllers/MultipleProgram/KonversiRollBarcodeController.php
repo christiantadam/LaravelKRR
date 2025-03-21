@@ -91,8 +91,9 @@ class KonversiRollBarcodeController extends Controller
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan " . $divisi;
             } else if ($divisi == 'ABM') {
                 $grup = $request->input('grup');
-                $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi ABM";
-                $uraian_tujuan = (string) 'Grup ' . $grup . ' ' . $shift . ",  Tujuan Konversi Setengah Jadi ABM";
+                $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');
+                $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "%";
+                $uraian_tujuan = (string) 'Grup ' . $grup . ' ' . $shift . ",  Tujuan Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "%";
             }
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
             // dd($table_daftarTujuanKonversi);
