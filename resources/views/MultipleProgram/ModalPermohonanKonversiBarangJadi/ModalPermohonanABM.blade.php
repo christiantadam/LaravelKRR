@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="tambahTujuanModalLabelTanpaBarcode">Tambah Konversi </h5>
-                <button type="button" class="close" data-bs-dismiss="modal">
+                <button type="button" class="close" data-bs-dismiss="modal" id="closeModalButtonTambahTujuanTanpaBarcode">
                     <span>&times;</span>
                 </button>
             </div>

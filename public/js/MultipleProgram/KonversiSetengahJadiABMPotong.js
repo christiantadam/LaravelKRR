@@ -14,6 +14,8 @@ $(document).ready(function () {
     let button_modalProsesTanpaBarcode = document.getElementById('button_modalProsesTanpaBarcode'); // prettier-ignore
     let button_tambahTujuanKonversiTanpaBarcode = document.getElementById('button_tambahTujuanKonversiTanpaBarcode'); // prettier-ignore
     let button_updateTujuanKonversiTanpaBarcode = document.getElementById('button_updateTujuanKonversiTanpaBarcode'); // prettier-ignore
+    let closeModalButtonDetail = document.getElementById("closeModalButtonDetail"); // prettier-ignore
+    let closeModalButtonTambahTujuanTanpaBarcode = document.getElementById('closeModalButtonTambahTujuanTanpaBarcode'); // prettier-ignore
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let detail_konversiModalTableDaftarAsalKonversi = $("#detail_konversiModalTableDaftarAsalKonversi").DataTable(); // prettier-ignore
     let detail_konversiModalTableDaftarTujuanKonversi = $("#detail_konversiModalTableDaftarTujuanKonversi").DataTable(); // prettier-ignore
@@ -406,6 +408,17 @@ $(document).ready(function () {
             }
         });
     });
+
+    closeModalButtonDetail.addEventListener("click", function () {
+        $("#detailKonversiModal").modal("hide");
+    });
+
+    closeModalButtonTambahTujuanTanpaBarcode.addEventListener(
+        "click",
+        function () {
+            $("#tambahTujuanModalTanpaBarcode").modal("hide");
+        }
+    );
 
     id_shiftTanpaBarcode.addEventListener("input", function (e) {
         // Automatically convert the input to uppercase

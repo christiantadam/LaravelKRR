@@ -105,7 +105,7 @@
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
                     <h5 class="modal-title" id="detailKonversiModalLabel">Detail Konversi </h5>
-                    <button type="button" data-bs-dismiss="modal" class="close" aria-label="Close">
+                    <button type="button" data-bs-dismiss="modal" class="close" id="closeModalButtonDetail">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
