@@ -2544,14 +2544,14 @@ $(document).ready(function () {
                     // Filter data for Asal Konversi Potong ADS
                     var asalData = response.filter(function (item) {
                         return item.UraianDetailTransaksi.includes(
-                            "Asal Konversi Setengah Jadi ADS"
+                            "Asal Konversi Potongan ADS"
                         );
                     });
 
                     // Filter data for Tujuan Konversi Potong ADS
                     var tujuanData = response.filter(function (item) {
                         return item.UraianDetailTransaksi.includes(
-                            "Tujuan Konversi Setengah Jadi ADS"
+                            "Tujuan Konversi Potongan ADS"
                         );
                     });
 
