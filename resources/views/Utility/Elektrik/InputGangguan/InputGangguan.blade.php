@@ -62,16 +62,18 @@
                                             </button> --}}
                                         </div>
                                         <div class="penyebab mb-2 mt-2">Penyebab</div>
-                                        <input type="text" name="nama_pelapor" id="penyebab" class="form-control">
+                                        <input type="text" name="penyebab" id="penyebab" class="form-control">
                                         <div class="penyelesaian mb-2 mt-2">Penyelesaian</div>
-                                        <input type="text" name="nama_pelapor" id="penyelesaian" class="form-control">
+                                        <input type="text" name="penyelesaian" id="penyelesaian" class="form-control">
                                         <div class="keterangan mb-2 mt-2">Keterangan</div>
-                                        <select name="divisi_pelapor" id="keterangan" class="form-select mb-2">
+                                        <input type="text" name="keterangan" id="keterangan" class="form-control">
+                                        <div class="statusGangguan mb-2 mt-2">Status</div>
+                                        <select name="statusGangguan" id="statusGangguan" class="form-select mb-2">
                                             <option value="Selesai">Selesai</option>
                                             <option value="Lanjut">Lanjut</option>
                                         </select>
                                         <div class="teknisi mb-2 mt-2">Teknisi</div>
-                                        <select name="divisi_pelapor" id="teknisi" class="form-select mb-2">
+                                        <select name="teknisi" id="teknisi" class="form-select mb-2">
                                             <option selected disabled>Pilih teknisi...</option>
                                             @foreach ($teknisi as $data)
                                                 <option value="{{ $data->NamaUser }}">
@@ -170,6 +172,7 @@
                                         <th scope="col">Penyebab</th>
                                         <th scope="col">Penyelesaian</th>
                                         <th scope="col">Keterangan</th>
+                                        <th scope="col">Status</th>
                                         <th scope="col">Teknisi</th>
                                         <th scope="col">Lokasi</th>
                                     </tr>

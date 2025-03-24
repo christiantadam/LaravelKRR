@@ -19,6 +19,7 @@ let tipe_gangguan = document.getElementById("tipe_gangguan");
 let penyebab = document.getElementById("penyebab");
 let penyelesaian = document.getElementById("penyelesaian");
 let keterangan = document.getElementById("keterangan");
+let statusGangguan = document.getElementById("statusGangguan");
 let teknisi = document.getElementById("teknisi");
 let gambar1 = document.getElementById("gambar1");
 let ket_gambar1 = document.getElementById("ket_gambar1");
@@ -166,6 +167,7 @@ function clearForm() {
     $("#tipe_gangguan").val("");
     $("#penyebab").val("");
     $("#penyelesaian").val("");
+    $("#statusGangguan").val("");
     $("#keterangan").val("");
     $("#teknisi").val("");
     $("#ket_gambar1").val("");
@@ -189,6 +191,7 @@ function disableForm() {
     tipe_gangguan.disabled = true;
     penyebab.disabled = true;
     penyelesaian.disabled = true;
+    statusGangguan.disabled = true;
     keterangan.disabled = true;
     teknisi.disabled = true;
     gambar1.disabled = true;
@@ -211,6 +214,7 @@ jam_selesai.disabled = true;
 tipe_gangguan.disabled = true;
 penyebab.disabled = true;
 penyelesaian.disabled = true;
+statusGangguan.disabled = true;
 keterangan.disabled = true;
 teknisi.disabled = true;
 gambar1.disabled = true;
@@ -238,6 +242,7 @@ inputButton.addEventListener("click", function () {
     tipe_gangguan.disabled = false;
     penyebab.disabled = false;
     penyelesaian.disabled = false;
+    statusGangguan.disabled = false;
     keterangan.disabled = false;
     teknisi.disabled = false;
     gambar1.disabled = false;
@@ -270,6 +275,7 @@ batalButton.addEventListener("click", function () {
     tipe_gangguan.disabled = true;
     penyebab.disabled = true;
     penyelesaian.disabled = true;
+    statusGangguan.disabled = true;
     keterangan.disabled = true;
     teknisi.disabled = true;
     gambar1.disabled = true;
@@ -302,6 +308,7 @@ koreksiButton.addEventListener("click", function () {
         tipe_gangguan.disabled = true;
         penyebab.disabled = true;
         penyelesaian.disabled = true;
+        statusGangguan.disabled = true;
         keterangan.disabled = true;
         teknisi.disabled = true;
         gambar1.disabled = true;
@@ -317,7 +324,7 @@ koreksiButton.addEventListener("click", function () {
         });
         return; // Stop the function execution
     } else {
-        if (keterangan.value === "Lanjut") {
+        if (statusGangguan.value === "Lanjut") {
             inputButton.disabled = true;
             prosesButton.disabled = false;
             hapusButton.disabled = true;
@@ -406,6 +413,7 @@ function checkAllFieldsFilled() {
         tipe_gangguan.value.trim() !== "" &&
         penyebab.value.trim() !== "" &&
         penyelesaian.value.trim() !== "" &&
+        statusGangguan.value.trim() !== "" &&
         keterangan.value.trim() !== "" &&
         teknisi.value.trim() !== ""
     );
@@ -423,6 +431,7 @@ function checkAllFieldsFilled() {
     tipe_gangguan,
     penyebab,
     penyelesaian,
+    statusGangguan,
     keterangan,
     teknisi,
 ].forEach(function (inputField) {
@@ -447,6 +456,7 @@ $(document).ready(function () {
         var tipe_gangguanValue = $("#tipe_gangguan").val();
         var penyebabValue = $("#penyebab").val();
         var penyelesaianValue = $("#penyelesaian").val();
+        var statusGangguanValue = $("#statusGangguan").val();
         var keteranganValue = $("#keterangan").val();
         var teknisiValue = $("#teknisi").val();
         var ketgambar1Value = $("#ket_gambar1").val();
@@ -470,6 +480,7 @@ $(document).ready(function () {
         formData.append("tipe_gangguan", tipe_gangguanValue);
         formData.append("penyebab", penyebabValue);
         formData.append("penyelesaian", penyelesaianValue);
+        formData.append("statusGangguan", statusGangguanValue);
         formData.append("keterangan", keteranganValue);
         formData.append("teknisi", teknisiValue);
         formData.append("agree", agreeValue);
@@ -592,12 +603,13 @@ $(document).ready(function () {
             { data: "Type_gangguan" },
             { data: "Penyebab" },
             { data: "Penyelesaian" },
+            { data: "Keterangan" },
             {
-                data: "Keterangan",
+                data: "StatusGangguan",
                 render: function (data, type, full, meta) {
                     if (data === "Lanjut") {
                         return (
-                            '<input type="checkbox" class="checkbox_keterangan" value="' +
+                            '<input type="checkbox" class="checkbox_statusGangguan" value="' +
                             data +
                             '">' +
                             data
@@ -645,6 +657,7 @@ $(document).ready(function () {
         printContent += "<th>Penyebab</th>";
         printContent += "<th>Penyelesaian</th>";
         printContent += "<th>Keterangan</th>";
+        printContent += "<th>statusGangguan</th>";
         printContent += "<th>Teknisi</th>";
         // Tambahkan header lainnya sesuai kebutuhan
         printContent += "</tr></thead><tbody>";
@@ -682,10 +695,10 @@ $(document).ready(function () {
     var selectedUser;
 
     $("tbody").on("click", ".checkbox_elektrik", function () {
-        $(".checkbox_keterangan").prop("checked", false);
+        $(".checkbox_statusGangguan").prop("checked", false);
         $(".checkbox_elektrik").not(this).prop("checked", false);
         if ($(this).prop("checked")) {
-            $("#keterangan option[value='Selesai']").show();
+            $("#statusGangguan option[value='Selesai']").show();
             hapusButton.disabled = false;
             koreksiButton.disabled = false;
             tanggal.disabled = true;
@@ -700,6 +713,7 @@ $(document).ready(function () {
             penyebab.disabled = true;
             penyelesaian.disabled = true;
             keterangan.disabled = true;
+            statusGangguan.disabled = true;
             teknisi.disabled = true;
             gambar1.disabled = true;
             ket_gambar1.disabled = true;
@@ -787,7 +801,8 @@ $(document).ready(function () {
                 Penyebab: selectedRow.find("td:eq(9)").text(),
                 Penyelesaian: selectedRow.find("td:eq(10)").text(),
                 Keterangan: selectedRow.find("td:eq(11)").text(),
-                Teknisi: selectedRow.find("td:eq(12)").text(),
+                statusGangguan: selectedRow.find("td:eq(12)").text(),
+                Teknisi: selectedRow.find("td:eq(13)").text(),
             };
 
             var parsedDate = new Date(selectedData.tanggal);
@@ -813,6 +828,7 @@ $(document).ready(function () {
             $("#penyebab").val(selectedData.Penyebab);
             $("#penyelesaian").val(selectedData.Penyelesaian);
             $("#keterangan").val(selectedData.Keterangan);
+            $("#statusGangguan").val(selectedData.statusGangguan);
             $("#teknisi").val(selectedData.Teknisi);
 
             console.log(
@@ -829,6 +845,7 @@ $(document).ready(function () {
                 selectedData.Penyebab,
                 selectedData.Penyelesaian,
                 selectedData.Keterangan,
+                selectedData.statusGangguan,
                 selectedData.Teknisi
             );
             $.ajax({
@@ -866,10 +883,10 @@ $(document).ready(function () {
         }
     });
 
-    $("tbody").on("click", ".checkbox_keterangan", function () {
-        $("#keterangan option[value='Selesai']").hide();
+    $("tbody").on("click", ".checkbox_statusGangguan", function () {
+        $("#statusGangguan option[value='Selesai']").hide();
         $(".checkbox_elektrik").prop("checked", false);
-        $(".checkbox_keterangan").not(this).prop("checked", false);
+        $(".checkbox_statusGangguan").not(this).prop("checked", false);
 
         if ($(this).prop("checked")) {
             var currentTime = moment().format("HH:mm");
@@ -889,6 +906,7 @@ $(document).ready(function () {
             tipe_gangguan.disabled = true;
 
             penyelesaian.disabled = false;
+            statusGangguan.disabled = false;
             keterangan.disabled = false;
             penyebab.disabled = false;
             teknisi.disabled = false;
@@ -965,7 +983,8 @@ $(document).ready(function () {
                 Penyebab: selectedRow.find("td:eq(9)").text(),
                 Penyelesaian: selectedRow.find("td:eq(10)").text(),
                 Keterangan: selectedRow.find("td:eq(11)").text(),
-                Teknisi: selectedRow.find("td:eq(12)").text(),
+                statusGangguan: selectedRow.find("td:eq(12)").text(),
+                Teknisi: selectedRow.find("td:eq(13)").text(),
             };
 
             var parsedDate = new Date(selectedData.tanggal);
@@ -994,6 +1013,7 @@ $(document).ready(function () {
             $("#penyebab").val(selectedData.Penyebab);
             $("#penyelesaian").val(selectedData.Penyelesaian);
             $("#keterangan").val(selectedData.Keterangan);
+            $("#statusGangguan").val(selectedData.statusGangguan);
             $("#teknisi").val(selectedData.Teknisi);
 
             console.log(
@@ -1010,6 +1030,7 @@ $(document).ready(function () {
                 selectedData.Penyebab,
                 selectedData.Penyelesaian,
                 selectedData.Keterangan,
+                selectedData.statusGangguan,
                 selectedData.Teknisi
             );
             $.ajax({
@@ -1039,6 +1060,7 @@ $(document).ready(function () {
             koreksiButton.disabled = false;
             penyelesaian.disabled = true;
             keterangan.disabled = true;
+            statusGangguan.disabled = true;
             penyebab.disabled = true;
             teknisi.disabled = true;
             tanggal.disabled = true;
@@ -1300,14 +1322,14 @@ $(document).ready(function () {
             Swal.fire({
                 icon: "error",
                 title: "Tidak Ada Data Terpilih",
-                text: "Pilih setidaknya satu data Keterangan Gangguan untuk dihapus.",
+                text: "Pilih setidaknya satu data Gangguan untuk dihapus.",
             });
             return;
         }
 
         Swal.fire({
             title: "Konfirmasi",
-            text: "Anda yakin ingin menghapus data Keterangan Gangguan terpilih?",
+            text: "Anda yakin ingin menghapus data Gangguan terpilih?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -1332,7 +1354,7 @@ $(document).ready(function () {
                         Swal.fire({
                             icon: "success",
                             title: "Terhapus!",
-                            text: "Data Keterangan Gangguan Berhasil Dihapus!",
+                            text: "Data Gangguan Berhasil Dihapus!",
                             showConfirmButton: false,
                             timer: 2000,
                         });

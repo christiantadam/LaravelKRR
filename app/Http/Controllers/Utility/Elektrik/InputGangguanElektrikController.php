@@ -45,6 +45,7 @@ class InputGangguanElektrikController extends Controller
             $penyebab = $request->input('penyebab');
             $penyelesaian = $request->input('penyelesaian');
             $keterangan = $request->input('keterangan');
+            $statusGangguan = $request->input('statusGangguan');
             $teknisi = $request->input('teknisi');
             $user_input = Auth::user()->NomorUser;
             $lanjut = $request->input('agree');
@@ -73,7 +74,7 @@ class InputGangguanElektrikController extends Controller
                 fclose($binaryReader2);
             }
 
-            DB::connection('ConnUtility')->statement('exec SP_INSERT_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?', [
+            DB::connection('ConnUtility')->statement('exec SP_INSERT_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?', [
                 $tanggal,
                 $l_div_pelapor,
                 $nama_pelapor,
@@ -84,6 +85,7 @@ class InputGangguanElektrikController extends Controller
                 $Type_gangguan,
                 $penyebab,
                 $penyelesaian,
+                $statusGangguan,
                 $keterangan,
                 $teknisi,
                 $user_input,
@@ -214,6 +216,7 @@ class InputGangguanElektrikController extends Controller
         $keterangan = $request->input('keterangan');
         $teknisi = $request->input('teknisi');
         $lanjut = $request->input('agree');
+        $statusGangguan = $request->input('statusGangguan');
         $ketGambar1 = $request->input('ketgambar1');
         $ketGambar2 = $request->input('ketgambar2');
         $user_input = Auth::user()->NomorUser;
@@ -254,7 +257,7 @@ class InputGangguanElektrikController extends Controller
         }
         $save->update($updateData);
 
-        if ($keterangan == "Selesai") {
+        if ($statusGangguan == "Selesai") {
             // Lakukan pembaruan pada data yang memiliki Type_gangguan yang sama
 
             $idLaporanUpdate = DB::connection('ConnUtility')
@@ -262,7 +265,7 @@ class InputGangguanElektrikController extends Controller
                 ->select('Id_Laporan')
                 ->where('L_div_pelapor', $divisi_pelapor1)
                 ->where('Type_gangguan', $Type_gangguan)
-                ->where('Keterangan', 'Lanjut')
+                ->where('StatusGangguan', 'Lanjut')
                 ->get();
 
             if ($idLaporanUpdate->IsEmpty()) {
@@ -275,8 +278,8 @@ class InputGangguanElektrikController extends Controller
                     ->where('Id_Laporan', $i->Id_Laporan)
                     ->where('L_div_pelapor', $divisi_pelapor1)
                     ->where('Type_gangguan', $Type_gangguan)
-                    ->where('Keterangan', 'Lanjut') // Hanya data dengan keterangan "Lanjut"
-                    ->update(['Keterangan' => 'Selesai']);
+                    ->where('StatusGangguan', 'Lanjut') // Hanya data dengan keterangan "Lanjut"
+                    ->update(['StatusGangguan' => 'Selesai']);
             }
 
             // Periksa apakah pembaruan berhasil
@@ -287,13 +290,14 @@ class InputGangguanElektrikController extends Controller
                 return response()->json(['error' => false, 'message' => 'Gagal memperbarui data', 'data' => $save]);
             }
         } else {
-            DB::connection('ConnUtility')->statement('exec SP_KOREKSI_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?', [
+            DB::connection('ConnUtility')->statement('exec SP_KOREKSI_GANGGUAN_ELEKTRIK ?,?,?,?,?,?,?,?,?,?,?', [
                 $jampelaksanaan,
                 $jamselesai,
                 $Type_gangguan,
                 $penyebab,
                 $penyelesaian,
                 $keterangan,
+                $statusGangguan,
                 $teknisi,
                 $user_input,
                 $id,
