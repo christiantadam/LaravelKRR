@@ -286,6 +286,7 @@
                                         <option value="4">Mandiri</option>
                                         <option value="5">OCBC</option>
                                         <option value="6">SKBDN</option>
+                                        <option value="7">OCBC TRF</option>
                                     </select>
                                 </div>
                             </div>

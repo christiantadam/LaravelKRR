@@ -776,6 +776,15 @@ function rpt_cetakNotaFaktur(result) {
                                 doi +
                                 "<br>" +
                                 "&nbsp;";
+                        } else if (bankSelect.value == "7") {
+                            bankBayar.innerHTML =
+                                "Pembayaran mohon ditransfer ke:" +
+                                "<br>" +
+                                "Bank OCBC Cab. Diponegoro - Surabaya" +
+                                "<br>" +
+                                "a/c. 5578 0000 9333 ( IDR )" +
+                                "<br>" +
+                                "a/n. PT. Kerta Rajasa Raya";
                         } else {
                             bankBayar.innerHTML =
                                 "&nbsp;" +
@@ -1100,7 +1109,7 @@ function rpt_cetakNotaFaktur(result) {
                             );
                         }
 
-                        if (bankSelect.value == "5") {
+                        if (bankSelect.value == "7") {
                             faktur_SyaratBayar.innerHTML = "";
                         } else {
                             faktur_SyaratBayar.innerHTML =
@@ -1131,7 +1140,7 @@ function rpt_cetakNotaFaktur(result) {
                         let date3 = new Date(tglTerimaBarang);
                         let resultDate = new Date(date3);
                         resultDate.setDate(date3.getDate() + syaratBayarNumber);
-                        if (bankSelect.value == "5") {
+                        if (bankSelect.value == "7") {
                             faktur_Tempo.innerHTML = "";
                             faktur_SuratJalan.innerHTML = "";
                             faktur_SJ.textContent = "";
@@ -1330,6 +1339,15 @@ function rpt_cetakNotaFaktur(result) {
                                     doi +
                                     "<br>" +
                                     "&nbsp;";
+                            } else if (bankSelect.value == "7") {
+                                bankBayar2.innerHTML =
+                                    "Pembayaran mohon ditransfer ke:" +
+                                    "<br>" +
+                                    "Bank OCBC Cab. Diponegoro - Surabaya" +
+                                    "<br>" +
+                                    "a/c. 5578 0000 9333 ( IDR )" +
+                                    "<br>" +
+                                    "a/n. PT. Kerta Rajasa Raya";
                             } else {
                                 bankBayar2.innerHTML =
                                     "&nbsp;" +
@@ -1679,7 +1697,7 @@ function rpt_cetakNotaFaktur(result) {
                                     decodeHtmlEntities(result[0].Terbilang);
                             }
 
-                            if (bankSelect.value == "5") {
+                            if (bankSelect.value == "7") {
                                 faktur_SyaratBayar2.innerHTML = "";
                             } else {
                                 faktur_SyaratBayar2.innerHTML =
@@ -1712,7 +1730,7 @@ function rpt_cetakNotaFaktur(result) {
                             resultDate.setDate(
                                 date3.getDate() + syaratBayarNumber
                             );
-                            if (bankSelect.value == "5") {
+                            if (bankSelect.value == "7") {
                                 faktur_Tempo2.innerHTML = "";
                                 faktur_SuratJalan2.innerHTML = "";
                                 faktur_SJ2.textContent = "";
