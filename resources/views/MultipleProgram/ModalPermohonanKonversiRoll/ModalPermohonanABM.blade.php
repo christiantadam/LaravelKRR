@@ -32,6 +32,14 @@
                                         placeholder="[A] [B] [C]">
                                 </div>
                             </div>
+                            <div class="form-group" style="width: 12%">
+                                <label for="nomorOrderKerja">Nomor Order Kerja</label>
+                                <div class="input-group">
+                                    <select name="select_nomorOrderKerja" id="select_nomorOrderKerja"
+                                        class="form-control">
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group" style="width: 15%">
                                 <label for="barcode">Barcode Asal</label>
                                 <div class="input-group">
@@ -40,7 +48,7 @@
                                         placeholder="000000000-000000000 (indeks)-(kode barang)">
                                 </div>
                             </div>
-                            <div class="form-group" style="width: 46.5%">
+                            <div class="form-group" style="width: 45%">
                                 <label for="saldo_terakhirAsal">Saldo Terakhir Type Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="saldo_terakhirPrimerAsal"

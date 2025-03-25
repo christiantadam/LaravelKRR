@@ -32,6 +32,14 @@
                                 name="id_groupTanpaBarcode" placeholder="[A] [B] [C]">
                         </div>
                     </div>
+                    <div class="form-group" style="width: 12%">
+                        <label for="nomorOrderKerjaTanpaBarcode">Nomor Order Kerja</label>
+                        <div class="input-group">
+                            <select name="select_nomorOrderKerjaTanpaBarcode" id="select_nomorOrderKerjaTanpaBarcode"
+                                class="form-control">
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group" style="width: 32%">
                         <label for="divisi">Divisi</label>
                         <div class="input-group">
@@ -104,7 +112,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" id="div_PIBAsalTanpaBarcode" style="visibility:hidden;width: 29%">
+                            <div class="form-group" id="div_PIBAsalTanpaBarcode"
+                                style="visibility:hidden;width: 29%">
                                 <label for="PIB_asalTanpaBarcode">PIB Type Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="PIB_asalTanpaBarcode"
@@ -117,7 +126,8 @@
                             <div class="form-group" style="width: 49%;border:none;">
                                 <label for="saldo_terakhirAsal">Saldo Terakhir Type Asal</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="saldo_terakhirPrimerAsalTanpaBarcode"
+                                    <input type="text" class="form-control"
+                                        id="saldo_terakhirPrimerAsalTanpaBarcode"
                                         name="saldo_terakhirPrimerAsalTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Primer" readonly>
                                     <input type="text" class="form-control"
