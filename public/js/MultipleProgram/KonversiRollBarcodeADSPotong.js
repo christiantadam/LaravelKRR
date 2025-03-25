@@ -422,14 +422,14 @@ $(document).ready(function () {
         Swal.fire({
             title: "Pilih Metode Konversi",
             showCancelButton: true,
-            confirmButtonText: "Bahan Baku Flat",
-            cancelButtonText: "Bahan Baku Tubular",
+            confirmButtonText: "Dengan Barcode",
+            cancelButtonText: "Tanpa Barcode",
         }).then((result) => {
             if (result.isConfirmed) {
-                // User chose "Bahan Baku Flat"
+                // User chose "Dengan Barcode"
                 showBarcodeInputModal();
             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                // User chose "Bahan Baku Tubular"
+                // User chose "Tanpa Barcode"
                 showManualInputModal();
             }
         });
