@@ -1100,10 +1100,14 @@ function rpt_cetakNotaFaktur(result) {
                             );
                         }
 
-                        faktur_SyaratBayar.innerHTML =
-                            "Syarat Pembayaran: &emsp;&emsp;" +
-                            decodeHtmlEntities(result[0].SyaratBayar) +
-                            " Hari";
+                        if (bankSelect.value == "5") {
+                            faktur_SyaratBayar.innerHTML = "";
+                        } else {
+                            faktur_SyaratBayar.innerHTML =
+                                "Syarat Pembayaran: &emsp;&emsp;" +
+                                decodeHtmlEntities(result[0].SyaratBayar) +
+                                " Hari";
+                        }
                         console.log(result);
                         console.log(
                             result[0].NamaNPWP == "PT. BLOOM TRADING INDONESIA"
@@ -1127,19 +1131,25 @@ function rpt_cetakNotaFaktur(result) {
                         let date3 = new Date(tglTerimaBarang);
                         let resultDate = new Date(date3);
                         resultDate.setDate(date3.getDate() + syaratBayarNumber);
-                        faktur_Tempo.innerHTML =
-                            "Jatuh Tempo: &emsp;&emsp; " +
-                            formatDateToMMDDYYYY(resultDate);
-
-                        if (sFormula0.length > 255) {
-                            faktur_SuratJalan.innerHTML =
-                                "Surat Jalan: &emsp;&emsp; " +
-                                sFormula0.slice(0, 252);
-                            faktur_SJ.textContent = sFormula0.slice(252);
-                        } else {
-                            faktur_SuratJalan.innerHTML =
-                                "Surat Jalan: &emsp;&emsp; " + sFormula0;
+                        if (bankSelect.value == "5") {
+                            faktur_Tempo.innerHTML = "";
+                            faktur_SuratJalan.innerHTML = "";
                             faktur_SJ.textContent = "";
+                        } else {
+                            faktur_Tempo.innerHTML =
+                                "Jatuh Tempo: &emsp;&emsp; " +
+                                formatDateToMMDDYYYY(resultDate);
+
+                            if (sFormula0.length > 255) {
+                                faktur_SuratJalan.innerHTML =
+                                    "Surat Jalan: &emsp;&emsp; " +
+                                    sFormula0.slice(0, 252);
+                                faktur_SJ.textContent = sFormula0.slice(252);
+                            } else {
+                                faktur_SuratJalan.innerHTML =
+                                    "Surat Jalan: &emsp;&emsp; " + sFormula0;
+                                faktur_SJ.textContent = "";
+                            }
                         }
 
                         printPreview("faktur");
@@ -1669,10 +1679,14 @@ function rpt_cetakNotaFaktur(result) {
                                     decodeHtmlEntities(result[0].Terbilang);
                             }
 
-                            faktur_SyaratBayar2.innerHTML =
-                                "Syarat Pembayaran: &emsp;&emsp;" +
-                                decodeHtmlEntities(result[0].SyaratBayar) +
-                                " Hari";
+                            if (bankSelect.value == "5") {
+                                faktur_SyaratBayar2.innerHTML = "";
+                            } else {
+                                faktur_SyaratBayar2.innerHTML =
+                                    "Syarat Pembayaran: &emsp;&emsp;" +
+                                    decodeHtmlEntities(result[0].SyaratBayar) +
+                                    " Hari";
+                            }
 
                             faktur_TglBln2.textContent = tanggal + " " + bulan;
                             faktur_Thn2.textContent = duaDigitTahun;
@@ -1698,20 +1712,42 @@ function rpt_cetakNotaFaktur(result) {
                             resultDate.setDate(
                                 date3.getDate() + syaratBayarNumber
                             );
-                            faktur_Tempo2.innerHTML =
-                                "Jatuh Tempo: &emsp;&emsp; " +
-                                formatDateToMMDDYYYY(resultDate);
-
-                            if (sFormula0.length > 255) {
-                                faktur_SuratJalan2.innerHTML =
-                                    "Surat Jalan: &emsp;&emsp; " +
-                                    sFormula0.slice(0, 252);
-                                faktur_SJ2.textContent = sFormula0.slice(252);
-                            } else {
-                                faktur_SuratJalan2.innerHTML =
-                                    "Surat Jalan: &emsp;&emsp; " + sFormula0;
+                            if (bankSelect.value == "5") {
+                                faktur_Tempo2.innerHTML = "";
+                                faktur_SuratJalan2.innerHTML = "";
                                 faktur_SJ2.textContent = "";
+                            } else {
+                                faktur_Tempo2.innerHTML =
+                                    "Jatuh Tempo: &emsp;&emsp; " +
+                                    formatDateToMMDDYYYY(resultDate);
+
+                                if (sFormula0.length > 255) {
+                                    faktur_SuratJalan2.innerHTML =
+                                        "Surat Jalan: &emsp;&emsp; " +
+                                        sFormula0.slice(0, 252);
+                                    faktur_SJ2.textContent =
+                                        sFormula0.slice(252);
+                                } else {
+                                    faktur_SuratJalan2.innerHTML =
+                                        "Surat Jalan: &emsp;&emsp; " +
+                                        sFormula0;
+                                    faktur_SJ2.textContent = "";
+                                }
                             }
+                            // faktur_Tempo2.innerHTML =
+                            //     "Jatuh Tempo: &emsp;&emsp; " +
+                            //     formatDateToMMDDYYYY(resultDate);
+
+                            // if (sFormula0.length > 255) {
+                            //     faktur_SuratJalan2.innerHTML =
+                            //         "Surat Jalan: &emsp;&emsp; " +
+                            //         sFormula0.slice(0, 252);
+                            //     faktur_SJ2.textContent = sFormula0.slice(252);
+                            // } else {
+                            //     faktur_SuratJalan2.innerHTML =
+                            //         "Surat Jalan: &emsp;&emsp; " + sFormula0;
+                            //     faktur_SJ2.textContent = "";
+                            // }
 
                             printPreview("faktur2");
                         }
