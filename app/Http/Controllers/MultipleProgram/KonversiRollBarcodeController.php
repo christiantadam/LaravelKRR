@@ -93,8 +93,8 @@ class KonversiRollBarcodeController extends Controller
                 $grup = $request->input('grup');
                 $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');
                 $nomorOrderKerja = $request->input('nomorOrderKerja');
-                $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Nomor Order Kerja: " . $nomorOrderKerja;
-                $uraian_tujuan = (string) 'Grup ' . $grup . ' ' . $shift . ",  Tujuan Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Nomor Order Kerja: " . $nomorOrderKerja;
+                $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Id Order Kerja: " . $nomorOrderKerja;
+                $uraian_tujuan = (string) 'Grup ' . $grup . ' ' . $shift . ",  Tujuan Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Id Order Kerja: " . $nomorOrderKerja;
             }
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
             // dd($table_daftarTujuanKonversi);
