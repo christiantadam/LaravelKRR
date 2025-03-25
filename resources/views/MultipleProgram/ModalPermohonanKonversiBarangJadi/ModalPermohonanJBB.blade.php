@@ -32,8 +32,8 @@
                                 <select name="select_divisi" id="select_divisi" class="form-control">
                                     <option disabled selected>Pilih Divisi</option>
                                     @foreach ($divisi as $d)
-                                        <option value="{{ $d->IdDivisi }}">{{ $d->NamaDivisi }} |
-                                            {{ $d->IdDivisi }}</option>
+                                        <option value="{{ trim($d->IdDivisi) }}">{{ $d->NamaDivisi }} |
+                                            {{ trim($d->IdDivisi) }}</option>
                                     @endforeach
                                 </select>
                             </div>

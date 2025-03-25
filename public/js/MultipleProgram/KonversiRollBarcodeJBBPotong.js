@@ -1088,11 +1088,9 @@ $(document).ready(function () {
                                     parseFloat(d_tek1PanjangRoll) >=
                                         parseFloat(item.LebarPotongan))
                             ) {
-                                const matchedOption =
-                                    document.createElement("option");
+                                const matchedOption = document.createElement("option"); // prettier-ignore
                                 matchedOption.value = item.IdType;
-                                matchedOption.textContent =
-                                    item.NamaType + " | " + item.IdType;
+                                matchedOption.textContent = item.NamaType + " | " + item.IdType; // prettier-ignore
                                 select_typeTujuan.appendChild(matchedOption);
                                 itemsAdded = true;
                             }

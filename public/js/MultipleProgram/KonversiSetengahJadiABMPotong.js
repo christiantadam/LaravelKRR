@@ -1393,6 +1393,7 @@ $(document).ready(function () {
                 _token: csrfToken,
                 idkonversi: idkonversi,
                 jenisStore: "accPermohonan",
+                divisi: "ABM",
             },
             success: function (response) {
                 if (response.error) {

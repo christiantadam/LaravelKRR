@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    let proses = 0;
     //#region Get element by ID
     let table_daftarKonversi = $("#table_daftarKonversi").DataTable({
         processing: true,
@@ -23,6 +24,9 @@ $(document).ready(function () {
                         '<button class="btn btn-primary btn-detail" data-id="' +
                         data +
                         '" data-bs-toggle="modal" data-bs-target="#detailKonversiModal" id="button_modalDetailPermohonan">Lihat Detail</button> ' +
+                        '<button class="btn btn-secondary btn-koreksi" data-id="' +
+                        data +
+                        '">Koreksi</button> ' +
                         '<button class="btn btn-danger btn-delete" data-id="' +
                         data +
                         '">Hapus</button>'
@@ -37,6 +41,15 @@ $(document).ready(function () {
         ],
     });
     let table_daftarAsalKonversi = $("#table_daftarAsalKonversi").DataTable({
+        paging: false, // Disable pagination
+        searching: false,
+        ordering: false,
+        info: false,
+        scrollY: "500px", // Enable vertical scrolling
+        scrollX: true, // Enable horizontal scrolling
+        scrollCollapse: true,
+        autoWidth: false, // Prevent column resizing issues
+        fixedHeader: true, // Keep the header aligned with the body
         columnDefs: [
             {
                 targets: 4, // Targeting the 5th column for "Id Type Inventory"
@@ -63,51 +76,55 @@ $(document).ready(function () {
             setupInlineEditing();
         },
     });
+
     const kodeKomponenMap = {
-        BB: "BODY BESAR",
-        BS: "BODY SAMPING",
-        TA: "TUTUP ATAS",
-        TB: "TUTUP BAWAH",
-        CA: "CEROBONG ATAS",
-        CB: "CEROBONG BAWAH",
-        HR: "HANGING ROPE",
-        HB: "LIFTING BELT",
-        RB: "REINFORCED BELT",
-        RC: "REINFORCED CLOTH",
-        CR: "CHARGING ROPE",
-        DR: "DISCHARGING ROPE",
-        RR: "BOTTOM REINFORCE ROPE",
-        TR: "RING TALI",
-        ST: "SELANG TUTUP",
-        PC: "PITA COVER ATAS",
-        PH: "PITA HOOK",
-        PP: "PITA PENGIKAT",
-        RP: "REINFORCED PITA",
-        TT: "TEMTION TAPE",
-        CV: "COVER ATAS",
-        LM: "LAMINATING",
-        IL: "INNER LINER",
-        PO: "POCKET",
-        EV: "SPON(EVA)",
-        BJ: "BENANG JAHIT",
-        OJ: "ONGKOS JAHIT",
-        PA: "PACKING/LBR",
-        OB: "OBRAS",
-        SB: "SIDE BELT",
-        FP: "FLAP",
         AB: "AUXILIARY BELT",
         AR: "AUXILIARY ROPE",
-        BD: "BENANG DUST PROOF",
-        MT: "MAGIC TAPE",
-        KG: "KARUNG JUMBO",
-        KT: "KATUN",
         BA: "BENANG ANTISTATIC",
-        KR: "KERTAS",
-        KK: "KAIN KAPAS",
-        KW: "KAIN NON WOVEN",
+        BB: "BODY BESAR",
+        BD: "BENANG DUST PROOF",
+        BJ: "BENANG JAHIT",
         BK: "BENANG KATUN",
-        KA: "KARET",
+        BS: "BODY SAMPING",
+        CA: "CEROBONG ATAS",
+        CB: "CEROBONG BAWAH",
         CC: "CARBON CONDUCTIVE",
+        CR: "CHARGING ROPE",
+        CV: "COVER ATAS",
+        DR: "DISCHARGING ROPE",
+        EV: "SPON(EVA)",
+        FP: "FLAP",
+        HB: "LIFTING BELT",
+        HR: "HANGING ROPE",
+        IL: "INNER LINER",
+        KA: "KARET",
+        KG: "KARUNG JUMBO",
+        KK: "KAIN KAPAS",
+        KR: "KERTAS",
+        KT: "KATUN",
+        KW: "KAIN NON WOVEN",
+        LB: "LIFTING BELT",
+        LM: "LAMINATING",
+        MT: "MAGIC TAPE",
+        OB: "OBRAS",
+        OJ: "ONGKOS JAHIT",
+        PA: "PACKING/LBR",
+        PB: "PARAMETER BELT",
+        PC: "PITA COVER ATAS",
+        PH: "PITA HOOK",
+        PO: "POCKET",
+        PP: "PITA PENGIKAT",
+        RB: "REINFORCED BELT",
+        RC: "REINFORCED CLOTH",
+        RP: "REINFORCED PITA",
+        RR: "BOTTOM REINFORCE ROPE",
+        SB: "SIDE BELT",
+        SD: "STEVEDORE",
+        ST: "SELANG TUTUP",
+        TA: "TUTUP ATAS",
+        TB: "TUTUP BAWAH",
+        TR: "RING TALI",
+        TT: "TEMTION TAPE",
     };
     const customerSelect = $("#customerSelect");
     const kodeBarangSelect = $("#kodeBarangSelect");
@@ -128,6 +145,7 @@ $(document).ready(function () {
     let button_tambahKonversi = document.getElementById("button_tambahKonversi"); // prettier-ignore
     let button_updateAsalKonversi = document.getElementById("button_updateAsalKonversi"); // prettier-ignore
     let cekSaldo;
+    let cekKodeBarangSelect;
     let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
     let detail_konversiModalTableDaftarAsalKonversi = $("#detail_konversiModalTableDaftarAsalKonversi").DataTable(); // prettier-ignore
     let detail_konversiModalTableDaftarTujuanKonversi = $("#detail_konversiModalTableDaftarTujuanKonversi").DataTable(); // prettier-ignore
@@ -147,7 +165,7 @@ $(document).ready(function () {
     let nomorUser = document.getElementById("nomorUser"); // prettier-ignore
     let PIB_asal = document.getElementById("PIB_asal"); // prettier-ignore
     let PIB_tujuan = document.getElementById("PIB_tujuan"); // prettier-ignore
-    let proses = 0;
+    var rowID;
     let saldo_terakhirPrimerAsal = document.getElementById("saldo_terakhirPrimerAsal"); // prettier-ignore
     let saldo_terakhirSekunderAsal = document.getElementById("saldo_terakhirSekunderAsal"); // prettier-ignore
     let saldo_terakhirTritierAsal = document.getElementById("saldo_terakhirTritierAsal"); // prettier-ignore
@@ -166,6 +184,12 @@ $(document).ready(function () {
     let satuan_sekunderJumlahPemasukan = document.getElementById("satuan_sekunderJumlahPemasukan"); // prettier-ignore
     let satuan_tritierJumlahPemakaian = document.getElementById("satuan_tritierJumlahPemakaian"); // prettier-ignore
     let satuan_tritierJumlahPemasukan = document.getElementById("satuan_tritierJumlahPemasukan"); // prettier-ignore
+    let responseKoreksi = [];
+    let AsalKonversi = [];
+    let TujuanKonversi = [];
+    // let AsalKonversiTabelHitungan = [];
+    // let AsalKonversiBukanTabelHitungan = [];
+    let tambahTujuanModalLabel = document.getElementById("tambahTujuanModalLabel"); // prettier-ignore
     let tambahTujuanModal = document.getElementById("tambahTujuanModal"); // prettier-ignore
 
     //#endregion
@@ -185,33 +209,22 @@ $(document).ready(function () {
 
     // Function to populate select elements with options
     function populateSelectElements() {
+        let ajaxCalls = [];
+
         $("#table_daftarAsalKonversi .inventory-type-select").each(function () {
             let rowIndex = $(this).data("row");
             let rowData = table_daftarAsalKonversi.row(rowIndex).data();
-            let select = $(
-                `#table_daftarAsalKonversi .inventory-type-select[data-row="${rowIndex}"]`
-            );
+            let select = $(`#table_daftarAsalKonversi .inventory-type-select[data-row="${rowIndex}"]`); // prettier-ignore
 
             if (select.find("option").length > 1) {
                 return;
             }
 
             if (rowData[5] && rowData[0]) {
-                // Skip populating this select element if there's already a value in the next column
                 return;
             }
-            // if (rowData[3] < 1 && rowData[0]) {
-            //     select.append(new Option("No Item Needed", ""));
-            //     select.select2({
-            //         placeholder: "No Item Needed",
-            //         width: "100%",
-            //         dropdownParent: $(".modal-body"),
-            //     });
-            //     select.prop("disabled", true);
-            //     return;
-            // }
+
             if (rowData[0] && rowData[1] && rowData[2]) {
-                // Calculate panjangLebar and namaKomponen from rowData
                 let panjangLebar =
                     parseFloat(rowData[2].split(" X ")[0]) +
                     "X" +
@@ -223,7 +236,7 @@ $(document).ready(function () {
                     namaKomponen = "PP Multifilamen";
                 }
 
-                $.ajax({
+                let ajaxRequest = $.ajax({
                     url: "/KonversiSetengahJadi/getInventoryTypes",
                     method: "GET",
                     data: {
@@ -240,7 +253,6 @@ $(document).ready(function () {
                                 '<option value="" disabled selected>Pilih Barang</option>'
                             );
 
-                        // Populate select element with options
                         if (optionsData.length > 0) {
                             optionsData.forEach((option) => {
                                 select.append(
@@ -248,29 +260,28 @@ $(document).ready(function () {
                                         option.NamaType,
                                         option.IdType +
                                             " | " +
-                                            option.satPrimer +
+                                            option.satPrimer?.trim() +
                                             " | " +
-                                            option.satSekunder +
+                                            option.satSekunder?.trim() +
                                             " | " +
-                                            option.satTritier +
+                                            option.satTritier?.trim() +
                                             " | " +
-                                            option.SaldoPrimer +
+                                            parseFloat(option.SaldoPrimer) +
                                             " | " +
-                                            option.SaldoSekunder +
+                                            parseFloat(option.SaldoSekunder) +
                                             " | " +
-                                            option.SaldoTritier +
+                                            parseFloat(option.SaldoTritier) +
                                             " | " +
                                             option.IdSubkelompok
                                     )
                                 );
                             });
-                            select.prop("disabled", false); // Enable if there are options
+                            select.prop("disabled", false);
                         } else {
                             select.append(new Option("No items available", ""));
-                            select.prop("disabled", true); // Disable if no options
+                            select.prop("disabled", true);
                         }
 
-                        // Initialize Select2
                         select.select2({
                             placeholder:
                                 optionsData.length > 0
@@ -279,6 +290,7 @@ $(document).ready(function () {
                             width: "100%",
                             dropdownParent: $(".modal-body"),
                         });
+                        // console.log(select.select2("data"));
                     },
                     error: function () {
                         console.error(
@@ -287,6 +299,7 @@ $(document).ready(function () {
                         );
                     },
                 });
+                ajaxCalls.push(ajaxRequest);
             } else {
                 select.empty();
                 select.append(
@@ -307,12 +320,146 @@ $(document).ready(function () {
                             rowData[10]
                     )
                 );
-                // Initialize Select2
+
                 select.select2({
                     placeholder: "Choose item",
                     width: "100%",
                     dropdownParent: $(".modal-body"),
                 });
+            }
+        });
+
+        // Wait for all AJAX calls to finish before executing the next logic
+        $.when.apply($, ajaxCalls).then(() => {
+            if (proses == 1) {
+                table_daftarAsalKonversi.draw();
+            } else if (proses == 2) {
+                let totalIterations = 0;
+                let counterCekSelesaiLoad = 0;
+
+                AsalKonversiTabelHitungan = responseKoreksi.filter(
+                    (item) =>
+                        item.UraianDetailTransaksi.includes("Asal Konversi") &&
+                        item.UraianDetailTransaksi.split(" | ")[3] !== ""
+                );
+                AsalKonversiBukanTabelHitungan = responseKoreksi.filter(
+                    (item) =>
+                        item.UraianDetailTransaksi.includes("Asal Konversi") &&
+                        item.UraianDetailTransaksi.split(" | ")[3] == ""
+                );
+
+                AsalKonversi = responseKoreksi.filter((item) =>
+                    item.UraianDetailTransaksi.includes("Asal Konversi")
+                );
+
+                if (table_daftarAsalKonversi.rows().count() > 0) {
+                    totalIterations =
+                        AsalKonversiTabelHitungan.length *
+                            table_daftarAsalKonversi.rows().count() +
+                        AsalKonversiBukanTabelHitungan.length;
+                }
+
+                for (let i = 0; i < AsalKonversi.length; i++) {
+                    if (
+                        AsalKonversi[i].UraianDetailTransaksi.split(
+                            " | "
+                        )[3] !== ""
+                    ) {
+                        table_daftarAsalKonversi.rows().every(function () {
+                            let rowtable_daftarAsalKonversiData = this.data();
+                            let rowNode = $(this.node());
+                            if (
+                                rowtable_daftarAsalKonversiData[0] ==
+                                AsalKonversi[i].UraianDetailTransaksi.split(
+                                    " | "
+                                )[3]
+                            ) {
+                                let selectElement = rowNode.find(".inventory-type-select"); // prettier-ignore
+                                if (selectElement.length) {
+                                    let idType = AsalKonversi[i].IdType; // prettier-ignore
+                                    let matchedOption = selectElement.find("option").filter(function() {
+                                        return $(this).val().includes(idType);
+                                    }).val(); // prettier-ignore
+                                    if (matchedOption) {
+                                        selectElement.val(matchedOption).trigger("change"); // prettier-ignore
+                                        selectElement.prop("disabled", true);
+
+                                        let updatedData = [
+                                            AsalKonversi[i].IdType,
+                                            parseFloat(
+                                                AsalKonversi[i]
+                                                    .JumlahPengeluaranPrimer
+                                            ),
+                                            AsalKonversi[i].satPrimer.trim(),
+                                            parseFloat(
+                                                AsalKonversi[i]
+                                                    .JumlahPengeluaranSekunder
+                                            ),
+                                            AsalKonversi[i].satSekunder.trim(),
+                                            parseFloat(
+                                                AsalKonversi[i]
+                                                    .JumlahPengeluaranTritier
+                                            ),
+                                            AsalKonversi[i].satTritier.trim(),
+                                        ];
+
+                                        for (
+                                            let colIndex = 5;
+                                            colIndex <= 11;
+                                            colIndex++
+                                        ) {
+                                            table_daftarAsalKonversi
+                                                .cell(this.index(), colIndex)
+                                                .data(
+                                                    updatedData[colIndex - 5]
+                                                );
+                                        }
+                                    }
+                                }
+                            }
+                            counterCekSelesaiLoad++;
+
+                            if (counterCekSelesaiLoad === totalIterations) {
+                                proses = 0;
+                                table_daftarAsalKonversi.draw();
+                            }
+                        });
+                    } else {
+                        let inputData = [
+                            "",
+                            "",
+                            "",
+                            "",
+                            AsalKonversi[i].NamaType,
+                            AsalKonversi[i].IdType,
+                            parseFloat(AsalKonversi[i].JumlahPengeluaranPrimer),
+                            AsalKonversi[i].satPrimer.trim(),
+                            parseFloat(AsalKonversi[i].JumlahPengeluaranSekunder),
+                            AsalKonversi[i].satSekunder.trim(),
+                            parseFloat(AsalKonversi[i].JumlahPengeluaranTritier),
+                            AsalKonversi[i].satTritier.trim(),
+                            AsalKonversi[i].IdSubkelompok,
+                        ]; // prettier-ignore
+                        table_daftarAsalKonversi.row.add(inputData);
+
+                        table_daftarAsalKonversi.rows().every(function () {
+                            let rowtable_daftarAsalKonversiData = this.data();
+                            let rowNode = $(this.node());
+
+                            if (rowtable_daftarAsalKonversiData[0] == "") {
+                                let selectElement = rowNode.find(".inventory-type-select"); // prettier-ignore
+                                selectElement.prop("disabled", true);
+                            }
+                        });
+
+                        counterCekSelesaiLoad++;
+
+                        if (counterCekSelesaiLoad === totalIterations) {
+                            proses = 0;
+                            table_daftarAsalKonversi.draw();
+                        }
+                    }
+                }
             }
         });
     }
@@ -324,114 +471,117 @@ $(document).ready(function () {
             "change",
             ".inventory-type-select",
             function () {
-                let currentRow = $(this).closest("tr");
-                let currentRowIndex = table_daftarAsalKonversi
-                    .row(currentRow)
-                    .index();
-                let currentValue = $(this).val();
-                let duplicateRowIndex = 0;
-                let isDuplicate = false;
+                if (proses == 0) {
+                    let currentRow = $(this).closest("tr");
+                    let currentRowIndex = table_daftarAsalKonversi
+                        .row(currentRow)
+                        .index();
+                    let currentValue = $(this).val();
+                    let duplicateRowIndex = 0;
+                    let isDuplicate = false;
 
-                // Ensure that `currentValue` has a value before proceeding
-                if (!currentValue) {
-                    return;
-                }
+                    // Ensure that `currentValue` has a value before proceeding
+                    if (!currentValue) {
+                        return;
+                    }
 
-                // Iterate through all rows to check for duplicate in the 5th column
-                table_daftarAsalKonversi
-                    .rows()
-                    .every(function (rowIdx, tableLoop, rowLoop) {
-                        if (rowIdx === currentRowIndex) {
-                            // Skip the current row being changed
-                            return true;
-                        }
+                    // Iterate through all rows to check for duplicate in the 5th column
+                    table_daftarAsalKonversi
+                        .rows()
+                        .every(function (rowIdx, tableLoop, rowLoop) {
+                            if (rowIdx === currentRowIndex) {
+                                // Skip the current row being changed
+                                return true;
+                            }
 
-                        let rowNode = $(this.node());
-                        let selectValue = rowNode
-                            .find(".inventory-type-select")
-                            .val();
+                            let rowNode = $(this.node());
+                            let selectValue = rowNode
+                                .find(".inventory-type-select")
+                                .val();
 
-                        if (selectValue === currentValue) {
-                            isDuplicate = true;
-                            duplicateRowIndex = rowIdx + 1;
-                            return false; // Exit iteration early if duplicate is found
-                        }
-                    });
+                            if (selectValue === currentValue) {
+                                isDuplicate = true;
+                                duplicateRowIndex = rowIdx + 1;
+                                return false; // Exit iteration early if duplicate is found
+                            }
+                        });
 
-                if (isDuplicate) {
-                    // Use selectElement for setCustomValidity
-                    this.setCustomValidity(
-                        "Duplicate value detected for row: " +
-                            duplicateRowIndex +
-                            "."
+                    if (isDuplicate) {
+                        // Use selectElement for setCustomValidity
+                        this.setCustomValidity(
+                            "Duplicate value detected for row: " +
+                                duplicateRowIndex +
+                                "."
+                        );
+                        this.reportValidity();
+                        // Clear custom validity after 3 seconds
+                        setTimeout(() => {
+                            this.setCustomValidity("");
+                        }, 3000);
+                        // Reset the dropdown to its previous value
+                        $(this).val(null).trigger("change");
+                        // Clear relevant cells in the table
+                        table_daftarAsalKonversi
+                            .cell(currentRowIndex, 5)
+                            .data("")
+                            .draw();
+                        table_daftarAsalKonversi
+                            .cell(currentRowIndex, 6)
+                            .data("")
+                            .draw();
+                        table_daftarAsalKonversi
+                            .cell(currentRowIndex, 7)
+                            .data("")
+                            .draw();
+                        table_daftarAsalKonversi
+                            .cell(currentRowIndex, 8)
+                            .data("")
+                            .draw();
+                        table_daftarAsalKonversi
+                            .cell(currentRowIndex, 9)
+                            .data("")
+                            .draw();
+                        table_daftarAsalKonversi
+                            .cell(currentRowIndex, 10)
+                            .data("")
+                            .draw();
+                        table_daftarAsalKonversi
+                            .cell(currentRowIndex, 11)
+                            .data("")
+                            .draw();
+                        currentRow.css("background-color", "#ffcccc"); // Highlight row with duplicate
+                        return;
+                    } else {
+                        currentRow.css("background-color", "#ffffff"); // Reset background for valid selection
+                    }
+
+                    // Parse the selected value
+                    let [
+                        idType,
+                        satPrimer,
+                        satSekunder,
+                        satTritier,
+                        SaldoPrimer,
+                        SaldoSekunder,
+                        SaldoTritier,
+                        SubKelompok,
+                    ] = currentValue.split(" | ");
+
+                    // Call your custom function
+                    hitungPerkiraanPemakaian(
+                        idType,
+                        satPrimer,
+                        satSekunder,
+                        satTritier,
+                        SaldoPrimer,
+                        SaldoSekunder,
+                        SaldoTritier,
+                        currentRowIndex,
+                        this,
+                        SubKelompok
                     );
-                    this.reportValidity();
-                    // Clear custom validity after 3 seconds
-                    setTimeout(() => {
-                        this.setCustomValidity("");
-                    }, 3000);
-                    // Reset the dropdown to its previous value
-                    $(this).val(null).trigger("change");
-                    // Clear relevant cells in the table
-                    table_daftarAsalKonversi
-                        .cell(currentRowIndex, 5)
-                        .data("")
-                        .draw();
-                    table_daftarAsalKonversi
-                        .cell(currentRowIndex, 6)
-                        .data("")
-                        .draw();
-                    table_daftarAsalKonversi
-                        .cell(currentRowIndex, 7)
-                        .data("")
-                        .draw();
-                    table_daftarAsalKonversi
-                        .cell(currentRowIndex, 8)
-                        .data("")
-                        .draw();
-                    table_daftarAsalKonversi
-                        .cell(currentRowIndex, 9)
-                        .data("")
-                        .draw();
-                    table_daftarAsalKonversi
-                        .cell(currentRowIndex, 10)
-                        .data("")
-                        .draw();
-                    table_daftarAsalKonversi
-                        .cell(currentRowIndex, 11)
-                        .data("")
-                        .draw();
-                    currentRow.css("background-color", "#ffcccc"); // Highlight row with duplicate
-                    return;
-                } else {
-                    currentRow.css("background-color", "#ffffff"); // Reset background for valid selection
+                    button_modalProses.disabled = false;
                 }
-
-                // Parse the selected value
-                let [
-                    idType,
-                    satPrimer,
-                    satSekunder,
-                    satTritier,
-                    SaldoPrimer,
-                    SaldoSekunder,
-                    SaldoTritier,
-                    SubKelompok,
-                ] = currentValue.split(" | ");
-
-                // Call your custom function
-                hitungPerkiraanPemakaian(
-                    idType,
-                    satPrimer,
-                    satSekunder,
-                    satTritier,
-                    SaldoPrimer,
-                    SaldoSekunder,
-                    SaldoTritier,
-                    currentRowIndex,
-                    this,
-                    SubKelompok
-                );
             }
         );
     }
@@ -847,7 +997,7 @@ $(document).ready(function () {
             .data()
             .toArray()
             .filter((row) => {
-                return row[5] !== ""; // Check if the value in column 3 (index 3) is greater than 0
+                return row[5] !== "";
             });
 
         $.ajax({
@@ -861,6 +1011,8 @@ $(document).ready(function () {
                 jumlah_pemasukanSekunder: jumlah_pemasukanSekunder.value,
                 jumlah_pemasukanTritier: jumlah_pemasukanTritier.value,
                 idSubkelompokTujuan: select_subKelompokTujuan.val(),
+                customerJBB: customerSelect.val(),
+                kodeBarangSelect: kodeBarangSelect.val(),
                 proses: proses,
                 divisi: "JBB",
                 jenisStore: "permohonan",
@@ -884,6 +1036,59 @@ $(document).ready(function () {
                         showConfirmButton: false,
                     });
                     $("#tambahTujuanModal").modal("hide");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        });
+    }
+
+    function updatePermohonan() {
+        let filteredRows = table_daftarAsalKonversi
+            .rows()
+            .data()
+            .toArray()
+            .filter((row) => {
+                return row[5] !== "";
+            });
+
+        $.ajax({
+            type: "PUT",
+            url: "/KonversiSetengahJadi/KoreksiJBB",
+            data: {
+                _token: csrfToken,
+                table_daftarAsalKonversi: filteredRows,
+                idTypeTujuan: select_typeTujuan.val(),
+                jumlah_pemasukanPrimer: jumlah_pemasukanPrimer.value,
+                jumlah_pemasukanSekunder: jumlah_pemasukanSekunder.value,
+                jumlah_pemasukanTritier: jumlah_pemasukanTritier.value,
+                idSubkelompokTujuan: select_subKelompokTujuan.val(),
+                customerJBB: customerSelect.val(),
+                kodeBarangSelect: kodeBarangSelect.val(),
+                proses: proses,
+                divisi: "JBB",
+                shift: id_shift.value,
+                tanggalKonversi: input_tanggalKonversi.value,
+                idKonversi: rowID,
+            },
+            success: function (response) {
+                if (response.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: response.error,
+                        showConfirmButton: false,
+                    });
+                } else {
+                    getDataPermohonan();
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: response.success,
+                        showConfirmButton: false,
+                    });
+                    // $("#tambahTujuanModal").modal("hide");
                 }
             },
             error: function (xhr, status, error) {
@@ -929,7 +1134,6 @@ $(document).ready(function () {
 
     // Load customer options and init//ialize Select2 when modal is shown
     $("#tambahTujuanModal").on("shown.bs.modal", function (event) {
-        table_daftarAsalKonversi.clear().draw(); //Clear Table
         button_updateAsalKonversi.disabled = true;
         button_hapusAsalKonversi.disabled = true;
         button_modalProses.disabled = true;
@@ -945,12 +1149,13 @@ $(document).ready(function () {
             .forEach((input) => {
                 input.value = "";
             });
-
+        table_daftarAsalKonversi.clear().draw(); //Clear Table
+        input_tanggalKonversi.valueAsDate = new Date(); // Set the default date to today
         initializeSelectElement("showModal"); //Initialize all select element inside modal
         clearSelectElement("showModal");
         select_divisi.val(null).trigger("change"); // Clear selected index for select_divisi
-        input_tanggalKonversi.valueAsDate = new Date(); // Set the default date to today
         input_tanggalKonversi.focus(); // Set focus to input_tanggalKonversi
+
         // Fetch customers for customerSelect
         $.ajax({
             url: "/KonversiSetengahJadi/selectCustomerTH", // Replace with your actual endpoint
@@ -1061,6 +1266,76 @@ $(document).ready(function () {
                 }
             });
         });
+
+        if (proses == 1) {
+            jenisProses = "insert";
+            rowID = null;
+            tambahTujuanModalLabel.innerHTML = "Tambah Konversi";
+        } else if (proses == 2) {
+            jenisProses = "update";
+            tambahTujuanModalLabel.innerHTML = "Koreksi Konversi " + rowID;
+            $.ajax({
+                url: "/KonversiSetengahJadi/getKoreksiKonversi",
+                type: "GET",
+                data: {
+                    idKonversi: rowID,
+                },
+                success: function (response) {
+                    // Assuming your server returns an array of objects for the table data
+                    responseKoreksi = response;
+                    //load header permohonan
+                    input_tanggalKonversi.valueAsDate = new Date(response[0].SaatLog); // prettier-ignore
+                    let UraianDetailTransaksiTujuanParts = response[0].UraianDetailTransaksi.split(' | '); // prettier-ignore
+                    id_shift.value = UraianDetailTransaksiTujuanParts[0].substring(0, UraianDetailTransaksiTujuanParts[0].indexOf(',')).trim().charAt(0); //prettier-ignore
+                    select_divisi.val(response[0].IdDivisi.trim()).trigger("change"); //prettier-ignore
+                    // Manually trigger the select2:select event
+                    select_divisi.trigger({type: "select2:select",}); // prettier-ignore
+                    customerSelect.val(UraianDetailTransaksiTujuanParts[1]).trigger("change"); //prettier-ignore
+
+                    let newOptionKodeBarang = new Option(UraianDetailTransaksiTujuanParts[2].trim(),UraianDetailTransaksiTujuanParts[2].trim(),true,true); //prettier-ignore
+                    kodeBarangSelect.append(newOptionKodeBarang).trigger("change"); //prettier-ignore
+                    kodeBarangSelect.prop("disabled", true);
+                    kodeBarangSelect.trigger({ type: "select2:select" }); // untuk load asal konversi
+
+                    //load tujuan konversi
+                    TujuanKonversi = responseKoreksi.filter((item) =>
+                        item.UraianDetailTransaksi.includes("Tujuan Konversi")
+                    ); // prettier-ignore
+                    console.log(response,TujuanKonversi);
+
+                    let newOptionKelompokUtama = new Option(TujuanKonversi[0].NamaKelompokUtama, TujuanKonversi[0].IdKelompokUtama,true,true); //prettier-ignore
+                    select_kelompokUtamaTujuan.append(newOptionKelompokUtama).trigger("change"); //prettier-ignore
+                    select_kelompokUtamaTujuan.prop("disabled", true);
+                    let newOptionKelompok = new Option(TujuanKonversi[0].NamaKelompok, TujuanKonversi[0].IdKelompok,true,true); //prettier-ignore
+                    select_kelompokTujuan.append(newOptionKelompok).trigger("change"); //prettier-ignore
+                    select_kelompokTujuan.prop("disabled", true);
+                    let newOptionSubKelompok = new Option(TujuanKonversi[0].NamaSubKelompok, TujuanKonversi[0].IdSubkelompok,true,true); //prettier-ignore
+                    select_subKelompokTujuan.append(newOptionSubKelompok).trigger("change"); //prettier-ignore
+                    select_subKelompokTujuan.prop("disabled", true);
+                    let newOptionType = new Option(TujuanKonversi[0].NamaType, TujuanKonversi[0].IdType,true,true); //prettier-ignore
+                    select_typeTujuan.append(newOptionType).trigger("change"); //prettier-ignore
+                    select_typeTujuan.prop("disabled", true);
+
+                    saldo_terakhirTujuanPrimer.value = parseFloat(TujuanKonversi[0].SaldoPrimer).toFixed(2); //prettier-ignore
+                    saldo_terakhirTujuanSekunder.value = parseFloat(TujuanKonversi[0].SaldoSekunder).toFixed(2); //prettier-ignore
+                    saldo_terakhirTujuanTritier.value = parseFloat(TujuanKonversi[0].SaldoTritier).toFixed(2); //prettier-ignore
+                    satuan_saldoTerakhirTujuanPrimer.value = response[0].satPrimer.trim(); //prettier-ignore
+                    satuan_saldoTerakhirTujuanSekunder.value = response[0].satSekunder.trim(); //prettier-ignore
+                    satuan_saldoTerakhirTujuanTritier.value = response[0].satTritier.trim(); //prettier-ignore
+                    jumlah_pemasukanPrimer.value = parseFloat(TujuanKonversi[0].JumlahPemasukanPrimer).toFixed(2); //prettier-ignore
+                    jumlah_pemasukanSekunder.value = parseFloat(TujuanKonversi[0].JumlahPemasukanSekunder).toFixed(2); //prettier-ignore
+                    jumlah_pemasukanTritier.value = parseFloat(TujuanKonversi[0].JumlahPemasukanTritier).toFixed(2); //prettier-ignore
+                    satuan_primerJumlahPemasukan.value = response[0].satPrimer.trim(); //prettier-ignore
+                    satuan_sekunderJumlahPemasukan.value = response[0].satSekunder.trim(); //prettier-ignore
+                    satuan_tritierJumlahPemasukan.value = response[0].satTritier.trim(); //prettier-ignore
+
+                    //load asal konversi ada di kodeBarangSelect.trigger
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching data: ", error);
+                },
+            }).then(() => {});
+        }
     });
 
     id_shift.addEventListener("input", function (e) {
@@ -1149,9 +1424,11 @@ $(document).ready(function () {
                 });
             },
         }).then(() => {
-            setTimeout(() => {
-                customerSelect.select2("open");
-            }, 200);
+            if (proses == 1) {
+                setTimeout(() => {
+                    customerSelect.select2("open");
+                }, 200);
+            }
         });
     });
 
@@ -1177,7 +1454,7 @@ $(document).ready(function () {
             .append(
                 '<option value="" disabled selected>Pilih Kode Barang</option>'
             );
-
+        kodeBarangSelect.prop("disabled", false);
         table_daftarAsalKonversi.clear().draw();
 
         // Fetch Kode Barang based on selected customer
@@ -1264,9 +1541,13 @@ $(document).ready(function () {
                 );
             },
         }).then(() => {
-            setTimeout(() => {
-                select_objekTujuan.select2("open");
-            }, 200);
+            if (proses == 1) {
+                setTimeout(() => {
+                    select_objekTujuan.select2("open");
+                }, 200);
+            } else if (proses == 2) {
+                select_objekTujuan.val(responseKoreksi[0].IdObjek).trigger("change"); // prettier-ignore
+            }
         });
     });
 
@@ -1884,6 +2165,13 @@ $(document).ready(function () {
     $("#table_daftarAsalKonversi tbody").on("click", "tr", function () {
         // Get data from the clicked row
         var data = table_daftarAsalKonversi.row(this).data();
+        console.log(data);
+        console.log(
+            (data[0] == null || data[0] == "") &&
+                (data[1] == null || data[1] == "") &&
+                (data[2] == null || data[2] == "") &&
+                (data[3] == null || data[3] == "")
+        );
 
         // Check if the first three columns are empty
         if (
@@ -2201,11 +2489,13 @@ $(document).ready(function () {
                     $(id).val("");
                 });
                 table_daftarAsalKonversi.draw();
+                button_modalProses.disabled = false;
             }
         } else {
             Swal.fire("Pemberitahuan", "Ada kolom yang belum terisi", "info");
         }
     });
+
     button_updateAsalKonversi.addEventListener("click", function (e) {
         e.preventDefault();
         // Id type Asal dan Tujuan tidak boleh sama
@@ -2342,6 +2632,7 @@ $(document).ready(function () {
             Swal.fire("Pemberitahuan", "Ada kolom yang belum terisi", "info");
         }
     });
+
     button_hapusAsalKonversi.addEventListener("click", function (e) {
         e.preventDefault();
 
@@ -2437,40 +2728,30 @@ $(document).ready(function () {
 
     button_modalProses.addEventListener("click", function (e) {
         e.preventDefault();
-        let rowKosong = false;
-        let barisKe = 0;
-
-        table_daftarAsalKonversi
-            .rows()
-            .every(function (rowIdx, tableLoop, rowLoop) {
-                let rowData = this.data();
-                if (rowData[3] > 0 && rowData[5] == "") {
-                    rowKosong = true; // Check for empty column
-                    barisKe = rowIdx;
-                    return false; // Stop iteration if a match is found
-                }
-            });
 
         if (
-            (select_typeTujuan.val() &&
-                (jumlah_pemasukanPrimer.value < 1 ||
-                    jumlah_pemasukanSekunder.value < 1 ||
-                    jumlah_pemasukanTritier < 1)) ||
-            rowKosong
+            select_typeTujuan.val() &&
+            (jumlah_pemasukanPrimer.value < 1 ||
+                jumlah_pemasukanSekunder.value < 1 ||
+                jumlah_pemasukanTritier < 1)
         ) {
             Swal.fire(
                 "Pemberitahuan",
-                "Harap isi form sesuai ketentuan.",
+                "Type tujuan tidak boleh kosong.",
                 "info"
             );
             return;
         } else {
-            submitPermohonan();
+            if (jenisProses == "insert") {
+                submitPermohonan();
+            } else if (jenisProses == "update") {
+                updatePermohonan();
+            }
         }
     });
 
     $(document).on("click", ".btn-detail", function (e) {
-        var rowID = $(this).data("id");
+        rowID = $(this).data("id");
         $("#button_modalACC").data("id", rowID);
         document.getElementById("detailKonversiModalLabel").innerHTML =
             "Detail Permohonan Konversi " + rowID;
@@ -2483,6 +2764,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 // Assuming your server returns an array of objects for the table data
+                console.log(response);
 
                 if (response && Array.isArray(response)) {
                     // Filter data for Asal Konversi Potong JBB
@@ -2559,8 +2841,14 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on("click", ".btn-koreksi", function (e) {
+        proses = 2; // proses update
+        rowID = $(this).data("id");
+        $("#tambahTujuanModal").modal("show");
+    });
+
     $(document).on("click", ".btn-delete", function (e) {
-        var rowID = $(this).data("id");
+        rowID = $(this).data("id");
         Swal.fire({
             title: "Yakin untuk menghapus?",
             text:
@@ -2622,6 +2910,7 @@ $(document).ready(function () {
                 _token: csrfToken,
                 idkonversi: idkonversi,
                 jenisStore: "accPermohonan",
+                divisi: "JBB",
             },
             success: function (response) {
                 if (response.error) {
