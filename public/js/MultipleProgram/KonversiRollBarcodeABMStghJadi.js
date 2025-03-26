@@ -2411,7 +2411,7 @@ $(document).ready(function () {
                 );
                 response.forEach((item) => {
                     // Create a new option element
-                    const option = new Option(item.IdOrder, item.No_OK);
+                    const option = new Option(item.No_OK,item.IdOrder);
                     // Append the option to the select element
                     $("#select_nomorOrderKerjaTanpaBarcode").append(option);
                 });
@@ -2509,6 +2509,15 @@ $(document).ready(function () {
         $("#tambahTujuanModalTanpaBarcode").modal("hide");
     });
 
+    input_tanggalKonversiTanpaBarcode.addEventListener(
+        "keypress",
+        function (e) {
+            if (e.key == "Enter") {
+                id_shiftTanpaBarcode.focus();
+            }
+        }
+    );
+
     id_shiftTanpaBarcode.addEventListener("input", function (e) {
         // Automatically convert the input to uppercase
         this.value = this.value.toUpperCase();
@@ -2572,19 +2581,14 @@ $(document).ready(function () {
             if (id_groupTanpaBarcode.value == "") {
                 id_groupTanpaBarcode.classList.add("input-error");
             } else {
-                select_divisiTanpaBarcode.select2("open");
+                select_nomorOrderKerjaTanpaBarcode.select2("open");
             }
         }
     });
 
-    input_tanggalKonversiTanpaBarcode.addEventListener(
-        "keypress",
-        function (e) {
-            if (e.key == "Enter") {
-                id_shiftTanpaBarcode.focus();
-            }
-        }
-    );
+    select_nomorOrderKerjaTanpaBarcode.on("select2:select", function (e) {
+        $("#select_divisiTanpaBarcode").select2("open");
+    });
 
     select_divisiTanpaBarcode.on("select2:select", function () {
         const selectedDivisiAsal = $(this).val(); // Get selected Divisi Asal

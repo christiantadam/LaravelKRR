@@ -93,8 +93,8 @@ class KonversiRollBarcodeController extends Controller
                 $grup = $request->input('grup');
                 $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');
                 $nomorOrderKerja = $request->input('nomorOrderKerja');
-                $uraian_asal = (string) 'Grup ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Id Order Kerja: " . $nomorOrderKerja;
-                $uraian_tujuan = (string) 'Grup ' . $grup . ' ' . $shift . ",  Tujuan Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Id Order Kerja: " . $nomorOrderKerja;
+                $uraian_asal = (string) 'Group ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Id Order Kerja: " . $nomorOrderKerja;
+                $uraian_tujuan = (string) 'Group ' . $grup . ' ' . $shift . ",  Tujuan Konversi Setengah Jadi ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Id Order Kerja: " . $nomorOrderKerja;
             }
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
             // dd($table_daftarTujuanKonversi);
@@ -511,12 +511,10 @@ class KonversiRollBarcodeController extends Controller
             }
 
         } elseif ($id == 'getNomorOK') {
-            $UserInput = trim(Auth::user()->NomorUser);
-            $idDivisi = $request->input('idDivisi');
-            $objekConn = DB::connection('ConnInventory')
+            $NomorOk = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?', [15]);
 
-            return response()->json($objekConn);
+            return response()->json($NomorOk);
         } elseif ($id == 'getObjek') {
             $UserInput = trim(Auth::user()->NomorUser);
             $idDivisi = $request->input('idDivisi');

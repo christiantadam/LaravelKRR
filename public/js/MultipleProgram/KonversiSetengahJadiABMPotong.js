@@ -10,6 +10,7 @@ $(document).ready(function () {
     const select_subKelompokTujuanTanpaBarcode = $('#select_subKelompokTujuanTanpaBarcode'); // prettier-ignore
     const select_typeAsalTanpaBarcode = $('#select_typeAsalTanpaBarcode'); // prettier-ignore
     const select_typeTujuanTanpaBarcode = $('#select_typeTujuanTanpaBarcode'); // prettier-ignore
+    const select_nomorOrderKerjaTanpaBarcode = $('#select_nomorOrderKerjaTanpaBarcode'); // prettier-ignore
     let button_hapusTujuanKonversiTanpaBarcode = document.getElementById('button_hapusTujuanKonversiTanpaBarcode'); // prettier-ignore
     let button_modalProsesTanpaBarcode = document.getElementById('button_modalProsesTanpaBarcode'); // prettier-ignore
     let button_tambahTujuanKonversiTanpaBarcode = document.getElementById('button_tambahTujuanKonversiTanpaBarcode'); // prettier-ignore
@@ -140,6 +141,7 @@ $(document).ready(function () {
         const elementSets = {
             showModal: [
                 { element: select_objekAsalTanpaBarcode, placeholder: "Pilih Objek Asal" }, // prettier-ignore
+                { element: select_nomorOrderKerjaTanpaBarcode, placeholder: "Pilih Nomor Order Kerja" }, // prettier-ignore
                 { element: select_kelompokUtamaAsalTanpaBarcode, placeholder: "Pilih Kelompok Utama Asal"}, // prettier-ignore
                 { element: select_kelompokAsalTanpaBarcode, placeholder: "Pilih Kelompok Asal"}, // prettier-ignore
                 { element: select_subKelompokAsalTanpaBarcode, placeholder: "Pilih Sub Kelompok Asal"}, // prettier-ignore
@@ -326,6 +328,29 @@ $(document).ready(function () {
         jumlah_pemasukanSekunderTanpaBarcode.readOnly = true;
         jumlah_pemasukanTritierTanpaBarcode.readOnly = true;
 
+        $.ajax({
+            type: "GET",
+            url: "/KonversiRollBarcode/getNomorOK",
+            data: {
+                _token: csrfToken,
+            },
+            success: function (response) {
+                $("#select_nomorOrderKerjaTanpaBarcode").prop(
+                    "disabled",
+                    false
+                );
+                response.forEach((item) => {
+                    // Create a new option element
+                    const option = new Option(item.No_OK,item.IdOrder);
+                    // Append the option to the select element
+                    $("#select_nomorOrderKerjaTanpaBarcode").append(option);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            },
+        });
+
         document
             .querySelectorAll("#tambahTujuanModalTanpaBarcode input")
             .forEach((input) => {
@@ -420,6 +445,15 @@ $(document).ready(function () {
         }
     );
 
+    input_tanggalKonversiTanpaBarcode.addEventListener(
+        "keypress",
+        function (e) {
+            if (e.key == "Enter") {
+                id_shiftTanpaBarcode.focus();
+            }
+        }
+    );
+
     id_shiftTanpaBarcode.addEventListener("input", function (e) {
         // Automatically convert the input to uppercase
         this.value = this.value.toUpperCase();
@@ -483,19 +517,15 @@ $(document).ready(function () {
             if (id_groupTanpaBarcode.value == "") {
                 id_groupTanpaBarcode.classList.add("input-error");
             } else {
-                select_divisiTanpaBarcode.select2("open");
+                select_nomorOrderKerjaTanpaBarcode.select2("open");
             }
         }
     });
 
-    input_tanggalKonversiTanpaBarcode.addEventListener(
-        "keypress",
-        function (e) {
-            if (e.key == "Enter") {
-                id_shiftTanpaBarcode.focus();
-            }
-        }
-    );
+    select_nomorOrderKerjaTanpaBarcode.on("select2:select", function (e) {
+        $("#select_divisiTanpaBarcode").select2("open");
+    });
+
 
     select_divisiTanpaBarcode.on("select2:select", function () {
         const selectedDivisiAsal = $(this).val(); // Get selected Divisi Asal
@@ -1202,6 +1232,7 @@ $(document).ready(function () {
                     divisi: "ABM",
                     jenisStore: "permohonan",
                     id_typeAsal: select_typeAsalTanpaBarcode.val(),
+                    nomorOrderKerja: select_nomorOrderKerjaTanpaBarcode.val(),
                     pemakaian_primerAsal: jumlah_pemakaianPrimerTanpaBarcode.value, // prettier-ignore
                     pemakaian_sekunderAsal: jumlah_pemakaianSekunderTanpaBarcode.value, // prettier-ignore
                     pemakaian_tritierAsal: jumlah_pemakaianTritierTanpaBarcode.value, // prettier-ignore

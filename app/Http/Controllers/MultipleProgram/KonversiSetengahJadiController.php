@@ -195,8 +195,9 @@ class KonversiSetengahJadiController extends Controller
                 }
             } elseif ($divisi == 'ABM') {
                 $group = $request->input('group');
-                $uraianAsal = (string) "Group " . $group . " " . $shift . ", Asal Konversi Setengah Jadi " . $divisi;
-                $uraianTujuan = (string) "Group " . $group . " " . $shift . ", Tujuan Konversi Setengah Jadi " . $divisi;
+                $nomorOrderKerja = $request->input('nomorOrderKerja');
+                $uraianAsal = (string) "Group " . $group . " " . $shift . ", Asal Konversi Setengah Jadi " . $divisi . ' | Id Order Kerja: ' . $nomorOrderKerja;
+                $uraianTujuan = (string) "Group " . $group . " " . $shift . ", Tujuan Konversi Setengah Jadi " . $divisi . ' | Id Order Kerja: ' . $nomorOrderKerja;
                 $id_typeAsal = $request->input('id_typeAsal');
                 $pemakaian_primerAsal = $request->input('pemakaian_primerAsal');
                 $pemakaian_sekunderAsal = $request->input('pemakaian_sekunderAsal');
@@ -413,6 +414,11 @@ class KonversiSetengahJadiController extends Controller
             case 'selectKomponenBarangTH':
                 $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
                 return response()->json($dataRincianTH, 200);
+            case 'getNomorOK':
+                $NomorOk = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?', [16]);
+
+                return response()->json($NomorOk);
             case 'getObjek':
                 $divisi = $request->input('divisi');
                 $dataObjek = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XKdUser = ?, @XIdDivisi = ?', [2, $nomorUser, $divisi]);

@@ -4,7 +4,8 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <h5 class="modal-title" id="tambahTujuanModalLabelTanpaBarcode">Tambah Konversi </h5>
-                <button type="button" class="close" data-bs-dismiss="modal" id="closeModalButtonTambahTujuanTanpaBarcode">
+                <button type="button" class="close" data-bs-dismiss="modal"
+                    id="closeModalButtonTambahTujuanTanpaBarcode">
                     <span>&times;</span>
                 </button>
             </div>
@@ -30,6 +31,14 @@
                         <div class="input-group">
                             <input type="text" class="form-control" id="id_groupTanpaBarcode"
                                 name="id_groupTanpaBarcode" placeholder="[A] [B] [C]">
+                        </div>
+                    </div>
+                    <div class="form-group" style="width: 15%">
+                        <label for="nomorOrderKerjaTanpaBarcode">Nomor Order Kerja</label>
+                        <div class="input-group">
+                            <select name="select_nomorOrderKerjaTanpaBarcode" id="select_nomorOrderKerjaTanpaBarcode"
+                                class="form-control">
+                            </select>
                         </div>
                     </div>
                     <div class="form-group" style="width: 24%">
@@ -104,7 +113,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" id="div_PIBAsalTanpaBarcode" style="visibility:hidden;width: 29%">
+                            <div class="form-group" id="div_PIBAsalTanpaBarcode"
+                                style="visibility:hidden;width: 29%">
                                 <label for="PIB_asalTanpaBarcode">PIB Type Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="PIB_asalTanpaBarcode"
@@ -117,7 +127,8 @@
                             <div class="form-group" style="width: 49%;border:none;">
                                 <label for="saldo_terakhirAsal">Saldo Terakhir Type Asal</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="saldo_terakhirPrimerAsalTanpaBarcode"
+                                    <input type="text" class="form-control"
+                                        id="saldo_terakhirPrimerAsalTanpaBarcode"
                                         name="saldo_terakhirPrimerAsalTanpaBarcode" style='width:23%'
                                         placeholder="Jumlah Primer" readonly>
                                     <input type="text" class="form-control"
