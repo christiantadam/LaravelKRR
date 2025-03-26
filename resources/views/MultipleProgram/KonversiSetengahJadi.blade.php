@@ -100,13 +100,13 @@
     </div>
 
     <!-- Modal untuk Detail Transaksi Konversi -->
-    <div class="modal fade" id="detailKonversiModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="detailKonversiModal" tabindex="-1">
         <div class="modal-dialog" style="max-width: 90%;">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
                     <h5 class="modal-title" id="detailKonversiModalLabel">Detail Konversi </h5>
                     <button type="button" data-bs-dismiss="modal" class="close" id="closeModalButtonDetail">
-                        <span aria-hidden="true">&times;</span>
+                        <span>&times;</span>
                     </button>
                 </div>
                 <div class="modal-body-detail" style="position: relative;flex: 1 1 auto;padding: 1rem">

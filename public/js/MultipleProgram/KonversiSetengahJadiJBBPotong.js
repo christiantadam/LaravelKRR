@@ -156,6 +156,7 @@ $(document).ready(function () {
     let id_shift = document.getElementById("id_shift"); // prettier-ignore
     let input_tanggalKonversi = document.getElementById("input_tanggalKonversi"); // prettier-ignore
     let inventoryTypes = [];
+    let jenisProses;
     let jumlah_pemakaianPrimer = document.getElementById("jumlah_pemakaianPrimer"); // prettier-ignore
     let jumlah_pemakaianSekunder = document.getElementById("jumlah_pemakaianSekunder"); // prettier-ignore
     let jumlah_pemakaianTritier = document.getElementById("jumlah_pemakaianTritier"); // prettier-ignore
@@ -332,6 +333,7 @@ $(document).ready(function () {
         // Wait for all AJAX calls to finish before executing the next logic
         $.when.apply($, ajaxCalls).then(() => {
             if (proses == 1) {
+                proses = 0;
                 table_daftarAsalKonversi.draw();
             } else if (proses == 2) {
                 let totalIterations = 0;
@@ -1129,7 +1131,7 @@ $(document).ready(function () {
 
     button_tambahKonversi.addEventListener("click", function () {
         $("#tambahTujuanModal").modal("show");
-        proses = 1; // proses insert
+        jenisProses = "insert";
     });
 
     // Load customer options and init//ialize Select2 when modal is shown
@@ -1267,11 +1269,16 @@ $(document).ready(function () {
             });
         });
 
-        if (proses == 1) {
-            jenisProses = "insert";
+        if (jenisProses == "insert") {
             rowID = null;
             tambahTujuanModalLabel.innerHTML = "Tambah Konversi";
-        } else if (proses == 2) {
+            kodeBarangSelect.prop("disabled", false);
+            select_kelompokUtamaTujuan.prop("disabled", false);
+            select_kelompokTujuan.prop("disabled", false);
+            select_subKelompokTujuan.prop("disabled", false);
+            select_typeTujuan.prop("disabled", false);
+        }
+        if (proses == 2) {
             jenisProses = "update";
             tambahTujuanModalLabel.innerHTML = "Koreksi Konversi " + rowID;
             $.ajax({
@@ -1301,7 +1308,7 @@ $(document).ready(function () {
                     TujuanKonversi = responseKoreksi.filter((item) =>
                         item.UraianDetailTransaksi.includes("Tujuan Konversi")
                     ); // prettier-ignore
-                    console.log(response,TujuanKonversi);
+                    console.log(response, TujuanKonversi);
 
                     let newOptionKelompokUtama = new Option(TujuanKonversi[0].NamaKelompokUtama, TujuanKonversi[0].IdKelompokUtama,true,true); //prettier-ignore
                     select_kelompokUtamaTujuan.append(newOptionKelompokUtama).trigger("change"); //prettier-ignore
@@ -1334,7 +1341,7 @@ $(document).ready(function () {
                 error: function (xhr, status, error) {
                     console.error("Error fetching data: ", error);
                 },
-            }).then(() => {});
+            });
         }
     });
 
@@ -1369,7 +1376,7 @@ $(document).ready(function () {
             if (id_shift.value == "") {
                 id_shift.classList.add("input-error");
             } else {
-                select_divisi.focus();
+                select_divisi.select2("open");
             }
         }
     });
@@ -1424,7 +1431,7 @@ $(document).ready(function () {
                 });
             },
         }).then(() => {
-            if (proses == 1) {
+            if (jenisProses == "insert") {
                 setTimeout(() => {
                     customerSelect.select2("open");
                 }, 200);
@@ -1529,7 +1536,9 @@ $(document).ready(function () {
                         "",
                     ]);
                 });
-
+                if (jenisProses == "insert") {
+                    proses = 1;
+                }
                 // Draw the table with populated rows
                 table_daftarAsalKonversi.draw();
             },
@@ -1541,7 +1550,7 @@ $(document).ready(function () {
                 );
             },
         }).then(() => {
-            if (proses == 1) {
+            if (jenisProses == "insert") {
                 setTimeout(() => {
                     select_objekTujuan.select2("open");
                 }, 200);
