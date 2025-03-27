@@ -2379,7 +2379,6 @@ $(document).ready(function () {
 
     const tanpaBarcodeSelectIds = [
         "#select_nomorOrderKerjaTanpaBarcode",
-        "#select_divisiTujuanTanpaBarcode",
         "#select_objekTujuanTanpaBarcode",
         "#select_kelompokUtamaTujuanTanpaBarcode",
         "#select_kelompokTujuanTanpaBarcode",
@@ -3366,7 +3365,7 @@ $(document).ready(function () {
                         // Select the disabled option
                         $select.val($select.find("option[disabled]").val());
 
-                        if (id !== "#select_divisiTujuanTanpaBarcode") {
+                        if (id !== "#select_objekTujuanTanpaBarcode") {
                             $select.prop("disabled", true); // Disable all selects except '#select_divisiTujuan'
                             $select.find("option:not(:disabled)").remove(); // Remove all options except the disabled one
                         }

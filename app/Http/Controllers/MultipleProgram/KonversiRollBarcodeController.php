@@ -544,7 +544,6 @@ class KonversiRollBarcodeController extends Controller
             $idSubKelompok = $request->input('idSubKelompok');
             $TypeConn = DB::connection('ConnInventory')
                 ->select('exec SP_4384_Konversi_Roll_Barcode_Potong @XKode = ?, @XIdSubKelompok = ?', [6, $idSubKelompok]);
-
             return response()->json($TypeConn);
         } elseif ($id == 'getDataType') {
             $IdType = $request->input('IdType');
