@@ -417,7 +417,7 @@ $(document).ready(function () {
             const response = await $.ajax({
                 url: "/CCreateBTTB/SetStatusPO",
                 type: "GET",
-                data: { NoPO: po.value.trim() }
+                data: { NoPO: po.value.trim() },
             });
 
             console.log(response);
@@ -426,25 +426,26 @@ $(document).ready(function () {
         }
     }
 
-    async function post(bttb) {
-        console.log(data); // Tracing gagal post BTTB
-        const dataToSend = data.map(item => ({
-            BTTB: bttb,
+    async function post() {
+        console.log(data);
+
+        const dataToSend = data.map((item) => ({
+            // BTTB: bttb,
             disc: item.Harga_disc,
             discIDR: item.DiscIDR,
             idPPN: item.IdPPN,
             idSup: supplier.value,
             jumPPN: item.JumPPN,
-            KodeHS: kodehs.value.trim(),
+            KodeHS: kodehs.value.trim() ?? null,
             kurs: item.Kurs,
             mtUang: item.ID_MATAUANG,
-            NoPIB: nopib.value.trim(),
-            NoPIBExt: nopibext.value.trim(),
+            NoPIB: nopib.value.trim() ?? null,
+            NoPIBExt: nopibext.value.trim() ?? null,
             NoPO: po.value.trim(),
-            NoReg: registrasi.value.trim(),
+            NoReg: registrasi.value.trim() ?? null,
             NoSatuan: item.NoSatuan,
-            NoSKBM: skbm.value.trim(),
-            NoSPPBBC: sppb.value.trim(),
+            NoSKBM: skbm.value.trim() ?? null,
+            NoSPPBBC: sppb.value.trim() ?? null,
             noTrans: item.No_trans,
             noTrTmp: item.no_kat_utama === "009" ? 1 : null,
             pDPP: item.PriceDPP,
@@ -462,7 +463,7 @@ $(document).ready(function () {
             qtyRcv: numeral(item.QtyRcv).value() || 0,
             qtyremain: numeral(item.QtyRemain).value() || 0,
             qtyShip: numeral(item.QtyShipped).value() || 0,
-            SJ: nosj.value.trim(),
+            SJ: nosj.value.trim() ?? null,
             tglDatang: tglbttb.value,
             TglPIB: tglpib.value,
             TglReg: tglregis.value.trim(),
@@ -470,26 +471,35 @@ $(document).ready(function () {
             TglSPPBBC: tglsppb.value,
         }));
 
+        // Menggabungkan semua nilai dalam tiap parameter dengan koma
+        const mergedData = Object.keys(dataToSend[0]).reduce((acc, key) => {
+            acc[key] = dataToSend.map((item) => item[key]).join("|");
+            return acc;
+        }, {});
+
+        // Menampilkan hasil gabungan
+        console.log(mergedData);
+
         try {
             await $.ajax({
                 url: "/CCreateBTTB/PostData",
                 type: "POST",
                 headers: { "X-CSRF-TOKEN": csrfToken },
-                data: { data: dataToSend }
+                data: { data: mergedData },
             });
 
             Swal.fire({
                 icon: "success",
                 title: "Data Berhasil DiPost!",
-                showConfirmButton: false
+                showConfirmButton: false,
             });
 
-            await dataPrint();
+            // await dataPrint();
         } catch (error) {
             Swal.fire({
                 icon: "error",
                 title: "Data Tidak Berhasil DiPost!",
-                showConfirmButton: false
+                showConfirmButton: false,
             });
             console.error("Error Send Data:", error);
         }
@@ -500,7 +510,7 @@ $(document).ready(function () {
             const response = await $.ajax({
                 url: "/CCreateBTTB/Print",
                 type: "GET",
-                data: { No_BTTB: nobttb.value }
+                data: { No_BTTB: nobttb.value },
             });
 
             console.log(response, nobttb.value); // Tracing gagal post BTTB
@@ -940,7 +950,7 @@ $(document).ready(function () {
 
     post_btn.addEventListener("click", async function () {
         this.disabled = true;
-        setTimeout(() => this.disabled = false, 2500);
+        setTimeout(() => (this.disabled = false), 2500);
 
         if (data.length === 0) {
             alert("Data tidak ada");
@@ -950,11 +960,14 @@ $(document).ready(function () {
         try {
             $("#loading-screen").css("display", "flex");
 
-            const response = await $.ajax({ url: "/CCreateBTTB/CreateNoBTTB", type: "GET" });
-            nobttb.value = response.data;
-            console.log(response.data); // Tracing gagal post BTTB
+            // const response = await $.ajax({
+            //     url: "/CCreateBTTB/CreateNoBTTB",
+            //     type: "GET",
+            // });
+            // nobttb.value = response.data;
+            // console.log(response.data); // Tracing gagal post BTTB
 
-            await post(response.data);
+            await post();
             await setStatusPO();
         } catch (error) {
             console.error("Error Send Data:", error);

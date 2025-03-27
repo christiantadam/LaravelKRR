@@ -336,6 +336,9 @@ function cekBarang(barang) {
                                     kodeType.value = selectedType.IdType.trim();
                                     namaBarang.value =
                                         selectedType.NamaType.trim();
+                                    primer3.disabled = true;
+                                    sekunder3.disabled = true;
+                                    tritier3.disabled = true;
                                     btn_namaBarang.focus();
                                 });
                             }
@@ -2118,6 +2121,9 @@ btn_namaBarang.addEventListener("click", function (e) {
                                     kodeType.value = selectedType.IdType.trim();
                                     namaBarang.value =
                                         selectedType.NamaType.trim();
+                                    primer3.disabled = true;
+                                    sekunder3.disabled = true;
+                                    tritier3.disabled = true;
                                     btn_namaBarang.focus();
                                 });
                             }
