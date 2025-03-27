@@ -172,7 +172,6 @@ class PemberiBarangController extends Controller
         $user = Auth::user()->NomorUser;
 
         if ($id === 'proses') {
-            // dd($request->all());
             $IdTransaksi = $request->input('IdTransaksi');
             $JumlahKeluarPrimer = $request->input('JumlahKeluarPrimer');
             $JumlahKeluarSekunder = $request->input('JumlahKeluarSekunder');
@@ -202,8 +201,6 @@ class PemberiBarangController extends Controller
                     })
                     ->where('NonAktif', 'Y')
                     ->first();
-
-                // dd($result);
 
                 $KonvBeri = $result->KonvBeri;
                 $SUmumBeri = $result->SUmumBeri;
@@ -236,23 +233,6 @@ class PemberiBarangController extends Controller
                     ->value('Divisi.NamaDivisi');
 
                 $DivisiPemberi = $divisiPemberi;
-
-//                 $sql = DB::connection('ConnInventory')->table('Type')
-//     ->select(
-//         'IdType',
-//         'KodeBarang',
-//         'IdSubKelompok_Type',
-//         'NonAktif'
-//     )
-//     ->where('IdSubKelompok_Type', function ($query) use ($IdTransaksi) {
-//         $query->select('TujuanIdSubKelompok')
-//             ->from('Tmp_Transaksi')
-//             ->where('IdTransaksi', $IdTransaksi);
-//     })
-//     ->where('NonAktif', 'Y')
-//     ->get();
-
-// dd($sql);
 
                 $type = DB::connection('ConnInventory')->table('Type')
                     ->select(

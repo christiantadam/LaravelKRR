@@ -422,12 +422,12 @@ class MhnPenerimaController extends Controller
             }, $saldo);
 
             $hasPositiveSaldo = !empty($data_saldo) && $data_saldo[0]['SaldoTritier'] > 0;
-            // dd($hasPositiveSaldo);
+
             if ($hasPositiveSaldo) {
                 $cekAda = DB::connection('ConnInventory')->select('exec SP_1003_INV_LIST_TYPE @Kode = 8, @IdType = ?', [$kodeType]);
 
                 $ada = (int) $cekAda[0]->Ada;
-                // dd($ada);
+
                 if ($ada > 0) {
                     $data = DB::connection('ConnInventory')->select('exec SP_1003_INV_LIST_TYPE @Kode = 9, @IdType = ?', [$kodeType]);
 
@@ -456,18 +456,18 @@ class MhnPenerimaController extends Controller
 
                         $qtyKeluar -= $qty;
 
-                        // if ($qtyKeluar <= 0) {
-                        //     DB::connection('ConnPurchase')->statement('exec SP_1273_INV_Update_QtyAvailable @Kode = ?, @NoTerima = ?, @Qty = ?', ['1', $noTerima, $qty]);
-                        //     break;
-                        // } else {
-                        //     DB::connection('ConnPurchase')->statement('exec SP_1273_INV_Update_QtyAvailable @Kode = ?, @NoTerima = ?, @Qty = ?', ['1', $noTerima, $qtyKeluar]);
-                        // }
+                        if ($qtyKeluar <= 0) {
+                            DB::connection('ConnPurch')->statement('exec SP_1273_INV_Update_QtyAvailable @Kode = ?, @NoTerima = ?, @Qty = ?', ['1', $noTerima, $qty]);
+                            break;
+                        } else {
+                            DB::connection('ConnPurch')->statement('exec SP_1273_INV_Update_QtyAvailable @Kode = ?, @NoTerima = ?, @Qty = ?', ['1', $noTerima, $qtyKeluar]);
+                        }
 
                         $totalHarga1 += $totalHarga;
                     }
-                    // dd($totalHarga1, $saldo1);
+
                     $txtHarga = $totalHarga1 / $saldo1;
-                    // dd($txtHarga);
+
                     DB::connection('ConnInventory')->statement('exec SP_1003_INV_LIST_TYPE @Kode = ?, @IdType = ?, @Harga = ?', ['7', $kodeType, $txtHarga]);
 
                     if ($txtHarga === '') {
