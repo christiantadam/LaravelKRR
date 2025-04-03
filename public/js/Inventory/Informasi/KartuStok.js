@@ -242,7 +242,7 @@ btn_objek.addEventListener("click", function (e) {
                         paging: false,
                         scrollY: '400px',
                         scrollCollapse: true,
-                        order: [0, "asc"],
+                        order: [1, "asc"],
                         ajax: {
                             url: "KartuStok/getObjek",
                             dataType: "json",
@@ -333,7 +333,7 @@ btn_kelut.addEventListener("click", function (e) {
                         paging: false,
                         scrollY: '400px',
                         scrollCollapse: true,
-                        order: [0, "asc"],
+                        order: [1, "asc"],
                         ajax: {
                             url: "KartuStok/getKelUt",
                             dataType: "json",

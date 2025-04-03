@@ -246,6 +246,6 @@
         const url_IdLog = "{{ url('/pagination/get-log-mesin') }}";
     </script>
 
-    @include('transaksi/modalPegawai')
+    @include('circular.transaksi.modalpegawai')
     <script src="{{ asset('js/Circular/transaksi/kegiatanMesin.js') }}"></script>
 @endsection
