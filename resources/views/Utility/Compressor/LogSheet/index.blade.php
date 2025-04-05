@@ -69,8 +69,15 @@
                                         name="efs">
                                 </div>
                                 <div class="acs-div-filter pt-4">
-                                    <label for="tech">Tech</label>
-                                    <input type="text" class="form-control" id="tech" name="tech">
+                                    <label for="teknisi">Teknisi</label>
+                                    <select class="form-select" id="teknisi">
+                                        <option selected disabled>Pilih Teknisi..</option>
+                                        @foreach ($teknisi as $data)
+                                            <option value="{{ $data->NamaUser }}">
+                                                {{ $data->NamaUser }}</option>
+                                        @endforeach
+                                    </select>
+
                                 </div>
                                 <div class="acs-div-filter pt-4">
                                     <label for="keterangan">Keterangan</label>
@@ -125,7 +132,7 @@
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table" id="table-logsheet">
+                                <table class="table" id="table-logsheet" style="white-space: nowrap">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th scope="col">Aksi</th>
@@ -139,7 +146,7 @@
                                             <th scope="col">R Hours</th>
                                             <th scope="col">L Hours</th>
                                             <th scope="col">Efs</th>
-                                            <th scope="col">Tech</th>
+                                            <th scope="col">Teknisi</th>
                                             <th scope="col">Keterangan</th>
                                         </tr>
                                     </thead>

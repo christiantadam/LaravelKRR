@@ -10,7 +10,7 @@ let lm_hours = document.getElementById("lm_hours");
 let r_hours = document.getElementById("r_hours");
 let l_hours = document.getElementById("l_hours");
 let efs = document.getElementById("efs");
-let tech = document.getElementById("tech");
+let teknisi = document.getElementById("teknisi");
 let keterangan = document.getElementById("keterangan");
 let id = document.getElementById("hiddenNoLogSheet");
 
@@ -99,7 +99,7 @@ lm_hours.disabled = true;
 r_hours.disabled = true;
 l_hours.disabled = true;
 efs.disabled = true;
-tech.disabled = true;
+teknisi.disabled = true;
 keterangan.disabled = true;
 
 function clearForm() {
@@ -112,7 +112,7 @@ function clearForm() {
     r_hours.value = "";
     l_hours.value = "";
     efs.value = "";
-    tech.value = "";
+    teknisi.value = "";
     keterangan.value = "";
     id.value = "";
 }
@@ -130,7 +130,7 @@ inputButton.addEventListener("click", function () {
     r_hours.disabled = false;
     l_hours.disabled = false;
     efs.disabled = false;
-    tech.disabled = false;
+    teknisi.disabled = false;
     keterangan.disabled = false;
     updateButton.disabled = true;
     deleteButton.disabled = true;
@@ -167,7 +167,7 @@ updateButton.addEventListener("click", function () {
         r_hours.disabled = false;
         l_hours.disabled = false;
         efs.disabled = false;
-        tech.disabled = false;
+        teknisi.disabled = false;
         keterangan.disabled = false;
         updateButton.disabled = false;
         deleteButton.disabled = true;
@@ -187,7 +187,7 @@ cancelButton.addEventListener("click", function () {
     r_hours.disabled = true;
     l_hours.disabled = true;
     efs.disabled = true;
-    tech.disabled = true;
+    teknisi.disabled = true;
     keterangan.disabled = true;
     updateButton.disabled = true;
     deleteButton.disabled = true;
@@ -214,7 +214,7 @@ function checkAllFieldsFilled() {
         r_hours.value.trim() !== "" &&
         l_hours.value.trim() !== "" &&
         efs.value.trim() !== "" &&
-        tech.value.trim() !== "" &&
+        teknisi.value.trim() !== "" &&
         keterangan.value.trim() !== ""
     );
 }
@@ -230,13 +230,20 @@ function checkAllFieldsFilled() {
     r_hours,
     l_hours,
     efs,
-    tech,
+    teknisi,
     keterangan,
 ].forEach(function (inputField) {
     inputField.addEventListener("input", function () {
         saveButton.disabled = !checkAllFieldsFilled();
     });
 });
+
+function formatDecimal(value) {
+    if (value === null || value === undefined || value === "") return "0.00";
+    var num = parseFloat(value);
+    if (isNaN(num)) return "0.00";
+    return num.toFixed(2);
+}
 
 // Save Data Log Sheet
 $(document).ready(function () {
@@ -251,7 +258,7 @@ $(document).ready(function () {
         var R_HoursValue = $("#r_hours").val();
         var L_HoursValue = $("#l_hours").val();
         var EfsValue = $("#efs").val();
-        var TechValue = $("#tech").val();
+        var teknisiValue = $("#teknisi").val();
         var KeteranganValue = $("#keterangan").val();
         var idValue = id.value;
 
@@ -268,7 +275,7 @@ $(document).ready(function () {
             R_Hours: R_HoursValue,
             L_Hours: L_HoursValue,
             Efs: EfsValue,
-            Tech: TechValue,
+            teknisi: teknisiValue,
             Keterangan: KeteranganValue,
         };
         if (idValue) {
@@ -318,7 +325,7 @@ $(document).ready(function () {
                 r_hours.disabled = true;
                 l_hours.disabled = true;
                 efs.disabled = true;
-                tech.disabled = true;
+                teknisi.disabled = true;
                 keterangan.disabled = true;
                 tanggal.value = tanggal_Output;
                 jam_operasi.value = timeString;
@@ -378,14 +385,49 @@ $(document).ready(function () {
                     return hours + ":" + minutes;
                 },
             },
-            { data: "Temperatur" },
-            { data: "Bar" },
-            { data: "RMHours" },
-            { data: "LMHours" },
-            { data: "RHours" },
-            { data: "LHours" },
-            { data: "Efs" },
-            { data: "Tech" },
+            {
+                data: "Temperatur",
+                render: function (data, type, full, meta) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "Bar",
+                render: function (data, type, full, meta) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "RMHours",
+                render: function (data, type, full, meta) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "LMHours",
+                render: function (data, type, full, meta) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "RHours",
+                render: function (data, type, full, meta) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "LHours",
+                render: function (data, type, full, meta) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "Efs",
+                render: function (data, type, full, meta) {
+                    return formatDecimal(data);
+                },
+            },
+            { data: "teknisi" },
             { data: "Keterangan" },
         ],
     });
@@ -428,14 +470,14 @@ $(document).ready(function () {
                         .padStart(2, "0");
                     jam_operasi.value = endHours + ":" + endMinutes;
                     // jam_operasi.value = data.Jam;
-                    temp.value = data.Temperatur;
-                    bar.value = data.Bar;
-                    rm_hours.value = data.RMHours;
-                    lm_hours.value = data.LMHours;
-                    r_hours.value = data.RHours;
-                    l_hours.value = data.LHours;
-                    efs.value = data.Efs;
-                    tech.value = data.Tech;
+                    temp.value = parseFloat(data.Temperatur);
+                    bar.value = parseFloat(data.Bar);
+                    rm_hours.value = parseFloat(data.RMHours);
+                    lm_hours.value = parseFloat(data.LMHours);
+                    r_hours.value = parseFloat(data.RHours);
+                    l_hours.value = parseFloat(data.LHours);
+                    efs.value = parseFloat(data.Efs);
+                    teknisi.value = data.teknisi;
                     keterangan.value = data.Keterangan;
                 },
                 error: function (xhr, status, error) {
@@ -448,7 +490,6 @@ $(document).ready(function () {
             });
         } else {
             $("#tanggal").val(tanggal_Output);
-
             clearForm();
         }
     });

@@ -292,17 +292,44 @@ $(document).ready(function () {
                     $("#loading-screen").css("display", "flex");
                 },
                 success: function (data) {
-                    // console.log(data);
+                    $.ajax({
+                        url: "/get-keterangan",
+                        method: "GET",
+                        data: { idPart: data.IdPart },
+                        success: function (response) {
+                            // console.log(data);
+                            var selectKeterangan = $("#select_keterangan");
+                            selectKeterangan
+                                .empty()
+                                .append(
+                                    "<option selected disabled>Pilih keterangan...</option>"
+                                );
 
-                    var date = new Date(data.Tanggal + "Z");
-                    tanggal.value = date.toISOString().split("T")[0];
-                    mesin.value = data.NoMesin;
-                    jam.value = data.JamOperasi;
-                    part.value = data.IdPart;
-                    keterangan.value = data.NoKeteranganPart;
-                    teknisi.value = data.Teknisi;
+                            $.each(response, function (index, item) {
+                                selectKeterangan.append(
+                                    '<option value="' +
+                                        item.NoKeteranganPart +
+                                        '">' +
+                                        item.Keterangan +
+                                        "</option>"
+                                );
+                                // Di sini, saya menambahkan item.NoKeteranganPart di dalam opsi juga
+                            });
 
-                    getKeteranganData(data.IdPart);
+                            selectKeterangan.prop("disabled", true);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        },
+                    }).then(() => {
+                        var date = new Date(data.Tanggal + "Z");
+                        tanggal.value = date.toISOString().split("T")[0];
+                        mesin.value = data.NoMesin;
+                        jam.value = data.JamOperasi;
+                        part.value = data.IdPart;
+                        keterangan.value = data.NoKeteranganPart;
+                        teknisi.value = data.Teknisi.trim();
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);
@@ -403,39 +430,6 @@ $(document).ready(function () {
             },
         });
     });
-
-    function getKeteranganData(idPart) {
-        $.ajax({
-            url: "/get-keterangan",
-            method: "GET",
-            data: { idPart: idPart },
-            success: function (data) {
-                // console.log(data);
-                var selectKeterangan = $("#select_keterangan");
-                selectKeterangan;
-                // .empty()
-                // .append(
-                //     "<option selected disabled>Pilih keterangan...</option>"
-                // );
-
-                $.each(data, function (index, item) {
-                    selectKeterangan.append(
-                        '<option value="' +
-                            item.NoKeteranganPart +
-                            '">' +
-                            item.Keterangan +
-                            "</option>"
-                    );
-                    // Di sini, saya menambahkan item.NoKeteranganPart di dalam opsi juga
-                });
-
-                selectKeterangan.prop("disabled", true);
-            },
-            error: function (error) {
-                console.log(error);
-            },
-        });
-    }
 
     // DeleteButton click
     $("#deleteButton").click(function (e) {

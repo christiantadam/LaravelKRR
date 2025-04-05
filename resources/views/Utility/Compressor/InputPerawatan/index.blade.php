@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table" id="table-perawatan">
+                                <table class="table" id="table-perawatan" style="white-space: nowrap">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th scope="col">Aksi</th>

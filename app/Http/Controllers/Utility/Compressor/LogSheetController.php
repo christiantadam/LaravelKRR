@@ -14,13 +14,11 @@ class LogSheetController extends Controller
     // Display a listing of the resource.
     public function index()
     {
-
         $mesin = DB::connection('ConnUtility')->select('exec SP_LIST_MESIN_COMPRESSOR');
-        // dd($teknisi);
-
+        $IDUser = auth::user()->IDUser;
+        $teknisi = DB::connection('ConnUtility')->select('exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?', [$IDUser]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
-        // dd($supplier);
-        return view('Utility.Compressor.LogSheet.index', compact('mesin', 'access'));
+        return view('Utility.Compressor.LogSheet.index', compact('mesin', 'access', 'teknisi'));
     }
 
     //Display the specified resource.
@@ -37,7 +35,7 @@ class LogSheetController extends Controller
             $R_Hours = $request->input('R_Hours');
             $L_Hours = $request->input('L_Hours');
             $Efs = $request->input('Efs');
-            $Tech = $request->input('Tech');
+            $teknisi = $request->input('teknisi');
             $Keterangan = $request->input('Keterangan');
             $UserInput = Auth::user()->NomorUser;
 
@@ -45,7 +43,7 @@ class LogSheetController extends Controller
             $datetimeJam = $datetimeNow->toDateString() . ' ' . $Jam;
 
 
-            $data = DB::connection('ConnUtility')->statement('exec SP_INSERT_LOG_SHEET_COMPRESSOR ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [$Tanggal, $Mesin, $datetimeJam, $Temp, $Bar, $RM_Hours, $LM_Hours, $R_Hours, $L_Hours, $Efs, $Tech, $Keterangan, $UserInput]);
+            $data = DB::connection('ConnUtility')->statement('exec SP_INSERT_LOG_SHEET_COMPRESSOR ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [$Tanggal, $Mesin, $datetimeJam, $Temp, $Bar, $RM_Hours, $LM_Hours, $R_Hours, $L_Hours, $Efs, $teknisi, $Keterangan, $UserInput]);
             return response()->json($data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
@@ -65,11 +63,11 @@ class LogSheetController extends Controller
             $R_Hours = $request->input('R_Hours');
             $L_Hours = $request->input('L_Hours');
             $Efs = $request->input('Efs');
-            $Tech = $request->input('Tech');
+            $teknisi = $request->input('teknisi');
             $Keterangan = $request->input('Keterangan');
             $UserInput = Auth::user()->NomorUser;
 
-            $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_LOG_SHEET_COMPRESSOR ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [$id, $Tanggal, $Mesin, $Jam, $Temp, $Bar, $RM_Hours, $LM_Hours, $R_Hours, $L_Hours, $Efs, $Tech, $Keterangan, $UserInput]);
+            $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_LOG_SHEET_COMPRESSOR ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [$id, $Tanggal, $Mesin, $Jam, $Temp, $Bar, $RM_Hours, $LM_Hours, $R_Hours, $L_Hours, $Efs, $teknisi, $Keterangan, $UserInput]);
             return response()->json($data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
@@ -86,7 +84,6 @@ class LogSheetController extends Controller
         $listLogSheet = ($NoMesin == 0)
             ? DB::connection('ConnUtility')->select('exec SP_LIST_LOG_SHEET_BLN_TAHUN @date1 = ?, @date2 = ?, @NoMesin = 0', [$date1, $date2])
             : DB::connection('ConnUtility')->select('exec SP_LIST_LOG_SHEET_BLN_TAHUN @date1 = ?, @date2 = ?, @NoMesin = ?', [$date1, $date2, $NoMesin]);
-
         return datatables($listLogSheet)->make(true);
     }
     public function getDataLogSheetById(Request $request)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Utility\Elektrik;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -105,9 +106,8 @@ class InputGangguanElektrikController extends Controller
             ]);
 
             return response()->json(['success' => true, 'message' => 'Sudah menyimpan data']);
-        } catch (\Throwable $th) {
-            report($th);
-            return response()->json(['error' => false, 'message' => 'Terjadi kesalahan saat menyimpan data']);
+        } catch (Exception $e) {
+            return response()->json(['error' => false, 'message' => $e->getMessage()]);
         }
     }
 

@@ -15,10 +15,7 @@ class InputPerawatanController extends Controller
         $mesin = DB::connection('ConnUtility')->select('exec SP_LIST_MESIN_COMPRESSOR');
         $part = DB::connection('ConnUtility')->select('exec SP_LIST_PART_COMPRESSOR');
         $IDUser = auth::user()->IDUser;
-        // dd($IDUser);
-
-        $teknisi = DB::connection('ConnUtility')
-            ->select("exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?", [$IDUser]);
+        $teknisi = DB::connection('ConnUtility')->select("exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?", [$IDUser]);
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
 
         return view('Utility.Compressor.InputPerawatan.index', compact('mesin', 'part', 'teknisi', 'access'));
@@ -60,39 +57,43 @@ class InputPerawatanController extends Controller
 
 
     public function savePerawatan(Request $request)
-{
-    try {
-        $tanggal = $request->input('Tanggal');
-        $noMesin = $request->input('NoMesin');
-        $jamOperasi = $request->input('JamOperasi');
-        $idPart = $request->input('IdPart');
-        $keterangan = $request->input('Keterangan');
-        $teknisi = $request->input('Teknisi');
-        $UserInput = Auth::user()->NomorUser;
+    {
+        try {
+            $tanggal = $request->input('Tanggal');
+            $noMesin = $request->input('NoMesin');
+            $jamOperasi = $request->input('JamOperasi');
+            $idPart = $request->input('IdPart');
+            $keterangan = $request->input('Keterangan');
+            $teknisi = $request->input('Teknisi');
+            $UserInput = Auth::user()->NomorUser;
 
-        // Lakukan pengecekan apakah ada data dengan tanggal, nomor mesin, dan id part yang sama tetapi keterangan yang berbeda
-        $existingData = DB::connection('ConnUtility')
-            ->table('PERAWATAN_COMPRESSOR')
-            ->where('Tanggal', $tanggal)
-            ->where('NoMesin', $noMesin)
-            ->where('IdPart', $idPart)
-            ->where('NoKeteranganPart', $keterangan)
-            ->first();
+            // Lakukan pengecekan apakah ada data dengan tanggal, nomor mesin, dan id part yang sama tetapi keterangan yang berbeda
+            $existingData = DB::connection('ConnUtility')
+                ->table('PERAWATAN_COMPRESSOR')
+                ->where('Tanggal', $tanggal)
+                ->where('NoMesin', $noMesin)
+                ->where('IdPart', $idPart)
+                ->where('NoKeteranganPart', $keterangan)
+                ->first();
 
-        if ($existingData) {
-            return response()->json(['Error' => 'Data dengan tanggal, mesin, dan keterangan yang sama sudah tersimpan.']);
-        } else {
-            DB::connection('ConnUtility')->statement('exec SP_INSERT_PERAWATAN_COMPRESSOR ?, ?, ?, ?, ?, ?, ?', [
-                $tanggal, $noMesin, $jamOperasi, $idPart, $keterangan, $teknisi, $UserInput
-            ]);
-            return response()->json('save success', 200);
+            if ($existingData) {
+                return response()->json(['Error' => 'Data dengan tanggal, mesin, dan keterangan yang sama sudah tersimpan.']);
+            } else {
+                DB::connection('ConnUtility')->statement('exec SP_INSERT_PERAWATAN_COMPRESSOR ?, ?, ?, ?, ?, ?, ?', [
+                    $tanggal,
+                    $noMesin,
+                    $jamOperasi,
+                    $idPart,
+                    $keterangan,
+                    $teknisi,
+                    $UserInput
+                ]);
+                return response()->json(['success' => true], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['Error' => 'Data dengan tanggal, mesin, dan keterangan yang sama sudah tersimpan 2.']);
         }
-    } catch (\Exception $e) {
-        return response()->json(['Error' => 'Data dengan tanggal, mesin, dan keterangan yang sama sudah tersimpan 2.']);
     }
-}
-
-
 
     public function updatePerawatan(Request $request)
     {
@@ -105,17 +106,22 @@ class InputPerawatanController extends Controller
             $keterangan = $request->input('Keterangan');
             $teknisi = $request->input('Teknisi');
             $UserInput = Auth::user()->NomorUser;
-
-            $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_PERAWATAN_COMPRESSOR ?, ?, ?, ?, ?, ?, ?, ?', [
-                $id, $tanggal, $noMesin, $jamOperasi, $idPart, $keterangan, $teknisi, $UserInput
+            DB::connection('ConnUtility')->statement('exec SP_KOREKSI_PERAWATAN_COMPRESSOR ?, ?, ?, ?, ?, ?, ?, ?', [
+                $id,
+                $tanggal,
+                $noMesin,
+                $jamOperasi,
+                $idPart,
+                $keterangan,
+                $teknisi,
+                $UserInput
             ]);
 
-            return response('hehe'); //->json($data);
+            return response()->json(['success' => true], 200);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
         }
     }
-
 
     // public function updatePerawatan2(Request $request)
     // {
@@ -145,10 +151,6 @@ class InputPerawatanController extends Controller
     //         return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
     //     }
     // }
-
-
-
-
 
     public function hapusPerawatan(Request $request)
     {
