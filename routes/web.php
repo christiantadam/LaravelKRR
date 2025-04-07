@@ -992,10 +992,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     //PLN
     Route::resource('InputPLN', App\Http\Controllers\Utility\PLN\InputPLNController::class);
+    Route::post('/save-pln', [App\Http\Controllers\Utility\PLN\InputPLNController::class, 'createPLN'])->name('save-pln');
     Route::get('/get-pln', [App\Http\Controllers\Utility\PLN\InputPLNController::class, 'getPLN'])->name('get-pln');
     Route::get('/get-pln-id', [App\Http\Controllers\Utility\PLN\InputPLNController::class, 'getPLNId'])->name('get-pln-id');
-    Route::put('/update-pln', [App\Http\Controllers\Utility\PLN\InputPLNController::class, 'updatePLN'])->name('update-pln');
-    Route::post('/save-pln', [App\Http\Controllers\Utility\PLN\InputPLNController::class, 'createPLN'])->name('save-pln');
     Route::delete('/delete-pln', [App\Http\Controllers\Utility\PLN\InputPLNController::class, 'deletePLN'])->name('delete-pln');
 
     //Panel sdp
@@ -1362,7 +1361,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('BKM', App\Http\Controllers\Accounting\TransBank\BKMController::class);
     // Route::get('BKM', 'App\Http\Controllers\Accounting\TransBank\BKMController@BKM');
 
-    Route::get('CekNotadanFaktur', 'App\Http\Controllers\Accounting\Informasi\CekNotadanFakturController@CekNotadanFaktur');
+    // Route::get('CekNotadanFaktur', 'App\Http\Controllers\Accounting\Informasi\CekNotadanFakturController@CekNotadanFaktur');
 
     Route::resource('CetakNotaKredit', App\Http\Controllers\Accounting\Informasi\CetakNotaKreditController::class);
     Route::get('getListCetakNotaKredit/{tanggal}', 'App\Http\Controllers\Accounting\Informasi\CetakNotaKreditController@getListCetakNotaKredit');

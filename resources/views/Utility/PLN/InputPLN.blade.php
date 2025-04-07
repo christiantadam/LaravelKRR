@@ -24,6 +24,16 @@
                                     <label for="lwbp">LWBP</label>
                                     <input type="number" class="form-control" id="lwbp" name="lwbp">
                                 </div>
+                                <div class="acs-div-filter pt-4">
+                                    <label for="lokasi">Lokasi</label>
+                                    <select class="form-select" id="lokasi" aria-label="Default select example">
+                                        <option selected disabled>Pilih Lokasi...</option>
+                                        @foreach ($lokasi as $data)
+                                            <option value="{{ $data->Id_Lokasi }}">
+                                                {{ $data->Lokasi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-lg-5 p-4">
                                 <div class="acs-div-filter">

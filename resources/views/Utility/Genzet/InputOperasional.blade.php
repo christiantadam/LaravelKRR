@@ -150,7 +150,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table" id="table-genzet">
+                                <table class="table" id="table-genzet" style="white-space: nowrap;">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th scope="col">Aksi</th>

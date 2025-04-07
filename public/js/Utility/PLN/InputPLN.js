@@ -89,14 +89,16 @@ function clearForm() {
     lwbp.value = "";
     wbp.value = "";
     kvar.value = "";
-    teknisi.value = "";
+    teknisi.selectedIndex = 0;
     nomorpln.value = "";
+    lokasi.selectedIndex = 0;
 }
 
 saveButton.disabled = true;
 tanggal.disabled = true;
 jam.disabled = true;
 lwbp.disabled = true;
+lokasi.disabled = true;
 wbp.disabled = true;
 kvar.disabled = true;
 teknisi.disabled = true;
@@ -108,6 +110,7 @@ function checkAllFieldsFilled() {
         tanggal.value.trim() !== "" &&
         jam.value.trim() !== "" &&
         lwbp.value.trim() !== "" &&
+        lokasi.value.trim() !== "" &&
         wbp.value.trim() !== "" &&
         kvar.value.trim() !== "" &&
         teknisi.value.trim() !== ""
@@ -125,6 +128,7 @@ inputButton.addEventListener("click", function () {
     tanggal.disabled = false;
     jam.disabled = false;
     lwbp.disabled = false;
+    lokasi.disabled = false;
     wbp.disabled = false;
     kvar.disabled = false;
     teknisi.disabled = false;
@@ -154,6 +158,7 @@ updateButton.addEventListener("click", function () {
         tanggal.disabled = false;
         jam.disabled = false;
         lwbp.disabled = false;
+        lokasi.disabled = false;
         wbp.disabled = false;
         kvar.disabled = false;
         teknisi.disabled = false;
@@ -169,6 +174,7 @@ cancelButton.addEventListener("click", function () {
     inputButton.disabled = false;
     jam.disabled = true;
     lwbp.disabled = true;
+    lokasi.disabled = true;
     wbp.disabled = true;
     kvar.disabled = true;
     teknisi.disabled = true;
@@ -198,6 +204,7 @@ $(document).ready(function () {
         var wbpValue = $("#wbp").val();
         var kvarValue = $("#kvar").val();
         var teknisiValue = $("#teknisi").val();
+        var lokasiValue = $("#lokasi").val();
         var nomorplnValue = $("#hiddenNomorpln").val();
 
         var csrfToken = $('meta[name="csrf-token"]').attr("content");
@@ -208,13 +215,16 @@ $(document).ready(function () {
             LWBP: lwbpValue,
             WBP: wbpValue,
             KVAR: kvarValue,
+            Lokasi: lokasiValue,
             Teknisi: teknisiValue,
         };
+
         if (nomorplnValue) {
             requestData.NomorPLN = nomorplnValue;
         }
+
         $.ajax({
-            url: nomorplnValue ? "/update-pln" : "/save-pln",
+            url: nomorplnValue ? "/InputPLN/" + nomorplnValue : "/save-pln",
             method: nomorplnValue ? "PUT" : "POST",
             data: requestData,
             headers: {
@@ -242,6 +252,7 @@ $(document).ready(function () {
                 jam.value = timeString;
                 jam.disabled = true;
                 lwbp.disabled = true;
+                lokasi.disabled = true;
                 wbp.disabled = true;
                 kvar.disabled = true;
                 teknisi.disabled = true;
@@ -318,7 +329,16 @@ $(document).ready(function () {
             { data: "wbp" },
             { data: "kvar" },
             { data: "teknisi" },
-            { data: "Lokasi" },
+            {
+                data: "Lokasi",
+                render: function (data) {
+                    if (data == null) {
+                        return "-";
+                    } else {
+                        return data;
+                    }
+                },
+            },
         ],
     });
 
@@ -328,6 +348,7 @@ $(document).ready(function () {
         tanggal.disabled = true;
         jam.disabled = true;
         lwbp.disabled = true;
+        lokasi.disabled = true;
         wbp.disabled = true;
         kvar.disabled = true;
         teknisi.disabled = true;
@@ -439,6 +460,7 @@ $(document).ready(function () {
                     $("#wbp").val(selectedWBP);
                     $("#kvar").val(selectedKVAR);
                     $("#teknisi").val(selectedTeknisi);
+                    $("#lokasi").val(data.Id_Lokasi_PLN);
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching data:", error);

@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table" id="table-panelinduk">
+                                <table class="table" id="table-panelinduk" style="white-space: nowrap;">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th scope="col">Aksi</th>

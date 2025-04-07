@@ -14,16 +14,15 @@ class InputPLNController extends Controller
     // Display a listing of the resource.
     public function index()
     {
-
         $teknisigenzet = DB::connection('ConnUtility')->select('exec SP_LIST_TEKNISI_GENZET');
         $IDUser = auth::user()->IDUser;
         $teknisi = DB::connection('ConnUtility')
             ->select("exec SP_LIST_UTILITY_TEKNISI @IdUserMaster = ?", [$IDUser]);
-        // dd($teknisi);
+        $lokasi = DB::connection('ConnUtility')->table('Lokasi')->get();
         $sdp = DB::connection('ConnUtility')->select('exec SP_LIST_PRODUKSI_SPD');
 
         $access = (new HakAksesController)->HakAksesFiturMaster('Utility');
-        return view('Utility.PLN.InputPLN', compact('teknisigenzet', 'teknisi', 'sdp', 'access'));
+        return view('Utility.PLN.InputPLN', compact('teknisigenzet', 'teknisi', 'sdp', 'access', 'lokasi'));
     }
 
     public function createPLN(Request $request)
@@ -35,30 +34,13 @@ class InputPLNController extends Controller
             $wbp = $request->input('WBP');
             $kvar = $request->input('KVAR');
             $teknisi = $request->input('Teknisi');
+            $lokasi = $request->input('Lokasi');
             $UserInput = Auth::user()->NomorUser;
 
             $datetimeNow = now();
             $datetimeJam = $datetimeNow->toDateString() . ' ' . $jam;
 
-            $data = DB::connection('ConnUtility')->statement('exec SP_INSERT_PLN ? , ? , ? , ? , ? , ? , ?', [$tanggal, $datetimeJam, $lwbp, $wbp, $kvar, $teknisi, $UserInput]);
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
-        }
-    }
-    public function updatePLN(Request $request)
-    {
-        try {
-            $tanggal = $request->input('Tanggal');
-            $jam = $request->input('Jam');
-            $lwbp = $request->input('LWBP');
-            $wbp = $request->input('WBP');
-            $kvar = $request->input('KVAR');
-            $teknisi = $request->input('Teknisi');
-            $UserInput = Auth::user()->NomorUser;
-            $id = $request->input('NomorPLN');
-
-            $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_PLN ? , ? , ? , ? , ? , ? , ? , ?', [$id, $tanggal, $jam, $lwbp, $wbp, $kvar, $teknisi, $UserInput]);
+            $data = DB::connection('ConnUtility')->statement('exec SP_INSERT_PLN ? , ? , ? , ? , ? , ? , ?, ?', [$tanggal, $datetimeJam, $lwbp, $wbp, $kvar, $teknisi, $UserInput, $lokasi]);
             return response()->json($data);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while saving the data. Please try again.');
@@ -118,7 +100,22 @@ class InputPLNController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $tanggal = $request->input('Tanggal');
+            $jam = $request->input('Jam');
+            $lwbp = $request->input('LWBP');
+            $wbp = $request->input('WBP');
+            $kvar = $request->input('KVAR');
+            $teknisi = $request->input('Teknisi');
+            $UserInput = Auth::user()->NomorUser;
+            $lokasi = $request->input('Lokasi');
+            $id = $request->input('NomorPLN');
+
+            $data = DB::connection('ConnUtility')->statement('exec SP_KOREKSI_PLN ? , ? , ? , ? , ? , ? , ? , ?, ?', [$id, $tanggal, $jam, $lwbp, $wbp, $kvar, $teknisi, $UserInput, $lokasi]);
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while updating the data. Please try again.' . $e->getMessage()]);
+        }
     }
 
     //Remove the specified resource from storage.

@@ -171,6 +171,13 @@ function checkAllFieldsFilled() {
     });
 });
 
+function formatDecimal(value) {
+    if (value === null || value === undefined || value === "") return "0.00";
+    var num = parseFloat(value);
+    if (isNaN(num)) return "0.00";
+    return num.toFixed(2);
+}
+
 // InputButton click
 inputButton.addEventListener("click", function () {
     tanggal.disabled = false;
@@ -335,12 +342,40 @@ $(document).ready(function () {
             },
             {
                 data: "OperationHour",
+                render: function (data) {
+                    return formatDecimal(data);
+                },
             },
-            { data: "LubeOil" },
-            { data: "CoolWater" },
-            { data: "Volt380" },
-            { data: "HZ" },
-            { data: "Amp" },
+            {
+                data: "LubeOil",
+                render: function (data) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "CoolWater",
+                render: function (data) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "Volt380",
+                render: function (data) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "HZ",
+                render: function (data) {
+                    return formatDecimal(data);
+                },
+            },
+            {
+                data: "Amp",
+                render: function (data) {
+                    return formatDecimal(data);
+                },
+            },
             { data: "StatusLog" },
             { data: "Teknisi" },
             { data: "Keterangan" },
@@ -501,14 +536,14 @@ $(document).ready(function () {
                         .padStart(2, "0");
                     jam_akhir.value = endHours + ":" + endMinutes;
 
-                    operationhours.value = data.OperationHour;
-                    lubeoil.value = data.LubeOil;
-                    coolwater.value = data.CoolWater;
-                    volt.value = data.Volt380;
-                    hz.value = data.HZ;
-                    amp.value = data.Amp;
-                    tambahbbm.value = data.TambahBBM;
-                    tambahoil.value = data.TambahOil;
+                    operationhours.value = parseFloat(data.OperationHour);
+                    lubeoil.value = parseFloat(data.LubeOil);
+                    coolwater.value = parseFloat(data.CoolWater);
+                    volt.value = parseFloat(data.Volt380);
+                    hz.value = parseFloat(data.HZ);
+                    amp.value = parseFloat(data.Amp);
+                    tambahbbm.value = parseFloat(data.TambahBBM);
+                    tambahoil.value = parseFloat(data.TambahOil);
                     statuslog.value = data.StatusLog;
                     teknisi.value = data.Teknisi;
                     keterangan.value = data.Keterangan;
