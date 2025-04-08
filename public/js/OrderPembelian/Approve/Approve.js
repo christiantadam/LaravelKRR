@@ -75,8 +75,7 @@ $(function () {
                 // KET ORDER -------------------------------------------------------------------------------
                 if (
                     data.data.keterangan == "-" ||
-                    data.data.Pemesan == null ||
-                    data.data.Pemesan.length == 0
+                    data.data.keterangan.length === 0
                 ) {
                     $("#KetOrder").hide();
                     // document.getElementById("KetOrder").innerHTML="Ket. Order: -";
