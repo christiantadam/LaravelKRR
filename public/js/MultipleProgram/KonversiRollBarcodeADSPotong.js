@@ -634,6 +634,7 @@ $(document).ready(function () {
         select_subKelompokTujuan.disabled = true;
         select_typeTujuan.disabled = true;
         PIB_tujuan.readOnly = true;
+        button_tambahTujuanKonversi.disabled = false;
         button_updateTujuanKonversi.disabled = true;
         button_hapusTujuanKonversi.disabled = true;
         // set up kolom asal konversi
@@ -652,8 +653,6 @@ $(document).ready(function () {
         // select_subKelompokAsal.disabled = true;
         // select_typeAsal.disabled = true;
         // PIB_asal.readOnly = true;
-        // button_updateAsalKonversi.disabled = true;
-        // button_hapusAsalKonversi.disabled = true;
         button_modalProses.disabled = true;
         if (
             nomorUser !== "4384" && //adam
