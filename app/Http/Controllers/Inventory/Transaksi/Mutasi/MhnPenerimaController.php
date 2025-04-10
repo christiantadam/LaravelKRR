@@ -228,7 +228,7 @@ class MhnPenerimaController extends Controller
             }
 
             // get total saldo
-            $totalSaldo = DB::connection('ConnInventory')->select('exec SP_1273_INV_CekBelumACC @IdTypeTransaksi = ?, @IdType = ?', ['02', $kodeType]);
+            $totalSaldo = DB::connection('ConnInventory')->select('exec SP_1273_INV_CekBelumACC @IdTypeTransaksi = ?, @IdType = ?', ['02', $data_type[0]['IdType']]);
 
             $data_totalSaldo = [];
             foreach ($totalSaldo as $detail_totalSaldo) {

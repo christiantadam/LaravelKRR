@@ -1,6 +1,4 @@
-var csrfToken = document
-    .querySelector('meta[name="csrf-token"]')
-    .getAttribute("content");
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
 
 var tanggal = document.getElementById("tanggal");
 var today = new Date();
