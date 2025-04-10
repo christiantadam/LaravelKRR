@@ -98,7 +98,8 @@ class OrderPress extends Controller
                     ]);
 
                 // Set the criteria based on 'iner' value
-                $tableName = $request->input('iner') === 'Y' ? 'VW_PRG_1273_JBB_CETAK_ORDPRESS1' : 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
+                // $tableName = $request->input('iner') === 'Y' ? 'VW_PRG_1273_JBB_CETAK_ORDPRESS1' : 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
+                $tableName = 'VW_PRG_1273_JBB_CETAK_ORDPRESS';
                 $criteriaQuery = DB::connection('ConnJumboBag')
                     ->table($tableName)
                     ->where('Kode_Barang', 'like', "{$kodeBarang}%")
