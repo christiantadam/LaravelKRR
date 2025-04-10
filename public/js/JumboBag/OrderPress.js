@@ -172,15 +172,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     "&nbsp;BOTTOM&nbsp;" +
                     data.data[0].ModelCB;
                 document.getElementById("ukuran_tabel").innerHTML =
-                    data.data[0].Lebar_BB +
+                    parseFloat(data.data[0].Panjang_BB) +
                     "&nbsp;" +
                     "X" +
                     "&nbsp;" +
-                    data.data[0].Panjang_BB +
+                    parseFloat(data.data[0].Lebar_BB) +
                     "&nbsp;" +
                     "X" +
                     "&nbsp;" +
-                    data.data[0].Tinggi_BB;
+                    parseFloat(data.data[0].Tinggi_BB);
                 document.getElementById("nosp_tabel").innerHTML =
                     data.data[0].No_SuratPesanan;
                 document.getElementById("rajutan_tabel").innerHTML =
