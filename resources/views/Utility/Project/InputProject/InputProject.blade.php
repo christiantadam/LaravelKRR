@@ -119,7 +119,7 @@
                             <input type="number" pattern="[0-9]" name="tanggal_dibutuhkan" min="0"
                                 id="tahun" class="input ml-1 form-control">
                             <button id="refreshButton" class="btn btn-primary">Refresh</button>
-                            <h6 class="mt-2">Keterangan</h6>
+                            <h6 class="mt-2">Status</h6>
                             <select id="filter" class="form-select ml-1">
                                 <option value="">Pilih Semua</option>
                                 <option value="Progress">Progress</option>
