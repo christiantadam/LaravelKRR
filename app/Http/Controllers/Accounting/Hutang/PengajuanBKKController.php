@@ -278,6 +278,7 @@ class PengajuanBKKController extends Controller
                 $item['IdUangTT'] = trim($row->IdUangTT);
                 $item['Id_Pembayaran'] = $row->Id_Pembayaran;
                 $item['TT_NOLunas'] = "";
+                $item['KursBayar'] = $row->Kurs_Bayar;
                 $response[] = $item;
             }
 

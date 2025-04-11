@@ -79,6 +79,7 @@
                                         <th>Lunas</th>
                                         <th>IdUangTT</th>
                                         <th>ID. Pembayaran</th>
+                                        <th style="display: none">Kurs</th>
                                         {{-- <th>TT_NoLunas</th>
                                         <th>isRed</th> --}}
                                     </tr>

@@ -186,10 +186,11 @@ $(document).ready(function () {
                     { data: "Lunas" },
                     { data: "IdUangTT" },
                     { data: "Id_Pembayaran" },
+                    { data: "KursBayar" },
                     // { data: "TT_NoLunas" },
                     // { data: "isRed" },
                 ],
-                columnDefs: [{ targets: [6, 7], visible: false }],
+                columnDefs: [{ targets: [6, 7, 8], visible: false }],
                 paging: false,
                 scrollY: "300px",
                 scrollCollapse: true,
@@ -400,10 +401,11 @@ $(document).ready(function () {
                                 { data: "Lunas" },
                                 { data: "IdUangTT" },
                                 { data: "Id_Pembayaran" },
+                                { data: "KursBayar" },
                                 // { data: "TT_NoLunas" },
                                 // { data: "isRed" },
                             ],
-                            columnDefs: [{ targets: [6, 7], visible: false }],
+                            columnDefs: [{ targets: [6, 7, 8], visible: false }],
                             paging: false,
                             scrollY: "300px",
                             scrollCollapse: true,
@@ -443,10 +445,11 @@ $(document).ready(function () {
                                 { data: "Lunas" },
                                 { data: "IdUangTT" },
                                 { data: "Id_Pembayaran" },
+                                { data: "KursBayar" },
                                 // { data: "TT_NoLunas" },
                                 // { data: "isRed" },
                             ],
-                            columnDefs: [{ targets: [6, 7], visible: false }],
+                            columnDefs: [{ targets: [6, 7, 8], visible: false }],
                             paging: false,
                             scrollY: "300px",
                             scrollCollapse: true,
@@ -575,6 +578,7 @@ $(document).ready(function () {
                 mata_uang.value = rowData.UangTT;
                 nilai_pembayaran.value = rowData.Nilai_Penagihan;
                 id_pembayaran.value = rowData.Id_Pembayaran;
+                kurs.value = numeral(rowData.KursBayar).format("0");
                 if (mata_uang.value.trim() == "") {
                     // Swal.fire({
                     //     icon: "warning",
