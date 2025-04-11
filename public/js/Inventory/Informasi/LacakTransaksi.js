@@ -1,76 +1,79 @@
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+var csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 
 // Assign radio buttons to variables
-var Penerima1 = document.getElementById('Penerima1');
-var Penerima2 = document.getElementById('Penerima2');
-var Penerima3 = document.getElementById('Penerima3');
-var Pemberi1 = document.getElementById('Pemberi1');
-var Pemberi2 = document.getElementById('Pemberi2');
-var Pemberi3 = document.getElementById('Pemberi3');
+var Penerima1 = document.getElementById("Penerima1");
+var Penerima2 = document.getElementById("Penerima2");
+var Penerima3 = document.getElementById("Penerima3");
+var Pemberi1 = document.getElementById("Pemberi1");
+var Pemberi2 = document.getElementById("Pemberi2");
+var Pemberi3 = document.getElementById("Pemberi3");
 var pilihan = document.querySelectorAll('input[name="opsi"]');
 
 // Assign date input and other form elements to variables
-var tanggal = document.getElementById('tanggal');
-var userId = document.getElementById('userId');
-var divisiId = document.getElementById('divisiId');
-var divisiNama = document.getElementById('divisiNama');
-var btn_divisi = document.getElementById('btn_divisi');
+var tanggal = document.getElementById("tanggal");
+var userId = document.getElementById("userId");
+var divisiId = document.getElementById("divisiId");
+var divisiNama = document.getElementById("divisiNama");
+var btn_divisi = document.getElementById("btn_divisi");
 
-var objekId = document.getElementById('objekId');
-var objekNama = document.getElementById('objekNama');
-var btn_objek = document.getElementById('btn_objek');
+var objekId = document.getElementById("objekId");
+var objekNama = document.getElementById("objekNama");
+var btn_objek = document.getElementById("btn_objek");
 
-var kelutId = document.getElementById('kelutId');
-var kelutNama = document.getElementById('kelutNama');
-var btn_kelut = document.getElementById('btn_kelut');
+var kelutId = document.getElementById("kelutId");
+var kelutNama = document.getElementById("kelutNama");
+var btn_kelut = document.getElementById("btn_kelut");
 
-var kelompokId = document.getElementById('kelompokId');
-var kelompokNama = document.getElementById('kelompokNama');
-var btn_kelompok = document.getElementById('btn_kelompok');
+var kelompokId = document.getElementById("kelompokId");
+var kelompokNama = document.getElementById("kelompokNama");
+var btn_kelompok = document.getElementById("btn_kelompok");
 
-var subkelId = document.getElementById('subkelId');
-var subkelNama = document.getElementById('subkelNama');
-var btn_subkel = document.getElementById('btn_subkel');
+var subkelId = document.getElementById("subkelId");
+var subkelNama = document.getElementById("subkelNama");
+var btn_subkel = document.getElementById("btn_subkel");
 
 // Assign button to a variable
-var btn_ok = document.getElementById('btn_ok');
+var btn_ok = document.getElementById("btn_ok");
 
 // Assign table elements to variables
-var tableData = document.getElementById('tableData');
+var tableData = document.getElementById("tableData");
 
 var today = new Date().toISOString().slice(0, 10);
 tanggal.value = today;
 
-
 $(document).ready(function () {
-    $('#tableData').DataTable({
+    $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
         ordering: false,
         columns: [
-            { title: 'Kd. Transaksi' },
-            { title: 'Nama Type' },
-            { title: 'Penerima' },
-            { title: 'Mng. Penerima' },
-            { title: 'Mng. Pemberi' },
-            { title: 'Pemberi' },
-            { title: 'Primer' },
-            { title: 'Sekunder' },
-            { title: 'Tritier' },
+            { title: "Kd. Transaksi" },
+            { title: "Nama Type" },
+            { title: "Penerima" },
+            { title: "Mng. Penerima" },
+            { title: "Mng. Pemberi" },
+            { title: "Pemberi" },
+            { title: "Primer" },
+            { title: "Sekunder" },
+            { title: "Tritier" },
         ],
-        scrollY: '400px',
+        scrollY: "400px",
         autoWidth: false,
-        scrollX: '150%',
-        columnDefs: [{ targets: [0], width: '15%', className: 'fixed-width' },
-        { targets: [1], width: '30%', className: 'fixed-width' },
-        { targets: [2], width: '10%', className: 'fixed-width' },
-        { targets: [3], width: '15%', className: 'fixed-width' },
-        { targets: [4], width: '15%', className: 'fixed-width' },
-        { targets: [5], width: '10%', className: 'fixed-width' },
-        { targets: [6], width: '10%', className: 'fixed-width' },
-        { targets: [7], width: '10%', className: 'fixed-width' },
-        { targets: [8], width: '10%', className: 'fixed-width' },]
+        scrollX: "150%",
+        columnDefs: [
+            { targets: [0], width: "15%", className: "fixed-width" },
+            { targets: [1], width: "30%", className: "fixed-width" },
+            { targets: [2], width: "10%", className: "fixed-width" },
+            { targets: [3], width: "15%", className: "fixed-width" },
+            { targets: [4], width: "15%", className: "fixed-width" },
+            { targets: [5], width: "10%", className: "fixed-width" },
+            { targets: [6], width: "10%", className: "fixed-width" },
+            { targets: [7], width: "10%", className: "fixed-width" },
+            { targets: [8], width: "10%", className: "fixed-width" },
+        ],
     });
 });
 
@@ -92,8 +95,7 @@ function handleTableKeydown(e, tableId) {
                 Swal.getConfirmButton().click();
             }
         }
-    }
-    else if (e.key === "ArrowDown") {
+    } else if (e.key === "ArrowDown") {
         e.preventDefault();
         if (currentIndex === null || currentIndex >= rowCount - 1) {
             currentIndex = 0;
@@ -103,8 +105,7 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowUp") {
+    } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (currentIndex === null || currentIndex <= 0) {
             currentIndex = rowCount - 1;
@@ -114,51 +115,59 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowRight") {
+    } else if (e.key === "ArrowRight") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page < pageInfo.pages - 1) {
-            table.page('next').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("next")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
-    }
-    else if (e.key === "ArrowLeft") {
+    } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page > 0) {
-            table.page('previous').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("previous")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
     }
 }
 
 // Helper function to scroll selected row into view
 function scrollRowIntoView(rowElement) {
-    rowElement.scrollIntoView({ block: 'nearest' });
+    rowElement.scrollIntoView({ block: "nearest" });
 }
 
 function getUserId() {
     $.ajax({
-        type: 'GET',
-        url: 'LacakTransaksi/getUserId',
+        type: "GET",
+        url: "LacakTransaksi/getUserId",
         data: {
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             userId.value = result.user;
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
@@ -168,10 +177,9 @@ $(document).ready(function () {
 
 // button list divisi
 btn_divisi.addEventListener("click", function (e) {
-
     try {
         Swal.fire({
-            title: 'Divisi',
+            title: "Divisi",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -194,11 +202,11 @@ btn_divisi.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -206,7 +214,7 @@ btn_divisi.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -214,19 +222,16 @@ btn_divisi.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "IdDivisi" },
-                            { data: "NamaDivisi" },
-                        ],
+                        columns: [{ data: "IdDivisi" }, { data: "NamaDivisi" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -235,19 +240,25 @@ btn_divisi.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                divisiId.value = decodeHtmlEntities(result.value.IdDivisi.trim());
-                divisiNama.value = decodeHtmlEntities(result.value.NamaDivisi.trim());
+                divisiId.value = decodeHtmlEntities(
+                    result.value.IdDivisi.trim()
+                );
+                divisiNama.value = decodeHtmlEntities(
+                    result.value.NamaDivisi.trim()
+                );
                 btn_objek.focus();
             }
         });
@@ -258,10 +269,9 @@ btn_divisi.addEventListener("click", function (e) {
 
 // button list objek
 btn_objek.addEventListener("click", function (e) {
-
     try {
         Swal.fire({
-            title: 'Objek',
+            title: "Objek",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -284,11 +294,11 @@ btn_objek.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -296,7 +306,7 @@ btn_objek.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -305,19 +315,16 @@ btn_objek.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                divisi: divisiId.value
-                            }
+                                divisi: divisiId.value,
+                            },
                         },
-                        columns: [
-                            { data: "IdObjek" },
-                            { data: "NamaObjek" },
-                        ],
+                        columns: [{ data: "IdObjek" }, { data: "NamaObjek" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -326,19 +333,23 @@ btn_objek.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 objekId.value = decodeHtmlEntities(result.value.IdObjek.trim());
-                objekNama.value = decodeHtmlEntities(result.value.NamaObjek.trim());
+                objekNama.value = decodeHtmlEntities(
+                    result.value.NamaObjek.trim()
+                );
                 btn_kelut.focus();
             }
         });
@@ -349,10 +360,9 @@ btn_objek.addEventListener("click", function (e) {
 
 // button list kelompok utama
 btn_kelut.addEventListener("click", function (e) {
-
     try {
         Swal.fire({
-            title: 'Kelompok Utama',
+            title: "Kelompok Utama",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -375,11 +385,11 @@ btn_kelut.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -387,7 +397,7 @@ btn_kelut.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -396,19 +406,19 @@ btn_kelut.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                objekId: objekId.value
-                            }
+                                objekId: objekId.value,
+                            },
                         },
                         columns: [
                             { data: "IdKelompokUtama" },
-                            { data: "NamaKelompokUtama" }
+                            { data: "NamaKelompokUtama" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -417,19 +427,25 @@ btn_kelut.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                kelutId.value = decodeHtmlEntities(result.value.IdKelompokUtama.trim());
-                kelutNama.value = decodeHtmlEntities(result.value.NamaKelompokUtama.trim());
+                kelutId.value = decodeHtmlEntities(
+                    result.value.IdKelompokUtama.trim()
+                );
+                kelutNama.value = decodeHtmlEntities(
+                    result.value.NamaKelompokUtama.trim()
+                );
                 btn_kelompok.focus();
             }
         });
@@ -440,10 +456,9 @@ btn_kelut.addEventListener("click", function (e) {
 
 // button list kelompok
 btn_kelompok.addEventListener("click", function (e) {
-
     try {
         Swal.fire({
-            title: 'Kelompok',
+            title: "Kelompok",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -466,11 +481,11 @@ btn_kelompok.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -478,7 +493,7 @@ btn_kelompok.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -487,19 +502,19 @@ btn_kelompok.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                kelutId: kelutId.value
-                            }
+                                kelutId: kelutId.value,
+                            },
                         },
                         columns: [
                             { data: "idkelompok" },
-                            { data: "namakelompok" }
+                            { data: "namakelompok" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -508,19 +523,25 @@ btn_kelompok.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                kelompokId.value = decodeHtmlEntities(result.value.idkelompok.trim());
-                kelompokNama.value = decodeHtmlEntities(result.value.namakelompok.trim());
+                kelompokId.value = decodeHtmlEntities(
+                    result.value.idkelompok.trim()
+                );
+                kelompokNama.value = decodeHtmlEntities(
+                    result.value.namakelompok.trim()
+                );
                 btn_subkel.focus();
             }
         });
@@ -531,10 +552,9 @@ btn_kelompok.addEventListener("click", function (e) {
 
 // button list sub kelompok
 btn_subkel.addEventListener("click", function (e) {
-
     try {
         Swal.fire({
-            title: 'Sub Kelompok',
+            title: "Sub Kelompok",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -559,10 +579,10 @@ btn_subkel.addEventListener("click", function (e) {
             },
             colResize: {
                 isEnabled: true,
-                hoverClass: 'dt-colresizable-hover',
+                hoverClass: "dt-colresizable-hover",
                 hasBoundCheck: true,
-                minBoundClass: 'dt-colresizable-bound-min',
-                maxBoundClass: 'dt-colresizable-bound-max',
+                minBoundClass: "dt-colresizable-bound-min",
+                maxBoundClass: "dt-colresizable-bound-max",
                 saveState: true,
                 // isResizable: function (column) {
                 //     return column.idx !== 2;
@@ -574,20 +594,25 @@ btn_subkel.addEventListener("click", function (e) {
                     // console.log('I have been resized!');
                 },
                 stateSaveCallback: function (settings, data) {
-                    let stateStorageName = window.location.pathname + "/colResizeStateData";
-                    localStorage.setItem(stateStorageName, JSON.stringify(data));
+                    let stateStorageName =
+                        window.location.pathname + "/colResizeStateData";
+                    localStorage.setItem(
+                        stateStorageName,
+                        JSON.stringify(data)
+                    );
                 },
                 stateLoadCallback: function (settings) {
-                    let stateStorageName = window.location.pathname + "/colResizeStateData",
+                    let stateStorageName =
+                            window.location.pathname + "/colResizeStateData",
                         data = localStorage.getItem(stateStorageName);
                     return data != null ? JSON.parse(data) : null;
-                }
+                },
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -595,7 +620,7 @@ btn_subkel.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -604,19 +629,19 @@ btn_subkel.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                kelompokId: kelompokId.value
-                            }
+                                kelompokId: kelompokId.value,
+                            },
                         },
                         columns: [
                             { data: "IdSubkelompok" },
-                            { data: "NamaSubKelompok" }
+                            { data: "NamaSubKelompok" },
                         ],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -625,19 +650,25 @@ btn_subkel.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                subkelId.value = decodeHtmlEntities(result.value.IdSubkelompok.trim());
-                subkelNama.value = decodeHtmlEntities(result.value.NamaSubKelompok.trim());
+                subkelId.value = decodeHtmlEntities(
+                    result.value.IdSubkelompok.trim()
+                );
+                subkelNama.value = decodeHtmlEntities(
+                    result.value.NamaSubKelompok.trim()
+                );
                 btn_ok.focus();
             }
         });
@@ -653,24 +684,29 @@ function decodeHtmlEntities(text) {
 }
 
 function escapeHtml(text) {
-    if (text == null) {  // Check if text is null or undefined
+    if (text == null) {
+        // Check if text is null or undefined
         return ""; // Return empty string or you could return null if preferred
     }
 
     var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
     };
 
-    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
 
-function updateDataTable(data) {
-    var table = $('#tableData').DataTable();
-    table.clear().draw();
+function updateDataTable(data, clear) {
+    var table = $("#tableData").DataTable();
+    if (clear == null) {
+        table.clear().draw();
+    }
 
     data.forEach(function (item) {
         table.row.add([
@@ -696,21 +732,21 @@ function formatNumber(value) {
     return value;
 }
 
-pilihan.forEach(radio => {
-    radio.addEventListener('click', function () {
-        var table = $('#tableData').DataTable();
+pilihan.forEach((radio) => {
+    radio.addEventListener("click", function () {
+        var table = $("#tableData").DataTable();
         table.clear().draw();
 
-        divisiId.value = '';
-        divisiNama.value = '';
-        objekId.value = '';
-        objekNama.value = '';
-        kelompokId.value = '';
-        kelompokNama.value = '';
-        kelutId.value = '';
-        kelutNama.value = '';
-        subkelId.value = '';
-        subkelNama.value = '';
+        divisiId.value = "";
+        divisiNama.value = "";
+        objekId.value = "";
+        objekNama.value = "";
+        kelompokId.value = "";
+        kelompokNama.value = "";
+        kelutId.value = "";
+        kelutNama.value = "";
+        subkelId.value = "";
+        subkelNama.value = "";
 
         tanggal.focus();
     });
@@ -718,25 +754,36 @@ pilihan.forEach(radio => {
 
 // button ok
 btn_ok.addEventListener("click", function (e) {
-    var table = $('#tableData').DataTable();
+    var table = $("#tableData").DataTable();
     table.clear();
 
-    if (divisiId.value == '' && objekId.value == '' && kelutId.value == '' && kelompokId.value == '' && subkelId.value == '') {
+    if (
+        divisiId.value == "" &&
+        objekId.value == "" &&
+        kelutId.value == "" &&
+        kelompokId.value == "" &&
+        subkelId.value == ""
+    ) {
         Swal.fire({
-            icon: 'error',
-            title: 'Isi Data!',
-            text: 'Pilih Dulu Divisi,Objek,Kelompok Utama,Kelompok,Sub Kelompok !!..',
+            icon: "error",
+            title: "Isi Data!",
+            text: "Pilih Dulu Divisi,Objek,Kelompok Utama,Kelompok,Sub Kelompok !!..",
         });
         return;
     }
 
-    if (!Penerima1.checked && !Penerima2.checked
-        && !Pemberi1.checked && !Penerima3.checked
-        && !Pemberi2.checked && !Pemberi3.checked) {
+    if (
+        !Penerima1.checked &&
+        !Penerima2.checked &&
+        !Pemberi1.checked &&
+        !Penerima3.checked &&
+        !Pemberi2.checked &&
+        !Pemberi3.checked
+    ) {
         Swal.fire({
-            icon: 'error',
-            title: 'Isi Data!',
-            text: 'Pilih Dulu Mutasi Satu Divisi atau Mutasi Dua Divisi Awal Penerima/Awal Pemberi  !!..',
+            icon: "error",
+            title: "Isi Data!",
+            text: "Pilih Dulu Mutasi Satu Divisi atau Mutasi Dua Divisi Awal Penerima/Awal Pemberi  !!..",
         });
         return;
     }
@@ -744,23 +791,37 @@ btn_ok.addEventListener("click", function (e) {
     const pilihanChecked = document.querySelector('input[name="opsi"]:checked');
     let TypeTrans;
 
-    if (pilihanChecked.value == 'Penerima3' || pilihanChecked.value == 'Pemberi3') {
-        TypeTrans = '01'
+    if (
+        pilihanChecked.value == "Penerima3" ||
+        pilihanChecked.value == "Pemberi3"
+    ) {
+        TypeTrans = "01";
     }
 
-    if (pilihanChecked.value == 'Penerima2' || pilihanChecked.value == 'Penerima1') {
-        TypeTrans = '02'
+    if (
+        pilihanChecked.value == "Penerima2" ||
+        pilihanChecked.value == "Penerima1"
+    ) {
+        TypeTrans = "02";
     }
 
-    if (pilihanChecked.value == 'Pemberi1' || pilihanChecked.value == 'Pemberi2') {
-        TypeTrans = '03'
+    if (
+        pilihanChecked.value == "Pemberi1" ||
+        pilihanChecked.value == "Pemberi2"
+    ) {
+        TypeTrans = "03";
     }
 
-    if (objekId.value == '' && kelutId.value == '' && kelompokId.value == '' && subkelId.value == '') {
+    if (
+        objekId.value == "" &&
+        kelutId.value == "" &&
+        kelompokId.value == "" &&
+        subkelId.value == ""
+    ) {
         if (Penerima1.checked || Pemberi2.checked || Penerima3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakDivisi',
+                type: "GET",
+                url: "LacakTransaksi/lacakDivisi",
                 data: {
                     _token: csrfToken,
                     Status: 1,
@@ -773,12 +834,11 @@ btn_ok.addEventListener("click", function (e) {
                         updateDataTable(result);
 
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
+                            icon: "success",
+                            title: "Success",
+                            text: "Data di tabel sudah diupdate.",
                         });
-                    }
-                    else {
+                    } else {
                         // table.clear().draw();
 
                         // Swal.fire({
@@ -786,8 +846,8 @@ btn_ok.addEventListener("click", function (e) {
                         //     title: 'Tidak ada Data!',
                         // });
                         $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakDivisiTmp',
+                            type: "GET",
+                            url: "LacakTransaksi/lacakDivisiTmp",
                             data: {
                                 _token: csrfToken,
                                 Status: 1,
@@ -802,36 +862,35 @@ btn_ok.addEventListener("click", function (e) {
                                     updateDataTable(result);
 
                                     Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
+                                        icon: "success",
+                                        title: "Success",
+                                        text: "Data di tabel sudah diupdate.",
                                     });
-                                }
-                                else {
+                                } else {
                                     table.clear().draw();
 
                                     Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
+                                        icon: "info",
+                                        title: "Tidak ada Data!",
                                     });
                                 }
                             },
                             error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
+                                console.error("Error:", error);
+                            },
                         });
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                }
+                    console.error("Error:", error);
+                },
             });
         }
 
         if (Penerima2.checked || Pemberi1.checked || Pemberi3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakDivisi',
+                type: "GET",
+                url: "LacakTransaksi/lacakDivisi",
                 data: {
                     _token: csrfToken,
                     Status: 2,
@@ -842,69 +901,55 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
-                    }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakDivisiTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 2,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    console.log(result);
-
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakDivisiTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 2,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result, "noclear");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
-    }
-
-    else if (objekId.value && kelutId.value == '' && kelompokId.value == '' && subkelId.value == '') {
+    } else if (
+        objekId.value &&
+        kelutId.value == "" &&
+        kelompokId.value == "" &&
+        subkelId.value == ""
+    ) {
         if (Penerima1.checked || Pemberi2.checked || Penerima3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakObjek',
+                type: "GET",
+                url: "LacakTransaksi/lacakObjek",
                 data: {
                     _token: csrfToken,
                     Status: 1,
@@ -916,66 +961,52 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
-                    }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakObjekTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 1,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                                Idobjek: objekId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakObjekTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 1,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                        Idobjek: objekId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result, "noclear");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
 
         if (Penerima2.checked || Pemberi1.checked || Pemberi3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakObjek',
+                type: "GET",
+                url: "LacakTransaksi/lacakObjek",
                 data: {
                     _token: csrfToken,
                     Status: 2,
@@ -987,70 +1018,57 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
                     }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakObjekTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 2,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                                Idobjek: objekId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
-                    }
-
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakObjekTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 2,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                        Idobjek: objekId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
-    }
-
-    else if (objekId.value && kelutId.value && kelompokId.value == '' && subkelId.value == '') {
+    } else if (
+        objekId.value &&
+        kelutId.value &&
+        kelompokId.value == "" &&
+        subkelId.value == ""
+    ) {
         if (Penerima1.checked || Pemberi2.checked || Penerima3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakKelUt',
+                type: "GET",
+                url: "LacakTransaksi/lacakKelUt",
                 data: {
                     _token: csrfToken,
                     Status: 1,
@@ -1063,67 +1081,53 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
-                    }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakKelUtTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 1,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                                Idobjek: objekId.value,
-                                Idkelutama: kelutId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakKelUtTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 1,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                        Idobjek: objekId.value,
+                        Idkelutama: kelutId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
 
         if (Penerima2.checked || Pemberi1.checked || Pemberi3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakKelUt',
+                type: "GET",
+                url: "LacakTransaksi/lacakKelUt",
                 data: {
                     _token: csrfToken,
                     Status: 2,
@@ -1136,71 +1140,58 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
                     }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakKelUtTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 2,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                                Idobjek: objekId.value,
-                                Idkelutama: kelutId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
-                    }
-
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakKelUtTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 2,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                        Idobjek: objekId.value,
+                        Idkelutama: kelutId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
-    }
-
-    else if (objekId.value && kelutId.value && kelompokId.value && subkelId.value == '') {
+    } else if (
+        objekId.value &&
+        kelutId.value &&
+        kelompokId.value &&
+        subkelId.value == ""
+    ) {
         if (Penerima1.checked || Pemberi2.checked || Penerima3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakKelompok',
+                type: "GET",
+                url: "LacakTransaksi/lacakKelompok",
                 data: {
                     _token: csrfToken,
                     Status: 1,
@@ -1214,68 +1205,53 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
-                    }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakKelompokTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 1,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                                Idobjek: objekId.value,
-                                Idkelutama: kelutId.value,
-                                Idkelompok: kelompokId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakKelompokTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 1,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                        Idobjek: objekId.value,
+                        Idkelutama: kelutId.value,
+                        Idkelompok: kelompokId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
 
         if (Penerima2.checked || Pemberi1.checked || Pemberi3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakKelompok',
+                type: "GET",
+                url: "LacakTransaksi/lacakKelompok",
                 data: {
                     _token: csrfToken,
                     Status: 2,
@@ -1289,72 +1265,59 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
                     }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakKelompokTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 2,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                                Idobjek: objekId.value,
-                                Idkelutama: kelutId.value,
-                                Idkelompok: kelompokId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
-                    }
-
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakKelompokTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 2,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                        Idobjek: objekId.value,
+                        Idkelutama: kelutId.value,
+                        Idkelompok: kelompokId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
-    }
-
-    else if (objekId.value && kelutId.value && kelompokId.value && subkelId.value) {
+    } else if (
+        objekId.value &&
+        kelutId.value &&
+        kelompokId.value &&
+        subkelId.value
+    ) {
         if (Penerima1.checked || Pemberi2.checked || Penerima3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakSubKelompok',
+                type: "GET",
+                url: "LacakTransaksi/lacakSubKelompok",
                 data: {
                     _token: csrfToken,
                     Status: 1,
@@ -1369,69 +1332,54 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
-                    }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakSubKelompokTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 1,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                                Idobjek: objekId.value,
-                                Idkelutama: kelutId.value,
-                                Idkelompok: kelompokId.value,
-                                Idsubkel: subkelId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakSubKelompokTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 1,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                        Idobjek: objekId.value,
+                        Idkelutama: kelutId.value,
+                        Idkelompok: kelompokId.value,
+                        Idsubkel: subkelId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
 
         if (Penerima2.checked || Pemberi1.checked || Pemberi3.checked) {
             $.ajax({
-                type: 'GET',
-                url: 'LacakTransaksi/lacakSubKelompok',
+                type: "GET",
+                url: "LacakTransaksi/lacakSubKelompok",
                 data: {
                     _token: csrfToken,
                     Status: 2,
@@ -1446,66 +1394,48 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Data di tabel sudah diupdate.',
-                        });
                     }
-                    else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: 'GET',
-                            url: 'LacakTransaksi/lacakSubKelompokTmp',
-                            data: {
-                                _token: csrfToken,
-                                Status: 2,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                                Idobjek: objekId.value,
-                                Idkelutama: kelutId.value,
-                                Idkelompok: kelompokId.value,
-                                Idsubkel: subkelId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: 'Data di tabel sudah diupdate.',
-                                    });
-                                }
-                                else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: 'info',
-                                        title: 'Tidak ada Data!',
-                                    });
-                                }
-
-                            },
-                            error: function (xhr, status, error) {
-                                console.error('Error:', error);
-                            }
-                        });
-                    }
-
                 },
                 error: function (xhr, status, error) {
-                    console.error('Error:', error);
+                    console.error("Error:", error);
+                },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakSubKelompokTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 2,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                        Idobjek: objekId.value,
+                        Idkelutama: kelutId.value,
+                        Idkelompok: kelompokId.value,
+                        Idsubkel: subkelId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
                 }
             });
         }
     }
-
 });
