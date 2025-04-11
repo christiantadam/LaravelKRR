@@ -755,7 +755,7 @@ pilihan.forEach((radio) => {
 // button ok
 btn_ok.addEventListener("click", function (e) {
     var table = $("#tableData").DataTable();
-    table.clear();
+    table.clear().draw();
 
     if (
         divisiId.value == "" &&
@@ -832,58 +832,43 @@ btn_ok.addEventListener("click", function (e) {
                 success: function (result) {
                     if (result.length !== 0) {
                         updateDataTable(result);
-
-                        Swal.fire({
-                            icon: "success",
-                            title: "Success",
-                            text: "Data di tabel sudah diupdate.",
-                        });
-                    } else {
-                        // table.clear().draw();
-
-                        // Swal.fire({
-                        //     icon: 'info',
-                        //     title: 'Tidak ada Data!',
-                        // });
-                        $.ajax({
-                            type: "GET",
-                            url: "LacakTransaksi/lacakDivisiTmp",
-                            data: {
-                                _token: csrfToken,
-                                Status: 1,
-                                IdTypeTransaksi: TypeTrans,
-                                Tanggal: tanggal.value,
-                                IdDivisi: divisiId.value,
-                            },
-                            success: function (result) {
-                                if (result.length !== 0) {
-                                    console.log(result);
-
-                                    updateDataTable(result);
-
-                                    Swal.fire({
-                                        icon: "success",
-                                        title: "Success",
-                                        text: "Data di tabel sudah diupdate.",
-                                    });
-                                } else {
-                                    table.clear().draw();
-
-                                    Swal.fire({
-                                        icon: "info",
-                                        title: "Tidak ada Data!",
-                                    });
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Error:", error);
-                            },
-                        });
                     }
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", error);
                 },
+            }).then(() => {
+                $.ajax({
+                    type: "GET",
+                    url: "LacakTransaksi/lacakDivisiTmp",
+                    data: {
+                        _token: csrfToken,
+                        Status: 1,
+                        IdTypeTransaksi: TypeTrans,
+                        Tanggal: tanggal.value,
+                        IdDivisi: divisiId.value,
+                    },
+                    success: function (result) {
+                        if (result.length !== 0) {
+                            updateDataTable(result, "noclear");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+                if ($("#tableData").DataTable().data().count() > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success",
+                        text: "Data di tabel sudah diupdate.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Tidak ada Data!",
+                    });
+                }
             });
         }
 
@@ -1037,7 +1022,7 @@ btn_ok.addEventListener("click", function (e) {
                     },
                     success: function (result) {
                         if (result.length !== 0) {
-                            updateDataTable(result);
+                            updateDataTable(result, "noclear");
                         }
                     },
                     error: function (xhr, status, error) {
@@ -1101,7 +1086,7 @@ btn_ok.addEventListener("click", function (e) {
                     },
                     success: function (result) {
                         if (result.length !== 0) {
-                            updateDataTable(result);
+                            updateDataTable(result, "noclear");
                         }
                     },
                     error: function (xhr, status, error) {
@@ -1160,7 +1145,7 @@ btn_ok.addEventListener("click", function (e) {
                     },
                     success: function (result) {
                         if (result.length !== 0) {
-                            updateDataTable(result);
+                            updateDataTable(result, "noclear");
                         }
                     },
                     error: function (xhr, status, error) {
@@ -1226,7 +1211,7 @@ btn_ok.addEventListener("click", function (e) {
                     },
                     success: function (result) {
                         if (result.length !== 0) {
-                            updateDataTable(result);
+                            updateDataTable(result, "noclear");
                         }
                     },
                     error: function (xhr, status, error) {
@@ -1286,7 +1271,7 @@ btn_ok.addEventListener("click", function (e) {
                     },
                     success: function (result) {
                         if (result.length !== 0) {
-                            updateDataTable(result);
+                            updateDataTable(result, "noclear");
                         }
                     },
                     error: function (xhr, status, error) {
@@ -1354,7 +1339,7 @@ btn_ok.addEventListener("click", function (e) {
                     },
                     success: function (result) {
                         if (result.length !== 0) {
-                            updateDataTable(result);
+                            updateDataTable(result, "noclear");
                         }
                     },
                     error: function (xhr, status, error) {
@@ -1416,7 +1401,7 @@ btn_ok.addEventListener("click", function (e) {
                     },
                     success: function (result) {
                         if (result.length !== 0) {
-                            updateDataTable(result);
+                            updateDataTable(result, "noclear");
                         }
                     },
                     error: function (xhr, status, error) {
