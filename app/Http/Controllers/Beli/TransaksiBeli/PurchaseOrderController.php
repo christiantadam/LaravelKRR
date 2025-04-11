@@ -678,9 +678,11 @@ class PurchaseOrderController extends Controller
         $noPO = $request->input('noPO');
         if (($noPO !== null)) {
             try {
-                $print = DB::connection('ConnPurchase')->table('VW_5409_PRINT_PO')->where('VW_5409_PRINT_PO.NO_PO', $noPO)->get();
+                $print = DB::connection('ConnPurchase')
+                    ->table('VW_5409_PRINT_PO')
+                    ->where('VW_5409_PRINT_PO.NO_PO', $noPO)
+                    ->orderBy('No_trans', 'asc')->get();
                 $printHeader = DB::connection('ConnPurchase')->table('VW_5409_PRINT_HEADER_PO')->where('VW_5409_PRINT_HEADER_PO.NO_PO', $noPO)->get();
-
                 return Response()->json(["print" => $print, "printHeader" => $printHeader]);
             } catch (\Throwable $Error) {
                 return Response()->json($Error);
