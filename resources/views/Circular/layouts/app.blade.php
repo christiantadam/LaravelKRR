@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<link rel="prefetch" href="{{ asset('images/kuning.png') }}" />
+<link rel="prefetch" href="{{ asset('images/biru.png') }}" />
+<link rel="prefetch" href="{{ asset('images/merah.png') }}" />
+
 <head>
 
     <meta charset="utf-8">
@@ -37,7 +41,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/Circular/app.css') }}">
 
     {{-- https://templatemo.com/tm-540-lava-landing-page --}}
-
+    <div id="loading-screen">
+        <div id="part1" class="logo-part"></div>
+        <div id="part2" class="logo-part"></div>
+        <div id="part3" class="logo-part"></div>
+    </div>
 </head>
 
 <body>
@@ -117,8 +125,18 @@
                                 <a href="#">Mesin</a>
                                 <ul>
                                     <li>
-                                        <a href="/SparepartMesin" class="menu-item">
-                                            Maintenance Part Mesin
+                                        <a href="/MaintenanceLogSparepartMesin" class="menu-item">
+                                            Maintenance Log Sparepart Mesin
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/MaintenanceAllJenisSparepart" class="menu-item">
+                                            Maintenance Daftar All Jenis Sparepart
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/MaintenanceSparepartPerMesin" class="menu-item">
+                                            Maintenance Sparepart per Mesin
                                         </a>
                                     </li>
                                 </ul>
@@ -369,8 +387,18 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="SparepartMesin" class="dropdown-item">
-                                        Maintenance Part Mesin
+                                    <a href="/MaintenanceLogSparepartMesin" class="menu-item">
+                                        Maintenance Log Sparepart Mesin
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/MaintenanceAllJenisSparepart" class="menu-item">
+                                        Maintenance Daftar All Jenis Sparepart
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/MaintenanceSparepartPerMesin" class="menu-item">
+                                        Maintenance Sparepart per Mesin
                                     </a>
                                 </li>
                             </ul>

@@ -1397,7 +1397,10 @@ Route::group(['middleware' => ['auth']], function () {
     #region Circular
     Route::get('Circular', 'App\Http\Controllers\HomeController@Circular');
 
-    Route::resource('SparepartMesin', App\Http\Controllers\Circular\MaintenanceMesinController::class);
+    Route::resource('MaintenanceLogSparepartMesin', App\Http\Controllers\Circular\MaintenanceLogSparepartMesinController::class);
+    Route::resource('MaintenanceAllJenisSparepart', App\Http\Controllers\Circular\MaintenanceAllJenisSparepartController::class);
+    Route::resource('MaintenanceSparepartPerMesin', App\Http\Controllers\Circular\MaintenanceSparepartPerMesinController::class);
+
     Route::get('/master/{form_name}', [MasterCircularController::class, 'index'])->name('master.index');
     Route::post('/proses-mesin', [MasterCircularController::class, 'prosesMesin']);
     Route::get('/sp-mesin/{sp_str}/{sp_data?}', [MasterCircularController::class, 'spMesin']);

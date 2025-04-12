@@ -62,7 +62,7 @@ $(document).ready(function () {
     tanggal_maintenance.valueAsDate = new Date();
     // Initialize DataTable
     $.ajax({
-        url: "/SparepartMesin/StatusPartMesinOverall",
+        url: "/MaintenanceLogSparepartMesin/StatusPartMesinOverall",
         type: "GET",
         success: function (response) {
             // Clear the DataTable and add the new data
@@ -169,7 +169,7 @@ $(document).ready(function () {
         console.log(data); // You can use this data to populate the modal
 
         // Show the modal
-        $("#modal_tambahOrder").modal("show");
+        $("#modal_tambahLogMaintenanceSparepart").modal("show");
     });
 
     // Setup global AJAX handlers
@@ -186,10 +186,10 @@ $(document).ready(function () {
 
     button_tambahLogMaintenance.addEventListener("click", function (event) {
         event.preventDefault();
-        $("#modal_tambahOrder").modal("show");
+        $("#modal_tambahLogMaintenanceSparepart").modal("show");
     });
 
-    $("#modal_tambahOrder").on("shown.bs.modal", function (event) {
+    $("#modal_tambahLogMaintenanceSparepart").on("shown.bs.modal", function (event) {
         clearSelectElement("initializeModal");
         initializeSelectElement("initializeModal"); //Initialize Form
         setTimeout(() => {
@@ -220,7 +220,7 @@ $(document).ready(function () {
                     '<option value="" disabled selected>Pilih Sparepart</option>'
                 );
             $.ajax({
-                url: "/SparepartMesin/selectNamaSparepart",
+                url: "/MaintenanceLogSparepartMesin/selectNamaSparepart",
                 method: "GET",
                 data: { Id_Mesin: selectedMesin }, // Pass Kode_Customer to the server
                 dataType: "json",

@@ -9,7 +9,7 @@ use DB;
 use Auth;
 use Exception;
 
-class MaintenanceMesinController extends Controller
+class MaintenanceLogSparepartMesinController extends Controller
 {
     public function index()
     {
@@ -17,7 +17,7 @@ class MaintenanceMesinController extends Controller
         $nomorUser = trim(Auth::user()->NomorUser);
         $listMesin = DB::connection('ConnCircular')
             ->select('exec Sp_List_Mesin @Kode = ?', [10]);
-        return view('Circular.master.formMaintenancePartMesin', compact('access', 'nomorUser', 'listMesin'));
+        return view('Circular.mesin.formMaintenanceLogSparepartMesin', compact('access', 'nomorUser', 'listMesin'));
     }
 
     public function create()
@@ -33,7 +33,7 @@ class MaintenanceMesinController extends Controller
     public function show($id, Request $request)
     {
         if ($id == 'StatusPartMesinOverall') {
-            $listMesin = DB::connection('ConnCircular')->select('SELECT Nama_mesin, SparepartCount, DurabilityPercentage FROM VW_CIR_4384_STATUS_PART_MESIN_OVERALL');
+            $listMesin = DB::connection('ConnCircular')->select('EXEC SP_4384_CIR_Maintenance_Sparepart @XKode = ?', [20]);
             // Convert the data into an array that DataTables can consume
             $dataMesin = [];
             foreach ($listMesin as $mesin) {
@@ -44,9 +44,9 @@ class MaintenanceMesinController extends Controller
                 ];
             }
             return datatables($dataMesin)->make(true);
-        } else if($id == 'selectNamaSparepart'){
+        } else if ($id == 'selectNamaSparepart') {
             $idMesin = $request->input('IdMesin');
-            $listSparepart = DB::connection('ConnCircular')->select('SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XIdMesin =?',[1,$idMesin]);
+            $listSparepart = DB::connection('ConnCircular')->select('EXEC SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XIdMesin =?', [21, $idMesin]);
         }
     }
 

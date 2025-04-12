@@ -1,13 +1,13 @@
 @extends('Circular.layouts.app')
 
 @section('title')
-    Maintenance Part Mesin
+    Maintenance Log Sparepart Mesin
 @endsection
 
 @section('content')
     <div class="card" style="max-width: 750px; margin-left: auto; margin-right: auto;">
         <div class="card-header">
-            Maintenance Part Mesin
+            Status Mesin
         </div>
         <div class="card-body" style="padding-left: 5%; padding-right: 5%;">
             <div id="table_mesin_container" class="mt-4">
@@ -30,6 +30,6 @@
 @endsection
 
 @section('custom_js')
-    @include('Circular.modal-tambah-log-maintenance')
-    <script src="{{ asset('js/Circular/master/maintenancePartMesin.js') }}"></script>
+    @include('Circular.mesin.modal-tambah-log-maintenance')
+    <script src="{{ asset('js/Circular/mesin/maintenancePartMesin.js') }}"></script>
 @endsection
