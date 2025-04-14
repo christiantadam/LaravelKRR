@@ -15,9 +15,7 @@ class MaintenanceAllJenisSparepartController extends Controller
     {
         $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
         $nomorUser = trim(Auth::user()->NomorUser);
-        $listMesin = DB::connection('ConnCircular')
-            ->select('EXEC Sp_List_Mesin @Kode = ?', [10]);
-        return view('Circular.mesin.formMaintenanceAllJenisSparepart', compact('access', 'nomorUser', 'listMesin'));
+        return view('Circular.mesin.formMaintenanceAllJenisSparepart', compact('access', 'nomorUser'));
     }
 
     public function create()
