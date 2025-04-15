@@ -369,8 +369,8 @@ function redisplayData(noTrans, requester, kd) {
                     .replace(/&quot;/g, '"');
                 sub_kategori.value = data.nama_sub_kategori;
                 qty_order.value = parseFloat(data.Qty).toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3,
                 });
                 user_input.value = data.Nama;
                 keterangan_order.value = data.keterangan || "-";
@@ -451,9 +451,9 @@ $(document).ready(function () {
         console.log(qtyDelay);
 
         if (qtyDelay <= fixValueQTYOrder && qtyDelay >= 0) {
-            qty_order.value = parseFloat(qtyDelay.toFixed(2)).toLocaleString(
+            qty_order.value = parseFloat(qtyDelay.toFixed(3)).toLocaleString(
                 "en-US",
-                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                { minimumFractionDigits: 3, maximumFractionDigits: 3 }
             );
         }
         updateIdrUnit();
@@ -470,9 +470,9 @@ $(document).ready(function () {
     qty_order.addEventListener("input", function (event) {
         let qtyOrder = parseFloat(fixValueQTYOrder - qty_order.value);
         if (qtyOrder <= fixValueQTYOrder && qtyOrder >= 0) {
-            qty_delay.value = parseFloat(qtyOrder.toFixed(2)).toLocaleString(
+            qty_delay.value = parseFloat(qtyOrder.toFixed(3)).toLocaleString(
                 "en-US",
-                { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                { minimumFractionDigits: 3, maximumFractionDigits: 3 }
             );
         }
         updateIdrUnit();
@@ -544,7 +544,7 @@ $(document).ready(function () {
     qty_order.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             let numeralValue = numeral(qty_order.value).value();
-            this.value = numeral(numeralValue).format("0,0.00");
+            this.value = numeral(numeralValue).format("0,0.000");
             qty_delay.focus();
             qty_delay.select();
         }
@@ -552,7 +552,7 @@ $(document).ready(function () {
     qty_delay.addEventListener("keypress", function (event) {
         if (event.key == "Enter") {
             let numeralValue = numeral(qty_delay.value).value();
-            this.value = numeral(numeralValue).format("0,0.00");
+            this.value = numeral(numeralValue).format("0,0.000");
             supplier_select.focus();
         }
     });
