@@ -298,18 +298,21 @@ class PemberiBarangController extends Controller
                     if ($SUmumBeri === $STritierBeri) {
                         if (($SldTritierBeri - $JumlahKeluarTritier) < $MinStokBeri && $MinStokBeri != 0 && empty($NmError1)) {
                             $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Tidak Dapat memberikan barang, karena melewati batas MINIMUM STOK !!...; Min Stok= ' . $MinStokBeri . '; Saldo Akhir Tritier= ' . $SldTritierBeri . '; Jumlah Tritier yang diberikan= ' . $JumlahKeluarTritier;
+                            return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                         }
                     }
 
                     if ($SUmumBeri === $SSekunderBeri) {
                         if (($SldSekunderBeri - $JumlahKeluarSekunder) < $MinStokBeri && $MinStokBeri != 0 && empty($NmError1)) {
                             $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Tidak Dapat memberikan barang, karena melewati batas MINIMUM STOK !!...; Min Stok = ' . $MinStokBeri . '; Saldo Akhir Sekunder= ' . $SldSekunderBeri . '; Jumlah Sekunder yang diberikan= ' . $JumlahKeluarSekunder;
+                            return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                         }
                     }
 
                     if ($SUmumBeri === $SPrimerBeri) {
                         if (($SldPrimerBeri - $JumlahKeluarPrimer) < $MinStokBeri && $MinStokBeri != 0 && empty($NmError1)) {
                             $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Tidak Dapat memberikan barang, karena melewati batas MINIMUM STOK !!...; Min Stok= ' . $MinStokBeri . '; Saldo Akhir Primer = ' . $SldPrimerBeri . '; Jumlah Primer yang diberikan= ' . $JumlahKeluarPrimer;
+                            return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                         }
                     }
                 }
@@ -318,7 +321,7 @@ class PemberiBarangController extends Controller
                         if ($KonvTriSekBeri !== 0) {
                             if (((($SldSekunderBeri * $KonvTriSekBeri) + $SldTritierBeri) - ($JumlahKeluarTritier + ($JumlahKeluarSekunder * $KonvTriSekBeri))) < $MinStokBeri && empty($NmError1)) {
                                 $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Tidak Dapat memberikan barang, karena melewati batas MINIMUM STOK !!..; Min Stok= ' . $MinStokBeri . '; Saldo Akhir Sekunder= ' . $SldSekunderBeri . ', Saldo Akhir Tritier= ' . $SldTritierBeri . '; Jumlah Sekunder yang diberikan= ' . $JumlahKeluarSekunder . ', Jumlah Tritier yang diberikan= ' . $JumlahKeluarTritier;
-
+                                return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                             }
                         }
                     }
@@ -327,17 +330,20 @@ class PemberiBarangController extends Controller
                         if ($KonvTriSekBeri !== 0) {
                             if (((($SldTritierBeri / $KonvTriSekBeri) + $SldSekunderBeri) - ($JumlahKeluarTritier / $KonvTriSekBeri + $JumlahKeluarSekunder)) < $MinStokBeri && empty($NmError1)) {
                                 $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Tidak Dapat memberikan barang, karena melewati batas MINIMUM STOK !!..; Min Stok =' . $MinStokBeri . '; Saldo Akhir Sekunder= ' . $SldSekunderBeri . ', Saldo Akhir Tritier= ' . $SldTritierBeri . '; Jumlah Sekunder yang diberikan= ' . $JumlahKeluarSekunder . ', Jumlah Tritier yang diberikan= ' . $JumlahKeluarTritier;
+                                return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
 
                             }
                         }
 
                         if ($KonvSekPriBeri !== 0 && empty($NmError1)) {
                             $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
+                            return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                         }
                     }
 
                     if ($SUmumBeri === $SPrimerBeri && empty($NmError1)) {
                         $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
+                        return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                     }
                 }
 
@@ -348,27 +354,32 @@ class PemberiBarangController extends Controller
                         if ($KonvTriSekBeri !== 0 && $MaxStokTerima !== null && empty($NmError2)) {
                             if (($SldTritierTerima + ($JumlahKeluarSekunder * $KonvTriSekBeri) + $JumlahKeluarTritier) > $MaxStokTerima) {
                                 $NmError2 = 'Divisi PENERIMA : ' . $DivisiPenerima . ' Tidak Dapat menerima barang, karena melewati batas MAXIMUM STOK !!.., Max stok= ' . $MaxStokTerima . '; Jumlah Tritier yang diterima= ' . ($SldTritierTerima + ($JumlahKeluarSekunder * $KonvTriSekBeri) + $JumlahKeluarTritier);
+                                return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                             }
                         }
                         // Check for KonvSekPriBeri error condition
                         if ($KonvSekPriBeri !== 0 && $MaxStokTerima !== null && empty($NmError2)) {
                             $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
+                            return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                         }
                     } else {
                         if ($MaxStokTerima !== null) {
                             // Check for Tritier stock limits
                             if ($SUmumTerima === $STritierTerima && ($SldTritierTerima + $JumlahKeluarTritier) > $MaxStokTerima && empty($NmError2)) {
                                 $NmError2 = 'Divisi PENERIMA : ' . $DivisiPenerima . ' Tidak Dapat menerima barang, karena melewati batas MAXIMUM STOK !!.., Max stok= ' . $MaxStokTerima . '; Jumlah Tritier yang diterima= ' . ($SldTritierTerima + $JumlahKeluarTritier);
+                                return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                             }
 
                             // Check for Sekunder stock limits
                             if ($SUmumTerima === $SSekunderTerima && ($SldSekunderTerima + $JumlahKeluarSekunder) > $MaxStokTerima && empty($NmError2)) {
                                 $NmError2 = 'Divisi PENERIMA : ' . $DivisiPenerima . ' Tidak Dapat menerima barang, karena melewati batas MAXIMUM STOK !!.., Max stok= ' . $MaxStokTerima . '; Jumlah Sekunder yang diterima= ' . ($SldSekunderTerima + $JumlahKeluarSekunder);
+                                return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                             }
 
                             // Check for Primer stock limits
                             if ($SUmumTerima === $SPrimerTerima && ($SldPrimerTerima + $JumlahKeluarPrimer) > $MaxStokTerima && empty($NmError2)) {
                                 $NmError2 = 'Divisi PENERIMA : ' . $DivisiPenerima . ' Tidak Dapat menerima barang, karena melewati batas MAXIMUM STOK !!.., Max stok= ' . $MaxStokTerima . '; Jumlah Primer yang diterima= ' . ($SldPrimerTerima + $JumlahKeluarPrimer);
+                                return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                             }
                         }
                     }
@@ -376,6 +387,7 @@ class PemberiBarangController extends Controller
                     if ($MaxStokTerima !== null && empty($NmError1)) {
                         if ($KonvSekPriTerima !== 0) {
                             $NmError1 = 'Divisi PENERIMA : ' . $DivisiPenerima . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
+                            return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                         }
                     }
                 }
@@ -385,14 +397,17 @@ class PemberiBarangController extends Controller
                     // Tritier balance check
                     if (($SldTritierBeri - $JumlahKeluarTritier) < 0 && empty($NmError1)) {
                         $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Saldo Akhir Tritier Tinggal= ' . $SldTritierBeri . ', Jadi tidak bisa diambil sebanyak= ' . $JumlahKeluarTritier;
+                        return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                     }
                     // Sekunder balance check
                     if (($SldSekunderBeri - $JumlahKeluarSekunder) < 0 && empty($NmError1)) {
                         $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Saldo Akhir Sekunder Tinggal= ' . $SldSekunderBeri . ', Jadi tidak bisa diambil sebanyak= ' . $JumlahKeluarSekunder;
+                        return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                     }
                     // Primer balance check
                     if (($SldPrimerBeri - $JumlahKeluarPrimer) < 0 && empty($NmError1)) {
                         $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Saldo Akhir Primer Tinggal= ' . $SldPrimerBeri . ', Jadi tidak bisa diambil sebanyak= ' . $JumlahKeluarPrimer;
+                        return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                     }
                 }
 
