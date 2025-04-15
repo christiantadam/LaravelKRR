@@ -762,6 +762,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btnIsi.addEventListener('click', async () => {
         nomorButton = 1;
         enableInputs();
+        btnProses.disabled = false;
         btnDivisi.focus();
     });
     //#endregion
@@ -770,6 +771,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btnKoreksi.addEventListener('click', async () => {
         nomorButton = 2;
         enableInputs();
+        btnProses.disabled = false;
         btnDivisi.focus();
     });
     //#endregion
@@ -778,6 +780,7 @@ document.addEventListener('DOMContentLoaded', function () {
     btnHapus.addEventListener('click', async () => {
         nomorButton = 3;
         enableInputs();
+        btnProses.disabled = false;
         btnDivisi.focus();
     });
     //#endregion
@@ -787,6 +790,7 @@ document.addEventListener('DOMContentLoaded', function () {
         nomorButton = 0;
         disableInputs();
         clearInput();
+        btnProses.disabled = false;
         btnIsi.focus();
     });
     //#endregion
@@ -794,6 +798,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //#region proses button
     btnProses.addEventListener('click', async () => {
+        btnProses.disabled = true;
         const flag = 0;
 
         if (!divisi.value) {
