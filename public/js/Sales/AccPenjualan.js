@@ -22,28 +22,16 @@ let pilihButton = document.getElementById("pilihButton");
 let pilihSemuaButton = document.getElementById("pilihSemuaButton");
 let prosesButton = document.getElementById("prosesButton");
 let saldo_primer = document.getElementById("saldo_primer");
-let saldo_primerDikeluarkan = document.getElementById(
-    "saldo_primerDikeluarkan"
-);
-let saldo_primerDikeluarkanSatuan = document.getElementById(
-    "saldo_primerDikeluarkanSatuan"
-);
+let saldo_primerDikeluarkan = document.getElementById("saldo_primerDikeluarkan"); //prettier-ignore
+let saldo_primerDikeluarkanSatuan = document.getElementById("saldo_primerDikeluarkanSatuan"); //prettier-ignore
 let saldo_primerSatuan = document.getElementById("saldo_primerSatuan");
 let saldo_sekunder = document.getElementById("saldo_sekunder");
-let saldo_sekunderDikeluarkan = document.getElementById(
-    "saldo_sekunderDikeluarkan"
-);
-let saldo_sekunderDikeluarkanSatuan = document.getElementById(
-    "saldo_sekunderDikeluarkanSatuan"
-);
+let saldo_sekunderDikeluarkan = document.getElementById("saldo_sekunderDikeluarkan"); //prettier-ignore
+let saldo_sekunderDikeluarkanSatuan = document.getElementById("saldo_sekunderDikeluarkanSatuan"); //prettier-ignore
 let saldo_sekunderSatuan = document.getElementById("saldo_sekunderSatuan");
 let saldo_tritier = document.getElementById("saldo_tritier");
-let saldo_tritierDikeluarkan = document.getElementById(
-    "saldo_tritierDikeluarkan"
-);
-let saldo_tritierDikeluarkanSatuan = document.getElementById(
-    "saldo_tritierDikeluarkanSatuan"
-);
+let saldo_tritierDikeluarkan = document.getElementById("saldo_tritierDikeluarkan"); //prettier-ignore
+let saldo_tritierDikeluarkanSatuan = document.getElementById("saldo_tritierDikeluarkanSatuan"); //prettier-ignore
 let saldo_tritierSatuan = document.getElementById("saldo_tritierSatuan");
 let sub_kelompok = document.getElementById("sub_kelompok");
 let tgl_mohonDO = document.getElementById("tgl_mohonDO");
@@ -58,9 +46,24 @@ $("#table_AccPenjualan").DataTable({
         { data: "IdTransaksi" },
         { data: "IdType" },
         { data: "NamaType" },
-        { data: "Primer" },
-        { data: "Sekunder" },
-        { data: "Tritier" },
+        {
+            data: "Primer",
+            render: function (data) {
+                return parseFloat(data).toFixed(2);
+            },
+        },
+        {
+            data: "Sekunder",
+            render: function (data) {
+                return parseFloat(data).toFixed(2);
+            },
+        },
+        {
+            data: "Tritier",
+            render: function (data) {
+                return parseFloat(data).toFixed(2);
+            },
+        },
         { data: "KodeBarang" },
     ],
     lengthMenu: [25, 50, 100, 200, 300, 400, 500],
@@ -246,7 +249,8 @@ $("#table_AccPenjualan tbody").on("click", "tr", function () {
                         );
                     }
                 });
-        }).finally(() => {
+        })
+        .finally(() => {
             $("#loading-screen").css("display", "none");
         });
 });
@@ -361,7 +365,9 @@ prosesButton.addEventListener("click", function (event) {
         alert("Tolong pilih barcode dulu!");
         return; // Exit the function if a checked checkbox is not found
     }
-    if (saldo_primerDikeluarkanSatuan.value.trim() == max_doSatuan.value.trim()) {
+    if (
+        saldo_primerDikeluarkanSatuan.value.trim() == max_doSatuan.value.trim()
+    ) {
         if (
             parseFloat(saldo_primerDikeluarkan.value) <
                 parseFloat(min_do.value) ||
@@ -372,7 +378,10 @@ prosesButton.addEventListener("click", function (event) {
             );
             return;
         }
-    } else if (saldo_sekunderDikeluarkanSatuan.value.trim() == max_doSatuan.value.trim()) {
+    } else if (
+        saldo_sekunderDikeluarkanSatuan.value.trim() ==
+        max_doSatuan.value.trim()
+    ) {
         if (
             parseFloat(saldo_sekunderDikeluarkan.value) <
                 parseFloat(min_do.value) ||
@@ -384,7 +393,9 @@ prosesButton.addEventListener("click", function (event) {
             );
             return;
         }
-    } else if (saldo_tritierDikeluarkanSatuan.value.trim() == max_doSatuan.value.trim()) {
+    } else if (
+        saldo_tritierDikeluarkanSatuan.value.trim() == max_doSatuan.value.trim()
+    ) {
         if (
             parseFloat(saldo_tritierDikeluarkan.value) <
                 parseFloat(min_do.value) ||
