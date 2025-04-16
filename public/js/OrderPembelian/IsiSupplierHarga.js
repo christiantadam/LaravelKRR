@@ -51,7 +51,7 @@ setInputFilter(
         return (
             value === "" ||
             (!isNaN(numericValue) &&
-                numericValue > 0 &&
+                numericValue >= 0 &&
                 numericValue <= fixValueQTYOrder)
         );
     },
@@ -300,7 +300,7 @@ function redisplayData(noTrans, requester, kd) {
             {
                 data: "Qty",
                 render: function (data) {
-                    return numeral(parseFloat(data)).format("0,0.00"); // Format with thousand separators and two decimal places
+                    return numeral(parseFloat(data)).format("0,0.0000"); // Format with thousand separators and two decimal places
                 },
             },
             { data: "Nama_satuan" },
@@ -368,10 +368,7 @@ function redisplayData(noTrans, requester, kd) {
                     .replace(/&gt;/g, ">")
                     .replace(/&quot;/g, '"');
                 sub_kategori.value = data.nama_sub_kategori;
-                qty_order.value = parseFloat(data.Qty).toLocaleString("en-US", {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3,
-                });
+                qty_order.value = parseFloat(data.Qty);
                 user_input.value = data.Nama;
                 keterangan_order.value = data.keterangan || "-";
                 keterangan_internal.value = data.Ket_Internal || "-";
@@ -451,10 +448,7 @@ $(document).ready(function () {
         console.log(qtyDelay);
 
         if (qtyDelay <= fixValueQTYOrder && qtyDelay >= 0) {
-            qty_order.value = parseFloat(qtyDelay.toFixed(3)).toLocaleString(
-                "en-US",
-                { minimumFractionDigits: 3, maximumFractionDigits: 3 }
-            );
+            qty_order.value = numeral(qtyDelay).format("0,0.0000");
         }
         updateIdrUnit();
         updateSubTotal();
@@ -470,10 +464,7 @@ $(document).ready(function () {
     qty_order.addEventListener("input", function (event) {
         let qtyOrder = parseFloat(fixValueQTYOrder - qty_order.value);
         if (qtyOrder <= fixValueQTYOrder && qtyOrder >= 0) {
-            qty_delay.value = parseFloat(qtyOrder.toFixed(3)).toLocaleString(
-                "en-US",
-                { minimumFractionDigits: 3, maximumFractionDigits: 3 }
-            );
+            qty_delay.value = parseFloat(qtyOrder).format("0,0.0000");
         }
         updateIdrUnit();
         updateSubTotal();
@@ -544,7 +535,7 @@ $(document).ready(function () {
     qty_order.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             let numeralValue = numeral(qty_order.value).value();
-            this.value = numeral(numeralValue).format("0,0.000");
+            this.value = numeral(numeralValue).format("0,0.0000");
             qty_delay.focus();
             qty_delay.select();
         }
@@ -552,7 +543,7 @@ $(document).ready(function () {
     qty_delay.addEventListener("keypress", function (event) {
         if (event.key == "Enter") {
             let numeralValue = numeral(qty_delay.value).value();
-            this.value = numeral(numeralValue).format("0,0.000");
+            this.value = numeral(numeralValue).format("0,0.0000");
             supplier_select.focus();
         }
     });
