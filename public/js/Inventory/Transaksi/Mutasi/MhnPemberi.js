@@ -1,7 +1,4 @@
-var csrfToken = document
-    .querySelector('meta[name="csrf-token"]')
-    .getAttribute("content");
-
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
 var divisiId = document.getElementById("divisiId");
 var divisiNama = document.getElementById("divisiNama");
 var btnDivisi = document.getElementById("btn_divisi");
@@ -1047,6 +1044,15 @@ btnProses.addEventListener("click", function (e) {
 
 function SaveData() {
     if (Pil === 1) {
+        if (uraian.value == "") {
+            Swal.fire({
+                icon: "error",
+                text: "Uraian Detail Transaksi Harap diisi",
+            });
+            uraian.focus();
+            return;
+        }
+
         $.ajax({
             type: "PUT",
             url: "MhnPemberi/saveData",
@@ -2474,7 +2480,7 @@ btnSubkel2.addEventListener("click", function (e) {
 
 var pemberi;
 btnKoreksi.addEventListener("click", function (e) {
-    if (TPemberi !== "") {
+    if (TPemberi) {
         $.ajax({
             type: "GET",
             url: "MhnPemberi/getUser",
@@ -2503,11 +2509,18 @@ btnKoreksi.addEventListener("click", function (e) {
                 console.error("Error:", error);
             },
         });
+    } else {
+        Swal.fire({
+            icon: "error",
+            text: "Pilih dulu data yang mau dikoreksi",
+            showConfirmButton: false,
+            timer: 1500,
+        });
     }
 });
 
 btnHapus.addEventListener("click", function (e) {
-    if (TPemberi !== "") {
+    if (TPemberi) {
         $.ajax({
             type: "GET",
             url: "MhnPemberi/getUser",
@@ -2534,6 +2547,13 @@ btnHapus.addEventListener("click", function (e) {
             error: function (xhr, status, error) {
                 console.error("Error:", error);
             },
+        });
+    } else {
+        Swal.fire({
+            icon: "error",
+            text: "Pilih dulu data yang mau dihapus",
+            showConfirmButton: false,
+            timer: 1500,
         });
     }
 });
@@ -2735,6 +2755,7 @@ $("#primer2").on("keydown", function (e) {
                 primer2.focus();
             });
         } else {
+            primer2.value = formatNumber(value);
             sekunder2.focus();
         }
     }
@@ -2758,6 +2779,7 @@ $("#sekunder2").on("keydown", function (e) {
                 sekunder2.focus();
             });
         } else {
+            sekunder2.value = formatNumber(value);
             tritier2.focus();
         }
     }
@@ -2794,6 +2816,7 @@ $("#tritier2").on("keydown", function (e) {
                 uraian.focus();
             }
         } else {
+            tritier2.value = formatNumber(value);
             uraian.focus();
         }
     }
