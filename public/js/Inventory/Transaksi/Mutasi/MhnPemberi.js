@@ -64,6 +64,20 @@ var btnHapus = document.getElementById("btn_hapus");
 var today = new Date().toISOString().slice(0, 10);
 tanggal.value = today;
 
+
+
+// Setup global AJAX handlers
+$.ajaxSetup({
+    beforeSend: function () {
+        // Show the loading screen before the AJAX request
+        $("#loading-screen").css("display", "flex");
+    },
+    complete: function () {
+        // Hide the loading screen after the AJAX request completes
+        $("#loading-screen").css("display", "none");
+    },
+});
+
 function formatDateToMMDDYYYY(date) {
     let dateObj = new Date(date);
     if (isNaN(dateObj)) {

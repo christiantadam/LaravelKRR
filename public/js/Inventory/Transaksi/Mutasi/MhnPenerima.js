@@ -120,6 +120,18 @@ const biarkan = [
     "objekId2",
 ];
 
+// Setup global AJAX handlers
+$.ajaxSetup({
+    beforeSend: function () {
+        // Show the loading screen before the AJAX request
+        $("#loading-screen").css("display", "flex");
+    },
+    complete: function () {
+        // Hide the loading screen after the AJAX request completes
+        $("#loading-screen").css("display", "none");
+    },
+});
+
 //#endregion
 
 //#region Function Mantap-mantap
