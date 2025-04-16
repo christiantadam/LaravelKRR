@@ -621,7 +621,7 @@ $(document).ready(function () {
                         totalPaymentGeneral = totalPayment;
                         $.ajax({
                             url: "MaintenanceBKKKRR2/getGroup",
-                            type: "GET",
+                            type: "POST",
                             data: {
                                 _token: csrfToken,
                                 rowDataArray: rowDataArray,
