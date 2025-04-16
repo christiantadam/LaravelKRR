@@ -3911,15 +3911,15 @@ $(document).ready(function () {
             if (checkIdType && checkHasilKonversi && checkSelectInput) {
                 // Array to store the input values
                 let inputData = [
-                    select_typeTujuanTanpaBarcode.val(),
-                    select_typeTujuanTanpaBarcode.select2("data")[0].text.trim(), // prettier-ignore
+                    select_typeAsalTanpaBarcode.val(),
+                    select_typeAsalTanpaBarcode.select2("data")[0].text.trim(), // prettier-ignore
                     jumlah_pemakaianPrimerTanpaBarcode.value,
                     satuan_primerJumlahPemakaianTanpaBarcode.value,
                     jumlah_pemakaianSekunderTanpaBarcode.value,
                     satuan_sekunderJumlahPemakaianTanpaBarcode.value,
                     jumlah_pemakaianTritierTanpaBarcode.value,
                     satuan_tritierJumlahPemakaianTanpaBarcode.value,
-                    select_subKelompokTujuanTanpaBarcode.val(),
+                    select_subKelompokAsalTanpaBarcode.val(),
                 ];
                 let isDuplicate = false;
 
@@ -3957,18 +3957,18 @@ $(document).ready(function () {
                         );
                     }
                     const selectIds = [
-                        "#select_kelompokUtamaTujuanTanpaBarcode",
-                        "#select_kelompokTujuanTanpaBarcode",
-                        "#select_subKelompokTujuanTanpaBarcode",
-                        "#select_typeTujuanTanpaBarcode",
+                        "#select_kelompokUtamaAsalTanpaBarcode",
+                        "#select_kelompokAsalTanpaBarcode",
+                        "#select_subKelompokAsalTanpaBarcode",
+                        "#select_typeAsalTanpaBarcode",
                     ];
                     const inputTextIds = [
-                        "#saldo_terakhirPrimerTujuanTanpaBarcode",
-                        "#satuan_saldoTerakhirPrimerTujuanTanpaBarcode",
-                        "#saldo_terakhirSekunderTujuanTanpaBarcode",
-                        "#satuan_saldoTerakhirSekunderTujuanTanpaBarcode",
-                        "#saldo_terakhirTritierTujuanTanpaBarcode",
-                        "#satuan_saldoTerakhirTritierTujuanTanpaBarcode",
+                        "#saldo_terakhirPrimerAsalTanpaBarcode",
+                        "#satuan_saldoTerakhirPrimerAsalTanpaBarcode",
+                        "#saldo_terakhirSekunderAsalTanpaBarcode",
+                        "#satuan_saldoTerakhirSekunderAsalTanpaBarcode",
+                        "#saldo_terakhirTritierAsalTanpaBarcode",
+                        "#satuan_saldoTerakhirTritierAsalTanpaBarcode",
                         "#jumlah_pemakaianPrimerTanpaBarcode",
                         "#satuan_primerJumlahPemakaianTanpaBarcode",
                         "#jumlah_pemakaianSekunderTanpaBarcode",
@@ -3984,7 +3984,7 @@ $(document).ready(function () {
                         $select.find("option:not(:disabled)").remove(); // Remove all options except the disabled one
                     });
 
-                    select_objekTujuanTanpaBarcode.val(null).trigger("change");
+                    select_objekAsalTanpaBarcode.val(null).trigger("change");
                     // Clear all input text fields
                     inputTextIds.forEach((id) => {
                         $(id).val("");
@@ -4029,20 +4029,20 @@ $(document).ready(function () {
                         if (result.isConfirmed) {
                             // If user confirms, delete the selected row
                             selectedRow.remove().draw(false);
-                            select_objekTujuanTanpaBarcode.val(null).trigger("change"); // prettier-ignore
+                            select_objekAsalTanpaBarcode.val(null).trigger("change"); // prettier-ignore
                             const selectIds = [
-                                "#select_kelompokUtamaTujuanTanpaBarcode",
-                                "#select_kelompokTujuanTanpaBarcode",
-                                "#select_subKelompokTujuanTanpaBarcode",
-                                "#select_typeTujuanTanpaBarcode",
+                                "#select_kelompokUtamaAsalTanpaBarcode",
+                                "#select_kelompokAsalTanpaBarcode",
+                                "#select_subKelompokAsalTanpaBarcode",
+                                "#select_typeAsalTanpaBarcode",
                             ];
                             const inputTextIds = [
-                                "#saldo_terakhirPrimerTujuanTanpaBarcode",
-                                "#satuan_saldoTerakhirPrimerTujuanTanpaBarcode",
-                                "#saldo_terakhirSekunderTujuanTanpaBarcode",
-                                "#satuan_saldoTerakhirSekunderTujuanTanpaBarcode",
-                                "#saldo_terakhirTritierTujuanTanpaBarcode",
-                                "#satuan_saldoTerakhirTritierTujuanTanpaBarcode",
+                                "#saldo_terakhirPrimerAsalTanpaBarcode",
+                                "#satuan_saldoTerakhirPrimerAsalTanpaBarcode",
+                                "#saldo_terakhirSekunderAsalTanpaBarcode",
+                                "#satuan_saldoTerakhirSekunderAsalTanpaBarcode",
+                                "#saldo_terakhirTritierAsalTanpaBarcode",
+                                "#satuan_saldoTerakhirTritierAsalTanpaBarcode",
                                 "#jumlah_pemakaianPrimerTanpaBarcode",
                                 "#satuan_primerJumlahPemakaianTanpaBarcode",
                                 "#jumlah_pemakaianSekunderTanpaBarcode",
@@ -4168,70 +4168,70 @@ $(document).ready(function () {
                             console.log(response);
 
                             // Select the newly added option
-                            select_objekTujuanTanpaBarcode
+                            select_objekAsalTanpaBarcode
                                 .val(response[0].IdObjek)
                                 .trigger("change");
 
-                            select_kelompokUtamaTujuanTanpaBarcode.append(
+                            select_kelompokUtamaAsalTanpaBarcode.append(
                                 new Option(
                                     response[0].NamaKelompokUtama,
                                     response[0].IdKelompokUtama
                                 )
                             );
 
-                            select_kelompokUtamaTujuanTanpaBarcode
+                            select_kelompokUtamaAsalTanpaBarcode
                                 .val(response[0].IdKelompokUtama)
                                 .trigger("change");
 
-                            select_kelompokTujuanTanpaBarcode.append(
+                            select_kelompokAsalTanpaBarcode.append(
                                 new Option(
                                     response[0].NamaKelompok,
                                     response[0].IdKelompok
                                 )
                             );
 
-                            select_kelompokTujuanTanpaBarcode
+                            select_kelompokAsalTanpaBarcode
                                 .val(response[0].IdKelompok)
                                 .trigger("change");
 
-                            select_subKelompokTujuanTanpaBarcode.append(
+                            select_subKelompokAsalTanpaBarcode.append(
                                 new Option(
                                     response[0].NamaSubKelompok,
                                     response[0].IdSubkelompok
                                 )
                             );
 
-                            select_subKelompokTujuanTanpaBarcode
+                            select_subKelompokAsalTanpaBarcode
                                 .val(response[0].IdSubkelompok)
                                 .trigger("change");
 
-                            select_typeTujuanTanpaBarcode.append(
+                            select_typeAsalTanpaBarcode.append(
                                 new Option(data[1], data[0])
                             );
 
-                            select_typeTujuanTanpaBarcode
+                            select_typeAsalTanpaBarcode
                                 .val(data[0])
                                 .trigger("change");
 
-                            jumlah_pemasukanPrimerTanpaBarcode.value = data[2];
-                            satuan_primerJumlahPemasukanTanpaBarcode.value = data[3].trim(); // prettier-ignore
-                            jumlah_pemasukanSekunderTanpaBarcode.value = data[4]; // prettier-ignore
-                            satuan_sekunderJumlahPemasukanTanpaBarcode.value = data[5].trim(); // prettier-ignore
-                            jumlah_pemasukanTritierTanpaBarcode.value = data[6];
-                            satuan_tritierJumlahPemasukanTanpaBarcode.value = data[7].trim(); // prettier-ignore
-                            saldo_terakhirPrimerTujuanTanpaBarcode.value = numeral(response[0].SaldoPrimer).format("0.00"); // prettier-ignore
-                            satuan_saldoTerakhirPrimerTujuanTanpaBarcode.value = response[0].satPrimer.trim(); // prettier-ignore
-                            saldo_terakhirSekunderTujuanTanpaBarcode.value = numeral(response[0].SaldoSekunder).format("0.00"); // prettier-ignore
-                            satuan_saldoTerakhirSekunderTujuanTanpaBarcode.value = response[0].satSekunder.trim(); // prettier-ignore
-                            saldo_terakhirTritierTujuanTanpaBarcode.value = numeral(response[0].SaldoTritier).format("0.00"); // prettier-ignore
-                            satuan_saldoTerakhirTritierTujuanTanpaBarcode.value = response[0].satTritier.trim(); // prettier-ignore
+                            jumlah_pemakaianPrimerTanpaBarcode.value = data[2];
+                            satuan_primerJumlahPemakaianTanpaBarcode.value = data[3].trim(); // prettier-ignore
+                            jumlah_pemakaianSekunderTanpaBarcode.value = data[4]; // prettier-ignore
+                            satuan_sekunderJumlahPemakaianTanpaBarcode.value = data[5].trim(); // prettier-ignore
+                            jumlah_pemakaianTritierTanpaBarcode.value = data[6];
+                            satuan_tritierJumlahPemakaianTanpaBarcode.value = data[7].trim(); // prettier-ignore
+                            saldo_terakhirPrimerAsalTanpaBarcode.value = numeral(response[0].SaldoPrimer).format("0.00"); // prettier-ignore
+                            satuan_saldoTerakhirPrimerAsalTanpaBarcode.value = response[0].satPrimer.trim(); // prettier-ignore
+                            saldo_terakhirSekunderAsalTanpaBarcode.value = numeral(response[0].SaldoSekunder).format("0.00"); // prettier-ignore
+                            satuan_saldoTerakhirSekunderAsalTanpaBarcode.value = response[0].satSekunder.trim(); // prettier-ignore
+                            saldo_terakhirTritierAsalTanpaBarcode.value = numeral(response[0].SaldoTritier).format("0.00"); // prettier-ignore
+                            satuan_saldoTerakhirTritierAsalTanpaBarcode.value = response[0].satTritier.trim(); // prettier-ignore
                             button_tambahAsalKonversiTanpaBarcode.disabled = true;
                             button_hapusAsalKonversiTanpaBarcode.disabled = false;
                             button_updateAsalKonversiTanpaBarcode.disabled = false;
-                            jumlah_pemasukanPrimerTanpaBarcode.readOnly = false;
-                            jumlah_pemasukanSekunderTanpaBarcode.readOnly = false;
-                            jumlah_pemasukanTritierTanpaBarcode.readOnly = false;
-                            jumlah_pemasukanPrimerTanpaBarcode.select();
+                            jumlah_pemakaianPrimerTanpaBarcode.readOnly = false;
+                            jumlah_pemakaianSekunderTanpaBarcode.readOnly = false;
+                            jumlah_pemakaianTritierTanpaBarcode.readOnly = false;
+                            jumlah_pemakaianPrimerTanpaBarcode.select();
                         }
                     },
                     error: function (xhr, status, error) {
@@ -4341,5 +4341,44 @@ $(document).ready(function () {
             });
         }
     });
+
+    jumlah_pemakaianPrimerTanpaBarcode.addEventListener(
+        "keypress",
+        function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                let inputValue = parseFloat(e.target.value);
+                if (inputValue > saldo_terakhirPrimerAsalTanpaBarcode.value) {
+                    jumlah_pemakaianPrimerTanpaBarcode.value = saldo_terakhirPrimerAsalTanpaBarcode.value; // prettier-ignore
+                }
+            }
+        }
+    );
+
+    jumlah_pemakaianSekunderTanpaBarcode.addEventListener(
+        "keypress",
+        function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                let inputValue = parseFloat(e.target.value);
+                if (inputValue > saldo_terakhirSekunderAsalTanpaBarcode.value) {
+                    jumlah_pemakaianSekunderTanpaBarcode.value = saldo_terakhirSekunderAsalTanpaBarcode.value; // prettier-ignore
+                }
+            }
+        }
+    );
+
+    jumlah_pemakaianTritierTanpaBarcode.addEventListener(
+        "keypress",
+        function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                let inputValue = parseFloat(e.target.value);
+                if (inputValue > saldo_terakhirTritierAsalTanpaBarcode.value) {
+                    jumlah_pemakaianTritierTanpaBarcode.value = saldo_terakhirTritierAsalTanpaBarcode.value; // prettier-ignore
+                }
+            }
+        }
+    );
     //#endregion
 });
