@@ -541,7 +541,7 @@ class MaintenanceBKKController extends Controller
                     }
                 }
 
-                DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?, @XJenisProgram', [
+                DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?, @XJenisProgram = ?', [
                     $brs['Id_Bank'],
                     $brs['Id_MataUang'],
                     $brs['Id_Jenis_Bayar'],
