@@ -2896,6 +2896,7 @@ $(document).ready(function () {
 
     $("#tambahTujuanModalTanpaBarcode").on("shown.bs.modal", function (event) {
         table_daftarAsalKonversiTanpaBarcode.clear().draw(); //Clear Table
+        button_tambahAsalKonversiTanpaBarcode.disabled = false;
         button_updateAsalKonversiTanpaBarcode.disabled = true;
         button_hapusAsalKonversiTanpaBarcode.disabled = true;
         button_modalProsesTanpaBarcode.disabled = true;
