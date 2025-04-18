@@ -9,9 +9,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{-- <div style="display: flex; flex-direction: row;gap:0.5%;margin: 8px;">
-                    <div class="card" style="display: flex; flex-direction: column;margin: 0.5%;padding:0.5%;">
-                        <div style="display: flex; flex-direction: row;gap:0.5%;"> --}}
+                <div class="form-group">
+                    <label for="jenisOrderKerja">Jenis Order Kerja</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_order_kerja" id="jenisOrderWoven"
+                            value="Woven" checked>
+                        <label class="form-check-label" for="jenisOrder1">Woven</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_order_kerja" id="jenisOrderAdstar"
+                            value="Adstar">
+                        <label class="form-check-label" for="jenisOrder2">ADStar</label>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="NomorOrderKerja">Nomor Order Kerja</label>
                     <div class="input-group">
@@ -47,9 +57,6 @@
                             name="input_tanggalRencanaSelesaiKerja">
                     </div>
                 </div>
-                {{-- </div>
-                    </div>
-                </div> --}}
                 <button type="submit" class="btn btn-success" id="button_modalProses">Proses</button>
             </div>
         </div>

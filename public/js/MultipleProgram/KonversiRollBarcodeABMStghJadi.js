@@ -478,7 +478,7 @@ $(document).ready(function () {
                 jenisStore: "permohonan",
                 nomorOrderKerja: select_nomorOrderKerja.val(),
                 tanggalKonversi: input_tanggalKonversi.value,
-                sisaAsalKonversiPersen: sisaAsalKonversiPersen
+                sisaAsalKonversiPersen: sisaAsalKonversiPersen,
             },
             success: function (response) {
                 if (response.error) {
@@ -749,7 +749,10 @@ $(document).ready(function () {
                 $("#select_nomorOrderKerja").prop("disabled", false);
                 response.forEach((item) => {
                     // Create a new option element
-                    const option = new Option(item.No_OK, item.IdOrder);
+                    const option = new Option(
+                        item.No_OK + " | " + item.JenisOK,
+                        item.IdOrder
+                    );
                     // Append the option to the select element
                     $("#select_nomorOrderKerja").append(option);
                 });
@@ -2410,7 +2413,10 @@ $(document).ready(function () {
                 );
                 response.forEach((item) => {
                     // Create a new option element
-                    const option = new Option(item.No_OK,item.IdOrder);
+                    const option = new Option(
+                        item.No_OK + " | " + item.JenisOK,
+                        item.IdOrder
+                    );
                     // Append the option to the select element
                     $("#select_nomorOrderKerjaTanpaBarcode").append(option);
                 });

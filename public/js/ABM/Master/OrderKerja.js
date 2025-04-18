@@ -1,6 +1,5 @@
 $(document).ready(function () {
     //#region Get element by ID
-
     let button_tambahOrderKerja = document.getElementById("button_tambahOrderKerja"); // prettier-ignore
     let button_modalProses = document.getElementById("button_modalProses"); // prettier-ignore
     let button_modalDetailPermohonan = document.getElementById("button_modalDetailPermohonan"); // prettier-ignore
@@ -9,6 +8,8 @@ $(document).ready(function () {
     let dataSuratPesananTemp;
     let input_tanggalRencanaMulaiKerja = document.getElementById("input_tanggalRencanaMulaiKerja"); // prettier-ignore
     let input_tanggalRencanaSelesaiKerja = document.getElementById("input_tanggalRencanaSelesaiKerja"); // prettier-ignore
+    let jenisOrderWoven = document.getElementById('jenisOrderWoven'); // prettier-ignore
+    let jenisOrderAdstar = document.getElementById('jenisOrderAdstar'); // prettier-ignore
     let NomorOrderKerja = document.getElementById("NomorOrderKerja"); // prettier-ignore
     let closeDetailOrderKerjaModal = document.getElementById("closeDetailOrderKerjaModal"); // prettier-ignore
     let closeModalButton = document.getElementById("closeModalButton"); // prettier-ignore
@@ -146,7 +147,7 @@ $(document).ready(function () {
         function (event) {
             input_tanggalRencanaMulaiKerja.valueAsDate = new Date();
             input_tanggalRencanaSelesaiKerja.valueAsDate = new Date();
-            NomorOrderKerja.focus();
+            jenisOrderWoven.focus();
             select_suratPesananTujuan.select2({
                 dropdownParent: $("#tambahPermohonanOrderKerjaModal"),
                 placeholder: "Pilih Surat Pesanan",
@@ -174,6 +175,7 @@ $(document).ready(function () {
                     method: "GET",
                     data: {
                         NomorOrderKerja: NomorOrderKerja.value,
+                        JenisOK: document.querySelector('input[name="jenis_order_kerja"]:checked').value, // prettier-ignore
                         _token: csrfToken,
                     },
                     dataType: "json",
@@ -252,6 +254,7 @@ $(document).ready(function () {
                 TanggalRencanaMulaiKerja: input_tanggalRencanaMulaiKerja.value,
                 TanggalRencanaSelesaiKerja: input_tanggalRencanaSelesaiKerja.value, // prettier-ignore
                 IDPesanan: select_suratPesananTujuan.val(),
+                JenisOK: document.querySelector('input[name="jenis_order_kerja"]:checked').value, // prettier-ignore
                 _token: csrfToken,
             },
             dataType: "json",
@@ -298,7 +301,10 @@ $(document).ready(function () {
                 console.log(response);
                 console.log(response.dataDetailOrderKerja);
                 detailOrderKerjaModalLabel.innerHTML =
-                    "Detail Order Kerja " + rowID;
+                    "Detail Order Kerja " +
+                    response.dataDetailOrderKerja[0].JenisOK +
+                    " " +
+                    rowID;
                 detailOrderKerjaNomorSuratPesanan.innerHTML =
                     response.dataDetailOrderKerja[0].IDSuratPesanan;
                 detailOrderKerjaCustomer.innerHTML =

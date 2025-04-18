@@ -69,14 +69,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="detailOrderKerjaTanggalRencanaMulaiKerja">Tanggal Rencana Mulai Kerja (YYYY-MM-DD)</label>
+                    <label for="detailOrderKerjaTanggalRencanaMulaiKerja">Tanggal Rencana Mulai Kerja
+                        (YYYY-MM-DD)</label>
                     <div class="input-group">
                         <div id="detailOrderKerjaTanggalRencanaMulaiKerja" class="form-control" style="height: auto;">
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="detailOrderKerjaTanggalRencanaSelesaiKerja">Tanggal Rencana Selesai Kerja (YYYY-MM-DD)</label>
+                    <label for="detailOrderKerjaTanggalRencanaSelesaiKerja">Tanggal Rencana Selesai Kerja
+                        (YYYY-MM-DD)</label>
                     <div class="input-group">
                         <div id="detailOrderKerjaTanggalRencanaSelesaiKerja" class="form-control" style="height: auto;">
                         </div>

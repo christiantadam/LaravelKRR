@@ -31,21 +31,24 @@ class MaintenanceOrderKerjaABMController extends Controller
         $TanggalRencanaMulaiKerja = $request->TanggalRencanaMulaiKerja;
         $TanggalRencanaSelesaiKerja = $request->TanggalRencanaSelesaiKerja;
         $IDPesanan = $request->IDPesanan;
+        $JenisOK = $request->JenisOK;
         try {
-            DB::connection('ConnABM')->statement('exec SP_4384_Maintenance_Nomor_Order_Kerja
+            DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
                 @XKode = ?,
                 @XNomorOrderKerja = ?,
                 @XTanggalRencanaMulaiKerja = ?,
                 @XTanggalRencanaSelesaiKerja = ?,
                 @XIDPesanan = ?,
-                @XNomorUser = ?',
+                @XNomorUser = ?,
+                @XJenisOK = ?',
                 [
                     3,
                     $NomorOrderKerja,
                     $TanggalRencanaMulaiKerja,
                     $TanggalRencanaSelesaiKerja,
                     $IDPesanan,
-                    trim(Auth::user()->NomorUser)
+                    trim(Auth::user()->NomorUser),
+                    $JenisOK
                 ]
             );
             return response()->json(['success' => 'Data Order Kerja berhasil disimpan.']);
@@ -58,7 +61,7 @@ class MaintenanceOrderKerjaABMController extends Controller
     public function show($id, Request $request)
     {
         if ($id == 'getDataPermohonanOrderKerja') {
-            $listOrderKerja = DB::connection('ConnABM')->select('exec SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [0]);
+            $listOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [0]);
             // Convert the data into an array that DataTables can consume
             $dataOrderKerja = [];
             foreach ($listOrderKerja as $OrkerKerja) {
@@ -81,9 +84,10 @@ class MaintenanceOrderKerjaABMController extends Controller
             ]);
         } else if ($id == 'getDataSPBerdasarkanNomorOrderKerja') {
             $NomorOrderKerja = $request->input('NomorOrderKerja');
-            $cekNomorOrderKerja = DB::connection('ConnABM')->select('exec SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?', [6, $NomorOrderKerja]);
+            $JenisOK = $request->input('JenisOK');
+            $cekNomorOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?, @XJenisOK = ?', [6, $NomorOrderKerja, $JenisOK]);
             if ($cekNomorOrderKerja[0]->JumlahNomorOrderKerja > 0) {
-                $dataSuratPesanan = DB::connection('ConnABM')->select('exec SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?', [7, $NomorOrderKerja]);
+                $dataSuratPesanan = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?, @XJenisOK= ?', [7, $NomorOrderKerja, $JenisOK]);
             } else {
                 $dataSuratPesanan = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?', [2]);
             }
@@ -94,7 +98,7 @@ class MaintenanceOrderKerjaABMController extends Controller
             ]);
         } else if ($id == 'getDetailOrderKerja') {
             $NomorOrderKerja = $request->input('NomorOrderKerja');
-            $dataDetailOrderKerja = DB::connection('ConnABM')->select('exec SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?', [5, $NomorOrderKerja]);
+            $dataDetailOrderKerja = DB::connection('ConnABM')->select('EXEC SP_4384_Maintenance_Nomor_Order_Kerja @XKode = ?, @XNomorOrderKerja = ?', [5, $NomorOrderKerja]);
             return response()->json([
                 'success' => true,
                 'dataDetailOrderKerja' => $dataDetailOrderKerja
@@ -117,7 +121,7 @@ class MaintenanceOrderKerjaABMController extends Controller
     public function destroy($id)
     {
         try {
-            DB::connection('ConnABM')->statement('exec SP_4384_Maintenance_Nomor_Order_Kerja
+            DB::connection('ConnABM')->statement('EXEC SP_4384_Maintenance_Nomor_Order_Kerja
                 @XKode = ?,
                 @XNomorOrderKerja = ?',
                 [
