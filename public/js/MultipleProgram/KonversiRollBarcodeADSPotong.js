@@ -2925,11 +2925,11 @@ $(document).ready(function () {
         ];
 
         function getNextFocusableElement(currentElement) {
-            if (currentElement.id === "jumlah_pemasukanTritierTanpaBarcode") {
-                return button_tambahAsalKonversiTanpaBarcode.disabled
-                    ? document.getElementById("button_updateAsalKonversiTanpaBarcode") // prettier-ignore
-                    : document.getElementById("button_tambahAsalKonversiTanpaBarcode"); // prettier-ignore
-            }
+            // if (currentElement.id === "jumlah_pemasukanTritierTanpaBarcode") {
+            //     return button_tambahAsalKonversiTanpaBarcode.disabled
+            //         ? document.getElementById("button_updateAsalKonversiTanpaBarcode") // prettier-ignore
+            //         : document.getElementById("button_tambahAsalKonversiTanpaBarcode"); // prettier-ignore
+            // }
 
             let elements = document.querySelectorAll(
                 "input, select, textarea, button"
@@ -4109,26 +4109,21 @@ $(document).ready(function () {
 
     jumlah_pemasukanTritierTanpaBarcode.addEventListener("input", function (e) {
         let inputValue = parseFloat(e.target.value);
-        let sumHasilKonversiTritierTanpaBarcode = 0;
+        let sumAsalKonversiTritierTanpaBarcode = 0;
 
         // Loop through table rows and sum only those without the .selected class
         table_daftarAsalKonversiTanpaBarcode.rows().every(function () {
-            let rowNode = this.node();
-            if (!rowNode.classList.contains("selected")) {
-                sumHasilKonversiTritierTanpaBarcode +=
-                    parseFloat(this.data()[6]) || 0;
-            }
+            sumAsalKonversiTritierTanpaBarcode += parseFloat(this.data()[6]);
         });
+        console.log(sumAsalKonversiTritierTanpaBarcode);
 
-        let maxHasilKonversiTritierTanpaBarcode =
-            parseFloat(
-                numeral(jumlah_pemakaianTritierTanpaBarcode.value).value() *
-                    1.03
-            ) - sumHasilKonversiTritierTanpaBarcode;
+        let maxHasilKonversiTritierTanpaBarcode = parseFloat(
+            numeral(sumAsalKonversiTritierTanpaBarcode).value() * 1.03
+        );
 
         if (inputValue > maxHasilKonversiTritierTanpaBarcode) {
             this.setCustomValidity("Input exceeds the maximum allowed value.");
-            e.target.value = parseFloat(numeral(jumlah_pemakaianTritierTanpaBarcode.value).value() * 1.03); // prettier-ignore
+            e.target.value = parseFloat(numeral(maxHasilKonversiTritierTanpaBarcode).value() * 1.03); // prettier-ignore
         } else {
             this.setCustomValidity("");
         }
