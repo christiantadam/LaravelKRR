@@ -30,6 +30,8 @@ var satuanTritier = document.getElementById("satuanTritier");
 var primer3 = document.getElementById("primer3");
 var sekunder3 = document.getElementById("sekunder3");
 var tritier3 = document.getElementById("tritier3");
+var hargaSatuan = document.getElementById("hargaSatuan");
+var hargaSatuanLabel = document.getElementById("hargaSatuanLabel");
 
 var primer2 = document.getElementById("primer2");
 var sekunder2 = document.getElementById("sekunder2");
@@ -63,8 +65,8 @@ var btnHapus = document.getElementById("btn_hapus");
 
 var today = new Date().toISOString().slice(0, 10);
 tanggal.value = today;
-
-
+hargaSatuan.style.display = "none";
+hargaSatuanLabel.style.display = "none";
 
 // Setup global AJAX handlers
 $.ajaxSetup({
@@ -539,6 +541,14 @@ $("#tanggal").on("keydown", function (e) {
     if (e.key === "Enter") {
         e.preventDefault();
         btnDivisi.focus();
+    }
+});
+
+hargaSatuan.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        hargaSatuan.value = numeral(hargaSatuan.value).format("0,0.00");
+        alasan.focus();
     }
 });
 
@@ -1065,6 +1075,33 @@ function SaveData() {
             });
             uraian.focus();
             return;
+        }
+        if (kondisi == 2 || kondisi == 3) {
+            $.ajax({
+                type: "PUT",
+                url: "MhnPemberi/insPersediaan",
+                data: {
+                    _token: csrfToken,
+                    XIdType: idType.value,
+                    XJumlahKeluarTritier: tritier2.value,
+                    hargaSatuan: hargaSatuan.value,
+                    kondisi: kondisi,
+                },
+                success: function (result) {
+                    // primer2.value = 0;
+                    // sekunder2.value = 0;
+                    // tritier2.value = 0;
+                    // primer2.focus();
+                    // if (Pilih === 0) {
+                    //     TampilAllData();
+                    // } else {
+                    //     TampilData();
+                    // }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                },
+            });
         }
 
         $.ajax({
@@ -1653,6 +1690,8 @@ function Load_Type_CIR() {
     }
 }
 
+let kondisi = 0;
+
 function Load_Type() {
     try {
         Swal.fire({
@@ -1736,7 +1775,57 @@ function Load_Type() {
 
                 // btnDivisi2.disabled = false;
                 // btnDivisi2.focus();
+                console.log(divisiId.value);
+                console.log(objekId.value);
+                console.log(kelutId.value);
 
+                if (divisiId) {
+                    $.ajax({
+                        type: "GET",
+                        url: "MhnPemberi/getTypePersediaan",
+                        data: {
+                            idType: idType.value,
+                            _token: csrfToken,
+                        },
+                        success: function (response) {
+                            console.log(response);
+                            console.log(response.success);
+                            console.log(response.error);
+
+                            if (response.success == "kondisi1") {
+                                hargaSatuan.style.display = "none";
+                                hargaSatuanLabel.style.display = "none";
+                                hargaSatuan.value = 0;
+                                hargaSatuan.select();
+                                btnDivisi2.disabled = false;
+                                btnDivisi2.focus();
+                                kondisi = 1;
+                            } else if (response.success == "kondisi2") {
+                                hargaSatuan.style.display = "none";
+                                hargaSatuanLabel.style.display = "none";
+                                hargaSatuan.value = 0;
+                                hargaSatuan.select();
+                                btnDivisi2.disabled = false;
+                                btnDivisi2.focus();
+                                kondisi = 2;
+                            } else if (response.success == "kondisi3") {
+                                hargaSatuan.style.display = "block";
+                                hargaSatuanLabel.style.display = "block";
+                                hargaSatuan.value = 0;
+                                hargaSatuan.select();
+                                kondisi = 3;
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error:", error);
+                        },
+                    });
+                } else {
+                    hargaSatuan.style.display = "none";
+                    hargaSatuanLabel.style.display = "none";
+                    btnDivisi2.disabled = false;
+                    btnDivisi2.focus();
+                }
                 LoadPIB();
             }
         });
@@ -1821,6 +1910,8 @@ function Load_JumlahAntrian(sIdtype) {
             }
             if (divisiId.value === "EXP") {
                 jmlKeranjang.focus();
+            } else if (divisiId.value !== "EXP") {
+                hargaSatuan.focus();
             } else {
                 btnDivisi2.disabled = false;
                 btnDivisi2.focus();

@@ -557,7 +557,26 @@ class MhnPemberiController extends Controller
             }
 
             return response()->json($data_type);
+        } else if ($id === 'getTypePersediaan') {
+            $idType = $request->input('idType');
+
+            $result = DB::connection('ConnInventory')->select('exec SP_4451_CekPersediaan @IdType = ?', [$idType]);
+
+            if ($result && isset($result[0])) {
+                $data = $result[0];
+
+                if ($data->Ada > 0 && $data->AdaNoTerima > 0) {
+                    return response()->json(['success' => 'kondisi1']); // Ada IdType dan NoTerima tidak null
+                } else if ($data->Ada > 0 && $data->AdaNoTerima == 0) {
+                    return response()->json(['success' => 'kondisi2']); // Ada IdType tapi NoTerima null semua
+                } else {
+                    return response()->json(['success' => 'kondisi3']); // IdType tidak ditemukan
+                }
+            } else {
+                return response()->json(['error' => 'Terjadi kesalahan atau data tidak ditemukan']);
+            }
         }
+
     }
 
     // Show the form for editing the specified resource.
@@ -601,6 +620,7 @@ class MhnPemberiController extends Controller
             $XTujuanIdSubkelompok = $request->input('XTujuanIdSubkelompok');
             $XPIB = $request->input('XPIB');
             $Jumlah = $request->input('Jumlah');
+            // dd($request->all());
 
             $nextIdTrans = DB::connection('ConnInventory')->select("SELECT IDENT_CURRENT('Tmp_Transaksi') + 1 AS IdTrans");
             $idtransaksi = $nextIdTrans[0]->IdTrans;
@@ -746,6 +766,42 @@ class MhnPemberiController extends Controller
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()], 500);
                 }
+            }
+        }
+
+        //ins persediaan
+        else if ($id == 'insPersediaan') {
+            $XIdType = $request->input('XIdType');
+            $XJumlahKeluarTritier = $request->input('XJumlahKeluarTritier');
+            $XhargaSatuan = (float) str_replace(',', '', $request->input('hargaSatuan'));
+            $kode = $request->input('kondisi');
+
+            if ($kode == '3') {
+                $kode = null;
+            } else if ($kode == '2') {
+                $kode = 1;
+            }
+            // dd($XhargaSatuan);
+            // dd($request->all());
+            // dd($kode);
+            try {
+                DB::connection('ConnInventory')
+                    ->statement('exec SP_4451_UpdateHarga_Persediaan
+                @Kode = ?,
+                @IdType = ?,
+                @JumlahTritier = ?,
+                @HargaSatuan = ?', [
+                        $kode,
+                        $XIdType,
+                        $XJumlahKeluarTritier,
+                        $XhargaSatuan,
+                    ]);
+
+                return response()->json([
+                    'success' => 'Data Telah Terkoreksi, idtransaksi : '
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()]);
             }
         }
 

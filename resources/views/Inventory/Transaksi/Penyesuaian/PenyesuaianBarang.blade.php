@@ -221,6 +221,14 @@
                             </div>
                             <div class="row pb-2">
                                 <div class="col-sm-2 mt-1">
+                                    <label for="hargaSatuan" id="hargaSatuanLabel" style="display: none">Harga Satuan Rp.</label>
+                                </div>
+                                <div class="col-sm-3 p-0">
+                                    <input type="text" class="form-control" id="hargaSatuan" style="display: none" name="hargaSatuan">
+                                </div>
+                            </div>
+                            <div class="row pb-2">
+                                <div class="col-sm-2 mt-1">
                                     <label for="alasan">Alasan Penyesuaian</label>
                                 </div>
                                 <div class="col-sm-6 p-0">

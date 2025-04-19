@@ -38,6 +38,9 @@ var kelompokId = document.getElementById('kelompokId');
 var kelutId = document.getElementById('kelutId');
 var subkelId = document.getElementById('subkelId');
 
+var hargaSatuanLabel = document.getElementById('hargaSatuanLabel');
+var hargaSatuan = document.getElementById('hargaSatuan');
+
 // button
 var btn_divisi = document.getElementById('btn_divisi');
 var btn_objek = document.getElementById('btn_objek');
@@ -58,6 +61,7 @@ const inputs = Array.from(document.querySelectorAll('.card-body input[type="text
 var primer3;
 var sekunder3;
 var tritier3;
+var kondisi;
 
 tanggal.value = todayString;
 tanggal.focus();
@@ -66,6 +70,13 @@ primer2.disabled = true;
 sekunder2.disabled = true;
 tritier2.disabled = true;
 
+hargaSatuan.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        hargaSatuan.value = numeral(hargaSatuan.value).format("0,0.00");
+        alasan.focus();
+    }
+});
 // fungsi berhubungan dengan ENTER & oengecekkan yg kosong2
 inputs.forEach((masuk, index) => {
     masuk.addEventListener('keypress', function (event) {
@@ -77,7 +88,18 @@ inputs.forEach((masuk, index) => {
             } else if (masuk.id === 'sekunder2') {
                 tritier2.select();
             } else if (masuk.id === 'tritier2') {
-                alasan.select();
+                if (numeral(tritier2.value).value() > numeral(tritier.value).value()) {
+                    kondisi = 1;
+                    hargaSatuanLabel.style.display = 'block';
+                    hargaSatuan.style.display = 'block';
+                    hargaSatuan.select();
+                    hargaSatuan.focus();
+                }else{
+                    kondisi = 2;
+                    hargaSatuanLabel.style.display = 'none';
+                    hargaSatuan.style.display = 'none';
+                    alasan.focus();
+                }
             } else if (masuk.id === 'alasan') {
                 if (a === 1 || a === 2) {
                     btn_proses.focus();
@@ -1417,6 +1439,34 @@ btn_proses.addEventListener("click", function (e) {
 
         if (a === 1) {
             getSubkelId();
+            if (kondisi == 1 || kondisi == 2) {
+                $.ajax({
+                    type: "PUT",
+                    url: "PenyesuaianBarang/insPersediaan",
+                    data: {
+                        _token: csrfToken,
+                        XIdType: kodeType.value,
+                        XJumlahKeluarTritier: tritier2.value,
+                        hargaSatuan: hargaSatuan.value,
+                        kondisi: kondisi,
+                    },
+                    success: function (result) {
+                        hargaSatuan.value = 0;
+                        // primer2.value = 0;
+                        // sekunder2.value = 0;
+                        // tritier2.value = 0;
+                        // primer2.focus();
+                        // if (Pilih === 0) {
+                        //     TampilAllData();
+                        // } else {
+                        //     TampilData();
+                        // }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                    },
+                });
+            }
         }
     }
 

@@ -51,9 +51,7 @@ class PenyesuaianBarangController extends Controller
 
         if ($id === 'getUserId') {
             return response()->json(['user' => $user]);
-        }
-
-        else if ($id === 'getDivisi') {
+        } else if ($id === 'getDivisi') {
             // mendapatkan daftar divisi
             $divisi = DB::connection('ConnInventory')->select('exec SP_1003_INV_userdivisi @XKdUser = ?', [$user]);
             $data_divisi = [];
@@ -64,9 +62,7 @@ class PenyesuaianBarangController extends Controller
                 ];
             }
             return datatables($divisi)->make(true);
-        }
-
-        else if ($id === 'getObjek') {
+        } else if ($id === 'getObjek') {
             // mendapatkan daftar objek
             $objek = DB::connection('ConnInventory')->select('exec SP_1003_INV_User_Objek @XKdUser = ?, @XIdDivisi = ?', [$user, $divisiId]);
             $data_objek = [];
@@ -78,9 +74,7 @@ class PenyesuaianBarangController extends Controller
             }
             // dd($objek, $request->all());
             return datatables($objek)->make(true);
-        }
-
-        else if ($id === 'getKelUt') {
+        } else if ($id === 'getKelUt') {
             // mendapatkan daftar kelompok utama
             $kelut = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdObjek_KelompokUtama @XIdObjek_KelompokUtama = ?', [$objekId]);
             $data_kelut = [];
@@ -91,9 +85,7 @@ class PenyesuaianBarangController extends Controller
                 ];
             }
             return datatables($kelut)->make(true);
-        }
-
-        else if ($id === 'getKelompok') {
+        } else if ($id === 'getKelompok') {
             // mendapatkan daftar kelompok
             $kelompok = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdKelompokUtama_Kelompok @XIdKelompokUtama_Kelompok = ?', [$kelutId]);
             $data_kelompok = [];
@@ -104,9 +96,7 @@ class PenyesuaianBarangController extends Controller
                 ];
             }
             return datatables($kelompok)->make(true);
-        }
-
-        else if ($id === 'getSubkel') {
+        } else if ($id === 'getSubkel') {
             // mendapatkan daftar sub kelompok
             $subkel = DB::connection('ConnInventory')->select('exec SP_1003_INV_IDKELOMPOK_SUBKELOMPOK @XIdKelompok_SubKelompok = ?', [$kelompokId]);
             $data_subkel = [];
@@ -117,9 +107,7 @@ class PenyesuaianBarangController extends Controller
                 ];
             }
             return datatables($subkel)->make(true);
-        }
-
-        else if ($id === 'getABM') {
+        } else if ($id === 'getABM') {
             // mendapatkan daftar type ABM
             $listABM = DB::connection('ConnInventory')->select('exec SP_1003_INV_IdSubKelompok_Type_ABM @XIdSubKelompok_Type = ?', [$subkelId]);
             $data_listABM = [];
@@ -131,9 +119,7 @@ class PenyesuaianBarangController extends Controller
             }
             // dd($detail_listABM);
             return datatables($detail_listABM)->make(true);
-        }
-
-        else if ($id === 'getSatuanType') {
+        } else if ($id === 'getSatuanType') {
             // mendapatkan satuan type
             $type = DB::connection('ConnInventory')->select('exec SP_1003_INV_AsalSubKelompok_Type @XIdType = ?', [$kodeType]);
             $data_type = [];
@@ -152,9 +138,7 @@ class PenyesuaianBarangController extends Controller
                 return response()->json($data_type);
             }
             return response()->json([]);
-        }
-
-        else if ($id === 'getSaldo') {
+        } else if ($id === 'getSaldo') {
             // mendapatkan saldo
             $saldo = DB::connection('ConnInventory')->select('exec SP_1003_INV_Saldo_Barang @IdType = ?', [$kodeType]);
             $data_saldo = [];
@@ -168,9 +152,7 @@ class PenyesuaianBarangController extends Controller
             }
             // dd($data_saldo);
             return response()->json($data_saldo);
-        }
-
-        else if ($id === 'getTypeCIR') {
+        } else if ($id === 'getTypeCIR') {
             // mendapatkan nama type & id type
             DB::connection('ConnInventory')->statement('exec SP_1003_INV_idnamasubkelompok_type @XIdDivisi = ?, @XIdSubKelompok = ?', [$divisiId, $subkelId]);
 
@@ -185,9 +167,7 @@ class PenyesuaianBarangController extends Controller
 
             // dd($data_typeCIR);
             return datatables($data_typeCIR)->make(true);
-        }
-
-        else if ($id === 'getType') {
+        } else if ($id === 'getType') {
             // mendapatkan nama type & id type
             $type = DB::connection('ConnInventory')->select('exec SP_1003_INV_Idsubkelompok_type @XIdSubKelompok_Type = ?', [$subkelId]);
             $data_type = [];
@@ -200,9 +180,7 @@ class PenyesuaianBarangController extends Controller
             // dd($subkelId, $data_type);
             // dd($request->all());
             return datatables($data_type)->make(true);
-        }
-
-        else if ($id === 'getType2') {
+        } else if ($id === 'getType2') {
             // mendapatkan jumlah dihanguskan
             $type = DB::connection('ConnInventory')->select('exec SP_1003_INV_AsalSubKelompok_TmpTransaksi @XIdTransaksi = ?', [$kodeTransaksi]);
             $data_type = [];
@@ -215,9 +193,7 @@ class PenyesuaianBarangController extends Controller
             }
             dd($request->all(), $data_type);
             return response()->json($data_type);
-        }
-
-        else if ($id === 'getSelect') {
+        } else if ($id === 'getSelect') {
             // mendapatkan saldo, satuan, pemasukan unk selected data table
             $selectData = DB::connection('ConnInventory')->select('exec SP_1003_INV_AsalSubKelompok_Transaksi @XIdTransaksi = ?', [$kodeTransaksi]);
             $data_selectData = [];
@@ -289,9 +265,7 @@ class PenyesuaianBarangController extends Controller
 
             // dd($request->all(), $data_selectData);
             return response()->json($data_selectData);
-        }
-
-        else if ($id === 'getAllData') {
+        } else if ($id === 'getAllData') {
             // menampilkan semua data di data table
             $allData = DB::connection('ConnInventory')->select('
             exec SP_1003_INV_AllPenerima_BlmACC_Transaksi @XIdDivisi = ?, @XIdTypeTransaksi = ?', [$divisiId, '06']);
@@ -316,10 +290,7 @@ class PenyesuaianBarangController extends Controller
             }
             // dd($request->all(), $data_allData);
             return response()->json($data_allData);
-        }
-
-
-        else if ($id === 'getData') {
+        } else if ($id === 'getData') {
             // menampilkan pemohon data di data table
             $justData = DB::connection('ConnInventory')->select('
             exec SP_1003_INV_IdPenerima_BlmACC_Transaksi @XIdDivisi = ?, @XIdTypeTransaksi = ?, @XIdPenerima = ?', [$divisiId, '06', $pemohon]);
@@ -343,9 +314,7 @@ class PenyesuaianBarangController extends Controller
             }
             // dd($data_justData);
             return response()->json($data_justData);
-        }
-
-        else if ($id === 'getSubkelId') {
+        } else if ($id === 'getSubkelId') {
             // mendapatkan subkel id
             $subkelId = DB::connection('ConnInventory')->select('exec SP_1003_INV_Cek_SubKel @IdType = ?', [$kodeType]);
             $data_subkelId = [];
@@ -356,19 +325,19 @@ class PenyesuaianBarangController extends Controller
             }
             // dd($data_subkelId, $request->all());
             return response()->json($data_subkelId);
-        }
-
-        else if ($id === 'cekKodeBarang') {
+        } else if ($id === 'cekKodeBarang') {
             // cek kode barang dari input
             $kode = DB::connection('ConnInventory')->select('exec SP_1003_INV_cekkodebarang_type @XKodeBarang = ?, @XIdSubKelompok = ?', [$kodeBarang, $subkelId]);
 
-            $jumlah = (int)$kode[0]->Jumlah;
+            $jumlah = (int) $kode[0]->Jumlah;
 
             if ($jumlah > 0) {
-                return response()->json(['warning' => 'Tidak Ada Kode Barang : ' . $kodeBarang. 'Pada sub kel : '.$subkelId], 200);
+                return response()->json(['warning' => 'Tidak Ada Kode Barang : ' . $kodeBarang . 'Pada sub kel : ' . $subkelId], 200);
             } else {
                 $barang = DB::connection('ConnInventory')->select(
-                'exec SP_1273_INV_kodebarang_type1 @XKodeBarang = ?, @XIdSubKelompok = ?, @XPIB = ?', [$kodeBarang, $subkelId, $PIB]);
+                    'exec SP_1273_INV_kodebarang_type1 @XKodeBarang = ?, @XIdSubKelompok = ?, @XPIB = ?',
+                    [$kodeBarang, $subkelId, $PIB]
+                );
             }
 
             $data_barang = [];
@@ -399,7 +368,7 @@ class PenyesuaianBarangController extends Controller
     //Update the specified resource in storage.
     public function update(Request $request, $id)
     {
-        $a = (int)$request->input('a');
+        $a = (int) $request->input('a');
         $subkelId = $request->input('subkelId');
         $tanggal = $request->input('tanggal');
         $pemohon = $request->input('pemohon');
@@ -416,14 +385,25 @@ class PenyesuaianBarangController extends Controller
         if ($id === 'proses') {
             // proses terjadi
             if ($a === 1) { // ISI
-                try{
+                // dd($request->all());
+                try {
                     // insert
                     DB::connection('ConnInventory')->statement(
                         'exec SP_1003_INV_Insert_06_Transaksi
                         @XIdTypeTransaksi = ?, @XUraianDetailTransaksi = ?, @XIdType = ?,  @XIdPenerima = ?, @XSaatawalTransaksi = ?,
                         @XPrimer = ?, @XSekunder = ?, @XTritier = ?, @XAsalIdSubKelompok = ?, @XTujuanIdSubKelompok = ?',
-                        ['06', $uraian, $kodeType, $pemohon, $tanggal,
-                         $primer3, $sekunder3, $tritier3, $subkelId, $subkelId]
+                        [
+                            '06',
+                            $uraian,
+                            $kodeType,
+                            $pemohon,
+                            $tanggal,
+                            $primer3,
+                            $sekunder3,
+                            $tritier3,
+                            $subkelId,
+                            $subkelId
+                        ]
                     );
 
 
@@ -431,15 +411,13 @@ class PenyesuaianBarangController extends Controller
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Data Gagal ter-SIMPAN' . $e->getMessage()], 500);
                 }
-            }
-
-            else if ($a === 2) { // KOREKSI
+            } else if ($a === 2) { // KOREKSI
                 try {
                     // update
                     DB::connection('ConnInventory')->statement(
                         'exec SP_1003_INV_update_Penyesuaian_Transaksi
                         @XIdTransaksi = ?, @Xuraian = ?, @XPrimer = ?, @XSekunder = ?, @XTritier = ?',
-                        [$kodeTransaksi, $uraian, $primer3, $sekunder3, $tritier3 ]
+                        [$kodeTransaksi, $uraian, $primer3, $sekunder3, $tritier3]
                     );
 
                     // dd($request->all());
@@ -448,6 +426,42 @@ class PenyesuaianBarangController extends Controller
                 } catch (\Exception $e) {
                     return response()->json(['error' => 'Data Gagal ter-KOREKSI' . $e->getMessage()], 500);
                 }
+            }
+        }
+
+        //ins persediaan
+        else if ($id == 'insPersediaan') {
+            $XIdType = $request->input('XIdType');
+            $XJumlahKeluarTritier = $request->input('XJumlahKeluarTritier');
+            $XhargaSatuan = (float) str_replace(',', '', $request->input('hargaSatuan'));
+            $kode = $request->input('kondisi');
+            // dd($request->all());
+            if ($kode == '1') {
+                $kode = null;
+            } else if ($kode == '2') {
+                $kode = 2;
+            }
+            // dd($XhargaSatuan);
+            // dd($request->all());
+            // dd($kode);
+            try {
+                DB::connection('ConnInventory')
+                    ->statement('exec SP_4451_UpdateHarga_Persediaan
+                @Kode = ?,
+                @IdType = ?,
+                @JumlahTritier = ?,
+                @HargaSatuan = ?', [
+                        $kode,
+                        $XIdType,
+                        $XJumlahKeluarTritier,
+                        $XhargaSatuan,
+                    ]);
+
+                return response()->json([
+                    'success' => 'Data Telah Terkoreksi, idtransaksi : '
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()]);
             }
         }
     }

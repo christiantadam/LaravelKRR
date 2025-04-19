@@ -393,6 +393,24 @@
                                         <br>
                                     </div>
 
+                                    <div class="baris-1 pl-3" id="hargaSatuanDiv" style="display: none">
+                                        <div class="row mt-2 mb-2">
+                                            <span><strong>Harga Satuan</strong></span>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-sm-2 mb-2">
+                                                <label>Harga Satuan Rp.</label>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control"
+                                                        id="hargaSatuan" name="hargaSatuan">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="baris-1 pl-3">
                                         <div class="row mt-2 mb-2">
                                             <span><strong>Jumlah Yang DiKonversi</strong></span>

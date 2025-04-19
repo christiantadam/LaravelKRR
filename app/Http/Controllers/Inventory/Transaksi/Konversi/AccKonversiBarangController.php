@@ -26,7 +26,7 @@ class AccKonversiBarangController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // 
+        //
     }
 
     //Display the specified resource.
@@ -58,7 +58,7 @@ class AccKonversiBarangController extends Controller
 
             $divisi = DB::connection('ConnInventory')->select('exec [SP_1003_INV_List_Konversi_TmpTransaksi]
            @XKdDivisi = ?', [$XKdDivisi]);
-
+            // dd($divisi);
             $data_divisi = [];
             foreach ($divisi as $detail_divisi) {
                 $data_divisi[] = [
@@ -82,6 +82,7 @@ class AccKonversiBarangController extends Controller
                     'JumlahPemasukanPrimer' => $detail_divisi->JumlahPemasukanPrimer,
                     'JumlahPemasukanSekunder' => $detail_divisi->JumlahPemasukanSekunder,
                     'JumlahPemasukanTritier' => $detail_divisi->JumlahPemasukanTritier,
+                    'HargaSatuan' => $detail_divisi->HargaSatuan,
 
                 ];
             }
@@ -126,8 +127,9 @@ class AccKonversiBarangController extends Controller
             $XMasukPrimer = $request->input('XMasukPrimer');
             $XMasukSekunder = $request->input('XMasukSekunder');
             $XMasukTritier = $request->input('XMasukTritier');
-
-            // dd($request->all());
+            $XHargaSatuan = str_replace(',', '', $request->input('XHargaSatuan'));
+            // dd(request()->all());
+            // dd($XHargaSatuan);
             try {
                 $errors = [];
 
@@ -179,7 +181,7 @@ class AccKonversiBarangController extends Controller
                     );
 
                     if ($cekSaldo[0]->nmerror === 'SALAH') {
-                        $errors[] = 'Id.Konversi: ' . $IdKonversi[$index] . ' TIDAK DAPAT diPROSES, 
+                        $errors[] = 'Id.Konversi: ' . $IdKonversi[$index] . ' TIDAK DAPAT diPROSES,
                         krn ada Asal Konversi yg SALDOnya TIDAK CUKUP!!';
                         unset($IdKonversi[$index]);
                     }
@@ -190,6 +192,8 @@ class AccKonversiBarangController extends Controller
                 foreach ($IdKonversi as $index => $transaksi) {
                     foreach ($XIdKonversi as $index2 => $transaksi) {
                         if ($IdKonversi[$index] === $XIdKonversi[$index2]) {
+                            // dd((float)$XHargaSatuan[$index2]);
+
                             DB::connection('ConnInventory')->statement(
                                 'exec SP_1273_INV_Proses_Acc_Konversi
                                 @XIdTransaksi = ?,
@@ -200,7 +204,8 @@ class AccKonversiBarangController extends Controller
                                 @XKeluarTritier = ?,
                                 @XMasukPrimer = ?,
                                 @XMasukSekunder = ?,
-                                @XMasukTritier = ?
+                                @XMasukTritier = ?,
+                                @XHargaSatuan = ?
                                 ',
                                 [
                                     $XIdTransaksi[$index2],
@@ -212,6 +217,7 @@ class AccKonversiBarangController extends Controller
                                     $XMasukPrimer[$index2],
                                     $XMasukSekunder[$index2],
                                     $XMasukTritier[$index2],
+                                    (float)$XHargaSatuan[$index2],
                                 ]
                             );
                             $con += 1;
@@ -236,6 +242,6 @@ class AccKonversiBarangController extends Controller
     //Remove the specified resource from storage.
     public function destroy(Request $request)
     {
-        // 
+        //
     }
 }

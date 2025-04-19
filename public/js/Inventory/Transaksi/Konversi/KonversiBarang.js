@@ -63,6 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var primerKonversiAsal = document.getElementById("primerKonversiAsal");
     var sekunderKonversiAsal = document.getElementById("sekunderKonversiAsal");
     var triterKonversiAsal = document.getElementById("triterKonversiAsal");
+    var hargaSatuanDiv = document.getElementById("hargaSatuanDiv");
+    var hargaSatuan = document.getElementById("hargaSatuan");
 
     // Tujuan
     var tanggalTujuan = document.getElementById("tanggalTujuan");
@@ -1642,7 +1644,39 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (StKonversi === 3 || StKonversi === 6) {
                     btn_prosesAsal.focus();
                 } else {
-                    primerKonversiAsal.focus();
+                    if (asalAtauTujuan.innerHTML == "Tujuan Konversi" && StKonversi === 1 || StKonversi === 4) {
+                    hargaSatuanDiv.style.display = "block";
+                    hargaSatuan.focus();
+                    }else {
+                        primerKonversiAsal.focus();
+                    }
+                    // if (asalAtauTujuan.innerHTML == "Tujuan Konversi") {
+                    //     $.ajax({
+                    //         type: "GET",
+                    //         url: "KonversiBarang/getTypePersediaan",
+                    //         data: {
+                    //             idType: kd_Type,
+                    //             _token: csrfToken,
+                    //         },
+                    //         success: function (response) {
+                    //             console.log(response.success);
+                    //             console.log(response.error);
+
+                    //             if (response.success) {
+                    //                 hargaSatuanDiv.style.display = "none";
+                    //                 primerKonversiAsal.focus();
+                    //             } else if (response.error) {
+                    //                 hargaSatuanDiv.style.display = "block";
+                    //                 hargaSatuan.focus();
+                    //             }
+                    //         },
+                    //         error: function (xhr, status, error) {
+                    //             console.error("Error:", error);
+                    //         },
+                    //     });
+                    // } else {
+                    //     primerKonversiAsal.focus();
+                    // }
                 }
             },
             error: function (xhr, status, error) {
@@ -1650,6 +1684,14 @@ document.addEventListener("DOMContentLoaded", function () {
             },
         });
     }
+
+    hargaSatuan.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            hargaSatuan.value = numeral(hargaSatuan.value).format("0,0.00");
+            primerKonversiAsal.focus();
+        }
+    });
 
     // btnIdType.addEventListener("click", buttonIdTypeClick);
     // btnIdType2.addEventListener("click", buttonIdTypeClick2);
@@ -1912,7 +1954,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectedIdType2Array = selectedIdType2Option.split(" | "); // Pecah teks menjadi array
 
         console.log(selectedIdType2Array); // Array yang berisi [KodeBarang, IdType, NamaType]
-        console.log();
 
         const selectedIdType2 = $(this).val();
         if (selectedIdType2) {
@@ -2519,6 +2560,8 @@ document.addEventListener("DOMContentLoaded", function () {
         subKelompokSelect.val(null).trigger("change");
         idtypeSelect.val(null).trigger("change");
         idtype2Select.val(null).trigger("change");
+        hargaSatuan.value = 0;
+        hargaSatuanDiv.style.display = "none";
         // namaTypeSelect.val(null).trigger("change");
         primerKonversiAsal.value = 0;
         sekunderKonversiAsal.value = 0;
@@ -2595,6 +2638,8 @@ document.addEventListener("DOMContentLoaded", function () {
             idtypeSelect.val(null).trigger("change");
             idtype2Select.val(null).trigger("change");
             // namaTypeSelect.val(null).trigger("change");
+            hargaSatuan.value = 0;
+            hargaSatuanDiv.style.display = "none";
             primerKonversiAsal.value = 0;
             sekunderKonversiAsal.value = 0;
             triterKonversiAsal.value = 0;
@@ -2734,6 +2779,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 idtypeSelect.val(null).trigger("change");
                 idtype2Select.val(null).trigger("change");
                 // namaTypeSelect.val(null).trigger("change");
+                hargaSatuan.value = 0;
+                hargaSatuanDiv.style.display = "none";
                 primerKonversiAsal.value = 0;
                 sekunderKonversiAsal.value = 0;
                 triterKonversiAsal.value = 0;
@@ -2993,6 +3040,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 idtypeSelect.val(null).trigger("change");
                 idtype2Select.val(null).trigger("change");
                 // namaTypeSelect.val(null).trigger("change");
+                hargaSatuan.value = 0;
+                hargaSatuanDiv.style.display = "none";
                 primerKonversiAsal.value = 0;
                 sekunderKonversiAsal.value = 0;
                 triterKonversiAsal.value = 0;
@@ -3119,6 +3168,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             $("#modalAsalKonversi").on("hidden.bs.modal", function () {
                 $(this).find("input").val("");
+                hargaSatuan.value = 0;
+                hargaSatuanDiv.style.display = "none";
                 primerKonversiAsal.value = 0;
                 sekunderKonversiAsal.value = 0;
                 triterKonversiAsal.value = 0;
@@ -3204,6 +3255,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                             .val(null)
                                             .trigger("change");
                                         // namaTypeSelect.val(null).trigger("change");
+                                        hargaSatuan.value = 0;
+                                        hargaSatuanDiv.style.display = "none";
                                         primerKonversiAsal.value = 0;
                                         sekunderKonversiAsal.value = 0;
                                         triterKonversiAsal.value = 0;
@@ -3286,6 +3339,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                             .val(null)
                                             .trigger("change");
                                         // namaTypeSelect.val(null).trigger("change");
+                                        hargaSatuan.value = 0;
+                                        hargaSatuanDiv.style.display = "none";
                                         primerKonversiAsal.value = 0;
                                         sekunderKonversiAsal.value = 0;
                                         triterKonversiAsal.value = 0;
@@ -3366,6 +3421,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     idtypeSelect.val(null).trigger("change");
                                     idtype2Select.val(null).trigger("change");
                                     // namaTypeSelect.val(null).trigger("change");
+                                    hargaSatuan.value = 0;
+                                    hargaSatuanDiv.style.display = "none";
                                     primerKonversiAsal.value = 0;
                                     sekunderKonversiAsal.value = 0;
                                     triterKonversiAsal.value = 0;
@@ -3441,6 +3498,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     idtypeSelect.val(null).trigger("change");
                                     idtype2Select.val(null).trigger("change");
                                     // namaTypeSelect.val(null).trigger("change");
+                                    hargaSatuan.value = 0;
+                                    hargaSatuanDiv.style.display = "none";
                                     primerKonversiAsal.value = 0;
                                     sekunderKonversiAsal.value = 0;
                                     triterKonversiAsal.value = 0;
@@ -3487,6 +3546,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 if (belom !== 1) {
+                    // $.ajax({
+                    //     type: "PUT",
+                    //     url: "KonversiBarang/insPersediaan",
+                    //     data: {
+                    //         _token: csrfToken,
+                    //         XIdType: idtype2Select.val(),
+                    //         XJumlahMasukTritier: triterKonversiAsal.value,
+                    //         hargaSatuan: hargaSatuan.value,
+                    //     },
+                    //     success: function (result) {
+                    //     },
+                    //     error: function (xhr, status, error) {
+                    //         console.error("Error:", error);
+                    //     },
+                    // });
                     $.ajax({
                         type: "PUT",
                         url: "KonversiBarang/prosesIsiTujuan",
@@ -3499,6 +3573,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             XJumlahMasukTritier: triterKonversiAsal.value,
                             XTujuanSubKel: subKelompokSelect.val(),
                             XIdKonversi: kodeKonversi.value,
+                            hargaSatuan: hargaSatuan.value,
                             _token: csrfToken,
                         },
                         success: function (response) {
@@ -3541,6 +3616,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                             .val(null)
                                             .trigger("change");
                                         // namaTypeSelect.val(null).trigger("change");
+                                        hargaSatuan.value = 0;
+                                        hargaSatuanDiv.style.display = "none";
                                         primerKonversiAsal.value = 0;
                                         sekunderKonversiAsal.value = 0;
                                         triterKonversiAsal.value = 0;
@@ -3621,6 +3698,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     idtypeSelect.val(null).trigger("change");
                                     idtype2Select.val(null).trigger("change");
                                     // namaTypeSelect.val(null).trigger("change");
+                                    hargaSatuan.value = 0;
+                                    hargaSatuanDiv.style.display = "none";
                                     primerKonversiAsal.value = 0;
                                     sekunderKonversiAsal.value = 0;
                                     triterKonversiAsal.value = 0;
@@ -3696,6 +3775,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     idtypeSelect.val(null).trigger("change");
                                     idtype2Select.val(null).trigger("change");
                                     // namaTypeSelect.val(null).trigger("change");
+                                    hargaSatuan.value = 0;
+                                    hargaSatuanDiv.style.display = "none";
                                     primerKonversiAsal.value = 0;
                                     sekunderKonversiAsal.value = 0;
                                     triterKonversiAsal.value = 0;

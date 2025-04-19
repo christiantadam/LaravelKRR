@@ -483,6 +483,18 @@ class KonversiBarangController extends Controller
             }
             return response()->json($data_divisi);
         }
+
+        else if ($id === 'getTypePersediaan') {
+            $idType = $request->input('idType');
+
+            $result = DB::connection('ConnInventory')->select('exec SP_4451_CekPersediaan @IdType = ?', [$idType]);
+            // dd($result);
+            if ($result[0]->Ada > 0) {
+                return response()->json(['success' => 'Data tersedia']);
+            } else {
+                return response()->json(['error' => 'Data tidak tersedia']);
+            }
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -575,6 +587,32 @@ class KonversiBarangController extends Controller
             }
         }
 
+        //ins persediaan
+        else if ($id == 'insPersediaan') {
+            $XIdType = $request->input('XIdType');
+            $XJumlahMasukTritier = $request->input('XJumlahMasukTritier');
+            $XhargaSatuan = (float)str_replace(',', '', $request->input('hargaSatuan'));
+            // dd($XhargaSatuan);
+            // dd(request()->all());
+            try {
+                DB::connection('ConnInventory')
+                    ->statement('exec SP_4451_UpdateHarga_Persediaan
+                @IdType = ?,
+                @JumlahTritier = ?,
+                @HargaSatuan = ?', [
+                            $XIdType,
+                            $XJumlahMasukTritier,
+                            $XhargaSatuan,
+                        ]);
+
+                return response()->json([
+                    'success' => 'Data Telah Terkoreksi, idtransaksi : '
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()]);
+            }
+        }
+
         // proses isi tujuan
         else if ($id == 'prosesIsiTujuan') {
             $XUraianDetailTransaksi = $request->input('XUraianDetailTransaksi');
@@ -585,8 +623,10 @@ class KonversiBarangController extends Controller
             $XJumlahMasukTritier = $request->input('XJumlahMasukTritier');
             $XTujuanSubKel = $request->input('XTujuanSubKel');
             $XIdKonversi = $request->input('XIdKonversi');
+            $XhargaSatuan = (float)str_replace(',', '', $request->input('hargaSatuan'));
             $UserInput = Auth::user()->NomorUser;
             $UserInput = trim($UserInput);
+            // dd($XhargaSatuan);
 
             $XJumlahMasukPrimer = ($XJumlahMasukPrimer === 'Infinity') ? 0 : $XJumlahMasukPrimer;
             $XJumlahMasukSekunder = ($XJumlahMasukSekunder === 'Infinity') ? 0 : $XJumlahMasukSekunder;
@@ -604,7 +644,8 @@ class KonversiBarangController extends Controller
                 @XJumlahMasukSekunder = ?,
                 @XJumlahMasukTritier = ?,
                 @XTujuanSubKel = ?,
-                @XIdKonversi = ?', [
+                @XIdKonversi = ?,
+                @HargaSatuan = ?', [
                         '04',
                         $XUraianDetailTransaksi,
                         $XIdType,
@@ -615,6 +656,7 @@ class KonversiBarangController extends Controller
                         $XJumlahMasukTritier,
                         $XTujuanSubKel,
                         $XIdKonversi,
+                        $XhargaSatuan
                     ]);
 
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);

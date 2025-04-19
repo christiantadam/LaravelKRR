@@ -89,7 +89,8 @@ var ListKonv = {
     XKeluarTritier: [],
     XMasukPrimer: [],
     XMasukSekunder: [],
-    XMasukTritier: []
+    XMasukTritier: [],
+    XHargaSatuan: [],
 };
 var ListKonversi = [];
 
@@ -129,6 +130,7 @@ $(document).ready(function () {
             { title: 'Kel. Utama' },
             { title: 'Kelompok' },
             { title: 'Sub Kelompok' },
+            { title: 'Harga Satuan' },
         ],
         colResize: {
             isEnabled: true,
@@ -168,7 +170,7 @@ $(document).ready(function () {
                                     data-type="${row[11]}"
                                     data-primer="${row[13]}"
                                     data-sekunder="${row[14]}"
-                                    data-tritier="${row[15]}">`;
+                                    data-tritier="${row[16]}">`;
                 }
             },
             { targets: [1], width: '10%', className: 'fixed-width' },
@@ -184,7 +186,8 @@ $(document).ready(function () {
             { targets: [11], width: '10%', className: 'fixed-width' },
             { targets: [12], width: '10%', className: 'fixed-width' },
             { targets: [13], width: '10%', className: 'fixed-width' },
-            { targets: [14], width: '10%', className: 'fixed-width' }
+            { targets: [14], width: '10%', className: 'fixed-width' },
+            { targets: [15], width: '10%', className: 'fixed-width' }
         ],
         scrollY: '400px',
         autoWidth: false,
@@ -207,10 +210,13 @@ $(document).ready(function () {
         ListKonv.XMasukPrimer = [];
         ListKonv.XMasukSekunder = [];
         ListKonv.XMasukTritier = [];
+        ListKonv.XHargaSatuan = [];
 
         // Populate arrays with selected data
         selectedIndices.forEach(index => {
             var rowData = table.row(index).data();
+            console.log(rowData);
+
             ListKonv.XIdKonversi.push(rowData[1]);  // Adjust indices as needed
             ListKonv.XIdTransaksi.push(rowData[2]);  // Adjust indices as needed
             ListKonv.XIdType.push(rowData[4]);
@@ -220,6 +226,7 @@ $(document).ready(function () {
             ListKonv.XMasukPrimer.push(rowData[8]);
             ListKonv.XMasukSekunder.push(rowData[9]);
             ListKonv.XMasukTritier.push(rowData[10]);
+            ListKonv.XHargaSatuan.push(rowData[15]);
         });
     }
 
@@ -353,6 +360,7 @@ function updateDataTable(data, angka) {
                 escapeHtml(item.NamaKelompokUtama),
                 escapeHtml(item.NamaKelompok),
                 escapeHtml(item.NamaSubKelompok),
+                formatNumber(item.HargaSatuan) ?? numeral(0).format('0,0.00'),
                 escapeHtml(item.IdSubkelompok),
                 escapeHtml(item.IdType),
             ]);
@@ -428,6 +436,7 @@ function Proses_Acc() {
             XMasukPrimer: ListKonv.XMasukPrimer,
             XMasukSekunder: ListKonv.XMasukSekunder,
             XMasukTritier: ListKonv.XMasukTritier,
+            XHargaSatuan: ListKonv.XHargaSatuan,
             _token: csrfToken
         },
         success: function (response) {
@@ -476,7 +485,8 @@ function Proses_Acc() {
                                         XKeluarTritier: [],
                                         XMasukPrimer: [],
                                         XMasukSekunder: [],
-                                        XMasukTritier: []
+                                        XMasukTritier: [],
+                                        XHargaSatuan: [],
                                     };
 
                                 });
@@ -672,7 +682,8 @@ btnDivisi.addEventListener("click", function (e) {
                     XKeluarTritier: [],
                     XMasukPrimer: [],
                     XMasukSekunder: [],
-                    XMasukTritier: []
+                    XMasukTritier: [],
+                    XHargaSatuan: [],
                 };
 
                 ListKonversi = [];
