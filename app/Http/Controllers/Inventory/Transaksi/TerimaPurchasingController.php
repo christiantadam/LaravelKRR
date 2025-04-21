@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HakAksesController;
+use Log;
 
 class TerimaPurchasingController extends Controller
 {
@@ -239,10 +240,10 @@ class TerimaPurchasingController extends Controller
             $MasukPrimer = $request->input('MasukPrimer');
             $MasukSekunder = $request->input('MasukSekunder');
             $MasukTritier = $request->input('MasukTritier');
-
+            // dd($request->all());
             try {
                 DB::connection('ConnInventory')
-                    ->statement('exec [SP_1273_INV_PROSES_TERIMA_TRANSFER_BELI]
+                    ->statement('exec SP_1273_INV_PROSES_TERIMA_TRANSFER_BELI
                 @IdTransaksi = ?,
                 @IdType = ?,
                 @IdSubKel = ?,
@@ -258,9 +259,11 @@ class TerimaPurchasingController extends Controller
                         $MasukSekunder,
                         $MasukTritier,
                     ]);
-                return response()->json(['success' => 'Data berhasil diPROSES'], 200);
+                Log::info((string) 'exec SP_1273_INV_PROSES_TERIMA_TRANSFER_BELI @IdTransaksi = ' . '\'' . $IdTransaksi . '\'' . ', @IdType = ' . '\'' . $IdType . '\'' . ', @IdSubKel = ' . '\'' . $IdSubKel . '\'' . ', @Penerima = ' . '\'' . $Penerima . '\'' . ', @MasukPrimer = ' . $MasukPrimer
+                    . ', @MasukSekunder = ' . $MasukSekunder . ', @MasukTritier = ' . $MasukTritier);
+                return response()->json(['success' => 'Data berhasil diPROSES']);
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()]);
             }
         }
     }
