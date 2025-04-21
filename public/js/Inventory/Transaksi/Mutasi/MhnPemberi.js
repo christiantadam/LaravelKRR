@@ -548,7 +548,8 @@ hargaSatuan.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
         hargaSatuan.value = numeral(hargaSatuan.value).format("0,0.00");
-        alasan.focus();
+        btnDivisi2.disabled = false;
+        btnDivisi2.focus();
     }
 });
 
