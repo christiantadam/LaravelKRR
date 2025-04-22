@@ -115,8 +115,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" id="div_PIBAsalTanpaBarcode"
-                                style="visibility:hidden;width: 29%">
+                            <div class="form-group" id="div_PIBAsalTanpaBarcode" style="visibility:hidden;width: 29%">
                                 <label for="PIB_asalTanpaBarcode">PIB Type Asal</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="PIB_asalTanpaBarcode"
@@ -199,6 +198,24 @@
                 </div>
                 <div style="display: flex; flex-direction: column;margin: 0.5%;padding:0.5%;border: 1px solid rgba(0, 0, 0, 0.5);"
                     class="card" id="div_tujuanKonversiTanpaBarcode">
+                    <div style="margin: 0.5%;" class="card" id="div_tabelTujuanKonversiTanpaBarcode">
+                        <div style="margin: 0.5%;overflow:auto">
+                            <table id="table_daftarTujuanKonversiTanpaBarcode">
+                                <thead>
+                                    <tr style="white-space: nowrap">
+                                        <th>Id Type Tujuan</th>
+                                        <th>Nama Type Tujuan</th>
+                                        <th>Jumlah Pemasukan Primer</th>
+                                        <th>Satuan Primer</th>
+                                        <th>Jumlah Pemasukan Sekunder</th>
+                                        <th>Satuan Sekunder</th>
+                                        <th>Jumlah Pemasukan Tritier</th>
+                                        <th>Satuan Tritier</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                     <h5 class="modal-title">Tujuan Konversi </h5>
                     <div class="card-body">
                         <div style="display: flex; flex-direction: row;">
@@ -255,7 +272,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" id="div_PIBTujuanTanpaBarcode" style="visibility:hidden;width: 29%">
+                            <div class="form-group" id="div_PIBTujuanTanpaBarcode"
+                                style="visibility:hidden;width: 29%">
                                 <label for="PIB_tujuanTanpaBarcode">PIB Type Tujuan</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="PIB_tujuanTanpaBarcode"
@@ -322,6 +340,16 @@
                                         name="satuan_tritierJumlahPemasukanTanpaBarcode" style='width:8%'
                                         placeholder="Satuan Tritier" readonly>
                                 </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: row;gap:1%;">
+                            <div class="form-group" style="width: 75%;">
+                                <button class="btn btn-success" id="button_tambahTujuanKonversiTanpaBarcode">Tambah
+                                    Tujuan</button>
+                                <button class="btn btn-info" id="button_updateTujuanKonversiTanpaBarcode">Update
+                                    Tujuan</button>
+                                <button class="btn btn-danger" id="button_hapusTujuanKonversiTanpaBarcode">Hapus
+                                    Tujuan</button>
                             </div>
                         </div>
                     </div>

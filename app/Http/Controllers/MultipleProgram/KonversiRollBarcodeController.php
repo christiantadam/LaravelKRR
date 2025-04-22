@@ -75,17 +75,12 @@ class KonversiRollBarcodeController extends Controller
             $tanggalKonversi = $request->input('tanggalKonversi');
             $shift = $request->input('shift');
 
-            switch ($shift) {
-                case 'P':
-                    $shift = 'Pagi';
-                    break;
-                case 'S':
-                    $shift = 'Siang';
-                    break;
-                case 'M':
-                    $shift = 'Malam';
-                    break;
-            }
+            $shift = match ($shift) {
+                'P' => 'Pagi',
+                'S' => 'Siang',
+                'M' => 'Malam',
+                default => $shift, // Keep the original value if no match is found
+            };
             if ($divisi == 'JBB' || $divisi == 'ADS') {
                 $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan " . $divisi;
                 $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan " . $divisi;
@@ -290,59 +285,79 @@ class KonversiRollBarcodeController extends Controller
             }
         } elseif ($jenisStore == 'permohonanTanpaBarcode') {
             $shift = $request->input('shift');
-
-            switch ($shift) {
-                case 'P':
-                    $shift = 'Pagi';
-                    break;
-                case 'S':
-                    $shift = 'Siang';
-                    break;
-                case 'M':
-                    $shift = 'Malam';
-                    break;
-            }
-            if ($divisi == 'JBB') {
-                $uraian_asal = (string) "Asal Konversi Potongan JBB";
-                $uraian_tujuan = (string) "Tujuan Konversi Potongan JBB";
-            } else if ($divisi == 'ABM') {
-                $asalKonversi = $request->input('asalKonversi');
-                $uraian_asal = (string) "Asal Konversi Setengah Jadi ABM";
-                $uraian_tujuan = (string) "Tujuan Konversi Setengah Jadi ABM";
-            }
             $date = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
-            $idSubKelompokAsal = $request->input('idSubKelompokAsal');
-            $id_typeAsal = $request->input('id_typeAsal');
-            $pemakaian_primerAsal = $request->input('pemakaian_primerAsal');
-            $pemakaian_sekunderAsal = $request->input('pemakaian_sekunderAsal');
-            $pemakaian_tritierAsal = $request->input('pemakaian_tritierAsal');
             $tanggalKonversi = $request->input('tanggalKonversi');
+            $shift = match ($shift) {
+                'P' => 'Pagi',
+                'S' => 'Siang',
+                'M' => 'Malam',
+                default => $shift, // Keep the original value if no match is found
+            };
+
+            if ($divisi == 'JBB' || $divisi == 'ADS') {
+                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan Tanpa Barcode" . $divisi;
+                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan Tanpa Barcode" . $divisi;
+            } else if ($divisi == 'ABM') {
+                $grup = $request->input('grup');
+                $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');
+                $nomorOrderKerja = $request->input('nomorOrderKerja');
+                $uraian_asal = (string) 'Group ' . $grup . ' ' . $shift . ", Asal Konversi Setengah Jadi Tanpa Barcode ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Id Order Kerja: " . $nomorOrderKerja;
+                $uraian_tujuan = (string) 'Group ' . $grup . ' ' . $shift . ",  Tujuan Konversi Setengah Jadi Tanpa Barcode ABM | Sisa: " . $sisaAsalKonversiPersen . "% | Id Order Kerja: " . $nomorOrderKerja;
+            }
+
             $table_daftarTujuanKonversi = $request->input('table_daftarTujuanKonversi');
+            $table_daftarAsalKonversi = $request->input('table_daftarAsalKonversi');
 
             // Initialize an array to store concatenated results for each index
-            $concatenatedResults = [];
+            $concatenatedResultsTujuan = [];
 
             // Get the number of sub-arrays
-            $numberOfSubArrays = count($table_daftarTujuanKonversi);
+            $numberOfSubArraysTujuan = count($table_daftarTujuanKonversi);
 
             // Get the number of elements in each sub-array (assuming all sub-arrays have the same length)
-            $numberOfElements = count($table_daftarTujuanKonversi[0]);
+            $numberOfElementsTujuan = count($table_daftarTujuanKonversi[0]);
 
             // Loop through each index in the sub-arrays
-            for ($i = 0; $i < $numberOfElements; $i++) {
-                $tempArray = [];
+            for ($i = 0; $i < $numberOfElementsTujuan; $i++) {
+                $tempArrayTujuan = [];
                 // Loop through each sub-array and collect the values at the current index
-                for ($j = 0; $j < $numberOfSubArrays; $j++) {
-                    $tempArray[] = $table_daftarTujuanKonversi[$j][$i];
+                for ($j = 0; $j < $numberOfSubArraysTujuan; $j++) {
+                    $tempArrayTujuan[] = $table_daftarTujuanKonversi[$j][$i];
                 }
-                $concatenatedResults[$i] = $tempArray;
+                $concatenatedResultsTujuan[$i] = $tempArrayTujuan;
             }
             // Accessing specific variables
-            $IdTypeTujuan = $concatenatedResults[0];
-            $SaldoPrimer = $concatenatedResults[2];
-            $SaldoSekunder = $concatenatedResults[4];
-            $SaldoTritier = $concatenatedResults[6];
-            $IdSubKelompok = $concatenatedResults[8];
+            $IdTypeTujuan = $concatenatedResultsTujuan[0];
+            $SaldoPrimerTujuan = $concatenatedResultsTujuan[2];
+            $SaldoSekunderTujuan = $concatenatedResultsTujuan[4];
+            $SaldoTritierTujuan = $concatenatedResultsTujuan[6];
+            $IdSubKelompokTujuan = $concatenatedResultsTujuan[8];
+
+
+            // Initialize an array to store concatenated results for each index
+            $concatenatedResultsAsal = [];
+
+            // Get the number of sub-arrays
+            $numberOfSubArraysAsal = count($table_daftarAsalKonversi);
+
+            // Get the number of elements in each sub-array (assuming all sub-arrays have the same length)
+            $numberOfElementsAsal = count($table_daftarAsalKonversi[0]);
+
+            // Loop through each index in the sub-arrays
+            for ($i = 0; $i < $numberOfElementsAsal; $i++) {
+                $tempArrayAsal = [];
+                // Loop through each sub-array and collect the values at the current index
+                for ($j = 0; $j < $numberOfSubArraysAsal; $j++) {
+                    $tempArrayAsal[] = $table_daftarAsalKonversi[$j][$i];
+                }
+                $concatenatedResultsAsal[$i] = $tempArrayAsal;
+            }
+            // Accessing specific variables
+            $IdTypeAsal = $concatenatedResultsAsal[0];
+            $SaldoPrimerAsal = $concatenatedResultsAsal[2];
+            $SaldoSekunderAsal = $concatenatedResultsAsal[4];
+            $SaldoTritierAsal = $concatenatedResultsAsal[6];
+            $IdSubKelompokAsal = $concatenatedResultsAsal[8];
 
             try {
                 // Asal Konversi
@@ -360,10 +375,18 @@ class KonversiRollBarcodeController extends Controller
                     DB::connection('ConnInventory')
                         ->table('Counter')->update(['IdKonvPotongABM' => $newIdKonvPotongABM]);
                     $idkonversi = "ABP" . str_pad($newIdKonvPotongABM, 6, "0", STR_PAD_LEFT);
+                } else if ($divisi == 'ADS') {
+                    $currentIdKonvPotongADS = DB::connection('ConnInventory')
+                        ->table('Counter')->value('IdKonvPotongADS');
+                    $newIdKonvPotongADS = $currentIdKonvPotongADS + 1;
+                    DB::connection('ConnInventory')
+                        ->table('Counter')->update(['IdKonvPotongADS' => $newIdKonvPotongADS]);
+                    $idkonversi = "ADP" . str_pad($newIdKonvPotongADS, 6, "0", STR_PAD_LEFT);
                 }
                 // Asal konversi
-                DB::connection('ConnInventory')
-                    ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong
+                for ($k = 0; $k < count($IdTypeAsal); $k++) {
+                    DB::connection('ConnInventory')
+                        ->statement('EXEC SP_4384_Konversi_Roll_Barcode_Potong
                         @XKode = ?,
                         @XIdTypeTransaksi = ?,
                         @XUraianDetailTransaksi = ?,
@@ -379,25 +402,25 @@ class KonversiRollBarcodeController extends Controller
                         @XIdKonversi = ?,
                         @XTimeInput = ?,
                         @XStatus = ?',
-                        [
-                            9,
-                            "28",
-                            (string) $shift . ', ' . $uraian_asal,
-                            $id_typeAsal,
-                            trim(Auth::user()->NomorUser),
-                            trim(Auth::user()->NomorUser),
-                            $tanggalKonversi,
-                            $date,
-                            $pemakaian_primerAsal,
-                            $pemakaian_sekunderAsal,
-                            $pemakaian_tritierAsal,
-                            $idSubKelompokAsal,
-                            $idkonversi,
-                            $date,
-                            0,
-                        ]
-                    );
-
+                            [
+                                9,
+                                "28",
+                                (string) $shift . ', ' . $uraian_asal,
+                                $IdTypeAsal[$k],
+                                trim(Auth::user()->NomorUser),
+                                trim(Auth::user()->NomorUser),
+                                $tanggalKonversi,
+                                $date,
+                                $SaldoPrimerAsal[$k],
+                                $SaldoSekunderAsal[$k],
+                                $SaldoTritierAsal[$k],
+                                $IdSubKelompokAsal[$k],
+                                $idkonversi,
+                                $date,
+                                0,
+                            ]
+                        );
+                }
                 // Tujuan Konversi
                 for ($k = 0; $k < count($IdTypeTujuan); $k++) {
                     DB::connection('ConnInventory')
@@ -426,10 +449,10 @@ class KonversiRollBarcodeController extends Controller
                                 trim(Auth::user()->NomorUser),
                                 $tanggalKonversi,
                                 $date,
-                                $SaldoPrimer[$k],
-                                $SaldoSekunder[$k],
-                                $SaldoTritier[$k],
-                                $IdSubKelompok[$k],
+                                $SaldoPrimerTujuan[$k],
+                                $SaldoSekunderTujuan[$k],
+                                $SaldoTritierTujuan[$k],
+                                $IdSubKelompokTujuan[$k],
                                 $idkonversi,
                                 $date,
                                 0
