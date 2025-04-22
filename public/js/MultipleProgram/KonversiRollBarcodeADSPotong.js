@@ -2940,6 +2940,11 @@ $(document).ready(function () {
 
         function getNextFocusableElement(currentElement) {
             // if (currentElement.id === "jumlah_pemasukanTritierTanpaBarcode") {
+            //     return button_tambahTujuanKonversiTanpaBarcode.disabled
+            //         ? document.getElementById("button_updateTujuanKonversiTanpaBarcode") // prettier-ignore
+            //         : document.getElementById("button_tambahTujuanKonversiTanpaBarcode"); // prettier-ignore
+            // }
+            // if (currentElement.id === "jumlah_pemakaianTritierTanpaBarcode") {
             //     return button_tambahAsalKonversiTanpaBarcode.disabled
             //         ? document.getElementById("button_updateAsalKonversiTanpaBarcode") // prettier-ignore
             //         : document.getElementById("button_tambahAsalKonversiTanpaBarcode"); // prettier-ignore
@@ -3901,13 +3906,13 @@ $(document).ready(function () {
                 (row) => row[0] == select_typeAsalTanpaBarcode.val()
             );
 
-            let existsTabelAsal = table_daftarAsalKonversiTanpaBarcode
+            let existsTabelTujuan = table_daftarTujuanKonversiTanpaBarcode
                 .column(0)
                 .data()
                 .toArray()
                 .some((value) => value == select_typeAsalTanpaBarcode.val());
 
-            if (existsTabelAsal || existsInUnselectedTabelAsal) {
+            if (existsTabelTujuan || existsInUnselectedTabelAsal) {
                 // Id type Asal dan Tujuan tidak boleh sama
                 Swal.fire({
                     icon: "info",
@@ -4460,7 +4465,8 @@ $(document).ready(function () {
 
         if (
             inputValue <= maxHasilKonversiTritierTanpaBarcode &&
-            inputValue > 0
+            inputValue > 0 &&
+            button_updateTujuanKonversiTanpaBarcode.disabled == true
         ) {
             button_tambahTujuanKonversiTanpaBarcode.disabled = false;
         } else {
@@ -4791,43 +4797,28 @@ $(document).ready(function () {
         }
     });
 
-    jumlah_pemakaianPrimerTanpaBarcode.addEventListener(
-        "keypress",
-        function (e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                let inputValue = parseFloat(e.target.value);
-                if (inputValue > saldo_terakhirPrimerAsalTanpaBarcode.value) {
-                    jumlah_pemakaianPrimerTanpaBarcode.value = saldo_terakhirPrimerAsalTanpaBarcode.value; // prettier-ignore
-                }
-            }
+    jumlah_pemakaianPrimerTanpaBarcode.addEventListener("input", function (e) {
+        let inputValue = parseFloat(e.target.value);
+        if (inputValue > saldo_terakhirPrimerAsalTanpaBarcode.value) {
+            jumlah_pemakaianPrimerTanpaBarcode.value = saldo_terakhirPrimerAsalTanpaBarcode.value; // prettier-ignore
         }
-    );
+    });
 
     jumlah_pemakaianSekunderTanpaBarcode.addEventListener(
-        "keypress",
+        "input",
         function (e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                let inputValue = parseFloat(e.target.value);
-                if (inputValue > saldo_terakhirSekunderAsalTanpaBarcode.value) {
-                    jumlah_pemakaianSekunderTanpaBarcode.value = saldo_terakhirSekunderAsalTanpaBarcode.value; // prettier-ignore
-                }
+            let inputValue = parseFloat(e.target.value);
+            if (inputValue > saldo_terakhirSekunderAsalTanpaBarcode.value) {
+                jumlah_pemakaianSekunderTanpaBarcode.value = saldo_terakhirSekunderAsalTanpaBarcode.value; // prettier-ignore
             }
         }
     );
 
-    jumlah_pemakaianTritierTanpaBarcode.addEventListener(
-        "keypress",
-        function (e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                let inputValue = parseFloat(e.target.value);
-                if (inputValue > saldo_terakhirTritierAsalTanpaBarcode.value) {
-                    jumlah_pemakaianTritierTanpaBarcode.value = saldo_terakhirTritierAsalTanpaBarcode.value; // prettier-ignore
-                }
-            }
+    jumlah_pemakaianTritierTanpaBarcode.addEventListener("input", function (e) {
+        let inputValue = parseFloat(e.target.value);
+        if (inputValue > saldo_terakhirTritierAsalTanpaBarcode.value) {
+            jumlah_pemakaianTritierTanpaBarcode.value = saldo_terakhirTritierAsalTanpaBarcode.value; // prettier-ignore
         }
-    );
+    });
     //#endregion
 });
