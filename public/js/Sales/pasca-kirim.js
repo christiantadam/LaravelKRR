@@ -86,34 +86,6 @@ function setInputFilter(textbox, inputFilter, errMsg) {
 }
 
 setInputFilter(
-    document.getElementById("qty_primerPengiriman"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("qty_sekunderPengiriman"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("qty_tritierPengiriman"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
-    document.getElementById("qty_konversiPengiriman"),
-    function (value) {
-        return /^-?\d*$/.test(value);
-    },
-    "Harus diisi dengan angka!"
-);
-setInputFilter(
     document.getElementById("qty_sekunderRetur"),
     function (value) {
         return /^-?\d*$/.test(value);
@@ -219,13 +191,13 @@ barang_pesanan.addEventListener("change", function () {
         .then((data) => {
             // console.log(data);
             qty_primerPengiriman.value =
-                data.kirim[0].JmlTerimaPrimer + " " + data.kirim[0].satPrimer;
+                parseFloat(data.kirim[0].JmlTerimaPrimer) + " " + data.kirim[0].satPrimer;
             qty_sekunderPengiriman.value =
-                data.kirim[0].JmlTerimaSekunder +
+                parseFloat(data.kirim[0].JmlTerimaSekunder) +
                 " " +
                 data.kirim[0].satSekunder;
             qty_tritierPengiriman.value =
-                data.kirim[0].JmlTerimaTritier + " " + data.kirim[0].SatTritier;
+                parseFloat(data.kirim[0].JmlTerimaTritier) + " " + data.kirim[0].SatTritier;
 
             let satPrimer = data.kirim[0].satPrimer;
             let satSekunder = data.kirim[0].satSekunder;
@@ -238,7 +210,7 @@ barang_pesanan.addEventListener("change", function () {
             ) {
                 // console.log('hehe');
                 qty_konversiPengiriman.value =
-                    data.kirim[0].JmlTerimaUmum + " " + data.kirim[0].Satuan;
+                    parseFloat(data.kirim[0].JmlTerimaUmum) + " " + data.kirim[0].Satuan;
                 qty_konversiDiterimaCustomer.setAttribute("disabled", false);
             }
             // console.log('hoho');
