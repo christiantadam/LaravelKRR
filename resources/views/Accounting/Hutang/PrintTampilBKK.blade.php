@@ -43,6 +43,7 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
+            font-size: 16px;
             /* padding: 3mm 9mm; */
         }
 
