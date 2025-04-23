@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <style>
     @page {
         size: auto;
@@ -43,6 +40,7 @@
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
+            font-size: 16px;
             /* padding: 3mm 9mm; */
         }
 
@@ -121,7 +119,7 @@
 <div class="container" style="display: none">
     <div class="header" style="padding: 0 !important">
         <h5 style="text-align: left;">Payment Voucher</h5>
-        <h4 style="text-align: left;">PT. KERTA RAJASA RAYA</h4>
+        <h5 style="text-align: left;font-weight: 600;">PT. KERTA RAJASA RAYA</h4>
     </div>
     <div class="content">
         <table style="border:none !important">
@@ -173,8 +171,8 @@
                     <td style="border:none !important; border-top: 1px solid black !important"></td>
                     <td style="border:none !important; text-align: right; border-top: 1px solid black !important">TOTAL
                         =</td> --}}
-                    {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
-                    {{-- <td style="border:none !important; text-align: right; border-top: 1px solid black !important"
+                {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
+                {{-- <td style="border:none !important; text-align: right; border-top: 1px solid black !important"
                         id="total_p"></td>
                 </tr> --}}
             </tbody>
@@ -215,5 +213,3 @@
         </table>
     </div> --}}
 </div>
-
-</html>

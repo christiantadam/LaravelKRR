@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <style>
     @page {
         size: auto;
@@ -174,8 +171,8 @@
                     <td style="border:none !important; border-top: 1px solid black !important"></td>
                     <td style="border:none !important; text-align: right; border-top: 1px solid black !important">TOTAL
                         =</td> --}}
-                    {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
-                    {{-- <td style="border:none !important; text-align: right; border-top: 1px solid black !important"
+                {{-- <td colspan="4" style="text-align: right; border:none !important">TOTAL =</td> --}}
+                {{-- <td style="border:none !important; text-align: right; border-top: 1px solid black !important"
                         id="total_p"></td>
                 </tr> --}}
             </tbody>
@@ -216,5 +213,3 @@
         </table>
     </div> --}}
 </div>
-
-</html>
