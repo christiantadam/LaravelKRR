@@ -295,8 +295,8 @@ class KonversiRollBarcodeController extends Controller
             };
 
             if ($divisi == 'JBB' || $divisi == 'ADS') {
-                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan Tanpa Barcode" . $divisi;
-                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan Tanpa Barcode" . $divisi;
+                $uraian_asal = (string) $shift . ', ' . "Asal Konversi Potongan Tanpa Barcode " . $divisi;
+                $uraian_tujuan = (string) $shift . ', ' . "Tujuan Konversi Potongan Tanpa Barcode " . $divisi;
             } else if ($divisi == 'ABM') {
                 $grup = $request->input('grup');
                 $sisaAsalKonversiPersen = $request->input('sisaAsalKonversiPersen');

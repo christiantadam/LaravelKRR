@@ -2542,16 +2542,23 @@ $(document).ready(function () {
                 if (response && Array.isArray(response)) {
                     // Filter data for Asal Konversi Potong ADS
                     var asalData = response.filter(function (item) {
-                        return item.UraianDetailTransaksi.includes(
-                            "Asal Konversi Potongan ADS"
+                        return (
+                            item.UraianDetailTransaksi.includes(
+                                "Asal Konversi Potongan ADS"
+                            ) ||
+                            item.UraianDetailTransaksi.includes(
+                                "Asal Konversi Potongan Tanpa Barcode ADS"
+                            )
                         );
                     });
 
                     // Filter data for Tujuan Konversi Potong ADS
                     var tujuanData = response.filter(function (item) {
-                        return item.UraianDetailTransaksi.includes(
+                        return (item.UraianDetailTransaksi.includes(
                             "Tujuan Konversi Potongan ADS"
-                        );
+                        ) || item.UraianDetailTransaksi.includes(
+                            "Tujuan Konversi Potongan Tanpa Barcode ADS"
+                        ));
                     });
 
                     // Convert the data to match table column structure
