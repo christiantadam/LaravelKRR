@@ -453,6 +453,7 @@ class KonversiBarangController extends Controller
 
             $divisi = DB::connection('ConnInventory')->select('exec SP_1003_INV_List_TujuanKonversi_TmpTransaksi
             @XIdTransaksi = ?', [$XIdTransaksi]);
+            // dd($divisi);
             $data_divisi = [];
             foreach ($divisi as $detail_divisi) {
                 $data_divisi[] = [
@@ -478,6 +479,7 @@ class KonversiBarangController extends Controller
                     'JumlahPemasukanSekunder' => $detail_divisi->JumlahPemasukanSekunder,
                     'JumlahPemasukanTritier' => $detail_divisi->JumlahPemasukanTritier,
                     'KodeBarang' => $detail_divisi->KodeBarang,
+                    'HargaSatuan' => $detail_divisi->HargaSatuan ?? 0,
                 ];
 
             }
@@ -751,6 +753,7 @@ class KonversiBarangController extends Controller
             $XJumlahKeluarPrimer = $request->input('XJumlahKeluarPrimer');
             $XJumlahKeluarSekunder = $request->input('XJumlahKeluarSekunder');
             $XJumlahKeluarTritier = $request->input('XJumlahKeluarTritier');
+            $XhargaSatuan = (float)str_replace(',', '', $request->input('hargaSatuan'));
 
             $XJumlahKeluarPrimer = ($XJumlahKeluarPrimer === 'Infinity') ? 0 : $XJumlahKeluarPrimer;
             $XJumlahKeluarSekunder = ($XJumlahKeluarSekunder === 'Infinity') ? 0 : $XJumlahKeluarSekunder;
@@ -763,12 +766,14 @@ class KonversiBarangController extends Controller
                     @XUraianDetaiLTransaksi = ?,
                     @XJumlahKeluarPrimer = ?,
                     @XJumlahKeluarSekunder = ?,
-                    @XJumlahKeluarTritier = ?', [
+                    @XJumlahKeluarTritier = ?,
+                    @HargaSatuan = ?', [
                         $XIdTransaksi,
                         $XUraianDetaiLTransaksi,
                         $XJumlahKeluarPrimer,
                         $XJumlahKeluarSekunder,
                         $XJumlahKeluarTritier,
+                        $XhargaSatuan,
                     ]);
                 return response()->json(['success' => 'Data sudah diKOREKSI'], 200);
             } catch (\Exception $e) {

@@ -2420,7 +2420,7 @@ btn_proses.addEventListener("click", function (e) {
                     } else {
                         showTable();
                     }
-                    disableKetik();
+                    // disableKetik();
                 });
             } else if (a === 2 && response.success) {
                 Swal.fire({

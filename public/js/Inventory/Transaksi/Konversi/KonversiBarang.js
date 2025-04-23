@@ -2809,7 +2809,7 @@ document.addEventListener("DOMContentLoaded", function () {
             divisiNamaAsal.value = divisiNama.value;
             uraianAsal.value = "Tujuan Konversi";
             IdTranTujuan = kodeTujuan.value;
-
+            hargaSatuanDiv.style.display = "block";
             $.ajax({
                 type: "GET",
                 url: "KonversiBarang/getStatusKonversiTujuan",
@@ -2879,6 +2879,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         // triterAkhirAsal.value = 0;
                         primerKonversiAsal.value = formatNumber(
                             result[0].JumlahPemasukanPrimer
+                        );
+                        hargaSatuan.value = formatNumber(result[0].HargaSatuan
                         );
                         sekunderKonversiAsal.value = formatNumber(
                             result[0].JumlahPemasukanSekunder
@@ -3662,6 +3664,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         XJumlahKeluarPrimer: primerKonversiAsal.value,
                         XJumlahKeluarSekunder: sekunderKonversiAsal.value,
                         XJumlahKeluarTritier: triterKonversiAsal.value,
+                        hargaSatuan: hargaSatuan.value,
                         _token: csrfToken,
                     },
                     success: function (response) {
