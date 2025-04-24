@@ -158,6 +158,7 @@
                                 <div class="col-sm-1"></div>
                                 <div class="col-sm-2 pr-0 pl-0">
                                     <input type="text" class="form-control" id="tritier2" name="tritier2" readonly>
+                                    <input type="text" class="form-control" id="hargaSatuan" name="hargaSatuan" style="display: none" readonly>
                                 </div>
                                 <div class="col-sm-1"></div>
                             </div>

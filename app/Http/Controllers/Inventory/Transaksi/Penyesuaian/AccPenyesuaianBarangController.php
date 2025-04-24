@@ -176,6 +176,19 @@ class AccPenyesuaianBarangController extends Controller
             // dd($data_cekData);
             return response()->json($data_cekData);
         }
+
+        else if ($id === 'getHargaSatuan') {
+            $kodeTransaksi = $request->input('kodeTransaksi');
+
+            $harga = DB::connection('ConnInventory')
+                ->table('Transaksi')
+                ->where('IdTransaksi', $kodeTransaksi)
+                ->value('HargaSatuan');
+            // dd($harga);
+            return response()->json([
+                'harga_satuan' => $harga
+            ]);
+        }
     }
 
     // Show the form for editing the specified resource.
@@ -214,6 +227,38 @@ class AccPenyesuaianBarangController extends Controller
                 return response()->json(['success' => 'Data sudah diSIMPAN'], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Kd.Transaksi: ' .trim($YIdTrans). 'TDK DPT diACC, krn Kd.Type tidak ada pada sub kelompok tersebut!' .$e->getMessage()], 500);
+            }
+        }else if ($id == 'insPersediaan') {
+            $XIdType = $request->input('XIdType');
+            $XJumlahKeluarTritier = $request->input('XJumlahKeluarTritier');
+            $XhargaSatuan = (float) str_replace(',', '', $request->input('hargaSatuan'));
+            // $kode = null;
+            // dd($request->all());
+            // dd($request->all());
+            // if ($kode == '1') {
+            //     $kode = null;
+            // } else if ($kode == '2') {
+            //     $kode = 2;
+            // }
+            // dd($XhargaSatuan);
+            // dd($request->all());
+            // dd($kode);
+            try {
+                DB::connection('ConnInventory')
+                    ->statement('exec SP_4451_UpdateHarga_Persediaan
+                @IdType = ?,
+                @JumlahTritier = ?,
+                @HargaSatuan = ?', [
+                        $XIdType,
+                        $XJumlahKeluarTritier,
+                        $XhargaSatuan,
+                    ]);
+
+                return response()->json([
+                    'success' => 'Data Telah Terkoreksi, idtransaksi : '
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()]);
             }
         }
     }

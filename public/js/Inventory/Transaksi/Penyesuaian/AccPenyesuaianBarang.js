@@ -26,6 +26,7 @@ var tritier2 = document.getElementById('tritier2');
 var no_primer = document.getElementById('no_primer');
 var no_sekunder = document.getElementById('no_sekunder');
 var no_tritier = document.getElementById('no_tritier');
+var hargaSatuan = document.getElementById('hargaSatuan');
 
 var divisiId = document.getElementById('divisiId');
 var objekId = document.getElementById('objekId');
@@ -441,7 +442,22 @@ $('#tableData tbody').on('click', 'tr', function () {
     kelompokNama.value = decodeHtmlEntities(data[9]);
     subkelNama.value = decodeHtmlEntities(data[10]);
     pemohon.value = data[11];
-
+    $.ajax({
+        type: 'GET',
+        url: 'AccPenyesuaianBarang/getHargaSatuan',
+        data: {
+            _token: csrfToken,
+            kodeTransaksi: kodeTransaksi.value
+        },
+        success: function (result) {
+            // hargaSatuanLabel.style.display = 'block';
+            // hargaSatuan.style.display = 'block';
+            hargaSatuan.value = numeral(result.harga_satuan).format('0,0.00') ?? 0;
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
     $.ajax({
         type: 'GET',
         url: 'AccPenyesuaianBarang/getSelect',
@@ -525,7 +541,6 @@ btn_proses.addEventListener("click", function (e) {
 
     completeDataArray.forEach(function (item) {
         let YIdTrans = item.tableData[1];
-
         $.ajax({
             type: 'GET',
             url: 'AccPenyesuaianBarang/cekData',
@@ -535,6 +550,31 @@ btn_proses.addEventListener("click", function (e) {
             },
             success: function (response) {
                 if (response.length > 0) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "AccPenyesuaianBarang/insPersediaan",
+                        data: {
+                            _token: csrfToken,
+                            XIdType: response[0].IdType.trim(),
+                            XJumlahKeluarTritier: numeral(tritier2.value).format('0') - numeral(tritier.value).format('0'),
+                            hargaSatuan: hargaSatuan.value,
+                        },
+                        success: function (result) {
+                            hargaSatuan.value = 0;
+                            // primer2.value = 0;
+                            // sekunder2.value = 0;
+                            // tritier2.value = 0;
+                            // primer2.focus();
+                            // if (Pilih === 0) {
+                            //     TampilAllData();
+                            // } else {
+                            //     TampilData();
+                            // }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error:", error);
+                        },
+                    });
                     $.ajax({
                         type: 'PUT',
                         url: 'AccPenyesuaianBarang/proses',

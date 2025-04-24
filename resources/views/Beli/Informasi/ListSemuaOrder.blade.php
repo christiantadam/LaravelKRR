@@ -75,12 +75,8 @@
                 },
                 {
                     data: "PriceUnit", // Price Unit {{-- 10 --}}
-                    render: function(data) {
-                        if (data != null) {
-                            return parseFloat(data).toFixed(2);
-                        } else {
-                            return ''
-                        }
+                    render: function (data, type, row) {
+                        return numeral(data).format('0,0.00');
                     }
                 },
                 {

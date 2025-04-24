@@ -356,6 +356,18 @@ class PenyesuaianBarangController extends Controller
             }
             // dd($request->all(), $data_barang);
             return response()->json($data_barang);
+
+        } else if ($id === 'getHargaSatuan') {
+            $kodeTransaksi = $request->input('kodeTransaksi');
+
+            $harga = DB::connection('ConnInventory')
+                ->table('Transaksi')
+                ->where('IdTransaksi', $kodeTransaksi)
+                ->value('HargaSatuan');
+            // dd($harga);
+            return response()->json([
+                'harga_satuan' => $harga
+            ]);
         }
     }
 
@@ -379,7 +391,7 @@ class PenyesuaianBarangController extends Controller
         $primer3 = $request->input('primer3');
         $sekunder3 = $request->input('sekunder3');
         $tritier3 = $request->input('tritier3');
-
+        $XhargaSatuan = (float) str_replace(',', '', $request->input('hargaSatuan'));
         // dd($request->all());
 
         if ($id === 'proses') {
@@ -391,7 +403,7 @@ class PenyesuaianBarangController extends Controller
                     DB::connection('ConnInventory')->statement(
                         'exec SP_1003_INV_Insert_06_Transaksi
                         @XIdTypeTransaksi = ?, @XUraianDetailTransaksi = ?, @XIdType = ?,  @XIdPenerima = ?, @XSaatawalTransaksi = ?,
-                        @XPrimer = ?, @XSekunder = ?, @XTritier = ?, @XAsalIdSubKelompok = ?, @XTujuanIdSubKelompok = ?',
+                        @XPrimer = ?, @XSekunder = ?, @XTritier = ?, @XAsalIdSubKelompok = ?, @XTujuanIdSubKelompok = ?, @HargaSatuan = ?',
                         [
                             '06',
                             $uraian,
@@ -402,7 +414,8 @@ class PenyesuaianBarangController extends Controller
                             $sekunder3,
                             $tritier3,
                             $subkelId,
-                            $subkelId
+                            $subkelId,
+                            $XhargaSatuan
                         ]
                     );
 
@@ -416,8 +429,8 @@ class PenyesuaianBarangController extends Controller
                     // update
                     DB::connection('ConnInventory')->statement(
                         'exec SP_1003_INV_update_Penyesuaian_Transaksi
-                        @XIdTransaksi = ?, @Xuraian = ?, @XPrimer = ?, @XSekunder = ?, @XTritier = ?',
-                        [$kodeTransaksi, $uraian, $primer3, $sekunder3, $tritier3]
+                        @XIdTransaksi = ?, @Xuraian = ?, @XPrimer = ?, @XSekunder = ?, @XTritier = ?, @HargaSatuan = ?',
+                        [$kodeTransaksi, $uraian, $primer3, $sekunder3, $tritier3, $XhargaSatuan]
                     );
 
                     // dd($request->all());

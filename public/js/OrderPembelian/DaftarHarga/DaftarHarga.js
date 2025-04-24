@@ -90,7 +90,12 @@ function redisplayData(nm_brg, req, sup, kdbrg) {
             { data: "NM_SUP" },
             { data: "KOTA1" },
             { data: "NEGARA1" },
-            { data: "Hrg_trm" },
+            {
+                data: "Hrg_trm",
+                render: function (data, type, row) {
+                    return numeral(data).format('0,0.00');
+                }
+            },
             { data: "Id_MataUang_BC" },
             { data: "Nama" },
             {

@@ -1439,34 +1439,34 @@ btn_proses.addEventListener("click", function (e) {
 
         if (a === 1) {
             getSubkelId();
-            if (kondisi == 1 || kondisi == 2) {
-                $.ajax({
-                    type: "PUT",
-                    url: "PenyesuaianBarang/insPersediaan",
-                    data: {
-                        _token: csrfToken,
-                        XIdType: kodeType.value,
-                        XJumlahKeluarTritier: tritier2.value,
-                        hargaSatuan: hargaSatuan.value,
-                        kondisi: kondisi,
-                    },
-                    success: function (result) {
-                        hargaSatuan.value = 0;
-                        // primer2.value = 0;
-                        // sekunder2.value = 0;
-                        // tritier2.value = 0;
-                        // primer2.focus();
-                        // if (Pilih === 0) {
-                        //     TampilAllData();
-                        // } else {
-                        //     TampilData();
-                        // }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error:", error);
-                    },
-                });
-            }
+            // if (kondisi == 1 || kondisi == 2) {
+            //     $.ajax({
+            //         type: "PUT",
+            //         url: "PenyesuaianBarang/insPersediaan",
+            //         data: {
+            //             _token: csrfToken,
+            //             XIdType: kodeType.value,
+            //             XJumlahKeluarTritier: tritier2.value,
+            //             hargaSatuan: hargaSatuan.value,
+            //             kondisi: kondisi,
+            //         },
+            //         success: function (result) {
+            //             hargaSatuan.value = 0;
+            //             // primer2.value = 0;
+            //             // sekunder2.value = 0;
+            //             // tritier2.value = 0;
+            //             // primer2.focus();
+            //             // if (Pilih === 0) {
+            //             //     TampilAllData();
+            //             // } else {
+            //             //     TampilData();
+            //             // }
+            //         },
+            //         error: function (xhr, status, error) {
+            //             console.error("Error:", error);
+            //         },
+            //     });
+            // }
         }
     }
 
@@ -1515,6 +1515,7 @@ btn_proses.addEventListener("click", function (e) {
             sekunder3: sekunder3,
             tritier3: tritier3,
             kodeTransaksi: kodeTransaksi.value,
+            hargaSatuan: hargaSatuan.value,
         },
         timeout: 30000,
         success: function (response) {
@@ -1589,6 +1590,9 @@ function clearInputs() {
     primer2.value = 0;
     sekunder2.value = 0;
     tritier2.value = 0;
+    hargaSatuan.value = 0;
+    hargaSatuanLabel.style.display = 'none';
+    hargaSatuan.style.display = 'none';
 }
 
 
@@ -1677,7 +1681,22 @@ btn_koreksi.addEventListener('click', function () {
         // hide button koreksi, tampilkan button batal
         btn_koreksi.style.display = 'none';
         btn_batal.style.display = 'inline-block';
-
+        $.ajax({
+            type: 'GET',
+            url: 'PenyesuaianBarang/getHargaSatuan',
+            data: {
+                _token: csrfToken,
+                kodeTransaksi: kodeTransaksi.value
+            },
+            success: function (result) {
+                hargaSatuanLabel.style.display = 'block';
+                hargaSatuan.style.display = 'block';
+                hargaSatuan.value = numeral(result.harga_satuan).format('0,0.00') ?? 0;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
     }
 });
 
