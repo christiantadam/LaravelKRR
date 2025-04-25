@@ -56,6 +56,24 @@
                 </div>
                 <div style="display: flex; flex-direction: column;margin: 0.5%;padding:0.5%;border: 1px solid rgba(0, 0, 0, 0.5);"
                     class="card" id="div_asalKonversiTanpaBarcode">
+                    <div style="margin: 0.5%;" class="card" id="div_tabelAsalKonversiTanpaBarcode">
+                        <div style="margin: 0.5%;overflow:auto">
+                            <table id="table_daftarAsalKonversiTanpaBarcode">
+                                <thead>
+                                    <tr style="white-space: nowrap">
+                                        <th>Id Type Asal</th>
+                                        <th>Nama Type Asal</th>
+                                        <th>Jumlah Pengeluaran Primer</th>
+                                        <th>Satuan Primer</th>
+                                        <th>Jumlah Pengeluaran Sekunder</th>
+                                        <th>Satuan Sekunder</th>
+                                        <th>Jumlah Pengeluaran Tritier</th>
+                                        <th>Satuan Tritier</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                     <h5 class="modal-title">Asal Konversi </h5>
                     <div class="card-body">
                         <div style="display: flex; flex-direction: row;">
@@ -182,11 +200,39 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="display: flex; flex-direction: row;gap:1%;">
+                            <div class="form-group" style="width: 75%;">
+                                <button class="btn btn-success" id="button_tambahAsalKonversiTanpaBarcode">Tambah
+                                    Asal</button>
+                                <button class="btn btn-info" id="button_updateAsalKonversiTanpaBarcode">Update
+                                    Asal</button>
+                                <button class="btn btn-danger" id="button_hapusAsalKonversiTanpaBarcode">Hapus
+                                    Asal</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div style="display: flex; flex-direction: column;margin: 0.5%;padding:0.5%;border: 1px solid rgba(0, 0, 0, 0.5);"
                     class="card" id="div_tujuanKonversiTanpaBarcode">
+                    <div style="margin: 0.5%;" class="card" id="div_tabelTujuanKonversiTanpaBarcode">
+                        <div style="margin: 0.5%;overflow:auto">
+                            <table id="table_daftarTujuanKonversiTanpaBarcode">
+                                <thead>
+                                    <tr style="white-space: nowrap">
+                                        <th>Id Type Tujuan</th>
+                                        <th>Nama Type Tujuan</th>
+                                        <th>Jumlah Pengeluaran Primer</th>
+                                        <th>Satuan Primer</th>
+                                        <th>Jumlah Pengeluaran Sekunder</th>
+                                        <th>Satuan Sekunder</th>
+                                        <th>Jumlah Pengeluaran Tritier</th>
+                                        <th>Satuan Tritier</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                     <h5 class="modal-title">Tujuan Konversi </h5>
                     <div class="card-body">
                         <div style="display: flex; flex-direction: row;">
@@ -323,24 +369,6 @@
                                     Tujuan</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div style="margin: 0.5%;" class="card" id="div_tabelTujuanKonversiTanpaBarcode">
-                    <div style="margin: 0.5%;overflow:auto">
-                        <table id="table_daftarTujuanKonversiTanpaBarcode">
-                            <thead>
-                                <tr style="white-space: nowrap">
-                                    <th>Id Type Tujuan</th>
-                                    <th>Nama Type Tujuan</th>
-                                    <th>Jumlah Pengeluaran Primer</th>
-                                    <th>Satuan Primer</th>
-                                    <th>Jumlah Pengeluaran Sekunder</th>
-                                    <th>Satuan Sekunder</th>
-                                    <th>Jumlah Pengeluaran Tritier</th>
-                                    <th>Satuan Tritier</th>
-                                </tr>
-                            </thead>
-                        </table>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-success" id="button_modalProsesTanpaBarcode">Proses</button>
