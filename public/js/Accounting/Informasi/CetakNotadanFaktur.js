@@ -67,6 +67,7 @@ function formatDateToMMDDYYYY(date) {
 let tradeTerm = "";
 let dcn = "";
 let doi = "";
+let editDate;
 let sfilter, sType;
 btnPrev.addEventListener("click", function (e) {
     let sType = "";
@@ -111,6 +112,40 @@ btnPrev.addEventListener("click", function (e) {
                     tradeTerm = result.value.tradeTerm;
                     dcn = result.value.dcn;
                     doi = result.value.doi;
+                    sType = "CetakNotaFaktur";
+                    getViewSJ(sType);
+                }
+            });
+        } else if (bankSelect.value == "7") {
+            Swal.fire({
+                title: "Masukkan Informasi Berikut",
+                icon: "info",
+                html: `
+                      <div style="text-align: left;">
+                        <label for="editDate">Edit date:</label>
+                        <input type="date" id="editDate" class="swal2-input" style="width: 80%;">
+                      </div>
+                    `,
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+                // width: "70%",
+                preConfirm: () => {
+                    const editDate = document
+                        .getElementById("editDate")
+                        .value.trim();
+
+                    // if (!tradeTerm || !dcn || !doi) {
+                    //     Swal.showValidationMessage("Semua kolom harus diisi");
+                    //     return false;
+                    // }
+                    return { editDate };
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    editDate = new Date(result.value.editDate);
+                    // dcn = result.value.dcn;
+                    // doi = result.value.doi;
                     sType = "CetakNotaFaktur";
                     getViewSJ(sType);
                 }
@@ -808,7 +843,14 @@ function rpt_cetakNotaFaktur(result) {
                             result[0].Id_Penagihan
                         );
 
-                        var date2 = new Date(result[0].Tgl_Penagihan);
+                        if (bankSelect.value == "7") {
+                            var date2 = isNaN(new Date(editDate).getTime())
+                                ? new Date(result[0].Tgl_Penagihan)
+                                : new Date(editDate);
+                        } else {
+                            var date2 = new Date(result[0].Tgl_Penagihan);
+                        }
+                        // var date2 = new Date(result[0].Tgl_Penagihan);
 
                         var namaBulan = [
                             "Januari",
@@ -1370,7 +1412,14 @@ function rpt_cetakNotaFaktur(result) {
                             faktur_IdPenagihan2.textContent =
                                 decodeHtmlEntities(result[0].Id_Penagihan);
 
-                            var date2 = new Date(result[0].Tgl_Penagihan);
+                            if (bankSelect.value == "7") {
+                                var date2 = isNaN(new Date(editDate).getTime())
+                                    ? new Date(result[0].Tgl_Penagihan)
+                                    : new Date(editDate);
+                            } else {
+                                var date2 = new Date(result[0].Tgl_Penagihan);
+                            }
+                            // var date2 = new Date(result[0].Tgl_Penagihan);
 
                             var namaBulan = [
                                 "Januari",
