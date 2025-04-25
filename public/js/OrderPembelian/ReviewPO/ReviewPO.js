@@ -342,7 +342,30 @@ function print(data) {
                                   minimumFractionDigits: 2,
                                   maximumFractionDigits: 2,
                               })
-                    }</p></td>
+                    }
+                    <br>
+                    (${
+                        !parseFloat(
+                            item.disc == null ? 0 : item.disc
+                        )
+                            .toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })
+                            .includes(".")
+                            ? parseFloat(
+                                  item.disc == null ? 0 : item.disc
+                              ).toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                              }) + ".00"
+                            : parseFloat(
+                                  item.disc == null ? 0 : item.disc
+                              ).toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                              })
+                    }%)</p></td>
                     <td style="text-align: right;vertical-align: top;"><p style="margin:0;font-size: 12px;font-family: Helvetica;">${
                         !parseFloat(item.PriceSub)
                             .toLocaleString("en-US", {
