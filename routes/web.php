@@ -75,12 +75,15 @@ use App\Http\Controllers\Inventory\Transaksi\Penghangusan\AccPenghangusanBarangC
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
+$redirectIfAuthenticated = function () {
     if (Auth::guest())
-        return view('auth/login');
+        return view('auth.login');
     else
         return redirect('/home');
-});
+};
+
+Route::get('/', $redirectIfAuthenticated);
+Route::get('/logout', $redirectIfAuthenticated);
 
 //Auth::routes();
 
@@ -1054,6 +1057,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('OrderJahit', App\Http\Controllers\JumboBag\OrderJahit::class);
     Route::resource('OrderPress', App\Http\Controllers\JumboBag\OrderPress::class);
     Route::resource('MaintenanceOrderPress', App\Http\Controllers\JumboBag\MaintenanceOrderPress::class);
+    Route::resource('KebutuhanKomponen', App\Http\Controllers\JumboBag\KebutuhanKomponenController::class);
     Route::resource('TabelHitunganInformasi', App\Http\Controllers\JumboBag\TabelHitunganInformasi::class);
     Route::resource('EstimasiHarga', App\Http\Controllers\JumboBag\EstimasiHarga::class);
 
