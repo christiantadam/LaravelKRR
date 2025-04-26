@@ -2,11 +2,6 @@
 @section('content')
     @include('User/modalEditUser')
     @include('User/modalEditAdmin')
-    <script>
-        $(document).ready(function() {
-            $('#table_Approve').DataTable({});
-        });
-    </script>
 
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -90,4 +85,20 @@
             </div>
         </div>
     </div>
+    <script>
+        function ShowPassword(input, icon) {
+            var input = document.getElementById(input);
+            var icon = document.getElementById(icon);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.innerHTML = "visibility";
+            } else {
+                input.type = "password";
+                icon.innerHTML = "visibility_off";
+            }
+        }
+        $(document).ready(function() {
+            $('#table_Approve').DataTable({});
+        });
+    </script>
 @endsection
