@@ -285,18 +285,20 @@ $(document).ready(function () {
         }
 
         // Handle currency conversion
-        if (idMataUang.value == "1") {
-            TTerbilang = convertNumberToWordsRupiah(TNilaiPenagihan);
-        } else {
-            if (nilaiKurs.value <= 0 || nilaiKurs.value == null) {
-                Swal.fire({
-                    icon: "info",
-                    title: "P E S A N",
-                    text: "ISI DULU NILAI KURSNYA",
-                });
-                return;
+        if (proses == 1 || proses == 2) {
+            if (idMataUang.value == "1") {
+                TTerbilang = convertNumberToWordsRupiah(TNilaiPenagihan);
+            } else {
+                if (nilaiKurs.value <= 0 || nilaiKurs.value == null) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "P E S A N",
+                        text: "ISI DULU NILAI KURSNYA",
+                    });
+                    return;
+                }
+                TTerbilang = convertNumberToWordsDollar(TNilaiPenagihan);
             }
-            TTerbilang = convertNumberToWordsDollar(TNilaiPenagihan);
         }
 
         // Handle reversing PPN for other tax types
