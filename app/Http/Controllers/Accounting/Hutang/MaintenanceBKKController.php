@@ -604,7 +604,7 @@ class MaintenanceBKKController extends Controller
                     return response()->json(['error' => 'Silahkan masuk ke menu Hutang --> Penyesuaian Hutang Supplier untuk melakukan penyesuaian saldo supplier tsb']);
                 }
             }
-            $createBKKResult = DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?', [
+            $createBKKResult = DB::connection('ConnAccounting')->statement('exec SP_5409_ACC_INS_BKK2_IDBKK @IdBank = ?, @IdMataUang = ?, @IdJenisBayar = ?, @UserId = ?, @IdPembayaran = ?, @TglNow = ?, @nilaibulat = ?, @idsup = ?, @StatusPenagihan = ?, @XJenisProgram = ?', [
                 $firstItem['Id_Bank'],
                 $firstItem['Id_MataUang'],
                 $firstItem['Id_Jenis_Bayar'],
@@ -613,7 +613,8 @@ class MaintenanceBKKController extends Controller
                 $tanggal,
                 $totalPayment,
                 $firstItem['Id_Supplier'],
-                substr($firstItem['Id_Penagihan'], 0, 1) != 'X' ? 'Y' : 'N'
+                substr($firstItem['Id_Penagihan'], 0, 1) != 'X' ? 'Y' : 'N',
+                'Laravel'
             ]);
             if ($createBKKResult) {
                 $idBKKTerbaru[] = DB::connection('ConnAccounting')->table('T_Pembayaran')->select('Id_BKK')->where('User_Input', $user_id)->orderBy('Time_Update', 'desc')->first();
