@@ -921,6 +921,15 @@ select_subKategori.addEventListener("change", function (event) {
         select_namaBarang.disabled = false;
     });
 });
+
+select_namaBarang.addEventListener("change", function (event) {
+    let myValue = select_namaBarang.value;
+    console.log(myValue);
+    kd_barang.value = myValue;
+    // namaBarang(myValue, function () {
+    //     select_namaBarang.disabled = false;
+    // });
+});
 //#endregion
 
 $("#modal_tambahOrder").on("shown.bs.modal", function () {
