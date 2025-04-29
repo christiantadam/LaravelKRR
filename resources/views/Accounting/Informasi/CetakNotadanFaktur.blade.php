@@ -98,6 +98,10 @@
         display: none;
     }
 
+    .faktur3 {
+        display: none;
+    }
+
     .fakturXC {
         display: none;
     }
@@ -155,6 +159,13 @@
             font-size: 18px;
         }
 
+        /* Show only elements with the class 'faktur3' */
+        .faktur3,
+        .faktur3 * {
+            visibility: visible;
+            font-size: 18px;
+        }
+
         /* Show only elements with the class 'fakturXC' */
         .fakturXC,
         .fakturXC * {
@@ -207,6 +218,7 @@
         /* Ensure that the elements are positioned correctly */
         .faktur,
         .faktur2,
+        .faktur3,
         .fakturXC,
         .nota,
         .fakturPajak1,
@@ -341,6 +353,435 @@
                                         class="btn btn-primary">
                                 </div> --}}
                             </div>
+                        </div>
+
+                        {{-- nota dan faktur OMYA --}}
+                        <div class="faktur3">
+                            {{-- <table style="width: 100%; border-bottom: 1px solid black !important; border-top: 1px solid black !important;" > --}}
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="border: 1px solid black; padding: 5px; position: relative;">
+                                        <div class="row">
+                                            <div class="col-sm-8 text-right">
+                                                <span style="font-weight: bold; font-size: 24px !important">FAKTUR
+                                                    PENJUALAN</span>
+                                            </div>
+                                            <div class="col-sm-3 text-right"
+                                                style="margin-left: 60px; margin-top: 5px">
+                                                <span>Nomor: </span>
+                                                <span id="faktur_IdPenagihan3">Id Penagihan</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td colspan="2"
+                                        style="font-weight: bold; border-bottom:none !important; border-right:none !important">
+                                        &nbsp;PENGUSAHA KENA PAJAK</td>
+                                    <td style="border-bottom:none !important; border-left:none !important"><span
+                                            id="faktur_beneficiary3">( BENEFICIARY
+                                            )</span></td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="width: 25%; border:none !important; border-left: 1px solid black !important;">
+                                        &nbsp;N a m a</td>
+                                    <td style="width: 2%; border:none !important;">&nbsp;:</td>
+                                    <td
+                                        style="font-weight: bold; border:none !important; border-right: 1px solid black !important;">
+                                        &nbsp;PT. KERTA RAJASA RAYA</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="width: 25%; border:none !important; border-left: 1px solid black !important;">
+                                        &nbsp;A l a m a t</td>
+                                    <td style="width: 2%; border:none !important;">&nbsp;:</td>
+                                    <td
+                                        style="border:none !important; border-right: 1px solid black !important; font-size: 16px !important">
+                                        &nbsp;Jl. Raya Tropodo No.1, RT 001, RW 005, Kepuhkiriman, Waru, Kab. Sidoarjo,
+                                        Jawa Timur 61256</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="width: 25%; border:none !important; border-left: 1px solid black !important;">
+                                        &nbsp;N P W P</td>
+                                    <td style="width: 2%; border:none !important;">&nbsp;:</td>
+                                    <td style="border:none !important; border-right: 1px solid black !important;">
+                                        &nbsp;0011 4089 7864 1000</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="width: 25%; border:none !important; border-left: 1px solid black !important; border-bottom: 1px solid black !important;">
+                                        &nbsp;Tanggal Pengukuhan PKP</td>
+                                    <td
+                                        style="width: 2%; border:none !important; border-bottom: 1px solid black !important;">
+                                        &nbsp;:</td>
+                                    <td
+                                        style="border:none !important; border-right: 1px solid black !important; border-bottom: 1px solid black !important;">
+                                        &nbsp;24 Februari 2011</td>
+                                </tr>
+                            </table>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td colspan="3"
+                                        style="font-weight: bold; border-bottom:none !important; border-right:none !important">
+                                        &nbsp;PEMBELI BKP / PENERIMA JKP</td>
+                                    <td style="border-bottom:none !important; border-left:none !important">
+                                        <span id="faktur_applicant3">( APPLICANT )</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="width: 10%; border:none !important; border-left: 1px solid black !important;">
+                                        &nbsp;N a m a</td>
+                                    <td style="width: 2%; border:none !important;">&nbsp;:</td>
+                                    <td colspan="3"
+                                        style="font-weight: bold; border:none !important; border-right: 1px solid black !important;">
+                                        &nbsp;
+                                        <span
+                                            id="faktur_NamaNPWP3">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none !important; border-left: 1px solid black !important;">
+                                        &nbsp;A l a m a t</td>
+                                    <td style="width: 2%; border:none !important;">&nbsp;:</td>
+                                    <td colspan="2"
+                                        style="border:none !important; border-right: 1px solid black !important;">
+                                        &nbsp;
+                                        <span id="faktur_AlamatNPWP3"
+                                            style="font-size: 15px !important">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="border:none !important; border-left: 1px solid black !important; border-bottom: 1px solid black !important;">
+                                        &nbsp;N P W P</td>
+                                    <td
+                                        style="width: 2%; border:none !important; border-bottom: 1px solid black !important;">
+                                        &nbsp;:</td>
+                                    <td colspan="2"
+                                        style="border:none !important; border-right: 1px solid black !important; border-bottom: 1px solid black !important;">
+                                        &nbsp;
+                                        <span
+                                            id="faktur_NPWP3">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 5%; text-align: center;">No. Urut</td>
+                                    <td style="width: 41%; text-align: center;">Nama Barang / Jasa Kena Pajak</td>
+                                    <td style="width: 16%; text-align: center;">
+                                        <span>Kuantum</span>
+                                        <br>
+                                        <span id="faktur_emptyBag3">/ Empty Bag</span>
+                                    </td>
+                                    <td style="width: 17%; text-align: center;">Harga Satuan</td>
+                                    <td style="text-align: center;">Harga Jual/Penggantian/Uang Muka</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <span id="faktur_NamaKelompokUtama3"
+                                            style="text-align: left !important; margin-left: 60px;">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                        <div style="margin-left: 50px;" id="faktur_Detail3"></div>
+                                        <br>
+                                        <label id="bankBayar3" style="font-weight: bold; margin-left: 60px;">&nbsp;
+                                            <br>
+                                            &nbsp;<br>
+                                            &nbsp;<br>
+                                            &nbsp;</label>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td colspan="2" style="width: 79%; text-align: left;">Jumlah Harga Jual /
+                                        <s>Penggantian / Uang Muka / Termijn</s>
+                                    </td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important"
+                                        id="faktur_SymbolGrand3"></td>
+                                    <td style="text-align: right; border-left:none !important" id="faktur_Grand3">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="width: 79%; text-align: left;">Dikurangi potongan harga
+                                    </td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important"></td>
+                                    <td style="text-align: right; border-left:none !important">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="width: 79%; text-align: left;">Dikurangi uang muka yang
+                                        diterima</td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important"
+                                        id="faktur_SymbolUM3"></td>
+                                    <td style="text-align: right; border-left:none !important" id="faktur_UM3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="width: 79%; text-align: left;">Dasar Pengenaan Pajak
+                                        Nilai Lain</td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important"
+                                        id="faktur_SymbolDPP3"></td>
+                                    <td style="text-align: right; border-left:none !important" id="faktur_DPP3"></td>
+                                </tr>
+                                {{-- <tr>
+                                    <td colspan="2" style="width: 79%; text-align: left;">PPN 12%</td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important" id="faktur_SymbolPajak3"></td>
+                                    <td style="text-align: right; border-left:none !important" id="faktur_Pajak3"></td>
+                                </tr> --}}
+                            </table>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 7%; text-align: left; border-right:none !important">PPN</td>
+                                    <td style="width: 72%; text-align: left; border-left:none !important"
+                                        id="faktur_PersenPPN3"></td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important"
+                                        id="faktur_SymbolPajak3"></td>
+                                    <td style="text-align: right; border-left:none !important" id="faktur_Pajak3">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 7%; text-align: left; border-right:none !important">Jumlah</td>
+                                    <td style="width: 72%; text-align: left; border-left:none !important; font-family: 'Arial Narrow', Arial, sans-serif; font-size: 12px;"
+                                        id="faktur_Terbilang3"></td>
+                                    <td style="width: 4%; text-align: left; border-right:none !important"
+                                        id="faktur_SymbolTerbayar3"></td>
+                                    <td style="text-align: right; border-left:none !important" id="faktur_Terbayar3">
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 72%; text-align: left; border-right:none !important; border-bottom:none !important"
+                                        id="faktur_SyaratBayar3">&nbsp;</td>
+                                    <td
+                                        style="width: 11%; text-align: left; border-right:none !important; border-bottom:none !important">
+                                        Sidoarjo, Tgl</td>
+                                    <td style="width: 11%; text-align: center; border-right:none !important; border-bottom:none !important"
+                                        id="faktur_TglBln3"></td>
+                                    <td style="text-align: right; border-bottom:none !important; border-bottom:none !important"
+                                        id="faktur_Thn3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="text-align: left; border-bottom:none !important"
+                                        id="faktur_Tempo3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"
+                                        style="width: 72%; text-align: left; border-right:none !important; border-bottom:none !important"
+                                        id="faktur_SuratJalan3">&nbsp;</td>
+                                    <td style="border-bottom:none !important"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"
+                                        style="width: 72%; text-align: left; border-right:none !important; border-bottom:none !important"
+                                        id="faktur_SJ3">&nbsp;</td>
+                                    <td style="border-bottom:none !important"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right:none !important; border-bottom:none !important"></td>
+                                    <td colspan="3" style="text-align: center; border-bottom:none !important">
+                                        (.........................................)</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right:none !important"></td>
+                                    <td colspan="3" style="text-align: center" id="ttdPimpinan3">RUDY SANTOSO</td>
+                                </tr>
+                            </table>
+                            <div class="row" style="position: absolute; top: 1.4cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-9 offset-sm-2 text-left">
+                                    {{-- <span id="faktur_beneficiary3">( BENEFICIARY
+                                        )</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row mt-5" style="margin-top: 0.1cm">
+                                <div class="col-sm-8 text-right">
+                                    {{-- <label><b>Nomor Seri Faktur Pajak</b></label> --}}
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    {{-- <span id="faktur_AreaPPNThnIdFakturPajak">XX . 012 - XX. XXXXXXXXX</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row" style="position: absolute; top: 7.1cm; left: 0cm; right: 6.2cm;">
+                                <div class="col-sm-9 offset-sm-3 text-left">
+                                    {{-- <span id="faktur_applicant3">( APPLICANT )</span> --}}
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            {{-- <div class="row" style="margin-top: 15%">
+                                <div class="col-sm-9 offset-sm-2 text-left">
+                                    <span
+                                        id="faktur_NamaNPWP3">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXNAMAXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10 offset-sm-2 text-left">
+                                    <span id="faktur_AlamatNPWP3"
+                                        style="font-size: 15px !important">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXALAMATXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-2 text-left">
+                                    <span id="faktur_NPWP3">XXXXXXXXXXXXXXNPWPXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+                                </div>
+                            </div> --}}
+
+                            <div class="row" style="position: absolute; top: 12.2cm; left: 1cm; right: 0cm;">
+                                <div class="col-sm-7 text-right offset-sm-0">
+                                    {{-- <span id="faktur_emptyBag3">/ Empty Bag</span> --}}
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+                            <div class="row mt-3">
+                                <div class="col-sm-1 offset-sm-0 text-left description-left"
+                                    style="font-size: 14px !important;">
+                                    <span></span>
+                                </div>
+                                <div class="col-sm-5 offset-sm-0 text-left description-left"
+                                    style="font-size: 14px !important;">
+                                    {{-- <span
+                                        id="faktur_NamaKelompokUtama3">XXXXXXXXXXXXXXKELUTXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span> --}}
+                                </div>
+                            </div>
+                            {{-- <div id="faktur_Detail3"></div> --}}
+
+                            <div class="row mt-3" style="position: absolute; top: 21.7cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-10 text-left offset-sm-0">
+                                    <label id="bankBayar" style="font-weight: bold">&nbsp;
+                                        <br>
+                                        &nbsp;<br>
+                                        &nbsp;<br>
+                                        &nbsp;</label>
+                                </div>
+                                <div class="col-sm-2 text-right offset-sm-1">
+                                    {{-- <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label> --}}
+                                </div>
+                                <div class="col-sm-1 offset-sm-6 text-right">
+                                    {{-- <span id="faktur_SymbolGrand3">xxxx</span> --}}
+                                </div>
+                                <div class="col-sm-2 text-right" style="white-space: nowrap; overflow: hidden;">
+                                    {{-- <span id="faktur_Grand3">-5.555.555,00</span> --}}
+                                </div>
+                            </div>
+
+                            {{-- <div class="row mt-4">
+                                <div class="col-sm-2 text-left offset-sm-3">
+                                    <label><b> XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                </div>
+                                <div class="col-sm-1 offset-sm-5 text-right">
+                                    <span id="faktur_SymbolGrand">xxxx</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <span id="faktur_Grand">-5.555.555,00</span>
+                                </div>
+                            </div> --}}
+
+                            <div class="row" style="position: absolute; top: 26.2cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-2 offset-sm-10 text-right">
+                                    {{-- <label>0.00</label> --}}
+                                </div>
+                            </div>
+
+                            <div class="row" style="position: absolute; top: 27cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-1 offset-sm-9 text-right">
+                                    {{-- <span id="faktur_SymbolUM3">xxxx</span> --}}
+                                </div>
+                                <div class="col-sm-2 text-right" style="white-space: nowrap; overflow: hidden;">
+                                    {{-- <span id="faktur_UM3">-5.555.555,00</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row" style="position: absolute; top: 27.9cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-4 text-left offset-sm-2">
+                                    {{-- <span>Nilai Lain</span> --}}
+                                </div>
+                                <div class="col-sm-1 offset-sm-3 text-right">
+                                    {{-- <span id="faktur_SymbolDPP3">xxxx</span> --}}
+                                </div>
+                                <div class="col-sm-2 text-right" style="white-space: nowrap; overflow: hidden;">
+                                    {{-- <span id="faktur_DPP3">-5.555.555,00</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row" style="position: absolute; top: 28.7cm; left: 0cm; right: 0cm;">
+                                <div class="col-sm-3 text-left offset-sm-0">
+                                    {{-- <span id="faktur_PersenPPN3"><b>11%</b></span> --}}
+                                </div>
+                                <div class="col-sm-1 offset-sm-6 text-right">
+                                    {{-- <span id="faktur_SymbolPajak3">xxxx</span> --}}
+                                </div>
+                                <div class="col-sm-2 text-right" style="white-space: nowrap; overflow: hidden;">
+                                    {{-- <span id="faktur_Pajak3">-5.555.555,00</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row"
+                                style="position: absolute; top: 29.55cm; left: 0cm; right: 0cm; padding: 0% !important">
+                                <div class="col-sm-9 text-left offset-sm-0">
+                                    {{-- <span id="faktur_Terbilang3"
+                                        style="font-family: 'Arial Narrow', Arial, sans-serif; font-size: 14px;">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span> --}}
+                                </div>
+                                <div class="col-sm-1 text-right" style="font-weight: bold">
+                                    {{-- <span id="faktur_SymbolTerbayar3">xxxx</span> --}}
+                                </div>
+                                <div class="col-sm-2 text-right"
+                                    style="font-weight: bold; white-space: nowrap; overflow: hidden;">
+                                    {{-- <span id="faktur_Terbayar3">-5.555.555,00</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row"
+                                style="position: absolute; top: 30.5cm; left: 1cm; right: 0cm !important; font-weight: bold">
+                                <div class="col-sm-4 text-left">
+                                    {{-- <span id="faktur_SyaratBayar3">Syarat Pembayaran: &emsp;&emsp;xxxx Hari</span> --}}
+                                </div>
+                                <div class="col-sm-2 text-center offset-sm-3">
+                                    {{-- <span>Sidoarjo</span> --}}
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    {{-- <span id="faktur_TglBln3">3 Januari</span> --}}
+                                </div>
+                                <div class="col-sm-1 text-right">
+                                    {{-- <span id="faktur_Thn3">11</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row"
+                                style="position: absolute; top: 31.4cm; left: 1cm; right: 1cm; font-weight: bold">
+                                <div class="col-sm-12 text-left">
+                                    {{-- <span id="faktur_Tempo3">Jatuh Tempo: &emsp;&emsp; 12/31/1999</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row"
+                                style="position: absolute; top: 32.3cm; left: 1cm; right: 1cm; font-weight: bold">
+                                <div class="col-sm-12 text-left">
+                                    {{-- <span id="faktur_SuratJalan3">Surat Jalan: &emsp;&emsp;
+                                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span> --}}
+                                </div>
+                            </div>
+
+                            <div class="row"
+                                style="position: absolute; top: 33.6cm; left: 1cm; right: 1cm; font-weight: bold">
+                                <div class="col-sm-8 text-left">
+                                    {{-- <span
+                                        id="faktur_SJ3">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span> --}}
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    {{-- <span id="ttdPimpinan3">RUDY SANTOSO</span> --}}
+                                </div>
+                            </div>
+                            {{-- </table> --}}
                         </div>
 
                         {{-- nota dan faktur --}}
@@ -496,7 +937,8 @@
                                 <div class="col-sm-1 text-right" style="font-weight: bold">
                                     <span id="faktur_SymbolTerbayar">xxxx</span>
                                 </div>
-                                <div class="col-sm-2 text-right" style="font-weight: bold; white-space: nowrap; overflow: hidden;">
+                                <div class="col-sm-2 text-right"
+                                    style="font-weight: bold; white-space: nowrap; overflow: hidden;">
                                     <span id="faktur_Terbayar">-5.555.555,00</span>
                                 </div>
                             </div>
@@ -535,8 +977,8 @@
                             <div class="row"
                                 style="position: absolute; top: 33.6cm; left: 1cm; right: 1cm; font-weight: bold">
                                 <div class="col-sm-8 text-left">
-                                    <span
-                                        id="faktur_SJ" style="width: 50%">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                                    <span id="faktur_SJ"
+                                        style="width: 50%">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
                                 </div>
                                 <div class="col-sm-3 text-right">
                                     <span id="ttdPimpinan">RUDY SANTOSO</span>
@@ -698,7 +1140,8 @@
                                 <div class="col-sm-1 text-right" style="font-weight: bold">
                                     <span id="faktur_SymbolTerbayar2">xxxx</span>
                                 </div>
-                                <div class="col-sm-2 text-right" style="font-weight: bold; white-space: nowrap; overflow: hidden;">
+                                <div class="col-sm-2 text-right"
+                                    style="font-weight: bold; white-space: nowrap; overflow: hidden;">
                                     <span id="faktur_Terbayar2">-5.555.555,00</span>
                                 </div>
                             </div>
