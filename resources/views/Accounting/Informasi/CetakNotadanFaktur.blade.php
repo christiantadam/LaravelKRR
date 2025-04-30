@@ -657,7 +657,7 @@
 
                             <div class="row mt-3" style="position: absolute; top: 21.7cm; left: 0cm; right: 0cm;">
                                 <div class="col-sm-10 text-left offset-sm-0">
-                                    <label id="bankBayar" style="font-weight: bold">&nbsp;
+                                    <label id="bankBayar3" style="font-weight: bold">&nbsp;
                                         <br>
                                         &nbsp;<br>
                                         &nbsp;<br>
