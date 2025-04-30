@@ -928,6 +928,7 @@ btn_batal.addEventListener("click", function (e) {
 });
 
 btn_proses.addEventListener("click", function (e) {
+    btn_proses.disabled = true;
     var table = $("#tableData").DataTable();
 
     if (table.$("tr.selected").length > 0) {
@@ -1008,6 +1009,10 @@ btn_proses.addEventListener("click", function (e) {
         });
         return;
     }
+
+    setTimeout(() => {
+        btn_proses.disabled = false;
+    }, 2000);
 });
 var prosesCount = 0;
 function callAllData() {
