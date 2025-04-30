@@ -1043,7 +1043,7 @@ function rpt_cetakNotaFaktur(result) {
                                     "small-font"
                                 );
 
-                                if (index < 4) {
+                                if (index >= 4) {
                                     additionalRow.style.display = "none";
                                 }
 
