@@ -926,6 +926,7 @@ select_namaBarang.addEventListener("change", function (event) {
     let myValue = select_namaBarang.value;
     console.log(myValue);
     kd_barang.value = myValue;
+    btn_cari_kdBarang.click();
     // namaBarang(myValue, function () {
     //     select_namaBarang.disabled = false;
     // });
