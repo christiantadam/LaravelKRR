@@ -624,10 +624,11 @@ class MaintenanceBKKController extends Controller
 
                 foreach ($listPengajuan as $item) {
                     if ($item['Id_Pembayaran'] != $firstItem['Id_Pembayaran']) {
-                        DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_INS_BKK2_RINCBKK @IdBKK = ?, @IdPembayaran = ?, @TglNow = ?', [
+                        DB::connection('ConnAccounting')->statement('exec SP_1273_ACC_INS_BKK2_RINCBKK @IdBKK = ?, @IdPembayaran = ?, @TglNow = ?, @IdMataUang = ?', [
                             $idbkk,
                             $item['Id_Pembayaran'],
-                            $tanggal
+                            $tanggal,
+                            $firstItem['Id_MataUang']
                         ]);
                     }
                 }
