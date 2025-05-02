@@ -1100,6 +1100,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('MaintenanceBKKKRR2', App\Http\Controllers\Accounting\Hutang\MaintenanceBKKController::class);
     Route::get('MaintenanceBKKKRR2Print', 'App\Http\Controllers\Accounting\Hutang\MaintenanceBKKController@print');
 
+    Route::resource('MaintenanceKurs', App\Http\Controllers\Accounting\Hutang\MaintenanceKursController::class);
+
     Route::resource('MaintenanceTTKRR1', App\Http\Controllers\Accounting\Hutang\MaintenanceTTKRR1Controller::class);
     Route::resource('MaintenanceACCBayarTTKRR1', App\Http\Controllers\Accounting\Hutang\MaintenanceACCBayarTTKRR1Controller::class);
     Route::get('getSupplierTTKRR1', 'App\Http\Controllers\Accounting\Hutang\MaintenanceTTKRR1Controller@getSupplierTTKRR1');
