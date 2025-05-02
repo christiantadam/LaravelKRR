@@ -79,9 +79,13 @@
                                 @endforeach
                         </table>
                     </div>
-                    <button type="button" class="btn btn-sm btn-danger" id="buttonBatal"
-                        onclick="openModal('{{ $item->IdtransTmp }}','{{ $item->IDDO }}')"><span>&#x1F5D1;</span>
-                        Batalkan</button>
+                    @isset($item)
+                        <button type="button" class="btn btn-sm btn-danger" id="buttonBatal"
+                            onclick="openModal('{{ $item->IdtransTmp }}','{{ $item->IDDO }}')">
+                            <span>&#x1F5D1;</span> Batalkan
+                        </button>
+                    @endisset
+
                 </div>
             </div>
         </div>
