@@ -409,6 +409,14 @@ $(document).ready(function () {
                                     text: data.error,
                                     showConfirmButton: false,
                                 });
+                            } else if (data.success.length < 1) {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: "Barcode tidak ditemukan!",
+                                    timer: 2000,
+                                    showConfirmButton: false,
+                                });
                             } else {
                                 var dataAsalKonversi = data.success;
                                 var dataAsalKonversiInput = [];
@@ -1214,23 +1222,39 @@ $(document).ready(function () {
                 //         }
                 //     });
 
-                if (table_daftarTujuanKonversi.column(4).data().sum() > 0) {
-                    maxHasilKonversiTritier =
-                        parseFloat(table_daftarAsalKonversi.data()[0][4]) *
-                            1.03 -
-                        table_daftarTujuanKonversi.column(4).data().sum();
-                } else {
-                    maxHasilKonversiTritier =
-                        table_daftarAsalKonversi.data()[0][4] * 1.03;
-                }
+                // if (table_daftarTujuanKonversi.column(4).data().sum() > 0) {
+                //     maxHasilKonversiTritier =
+                //         parseFloat(table_daftarAsalKonversi.data()[0][4]) *
+                //             1.03 -
+                //         table_daftarTujuanKonversi.column(4).data().sum();
+                // } else {
+                //     maxHasilKonversiTritier =
+                //         table_daftarAsalKonversi.data()[0][4] * 1.03;
+                // }
             });
         }
     });
 
     hasil_konversiTritierTujuan.addEventListener("input", function (e) {
         let inputValue = parseFloat(e.target.value);
-        // console.log(maxHasilKonversiTritier);
+        let sumHasilKonversiTritier = 0;
+
+        // Loop through table rows and sum only those without the .selected class
+        table_daftarTujuanKonversi.rows().every(function () {
+            let rowNode = this.node();
+            if (!rowNode.classList.contains("selected")) {
+                sumHasilKonversiTritier +=
+                    parseFloat(this.data()[4]).toFixed(2) || 0;
+            }
+        });
+
+        let maxHasilKonversiTritier =
+            parseFloat(
+                numeral(table_daftarAsalKonversi.data()[0][4]).value() * 1.03
+            ) - sumHasilKonversiTritier;
         // Check if the value exceeds the maximum allowed value
+        console.log(maxHasilKonversiTritier);
+
         if (inputValue > maxHasilKonversiTritier) {
             // Set the value to the maximum allowed
             e.target.value = maxHasilKonversiTritier;
