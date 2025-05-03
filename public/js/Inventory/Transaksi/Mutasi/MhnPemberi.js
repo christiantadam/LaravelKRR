@@ -1001,6 +1001,7 @@ btnProses.addEventListener("click", function (e) {
             text: "Jumlah Barang Yang dimutasi harap di isi",
         }).then(() => {
             primer2.focus();
+            primer2.select();
         });
         return;
     }
@@ -1053,6 +1054,7 @@ btnProses.addEventListener("click", function (e) {
                 } else {
                     btnProses.disabled = false;
                     primer2.focus();
+                    primer2.select();
                 }
             })
             .catch(function (error) {
@@ -1134,7 +1136,7 @@ function SaveData() {
                     sekunder2.value = 0;
                     tritier2.value = 0;
                     primer2.focus();
-
+                    primer2.select();
                     if (Pilih === 0) {
                         TampilAllData();
                     } else {
@@ -2533,14 +2535,17 @@ btnSubkel2.addEventListener("click", function (e) {
                                     primer2.disabled = true;
                                     sekunder2.disabled = true;
                                     tritier2.focus();
+                                    tritier2.select();
                                 } else if (
                                     satuanPrimer.value.trim() === "NULL" &&
                                     satuanSekunder.value.trim() !== "NULL"
                                 ) {
                                     primer2.disabled = true;
                                     sekunder2.focus();
+                                    sekunder2.select();
                                 } else {
                                     primer2.focus();
+                                    primer2.select();
                                 }
                             }
                         })
@@ -2562,14 +2567,17 @@ btnSubkel2.addEventListener("click", function (e) {
                                     primer2.disabled = true;
                                     sekunder2.disabled = true;
                                     tritier2.focus();
+                                    tritier2.select();
                                 } else if (
                                     satuanPrimer.value.trim() === "NULL" &&
                                     satuanSekunder.value.trim() !== "NULL"
                                 ) {
                                     primer2.disabled = true;
                                     sekunder2.focus();
+                                    sekunder2.select();
                                 } else {
                                     primer2.focus();
+                                    primer2.select();
                                 }
                             }
                         })
@@ -2859,10 +2867,12 @@ $("#primer2").on("keydown", function (e) {
             }).then(() => {
                 primer2.value = 0;
                 primer2.focus();
+                primer2.select();
             });
         } else {
             primer2.value = formatNumber(value);
             sekunder2.focus();
+            sekunder2.select();
         }
     }
 });
@@ -2883,10 +2893,12 @@ $("#sekunder2").on("keydown", function (e) {
             }).then(() => {
                 sekunder2.value = 0;
                 sekunder2.focus();
+                sekunder2.select();
             });
         } else {
             sekunder2.value = formatNumber(value);
             tritier2.focus();
+            tritier2.select();
         }
     }
 });
@@ -2907,6 +2919,7 @@ $("#tritier2").on("keydown", function (e) {
             }).then(() => {
                 tritier2.value = 0;
                 tritier2.focus();
+                tritier2.select();
             });
         } else if (objekId.value === "147" && objekId2 === "095") {
             if (value > 20) {
@@ -2917,6 +2930,7 @@ $("#tritier2").on("keydown", function (e) {
                 }).then(() => {
                     tritier2.value = 0;
                     tritier2.focus();
+                    tritier2.select();
                 });
             } else {
                 uraian.focus();

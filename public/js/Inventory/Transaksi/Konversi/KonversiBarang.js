@@ -1649,6 +1649,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     hargaSatuan.focus();
                     }else {
                         primerKonversiAsal.focus();
+                        primerKonversiAsal.select();
                     }
                     // if (asalAtauTujuan.innerHTML == "Tujuan Konversi") {
                     //     $.ajax({
@@ -1690,6 +1691,7 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
             hargaSatuan.value = numeral(hargaSatuan.value).format("0,0.00");
             primerKonversiAsal.focus();
+            primerKonversiAsal.select();
         }
     });
 
@@ -1909,6 +1911,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
         primerKonversiAsal.focus();
+        primerKonversiAsal.select();
     }
 
     const idtype2Select = $("#idtype2Select");
@@ -2175,6 +2178,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
         primerKonversiAsal.focus();
+        primerKonversiAsal.select();
     }
 
     function getKodeBarang(sType) {
@@ -3199,6 +3203,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 text: "Jumlah Tritier tidak boleh Nol!!!...",
             }).then(() => {
                 triterKonversiAsal.focus();
+                triterKonversiAsal.select();
             });
             return;
         } else {
@@ -3849,9 +3854,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             }).then(() => {
                                 primerKonversiAsal.value = 0;
                                 primerKonversiAsal.focus();
+                                primerKonversiAsal.select();
                             });
                         } else {
                             sekunderKonversiAsal.focus();
+                            sekunderKonversiAsal.select();
                         }
                     },
                     error: function (xhr, status, error) {
@@ -3860,6 +3867,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             } else {
                 sekunderKonversiAsal.focus();
+                sekunderKonversiAsal.select();
             }
         }
     });
@@ -3902,10 +3910,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             }).then(() => {
                                 sekunderKonversiAsal.value = 0;
                                 sekunderKonversiAsal.focus();
+                                sekunderKonversiAsal.select();
                             });
                         } else {
                             btn_prosesAsal.disabled = false;
                             triterKonversiAsal.focus();
+                            triterKonversiAsal.select();
                         }
                     },
                     error: function (xhr, status, error) {
@@ -3914,6 +3924,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             } else {
                 triterKonversiAsal.focus();
+                triterKonversiAsal.select();
                 btn_prosesAsal.disabled = false;
             }
         }
@@ -3956,6 +3967,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }).then(() => {
                                 triterKonversiAsal.value = 0;
                                 triterKonversiAsal.focus();
+                                triterKonversiAsal.select();
                             });
                         } else {
                             if (
