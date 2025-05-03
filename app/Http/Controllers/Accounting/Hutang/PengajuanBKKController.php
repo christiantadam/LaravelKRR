@@ -284,6 +284,7 @@ class PengajuanBKKController extends Controller
 
             $ttNoLunasDetails = DB::connection('ConnAccounting')
                 ->select('exec Sp_1273_ACC_LIST_BKK2_TT_NOLUNAS @IDSupplier = ?', [$supplierId]);
+                // dd($ttNoLunasDetails);
             foreach ($ttNoLunasDetails as $row) {
                 $item = [];
                 $item['Waktu_Penagihan'] = \Carbon\Carbon::parse($row->Waktu_Penagihan)->format('m/d/Y');
@@ -296,6 +297,7 @@ class PengajuanBKKController extends Controller
                 $item['Id_Pembayaran'] = $row->Id_Pembayaran;
                 $item['TT_NOLunas'] = $row->TT_NOLunas;
                 $item['isRed'] = true;
+                $item['KursBayar'] = $row->Kurs_Bayar;
                 $response[] = $item;
             }
             // dd($ttDetails, $ttNoLunasDetails);
