@@ -653,6 +653,10 @@ table tr:last-child td:last-child {
     z-index: 10;
 }
 
+.acs-icon-btn:focus {
+    outline: none;
+}
+
 .acs-add-btn:hover {
     width: 170px;
     cursor: pointer;
@@ -680,10 +684,6 @@ table tr:last-child td:last-child {
     left: 14px;
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
-}
-
-.acs-icon-btn:focus {
-    outline: none;
 }
 
 .acs-btn-txt {
