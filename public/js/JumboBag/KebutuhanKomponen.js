@@ -289,7 +289,7 @@ $(document).ready(function () {
                         });
                     table_daftarDetailKebutuhanKomponen
                         .clear()
-                        .rows.add(response)
+                        .rows.add(datatable_daftarDetailKebutuhanKomponen)
                         // .rows.add(datatable_daftarDetailKebutuhanKomponen)
                         .draw();
                     detailKebutuhanKomponenLabel.innerHTML = "Komponen " + kodeBarang; // prettier-ignore
@@ -445,11 +445,19 @@ $(document).ready(function () {
                                         row.Nama_Komponen,
                                         row.Kode_Komponen,
                                         row.WarnaKebutuhan,
-                                        row.TotalKebutuhan.toFixed(2) + ' m²',
+                                        numeral(row.TotalKebutuhan).format(
+                                            "0,0.00"
+                                        ) + " m²",
                                     ]);
                                 });
                             table_cetakRingkasanKebutuhan.draw();
                             window.print();
+                        } else {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Tidak ada data",
+                                text: "Tidak ada data Kebutuhan Komponen untuk tanggal yang dipilih",
+                            });
                         }
                     })
                     .catch((error) => {

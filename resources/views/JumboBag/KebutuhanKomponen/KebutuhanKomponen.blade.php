@@ -173,9 +173,9 @@
         <h1 id="header_cetakKebutuhanKomponen">Kebutuhan Komponen Periode dd-mm-yyyy / dd-mm-yyyy</h1>
         <div id="div_ringkasanKebutuhanKomponen">
             {{-- <h3>Ringkasan Kebutuhan</h3> --}}
-            <div style="overflow:auto">
+            <div style="overflow:auto; font-size: 16px;">
                 <table id="table_cetakRingkasanKebutuhan">
-                    <thead>
+                    <thead style="font-weight: bold;">
                         <tr style="white-space: nowrap">
                             <th>Nama Komponen</th>
                             <th>Kode Komponen</th>
