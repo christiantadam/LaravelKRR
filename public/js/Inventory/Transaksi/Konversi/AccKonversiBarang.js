@@ -91,6 +91,7 @@ var ListKonv = {
     XMasukSekunder: [],
     XMasukTritier: [],
     XHargaSatuan: [],
+    XUraian: [],
 };
 var ListKonversi = [];
 
@@ -211,6 +212,7 @@ $(document).ready(function () {
         ListKonv.XMasukSekunder = [];
         ListKonv.XMasukTritier = [];
         ListKonv.XHargaSatuan = [];
+        ListKonv.XUraian = [];
 
         // Populate arrays with selected data
         selectedIndices.forEach(index => {
@@ -219,6 +221,7 @@ $(document).ready(function () {
 
             ListKonv.XIdKonversi.push(rowData[1]);  // Adjust indices as needed
             ListKonv.XIdTransaksi.push(rowData[2]);  // Adjust indices as needed
+            ListKonv.XUraian.push(rowData[3]);
             ListKonv.XIdType.push(rowData[4]);
             ListKonv.XKeluarPrimer.push(rowData[5]);
             ListKonv.XKeluarSekunder.push(rowData[6]);
@@ -429,6 +432,7 @@ function Proses_Acc() {
             IdKonversi: ListKonversi,
             XIdKonversi: ListKonv.XIdKonversi,
             XIdTransaksi: ListKonv.XIdTransaksi,
+            XUraian: ListKonv.XUraian,
             XIdType: ListKonv.XIdType,
             XKeluarPrimer: ListKonv.XKeluarPrimer,
             XKeluarSekunder: ListKonv.XKeluarSekunder,
@@ -487,6 +491,7 @@ function Proses_Acc() {
                                         XMasukSekunder: [],
                                         XMasukTritier: [],
                                         XHargaSatuan: [],
+                                        XUraian: [],
                                     };
 
                                 });
@@ -572,7 +577,8 @@ btn_proses.addEventListener("click", function (e) {
     var tableKonv = $('#tableKonv').DataTable();
 
     console.log(ListKonversi.length);
-
+    console.log(ListKonv);
+    console.log(ListKonversi);
 
     if (tableKonv.$('tr.selected').length > 0 || ListKonversi.length > 0) {
         Proses_Acc();

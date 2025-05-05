@@ -127,6 +127,7 @@ class AccKonversiBarangController extends Controller
             $XMasukPrimer = $request->input('XMasukPrimer');
             $XMasukSekunder = $request->input('XMasukSekunder');
             $XMasukTritier = $request->input('XMasukTritier');
+            $XUraian = $request->input('XUraian');
             $XHargaSatuan = str_replace(',', '', $request->input('XHargaSatuan'));
             // dd(request()->all());
             // dd($XHargaSatuan);
@@ -192,8 +193,34 @@ class AccKonversiBarangController extends Controller
                 foreach ($IdKonversi as $index => $transaksi) {
                     foreach ($XIdKonversi as $index2 => $transaksi) {
                         if ($IdKonversi[$index] === $XIdKonversi[$index2]) {
+                            // dd($XIdKonversi[$index2], $IdKonversi[$index], $index2);
                             // dd((float)$XHargaSatuan[$index2]);
+                            if (stripos($XUraian[$index2], 'Tujuan') !== false) {
+                                $idTransaksi = $XIdTransaksi[$index2];
 
+                                $xIdTypeTujuan = DB::connection('ConnInventory')->table('Tmp_Transaksi')
+                                    ->where('IdTransaksi', $idTransaksi)
+                                    ->value('IdType');
+
+                                $XJumlahMasukTritier = (float) str_replace(',', '', $XMasukTritier[$index2]);
+                                $XhargaSatuan = (float) $XHargaSatuan[$index2];
+                                $kode = null;
+                                // dd($xIdTypeTujuan, $XJumlahMasukTritier, $XhargaSatuan, $kode);
+                                // dd($request->all());
+                                // dd($kode);
+                                $tes = DB::connection('ConnInventory')
+                                    ->statement('exec SP_4451_UpdateHarga_Persediaan
+                                        @Kode = ?,
+                                        @IdType = ?,
+                                        @JumlahTritier = ?,
+                                        @HargaSatuan = ?', [
+                                        $kode,
+                                        $xIdTypeTujuan,
+                                        $XJumlahMasukTritier,
+                                        $XhargaSatuan,
+                                    ]);
+                                // dd($tes);
+                            }
                             DB::connection('ConnInventory')->statement(
                                 'exec SP_1273_INV_Proses_Acc_Konversi
                                 @XIdTransaksi = ?,
@@ -217,7 +244,7 @@ class AccKonversiBarangController extends Controller
                                     $XMasukPrimer[$index2],
                                     $XMasukSekunder[$index2],
                                     $XMasukTritier[$index2],
-                                    (float)$XHargaSatuan[$index2],
+                                    (float) $XHargaSatuan[$index2],
                                 ]
                             );
                             $con += 1;
@@ -234,7 +261,7 @@ class AccKonversiBarangController extends Controller
                 ], 200);
 
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Data Gagal TerSimpan' . $e->getMessage()], 500);
+                return response()->json(['error' => 'Data Gagal TerSimpan' . $e->getMessage()]);
             }
         }
     }
