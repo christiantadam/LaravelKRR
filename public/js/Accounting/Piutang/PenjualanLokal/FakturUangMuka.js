@@ -44,6 +44,17 @@ $(document).ready(function () {
     });
     let proses;
 
+    $.ajaxSetup({
+        beforeSend: function () {
+            // Show the loading screen before the AJAX request
+            $("#loading-screen").css("display", "flex");
+        },
+        complete: function () {
+            // Hide the loading screen after the AJAX request completes
+            $("#loading-screen").css("display", "none");
+        },
+    });
+
     tanggal.valueAsDate = new Date();
     penagihanPajak.valueAsDate = new Date();
     nilaiKurs.value = 0;
@@ -129,6 +140,7 @@ $(document).ready(function () {
 
     btn_proses.addEventListener("click", async function (event) {
         event.preventDefault();
+        btn_proses.disabled = true;
         if (proses == 1) {
             $.ajax({
                 url: "FakturUangMuka",
