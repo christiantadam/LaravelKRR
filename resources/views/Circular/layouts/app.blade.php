@@ -71,7 +71,94 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="submenu">
+                            @foreach ($access['AccessMenu'] as $menuItem)
+                                @php
+                                    $print = 0;
+                                    $cekSubMenuPrint = 0;
+                                @endphp
+                                @if ($menuItem->Parent_IdMenu === null)
+                                    @php
+                                        $print = 1;
+                                    @endphp
+                                    <li class="submenu">
+                                        <a>
+                                            {{ $menuItem->NamaMenu }}
+                                        </a>
+                                        <ul>
+                                            @php
+                                                // Filter the submenus for the current menu item
+                                                $filteredItemsMenu = $access['AccessMenu']->filter(function (
+                                                    $item,
+                                                ) use ($menuItem) {
+                                                    return $item->Parent_IdMenu == $menuItem->IdMenu;
+                                                });
+
+                                                // Convert the filtered items to an array if needed
+                                                $filteredArrayMenu = $filteredItemsMenu->all();
+
+                                                $filteredItemsFitur = $access['AccessFitur']->filter(function (
+                                                    $item,
+                                                ) use ($menuItem) {
+                                                    return $item->Id_Menu == $menuItem->IdMenu;
+                                                });
+
+                                                // Convert the filtered items to an array if needed
+                                                $filteredArrayFitur = $filteredItemsFitur->all();
+
+                                                $combinedArrayFiturMenu = [];
+                                                foreach ($filteredArrayFitur as $fitur) {
+                                                    $combinedArrayFiturMenu[] = [
+                                                        'Nama' => $fitur->NamaFitur,
+                                                        'Route' => $fitur->Route,
+                                                        'IdMenu' => null,
+                                                    ];
+                                                }
+
+                                                foreach ($filteredArrayMenu as $menu) {
+                                                    $combinedArrayFiturMenu[] = [
+                                                        'Nama' => $menu->NamaMenu,
+                                                        'Route' => null,
+                                                        'IdMenu' => $menu->IdMenu,
+                                                    ];
+                                                }
+                                                usort($combinedArrayFiturMenu, function ($a, $b) {
+                                                    return strcmp($a['Nama'], $b['Nama']);
+                                                });
+                                            @endphp
+                                            @foreach ($combinedArrayFiturMenu as $combinedArrayFiturMenus)
+                                                <li>
+                                                    <a
+                                                        @if (isset($combinedArrayFiturMenus['Route'])) href="{{ url($combinedArrayFiturMenus['Route']) }}"
+                                                        class="menu-item"
+                                                    @else
+                                                        style="color: black;font-size: 15px;display: block; cursor: default;" @endif>
+                                                        @if (!isset($combinedArrayFiturMenus['Route']))
+                                                            {{ $combinedArrayFiturMenus['Nama'] }} »
+                                                        @else
+                                                            {{ $combinedArrayFiturMenus['Nama'] }}
+                                                        @endif
+                                                    </a>
+                                                    @if (!isset($combinedArrayFiturMenus['Route']))
+                                                        <ul>
+                                                            @foreach ($access['AccessFitur'] as $fiturSubMenu)
+                                                                @if ($fiturSubMenu->Id_Menu == $combinedArrayFiturMenus['IdMenu'])
+                                                                    <li class="dropdown">
+                                                                        <a style="color: black;font-size: 15px;display: block"
+                                                                            tabindex="-1"
+                                                                            href="{{ url($fiturSubMenu->Route) }}">{{ $fiturSubMenu->NamaFitur }}
+                                                                        </a>
+                                                                    </li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @endif
+                            @endforeach
+                            <!--<li class="submenu">
                                 <a href="#">Master</a>
                                 <ul>
                                     <li>
@@ -287,8 +374,8 @@
 
                         <a class='menu-trigger'>
                             <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
+                        </a>-->
+                            <!-- ***** Menu End ***** -->
                     </nav>
                 </div>
             </div>
