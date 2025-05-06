@@ -5,38 +5,41 @@ namespace App\Http\Controllers\Circular;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Controllers\HakAksesController;
 
 class InformasiCircularController extends Controller
 {
     public function index($form_name)
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
         $form_data = [];
 
         switch ($form_name) {
             default:
-                return view('Circular.informasi.' . $form_name);
+                return view('Circular.informasi.' . $form_name, compact('access'));
         }
 
-        return view('Circular.informasi.' . $form_name, $form_data);
+        return view('Circular.informasi.' . $form_name, $form_data, compact('access'));
     }
 
     public function spInformasi($sp_str, $sp_data = null)
     {
         if ($sp_data != null) {
             $sp_data = explode('~', $sp_data);
-        } else $sp_data = [];
+        } else
+            $sp_data = [];
 
         switch ($sp_str) {
-                #region formInfoMeter
+            #region formInfoMeter
 
             case 'Sp_List_ProsesMeter~5':
             case 'Sp_List_ProsesMeter~6':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @Tanggal = ?, @Shift = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formJadwalPotong
+            #region formJadwalPotong
 
             case 'SP_1273_CIR_Delete_JadwalPotong':
                 return $this->executeSP('statement', explode('~', $sp_str)[0], '', [], 'ConnCircular');
@@ -50,7 +53,7 @@ class InformasiCircularController extends Controller
                 $sp_param = '@NamaMesin = ?, @TotalMeter = ?, @StandartRoll = ?, @JumlahJam = ?, @TanggalPotong = ?, @Shift = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
             default:
                 break;

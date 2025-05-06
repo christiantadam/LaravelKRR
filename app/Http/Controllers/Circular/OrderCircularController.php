@@ -8,11 +8,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Log;
+use App\Http\Controllers\HakAksesController;
 
 class OrderCircularController extends Controller
 {
     public function index($form_name)
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
         $form_data = [];
 
         switch ($form_name) {
@@ -53,24 +55,25 @@ class OrderCircularController extends Controller
                 break;
 
             default:
-                return view('Circular.transaksi.' . $form_name);
+                return view('Circular.transaksi.' . $form_name, compact('access'));
         }
 
-        return view('Circular.transaksi.' . $form_name, $form_data);
+        return view('Circular.transaksi.' . $form_name, $form_data, compact('access'));
     }
 
     public function spOrder($sp_str, $sp_data = null)
     {
         if ($sp_data != null) {
             $sp_data = explode('~', $sp_data);
-        } else $sp_data = [];
+        } else
+            $sp_data = [];
 
         if (strpos($sp_str, 'SP_4384_CIR_Check_GudangOrder1') !== false)
             $sp_param = '@XKode = ' . explode('~', $sp_str)[1];
 
         switch ($sp_str) {
 
-                #region formOrderMaster
+            #region formOrderMaster
 
             case 'Sp_List_Order~2':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdOrder = ?';
@@ -102,9 +105,9 @@ class OrderCircularController extends Controller
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @Id_Order = ?, @IDDetail = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formOrderGudang
+            #region formOrderGudang
 
             case 'SP_4384_CIR_Check_GudangOrder1~1':
                 $sp_param .= ', @XIdOrder = ?, @XIdLokasi = ?';
@@ -141,7 +144,8 @@ class OrderCircularController extends Controller
             case 'SP_4384_CIR_Check_GudangOrder1~4':
                 $sp_data[1] = str_replace("|", "/", $sp_data[1]);
                 $sp_param .= ', @XIdOrder = ?, @XNo_Sp = ?, @XRollOrder = ?, @XMeterOrder = ?, @XRollproduksi = ?, @XMeterproduksi = ?, @XStatus = ?, @XTimekoreksi = ?, ';
-                if (count($sp_data) >= 9) $sp_param .= '@XTimenonaktif = ?';
+                if (count($sp_data) >= 9)
+                    $sp_param .= '@XTimenonaktif = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'SP_4384_CIR_Check_GudangOrder1~5':
@@ -166,9 +170,9 @@ class OrderCircularController extends Controller
                 $sp_param .= ', @XKodeBrgTujuan = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region modalBenang
+            #region modalBenang
 
             case 'Sp_List_Benang~1':
             case 'Sp_List_Benang~2':
@@ -196,9 +200,9 @@ class OrderCircularController extends Controller
                 $sp_param = '';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formOrderAktif
+            #region formOrderAktif
 
             case 'Sp_List_TypeMesin~1':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1];
@@ -230,17 +234,17 @@ class OrderCircularController extends Controller
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdMesin = ?, @IdOrder = ?, @MeterPanen = ?, @IdUser = 4384';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formOrderStop
+            #region formOrderStop
 
             case 'Sp_Akhir_Order':
                 $sp_param = '@TglSelesai = ?, @IdOrder = ?';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formKegiatanMesin
+            #region formKegiatanMesin
 
             case 'Sp_Transfer_Pegawai':
                 try {
@@ -362,7 +366,8 @@ class OrderCircularController extends Controller
                 $sp_data[12] = str_replace('_', ':', $sp_data[12]); // @jam2
 
                 $sp_param = '@Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?, @Kalkulasi_Meter = ?';
-                if ($sp_data[14] == 'null') $sp_param = '@Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?';
+                if ($sp_data[14] == 'null')
+                    $sp_param = '@Id_Log = ?, @tgl_log = ?, @id_mesin = ?, @shift = ?, @id_order = ?, @id_karyawan = ?, @Counter_Mesin_awal = ?, @Counter_Mesin_Akhir = ?, @A_Rpm = ?, @A_N_Shutle = ?, @status_log = ?, @id_user = 4384, @jam1 = ?, @jam2 = ?, @MeterManual = ?';
 
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
@@ -378,9 +383,9 @@ class OrderCircularController extends Controller
                 $sp_param = '@IdMesin = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
-                #region formCounterMesin
+            #region formCounterMesin
 
             case 'Sp_List_Mesin~1':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1];
@@ -390,7 +395,7 @@ class OrderCircularController extends Controller
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdMesin = ?, @CounterPagi = ?, @CounterSore = ?, @Countermalam = ?, @IdUser = 4384';
                 return $this->executeSP('statement', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
-                #endregion
+            #endregion
 
             default:
                 break;
@@ -413,7 +418,8 @@ class OrderCircularController extends Controller
         $row_info = $this->spOrder($sp_str . '~' . $proses, $sp_data);
         // dd($row_info);
 
-        if ($proses === null) $row_info = $this->spOrder($sp_str, $sp_data);
+        if ($proses === null)
+            $row_info = $this->spOrder($sp_str, $sp_data);
 
         if (is_int($row_info) && $row_info > 0) {
             $koreksi = 2;

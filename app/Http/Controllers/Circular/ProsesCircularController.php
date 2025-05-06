@@ -8,19 +8,21 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use Illuminate\Database\QueryException;
+use App\Http\Controllers\HakAksesController;
 
 class ProsesCircularController extends Controller
 {
     public function index($form_name)
     {
         $form_data = [];
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
 
         switch ($form_name) {
             default:
-                return view('Circular.transaksi.' . $form_name);
+                return view('Circular.transaksi.' . $form_name, compact('access'));
         }
 
-        return view('Circular.transaksi.' . $form_name, $form_data);
+        return view('Circular.transaksi.' . $form_name, $form_data, compact('access'));
     }
 
     public function spProses($sp_str, $sp_data = null)

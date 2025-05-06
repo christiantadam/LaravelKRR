@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use App\Http\Controllers\HakAksesController;
 
 class MasterCircularController extends Controller
 {
     public function index($form_name)
     {
+        $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
         $form_data = [];
 
         switch ($form_name) {
@@ -49,10 +51,10 @@ class MasterCircularController extends Controller
                 ];
                 break;
             default:
-                return view('Circular.master.' . $form_name);
+                return view('Circular.master.' . $form_name, compact('access'));
         }
         // dd($form_data);
-        return view('Circular.master.' . $form_name, $form_data);
+        return view('Circular.master.' . $form_name, $form_data, compact('access'));
     }
 
     public function spMesin($sp_str, $sp_data = null)
