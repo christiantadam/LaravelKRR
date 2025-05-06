@@ -15,6 +15,11 @@ class InformasiCircularController extends Controller
         $form_data = [];
 
         switch ($form_name) {
+            case 'formCounterMesin':
+                $form_data = [
+                    'listMesin' => $this->spOrder('Sp_List_Mesin~1'),
+                ];
+                break;
             default:
                 return view('Circular.informasi.' . $form_name, compact('access'));
         }

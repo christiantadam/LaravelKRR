@@ -18,6 +18,11 @@ class ProsesCircularController extends Controller
         $access = (new HakAksesController)->HakAksesFiturMaster('Circular');
 
         switch ($form_name) {
+            case 'formCounterMesin':
+                $form_data = [
+                    'listMesin' => $this->spOrder('Sp_List_Mesin~1'),
+                ];
+                break;
             default:
                 return view('Circular.transaksi.' . $form_name, compact('access'));
         }
@@ -29,11 +34,12 @@ class ProsesCircularController extends Controller
     {
         if ($sp_data != null) {
             $sp_data = explode('~', $sp_data);
-        } else $sp_data = [];
+        } else
+            $sp_data = [];
 
         switch ($sp_str) {
 
-                #region formHasilTransfer
+            #region formHasilTransfer
             case 'Sp_Maint_Transfer~1':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1];
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
@@ -45,9 +51,9 @@ class ProsesCircularController extends Controller
             case 'SP_1486_CIR_LIST_TRANSF_MTR_3':
                 $sp_param = '@Id_Mesin = ?, @ID_Order = ?, @Id_Log = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
-                #endregion
+            #endregion
 
-                #region formHasilKonversi
+            #region formHasilKonversi
             case 'SP_1486_CIR_LIST_JML_ANTRIAN':
                 $sp_param = '@IdType = ?';
                 return $this->executeSP('select', $sp_str, $sp_param, $sp_data, 'ConnInventory');
@@ -59,15 +65,18 @@ class ProsesCircularController extends Controller
             case 'sp_List_Type~1':
             case 'sp_List_Type~2':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @IdORder = ?, @Kd_Brg = ?';
-                if (explode('~', $sp_str)[1] == '2') $sp_param .= ', @ket = ?';
+                if (explode('~', $sp_str)[1] == '2')
+                    $sp_param .= ', @ket = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_Maint_Transfer~5':
             case 'Sp_Maint_Transfer~9':
             case 'Sp_Maint_Transfer~10':
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @id_Order = ?';
-                if (explode('~', $sp_str)[1] == '9') $sp_param .= ', @id_mesin = ?';
-                if (explode('~', $sp_str)[1] == '10') $sp_param .= ', @namamesin = ?';
+                if (explode('~', $sp_str)[1] == '9')
+                    $sp_param .= ', @id_mesin = ?';
+                if (explode('~', $sp_str)[1] == '10')
+                    $sp_param .= ', @namamesin = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_Maint_Transfer~6':
@@ -79,7 +88,8 @@ class ProsesCircularController extends Controller
                 $sp_param = '@Kode = ' . explode('~', $sp_str)[1] . ', @Id_Mesin = ?, @id_Order = ?';
                 if (explode('~', $sp_str)[1] == '7') {
                     $sp_param .= ', @A_kodebarang_warp = ?';
-                } else $sp_param .= ', @id_log = ?';
+                } else
+                    $sp_param .= ', @id_log = ?';
                 return $this->executeSP('select', explode('~', $sp_str)[0], $sp_param, $sp_data, 'ConnCircular');
 
             case 'Sp_Maint_Transfer~8':
@@ -113,7 +123,7 @@ class ProsesCircularController extends Controller
             case 'sp_IdKelompok_SubKelompok':
                 $sp_param = '@XIdKelompok_SubKelompok = ?';
                 return $this->executeSP('select', $sp_str, $sp_param, $sp_data, 'ConnInventory');
-                #endregion
+            #endregion
 
             default:
                 break;
