@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')
+    <style>
+        .detail-brg {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
     <div class="card" style="max-width: 100%; margin-left: auto; margin-right: auto;">
         <div class="card-header">
             Data Sparepart Per Mesin
@@ -26,7 +33,8 @@
                     </tbody>
                 </table>
             </div>
-            <button id="button_tambahSparepartPerMesin" class="btn btn-primary" type="button">Tambah Sparepart Per Mesin</button>
+            <button id="button_tambahSparepartPerMesin" class="btn btn-primary" type="button">Tambah Sparepart Per
+                Mesin</button>
         </div>
     </div>
 @endsection
