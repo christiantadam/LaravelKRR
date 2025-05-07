@@ -530,7 +530,11 @@ slcSpek.addEventListener("click", function () {
     if ((counterSpek %= 2) == 0) {
         clearDataDetail();
         ambilDataUkuran(this.options[this.selectedIndex].text);
-        hidNoUrut.value = this.value;
+        const fullText = this.options[this.selectedIndex].text;
+        const parts = fullText.split("|");
+        if (parts.length > 1) {
+            hidNoUrut.value = parts[1].trim();
+        }
 
         if (modeProses == "baru") {
             slcMesin.disabled = false;
@@ -542,7 +546,11 @@ slcSpek.addEventListener("click", function () {
 slcSpek.addEventListener("change", function () {
     clearDataDetail();
     ambilDataUkuran(this.options[this.selectedIndex].text);
-    hidNoUrut.value = this.value;
+    const fullText = this.options[this.selectedIndex].text;
+    const parts = fullText.split("|");
+    if (parts.length > 1) {
+        hidNoUrut.value = parts[1].trim();
+    }
 
     if (modeProses == "baru") {
         slcMesin.disabled = false;

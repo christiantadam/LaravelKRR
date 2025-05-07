@@ -223,8 +223,12 @@ function daftarKonversiBelumACCFetch() {
 
             checkboxes.forEach(function (checkbox) {
                 checkbox.addEventListener("change", function () {
-                    clearCheckedBoxes(checkboxes, checkbox);
                     if (checkbox.checked) {
+                        // Uncheck all other checkboxes
+                        checkboxes.forEach((cb) => {
+                            if (cb !== checkbox) cb.checked = false;
+                        });
+
                         konversiPil = checkbox.value;
                         listHasil.length = 0;
                         clearTable_DataTable(
@@ -242,6 +246,28 @@ function daftarKonversiBelumACCFetch() {
                     }
                 });
             });
+
+            // checkboxes.forEach(function (checkbox) {
+            //     checkbox.addEventListener("change", function () {
+            //         // clearCheckedBoxes(checkboxes, checkbox);
+            //         if (checkbox.checked) {
+            //             konversiPil = checkbox.value;
+            //             listHasil.length = 0;
+            //             clearTable_DataTable(
+            //                 "table_hasil",
+            //                 tableHasilCol.length,
+            //                 "Memuat data..."
+            //             );
+
+            //             tampilRincianKonversi(
+            //                 konversiPil,
+            //                 listKonversi[konversiPil].IdKonversi
+            //             );
+            //         } else {
+            //             clearForm(false);
+            //         }
+            //     });
+            // });
         }
     });
 }
@@ -465,7 +491,7 @@ function prosesInventoryFetch() {
                 ) {
                     alert(
                         "Saldo untuk type " +
-                            listTmpTrans[i].NamaType +
+                            listTmpTrans[i].namatype +
                             " tidak mencukupi."
                     );
 
