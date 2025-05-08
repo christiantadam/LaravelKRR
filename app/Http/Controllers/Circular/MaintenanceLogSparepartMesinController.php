@@ -8,6 +8,7 @@ use App\Http\Controllers\HakAksesController;
 use DB;
 use Auth;
 use Exception;
+use Response;
 
 class MaintenanceLogSparepartMesinController extends Controller
 {
@@ -45,8 +46,14 @@ class MaintenanceLogSparepartMesinController extends Controller
             }
             return datatables($dataMesin)->make(true);
         } else if ($id == 'selectNamaSparepart') {
-            $idMesin = $request->input('IdMesin');
+            $idMesin = $request->input('idMesin');
             $listSparepart = DB::connection('ConnCircular')->select('EXEC SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XIdMesin =?', [21, $idMesin]);
+            return response()->json($listSparepart);
+        } else if ($id == 'selectKodeBarang') {
+            $idSparepart = $request->input('idSparepart');
+            $idMesin = $request->input('idMesin');
+            $listBarang = DB::connection('ConnCircular')->select('EXEC SP_4384_CIR_Maintenance_Sparepart @XKode = ?, @XIdSparepart =?, @XIdMesin = ?', [22, $idSparepart, $idMesin]);
+            return response()->json($listBarang);
         }
     }
 

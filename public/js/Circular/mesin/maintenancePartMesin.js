@@ -1,4 +1,3 @@
-let nama_barang = document.getElementById("nama_barang");
 let kode_barang = document.getElementById("kode_barang");
 let jumlah_tritier = document.getElementById("jumlah_tritier");
 let keterangan = document.getElementById("keterangan");
@@ -6,11 +5,25 @@ let status_lanjut = document.getElementById("status_lanjut");
 let button_tambahLogMaintenance = document.getElementById("button_tambahLogMaintenance"); // prettier-ignore
 let jenis_maintenance_penggantian = document.getElementById("jenis_maintenance_penggantian") // prettier-ignore
 let tanggal_maintenance = document.getElementById("tanggal_maintenance");
+let modal_ok = document.getElementById("modal_ok");
 const mesin = $("#mesin");
 const nama_sparepart = $("#nama_sparepart");
+const nama_barang = $("#nama_barang");
 const jenis_maintenance = $("#jenis_maintenance");
 
 function initializeDatatable() {}
+
+// Setup global AJAX handlers
+$.ajaxSetup({
+    beforeSend: function () {
+        // Show the loading screen before the AJAX request
+        $("#loading-screen").css("display", "flex");
+    },
+    complete: function () {
+        // Hide the loading screen after the AJAX request completes
+        $("#loading-screen").css("display", "none");
+    },
+});
 
 function initializeSelectElement(tipeInitialisasi) {
     let selectElements = getSelectElementsByType(tipeInitialisasi);
@@ -166,22 +179,32 @@ $(document).ready(function () {
     // Add click event listener to table rows
     $("#table_mesin tbody").on("click", "tr", function () {
         var data = table_mesin.row(this).data();
-        console.log(data); // You can use this data to populate the modal
+        console.log("table clicked data row: " + data); // You can use this data to populate the modal
 
-        // Show the modal
-        $("#modal_tambahLogMaintenanceSparepart").modal("show");
-    });
-
-    // Setup global AJAX handlers
-    $.ajaxSetup({
-        beforeSend: function () {
-            // Show the loading screen before the AJAX request
-            $("#loading-screen").css("display", "flex");
-        },
-        complete: function () {
-            // Hide the loading screen after the AJAX request completes
-            $("#loading-screen").css("display", "none");
-        },
+        // $.ajax({
+        //     url: "/MaintenanceLogSparepartMesin/selectNamaSparepart",
+        //     method: "GET",
+        //     data: { Id_Mesin: selectedMesin }, // Pass Kode_Customer to the server
+        //     dataType: "json",
+        //     success: function (data) {
+        //         if (data.length === 0) {
+        //             Swal.showValidationMessage(
+        //                 "Tidak ada Sparepart untuk mesin: " +
+        //                     $("#mesin option:selected").text()
+        //             );
+        //         } else {
+        //             // Show the modal
+        //             $("#modal_tambahLogMaintenanceSparepart").modal("show");
+        //         }
+        //     },
+        //     error: function () {
+        //         Swal.fire({
+        //             icon: "error",
+        //             title: "Error",
+        //             text: "Failed to load data Sparepart.",
+        //         });
+        //     },
+        // });
     });
 
     button_tambahLogMaintenance.addEventListener("click", function (event) {
@@ -189,13 +212,16 @@ $(document).ready(function () {
         $("#modal_tambahLogMaintenanceSparepart").modal("show");
     });
 
-    $("#modal_tambahLogMaintenanceSparepart").on("shown.bs.modal", function (event) {
-        clearSelectElement("initializeModal");
-        initializeSelectElement("initializeModal"); //Initialize Form
-        setTimeout(() => {
-            mesin.select2("open");
-        }, 200);
-    });
+    $("#modal_tambahLogMaintenanceSparepart").on(
+        "shown.bs.modal",
+        function (event) {
+            clearSelectElement("initializeModal");
+            initializeSelectElement("initializeModal"); //Initialize Form
+            setTimeout(() => {
+                mesin.select2("open");
+            }, 200);
+        }
+    );
 
     mesin.on("select2:select", function () {
         setTimeout(() => {
@@ -217,12 +243,13 @@ $(document).ready(function () {
             nama_sparepart
                 .empty()
                 .append(
-                    '<option value="" disabled selected>Pilih Sparepart</option>'
+                    `<option value="" disabled selected>Pilih Sparepart</option>`
                 );
+
             $.ajax({
                 url: "/MaintenanceLogSparepartMesin/selectNamaSparepart",
                 method: "GET",
-                data: { Id_Mesin: selectedMesin }, // Pass Kode_Customer to the server
+                data: { idMesin: selectedMesin }, // Pass Kode_Customer to the server
                 dataType: "json",
                 success: function (data) {
                     if (data.length === 0) {
@@ -231,14 +258,14 @@ $(document).ready(function () {
                                 $("#mesin option:selected").text()
                         );
                     } else {
-                        // data.forEach(function (barang) {
-                        //     kodeBarangSelect.append(
-                        //         new Option(
-                        //             barang.kode_barang,
-                        //             barang.kode_barang
-                        //         )
-                        //     );
-                        // });
+                        data.forEach(function (sparepart) {
+                            nama_sparepart.append(
+                                new Option(
+                                    sparepart.NamaSparepart,
+                                    sparepart.IdSparepart
+                                )
+                            );
+                        });
                         nama_sparepart.select2({
                             dropdownParent: $(
                                 "#form_tambahLogMaintenanceMesin"
@@ -266,9 +293,61 @@ $(document).ready(function () {
     });
 
     nama_sparepart.on("select2:select", function () {
-        const selectedNamaSparepart = $(this).val(); // Get selected Jenis Maintenance
-        setTimeout(() => {
-            jenis_maintenance.select2("open");
-        }, 200);
+        const selectedIdSparepart = $(this).val(); // Get selected Jenis Maintenance
+        nama_barang
+            .empty()
+            .append(`<option value="" disabled selected>Pilih Barang</option>`);
+        $.ajax({
+            url: "/MaintenanceLogSparepartMesin/selectKodeBarang",
+            method: "GET",
+            data: {
+                idMesin: mesin.val(),
+                idSparepart: selectedIdSparepart,
+            }, // Pass Kode_Customer to the server
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.length === 0) {
+                    Swal.showValidationMessage(
+                        "Tidak ada Barang untuk sparepart: " +
+                            $("#nama_sparepart option:selected").text()
+                    );
+                } else {
+                    data.forEach(function (barang) {
+                        nama_barang.append(
+                            new Option(barang.NAMA_BRG, barang.KodeBarang)
+                        );
+                    });
+                    nama_barang.select2({
+                        dropdownParent: $("#form_tambahLogMaintenanceMesin"),
+                        placeholder: "Pilih Barang",
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load data Barang.",
+                });
+            },
+        }).then(() => {
+            setTimeout(() => {
+                nama_barang.select2("open");
+            }, 200);
+        });
+    });
+
+    nama_barang.on("select2:select", function () {
+        const selectedBarang = $(this).val(); // Get selected Jenis Maintenance
+        kode_barang.value = selectedBarang;
+        jumlah_tritier.select();
+    });
+
+    jumlah_tritier.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            keterangan.focus();
+        }
     });
 });

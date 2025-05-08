@@ -10,7 +10,7 @@
             Status Mesin
         </div>
         <div class="card-body" style="padding-left: 5%; padding-right: 5%;">
-            <div id="table_mesin_container" class="mt-4">
+            <div id="table_mesin_container" class="mt-2">
                 <table id="table_mesin" class="table table-bordered table-hover" style="width:100%">
                     <thead>
                         <tr>
