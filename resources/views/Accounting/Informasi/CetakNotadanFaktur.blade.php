@@ -867,7 +867,8 @@
                                         &nbsp;</label>
                                 </div>
                                 <div class="col-sm-2 text-right offset-sm-1">
-                                    <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XXXXXXXXXXXXXXXXXXXXXXXXXXXX</b></label>
+                                    <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></label>
+                                    {{-- XXXXXXXXXXXXXXXXXXXXXXXXXXXX --}}
                                 </div>
                                 <div class="col-sm-1 offset-sm-6 text-right">
                                     <span id="faktur_SymbolGrand">xxxx</span>
