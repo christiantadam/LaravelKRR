@@ -108,9 +108,7 @@ function print(data) {
                                       maximumFractionDigits: 2,
                                   }
                               )
-                    }
-    </p>
-</td>
+                    }</p></td>
                 </tr>
             `;
             No += 1;

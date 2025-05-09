@@ -417,7 +417,7 @@ $(document).ready(function () {
             const response = await $.ajax({
                 url: "/CCreateBTTB/SetStatusPO",
                 type: "GET",
-                data: { NoPO: po.value.trim() }
+                data: { NoPO: po.value.trim() },
             });
 
             console.log(response);
@@ -428,7 +428,7 @@ $(document).ready(function () {
 
     async function post(bttb) {
         console.log(data); // Tracing gagal post BTTB
-        const dataToSend = data.map(item => ({
+        const dataToSend = data.map((item) => ({
             BTTB: bttb,
             disc: item.Harga_disc,
             discIDR: item.DiscIDR,
@@ -475,13 +475,13 @@ $(document).ready(function () {
                 url: "/CCreateBTTB/PostData",
                 type: "POST",
                 headers: { "X-CSRF-TOKEN": csrfToken },
-                data: { data: dataToSend }
+                data: { data: dataToSend },
             });
 
             Swal.fire({
                 icon: "success",
                 title: "Data Berhasil DiPost!",
-                showConfirmButton: false
+                showConfirmButton: false,
             });
 
             await dataPrint();
@@ -489,7 +489,7 @@ $(document).ready(function () {
             Swal.fire({
                 icon: "error",
                 title: "Data Tidak Berhasil DiPost!",
-                showConfirmButton: false
+                showConfirmButton: false,
             });
             console.error("Error Send Data:", error);
         }
@@ -500,7 +500,7 @@ $(document).ready(function () {
             const response = await $.ajax({
                 url: "/CCreateBTTB/Print",
                 type: "GET",
-                data: { No_BTTB: nobttb.value }
+                data: { No_BTTB: nobttb.value },
             });
 
             console.log(response, nobttb.value); // Tracing gagal post BTTB
@@ -550,16 +550,16 @@ $(document).ready(function () {
             chunk.forEach((item, index) => {
                 tableRows += `
                 <tr style="margin-bottom: 8px;">
-                    <td sty><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica; text-align: center">${
+                    <td sty><p style="line-height: 13.8px; font-size: 13px; font-family: Helvetica; text-align: center">${
                         No + 1
                     }</p></td>
-                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px; font-family: Helvetica;">${
                         item.Kd_brg
                     }</p></td>
-                    <td><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;">
+                    <td><p style="line-height: 13.8px; font-size: 13px; font-family: Helvetica;">
                     ${item.NAMA_BRG.replace(/</g, "&lt;")}
                     </td>
-                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px; font-family: Helvetica;">${
                         !parseFloat(item.Qty)
                             .toLocaleString("en-US")
                             .includes(".")
@@ -567,8 +567,8 @@ $(document).ready(function () {
                               ".00"
                             : parseFloat(item.Qty).toLocaleString("en-US")
                     }</p></td>
-                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;">${item.Nama_satuan.trim()}</p></td>
-                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;">${
+                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px; font-family: Helvetica;">${item.Nama_satuan.trim()}</p></td>
+                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px; font-family: Helvetica;">${
                         !parseFloat(item.Qty_Terima)
                             .toLocaleString("en-US")
                             .includes(".")
@@ -579,160 +579,193 @@ $(document).ready(function () {
                                   "en-US"
                               )
                     }</p></td>
-                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px;font-family: Helvetica;">${
-                        !parseFloat(item.QtyRemain)
-                            .toLocaleString("en-US")
-                            .includes(".")
-                            ? parseFloat(item.QtyRemain).toLocaleString(
-                                  "en-US"
-                              ) + ".00"
-                            : parseFloat(item.QtyRemain).toLocaleString("en-US")
+                    <td style="text-align: center;"><p style="line-height: 13.8px; font-size: 13px; font-family: Helvetica;">${
+                        isNaN(parseFloat(item.QtyRemain)) ||
+                        parseFloat(item.QtyRemain) === 0
+                            ? "0.00"
+                            : parseFloat(item.QtyRemain).toLocaleString(
+                                  "en-US",
+                                  {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                  }
+                              )
                     }</p></td>
                 </tr>
-            `;
+                `;
                 No += 1;
             });
 
             const print = `
-        <div style="width: 20.5cm; height: 27.94cm; padding: 30px 10px 0px 10px; margin: 0; background: #FFFFFF; box-sizing: border-box; page-break-after: ${
-            chunkIndex < chunkedData.length - 1 ? `always` : `avoid`
-        };">
-            <main style="width: 100%; height : 70%;">
-                <div style="width: 100%; height: auto; display: flex;">
-                    <div style="width: 50%; height: auto; margin-right: 20px;">
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin-top: 2px; margin-bottom: 2px;">PT. Kerta Rajasa Raya</h1>
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Jl. Raya Tropodo No. 1</p>
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Waru - Sidoarjo 61256 East Java, Indonesia</p>
-                        <br>
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                            data.printHeader[0].NM_SUP
-                        }</p>
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                            data.printHeader[0].ALAMAT1
-                        }</p>
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                            data.printHeader[0].KOTA1
-                        }</p>
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
-                            data.printHeader[0].NEGARA1
-                        }</p>
+            <style>
+                table.styled-table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: 20px 0;
+                    font-size: 18px;
+                    text-align: left;
+                }
+
+                table.styled-table th,
+                table.styled-table td {
+                    padding: 12px 15px;
+                }
+
+                table.styled-table thead tr {
+                    border-bottom: 2px solid #333;
+                }
+
+                table.styled-table tbody tr {
+                    border-bottom: none;
+                }
+
+                table.styled-table tbody tr:last-of-type {
+                    border-bottom: none;
+                }
+
+                table.styled-table tbody tr+tr {
+                    margin-top: 10px;
+                }
+            </style>
+            <div style="width: 20.5cm; height: 27.94cm; padding: 30px 10px 0px 10px; margin: 0; background: #FFFFFF; box-sizing: border-box; page-break-after: ${
+                chunkIndex < chunkedData.length - 1 ? `always` : `avoid`
+            };">
+                <main style="width: 100%; height : 70%;">
+                    <div style="width: 100%; height: auto; display: flex;">
+                        <div style="width: 50%; height: auto; margin-right: 20px;">
+                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin-top: 2px; margin-bottom: 2px;">PT. Kerta Rajasa Raya</h1>
+                            <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Jl. Raya Tropodo No. 1</p>
+                            <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Waru - Sidoarjo 61256 East Java, Indonesia</p>
+                            <br>
+                            <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                                data.printHeader[0].NM_SUP
+                            }</p>
+                            <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                                data.printHeader[0].ALAMAT1
+                            }</p>
+                            <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                                data.printHeader[0].KOTA1
+                            }</p>
+                            <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">${
+                                data.printHeader[0].NEGARA1
+                            }</p>
+                        </div>
+                        <div style="width: 50%; height: auto; margin-left: 20px;">
+                        <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Telephone</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: (031)8669595</p>
+                                </div>
+                            </div>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Fax</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: (031)8669989</p>
+                                </div>
+                            </div>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Giro</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: </p>
+                                </div>
+                            </div>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Tax Registration Number</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: 01.140.897.8-641.000</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px; font-family: Helvetica; font-weight: bold; margin: 2px 0 4px 0;">Product Receipt</h1>
+                                </div>
+                            </div>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Page</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: Page ${
+                                        Page + 1
+                                    } of ${chunkedData.length}</p>
+                                </div>
+                            </div>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Number</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                        data.printHeader[0].No_PO
+                                    }</p>
+                                </div>
+                            </div>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Date</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${formatDate(
+                                        data.printHeader[0].Datang.split(" ")[0]
+                                    )}</p>
+                                </div>
+                            </div>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Packing Slip</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                        data.printHeader[0].No_SuratJalan || ""
+                                    }</p>
+                                </div>
+                            </div>
+                            <div style="width: 100%; display: flex;">
+                                <div style="width: 50%; height: auto;">
+                                    <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Internal Product Receipt</h1>
+                                </div>
+                                <div style="width: 50%; height: auto;">
+                                    <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
+                                        data.printHeader[0].No_BTTB
+                                    }</p>
+                                </div>
+                            </div>
+                            <br>
+                            <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin-top: 10px; margin-bottom: 2px;">Delivery Address:</h1>
+                            <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Jl. Raya Tropodo No. 1</p>
+                            <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Waru - Sidoarjo 61256 East Java, Indonesia</p>
+                        </div>
                     </div>
-                    <div style="width: 50%; height: auto; margin-left: 20px;">
-                    <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Telephone</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: (031)8669595</p>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Fax</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: (031)8669989</p>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Giro</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: </p>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Tax Registration Number</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: 01.140.897.8-641.000</p>
-                            </div>
-                        </div>
-                        <br>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px; font-family: Helvetica; font-weight: bold; margin: 2px 0 4px 0;">Product Receipt</h1>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Page</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: Page ${
-                                    Page + 1
-                                } of ${chunkedData.length}</p>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Number</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
-                                    data.printHeader[0].No_PO
-                                }</p>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Date</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${formatDate(
-                                    data.printHeader[0].Datang.split(" ")[0]
-                                )}</p>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Packing Slip</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
-                                    data.printHeader[0].No_SuratJalan || ""
-                                }</p>
-                            </div>
-                        </div>
-                        <div style="width: 100%; display: flex;">
-                            <div style="width: 50%; height: auto;">
-                                <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin: 2px 0;">Internal Product Receipt</h1>
-                            </div>
-                            <div style="width: 50%; height: auto;">
-                                <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">: ${
-                                    data.printHeader[0].No_BTTB
-                                }</p>
-                            </div>
-                        </div>
-                        <br>
-                        <h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; margin-top: 10px; margin-bottom: 2px;">Delivery Address:</h1>
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Jl. Raya Tropodo No. 1</p>
-                        <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Waru - Sidoarjo 61256 East Java, Indonesia</p>
+                    <div class="details" style="margin-top: 20px;">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">No.</h1></th>
+                                    <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Item Number</h1></th>
+                                    <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Description</h1></th>
+                                    <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Qty</h1></th>
+                                    <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit</h1></th>
+                                    <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Received</h1></th>
+                                    <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Remaining</h1></th>
+                                </tr>
+                            </thead>
+                            <tbody style="border-top: 1px solid black;">
+                                ${tableRows}
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div class="details" style="margin-top: 20px;">
-                    <table class="styled-table">
-                        <thead>
-                            <tr>
-                                <th><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">No.</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Item Number</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Description</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Qty</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Unit</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Received</h1></th>
-                                <th style="text-align: center;"><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">Remaining</h1></th>
-                            </tr>
-                        </thead>
-                        <tbody style="border-top: 1px solid black;">
-                            ${tableRows}
-                        </tbody>
-                    </table>
-                </div>
-            </main>
-        </div>
-    `;
+                </main>
+            </div>
+        `;
             printContentDiv.innerHTML += print;
             tableRows = "";
             Page += 1;
@@ -740,34 +773,11 @@ $(document).ready(function () {
         const printWindow = window.open("", "_blank");
         const style = document.createElement("style");
         style.textContent = `
-        table.styled-table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 20px 0;
-            font-size: 18px;
-            text-align: left;
-        }
-        table.styled-table th,
-        table.styled-table td {
-            padding: 12px 15px;
-        }
-        table.styled-table thead tr {
-            border-bottom: 2px solid #333;
-        }
-        table.styled-table tbody tr {
-            border-bottom: 1px solid #ddd;
-        }
-        table.styled-table tbody tr:last-of-type {
-            border-bottom: none;
-        }
-        table.styled-table tbody tr+tr {
-            margin-top: 10px;
-        }
         body {
             margin: 0;
             padding: 0;
         }
-    `;
+        `;
         // window.location.href = "/CreateBTTB";
         printWindow.document.head.appendChild(style);
         printWindow.document.body.appendChild(printContentDiv);
@@ -940,7 +950,7 @@ $(document).ready(function () {
 
     post_btn.addEventListener("click", async function () {
         this.disabled = true;
-        setTimeout(() => this.disabled = false, 2500);
+        setTimeout(() => (this.disabled = false), 2500);
 
         if (data.length === 0) {
             alert("Data tidak ada");
@@ -950,7 +960,10 @@ $(document).ready(function () {
         try {
             $("#loading-screen").css("display", "flex");
 
-            const response = await $.ajax({ url: "/CCreateBTTB/CreateNoBTTB", type: "GET" });
+            const response = await $.ajax({
+                url: "/CCreateBTTB/CreateNoBTTB",
+                type: "GET",
+            });
             nobttb.value = response.data;
             console.log(response.data); // Tracing gagal post BTTB
 

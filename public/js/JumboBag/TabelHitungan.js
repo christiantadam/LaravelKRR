@@ -28,9 +28,7 @@ let cerobongAtas_tinggi = document.getElementById("cerobongAtas_tinggi");
 let cerobongBawah_bentuk = document.getElementById("cerobongBawah_bentuk");
 let cerobongBawah_model = document.getElementById("cerobongBawah_model");
 let id_cerobongBawah_model = document.getElementById("id_cerobongBawah_model");
-let btn_cerobongBawah_model = document.getElementById(
-    "btn_cerobongBawah_model"
-);
+let btn_cerobongBawah_model = document.getElementById("btn_cerobongBawah_model"); // prettier-ignore
 let cerobongBawah_panjang = document.getElementById("cerobongBawah_panjang");
 let cerobongBawah_lebar = document.getElementById("cerobongBawah_lebar");
 let cerobongBawah_diameter = document.getElementById("cerobongBawah_diameter");
@@ -51,12 +49,8 @@ let reinforced_seal = document.getElementById("reinforced_seal");
 let reinforced_jumlah = document.getElementById("reinforced_jumlah");
 let reinforced_jarak = document.getElementById("reinforced_jarak");
 let reinforced_warnaBelt = document.getElementById("reinforced_warnaBelt");
-let btn_reinforced_warnaBelt = document.getElementById(
-    "btn_reinforced_warnaBelt"
-);
-let id_reinforced_warnaBelt = document.getElementById(
-    "id_reinforced_warnaBelt"
-);
+let btn_reinforced_warnaBelt = document.getElementById("btn_reinforced_warnaBelt"); //prettier-ignore
+let id_reinforced_warnaBelt = document.getElementById("id_reinforced_warnaBelt"); // prettier-ignore
 let reinforced_tinggiloop = document.getElementById("reinforced_tinggiloop");
 let reinforced_SF1 = document.getElementById("reinforced_SF1");
 let reinforced_SF2 = document.getElementById("reinforced_SF2");
