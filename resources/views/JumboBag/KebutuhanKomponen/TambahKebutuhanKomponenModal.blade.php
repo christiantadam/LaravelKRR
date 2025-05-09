@@ -13,6 +13,15 @@
                         <div class="col-md-11" style="padding-right: 5%">
                             <div class="row">
                                 <div class="col-md-5">
+                                    <label for="customerJBB">Customer JBB</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="customerJBB" id="customerJBB" class="form-select"
+                                        style="width: 100%"></select>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-5">
                                     <label for="kodeBarangJBB">Kode Barang JBB</label>
                                 </div>
                                 <div class="col-md-7">
@@ -34,10 +43,28 @@
                                     <label for="tanggalKebutuhan">Tanggal Kebutuhan</label>
                                 </div>
                                 <div class="col-md-7">
-                                    <input type="date" id="tanggalKebutuhan" name="tanggalKebutuhan"
-                                        class="form-control form-control-sm">
-                                    <input type="date" id="tanggalDeadlineKebutuhan" name="tanggalDeadlineKebutuhan"
-                                        class="form-control form-control-sm" style="display: none">
+                                    <div class="d-flex" style="gap: 5px">
+                                        <input type="date" id="tanggalKebutuhanAwal" name="tanggalKebutuhanAwal"
+                                            class="form-control form-control-sm">
+                                        <input type="date" id="tanggalKebutuhanAkhir" name="tanggalKebutuhanAkhir"
+                                            class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-5">
+                                    <label for="lokasiJBB">Lokasi Produksi</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <select name="lokasiJBB" id="lokasiJBB" class="form-select"
+                                        style="width: 100%">
+                                        <option value="" disabled selected>Pilih Lokasi Produksi</option>
+                                        <option value="TROPODO">Tropodo</option>
+                                        <option value="MOJOSARI">Mojosari</option>
+                                        <option value="NGANJUK">Nganjuk</option>
+                                        <option value="MLORAH">Mlorah</option>
+                                        <option value="PARTO">Parto</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

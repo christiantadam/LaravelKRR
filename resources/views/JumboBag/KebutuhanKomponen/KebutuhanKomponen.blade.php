@@ -2,7 +2,7 @@
 @section('title', 'Kebutuhan Komponen')
 @section('content')
     <script>
-        var listKodeBarangJBB = @json($listKodeBarangJBB);
+        var listCustomerJBB = @json($listCustomerJBB);
     </script>
     <style>
         /* From Uiverse.io by vinodjangid07 */
@@ -80,6 +80,11 @@
             display: none;
         }
 
+        .select2-container--default .select2-results>.select2-results__options {
+            max-height: 485px;
+            overflow-y: auto;
+        }
+
         @media print {
             .container-fluid {
                 display: none;
@@ -130,7 +135,8 @@
                                     <tr style="white-space: nowrap">
                                         <th>Kode Barang JBB</th>
                                         <th>Jumlah Kebutuhan</th>
-                                        <th>Tanggal Kebutuhan</th>
+                                        <th>Tanggal Kebutuhan Awal</th>
+                                        <th>Tanggal Kebutuhan Akhir</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -181,6 +187,7 @@
                             <th>Kode Komponen</th>
                             <th>Warna</th>
                             <th>Total Kebutuhan</th>
+                            <th>Lokasi</th>
                         </tr>
                     </thead>
                 </table>

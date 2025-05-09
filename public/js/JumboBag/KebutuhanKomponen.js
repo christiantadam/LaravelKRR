@@ -2,11 +2,13 @@ $(document).ready(function () {
     //#region Get element by ID
     let button_tambahKebutuhan = document.getElementById("button_tambahKebutuhan"); // prettier-ignore
     let csrf = document.querySelector('meta[name="csrf-token"]').getAttribute("content"); // prettier-ignore
-    let kodeBarangJBB = document.getElementById("kodeBarangJBB"); // prettier-ignore
+    const customerJBB = $("#customerJBB"); // prettier-ignore
+    const kodeBarangJBB = $("#kodeBarangJBB"); // prettier-ignore
+    const lokasiJBB = $("#lokasiJBB"); // prettier-ignore
     let jumlahKebutuhan = document.getElementById("jumlahKebutuhan"); // prettier-ignore
     let modal_ok = document.getElementById("modal_ok"); // prettier-ignore
-    let tanggalKebutuhan = document.getElementById("tanggalKebutuhan"); // prettier-ignore
-    let tanggalDeadlineKebutuhan = document.getElementById("tanggalDeadlineKebutuhan"); // prettier-ignore
+    let tanggalKebutuhanAwal = document.getElementById('tanggalKebutuhanAwal'); // prettier-ignore
+    let tanggalKebutuhanAkhir = document.getElementById('tanggalKebutuhanAkhir'); // prettier-ignore
     let detailKebutuhanKomponenLabel = document.getElementById("detailKebutuhanKomponenLabel"); // prettier-ignore
     let button_cetakKebutuhanKomponen = document.getElementById("button_cetakKebutuhanKomponen"); // prettier-ignore
     let div_cetakKebutuhanKomponen = document.getElementById("div_cetakKebutuhanKomponen"); // prettier-ignore
@@ -24,7 +26,13 @@ $(document).ready(function () {
             { data: "Kode_Barang" },
             { data: "JumlahKebutuhan" },
             {
-                data: "TanggalKebutuhan",
+                data: "TanggalKebutuhanAwal",
+                render: function (data, type, full, meta) {
+                    return moment(data).format("MM/DD/YYYY");
+                },
+            },
+            {
+                data: "TanggalKebutuhanAkhir",
                 render: function (data, type, full, meta) {
                     return moment(data).format("MM/DD/YYYY");
                 },
@@ -38,7 +46,7 @@ $(document).ready(function () {
                         '" data-bs-target="#detailKebutuhanModal">Lihat Komponen</button> ' +
                         '<button class="btn btn-danger btn-delete" data-id="' +
                         data +
-                        '">Nonaktifkan</button>'
+                        '">Hapus</button>'
                     );
                 },
             },
@@ -87,14 +95,15 @@ $(document).ready(function () {
             { title: "Nama Komponen" },
             { title: "Kode Komponen" },
             { title: "Warna" },
-            { title: "Total Kebutuhan" }
+            { title: "Total Kebutuhan" },
+            { title: "Lokasi" }
         ]
     }); // prettier-ignore
     //#endregion
 
     //#region Load Form
     loadAllData();
-    loadKodeBarangJBB();
+    loadCustomerJBB();
     //#endregion
 
     //#region function
@@ -136,41 +145,41 @@ $(document).ready(function () {
         });
     }
 
-    function loadKodeBarangJBB() {
+    function loadCustomerJBB() {
         // Clear existing options
-        $("#kodeBarangJBB").empty();
+        $("#customerJBB").empty();
 
         // Add a placeholder option
-        $("#kodeBarangJBB").append(
+        $("#customerJBB").append(
             new Option("Pilih Kode Barang", "", true, true)
         );
 
         // Populate the dropdown with options
-        listKodeBarangJBB.forEach((item) => {
+        listCustomerJBB.forEach((item) => {
             const option = new Option(
-                item.Kode_Barang.trim(),
-                item.Kode_Barang.trim()
+                item.Nama_Customer.trim(),
+                item.Kode_Customer.trim()
             );
-            $("#kodeBarangJBB").append(option);
+            $("#customerJBB").append(option);
         });
 
         // Initialize select2
+        $("#customerJBB").select2({
+            placeholder: "Pilih Customer",
+            allowClear: true,
+            dropdownParent: $("#tambahKebutuhanKomponenModal"),
+        });
         $("#kodeBarangJBB").select2({
             placeholder: "Pilih Kode Barang",
             allowClear: true,
-            dropdownParent: $("#tambahKebutuhanKomponenModal"), // Optional: Attach dropdown to modal
+            dropdownParent: $("#tambahKebutuhanKomponenModal"),
+        });
+        $("#lokasiJBB").select2({
+            placeholder: "Pilih Lokasi Produksi",
+            allowClear: true,
+            dropdownParent: $("#tambahKebutuhanKomponenModal"),
         });
     }
-
-    // Optional: set min to the next upcoming Saturday if needed
-    function getNextSaturday() {
-        const today = new Date();
-        const day = today.getDay();
-        const diff = (6 - day + 7) % 7; // days to next Saturday
-        today.setDate(today.getDate() + diff);
-        return today.toISOString().split("T")[0];
-    }
-    //#endregion
 
     //#region Event listener
 
@@ -179,27 +188,23 @@ $(document).ready(function () {
     });
 
     $("#tambahKebutuhanKomponenModal").on("shown.bs.modal", function (event) {
+        $("#customerJBB").val(null).trigger("change"); // Clear selected index for customerJBB
         $("#kodeBarangJBB").val(null).trigger("change"); // Clear selected index for kodeBarangJBB
+        kodeBarangJBB
+            .empty()
+            .append(
+                `<option value = "" disabled selected> Pilih Kode Barang </option>`
+            );
         jumlahKebutuhan.value = 0;
-        tanggalKebutuhan.valueAsDate = new Date();
-        tanggalDeadlineKebutuhan.value = getNextSaturday();
-    });
-
-    tanggalKebutuhan.addEventListener("change", function () {
-        const selected = new Date(this.value);
-        if (selected.getDay() !== 6) {
-            const daysUntilSaturday = (6 - selected.getDay() + 7) % 7;
-            selected.setDate(selected.getDate() + daysUntilSaturday);
-            const nextSaturday = selected.toISOString().split("T")[0];
-            tanggalDeadlineKebutuhan.value = nextSaturday;
-        }
+        tanggalKebutuhanAwal.valueAsDate = new Date();
+        tanggalKebutuhanAkhir.valueAsDate = new Date();
     });
 
     modal_ok.addEventListener("click", function () {
         const kodeBarang = kodeBarangJBB.value;
         const jumlah = parseInt(jumlahKebutuhan.value);
-        const tanggal = tanggalKebutuhan.value;
-        const deadline = tanggalDeadlineKebutuhan.value;
+        const tanggalAwal = tanggalKebutuhanAwal.value;
+        const tanggalAkhir = tanggalKebutuhanAkhir.value;
 
         if (kodeBarang === "") {
             Swal.fire({
@@ -217,7 +222,7 @@ $(document).ready(function () {
             });
             return;
         }
-        if (tanggal === "") {
+        if (tanggalAwal === "" && tanggalAkhir === "") {
             Swal.fire({
                 icon: "warning",
                 title: "Peringatan",
@@ -233,8 +238,8 @@ $(document).ready(function () {
                 jenis: "tambahKebutuhanKomponen",
                 kodeBarang: kodeBarang,
                 jumlahKebutuhan: jumlah,
-                tanggalKebutuhan: tanggal,
-                tanggalDeadlineKebutuhan: deadline,
+                tanggalKebutuhanAwal: tanggalAwal,
+                tanggalKebutuhanAkhir: tanggalAkhir,
                 _token: csrf,
             },
             success: function (response) {
@@ -260,6 +265,81 @@ $(document).ready(function () {
                 console.error("Error adding data: ", error);
             },
         });
+    });
+
+    customerJBB.on("select2:select", function () {
+        const selectedCustomerJBB = $(this).val(); // Get selected Customer JBB
+        kodeBarangJBB
+            .empty()
+            .append(
+                `<option value = "" disabled selected> Pilih Kode Barang </option>`
+            ); // Clear existing options
+        // Fetch Kode Barang based on selected customer
+        $.ajax({
+            url: "/KebutuhanKomponen/getKodeBarangJBB",
+            method: "GET",
+            data: { customer: selectedCustomerJBB }, // Pass Kode_Customer to the server
+            dataType: "json",
+            success: function (data) {
+                if (data.length === 0) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text:
+                            "Tidak ada Kode Barang untuk Customer: " +
+                            $("#selectedCustomerJBB option:selected").text(), // prettier-ignore
+                    });
+                } else if (data.error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: data.error, // prettier-ignore
+                    });
+                } else {
+                    data.forEach(function (barang) {
+                        kodeBarangJBB.append(
+                            new Option(barang.Kode_Barang, barang.Kode_Barang)
+                        );
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Failed to load Kode Barang data.",
+                });
+            },
+        }).then(() => {
+            setTimeout(() => {
+                kodeBarangJBB.select2("open");
+            }, 200);
+        });
+    });
+
+    kodeBarangJBB.on("select2:select", function () {
+        jumlahKebutuhan.select();
+    });
+
+    jumlahKebutuhan.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tanggalKebutuhanAwal.focus();
+        }
+    });
+
+    tanggalKebutuhanAwal.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tanggalKebutuhanAkhir.focus();
+        }
+    });
+
+    tanggalKebutuhanAkhir.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            modal_ok.focus();
+        }
     });
 
     $(document).on("click", ".btn-detail", function (e) {
@@ -346,17 +426,127 @@ $(document).ready(function () {
     $("#detailKebutuhanKomponen").on("shown.bs.modal", function (event) {});
 
     button_cetakKebutuhanKomponen.addEventListener("click", function () {
-        const nextSaturday = getNextSaturday();
+        const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD
+        // Swal.fire({
+        //     title: "Pilih Tanggal Kebutuhan",
+        //     width: "40%", // You can adjust this value
+        //     html: `
+        //       <div style="display: flex; flex-direction: row; gap: 10px; max-width: 100%;">
+        //         <div style="width: 50%;">
+        //           <label for="start-date">Start Date</label><br>
+        //           <input type="date" id="start-date" class="swal2-input" style="width: 100%;margin: 0">
+        //         </div>
+        //         <div style="width: 50%;">
+        //           <label for="end-date">End Date</label><br>
+        //           <input type="date" id="end-date" class="swal2-input" style="width: 100%;margin: 0">
+        //         </div>
+        //       </div>
+        //     `,
+        //     showCancelButton: true,
+        //     confirmButtonText: "Cetak",
+        //     showLoaderOnConfirm: true,
+        //     didOpen: () => {
+        //         document.getElementById("start-date").value = today;
+        //         document.getElementById("end-date").value = today;
+        //     },
+        //     allowOutsideClick: () => !Swal.isLoading(),
+        // }).then((result) => {
+        //     if (result.isConfirmed && result.value) {
+        //         const startDate = document.getElementById("start-date").value;
+        //         const endDate = document.getElementById("end-date").value;
 
+        //         $.ajax({
+        //             url: "/KebutuhanKomponen/getDataCetakKebutuhanDetail",
+        //             type: "GET",
+        //             data: {
+        //                 TanggalKebutuhanAwal: startDate,
+        //                 TanggalKebutuhanAkhir: endDate,
+        //                 _token: csrf,
+        //             },
+        //         })
+        //             .then((response) => {
+        //                 console.log(response);
+        //                 if (response.length > 0) {
+        //                     let tanggal = new Date(result.value);
+        //                     tanggal.setDate(tanggal.getDate() - 6);
+
+        //                     let tanggalSenin =
+        //                         tanggal.getDate().toString().padStart(2, "0") +
+        //                         "-" +
+        //                         (tanggal.getMonth() + 1)
+        //                             .toString()
+        //                             .padStart(2, "0") +
+        //                         "-" +
+        //                         tanggal.getFullYear();
+        //                     header_cetakKebutuhanKomponen.innerHTML =
+        //                         "Kebutuhan Komponen Periode " +
+        //                         tanggalSenin +
+        //                         " / " +
+        //                         result.value.split("-").reverse().join("-");
+        //                     //const filteredData = response.filter(item => item.Kode_Komponen?.trim() === "02BS4O"); // prettier-ignore
+        //                     const grouped = {};
+
+        //                     response.forEach((item) => {
+        //                         const kode = item.Kode_Komponen?.trim();
+        //                         const nama = item.Nama_Komponen?.trim();
+        //                         const warna = item.WarnaKebutuhan?.trim();
+        //                         const panjang = parseFloat(item.Panjang_Potongan || 0); // prettier-ignore
+        //                         const lebar = parseFloat(item.Lebar_Potongan || 0); // prettier-ignore
+        //                         const qty = parseFloat(item.Quantity || 0);
+        //                         const kebutuhan = parseFloat(item.JumlahKebutuhan || 0); // prettier-ignore
+
+        //                         const key = `${kode}|${nama}|${warna}`;
+        //                         const nilai = (panjang * lebar * qty * kebutuhan) / 100; // prettier-ignore
+
+        //                         if (!grouped[key]) {
+        //                             grouped[key] = {
+        //                                 Nama_Komponen: nama,
+        //                                 Kode_Komponen: kode,
+        //                                 WarnaKebutuhan: warna,
+        //                                 TotalKebutuhan: 0,
+        //                             };
+        //                         }
+
+        //                         grouped[key].TotalKebutuhan += nilai;
+        //                     });
+        //                     table_cetakRingkasanKebutuhan.clear();
+        //                     Object.values(grouped)
+        //                         .sort((a, b) =>
+        //                             a.Nama_Komponen.localeCompare(
+        //                                 b.Nama_Komponen
+        //                             )
+        //                         )
+        //                         .forEach((row) => {
+        //                             table_cetakRingkasanKebutuhan.row.add([
+        //                                 row.Nama_Komponen,
+        //                                 row.Kode_Komponen,
+        //                                 row.WarnaKebutuhan,
+        //                                 numeral(row.TotalKebutuhan).format(
+        //                                     "0,0.00"
+        //                                 ) + " m²",
+        //                             ]);
+        //                         });
+        //                     table_cetakRingkasanKebutuhan.draw();
+        //                     window.print();
+        //                 } else {
+        //                     Swal.fire({
+        //                         icon: "warning",
+        //                         title: "Tidak ada data",
+        //                         text: "Tidak ada data Kebutuhan Komponen untuk tanggal yang dipilih",
+        //                     });
+        //                 }
+        //             })
+        //             .catch((error) => {
+        //                 Swal.showValidationMessage(
+        //                     `Gagal memuat data: ${error.statusText}`
+        //                 );
+        //             });
+        //     }
+        // });
         Swal.fire({
-            title: "Pilih Tanggal Deadline",
+            title: "Pilih Tanggal",
             input: "date",
-            inputLabel: "Hanya Sabtu yang bisa dipilih",
-            inputAttributes: {
-                min: "2025-01-04",
-                step: 7,
-            },
-            inputValue: nextSaturday,
+            inputValue: today,
             showCancelButton: true,
             confirmButtonText: "Cetak",
             showLoaderOnConfirm: true,
@@ -364,32 +554,20 @@ $(document).ready(function () {
                 const input = Swal.getInput();
                 input.style.display = "block"; // ✅ override default flex display
             },
-            didOpen: () => {
-                const input = Swal.getInput();
-                input.addEventListener("change", function (e) {
-                    console.log(e.target.value, e.target.input);
-
-                    const selectedDate = new Date(input.value);
-                    if (selectedDate.getDay() !== 6) {
-                        Swal.showValidationMessage(
-                            "Tanggal awal bukan hari Sabtu"
-                        );
-                    }
-                });
-            },
             allowOutsideClick: () => !Swal.isLoading(),
         }).then((result) => {
+            console.log(result);
+
             if (result.isConfirmed && result.value) {
                 $.ajax({
                     url: "/KebutuhanKomponen/getDataCetakKebutuhanDetail",
                     type: "GET",
                     data: {
-                        TanggalDeadlineKebutuhan: result.value,
+                        TanggalKebutuhan: result.value,
                         _token: csrf,
                     },
                 })
                     .then((response) => {
-                        console.log(response);
                         if (response.length > 0) {
                             let tanggal = new Date(result.value);
                             tanggal.setDate(tanggal.getDate() - 6);
@@ -402,10 +580,14 @@ $(document).ready(function () {
                                     .padStart(2, "0") +
                                 "-" +
                                 tanggal.getFullYear();
+                            // header_cetakKebutuhanKomponen.innerHTML =
+                            //     "Kebutuhan Komponen Periode " +
+                            //     tanggalSenin +
+                            //     " / " +
+                            //     result.value.split("-").reverse().join("-");
+
                             header_cetakKebutuhanKomponen.innerHTML =
                                 "Kebutuhan Komponen Periode " +
-                                tanggalSenin +
-                                " / " +
                                 result.value.split("-").reverse().join("-");
                             //const filteredData = response.filter(item => item.Kode_Komponen?.trim() === "02BS4O"); // prettier-ignore
                             const grouped = {};
@@ -414,12 +596,13 @@ $(document).ready(function () {
                                 const kode = item.Kode_Komponen?.trim();
                                 const nama = item.Nama_Komponen?.trim();
                                 const warna = item.WarnaKebutuhan?.trim();
+                                const lokasi = item.Lokasi?.trim();
                                 const panjang = parseFloat(item.Panjang_Potongan || 0); // prettier-ignore
                                 const lebar = parseFloat(item.Lebar_Potongan || 0); // prettier-ignore
                                 const qty = parseFloat(item.Quantity || 0);
                                 const kebutuhan = parseFloat(item.JumlahKebutuhan || 0); // prettier-ignore
 
-                                const key = `${kode}|${nama}|${warna}`;
+                                const key = `${kode}|${nama}|${warna}|${lokasi}`;
                                 const nilai = (panjang * lebar * qty * kebutuhan) / 100; // prettier-ignore
 
                                 if (!grouped[key]) {
@@ -427,12 +610,13 @@ $(document).ready(function () {
                                         Nama_Komponen: nama,
                                         Kode_Komponen: kode,
                                         WarnaKebutuhan: warna,
+                                        Lokasi: lokasi,
                                         TotalKebutuhan: 0,
                                     };
                                 }
-
                                 grouped[key].TotalKebutuhan += nilai;
                             });
+
                             table_cetakRingkasanKebutuhan.clear();
                             Object.values(grouped)
                                 .sort((a, b) =>
@@ -445,19 +629,12 @@ $(document).ready(function () {
                                         row.Nama_Komponen,
                                         row.Kode_Komponen,
                                         row.WarnaKebutuhan,
-                                        numeral(row.TotalKebutuhan).format(
-                                            "0,0.00"
-                                        ) + " m²",
+                                        row.TotalKebutuhan.toFixed(2) + " m²",
+                                        row.Lokasi,
                                     ]);
                                 });
                             table_cetakRingkasanKebutuhan.draw();
                             window.print();
-                        } else {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Tidak ada data",
-                                text: "Tidak ada data Kebutuhan Komponen untuk tanggal yang dipilih",
-                            });
                         }
                     })
                     .catch((error) => {
@@ -468,6 +645,5 @@ $(document).ready(function () {
             }
         });
     });
-
     //#endregion
 });
