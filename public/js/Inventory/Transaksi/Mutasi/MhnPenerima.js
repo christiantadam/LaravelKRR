@@ -92,6 +92,7 @@ const inputs = Array.from(
         '.card-body input[type="text"]:not([readonly]), .card-body input[type="date"]:not([readonly])'
     )
 );
+console.log(inputs);
 
 //#region Load Form
 
@@ -105,7 +106,7 @@ btn_kelut.disabled = true;
 btn_kelompok.disabled = true;
 btn_subkel.disabled = true;
 btn_namaBarang.disabled = true;
-btn_divisi2.focus();
+tanggal.focus();
 btn_kelut2.disabled = true;
 btn_kelompok2.disabled = true;
 btn_subkel2.disabled = true;
@@ -1000,6 +1001,8 @@ function handleAction(masuk) {
         } else {
             btn_proses().focus();
         }
+    } else if (masuk.id === "tanggal") {
+        btn_divisi2.focus();
     }
 }
 
