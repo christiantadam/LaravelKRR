@@ -712,8 +712,8 @@ $(document).ready(function () {
                         <p style="font-size: 13px;font-family: Helvetica; margin: 2px 0;">Waru - Sidoarjo 61256 East Java, Indonesia</p>
                     </div>
                 </div>
-                <div class="details" style="margin-top: 20px; border-collapse: collapse;">
-                    <table style="width: 100%; border-collapse: collapse;">
+                <div class="details" style="margin-top: 20px;">
+                    <table class="styled-table">
                         <thead>
                             <tr>
                                 <th><h1 style="font-size: 13px;font-family: Helvetica; font-weight: bold; line-height: 13.8px">No.</h1></th>

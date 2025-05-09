@@ -266,7 +266,7 @@ function print(data) {
                     </div>
                 </div>
                 <div class="details" style="margin-top: 20px;">
-                    <table Class="styled-table">
+                    <table class="styled-table">
                         <thead>
                             <tr>
                                 <th><h1 style="font-size: 13px; font-family: Helvetica; font-weight: bold; line-height: 13.8px">No.</h1></th>
