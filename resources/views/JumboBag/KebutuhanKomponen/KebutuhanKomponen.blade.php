@@ -137,6 +137,7 @@
                                         <th>Jumlah Kebutuhan</th>
                                         <th>Tanggal Kebutuhan Awal</th>
                                         <th>Tanggal Kebutuhan Akhir</th>
+                                        <th>Lokasi</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>

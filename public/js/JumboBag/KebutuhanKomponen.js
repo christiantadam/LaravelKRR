@@ -37,6 +37,7 @@ $(document).ready(function () {
                     return moment(data).format("MM/DD/YYYY");
                 },
             },
+            { data: "Lokasi" },
             {
                 data: "IdKebutuhanKomponen",
                 render: function (data, type, full, meta) {
