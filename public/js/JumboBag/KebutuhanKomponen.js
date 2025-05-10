@@ -44,7 +44,10 @@ $(document).ready(function () {
                     return (
                         '<button class="btn btn-primary btn-detail" data-id="' +
                         data +
-                        '" data-bs-target="#detailKebutuhanModal">Lihat Komponen</button> ' +
+                        '" data-bs-target="#detailKebutuhanModal">Detail</button> ' +
+                        '<button class="btn btn-success btn-edit" data-id="' +
+                        data +
+                        '" data-bs-target="#tambahKebutuhanKomponenModal">Edit</button> ' +
                         '<button class="btn btn-danger btn-delete" data-id="' +
                         data +
                         '">Hapus</button>'
@@ -185,28 +188,36 @@ $(document).ready(function () {
     //#region Event listener
 
     button_tambahKebutuhan.addEventListener("click", function () {
+        $("#modal_ok").data("id", null);
         $("#tambahKebutuhanKomponenModal").modal("show");
     });
 
     $("#tambahKebutuhanKomponenModal").on("shown.bs.modal", function (event) {
-        $("#customerJBB").val(null).trigger("change"); // Clear selected index for customerJBB
-        $("#kodeBarangJBB").val(null).trigger("change"); // Clear selected index for kodeBarangJBB
-        kodeBarangJBB
-            .empty()
-            .append(
-                `<option value = "" disabled selected> Pilih Kode Barang </option>`
-            );
-        jumlahKebutuhan.value = 0;
-        tanggalKebutuhanAwal.valueAsDate = new Date();
-        tanggalKebutuhanAkhir.valueAsDate = new Date();
+        if ($("#modal_ok").data("id") == null) {
+            $("#customerJBB").val(null).trigger("change"); // Clear selected index for customerJBB
+            $("#kodeBarangJBB").val(null).trigger("change"); // Clear selected index for kodeBarangJBB
+            kodeBarangJBB
+                .empty()
+                .append(
+                    `<option value = "" disabled selected> Pilih Kode Barang </option>`
+                );
+            jumlahKebutuhan.value = 0;
+            tanggalKebutuhanAwal.valueAsDate = new Date();
+            tanggalKebutuhanAkhir.valueAsDate = new Date();
+            customerJBB.select2("open");
+        }
     });
 
     modal_ok.addEventListener("click", function () {
-        const kodeBarang = kodeBarangJBB.value;
+        const kodeBarang = kodeBarangJBB.val();
+        const lokasi = lokasiJBB.val();
         const jumlah = parseInt(jumlahKebutuhan.value);
         const tanggalAwal = tanggalKebutuhanAwal.value;
         const tanggalAkhir = tanggalKebutuhanAkhir.value;
-
+        let jenis = "tambahKebutuhanKomponen";
+        if ($("#modal_ok").data("id") != null) {
+            jenis = "editKebutuhanKomponen";
+        }
         if (kodeBarang === "") {
             Swal.fire({
                 icon: "warning",
@@ -231,20 +242,28 @@ $(document).ready(function () {
             });
             return;
         }
+        if (lokasi === "") {
+            Swal.fire({
+                icon: "warning",
+                title: "Peringatan",
+                text: "Lokasi tidak boleh kosong",
+            });
+            return;
+        }
 
         $.ajax({
             url: "/KebutuhanKomponen",
             type: "POST",
             data: {
-                jenis: "tambahKebutuhanKomponen",
+                jenis: jenis,
                 kodeBarang: kodeBarang,
                 jumlahKebutuhan: jumlah,
                 tanggalKebutuhanAwal: tanggalAwal,
                 tanggalKebutuhanAkhir: tanggalAkhir,
+                lokasi: lokasi,
                 _token: csrf,
             },
             success: function (response) {
-                console.log(response);
                 if (response.success) {
                     $("#tambahKebutuhanKomponenModal").modal("hide");
                     Swal.fire({
@@ -339,8 +358,12 @@ $(document).ready(function () {
     tanggalKebutuhanAkhir.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
-            modal_ok.focus();
+            lokasiJBB.select2("open");
         }
+    });
+
+    lokasiJBB.on("select2:select", function () {
+        modal_ok.focus();
     });
 
     $(document).on("click", ".btn-detail", function (e) {
@@ -375,6 +398,63 @@ $(document).ready(function () {
                         .draw();
                     detailKebutuhanKomponenLabel.innerHTML = "Komponen " + kodeBarang; // prettier-ignore
                     $("#detailKebutuhanKomponen").modal("show");
+                } else {
+                    console.error(
+                        "Data is not in the expected format:",
+                        response
+                    );
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data: ", error);
+            },
+        });
+    });
+
+    $(document).on("click", ".btn-edit", function (e) {
+        var rowID = $(this).data("id");
+        $("#modal_ok").data("id", rowID);
+        // Get the row data from the DataTable
+        var rowData = table_daftarKebutuhan.row($(this).closest("tr")).data();
+
+        if (!rowData) {
+            console.error("Row data not found");
+            return;
+        }
+        console.log(rowData.JumlahKebutuhan);
+
+        $.ajax({
+            url: "/KebutuhanKomponen/getDataKodeBarangEditJBB",
+            type: "GET",
+            data: {
+                IdKebutuhanKomponen: rowID,
+            },
+            success: function (response) {
+                console.log(response);
+                if (response) {
+                    // Assuming your server returns an array of objects for the table data
+                    customerJBB
+                        .val(response[0].Kode_Customer)
+                        .trigger("change");
+                    kodeBarangJBB
+                        .empty()
+                        .append(
+                            `<option value = "" disabled selected> Pilih Kode Barang </option>`
+                        );
+                    response.forEach(function (barang) {
+                        kodeBarangJBB.append(
+                            new Option(
+                                barang.Kode_Barang,
+                                barang.Kode_Barang
+                            )
+                        );
+                    });
+                    kodeBarangJBB.val(rowData.Kode_Barang).trigger("change");
+                    lokasiJBB.val(rowData.Lokasi).trigger("change");
+                    jumlahKebutuhan.value = rowData.JumlahKebutuhan;
+                    tanggalKebutuhanAwal.value = moment(rowData.TanggalKebutuhanAwal).format('YYYY-MM-DD');
+                    tanggalKebutuhanAkhir.value = moment(rowData.TanggalKebutuhanAkhir).format('YYYY-MM-DD');
+                    $("#tambahKebutuhanKomponenModal").modal("show");
                 } else {
                     console.error(
                         "Data is not in the expected format:",
