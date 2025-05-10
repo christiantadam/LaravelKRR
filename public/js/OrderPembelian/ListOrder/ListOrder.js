@@ -21,6 +21,7 @@ let NoTrans;
 let pemesan = document.getElementById("pemesan");
 let qty_order = document.getElementById("qty_order");
 let select_divisi = document.getElementById("select_divisi");
+let selectedDivisi = document.getElementById("selectedDivisi");
 let select_golongan = document.getElementById("select_golongan");
 let select_kategori = document.getElementById("select_kategori");
 let select_kategori_utama = document.getElementById("select_kategori_utama");
@@ -589,7 +590,7 @@ btn_save.addEventListener("click", function (event) {
             },
             data: {
                 kd: 0,
-                Kd_div: divisi.value.trim(),
+                Kd_div: selectedDivisi.value.trim(),
                 Kd_brg: kd_barang.value,
                 keterangan: ket_order.value,
                 Qty: qty_order.value,
@@ -631,7 +632,7 @@ btn_save.addEventListener("click", function (event) {
             },
             data: {
                 kd: 0,
-                Kd_div: divisi.value.trim(),
+                Kd_div: selectedDivisi.value.trim(),
                 Kd_brg: kd_barang.value,
                 keterangan: ket_order.value,
                 Qty: qty_order.value,
@@ -693,7 +694,7 @@ btn_submit.addEventListener("click", function (event) {
             },
             data: {
                 kd: 1,
-                Kd_div: divisi.value.trim(),
+                Kd_div: selectedDivisi.value.trim(),
                 Kd_brg: kd_barang.value,
                 keterangan: ket_order.value,
                 Qty: qty_order.value,
@@ -737,7 +738,7 @@ btn_submit.addEventListener("click", function (event) {
             },
             data: {
                 kd: 1,
-                Kd_div: divisi.value.trim(),
+                Kd_div: selectedDivisi.value.trim(),
                 Kd_brg: kd_barang.value,
                 keterangan: ket_order.value,
                 Qty: qty_order.value,
@@ -811,7 +812,8 @@ select_divisi.addEventListener("change", function (event) {
         select_golongan.selectedIndex = 0;
         clearOptions(select_mesinGolongan);
         select_mesinGolongan.selectedIndex = 0;
-        divisi.value = select_divisi.value;
+        selectedDivisi.value = select_divisi.value;
+
         $.ajax({
             url: "/MaintenanceOrderPembeliann/Golongan",
             type: "GET",
@@ -1044,10 +1046,7 @@ $("#modal_tambahOrder").on("shown.bs.modal", function () {
         clearData();
         btn_delete.disabled = true;
     }
-
     //#endregion
-
-
 });
 
 $("#modal_tambahOrder").on("hidden.bs.modal", function () {

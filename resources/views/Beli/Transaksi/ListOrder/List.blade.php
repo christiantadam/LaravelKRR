@@ -191,7 +191,7 @@
                                             </select>
                                         </div>
                                         <div class="col-2">
-                                            <input type="text" class="form-control" id="divisi" name="divisi"
+                                            <input type="text" class="form-control" id="selectedDivisi" name="selectedDivisi"
                                                 readonly>
                                         </div>
                                     </div>
