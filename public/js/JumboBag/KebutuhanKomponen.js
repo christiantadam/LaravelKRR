@@ -196,6 +196,7 @@ $(document).ready(function () {
         if ($("#modal_ok").data("id") == null) {
             $("#customerJBB").val(null).trigger("change"); // Clear selected index for customerJBB
             $("#kodeBarangJBB").val(null).trigger("change"); // Clear selected index for kodeBarangJBB
+            $("#lokasiJBB").val("TROPODO").trigger("change"); // Set default value for lokasiJBB
             kodeBarangJBB
                 .empty()
                 .append(
@@ -443,17 +444,18 @@ $(document).ready(function () {
                         );
                     response.forEach(function (barang) {
                         kodeBarangJBB.append(
-                            new Option(
-                                barang.Kode_Barang,
-                                barang.Kode_Barang
-                            )
+                            new Option(barang.Kode_Barang, barang.Kode_Barang)
                         );
                     });
                     kodeBarangJBB.val(rowData.Kode_Barang).trigger("change");
                     lokasiJBB.val(rowData.Lokasi).trigger("change");
                     jumlahKebutuhan.value = rowData.JumlahKebutuhan;
-                    tanggalKebutuhanAwal.value = moment(rowData.TanggalKebutuhanAwal).format('YYYY-MM-DD');
-                    tanggalKebutuhanAkhir.value = moment(rowData.TanggalKebutuhanAkhir).format('YYYY-MM-DD');
+                    tanggalKebutuhanAwal.value = moment(
+                        rowData.TanggalKebutuhanAwal
+                    ).format("YYYY-MM-DD");
+                    tanggalKebutuhanAkhir.value = moment(
+                        rowData.TanggalKebutuhanAkhir
+                    ).format("YYYY-MM-DD");
                     $("#tambahKebutuhanKomponenModal").modal("show");
                 } else {
                     console.error(
