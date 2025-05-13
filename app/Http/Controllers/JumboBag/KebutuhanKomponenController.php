@@ -29,7 +29,7 @@ class KebutuhanKomponenController extends Controller
         if ($jenis == 'tambahKebutuhanKomponen') {
             $kodeBarang = $request->input('kodeBarang');
             $jumlahKebutuhan = $request->input('jumlahKebutuhan');
-            $tanggalKebutuhanAwal = $request->input('tanggalKebutuhanAkhir');
+            $tanggalKebutuhanAwal = $request->input('tanggalKebutuhanAwal');
             $tanggalKebutuhanAkhir = $request->input('tanggalKebutuhanAkhir');
             $lokasi = $request->input('lokasi');
             try {
@@ -53,13 +53,14 @@ class KebutuhanKomponenController extends Controller
         } else if ($jenis == 'editKebutuhanKomponen') {
             $kodeBarang = $request->input('kodeBarang');
             $jumlahKebutuhan = $request->input('jumlahKebutuhan');
-            $tanggalKebutuhanAwal = $request->input('tanggalKebutuhanAkhir');
+            $tanggalKebutuhanAwal = $request->input('tanggalKebutuhanAwal');
             $tanggalKebutuhanAkhir = $request->input('tanggalKebutuhanAkhir');
             $lokasi = $request->input('lokasi');
+            $idKebutuhanKomponen = $request->input('idKebutuhanKomponen');
             try {
                 DB::connection('ConnJumboBag')->statement(
                     'EXEC SP_4384_Maintenance_Kebutuhan_Komponen @XKode = ?, @XKodeBarang = ?, @XJumlahKebutuhan = ?, @XTanggalKebutuhanAwal = ?,
-                    @XTanggalKebutuhanAkhir = ?, @XLokasi = ?'
+                    @XTanggalKebutuhanAkhir = ?, @XLokasi = ?, @XIdKebutuhanKomponen = ?'
                     ,
                     [
                         4,
@@ -67,7 +68,8 @@ class KebutuhanKomponenController extends Controller
                         $jumlahKebutuhan,
                         $tanggalKebutuhanAwal,
                         $tanggalKebutuhanAkhir,
-                        $lokasi
+                        $lokasi,
+                        $idKebutuhanKomponen
                     ]
                 );
                 return response()->json(['success' => true]);

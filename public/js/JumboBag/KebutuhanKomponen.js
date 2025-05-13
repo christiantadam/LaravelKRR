@@ -262,6 +262,7 @@ $(document).ready(function () {
                 tanggalKebutuhanAwal: tanggalAwal,
                 tanggalKebutuhanAkhir: tanggalAkhir,
                 lokasi: lokasi,
+                idKebutuhanKomponen: $("#modal_ok").data("id"),
                 _token: csrf,
             },
             success: function (response) {
