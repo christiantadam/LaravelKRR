@@ -4358,20 +4358,17 @@ $(document).ready(function () {
                             .rows()
                             .data()
                             .toArray(),
+                    table_daftarAsalKonversi:
+                        table_daftarAsalKonversiTanpaBarcode
+                            .rows()
+                            .data()
+                            .toArray(),
                     shift: id_shiftTanpaBarcode.value,
                     group: id_groupTanpaBarcode.value,
                     divisi: "ABM",
                     jenisStore: "permohonanTanpaBarcode",
                     sisaAsalKonversiPersen: parseFloat(sisaAsalKonversiPersen).toFixed(2),
                     nomorOrderKerja: select_nomorOrderKerjaTanpaBarcode.val(),
-                    idSubKelompokAsal: select_subKelompokAsalTanpaBarcode.val(),
-                    id_typeAsal: select_typeAsalTanpaBarcode.val(),
-                    pemakaian_primerAsal:
-                        jumlah_pemakaianPrimerTanpaBarcode.value,
-                    pemakaian_sekunderAsal:
-                        jumlah_pemakaianSekunderTanpaBarcode.value,
-                    pemakaian_tritierAsal:
-                        jumlah_pemakaianTritierTanpaBarcode.value,
                     tanggalKonversi: input_tanggalKonversiTanpaBarcode.value,
                 },
                 success: function (response) {
