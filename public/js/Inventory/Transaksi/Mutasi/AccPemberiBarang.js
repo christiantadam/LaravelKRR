@@ -1,59 +1,62 @@
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+var csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 
 // Assign input fields
-var pemberi = document.getElementById('pemberi');
-var tanggal = document.getElementById('tanggal');
-var divisiNama = document.getElementById('divisiNama');
-var objekNama = document.getElementById('objekNama');
-var kelompokNama = document.getElementById('kelompokNama');
-var kelutNama = document.getElementById('kelutNama');
-var subkelNama = document.getElementById('subkelNama');
+var pemberi = document.getElementById("pemberi");
+var tanggal = document.getElementById("tanggal");
+var divisiNama = document.getElementById("divisiNama");
+var objekNama = document.getElementById("objekNama");
+var kelompokNama = document.getElementById("kelompokNama");
+var kelutNama = document.getElementById("kelutNama");
+var subkelNama = document.getElementById("subkelNama");
 
 // Hidden input fields
-var divisiId = document.getElementById('divisiId');
-var objekId = document.getElementById('objekId');
-var kelompokId = document.getElementById('kelompokId');
-var kelutId = document.getElementById('kelutId');
-var subkelId = document.getElementById('subkelId');
+var divisiId = document.getElementById("divisiId");
+var objekId = document.getElementById("objekId");
+var kelompokId = document.getElementById("kelompokId");
+var kelutId = document.getElementById("kelutId");
+var subkelId = document.getElementById("subkelId");
 
 // Second group of inputs for 'PEMBERI'
-var divisiNama2 = document.getElementById('divisiNama2');
-var kodeTransaksi = document.getElementById('kodeTransaksi');
-var objekNama2 = document.getElementById('objekNama2');
-var kelompokNama2 = document.getElementById('kelompokNama2');
-var kelutNama2 = document.getElementById('kelutNama2');
-var subkelNama2 = document.getElementById('subkelNama2');
+var divisiNama2 = document.getElementById("divisiNama2");
+var kodeTransaksi = document.getElementById("kodeTransaksi");
+var objekNama2 = document.getElementById("objekNama2");
+var kelompokNama2 = document.getElementById("kelompokNama2");
+var kelutNama2 = document.getElementById("kelutNama2");
+var subkelNama2 = document.getElementById("subkelNama2");
 
 // Input fields for 'Jumlah Barang'
-var primer = document.getElementById('primer');
-var satuanPrimer = document.getElementById('satuanPrimer');
-var sekunder = document.getElementById('sekunder');
-var satuanSekunder = document.getElementById('satuanSekunder');
-var tritier = document.getElementById('tritier');
-var satuanTritier = document.getElementById('satuanTritier');
+var primer = document.getElementById("primer");
+var satuanPrimer = document.getElementById("satuanPrimer");
+var sekunder = document.getElementById("sekunder");
+var satuanSekunder = document.getElementById("satuanSekunder");
+var tritier = document.getElementById("tritier");
+var satuanTritier = document.getElementById("satuanTritier");
 
 // Buttons
-var btn_divisi = document.getElementById('btn_divisi');
-var btn_objek = document.getElementById('btn_objek');
+var btn_divisi = document.getElementById("btn_divisi");
+var btn_objek = document.getElementById("btn_objek");
 // var btn_refresh = document.getElementById('btn_refresh');
-var btn_proses = document.getElementById('btn_proses');
-var btn_batal = document.getElementById('btn_batal');
-var btn_ok = document.getElementById('btn_ok');
+var btn_proses = document.getElementById("btn_proses");
+var btn_batal = document.getElementById("btn_batal");
+var btn_ok = document.getElementById("btn_ok");
 
-var acc = document.getElementById('acc');
-var batalAcc = document.getElementById('batalAcc');
+var acc = document.getElementById("acc");
+var batalAcc = document.getElementById("batalAcc");
 
 var today = new Date().toISOString().slice(0, 10);
-tanggal.value = (today);
+tanggal.value = today;
+btn_divisi.focus();
 
 function formatDateToMMDDYYYY(date) {
     let dateObj = new Date(date);
     if (isNaN(dateObj)) {
-        return '';
+        return "";
     }
 
-    let month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-    let day = dateObj.getDate().toString().padStart(2, '0');
+    let month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    let day = dateObj.getDate().toString().padStart(2, "0");
     let year = dateObj.getFullYear();
 
     return `${month}/${day}/${year}`;
@@ -61,50 +64,63 @@ function formatDateToMMDDYYYY(date) {
 
 function getUserId() {
     $.ajax({
-        type: 'GET',
-        url: 'AccPemberiBarang/getUserId',
+        type: "GET",
+        url: "AccPemberiBarang/getUserId",
         data: {
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             pemberi.value = result.user;
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 var IdArray = [];
 
+tanggal.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        btn_divisi.focus();
+    }
+});
+
 $(document).ready(function () {
     getUserId();
 
-    $('#tableData').DataTable({
+    $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
         ordering: false,
         columns: [
-            { title: '', orderable: false, className: 'select-checkbox', data: null, defaultContent: '' }, // Checkbox
-            { title: 'Transaksi' },
-            { title: 'Nama Barang' },
-            { title: 'Alasan Mutasi' },
-            { title: 'Kel. Utama' },
-            { title: 'Kelompok' },
-            { title: 'Sub Kelompok' },
-            { title: 'Pemohon' },
-            { title: 'Primer' },
-            { title: 'Sekunder' },
-            { title: 'Tritier' },
-            { title: 'UserAcc' },
+            {
+                title: "",
+                orderable: false,
+                className: "select-checkbox",
+                data: null,
+                defaultContent: "",
+            }, // Checkbox
+            { title: "Transaksi" },
+            { title: "Nama Barang" },
+            { title: "Alasan Mutasi" },
+            { title: "Kel. Utama" },
+            { title: "Kelompok" },
+            { title: "Sub Kelompok" },
+            { title: "Pemohon" },
+            { title: "Primer" },
+            { title: "Sekunder" },
+            { title: "Tritier" },
+            { title: "UserAcc" },
         ],
         colResize: {
             isEnabled: true,
-            hoverClass: 'dt-colresizable-hover',
+            hoverClass: "dt-colresizable-hover",
             hasBoundCheck: true,
-            minBoundClass: 'dt-colresizable-bound-min',
-            maxBoundClass: 'dt-colresizable-bound-max',
+            minBoundClass: "dt-colresizable-bound-min",
+            maxBoundClass: "dt-colresizable-bound-max",
             saveState: true,
             // isResizable: function (column) {
             //     return column.idx !== 2;
@@ -116,46 +132,48 @@ $(document).ready(function () {
                 // console.log('I have been resized!');
             },
             stateSaveCallback: function (settings, data) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData";
+                let stateStorageName =
+                    window.location.pathname + "/colResizeStateData";
                 localStorage.setItem(stateStorageName, JSON.stringify(data));
             },
             stateLoadCallback: function (settings) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData",
+                let stateStorageName =
+                        window.location.pathname + "/colResizeStateData",
                     data = localStorage.getItem(stateStorageName);
                 return data != null ? JSON.parse(data) : null;
-            }
+            },
         },
         columnDefs: [
             {
                 targets: 0,
                 orderable: false,
-                className: 'select-checkbox',
-                width: '3%',
+                className: "select-checkbox",
+                width: "3%",
                 render: function (data, type, row, meta) {
                     return `<input type="checkbox" class="row-checkbox"
                                     data-id="${row[1]}">`;
-                }
+                },
             },
-            { targets: [1], width: '12%', className: 'fixed-width' },
-            { targets: [2], width: '25%', className: 'fixed-width' },
-            { targets: [3], width: '15%', className: 'fixed-width' },
-            { targets: [4], width: '15%', className: 'fixed-width' },
-            { targets: [5], width: '15%', className: 'fixed-width' },
-            { targets: [6], width: '15%', className: 'fixed-width' },
-            { targets: [7], width: '15%', className: 'fixed-width' },
-            { targets: [8], width: '10%', className: 'fixed-width' },
-            { targets: [9], width: '10%', className: 'fixed-width' },
-            { targets: [10], width: '10%', className: 'fixed-width' },
-            { targets: [11], width: '8%', className: 'fixed-width' },
+            { targets: [1], width: "12%", className: "fixed-width" },
+            { targets: [2], width: "25%", className: "fixed-width" },
+            { targets: [3], width: "15%", className: "fixed-width" },
+            { targets: [4], width: "15%", className: "fixed-width" },
+            { targets: [5], width: "15%", className: "fixed-width" },
+            { targets: [6], width: "15%", className: "fixed-width" },
+            { targets: [7], width: "15%", className: "fixed-width" },
+            { targets: [8], width: "10%", className: "fixed-width" },
+            { targets: [9], width: "10%", className: "fixed-width" },
+            { targets: [10], width: "10%", className: "fixed-width" },
+            { targets: [11], width: "8%", className: "fixed-width" },
         ],
-        scrollY: '300px',
+        scrollY: "300px",
         autoWidth: false,
-        scrollX: '100%',
-        order: [[1, 'asc']],
+        scrollX: "100%",
+        order: [[1, "asc"]],
         select: {
-            style: 'os',
-            selector: 'td:first-child'
-        }
+            style: "os",
+            selector: "td:first-child",
+        },
     });
 });
 
@@ -177,8 +195,7 @@ function handleTableKeydown(e, tableId) {
                 Swal.getConfirmButton().click();
             }
         }
-    }
-    else if (e.key === "ArrowDown") {
+    } else if (e.key === "ArrowDown") {
         e.preventDefault();
         if (currentIndex === null || currentIndex >= rowCount - 1) {
             currentIndex = 0;
@@ -188,8 +205,7 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowUp") {
+    } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (currentIndex === null || currentIndex <= 0) {
             currentIndex = rowCount - 1;
@@ -199,36 +215,44 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowRight") {
+    } else if (e.key === "ArrowRight") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page < pageInfo.pages - 1) {
-            table.page('next').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("next")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
-    }
-    else if (e.key === "ArrowLeft") {
+    } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page > 0) {
-            table.page('previous').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("previous")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
     }
 }
 
 // Helper function to scroll selected row into view
 function scrollRowIntoView(rowElement) {
-    rowElement.scrollIntoView({ block: 'nearest' });
+    rowElement.scrollIntoView({ block: "nearest" });
 }
 function decodeHtmlEntities(text) {
     var txt = document.createElement("textarea");
@@ -238,25 +262,29 @@ function decodeHtmlEntities(text) {
 
 function escapeHtml(text) {
     var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
     };
-    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
 
 function updateDataTable(data) {
-    var table = $('#tableData').DataTable();
+    var table = $("#tableData").DataTable();
     table.clear().draw();
 
     data.forEach(function (item) {
         table.row.add([
-            '',
+            "",
             escapeHtml(item.IdTransaksi),
             escapeHtml(item.NamaType),
-            item.UraianDetailTransaksi ? escapeHtml(item.UraianDetailTransaksi) : '',
+            item.UraianDetailTransaksi
+                ? escapeHtml(item.UraianDetailTransaksi)
+                : "",
             escapeHtml(item.NamaKelompokUtama),
             escapeHtml(item.NamaKelompok),
             escapeHtml(item.NamaSubKelompok),
@@ -264,7 +292,7 @@ function updateDataTable(data) {
             formatNumber(item.JumlahPengeluaranPrimer),
             formatNumber(item.JumlahPengeluaranSekunder),
             formatNumber(item.JumlahPengeluaranTritier),
-            item.KomfirmasiPenerima ? escapeHtml(item.KomfirmasiPenerima) : '',
+            item.KomfirmasiPenerima ? escapeHtml(item.KomfirmasiPenerima) : "",
             escapeHtml(item.NamaDivisi),
         ]);
     });
@@ -281,8 +309,8 @@ function formatNumber(value) {
 
 function showAcc() {
     $.ajax({
-        type: 'GET',
-        url: 'AccPemberiBarang/getAcc',
+        type: "GET",
+        url: "AccPemberiBarang/getAcc",
         data: {
             _token: csrfToken,
             XIdObjek: objekId.value,
@@ -290,22 +318,21 @@ function showAcc() {
         success: function (result) {
             if (result.length !== 0) {
                 updateDataTable(result);
-            }
-            else {
-                var table = $('#tableData').DataTable();
+            } else {
+                var table = $("#tableData").DataTable();
                 table.clear().draw();
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 function showBatal() {
     $.ajax({
-        type: 'GET',
-        url: 'AccPemberiBarang/getBatalAcc',
+        type: "GET",
+        url: "AccPemberiBarang/getBatalAcc",
         data: {
             _token: csrfToken,
             XIdObjek: objekId.value,
@@ -313,23 +340,21 @@ function showBatal() {
         success: function (result) {
             if (result.length !== 0) {
                 updateDataTable(result);
-            }
-            else {
-                var table = $('#tableData').DataTable();
+            } else {
+                var table = $("#tableData").DataTable();
                 table.clear().draw();
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 btn_ok.addEventListener("click", function (e) {
     if (acc.checked) {
         showAcc();
-    }
-    else if (batalAcc.checked) {
+    } else if (batalAcc.checked) {
         showBatal();
     }
 
@@ -339,34 +364,32 @@ btn_ok.addEventListener("click", function (e) {
     btn_objek.disabled = true;
     btn_proses.disabled = false;
     ClearText();
-
 });
 
 function ClearText() {
-    kelutNama.value = '';
-    kelompokNama.value = '';
-    subkelNama.value = '';
-    divisiNama2.value = '';
-    objekNama2.value = '';
-    kelutNama2.value = '';
-    kelompokNama2.value = '';
-    subkelNama2.value = '';
-    kodeTransaksi.value = '';
-    namaBarang.value = '';
+    kelutNama.value = "";
+    kelompokNama.value = "";
+    subkelNama.value = "";
+    divisiNama2.value = "";
+    objekNama2.value = "";
+    kelutNama2.value = "";
+    kelompokNama2.value = "";
+    subkelNama2.value = "";
+    kodeTransaksi.value = "";
+    namaBarang.value = "";
     primer.value = 0;
     sekunder.value = 0;
     tritier.value = 0;
-    satuanPrimer.value = '';
-    satuanSekunder.value = '';
-    satuanTritier.value = '';
+    satuanPrimer.value = "";
+    satuanSekunder.value = "";
+    satuanTritier.value = "";
 }
 
 // button list divisi
 btn_divisi.addEventListener("click", function (e) {
-
     try {
         Swal.fire({
-            title: 'Divisi',
+            title: "Divisi",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -389,11 +412,11 @@ btn_divisi.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -401,7 +424,7 @@ btn_divisi.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -409,19 +432,16 @@ btn_divisi.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "IdDivisi" },
-                            { data: "NamaDivisi" },
-                        ],
+                        columns: [{ data: "IdDivisi" }, { data: "NamaDivisi" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -430,19 +450,25 @@ btn_divisi.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
-                divisiId.value = decodeHtmlEntities(result.value.IdDivisi.trim());
-                divisiNama.value = decodeHtmlEntities(result.value.NamaDivisi.trim());
+                divisiId.value = decodeHtmlEntities(
+                    result.value.IdDivisi.trim()
+                );
+                divisiNama.value = decodeHtmlEntities(
+                    result.value.NamaDivisi.trim()
+                );
                 btn_objek.focus();
             }
         });
@@ -453,10 +479,9 @@ btn_divisi.addEventListener("click", function (e) {
 
 // button list objek
 btn_objek.addEventListener("click", function (e) {
-
     try {
         Swal.fire({
-            title: 'Objek',
+            title: "Objek",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -479,11 +504,11 @@ btn_objek.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -491,7 +516,7 @@ btn_objek.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [0, "asc"],
                         ajax: {
@@ -500,19 +525,16 @@ btn_objek.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                divisi: divisiId.value
-                            }
+                                divisi: divisiId.value,
+                            },
                         },
-                        columns: [
-                            { data: "IdObjek" },
-                            { data: "NamaObjek" },
-                        ],
+                        columns: [{ data: "IdObjek" }, { data: "NamaObjek" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -521,19 +543,23 @@ btn_objek.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 objekId.value = decodeHtmlEntities(result.value.IdObjek.trim());
-                objekNama.value = decodeHtmlEntities(result.value.NamaObjek.trim());
+                objekNama.value = decodeHtmlEntities(
+                    result.value.NamaObjek.trim()
+                );
 
                 btn_ok.disabled = false;
                 btn_ok.focus();
@@ -544,10 +570,10 @@ btn_objek.addEventListener("click", function (e) {
     }
 });
 
-$('#tableData tbody').on('click', 'tr', function () {
-    var table = $('#tableData').DataTable();
-    table.$('tr.selected').removeClass('selected');
-    $(this).addClass('selected');
+$("#tableData tbody").on("click", "tr", function () {
+    var table = $("#tableData").DataTable();
+    table.$("tr.selected").removeClass("selected");
+    $(this).addClass("selected");
 
     var data = table.row(this).data();
     kodeTransaksi.value = decodeHtmlEntities(data[1]);
@@ -562,22 +588,22 @@ $('#tableData tbody').on('click', 'tr', function () {
     Tampil_Item();
 });
 
-$('#tableData tbody').on('change', '.row-checkbox', function () {
-    var transaksiId = $(this).data('id');
+$("#tableData tbody").on("change", ".row-checkbox", function () {
+    var transaksiId = $(this).data("id");
 
-    if ($(this).is(':checked')) {
+    if ($(this).is(":checked")) {
         if (!IdArray.includes(transaksiId)) {
             IdArray.push(transaksiId);
         }
     } else {
-        IdArray = IdArray.filter(id => id !== transaksiId);
+        IdArray = IdArray.filter((id) => id !== transaksiId);
     }
 });
 
 function Proses_Acc() {
     $.ajax({
-        type: 'PUT',
-        url: 'AccPemberiBarang/acc',
+        type: "PUT",
+        url: "AccPemberiBarang/acc",
         data: {
             _token: csrfToken,
             listTransaksi: IdArray,
@@ -585,8 +611,8 @@ function Proses_Acc() {
         success: function (response) {
             if (response.success) {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses Acc',
+                    icon: "success",
+                    title: "Sukses Acc",
                     text: response.success,
                     returnFocus: false,
                 }).then(() => {
@@ -596,15 +622,15 @@ function Proses_Acc() {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 function Batal_Acc() {
     $.ajax({
-        type: 'PUT',
-        url: 'AccPemberiBarang/batal',
+        type: "PUT",
+        url: "AccPemberiBarang/batal",
         data: {
             _token: csrfToken,
             listTransaksi: IdArray,
@@ -612,8 +638,8 @@ function Batal_Acc() {
         success: function (response) {
             if (response.success) {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Sukses Batal Acc',
+                    icon: "success",
+                    title: "Sukses Batal Acc",
                     text: response.success,
                     returnFocus: false,
                 }).then(() => {
@@ -623,8 +649,8 @@ function Batal_Acc() {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
@@ -641,15 +667,13 @@ btn_proses.addEventListener("click", function (e) {
     if (IdArray.length !== 0) {
         if (acc.checked) {
             Proses_Acc();
-        }
-        else if (batalAcc.checked) {
+        } else if (batalAcc.checked) {
             Batal_Acc();
         }
-    }
-    else {
+    } else {
         Swal.fire({
-            icon: 'error',
-            title: 'Tidak Data Yang DiAcc !..',
+            icon: "error",
+            title: "Tidak Data Yang DiAcc !..",
             returnFocus: false,
         });
         return;
@@ -663,15 +687,15 @@ btn_batal.addEventListener("click", function (e) {
     btn_ok.disabled = false;
     btn_proses.disabled = true;
     ClearText();
-    var table = $('#tableData').DataTable();
+    var table = $("#tableData").DataTable();
     table.clear().draw();
     btn_divisi.focus();
 });
 
 function Tampil_Item() {
     $.ajax({
-        type: 'GET',
-        url: 'AccPemberiBarang/tampilItem',
+        type: "GET",
+        url: "AccPemberiBarang/tampilItem",
         data: {
             _token: csrfToken,
             XIdTransaksi: kodeTransaksi.value,
@@ -680,16 +704,28 @@ function Tampil_Item() {
             if (result.length !== 0) {
                 divisiNama2.value = decodeHtmlEntities(result[0].NamaDivisi);
                 objekNama2.value = decodeHtmlEntities(result[0].NamaObjek);
-                kelutNama2.value = decodeHtmlEntities(result[0].NamaKelompokUtama);
-                kelompokNama2.value = decodeHtmlEntities(result[0].NamaKelompok);
-                subkelNama2.value = decodeHtmlEntities(result[0].NamaSubKelompok);
-                satuanPrimer.value = result[0].Satuan_Primer ? decodeHtmlEntities(result[0].Satuan_Primer) : '';
-                satuanSekunder.value = result[0].Satuan_Sekunder ? decodeHtmlEntities(result[0].Satuan_Sekunder) : '';
-                satuanTritier.value = result[0].Satuan_Tritier ? decodeHtmlEntities(result[0].Satuan_Tritier) : '';
+                kelutNama2.value = decodeHtmlEntities(
+                    result[0].NamaKelompokUtama
+                );
+                kelompokNama2.value = decodeHtmlEntities(
+                    result[0].NamaKelompok
+                );
+                subkelNama2.value = decodeHtmlEntities(
+                    result[0].NamaSubKelompok
+                );
+                satuanPrimer.value = result[0].Satuan_Primer
+                    ? decodeHtmlEntities(result[0].Satuan_Primer)
+                    : "";
+                satuanSekunder.value = result[0].Satuan_Sekunder
+                    ? decodeHtmlEntities(result[0].Satuan_Sekunder)
+                    : "";
+                satuanTritier.value = result[0].Satuan_Tritier
+                    ? decodeHtmlEntities(result[0].Satuan_Tritier)
+                    : "";
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
