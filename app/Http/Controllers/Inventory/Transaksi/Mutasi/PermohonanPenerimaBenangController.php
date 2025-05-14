@@ -27,6 +27,7 @@ class PermohonanPenerimaBenangController extends Controller
     public function store(Request $request)
     {
         $tableData = $request->input('tableData');
+        $response = [];
         for ($i = 0; $i < count($tableData); $i++) {
             $Yidtransaksi = $tableData[$i][0];
             $primer = trim($tableData[$i][7]);
@@ -37,20 +38,21 @@ class PermohonanPenerimaBenangController extends Controller
             // $sIdKonv = $request->input('sIdKonv');
             // $subkel = $request->input('subkel');
             $kodeBarang = $tableData[$i][11];
-            $NmError = null;
 
             $pemberi = DB::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_pemberi @idtransaksi = ?, @idtypetransaksi = 06', [$Yidtransaksi]);
-            $YidType = $pemberi->IdType;
-            if ($pemberi->jumlah > 0) {
-                $NmError = (string) 'Tidak Bisa DiAcc !!!. Karena Ada Transaksi Penyesuaian yang Belum Diacc untuk type ' . $pemberi->IdType . ' Pada divisi pemberi';
-                return response()->json(['Nmerror' => $NmError]);
+            $YidType = $pemberi[0]->IdType;
+            if ($pemberi[0]->jumlah > 0) {
+                $response['Nmerror'][] = (string) 'Ada transaksi penyesuaian yang belum disetujui untuk type ' . $pemberi->IdType . ' pada divisi pemberi';
+                $response['IdTransaksi'][] = $Yidtransaksi;
+                continue;
             }
 
             $penerima = DB::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_penerima @idtransaksi = ?, @idtypetransaksi = 06, @KodeBarang = ?', [$Yidtransaksi, $kodeBarang]);
-            $YidTypePenerima = $penerima->IdType;
-            if ($penerima->jumlah > 0) {
-                $NmError = (string) 'Tidak Bisa DiAcc !!!. Karena Ada Transaksi Penyesuaian yang Belum Diacc untuk type ' . $pemberi->IdType . ' Pada divisi penerima';
-                return response()->json(['Nmerror' => $NmError]);
+            $YidTypePenerima = $penerima[0]->IdType;
+            if ($penerima[0]->jumlah > 0) {
+                $response['Nmerror'][] = (string) 'Ada transaksi penyesuaian yang belum disetujui untuk type ' . $pemberi->IdType . ' pada divisi penerima';
+                $response['IdTransaksi'][] = $Yidtransaksi;
+                continue;
             }
 
             DB::connection('ConnInventory')->beginTransaction();
@@ -62,8 +64,9 @@ class PermohonanPenerimaBenangController extends Controller
                     ->value('status');
 
                 if ($status === '1') {
-                    $NmError = 'Data sudah pernah di ACC';
-                    return response()->json(['Nmerror' => $NmError]);
+                    $response['Nmerror'][] = (string) 'Data sudah pernah di ACC';
+                    $response['IdTransaksi'][] = $Yidtransaksi;
+                    continue;
                 }
 
                 // Step 2: Fetch Pemberi data from vw_prg_type
@@ -110,42 +113,49 @@ class PermohonanPenerimaBenangController extends Controller
 
                 // Step 4: Check if Satuan Tritier is the same
                 if ($UnitTritierBeri !== $UnitTritierTerima) {
-                    $NmError = 'Satuan Paling Kecil Antara Pemberi dan Penerima Tidak Sama';
-                    return response()->json(['Nmerror' => $NmError]);
+                    $response['Nmerror'][] = (string) 'Satuan tritier antara pemberi dan penerima tidak sama';
+                    $response['IdTransaksi'][] = $Yidtransaksi;
+                    continue;
                 }
 
                 // Step 5: Check stock constraints for Pemberi
                 if ($PakaiAturanKonversiBeri !== 'Y') {
                     if ($SaldoPrimerBeri - $primer < 0) {
-                        $NmError = 'Karena Saldo akhir Primer Tinggal: ' . $SaldoPrimerBeri . '. Divisi Pemberi Tidak boleh memberi: ' . $primer;
-                        return response()->json(['Nmerror' => $NmError]);
+                        $response['Nmerror'][] = (string) 'Karena Saldo akhir Primer Tinggal: ' . $SaldoPrimerBeri . '. Divisi Pemberi Tidak boleh memberi: ' . $primer;
+                        $response['IdTransaksi'][] = $Yidtransaksi;
+                        continue;
                     }
 
                     if ($SaldoSekunderBeri - $sekunder < 0) {
-                        $NmError = 'Karena Saldo akhir Sekunder Tinggal: ' . $SaldoSekunderBeri . '. Divisi Pemberi Tidak boleh memberi: ' . $sekunder;
-                        return response()->json(['Nmerror' => $NmError]);
+                        $response['Nmerror'][] = (string) 'Karena Saldo akhir Sekunder Tinggal: ' . $SaldoSekunderBeri . '. Divisi Pemberi Tidak boleh memberi: ' . $sekunder;
+                        $response['IdTransaksi'][] = $Yidtransaksi;
+                        continue;
                     }
 
                     if ($SaldoTritierBeri - $tritier < 0) {
-                        $NmError = 'Karena Saldo akhir Tritier Tinggal: ' . $SaldoTritierBeri . '. Divisi Pemberi Tidak boleh memberi: ' . $tritier;
-                        return response()->json(['Nmerror' => $NmError]);
+                        $response['Nmerror'][] = (string) 'Karena Saldo akhir Tritier Tinggal: ' . $SaldoTritierBeri . '. Divisi Pemberi Tidak boleh memberi: ' . $tritier;
+                        $response['IdTransaksi'][] = $Yidtransaksi;
+                        continue;
                     }
 
                     // Minimum stock validation
                     if ($MinimumStockBeri != 0) {
                         if ($satuanUmumBeri == $UnitPrimerBeri && ($SaldoPrimerBeri - $primer) < $MinimumStockBeri) {
-                            $NmError = 'Karena Jumlah Yang Diberikan Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Primer) : ' . trim($MinimumStockBeri);
-                            return response()->json(['Nmerror' => $NmError]);
+                            $response['Nmerror'][] = (string) 'Karena Jumlah Yang Diberikan Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Primer) : ' . trim($MinimumStockBeri);
+                            $response['IdTransaksi'][] = $Yidtransaksi;
+                            continue;
                         }
 
                         if ($satuanUmumBeri == $UnitSekunderBeri && ($SaldoSekunderBeri - $sekunder) < $MinimumStockBeri) {
-                            $NmError = 'Karena Jumlah Yang Diberikan Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Sekunder) : ' . trim($MinimumStockBeri);
-                            return response()->json(['Nmerror' => $NmError]);
+                            $response['Nmerror'][] = (string) 'Karena Jumlah Yang Diberikan Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Sekunder) : ' . trim($MinimumStockBeri);
+                            $response['IdTransaksi'][] = $Yidtransaksi;
+                            continue;
                         }
 
                         if ($satuanUmumBeri == $UnitTritierBeri && ($SaldoTritierBeri - $tritier) < $MinimumStockBeri) {
-                            $NmError = 'Karena Jumlah Yang Diberikan Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Tritier) : ' . trim($MinimumStockBeri);
-                            return response()->json(['Nmerror' => $NmError]);
+                            $response['Nmerror'][] = (string) 'Karena Jumlah Yang Diberikan Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Tritier) : ' . trim($MinimumStockBeri);
+                            $response['IdTransaksi'][] = $Yidtransaksi;
+                            continue;
                         }
                     }
                 }
@@ -157,23 +167,26 @@ class PermohonanPenerimaBenangController extends Controller
                 // dd($penerimaKonversi);
 
                 if ($penerimaKonversi === 'Y') {
-                    $NmError = 'Karena Program Belum Bisa MengAcc Jika Penerima memakai aturan Konversi';
-                    return response()->json(['Nmerror' => $NmError]);
+                    $response['Nmerror'][] = (string) 'Program Belum Bisa MengAcc Jika Penerima memakai aturan Konversi';
+                    $response['IdTransaksi'][] = $Yidtransaksi;
+                    continue;
                 }
 
                 if ($PakaiAturanKonversiBeri === 'Y') {
                     // Check if both konv1 and konv2 are not zero
                     if ($konv1Beri != 0 && $konv2Beri != 0) {
-                        $NmError = 'Karena Program Belum Sampai Pada Pemakaian 2 Konversi';
-                        return response()->json(['Nmerror' => $NmError]);
+                        $response['Nmerror'][] = (string) 'Karena Program Belum Sampai Pada Pemakaian 2 Konversi';
+                        $response['IdTransaksi'][] = $Yidtransaksi;
+                        continue;
                     }
 
                     // If konv1 is 0 and konv2 is not 0
                     if ($konv1Beri === 0 && $konv2Beri !== 0) {
                         // Check if satUmum1 is equal to satPrimer1
                         if ($satuanUmumBeri == $UnitPrimerBeri) {
-                            $NmError = 'Untuk Div Pemberi, Konversi hanya sekunder ke tritier maka untuk nilai PRIMER Tidak boleh di ISI';
-                            return response()->json(['Nmerror' => $NmError]);
+                            $response['Nmerror'][] = (string) 'Untuk Div Pemberi, Konversi hanya sekunder ke tritier maka untuk nilai PRIMER Tidak boleh diisi';
+                            $response['IdTransaksi'][] = $Yidtransaksi;
+                            continue;
                         }
 
                         // If satUmum1 equals satSekunder1
@@ -182,8 +195,9 @@ class PermohonanPenerimaBenangController extends Controller
 
                             // Check if saldoSekunder minus JumlahKeluar is less than MinStok
                             if ($SaldoSekunderBeri - $JumlahKeluar < $MinimumStockBeri) {
-                                $NmError = 'Karena Jumlah Yang Diminta Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Sekunder): ' . trim($MinimumStockBeri);
-                                return response()->json(['Nmerror' => $NmError]);
+                                $response['Nmerror'][] = (string) 'Karena Jumlah Yang Diminta Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Sekunder): ' . trim($MinimumStockBeri);
+                                $response['IdTransaksi'][] = $Yidtransaksi;
+                                continue;
                             }
                         }
 
@@ -193,8 +207,9 @@ class PermohonanPenerimaBenangController extends Controller
 
                             // Check if saldoTritier minus JumlahKeluar is less than MinStok
                             if ($SaldoTritierBeri - $JumlahKeluar < $MinimumStockBeri) {
-                                $NmError = 'Karena Jumlah Yang Diminta Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Tritier): ' . trim($MinimumStockBeri);
-                                return response()->json(['Nmerror' => $NmError]);
+                                $response['Nmerror'][] = (string) 'Karena Jumlah Yang Diminta Melebihi Minimum Stoknya Divisi Pemberi (Dalam Satuan Tritier): ' . trim($MinimumStockBeri);
+                                $response['IdTransaksi'][] = $Yidtransaksi;
+                                continue;
                             }
                         }
                     }
@@ -214,8 +229,9 @@ class PermohonanPenerimaBenangController extends Controller
 
                         // Check if saldo is sufficient
                         if ($tmpSaldo - ($konv2Beri * $sekunder) - $tritier < 0) {
-                            $NmError = 'Saldo akhir Tritier Divisi Pemberi Tinggal : ' . trim($SaldoPrimerBeri) . ', Tidak boleh memberi: ' . trim($tritier);
-                            return response()->json(['Nmerror' => $NmError]);
+                            $response['Nmerror'][] = (string) 'Saldo akhir Tritier Divisi Pemberi Tinggal : ' . trim($SaldoPrimerBeri) . ', Tidak boleh memberi: ' . trim($tritier);
+                            $response['IdTransaksi'][] = $Yidtransaksi;
+                            continue;
                         }
 
                         // Handle cases where Sekunder is 0 and Tritier > 0
@@ -252,8 +268,9 @@ class PermohonanPenerimaBenangController extends Controller
                         // Handle cases where Sekunder > 0
                         if ($sekunder > 0) {
                             if ($SaldoSekunderBeri - $sekunder < 0) {
-                                $NmError = 'Saldo akhir Sekunder Divisi Pemberi Tinggal: ' . trim($SaldoSekunderBeri) . ', Tidak boleh memberi: ' . trim($tritier);
-                                return response()->json(['Nmerror' => $NmError]);
+                                $response['Nmerror'][] = (string) 'Saldo akhir Sekunder Divisi Pemberi Tinggal: ' . trim($SaldoSekunderBeri) . ', Tidak boleh memberi: ' . trim($tritier);
+                                $response['IdTransaksi'][] = $Yidtransaksi;
+                                continue;
                             } else {
                                 // Both Sekunder and Tritier are filled, update saldo
                                 if ($SaldoTritierBeri >= $tritier && $SaldoSekunderBeri >= $sekunder) {
@@ -391,20 +408,23 @@ class PermohonanPenerimaBenangController extends Controller
                 if ($MaxStockTerima > 0) {
                     if ($satuanUmumTerima === $UnitPrimerTerima) {
                         if ($SaldoPrimerTerima + $primer > $MaxStockTerima) {
-                            $NmError = 'Karena Max Stok Divisi Penerima (Dalam Satuan Primer) sebesar : ' . trim($MaxStockTerima);
-                            return response()->json(['error' => $NmError], 400);
+                            $response['Nmerror'][] = (string) 'Karena Max Stok Divisi Penerima (Dalam Satuan Primer) sebesar : ' . trim($MaxStockTerima);
+                            $response['IdTransaksi'][] = $Yidtransaksi;
+                            continue;
                         }
                     }
                     if ($satuanUmumTerima === $UnitSekunderTerima) {
                         if ($SaldoSekunderTerima + $sekunder > $MaxStockTerima) {
-                            $NmError = 'Karena Max Stok Divisi Penerima (Dalam Satuan Sekunder) sebesar : ' . trim($MaxStockTerima);
-                            return response()->json(['error' => $NmError], 400);
+                            $response['Nmerror'][] = (string) 'Karena Max Stok Divisi Penerima (Dalam Satuan Sekunder) sebesar : ' . trim($MaxStockTerima);
+                            $response['IdTransaksi'][] = $Yidtransaksi;
+                            continue;
                         }
                     }
                     if ($satuanUmumTerima === $UnitTritierTerima) {
                         if ($SaldoTritierTerima + $tritier > $MaxStockTerima) {
-                            $NmError = 'Karena Max Stok Divisi Penerima (Dalam Satuan Tritier) sebesar : ' . trim($MaxStockTerima);
-                            return response()->json(['error' => $NmError], 400);
+                            $response['Nmerror'][] = (string) 'Karena Max Stok Divisi Penerima (Dalam Satuan Tritier) sebesar : ' . trim($MaxStockTerima);
+                            $response['IdTransaksi'][] = $Yidtransaksi;
+                            continue;
                         }
                     }
                 }
@@ -514,8 +534,6 @@ class PermohonanPenerimaBenangController extends Controller
                 $YIdTransaksi = DB::connection('ConnInventory')->table('counter')->increment('idtransaksi');
                 // dd($YIdTransaksi);
 
-
-
                 $divisi = DB::connection('ConnInventory')->table('Type')
                     ->join('Subkelompok', 'Type.IdSubkelompok_Type', '=', 'Subkelompok.IdSubkelompok')
                     ->join('Kelompok', 'Subkelompok.IdKelompok_Subkelompok', '=', 'Kelompok.IdKelompok')
@@ -538,17 +556,17 @@ class PermohonanPenerimaBenangController extends Controller
                 }
 
                 DB::connection('ConnInventory')->commit();
+                $response['Nmerror'][] = (string) 'BENAR';
+                $response['IdTransaksi'][] = $Yidtransaksi;
+                continue;
 
-                return response()->json([
-                    'Nmerror' => 'BENAR',
-                    'IdTransPenerima' => $YIdTransaksiPenerima
-                ]);
             } catch (\Exception $e) {
                 // DB::rollBack();
                 DB::connection('ConnInventory')->rollBack();
                 return response()->json(['Nmerror' => $e->getMessage()]);
             }
         }
+        return response()->json(['response' => $response]);
     }
 
     //Display the specified resource.
