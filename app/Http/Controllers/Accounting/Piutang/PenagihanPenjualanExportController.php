@@ -82,6 +82,7 @@ class PenagihanPenjualanExportController extends Controller
                     ->table('T_PENAGIHAN_SJ')
                     ->select('Id_Penagihan')
                     ->where('Id_Penagihan', 'like', '%' . (string) $currentYear)
+                    ->where('UserInput', trim(Auth::user()->NomorUser))
                     ->orderBy('Id_Penagihan', 'desc')
                     ->orderBy('Tgl_Penagihan', 'desc')
                     ->first();
