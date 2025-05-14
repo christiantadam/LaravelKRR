@@ -754,16 +754,22 @@ btn_proses.addEventListener("click", function () {
             console.log(response);
             sError = response.Nmerror.trim();
             if (sError === "BENAR") {
-                simpan = true;
-                idTrans.value = result.IdTransPenerima.trim();
-                ada = true;
-                if (simpan) {
                     Swal.fire({
                         icon: "success",
                         title: "Success",
                         text: "Data Sudah Disimpan Untuk Penerimaan Benang!!",
                         returnFocus: false,
                     });
+                // simpan = true;
+                // idTrans.value = result.IdTransPenerima.trim();
+                // ada = true;
+                // if (simpan) {
+                //     Swal.fire({
+                //         icon: "success",
+                //         title: "Success",
+                //         text: "Data Sudah Disimpan Untuk Penerimaan Benang!!",
+                //         returnFocus: false,
+                //     });
 
                     // }).then(async () => {
                     //     const isKonversi = await cekKonversi(namaBarang.value);
@@ -792,18 +798,18 @@ btn_proses.addEventListener("click", function () {
                     //         clearInputs();
                     //         showTable();
                     //     }
-                } else {
-                    if (!ada) {
-                        Swal.fire({
-                            icon: "warning",
-                            title: "Warning!",
-                            text: "Tidak Ada Data Yang DiTerima!!!!....., Untuk Menerima Barang pilih data pada tabel tersedia ",
-                            returnFocus: false,
-                        }).then(() => {
-                            return;
-                        });
-                    }
-                }
+                // } else {
+                //     if (!ada) {
+                //         Swal.fire({
+                //             icon: "warning",
+                //             title: "Warning!",
+                //             text: "Tidak Ada Data Yang DiTerima!!!!....., Untuk Menerima Barang pilih data pada tabel tersedia ",
+                //             returnFocus: false,
+                //         }).then(() => {
+                //             return;
+                //         });
+                //     }
+                // }
             } else {
                 Swal.fire({
                     icon: "error",
