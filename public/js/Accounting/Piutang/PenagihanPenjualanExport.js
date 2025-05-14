@@ -1120,15 +1120,14 @@ $(document).ready(function () {
                         table_atas.clear().draw();
 
                         let totalAmount = 0;
+                        // console.log(data.data);
 
                         data.data.forEach(function (item, index) {
                             console.log(item);
 
-                            // Convert 'item.Total' from format '0.0,00' to a number
-                            let totalValue = parseFloat(
-                                item.Total.replace(/\./g, "").replace(",", ".")
+                            let totalValue = numeral(item.Total).format(
+                                "0,0.00"
                             );
-
                             const newRow = {
                                 suratJalan: item.SuratJalan,
                                 tanggal: item.TanggalSJ,
@@ -1150,6 +1149,7 @@ $(document).ready(function () {
 
                             totalAmount += totalValue;
                         });
+                        // console.log(totalAmount);
 
                         nilaiDitagihkan.value =
                             numeral(totalAmount).format("0,0.00");
