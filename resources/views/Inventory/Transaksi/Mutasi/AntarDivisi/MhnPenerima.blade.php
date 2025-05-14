@@ -236,7 +236,7 @@
 
                             <div class="row pl-3 pt-2">
                                 <label>Stok Akhir Barang</label>
-                                <label style="margin-left: 20px;">Sat. Primer</label>
+                                <label style="margin-left: 102px;">Sat. Primer</label>
                                 <div style="width: 150px; margin-left: 10px">
                                     <input type="text" class="form-control" id="primer" name="primer" readonly>
                                 </div>
@@ -262,16 +262,16 @@
                                 <div class="col-sm-2">
                                     <label>Jumlah Belum ACC</label>
                                 </div>
-                                <div style="margin-right: 3%"></div>
-                                <div class="col-sm-2 pr-0">
+                                <div></div>
+                                <div class="col-sm-1 pr-0">
                                     <input type="text" class="form-control" id="primer2" name="primer2" readonly>
                                 </div>
-                                <div style="margin-right: 13.5%"></div>
-                                <div class="col-sm-2 pr-0 pl-1">
+                                <div style="margin-right: 11.2%"></div>
+                                <div class="col-sm-1 pr-0 pl-1">
                                     <input type="text" class="form-control" id="sekunder2" name="sekunder2" readonly>
                                 </div>
-                                <div style="margin-right: 11%"></div>
-                                <div class="col-sm-2 pr-0 pl-1">
+                                <div style="margin-right: 9.3%"></div>
+                                <div class="col-sm-1 pr-0 pl-1">
                                     <input type="text" class="form-control" id="tritier2" name="tritier2" readonly>
                                 </div>
                             </div>
@@ -281,29 +281,29 @@
                         <div class="baris-3 pl-3" id="baris-3">
                             <div class="row pl-3 pt-2">
                                 <label>Jumlah Barang</label>
-                                <label style="margin-left: 5%;">Primer</label>
-                                <div style="width: 150px; margin-left: 10px">
+                                <label style="margin-left: 8%;">Primer</label>
+                                <div style="width: 150px; margin-left: 12px">
                                     <input type="text" class="form-control" id="primer3" name="primer3">
                                 </div>
                                 <div style="width: 70px; margin-left: 2px; margin-right: 2%">
                                     <input type="text" class="form-control" id="no_primer3" name="no_primer3" readonly>
                                 </div>
                                 <label>Sekunder</label>
-                                <div style="width: 150px; margin-left: 10px">
+                                <div style="width: 150px; margin-left: 23px">
                                     <input type="text" class="form-control" id="sekunder3" name="sekunder3">
                                 </div>
                                 <div style="width: 70px; margin-left: 2px; margin-right: 2%">
                                     <input type="text" class="form-control" id="no_sekunder3" name="no_sekunder3" readonly>
                                 </div>
                                 <label>Tritier</label>
-                                <div style="width: 150px; margin-left: 10px">
+                                <div style="width: 150px; margin-left: 23px">
                                     <input type="text" class="form-control" id="tritier3" name="tritier3">
                                 </div>
                                 <div style="width: 70px; margin-left: 2px; margin-right: 2%">
                                     <input type="text" class="form-control" id="no_tritier3" name="no_tritier3" readonly>
                                 </div>
                             </div>
-                            <div class="row pb-2">
+                            <div class="row pr-5 pt-2">
                                 <div class="col-sm-2">
                                     <label for="alasan">Alasan Mutasi</label>
                                 </div>
