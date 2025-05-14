@@ -72,9 +72,9 @@ class KonversiSetengahJadiController extends Controller
                     break;
             }
             $idTypeTujuan = $request->input('idTypeTujuan');
-            $jumlah_pemasukanPrimer = $request->input('jumlah_pemasukanPrimer');
-            $jumlah_pemasukanSekunder = $request->input('jumlah_pemasukanSekunder');
-            $jumlah_pemasukanTritier = $request->input('jumlah_pemasukanTritier');
+            $jumlah_pemasukanPrimer = $request->input('jumlah_pemasukanPrimer') ?? 0;
+            $jumlah_pemasukanSekunder = $request->input('jumlah_pemasukanSekunder') ?? 0;
+            $jumlah_pemasukanTritier = $request->input('jumlah_pemasukanTritier') ?? 0;
             $idSubkelompokTujuan = $request->input('idSubkelompokTujuan');
             if ($divisi == 'JBB') {
                 try {
@@ -146,9 +146,9 @@ class KonversiSetengahJadiController extends Controller
                                 trim(Auth::user()->NomorUser),
                                 $tanggalKonversi,
                                 $date,
-                                $jumlah_pemakaianPrimer[$k],
-                                $jumlah_pemakaianSekunder[$k],
-                                $jumlah_pemakaianTritier[$k],
+                                $jumlah_pemakaianPrimer[$k] ?? 0,
+                                $jumlah_pemakaianSekunder[$k] ?? 0,
+                                $jumlah_pemakaianTritier[$k] ?? 0,
                                 $IdSubKelompokAsal[$k],
                                 $idkonversi,
                                 $date,
@@ -181,9 +181,9 @@ class KonversiSetengahJadiController extends Controller
                             trim(Auth::user()->NomorUser),
                             $tanggalKonversi,
                             $date,
-                            $jumlah_pemasukanPrimer,
-                            $jumlah_pemasukanSekunder,
-                            $jumlah_pemasukanTritier,
+                            $jumlah_pemasukanPrimer ?? 0,
+                            $jumlah_pemasukanSekunder ?? 0,
+                            $jumlah_pemasukanTritier ?? 0,
                             $idSubkelompokTujuan,
                             $idkonversi,
                             $date,
@@ -199,9 +199,9 @@ class KonversiSetengahJadiController extends Controller
                 $uraianAsal = (string) "Group " . $group . " " . $shift . ", Asal Konversi Setengah Jadi " . $divisi . ' | Id Order Kerja: ' . $nomorOrderKerja;
                 $uraianTujuan = (string) "Group " . $group . " " . $shift . ", Tujuan Konversi Setengah Jadi " . $divisi . ' | Id Order Kerja: ' . $nomorOrderKerja;
                 $id_typeAsal = $request->input('id_typeAsal');
-                $pemakaian_primerAsal = $request->input('pemakaian_primerAsal');
-                $pemakaian_sekunderAsal = $request->input('pemakaian_sekunderAsal');
-                $pemakaian_tritierAsal = $request->input('pemakaian_tritierAsal');
+                $pemakaian_primerAsal = $request->input('pemakaian_primerAsal') ?? 0;
+                $pemakaian_sekunderAsal = $request->input('pemakaian_sekunderAsal') ?? 0;
+                $pemakaian_tritierAsal = $request->input('pemakaian_tritierAsal') ?? 0;
                 $idSubKelompokAsal = $request->input('idSubKelompokAsal');
 
                 // id konversi
@@ -238,9 +238,9 @@ class KonversiSetengahJadiController extends Controller
                         trim(Auth::user()->NomorUser),
                         $tanggalKonversi,
                         $date,
-                        $pemakaian_primerAsal,
-                        $pemakaian_sekunderAsal,
-                        $pemakaian_tritierAsal,
+                        $pemakaian_primerAsal ?? 0,
+                        $pemakaian_sekunderAsal ?? 0,
+                        $pemakaian_tritierAsal ?? 0,
                         $idSubKelompokAsal,
                         $idkonversi,
                         $date,
@@ -272,9 +272,9 @@ class KonversiSetengahJadiController extends Controller
                         trim(Auth::user()->NomorUser),
                         $tanggalKonversi,
                         $date,
-                        $jumlah_pemasukanPrimer,
-                        $jumlah_pemasukanSekunder,
-                        $jumlah_pemasukanTritier,
+                        $jumlah_pemasukanPrimer ?? 0,
+                        $jumlah_pemasukanSekunder ?? 0,
+                        $jumlah_pemasukanTritier ?? 0,
                         $idSubkelompokTujuan,
                         $idkonversi,
                         $date,
@@ -284,9 +284,9 @@ class KonversiSetengahJadiController extends Controller
                 $uraianAsal = (string) $shift . ", Asal Konversi Setengah Jadi " . $divisi;
                 $uraianTujuan = (string) $shift . ", Tujuan Konversi Setengah Jadi " . $divisi;
                 $id_typeAsal = $request->input('id_typeAsal');
-                $pemakaian_primerAsal = $request->input('pemakaian_primerAsal');
-                $pemakaian_sekunderAsal = $request->input('pemakaian_sekunderAsal');
-                $pemakaian_tritierAsal = $request->input('pemakaian_tritierAsal');
+                $pemakaian_primerAsal = $request->input('pemakaian_primerAsal') ?? 0;
+                $pemakaian_sekunderAsal = $request->input('pemakaian_sekunderAsal') ?? 0;
+                $pemakaian_tritierAsal = $request->input('pemakaian_tritierAsal') ?? 0;
                 $idSubKelompokAsal = $request->input('idSubKelompokAsal');
 
                 // id konversi
@@ -323,9 +323,9 @@ class KonversiSetengahJadiController extends Controller
                         trim(Auth::user()->NomorUser),
                         $tanggalKonversi,
                         $date,
-                        $pemakaian_primerAsal,
-                        $pemakaian_sekunderAsal,
-                        $pemakaian_tritierAsal,
+                        $pemakaian_primerAsal ?? 0,
+                        $pemakaian_sekunderAsal ?? 0,
+                        $pemakaian_tritierAsal ?? 0,
                         $idSubKelompokAsal,
                         $idkonversi,
                         $date,
@@ -357,9 +357,9 @@ class KonversiSetengahJadiController extends Controller
                         trim(Auth::user()->NomorUser),
                         $tanggalKonversi,
                         $date,
-                        $jumlah_pemasukanPrimer,
-                        $jumlah_pemasukanSekunder,
-                        $jumlah_pemasukanTritier,
+                        $jumlah_pemasukanPrimer ?? 0,
+                        $jumlah_pemasukanSekunder ?? 0,
+                        $jumlah_pemasukanTritier ?? 0,
                         $idSubkelompokTujuan,
                         $idkonversi,
                         $date,

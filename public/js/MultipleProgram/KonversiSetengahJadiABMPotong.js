@@ -341,7 +341,7 @@ $(document).ready(function () {
                 );
                 response.forEach((item) => {
                     // Create a new option element
-                    const option = new Option(item.No_OK,item.IdOrder);
+                    const option = new Option(item.No_OK, item.IdOrder);
                     // Append the option to the select element
                     $("#select_nomorOrderKerjaTanpaBarcode").append(option);
                 });
@@ -525,7 +525,6 @@ $(document).ready(function () {
     select_nomorOrderKerjaTanpaBarcode.on("select2:select", function (e) {
         $("#select_divisiTanpaBarcode").select2("open");
     });
-
 
     select_divisiTanpaBarcode.on("select2:select", function () {
         const selectedDivisiAsal = $(this).val(); // Get selected Divisi Asal
@@ -1202,14 +1201,43 @@ $(document).ready(function () {
             return;
         }
 
-        if (id_shiftTanpaBarcode.value == "") {
+        if (
+            id_shiftTanpaBarcode.value === "" ||
+            id_groupTanpaBarcode.value === "" ||
+            jumlah_pemakaianTritierTanpaBarcode.value === "" ||
+            jumlah_pemasukanPrimerTanpaBarcode.value === "" ||
+            jumlah_pemasukanSekunderTanpaBarcode.value === "" ||
+            jumlah_pemasukanTritierTanpaBarcode.value === ""
+        ) {
             Swal.fire({
                 icon: "error",
                 title: "Error!",
-                text: "Kolom shift harus diisi!",
+                text: "Semua kolom harus diisi!",
             }).then(() => {
-                id_shift.focus();
+                // Focus on the first empty input
+                if (id_shiftTanpaBarcode.value === "") {
+                    id_shiftTanpaBarcode.focus();
+                } else if (id_groupTanpaBarcode.value === "") {
+                    id_groupTanpaBarcode.focus();
+                } else if (jumlah_pemakaianTritierTanpaBarcode.value === "") {
+                    jumlah_pemakaianTritierTanpaBarcode.focus();
+                } else if (jumlah_pemasukanPrimerTanpaBarcode.value === "") {
+                    jumlah_pemasukanPrimerTanpaBarcode.focus();
+                } else if (jumlah_pemasukanSekunderTanpaBarcode.value === "") {
+                    jumlah_pemasukanSekunderTanpaBarcode.focus();
+                } else if (jumlah_pemasukanTritierTanpaBarcode.value === "") {
+                    jumlah_pemasukanTritierTanpaBarcode.focus();
+                }
             });
+            return;
+        }
+
+        if (jumlah_pemakaianPrimerTanpaBarcode.value == "") {
+            jumlah_pemakaianPrimerTanpaBarcode.value = 0;
+            return;
+        }
+        if (jumlah_pemakaianSekunderTanpaBarcode.value == "") {
+            jumlah_pemakaianSekunderTanpaBarcode.value = 0;
             return;
         }
 
