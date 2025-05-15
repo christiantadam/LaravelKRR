@@ -54,7 +54,6 @@ let simpan,
     ssekunder,
     ttritier;
 let ada = false;
-
 btn_ok.focus();
 
 divisiNama.value = "Circular loom";
@@ -766,77 +765,116 @@ btn_proses.addEventListener("click", function () {
         selectedData.push(data);
     });
 
-    $.ajax({
-        type: "POST",
-        url: "PermohonanPenerimaBenang",
-        data: {
-            _token: csrfToken,
-            tableData: selectedData,
-        },
-        success: function (response) {
-            console.log("FULL RESPONSE:", response);
-
-            var successList = [];
-            var errorList = [];
-
-            var res = response.response; // ambil isi yang sebenarnya
-
-            if (
-                res &&
-                Array.isArray(res.Nmerror) &&
-                Array.isArray(res.IdTransaksi) &&
-                res.Nmerror.length === res.IdTransaksi.length
-            ) {
-                for (var i = 0; i < res.Nmerror.length; i++) {
-                    var error = (res.Nmerror[i] || "").trim();
-                    var id = res.IdTransaksi[i] || "";
-
-                    if (error === "BENAR") {
-                        successList.push(id);
-                    } else {
-                        errorList.push({ IdTransaksi: id, Nmerror: error });
-                    }
-                }
-            } else {
+    if (selectedData.length > 1) {
+        Swal.fire({
+            icon: "warning",
+            title: "Data yang dipilih lebih dari satu!",
+            text: `Jika data yang dipilih lebih dari satu, tidak bisa menggunakan fitur konversi. Apakah Anda yakin ingin melanjutkan?`,
+            showCancelButton: true,
+            returnFocus: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                proses().then(() => {
+                    clearInputs();
+                    showTable();
+                });
+            }
+        });
+    } else {
+        proses().then(async () => {
+            const isKonversi = await cekKonversi(selectedData[0][1]);
+            if (!isKonversi && sError === "BENAR") {
                 Swal.fire({
-                    icon: "error",
-                    title: "Format Data Tidak Sesuai",
-                    text: "Data dari server tidak bisa diproses.",
+                    icon: "question",
+                    text: `Apakah Data Ini Akan Di Konversi ?`,
+                    returnFocus: false,
+                    // showCancelButton: true,
+                    confirmButtonText: "OK",
+                    // cancelButtonText: 'Tidak'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        cariType(TmpNama(selectedData[0][1]), subkel);
+                        btn_konversi.disabled = false;
+                        btn_typeKonv.disabled = false;
+                        btn_refresh.disabled = true;
+                        btn_proses.disabled = true;
+                        btn_konversi.focus();
+                    } else {
+                        clearInputs();
+                        showTable();
+                    }
                 });
-                return;
+            } else {
+                clearInputs();
+                showTable();
             }
-
-            // Build HTML for Swal
-            var htmlContent = "";
-
-            if (successList.length > 0) {
-                htmlContent += "<strong>✔️ Berhasil:</strong><ul>";
-                successList.forEach(function (id) {
-                    htmlContent += `<li>${id}</li>`;
+        });
+    }
+    function proses() {
+        $.ajax({
+            type: "POST",
+            url: "PermohonanPenerimaBenang",
+            data: {
+                _token: csrfToken,
+                tableData: selectedData,
+            },
+            success: function (response) {
+                console.log("FULL RESPONSE:", response);
+                var successList = [];
+                var errorList = [];
+                var res = response.response; // ambil isi yang sebenarnya
+                if (
+                    res &&
+                    Array.isArray(res.Nmerror) &&
+                    Array.isArray(res.IdTransaksi) &&
+                    res.Nmerror.length === res.IdTransaksi.length
+                ) {
+                    for (var i = 0; i < res.Nmerror.length; i++) {
+                        var error = (res.Nmerror[i] || "").trim();
+                        var id = res.IdTransaksi[i] || "";
+                        if (error === "BENAR") {
+                            successList.push(id);
+                        } else {
+                            errorList.push({ IdTransaksi: id, Nmerror: error });
+                        }
+                    }
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Format Data Tidak Sesuai",
+                        text: "Data dari server tidak bisa diproses.",
+                    });
+                    return;
+                }
+                // Build HTML for Swal
+                var htmlContent = "";
+                if (successList.length > 0) {
+                    htmlContent += "<strong>✔️ Berhasil:</strong><ul>";
+                    successList.forEach(function (id) {
+                        htmlContent += `<li>${id}</li>`;
+                    });
+                    htmlContent += "</ul><br>";
+                }
+                if (errorList.length > 0) {
+                    htmlContent += "<strong>❌ Gagal:</strong><ul>";
+                    errorList.forEach(function (item) {
+                        htmlContent += `<li><strong>${item.IdTransaksi}:</strong> ${item.Nmerror}</li>`;
+                    });
+                    htmlContent += "</ul>";
+                }
+                Swal.fire({
+                    icon: errorList.length > 0 ? "warning" : "success",
+                    title: "Hasil Proses",
+                    html: htmlContent,
+                    returnFocus: false,
+                    width: 600,
                 });
-                htmlContent += "</ul><br>";
-            }
-
-            if (errorList.length > 0) {
-                htmlContent += "<strong>❌ Gagal:</strong><ul>";
-                errorList.forEach(function (item) {
-                    htmlContent += `<li><strong>${item.IdTransaksi}:</strong> ${item.Nmerror}</li>`;
-                });
-                htmlContent += "</ul>";
-            }
-
-            Swal.fire({
-                icon: errorList.length > 0 ? "warning" : "success",
-                title: "Hasil Proses",
-                html: htmlContent,
-                returnFocus: false,
-                width: 600,
-            });
-        },
-        error: function (xhr, status, error) {
-            console.error("Error:", error);
-        },
-    });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            },
+        });
+    }
 });
 
 btn_konversi.addEventListener("click", async function () {
