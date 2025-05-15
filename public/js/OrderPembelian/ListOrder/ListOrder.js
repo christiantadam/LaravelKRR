@@ -57,6 +57,15 @@ $.ajaxSetup({
     },
 });
 
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 $(function () {
     $("body").on("click", "#NoTrans", function (e) {
         e.preventDefault();
@@ -221,7 +230,7 @@ $(function () {
                                 "</a>",
                             $.format.date(data.data[i].Tgl_order, "MM-dd-yyyy"),
                             data.data[i].Kd_brg,
-                            data.data[i].NAMA_BRG +
+                            escapeHtml(data.data[i].NAMA_BRG) +
                                 "<label style='background-color:#00ff00;''> " +
                                 data.data[i].Qty +
                                 data.data[i].Nama_satuan +
@@ -574,8 +583,7 @@ btn_save.addEventListener("click", function (event) {
 
     let stBeli = 1;
     if (
-        document.getElementById("status_beliPengadaanPembelian").checked ==
-        true
+        document.getElementById("status_beliPengadaanPembelian").checked == true
     ) {
         stBeli = 1;
     } else {
@@ -678,8 +686,7 @@ btn_submit.addEventListener("click", function (event) {
 
     let stBeli = 1;
     if (
-        document.getElementById("status_beliPengadaanPembelian").checked ==
-        true
+        document.getElementById("status_beliPengadaanPembelian").checked == true
     ) {
         stBeli = 1;
     } else {
@@ -708,9 +715,7 @@ btn_submit.addEventListener("click", function (event) {
                 Swal.fire({
                     icon: "success",
                     title:
-                        response.message +
-                        " Dengan No. Order " +
-                        response.data,
+                        response.message + " Dengan No. Order " + response.data,
                     showConfirmButton: false,
                     timer: "2000",
                 });
