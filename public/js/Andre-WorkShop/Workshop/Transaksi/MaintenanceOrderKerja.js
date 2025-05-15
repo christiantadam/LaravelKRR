@@ -86,7 +86,8 @@ function getPdf(kodebarang) {
             // console.log(response);
             if (response.length > 0) {
                 // console.log("masuk");
-                var newTabUrl = "http://192.168.100.94/selectpdf/" + kodebarang;
+                var newTabUrl =
+                    window.location.origin + "/selectpdf/" + kodebarang;
                 window.open(newTabUrl, "_blank");
             } else {
                 alert(
