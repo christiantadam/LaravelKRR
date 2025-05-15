@@ -335,13 +335,15 @@ class PemberiBarangController extends Controller
                             }
                         }
 
-                        if ($KonvSekPriBeri !== 0 && empty($NmError1)) {
-                            $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
-                            return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
-                        }
+                        // if ($KonvSekPriBeri !== 0 && empty($NmError1)) {
+                        //     dd('hehe1');
+                        //     $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
+                        //     return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
+                        // }
                     }
 
                     if ($SUmumBeri === $SPrimerBeri && empty($NmError1)) {
+                        // dd('hehe2');
                         $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
                         return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                     }
@@ -359,6 +361,7 @@ class PemberiBarangController extends Controller
                         }
                         // Check for KonvSekPriBeri error condition
                         if ($KonvSekPriBeri !== 0 && $MaxStokTerima !== null && empty($NmError2)) {
+                            // dd('hehe3');
                             $NmError1 = 'Divisi PEMBERI : ' . $DivisiPemberi . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
                             return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
                         }
@@ -385,6 +388,7 @@ class PemberiBarangController extends Controller
                     }
                 } else {
                     if ($MaxStokTerima !== null && empty($NmError1)) {
+                        // dd('hehe4');
                         if ($KonvSekPriTerima !== 0) {
                             $NmError1 = 'Divisi PENERIMA : ' . $DivisiPenerima . ' Konversi Sekunder Ke Primer BELUM BISA, Programnya tidak bisa memproses data jika terdapat Konversi Primer ke Sekunder !!';
                             return response()->json(['NmError1' => $NmError1, 'NmError2' => $NmError2]);
