@@ -13,6 +13,15 @@
             </div>
         </div>
 
+        <div class="row" style="margin-top: 0.5%">
+            <div class="col-sm-1">
+                <label>Nama Type</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" id="namaType" class="form-control" readonly>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-sm-1 mt-2 mb-2">
                 <label>Saldo Akhir</label>

@@ -1,6 +1,7 @@
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 var idType = document.getElementById('idType');
+var namaType = document.getElementById('namaType');
 
 var saldoPrimer = document.getElementById('saldoPrimer');
 var satPrimer = document.getElementById('satPrimer');
@@ -178,6 +179,7 @@ $(document).ready(function () {
     var idSubkelompokFromArray = params.get('IdSubkelompok');
 
     idType.value = idTypeFromArray;
+    namaType.value = namaTypeFromArray;
 
     // saldoPrimer.value = saldoPrimerFromArray;
     // saldoSekunder.value = saldoSekunderFromArray;
