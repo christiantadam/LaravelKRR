@@ -121,6 +121,7 @@ class PemberiBarangController extends Controller
                     'SaldoPrimer' => $detail_objek->SaldoPrimer,
                     'SaldoSekunder' => $detail_objek->SaldoSekunder,
                     'SaldoTritier' => $detail_objek->SaldoTritier,
+                    'PakaiAturanKonversi' => $detail_objek->PakaiAturanKonversi,
                 ];
             }
             return response()->json($data_objek);
@@ -170,7 +171,7 @@ class PemberiBarangController extends Controller
     public function update(Request $request, $id)
     {
         $user = Auth::user()->NomorUser;
-
+        // dd($user);
         if ($id === 'proses') {
             $IdTransaksi = $request->input('IdTransaksi');
             $JumlahKeluarPrimer = $request->input('JumlahKeluarPrimer');
