@@ -434,7 +434,8 @@ class SuratPesananManagerController extends Controller
                         @hkertas = ?,
                         @hlain = ?,
                         @htotal = ?,
-                        @info = ?',
+                        @info = ?,
+                        @user_id = ?',
                             [
                                 4,
                                 $id_pesanan[$i],
@@ -460,7 +461,8 @@ class SuratPesananManagerController extends Controller
                                 $hkertas[$i],
                                 $hlain[$i],
                                 $htotal[$i],
-                                $informasiTambahan[$i]
+                                $informasiTambahan[$i],
+                                $user
                             ],
                         );
                     }
