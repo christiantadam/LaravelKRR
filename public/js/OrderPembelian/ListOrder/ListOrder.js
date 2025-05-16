@@ -100,7 +100,7 @@ $(function () {
                 document.getElementById("TglButuh_ListOrder").innerHTML =
                     "Tgl. Dibutuhkan: " + (data[0].Tgl_Dibutuhkan || "-");
                 document.getElementById("KetBarang_ListOrder").innerHTML =
-                    "Ket. Barang: " + (data[0].ket || "-");
+                    "Ket. Barang: " + (data[0].KET || "-");
                 document.getElementById("KetOrder_ListOrder").innerHTML =
                     "Ket. Order: " + (data[0].keterangan || "-");
                 document.getElementById("KetInternal_ListOrder").innerHTML =
