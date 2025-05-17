@@ -186,7 +186,6 @@ class AccSatuDivisiController extends Controller
     public function update(Request $request, $id)
     {
         $user = Auth::user()->NomorUser;
-
         if ($id == 'proses') {
             $tableData = $request->input('tableData');
             $response = [];
@@ -269,6 +268,8 @@ class AccSatuDivisiController extends Controller
                                     $JumlahKeluarTritier,
                                 ]);
 
+                            $response['Nmerror'][] = (string) 'BENAR';
+                            $response['IdTransaksi'][] = $IdTransaksi;
                             continue;
                         } else {
                             $response['Nmerror'][] = (string) 'Untuk Idtransaksi = ' . $IdTransaksi . ' Tidak bisa diacc. Tidak Dapat Diacc !!.  Saldo Tidak Mencukupi';
