@@ -338,6 +338,7 @@ function TampilItem(IdTrans) {
 // Function to handle the click event
 btn_proses.addEventListener("click", async function (e) {
     var selectedData = [];
+    var table = $("#tableData").DataTable();
 
     $("#tableData tbody tr.selected").each(function () {
         var data = table.row(this).data();
