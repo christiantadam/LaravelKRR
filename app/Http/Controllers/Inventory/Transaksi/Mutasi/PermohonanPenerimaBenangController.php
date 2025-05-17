@@ -42,7 +42,7 @@ class PermohonanPenerimaBenangController extends Controller
             $pemberi = DB::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_pemberi @idtransaksi = ?, @idtypetransaksi = 06', [$Yidtransaksi]);
             $YidType = $pemberi[0]->IdType;
             if ($pemberi[0]->jumlah > 0) {
-                $response['Nmerror'][] = (string) 'Ada transaksi penyesuaian yang belum disetujui untuk type ' . $pemberi->IdType . ' pada divisi pemberi';
+                $response['Nmerror'][] = (string) 'Ada transaksi penyesuaian yang belum disetujui untuk type ' . $pemberi[0]->IdType . ' pada divisi pemberi';
                 $response['IdTransaksi'][] = $Yidtransaksi;
                 continue;
             }
@@ -50,7 +50,7 @@ class PermohonanPenerimaBenangController extends Controller
             $penerima = DB::connection('ConnInventory')->select('exec SP_1003_INV_check_penyesuaian_penerima @idtransaksi = ?, @idtypetransaksi = 06, @KodeBarang = ?', [$Yidtransaksi, $kodeBarang]);
             $YidTypePenerima = $penerima[0]->IdType;
             if ($penerima[0]->jumlah > 0) {
-                $response['Nmerror'][] = (string) 'Ada transaksi penyesuaian yang belum disetujui untuk type ' . $pemberi->IdType . ' pada divisi penerima';
+                $response['Nmerror'][] = (string) 'Ada transaksi penyesuaian yang belum disetujui untuk type ' . $penerima[0]->IdType . ' pada divisi penerima';
                 $response['IdTransaksi'][] = $Yidtransaksi;
                 continue;
             }
@@ -563,7 +563,9 @@ class PermohonanPenerimaBenangController extends Controller
             } catch (\Exception $e) {
                 // DB::rollBack();
                 DB::connection('ConnInventory')->rollBack();
-                return response()->json(['Nmerror' => $e->getMessage()]);
+                $response['Nmerror'][] = (string) 'Terjadi kesalahan : ' . $e->getMessage();
+                $response['IdTransaksi'][] = $Yidtransaksi;
+                continue;
             }
         }
         return response()->json(['response' => $response]);

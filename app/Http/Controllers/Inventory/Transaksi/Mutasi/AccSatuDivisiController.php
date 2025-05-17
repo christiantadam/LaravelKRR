@@ -26,7 +26,7 @@ class AccSatuDivisiController extends Controller
     //Store a newly created resource in storage.
     public function store(Request $request)
     {
-        // 
+        //
     }
 
     //Display the specified resource.
@@ -94,7 +94,7 @@ class AccSatuDivisiController extends Controller
             return response()->json($data_subkel);
         }
 
-        // get saldo 
+        // get saldo
         else if ($id === 'tampilItem') {
             $XIdTransaksi = $request->input('XIdTransaksi');
 
@@ -188,75 +188,111 @@ class AccSatuDivisiController extends Controller
         $user = Auth::user()->NomorUser;
 
         if ($id == 'proses') {
-            $IdTransaksi = $request->input('IdTransaksi');
-            $JumlahKeluarPrimer = $request->input('JumlahKeluarPrimer');
-            $JumlahKeluarSekunder = $request->input('JumlahKeluarSekunder');
-            $JumlahKeluarTritier = $request->input('JumlahKeluarTritier');
+            $tableData = $request->input('tableData');
+            $response = [];
+            for ($i = 0; $i < count($tableData); $i++) {
+                $IdTransaksi = $tableData[$i][0];
+                $JumlahKeluarPrimer = $tableData[$i][9];
+                $JumlahKeluarSekunder = $tableData[$i][10];
+                $JumlahKeluarTritier = $tableData[$i][11];
+                $KodeBarang = $tableData[$i][12];
 
-            try {
-                // Mengambil data dari Tmp_transaksi
-                $result = DB::connection('ConnInventory')->table('Tmp_transaksi')
-                    ->select('idtype as YIdType', 'IdPemberi as YIdPenerima')
-                    ->where('idtransaksi', $IdTransaksi)
-                    ->first();
+                //cek pemberi
+                $pemberi = DB::connection('ConnInventory')
+                    ->select('exec [SP_1003_INV_check_penyesuaian_transaksi]
+                    @Kode = ?, @idtransaksi = ?, @idtypetransaksi = ?',
+                        [1, $IdTransaksi, '06']
+                    );
 
-                if ($result) {
-                    $YIdType = $result->YIdType;
-                } else {
-                    return response()->json(['NmError' => 'IdTransaksi tidak ditemukan.'], 400);
+                if ($pemberi[0]->jumlah >= 1) {
+                    $response['Nmerror'][] = (string) 'Ada transaksi penyesuaian yang belum disetujui untuk type ' . $pemberi[0]->IdType . ' pada divisi pemberi';
+                    $response['IdTransaksi'][] = $IdTransaksi;
+                    continue;
                 }
 
-                // Mengambil saldo dari Type berdasarkan IdType
-                $result = DB::connection('ConnInventory')->table('Type')
-                    ->select('SaldoTritier', 'SaldoSekunder', 'SaldoPrimer', 'PIB')
-                    ->where('IdType', $YIdType)
-                    ->first();
+                // cek Penerima
+                $penerima = DB::connection('ConnInventory')
+                    ->select('exec [SP_1003_INV_check_penyesuaian_transaksi]
+                    @idtransaksi = ?, @idtypetransaksi = ?, @KodeBarang = ?',
+                        [$IdTransaksi, '06', $KodeBarang]
+                    );
 
-                if ($result) {
-                    $sTritier = $result->SaldoTritier;
-                    $sSekunder = $result->SaldoSekunder;
-                    $sPrimer = $result->SaldoPrimer;
+                if ($penerima[0]->jumlah >= 1) {
+                    $response['Nmerror'][] = (string) 'Ada transaksi penyesuaian yang belum disetujui untuk type ' . $pemberi[0]->IdType . ' pada divisi pemberi';
+                    $response['IdTransaksi'][] = $IdTransaksi;
+                    continue;
+                }
 
-                    // dd($sTritier - $JumlahKeluarTritier, $sSekunder - $JumlahKeluarSekunder, $sPrimer - $JumlahKeluarPrimer);
-                    if (
-                        ($sTritier - $JumlahKeluarTritier) >= 0 &&
-                        ($sSekunder - $JumlahKeluarSekunder) >= 0 &&
-                        ($sPrimer - $JumlahKeluarPrimer) >= 0
-                    ) {
-                        DB::connection('ConnInventory')
-                            ->statement('exec [SP_1003_INV_Proses_Acc_Satu_divisi]
+                try {
+                    // Mengambil data dari Tmp_transaksi
+                    $result = DB::connection('ConnInventory')->table('Tmp_transaksi')
+                        ->select('idtype as YIdType', 'IdPemberi as YIdPenerima')
+                        ->where('idtransaksi', $IdTransaksi)
+                        ->first();
+
+                    if ($result) {
+                        $YIdType = $result->YIdType;
+                    } else {
+                        $response['Nmerror'][] = (string) 'IdTransaksi tidak ditemukan';
+                        $response['IdTransaksi'][] = $IdTransaksi;
+                        continue;
+                    }
+
+                    // Mengambil saldo dari Type berdasarkan IdType
+                    $result = DB::connection('ConnInventory')->table('Type')
+                        ->select('SaldoTritier', 'SaldoSekunder', 'SaldoPrimer', 'PIB')
+                        ->where('IdType', $YIdType)
+                        ->first();
+
+                    if ($result) {
+                        $sTritier = $result->SaldoTritier;
+                        $sSekunder = $result->SaldoSekunder;
+                        $sPrimer = $result->SaldoPrimer;
+
+                        // dd($sTritier - $JumlahKeluarTritier, $sSekunder - $JumlahKeluarSekunder, $sPrimer - $JumlahKeluarPrimer);
+                        if (
+                            ($sTritier - $JumlahKeluarTritier) >= 0 &&
+                            ($sSekunder - $JumlahKeluarSekunder) >= 0 &&
+                            ($sPrimer - $JumlahKeluarPrimer) >= 0
+                        ) {
+                            DB::connection('ConnInventory')
+                                ->statement('exec [SP_1003_INV_Proses_Acc_Satu_divisi]
                                 @IdTransaksi = ?,
                                 @User_Acc = ?,
                                 @JumlahKeluarPrimer = ?,
                                 @JumlahKeluarSekunder = ?,
                                 @JumlahKeluarTritier = ?', [
-                                $IdTransaksi,
-                                $user,
-                                $JumlahKeluarPrimer,
-                                $JumlahKeluarSekunder,
-                                $JumlahKeluarTritier,
-                            ]);
+                                    $IdTransaksi,
+                                    $user,
+                                    $JumlahKeluarPrimer,
+                                    $JumlahKeluarSekunder,
+                                    $JumlahKeluarTritier,
+                                ]);
 
-                        return response()->json(['success' => 'Data Sudah Disimpan!!..'], 200);
+                            continue;
+                        } else {
+                            $response['Nmerror'][] = (string) 'Untuk Idtransaksi = ' . $IdTransaksi . ' Tidak bisa diacc. Tidak Dapat Diacc !!.  Saldo Tidak Mencukupi';
+                            $response['IdTransaksi'][] = $IdTransaksi;
+                            continue;
+                        }
                     } else {
-                        return response()->json([
-                            'NmError' => 'Untuk Idtransaksi = ' . $IdTransaksi . ' Tidak bisa diacc. Tidak Dapat Diacc !!.  Saldo Tidak Mencukupi'
-                        ], 200);
+                        $response['Nmerror'][] = (string) 'IdType ' . $YIdType . ' tidak ditemukan';
+                        $response['IdTransaksi'][] = $IdTransaksi;
+                        continue;
                     }
-                } else {
-                    return response()->json(['NmError' => 'IdType tidak ditemukan.'], 400);
+                } catch (\Exception $e) {
+                    $response['Nmerror'][] = (string) 'Data gagal diPROSES: ' . $e->getMessage();
+                    $response['IdTransaksi'][] = $IdTransaksi;
+                    continue;
                 }
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'Data gagal diPROSES: ' . $e->getMessage()], 500);
             }
+            return response()->json(['response' => $response]);
         }
-
-
     }
 
     //Remove the specified resource from storage.
     public function destroy(Request $request)
     {
-        // 
+        //
     }
 }
