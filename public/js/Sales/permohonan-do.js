@@ -134,6 +134,14 @@ min_kirim.addEventListener("keypress", function (event) {
     }
 });
 
+alamat_kirim.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();      // Cegah enter default hanya jika tanpa shift
+        isi_button.focus();           // Pindah fokus ke tombol
+    }
+    // Jika shift+enter, tidak dicegah dan akan membuat baris baru
+});
+
 // alamat_kirim.addEventListener("keypress", function (event) {
 //     if (event.key === "Enter") {
 //         event.preventDefault();

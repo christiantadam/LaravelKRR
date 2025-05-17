@@ -106,7 +106,7 @@
                                             </div>
                                             <div class="acs-div-filter1">
                                                 <label for="kelompok_utama">Kelompok Utama</label>
-                                                <select name="kelompok_utama" id="kelompok_utama" class="input">
+                                                <select name="kelompok_utama" id="kelompok_utama" class="input" style="width: 270%">
                                                     <option disabled selected>--Pilih Kelompok Utama--</option>
                                                 </select>
                                             </div>
