@@ -64,9 +64,10 @@ class PascaKirimController extends Controller
         $tanggal_diterima = $request->tanggal_diterima;
         $bttb = $request->bttb ?? NULL;
         $qty_konversiDiterimaCustomer = $request->qty_konversiDiterimaCustomer ?? NULL;
-        $qty_primerDiterimaCustomer = $request->qty_primerDiterimaCustomer;
-        $qty_sekunderDiterimaCustomer = $request->qty_sekunderDiterimaCustomer;
-        $qty_tritierDiterimaCustomer = $request->qty_tritierDiterimaCustomer;
+        $qty_primerDiterimaCustomer = (float)$request->qty_primerDiterimaCustomer;
+        $qty_sekunderDiterimaCustomer = (float)$request->qty_sekunderDiterimaCustomer;
+        $qty_tritierDiterimaCustomer = (float)$request->qty_tritierDiterimaCustomer;
+        // dd($qty_primerDiterimaCustomer, $qty_sekunderDiterimaCustomer, $qty_tritierDiterimaCustomer);
         $penerima = $request->penerima;
         $alasan_kembali = $request->alasan_kembali;
         $invoiceCheck = db::connection('ConnAccounting')->select('exec SP_1486_SLS_CEK_INVOICE @Id_cust = ?, @SJ = ?', [$customer, $surat_jalan]);

@@ -55,3 +55,21 @@ button_submitSelected.addEventListener("click", function (event) {
     // append the form to the document and submit it
     // document.body.appendChild(form_submitSelected);
 });
+
+$(document).ready(function () {
+    $("#checkAll").on("change", function () {
+        $('input[name="selected[]"]').prop("checked", this.checked);
+    });
+
+    // Sync "check all" checkbox if one is manually unchecked
+    $('input[name="selected[]"]').on("change", function () {
+        if (!this.checked) {
+            $("#checkAll").prop("checked", false);
+        } else if (
+            $('input[name="selected[]"]:checked').length ===
+            $('input[name="selected[]"]').length
+        ) {
+            $("#checkAll").prop("checked", true);
+        }
+    });
+});

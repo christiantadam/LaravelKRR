@@ -7,6 +7,9 @@
             order: [
                 [0, 'desc']
             ],
+            paging: false,
+            scrollY: "400px",
+            scrollCollapse: true,
         });
     });
 </script>
@@ -24,6 +27,7 @@
                     <div style="overflow: auto;padding: 10px">
                         <table id="table_DO" class="table table-bordered table-striped SP_datatable" style="width:100%">
                             <thead class="thead-light">
+
                                 <tr>
                                     <th>Nomor DO</th>
                                     <th>Tanggal </th>
@@ -80,6 +84,11 @@
                             </tbody>
                         </table>
                     </div>
+                    <div>
+                        <input type="checkbox" id="checkAll">
+                        <label for="checkAll">Pilih Semua</label>
+                    </div>
+                    <br>
                     <div>
                         <form
                             onsubmit="return confirm('Apakah Anda Yakin untuk menyetujui surat pesanan yang sudah dipilih?');"
