@@ -723,6 +723,7 @@ btn_submit.addEventListener("click", function (event) {
                 no_order.value = response.data;
                 btn_save.disabled = true;
                 btn_submit.disabled = true;
+                // $("#table_ListOrder").DataTable().ajax.reload();
             },
             error: function (error) {
                 Swal.fire({
@@ -885,9 +886,15 @@ kd_barang.addEventListener("input", function (event) {
     );
 });
 
-kd_barang.addEventListener("change", function (event) {
-    btn_cari_kdBarang.focus();
+kd_barang.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+        btn_cari_kdBarang.focus();
+    }
 });
+
+// kd_barang.addEventListener("change", function (event) {
+//     btn_cari_kdBarang.focus();
+// });
 
 btn_cari_kdBarang.addEventListener("click", function (event) {
     cariKodeBarang(kd_barang.value.replace(/\s/g, ""));
