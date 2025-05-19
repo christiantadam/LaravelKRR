@@ -1644,10 +1644,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (StKonversi === 3 || StKonversi === 6) {
                     btn_prosesAsal.focus();
                 } else {
-                    if (asalAtauTujuan.innerHTML == "Tujuan Konversi" && StKonversi === 1 || StKonversi === 4) {
-                    hargaSatuanDiv.style.display = "block";
-                    hargaSatuan.focus();
-                    }else {
+                    if (
+                        (asalAtauTujuan.innerHTML == "Tujuan Konversi" &&
+                            StKonversi === 1) ||
+                        StKonversi === 4
+                    ) {
+                        hargaSatuanDiv.style.display = "block";
+                        hargaSatuan.focus();
+                    } else {
                         primerKonversiAsal.focus();
                         primerKonversiAsal.select();
                     }
@@ -2884,8 +2888,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         primerKonversiAsal.value = formatNumber(
                             result[0].JumlahPemasukanPrimer
                         );
-                        hargaSatuan.value = formatNumber(result[0].HargaSatuan
-                        );
+                        hargaSatuan.value = formatNumber(result[0].HargaSatuan);
                         sekunderKonversiAsal.value = formatNumber(
                             result[0].JumlahPemasukanSekunder
                         );
@@ -3195,7 +3198,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (
-            parseInt(triterKonversiAsal.value) === 0 &&
+            parseFloat(triterKonversiAsal.value) === 0 &&
             divisiIdAsal.value !== "CIR"
         ) {
             Swal.fire({
