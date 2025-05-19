@@ -1,33 +1,35 @@
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+var csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 
-var divisiNama = document.getElementById('divisiNama');
-var tanggal = document.getElementById('tanggal');
+var divisiNama = document.getElementById("divisiNama");
+var tanggal = document.getElementById("tanggal");
 var today = new Date();
 var year = today.getFullYear();
-var month = (today.getMonth() + 1).toString().padStart(2, '0');
-var day = today.getDate().toString().padStart(2, '0');
-var todayString = year + '-' + month + '-' + day;
-var pemohon = document.getElementById('pemohon');
-var objekNama = document.getElementById('objekNama');
-var kelompokNama = document.getElementById('kelompokNama');
-var kelutNama = document.getElementById('kelutNama');
-var subkelNama = document.getElementById('subkelNama');
+var month = (today.getMonth() + 1).toString().padStart(2, "0");
+var day = today.getDate().toString().padStart(2, "0");
+var todayString = year + "-" + month + "-" + day;
+var pemohon = document.getElementById("pemohon");
+var objekNama = document.getElementById("objekNama");
+var kelompokNama = document.getElementById("kelompokNama");
+var kelutNama = document.getElementById("kelutNama");
+var subkelNama = document.getElementById("subkelNama");
 
-var alasan = document.getElementById('alasan');
-var primer = document.getElementById('primer');
-var no_primer = document.getElementById('no_primer');
-var primer2 = document.getElementById('primer2');
-var sekunder = document.getElementById('sekunder');
-var no_sekunder = document.getElementById('no_sekunder');
-var sekunder2 = document.getElementById('sekunder2');
-var tritier = document.getElementById('tritier');
-var no_tritier = document.getElementById('no_tritier');
-var tritier2 = document.getElementById('tritier2');
-var divisiId = document.getElementById('divisiId');
-var objekId = document.getElementById('objekId');
-var kelompokId = document.getElementById('kelompokId');
-var kelutId = document.getElementById('kelutId');
-var subkelId = document.getElementById('subkelId');
+var alasan = document.getElementById("alasan");
+var primer = document.getElementById("primer");
+var no_primer = document.getElementById("no_primer");
+var primer2 = document.getElementById("primer2");
+var sekunder = document.getElementById("sekunder");
+var no_sekunder = document.getElementById("no_sekunder");
+var sekunder2 = document.getElementById("sekunder2");
+var tritier = document.getElementById("tritier");
+var no_tritier = document.getElementById("no_tritier");
+var tritier2 = document.getElementById("tritier2");
+var divisiId = document.getElementById("divisiId");
+var objekId = document.getElementById("objekId");
+var kelompokId = document.getElementById("kelompokId");
+var kelutId = document.getElementById("kelutId");
+var subkelId = document.getElementById("subkelId");
 
 var idType;
 var keluarPrimer;
@@ -35,18 +37,22 @@ var keluarSekunder;
 var keluarTritier;
 
 // button
-var btn_divisi = document.getElementById('btn_divisi');
-var btn_proses = document.getElementById('btn_proses');
-var btn_batal = document.getElementById('btn_batal');
+var btn_divisi = document.getElementById("btn_divisi");
+var btn_proses = document.getElementById("btn_proses");
+var btn_batal = document.getElementById("btn_batal");
 
 var table;
 var idTransaksi;
-const inputs = Array.from(document.querySelectorAll('.card-body input[type="text"]:not([readonly]), .card-body input[type="date"]:not([readonly])'));
+const inputs = Array.from(
+    document.querySelectorAll(
+        '.card-body input[type="text"]:not([readonly]), .card-body input[type="date"]:not([readonly])'
+    )
+);
 
 tanggal.value = todayString;
 
-btn_divisi.addEventListener('focus', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+btn_divisi.addEventListener("focus", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 btn_divisi.focus();
@@ -55,24 +61,23 @@ btn_objek.disabled = true;
 // fungsi dapetin user id unk pemohon
 function getUserId() {
     $.ajax({
-        type: 'GET',
-        url: 'PenghangusanBarang/getUserId',
+        type: "GET",
+        url: "PenghangusanBarang/getUserId",
         data: {
-            _token: csrfToken
+            _token: csrfToken,
         },
         success: function (result) {
             pemohon.value = result.user.trim();
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 }
 
 $(document).ready(function () {
     getUserId();
 });
-
 
 // Function to handle keydown events for table navigation
 function handleTableKeydown(e, tableId) {
@@ -92,8 +97,7 @@ function handleTableKeydown(e, tableId) {
                 Swal.getConfirmButton().click();
             }
         }
-    }
-    else if (e.key === "ArrowDown") {
+    } else if (e.key === "ArrowDown") {
         e.preventDefault();
         if (currentIndex === null || currentIndex >= rowCount - 1) {
             currentIndex = 0;
@@ -103,8 +107,7 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowUp") {
+    } else if (e.key === "ArrowUp") {
         e.preventDefault();
         if (currentIndex === null || currentIndex <= 0) {
             currentIndex = rowCount - 1;
@@ -114,42 +117,49 @@ function handleTableKeydown(e, tableId) {
         rows.removeClass("selected");
         const selectedRow = $(rows[currentIndex]).addClass("selected");
         scrollRowIntoView(selectedRow[0]);
-    }
-    else if (e.key === "ArrowRight") {
+    } else if (e.key === "ArrowRight") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page < pageInfo.pages - 1) {
-            table.page('next').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("next")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
-    }
-    else if (e.key === "ArrowLeft") {
+    } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         const pageInfo = table.page.info();
         if (pageInfo.page > 0) {
-            table.page('previous').draw('page').on('draw', function () {
-                currentIndex = 0;
-                const newRows = $(`#${tableId} tbody tr`);
-                const selectedRow = $(newRows[currentIndex]).addClass("selected");
-                scrollRowIntoView(selectedRow[0]);
-            });
+            table
+                .page("previous")
+                .draw("page")
+                .on("draw", function () {
+                    currentIndex = 0;
+                    const newRows = $(`#${tableId} tbody tr`);
+                    const selectedRow = $(newRows[currentIndex]).addClass(
+                        "selected"
+                    );
+                    scrollRowIntoView(selectedRow[0]);
+                });
         }
     }
 }
 
 // Helper function to scroll selected row into view
 function scrollRowIntoView(rowElement) {
-    rowElement.scrollIntoView({ block: 'nearest' });
+    rowElement.scrollIntoView({ block: "nearest" });
 }
-
 
 // fungsi unk menampilkan '&'
 function decodeHtmlEntities(str) {
-    var textArea = document.createElement('textarea');
+    var textArea = document.createElement("textarea");
     textArea.innerHTML = str;
     return textArea.value;
 }
@@ -164,20 +174,22 @@ function formatNumber(value) {
 
 function escapeHtml(text) {
     var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
     };
-    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
 
 // button list divisi
 btn_divisi.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Divisi',
+            title: "Divisi",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -200,11 +212,11 @@ btn_divisi.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -212,7 +224,7 @@ btn_divisi.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -220,19 +232,16 @@ btn_divisi.addEventListener("click", function (e) {
                             dataType: "json",
                             type: "GET",
                             data: {
-                                _token: csrfToken
-                            }
+                                _token: csrfToken,
+                            },
                         },
-                        columns: [
-                            { data: "IdDivisi" },
-                            { data: "NamaDivisi" }
-                        ],
+                        columns: [{ data: "IdDivisi" }, { data: "NamaDivisi" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -241,23 +250,30 @@ btn_divisi.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 console.log(result);
                 divisiId.value = result.value.IdDivisi.trim();
-                divisiNama.value = decodeHtmlEntities(result.value.NamaDivisi.trim());
+                divisiNama.value = decodeHtmlEntities(
+                    result.value.NamaDivisi.trim()
+                );
 
-
-                if (divisiId.value === 'INV' || divisiId.value === 'MNV' || divisiId.value === 'MWH') {
+                if (
+                    divisiId.value === "INV" ||
+                    divisiId.value === "MNV" ||
+                    divisiId.value === "MWH"
+                ) {
                     btn_objek.disabled = false;
                     btn_objek.focus();
                 } else {
@@ -271,7 +287,7 @@ btn_divisi.addEventListener("click", function (e) {
     }
 });
 
-divisiId.addEventListener('input', function () {
+divisiId.addEventListener("input", function () {
     allData();
 });
 
@@ -279,7 +295,7 @@ divisiId.addEventListener('input', function () {
 btn_objek.addEventListener("click", function (e) {
     try {
         Swal.fire({
-            title: 'Objek',
+            title: "Objek",
             html: `
                 <table id="table_list" class="table">
                     <thead>
@@ -302,11 +318,11 @@ btn_objek.addEventListener("click", function (e) {
                 }
                 return selectedData;
             },
-            width: '40%',
+            width: "40%",
             returnFocus: false,
             showCloseButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Select',
+            confirmButtonText: "Select",
             didOpen: () => {
                 $(document).ready(function () {
                     const table = $("#table_list").DataTable({
@@ -314,7 +330,7 @@ btn_objek.addEventListener("click", function (e) {
                         processing: true,
                         serverSide: true,
                         paging: false,
-                        scrollY: '400px',
+                        scrollY: "400px",
                         scrollCollapse: true,
                         order: [1, "asc"],
                         ajax: {
@@ -323,19 +339,16 @@ btn_objek.addEventListener("click", function (e) {
                             type: "GET",
                             data: {
                                 _token: csrfToken,
-                                divisiId: divisiId.value
-                            }
+                                divisiId: divisiId.value,
+                            },
                         },
-                        columns: [
-                            { data: "IdObjek" },
-                            { data: "NamaObjek" }
-                        ],
+                        columns: [{ data: "IdObjek" }, { data: "NamaObjek" }],
                         columnDefs: [
                             {
                                 targets: 0,
-                                width: '100px',
-                            }
-                        ]
+                                width: "100px",
+                            },
+                        ],
                     });
 
                     $("#table_list tbody").on("click", "tr", function () {
@@ -344,21 +357,24 @@ btn_objek.addEventListener("click", function (e) {
                         scrollRowIntoView(this);
                     });
 
-                    const searchInput = $('#table_list_filter input');
+                    const searchInput = $("#table_list_filter input");
                     if (searchInput.length > 0) {
                         searchInput.focus();
                     }
 
                     currentIndex = null;
-                    Swal.getPopup().addEventListener('keydown', (e) => handleTableKeydown(e, 'table_list'));
+                    Swal.getPopup().addEventListener("keydown", (e) =>
+                        handleTableKeydown(e, "table_list")
+                    );
                 });
-            }
+            },
         }).then((result) => {
             if (result.isConfirmed) {
                 objekId.value = result.value.IdObjek.trim();
-                objekNama.value = decodeHtmlEntities(result.value.NamaObjek.trim());
+                objekNama.value = decodeHtmlEntities(
+                    result.value.NamaObjek.trim()
+                );
                 allData();
-
             }
         });
     } catch (error) {
@@ -374,38 +390,44 @@ $(document).ready(function () {
         idType: [],
         keluarPrimer: [],
         keluarSekunder: [],
-        keluarTritier: []
+        keluarTritier: [],
     };
 
-    table = $('#tableData').DataTable({
+    table = $("#tableData").DataTable({
         paging: false,
         searching: false,
         info: false,
         ordering: false,
         columns: [
-            { title: '', orderable: false, className: 'select-checkbox', data: null, defaultContent: '' }, // Checkbox
-            { title: 'Kd. Transaksi' },
-            { title: 'Nama Barang' },
-            { title: 'Alasan Mutasi' },
-            { title: 'Pemohon' },
-            { title: 'Tgl. Mohon' },
-            { title: 'Divisi' },
-            { title: 'Objek' },
-            { title: 'Kel. Utama' },
-            { title: 'Kelompok' },
-            { title: 'Sub Kelompok' },
-            { title: 'Kode Type' },
-            { title: 'Kode Barang' },
-            { title: 'Primer' },
-            { title: 'Sekunder' },
-            { title: 'Tritier' },
+            {
+                title: "",
+                orderable: false,
+                className: "select-checkbox",
+                data: null,
+                defaultContent: "",
+            }, // Checkbox
+            { title: "Kd. Transaksi" },
+            { title: "Nama Barang" },
+            { title: "Alasan Mutasi" },
+            { title: "Pemohon" },
+            { title: "Tgl. Mohon" },
+            { title: "Divisi" },
+            { title: "Objek" },
+            { title: "Kel. Utama" },
+            { title: "Kelompok" },
+            { title: "Sub Kelompok" },
+            { title: "Kode Type" },
+            { title: "Kode Barang" },
+            { title: "Primer" },
+            { title: "Sekunder" },
+            { title: "Tritier" },
         ],
         colResize: {
             isEnabled: true,
-            hoverClass: 'dt-colresizable-hover',
+            hoverClass: "dt-colresizable-hover",
             hasBoundCheck: true,
-            minBoundClass: 'dt-colresizable-bound-min',
-            maxBoundClass: 'dt-colresizable-bound-max',
+            minBoundClass: "dt-colresizable-bound-min",
+            maxBoundClass: "dt-colresizable-bound-max",
             saveState: true,
             // isResizable: function (column) {
             //     return column.idx !== 2;
@@ -417,24 +439,26 @@ $(document).ready(function () {
                 // console.log('I have been resized!');
             },
             stateSaveCallback: function (settings, data) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData";
+                let stateStorageName =
+                    window.location.pathname + "/colResizeStateData";
                 localStorage.setItem(stateStorageName, JSON.stringify(data));
             },
             stateLoadCallback: function (settings) {
-                let stateStorageName = window.location.pathname + "/colResizeStateData",
+                let stateStorageName =
+                        window.location.pathname + "/colResizeStateData",
                     data = localStorage.getItem(stateStorageName);
                 return data != null ? JSON.parse(data) : null;
-            }
+            },
         },
-        scrollY: '300px',
-        scrollX: '150%',
+        scrollY: "300px",
+        scrollX: "150%",
         autoWidth: false,
         columnDefs: [
             {
                 targets: 0,
                 orderable: false,
-                width: '3%',
-                className: 'select-checkbox',
+                width: "3%",
+                className: "select-checkbox",
                 render: function (data, type, row, meta) {
                     return `<input type="checkbox" class="row-checkbox"
                                 data-id="${row[1]}"
@@ -442,36 +466,36 @@ $(document).ready(function () {
                                 data-primer="${row[13]}"
                                 data-sekunder="${row[14]}"
                                 data-tritier="${row[15]}">`;
-                }
+                },
             },
-            { targets: [1], width: '25%', className: 'fixed-width' },
-            { targets: [2], width: '25%', className: 'fixed-width' },
-            { targets: [3], width: '10%', className: 'fixed-width' },
-            { targets: [4], width: '10%', className: 'fixed-width' },
-            { targets: [5], width: '10%', className: 'fixed-width' },
-            { targets: [6], width: '10%', className: 'fixed-width' },
-            { targets: [7], width: '10%', className: 'fixed-width' },
-            { targets: [8], width: '10%', className: 'fixed-width' },
-            { targets: [9], width: '10%', className: 'fixed-width' },
-            { targets: [10], width: '10%', className: 'fixed-width' },
-            { targets: [11], width: '10%', className: 'fixed-width' },
-            { targets: [12], width: '10%', className: 'fixed-width' },
-            { targets: [13], width: '10%', className: 'fixed-width' },
-            { targets: [14], width: '10%', className: 'fixed-width' },
-            { targets: [15], width: '10%', className: 'fixed-width' },
+            { targets: [1], width: "25%", className: "fixed-width" },
+            { targets: [2], width: "25%", className: "fixed-width" },
+            { targets: [3], width: "10%", className: "fixed-width" },
+            { targets: [4], width: "10%", className: "fixed-width" },
+            { targets: [5], width: "10%", className: "fixed-width" },
+            { targets: [6], width: "10%", className: "fixed-width" },
+            { targets: [7], width: "10%", className: "fixed-width" },
+            { targets: [8], width: "10%", className: "fixed-width" },
+            { targets: [9], width: "10%", className: "fixed-width" },
+            { targets: [10], width: "10%", className: "fixed-width" },
+            { targets: [11], width: "10%", className: "fixed-width" },
+            { targets: [12], width: "10%", className: "fixed-width" },
+            { targets: [13], width: "10%", className: "fixed-width" },
+            { targets: [14], width: "10%", className: "fixed-width" },
+            { targets: [15], width: "10%", className: "fixed-width" },
         ],
-        order: [[1, 'asc']]
+        order: [[1, "asc"]],
     });
 
     // update array unk centang
-    $('#tableData').on('change', '.row-checkbox', function () {
-        var id = $(this).data('id');
-        var type = $(this).data('type');
-        var primer = formatNumber($(this).data('primer'));
-        var sekunder = formatNumber($(this).data('sekunder'));
-        var tritier = formatNumber($(this).data('tritier'));
+    $("#tableData").on("change", ".row-checkbox", function () {
+        var id = $(this).data("id");
+        var type = $(this).data("type");
+        var primer = formatNumber($(this).data("primer"));
+        var sekunder = formatNumber($(this).data("sekunder"));
+        var tritier = formatNumber($(this).data("tritier"));
 
-        if ($(this).is(':checked')) {
+        if ($(this).is(":checked")) {
             selectedData.idTransaksi.push(id);
             selectedData.idType.push(type);
             selectedData.keluarPrimer.push(primer);
@@ -490,23 +514,21 @@ $(document).ready(function () {
     });
 
     // Select All
-    $('#centang').on('change', function () {
-        var isChecked = $(this).prop('checked');
-        $('.row-checkbox').prop('checked', isChecked).trigger('change');
+    $("#centang").on("change", function () {
+        var isChecked = $(this).prop("checked");
+        $(".row-checkbox").prop("checked", isChecked).trigger("change");
     });
 });
 
-
-
 // ngisi input kalo select table
-$('#tableData tbody').on('click', 'tr', function (event) {
-    if ($(event.target).is('.row-checkbox')) {
+$("#tableData tbody").on("click", "tr", function (event) {
+    if ($(event.target).is(".row-checkbox")) {
         return;
     }
 
-    table = $('#tableData').DataTable();
-    table.$('tr.selected').removeClass('selected');
-    $(this).addClass('selected');
+    table = $("#tableData").DataTable();
+    table.$("tr.selected").removeClass("selected");
+    $(this).addClass("selected");
 
     var data = table.row(this).data();
     console.log(data);
@@ -515,8 +537,13 @@ $('#tableData tbody').on('click', 'tr', function (event) {
 
     alasan.value = decodeHtmlEntities(data[3]);
     var originalDate = data[5];
-    var parts = originalDate.split('/');
-    var formattedDate = parts[2] + '-' + parts[0].padStart(2, '0') + '-' + parts[1].padStart(2, '0');
+    var parts = originalDate.split("/");
+    var formattedDate =
+        parts[2] +
+        "-" +
+        parts[0].padStart(2, "0") +
+        "-" +
+        parts[1].padStart(2, "0");
     tanggal.value = formattedDate;
     divisiNama.value = decodeHtmlEntities(data[6]);
     objekNama.value = decodeHtmlEntities(data[7]);
@@ -529,10 +556,9 @@ $('#tableData tbody').on('click', 'tr', function (event) {
     keluarTritier = formatNumber(data[15]);
     subkelId.value = data[16];
 
-
     $.ajax({
-        type: 'GET',
-        url: 'AccPenghangusanBarang/getType',
+        type: "GET",
+        url: "AccPenghangusanBarang/getType",
         data: {
             _token: csrfToken,
             idTransaksi: idTransaksi,
@@ -543,25 +569,34 @@ $('#tableData tbody').on('click', 'tr', function (event) {
                 sekunder.value = formatNumber(result[0].SaldoSekunder);
                 tritier.value = formatNumber(result[0].SaldoTritier);
 
-                no_primer.value = decodeHtmlEntities(result[0].Satuan_Primer.trim());
-                no_sekunder.value = decodeHtmlEntities(result[0].Satuan_Sekunder.trim());
-                no_tritier.value = decodeHtmlEntities(result[0].Satuan_Tritier.trim());
+                no_primer.value = decodeHtmlEntities(
+                    result[0].Satuan_Primer.trim()
+                );
+                no_sekunder.value = decodeHtmlEntities(
+                    result[0].Satuan_Sekunder.trim()
+                );
+                no_tritier.value = decodeHtmlEntities(
+                    result[0].Satuan_Tritier.trim()
+                );
 
                 primer2.value = formatNumber(result[0].JumlahPengeluaranPrimer);
-                sekunder2.value = formatNumber(result[0].JumlahPengeluaranSekunder);
-                tritier2.value = formatNumber(result[0].JumlahPengeluaranTritier);
+                sekunder2.value = formatNumber(
+                    result[0].JumlahPengeluaranSekunder
+                );
+                tritier2.value = formatNumber(
+                    result[0].JumlahPengeluaranTritier
+                );
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
-        }
+            console.error("Error:", error);
+        },
     });
 });
 
-
 // update table
 function allData() {
-    table = $('#tableData').DataTable();
+    table = $("#tableData").DataTable();
     table.clear().draw();
 
     $.ajax({
@@ -570,19 +605,26 @@ function allData() {
         data: {
             _token: csrfToken,
             divisiId: divisiId.value,
-            objekId: objekId.value
+            objekId: objekId.value,
         },
         timeout: 30000,
         success: function (response) {
             if (response) {
                 console.log(response);
-                var firstSubkelId = response[0].IdSubkelompok.trim();
-                var allSameSubkelId = response.every(item => item.IdSubkelompok.trim() === firstSubkelId);
+                let firstSubkelId = null;
+                let allSameSubkelId = true;
+
+                if (response.length > 0) {
+                    firstSubkelId = response[0].IdSubkelompok?.trim() ?? null;
+                    allSameSubkelId = response.every(
+                        (item) => item.IdSubkelompok?.trim() === firstSubkelId
+                    );
+                }
 
                 var tableData = [];
                 response.forEach(function (item) {
                     tableData.push([
-                        '', // Add checkbox to each row
+                        "", // Add checkbox to each row
                         escapeHtml(item.IdTransaksi),
                         escapeHtml(item.NamaType),
                         escapeHtml(item.UraianDetailTransaksi),
@@ -598,7 +640,7 @@ function allData() {
                         formatNumber(item.JumlahPengeluaranPrimer),
                         formatNumber(item.JumlahPengeluaranSekunder),
                         formatNumber(item.JumlahPengeluaranTritier),
-                        item.IdSubkelompok
+                        item.IdSubkelompok,
                     ]);
                 });
                 table.rows.add(tableData).draw();
@@ -609,74 +651,74 @@ function allData() {
             }
         },
         error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
-        }
+            console.error("AJAX Error:", error);
+        },
     });
 }
 
 function Cleartext_Header() {
-    objekNama.value = '';
-    objekId.value = '';
-    kelutNama.value = '';
-    kelutId.value = '';
-    kelompokNama.value = '';
-    kelompokId.value = '';
-    subkelId.value = '';
-    subkelNama.value = '';
+    objekNama.value = "";
+    objekId.value = "";
+    kelutNama.value = "";
+    kelutId.value = "";
+    kelompokNama.value = "";
+    kelompokId.value = "";
+    subkelId.value = "";
+    subkelNama.value = "";
 }
 
 function ClearText() {
-    primer.value = '';
-    sekunder.value = '';
-    tritier.value = '';
-    no_primer.value = '';
-    no_sekunder.value = '';
-    no_tritier.value = '';
-    alasan.value = '';
+    primer.value = "";
+    sekunder.value = "";
+    tritier.value = "";
+    no_primer.value = "";
+    no_sekunder.value = "";
+    no_tritier.value = "";
+    alasan.value = "";
     tritier2.value = formatNumber(0);
     sekunder2.value = formatNumber(0);
     primer2.value = formatNumber(0);
 }
 
-btn_batal.addEventListener('click', function () {
+btn_batal.addEventListener("click", function () {
     Cleartext_Header();
     ClearText();
-    table = $('#tableData').DataTable();
+    table = $("#tableData").DataTable();
     table.clear().draw();
 });
 
 // button proses event listener
-btn_proses.addEventListener('click', function () {
+btn_proses.addEventListener("click", function () {
     // btn_objek.disabled = true;
     console.log(selectedData);
 
     $.ajax({
-        type: 'PUT',
-        url: 'AccPenghangusanBarang/proses',
+        type: "PUT",
+        url: "AccPenghangusanBarang/proses",
         data: {
             _token: csrfToken,
             idTransaksi: selectedData.idTransaksi,
             idType: selectedData.idType,
             keluarPrimer: selectedData.keluarPrimer,
             keluarSekunder: selectedData.keluarSekunder,
-            keluarTritier: selectedData.keluarTritier
+            keluarTritier: selectedData.keluarTritier,
         },
         success: function (response) {
             if (response.success) {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
+                    icon: "success",
+                    title: "Success",
                     text: response.success,
                     returnFocus: false,
                 }).then(() => {
                     allData();
-                    $('#centang').checked = false;
+                    $("#centang").checked = false;
                     btn_divisi.focus();
                 });
             } else if (response.warning) {
                 Swal.fire({
-                    icon: 'warning',
-                    title: 'Tidak Bisa Di Acc !',
+                    icon: "warning",
+                    title: "Tidak Bisa Di Acc !",
                     text: response.warning,
                     returnFocus: false,
                 }).then(() => {
@@ -685,21 +727,21 @@ btn_proses.addEventListener('click', function () {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error:', error);
+            console.error("Error:", error);
 
-            var errorMessage = xhr.responseJSON && xhr.responseJSON.error
-                ? xhr.responseJSON.error
-                : 'An unknown error occurred.';
+            var errorMessage =
+                xhr.responseJSON && xhr.responseJSON.error
+                    ? xhr.responseJSON.error
+                    : "An unknown error occurred.";
 
             Swal.fire({
-                icon: 'error',
-                title: 'Tidak Bisa Di Acc !',
+                icon: "error",
+                title: "Tidak Bisa Di Acc !",
                 text: errorMessage,
                 returnFocus: false,
             }).then(() => {
                 btn_divisi.focus();
             });
-        }
+        },
     });
 });
-
