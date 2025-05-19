@@ -79,9 +79,9 @@ btn_divisi.addEventListener("focus", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
-btn_isi.addEventListener("focus", function () {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-});
+// btn_isi.addEventListener("focus", function () {
+//     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+// });
 
 // fungsi berhubungan dengan ENTER & oengecekkan yg kosong2
 inputs.forEach((masuk, index) => {
