@@ -3,6 +3,10 @@
 @section('title', 'BKM Transitoris Bank')
 
 <style>
+    @page {
+        size: auto;
+        margin: 10mm;
+    }
     .table-responsive.fixed-height tbody {
         background-color: white;
     }
@@ -91,6 +95,7 @@
             left: 0;
             top: 0;
             width: 100%;
+            height: 100%;
             transform-origin: top left;
         }
     }

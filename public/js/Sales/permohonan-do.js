@@ -131,6 +131,7 @@ min_kirim.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
         alamat_kirim.focus();
+        alamat_kirim.select();
     }
 });
 
@@ -153,6 +154,7 @@ nomor_doSelect.addEventListener("keypress", function (event) {
     if (event.key == "Enter") {
         event.preventDefault();
         min_kirim.focus();
+        min_kirim.select();
     }
 });
 
