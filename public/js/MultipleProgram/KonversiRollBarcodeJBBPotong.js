@@ -1072,23 +1072,6 @@ $(document).ready(function () {
                         // console.log(response);
 
                         response.forEach((item) => {
-                            // console.log(
-                            //     "Panjang Potongan: " + item.PanjangPotongan
-                            // );
-                            // console.log(
-                            //     "Lebar Potongan: " + item.LebarPotongan
-                            // );
-                            // console.log(
-                            //     "parseFloat(d_tek1PanjangRoll) > parseFloat(item.PanjangPotongan): " +
-                            //         parseFloat(d_tek1PanjangRoll) >
-                            //         parseFloat(item.PanjangPotongan)
-                            // );
-                            // console.log(
-                            //     "parseFloat(d_tek1PanjangRoll) > parseFloat(item.LebarPotongan): " +
-                            //         parseFloat(d_tek1PanjangRoll) >
-                            //         parseFloat(item.LebarPotongan)
-                            // );
-
                             if (
                                 parseFloat(d_tek1PanjangRoll) !== "" &&
                                 (parseFloat(d_tek1PanjangRoll) >=
@@ -1109,7 +1092,7 @@ $(document).ready(function () {
                                 icon: "warning",
                                 title: "Perhatian",
                                 text:
-                                    "Tidak ukuran " +
+                                    "Tidak ada ukuran " +
                                     d_tek1PanjangRoll +
                                     " pada sub kelompok " +
                                     select_subKelompokTujuan.options[
@@ -2697,52 +2680,49 @@ $(document).ready(function () {
                             $("#select_subKelompokTujuanTanpaBarcode option:selected").text(), // prettier-ignore
                     });
                 } else {
-                    console.log(data);
-                    console.log(select_kelompokUtamaTujuanTanpaBarcode.val());
+                    // if (select_kelompokUtamaTujuanTanpaBarcode.val() == 1029) {
+                    //     let itemsAdded = false; // Track if any item is added
+                    //     data.forEach(function (objek) {
+                    //         luasTujuanBarangTanpaBarcode =
+                    //             parseFloat(objek.LebarPotongan) *
+                    //             parseFloat(objek.PanjangPotongan);
 
-                    if (select_kelompokUtamaTujuanTanpaBarcode.val() == 1029) {
-                        let itemsAdded = false; // Track if any item is added
-                        data.forEach(function (objek) {
-                            luasTujuanBarangTanpaBarcode =
-                                parseFloat(objek.LebarPotongan) *
-                                parseFloat(objek.PanjangPotongan);
+                    //         if (
+                    //             luasAsalBarangTanpaBarcode >=
+                    //             luasTujuanBarangTanpaBarcode
+                    //         ) {
+                    //             select_typeTujuanTanpaBarcode.append(
+                    //                 new Option(objek.NamaType, objek.IdType)
+                    //             );
+                    //             itemsAdded = true;
+                    //         }
+                    //     });
 
-                            if (
-                                luasAsalBarangTanpaBarcode >=
-                                luasTujuanBarangTanpaBarcode
-                            ) {
-                                select_typeTujuanTanpaBarcode.append(
-                                    new Option(objek.NamaType, objek.IdType)
-                                );
-                                itemsAdded = true;
-                            }
-                        });
-
-                        if (!itemsAdded) {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Perhatian",
-                                text:
-                                    "Tidak ukuran yang lebih kecil dari luas barang asal konversi: " +
-                                    luasAsalBarangTanpaBarcode.toString() +
-                                    " pada kelompok " +
-                                    select_kelompokTujuan.options[
-                                        select_kelompokTujuan.selectedIndex
-                                    ].text,
-                            }).then(() => {
-                                select_kelompokTujuan.focus();
-                                select_subKelompokTujuan.disabled = true;
-                            });
-                        } else {
-                            select_subKelompokTujuan.focus();
-                        }
-                    } else {
-                        data.forEach(function (objek) {
-                            select_typeTujuanTanpaBarcode.append(
-                                new Option(objek.NamaType, objek.IdType)
-                            );
-                        });
-                    }
+                    //     if (!itemsAdded) {
+                    //         Swal.fire({
+                    //             icon: "warning",
+                    //             title: "Perhatian",
+                    //             text:
+                    //                 "Tidak ada ukuran yang lebih kecil dari luas barang asal konversi: " +
+                    //                 luasAsalBarangTanpaBarcode.toString() +
+                    //                 " pada kelompok " +
+                    //                 select_kelompokTujuan.options[
+                    //                     select_kelompokTujuan.selectedIndex
+                    //                 ].text,
+                    //         }).then(() => {
+                    //             select_kelompokTujuan.focus();
+                    //             select_subKelompokTujuan.disabled = true;
+                    //         });
+                    //     } else {
+                    //         select_subKelompokTujuan.focus();
+                    //     }
+                    // } else {
+                    data.forEach(function (objek) {
+                        select_typeTujuanTanpaBarcode.append(
+                            new Option(objek.NamaType, objek.IdType)
+                        );
+                    });
+                    // }
                     initializeSelectElement("pilihSubKelompokTujuan");
                 }
             },
