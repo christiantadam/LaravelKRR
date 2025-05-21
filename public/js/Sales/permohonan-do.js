@@ -103,6 +103,24 @@ setInputFilter(
 
 //#region enter-enter
 
+document.addEventListener("DOMContentLoaded", function () {
+    const buttons = document.querySelectorAll(".permohonan-do-container27 .button");
+
+    buttons.forEach((button, index) => {
+        button.addEventListener("keydown", function (e) {
+            if (e.key === "ArrowRight") {
+                e.preventDefault();
+                const next = (index + 1) % buttons.length;
+                buttons[next].focus();
+            } else if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                const prev = (index - 1 + buttons.length) % buttons.length;
+                buttons[prev].focus();
+            }
+        });
+    });
+});
+
 tgl_do.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         // console.log(proses);

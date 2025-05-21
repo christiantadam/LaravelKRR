@@ -8,7 +8,7 @@
                 [0, 'desc']
             ],
             paging: false,
-            scrollY: "400px",
+            scrollY: "650px",
             scrollCollapse: true,
         });
     });
