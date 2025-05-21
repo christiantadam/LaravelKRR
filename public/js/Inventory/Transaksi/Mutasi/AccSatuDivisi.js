@@ -402,6 +402,8 @@ btn_proses.addEventListener("click", async function (e) {
                     html: htmlContent,
                     returnFocus: false,
                     width: 600,
+                }).then(() => {
+                    TampilData();
                 });
             },
             error: function (xhr, status, error) {
