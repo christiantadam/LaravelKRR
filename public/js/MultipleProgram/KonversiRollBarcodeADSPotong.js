@@ -2554,11 +2554,14 @@ $(document).ready(function () {
 
                     // Filter data for Tujuan Konversi Potong ADS
                     var tujuanData = response.filter(function (item) {
-                        return (item.UraianDetailTransaksi.includes(
-                            "Tujuan Konversi Potongan ADS"
-                        ) || item.UraianDetailTransaksi.includes(
-                            "Tujuan Konversi Potongan Tanpa Barcode ADS"
-                        ));
+                        return (
+                            item.UraianDetailTransaksi.includes(
+                                "Tujuan Konversi Potongan ADS"
+                            ) ||
+                            item.UraianDetailTransaksi.includes(
+                                "Tujuan Konversi Potongan Tanpa Barcode ADS"
+                            )
+                        );
                     });
 
                     // Convert the data to match table column structure
@@ -4490,11 +4493,15 @@ $(document).ready(function () {
             // Remove the 'selected' class from any previously selected row
             $("#table_daftarAsalKonversiTanpaBarcode tbody tr").removeClass("selected"); // prettier-ignore
 
-            // Add the 'selected' class to the clicked row
-            $(this).addClass("selected");
-
             // Get data from the clicked row
             var data = table_daftarAsalKonversiTanpaBarcode.row(this).data();
+
+            // Add the 'selected' class to the clicked row
+            if (data) {
+                $(this).addClass("selected");
+            } else {
+                return;
+            }
 
             // If data exists, populate input fields
             if (Array.isArray(data) && data.length > 0) {
@@ -4604,11 +4611,15 @@ $(document).ready(function () {
             // Remove the 'selected' class from any previously selected row
             $("#table_daftarTujuanKonversiTanpaBarcode tbody tr").removeClass("selected"); // prettier-ignore
 
-            // Add the 'selected' class to the clicked row
-            $(this).addClass("selected");
-
             // Get data from the clicked row
             var data = table_daftarTujuanKonversiTanpaBarcode.row(this).data();
+
+            // Add the 'selected' class to the clicked row
+            if (data) {
+                $(this).addClass("selected");
+            } else {
+                return;
+            }
 
             // If data exists, populate input fields
             if (Array.isArray(data) && data.length > 0) {
