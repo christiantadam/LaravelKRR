@@ -405,7 +405,7 @@ class KonversiRollBarcodeController extends Controller
                             [
                                 9,
                                 "28",
-                                (string) $shift . ', ' . $uraian_asal,
+                                (string) $uraian_asal,
                                 $IdTypeAsal[$k],
                                 trim(Auth::user()->NomorUser),
                                 trim(Auth::user()->NomorUser),
@@ -443,7 +443,7 @@ class KonversiRollBarcodeController extends Controller
                             [
                                 9,
                                 "28",
-                                (string) $shift . ', ' . $uraian_tujuan,
+                                (string) $uraian_tujuan,
                                 $IdTypeTujuan[$k],
                                 trim(Auth::user()->NomorUser),
                                 trim(Auth::user()->NomorUser),
