@@ -62,7 +62,7 @@ $(document).ready(function () {
         ordering: true,
         order: [[0, "asc"]],
         paging: false,
-        autoWidth: false,
+        autoWidth: true,
         data: [], // This will be populated with client-side data
         columns: [
             { data: "Nama_Komponen" },
@@ -79,6 +79,19 @@ $(document).ready(function () {
                     return parseFloat(data).toFixed(2) + " cm";
                 },
             },
+            { data: "Denier" },
+            {
+                data: "WA_Rajutan",
+                render: function (data, type, full, meta) {
+                    return parseFloat(data).toFixed(2);
+                },
+            },
+            {
+                data: "WE_Rajutan",
+                render: function (data, type, full, meta) {
+                    return parseFloat(data).toFixed(2);
+                },
+            },
             { data: "Quantity",
                 render: function (data, type, full, meta) {
                     return parseFloat(data).toFixed(2) + " pcs";
@@ -87,7 +100,7 @@ $(document).ready(function () {
         ],
     }); // prettier-ignore
     let table_cetakRingkasanKebutuhan = $("#table_cetakRingkasanKebutuhan").DataTable({
-        responsive: true,
+        responsive: false,
         ordering: false,
         order: [[0, "asc"]],
         paging: false,
@@ -99,8 +112,11 @@ $(document).ready(function () {
             { title: "Nama Komponen" },
             { title: "Kode Komponen" },
             { title: "Warna" },
+            { title: "Lebar" },
+            { title: "Denier" },
+            { title: "WA" },
+            { title: "WE" },
             { title: "Total Kebutuhan" },
-            { title: "Lokasi" }
         ]
     }); // prettier-ignore
     //#endregion
@@ -387,7 +403,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 // Assuming your server returns an array of objects for the table data
-
+                console.log(response);
                 if (response) {
                     let datatable_daftarDetailKebutuhanKomponen =
                         response.filter(function (item) {
@@ -511,122 +527,6 @@ $(document).ready(function () {
 
     button_cetakKebutuhanKomponen.addEventListener("click", function () {
         const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD
-        // Swal.fire({
-        //     title: "Pilih Tanggal Kebutuhan",
-        //     width: "40%", // You can adjust this value
-        //     html: `
-        //       <div style="display: flex; flex-direction: row; gap: 10px; max-width: 100%;">
-        //         <div style="width: 50%;">
-        //           <label for="start-date">Start Date</label><br>
-        //           <input type="date" id="start-date" class="swal2-input" style="width: 100%;margin: 0">
-        //         </div>
-        //         <div style="width: 50%;">
-        //           <label for="end-date">End Date</label><br>
-        //           <input type="date" id="end-date" class="swal2-input" style="width: 100%;margin: 0">
-        //         </div>
-        //       </div>
-        //     `,
-        //     showCancelButton: true,
-        //     confirmButtonText: "Cetak",
-        //     showLoaderOnConfirm: true,
-        //     didOpen: () => {
-        //         document.getElementById("start-date").value = today;
-        //         document.getElementById("end-date").value = today;
-        //     },
-        //     allowOutsideClick: () => !Swal.isLoading(),
-        // }).then((result) => {
-        //     if (result.isConfirmed && result.value) {
-        //         const startDate = document.getElementById("start-date").value;
-        //         const endDate = document.getElementById("end-date").value;
-
-        //         $.ajax({
-        //             url: "/KebutuhanKomponen/getDataCetakKebutuhanDetail",
-        //             type: "GET",
-        //             data: {
-        //                 TanggalKebutuhanAwal: startDate,
-        //                 TanggalKebutuhanAkhir: endDate,
-        //                 _token: csrf,
-        //             },
-        //         })
-        //             .then((response) => {
-        //                 console.log(response);
-        //                 if (response.length > 0) {
-        //                     let tanggal = new Date(result.value);
-        //                     tanggal.setDate(tanggal.getDate() - 6);
-
-        //                     let tanggalSenin =
-        //                         tanggal.getDate().toString().padStart(2, "0") +
-        //                         "-" +
-        //                         (tanggal.getMonth() + 1)
-        //                             .toString()
-        //                             .padStart(2, "0") +
-        //                         "-" +
-        //                         tanggal.getFullYear();
-        //                     header_cetakKebutuhanKomponen.innerHTML =
-        //                         "Kebutuhan Komponen Periode " +
-        //                         tanggalSenin +
-        //                         " / " +
-        //                         result.value.split("-").reverse().join("-");
-        //                     //const filteredData = response.filter(item => item.Kode_Komponen?.trim() === "02BS4O"); // prettier-ignore
-        //                     const grouped = {};
-
-        //                     response.forEach((item) => {
-        //                         const kode = item.Kode_Komponen?.trim();
-        //                         const nama = item.Nama_Komponen?.trim();
-        //                         const warna = item.WarnaKebutuhan?.trim();
-        //                         const panjang = parseFloat(item.Panjang_Potongan || 0); // prettier-ignore
-        //                         const lebar = parseFloat(item.Lebar_Potongan || 0); // prettier-ignore
-        //                         const qty = parseFloat(item.Quantity || 0);
-        //                         const kebutuhan = parseFloat(item.JumlahKebutuhan || 0); // prettier-ignore
-
-        //                         const key = `${kode}|${nama}|${warna}`;
-        //                         const nilai = (panjang * lebar * qty * kebutuhan) / 100; // prettier-ignore
-
-        //                         if (!grouped[key]) {
-        //                             grouped[key] = {
-        //                                 Nama_Komponen: nama,
-        //                                 Kode_Komponen: kode,
-        //                                 WarnaKebutuhan: warna,
-        //                                 TotalKebutuhan: 0,
-        //                             };
-        //                         }
-
-        //                         grouped[key].TotalKebutuhan += nilai;
-        //                     });
-        //                     table_cetakRingkasanKebutuhan.clear();
-        //                     Object.values(grouped)
-        //                         .sort((a, b) =>
-        //                             a.Nama_Komponen.localeCompare(
-        //                                 b.Nama_Komponen
-        //                             )
-        //                         )
-        //                         .forEach((row) => {
-        //                             table_cetakRingkasanKebutuhan.row.add([
-        //                                 row.Nama_Komponen,
-        //                                 row.Kode_Komponen,
-        //                                 row.WarnaKebutuhan,
-        //                                 numeral(row.TotalKebutuhan).format(
-        //                                     "0,0.00"
-        //                                 ) + " m²",
-        //                             ]);
-        //                         });
-        //                     table_cetakRingkasanKebutuhan.draw();
-        //                     window.print();
-        //                 } else {
-        //                     Swal.fire({
-        //                         icon: "warning",
-        //                         title: "Tidak ada data",
-        //                         text: "Tidak ada data Kebutuhan Komponen untuk tanggal yang dipilih",
-        //                     });
-        //                 }
-        //             })
-        //             .catch((error) => {
-        //                 Swal.showValidationMessage(
-        //                     `Gagal memuat data: ${error.statusText}`
-        //                 );
-        //             });
-        //     }
-        // });
         Swal.fire({
             title: "Pilih Tanggal",
             input: "date",
@@ -652,6 +552,7 @@ $(document).ready(function () {
                     },
                 })
                     .then((response) => {
+                        console.log(response);
                         if (response.length > 0) {
                             let tanggal = new Date(result.value);
                             tanggal.setDate(tanggal.getDate() - 6);
@@ -684,17 +585,26 @@ $(document).ready(function () {
                                 const panjang = parseFloat(item.Panjang_Potongan || 0); // prettier-ignore
                                 const lebar = parseFloat(item.Lebar_Potongan || 0); // prettier-ignore
                                 const qty = parseFloat(item.Quantity || 0);
+                                const wa_rajutan = parseFloat(item.WA_Rajutan || 0); // prettier-ignore
+                                const we_rajutan = parseFloat(item.WE_Rajutan || 0); // prettier-ignore
+                                const denier = parseFloat(item.Denier || 0);
                                 const kebutuhan = parseFloat(item.JumlahKebutuhan || 0); // prettier-ignore
 
-                                const key = `${kode}|${nama}|${warna}|${lokasi}`;
-                                const nilai = (panjang * lebar * qty * kebutuhan) / 100; // prettier-ignore
+                                // const key = `${kode}|${nama}|${warna}|${lokasi}`;
+                                const key = `${kode}|${nama}|${warna}|${lebar}|${lokasi}|${denier}|${wa_rajutan}|${we_rajutan}`;
+                                // const nilai = (panjang * lebar * qty * kebutuhan) / 100; // prettier-ignore
+                                const nilai = (panjang * qty * kebutuhan) / 100; // prettier-ignore
 
                                 if (!grouped[key]) {
                                     grouped[key] = {
                                         Nama_Komponen: nama,
                                         Kode_Komponen: kode,
                                         WarnaKebutuhan: warna,
+                                        Lebar: lebar,
                                         Lokasi: lokasi,
+                                        Denier: denier,
+                                        WA_Rajutan: wa_rajutan,
+                                        WE_Rajutan: we_rajutan,
                                         TotalKebutuhan: 0,
                                     };
                                 }
@@ -713,12 +623,48 @@ $(document).ready(function () {
                                         row.Nama_Komponen,
                                         row.Kode_Komponen,
                                         row.WarnaKebutuhan,
-                                        row.TotalKebutuhan.toFixed(2) + " m²",
-                                        row.Lokasi,
+                                        row.Lebar,
+                                        row.Denier,
+                                        row.WA_Rajutan,
+                                        row.WE_Rajutan,
+                                        row.TotalKebutuhan.toFixed(2) + " m",
                                     ]);
                                 });
                             table_cetakRingkasanKebutuhan.draw();
+                            const printStyle = document.createElement("style");
+                            printStyle.innerHTML = `
+                                @media print {
+                                    @page {
+                                        size: A4 landscape;
+                                        margin: 1cm;
+                                    }
+                                    body {
+                                        font-size: 12px;
+                                    }
+                                    table {
+                                        width: 100% !important;
+                                        border-collapse: collapse;
+                                    }
+                                    th, td {
+                                        padding: 4px;
+                                        border: 1px solid #000;
+                                        font-size: 12px;
+                                    }
+                                    .dataTables_wrapper {
+                                        width: 100% !important;
+                                    }
+                                    .dt-buttons {
+                                        display: none;
+                                    }
+                                }`;
+                            document.head.appendChild(printStyle);
                             window.print();
+                        } else {
+                            Swal.fire({
+                                icon: "warning",
+                                title: "Tidak ada data",
+                                text: "Tidak ada data Kebutuhan Komponen untuk tanggal yang dipilih",
+                            });
                         }
                     })
                     .catch((error) => {

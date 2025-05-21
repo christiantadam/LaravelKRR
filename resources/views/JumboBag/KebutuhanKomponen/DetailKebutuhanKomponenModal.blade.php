@@ -14,8 +14,11 @@
                             <th>Nama Komponen</th>
                             <th>Kode Komponen</th>
                             <th>Warna</th>
-                            <th>Panjang Potongan</th>
-                            <th>Lebar Potongan</th>
+                            <th>Panjang</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>WA</th>
+                            <th>WE</th>
                             <th>Quantity</th>
                         </tr>
                     </thead>

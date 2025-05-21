@@ -86,6 +86,11 @@
         }
 
         @media print {
+            @page {
+                size: landscape;
+                margin: 1cm;
+            }
+
             .container-fluid {
                 display: none;
             }
@@ -187,8 +192,11 @@
                             <th>Nama Komponen</th>
                             <th>Kode Komponen</th>
                             <th>Warna</th>
+                            <th>Lebar</th>
+                            <th>Denier</th>
+                            <th>WA</th>
+                            <th>WE</th>
                             <th>Total Kebutuhan</th>
-                            <th>Lokasi</th>
                         </tr>
                     </thead>
                 </table>
