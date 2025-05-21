@@ -1032,6 +1032,9 @@ btn_barang.addEventListener("click", function (e) {
                 namaBarang.value = namaBarangValue;
                 namaType.value = namaBarangValue;
 
+                tmpKode = formatKdBarang(kdBarang.value);
+                fillKodeBarang(tmpKode);
+
                 $.ajax({
                     url: "MaintenanceType/getSatuanBarang",
                     type: "GET",
