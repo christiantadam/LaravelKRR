@@ -1926,6 +1926,12 @@ $(document).ready(function () {
     let button_tambahAsalKonversiTanpaBarcode = document.getElementById("button_tambahAsalKonversiTanpaBarcode"); // prettier-ignore
     let button_updateAsalKonversiTanpaBarcode = document.getElementById("button_updateAsalKonversiTanpaBarcode"); // prettier-ignore
     let button_hapusAsalKonversiTanpaBarcode = document.getElementById("button_hapusAsalKonversiTanpaBarcode"); // prettier-ignore
+    let div_keteranganTypeTujuanTanpaBarcode = document.getElementById("div_keteranganTypeTujuanTanpaBarcode"); // prettier-ignore
+    let span_keteranganKodeBarangTypeTujuanTanpaBarcode = document.getElementById("span_keteranganKodeBarangTypeTujuanTanpaBarcode"); // prettier-ignore
+    let span_keteranganIdTypeTypeTujuanTanpaBarcode = document.getElementById("span_keteranganIdTypeTypeTujuanTanpaBarcode"); // prettier-ignore
+    let div_keteranganTypeAsalTanpaBarcode = document.getElementById("div_keteranganTypeAsalTanpaBarcode"); // prettier-ignore
+    let span_keteranganKodeBarangTypeAsalTanpaBarcode = document.getElementById("span_keteranganKodeBarangTypeAsalTanpaBarcode"); // prettier-ignore
+    let span_keteranganIdTypeTypeAsalTanpaBarcode = document.getElementById("span_keteranganIdTypeTypeAsalTanpaBarcode"); // prettier-ignore
 
     let table_daftarTujuanKonversiTanpaBarcode = $(
         "#table_daftarTujuanKonversiTanpaBarcode"
@@ -2133,6 +2139,8 @@ $(document).ready(function () {
         button_updateAsalKonversiTanpaBarcode.disabled = true;
         button_hapusAsalKonversiTanpaBarcode.disabled = true;
         button_modalProsesTanpaBarcode.disabled = true;
+        div_keteranganTypeTujuanTanpaBarcode.style.display = "none";
+        div_keteranganTypeAsalTanpaBarcode.style.display = "none";
         jumlah_pemasukanPrimerTanpaBarcode.readOnly = true;
         jumlah_pemasukanSekunderTanpaBarcode.readOnly = true;
         jumlah_pemasukanTritierTanpaBarcode.readOnly = true;
@@ -2744,6 +2752,7 @@ $(document).ready(function () {
         const selectedIdType = $(this).val(); // Get selected Id Type
         // Clear Input Text
         clearInputTextElements("pilihIdTypeAsal");
+        div_keteranganTypeAsalTanpaBarcode.style.display = "block";
         // Fetch Kode Barang based on selected customer
         $.ajax({
             url: "/KonversiRollBarcode/getDataType",
@@ -2767,6 +2776,8 @@ $(document).ready(function () {
                         parseFloat(data[0].SaldoTritier) > 0
                     ) {
                         cekSaldo = true;
+                        span_keteranganKodeBarangTypeAsalTanpaBarcode.innerHTML = "Kode Barang: " + data[0].KodeBarang; // prettier-ignore
+                        span_keteranganIdTypeTypeAsalTanpaBarcode.innerHTML = "Id Type: " + selectedIdType; // prettier-ignore
                         saldo_terakhirPrimerAsalTanpaBarcode.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
                         satuan_saldoTerakhirPrimerAsalTanpaBarcode.value = data[0].satPrimer.trim(); // prettier-ignore
                         saldo_terakhirSekunderAsalTanpaBarcode.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore
@@ -2837,6 +2848,7 @@ $(document).ready(function () {
         const selectedIdType = $(this).val(); // Get selected Id Type
         // Clear Input Text
         clearInputTextElements("pilihIdTypeTujuan");
+        div_keteranganTypeTujuanTanpaBarcode.style.display = "block";
 
         // Fetch Kode Barang based on selected customer
         $.ajax({
@@ -2854,6 +2866,8 @@ $(document).ready(function () {
                             $("#select_typeTujuanTanpaBarcode option:selected").val(), // prettier-ignore
                     });
                 } else {
+                    span_keteranganKodeBarangTypeTujuanTanpaBarcode.innerHTML = "Kode Barang: " + data[0].KodeBarang; // prettier-ignore
+                    span_keteranganIdTypeTypeTujuanTanpaBarcode.innerHTML = "Id Type: " + selectedIdType; // prettier-ignore
                     saldo_terakhirPrimerTujuanTanpaBarcode.value = numeral(data[0].SaldoPrimer).format("0.00"); // prettier-ignore
                     satuan_saldoTerakhirPrimerTujuanTanpaBarcode.value = data[0].satPrimer.trim(); // prettier-ignore
                     saldo_terakhirSekunderTujuanTanpaBarcode.value = numeral(data[0].SaldoSekunder).format("0.00"); // prettier-ignore

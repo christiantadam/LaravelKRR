@@ -115,6 +115,10 @@
                                         <option disabled selected>Pilih Type Asal</option>
                                     </select>
                                 </div>
+                                <div id="div_keteranganTypeAsalTanpaBarcode" style="font-size: smaller;">
+                                    <span id="span_keteranganKodeBarangTypeAsalTanpaBarcode">Kode Barang:</span>
+                                    <span id="span_keteranganIdTypeTypeAsalTanpaBarcode">Id Type:</span>
+                                </div>
                             </div>
                             <div class="form-group" id="div_PIBAsalTanpaBarcode" style="visibility:hidden;width: 29%">
                                 <label for="PIB_asalTanpaBarcode">PIB Type Asal</label>
@@ -273,6 +277,10 @@
                                         class="form-control">
                                         <option disabled selected>Pilih Type Tujuan</option>
                                     </select>
+                                </div>
+                                <div id="div_keteranganTypeTujuanTanpaBarcode" style="font-size: smaller;">
+                                    <span id="span_keteranganKodeBarangTypeTujuanTanpaBarcode">Kode Barang:</span>
+                                    <span id="span_keteranganIdTypeTypeTujuanTanpaBarcode">Id Type:</span>
                                 </div>
                             </div>
                             <div class="form-group" id="div_PIBTujuanTanpaBarcode"
