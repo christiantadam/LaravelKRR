@@ -342,12 +342,50 @@ document.addEventListener("DOMContentLoaded", function () {
         return value;
     }
 
+    let currentRowIndex = -1;
+
+    $(document).on("keydown", function (e) {
+        const table = $("#tableData").DataTable();
+        const rowCount = table.rows().count();
+
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (currentRowIndex < rowCount - 1) currentRowIndex++;
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (currentRowIndex > 0) currentRowIndex--;
+        } else {
+            return; // bukan panah, keluar
+        }
+
+        const row = table.row(currentRowIndex).node();
+        const data = table.row(currentRowIndex).data();
+
+        if (row && data) {
+            table.$("tr.selected").removeClass("selected");
+            $(row).addClass("selected");
+
+            isiDataDariRow(data);
+
+            row.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+    });
+
     $("#tableData tbody").on("click", "tr", function () {
-        var table = $("#tableData").DataTable();
+        const table = $("#tableData").DataTable();
+
         table.$("tr.selected").removeClass("selected");
         $(this).addClass("selected");
 
-        var data = table.row(this).data();
+        const data = table.row(this).data();
+        currentRowIndex = table.row(this).index(); // Sinkronkan indeks
+
+        isiDataDariRow(data);
+    });
+
+    function isiDataDariRow(data) {
+        if (!data) return;
+
         kodeKonversi.value = decodeHtmlEntities(data[0]);
         Load_DataAsal();
         Load_DataTujuan();
@@ -356,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         kodeAsal.value = "";
         kodeTujuan.value = "";
-    });
+    }
 
     $("#tableAsal tbody").on("click", "tr", function () {
         var table = $("#tableAsal").DataTable();
