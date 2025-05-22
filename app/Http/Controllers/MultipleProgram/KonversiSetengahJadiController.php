@@ -12,6 +12,7 @@ use Log;
 use Auth;
 use DateTime;
 use DateTimeZone;
+use Illuminate\Support\Str;
 
 class KonversiSetengahJadiController extends Controller
 {
@@ -55,8 +56,10 @@ class KonversiSetengahJadiController extends Controller
     {
         $jenisStore = $request->input('jenisStore');
         $divisi = $request->input('divisi');
+        $dateTime = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
+        $date = $dateTime->format('Y-m-d');
         if ($jenisStore == 'permohonan') {
-            $date = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
+
             $tanggalKonversi = $request->input('tanggalKonversi');
             $shift = $request->input('shift');
 
@@ -151,7 +154,7 @@ class KonversiSetengahJadiController extends Controller
                                 $jumlah_pemakaianTritier[$k] ?? 0,
                                 $IdSubKelompokAsal[$k],
                                 $idkonversi,
-                                $date,
+                                $dateTime,
                                 0
                             ]);
                     }
@@ -186,7 +189,7 @@ class KonversiSetengahJadiController extends Controller
                             $jumlah_pemasukanTritier ?? 0,
                             $idSubkelompokTujuan,
                             $idkonversi,
-                            $date,
+                            $dateTime,
                             0,
                         ]);
                     return response()->json(['success' => 'Data berhasil disimpan!']);
@@ -243,7 +246,7 @@ class KonversiSetengahJadiController extends Controller
                         $pemakaian_tritierAsal ?? 0,
                         $idSubKelompokAsal,
                         $idkonversi,
-                        $date,
+                        $dateTime,
                         0
                     ]);
                 // Tujuan Konversi
@@ -277,7 +280,7 @@ class KonversiSetengahJadiController extends Controller
                         $jumlah_pemasukanTritier ?? 0,
                         $idSubkelompokTujuan,
                         $idkonversi,
-                        $date,
+                        $dateTime,
                         0,
                     ]);
             } elseif ($divisi == 'ADS') {
@@ -328,7 +331,7 @@ class KonversiSetengahJadiController extends Controller
                         $pemakaian_tritierAsal ?? 0,
                         $idSubKelompokAsal,
                         $idkonversi,
-                        $date,
+                        $dateTime,
                         0
                     ]);
                 // Tujuan Konversi
@@ -362,7 +365,7 @@ class KonversiSetengahJadiController extends Controller
                         $jumlah_pemasukanTritier ?? 0,
                         $idSubkelompokTujuan,
                         $idkonversi,
-                        $date,
+                        $dateTime,
                         0,
                     ]);
             }
@@ -383,6 +386,120 @@ class KonversiSetengahJadiController extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => (string) "Terjadi Kesalahan! " . $e->getMessage()]);
             }
+        } else if ($jenisStore == 'koreksiKonversi') {
+            $tanggalKonversi = $request->input('tanggalKonversi');
+            $shift = $request->input('shift');
+
+            switch ($shift) {
+                case 'P':
+                    $shift = 'Pagi';
+                    break;
+                case 'S':
+                    $shift = 'Siang';
+                    break;
+                case 'M':
+                    $shift = 'Malam';
+                    break;
+            }
+            $idTypeTujuan = $request->input('idTypeTujuan');
+            $jumlah_pemasukanPrimer = $request->input('jumlah_pemasukanPrimer') ?? 0;
+            $jumlah_pemasukanSekunder = $request->input('jumlah_pemasukanSekunder') ?? 0;
+            $jumlah_pemasukanTritier = $request->input('jumlah_pemasukanTritier') ?? 0;
+            $idSubkelompokTujuan = $request->input('idSubkelompokTujuan');
+            $idTransaksiAsalKoreksi = $request->input('idTransaksiAsalKoreksi');
+            $idTransaksiTujuanKoreksi = $request->input('idTransaksiTujuanKoreksi');
+            if ($divisi == 'ABM') {
+                $group = $request->input('group');
+                $nomorOrderKerja = $request->input('nomorOrderKerja');
+                $uraianAsal = (string) "Group " . $group . " " . $shift . ", Asal Konversi Setengah Jadi " . $divisi . ' | Id Order Kerja: ' . $nomorOrderKerja;
+                $uraianTujuan = (string) "Group " . $group . " " . $shift . ", Tujuan Konversi Setengah Jadi " . $divisi . ' | Id Order Kerja: ' . $nomorOrderKerja;
+                $id_typeAsal = $request->input('id_typeAsal');
+                $pemakaian_primerAsal = $request->input('pemakaian_primerAsal') ?? 0;
+                $pemakaian_sekunderAsal = $request->input('pemakaian_sekunderAsal') ?? 0;
+                $pemakaian_tritierAsal = $request->input('pemakaian_tritierAsal') ?? 0;
+                $idSubKelompokAsal = $request->input('idSubKelompokAsal');
+
+                // id konversi
+                $currentIdKonvStghJdABM = DB::connection('ConnInventory')
+                    ->table('Counter')->value('IdKonvStghJdABM');
+                $newIdKonvStghJdABM = $currentIdKonvStghJdABM + 1;
+                DB::connection('ConnInventory')
+                    ->table('Counter')->update(['IdKonvStghJdABM' => $newIdKonvStghJdABM]);
+                $idkonversi = "ABJ" . str_pad($newIdKonvStghJdABM, 6, "0", STR_PAD_LEFT);
+
+                // Asal Konversi
+                DB::connection('ConnInventory')
+                    ->statement('EXEC SP_4384_Konversi_Setengah_Jadi
+                        @XKode = ?,
+                        @XIdTransaksiTmp = ?,
+                        @XIdTypeTransaksi = ?,
+                        @XUraianDetailTransaksi = ?,
+                        @XIdType = ?,
+                        @XIdPenerima = ?,
+                        @XIdPemberi = ?,
+                        @XSaatAwalTransaksi = ?,
+                        @XSaatLog = ?,
+                        @XJumlahPengeluaranPrimer = ?,
+                        @XJumlahPengeluaranSekunder = ?,
+                        @XJumlahPengeluaranTritier = ?,
+                        @XAsalIdSubkelompok = ?,
+                        @XIdKonversi = ?,
+                        @XTimeInput = ?,
+                        @XStatus = ?', [
+                        18,
+                        $idTransaksiAsalKoreksi,
+                        "28",
+                        $uraianAsal,
+                        $id_typeAsal,
+                        trim(Auth::user()->NomorUser),
+                        trim(Auth::user()->NomorUser),
+                        $tanggalKonversi,
+                        $date,
+                        $pemakaian_primerAsal ?? 0,
+                        $pemakaian_sekunderAsal ?? 0,
+                        $pemakaian_tritierAsal ?? 0,
+                        $idSubKelompokAsal,
+                        $idkonversi,
+                        $dateTime,
+                        0
+                    ]);
+                // Tujuan Konversi
+                DB::connection('ConnInventory')
+                    ->statement('EXEC SP_4384_Konversi_Setengah_Jadi
+                        @XKode = ?,
+                        @XIdTransaksiTmp = ?,
+                        @XIdTypeTransaksi = ?,
+                        @XUraianDetailTransaksi = ?,
+                        @XIdType = ?,
+                        @XIdPenerima = ?,
+                        @XIdPemberi = ?,
+                        @XSaatAwalTransaksi = ?,
+                        @XSaatLog = ?,
+                        @XJumlahMasukPrimer = ?,
+                        @XJumlahMasukSekunder = ?,
+                        @XJumlahMasukTritier = ?,
+                        @XTujuanIdSubKel = ?,
+                        @XIdKonversi = ?,
+                        @XTimeInput = ?,
+                        @XStatus = ?', [
+                        18,
+                        $idTransaksiTujuanKoreksi,
+                        "28",
+                        $uraianTujuan,
+                        $idTypeTujuan,
+                        trim(Auth::user()->NomorUser),
+                        trim(Auth::user()->NomorUser),
+                        $tanggalKonversi,
+                        $date,
+                        $jumlah_pemasukanPrimer ?? 0,
+                        $jumlah_pemasukanSekunder ?? 0,
+                        $jumlah_pemasukanTritier ?? 0,
+                        $idSubkelompokTujuan,
+                        $idkonversi,
+                        $dateTime,
+                        0,
+                    ]);
+            }
         }
     }
 
@@ -399,7 +516,9 @@ class KonversiSetengahJadiController extends Controller
                 $access = (new HakAksesController)->HakAksesFiturMaster('ABM');
                 $divisi = DB::connection('ConnInventory')
                     ->select('exec SP_4384_Konversi_Setengah_Jadi @XKdUser = ?, @XKode = ?, @XIdDivisi = ?', [$nomorUser, 1, 'ABM']);
-                return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi'));
+                $NomorOk = DB::connection('ConnInventory')
+                    ->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?', [16]);
+                return view('MultipleProgram.KonversiSetengahJadi', compact('access', 'id', 'nomorUser', 'divisi', 'NomorOk'));
             case 'ADSBrgJd':
                 $access = (new HakAksesController)->HakAksesFiturMaster('AD Star');
                 $divisi = DB::connection('ConnInventory')
@@ -414,11 +533,6 @@ class KonversiSetengahJadiController extends Controller
             case 'selectKomponenBarangTH':
                 $dataRincianTH = DB::connection('ConnJumboBag')->table('VW_PRG_1273_JBB_LIST_KDBRG_RINCIANTH')->where('Kode_Barang', $request->input('Kode_Barang'))->where('Kode_Customer', $request->input('Kode_Customer'))->orderBy('Kode_Komponen', 'asc')->orderBy('Kounter_Komponen', 'asc')->get();
                 return response()->json($dataRincianTH, 200);
-            case 'getNomorOK':
-                $NomorOk = DB::connection('ConnInventory')
-                    ->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?', [16]);
-
-                return response()->json($NomorOk);
             case 'getObjek':
                 $divisi = $request->input('divisi');
                 $dataObjek = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XKdUser = ?, @XIdDivisi = ?', [2, $nomorUser, $divisi]);
@@ -441,8 +555,8 @@ class KonversiSetengahJadiController extends Controller
                 return response()->json($dataType, 200);
             case 'getTypeSaldo':
                 $idType = $request->input('idType');
-                $dataType = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdType = ?', [7, $idType]);
-                return response()->json($dataType, 200);
+                $dataSaldo = DB::connection('ConnInventory')->select('exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdType = ?', [7, $idType]);
+                return response()->json($dataSaldo, 200);
             case 'getInventoryTypes':
                 $panjang = (float) explode('X', $request->input('panjangLebar'))[0];
                 $lebar = (float) explode('X', $request->input('panjangLebar'))[1];
@@ -588,13 +702,81 @@ class KonversiSetengahJadiController extends Controller
                     );
                 return response()->json($data);
             case 'getKoreksiKonversi':
+                $idDivisi = $request->input('idDivisi');
                 $idKonversi = $request->input('idKonversi');
-                $datakoreksi = DB::connection('ConnInventory')
-                    ->select(
-                        'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?',
-                        [15, (string) $idKonversi]
-                    );
+                if ($idDivisi == 'JBB') {
+                    $datakoreksi = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?',
+                            [15, (string) $idKonversi]
+                        );
+                } else if ($idDivisi == 'ABM' || $idDivisi == 'ADS') {
+                    $dataTransaksi = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKonversi = ?, @XIdDivisi = ?',
+                            [11, (string) $idKonversi, $idDivisi]
+                        );
+
+                    foreach ($dataTransaksi as $item) {
+                        $uraian = $item->UraianDetailTransaksi;
+
+                        if (Str::contains(Str::lower($uraian), 'asal konversi')) {
+                            $dataTransaksiAsal[] = $item;
+                        } elseif (Str::contains(Str::lower($uraian), 'tujuan konversi')) {
+                            $dataTransaksiTujuan[] = $item;
+                        }
+                    }
+                    $nomorUser = $dataTransaksi[0]->IdPenerima;
+                    $dataObjek = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XKdUser = ?, @XIdDivisi = ?',
+                            [2, $nomorUser, $dataTransaksiAsal[0]->IdDivisi]
+                        );
+                    $dataKelompokUtamaAsal = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdObjek = ?',
+                            [3, $dataTransaksiAsal[0]->IdObjek]
+                        );
+                    $dataKelompokAsal = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompokUtama = ?',
+                            [4, $dataTransaksiAsal[0]->IdKelompokUtama]
+                        );
+                    $dataSubKelompokAsal = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompok = ?',
+                            [5, $dataTransaksiAsal[0]->IdKelompok]
+                        );
+                    $dataTypeAsal = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdSubKelompok = ?',
+                            [6, $dataTransaksiAsal[0]->IdSubkelompok]
+                        );
+                    $dataKelompokUtamaTujuan = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdObjek = ?',
+                            [3, $dataTransaksiTujuan[0]->IdObjek]
+                        );
+                    $dataKelompokTujuan = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompokUtama = ?',
+                            [4, $dataTransaksiTujuan[0]->IdKelompokUtama]
+                        );
+                    $dataSubKelompokTujuan = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdKelompok = ?',
+                            [5, $dataTransaksiTujuan[0]->IdKelompok]
+                        );
+                    $dataTypeTujuan = DB::connection('ConnInventory')
+                        ->select(
+                            'exec SP_4384_Konversi_Setengah_Jadi @XKode = ?, @XIdSubKelompok = ?',
+                            [6, $dataTransaksiTujuan[0]->IdSubkelompok]
+                        );
+
+                    $datakoreksi = [$dataTransaksi, $dataObjek, $dataKelompokUtamaAsal, $dataKelompokAsal, $dataSubKelompokAsal, $dataTypeAsal, $dataKelompokUtamaTujuan, $dataKelompokTujuan, $dataSubKelompokTujuan, $dataTypeTujuan];
+                }
                 return response()->json($datakoreksi);
+
             default:
                 return response()->json(['error' => (string) "Undefined request \$id: " . $id]);
         }

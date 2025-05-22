@@ -64,9 +64,10 @@ class KonversiRollBarcodeController extends Controller
     {
         $jenisStore = $request->input('jenisStore');
         $divisi = $request->input('divisi');
+        $dateTime = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
+        $date = $dateTime->format('Y-m-d');
         if ($jenisStore == 'permohonan') {
             $asalKonversiInputValues = $request->input('asalKonversiInputValues');
-            $date = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
             $idSubKelompokAsal = $asalKonversiInputValues[0][6];
             $id_typeAsal = $asalKonversiInputValues[0][0];
             $pemakaian_primerAsal = $asalKonversiInputValues[0][2];
@@ -177,7 +178,7 @@ class KonversiRollBarcodeController extends Controller
                                 $asalKonversiInputValues[$i][4],
                                 $asalKonversiInputValues[$i][6],
                                 $idkonversi,
-                                $date,
+                                $dateTime,
                                 0,
                                 isset($asalKonversiInputValues[$i][5]) && $asalKonversiInputValues[$i][5] !== null
                                 ? explode('-', $asalKonversiInputValues[$i][5])[0]
@@ -221,7 +222,7 @@ class KonversiRollBarcodeController extends Controller
                                 $SaldoTritier[$k],
                                 $IdSubKelompok[$k],
                                 $idkonversi,
-                                $date,
+                                $dateTime,
                                 0
                             ]
                         );
@@ -285,7 +286,6 @@ class KonversiRollBarcodeController extends Controller
             }
         } elseif ($jenisStore == 'permohonanTanpaBarcode') {
             $shift = $request->input('shift');
-            $date = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
             $tanggalKonversi = $request->input('tanggalKonversi');
             $shift = match ($shift) {
                 'P' => 'Pagi',
@@ -416,7 +416,7 @@ class KonversiRollBarcodeController extends Controller
                                 $SaldoTritierAsal[$k],
                                 $IdSubKelompokAsal[$k],
                                 $idkonversi,
-                                $date,
+                                $dateTime,
                                 0,
                             ]
                         );
@@ -454,7 +454,7 @@ class KonversiRollBarcodeController extends Controller
                                 $SaldoTritierTujuan[$k],
                                 $IdSubKelompokTujuan[$k],
                                 $idkonversi,
-                                $date,
+                                $dateTime,
                                 0
                             ]
                         );
