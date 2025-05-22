@@ -1651,6 +1651,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     ) {
                         hargaSatuanDiv.style.display = "block";
                         hargaSatuan.focus();
+                        hargaSatuan.select();
                     } else {
                         primerKonversiAsal.focus();
                         primerKonversiAsal.select();
